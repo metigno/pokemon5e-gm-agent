@@ -29,3 +29,14 @@ Checkpoint: CP-PRE-INTRO
 - Intro chain activated at the moment before the doors open.
 - Hisuian Growlithe Lv. 5 is Luke's fixed starter assignment; the starter handoff has not happened yet.
 
+Checkpoint: CP-CHAIN-INTRO-STARTERS
+
+- The five friends received their fixed Level 5 starters.
+- Luke received Hisuian Growlithe Lv. 5.
+- Nature: Jolly.
+- Standard ability: Intimidate.
+- Level 4 Pokémon progression: 3 ASI points total; 2 spent on Hidden Ability feat to gain Rock Head; remaining +1 applied to STR.
+- Growlithe's first-contact bond state is not resolved yet.
+- Luke received the standard Trainer package except starting money, which remains unresolved until a visible legal 4d4 roll is made.
+- Intro advanced to the first-contact scene.
+
