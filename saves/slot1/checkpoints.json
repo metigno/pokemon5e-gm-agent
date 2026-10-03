@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "save_slot": 1,
-  "next_checkpoint_number": 2,
+  "next_checkpoint_number": 3,
   "checkpoints": [
     {
       "id": "CP-PRE-INTRO",
@@ -12,6 +12,16 @@
       "type": "CP-PRE-ANCHOR",
       "result": "started",
       "summary": "Luke selected as protagonist. The five friends are outside the licensing center on the morning their trainer careers may begin."
+    },
+    {
+      "id": "CP-PRE-FIRST-BATTLE",
+      "event_id": "INTRO_FIVE",
+      "world_day": 0,
+      "trainer_level": 1,
+      "location": "Interregional Trainer Licensing Center — Certification Arena",
+      "type": "CP-PRE-ANCHOR",
+      "result": "Luke_vs_Mattew_ready",
+      "summary": "Luke registered the Kindler specialization and selected Mattew as his opponent for the supervised starter-only certification battle."
     }
   ]
 }
