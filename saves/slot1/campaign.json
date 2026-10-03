@@ -342,9 +342,26 @@
         "actor": "Wild Rattata",
         "action": "Retreat",
         "result": "used the opening to flee deeper between warehouse shelves rather than attack"
+      },
+      {
+        "round": 2,
+        "actor": "Luke",
+        "action": "Perception check",
+        "check": {
+          "d20": 11,
+          "modifier": 2,
+          "total": 13
+        },
+        "result": "success",
+        "learned": "At least three Rattata are moving through the warehouse; one is near the food crates, one is higher on shelving, and the first is deeper inside."
       }
     ],
-    "turn": "Luke"
+    "turn": "Luke",
+    "detected_opponents": {
+      "species": "Rattata",
+      "minimum_count": 3,
+      "exact_count_known": false
+    }
   },
   "gm_private_ref": "gm_private/SECRET_CANON_DO_NOT_OPEN.json",
   "character_bible_ref": "canon/ROSTER2060_CHARACTER_BIBLE.json",
