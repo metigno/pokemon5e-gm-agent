@@ -1,5 +1,5 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "integration": "pokemon5e-npc-tactical-advisor",
   "mechanical_authority": "Pokemon 5e",
   "tactical_runtime": {
@@ -11,15 +11,26 @@
     "archive_sha256": "638c505f6033ac02a6e450d85126a99aba3e7ad1a27accca738a5a636552025c"
   },
   "stat_bridge": {
-    "version": 1,
+    "version": 2,
     "module": "src/bridge/motor-to-poke5e.mjs",
     "tests": "tests/motor-to-poke5e.test.mjs",
-    "score_range": [
-      1,
-      20
+    "output": "classic_dnd_abilities_only",
+    "abilities": [
+      "STR",
+      "DEX",
+      "CON",
+      "INT",
+      "WIS",
+      "CHA"
     ],
-    "modifier_formula": "floor((score - 10) / 2)",
-    "behavior_profile_policy": "decision_preferences_only",
+    "legacy_stats_are_rollable": false,
+    "mind_games_ability": "INT",
+    "pokemon5e_skill_resolution": true,
     "overwrite_existing_game_abilities": false
+  },
+  "campaign": {
+    "mode": "canon_convergence_with_honest_dice",
+    "public_setup": "campaign/PROTAGONIST_SELECTION.md",
+    "gm_private_canon": "gm_private/SECRET_CANON_DO_NOT_OPEN.json"
   }
 }
