@@ -4,7 +4,7 @@
   "slot_status": "occupied",
   "project": "pokemon5e-gm-agent",
   "campaign_status": "intro_in_progress",
-  "setup_stage": "intro_00_before_doors_open",
+  "setup_stage": "intro_03_first_contact",
   "rules": {
     "edition": 2024,
     "roll_mode": "gm_visible",
@@ -90,36 +90,119 @@
     "trainer_path": null,
     "hp": null,
     "max_hp": null,
-    "inventory": [],
+    "inventory": [
+      {
+        "item": "Trainer's License",
+        "quantity": 1,
+        "status": "provisional_until_certification_complete"
+      },
+      {
+        "item": "Pokedex",
+        "quantity": 1
+      },
+      {
+        "item": "Poke Ball",
+        "quantity": 5
+      },
+      {
+        "item": "Potion",
+        "quantity": 1
+      }
+    ],
     "money": null
   },
   "friends_npc_state": {
     "Luke": {
       "role": "player",
-      "trainer_level": 1
+      "trainer_level": 1,
+      "starter": {
+        "id": "luke-growlithe-hisui-001",
+        "species": "Growlithe",
+        "form": "Hisuian",
+        "level": 5,
+        "status": "received"
+      }
     },
     "Mattew": {
       "role": "npc",
       "trainer_level": 1,
-      "autonomous": true
+      "autonomous": true,
+      "starter": {
+        "id": "mattew-eevee-001",
+        "species": "Eevee",
+        "level": 5,
+        "status": "received"
+      }
     },
     "Daniel": {
       "role": "npc",
       "trainer_level": 1,
-      "autonomous": true
+      "autonomous": true,
+      "starter": {
+        "id": "daniel-gastly-001",
+        "species": "Gastly",
+        "level": 5,
+        "status": "received"
+      }
     },
     "Edward": {
       "role": "npc",
       "trainer_level": 1,
-      "autonomous": true
+      "autonomous": true,
+      "starter": {
+        "id": "edward-totodile-001",
+        "species": "Totodile",
+        "level": 5,
+        "status": "received"
+      }
     },
     "Fab": {
       "role": "npc",
       "trainer_level": 1,
-      "autonomous": true
+      "autonomous": true,
+      "starter": {
+        "id": "fab-koffing-001",
+        "species": "Koffing",
+        "level": 5,
+        "status": "received"
+      }
     }
   },
-  "party": [],
+  "party": [
+    {
+      "id": "luke-growlithe-hisui-001",
+      "species": "Growlithe",
+      "form": "Hisuian",
+      "level": 5,
+      "owner": "Luke",
+      "starter": true,
+      "nature": "Jolly",
+      "abilities": {
+        "standard": [
+          "Intimidate"
+        ],
+        "hidden": [
+          "Rock Head"
+        ]
+      },
+      "level4_progression": {
+        "asi_points_total": 3,
+        "feat": {
+          "name": "Hidden Ability",
+          "cost": 2,
+          "grants": "Rock Head"
+        },
+        "remaining_asi": {
+          "STR": 1
+        }
+      },
+      "bond_state": "first_contact_pending",
+      "gender": null,
+      "hp": null,
+      "max_hp": null,
+      "moves": []
+    }
+  ],
   "pc_storage": [],
   "objectives": [
     "Complete trainer licensing at the Interregional Trainer Licensing Center."
@@ -160,9 +243,13 @@
     "level_milestones": "campaign/events/LEVEL_MILESTONES.json",
     "status": "active",
     "active_chain": "INTRO_FIVE",
-    "active_event": "INTRO_00",
+    "active_event": "INTRO_03",
     "queued_events": [],
-    "completed_events": [],
+    "completed_events": [
+      "INTRO_00",
+      "INTRO_01",
+      "INTRO_02"
+    ],
     "failed_events": [],
     "expired_events": [],
     "ignored_events": [],
@@ -177,8 +264,8 @@
     },
     "trigger_check_due": false,
     "last_trigger_check": {
-      "reason": "protagonist_selected",
-      "result": "INTRO_FIVE activated"
+      "reason": "starter_handoff",
+      "result": "INTRO_02 completed; INTRO_03 active"
     },
     "checkpoint_ledger": "saves/slot1/checkpoints.json"
   },
