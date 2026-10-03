@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "save_slot": 1,
-  "next_checkpoint_number": 4,
+  "next_checkpoint_number": 5,
   "checkpoints": [
     {
       "id": "CP-PRE-INTRO",
@@ -32,6 +32,16 @@
       "type": "CP-POST-ANCHOR",
       "result": "Luke defeated Mattew",
       "summary": "Luke and Hisuian Growlithe won the supervised starter-only certification battle against Mattew and Eevee in round 7. Growlithe finished at 1/35 HP; Eevee was KO'd by Ember."
+    },
+    {
+      "id": "CP-INTRO-COMPLETE",
+      "event_id": "INTRO_06",
+      "world_day": 1,
+      "trainer_level": 1,
+      "location": "Interregional Trainer Licensing Center — Exit Hall",
+      "type": "CP-POST-ANCHOR",
+      "result": "certification_passed",
+      "summary": "Luke completed certification, received an active Trainer's License, Growlithe recovered after the first official victory, and free roam opened on World Day 1."
     }
   ]
 }
