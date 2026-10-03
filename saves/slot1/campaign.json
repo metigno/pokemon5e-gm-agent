@@ -246,7 +246,7 @@
         {
           "name": "Bite",
           "pp_max": 15,
-          "pp_current": 13
+          "pp_current": 12
         },
         {
           "name": "Ember",
@@ -288,7 +288,7 @@
   "active_combat": {
     "type": "wild_warehouse_encounter",
     "status": "warehouse_encounter_continues",
-    "round": 6,
+    "round": 7,
     "player_trainer": "Luke",
     "player_pokemon": "luke-growlithe-hisui-001",
     "opponents": [
@@ -304,11 +304,12 @@
       {
         "species": "Rattata",
         "level": null,
-        "hp": 16,
+        "hp": 9,
         "max_hp": 16,
         "ac": 12,
         "disposition": "cornered_and_panicked",
-        "position": "still on low shelf, cornered but not grappled"
+        "position": "still on low shelf, cornered but not grappled",
+        "status": "wounded_and_cornered"
       }
     ],
     "environment": {
@@ -488,6 +489,28 @@
           "total": 20
         },
         "result": "failed_grapple"
+      },
+      {
+        "round": 6,
+        "actor": "Luke/Growlithe",
+        "move": "Bite",
+        "attack_roll": {
+          "d20": 17,
+          "modifier": 5,
+          "total": 22
+        },
+        "target": "Wild Rattata #2",
+        "result": "hit",
+        "damage": {
+          "dice": [
+            3,
+            2
+          ],
+          "move": 2,
+          "total": 7,
+          "type": "Dark"
+        },
+        "target_hp_after": 9
       }
     ],
     "turn": "Luke",
