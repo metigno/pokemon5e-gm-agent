@@ -287,13 +287,13 @@
       },
       "bond_state": "strengthening_through_shared_hunt",
       "gender": null,
-      "hp": 18,
+      "hp": 14,
       "max_hp": 35,
       "moves": [
         {
           "name": "Bite",
           "pp_max": 15,
-          "pp_current": 7
+          "pp_current": 6
         },
         {
           "name": "Ember",
@@ -874,6 +874,40 @@
           "type": "Dark"
         },
         "target_hp_after": 18
+      },
+      {
+        "round": 13,
+        "actor": "Luke/Growlithe",
+        "move": "Bite",
+        "attack_roll": {
+          "d20": 9,
+          "modifier": 5,
+          "total": 14
+        },
+        "target": "Wild Raticate",
+        "result": "miss"
+      },
+      {
+        "round": 13,
+        "actor": "Wild Raticate",
+        "move": "Bite",
+        "attack_roll": {
+          "d20": 14,
+          "modifier": 5,
+          "total": 19
+        },
+        "target": "Luke/Growlithe",
+        "result": "hit",
+        "damage": {
+          "dice": [
+            8,
+            3
+          ],
+          "move": 2,
+          "total": 13,
+          "type": "Dark"
+        },
+        "target_hp_after": 14
       }
     ],
     "turn": "Luke",
