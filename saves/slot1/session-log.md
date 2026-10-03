@@ -48,3 +48,11 @@ Checkpoint: CP-POST-FIRST-BATTLE
 - Growlithe defeated Eevee in round 7 with Ember.
 - Final battle state: Growlithe 1/35 HP; Eevee KO.
 - Luke passed the battle component of certification.
+
+Checkpoint: CP-INTRO-COMPLETE
+
+- Luke completed the licensing intro and received an active Trainer's License.
+- Growlithe and Eevee recovered at the medical center.
+- The five friends cleared the starting campus certification sequence.
+- World Day advanced to 1, morning.
+- Free roam is now active.
