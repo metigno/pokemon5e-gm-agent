@@ -286,7 +286,7 @@
       },
       "bond_state": "strengthening_through_shared_hunt",
       "gender": null,
-      "hp": 35,
+      "hp": 27,
       "max_hp": 35,
       "moves": [
         {
@@ -318,7 +318,7 @@
           "remaining": 1
         }
       },
-      "damage_taken": 0,
+      "damage_taken": 8,
       "hp_level_rolls": [
         6,
         5,
@@ -339,7 +339,7 @@
   "active_combat": {
     "type": "wild_warehouse_encounter",
     "status": "searching_for_remaining_wild_pokemon",
-    "round": 9,
+    "round": 10,
     "player_trainer": "Luke",
     "player_pokemon": "luke-growlithe-hisui-001",
     "opponents": [
@@ -664,9 +664,31 @@
         },
         "result": "save_success",
         "effect": "No attack bonus gained."
+      },
+      {
+        "round": 9,
+        "actor": "Wild Raticate",
+        "move": "Bite",
+        "attack_roll": {
+          "d20": 12,
+          "modifier": 5,
+          "total": 17
+        },
+        "target": "Luke/Growlithe",
+        "result": "hit",
+        "damage": {
+          "dice": [
+            1,
+            5
+          ],
+          "move": 2,
+          "total": 8,
+          "type": "Dark"
+        },
+        "target_hp_after": 27
       }
     ],
-    "turn": "Raticate",
+    "turn": "Luke",
     "detected_opponents": {
       "species": "Rattata",
       "minimum_count": 3,
