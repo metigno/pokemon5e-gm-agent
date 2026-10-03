@@ -56,3 +56,10 @@ Checkpoint: CP-INTRO-COMPLETE
 - The five friends cleared the starting campus certification sequence.
 - World Day advanced to 1, morning.
 - Free roam is now active.
+
+## Save — 2026-10-04 01:48 Europe/Rome
+- Slot 1 manually saved.
+- Luke and Hisuian Growlithe are inside the city warehouse.
+- Two Rattata and one Raticate have been killed during the clearing job.
+- Growlithe is at 6/35 HP.
+- Immediate threat is cleared, but the warehouse job has not yet been formally completed/turned in.
