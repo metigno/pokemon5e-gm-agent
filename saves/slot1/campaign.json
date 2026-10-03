@@ -293,7 +293,7 @@
         {
           "name": "Bite",
           "pp_max": 15,
-          "pp_current": 9
+          "pp_current": 8
         },
         {
           "name": "Ember",
@@ -371,10 +371,10 @@
       {
         "species": "Raticate",
         "level": 5,
-        "hp": 45,
+        "hp": 15,
         "max_hp": 45,
         "ac": 15,
-        "status": "hidden_but_identified",
+        "status": "flinched_and_badly_wounded",
         "disposition": "territorial_and_hostile"
       }
     ],
@@ -783,6 +783,51 @@
           "total": 9
         },
         "target_ac": 12,
+        "result": "miss"
+      },
+      {
+        "round": 12,
+        "actor": "Luke/Growlithe",
+        "move": "Bite",
+        "advantage": "Howl",
+        "attack_rolls": [
+          20,
+          16
+        ],
+        "chosen_roll": 20,
+        "attack_modifier": 5,
+        "total": 25,
+        "target": "Wild Raticate",
+        "result": "critical_hit",
+        "critical_damage": {
+          "base_dice": [
+            7,
+            8
+          ],
+          "critical_extra_dice": [
+            7,
+            6
+          ],
+          "move": 2,
+          "total": 30,
+          "type": "Dark"
+        },
+        "effect": "Flinched",
+        "target_hp_after": 15
+      },
+      {
+        "round": 12,
+        "actor": "Wild Raticate",
+        "move": "Bite",
+        "disadvantage_reason": "Flinched",
+        "attack_rolls": [
+          20,
+          7
+        ],
+        "chosen_roll": 7,
+        "attack_modifier": 5,
+        "total": 12,
+        "target": "Luke/Growlithe",
         "result": "miss"
       }
     ],
