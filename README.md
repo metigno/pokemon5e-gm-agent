@@ -4,6 +4,30 @@ Persistent LLM Game Master for Pokémon 5e, backed by GitHub state and powered b
 
 This project is completely separate from Pokémon Sports Career (PSC).
 
+## Campaign
+
+The campaign is now initialized as **Road to the World Championships**.
+
+The player chooses one of five protagonists:
+Luke / Edward / Fab / Daniel / Mattew.
+
+Their fixed starters are stored in `campaign/PROTAGONIST_SELECTION.md`.
+
+The four non-player protagonists follow their established 2060 canon careers. Future rosters, legendary arcs and World Championship anchors are kept in the GM-private canon ledger and must not be revealed before in-world discovery.
+
+## Stats
+
+The old eight LEGA GPT Player Stats are no longer playable parallel stats.
+
+They have been converted into classic D&D/Pokémon 5e:
+**STR / DEX / CON / INT / WIS / CHA**.
+
+All checks now use real Pokémon 5e/D&D abilities and skills. The old stat names survive only as migration intent so the GM knows which normal check replaces them.
+
+Example: old **Mind Games** → **INT-based** check, normally Investigation, or INT with Intimidation/Performance when the established proficiency and approach fit.
+
+See `runtime/STAT_CONVERSION.md`.
+
 ## Architecture
 
 Pokémon 5e rules + campaign state
@@ -13,42 +37,12 @@ Pokémon 5e rules + campaign state
 → Pokémon 5e dice/mechanical resolution
 → GitHub checkpoint
 
-## Motor-stat bridge
-
-The LEGA GPT motor exposes eight trainer stats from 1–20. This project converts them into playable tabletop data without replacing Pokémon 5e rules.
-
-- Motor scores keep their original 1–20 values.
-- Modifier: `floor((score - 10) / 2)`.
-- Missing NPC sheets may project INT/WIS/CHA and a bounded DEX from the motor profile.
-- STR and CON stay physical and are never inferred from tactical intelligence.
-- Behavior Profile values (0–1) remain AI preferences, never dice bonuses.
-- Existing player/NPC 5e abilities are never overwritten.
-
-See `runtime/STAT_CONVERSION.md`.
-
 ## Source of truth
 
-1. Campaign house rules in state.
-2. Pokémon 5e selected edition (default 2024).
+1. Campaign house rules.
+2. Pokémon 5e selected edition (2024 default).
 3. Official `Auroratide/poke5e` source.
-4. D&D 5e baseline where Pokémon 5e does not replace it.
-5. Minimal GM ruling for genuinely undefined cases.
+4. D&D 5e baseline.
+5. Minimal GM ruling.
 
 LEGA GPT v14.1 chooses tactically. Pokémon 5e resolves mechanically.
-
-## Core files
-
-- `AGENT.md`
-- `BOOT.md`
-- `rules/sources.yaml`
-- `state/campaign.json`
-- `state/session-log.md`
-- `runtime/runtime-manifest.json`
-- `runtime/STAT_CONVERSION.md`
-- `src/bridge/motor-to-poke5e.mjs`
-- `tests/motor-to-poke5e.test.mjs`
-
-Run conversion tests with `npm test`.
-
-Pokémon 5e rules: https://poke5e.app/rules
-Official source: https://github.com/Auroratide/poke5e

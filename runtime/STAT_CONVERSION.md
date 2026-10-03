@@ -1,76 +1,86 @@
-# Motor stats → Pokémon 5e conversion
+# LEGA GPT Player Stats → classic D&D / Pokémon 5e
 
-The motor's eight Player Stats already use a 1–20 scale and the d20 modifier formula:
+The old eight Player Stats are no longer rolled in-game.
 
-`modifier = floor((score - 10) / 2)`
+They are migration inputs used once to produce the six classic abilities:
 
-Therefore their primary conversion is lossless.
+`STR / DEX / CON / INT / WIS / CHA`
 
-## Direct tactical checks
+All future checks use normal D&D/Pokémon 5e ability checks, saving throws and skill proficiencies.
 
-| Motor stat | Meaning in play |
-|---|---|
-| Tattica | immediate battlefield choice, positioning, tempo |
-| Strategia | multi-turn planning and win conditions |
-| Prediction | reading likely enemy actions |
-| Mind Games | feints, deception, pressure, bluffing |
-| Conoscenza | Pokémon/move/ability/rules knowledge |
-| Adattamento | updating the plan after new information |
-| Gestione Team | coordinating roster and commands |
-| Gestione Rischio | balancing upside, survival and uncertainty |
+## Conversion
 
-When the GM calls for a motor tactical check:
-
-`d20 + motor modifier`
-
-Only add proficiency when a real feature/proficiency justifies it.
-
-Do not add these bonuses to Pokémon attack, damage, AC, saves or captures unless Pokémon 5e explicitly says so.
-
-## Missing NPC ability projection
-
-Use only if the NPC has no established 5e scores.
+For a legacy profile:
 
 ```
-INT = round(0.45*Strategia + 0.40*Conoscenza + 0.15*Tattica)
+DEX = round(
+  0.50*Tattica +
+  0.30*Adattamento +
+  0.20*Prediction
+)
+
+INT = round(
+  0.30*Strategia +
+  0.30*MindGames +
+  0.25*Conoscenza +
+  0.15*Tattica
+)
 
 WIS = round(
-  0.30*Prediction +
-  0.25*Adattamento +
-  0.25*GestioneRischio +
-  0.20*Tattica
+  0.40*Prediction +
+  0.30*Adattamento +
+  0.30*GestioneRischio
 )
 
 CHA = round(
-  0.45*GestioneTeam +
-  0.35*MindGames +
+  0.60*GestioneTeam +
+  0.20*Tattica +
   0.20*Adattamento
-)
-
-DEX = clamp(
-  8, 16,
-  round(10 + 0.35*(Tattica-10) + 0.15*(Prediction-10))
 )
 ```
 
-STR and CON come from the physical concept/template. Default to neutral 10 only when absent.
+Scores are clamped to 1–20.
 
-Existing scores always win.
+STR and CON describe physical ability and are not meaningfully encoded by the eight tactical stats. Baseline human trainer values are 10/10 unless a canon physical background supplies different values.
 
-## Composite tactical skills
+## Canon converted profiles
 
-- Battle Tactics = mean(Tattica, Strategia)
-- Read Opponent = mean(Prediction, Mind Games)
-- Pokémon Knowledge = mean(Conoscenza, Strategia)
-- Adapt Under Pressure = mean(Adattamento, Gestione Rischio)
-- Command Team = mean(Gestione Team, Tattica)
-- Risk Assessment = mean(Gestione Rischio, Prediction, Strategia)
+| Trainer | STR | DEX | CON | INT | WIS | CHA |
+|---|---:|---:|---:|---:|---:|---:|
+| Luke | 10 | 18 | 10 | 16 | 17 | 17 |
+| Mattew | 10 | 20 | 10 | 20 | 20 | 20 |
+| Daniel | 10 | 20 | 10 | 20 | 20 | 20 |
+| Edward | 10 | 18 | 10 | 15 | 18 | 17 |
+| Fab | 10 | 19 | 10 | 18 | 19 | 19 |
 
-Prefer standard 5e skills such as Insight, Investigation, Nature, Perception, Persuasion, Survival or Animal Handling when one clearly covers the action.
+These replace the old parallel Player Stats for tabletop resolution.
 
-## Behavior Profile
+## Preserve the old purpose using real 5e checks
 
-The motor's 0–1 Behavior Profile is NOT converted to dice:
-aggression, switching, setupAppetite, controlPreference, sustainPreference, sacrificeTolerance, preservation, riskAppetite, tempo.
+| Old purpose | Pokémon 5e / D&D resolution |
+|---|---|
+| Tattica — personal positioning | DEX (Acrobatics) |
+| Tattica — Pokémon command timing | CHA (Animal Handling) |
+| Strategia | INT (Investigation) |
+| Prediction | WIS (Insight), sometimes WIS (Perception) |
+| Mind Games | INT (Investigation); INT (Intimidation/Performance) when the proficiency fits |
+| Conoscenza | INT (Nature), sometimes INT (Investigation) |
+| Adattamento | WIS (Survival) or WIS (Insight) |
+| Gestione Team | CHA (Animal Handling) or CHA (Persuasion) |
+| Gestione Rischio | WIS (Insight) or WIS (Perception) |
 
-These change preferences, not competence.
+The GM chooses the ability + proficiency based on what the trainer actually attempts.
+
+Example:
+A trainer fakes a switch pattern to make the opponent commit to the wrong plan. This is no longer “roll Mind Games”. It can be **INT (Investigation)** to construct/read the tactical deception, or **INT (Performance)** if Performance proficiency is the relevant established expertise.
+
+## Pokémon 5e authority
+
+The converted ability scores interact with Pokémon 5e normally. They do not create hidden bonuses on Pokémon attacks, damage, AC or capture checks.
+
+Trainer class core:
+- Primary Ability: CHA.
+- 2024 Hit Die: d6.
+- Level 1 HP: 6 + CON.
+- Saving Throw proficiency: CHA.
+- Animal Handling proficiency plus two Trainer skill choices.

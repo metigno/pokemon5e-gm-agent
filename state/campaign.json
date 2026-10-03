@@ -1,10 +1,11 @@
 {
-  "schema_version": 3,
+  "schema_version": 4,
   "project": "pokemon5e-gm-agent",
-  "campaign_status": "setup",
+  "campaign_status": "protagonist_selection",
+  "setup_stage": "choose_protagonist",
   "rules": {
     "edition": 2024,
-    "progression_mode": null,
+    "progression_mode": "trainer_xp_poke5e",
     "roll_mode": "gm_visible",
     "canonical_pokemon_only": true,
     "fakemon": false,
@@ -20,13 +21,33 @@
     "house_rules": []
   },
   "campaign": {
-    "title": null,
-    "tone": null,
-    "setting": null,
-    "region": null,
+    "title": "Road to the World Championships",
+    "continuity": "LEGA GPT playable canon",
     "current_location": null,
     "time": null,
-    "session_number": 0
+    "session_number": 0,
+    "protagonist_options": [
+      {
+        "name": "Luke",
+        "starter": "Growlithe"
+      },
+      {
+        "name": "Edward",
+        "starter": "Totodile"
+      },
+      {
+        "name": "Fab",
+        "starter": "Koffing"
+      },
+      {
+        "name": "Daniel",
+        "starter": "Gastly"
+      },
+      {
+        "name": "Mattew",
+        "starter": "Eevee"
+      }
+    ]
   },
   "player": {
     "trainer_name": null,
@@ -35,7 +56,7 @@
     "specializations": [],
     "background": null,
     "ability_scores": null,
-    "motor_stats": null,
+    "legacy_motor_stats": null,
     "hp": null,
     "max_hp": null,
     "resources": {},
@@ -44,15 +65,13 @@
   },
   "party": [],
   "pc_storage": [],
-  "objectives": [],
+  "objectives": [
+    "Choose the protagonist."
+  ],
   "known_npcs": [],
   "achievements": [],
   "active_combat": null,
-  "gm_private": {
-    "rng_seed": null,
-    "secrets": [],
-    "future_hooks": []
-  },
+  "gm_private_ref": "gm_private/SECRET_CANON_DO_NOT_OPEN.json",
   "last_checkpoint": null,
   "runtime": {
     "mechanical_authority": "poke5e",
@@ -67,10 +86,10 @@
     },
     "stat_bridge": {
       "enabled": true,
-      "version": 1,
+      "version": 2,
       "module": "src/bridge/motor-to-poke5e.mjs",
-      "overwrite_existing_game_abilities": false,
-      "behavior_profile_is_mechanical_bonus": false
+      "legacy_stats_are_rollable": false,
+      "classic_dnd_only": true
     }
   }
 }
