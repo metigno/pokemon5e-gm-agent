@@ -217,7 +217,18 @@
       "gender": null,
       "hp": null,
       "max_hp": null,
-      "moves": [],
+      "moves": [
+        {
+          "name": "Bite",
+          "pp_max": 15,
+          "pp_current": 13
+        },
+        {
+          "name": "Ember",
+          "pp_max": 15,
+          "pp_current": 14
+        }
+      ],
       "first_contact": {
         "approach": "Luke called Growlithe gently as he would call a dog to come closer.",
         "outcome": "Growlithe approached willingly without a roll.",
@@ -242,7 +253,7 @@
     "level": 5,
     "official_for_license": true,
     "round": 1,
-    "turn": "Luke",
+    "turn": "Mattew",
     "initiative": {
       "Luke_Growlithe": {
         "roll": 20,
@@ -259,7 +270,21 @@
       "trainer": "Mattew",
       "pokemon": "Eevee",
       "level": 5
-    }
+    },
+    "history": [
+      {
+        "round": 1,
+        "actor": "Luke/Growlithe",
+        "move": "Bite",
+        "attack_roll": {
+          "d20": 1,
+          "modifier": 5,
+          "total": 6
+        },
+        "target": "Mattew/Eevee",
+        "result": "miss"
+      }
+    ]
   },
   "gm_private_ref": "gm_private/SECRET_CANON_DO_NOT_OPEN.json",
   "character_bible_ref": "canon/ROSTER2060_CHARACTER_BIBLE.json",
