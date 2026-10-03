@@ -266,7 +266,8 @@
   "pc_storage": [],
   "objectives": [
     "Begin the journey as a fully licensed Trainer.",
-    "Find a Fire Stone for Hisuian Growlithe."
+    "Find a Fire Stone for Hisuian Growlithe.",
+    "Search the city for a Fire Stone."
   ],
   "known_npcs": [],
   "active_combat": null,
@@ -370,5 +371,5 @@
       "reaction_to_luke_aggression": "quietly_concerned"
     }
   },
-  "current_location": "Road from the Interregional Trainer Licensing Center toward the nearest city"
+  "current_location": "Nearest city — Trainer district entrance"
 }
