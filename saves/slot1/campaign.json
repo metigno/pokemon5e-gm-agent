@@ -288,7 +288,7 @@
   "active_combat": {
     "type": "wild_warehouse_encounter",
     "status": "warehouse_encounter_continues",
-    "round": 5,
+    "round": 6,
     "player_trainer": "Luke",
     "player_pokemon": "luke-growlithe-hisui-001",
     "opponents": [
@@ -308,7 +308,7 @@
         "max_hp": 16,
         "ac": 12,
         "disposition": "cornered_and_panicked",
-        "position": "low shelf, aisle blocked by Growlithe"
+        "position": "still on low shelf, cornered but not grappled"
       }
     ],
     "environment": {
@@ -474,6 +474,20 @@
         "actor": "Growlithe",
         "action": "Cover escape route",
         "result": "Blocked the aisle exit, forcing Rattata to remain inside the warehouse encounter area"
+      },
+      {
+        "round": 5,
+        "actor": "Luke/Growlithe",
+        "action": "Grapple attempt",
+        "target": "Wild Rattata #2",
+        "grapple_dc": 13,
+        "target_save": {
+          "ability": "DEX",
+          "d20": 18,
+          "modifier": 2,
+          "total": 20
+        },
+        "result": "failed_grapple"
       }
     ],
     "turn": "Luke",
