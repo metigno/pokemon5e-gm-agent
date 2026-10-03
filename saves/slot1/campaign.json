@@ -196,7 +196,7 @@
           "STR": 1
         }
       },
-      "bond_state": "initial_trust_with_command_uncertainty",
+      "bond_state": "reassured_after_warning",
       "gender": null,
       "hp": null,
       "max_hp": null,
@@ -206,7 +206,8 @@
         "outcome": "Growlithe approached willingly without a roll.",
         "demeanor": "curious_and_receptive"
       },
-      "last_command_response": "hesitated at lethal order toward a KO target; instructor intervened before action"
+      "last_command_response": "hesitated at lethal order toward a KO target; instructor intervened before action",
+      "last_interaction": "Luke praised and petted Growlithe after the instructor stopped the lethal order."
     }
   ],
   "pc_storage": [],
@@ -285,5 +286,19 @@
         "outcome": "Instructor intervened before lethal harm. Skwovet remained alive. Luke's certification now includes a safety concern requiring evaluation."
       }
     ]
+  },
+  "relationship_flags": {
+    "Mattew": {
+      "concern_about_luke_safety_judgment": true
+    },
+    "Daniel": {
+      "observing_luke_moral_reasoning": true
+    },
+    "Edward": {
+      "reaction_to_luke_aggression": "uneasy_but_not_confrontational"
+    },
+    "Fab": {
+      "reaction_to_luke_aggression": "quietly_concerned"
+    }
   }
 }
