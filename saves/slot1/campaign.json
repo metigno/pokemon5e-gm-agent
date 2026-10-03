@@ -293,7 +293,7 @@
         {
           "name": "Bite",
           "pp_max": 15,
-          "pp_current": 10
+          "pp_current": 9
         },
         {
           "name": "Ember",
@@ -345,7 +345,7 @@
   "active_combat": {
     "type": "wild_warehouse_encounter",
     "status": "searching_for_remaining_wild_pokemon",
-    "round": 12,
+    "round": 13,
     "player_trainer": "Luke",
     "player_pokemon": "luke-growlithe-hisui-001",
     "opponents": [
@@ -755,6 +755,35 @@
         },
         "target_ac": 12,
         "result": "miss"
+      },
+      {
+        "round": 12,
+        "actor": "Luke/Growlithe",
+        "move": "Bite",
+        "advantage_from": "Howl",
+        "attack_rolls_with_advantage": [
+          9,
+          7
+        ],
+        "chosen_roll": 9,
+        "attack_modifier": 5,
+        "total": 14,
+        "target": "Wild Raticate",
+        "target_ac": 15,
+        "result": "miss"
+      },
+      {
+        "round": 12,
+        "actor": "Wild Raticate",
+        "move": "Bite",
+        "target": "Luke",
+        "attack_roll": {
+          "d20": 4,
+          "modifier": 5,
+          "total": 9
+        },
+        "target_ac": 12,
+        "result": "miss"
       }
     ],
     "turn": "Luke",
@@ -773,14 +802,7 @@
       "suspected_more": false,
       "exact_count_known": true
     },
-    "effects": [
-      {
-        "name": "Howl",
-        "source": "Growlithe",
-        "expires": "end_of_Growlithe_round_12_turn",
-        "effect": "advantage_on_melee_attacks_vs_creatures_within_5ft_of_Growlithe"
-      }
-    ],
+    "effects": [],
     "positioning": {
       "Raticate": "between Luke and Growlithe",
       "Luke": "behind Raticate",
