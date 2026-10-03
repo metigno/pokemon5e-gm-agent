@@ -287,8 +287,8 @@
   "known_npcs": [],
   "active_combat": {
     "type": "wild_warehouse_encounter",
-    "status": "engaged",
-    "round": 0,
+    "status": "warehouse_encounter_continues",
+    "round": 2,
     "player_trainer": "Luke",
     "player_pokemon": "luke-growlithe-hisui-001",
     "opponents": [
@@ -303,7 +303,7 @@
     ],
     "environment": {
       "location": "warehouse",
-      "hazard": "A missed Ember scorched a wooden crate; light smoke is starting."
+      "hazard": "Smoldering crate extinguished; light smoke remains but no active fire."
     },
     "history": [
       {
@@ -317,8 +317,34 @@
         "target": "Wild Rattata",
         "result": "miss",
         "environmental_result": "flame struck a wooden crate and started a small smoldering patch"
+      },
+      {
+        "round": 1,
+        "actor": "Luke",
+        "action": "Extinguish smoldering crate",
+        "check": {
+          "skill": "Survival",
+          "d20": 13,
+          "modifier": 4,
+          "total": 17
+        },
+        "result": "success",
+        "effect": "Small smoldering patch extinguished before open flames spread."
+      },
+      {
+        "round": 1,
+        "actor": "Growlithe",
+        "action": "Guard Luke",
+        "result": "positioned between Luke and the wild Rattata; no attack command issued"
+      },
+      {
+        "round": 1,
+        "actor": "Wild Rattata",
+        "action": "Retreat",
+        "result": "used the opening to flee deeper between warehouse shelves rather than attack"
       }
-    ]
+    ],
+    "turn": "Luke"
   },
   "gm_private_ref": "gm_private/SECRET_CANON_DO_NOT_OPEN.json",
   "character_bible_ref": "canon/ROSTER2060_CHARACTER_BIBLE.json",
