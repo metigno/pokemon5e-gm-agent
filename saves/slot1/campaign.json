@@ -356,6 +356,15 @@
         "disposition": "cornered_and_panicked",
         "position": "still on low shelf, cornered but not grappled",
         "status": "dead"
+      },
+      {
+        "species": "Raticate",
+        "level": 5,
+        "hp": 45,
+        "max_hp": 45,
+        "ac": 15,
+        "status": "hidden_but_identified",
+        "disposition": "territorial_and_hostile"
       }
     ],
     "environment": {
@@ -623,6 +632,18 @@
         "actor": "Luke",
         "action": "Pet Growlithe and advance deeper into warehouse",
         "result": "team advances toward remaining noises"
+      },
+      {
+        "round": 9,
+        "actor": "Luke",
+        "action": "Perception check toward moving crates",
+        "check": {
+          "d20": 13,
+          "modifier": 2,
+          "total": 15
+        },
+        "result": "success",
+        "learned": "A larger rodent Pokemon is behind the crates; identified as Raticate."
       }
     ],
     "turn": "Luke",
@@ -634,13 +655,12 @@
     "observed_enemies": {
       "confirmed": [
         {
-          "species": "Rattata",
-          "count": 0
+          "species": "Raticate",
+          "count": 1
         }
       ],
-      "suspected_more": true,
-      "exact_count_known": false,
-      "killed": 2
+      "suspected_more": false,
+      "exact_count_known": true
     }
   },
   "gm_private_ref": "gm_private/SECRET_CANON_DO_NOT_OPEN.json",
