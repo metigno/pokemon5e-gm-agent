@@ -293,7 +293,7 @@
         {
           "name": "Bite",
           "pp_max": 15,
-          "pp_current": 5
+          "pp_current": 4
         },
         {
           "name": "Ember",
@@ -344,8 +344,8 @@
   "known_npcs": [],
   "active_combat": {
     "type": "wild_warehouse_encounter",
-    "status": "searching_for_remaining_wild_pokemon",
-    "round": 15,
+    "status": "immediate_threat_cleared",
+    "round": 16,
     "player_trainer": "Luke",
     "player_pokemon": "luke-growlithe-hisui-001",
     "opponents": [
@@ -371,10 +371,10 @@
       {
         "species": "Raticate",
         "level": 5,
-        "hp": 1,
+        "hp": 0,
         "max_hp": 45,
         "ac": 15,
-        "status": "flinched_critical_condition",
+        "status": "dead",
         "disposition": "territorial_and_hostile"
       }
     ],
@@ -962,6 +962,31 @@
           "type": "Dark"
         },
         "target_hp_after": 6
+      },
+      {
+        "round": 15,
+        "actor": "Luke/Growlithe",
+        "intent": "lethal",
+        "move": "Bite",
+        "attack_roll": {
+          "d20": 18,
+          "modifier": 5,
+          "total": 23
+        },
+        "target": "Wild Raticate",
+        "result": "hit",
+        "damage": {
+          "dice": [
+            4,
+            8
+          ],
+          "move": 2,
+          "total": 14,
+          "type": "Dark"
+        },
+        "target_hp_before": 1,
+        "target_hp_after": 0,
+        "target_status": "dead"
       }
     ],
     "turn": "Luke",
