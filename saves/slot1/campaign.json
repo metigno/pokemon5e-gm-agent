@@ -4,7 +4,7 @@
   "slot_status": "occupied",
   "project": "pokemon5e-gm-agent",
   "campaign_status": "intro_in_progress",
-  "setup_stage": "intro_03_first_contact",
+  "setup_stage": "intro_04_field_certification",
   "rules": {
     "edition": 2024,
     "roll_mode": "gm_visible",
@@ -196,11 +196,16 @@
           "STR": 1
         }
       },
-      "bond_state": "first_contact_pending",
+      "bond_state": "initial_trust_established",
       "gender": null,
       "hp": null,
       "max_hp": null,
-      "moves": []
+      "moves": [],
+      "first_contact": {
+        "approach": "Luke called Growlithe gently as he would call a dog to come closer.",
+        "outcome": "Growlithe approached willingly without a roll.",
+        "demeanor": "curious_and_receptive"
+      }
     }
   ],
   "pc_storage": [],
@@ -243,12 +248,13 @@
     "level_milestones": "campaign/events/LEVEL_MILESTONES.json",
     "status": "active",
     "active_chain": "INTRO_FIVE",
-    "active_event": "INTRO_03",
+    "active_event": "INTRO_04",
     "queued_events": [],
     "completed_events": [
       "INTRO_00",
       "INTRO_01",
-      "INTRO_02"
+      "INTRO_02",
+      "INTRO_03"
     ],
     "failed_events": [],
     "expired_events": [],
@@ -264,8 +270,8 @@
     },
     "trigger_check_due": false,
     "last_trigger_check": {
-      "reason": "starter_handoff",
-      "result": "INTRO_02 completed; INTRO_03 active"
+      "reason": "first_contact_resolved",
+      "result": "INTRO_03 completed; INTRO_04 active"
     },
     "checkpoint_ledger": "saves/slot1/checkpoints.json"
   },
