@@ -292,7 +292,7 @@
         {
           "name": "Bite",
           "pp_max": 15,
-          "pp_current": 11
+          "pp_current": 10
         },
         {
           "name": "Ember",
@@ -305,7 +305,7 @@
         "outcome": "Growlithe approached willingly without a roll.",
         "demeanor": "curious_and_receptive"
       },
-      "last_command_response": "Obeyed a lethal Bite command against an active hostile Rattata during the warehouse job.",
+      "last_command_response": "Obeyed a lethal Bite command against the second active warehouse Rattata; did not eat the body and returned to Luke.",
       "last_interaction": "Luke ran to hug Growlithe after the win, praised him as the best, then checked on Eevee's condition.",
       "resources": {
         "intimidate": {
@@ -334,7 +334,7 @@
   "active_combat": {
     "type": "wild_warehouse_encounter",
     "status": "warehouse_encounter_continues",
-    "round": 8,
+    "round": 9,
     "player_trainer": "Luke",
     "player_pokemon": "luke-growlithe-hisui-001",
     "opponents": [
@@ -350,12 +350,12 @@
       {
         "species": "Rattata",
         "level": null,
-        "hp": 3,
+        "hp": 0,
         "max_hp": 16,
         "ac": 12,
         "disposition": "cornered_and_panicked",
         "position": "still on low shelf, cornered but not grappled",
-        "status": "critically_wounded_and_cornered"
+        "status": "dead"
       }
     ],
     "environment": {
@@ -586,6 +586,37 @@
         "actor": "Wild Rattata #2",
         "action": "Desperate retreat attempt",
         "result": "failed to escape the blocked aisle; remains cornered"
+      },
+      {
+        "round": 8,
+        "actor": "Luke/Growlithe",
+        "intent": "lethal",
+        "move": "Bite",
+        "attack_roll": {
+          "d20": 9,
+          "modifier": 5,
+          "total": 14
+        },
+        "target": "Wild Rattata #2",
+        "result": "hit",
+        "damage": {
+          "dice": [
+            7,
+            4
+          ],
+          "move": 2,
+          "total": 13,
+          "type": "Dark"
+        },
+        "target_hp_before": 3,
+        "target_hp_after": 0,
+        "target_status": "dead"
+      },
+      {
+        "round": 8,
+        "actor": "Growlithe",
+        "action": "Post-kill behavior",
+        "result": "Released the dead Rattata and returned to Luke rather than feeding."
       }
     ],
     "turn": "Luke",
@@ -598,12 +629,12 @@
       "confirmed": [
         {
           "species": "Rattata",
-          "count": 1
+          "count": 0
         }
       ],
       "suspected_more": true,
       "exact_count_known": false,
-      "killed": 1
+      "killed": 2
     }
   },
   "gm_private_ref": "gm_private/SECRET_CANON_DO_NOT_OPEN.json",
