@@ -246,7 +246,7 @@
         {
           "name": "Bite",
           "pp_max": 15,
-          "pp_current": 15
+          "pp_current": 14
         },
         {
           "name": "Ember",
@@ -288,17 +288,18 @@
   "active_combat": {
     "type": "wild_warehouse_encounter",
     "status": "warehouse_encounter_continues",
-    "round": 2,
+    "round": 3,
     "player_trainer": "Luke",
     "player_pokemon": "luke-growlithe-hisui-001",
     "opponents": [
       {
         "species": "Rattata",
         "level": null,
-        "hp": 16,
+        "hp": 3,
         "max_hp": 16,
         "ac": 12,
-        "disposition": "frightened_and_defensive"
+        "disposition": "frightened_and_defensive",
+        "status": "badly_wounded_retreating"
       }
     ],
     "environment": {
@@ -366,6 +367,36 @@
         },
         "result": "partial_success",
         "learned": "At least two Rattata are active in the warehouse; additional movement is audible deeper inside, exact count unknown."
+      },
+      {
+        "round": 2,
+        "actor": "Luke/Growlithe",
+        "intent": "lethal",
+        "move": "Bite",
+        "attack_roll": {
+          "d20": 7,
+          "modifier": 5,
+          "total": 12
+        },
+        "target": "Wild Rattata #1",
+        "result": "hit",
+        "damage": {
+          "dice": [
+            8,
+            3
+          ],
+          "move": 2,
+          "total": 13,
+          "type": "Dark"
+        },
+        "target_hp_after": 3,
+        "target_max_hp": 16
+      },
+      {
+        "round": 2,
+        "actor": "Wild Rattata #1",
+        "action": "Disengage and retreat",
+        "result": "badly wounded, escaped deeper behind warehouse shelving"
       }
     ],
     "turn": "Luke",
