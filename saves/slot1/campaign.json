@@ -298,6 +298,11 @@
           "name": "Ember",
           "pp_max": 15,
           "pp_current": 14
+        },
+        {
+          "name": "Leer",
+          "pp_max": 15,
+          "pp_current": 14
         }
       ],
       "first_contact": {
@@ -644,9 +649,24 @@
         },
         "result": "success",
         "learned": "A larger rodent Pokemon is behind the crates; identified as Raticate."
+      },
+      {
+        "round": 9,
+        "actor": "Luke/Growlithe",
+        "move": "Leer",
+        "target": "Wild Raticate",
+        "move_dc": 11,
+        "target_save": {
+          "ability": "WIS",
+          "d20": 17,
+          "modifier": 1,
+          "total": 18
+        },
+        "result": "save_success",
+        "effect": "No attack bonus gained."
       }
     ],
-    "turn": "Luke",
+    "turn": "Raticate",
     "detected_opponents": {
       "species": "Rattata",
       "minimum_count": 3,
