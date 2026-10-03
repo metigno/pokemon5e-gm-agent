@@ -315,7 +315,7 @@
       "resources": {
         "intimidate": {
           "uses_per_short_rest": 1,
-          "remaining": 1
+          "remaining": 0
         }
       },
       "damage_taken": 8,
@@ -339,7 +339,7 @@
   "active_combat": {
     "type": "wild_warehouse_encounter",
     "status": "searching_for_remaining_wild_pokemon",
-    "round": 10,
+    "round": 11,
     "player_trainer": "Luke",
     "player_pokemon": "luke-growlithe-hisui-001",
     "opponents": [
@@ -702,9 +702,30 @@
         "target": "Wild Raticate",
         "result": "miss",
         "environmental_result": "missed cleanly without igniting or damaging warehouse crates"
+      },
+      {
+        "round": 10,
+        "actor": "Luke/Growlithe",
+        "ability": "Intimidate",
+        "target": "Wild Raticate",
+        "result": "Raticate's next attack made with disadvantage"
+      },
+      {
+        "round": 10,
+        "actor": "Wild Raticate",
+        "move": "Bite",
+        "attack_rolls_with_disadvantage": [
+          2,
+          19
+        ],
+        "chosen_roll": 2,
+        "attack_modifier": 5,
+        "total": 7,
+        "target": "Luke/Growlithe",
+        "result": "miss"
       }
     ],
-    "turn": "Raticate",
+    "turn": "Luke",
     "detected_opponents": {
       "species": "Rattata",
       "minimum_count": 3,
