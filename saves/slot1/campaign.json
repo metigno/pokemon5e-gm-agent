@@ -284,7 +284,7 @@
           "STR": 1
         }
       },
-      "bond_state": "strengthened_after_first_official_victory",
+      "bond_state": "strengthening_through_shared_hunt",
       "gender": null,
       "hp": 35,
       "max_hp": 35,
@@ -306,7 +306,7 @@
         "demeanor": "curious_and_receptive"
       },
       "last_command_response": "Obeyed a lethal Bite command against the second active warehouse Rattata; did not eat the body and returned to Luke.",
-      "last_interaction": "Luke ran to hug Growlithe after the win, praised him as the best, then checked on Eevee's condition.",
+      "last_interaction": "Luke praised and petted Growlithe after clearing the second Rattata, then advanced deeper into the warehouse.",
       "resources": {
         "intimidate": {
           "uses_per_short_rest": 1,
@@ -333,7 +333,7 @@
   "known_npcs": [],
   "active_combat": {
     "type": "wild_warehouse_encounter",
-    "status": "warehouse_encounter_continues",
+    "status": "searching_for_remaining_wild_pokemon",
     "round": 9,
     "player_trainer": "Luke",
     "player_pokemon": "luke-growlithe-hisui-001",
@@ -617,6 +617,12 @@
         "actor": "Growlithe",
         "action": "Post-kill behavior",
         "result": "Released the dead Rattata and returned to Luke rather than feeding."
+      },
+      {
+        "round": 9,
+        "actor": "Luke",
+        "action": "Pet Growlithe and advance deeper into warehouse",
+        "result": "team advances toward remaining noises"
       }
     ],
     "turn": "Luke",
@@ -737,7 +743,7 @@
       "reaction_to_luke_aggression": "quietly_concerned"
     }
   },
-  "current_location": "Nearest city — heading toward warehouse district",
+  "current_location": "Nearest city — warehouse interior, deeper storage section",
   "shop_context": {
     "location": "Nearest city — Trainer shop",
     "prices": {
