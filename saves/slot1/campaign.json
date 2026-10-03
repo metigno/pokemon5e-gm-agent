@@ -117,7 +117,18 @@
         "quantity": 1
       }
     ],
-    "money": null
+    "money": 1900,
+    "starting_money_roll": {
+      "formula": "1000 + 100 x 4d4",
+      "rolls": [
+        2,
+        4,
+        2,
+        1
+      ],
+      "total": 1900,
+      "resolved": true
+    }
   },
   "friends_npc_state": {
     "Luke": {
@@ -371,5 +382,12 @@
       "reaction_to_luke_aggression": "quietly_concerned"
     }
   },
-  "current_location": "Nearest city — Trainer district entrance"
+  "current_location": "Nearest city — Trainer district entrance",
+  "shop_context": {
+    "location": "Nearest city — Trainer shop",
+    "fire_stone_cost": 4000,
+    "poke_ball_cost": 250,
+    "attempted_purchase": "Fire Stone plus some Poke Balls",
+    "result": "Fire Stone unaffordable with current funds; Poke Ball quantity awaiting player choice"
+  }
 }
