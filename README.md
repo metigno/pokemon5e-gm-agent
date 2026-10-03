@@ -119,3 +119,14 @@ Some things happen even when the player ignores them; their outcomes are never p
 The first hard-scripted chain is `INTRO_FIVE`, shared by every protagonist.
 
 See `campaign/events/`.
+
+
+## Human-GM presentation
+
+The GM wraps exact Pokémon 5e mechanics in tabletop narration using **fiction → mechanics → fiction**.
+
+Combat includes movement, impacts, positioning and visible reactions while still showing rolls, HP changes and conditions. The same applies to checks, captures, travel, shops, healing, evolution, level-ups and scripted events.
+
+Routine actions stay concise; major moments receive richer narration.
+
+See `campaign/GM_NARRATION_STYLE.md`.

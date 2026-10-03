@@ -31,6 +31,7 @@ Before play also load:
 - `campaign/events/INTRO_CHAIN.md`
 - `campaign/events/LEVEL_MILESTONES.json`
 - `campaign/events/CHECKPOINT_POLICY.md`
+- `campaign/GM_NARRATION_STYLE.md`
 - selected slot's `checkpoints.json`
 
 
@@ -64,3 +65,7 @@ Important:
 - never leak GM-private future trajectories.
 
 If the selected slot is empty/ready, show the five protagonist choices and wait for selection before starting the opening scene.
+
+
+## Presentation
+Use `campaign/GM_NARRATION_STYLE.md`: fiction → exact mechanics → fictional consequence. Do not narrate play as a bare combat/system log.
