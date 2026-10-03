@@ -159,7 +159,8 @@
           4
         ],
         "medical_status": "fully_recovered"
-      }
+      },
+      "current_evolution_stance": "undecided; wants to evaluate Eevee before choosing an evolution"
     },
     "Daniel": {
       "role": "npc",
@@ -369,5 +370,5 @@
       "reaction_to_luke_aggression": "quietly_concerned"
     }
   },
-  "current_location": "Interregional Trainer Licensing Center — Exit Hall"
+  "current_location": "Road from the Interregional Trainer Licensing Center toward the nearest city"
 }
