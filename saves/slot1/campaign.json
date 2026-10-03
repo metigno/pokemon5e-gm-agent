@@ -4,7 +4,7 @@
   "slot_status": "occupied",
   "project": "pokemon5e-gm-agent",
   "campaign_status": "intro_in_progress",
-  "setup_stage": "intro_04_field_certification",
+  "setup_stage": "intro_05_first_official_battle",
   "rules": {
     "edition": 2024,
     "roll_mode": "gm_visible",
@@ -84,9 +84,17 @@
     "skills": [
       "Animal Handling",
       "Insight",
-      "Survival"
+      "Survival",
+      "Intimidation"
     ],
-    "specialization": null,
+    "specialization": {
+      "id": "kindler",
+      "type": "fire",
+      "name": "Kindler",
+      "effect": {
+        "proficiency": "Intimidation"
+      }
+    },
     "trainer_path": null,
     "hp": null,
     "max_hp": null,
@@ -215,7 +223,16 @@
     "Complete trainer licensing at the Interregional Trainer Licensing Center."
   ],
   "known_npcs": [],
-  "active_combat": null,
+  "active_combat": {
+    "type": "supervised_one_pokemon_match",
+    "status": "pre_battle",
+    "player_trainer": "Luke",
+    "opponent_trainer": "Mattew",
+    "player_pokemon": "luke-growlithe-hisui-001",
+    "opponent_pokemon": "mattew-eevee-001",
+    "level": 5,
+    "official_for_license": true
+  },
   "gm_private_ref": "gm_private/SECRET_CANON_DO_NOT_OPEN.json",
   "character_bible_ref": "canon/ROSTER2060_CHARACTER_BIBLE.json",
   "runtime": {
@@ -250,13 +267,14 @@
     "level_milestones": "campaign/events/LEVEL_MILESTONES.json",
     "status": "active",
     "active_chain": "INTRO_FIVE",
-    "active_event": "INTRO_04",
+    "active_event": "INTRO_05",
     "queued_events": [],
     "completed_events": [
       "INTRO_00",
       "INTRO_01",
       "INTRO_02",
-      "INTRO_03"
+      "INTRO_03",
+      "INTRO_04"
     ],
     "failed_events": [],
     "expired_events": [],
