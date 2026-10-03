@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "save_slot": 1,
-  "next_checkpoint_number": 3,
+  "next_checkpoint_number": 4,
   "checkpoints": [
     {
       "id": "CP-PRE-INTRO",
@@ -22,6 +22,16 @@
       "type": "CP-PRE-ANCHOR",
       "result": "Luke_vs_Mattew_ready",
       "summary": "Luke registered the Kindler specialization and selected Mattew as his opponent for the supervised starter-only certification battle."
+    },
+    {
+      "id": "CP-POST-FIRST-BATTLE",
+      "event_id": "INTRO_05",
+      "world_day": 0,
+      "trainer_level": 1,
+      "location": "Interregional Trainer Licensing Center — Certification Arena",
+      "type": "CP-POST-ANCHOR",
+      "result": "Luke defeated Mattew",
+      "summary": "Luke and Hisuian Growlithe won the supervised starter-only certification battle against Mattew and Eevee in round 7. Growlithe finished at 1/35 HP; Eevee was KO'd by Ember."
     }
   ]
 }
