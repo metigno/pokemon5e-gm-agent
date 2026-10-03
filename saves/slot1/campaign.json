@@ -222,7 +222,7 @@
           "STR": 1
         }
       },
-      "bond_state": "reassured_after_warning",
+      "bond_state": "strengthened_after_first_official_victory",
       "gender": null,
       "hp": 1,
       "max_hp": 35,
@@ -244,7 +244,7 @@
         "demeanor": "curious_and_receptive"
       },
       "last_command_response": "hesitated at lethal order toward a KO target; instructor intervened before action",
-      "last_interaction": "Luke praised and petted Growlithe after the instructor stopped the lethal order.",
+      "last_interaction": "Luke ran to hug Growlithe after the win, praised him as the best, then checked on Eevee's condition.",
       "resources": {
         "intimidate": {
           "uses_per_short_rest": 1,
@@ -616,11 +616,13 @@
       "finishing_move": "Ember",
       "growlithe_hp_after": 1,
       "status": "passed_battle_component"
-    }
+    },
+    "post_battle_conduct": "Luke immediately embraced Growlithe, then checked Eevee's condition; positive sportsmanship noted."
   },
   "relationship_flags": {
     "Mattew": {
-      "concern_about_luke_safety_judgment": true
+      "concern_about_luke_safety_judgment": true,
+      "noted_luke_checked_on_eevee_after_battle": true
     },
     "Daniel": {
       "observing_luke_moral_reasoning": true
