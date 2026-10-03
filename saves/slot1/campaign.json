@@ -170,7 +170,8 @@
         ],
         "medical_status": "fully_recovered"
       },
-      "current_evolution_stance": "undecided; wants to evaluate Eevee before choosing an evolution"
+      "current_evolution_stance": "undecided; wants to evaluate Eevee before choosing an evolution",
+      "current_activity": "Job board: choosing another assignment independently"
     },
     "Daniel": {
       "role": "npc",
@@ -181,7 +182,8 @@
         "species": "Gastly",
         "level": 5,
         "status": "received"
-      }
+      },
+      "current_activity": "Job board: choosing another assignment independently"
     },
     "Edward": {
       "role": "npc",
@@ -192,7 +194,8 @@
         "species": "Totodile",
         "level": 5,
         "status": "received"
-      }
+      },
+      "current_activity": "Job board: choosing another assignment independently"
     },
     "Fab": {
       "role": "npc",
@@ -203,7 +206,8 @@
         "species": "Koffing",
         "level": 5,
         "status": "received"
-      }
+      },
+      "current_activity": "Job board: choosing another assignment independently"
     }
   },
   "party": [
@@ -382,7 +386,7 @@
       "reaction_to_luke_aggression": "quietly_concerned"
     }
   },
-  "current_location": "Nearest city — Job Board",
+  "current_location": "Nearest city — heading toward warehouse district",
   "shop_context": {
     "location": "Nearest city — Trainer shop",
     "prices": {
@@ -409,7 +413,7 @@
         "id": "JOB-02",
         "title": "Pokémon nel magazzino",
         "reward": 900,
-        "status": "available",
+        "status": "accepted_by_Luke",
         "note": "Un commerciante cerca aiuto per allontanare alcuni Pokémon selvatici entrati nel deposito. Cattura non richiesta."
       },
       {
@@ -420,5 +424,14 @@
         "note": "Portare un pacco fuori città e tornare con la ricevuta. Lavoro semplice ma richiede tempo."
       }
     ]
+  },
+  "active_job": {
+    "id": "JOB-02",
+    "title": "Pokémon nel magazzino",
+    "reward": 900,
+    "status": "accepted",
+    "assigned_trainer": "Luke",
+    "companions": [],
+    "objective": "Help a merchant clear wild Pokémon from a warehouse; capture is optional."
   }
 }
