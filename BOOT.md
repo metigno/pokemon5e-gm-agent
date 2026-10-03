@@ -25,6 +25,16 @@ Read and write ONLY that slot for campaign progress.
 
 ## Then load shared game data
 
+Before play also load:
+- `campaign/events/EVENT_ENGINE.md`
+- `campaign/events/MAIN_EVENT_GRAPH.json`
+- `campaign/events/INTRO_CHAIN.md`
+- `campaign/events/LEVEL_MILESTONES.json`
+- `campaign/events/CHECKPOINT_POLICY.md`
+- selected slot's `checkpoints.json`
+
+
+
 1. `AGENT.md`
 2. `campaign/PREMISE.md`
 3. `campaign/PROTAGONIST_SELECTION.md`

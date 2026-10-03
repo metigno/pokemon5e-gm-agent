@@ -1,5 +1,5 @@
 {
-  "schema_version": 6,
+  "schema_version": 7,
   "save_slot": 1,
   "slot_status": "empty",
   "project": "pokemon5e-gm-agent",
@@ -27,7 +27,9 @@
       "guaranteed_win": false,
       "format_target": "32 trainers; 8 groups of 4; top 2 to R16, QF, SF, Final"
     },
-    "session_number": 0
+    "session_number": 0,
+    "event_model": "open_world_with_scripted_anchors",
+    "intro_chain": "INTRO_FIVE"
   },
   "protagonist_options": [
     {
@@ -124,5 +126,43 @@
       "classic_dnd_only": true,
       "rookie_standard_array": true
     }
-  }
+  },
+  "progression": {
+    "regional_badges": 0,
+    "open_qualifier_complete": false,
+    "circuit_points": 0,
+    "regional_league": {
+      "status": "not_qualified"
+    },
+    "world_championship": {
+      "status": "not_eligible"
+    }
+  },
+  "event_engine": {
+    "version": 1,
+    "event_graph": "campaign/events/MAIN_EVENT_GRAPH.json",
+    "intro_chain": "campaign/events/INTRO_CHAIN.md",
+    "level_milestones": "campaign/events/LEVEL_MILESTONES.json",
+    "status": "waiting_for_protagonist",
+    "active_chain": null,
+    "active_event": null,
+    "queued_events": [],
+    "completed_events": [],
+    "failed_events": [],
+    "expired_events": [],
+    "ignored_events": [],
+    "flags": {
+      "intro_complete": false,
+      "free_roam": false,
+      "friends_split": false
+    },
+    "world_clock": {
+      "day": 0,
+      "time_of_day": "morning"
+    },
+    "trigger_check_due": false,
+    "last_trigger_check": null,
+    "checkpoint_ledger": "saves/slot1/checkpoints.json"
+  },
+  "checkpoint_policy_ref": "campaign/events/CHECKPOINT_POLICY.md"
 }

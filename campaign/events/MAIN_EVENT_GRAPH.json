@@ -1,0 +1,747 @@
+{
+  "schema_version": 1,
+  "campaign_model": "open_world_with_scripted_anchors",
+  "acts": [
+    {
+      "id": "ACT_0",
+      "name": "The Five",
+      "level_band": "1",
+      "purpose": "shared intro and licensing"
+    },
+    {
+      "id": "ACT_1",
+      "name": "First Roads",
+      "level_band": "1-3",
+      "purpose": "free roam, first badge, friends separate"
+    },
+    {
+      "id": "ACT_2",
+      "name": "The World Starts Moving",
+      "level_band": "3-5",
+      "purpose": "deadlines, NPC results, first regional problem"
+    },
+    {
+      "id": "ACT_3",
+      "name": "Crossroads",
+      "level_band": "5-8",
+      "purpose": "friend chains and competing priorities"
+    },
+    {
+      "id": "ACT_4",
+      "name": "League Road",
+      "level_band": "8-11",
+      "purpose": "regional league and consequence"
+    },
+    {
+      "id": "ACT_5",
+      "name": "Interregional Circuit",
+      "level_band": "11-14",
+      "purpose": "wider world and ancient clues"
+    },
+    {
+      "id": "ACT_6",
+      "name": "Masters",
+      "level_band": "14-17",
+      "purpose": "continental competition and hidden trajectories"
+    },
+    {
+      "id": "ACT_7",
+      "name": "World Qualification",
+      "level_band": "17-19",
+      "purpose": "cutoff and finite qualification chances"
+    },
+    {
+      "id": "ACT_8",
+      "name": "World Championship",
+      "level_band": "18-20",
+      "purpose": "32-player World event with emergent results"
+    }
+  ],
+  "events": [
+    {
+      "id": "INTRO_FIVE",
+      "act": "ACT_0",
+      "type": "hard_anchor",
+      "title": "The Five",
+      "trigger": {
+        "all": [
+          "protagonist_selected"
+        ]
+      },
+      "intended_trainer_level_band": "1",
+      "once": true,
+      "outcome_locked": false,
+      "summary": "Shared introduction chain. See INTRO_CHAIN.md.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ]
+    },
+    {
+      "id": "A1_FIRST_ROAD",
+      "act": "ACT_1",
+      "type": "soft_anchor",
+      "title": "The First Road",
+      "trigger": {
+        "all": [
+          "intro_complete"
+        ]
+      },
+      "intended_trainer_level_band": "1-2",
+      "once": true,
+      "outcome_locked": false,
+      "summary": "First real route/town transition. Establish free exploration, encounter context and travel clock.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ]
+    },
+    {
+      "id": "A1_WORLD_MOVES",
+      "act": "ACT_1",
+      "type": "world_event",
+      "title": "The World Moves Without You",
+      "trigger": {
+        "any": [
+          "world_day>=3",
+          "first_settlement_reached"
+        ]
+      },
+      "intended_trainer_level_band": "1-2",
+      "once": true,
+      "outcome_locked": false,
+      "summary": "A local route/service/NPC situation changes even if the player does nothing.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ]
+    },
+    {
+      "id": "A1_FIRST_OFFICIAL",
+      "act": "ACT_1",
+      "type": "competitive_gate",
+      "title": "First Official Match",
+      "trigger": {
+        "any": [
+          "trainer_level>=2",
+          "official_match_opportunity"
+        ]
+      },
+      "intended_trainer_level_band": "2",
+      "once": true,
+      "outcome_locked": false,
+      "summary": "First non-tutorial sanctioned match after the intro.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ]
+    },
+    {
+      "id": "A1_FIVE_ROADS",
+      "act": "ACT_1",
+      "type": "character_chain",
+      "title": "Five Roads",
+      "trigger": {
+        "any": [
+          "trainer_level>=3",
+          "first_badge_complete",
+          "world_day>=7"
+        ]
+      },
+      "intended_trainer_level_band": "2-3",
+      "once": true,
+      "outcome_locked": false,
+      "summary": "The NPC friends commit to independent schedules; at least one leaves the player's current route.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ]
+    },
+    {
+      "id": "A1_FIRST_GATE",
+      "act": "ACT_1",
+      "type": "competitive_gate",
+      "title": "First Regional Gate",
+      "trigger": {
+        "any": [
+          "trainer_level>=3",
+          "local_badge_challenge_unlocked"
+        ]
+      },
+      "intended_trainer_level_band": "2-3",
+      "once": true,
+      "outcome_locked": false,
+      "summary": "First badge or equivalent regional gate. Failure remains canon.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ]
+    },
+    {
+      "id": "A2_LOCAL_PROBLEM",
+      "act": "ACT_2",
+      "type": "world_event",
+      "title": "A Quiet Problem",
+      "trigger": {
+        "any": [
+          "first_badge_complete",
+          "world_day>=12"
+        ]
+      },
+      "intended_trainer_level_band": "3-4",
+      "once": true,
+      "outcome_locked": false,
+      "summary": "A region-adapted illegal capture, match-fixing, theft or ecological problem begins.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ]
+    },
+    {
+      "id": "A2_FRIEND_NEWS",
+      "act": "ACT_2",
+      "type": "character_chain",
+      "title": "A Name on the Board",
+      "trigger": {
+        "all": [
+          "friends_split"
+        ],
+        "any": [
+          "world_day>=14",
+          "trainer_level>=4"
+        ]
+      },
+      "intended_trainer_level_band": "3-5",
+      "once": true,
+      "outcome_locked": false,
+      "summary": "An off-screen friend gets a meaningful result; resolve honestly.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ]
+    },
+    {
+      "id": "A2_ROOKIE_CUP",
+      "act": "ACT_2",
+      "type": "competitive_gate",
+      "title": "Rookie Invitational",
+      "trigger": {
+        "any": [
+          "trainer_level>=4",
+          "regional_badges>=2"
+        ]
+      },
+      "intended_trainer_level_band": "4-5",
+      "once": true,
+      "outcome_locked": false,
+      "summary": "Optional prestigious early cup with a real deadline.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ]
+    },
+    {
+      "id": "A2_CRISIS_ESCALATES",
+      "act": "ACT_2",
+      "type": "world_event",
+      "title": "What Happens If You Ignore It",
+      "trigger": {
+        "all": [
+          "local_problem_started"
+        ],
+        "any": [
+          "world_day>=20",
+          "local_problem_ignored"
+        ]
+      },
+      "intended_trainer_level_band": "4-5",
+      "once": true,
+      "outcome_locked": false,
+      "summary": "The local problem changes or worsens if unresolved.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ]
+    },
+    {
+      "id": "A3_FRIEND_CALL",
+      "act": "ACT_3",
+      "type": "character_chain",
+      "title": "One of the Five Calls",
+      "trigger": {
+        "any": [
+          "trainer_level>=6",
+          "regional_badges>=3"
+        ]
+      },
+      "intended_trainer_level_band": "5-7",
+      "once": true,
+      "outcome_locked": false,
+      "summary": "Select the friend whose actual state most naturally intersects current play.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ]
+    },
+    {
+      "id": "A3_CROSSROADS",
+      "act": "ACT_3",
+      "type": "hard_anchor",
+      "title": "Crossroads",
+      "trigger": {
+        "any": [
+          "trainer_level>=7",
+          "regional_badges>=4"
+        ]
+      },
+      "intended_trainer_level_band": "6-8",
+      "once": true,
+      "outcome_locked": false,
+      "summary": "Competitive, exploration, crisis and friend priorities become simultaneous.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ]
+    },
+    {
+      "id": "A3_REGIONAL_CUP",
+      "act": "ACT_3",
+      "type": "competitive_gate",
+      "title": "Regional Cup",
+      "trigger": {
+        "any": [
+          "trainer_level>=8",
+          "regional_badges>=4"
+        ]
+      },
+      "intended_trainer_level_band": "7-9",
+      "once": true,
+      "outcome_locked": false,
+      "summary": "Mid-campaign tournament; actual result changes invitations/reputation.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ]
+    },
+    {
+      "id": "A4_LEAGUE_REG",
+      "act": "ACT_4",
+      "type": "competitive_gate",
+      "title": "Regional League Registration",
+      "trigger": {
+        "any": [
+          "regional_badges>=6",
+          "trainer_level>=9"
+        ]
+      },
+      "intended_trainer_level_band": "8-10",
+      "once": true,
+      "outcome_locked": false,
+      "summary": "League window opens; 8 badges OR valid open qualifier can qualify.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ]
+    },
+    {
+      "id": "A4_MAJOR_NAME",
+      "act": "ACT_4",
+      "type": "character_chain",
+      "title": "A Name From the Wider World",
+      "trigger": {
+        "any": [
+          "trainer_level>=9",
+          "regional_badges>=6"
+        ]
+      },
+      "intended_trainer_level_band": "8-10",
+      "once": true,
+      "outcome_locked": false,
+      "summary": "Introduce a non-friend Character Bible trainer appropriate to geography/history.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ]
+    },
+    {
+      "id": "A4_REGIONAL_LEAGUE",
+      "act": "ACT_4",
+      "type": "competitive_gate",
+      "title": "Regional League",
+      "trigger": {
+        "any": [
+          "regional_badges>=8",
+          "open_qualifier_complete"
+        ]
+      },
+      "intended_trainer_level_band": "9-11",
+      "once": true,
+      "outcome_locked": false,
+      "summary": "Run actual regional bracket; loss at any stage is valid.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ]
+    },
+    {
+      "id": "A4_AFTER_LEAGUE",
+      "act": "ACT_4",
+      "type": "hard_anchor",
+      "title": "After the League",
+      "trigger": {
+        "all": [
+          "regional_league_resolved"
+        ]
+      },
+      "intended_trainer_level_band": "10-12",
+      "once": true,
+      "outcome_locked": false,
+      "summary": "Consequences adapt to champion, deep run, early loss, injury, DQ or absence.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ]
+    },
+    {
+      "id": "A5_INTERREGIONAL",
+      "act": "ACT_5",
+      "type": "competitive_gate",
+      "title": "Interregional License",
+      "trigger": {
+        "any": [
+          "trainer_level>=12",
+          "regional_league_resolved"
+        ]
+      },
+      "intended_trainer_level_band": "11-13",
+      "once": true,
+      "outcome_locked": false,
+      "summary": "Unlock wider travel/circuit via merit, sponsorship, application or alternative legal route.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ]
+    },
+    {
+      "id": "A5_TRACE",
+      "act": "ACT_5",
+      "type": "world_event",
+      "title": "Something Ancient Moves",
+      "trigger": {
+        "any": [
+          "trainer_level>=13",
+          "major_lore_chain_started"
+        ]
+      },
+      "intended_trainer_level_band": "12-14",
+      "once": true,
+      "outcome_locked": false,
+      "summary": "A legendary/mythic-related clue occurs; opportunity only, never automatic capture.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ]
+    },
+    {
+      "id": "A5_FIVE_CROSS",
+      "act": "ACT_5",
+      "type": "character_chain",
+      "title": "Five Roads Cross Again",
+      "trigger": {
+        "any": [
+          "trainer_level>=13",
+          "friend_reunion_conditions_met"
+        ]
+      },
+      "intended_trainer_level_band": "12-14",
+      "once": true,
+      "outcome_locked": false,
+      "summary": "Major reunion of as many living/available friends as causality permits.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ]
+    },
+    {
+      "id": "A5_MASTERS_ENTRY",
+      "act": "ACT_5",
+      "type": "competitive_gate",
+      "title": "Masters Circuit Entry",
+      "trigger": {
+        "any": [
+          "trainer_level>=14",
+          "circuit_points>=threshold_mid"
+        ]
+      },
+      "intended_trainer_level_band": "13-15",
+      "once": true,
+      "outcome_locked": false,
+      "summary": "Higher-tier international circuit; entry is not guaranteed.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ]
+    },
+    {
+      "id": "A6_HIDDEN_TRAJECTORIES",
+      "act": "ACT_6",
+      "type": "character_chain",
+      "title": "Hidden Trajectories Advance",
+      "trigger": {
+        "any": [
+          "trainer_level>=15",
+          "world_day>=campaign_late_threshold"
+        ]
+      },
+      "intended_trainer_level_band": "14-16",
+      "once": true,
+      "outcome_locked": false,
+      "summary": "Advance eligible off-screen friend roster/legendary chains without revealing targets.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ]
+    },
+    {
+      "id": "A6_CONTINENTAL",
+      "act": "ACT_6",
+      "type": "competitive_gate",
+      "title": "Continental Cup",
+      "trigger": {
+        "any": [
+          "trainer_level>=16",
+          "masters_result_qualifies"
+        ]
+      },
+      "intended_trainer_level_band": "15-17",
+      "once": true,
+      "outcome_locked": false,
+      "summary": "Major route to World ranking points; bracket comes from current living trainers.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ]
+    },
+    {
+      "id": "A6_CUTOFF",
+      "act": "ACT_6",
+      "type": "world_event",
+      "title": "World Ranking Cutoff",
+      "trigger": {
+        "any": [
+          "trainer_level>=17",
+          "world_calendar_cutoff"
+        ]
+      },
+      "intended_trainer_level_band": "16-18",
+      "once": true,
+      "outcome_locked": false,
+      "summary": "Fixed deadline: ranking/eligibility freeze for the season.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ]
+    },
+    {
+      "id": "A7_WORLD_QUALIFIER",
+      "act": "ACT_7",
+      "type": "competitive_gate",
+      "title": "World Qualifier",
+      "trigger": {
+        "all": [
+          "world_not_autoqualified"
+        ],
+        "any": [
+          "trainer_level>=17",
+          "qualifier_window_open"
+        ]
+      },
+      "intended_trainer_level_band": "17-19",
+      "once": true,
+      "outcome_locked": false,
+      "summary": "Main qualifier; losing can end this season's World run.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ]
+    },
+    {
+      "id": "A7_LAST_CHANCE",
+      "act": "ACT_7",
+      "type": "competitive_gate",
+      "title": "Last Chance",
+      "trigger": {
+        "all": [
+          "world_not_qualified",
+          "last_chance_eligible"
+        ]
+      },
+      "intended_trainer_level_band": "18-19",
+      "once": true,
+      "outcome_locked": false,
+      "summary": "One finite conditional last-chance route; no infinite retries.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ]
+    },
+    {
+      "id": "A7_BEFORE_LIGHTS",
+      "act": "ACT_7",
+      "type": "character_chain",
+      "title": "Before the Lights",
+      "trigger": {
+        "all": [
+          "world_qualified"
+        ],
+        "any": [
+          "trainer_level>=18",
+          "worlds_departure_imminent"
+        ]
+      },
+      "intended_trainer_level_band": "18-20",
+      "once": true,
+      "outcome_locked": false,
+      "summary": "Pre-Worlds scene with actual surviving/available friends.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ]
+    },
+    {
+      "id": "WORLD_DRAW",
+      "act": "ACT_8",
+      "type": "hard_anchor",
+      "title": "World Championship Draw",
+      "trigger": {
+        "all": [
+          "world_qualified"
+        ]
+      },
+      "intended_trainer_level_band": "18-20",
+      "once": true,
+      "outcome_locked": false,
+      "summary": "Generate 32-player field/groups from actual eligible state, not historical outcomes.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ]
+    },
+    {
+      "id": "WORLD_GROUPS",
+      "act": "ACT_8",
+      "type": "competitive_gate",
+      "title": "World Championship Group Stage",
+      "trigger": {
+        "all": [
+          "world_draw_complete"
+        ]
+      },
+      "intended_trainer_level_band": "18-20",
+      "once": true,
+      "outcome_locked": false,
+      "summary": "Three scheduled matches. Top two advance; forfeit/injury/death can matter.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ]
+    },
+    {
+      "id": "WORLD_R16",
+      "act": "ACT_8",
+      "type": "competitive_gate",
+      "title": "Round of 16",
+      "trigger": {
+        "all": [
+          "world_group_advanced"
+        ]
+      },
+      "intended_trainer_level_band": "18-20",
+      "once": true,
+      "outcome_locked": false,
+      "summary": "Single elimination.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ]
+    },
+    {
+      "id": "WORLD_QF",
+      "act": "ACT_8",
+      "type": "competitive_gate",
+      "title": "Quarterfinal",
+      "trigger": {
+        "all": [
+          "world_r16_won"
+        ]
+      },
+      "intended_trainer_level_band": "18-20",
+      "once": true,
+      "outcome_locked": false,
+      "summary": "Single elimination.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ]
+    },
+    {
+      "id": "WORLD_SF",
+      "act": "ACT_8",
+      "type": "competitive_gate",
+      "title": "Semifinal",
+      "trigger": {
+        "all": [
+          "world_qf_won"
+        ]
+      },
+      "intended_trainer_level_band": "18-20",
+      "once": true,
+      "outcome_locked": false,
+      "summary": "Single elimination.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ]
+    },
+    {
+      "id": "WORLD_FINAL",
+      "act": "ACT_8",
+      "type": "competitive_gate",
+      "title": "World Final",
+      "trigger": {
+        "all": [
+          "world_sf_won"
+        ]
+      },
+      "intended_trainer_level_band": "18-20",
+      "once": true,
+      "outcome_locked": false,
+      "summary": "Champion is whoever actually wins.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ]
+    },
+    {
+      "id": "WORLD_EXIT",
+      "act": "ACT_8",
+      "type": "hard_anchor",
+      "title": "After the World",
+      "trigger": {
+        "any": [
+          "world_eliminated",
+          "world_champion",
+          "worlds_missed"
+        ]
+      },
+      "intended_trainer_level_band": "18-20",
+      "once": true,
+      "outcome_locked": false,
+      "summary": "Resolve reputation, relationships and future hooks from the actual result.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ]
+    }
+  ]
+}

@@ -137,3 +137,26 @@ Checkpoint only to:
 - selected slot `session-log.md`.
 
 Do not persist a global active slot in GitHub. Slot choice is per-chat so multiple players can safely use different saves.
+
+
+## Scripted Event Director
+
+Load the shared files in `campaign/events/`.
+
+The campaign is neither purely procedural nor linear.
+
+After long rests, level-ups, major arrivals, travel, competition results and chain resolutions, evaluate the selected slot's `event_engine`.
+
+HARD_ANCHOR events must enter the fiction naturally when due, but their outcomes are never forced.
+
+WORLD_EVENTs progress even if the player is absent.
+
+Competitive deadlines may expire.
+
+The four NPC friends have independent off-screen schedules.
+
+Never expose internal event IDs, hidden triggers or future event content unless learned in-world.
+
+The shared intro is always `INTRO_FIVE`. It is structurally the same for every protagonist. If a scripted friend beat belongs to the selected player, remove that scripted trainer response and ask the user what they do.
+
+Checkpoint using the selected slot's `checkpoints.json`, and include checkpoint IDs in save commit messages.

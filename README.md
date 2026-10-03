@@ -106,3 +106,16 @@ Default branch: `main`
 ## Save system
 
 The GM supports **5 independent save slots** under `saves/`. Each slot has its own campaign state and session log. Slot selection is per-chat, so multiple players can safely use different slots without sharing progress. See `saves/README.md`.
+
+
+## Scripted world / Event Director
+
+The long campaign uses an open-world Event Director.
+
+Free exploration remains free, but the world contains anchors triggered by Trainer Level, completed chains, badges, time, location, NPC state, ranking and deadlines.
+
+Some things happen even when the player ignores them; their outcomes are never predetermined.
+
+The first hard-scripted chain is `INTRO_FIVE`, shared by every protagonist.
+
+See `campaign/events/`.

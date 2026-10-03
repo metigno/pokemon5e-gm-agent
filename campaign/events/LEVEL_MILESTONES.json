@@ -1,0 +1,165 @@
+{
+  "schema_version": 1,
+  "ruleset": "Pokemon 5e 2024",
+  "source_note": "Every level also includes normal Trainer level and HP progression.",
+  "milestones": [
+    {
+      "level": 1,
+      "features": [
+        "Initial Specialization during character creation"
+      ],
+      "checkpoint": "CP-LEVEL-01"
+    },
+    {
+      "level": 2,
+      "features": [
+        "Choose Trainer Path"
+      ],
+      "checkpoint": "CP-LEVEL-02",
+      "anchor": "SYSTEM_PATH_02"
+    },
+    {
+      "level": 3,
+      "features": [
+        "Max SR increase"
+      ],
+      "checkpoint": "CP-LEVEL-03"
+    },
+    {
+      "level": 4,
+      "features": [
+        "ASI or Feat"
+      ],
+      "checkpoint": "CP-LEVEL-04",
+      "anchor": "SYSTEM_ASI_04"
+    },
+    {
+      "level": 5,
+      "features": [
+        "Trainer Path feature",
+        "Pokéslot increase"
+      ],
+      "checkpoint": "CP-LEVEL-05",
+      "anchor": "SYSTEM_PATH_05"
+    },
+    {
+      "level": 6,
+      "features": [
+        "Max SR increase"
+      ],
+      "checkpoint": "CP-LEVEL-06"
+    },
+    {
+      "level": 7,
+      "features": [
+        "Additional Specialization"
+      ],
+      "checkpoint": "CP-LEVEL-07",
+      "anchor": "SYSTEM_SPEC_07"
+    },
+    {
+      "level": 8,
+      "features": [
+        "ASI or Feat",
+        "Max SR increase"
+      ],
+      "checkpoint": "CP-LEVEL-08",
+      "anchor": "SYSTEM_ASI_08"
+    },
+    {
+      "level": 9,
+      "features": [
+        "Trainer Path feature"
+      ],
+      "checkpoint": "CP-LEVEL-09",
+      "anchor": "SYSTEM_PATH_09"
+    },
+    {
+      "level": 10,
+      "features": [
+        "Pokéslot increase",
+        "Trainer Resolve"
+      ],
+      "checkpoint": "CP-LEVEL-10",
+      "anchor": "SYSTEM_RESOLVE_10"
+    },
+    {
+      "level": 11,
+      "features": [
+        "Max SR increase"
+      ],
+      "checkpoint": "CP-LEVEL-11"
+    },
+    {
+      "level": 12,
+      "features": [
+        "ASI or Feat"
+      ],
+      "checkpoint": "CP-LEVEL-12",
+      "anchor": "SYSTEM_ASI_12"
+    },
+    {
+      "level": 13,
+      "features": [
+        "Pokémon Tracker"
+      ],
+      "checkpoint": "CP-LEVEL-13",
+      "anchor": "SYSTEM_TRACKER_13"
+    },
+    {
+      "level": 14,
+      "features": [
+        "Max SR increase"
+      ],
+      "checkpoint": "CP-LEVEL-14"
+    },
+    {
+      "level": 15,
+      "features": [
+        "Trainer Path feature",
+        "Pokéslot increase"
+      ],
+      "checkpoint": "CP-LEVEL-15",
+      "anchor": "SYSTEM_PATH_15"
+    },
+    {
+      "level": 16,
+      "features": [
+        "ASI or Feat"
+      ],
+      "checkpoint": "CP-LEVEL-16",
+      "anchor": "SYSTEM_ASI_16"
+    },
+    {
+      "level": 17,
+      "features": [
+        "Max SR increase"
+      ],
+      "checkpoint": "CP-LEVEL-17"
+    },
+    {
+      "level": 18,
+      "features": [
+        "Additional Specialization"
+      ],
+      "checkpoint": "CP-LEVEL-18",
+      "anchor": "SYSTEM_SPEC_18"
+    },
+    {
+      "level": 19,
+      "features": [
+        "Epic Boon (2024)"
+      ],
+      "checkpoint": "CP-LEVEL-19",
+      "anchor": "SYSTEM_EPIC_19"
+    },
+    {
+      "level": 20,
+      "features": [
+        "Master Trainer"
+      ],
+      "checkpoint": "CP-LEVEL-20",
+      "anchor": "SYSTEM_MASTER_20"
+    }
+  ]
+}
