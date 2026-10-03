@@ -287,13 +287,13 @@
       },
       "bond_state": "strengthening_through_shared_hunt",
       "gender": null,
-      "hp": 27,
+      "hp": 18,
       "max_hp": 35,
       "moves": [
         {
           "name": "Bite",
           "pp_max": 15,
-          "pp_current": 8
+          "pp_current": 7
         },
         {
           "name": "Ember",
@@ -317,7 +317,7 @@
         "demeanor": "curious_and_receptive"
       },
       "last_command_response": "Obeyed a lethal Bite command against the second active warehouse Rattata; did not eat the body and returned to Luke.",
-      "last_interaction": "Luke praised and petted Growlithe after clearing the second Rattata, then advanced deeper into the warehouse.",
+      "last_interaction": "Luke encouraged Growlithe during the Raticate fight: 'stai andando alla grande'.",
       "resources": {
         "intimidate": {
           "uses_per_short_rest": 1,
@@ -345,7 +345,7 @@
   "active_combat": {
     "type": "wild_warehouse_encounter",
     "status": "searching_for_remaining_wild_pokemon",
-    "round": 13,
+    "round": 14,
     "player_trainer": "Luke",
     "player_pokemon": "luke-growlithe-hisui-001",
     "opponents": [
@@ -371,10 +371,10 @@
       {
         "species": "Raticate",
         "level": 5,
-        "hp": 15,
+        "hp": 8,
         "max_hp": 45,
         "ac": 15,
-        "status": "flinched_and_badly_wounded",
+        "status": "badly_wounded",
         "disposition": "territorial_and_hostile"
       }
     ],
@@ -829,6 +829,51 @@
         "total": 12,
         "target": "Luke/Growlithe",
         "result": "miss"
+      },
+      {
+        "round": 13,
+        "actor": "Luke/Growlithe",
+        "move": "Bite",
+        "attack_roll": {
+          "d20": 17,
+          "modifier": 5,
+          "total": 22
+        },
+        "target": "Wild Raticate",
+        "result": "hit",
+        "damage": {
+          "dice": [
+            3,
+            2
+          ],
+          "move": 2,
+          "total": 7,
+          "type": "Dark"
+        },
+        "target_hp_after": 8
+      },
+      {
+        "round": 13,
+        "actor": "Wild Raticate",
+        "move": "Bite",
+        "attack_roll": {
+          "d20": 8,
+          "modifier": 5,
+          "total": 13
+        },
+        "target": "Luke/Growlithe",
+        "target_ac": 13,
+        "result": "hit",
+        "damage": {
+          "dice": [
+            5,
+            2
+          ],
+          "move": 2,
+          "total": 9,
+          "type": "Dark"
+        },
+        "target_hp_after": 18
       }
     ],
     "turn": "Luke",
