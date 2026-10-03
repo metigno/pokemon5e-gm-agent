@@ -4,7 +4,7 @@
   "slot_status": "occupied",
   "project": "pokemon5e-gm-agent",
   "campaign_status": "intro_in_progress",
-  "setup_stage": "intro_05_first_official_battle",
+  "setup_stage": "intro_06_gate_opens",
   "rules": {
     "edition": 2024,
     "roll_mode": "gm_visible",
@@ -150,8 +150,8 @@
         },
         "current_stats_note": "DEX 16 after nature and ASI; combat details otherwise GM-private until observed",
         "max_hp": 32,
-        "hp": 9,
-        "damage_taken": 23,
+        "hp": 0,
+        "damage_taken": 32,
         "hp_level_rolls": [
           1,
           6,
@@ -235,7 +235,7 @@
         {
           "name": "Ember",
           "pp_max": 15,
-          "pp_current": 10
+          "pp_current": 9
         }
       ],
       "first_contact": {
@@ -267,7 +267,7 @@
   "known_npcs": [],
   "active_combat": {
     "type": "supervised_one_pokemon_match",
-    "status": "round_1",
+    "status": "completed",
     "player_trainer": "Luke",
     "opponent_trainer": "Mattew",
     "player_pokemon": "luke-growlithe-hisui-001",
@@ -275,7 +275,7 @@
     "level": 5,
     "official_for_license": true,
     "round": 7,
-    "turn": "Luke",
+    "turn": null,
     "initiative": {
       "Luke_Growlithe": {
         "roll": 20,
@@ -505,8 +505,37 @@
         "damage_after_resistance": 8,
         "target_hp_after": 1,
         "target_max_hp": 35
+      },
+      {
+        "round": 7,
+        "actor": "Luke/Growlithe",
+        "move": "Ember",
+        "attack_roll": {
+          "d20": 16,
+          "modifier": 5,
+          "total": 21
+        },
+        "target": "Mattew/Eevee",
+        "result": "hit",
+        "damage": {
+          "die": "1d12",
+          "roll": 5,
+          "move": 2,
+          "stab": 3,
+          "total": 10,
+          "type": "Fire"
+        },
+        "target_hp_after": 0,
+        "target_max_hp": 32,
+        "target_status": "KO"
       }
-    ]
+    ],
+    "result": {
+      "winner": "Luke",
+      "loser": "Mattew",
+      "method": "Eevee KO",
+      "round": 7
+    }
   },
   "gm_private_ref": "gm_private/SECRET_CANON_DO_NOT_OPEN.json",
   "character_bible_ref": "canon/ROSTER2060_CHARACTER_BIBLE.json",
@@ -542,14 +571,15 @@
     "level_milestones": "campaign/events/LEVEL_MILESTONES.json",
     "status": "active",
     "active_chain": "INTRO_FIVE",
-    "active_event": "INTRO_05",
+    "active_event": "INTRO_06",
     "queued_events": [],
     "completed_events": [
       "INTRO_00",
       "INTRO_01",
       "INTRO_02",
       "INTRO_03",
-      "INTRO_04"
+      "INTRO_04",
+      "INTRO_05"
     ],
     "failed_events": [],
     "expired_events": [],
@@ -578,7 +608,15 @@
         "reason": "Luke ordered Growlithe to eat a KO wild Skwovet during supervised certification.",
         "outcome": "Instructor intervened before lethal harm. Skwovet remained alive. Luke's certification now includes a safety concern requiring evaluation."
       }
-    ]
+    ],
+    "first_official_battle": {
+      "opponent": "Mattew",
+      "result": "win",
+      "rounds": 7,
+      "finishing_move": "Ember",
+      "growlithe_hp_after": 1,
+      "status": "passed_battle_component"
+    }
   },
   "relationship_flags": {
     "Mattew": {
