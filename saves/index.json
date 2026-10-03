@@ -13,7 +13,9 @@
       "session_log": "saves/slot1/session-log.md",
       "player_label": null,
       "protagonist": "Luke",
-      "checkpoints_file": "saves/slot1/checkpoints.json"
+      "checkpoints_file": "saves/slot1/checkpoints.json",
+      "last_saved_at": "2026-10-04T01:48:21+02:00",
+      "summary": "Warehouse clearing job: immediate threats defeated; Growlithe 6/35 HP; job not yet turned in."
     },
     {
       "slot": 2,
