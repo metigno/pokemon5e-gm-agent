@@ -224,7 +224,7 @@
       },
       "bond_state": "reassured_after_warning",
       "gender": null,
-      "hp": 18,
+      "hp": 9,
       "max_hp": 35,
       "moves": [
         {
@@ -235,7 +235,7 @@
         {
           "name": "Ember",
           "pp_max": 15,
-          "pp_current": 11
+          "pp_current": 10
         }
       ],
       "first_contact": {
@@ -251,7 +251,7 @@
           "remaining": 0
         }
       },
-      "damage_taken": 17,
+      "damage_taken": 26,
       "hp_level_rolls": [
         6,
         5,
@@ -274,7 +274,7 @@
     "opponent_pokemon": "mattew-eevee-001",
     "level": 5,
     "official_for_license": true,
-    "round": 5,
+    "round": 6,
     "turn": "Luke",
     "initiative": {
       "Luke_Growlithe": {
@@ -439,6 +439,39 @@
         },
         "target": "Luke/Growlithe",
         "result": "miss"
+      },
+      {
+        "round": 5,
+        "actor": "Luke/Growlithe",
+        "move": "Ember",
+        "attack_roll": {
+          "d20": 1,
+          "modifier": 5,
+          "total": 6
+        },
+        "target": "Mattew/Eevee",
+        "result": "miss"
+      },
+      {
+        "round": 5,
+        "actor": "Mattew/Eevee",
+        "move": "Tackle",
+        "attack_roll": {
+          "d20": 7,
+          "modifier": 6,
+          "total": 13
+        },
+        "target": "Luke/Growlithe",
+        "result": "hit",
+        "adaptability_damage_totals": [
+          18,
+          9
+        ],
+        "chosen_damage": 18,
+        "resistance": "Normal",
+        "damage_after_resistance": 9,
+        "target_hp_after": 9,
+        "target_max_hp": 35
       }
     ]
   },
