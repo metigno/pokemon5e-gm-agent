@@ -251,7 +251,7 @@
         {
           "name": "Ember",
           "pp_max": 15,
-          "pp_current": 15
+          "pp_current": 14
         }
       ],
       "first_contact": {
@@ -285,7 +285,41 @@
     "Earn enough money to buy a Fire Stone (₽4,000)."
   ],
   "known_npcs": [],
-  "active_combat": null,
+  "active_combat": {
+    "type": "wild_warehouse_encounter",
+    "status": "engaged",
+    "round": 0,
+    "player_trainer": "Luke",
+    "player_pokemon": "luke-growlithe-hisui-001",
+    "opponents": [
+      {
+        "species": "Rattata",
+        "level": null,
+        "hp": 16,
+        "max_hp": 16,
+        "ac": 12,
+        "disposition": "frightened_and_defensive"
+      }
+    ],
+    "environment": {
+      "location": "warehouse",
+      "hazard": "A missed Ember scorched a wooden crate; light smoke is starting."
+    },
+    "history": [
+      {
+        "actor": "Luke/Growlithe",
+        "move": "Ember",
+        "attack_roll": {
+          "d20": 2,
+          "modifier": 5,
+          "total": 7
+        },
+        "target": "Wild Rattata",
+        "result": "miss",
+        "environmental_result": "flame struck a wooden crate and started a small smoldering patch"
+      }
+    ]
+  },
   "gm_private_ref": "gm_private/SECRET_CANON_DO_NOT_OPEN.json",
   "character_bible_ref": "canon/ROSTER2060_CHARACTER_BIBLE.json",
   "runtime": {
