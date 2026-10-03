@@ -287,13 +287,13 @@
       },
       "bond_state": "strengthening_through_shared_hunt",
       "gender": null,
-      "hp": 14,
+      "hp": 6,
       "max_hp": 35,
       "moves": [
         {
           "name": "Bite",
           "pp_max": 15,
-          "pp_current": 6
+          "pp_current": 5
         },
         {
           "name": "Ember",
@@ -345,7 +345,7 @@
   "active_combat": {
     "type": "wild_warehouse_encounter",
     "status": "searching_for_remaining_wild_pokemon",
-    "round": 14,
+    "round": 15,
     "player_trainer": "Luke",
     "player_pokemon": "luke-growlithe-hisui-001",
     "opponents": [
@@ -371,10 +371,10 @@
       {
         "species": "Raticate",
         "level": 5,
-        "hp": 8,
+        "hp": 1,
         "max_hp": 45,
         "ac": 15,
-        "status": "badly_wounded",
+        "status": "flinched_critical_condition",
         "disposition": "territorial_and_hostile"
       }
     ],
@@ -908,6 +908,60 @@
           "type": "Dark"
         },
         "target_hp_after": 14
+      },
+      {
+        "round": 14,
+        "actor": "Luke",
+        "action": "Reposition opposite Growlithe",
+        "result": "escape lane closed; no automatic advantage granted"
+      },
+      {
+        "round": 14,
+        "actor": "Luke/Growlithe",
+        "move": "Bite",
+        "attack_roll": {
+          "d20": 19,
+          "modifier": 5,
+          "total": 24
+        },
+        "target": "Wild Raticate",
+        "result": "hit",
+        "damage": {
+          "dice": [
+            6,
+            6
+          ],
+          "move": 2,
+          "total": 14,
+          "type": "Dark"
+        },
+        "effect": "Flinched",
+        "target_hp_after": 1
+      },
+      {
+        "round": 14,
+        "actor": "Wild Raticate",
+        "move": "Bite",
+        "disadvantage_reason": "Flinched",
+        "attack_rolls": [
+          17,
+          16
+        ],
+        "chosen_roll": 16,
+        "attack_modifier": 5,
+        "total": 21,
+        "target": "Luke/Growlithe",
+        "result": "hit",
+        "damage": {
+          "dice": [
+            1,
+            5
+          ],
+          "move": 2,
+          "total": 8,
+          "type": "Dark"
+        },
+        "target_hp_after": 6
       }
     ],
     "turn": "Luke",
@@ -929,8 +983,8 @@
     "effects": [],
     "positioning": {
       "Raticate": "between Luke and Growlithe",
-      "Luke": "behind Raticate",
-      "Growlithe": "in front of Raticate"
+      "Luke": "opposite Growlithe, blocking escape",
+      "Growlithe": "engaged in melee with Raticate"
     }
   },
   "gm_private_ref": "gm_private/SECRET_CANON_DO_NOT_OPEN.json",
