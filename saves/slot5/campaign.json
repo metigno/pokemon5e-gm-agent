@@ -164,5 +164,17 @@
     "last_trigger_check": null,
     "checkpoint_ledger": "saves/slot5/checkpoints.json"
   },
-  "checkpoint_policy_ref": "campaign/events/CHECKPOINT_POLICY.md"
+  "checkpoint_policy_ref": "campaign/events/CHECKPOINT_POLICY.md",
+  "npc_ace_evolution_policy": {
+    "applies_to": "the four unselected friends after protagonist selection",
+    "player_exempt": true,
+    "canonical_targets": {
+      "Luke": "Hisuian Arcanine",
+      "Mattew": "Jolteon",
+      "Daniel": "Gengar",
+      "Edward": "Feraligatr",
+      "Fab": "Weezing"
+    },
+    "rule": "NPC intent is scripted; evolution itself must satisfy current Pokemon 5e requirements and campaign causality."
+  }
 }
