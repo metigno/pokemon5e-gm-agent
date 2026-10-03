@@ -226,7 +226,7 @@
         {
           "name": "Ember",
           "pp_max": 15,
-          "pp_current": 14
+          "pp_current": 13
         }
       ],
       "first_contact": {
@@ -242,7 +242,7 @@
           "remaining": 0
         }
       },
-      "damage_taken": 5
+      "damage_taken": 13
     }
   ],
   "pc_storage": [],
@@ -259,7 +259,7 @@
     "opponent_pokemon": "mattew-eevee-001",
     "level": 5,
     "official_for_license": true,
-    "round": 2,
+    "round": 3,
     "turn": "Luke",
     "initiative": {
       "Luke_Growlithe": {
@@ -276,7 +276,8 @@
     "opponent_public_state": {
       "trainer": "Mattew",
       "pokemon": "Eevee",
-      "level": 5
+      "level": 5,
+      "damage_taken": 9
     },
     "history": [
       {
@@ -312,6 +313,48 @@
         "chosen_damage": 10,
         "resistance": "Normal",
         "damage_after_resistance": 5
+      },
+      {
+        "round": 2,
+        "actor": "Luke/Growlithe",
+        "move": "Ember",
+        "attack_roll": {
+          "d20": 13,
+          "modifier": 5,
+          "total": 18
+        },
+        "target": "Mattew/Eevee",
+        "result": "hit",
+        "damage": {
+          "die": "1d12",
+          "roll": 4,
+          "move": 2,
+          "stab": 3,
+          "total": 9,
+          "type": "Fire"
+        },
+        "target_status": "still_standing"
+      },
+      {
+        "round": 2,
+        "actor": "Mattew/Eevee",
+        "move": "Tackle",
+        "attack_roll": {
+          "d20": 8,
+          "modifier": 6,
+          "total": 14
+        },
+        "target": "Luke/Growlithe",
+        "result": "hit",
+        "adaptability_damage_rolls": [
+          16,
+          11
+        ],
+        "chosen_damage": 16,
+        "resistance": "Normal",
+        "damage_after_resistance": 8,
+        "target_damage_taken_total": 13,
+        "target_status": "still_standing"
       }
     ]
   },
