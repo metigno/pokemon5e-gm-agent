@@ -110,14 +110,14 @@
       },
       {
         "item": "Poke Ball",
-        "quantity": 5
+        "quantity": 7
       },
       {
         "item": "Potion",
         "quantity": 1
       }
     ],
-    "money": 1700,
+    "money": 1200,
     "starting_money_roll": {
       "formula": "1000 + 100 × 4d4",
       "rolls": [
@@ -277,7 +277,8 @@
   "objectives": [
     "Begin the journey as a fully licensed Trainer.",
     "Find a Fire Stone for Hisuian Growlithe.",
-    "Search the city for a Fire Stone."
+    "Search the city for a Fire Stone.",
+    "Earn enough money to buy a Fire Stone (₽4,000)."
   ],
   "known_npcs": [],
   "active_combat": null,
@@ -381,12 +382,17 @@
       "reaction_to_luke_aggression": "quietly_concerned"
     }
   },
-  "current_location": "Nearest city — Trainer district entrance",
+  "current_location": "Nearest city — outside Trainer shop",
   "shop_context": {
     "location": "Nearest city — Trainer shop",
     "prices": {
       "fire_stone": 4000,
       "poke_ball": 250
+    },
+    "last_purchase": {
+      "item": "Poke Ball",
+      "quantity": 2,
+      "total_cost": 500
     }
   }
 }
