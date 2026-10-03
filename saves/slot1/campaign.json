@@ -354,12 +354,34 @@
         },
         "result": "success",
         "learned": "At least three Rattata are moving through the warehouse; one is near the food crates, one is higher on shelving, and the first is deeper inside."
+      },
+      {
+        "round": 2,
+        "actor": "Luke",
+        "action": "Perception check",
+        "check": {
+          "d20": 11,
+          "modifier": 2,
+          "total": 13
+        },
+        "result": "partial_success",
+        "learned": "At least two Rattata are active in the warehouse; additional movement is audible deeper inside, exact count unknown."
       }
     ],
     "turn": "Luke",
     "detected_opponents": {
       "species": "Rattata",
       "minimum_count": 3,
+      "exact_count_known": false
+    },
+    "observed_enemies": {
+      "confirmed": [
+        {
+          "species": "Rattata",
+          "count": 2
+        }
+      ],
+      "suspected_more": true,
       "exact_count_known": false
     }
   },
