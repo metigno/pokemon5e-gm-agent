@@ -274,8 +274,8 @@
     "opponent_pokemon": "mattew-eevee-001",
     "level": 5,
     "official_for_license": true,
-    "round": 4,
-    "turn": "Mattew",
+    "round": 5,
+    "turn": "Luke",
     "initiative": {
       "Luke_Growlithe": {
         "roll": 20,
@@ -427,6 +427,18 @@
         "target_hp_after": 9,
         "target_max_hp": 32,
         "target_status": "heavily_wounded"
+      },
+      {
+        "round": 4,
+        "actor": "Mattew/Eevee",
+        "move": "Tackle",
+        "attack_roll": {
+          "d20": 3,
+          "modifier": 6,
+          "total": 9
+        },
+        "target": "Luke/Growlithe",
+        "result": "miss"
       }
     ]
   },
