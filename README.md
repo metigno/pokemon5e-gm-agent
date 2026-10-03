@@ -1,48 +1,103 @@
 # Pokémon 5e GM Agent
 
-Persistent LLM Game Master for Pokémon 5e, backed by GitHub state and powered by the LEGA GPT v14.1 tactical engine.
+Persistent LLM Game Master for a full Pokémon journey played with Pokémon 5e rules, backed by GitHub state and assisted by the LEGA GPT v14.1 tactical engine.
 
 This project is completely separate from Pokémon Sports Career (PSC).
 
-## Campaign
+## Campaign premise
 
-The campaign is now initialized as **Road to the World Championships**.
+Five friends begin their careers together and receive their first Pokémon at the same opening event.
 
-The player chooses one of five protagonists:
-Luke / Edward / Fab / Daniel / Mattew.
+- Luke — Hisuian Growlithe Lv. 5
+- Mattew — Eevee Lv. 5
+- Daniel — Gastly Lv. 5
+- Edward — Totodile Lv. 5
+- Fab — Koffing Lv. 5
 
-Their fixed starters are stored in `campaign/PROTAGONIST_SELECTION.md`.
+All five begin as Trainer Level 1.
 
-The four non-player protagonists follow their established 2060 canon careers. Future rosters, legendary arcs and World Championship anchors are kept in the GM-private canon ledger and must not be revealed before in-world discovery.
+The user selects one as the player character. The other four become persistent autonomous NPCs who continue their own journeys off-screen and can later reappear as allies, rivals, opponents or companions.
 
-## Stats
+After the opening, the campaign runs as a classic Pokémon adventure using Pokémon 5e tabletop rules: travel, wild encounters, catches, towns, quests, trainers, regional conflicts, competitions, recurring rivals and eventual access to the international circuit.
 
-The old eight LEGA GPT Player Stats are no longer playable parallel stats.
+The World Championship is the long-term competitive objective, not a predetermined ending. The player can qualify, fail to qualify, win, lose, change direction or die before reaching it.
 
-They have been converted into classic D&D/Pokémon 5e:
-**STR / DEX / CON / INT / WIS / CHA**.
+## Character canon
 
-All checks now use real Pokémon 5e/D&D abilities and skills. The old stat names survive only as migration intent so the GM knows which normal check replaces them.
+`Roster2060(1).md` has been distilled into:
 
-Example: old **Mind Games** → **INT-based** check, normally Investigation, or INT with Intimidation/Performance when the established proficiency and approach fit.
+- `canon/FRIENDS_CHARACTER_SEEDS.md`
+- `canon/ROSTER2060_CHARACTER_BIBLE.json`
+
+The source is used for personality, flaws, tactical identity, behavioral tendencies and lore continuity.
+
+For Luke, Mattew, Daniel, Edward and Fab, the 2060 material is a **future-character trajectory**, not history that has already happened before the campaign.
+
+For the four unchosen friends, future roster/legendary material is a hidden NPC trajectory that the GM may naturally converge toward only if the character remains alive and campaign causality does not meaningfully divert them.
+
+The selected player is never forced toward a predetermined final roster or championship result.
+
+## Balanced starting stats
+
+All five begin with the same D&D standard-array budget:
+
+`15 / 14 / 13 / 12 / 10 / 8`
+
+They have different distributions based on personality, but equal starting power.
+
+The old LEGA GPT Player Stats are not a parallel roll system. They are late-career characterization signals only.
+
+All checks use normal Pokémon 5e / D&D abilities and skills:
+
+**STR / DEX / CON / INT / WIS / CHA**
+
+Examples:
+- Mind Games → INT-based check
+- Strategia → INT / Investigation
+- Prediction → WIS / Insight or Perception
+- Gestione Team → CHA / Animal Handling or Persuasion
 
 See `runtime/STAT_CONVERSION.md`.
 
-## Architecture
+## Player vs NPC progression
 
+The selected player uses normal Pokémon 5e progression and chooses their own legal character growth.
+
+The four unchosen friends use NPC-only scripted ASI milestones through ordinary D&D/Pokémon 5e ability increases. Those scripts are trajectory tools, not plot armor, and can be altered by genuine campaign events.
+
+## Tactical architecture
+
+```
 Pokémon 5e rules + campaign state
-→ legal actions
-→ LEGA GPT v14.1 tactical reasoning
-→ chosen legal action
-→ Pokémon 5e dice/mechanical resolution
-→ GitHub checkpoint
+            ↓
+       legal actions
+            ↓
+ LEGA GPT v14.1 tactical reasoning
+            ↓
+      chosen legal action
+            ↓
+ Pokémon 5e dice + mechanical resolution
+            ↓
+      GitHub checkpoint
+```
 
-## Source of truth
+LEGA GPT v14.1 improves NPC tactical decision quality. Pokémon 5e remains authoritative for legality, dice, AC, damage, HP, PP, conditions, movement, switching, captures, progression and death.
 
-1. Campaign house rules.
-2. Pokémon 5e selected edition (2024 default).
-3. Official `Auroratide/poke5e` source.
-4. D&D 5e baseline.
-5. Minimal GM ruling.
+## Important files
 
-LEGA GPT v14.1 chooses tactically. Pokémon 5e resolves mechanically.
+- `AGENT.md` — GM operating contract
+- `BOOT.md` — load instructions
+- `campaign/PREMISE.md` — campaign structure
+- `campaign/PROTAGONIST_SELECTION.md` — five starting choices
+- `canon/FRIENDS_CHARACTER_SEEDS.md` — rookie personalities
+- `canon/ROSTER2060_CHARACTER_BIBLE.json` — NPC character bible
+- `state/campaign.json` — durable campaign state
+- `state/session-log.md` — campaign checkpoints
+- `runtime/STAT_CONVERSION.md` — balanced D&D stat model
+- `src/bridge/motor-to-poke5e.mjs` — executable stat/progression bridge
+
+## Repository
+
+`metigno/pokemon5e-gm-agent`
+
+Default branch: `main`
