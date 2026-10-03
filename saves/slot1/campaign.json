@@ -3,8 +3,8 @@
   "save_slot": 1,
   "slot_status": "occupied",
   "project": "pokemon5e-gm-agent",
-  "campaign_status": "intro_in_progress",
-  "setup_stage": "intro_06_gate_opens",
+  "campaign_status": "active",
+  "setup_stage": "free_roam",
   "rules": {
     "edition": 2024,
     "roll_mode": "gm_visible",
@@ -102,7 +102,7 @@
       {
         "item": "Trainer's License",
         "quantity": 1,
-        "status": "provisional_until_certification_complete"
+        "status": "active"
       },
       {
         "item": "Pokedex",
@@ -150,15 +150,15 @@
         },
         "current_stats_note": "DEX 16 after nature and ASI; combat details otherwise GM-private until observed",
         "max_hp": 32,
-        "hp": 0,
-        "damage_taken": 32,
+        "hp": 32,
+        "damage_taken": 0,
         "hp_level_rolls": [
           1,
           6,
           5,
           4
         ],
-        "medical_status": "under_post_battle_treatment"
+        "medical_status": "fully_recovered"
       }
     },
     "Daniel": {
@@ -225,18 +225,18 @@
       },
       "bond_state": "strengthened_after_first_official_victory",
       "gender": null,
-      "hp": 1,
+      "hp": 35,
       "max_hp": 35,
       "moves": [
         {
           "name": "Bite",
           "pp_max": 15,
-          "pp_current": 12
+          "pp_current": 15
         },
         {
           "name": "Ember",
           "pp_max": 15,
-          "pp_current": 9
+          "pp_current": 15
         }
       ],
       "first_contact": {
@@ -249,22 +249,22 @@
       "resources": {
         "intimidate": {
           "uses_per_short_rest": 1,
-          "remaining": 0
+          "remaining": 1
         }
       },
-      "damage_taken": 34,
+      "damage_taken": 0,
       "hp_level_rolls": [
         6,
         5,
         1,
         2
       ],
-      "medical_status": "under_post_battle_treatment"
+      "medical_status": "fully_recovered"
     }
   ],
   "pc_storage": [],
   "objectives": [
-    "Complete trainer licensing at the Interregional Trainer Licensing Center."
+    "Begin the journey as a fully licensed Trainer."
   ],
   "known_npcs": [],
   "active_combat": null,
@@ -302,7 +302,7 @@
     "level_milestones": "campaign/events/LEVEL_MILESTONES.json",
     "status": "active",
     "active_chain": "INTRO_FIVE",
-    "active_event": "INTRO_06",
+    "active_event": null,
     "queued_events": [],
     "completed_events": [
       "INTRO_00",
@@ -310,18 +310,19 @@
       "INTRO_02",
       "INTRO_03",
       "INTRO_04",
-      "INTRO_05"
+      "INTRO_05",
+      "INTRO_06"
     ],
     "failed_events": [],
     "expired_events": [],
     "ignored_events": [],
     "flags": {
-      "intro_complete": false,
-      "free_roam": false,
+      "intro_complete": true,
+      "free_roam": true,
       "friends_split": false
     },
     "world_clock": {
-      "day": 0,
+      "day": 1,
       "time_of_day": "morning"
     },
     "trigger_check_due": false,
@@ -348,7 +349,9 @@
       "growlithe_hp_after": 1,
       "status": "passed_battle_component"
     },
-    "post_battle_conduct": "Luke immediately embraced Growlithe, then checked Eevee's condition; positive sportsmanship noted."
+    "post_battle_conduct": "Luke immediately embraced Growlithe, then checked Eevee's condition; positive sportsmanship noted.",
+    "status": "passed",
+    "license_issued": true
   },
   "relationship_flags": {
     "Mattew": {
@@ -365,5 +368,5 @@
       "reaction_to_luke_aggression": "quietly_concerned"
     }
   },
-  "current_location": "Interregional Trainer Licensing Center — Medical Center"
+  "current_location": "Interregional Trainer Licensing Center — Exit Hall"
 }
