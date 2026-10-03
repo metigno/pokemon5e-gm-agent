@@ -96,8 +96,8 @@
       }
     },
     "trainer_path": null,
-    "hp": null,
-    "max_hp": null,
+    "hp": 6,
+    "max_hp": 6,
     "inventory": [
       {
         "item": "Trainer's License",
@@ -127,7 +127,8 @@
         3
       ],
       "total": 1700
-    }
+    },
+    "ac": 12
   },
   "friends_npc_state": {
     "Luke": {
@@ -303,6 +304,11 @@
           "name": "Leer",
           "pp_max": 15,
           "pp_current": 14
+        },
+        {
+          "name": "Howl",
+          "pp_max": 10,
+          "pp_current": 9
         }
       ],
       "first_contact": {
@@ -339,7 +345,7 @@
   "active_combat": {
     "type": "wild_warehouse_encounter",
     "status": "searching_for_remaining_wild_pokemon",
-    "round": 11,
+    "round": 12,
     "player_trainer": "Luke",
     "player_pokemon": "luke-growlithe-hisui-001",
     "opponents": [
@@ -723,6 +729,32 @@
         "total": 7,
         "target": "Luke/Growlithe",
         "result": "miss"
+      },
+      {
+        "round": 11,
+        "actor": "Luke/Growlithe",
+        "move": "Howl",
+        "result": "active",
+        "effect": "Until end of Growlithe's next turn, Growlithe and allies have advantage on melee attacks against creatures within 5 ft of Growlithe."
+      },
+      {
+        "round": 11,
+        "actor": "Luke",
+        "action": "Reposition behind Raticate and taunt it",
+        "result": "Luke moved behind Raticate, putting it between Luke and Growlithe."
+      },
+      {
+        "round": 11,
+        "actor": "Wild Raticate",
+        "move": "Bite",
+        "target": "Luke",
+        "attack_roll": {
+          "d20": 3,
+          "modifier": 5,
+          "total": 8
+        },
+        "target_ac": 12,
+        "result": "miss"
       }
     ],
     "turn": "Luke",
@@ -740,6 +772,19 @@
       ],
       "suspected_more": false,
       "exact_count_known": true
+    },
+    "effects": [
+      {
+        "name": "Howl",
+        "source": "Growlithe",
+        "expires": "end_of_Growlithe_round_12_turn",
+        "effect": "advantage_on_melee_attacks_vs_creatures_within_5ft_of_Growlithe"
+      }
+    ],
+    "positioning": {
+      "Raticate": "between Luke and Growlithe",
+      "Luke": "behind Raticate",
+      "Growlithe": "in front of Raticate"
     }
   },
   "gm_private_ref": "gm_private/SECRET_CANON_DO_NOT_OPEN.json",
