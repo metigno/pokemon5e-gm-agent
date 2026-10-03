@@ -382,7 +382,7 @@
       "reaction_to_luke_aggression": "quietly_concerned"
     }
   },
-  "current_location": "Nearest city — outside Trainer shop",
+  "current_location": "Nearest city — Job Board",
   "shop_context": {
     "location": "Nearest city — Trainer shop",
     "prices": {
@@ -394,5 +394,31 @@
       "quantity": 2,
       "total_cost": 500
     }
+  },
+  "job_board": {
+    "generated_on_world_day": 1,
+    "jobs": [
+      {
+        "id": "JOB-01",
+        "title": "Pacco smarrito sulla strada nord",
+        "reward": 700,
+        "status": "available",
+        "note": "Recuperare una cassa di medicinali caduta da un carro. Possibile fauna selvatica."
+      },
+      {
+        "id": "JOB-02",
+        "title": "Pokémon nel magazzino",
+        "reward": 900,
+        "status": "available",
+        "note": "Un commerciante cerca aiuto per allontanare alcuni Pokémon selvatici entrati nel deposito. Cattura non richiesta."
+      },
+      {
+        "id": "JOB-03",
+        "title": "Consegna urgente alla fattoria",
+        "reward": 600,
+        "status": "available",
+        "note": "Portare un pacco fuori città e tornare con la ricevuta. Lavoro semplice ma richiede tempo."
+      }
+    ]
   }
 }
