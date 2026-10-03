@@ -140,6 +140,15 @@
         "species": "Eevee",
         "level": 5,
         "status": "received"
+      },
+      "starter_build": {
+        "nature": "Jolly",
+        "standard_ability": "Adaptability",
+        "level4_asi": {
+          "DEX": 2,
+          "CON": 1
+        },
+        "current_stats_note": "DEX 16 after nature and ASI; combat details otherwise GM-private until observed"
       }
     },
     "Daniel": {
@@ -225,13 +234,32 @@
   "known_npcs": [],
   "active_combat": {
     "type": "supervised_one_pokemon_match",
-    "status": "pre_battle",
+    "status": "round_1",
     "player_trainer": "Luke",
     "opponent_trainer": "Mattew",
     "player_pokemon": "luke-growlithe-hisui-001",
     "opponent_pokemon": "mattew-eevee-001",
     "level": 5,
-    "official_for_license": true
+    "official_for_license": true,
+    "round": 1,
+    "turn": "Luke",
+    "initiative": {
+      "Luke_Growlithe": {
+        "roll": 20,
+        "modifier": 2,
+        "total": 22
+      },
+      "Mattew_Eevee": {
+        "roll": 16,
+        "modifier": 3,
+        "total": 19
+      }
+    },
+    "opponent_public_state": {
+      "trainer": "Mattew",
+      "pokemon": "Eevee",
+      "level": 5
+    }
   },
   "gm_private_ref": "gm_private/SECRET_CANON_DO_NOT_OPEN.json",
   "character_bible_ref": "canon/ROSTER2060_CHARACTER_BIBLE.json",
