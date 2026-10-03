@@ -40,3 +40,11 @@ Checkpoint: CP-CHAIN-INTRO-STARTERS
 - Luke received the standard Trainer package except starting money, which remains unresolved until a visible legal 4d4 roll is made.
 - Intro advanced to the first-contact scene.
 
+
+Checkpoint: CP-POST-FIRST-BATTLE
+
+- Luke chose Mattew for the supervised certification battle.
+- Luke registered the Kindler specialization.
+- Growlithe defeated Eevee in round 7 with Ember.
+- Final battle state: Growlithe 1/35 HP; Eevee KO.
+- Luke passed the battle component of certification.
