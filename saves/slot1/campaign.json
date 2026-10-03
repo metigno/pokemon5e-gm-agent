@@ -170,8 +170,19 @@
         ],
         "medical_status": "fully_recovered"
       },
-      "current_evolution_stance": "undecided; wants to evaluate Eevee before choosing an evolution",
-      "current_activity": "Job board: choosing another assignment independently"
+      "current_evolution_stance": "intends to evolve Eevee into Jolteon and will pursue the legal Pokemon 5e requirements when attainable",
+      "current_activity": "Job board: choosing another assignment independently",
+      "ace_evolution_goal": {
+        "target": "Jolteon",
+        "evolution_path": [
+          "Eevee",
+          "Jolteon"
+        ],
+        "intent": "persistent",
+        "status": "pursuing_when_legally_attainable",
+        "automatic_evolution": false,
+        "exact_pokemon5e_requirement_lookup_required": true
+      }
     },
     "Daniel": {
       "role": "npc",
@@ -183,7 +194,19 @@
         "level": 5,
         "status": "received"
       },
-      "current_activity": "Job board: choosing another assignment independently"
+      "current_activity": "Job board: choosing another assignment independently",
+      "ace_evolution_goal": {
+        "target": "Gengar",
+        "evolution_path": [
+          "Gastly",
+          "Haunter",
+          "Gengar"
+        ],
+        "intent": "persistent",
+        "status": "pursuing_when_legally_attainable",
+        "automatic_evolution": false,
+        "exact_pokemon5e_requirement_lookup_required": true
+      }
     },
     "Edward": {
       "role": "npc",
@@ -195,7 +218,19 @@
         "level": 5,
         "status": "received"
       },
-      "current_activity": "Job board: choosing another assignment independently"
+      "current_activity": "Job board: choosing another assignment independently",
+      "ace_evolution_goal": {
+        "target": "Feraligatr",
+        "evolution_path": [
+          "Totodile",
+          "Croconaw",
+          "Feraligatr"
+        ],
+        "intent": "persistent",
+        "status": "pursuing_when_legally_attainable",
+        "automatic_evolution": false,
+        "exact_pokemon5e_requirement_lookup_required": true
+      }
     },
     "Fab": {
       "role": "npc",
@@ -207,7 +242,18 @@
         "level": 5,
         "status": "received"
       },
-      "current_activity": "Job board: choosing another assignment independently"
+      "current_activity": "Job board: choosing another assignment independently",
+      "ace_evolution_goal": {
+        "target": "Weezing",
+        "evolution_path": [
+          "Koffing",
+          "Weezing"
+        ],
+        "intent": "persistent",
+        "status": "pursuing_when_legally_attainable",
+        "automatic_evolution": false,
+        "exact_pokemon5e_requirement_lookup_required": true
+      }
     }
   },
   "party": [
@@ -707,5 +753,17 @@
     "assigned_trainer": "Luke",
     "companions": [],
     "objective": "Help a merchant clear wild Pokémon from a warehouse; capture is optional."
+  },
+  "npc_ace_evolution_policy": {
+    "applies_to": "the four unselected friends",
+    "player_exempt": true,
+    "canonical_targets": {
+      "Luke": "Hisuian Arcanine",
+      "Mattew": "Jolteon",
+      "Daniel": "Gengar",
+      "Edward": "Feraligatr",
+      "Fab": "Weezing"
+    },
+    "rule": "NPC intent is scripted; evolution itself must satisfy current Pokemon 5e requirements and campaign causality."
   }
 }
