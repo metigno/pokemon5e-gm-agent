@@ -1,28 +1,22 @@
-# Campaign Start — Protagonist Selection
+# Protagonist Selection
 
-Campaign mode: **Road to the World Championships**
+Do not start the first scene until the user chooses.
 
-Choose one protagonist. The starter is fixed by canon; everything else begins in play.
+All five are friends in the same opening location. Their regional labels from late-career material are references, not separate spawn points.
 
-| Protagonist | Home continuity | Starter |
-|---|---|---|
-| Luke | Unova / Pokémon Black continuity | Growlithe |
-| Edward | Johto / Pokémon Gold continuity | Totodile |
-| Fab | Hoenn / Pokémon Emerald continuity | Koffing |
-| Daniel | Kanto, after Red's established journey | Gastly |
-| Mattew | Alola continuity | Eevee |
+| Friend | Trainer Lv | Starter | Pokémon Lv |
+|---|---:|---|---:|
+| Luke | 1 | Hisuian Growlithe | 5 |
+| Mattew | 1 | Eevee | 5 |
+| Daniel | 1 | Gastly | 5 |
+| Edward | 1 | Totodile | 5 |
+| Fab | 1 | Koffing | 5 |
 
-The original game protagonists and events remain part of the world's history.
-
-The four characters not selected continue as autonomous trainers. Their future careers are run by the GM under the hidden canon ledger.
-
-Do not reveal future teams, legendary encounters, World Championship brackets or historical anchor outcomes during selection.
-
-After the player chooses:
-1. set `campaign_status` to `active`;
-2. set trainer level 1;
-3. assign the chosen starter;
-4. apply the chosen protagonist's converted D&D ability profile;
-5. grant Pokémon 5e Trainer starting equipment;
-6. choose/establish the level-1 specialization through play;
-7. open with the protagonist's regional first scene.
+On selection:
+1. copy that friend's starting abilities and skills from the bridge into player state;
+2. mark that friend as `player`;
+3. mark the other four as `npc`;
+4. disable the NPC ASI script for the selected friend;
+5. instantiate all five starters at Level 5;
+6. resolve legal nature/ability details using current Pokémon 5e rules and player choice where appropriate;
+7. only then narrate the shared starter-receiving opening.

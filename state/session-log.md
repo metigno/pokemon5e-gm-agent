@@ -1,14 +1,16 @@
 # Campaign Session Log
 
-## Setup checkpoint
+## Pre-campaign configuration
 
-Campaign initialized in protagonist-selection state.
+The campaign has NOT started.
 
-Public choices:
-- Luke — Growlithe
-- Edward — Totodile
-- Fab — Koffing
-- Daniel — Gastly
-- Mattew — Eevee
+Locked opening premise:
+- Luke, Mattew, Daniel, Edward and Fab are friends and begin together.
+- One will be chosen as the player; the other four become autonomous NPCs.
+- All five Trainers begin at Trainer Level 1.
+- All five starters begin at Pokémon Level 5.
+- Luke's starter is Hisuian Growlithe.
+- World Championship is a long-term objective, not a predetermined result.
+- Honest rules allow failure, non-qualification and death.
 
-Future rosters, legendary arcs and World Championship anchors are GM-private until discovered in play.
+Current state: waiting for protagonist selection.

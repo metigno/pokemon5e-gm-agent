@@ -1,0 +1,565 @@
+{
+  "source": "Roster2060(1).md",
+  "source_policy": {
+    "all_named_npcs": "Use this source for personality, flaws, tactical identity, behavioral tendencies, and lore continuity.",
+    "five_friends": "Luke, Mattew, Daniel, Edward and Fab start this campaign together as rookies. Their historical tournament results in the 2060 document are NOT pre-campaign history here.",
+    "other_characters": "Their documented history/lore may be used as background when chronologically appropriate, but future tournament outcomes are never forced.",
+    "outcomes": "Campaign results are non-deterministic. Honest dice and player/NPC actions override projected trajectories."
+  },
+  "characters": [
+    {
+      "id": 1,
+      "name": "Luke",
+      "epithet": "La Forza Logorante",
+      "origin_reference": "Unima.",
+      "ace_2060": "**Arcanine di Hisui Alpha** — compagno simbolo di Luke e suo ACE storico fin dall’inizio della carriera. La forma di Hisui e lo status Alpha fanno parte della sua identità canonica da sempre; nel tempo cambiano build e funzione tattica, non il Pokémon che occupa questo ruolo.",
+      "tactical_identity_2060": "**Adaptive Tempo Pressure / Layered Attrition / Multi-Path Offense**.",
+      "legacy_player_stats_2060": "Tattica 17 | Strategia 15 | Prediction 19 | Mind Games 12 | Conoscenza 15 | Adattamento 20 | Gestione Team 16 | Gestione Rischio 14.",
+      "behavior_profile_2060": "aggression=0.62 | switching=0.52 | setupAppetite=0.52 | controlPreference=0.58 | sustainPreference=0.62 | sacrificeTolerance=0.45 | preservation=0.72 | riskAppetite=0.52 | tempo=0.58",
+      "character_traits_2060": "Istintivo, competitivo e legato profondamente all’Arcanine di Hisui Alpha che lo accompagna fin dall’inizio. Nel 2060 Luke non sostituisce il proprio simbolo: cambia ciò che gli chiede in battaglia, smettendo di obbligare il suo ACE storico a sostenere contemporaneamente contenimento, recupero, priority e apertura delle finestre offensive.",
+      "tactical_interpretation_2060": "Luke valuta ogni turno in termini di valore presente, valore futuro e tempo concesso all’avversario.",
+      "flaw_limit_2060": "Luke resta particolarmente forte quando il match cambia forma, ma continua a essere un allenatore istintivo. Quando percepisce un’accelerazione favorevole può ancora anticipare di un turno la conversione e spendere una risorsa che avrebbe avuto maggiore valore più avanti.",
+      "team_species_2060": [
+        "Arcanine di Hisui Alpha @ Choice Scarf"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Mattew",
+      "epithet": "La Tecnica",
+      "origin_reference": "Galar / circuito internazionale.",
+      "ace_2060": "Jolteon Alpha.",
+      "tactical_identity_2060": "Speed control / VoltTurn / precisione posizionale: crea il turno corretto, poi converte con Zacian o Mega Swampert.",
+      "legacy_player_stats_2060": "Tattica 20 | Strategia 17 | Prediction 19 | Mind Games 9 | Conoscenza 19 | Adattamento 12 | Gestione Team 18 | Gestione Rischio 14.",
+      "behavior_profile_2060": "aggression=0.58 | switching=0.78 | setupAppetite=0.38 | controlPreference=0.62 | sustainPreference=0.45 | sacrificeTolerance=0.42 | preservation=0.65 | riskAppetite=0.45 | tempo=0.78",
+      "character_traits_2060": "Metodico, disciplinato, studia gli avversari, preferisce rischi calcolati; oggi è più disposto a prendere una linea imperfetta ma immediatamente convertibile.",
+      "tactical_interpretation_2060": "pensa in termini di tempo, speed tier e posizione: cerca il turno che obbliga il rivale a rivelare una risposta e lo converte subito. Sotto pressione deve semplificare invece di inventare informazioni nascoste; dopo un errore ricalcola win condition, speed control e risorse, senza cercare automaticamente di 'recuperare' con una giocata rischiosa.",
+      "flaw_limit_2060": "Il caos totalmente privo di pattern può ancora rallentare la sua prima scelta, anche se molto meno rispetto al 2026.",
+      "team_species_2060": [
+        "Jolteon Alpha"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Daniel",
+      "epithet": "La Mente",
+      "origin_reference": "Kanto, generazione successiva a Red.",
+      "ace_2060": "Gengar.",
+      "tactical_identity_2060": "Chess offense / selective sleep pressure / layered planning: costringe il rivale a rispettare Hypnosis, usa phazing, chip e Taunt per restringere le opzioni, poi semplifica con Mewtwo o Gigamax Charizard quando il puzzle non conviene.",
+      "legacy_player_stats_2060": "Tattica 16 | Strategia 20 | Prediction 19 | Mind Games 20 | Conoscenza 18 | Adattamento 12 | Gestione Team 13 | Gestione Rischio 10.",
+      "behavior_profile_2060": "aggression=0.38 | switching=0.68 | setupAppetite=0.42 | controlPreference=0.90 | sustainPreference=0.72 | sacrificeTolerance=0.32 | preservation=0.82 | riskAppetite=0.30 | tempo=0.45",
+      "character_traits_2060": "Pianifica su più livelli; eccelle nelle letture; accetta sacrifici funzionali; sa ora interrompere un albero decisionale quando una linea semplice ha EV superiore.",
+      "tactical_interpretation_2060": "parte da un piano riconoscibile ma lo aggiorna sulle informazioni realmente rivelate, senza trattare lo scouting come onniscienza. Sotto pressione deve semplificare invece di inventare informazioni nascoste; dopo un errore ricalcola win condition, speed control e risorse, senza cercare automaticamente di 'recuperare' con una giocata rischiosa.",
+      "flaw_limit_2060": "Il suo unico rischio resta la sovraelaborazione: contro avversari volutamente irrazionali può cercare significato dove non ce n’è.",
+      "team_species_2060": [
+        "Gengar"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Edward",
+      "epithet": "Il Martello",
+      "origin_reference": "Johto, generazione successiva a Ethan.",
+      "ace_2060": "Feraligatr.",
+      "tactical_identity_2060": "Damage race / direct offense / durability pressure: meno sottigliezza, più capacità di scegliere quale scambio vince davvero la partita. Il 2044 aggiunge damage containment senza ridurre la pressione.",
+      "legacy_player_stats_2060": "Tattica 20 | Strategia 13 | Prediction 15 | Mind Games 10 | Conoscenza 16 | Adattamento 17 | Gestione Team 18 | Gestione Rischio 19.",
+      "behavior_profile_2060": "aggression=0.90 | switching=0.28 | setupAppetite=0.62 | controlPreference=0.22 | sustainPreference=0.25 | sacrificeTolerance=0.72 | preservation=0.35 | riskAppetite=0.82 | tempo=0.90",
+      "character_traits_2060": "Diretto, aggressivo, resistente, apprende molto dagli scontri veri; oggi sa aspettare un turno in più se quel turno moltiplica il danno futuro.",
+      "tactical_interpretation_2060": "valuta rapidamente quale scambio produce il massimo danno netto e quanto della propria seconda ondata rimane disponibile. Sotto pressione deve semplificare invece di inventare informazioni nascoste; dopo un errore ricalcola win condition, speed control e risorse, senza cercare automaticamente di 'recuperare' con una giocata rischiosa.",
+      "flaw_limit_2060": "Pianificazione di lungo periodo ancora inferiore ai top strategist; può accettare una race che sembra favorevole senza considerare abbastanza il valore di una risorsa fuori campo.",
+      "team_species_2060": [
+        "Feraligatr"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Fab",
+      "epithet": "Il Tenace",
+      "origin_reference": "Hoenn, generazione successiva a Brendan.",
+      "ace_2060": "Weezing.",
+      "tactical_identity_2060": "Hazard/status attrition verso una chiusura esplosiva: ama i propri Pokémon e permette loro di completare il ruolo anche quando ciò comporta il KO.",
+      "legacy_player_stats_2060": "Tattica 18 | Strategia 18 | Prediction 14 | Mind Games 11 | Conoscenza 18 | Adattamento 14 | Gestione Team 20 | Gestione Rischio 15.",
+      "behavior_profile_2060": "aggression=0.42 | switching=0.58 | setupAppetite=0.34 | controlPreference=0.84 | sustainPreference=0.78 | sacrificeTolerance=0.52 | preservation=0.76 | riskAppetite=0.34 | tempo=0.40",
+      "character_traits_2060": "Tenace, affettivo, paziente con chip/status, disposto a lasciare che un Pokémon finisca il proprio compito invece di salvarlo per principio.",
+      "tactical_interpretation_2060": "misura il progresso in status, item rimossi, hazard e libertà di switch; non deve inseguire KO che non migliorano la posizione. Sotto pressione deve semplificare invece di inventare informazioni nascoste; dopo un errore ricalcola win condition, speed control e risorse, senza cercare automaticamente di 'recuperare' con una giocata rischiosa.",
+      "flaw_limit_2060": "Velocità decisionale ancora inferiore ai top: contro offense molto rapida può perdere il momento in cui passare dal setup del campo alla chiusura.",
+      "team_species_2060": [
+        "Weezing"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Cynthia",
+      "epithet": "La Campionessa di Sinnoh",
+      "origin_reference": "Sinnoh.",
+      "ace_2060": "Garchomp.",
+      "tactical_identity_2060": "Long-game balance / resource control / anti-hazard discipline: porta il match nel punto in cui il rivale ha finito le risposte corrette.",
+      "legacy_player_stats_2060": "Tattica 18 | Strategia 19 | Prediction 13 | Mind Games 11 | Conoscenza 20 | Adattamento 15 | Gestione Team 19 | Gestione Rischio 17.",
+      "behavior_profile_2060": "aggression=0.46 | switching=0.62 | setupAppetite=0.42 | controlPreference=0.66 | sustainPreference=0.78 | sacrificeTolerance=0.38 | preservation=0.88 | riskAppetite=0.28 | tempo=0.38",
+      "character_traits_2060": "Calma assoluta, lettura del lungo periodo, protezione delle risorse decisive, capacità di perdere un pezzo senza perdere la struttura.",
+      "tactical_interpretation_2060": "misura il progresso in status, item rimossi, hazard e libertà di switch; non deve inseguire KO che non migliorano la posizione. Sotto pressione deve semplificare invece di inventare informazioni nascoste; dopo un errore ricalcola win condition, speed control e risorse, senza cercare automaticamente di 'recuperare' con una giocata rischiosa.",
+      "flaw_limit_2060": "Non ha un difetto grave; l’unica finestra nasce quando un avversario rende improvvisamente irreversibile il costo degli switch, come Nyx nel 2026.",
+      "team_species_2060": [
+        "Garchomp"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Steven Stone",
+      "epithet": "Il Campione d’Acciaio",
+      "origin_reference": "Hoenn.",
+      "ace_2060": "Mega Metagross.",
+      "tactical_identity_2060": "Steel balance / hazard compression / endgame Metagross: ogni scambio deve restringere le opzioni del rivale.",
+      "legacy_player_stats_2060": "Tattica 16 | Strategia 19 | Prediction 14 | Mind Games 10 | Conoscenza 19 | Adattamento 14 | Gestione Team 19 | Gestione Rischio 17.",
+      "behavior_profile_2060": "aggression=0.60 | switching=0.60 | setupAppetite=0.48 | controlPreference=0.60 | sustainPreference=0.60 | sacrificeTolerance=0.45 | preservation=0.68 | riskAppetite=0.46 | tempo=0.60",
+      "character_traits_2060": "Tecnico, paziente, matchup knowledge enorme, disposto a trade che riducono le opzioni avversarie.",
+      "tactical_interpretation_2060": "misura il progresso in status, item rimossi, hazard e libertà di switch; non deve inseguire KO che non migliorano la posizione. Sotto pressione deve semplificare invece di inventare informazioni nascoste; dopo un errore ricalcola win condition, speed control e risorse, senza cercare automaticamente di 'recuperare' con una giocata rischiosa.",
+      "flaw_limit_2060": "Le strutture molto ordinate possono ancora essere lette da chi accetta il caos meglio di lui.",
+      "team_species_2060": [
+        "Mega Metagross"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "N",
+      "epithet": "Il Re senza Corona",
+      "origin_reference": "Unima.",
+      "ace_2060": "Reshiram.",
+      "tactical_identity_2060": "**Harmonic Deception / Adaptive Pressure**: preserva il legame con i propri Pokémon, ma trasforma informazione, chip e inganno in pressione concreta prima che il ritmo gli sfugga.",
+      "legacy_player_stats_2060": "Tattica 16 | Strategia 17 | Prediction 16 | Mind Games 12 | Conoscenza 18 | Adattamento 19 | Gestione Team 18 | Gestione Rischio 12.",
+      "behavior_profile_2060": "aggression=0.60 | switching=0.60 | setupAppetite=0.48 | controlPreference=0.60 | sustainPreference=0.60 | sacrificeTolerance=0.45 | preservation=0.68 | riskAppetite=0.46 | tempo=0.60",
+      "character_traits_2060": "Empatia eccezionale, enorme conoscenza, rifiuto dei sacrifici inutili, capacità crescente di distinguere affetto da conservazione inefficiente.",
+      "tactical_interpretation_2060": "pianifica dal finale verso il presente, conservando la risorsa che copre il maggior numero di futuri plausibili. Sotto pressione deve semplificare invece di inventare informazioni nascoste; dopo un errore ricalcola win condition, speed control e risorse, senza cercare automaticamente di 'recuperare' con una giocata rischiosa.",
+      "flaw_limit_2060": "Può ancora soffrire quando il trade ottimale richiede una perdita emotivamente dura immediata.",
+      "team_species_2060": [
+        "Reshiram @ Heavy-Duty Boots"
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Red",
+      "epithet": "Il Campione Rosso",
+      "origin_reference": "Kanto.",
+      "ace_2060": "Charizard.",
+      "tactical_identity_2060": "**Adaptive Fast Pressure / Kanto Momentum**: informazione attraverso pressione → movimento → trade → conversione.",
+      "legacy_player_stats_2060": "Tattica 20 | Strategia 17 | Prediction 19 | Mind Games 12 | Conoscenza 19 | Adattamento 19 | Gestione Team 16 | Gestione Rischio 12.",
+      "behavior_profile_2060": "aggression=0.64 | switching=0.56 | setupAppetite=0.55 | controlPreference=0.46 | sustainPreference=0.48 | sacrificeTolerance=0.48 | preservation=0.60 | riskAppetite=0.55 | tempo=0.66",
+      "character_traits_2060": "Silenzioso, lucidissimo, apprende dagli incontri osservati e non dipende da un solo gameplan. Nel 2056 tende però a cercare informazione attraverso azioni che obbligano una risposta, invece di accumulare turni neutri di lettura.",
+      "tactical_interpretation_2060": "Red continua a pianificare dal finale verso il presente, ma considera la pressione stessa uno strumento di scouting. Un Volt Switch, un Taunt, una hazard, un U-turn o un trade non servono soltanto a produrre vantaggio immediato: obbligano il rivale a mostrare come intende difendersi.",
+      "flaw_limit_2060": "La maturazione non cancella del tutto la sua tendenza storica alla lettura. In matchup molto elastici Red può ancora essere tentato di cercare un'ulteriore conferma prima di convertire. Il ciclo 2056 esiste precisamente per ridurre questo ritardo: quando il vantaggio è reale, Red deve trasformarlo in movimento, trade o pressione anziché continuare a osservare.",
+      "team_species_2060": [
+        "Gigamax Charizard @ Life Orb"
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Lance",
+      "epithet": "Il Signore dei Draghi",
+      "origin_reference": "Kanto / Johto.",
+      "ace_2060": "Dragonite.",
+      "tactical_identity_2060": "Dragon pressure offense: successione di minacce verticali, ma con più strumenti anti-setup e gestione dei trade rispetto al passato.",
+      "legacy_player_stats_2060": "Tattica 19 | Strategia 15 | Prediction 15 | Mind Games 9 | Conoscenza 17 | Adattamento 16 | Gestione Team 19 | Gestione Rischio 18.",
+      "behavior_profile_2060": "aggression=0.92 | switching=0.34 | setupAppetite=0.82 | controlPreference=0.28 | sustainPreference=0.18 | sacrificeTolerance=0.78 | preservation=0.32 | riskAppetite=0.80 | tempo=0.92",
+      "character_traits_2060": "Orgoglioso ma disciplinato, eccellente timing dei finisher, ama pressione verticale e setup consecutivi.",
+      "tactical_interpretation_2060": "valuta rapidamente quale scambio produce il massimo danno netto e quanto della propria seconda ondata rimane disponibile. Sotto pressione deve semplificare invece di inventare informazioni nascoste; dopo un errore ricalcola win condition, speed control e risorse, senza cercare automaticamente di 'recuperare' con una giocata rischiosa.",
+      "flaw_limit_2060": "Contro anti-setup multipli può ancora diventare troppo lineare se perde presto Giratina o Garchomp.",
+      "team_species_2060": [
+        "Dragonite"
+      ]
+    },
+    {
+      "id": 11,
+      "name": "Campione di Borrius",
+      "epithet": "Il Campione Completo",
+      "origin_reference": "Borrius.",
+      "ace_2060": "Shiny Mega Metagross.",
+      "tactical_identity_2060": "Complete balance / matchup adaptation: Aurora Veil, pivoting e breaker ibridi per dare a Metagross il finale giusto. Nel 2044 la complete balance include un protocollo anti-wave più rapido.",
+      "legacy_player_stats_2060": "Tattica 16 | Strategia 17 | Prediction 16 | Mind Games 15 | Conoscenza 17 | Adattamento 16 | Gestione Team 17 | Gestione Rischio 14.",
+      "behavior_profile_2060": "aggression=0.60 | switching=0.60 | setupAppetite=0.48 | controlPreference=0.60 | sustainPreference=0.60 | sacrificeTolerance=0.45 | preservation=0.68 | riskAppetite=0.46 | tempo=0.60",
+      "character_traits_2060": "Versatile, capace di cambiare ritmo, fortissimo nel matchup management, raramente dipendente da una singola sequenza.",
+      "tactical_interpretation_2060": "pianifica dal finale verso il presente, conservando la risorsa che copre il maggior numero di futuri plausibili. Sotto pressione deve semplificare invece di inventare informazioni nascoste; dopo un errore ricalcola win condition, speed control e risorse, senza cercare automaticamente di 'recuperare' con una giocata rischiosa.",
+      "flaw_limit_2060": "Meno estremo di uno specialista puro: quando il match richiede una sola qualità eccezionale può essere superato dai migliori specialisti.",
+      "team_species_2060": [
+        "Shiny Mega Metagross"
+      ]
+    },
+    {
+      "id": 12,
+      "name": "Alder",
+      "epithet": "Il Campione Errante",
+      "origin_reference": "Unima.",
+      "ace_2060": "Volcarona.",
+      "tactical_identity_2060": "Veteran balance / experience-driven offense: meno romanticismo del 2026, più struttura per consegnare a Volcarona un setup realmente sostenibile.",
+      "legacy_player_stats_2060": "Tattica 14 | Strategia 17 | Prediction 14 | Mind Games 11 | Conoscenza 20 | Adattamento 18 | Gestione Team 17 | Gestione Rischio 17.",
+      "behavior_profile_2060": "aggression=0.60 | switching=0.60 | setupAppetite=0.48 | controlPreference=0.60 | sustainPreference=0.60 | sacrificeTolerance=0.45 | preservation=0.68 | riskAppetite=0.46 | tempo=0.60",
+      "character_traits_2060": "Esperienza enorme, mentalità aperta, non si irrigidisce, sa accettare la variabilità del match.",
+      "tactical_interpretation_2060": "pianifica dal finale verso il presente, conservando la risorsa che copre il maggior numero di futuri plausibili. Sotto pressione deve semplificare invece di inventare informazioni nascoste; dopo un errore ricalcola win condition, speed control e risorse, senza cercare automaticamente di 'recuperare' con una giocata rischiosa.",
+      "flaw_limit_2060": "Meno esplosivo dei top moderni e ancora dipendente dal fatto che Volcarona trovi un turno realmente buono.",
+      "team_species_2060": [
+        "Volcarona"
+      ]
+    },
+    {
+      "id": 13,
+      "name": "Kael",
+      "epithet": "Il Viaggiatore",
+      "origin_reference": "Sinnoh, poi cinque Leghe regionali.",
+      "ace_2060": "Tentacruel.",
+      "tactical_identity_2060": "**Pure Attrition Stall / Resource Denial**: hazard, status, Knock Off, denial della recovery e più risposte anti-setup trasformano il tempo in consumo di risorse.",
+      "legacy_player_stats_2060": "Tattica 19 | Strategia 17 | Prediction 13 | Mind Games 9 | Conoscenza 18 | Adattamento 18 | Gestione Team 18 | Gestione Rischio 16.",
+      "behavior_profile_2060": "aggression=0.60 | switching=0.60 | setupAppetite=0.48 | controlPreference=0.60 | sustainPreference=0.60 | sacrificeTolerance=0.45 | preservation=0.68 | riskAppetite=0.46 | tempo=0.60",
+      "character_traits_2060": "Pratico, esplorativo, disposto a trade violenti, altissima conoscenza interregionale, non si innamora della teoria.",
+      "tactical_interpretation_2060": "pianifica dal finale verso il presente, conservando la risorsa che copre il maggior numero di futuri plausibili. Sotto pressione deve semplificare invece di inventare informazioni nascoste; dopo un errore ricalcola win condition, speed control e risorse, senza cercare automaticamente di 'recuperare' con una giocata rischiosa.",
+      "flaw_limit_2060": "Prediction ancora inferiore ai top specialisti; quando vede un KO “fisico” può preferirlo a una linea più sottile.",
+      "team_species_2060": [
+        "Ferrothorn @ Rocky Helmet"
+      ]
+    },
+    {
+      "id": 14,
+      "name": "Darian",
+      "epithet": "Il Predatore",
+      "origin_reference": "Circuito di cinque Leghe.",
+      "ace_2060": "Mega Blaziken.",
+      "tactical_identity_2060": "Predatory offense / snowball / high-risk finishing, oggi sostenuta da un risk management meno autodistruttivo.",
+      "legacy_player_stats_2060": "Tattica 19 | Strategia 14 | Prediction 18 | Mind Games 16 | Conoscenza 15 | Adattamento 18 | Gestione Team 18 | Gestione Rischio 10.",
+      "behavior_profile_2060": "aggression=0.92 | switching=0.34 | setupAppetite=0.82 | controlPreference=0.28 | sustainPreference=0.18 | sacrificeTolerance=0.78 | preservation=0.32 | riskAppetite=0.80 | tempo=0.92",
+      "character_traits_2060": "Aggressivo, intimidatorio, ottimo nel chiudere, disposto a trade sfavorevoli solo se la probabilità di sweep è concreta.",
+      "tactical_interpretation_2060": "parte da un piano riconoscibile ma lo aggiorna sulle informazioni realmente rivelate, senza trattare lo scouting come onniscienza. Sotto pressione deve semplificare invece di inventare informazioni nascoste; dopo un errore ricalcola win condition, speed control e risorse, senza cercare automaticamente di 'recuperare' con una giocata rischiosa.",
+      "flaw_limit_2060": "Rischio ancora il valore più basso: può sopravvalutare una finestra che “sembra” terminale.",
+      "team_species_2060": [
+        "Mega Blaziken"
+      ]
+    },
+    {
+      "id": 15,
+      "name": "Ferred",
+      "epithet": "Il Silenzioso",
+      "origin_reference": "Circuito internazionale.",
+      "ace_2060": "Mega Tyranitar.",
+      "tactical_identity_2060": "Silent balance / trap-and-punish / controlled setup: osserva poco ma bene, poi colpisce il pattern più costoso.",
+      "legacy_player_stats_2060": "Tattica 14 | Strategia 19 | Prediction 20 | Mind Games 16 | Conoscenza 17 | Adattamento 12 | Gestione Team 13 | Gestione Rischio 17.",
+      "behavior_profile_2060": "aggression=0.60 | switching=0.60 | setupAppetite=0.48 | controlPreference=0.60 | sustainPreference=0.60 | sacrificeTolerance=0.45 | preservation=0.68 | riskAppetite=0.46 | tempo=0.60",
+      "character_traits_2060": "Taciturno, prediction altissima, metodico, emozionalmente poco leggibile.",
+      "tactical_interpretation_2060": "pianifica dal finale verso il presente, conservando la risorsa che copre il maggior numero di futuri plausibili. Sotto pressione deve semplificare invece di inventare informazioni nascoste; dopo un errore ricalcola win condition, speed control e risorse, senza cercare automaticamente di 'recuperare' con una giocata rischiosa.",
+      "flaw_limit_2060": "Può ancora cedere spazio mentre cerca conferme; contro hyper offense il tempo resta la risorsa più fragile.",
+      "team_species_2060": [
+        "Mega Tyranitar"
+      ]
+    },
+    {
+      "id": 16,
+      "name": "Ren",
+      "epithet": "La Scintilla",
+      "origin_reference": "Circuito moderno.",
+      "ace_2060": "Ninetales.",
+      "tactical_identity_2060": "Sun hazard balance / triple win condition: logoramento con field control e tre modi diversi di chiudere.",
+      "legacy_player_stats_2060": "Tattica 19 | Strategia 18 | Prediction 14 | Mind Games 11 | Conoscenza 19 | Adattamento 15 | Gestione Team 20 | Gestione Rischio 12.",
+      "behavior_profile_2060": "aggression=0.72 | switching=0.56 | setupAppetite=0.52 | controlPreference=0.52 | sustainPreference=0.38 | sacrificeTolerance=0.52 | preservation=0.55 | riskAppetite=0.58 | tempo=0.76",
+      "character_traits_2060": "Creativo, adattamento altissimo, molto legato a Ninetales, ama trasformare chip in improvvisa esplosione offensiva.",
+      "tactical_interpretation_2060": "misura il progresso in status, item rimossi, hazard e libertà di switch; non deve inseguire KO che non migliorano la posizione. Sotto pressione deve semplificare invece di inventare informazioni nascoste; dopo un errore ricalcola win condition, speed control e risorse, senza cercare automaticamente di 'recuperare' con una giocata rischiosa.",
+      "flaw_limit_2060": "Risk management ancora sotto i top; sole e Ferrothorn richiedono disciplina e possono creare anti-sinergie se gestiti male.",
+      "team_species_2060": [
+        "Ninetales"
+      ]
+    },
+    {
+      "id": 17,
+      "name": "Ethan",
+      "epithet": "L’Avventuriero di Johto",
+      "origin_reference": "Johto.",
+      "ace_2060": "Mega Gyarados Rosso.",
+      "tactical_identity_2060": "Hazards + VoltTurn + late-game ace cleanup con grande enfasi sul valore futuro delle risorse.",
+      "legacy_player_stats_2060": "Tattica 15 | Strategia 17 | Prediction 14 | Mind Games 10 | Conoscenza 18 | Adattamento 15 | Gestione Team 19 | Gestione Rischio 20.",
+      "behavior_profile_2060": "aggression=0.58 | switching=0.78 | setupAppetite=0.38 | controlPreference=0.62 | sustainPreference=0.45 | sacrificeTolerance=0.42 | preservation=0.65 | riskAppetite=0.45 | tempo=0.78",
+      "character_traits_2060": "Avventuriero, adattabile, ottimo team management, paziente ma oggi più pronto a premere il grilletto.",
+      "tactical_interpretation_2060": "misura il progresso in status, item rimossi, hazard e libertà di switch; non deve inseguire KO che non migliorano la posizione. Sotto pressione deve semplificare invece di inventare informazioni nascoste; dopo un errore ricalcola win condition, speed control e risorse, senza cercare automaticamente di 'recuperare' con una giocata rischiosa.",
+      "flaw_limit_2060": "Può ancora concedere mezzo turno mentre cerca la linea “migliore” invece di quella già sufficiente.",
+      "team_species_2060": [
+        "Mega Gyarados Rosso"
+      ]
+    },
+    {
+      "id": 18,
+      "name": "Brendan",
+      "epithet": "L’Esploratore di Hoenn",
+      "origin_reference": "Hoenn.",
+      "ace_2060": "Mega Sceptile.",
+      "tactical_identity_2060": "Bulky offense / momentum / controlled aggression con anti-hazard e più attenzione a status e attrition.",
+      "legacy_player_stats_2060": "Tattica 18 | Strategia 15 | Prediction 18 | Mind Games 11 | Conoscenza 18 | Adattamento 20 | Gestione Team 17 | Gestione Rischio 11.",
+      "behavior_profile_2060": "aggression=0.58 | switching=0.78 | setupAppetite=0.38 | controlPreference=0.62 | sustainPreference=0.45 | sacrificeTolerance=0.42 | preservation=0.65 | riskAppetite=0.45 | tempo=0.78",
+      "character_traits_2060": "Dinamico, improvvisa bene, accetta sacrifici tattici, grande fiducia nelle proprie capacità di adattamento.",
+      "tactical_interpretation_2060": "misura il progresso in status, item rimossi, hazard e libertà di switch; non deve inseguire KO che non migliorano la posizione. Sotto pressione deve semplificare invece di inventare informazioni nascoste; dopo un errore ricalcola win condition, speed control e risorse, senza cercare automaticamente di 'recuperare' con una giocata rischiosa.",
+      "flaw_limit_2060": "Può ancora fidarsi troppo dell’adattamento e sottovalutare il costo cumulativo di Toxic/hazards.",
+      "team_species_2060": [
+        "Mega Sceptile"
+      ]
+    },
+    {
+      "id": 19,
+      "name": "Lucinda",
+      "epithet": "La Campionessa di Platino",
+      "origin_reference": "Sinnoh.",
+      "ace_2060": "Empoleon.",
+      "tactical_identity_2060": "Balanced control / adaptive offense: rallenta, pivotta e poi sceglie fra Empoleon Dynamax o Mega Lucario.",
+      "legacy_player_stats_2060": "Tattica 16 | Strategia 18 | Prediction 13 | Mind Games 9 | Conoscenza 19 | Adattamento 18 | Gestione Team 20 | Gestione Rischio 15.",
+      "behavior_profile_2060": "aggression=0.64 | switching=0.56 | setupAppetite=0.55 | controlPreference=0.46 | sustainPreference=0.48 | sacrificeTolerance=0.48 | preservation=0.60 | riskAppetite=0.55 | tempo=0.66",
+      "character_traits_2060": "Affidabile, adattabile, forte gestione del team, pragmatica nei giochi mentali.",
+      "tactical_interpretation_2060": "pianifica dal finale verso il presente, conservando la risorsa che copre il maggior numero di futuri plausibili. Sotto pressione deve semplificare invece di inventare informazioni nascoste; dopo un errore ricalcola win condition, speed control e risorse, senza cercare automaticamente di 'recuperare' con una giocata rischiosa.",
+      "flaw_limit_2060": "Mind Games meno estremi dei grandi manipolatori: può essere letta da specialisti che vivono di bluff multipli.",
+      "team_species_2060": [
+        "Empoleon"
+      ]
+    },
+    {
+      "id": 20,
+      "name": "Rei",
+      "epithet": "Il Campione del Mondiale",
+      "origin_reference": "Hisui → epoca moderna.",
+      "ace_2060": "Samurott-Hisui.",
+      "tactical_identity_2060": "Adaptive offense / controlled chaos / hazard pressure: cambia funzione ai pezzi e rende il piano avversario obsoleto mentre il match è ancora in corso.",
+      "legacy_player_stats_2060": "Tattica 19 | Strategia 17 | Prediction 18 | Mind Games 10 | Conoscenza 15 | Adattamento 20 | Gestione Team 15 | Gestione Rischio 14.",
+      "behavior_profile_2060": "aggression=0.78 | switching=0.62 | setupAppetite=0.62 | controlPreference=0.45 | sustainPreference=0.35 | sacrificeTolerance=0.60 | preservation=0.48 | riskAppetite=0.72 | tempo=0.82",
+      "character_traits_2060": "Pragmatico, difficilissimo da intimidire, capace di cambiare ordine e funzione dei Pokémon, considera il caos una risorsa.",
+      "tactical_interpretation_2060": "misura il progresso in status, item rimossi, hazard e libertà di switch; non deve inseguire KO che non migliorano la posizione. Sotto pressione deve semplificare invece di inventare informazioni nascoste; dopo un errore ricalcola win condition, speed control e risorse, senza cercare automaticamente di 'recuperare' con una giocata rischiosa.",
+      "flaw_limit_2060": "I mind game puri non sono ancora il suo linguaggio naturale quanto l’esperienza reale; contro un rivale che lo costringe a bluff astratti può perdere efficienza.",
+      "team_species_2060": [
+        "Samurott-Hisui"
+      ]
+    },
+    {
+      "id": 21,
+      "name": "Blue",
+      "epithet": "Il Competitore",
+      "origin_reference": "Kanto.",
+      "ace_2060": "Mega Blastoise.",
+      "tactical_identity_2060": "Balanced offense aggressivo con più pazienza: costruisce il campo e poi forza il rivale a rispettare due o tre minacce reali.",
+      "legacy_player_stats_2060": "Tattica 19 | Strategia 16 | Prediction 18 | Mind Games 18 | Conoscenza 19 | Adattamento 17 | Gestione Team 15 | Gestione Rischio 9.",
+      "behavior_profile_2060": "aggression=0.64 | switching=0.56 | setupAppetite=0.55 | controlPreference=0.46 | sustainPreference=0.48 | sacrificeTolerance=0.48 | preservation=0.60 | riskAppetite=0.55 | tempo=0.66",
+      "character_traits_2060": "Competitivo, orgoglioso, molto tecnico, vuole essere un passo avanti ma oggi accetta di non dimostrarlo ogni turno.",
+      "tactical_interpretation_2060": "pianifica dal finale verso il presente, conservando la risorsa che copre il maggior numero di futuri plausibili. Sotto pressione deve semplificare invece di inventare informazioni nascoste; dopo un errore ricalcola win condition, speed control e risorse, senza cercare automaticamente di 'recuperare' con una giocata rischiosa.",
+      "flaw_limit_2060": "L’orgoglio resta un innesco: contro Red o Giovanni può ancora accettare uno scontro evitabile.",
+      "team_species_2060": [
+        "Mega Blastoise"
+      ]
+    },
+    {
+      "id": 22,
+      "name": "Giovanni",
+      "epithet": "Il Boss",
+      "origin_reference": "Kanto / Team Rocket.",
+      "ace_2060": "Nessun ACE per scelta canonica.",
+      "tactical_identity_2060": "Anti-metagame / positional control / targeted removal: sei strumenti, nessun sentimentalismo, massimo valore dalla preparazione.",
+      "legacy_player_stats_2060": "Tattica 16 | Strategia 20 | Prediction 19 | Mind Games 20 | Conoscenza 19 | Adattamento 10 | Gestione Team 14 | Gestione Rischio 10.",
+      "behavior_profile_2060": "aggression=0.50 | switching=0.70 | setupAppetite=0.34 | controlPreference=0.88 | sustainPreference=0.62 | sacrificeTolerance=0.42 | preservation=0.72 | riskAppetite=0.40 | tempo=0.56",
+      "character_traits_2060": "Freddo, utilitarista, preparazione estrema, conoscenza e mind games al massimo.",
+      "tactical_interpretation_2060": "pianifica dal finale verso il presente, conservando la risorsa che copre il maggior numero di futuri plausibili. Sotto pressione deve semplificare invece di inventare informazioni nascoste; dopo un errore ricalcola win condition, speed control e risorse, senza cercare automaticamente di 'recuperare' con una giocata rischiosa.",
+      "flaw_limit_2060": "Il caos irrazionale e l’assenza di pattern riducono ancora il vantaggio della preparazione; è un limite, non un errore da cancellare.",
+      "team_species_2060": [
+        "Miraidon"
+      ]
+    },
+    {
+      "id": 23,
+      "name": "Dandel / Leon",
+      "epithet": "Il Campione di Galar",
+      "origin_reference": "Galar.",
+      "ace_2060": "Charizard-Gmax.",
+      "tactical_identity_2060": "Momentum offense / stadium pressure / ace-centric finish, con seconda win condition Mega per non dipendere più da un solo climax.",
+      "legacy_player_stats_2060": "Tattica 20 | Strategia 15 | Prediction 17 | Mind Games 11 | Conoscenza 18 | Adattamento 17 | Gestione Team 19 | Gestione Rischio 14.",
+      "behavior_profile_2060": "aggression=0.92 | switching=0.34 | setupAppetite=0.82 | controlPreference=0.28 | sustainPreference=0.18 | sacrificeTolerance=0.78 | preservation=0.32 | riskAppetite=0.80 | tempo=0.92",
+      "character_traits_2060": "Talento naturale enorme, ama convertire momentum, emotivamente fortissimo quando Charizard entra.",
+      "tactical_interpretation_2060": "pensa in termini di tempo, speed tier e posizione: cerca il turno che obbliga il rivale a rivelare una risposta e lo converte subito. Sotto pressione deve semplificare invece di inventare informazioni nascoste; dopo un errore ricalcola win condition, speed control e risorse, senza cercare automaticamente di 'recuperare' con una giocata rischiosa.",
+      "flaw_limit_2060": "Può ancora insistere troppo su una finestra offensiva “da stadio”; il rebuild riduce ma non cancella questa identità.",
+      "team_species_2060": [
+        "Charizard-Gmax"
+      ]
+    },
+    {
+      "id": 24,
+      "name": "Archie",
+      "epithet": "Il Signore della Pioggia",
+      "origin_reference": "Hoenn / Team Aqua.",
+      "ace_2060": "Mega Sharpedo.",
+      "tactical_identity_2060": "Rain offense / relentless pressure con maggiore disciplina sul momentum.",
+      "legacy_player_stats_2060": "Tattica 19 | Strategia 17 | Prediction 14 | Mind Games 11 | Conoscenza 18 | Adattamento 18 | Gestione Team 19 | Gestione Rischio 12.",
+      "behavior_profile_2060": "aggression=0.72 | switching=0.56 | setupAppetite=0.52 | controlPreference=0.52 | sustainPreference=0.38 | sacrificeTolerance=0.52 | preservation=0.55 | riskAppetite=0.58 | tempo=0.76",
+      "character_traits_2060": "Impulsivo, carismatico, ama pressione continua, disposto a spendere risorse ma oggi distingue momentum vero da movimento fine a se stesso.",
+      "tactical_interpretation_2060": "pensa in termini di tempo, speed tier e posizione: cerca il turno che obbliga il rivale a rivelare una risposta e lo converte subito. Sotto pressione deve semplificare invece di inventare informazioni nascoste; dopo un errore ricalcola win condition, speed control e risorse, senza cercare automaticamente di 'recuperare' con una giocata rischiosa.",
+      "flaw_limit_2060": "Può ancora sovrastimare il valore del ritmo e aprire un buco difensivo contro un revenge killer inatteso.",
+      "team_species_2060": [
+        "Kyogre"
+      ]
+    },
+    {
+      "id": 25,
+      "name": "Maxie",
+      "epithet": "L’Ingegnere del Sole",
+      "origin_reference": "Hoenn / Team Magma.",
+      "ace_2060": "Mega Camerupt.",
+      "tactical_identity_2060": "Sun infrastructure / methodical offense / resource management con più piani di recupero quando il sole viene spezzato.",
+      "legacy_player_stats_2060": "Tattica 14 | Strategia 20 | Prediction 17 | Mind Games 12 | Conoscenza 20 | Adattamento 12 | Gestione Team 19 | Gestione Rischio 14.",
+      "behavior_profile_2060": "aggression=0.72 | switching=0.56 | setupAppetite=0.52 | controlPreference=0.52 | sustainPreference=0.38 | sacrificeTolerance=0.52 | preservation=0.55 | riskAppetite=0.58 | tempo=0.76",
+      "character_traits_2060": "Metodico, analitico, pianifica turni di clima, accetta sacrifici calcolati.",
+      "tactical_interpretation_2060": "parte da un piano riconoscibile ma lo aggiorna sulle informazioni realmente rivelate, senza trattare lo scouting come onniscienza. Sotto pressione deve semplificare invece di inventare informazioni nascoste; dopo un errore ricalcola win condition, speed control e risorse, senza cercare automaticamente di 'recuperare' con una giocata rischiosa.",
+      "flaw_limit_2060": "Può ancora irrigidirsi quando il piano climatico viene spezzato ripetutamente.",
+      "team_species_2060": [
+        "Primal Groudon"
+      ]
+    },
+    {
+      "id": 26,
+      "name": "Astrid Vahl",
+      "epithet": "La Regina delle Aurore",
+      "origin_reference": "Kalos → Galar.",
+      "ace_2060": "Mega Mawile.",
+      "tactical_identity_2060": "Balanced Fairy pressure / double wincon, ora con più aggressività nel forzare il ritmo prima del finale.",
+      "legacy_player_stats_2060": "Tattica 16 | Strategia 19 | Prediction 18 | Mind Games 13 | Conoscenza 18 | Adattamento 15 | Gestione Team 18 | Gestione Rischio 11.",
+      "behavior_profile_2060": "aggression=0.64 | switching=0.56 | setupAppetite=0.55 | controlPreference=0.46 | sustainPreference=0.48 | sacrificeTolerance=0.48 | preservation=0.60 | riskAppetite=0.55 | tempo=0.66",
+      "character_traits_2060": "Metodica, grande gestione dei ruoli, doppia win condition, paziente ma meno passiva del 2026.",
+      "tactical_interpretation_2060": "pianifica dal finale verso il presente, conservando la risorsa che copre il maggior numero di futuri plausibili. Sotto pressione deve semplificare invece di inventare informazioni nascoste; dopo un errore ricalcola win condition, speed control e risorse, senza cercare automaticamente di 'recuperare' con una giocata rischiosa.",
+      "flaw_limit_2060": "Può ancora spendere un turno di troppo per costruire “il finale perfetto”.",
+      "team_species_2060": [
+        "Xerneas"
+      ]
+    },
+    {
+      "id": 27,
+      "name": "Silas Crowe",
+      "epithet": "Il Becchino",
+      "origin_reference": "Galar.",
+      "ace_2060": "Ceruledge.",
+      "tactical_identity_2060": "Screens hyper offense / multi-wave pressure / punish mistakes: comprime il tempo, forza risposte e conserva una seconda ondata offensiva quando la prima viene assorbita.",
+      "legacy_player_stats_2060": "Tattica 18 | Strategia 19 | Prediction 19 | Mind Games 19 | Conoscenza 13 | Adattamento 19 | Gestione Team 13 | Gestione Rischio 8.",
+      "behavior_profile_2060": "aggression=0.92 | switching=0.34 | setupAppetite=0.82 | controlPreference=0.28 | sustainPreference=0.18 | sacrificeTolerance=0.78 | preservation=0.32 | riskAppetite=0.80 | tempo=0.92",
+      "character_traits_2060": "Provocatorio, freddo, eccellente nei mind games, fortissimo nel punire un singolo turno passivo.",
+      "tactical_interpretation_2060": "valuta rapidamente quale scambio produce il massimo danno netto e quanto della propria seconda ondata rimane disponibile. Sotto pressione deve semplificare invece di inventare informazioni nascoste; dopo un errore ricalcola win condition, speed control e risorse, senza cercare automaticamente di 'recuperare' con una giocata rischiosa.",
+      "flaw_limit_2060": "Stile ancora ad alta varianza: se screens/trap non producono subito un vantaggio, la squadra può perdere profondità.",
+      "team_species_2060": [
+        "Calyrex-Shadow"
+      ]
+    },
+    {
+      "id": 28,
+      "name": "Rurik Dune",
+      "epithet": "Il Re della Sabbia",
+      "origin_reference": "Unima / spedizioni archeologiche.",
+      "ace_2060": "Mega Tyranitar.",
+      "tactical_identity_2060": "Sand balance / attrition to explosion: costruisce un finale stabile, poi accelera brutalmente con Tyranitar o Excadrill.",
+      "legacy_player_stats_2060": "Tattica 17 | Strategia 19 | Prediction 13 | Mind Games 9 | Conoscenza 18 | Adattamento 16 | Gestione Team 20 | Gestione Rischio 16.",
+      "behavior_profile_2060": "aggression=0.46 | switching=0.62 | setupAppetite=0.42 | controlPreference=0.66 | sustainPreference=0.78 | sacrificeTolerance=0.38 | preservation=0.88 | riskAppetite=0.28 | tempo=0.38",
+      "character_traits_2060": "Paziente, risk management altissimo, costruisce finali stabili, molto difficile da far tiltare.",
+      "tactical_interpretation_2060": "misura il progresso in status, item rimossi, hazard e libertà di switch; non deve inseguire KO che non migliorano la posizione. Sotto pressione deve semplificare invece di inventare informazioni nascoste; dopo un errore ricalcola win condition, speed control e risorse, senza cercare automaticamente di 'recuperare' con una giocata rischiosa.",
+      "flaw_limit_2060": "Nel caos puro resta meno brillante di Rei/Kaia/Nyx; può tardare ad abbandonare una struttura che in teoria era corretta.",
+      "team_species_2060": [
+        "Zygarde"
+      ]
+    },
+    {
+      "id": 29,
+      "name": "Ayame Hoshino",
+      "epithet": "La Custode della Fenice",
+      "origin_reference": "Johto.",
+      "ace_2060": "Mega Lopunny.",
+      "tactical_identity_2060": "Pivot balance / Future Sight pressure / ACE cleanup, con maggiore capacità di forzare il ritmo prima del late game.",
+      "legacy_player_stats_2060": "Tattica 15 | Strategia 17 | Prediction 18 | Mind Games 10 | Conoscenza 18 | Adattamento 20 | Gestione Team 18 | Gestione Rischio 12.",
+      "behavior_profile_2060": "aggression=0.48 | switching=0.68 | setupAppetite=0.44 | controlPreference=0.80 | sustainPreference=0.66 | sacrificeTolerance=0.40 | preservation=0.78 | riskAppetite=0.36 | tempo=0.52",
+      "character_traits_2060": "Paziente, prediction eccellente, gestione team altissima, oggi più disposta a premere presto.",
+      "tactical_interpretation_2060": "pianifica dal finale verso il presente, conservando la risorsa che copre il maggior numero di futuri plausibili. Sotto pressione deve semplificare invece di inventare informazioni nascoste; dopo un errore ricalcola win condition, speed control e risorse, senza cercare automaticamente di 'recuperare' con una giocata rischiosa.",
+      "flaw_limit_2060": "Raramente forza il ritmo al turno 1-3; contro hyper offense estrema può ancora inseguire il controllo invece di imporlo.",
+      "team_species_2060": [
+        "Ho-Oh"
+      ]
+    },
+    {
+      "id": 30,
+      "name": "Orion Vale",
+      "epithet": "L’Ingegnere Solare",
+      "origin_reference": "Alola → Galar.",
+      "ace_2060": "Volcarona.",
+      "tactical_identity_2060": "Systems bulky offense / Future Sight core, ora con maggiore modularità e un pivot Mega che impedisce al sistema di dipendere da una sola catena.",
+      "legacy_player_stats_2060": "Tattica 16 | Strategia 20 | Prediction 18 | Mind Games 9 | Conoscenza 20 | Adattamento 12 | Gestione Team 20 | Gestione Rischio 13.",
+      "behavior_profile_2060": "aggression=0.48 | switching=0.68 | setupAppetite=0.44 | controlPreference=0.80 | sustainPreference=0.66 | sacrificeTolerance=0.40 | preservation=0.78 | riskAppetite=0.36 | tempo=0.52",
+      "character_traits_2060": "Conoscenza 20, strategia 20, team management 20, disciplina sistemica altissima.",
+      "tactical_interpretation_2060": "parte da un piano riconoscibile ma lo aggiorna sulle informazioni realmente rivelate, senza trattare lo scouting come onniscienza. Sotto pressione deve semplificare invece di inventare informazioni nascoste; dopo un errore ricalcola win condition, speed control e risorse, senza cercare automaticamente di 'recuperare' con una giocata rischiosa.",
+      "flaw_limit_2060": "Può ancora sovraingegnerizzare e perdere valore quando il rivale rende irreversibile il caos prima che il sistema completi il ciclo.",
+      "team_species_2060": [
+        "Solgaleo"
+      ]
+    },
+    {
+      "id": 31,
+      "name": "Nyx Vesper",
+      "epithet": "La Cacciatrice Nera",
+      "origin_reference": "Kalos / circuito clandestino.",
+      "ace_2060": "Weavile.",
+      "tactical_identity_2060": "Hazard stack / anti-removal / dark pressure, con una nuova risposta alla linear offense: Mega Gyarados come breaker e Weavile Dynamax come acceleratore.",
+      "legacy_player_stats_2060": "Tattica 19 | Strategia 17 | Prediction 20 | Mind Games 20 | Conoscenza 14 | Adattamento 15 | Gestione Team 13 | Gestione Rischio 10.",
+      "behavior_profile_2060": "aggression=0.52 | switching=0.60 | setupAppetite=0.30 | controlPreference=0.90 | sustainPreference=0.54 | sacrificeTolerance=0.50 | preservation=0.64 | riskAppetite=0.42 | tempo=0.60",
+      "character_traits_2060": "Aggressiva ma non suicida, prediction/mind games d’élite, eccellente contro team che switchano spesso.",
+      "tactical_interpretation_2060": "misura il progresso in status, item rimossi, hazard e libertà di switch; non deve inseguire KO che non migliorano la posizione. Sotto pressione deve semplificare invece di inventare informazioni nascoste; dopo un errore ricalcola win condition, speed control e risorse, senza cercare automaticamente di 'recuperare' con una giocata rischiosa.",
+      "flaw_limit_2060": "L’offense lineare resta il matchup meno naturale, anche se il nuovo Mega Gyarados lo attenua.",
+      "team_species_2060": [
+        "Yveltal"
+      ]
+    },
+    {
+      "id": 32,
+      "name": "Kaia Solari",
+      "epithet": "La Prima Fiamma",
+      "origin_reference": "Paldea.",
+      "ace_2060": "Mega Houndoom.",
+      "tactical_identity_2060": "Sun bulky offense / multi-abuser / adaptive aggression con strategia di lungo periodo molto più raffinata.",
+      "legacy_player_stats_2060": "Tattica 19 | Strategia 19 | Prediction 19 | Mind Games 10 | Conoscenza 14 | Adattamento 20 | Gestione Team 16 | Gestione Rischio 11.",
+      "behavior_profile_2060": "aggression=0.72 | switching=0.56 | setupAppetite=0.52 | controlPreference=0.52 | sustainPreference=0.38 | sacrificeTolerance=0.52 | preservation=0.55 | riskAppetite=0.58 | tempo=0.76",
+      "character_traits_2060": "Improvvisazione feroce, pressione immediata, adattamento 20, oggi capace di pianificare più turni senza perdere spontaneità.",
+      "tactical_interpretation_2060": "parte da un piano riconoscibile ma lo aggiorna sulle informazioni realmente rivelate, senza trattare lo scouting come onniscienza. Sotto pressione deve semplificare invece di inventare informazioni nascoste; dopo un errore ricalcola win condition, speed control e risorse, senza cercare automaticamente di 'recuperare' con una giocata rischiosa.",
+      "flaw_limit_2060": "Mind games ancora secondari: può essere manipolata da trappole che cambiano il valore di una risorsa molti turni dopo, anche se molto meno del 2026.",
+      "team_species_2060": [
+        "Koraidon"
+      ]
+    },
+    {
+      "id": 33,
+      "name": "Lucas",
+      "epithet": "Il Custode di Sinnoh",
+      "origin_reference": "Sinnoh.",
+      "ace_2060": "Torterra.",
+      "tactical_identity_2060": "**Sinnoh multi-axis offense / progressive conversion / three-starter core**: costruisce più vie di vittoria contemporaneamente e decide soltanto durante il match quale trasformare nella conversione principale.",
+      "legacy_player_stats_2060": "Tattica 18 | Strategia 17 | Prediction 16 | Mind Games 10 | Conoscenza 20 | Adattamento 17 | Gestione Team 18 | Gestione Rischio 12.",
+      "behavior_profile_2060": "aggression=0.64 | switching=0.58 | setupAppetite=0.62 | controlPreference=0.58 | sustainPreference=0.50 | sacrificeTolerance=0.64 | preservation=0.46 | riskAppetite=0.56 | tempo=0.64",
+      "character_traits_2060": "Silenzioso, osservatore, poco teatrale. Lucas parla raramente durante una battaglia e non utilizza provocazioni, celebrazioni o pressione verbale per alterare l'avversario. Non sembra interessato a dimostrare di essere il più forte né a costruire una rivalità personale: entra, osserva, decide e agisce. La sua presenza può risultare intimidatoria proprio perché rimane quasi immutata quando il match accelera, quando perde una risorsa importante o quando ottiene un vantaggio enorme. Non associa automaticamente il Pokémon più potente alla risorsa da preservare: Arceus può essere sacrificato, Mega Staraptor può essere speso nel midgame e Torterra può attaccare senza Shell Smash se il valore immediato è superiore. Per Lucas il valore di un Pokémon esiste nello stato concreto della battaglia, non nel prestigio del suo nome.",
+      "tactical_interpretation_2060": "Valuta quale asse possiede il maggior valore reale nello stato corrente. Shell Smash, Swords Dance, Mega Evolution e Dynamax non sono innesco automatici.",
+      "flaw_limit_2060": "La presenza di più condizioni di vittoria può rallentare la scelta di quale risorsa sacrificare. Contro squadre che combinano pivoting rapido, priority e speed control può tentare di preservare contemporaneamente troppi percorsi.",
+      "team_species_2060": []
+    },
+    {
+      "id": 34,
+      "name": "Ronan Ward",
+      "epithet": "Il Custode del Ritmo",
+      "origin_reference": "Galar.",
+      "ace_2060": "Rillaboom.",
+      "tactical_identity_2060": "**Rhythm Control / Defensive Momentum / Counteroffensive Pressure**.",
+      "legacy_player_stats_2060": "Tattica 17 | Strategia 18 | Prediction 16 | Mind Games 12 | Conoscenza 17 | Adattamento 16 | Gestione Team 18 | Gestione Rischio 14.",
+      "behavior_profile_2060": "aggression=0.56 | switching=0.78 | setupAppetite=0.54 | controlPreference=0.82 | sustainPreference=0.68 | sacrificeTolerance=0.58 | preservation=0.64 | riskAppetite=0.42 | tempo=0.62",
+      "character_traits_2060": "Paziente senza essere passivo.",
+      "tactical_interpretation_2060": "Ronan valuta ogni posizione in termini di **tempo, danno ridotto, libertà di switch, controllo del terreno e valore della prossima entrata**.",
+      "flaw_limit_2060": "Ronan può eccedere nella ricerca del controllo.",
+      "team_species_2060": []
+    },
+    {
+      "id": 35,
+      "name": "Soren Veyr",
+      "epithet": "Il Rapace del Crepuscolo",
+      "origin_reference": "Borrius",
+      "ace_2060": "**Garchomp**",
+      "tactical_identity_2060": "**Tempo Predation / Fast Pressure / Opportunistic Conversion**",
+      "legacy_player_stats_2060": "Tattica 18 | Strategia 15 | Prediction 18 | Mind Games 16 | Conoscenza 15 | Adattamento 16 | Gestione Team 16 | Gestione Rischio 14.",
+      "behavior_profile_2060": "aggression=0.78 | switching=0.72 | setupAppetite=0.45 | controlPreference=0.58 | sustainPreference=0.32 | sacrificeTolerance=0.62 | preservation=0.48 | riskAppetite=0.68 | tempo=0.86",
+      "character_traits_2060": null,
+      "tactical_interpretation_2060": null,
+      "flaw_limit_2060": null,
+      "team_species_2060": []
+    }
+  ]
+}

@@ -1,95 +1,125 @@
 {
-  "schema_version": 4,
+  "schema_version": 5,
   "project": "pokemon5e-gm-agent",
-  "campaign_status": "protagonist_selection",
-  "setup_stage": "choose_protagonist",
+  "campaign_status": "ready_for_protagonist_selection",
+  "setup_stage": "choose_one_of_five_before_opening_scene",
   "rules": {
     "edition": 2024,
-    "progression_mode": "trainer_xp_poke5e",
     "roll_mode": "gm_visible",
     "canonical_pokemon_only": true,
     "fakemon": false,
-    "supplements": {
-      "bonds": true,
-      "breeding": false,
-      "chainmail_and_charizards": false,
-      "contests": false,
-      "legendary_boss_battles": true,
-      "pokemon_transformations": false,
-      "shiny_pokemon": true
-    },
-    "house_rules": []
-  },
-  "campaign": {
-    "title": "Road to the World Championships",
-    "continuity": "LEGA GPT playable canon",
-    "current_location": null,
-    "time": null,
-    "session_number": 0,
-    "protagonist_options": [
-      {
-        "name": "Luke",
-        "starter": "Growlithe"
-      },
-      {
-        "name": "Edward",
-        "starter": "Totodile"
-      },
-      {
-        "name": "Fab",
-        "starter": "Koffing"
-      },
-      {
-        "name": "Daniel",
-        "starter": "Gastly"
-      },
-      {
-        "name": "Mattew",
-        "starter": "Eevee"
-      }
+    "house_rules": [
+      "All five starting Pokemon begin at level 5.",
+      "The five friends begin together in one shared opening regardless of later regional associations.",
+      "World Championship results are non-deterministic; no plot armor."
     ]
   },
+  "campaign": {
+    "title": "Five Friends — Road to the World Championship",
+    "structure": "classic Pokemon journey using Pokemon 5e tabletop rules",
+    "starting_region": null,
+    "starting_location": null,
+    "world_championship": {
+      "long_term_objective": true,
+      "guaranteed_reach": false,
+      "guaranteed_win": false,
+      "format_target": "32 trainers; 8 groups of 4; top 2 to R16, QF, SF, Final"
+    },
+    "session_number": 0
+  },
+  "protagonist_options": [
+    {
+      "name": "Luke",
+      "starter": {
+        "species": "Growlithe",
+        "form": "Hisuian",
+        "level": 5
+      }
+    },
+    {
+      "name": "Mattew",
+      "starter": {
+        "species": "Eevee",
+        "level": 5
+      }
+    },
+    {
+      "name": "Daniel",
+      "starter": {
+        "species": "Gastly",
+        "level": 5
+      }
+    },
+    {
+      "name": "Edward",
+      "starter": {
+        "species": "Totodile",
+        "level": 5
+      }
+    },
+    {
+      "name": "Fab",
+      "starter": {
+        "species": "Koffing",
+        "level": 5
+      }
+    }
+  ],
   "player": {
-    "trainer_name": null,
+    "selected_friend": null,
     "trainer_level": 1,
-    "trainer_path": null,
-    "specializations": [],
-    "background": null,
     "ability_scores": null,
-    "legacy_motor_stats": null,
+    "skills": [],
+    "specialization": null,
+    "trainer_path": null,
     "hp": null,
     "max_hp": null,
-    "resources": {},
-    "money": null,
-    "inventory": []
+    "inventory": [],
+    "money": null
+  },
+  "friends_npc_state": {
+    "Luke": {
+      "role": "pending_selection",
+      "trainer_level": 1
+    },
+    "Mattew": {
+      "role": "pending_selection",
+      "trainer_level": 1
+    },
+    "Daniel": {
+      "role": "pending_selection",
+      "trainer_level": 1
+    },
+    "Edward": {
+      "role": "pending_selection",
+      "trainer_level": 1
+    },
+    "Fab": {
+      "role": "pending_selection",
+      "trainer_level": 1
+    }
   },
   "party": [],
   "pc_storage": [],
   "objectives": [
-    "Choose the protagonist."
+    "Choose one of the five friends as the player character. Do not begin the opening scene before selection."
   ],
   "known_npcs": [],
-  "achievements": [],
   "active_combat": null,
   "gm_private_ref": "gm_private/SECRET_CANON_DO_NOT_OPEN.json",
-  "last_checkpoint": null,
+  "character_bible_ref": "canon/ROSTER2060_CHARACTER_BIBLE.json",
   "runtime": {
     "mechanical_authority": "poke5e",
     "tactical_ai": {
       "enabled": true,
       "engine": "LEGA GPT Battle Engine",
-      "package_release": "v14.1",
-      "battle_core": "8.7.0",
-      "tournament_preparation": "13.0.0",
-      "source_sha256": "638c505f6033ac02a6e450d85126a99aba3e7ad1a27accca738a5a636552025c",
-      "showdown_mechanics_are_authoritative": false
+      "package_release": "v14.1"
     },
     "stat_bridge": {
-      "enabled": true,
-      "version": 2,
+      "version": 3,
       "module": "src/bridge/motor-to-poke5e.mjs",
-      "legacy_stats_are_rollable": false,
-      "classic_dnd_only": true
+      "classic_dnd_only": true,
+      "rookie_standard_array": true
     }
   }
 }

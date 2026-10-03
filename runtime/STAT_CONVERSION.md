@@ -1,86 +1,67 @@
-# LEGA GPT Player Stats → classic D&D / Pokémon 5e
+# Balanced D&D/Pokémon 5e starting stats
 
-The old eight Player Stats are no longer rolled in-game.
+## Core rule
 
-They are migration inputs used once to produce the six classic abilities:
+The five friends no longer begin with late-career 2060 ratings.
 
-`STR / DEX / CON / INT / WIS / CHA`
+At Trainer Level 1, every one of them uses the exact same D&D standard-array budget:
 
-All future checks use normal D&D/Pokémon 5e ability checks, saving throws and skill proficiencies.
+`15, 14, 13, 12, 10, 8`
 
-## Conversion
+Same total: **72**. Different distribution: personality and play style.
 
-For a legacy profile:
-
-```
-DEX = round(
-  0.50*Tattica +
-  0.30*Adattamento +
-  0.20*Prediction
-)
-
-INT = round(
-  0.30*Strategia +
-  0.30*MindGames +
-  0.25*Conoscenza +
-  0.15*Tattica
-)
-
-WIS = round(
-  0.40*Prediction +
-  0.30*Adattamento +
-  0.30*GestioneRischio
-)
-
-CHA = round(
-  0.60*GestioneTeam +
-  0.20*Tattica +
-  0.20*Adattamento
-)
-```
-
-Scores are clamped to 1–20.
-
-STR and CON describe physical ability and are not meaningfully encoded by the eight tactical stats. Baseline human trainer values are 10/10 unless a canon physical background supplies different values.
-
-## Canon converted profiles
-
-| Trainer | STR | DEX | CON | INT | WIS | CHA |
+| Friend | STR | DEX | CON | INT | WIS | CHA |
 |---|---:|---:|---:|---:|---:|---:|
-| Luke | 10 | 18 | 10 | 16 | 17 | 17 |
-| Mattew | 10 | 20 | 10 | 20 | 20 | 20 |
-| Daniel | 10 | 20 | 10 | 20 | 20 | 20 |
-| Edward | 10 | 18 | 10 | 15 | 18 | 17 |
-| Fab | 10 | 19 | 10 | 18 | 19 | 19 |
+| Luke | 8 | 14 | 10 | 12 | 15 | 13 |
+| Mattew | 8 | 15 | 10 | 14 | 13 | 12 |
+| Daniel | 8 | 12 | 10 | 15 | 14 | 13 |
+| Edward | 14 | 13 | 15 | 8 | 10 | 12 |
+| Fab | 10 | 8 | 14 | 13 | 12 | 15 |
 
-These replace the old parallel Player Stats for tabletop resolution.
+These are rookie stats, not 2060 power levels.
 
-## Preserve the old purpose using real 5e checks
+## Why each distribution exists
 
-| Old purpose | Pokémon 5e / D&D resolution |
-|---|---|
-| Tattica — personal positioning | DEX (Acrobatics) |
-| Tattica — Pokémon command timing | CHA (Animal Handling) |
-| Strategia | INT (Investigation) |
-| Prediction | WIS (Insight), sometimes WIS (Perception) |
-| Mind Games | INT (Investigation); INT (Intimidation/Performance) when the proficiency fits |
-| Conoscenza | INT (Nature), sometimes INT (Investigation) |
-| Adattamento | WIS (Survival) or WIS (Insight) |
-| Gestione Team | CHA (Animal Handling) or CHA (Persuasion) |
-| Gestione Rischio | WIS (Insight) or WIS (Perception) |
+- **Luke:** high WIS + DEX: instinct, prediction, adaptation, reacting to a changing field.
+- **Mattew:** high DEX + INT: technique, timing, speed tiers, calculated patterns.
+- **Daniel:** high INT + WIS: layered planning, reads, analysis; risk of overthinking.
+- **Edward:** high CON + STR: directness, resilience, learning through real exchanges.
+- **Fab:** high CHA + CON: bond with his Pokémon, patience, persistence and team management.
 
-The GM chooses the ability + proficiency based on what the trainer actually attempts.
+## Skills at Trainer Level 1
 
-Example:
-A trainer fakes a switch pattern to make the opponent commit to the wrong plan. This is no longer “roll Mind Games”. It can be **INT (Investigation)** to construct/read the tactical deception, or **INT (Performance)** if Performance proficiency is the relevant established expertise.
+All five have Pokémon 5e's required **Animal Handling** plus two character-specific legal Trainer skills:
 
-## Pokémon 5e authority
+- Luke: Insight, Survival.
+- Mattew: Investigation, Perception.
+- Daniel: Investigation, Insight.
+- Edward: Athletics, Intimidation.
+- Fab: Nature, Medicine.
 
-The converted ability scores interact with Pokémon 5e normally. They do not create hidden bonuses on Pokémon attacks, damage, AC or capture checks.
+## Old motor stats are not rolled
 
-Trainer class core:
-- Primary Ability: CHA.
-- 2024 Hit Die: d6.
-- Level 1 HP: 6 + CON.
-- Saving Throw proficiency: CHA.
-- Animal Handling proficiency plus two Trainer skill choices.
+The 2060 document's Tattica / Strategia / Prediction / Mind Games / Conoscenza / Adattamento / Gestione Team / Gestione Rischio remain a late-career behavioral reference.
+
+They do not exist as separate character-sheet stats.
+
+Examples:
+- Mind Games → INT-based check.
+- Prediction → WIS (Insight/Perception).
+- Strategia → INT (Investigation).
+- Team Management → CHA (Animal Handling/Persuasion).
+
+## Progression split
+
+### Chosen player
+Uses normal Pokémon 5e / D&D progression.
+
+The player chooses legal ASIs/feats and is never forced toward the 2060 numerical profile.
+
+### Four unchosen friends
+They become autonomous NPCs.
+
+Their ASI growth at Trainer Levels 4/8/12/16 is scripted with normal legal ability-score increases to preserve their personalities. Their narrative/tactical competence can also improve through story milestones, but it never creates hidden bonuses outside Pokémon 5e.
+
+If campaign events radically change them, the GM may revise future NPC growth rather than falsify outcomes.
+
+Level 19 follows the active Pokémon 5e Epic Boon rules; it is not replaced by a custom motor-stat increase.
