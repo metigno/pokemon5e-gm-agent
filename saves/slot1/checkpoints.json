@@ -1,6 +1,17 @@
 {
   "schema_version": 1,
   "save_slot": 1,
-  "next_checkpoint_number": 1,
-  "checkpoints": []
+  "next_checkpoint_number": 2,
+  "checkpoints": [
+    {
+      "id": "CP-PRE-INTRO",
+      "event_id": "INTRO_FIVE",
+      "world_day": 0,
+      "trainer_level": 1,
+      "location": "Interregional Trainer Licensing Center — Starting Campus",
+      "type": "CP-PRE-ANCHOR",
+      "result": "started",
+      "summary": "Luke selected as protagonist. The five friends are outside the licensing center on the morning their trainer careers may begin."
+    }
+  ]
 }

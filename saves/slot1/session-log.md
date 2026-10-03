@@ -13,3 +13,19 @@ When this slot is selected:
 - the other four become autonomous NPCs.
 
 All future durable checkpoints for this slot must be appended only to this file.
+
+## Session 1 — Campaign start
+
+Checkpoint: CP-PRE-INTRO
+
+- Save slot: 1.
+- Protagonist selected: Luke.
+- Luke is Trainer Level 1.
+- Starting abilities: STR 8, DEX 14, CON 10, INT 12, WIS 15, CHA 13.
+- Starting skill proficiencies: Animal Handling, Insight, Survival.
+- Mattew, Daniel, Edward and Fab are now autonomous persistent NPCs.
+- Opening location: Interregional Trainer Licensing Center — Starting Campus.
+- World day: 0, morning.
+- Intro chain activated at the moment before the doors open.
+- Hisuian Growlithe Lv. 5 is Luke's fixed starter assignment; the starter handoff has not happened yet.
+

@@ -1,10 +1,10 @@
 {
   "schema_version": 7,
   "save_slot": 1,
-  "slot_status": "empty",
+  "slot_status": "occupied",
   "project": "pokemon5e-gm-agent",
-  "campaign_status": "ready_for_protagonist_selection",
-  "setup_stage": "choose_one_of_five_before_opening_scene",
+  "campaign_status": "intro_in_progress",
+  "setup_stage": "intro_00_before_doors_open",
   "rules": {
     "edition": 2024,
     "roll_mode": "gm_visible",
@@ -27,7 +27,7 @@
       "guaranteed_win": false,
       "format_target": "32 trainers; 8 groups of 4; top 2 to R16, QF, SF, Final"
     },
-    "session_number": 0,
+    "session_number": 1,
     "event_model": "open_world_with_scripted_anchors",
     "intro_chain": "INTRO_FIVE"
   },
@@ -70,11 +70,22 @@
     }
   ],
   "player": {
-    "selected_friend": null,
+    "selected_friend": "Luke",
     "player_label": null,
     "trainer_level": 1,
-    "ability_scores": null,
-    "skills": [],
+    "ability_scores": {
+      "STR": 8,
+      "DEX": 14,
+      "CON": 10,
+      "INT": 12,
+      "WIS": 15,
+      "CHA": 13
+    },
+    "skills": [
+      "Animal Handling",
+      "Insight",
+      "Survival"
+    ],
     "specialization": null,
     "trainer_path": null,
     "hp": null,
@@ -84,30 +95,34 @@
   },
   "friends_npc_state": {
     "Luke": {
-      "role": "pending_selection",
+      "role": "player",
       "trainer_level": 1
     },
     "Mattew": {
-      "role": "pending_selection",
-      "trainer_level": 1
+      "role": "npc",
+      "trainer_level": 1,
+      "autonomous": true
     },
     "Daniel": {
-      "role": "pending_selection",
-      "trainer_level": 1
+      "role": "npc",
+      "trainer_level": 1,
+      "autonomous": true
     },
     "Edward": {
-      "role": "pending_selection",
-      "trainer_level": 1
+      "role": "npc",
+      "trainer_level": 1,
+      "autonomous": true
     },
     "Fab": {
-      "role": "pending_selection",
-      "trainer_level": 1
+      "role": "npc",
+      "trainer_level": 1,
+      "autonomous": true
     }
   },
   "party": [],
   "pc_storage": [],
   "objectives": [
-    "Choose one of the five friends as the player character. Do not begin the opening scene before selection."
+    "Complete trainer licensing at the Interregional Trainer Licensing Center."
   ],
   "known_npcs": [],
   "active_combat": null,
@@ -143,9 +158,9 @@
     "event_graph": "campaign/events/MAIN_EVENT_GRAPH.json",
     "intro_chain": "campaign/events/INTRO_CHAIN.md",
     "level_milestones": "campaign/events/LEVEL_MILESTONES.json",
-    "status": "waiting_for_protagonist",
-    "active_chain": null,
-    "active_event": null,
+    "status": "active",
+    "active_chain": "INTRO_FIVE",
+    "active_event": "INTRO_00",
     "queued_events": [],
     "completed_events": [],
     "failed_events": [],
@@ -161,7 +176,10 @@
       "time_of_day": "morning"
     },
     "trigger_check_due": false,
-    "last_trigger_check": null,
+    "last_trigger_check": {
+      "reason": "protagonist_selected",
+      "result": "INTRO_FIVE activated"
+    },
     "checkpoint_ledger": "saves/slot1/checkpoints.json"
   },
   "checkpoint_policy_ref": "campaign/events/CHECKPOINT_POLICY.md"

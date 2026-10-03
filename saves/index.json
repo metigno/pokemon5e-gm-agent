@@ -8,11 +8,11 @@
     {
       "slot": 1,
       "label": "Slot 1",
-      "status": "empty",
+      "status": "occupied",
       "campaign_file": "saves/slot1/campaign.json",
       "session_log": "saves/slot1/session-log.md",
       "player_label": null,
-      "protagonist": null,
+      "protagonist": "Luke",
       "checkpoints_file": "saves/slot1/checkpoints.json"
     },
     {
