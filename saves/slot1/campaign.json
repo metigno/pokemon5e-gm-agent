@@ -288,7 +288,7 @@
   "active_combat": {
     "type": "wild_warehouse_encounter",
     "status": "warehouse_encounter_continues",
-    "round": 4,
+    "round": 5,
     "player_trainer": "Luke",
     "player_pokemon": "luke-growlithe-hisui-001",
     "opponents": [
@@ -300,6 +300,15 @@
         "ac": 12,
         "disposition": "frightened_and_defensive",
         "status": "dead"
+      },
+      {
+        "species": "Rattata",
+        "level": null,
+        "hp": 16,
+        "max_hp": 16,
+        "ac": 12,
+        "disposition": "cornered_and_panicked",
+        "position": "low shelf, aisle blocked by Growlithe"
       }
     ],
     "environment": {
@@ -434,6 +443,37 @@
         "actor": "Wild Rattata #2",
         "action": "Retreat",
         "result": "Fled deeper through shelving after seeing Rattata #1 killed and Luke interpose."
+      },
+      {
+        "round": 4,
+        "actor": "Luke",
+        "action": "Slide crate to pin/trap Wild Rattata #2 without breaking warehouse goods",
+        "check": {
+          "type": "Strength",
+          "d20": 13,
+          "modifier": -1,
+          "total": 12,
+          "dc": 12
+        },
+        "result": "success"
+      },
+      {
+        "round": 4,
+        "actor": "Wild Rattata #2",
+        "action": "DEX save to avoid crate",
+        "save": {
+          "d20": 13,
+          "modifier": 2,
+          "total": 15
+        },
+        "result": "success",
+        "effect": "Dodged onto a low shelf instead of being pinned"
+      },
+      {
+        "round": 4,
+        "actor": "Growlithe",
+        "action": "Cover escape route",
+        "result": "Blocked the aisle exit, forcing Rattata to remain inside the warehouse encounter area"
       }
     ],
     "turn": "Luke",
