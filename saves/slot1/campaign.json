@@ -246,7 +246,7 @@
         {
           "name": "Bite",
           "pp_max": 15,
-          "pp_current": 14
+          "pp_current": 13
         },
         {
           "name": "Ember",
@@ -259,7 +259,7 @@
         "outcome": "Growlithe approached willingly without a roll.",
         "demeanor": "curious_and_receptive"
       },
-      "last_command_response": "hesitated at lethal order toward a KO target; instructor intervened before action",
+      "last_command_response": "Obeyed a lethal Bite command against an active hostile Rattata during the warehouse job.",
       "last_interaction": "Luke ran to hug Growlithe after the win, praised him as the best, then checked on Eevee's condition.",
       "resources": {
         "intimidate": {
@@ -288,18 +288,18 @@
   "active_combat": {
     "type": "wild_warehouse_encounter",
     "status": "warehouse_encounter_continues",
-    "round": 3,
+    "round": 4,
     "player_trainer": "Luke",
     "player_pokemon": "luke-growlithe-hisui-001",
     "opponents": [
       {
         "species": "Rattata",
         "level": null,
-        "hp": 3,
+        "hp": 0,
         "max_hp": 16,
         "ac": 12,
         "disposition": "frightened_and_defensive",
-        "status": "badly_wounded_retreating"
+        "status": "dead"
       }
     ],
     "environment": {
@@ -397,6 +397,43 @@
         "actor": "Wild Rattata #1",
         "action": "Disengage and retreat",
         "result": "badly wounded, escaped deeper behind warehouse shelving"
+      },
+      {
+        "round": 3,
+        "actor": "Luke",
+        "action": "Move between Growlithe and Wild Rattata #2",
+        "result": "Luke interposed himself while Growlithe pursued Rattata #1"
+      },
+      {
+        "round": 3,
+        "actor": "Luke/Growlithe",
+        "intent": "lethal",
+        "move": "Bite",
+        "attack_roll": {
+          "d20": 15,
+          "modifier": 5,
+          "total": 20
+        },
+        "target": "Wild Rattata #1",
+        "result": "hit",
+        "damage": {
+          "dice": [
+            7,
+            4
+          ],
+          "move": 2,
+          "total": 13,
+          "type": "Dark"
+        },
+        "target_hp_before": 3,
+        "target_hp_after": 0,
+        "target_status": "dead"
+      },
+      {
+        "round": 3,
+        "actor": "Wild Rattata #2",
+        "action": "Retreat",
+        "result": "Fled deeper through shelving after seeing Rattata #1 killed and Luke interpose."
       }
     ],
     "turn": "Luke",
@@ -409,11 +446,12 @@
       "confirmed": [
         {
           "species": "Rattata",
-          "count": 2
+          "count": 1
         }
       ],
       "suspected_more": true,
-      "exact_count_known": false
+      "exact_count_known": false,
+      "killed": 1
     }
   },
   "gm_private_ref": "gm_private/SECRET_CANON_DO_NOT_OPEN.json",
