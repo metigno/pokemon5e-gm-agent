@@ -196,7 +196,7 @@
           "STR": 1
         }
       },
-      "bond_state": "initial_trust_established",
+      "bond_state": "initial_trust_with_command_uncertainty",
       "gender": null,
       "hp": null,
       "max_hp": null,
@@ -205,7 +205,8 @@
         "approach": "Luke called Growlithe gently as he would call a dog to come closer.",
         "outcome": "Growlithe approached willingly without a roll.",
         "demeanor": "curious_and_receptive"
-      }
+      },
+      "last_command_response": "hesitated at lethal order toward a KO target; instructor intervened before action"
     }
   ],
   "pc_storage": [],
@@ -270,10 +271,19 @@
     },
     "trigger_check_due": false,
     "last_trigger_check": {
-      "reason": "first_contact_resolved",
-      "result": "INTRO_03 completed; INTRO_04 active"
+      "reason": "player_ordered_lethal_action_against_ko_wild_pokemon",
+      "result": "instructor_intervened_before lethal harm; certification safety concern recorded"
     },
     "checkpoint_ledger": "saves/slot1/checkpoints.json"
   },
-  "checkpoint_policy_ref": "campaign/events/CHECKPOINT_POLICY.md"
+  "checkpoint_policy_ref": "campaign/events/CHECKPOINT_POLICY.md",
+  "certification": {
+    "safety_flags": [
+      {
+        "type": "serious_warning",
+        "reason": "Luke ordered Growlithe to eat a KO wild Skwovet during supervised certification.",
+        "outcome": "Instructor intervened before lethal harm. Skwovet remained alive. Luke's certification now includes a safety concern requiring evaluation."
+      }
+    ]
+  }
 }
