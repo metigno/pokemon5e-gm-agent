@@ -150,8 +150,8 @@
         },
         "current_stats_note": "DEX 16 after nature and ASI; combat details otherwise GM-private until observed",
         "max_hp": 32,
-        "hp": 23,
-        "damage_taken": 9,
+        "hp": 9,
+        "damage_taken": 23,
         "hp_level_rolls": [
           1,
           6,
@@ -235,7 +235,7 @@
         {
           "name": "Ember",
           "pp_max": 15,
-          "pp_current": 12
+          "pp_current": 11
         }
       ],
       "first_contact": {
@@ -275,7 +275,7 @@
     "level": 5,
     "official_for_license": true,
     "round": 4,
-    "turn": "Luke",
+    "turn": "Mattew",
     "initiative": {
       "Luke_Growlithe": {
         "roll": 20,
@@ -404,6 +404,29 @@
         "damage_after_resistance": 4,
         "target_hp_after": 18,
         "target_max_hp": 35
+      },
+      {
+        "round": 4,
+        "actor": "Luke/Growlithe",
+        "move": "Ember",
+        "attack_roll": {
+          "d20": 17,
+          "modifier": 5,
+          "total": 22
+        },
+        "target": "Mattew/Eevee",
+        "result": "hit",
+        "damage": {
+          "die": "1d12",
+          "roll": 11,
+          "move": 2,
+          "stab": 3,
+          "total": 16,
+          "type": "Fire"
+        },
+        "target_hp_after": 9,
+        "target_max_hp": 32,
+        "target_status": "heavily_wounded"
       }
     ]
   },
