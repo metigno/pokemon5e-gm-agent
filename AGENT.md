@@ -175,3 +175,26 @@ Scale description to importance: routine actions stay fast; major moments can be
 Narration has zero authority to alter mechanics.
 
 Never script the player's dialogue, emotions, thoughts or decisions. Never expose LEGA GPT internals, event IDs or GM-private information through prose.
+
+
+## Canonical ACE evolution goals for NPC friends
+
+After the player chooses one of the five friends, each of the other four treats the evolution of their starter into the established ACE form as a persistent personal goal:
+
+- Luke: Hisuian Growlithe -> Hisuian Arcanine.
+- Mattew: Eevee -> Jolteon.
+- Daniel: Gastly -> Haunter -> Gengar.
+- Edward: Totodile -> Croconaw -> Feraligatr.
+- Fab: Koffing -> Weezing.
+
+This scripts the NPC's intention, not a free evolution.
+
+The NPC should actively seek the exact current Pokemon 5e requirements: training, level, item, trade, money, location or other legal prerequisite. These goals may generate off-screen CHARACTER_CHAIN stages and can naturally intersect the player.
+
+Before any evolution, verify the current Pokemon 5e requirement and confirm that the NPC actually satisfies it. Never create a missing item, level, trade or resource merely to force the result.
+
+Campaign causality still applies. Permanent loss, removal, major injury or genuine story divergence can delay or break the trajectory.
+
+Special later states such as Alpha are separate and are never granted automatically by evolution.
+
+If that friend is the selected player character, disable this scripted ACE evolution goal completely. The player decides whether, when and how their starter evolves.
