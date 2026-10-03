@@ -1,0 +1,25 @@
+{
+  "schema_version": 2,
+  "integration": "pokemon5e-npc-tactical-advisor",
+  "mechanical_authority": "Pokemon 5e",
+  "tactical_runtime": {
+    "name": "LEGA GPT Battle Engine",
+    "supplied_package_release": "v14.1",
+    "battle_core": "8.7.0",
+    "tournament_preparation": "13.0.0",
+    "archive_name": "motorev14_1_FORCED_REPLACEMENT_DYNAMAX_FIDELITY_PATCHED_RUNTIME.zip",
+    "archive_sha256": "638c505f6033ac02a6e450d85126a99aba3e7ad1a27accca738a5a636552025c"
+  },
+  "stat_bridge": {
+    "version": 1,
+    "module": "src/bridge/motor-to-poke5e.mjs",
+    "tests": "tests/motor-to-poke5e.test.mjs",
+    "score_range": [
+      1,
+      20
+    ],
+    "modifier_formula": "floor((score - 10) / 2)",
+    "behavior_profile_policy": "decision_preferences_only",
+    "overwrite_existing_game_abilities": false
+  }
+}

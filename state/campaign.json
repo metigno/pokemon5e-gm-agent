@@ -1,0 +1,76 @@
+{
+  "schema_version": 3,
+  "project": "pokemon5e-gm-agent",
+  "campaign_status": "setup",
+  "rules": {
+    "edition": 2024,
+    "progression_mode": null,
+    "roll_mode": "gm_visible",
+    "canonical_pokemon_only": true,
+    "fakemon": false,
+    "supplements": {
+      "bonds": true,
+      "breeding": false,
+      "chainmail_and_charizards": false,
+      "contests": false,
+      "legendary_boss_battles": true,
+      "pokemon_transformations": false,
+      "shiny_pokemon": true
+    },
+    "house_rules": []
+  },
+  "campaign": {
+    "title": null,
+    "tone": null,
+    "setting": null,
+    "region": null,
+    "current_location": null,
+    "time": null,
+    "session_number": 0
+  },
+  "player": {
+    "trainer_name": null,
+    "trainer_level": 1,
+    "trainer_path": null,
+    "specializations": [],
+    "background": null,
+    "ability_scores": null,
+    "motor_stats": null,
+    "hp": null,
+    "max_hp": null,
+    "resources": {},
+    "money": null,
+    "inventory": []
+  },
+  "party": [],
+  "pc_storage": [],
+  "objectives": [],
+  "known_npcs": [],
+  "achievements": [],
+  "active_combat": null,
+  "gm_private": {
+    "rng_seed": null,
+    "secrets": [],
+    "future_hooks": []
+  },
+  "last_checkpoint": null,
+  "runtime": {
+    "mechanical_authority": "poke5e",
+    "tactical_ai": {
+      "enabled": true,
+      "engine": "LEGA GPT Battle Engine",
+      "package_release": "v14.1",
+      "battle_core": "8.7.0",
+      "tournament_preparation": "13.0.0",
+      "source_sha256": "638c505f6033ac02a6e450d85126a99aba3e7ad1a27accca738a5a636552025c",
+      "showdown_mechanics_are_authoritative": false
+    },
+    "stat_bridge": {
+      "enabled": true,
+      "version": 1,
+      "module": "src/bridge/motor-to-poke5e.mjs",
+      "overwrite_existing_game_abilities": false,
+      "behavior_profile_is_mechanical_bonus": false
+    }
+  }
+}

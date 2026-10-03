@@ -1,0 +1,28 @@
+ruleset:
+  default_edition: 2024
+  primary_reference: "https://poke5e.app/rules"
+  upstream_repository: "Auroratide/poke5e"
+  upstream_branch: "main"
+
+precedence:
+  - campaign_house_rules
+  - poke5e_live_selected_edition
+  - poke5e_official_repository
+  - dnd5e_baseline
+  - minimal_gm_ruling
+
+core_pages:
+  introduction: "https://poke5e.app/rules/introduction"
+  trainer_class: "https://poke5e.app/rules/trainer-class"
+  trainer_paths: "https://poke5e.app/rules/trainer-paths"
+  combat: "https://poke5e.app/rules/combat"
+  catching: "https://poke5e.app/rules/catching-pokemon"
+  pokemon_leveling: "https://poke5e.app/rules/pokemon-leveling"
+  trainer_leveling: "https://poke5e.app/rules/trainer-leveling"
+
+lookup_policy:
+  exact_mechanics: "lookup_before_ruling"
+  exact_pokemon_data: "lookup_before_use"
+  exact_move_data: "lookup_before_use"
+  exact_item_data: "lookup_before_use"
+  bulk_copy_upstream_data: false
