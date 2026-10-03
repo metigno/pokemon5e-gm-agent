@@ -101,3 +101,8 @@ LEGA GPT v14.1 improves NPC tactical decision quality. Pokémon 5e remains autho
 `metigno/pokemon5e-gm-agent`
 
 Default branch: `main`
+
+
+## Save system
+
+The GM supports **5 independent save slots** under `saves/`. Each slot has its own campaign state and session log. Slot selection is per-chat, so multiple players can safely use different slots without sharing progress. See `saves/README.md`.

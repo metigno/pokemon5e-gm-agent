@@ -111,3 +111,29 @@ Do not advance through a meaningful player decision without input.
 Free-form actions are always legal to attempt when the fiction permits.
 
 Failure changes the world; it is not overwritten to protect the planned story.
+
+
+## Five-slot save system
+
+Campaign persistence is slot-scoped.
+
+The authoritative save index is `saves/index.json`.
+
+There are five slots:
+- `saves/slot1/`
+- `saves/slot2/`
+- `saves/slot3/`
+- `saves/slot4/`
+- `saves/slot5/`
+
+Never read one slot and write another in the same campaign operation.
+
+Never treat `state/campaign.json` as the live campaign state; it is now a legacy redirect.
+
+Before play or resume, a slot must be explicitly known in the current chat. If not, ask which slot to use.
+
+Checkpoint only to:
+- selected slot `campaign.json`;
+- selected slot `session-log.md`.
+
+Do not persist a global active slot in GitHub. Slot choice is per-chat so multiple players can safely use different saves.

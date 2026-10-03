@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "save_system": "five_independent_slots",
+  "slot_count": 5,
+  "active_slot": null,
+  "active_slot_policy": "Per-chat selection only. Never assume or globally persist an active slot.",
+  "slots": [
+    {
+      "slot": 1,
+      "label": "Slot 1",
+      "status": "empty",
+      "campaign_file": "saves/slot1/campaign.json",
+      "session_log": "saves/slot1/session-log.md",
+      "player_label": null,
+      "protagonist": null
+    },
+    {
+      "slot": 2,
+      "label": "Slot 2",
+      "status": "empty",
+      "campaign_file": "saves/slot2/campaign.json",
+      "session_log": "saves/slot2/session-log.md",
+      "player_label": null,
+      "protagonist": null
+    },
+    {
+      "slot": 3,
+      "label": "Slot 3",
+      "status": "empty",
+      "campaign_file": "saves/slot3/campaign.json",
+      "session_log": "saves/slot3/session-log.md",
+      "player_label": null,
+      "protagonist": null
+    },
+    {
+      "slot": 4,
+      "label": "Slot 4",
+      "status": "empty",
+      "campaign_file": "saves/slot4/campaign.json",
+      "session_log": "saves/slot4/session-log.md",
+      "player_label": null,
+      "protagonist": null
+    },
+    {
+      "slot": 5,
+      "label": "Slot 5",
+      "status": "empty",
+      "campaign_file": "saves/slot5/campaign.json",
+      "session_log": "saves/slot5/session-log.md",
+      "player_label": null,
+      "protagonist": null
+    }
+  ]
+}

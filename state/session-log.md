@@ -1,16 +1,10 @@
-# Campaign Session Log
+# Legacy session-log path
 
-## Pre-campaign configuration
+Campaign logs now live in:
+- `saves/slot1/session-log.md`
+- `saves/slot2/session-log.md`
+- `saves/slot3/session-log.md`
+- `saves/slot4/session-log.md`
+- `saves/slot5/session-log.md`
 
-The campaign has NOT started.
-
-Locked opening premise:
-- Luke, Mattew, Daniel, Edward and Fab are friends and begin together.
-- One will be chosen as the player; the other four become autonomous NPCs.
-- All five Trainers begin at Trainer Level 1.
-- All five starters begin at Pokémon Level 5.
-- Luke's starter is Hisuian Growlithe.
-- World Championship is a long-term objective, not a predetermined result.
-- Honest rules allow failure, non-qualification and death.
-
-Current state: waiting for protagonist selection.
+Do not append campaign progress here.

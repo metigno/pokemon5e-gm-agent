@@ -1,0 +1,128 @@
+{
+  "schema_version": 6,
+  "save_slot": 1,
+  "slot_status": "empty",
+  "project": "pokemon5e-gm-agent",
+  "campaign_status": "ready_for_protagonist_selection",
+  "setup_stage": "choose_one_of_five_before_opening_scene",
+  "rules": {
+    "edition": 2024,
+    "roll_mode": "gm_visible",
+    "canonical_pokemon_only": true,
+    "fakemon": false,
+    "house_rules": [
+      "All five starting Pokemon begin at level 5.",
+      "The five friends begin together in one shared opening regardless of later regional associations.",
+      "World Championship results are non-deterministic; no plot armor."
+    ]
+  },
+  "campaign": {
+    "title": "Five Friends — Road to the World Championship",
+    "structure": "classic Pokemon journey using Pokemon 5e tabletop rules",
+    "starting_region": null,
+    "starting_location": null,
+    "world_championship": {
+      "long_term_objective": true,
+      "guaranteed_reach": false,
+      "guaranteed_win": false,
+      "format_target": "32 trainers; 8 groups of 4; top 2 to R16, QF, SF, Final"
+    },
+    "session_number": 0
+  },
+  "protagonist_options": [
+    {
+      "name": "Luke",
+      "starter": {
+        "species": "Growlithe",
+        "form": "Hisuian",
+        "level": 5
+      }
+    },
+    {
+      "name": "Mattew",
+      "starter": {
+        "species": "Eevee",
+        "level": 5
+      }
+    },
+    {
+      "name": "Daniel",
+      "starter": {
+        "species": "Gastly",
+        "level": 5
+      }
+    },
+    {
+      "name": "Edward",
+      "starter": {
+        "species": "Totodile",
+        "level": 5
+      }
+    },
+    {
+      "name": "Fab",
+      "starter": {
+        "species": "Koffing",
+        "level": 5
+      }
+    }
+  ],
+  "player": {
+    "selected_friend": null,
+    "player_label": null,
+    "trainer_level": 1,
+    "ability_scores": null,
+    "skills": [],
+    "specialization": null,
+    "trainer_path": null,
+    "hp": null,
+    "max_hp": null,
+    "inventory": [],
+    "money": null
+  },
+  "friends_npc_state": {
+    "Luke": {
+      "role": "pending_selection",
+      "trainer_level": 1
+    },
+    "Mattew": {
+      "role": "pending_selection",
+      "trainer_level": 1
+    },
+    "Daniel": {
+      "role": "pending_selection",
+      "trainer_level": 1
+    },
+    "Edward": {
+      "role": "pending_selection",
+      "trainer_level": 1
+    },
+    "Fab": {
+      "role": "pending_selection",
+      "trainer_level": 1
+    }
+  },
+  "party": [],
+  "pc_storage": [],
+  "objectives": [
+    "Choose one of the five friends as the player character. Do not begin the opening scene before selection."
+  ],
+  "known_npcs": [],
+  "active_combat": null,
+  "gm_private_ref": "gm_private/SECRET_CANON_DO_NOT_OPEN.json",
+  "character_bible_ref": "canon/ROSTER2060_CHARACTER_BIBLE.json",
+  "runtime": {
+    "mechanical_authority": "poke5e",
+    "tactical_ai": {
+      "enabled": true,
+      "engine": "LEGA GPT Battle Engine",
+      "package_release": "v14.1"
+    },
+    "stat_bridge": {
+      "version": 3,
+      "module": "src/bridge/motor-to-poke5e.mjs",
+      "classic_dnd_only": true,
+      "rookie_standard_array": true
+    }
+  }
+}
