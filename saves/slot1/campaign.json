@@ -283,7 +283,7 @@
       },
       "bond_state": "strengthening_through_shared_hunt",
       "gender": null,
-      "hp": 13,
+      "hp": 35,
       "max_hp": 35,
       "moves": [
         {
@@ -313,7 +313,7 @@
         "demeanor": "curious_and_receptive"
       },
       "last_command_response": "Obeyed a lethal Bite command against the second active warehouse Rattata; did not eat the body and returned to Luke.",
-      "last_interaction": "Luke gave Growlithe a Potion after clearing the immediate warehouse threat and praised him: 'bravo te la sei meritata'. Potion healing roll 2d4+2 = 1+4+2 = 7; Growlithe healed from 6/35 to 13/35 HP.",
+      "last_interaction": "Luke brought Growlithe to the city Pokécenter after completing JOB-02. The Pokécenter restored Growlithe to full HP and cleared any ordinary statuses. PP was not replenished.",
       "resources": {
         "intimidate": {
           "uses_per_short_rest": 1,
@@ -402,8 +402,8 @@
     },
     "trigger_check_due": false,
     "last_trigger_check": {
-      "reason": "durable_checkpoint_after_JOB-02_completion",
-      "result": "A1_FIRST_ROAD and A1_WORLD_MOVES are eligible/queued for natural transition; no immediate interruption."
+      "reason": "important_location_arrival_and_durable_healing_checkpoint",
+      "result": "No urgent interruption; previously queued early-campaign events remain queued for a natural transition."
     },
     "checkpoint_ledger": "saves/slot1/checkpoints.json"
   },
@@ -443,7 +443,7 @@
       "reaction_to_luke_aggression": "quietly_concerned"
     }
   },
-  "current_location": "Nearest city — outside the cleared warehouse",
+  "current_location": "Nearest city — Pokécenter",
   "shop_context": {
     "location": "Nearest city — Trainer shop",
     "prices": {
@@ -495,8 +495,8 @@
     },
     "rule": "NPC intent is scripted; evolution itself must satisfy current Pokemon 5e requirements and campaign causality."
   },
-  "last_saved_at": "2026-10-04T02:40:00+02:00",
-  "save_note": "JOB-02 completed and turned in. Merchant paid ₽900; Luke now has ₽2,100. Growlithe remains at 13/35 HP. Two Rattata and one Raticate bodies were carried outside.",
+  "last_saved_at": "2026-10-04T02:43:10+02:00",
+  "save_note": "Pokécenter visit after JOB-02. Growlithe healed from 13/35 to 35/35 HP for free with Trainer License. PP unchanged; Intimidate use remains spent until a qualifying rest.",
   "job_history": [
     {
       "id": "JOB-02",
