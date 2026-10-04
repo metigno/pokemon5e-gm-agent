@@ -31432,8 +31432,8 @@
       "family_root": "alolan-rattata",
       "base_form_reference": "rattata",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "field",
@@ -31447,13 +31447,12 @@
         ]
       },
       "asteria": {
-        "population_status": "restricted_micro_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "VAL-WAREHOUSES",
           "VAL-SUBCANAL",
           "FUL-PLATEAU",
-          "VAL-CITY",
-          "MAR-CITY"
+          "VAL-CITY"
         ],
         "conditions": [
           "night_or_low_light_more_likely"
@@ -31492,7 +31491,7 @@
         ]
       },
       "asteria": {
-        "population_status": "restricted_micro_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "VAL-WAREHOUSES",
           "VAL-SUBCANAL"
@@ -31537,7 +31536,7 @@
         ]
       },
       "asteria": {
-        "population_status": "widely_naturalized",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "VAL-WAREHOUSES",
           "AST-MISTWOOD"
@@ -31562,8 +31561,8 @@
       "family_root": "alolan-sandshrew",
       "base_form_reference": "sandshrew",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "glacier"
@@ -31577,7 +31576,7 @@
         ]
       },
       "asteria": {
-        "population_status": "established_localized_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "BOR-GLACIER"
         ],
@@ -31618,7 +31617,7 @@
         ]
       },
       "asteria": {
-        "population_status": "established_localized_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "BOR-GLACIER"
         ],
@@ -31643,8 +31642,8 @@
       "family_root": "alolan-vulpix",
       "base_form_reference": "vulpix",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "glacier"
@@ -31659,7 +31658,7 @@
         ]
       },
       "asteria": {
-        "population_status": "established_localized_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "BOR-GLACIER"
         ],
@@ -31701,7 +31700,7 @@
         ]
       },
       "asteria": {
-        "population_status": "established_localized_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "BOR-GLACIER"
         ],
@@ -31728,8 +31727,8 @@
       "family_root": "alolan-diglett",
       "base_form_reference": "diglett",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "cave",
@@ -31744,13 +31743,12 @@
         ]
       },
       "asteria": {
-        "population_status": "established_localized_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "SAL-COAST",
           "CIN-CALDERA",
           "AST-QUARRY",
-          "VAL-SUBCANAL",
-          "FAR-RUINS"
+          "VAL-SUBCANAL"
         ],
         "conditions": [
           "dry_conditions_preferred",
@@ -31791,7 +31789,7 @@
         ]
       },
       "asteria": {
-        "population_status": "established_localized_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "SAL-COAST"
         ],
@@ -31817,8 +31815,8 @@
       "family_root": "alolan-meowth",
       "base_form_reference": "meowth",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "forest",
@@ -31834,13 +31832,12 @@
         ]
       },
       "asteria": {
-        "population_status": "established_localized_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "MER-CAPITAL",
           "VAL-CITY",
           "VAL-SUBCANAL",
-          "VIR-JUNGLE",
-          "ALT-TOWN"
+          "VIR-JUNGLE"
         ],
         "conditions": [
           "night_or_low_light_more_likely"
@@ -31880,7 +31877,7 @@
         ]
       },
       "asteria": {
-        "population_status": "established_localized_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "MER-CAPITAL",
           "VAL-CITY"
@@ -31907,8 +31904,8 @@
       "family_root": "alolan-geodude",
       "base_form_reference": "geodude",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "volcano",
@@ -31924,13 +31921,12 @@
         ]
       },
       "asteria": {
-        "population_status": "established_localized_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "FAR-RUINS",
           "VAL-SUBCANAL",
           "FER-TUNNELS",
-          "ALT-TOWN",
-          "AST-QUARRY"
+          "ALT-TOWN"
         ],
         "conditions": [
           "geothermal_microhabitat",
@@ -31972,7 +31968,7 @@
         ]
       },
       "asteria": {
-        "population_status": "established_localized_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "FAR-RUINS",
           "VAL-SUBCANAL"
@@ -32017,7 +32013,7 @@
         ]
       },
       "asteria": {
-        "population_status": "established_localized_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "FAR-RUINS"
         ],
@@ -32044,8 +32040,8 @@
       "family_root": "alolan-grimer",
       "base_form_reference": "grimer",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "city"
@@ -32058,13 +32054,12 @@
         ]
       },
       "asteria": {
-        "population_status": "established_localized_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "VAL-SUBCANAL",
           "SAL-TOWN",
           "MER-CAPITAL",
-          "MAR-CITY",
-          "VAL-CITY"
+          "MAR-CITY"
         ],
         "conditions": [
           "night_or_low_light_more_likely"
@@ -32102,7 +32097,7 @@
         ]
       },
       "asteria": {
-        "population_status": "established_localized_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "VAL-SUBCANAL"
         ],
@@ -32145,7 +32140,7 @@
         ]
       },
       "asteria": {
-        "population_status": "established_localized_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "SAL-TOWN"
         ],
@@ -32188,7 +32183,7 @@
         ]
       },
       "asteria": {
-        "population_status": "established_localized_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "VAL-SUBCANAL",
           "FER-MOUNTAINS"
@@ -35958,8 +35953,8 @@
       "family_root": "galarian-meowth",
       "base_form_reference": "meowth",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "forest",
@@ -35973,13 +35968,12 @@
         ]
       },
       "asteria": {
-        "population_status": "established_localized_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "ALT-TOWN",
           "VIR-JUNGLE",
           "SAL-TOWN",
-          "VAL-CITY",
-          "MAR-CITY"
+          "VAL-CITY"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -36000,8 +35994,8 @@
       "family_root": "galarian-ponyta",
       "base_form_reference": "ponyta",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "grassland"
@@ -36013,13 +36007,12 @@
         ]
       },
       "asteria": {
-        "population_status": "restricted_micro_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "AST-HILLS",
           "AST-GINESTRE",
           "AST-FARM",
-          "FUL-PLATEAU",
-          "SOL-BADLAND"
+          "FUL-PLATEAU"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -36054,7 +36047,7 @@
         ]
       },
       "asteria": {
-        "population_status": "restricted_micro_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "AST-HILLS"
         ],
@@ -36079,8 +36072,8 @@
       "family_root": "galarian-slowpoke",
       "base_form_reference": "slowpoke",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "riverside",
@@ -36094,13 +36087,12 @@
         ]
       },
       "asteria": {
-        "population_status": "established_localized_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "MIR-MARSH",
           "LAC-LAKE",
           "FAR-RUINS",
-          "RIV-TOWN",
-          "SAL-COAST"
+          "RIV-TOWN"
         ],
         "conditions": [
           "tide_weather_can_modify_activity"
@@ -36139,7 +36131,7 @@
         ]
       },
       "asteria": {
-        "population_status": "established_localized_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "MIR-MARSH"
         ],
@@ -36179,7 +36171,7 @@
         ]
       },
       "asteria": {
-        "population_status": "restricted_micro_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "MIR-MARSH",
           "VAL-CITY",
@@ -36220,7 +36212,7 @@
         ]
       },
       "asteria": {
-        "population_status": "restricted_micro_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "ALT-TOWN"
         ],
@@ -36261,7 +36253,7 @@
         ]
       },
       "asteria": {
-        "population_status": "established_localized_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "VAL-WAREHOUSES"
         ],
@@ -36396,7 +36388,7 @@
         ]
       },
       "asteria": {
-        "population_status": "established_localized_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "MIR-MARSH"
         ],
@@ -36433,7 +36425,7 @@
         ]
       },
       "asteria": {
-        "population_status": "protected_localized_micro_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "MAR-REEF"
         ],
@@ -36475,7 +36467,7 @@
         ]
       },
       "asteria": {
-        "population_status": "protected_localized_micro_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "SOL-BADLAND",
           "AST-GINESTRE",
@@ -36518,7 +36510,7 @@
         ]
       },
       "asteria": {
-        "population_status": "protected_localized_micro_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "SOL-BADLAND",
           "AST-GINESTRE"
@@ -36557,7 +36549,7 @@
         ]
       },
       "asteria": {
-        "population_status": "protected_localized_micro_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "FER-MOUNTAINS",
           "ALT-TOWN",
@@ -36597,7 +36589,7 @@
         ]
       },
       "asteria": {
-        "population_status": "protected_localized_micro_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "FER-MOUNTAINS"
         ],
@@ -36623,8 +36615,8 @@
       "family_root": "galarian-yamask",
       "base_form_reference": "yamask",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "ruin"
@@ -36636,7 +36628,7 @@
         ]
       },
       "asteria": {
-        "population_status": "restricted_micro_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "FAR-RUINS",
           "VAL-SUBCANAL"
@@ -36677,7 +36669,7 @@
         ]
       },
       "asteria": {
-        "population_status": "restricted_micro_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "SAL-COAST",
           "MAR-CITY"
@@ -40498,8 +40490,8 @@
       "family_root": "growlithe-hisui",
       "base_form_reference": "growlithe",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "grassland",
@@ -40513,13 +40505,11 @@
         ]
       },
       "asteria": {
-        "population_status": "established_localized_population",
+        "population_status": "relict_protected_population",
         "zones": [
           "CIN-CALDERA",
           "SOL-BADLAND",
-          "AST-GINESTRE",
-          "AST-HILLS",
-          "FUL-PLATEAU"
+          "AST-GINESTRE"
         ],
         "conditions": [
           "geothermal_microhabitat"
@@ -40558,7 +40548,7 @@
         ]
       },
       "asteria": {
-        "population_status": "established_localized_population",
+        "population_status": "relict_protected_population",
         "zones": [
           "CIN-CALDERA"
         ],
@@ -40584,8 +40574,8 @@
       "family_root": "voltorb-hisui",
       "base_form_reference": "voltorb",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "industrial"
@@ -40597,13 +40587,11 @@
         ]
       },
       "asteria": {
-        "population_status": "restricted_micro_population",
+        "population_status": "relict_protected_population",
         "zones": [
           "MER-CAPITAL",
           "AST-CANAL",
-          "FER-CITY",
-          "AST-QUARRY",
-          "VAL-WAREHOUSES"
+          "FER-CITY"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -40638,7 +40626,7 @@
         ]
       },
       "asteria": {
-        "population_status": "restricted_micro_population",
+        "population_status": "relict_protected_population",
         "zones": [
           "MER-CAPITAL"
         ],
@@ -40676,7 +40664,7 @@
         ]
       },
       "asteria": {
-        "population_status": "restricted_micro_population",
+        "population_status": "relict_protected_population",
         "zones": [
           "AST-GINESTRE"
         ],
@@ -40719,7 +40707,7 @@
         ]
       },
       "asteria": {
-        "population_status": "established_localized_population",
+        "population_status": "relict_protected_population",
         "zones": [
           "MAR-REEF",
           "AST-ABYSS",
@@ -40748,8 +40736,8 @@
       "family_root": "sneasel-hisui",
       "base_form_reference": "sneasel",
       "encounter_class": "normal_wild",
-      "rarity": "uncommon",
-      "relative_weight": 22,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "glacier",
@@ -40763,12 +40751,11 @@
         ]
       },
       "asteria": {
-        "population_status": "established_localized_population",
+        "population_status": "relict_protected_population",
         "zones": [
           "ALT-TOWN",
           "BOR-GLACIER",
-          "FER-MOUNTAINS",
-          "FUL-PLATEAU"
+          "FER-MOUNTAINS"
         ],
         "conditions": [
           "cold_conditions_preferred"
@@ -40805,7 +40792,7 @@
         ]
       },
       "asteria": {
-        "population_status": "restricted_micro_population",
+        "population_status": "relict_protected_population",
         "zones": [
           "FAR-RUINS"
         ],
@@ -40847,7 +40834,7 @@
         ]
       },
       "asteria": {
-        "population_status": "established_localized_population",
+        "population_status": "relict_protected_population",
         "zones": [
           "VIR-JUNGLE"
         ],
@@ -40887,7 +40874,7 @@
         ]
       },
       "asteria": {
-        "population_status": "established_localized_population",
+        "population_status": "relict_protected_population",
         "zones": [
           "RIV-TOWN",
           "VAL-WAREHOUSES",
@@ -40931,7 +40918,7 @@
         ]
       },
       "asteria": {
-        "population_status": "established_localized_population",
+        "population_status": "relict_protected_population",
         "zones": [
           "RIV-TOWN"
         ],
@@ -40973,7 +40960,7 @@
         ]
       },
       "asteria": {
-        "population_status": "established_localized_population",
+        "population_status": "relict_protected_population",
         "zones": [
           "RIV-TOWN"
         ],
@@ -41016,7 +41003,7 @@
         ]
       },
       "asteria": {
-        "population_status": "established_localized_population",
+        "population_status": "relict_protected_population",
         "zones": [
           "RIV-TOWN"
         ],
@@ -41057,7 +41044,7 @@
         ]
       },
       "asteria": {
-        "population_status": "established_localized_population",
+        "population_status": "relict_protected_population",
         "zones": [
           "RIV-TOWN"
         ],
@@ -41099,7 +41086,7 @@
         ]
       },
       "asteria": {
-        "population_status": "established_localized_population",
+        "population_status": "relict_protected_population",
         "zones": [
           "BOR-GLACIER"
         ],
@@ -41139,7 +41126,7 @@
         ]
       },
       "asteria": {
-        "population_status": "restricted_micro_population",
+        "population_status": "relict_protected_population",
         "zones": [
           "AST-MISTWOOD"
         ],
@@ -41560,7 +41547,7 @@
         ]
       },
       "asteria": {
-        "population_status": "protected_localized_micro_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "SOL-BADLAND"
         ],
@@ -41596,7 +41583,7 @@
         ]
       },
       "asteria": {
-        "population_status": "protected_localized_micro_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "AST-HILLS"
         ],
@@ -41632,7 +41619,7 @@
         ]
       },
       "asteria": {
-        "population_status": "protected_localized_micro_population",
+        "population_status": "localized_regional_form_population",
         "zones": [
           "AST-HILLS"
         ],

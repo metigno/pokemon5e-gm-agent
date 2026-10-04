@@ -1,7 +1,7 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "world": "ASTERIA",
-  "note": "Relative ecological tables, not fixed percentages. Apply time/weather/behavior and encounter pacing.",
+  "note": "Relative ecological tables, not fixed percentages.",
   "zones": {
     "AST-GINESTRE": {
       "common": [
@@ -13,8 +13,6 @@
         "jigglypuff",
         "oddish",
         "growlithe",
-        "growlithe-hisui",
-        "galarian-ponyta",
         "ponyta",
         "doduo",
         "sentret",
@@ -51,6 +49,7 @@
         "toxel"
       ],
       "uncommon": [
+        "galarian-ponyta",
         "wooper-paldea",
         "togedemaru",
         "blipbug",
@@ -70,6 +69,7 @@
         "nidorina",
         "ninetales",
         "gloom",
+        "growlithe-hisui",
         "chikorita",
         "cyndaquil",
         "flaaffy",
@@ -133,7 +133,6 @@
         "oddish",
         "psyduck",
         "poliwag",
-        "galarian-ponyta",
         "ponyta",
         "doduo",
         "goldeen",
@@ -181,6 +180,7 @@
         "cufant"
       ],
       "uncommon": [
+        "galarian-ponyta",
         "togedemaru",
         "blipbug",
         "dottler",
@@ -281,8 +281,6 @@
         "venonat",
         "mankey",
         "growlithe",
-        "growlithe-hisui",
-        "galarian-ponyta",
         "ponyta",
         "doduo",
         "hoothoot",
@@ -329,6 +327,7 @@
         "tinkatink"
       ],
       "uncommon": [
+        "galarian-ponyta",
         "farfetchd",
         "wooloo",
         "hattrem",
@@ -546,9 +545,7 @@
         "jigglypuff",
         "paras",
         "venonat",
-        "galarian-meowth",
         "abra",
-        "alolan-grimer",
         "grimer",
         "drowzee",
         "exeggcute",
@@ -615,7 +612,9 @@
         "shroodle"
       ],
       "uncommon": [
+        "galarian-meowth",
         "galarian-farfetchd",
+        "alolan-grimer",
         "aipom",
         "gligar",
         "morpeko",
@@ -703,8 +702,6 @@
         "ekans",
         "jigglypuff",
         "venonat",
-        "alolan-meowth",
-        "galarian-meowth",
         "meowth",
         "bellsprout",
         "drowzee",
@@ -768,6 +765,8 @@
         "greavard"
       ],
       "uncommon": [
+        "alolan-meowth",
+        "galarian-meowth",
         "farfetchd",
         "ditto",
         "aipom",
@@ -842,7 +841,6 @@
     "LAC-LAKE": {
       "common": [
         "psyduck",
-        "galarian-slowpoke",
         "slowpoke",
         "goldeen",
         "marill",
@@ -861,6 +859,7 @@
         "hatenna"
       ],
       "uncommon": [
+        "galarian-slowpoke",
         "hattrem"
       ],
       "rare": [
@@ -897,7 +896,6 @@
       "common": [
         "poliwag",
         "bellsprout",
-        "galarian-slowpoke",
         "drowzee",
         "goldeen",
         "magikarp",
@@ -926,6 +924,7 @@
         "hatenna"
       ],
       "uncommon": [
+        "galarian-slowpoke",
         "farfetchd",
         "galarian-farfetchd",
         "tadbulb"
@@ -970,7 +969,6 @@
         "psyduck",
         "poliwag",
         "bellsprout",
-        "galarian-slowpoke",
         "slowpoke",
         "grimer",
         "gastly",
@@ -1015,6 +1013,7 @@
         "fidough"
       ],
       "uncommon": [
+        "galarian-slowpoke",
         "galarian-farfetchd",
         "ditto",
         "wooper-paldea",
@@ -1084,13 +1083,9 @@
     },
     "VAL-CITY": {
       "common": [
-        "alolan-rattata",
-        "alolan-meowth",
-        "galarian-meowth",
         "meowth",
         "psyduck",
         "poliwag",
-        "alolan-grimer",
         "gastly",
         "wooper",
         "snubbull",
@@ -1115,6 +1110,9 @@
         "maschiff"
       ],
       "uncommon": [
+        "alolan-rattata",
+        "alolan-meowth",
+        "galarian-meowth",
         "galarian-farfetchd",
         "wooper-paldea",
         "munchlax",
@@ -1155,12 +1153,10 @@
     },
     "VAL-WAREHOUSES": {
       "common": [
-        "alolan-rattata",
         "rattata",
         "abra",
         "magnemite",
         "gastly",
-        "voltorb-hisui",
         "murkrow",
         "smeargle",
         "tyrogue",
@@ -1178,6 +1174,7 @@
         "impidimp"
       ],
       "uncommon": [
+        "alolan-rattata",
         "pikachu",
         "pichu",
         "nosepass",
@@ -1226,15 +1223,10 @@
     "VAL-SUBCANAL": {
       "common": [
         "pidgey",
-        "alolan-rattata",
         "rattata",
         "vulpix",
         "zubat",
-        "alolan-diglett",
-        "alolan-meowth",
         "psyduck",
-        "alolan-geodude",
-        "alolan-grimer",
         "gastly",
         "cubone",
         "goldeen",
@@ -1261,7 +1253,6 @@
         "timburr",
         "darumaka",
         "dwebble",
-        "galarian-yamask",
         "yamask",
         "trubbish",
         "gothita",
@@ -1287,11 +1278,17 @@
         "gimmighoul-roaming"
       ],
       "uncommon": [
+        "alolan-rattata",
+        "alolan-diglett",
+        "alolan-meowth",
+        "alolan-geodude",
+        "alolan-grimer",
         "rhyhorn",
         "ditto",
         "shuckle",
         "nosepass",
-        "munchlax"
+        "munchlax",
+        "galarian-yamask"
       ],
       "rare": [
         "ninetales",
@@ -1362,7 +1359,6 @@
         "slowpoke",
         "magnemite",
         "voltorb",
-        "voltorb-hisui",
         "magikarp",
         "marill",
         "elekid",
@@ -1388,6 +1384,7 @@
         "varoom"
       ],
       "rare": [
+        "voltorb-hisui",
         "girafarig",
         "plusle",
         "seviper",
@@ -1416,15 +1413,12 @@
         "sandshrew",
         "zubat",
         "paras",
-        "alolan-diglett",
         "diglett",
         "mankey",
         "machop",
-        "alolan-geodude",
         "geodude",
         "magnemite",
         "voltorb",
-        "voltorb-hisui",
         "hoppip",
         "dunsparce",
         "houndour",
@@ -1457,6 +1451,7 @@
         "capsakid"
       ],
       "uncommon": [
+        "alolan-diglett",
         "rhyhorn",
         "munchlax",
         "lechonk",
@@ -1514,7 +1509,6 @@
         "abra",
         "grimer",
         "voltorb",
-        "voltorb-hisui",
         "koffing",
         "murkrow",
         "smeargle",
@@ -1541,6 +1535,7 @@
       ],
       "rare": [
         "kadabra",
+        "voltorb-hisui",
         "chansey",
         "porygon",
         "castform",
@@ -1577,7 +1572,6 @@
         "zubat",
         "paras",
         "diglett",
-        "alolan-geodude",
         "magnemite",
         "voltorb",
         "cubone",
@@ -1603,6 +1597,7 @@
       ],
       "uncommon": [
         "pikachu",
+        "alolan-geodude",
         "pichu",
         "gligar",
         "lechonk"
@@ -1666,11 +1661,11 @@
       ],
       "uncommon": [
         "sneasel",
-        "sneasel-hisui",
         "sizzlipede"
       ],
       "rare": [
         "graveler",
+        "sneasel-hisui",
         "stantler",
         "riolu",
         "galarian-darumaka",
@@ -1697,10 +1692,7 @@
       "common": [
         "pidgey",
         "clefairy",
-        "alolan-meowth",
-        "galarian-meowth",
         "mankey",
-        "alolan-geodude",
         "geodude",
         "grimer",
         "koffing",
@@ -1743,17 +1735,19 @@
         "tinkatink"
       ],
       "uncommon": [
+        "galarian-meowth",
+        "alolan-geodude",
         "ditto",
         "pichu",
         "gligar",
         "sneasel",
-        "sneasel-hisui",
         "sizzlipede",
         "squawkabilly",
         "varoom"
       ],
       "rare": [
         "noctowl",
+        "sneasel-hisui",
         "larvitar",
         "minun",
         "castform",
@@ -1792,7 +1786,6 @@
     },
     "FUL-PLATEAU": {
       "common": [
-        "alolan-rattata",
         "ekans",
         "nidoran-f",
         "nidoran-m",
@@ -1800,9 +1793,7 @@
         "oddish",
         "mankey",
         "growlithe",
-        "growlithe-hisui",
         "machop",
-        "galarian-ponyta",
         "ponyta",
         "doduo",
         "drowzee",
@@ -1839,9 +1830,10 @@
         "greavard"
       ],
       "uncommon": [
+        "alolan-rattata",
+        "galarian-ponyta",
         "shuckle",
         "sneasel",
-        "sneasel-hisui",
         "wooloo",
         "yamper",
         "smoliv",
@@ -1893,9 +1885,7 @@
     },
     "BOR-GLACIER": {
       "common": [
-        "alolan-sandshrew",
         "clefairy",
-        "alolan-vulpix",
         "machop",
         "tentacool",
         "geodude",
@@ -1932,16 +1922,18 @@
         "tinkatink"
       ],
       "uncommon": [
+        "alolan-sandshrew",
+        "alolan-vulpix",
         "gligar",
         "shuckle",
         "sneasel",
-        "sneasel-hisui",
         "sizzlipede",
         "cetoddle"
       ],
       "rare": [
         "machoke",
         "graveler",
+        "sneasel-hisui",
         "piplup",
         "galarian-darumaka",
         "wishiwashi-school-form",
@@ -2007,8 +1999,6 @@
         "oddish",
         "diglett",
         "growlithe",
-        "growlithe-hisui",
-        "galarian-ponyta",
         "ponyta",
         "doduo",
         "drowzee",
@@ -2056,6 +2046,7 @@
       "rare": [
         "pidgeotto",
         "nidorino",
+        "growlithe-hisui",
         "torchic",
         "galarian-zigzagoon",
         "vibrava",
@@ -2103,11 +2094,9 @@
       "common": [
         "vulpix",
         "zubat",
-        "alolan-diglett",
         "diglett",
         "mankey",
         "growlithe",
-        "growlithe-hisui",
         "machop",
         "koffing",
         "hoppip",
@@ -2146,10 +2135,12 @@
         "greavard"
       ],
       "uncommon": [
+        "alolan-diglett",
         "sizzlipede"
       ],
       "rare": [
         "charmander",
+        "growlithe-hisui",
         "machoke",
         "cyndaquil",
         "stantler",
@@ -2210,13 +2201,10 @@
     },
     "MAR-CITY": {
       "common": [
-        "alolan-rattata",
         "rattata",
-        "galarian-meowth",
         "meowth",
         "abra",
         "tentacool",
-        "alolan-grimer",
         "shellder",
         "krabby",
         "horsea",
@@ -2256,6 +2244,7 @@
         "impidimp"
       ],
       "uncommon": [
+        "alolan-grimer",
         "mantyke",
         "wattrel",
         "wiglett",
@@ -2306,11 +2295,9 @@
     "SAL-COAST": {
       "common": [
         "paras",
-        "alolan-diglett",
         "diglett",
         "tentacool",
         "geodude",
-        "galarian-slowpoke",
         "slowpoke",
         "shellder",
         "krabby",
@@ -2348,6 +2335,7 @@
         "glimmet"
       ],
       "uncommon": [
+        "alolan-diglett",
         "rhyhorn",
         "wailmer",
         "mantyke",
@@ -2508,11 +2496,8 @@
       "common": [
         "vulpix",
         "zubat",
-        "alolan-diglett",
         "abra",
         "machop",
-        "alolan-geodude",
-        "galarian-slowpoke",
         "slowpoke",
         "krabby",
         "cubone",
@@ -2532,7 +2517,6 @@
         "munna",
         "drilbur",
         "darumaka",
-        "galarian-yamask",
         "yamask",
         "ferroseed",
         "elgyem",
@@ -2555,9 +2539,12 @@
         "gimmighoul-roaming"
       ],
       "uncommon": [
+        "alolan-geodude",
+        "galarian-slowpoke",
         "rhyhorn",
         "shuckle",
         "wailmer",
+        "galarian-yamask",
         "wattrel",
         "wiglett",
         "poltchageist"
@@ -2615,13 +2602,10 @@
     "MER-CAPITAL": {
       "common": [
         "pidgey",
-        "alolan-meowth",
         "magnemite",
-        "alolan-grimer",
         "grimer",
         "gastly",
         "voltorb",
-        "voltorb-hisui",
         "smeargle",
         "elekid",
         "ralts",
@@ -2642,10 +2626,13 @@
       ],
       "uncommon": [
         "pikachu",
+        "alolan-meowth",
+        "alolan-grimer",
         "togedemaru",
         "pawmi"
       ],
       "rare": [
+        "voltorb-hisui",
         "kirlia",
         "minun",
         "sunny-castform",
