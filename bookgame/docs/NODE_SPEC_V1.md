@@ -1,4 +1,4 @@
-# P5E LIBROGAME — NODE SPEC v1.5
+# P5E LIBROGAME — NODE SPEC v1.6
 
 Status: implementation contract for the offline bookgame compiler.
 Authority: subordinate to P5E_LIBROGAME_ENGINE_SOURCE_OF_TRUTH.md. If this document conflicts with the Source of Truth, the Source of Truth wins.
@@ -295,6 +295,66 @@ The runtime also provides a deterministic FRIEND_BEAT candidate selector. It con
 
 E4 does **not** assign arbitrary schedules by itself. A named NPC appears only because authored content/world progression assigned a schedule.
 
+## 3.5 Living world / authored world events — E6
+
+World events are authored JSON assets under:
+
+    bookgame/content/events/
+
+They are compiled into the offline story bundle. The runtime does not invent events.
+
+Each event declares:
+
+- stable `id`;
+- optional `moduleId`;
+- `once` (defaults to one-shot behavior);
+- an E1 `trigger`;
+- one or more ordered outcomes.
+
+Example:
+
+    {
+      "id": "A1_WORLD_MOVES",
+      "once": true,
+      "trigger": {
+        "any": [
+          { "path": "world.day", "gte": 3 },
+          { "path": "world.flags.first_settlement_reached", "eq": true }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "noticed",
+          "when": { "path": "world.flags.m1_world_pressure_known", "eq": true },
+          "effects": [
+            { "type": "set_flag", "key": "m1_world_pressure_state", "value": "pressure_noticed" }
+          ]
+        },
+        {
+          "id": "unnoticed",
+          "effects": [
+            { "type": "set_flag", "key": "m1_world_pressure_state", "value": "pressure_unnoticed" }
+          ]
+        }
+      ]
+    }
+
+The first matching outcome is used. An unconditional fallback, if present, must be last.
+
+Resolved event state is persisted under `state.events.<eventId>` with:
+
+- `status`
+- `outcomeId`
+- `firedAtMinutes`
+
+E1 may read those fields.
+
+After a legal player action finishes applying time and authored effects, E6 evaluates the compiled world-event catalog. Triggered events may apply the same validated flag, quest and persistent-NPC effects already supported by the runtime.
+
+One-shot events never fire twice. Recurring events, when authored later, may fire at most once per processing call and never twice at the same in-game minute.
+
+E6 supports off-screen progression but does not fabricate simulation results. Any NPC result, quest resolution or schedule change must be explicitly authored in an event outcome or delegated to an approved resolver.
+
 ## 4. Choice
 
 Every choice requires:
@@ -411,6 +471,7 @@ Compilation fails for at least:
 - invalid time costs;
 - malformed quest transitions, IDs, deadlines, or deadline outcomes;
 - malformed NPC IDs, schedules, relationship changes, or NPC state values;
+- malformed world-event triggers, outcomes, fallback ordering, or event effects;
 - goto/outcome/combat targets that do not exist;
 - invalid combat encounter/opponent/return-node data.
 
@@ -442,6 +503,7 @@ The bundle contains:
 - schema version;
 - offline=true declaration;
 - all compiled scenes;
+- compiled authored world events;
 - scene/node/choice metrics;
 - non-fatal diagnostics.
 
