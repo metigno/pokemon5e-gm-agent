@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "save_slot": 1,
-  "next_checkpoint_number": 7,
+  "next_checkpoint_number": 8,
   "checkpoints": [
     {
       "id": "CP-PRE-INTRO",
@@ -62,6 +62,16 @@
       "type": "CP-CHAIN",
       "result": "growlithe_fully_healed",
       "summary": "Luke brought Hisuian Growlithe to the city Pokécenter after JOB-02. Growlithe healed from 13/35 to 35/35 HP; PP was unchanged."
+    },
+    {
+      "id": "CP-MANUAL-D1-LUNCH",
+      "event_id": "MANUAL_SAVE",
+      "world_day": 1,
+      "trainer_level": 1,
+      "location": "Valedarsena — Mercato delle Arcate",
+      "type": "MANUAL",
+      "result": "saved",
+      "summary": "Luke saved during lunch at Mercato delle Arcate with Mattew, Daniel and Fab. Growlithe is 35/35 HP; Luke has ₽1,900. Edward is traveling toward Fattoria del Vento. Mattew has JOB-01; Edward has JOB-03. Luke has a Bulbasaur lead through Ranger Elio Mar / Borgo Salice."
     }
   ]
 }
