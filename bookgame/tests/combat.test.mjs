@@ -121,7 +121,7 @@ test("a local combat win returns to the authored narrative node", async () => {
   battle.opponent.hp.current = 1;
   state = book.setCombatState(state, battle);
 
-  battle = await combat.usePlayerMove(battle, "tackle");
+  battle = await combat.usePlayerMove(battle, "ember");
   assert.equal(battle.outcome, "win");
   assert.equal(battle.opponent.hp.current, 0);
 
