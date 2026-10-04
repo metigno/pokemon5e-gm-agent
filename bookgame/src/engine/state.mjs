@@ -37,6 +37,7 @@ export function createNewGameState({
       locationId: "asteria_ginestre",
       flags: {}
     },
+    quests: {},
     story: {
       sceneId: "first-road",
       nodeId: "arrival",
