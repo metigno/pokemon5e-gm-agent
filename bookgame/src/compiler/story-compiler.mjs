@@ -3,6 +3,7 @@ import path from "node:path";
 import { validateCondition } from "../engine/conditions.mjs";
 import { validateQuestEffect } from "../engine/quest-state.mjs";
 import { validateNpcEffect } from "../engine/npc-state.mjs";
+import { validateCompetitionEffect, validateCompetitionCombat } from "../engine/competition-state.mjs";
 
 const ID_RE = /^[A-Za-z0-9_-]+$/;
 const TARGET_RE = /^[A-Za-z0-9_-]+(?:#[A-Za-z0-9_-]+)?$/;
@@ -17,7 +18,9 @@ const EFFECT_TYPES = new Set([
   "npc_register",
   "npc_relationship_adjust",
   "npc_state_set",
-  "npc_schedule_set"
+  "npc_schedule_set",
+  "competition_trial_available",
+  "competition_trial_register"
 ]);
 
 function diag(code, message, at) {
@@ -60,6 +63,9 @@ function validateEffects(effects, at, errors) {
     }
     if (["npc_register", "npc_relationship_adjust", "npc_state_set", "npc_schedule_set"].includes(effect.type)) {
       errors.push(...validateNpcEffect(effect, effectAt));
+    }
+    if (["competition_trial_available", "competition_trial_register"].includes(effect.type)) {
+      errors.push(...validateCompetitionEffect(effect, effectAt));
     }
   }
 }
@@ -295,6 +301,15 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
       if (combat.opponent && (!Number.isInteger(combat.opponent.level) || combat.opponent.level < 1)) {
         errors.push(diag("INVALID_COMBAT_LEVEL", "combat.opponent.level must be a positive integer", choiceAt + ".combat"));
       }
+      errors.push(...validateCompetitionCombat(combat.competition, choiceAt + ".combat.competition"));
+
+      if (combat.competition && combat.opponentRegistered === false) {
+        errors.push(diag(
+          "COMPETITION_OPPONENT_MUST_BE_REGISTERED",
+          "Official competition opponents must be registered to a Trainer",
+          choiceAt + ".combat.opponentRegistered"
+        ));
+      }
 
       if (validateTargetShape(combat.goto, choiceAt + ".combat.goto", errors)) {
         const parsed = parseTarget(combat.goto, scene.id);
@@ -310,6 +325,24 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
       if (!isObject(combat.returnNodes) || Object.keys(combat.returnNodes).length === 0) {
         errors.push(diag("INVALID_RETURN_NODES", "combat.returnNodes must contain at least one outcome", choiceAt + ".combat"));
       } else {
+        if (combat.competition) {
+          for (const requiredOutcome of ["win", "lose"]) {
+            if (typeof combat.returnNodes[requiredOutcome] !== "string") {
+              errors.push(diag(
+                "MISSING_COMPETITION_OUTCOME",
+                "Official competition combat requires returnNodes." + requiredOutcome,
+                choiceAt + ".combat.returnNodes"
+              ));
+            }
+          }
+          if (Object.hasOwn(combat.returnNodes, "captured")) {
+            errors.push(diag(
+              "INVALID_COMPETITION_CAPTURE_OUTCOME",
+              "Official competition cannot use a captured return outcome",
+              choiceAt + ".combat.returnNodes.captured"
+            ));
+          }
+        }
         for (const [outcome, target] of Object.entries(combat.returnNodes)) {
           const at = choiceAt + ".combat.returnNodes." + outcome;
           if (validateTargetShape(target, at, errors)) {
