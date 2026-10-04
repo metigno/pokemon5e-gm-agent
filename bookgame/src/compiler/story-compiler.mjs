@@ -4,6 +4,7 @@ import { validateCondition } from "../engine/conditions.mjs";
 import { validateQuestEffect } from "../engine/quest-state.mjs";
 import { validateNpcEffect } from "../engine/npc-state.mjs";
 import { validateCompetitionEffect, validateCompetitionCombat } from "../engine/competition-state.mjs";
+import { compileEcologyCatalog } from "./ecology-compiler.mjs";
 
 const ID_RE = /^[A-Za-z0-9_-]+$/;
 const TARGET_RE = /^[A-Za-z0-9_-]+(?:#[A-Za-z0-9_-]+)?$/;
@@ -231,11 +232,12 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
 
       const hasCheck = isObject(choice.check);
       const hasCombat = isObject(choice.combat);
+      const hasEcology = isObject(choice.ecology);
       const hasGoto = typeof choice.goto === "string";
-      const modeCount = Number(hasCheck) + Number(hasCombat) + Number(hasGoto);
+      const modeCount = Number(hasCheck) + Number(hasCombat) + Number(hasEcology) + Number(hasGoto);
 
       if (modeCount !== 1) {
-        errors.push(diag("TRANSITION_MODE", "Choice must use exactly one transition mode: goto, check, or combat", choiceAt));
+        errors.push(diag("TRANSITION_MODE", "Choice must use exactly one transition mode: goto, check, combat, or ecology", choiceAt));
         continue;
       }
 
@@ -249,6 +251,50 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
             }
           }
           collectTarget(targets, choice.goto, choiceAt + ".goto", scene.id);
+        }
+        continue;
+      }
+
+      if (hasEcology) {
+        const ecology = choice.ecology;
+        if (typeof ecology.requestId !== "string" || !ID_RE.test(ecology.requestId)) {
+          errors.push(diag("INVALID_ECOLOGY_REQUEST_ID", "ecology.requestId must be a stable identifier", choiceAt + ".ecology.requestId"));
+        }
+        if (typeof ecology.zoneId !== "string" || !ID_RE.test(ecology.zoneId)) {
+          errors.push(diag("INVALID_ECOLOGY_ZONE", "ecology.zoneId must be a stable identifier", choiceAt + ".ecology.zoneId"));
+        }
+        if (ecology.habitat !== undefined && (typeof ecology.habitat !== "string" || ecology.habitat.length === 0)) {
+          errors.push(diag("INVALID_ECOLOGY_HABITAT", "ecology.habitat must be a non-empty string", choiceAt + ".ecology.habitat"));
+        }
+        if (ecology.method !== undefined && (typeof ecology.method !== "string" || ecology.method.length === 0)) {
+          errors.push(diag("INVALID_ECOLOGY_METHOD", "ecology.method must be a non-empty string", choiceAt + ".ecology.method"));
+        }
+        if (!Array.isArray(ecology.allowedSpecies) || ecology.allowedSpecies.length === 0 ||
+            ecology.allowedSpecies.some((id) => typeof id !== "string" || !ID_RE.test(id))) {
+          errors.push(diag("INVALID_ECOLOGY_ALLOWED_SPECIES", "ecology.allowedSpecies must be a non-empty list of species IDs", choiceAt + ".ecology.allowedSpecies"));
+        }
+        if (!isObject(ecology.returnNodes) || typeof ecology.returnNodes.noEncounter !== "string") {
+          errors.push(diag("INVALID_ECOLOGY_RETURN_NODES", "ecology.returnNodes requires noEncounter and per-species targets", choiceAt + ".ecology.returnNodes"));
+        } else {
+          const targetKeys = new Set(["noEncounter", ...(ecology.allowedSpecies ?? [])]);
+          for (const key of targetKeys) {
+            const target = ecology.returnNodes[key];
+            const at = choiceAt + ".ecology.returnNodes." + key;
+            if (typeof target !== "string") {
+              errors.push(diag("MISSING_ECOLOGY_TARGET", "Missing ecology return target for " + key, at));
+              continue;
+            }
+            if (validateTargetShape(target, at, errors)) {
+              const parsed = parseTarget(target, scene.id);
+              if (parsed.sceneId === scene.id) {
+                adjacency.get(nodeId).add(parsed.nodeId);
+                if (!knownNodes.has(parsed.nodeId)) {
+                  errors.push(diag("MISSING_TARGET", "Transition points to missing node: " + target, at));
+                }
+              }
+              collectTarget(targets, target, at, scene.id);
+            }
+          }
         }
         continue;
       }
@@ -590,7 +636,8 @@ export class StoryCompileError extends Error {
 export async function compileStory({
   scenesDir,
   modulesDir = path.join(path.dirname(scenesDir), "modules"),
-  eventsDir = path.join(path.dirname(scenesDir), "events")
+  eventsDir = path.join(path.dirname(scenesDir), "events"),
+  ecologyOptions = null
 }) {
   const files = await listJsonFiles(scenesDir);
   const scenes = {};
@@ -603,6 +650,12 @@ export async function compileStory({
 
   const modules = await loadModuleManifests(modulesDir, errors);
   const worldEvents = await loadWorldEventCatalogs(eventsDir, errors);
+  let ecology = null;
+  if (ecologyOptions) {
+    const ecologyReport = await compileEcologyCatalog(ecologyOptions);
+    errors.push(...ecologyReport.errors);
+    ecology = ecologyReport.catalog;
+  }
 
   for (const file of files) {
     let scene;
@@ -633,6 +686,34 @@ export async function compileStory({
   }
 
   if (files.length === 0) errors.push(diag("NO_SCENES", "No scene JSON files found", scenesDir));
+
+  if (ecology) {
+    for (const [sceneId, scene] of Object.entries(scenes)) {
+      for (const [nodeId, node] of Object.entries(scene.nodes ?? {})) {
+        for (const choice of node.choices ?? []) {
+          if (!isObject(choice.ecology)) continue;
+          const at = sceneId + "#" + nodeId + "." + String(choice.id);
+          const zone = ecology.zones[choice.ecology.zoneId];
+          if (!zone) {
+            errors.push(diag("UNKNOWN_COMPILED_ECOLOGY_ZONE", "Unknown compiled ecology zone: " + choice.ecology.zoneId, at));
+            continue;
+          }
+          if (choice.ecology.habitat && !zone.habitats.includes(choice.ecology.habitat)) {
+            errors.push(diag("ECOLOGY_HABITAT_NOT_IN_ZONE", "Habitat is not enabled for ecology zone: " + choice.ecology.habitat, at));
+          }
+          if (choice.ecology.method && !zone.methods.includes(choice.ecology.method)) {
+            errors.push(diag("ECOLOGY_METHOD_NOT_IN_ZONE", "Encounter method is not enabled for ecology zone: " + choice.ecology.method, at));
+          }
+          const validSpecies = new Set(zone.species.map((entry) => entry.id));
+          for (const speciesId of choice.ecology.allowedSpecies ?? []) {
+            if (!validSpecies.has(speciesId)) {
+              errors.push(diag("ECOLOGY_SPECIES_NOT_IN_ZONE", speciesId + " is not valid for compiled ecology zone " + zone.id, at));
+            }
+          }
+        }
+      }
+    }
+  }
 
   for (const [sceneId, report] of Object.entries(sceneReports)) {
     for (const target of report.targets) {
@@ -709,10 +790,13 @@ export async function compileStory({
       stitchCount,
       choiceCount,
       worldEventCount: worldEvents.length,
+      ecologyZoneCount: ecology ? Object.keys(ecology.zones).length : 0,
+      ecologySpeciesCount: ecology ? new Set(Object.values(ecology.zones).flatMap((zone) => zone.species.map((entry) => entry.id))).size : 0,
       modules: moduleMetrics
     },
     diagnostics: { warnings },
     worldEvents,
+    ecology,
     scenes: orderedScenes
   };
 }
