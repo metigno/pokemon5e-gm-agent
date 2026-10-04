@@ -38,6 +38,10 @@ export function isAllowedConditionPath(path) {
       segments[0] === "quests" &&
       ID_RE.test(segments[1]) &&
       ["status", "resolution", "startedAtMinutes", "deadlineAtMinutes", "resolvedAtMinutes"].includes(segments[2])) return true;
+  if (segments.length === 3 &&
+      segments[0] === "events" &&
+      ID_RE.test(segments[1]) &&
+      ["status", "outcomeId", "firedAtMinutes"].includes(segments[2])) return true;
   if (segments.length === 4 &&
       segments[0] === "npcs" &&
       ID_RE.test(segments[1]) &&
