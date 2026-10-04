@@ -9,6 +9,10 @@ function argValue(name) {
 const scenesDir = fileURLToPath(new URL("../../content/scenes/", import.meta.url));
 const modulesDir = fileURLToPath(new URL("../../content/modules/", import.meta.url));
 const eventsDir = fileURLToPath(new URL("../../content/events/", import.meta.url));
+const ecologyProfilesDir = fileURLToPath(new URL("../../content/ecology/", import.meta.url));
+const zonePoolsFile = fileURLToPath(new URL("../../../campaign/world/ecology/ZONE_POOLS.json", import.meta.url));
+const distributionFile = fileURLToPath(new URL("../../../campaign/world/ecology/SPECIES_DISTRIBUTION.json", import.meta.url));
+const faunaIndexFile = fileURLToPath(new URL("../../../campaign/world/fauna/ASTERIA_FAUNA_INDEX.json", import.meta.url));
 const defaultOutput = fileURLToPath(new URL("../../build/story.bundle.json", import.meta.url));
 const checkOnly = process.argv.includes("--check");
 const reportOnly = process.argv.includes("--report");
@@ -27,7 +31,17 @@ function printModuleReport(bundle) {
 }
 
 try {
-  const bundle = await compileStory({ scenesDir, modulesDir, eventsDir });
+  const bundle = await compileStory({
+    scenesDir,
+    modulesDir,
+    eventsDir,
+    ecologyOptions: {
+      profilesDir: ecologyProfilesDir,
+      zonePoolsFile,
+      distributionFile,
+      faunaIndexFile
+    }
+  });
 
   for (const warning of bundle.diagnostics.warnings) {
     console.warn("WARN " + warning.code + " " + warning.at + ": " + warning.message);
@@ -40,7 +54,9 @@ try {
       bundle.index.nodeCount + " node(s), " +
       bundle.index.stitchCount + " stitch(es), " +
       bundle.index.choiceCount + " choice(s), " +
-      bundle.index.worldEventCount + " world event(s)"
+      bundle.index.worldEventCount + " world event(s), " +
+      bundle.index.ecologyZoneCount + " ecology zone(s), " +
+      bundle.index.ecologySpeciesCount + " ecology species"
     );
     printModuleReport(bundle);
   } else {
