@@ -299,7 +299,7 @@
         {
           "name": "Leer",
           "pp_max": 15,
-          "pp_current": 14
+          "pp_current": 13
         },
         {
           "name": "Howl",
@@ -348,7 +348,87 @@
       "notes": "Told Luke that Bulbasaur are not a known common sight in Valedarsena and suggested asking Ranger Elio Mar; Borgo Salice / Foresta Alta is a plausible habitat lead, not a guaranteed sighting."
     }
   ],
-  "active_combat": null,
+  "active_combat": {
+    "type": "wild_training_encounter",
+    "status": "active",
+    "round": 1,
+    "player_trainer": "Luke",
+    "player_pokemon": "luke-growlithe-hisui-001",
+    "opponents": [
+      {
+        "id": "wild-shinx-ginestre-d1-001",
+        "species": "Shinx",
+        "level": 4,
+        "gender": "female",
+        "hp": 26,
+        "max_hp": 26,
+        "ac": 11,
+        "ability": "Intimidate",
+        "ability_resource": {
+          "uses_per_short_rest": 1,
+          "remaining": 1
+        },
+        "disposition": "challenged_and_defensive",
+        "status": "active",
+        "hidden_from_player": {
+          "level": true,
+          "exact_hp": true,
+          "ability": true
+        }
+      }
+    ],
+    "environment": {
+      "location": "Via delle Ginestre — bordo dei campi",
+      "terrain": "grassland with roadside ditch and low fencing",
+      "distance_ft": 20
+    },
+    "initiative": {
+      "Growlithe": {
+        "d20": 7,
+        "modifier": 1,
+        "total": 8
+      },
+      "Shinx": {
+        "d20": 19,
+        "modifier": 1,
+        "total": 20
+      },
+      "order": [
+        "Shinx",
+        "Growlithe"
+      ]
+    },
+    "history": [
+      {
+        "round": 0,
+        "actor": "Luke/Growlithe",
+        "move": "Leer",
+        "target": "Wild Shinx",
+        "move_dc": 11,
+        "target_save": {
+          "ability": "WIS",
+          "d20": 1,
+          "modifier": 0,
+          "total": 1
+        },
+        "result": "failed_save",
+        "effect": "+1 to attacks targeting Shinx for 1 minute",
+        "pp_after": 13
+      }
+    ],
+    "effects": [
+      {
+        "id": "leer-on-shinx",
+        "source": "luke-growlithe-hisui-001",
+        "target": "wild-shinx-ginestre-d1-001",
+        "effect": "attacks_against_target_bonus",
+        "bonus": 1,
+        "duration_rounds": 10,
+        "remaining_rounds": 10
+      }
+    ],
+    "turn": "Shinx"
+  },
   "gm_private_ref": "gm_private/SECRET_CANON_DO_NOT_OPEN.json",
   "character_bible_ref": "canon/ROSTER2060_CHARACTER_BIBLE.json",
   "runtime": {
@@ -521,8 +601,8 @@
     },
     "rule": "NPC intent is scripted; evolution itself must satisfy current Pokemon 5e requirements and campaign causality."
   },
-  "last_saved_at": "2026-10-04T11:30:27+02:00",
-  "save_note": "Luke left Valedarsena after lunch to train Hisuian Growlithe on Via delle Ginestre. Arrived early afternoon; Growlithe 35/35 HP.",
+  "last_saved_at": "2026-10-04T12:37:00+02:00",
+  "save_note": "Training encounter on Via delle Ginestre. Growlithe used Leer on a wild Shinx; Shinx failed WIS save (1+0=1). Leer active for 1 minute; Growlithe Leer PP 13/15. Combat initiated; Shinx won initiative.",
   "job_history": [
     {
       "id": "JOB-02",
