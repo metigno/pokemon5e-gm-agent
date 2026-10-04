@@ -1,0 +1,246 @@
+import { ensureWorldClock } from "./time.mjs";
+
+export const RELATIONSHIP_STATES = ["Hostile", "Distrustful", "Neutral", "Friendly", "Loyal"];
+export const NPC_AVAILABILITY = new Set(["available", "busy", "away", "traveling"]);
+const ID_RE = /^[A-Za-z0-9_-]+$/;
+
+function requireId(value, label) {
+  if (typeof value !== "string" || !ID_RE.test(value)) {
+    throw new Error("Invalid " + label + ": " + String(value));
+  }
+}
+
+function relationshipStateForScore(score) {
+  if (score <= -60) return "Hostile";
+  if (score <= -20) return "Distrustful";
+  if (score < 20) return "Neutral";
+  if (score < 60) return "Friendly";
+  return "Loyal";
+}
+
+function ensureNpcTable(state) {
+  state.npcs ??= {};
+  return state.npcs;
+}
+
+export function createPersistentNpc({
+  id,
+  name,
+  relationshipScore = 0,
+  state = {}
+}) {
+  requireId(id, "npc id");
+  if (typeof name !== "string" || name.trim().length === 0) {
+    throw new Error("NPC name is required");
+  }
+  if (!Number.isInteger(relationshipScore) || relationshipScore < -100 || relationshipScore > 100) {
+    throw new RangeError("relationshipScore must be an integer from -100 to 100");
+  }
+  return {
+    id,
+    name,
+    relationship: {
+      score: relationshipScore,
+      qualitative: relationshipStateForScore(relationshipScore)
+    },
+    schedule: null,
+    state: structuredClone(state)
+  };
+}
+
+export function registerNpc(state, args) {
+  const npcs = ensureNpcTable(state);
+  requireId(args.npcId, "npcId");
+  if (npcs[args.npcId]) return npcs[args.npcId];
+  npcs[args.npcId] = createPersistentNpc({
+    id: args.npcId,
+    name: args.name,
+    relationshipScore: args.relationshipScore ?? 0,
+    state: args.state ?? {}
+  });
+  return npcs[args.npcId];
+}
+
+function requireNpc(state, npcId) {
+  requireId(npcId, "npcId");
+  const npc = ensureNpcTable(state)[npcId];
+  if (!npc) throw new Error("Unknown persistent NPC: " + npcId);
+  return npc;
+}
+
+export function adjustNpcRelationship(state, { npcId, delta }) {
+  const npc = requireNpc(state, npcId);
+  if (!Number.isInteger(delta) || delta < -100 || delta > 100) {
+    throw new RangeError("relationship delta must be an integer from -100 to 100");
+  }
+  const score = Math.max(-100, Math.min(100, npc.relationship.score + delta));
+  npc.relationship.score = score;
+  npc.relationship.qualitative = relationshipStateForScore(score);
+  return npc.relationship;
+}
+
+export function setNpcState(state, { npcId, key, value }) {
+  const npc = requireNpc(state, npcId);
+  requireId(key, "NPC state key");
+  if (value !== null && !["string", "number", "boolean"].includes(typeof value)) {
+    throw new TypeError("NPC state values must be primitive JSON values");
+  }
+  npc.state[key] = value;
+  return npc.state;
+}
+
+export function setNpcSchedule(state, {
+  npcId,
+  scheduleId,
+  locationId,
+  availability = "available",
+  activity = null,
+  startsAtMinutes = null,
+  endsAtMinutes = null
+}) {
+  const npc = requireNpc(state, npcId);
+  requireId(scheduleId, "scheduleId");
+  if (typeof locationId !== "string" || locationId.length === 0) throw new Error("locationId is required");
+  if (!NPC_AVAILABILITY.has(availability)) throw new Error("Invalid NPC availability: " + availability);
+  for (const [label, value] of [["startsAtMinutes", startsAtMinutes], ["endsAtMinutes", endsAtMinutes]]) {
+    if (value !== null && (!Number.isInteger(value) || value < 0)) {
+      throw new RangeError(label + " must be null or a non-negative integer");
+    }
+  }
+  if (startsAtMinutes !== null && endsAtMinutes !== null && endsAtMinutes <= startsAtMinutes) {
+    throw new RangeError("endsAtMinutes must be greater than startsAtMinutes");
+  }
+
+  npc.schedule = {
+    id: scheduleId,
+    locationId,
+    availability,
+    activity,
+    startsAtMinutes,
+    endsAtMinutes,
+    present: false
+  };
+  refreshNpcSchedule(state, npcId);
+  return npc.schedule;
+}
+
+export function refreshNpcSchedule(state, npcId) {
+  const npc = requireNpc(state, npcId);
+  if (!npc.schedule) return null;
+  ensureWorldClock(state.world);
+  const now = state.world.elapsedMinutes;
+  const started = npc.schedule.startsAtMinutes === null || now >= npc.schedule.startsAtMinutes;
+  const notEnded = npc.schedule.endsAtMinutes === null || now < npc.schedule.endsAtMinutes;
+  npc.schedule.present =
+    started &&
+    notEnded &&
+    npc.schedule.availability === "available";
+  return npc.schedule;
+}
+
+export function refreshNpcSchedules(state) {
+  for (const npcId of Object.keys(ensureNpcTable(state))) {
+    refreshNpcSchedule(state, npcId);
+  }
+  return state.npcs;
+}
+
+export function applyNpcEffect(state, effect) {
+  switch (effect.type) {
+    case "npc_register": return registerNpc(state, effect);
+    case "npc_relationship_adjust": return adjustNpcRelationship(state, effect);
+    case "npc_state_set": return setNpcState(state, effect);
+    case "npc_schedule_set": return setNpcSchedule(state, effect);
+    default: throw new Error("Unsupported NPC effect type: " + effect.type);
+  }
+}
+
+export function getNpcPublicView(state, npcId) {
+  const npc = requireNpc(state, npcId);
+  refreshNpcSchedule(state, npcId);
+  return {
+    id: npc.id,
+    name: npc.name,
+    relationship: npc.relationship.qualitative,
+    locationId: npc.schedule?.present ? npc.schedule.locationId : null,
+    available: Boolean(npc.schedule?.present)
+  };
+}
+
+export function selectFriendBeatCandidate(state, {
+  candidateIds = ["Mattew", "Daniel", "Edward", "Fab"],
+  locationId = state.world.locationId
+} = {}) {
+  refreshNpcSchedules(state);
+  const candidates = candidateIds
+    .map((npcId, index) => ({ npc: state.npcs?.[npcId], index }))
+    .filter(({ npc }) =>
+      npc &&
+      npc.schedule?.present &&
+      npc.schedule.locationId === locationId
+    )
+    .sort((a, b) =>
+      b.npc.relationship.score - a.npc.relationship.score ||
+      a.index - b.index
+    );
+  return candidates[0]?.npc.id ?? null;
+}
+
+export function validateNpcEffect(effect, at = "effect") {
+  const errors = [];
+  const push = (code, message, path = at) => errors.push({ code, message, at: path });
+  if (!effect || typeof effect !== "object" || Array.isArray(effect)) {
+    push("INVALID_NPC_EFFECT", "NPC effect must be an object");
+    return errors;
+  }
+  if (!["npc_register", "npc_relationship_adjust", "npc_state_set", "npc_schedule_set"].includes(effect.type)) {
+    push("INVALID_NPC_EFFECT", "Unsupported NPC effect type");
+    return errors;
+  }
+  if (typeof effect.npcId !== "string" || !ID_RE.test(effect.npcId)) {
+    push("INVALID_NPC_ID", "npcId must be a stable identifier", at + ".npcId");
+  }
+  if (effect.type === "npc_register") {
+    if (typeof effect.name !== "string" || effect.name.trim().length === 0) {
+      push("INVALID_NPC_NAME", "npc_register requires name", at + ".name");
+    }
+    if (effect.relationshipScore !== undefined &&
+        (!Number.isInteger(effect.relationshipScore) || effect.relationshipScore < -100 || effect.relationshipScore > 100)) {
+      push("INVALID_RELATIONSHIP_SCORE", "relationshipScore must be an integer from -100 to 100", at + ".relationshipScore");
+    }
+  }
+  if (effect.type === "npc_relationship_adjust" &&
+      (!Number.isInteger(effect.delta) || effect.delta < -100 || effect.delta > 100)) {
+    push("INVALID_RELATIONSHIP_DELTA", "delta must be an integer from -100 to 100", at + ".delta");
+  }
+  if (effect.type === "npc_state_set") {
+    if (typeof effect.key !== "string" || !ID_RE.test(effect.key)) {
+      push("INVALID_NPC_STATE_KEY", "NPC state key must be an identifier", at + ".key");
+    }
+    if (effect.value !== null && !["string", "number", "boolean"].includes(typeof effect.value)) {
+      push("INVALID_NPC_STATE_VALUE", "NPC state value must be a primitive JSON value", at + ".value");
+    }
+  }
+  if (effect.type === "npc_schedule_set") {
+    if (typeof effect.scheduleId !== "string" || !ID_RE.test(effect.scheduleId)) {
+      push("INVALID_NPC_SCHEDULE_ID", "scheduleId must be an identifier", at + ".scheduleId");
+    }
+    if (typeof effect.locationId !== "string" || effect.locationId.length === 0) {
+      push("INVALID_NPC_LOCATION", "npc_schedule_set requires locationId", at + ".locationId");
+    }
+    if (effect.availability !== undefined && !NPC_AVAILABILITY.has(effect.availability)) {
+      push("INVALID_NPC_AVAILABILITY", "Invalid NPC availability", at + ".availability");
+    }
+    for (const field of ["startsAtMinutes", "endsAtMinutes"]) {
+      if (effect[field] !== undefined && effect[field] !== null &&
+          (!Number.isInteger(effect[field]) || effect[field] < 0)) {
+        push("INVALID_NPC_SCHEDULE_TIME", field + " must be null or a non-negative integer", at + "." + field);
+      }
+    }
+    if (Number.isInteger(effect.startsAtMinutes) && Number.isInteger(effect.endsAtMinutes) &&
+        effect.endsAtMinutes <= effect.startsAtMinutes) {
+      push("INVALID_NPC_SCHEDULE_WINDOW", "endsAtMinutes must be greater than startsAtMinutes", at);
+    }
+  }
+  return errors;
+}
