@@ -1,4 +1,4 @@
-# P5E LIBROGAME — NODE SPEC v1.2
+# P5E LIBROGAME — NODE SPEC v1.3
 
 Status: implementation contract for the offline bookgame compiler.
 Authority: subordinate to P5E_LIBROGAME_ENGINE_SOURCE_OF_TRUTH.md. If this document conflicts with the Source of Truth, the Source of Truth wins.
@@ -121,6 +121,47 @@ A hidden choice cannot be executed by supplying its ID directly: `choose()` re-e
 
 A scene-level failed condition is a runtime guard and presentation fails rather than silently exposing illegal content.
 
+## 3.2 Time / calendar — E2
+
+The offline runtime stores an absolute in-game clock:
+
+- `world.elapsedMinutes`: minutes elapsed since Day 1 00:00
+- `world.day`: 1-based in-game day
+- `world.minuteOfDay`: 0–1439
+- `world.time`: derived time-of-day band
+
+New careers start deterministically on **Day 1 at 08:00**. This is an implementation default, not device time.
+
+Derived time-of-day bands:
+
+- night: 00:00–05:59
+- morning: 06:00–11:59
+- afternoon: 12:00–17:59
+- evening: 18:00–23:59
+
+Legacy saves that only contain `world.day` + `world.time` are normalized locally when the clock is first used.
+
+A choice may declare:
+
+    "timeCostMinutes": 70
+
+The cost is consumed exactly once when the legal choice is executed. Crossing midnight increments `world.day` automatically.
+
+`timeCostMinutes` must be a non-negative integer. The compiler rejects malformed values.
+
+E1 conditions may also read:
+
+- `world.elapsedMinutes`
+- `world.minuteOfDay`
+
+M01 canonical topology uses:
+
+- Campus → Ginestre: 20 minutes
+- Ginestre → Valedarsena: 70 minutes
+- Ginestre → Fattoria del Vento: 70 minutes
+
+Direct Valedarsena ↔ Fattoria transitions consume 140 minutes because the current canonical topology passes through Ginestre.
+
 ## 4. Choice
 
 Every choice requires:
@@ -226,6 +267,7 @@ Compilation fails for at least:
 - missing check outcomes;
 - malformed effects;
 - malformed/unsafe conditions or condition paths;
+- invalid time costs;
 - goto/outcome/combat targets that do not exist;
 - invalid combat encounter/opponent/return-node data.
 
