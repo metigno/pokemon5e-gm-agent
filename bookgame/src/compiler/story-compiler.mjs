@@ -1,11 +1,12 @@
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { validateCondition } from "../engine/conditions.mjs";
+import { validateQuestEffect } from "../engine/quest-state.mjs";
 
 const ID_RE = /^[A-Za-z0-9_-]+$/;
 const TARGET_RE = /^[A-Za-z0-9_-]+(?:#[A-Za-z0-9_-]+)?$/;
 const ABILITIES = new Set(["STR", "DEX", "CON", "INT", "WIS", "CHA"]);
-const EFFECT_TYPES = new Set(["set_flag", "set_location"]);
+const EFFECT_TYPES = new Set(["set_flag", "set_location", "quest_offer", "quest_start", "quest_complete", "quest_fail"]);
 
 function diag(code, message, at) {
   return { code, message, at };
@@ -41,6 +42,9 @@ function validateEffects(effects, at, errors) {
     }
     if (effect.type === "set_location" && (typeof effect.locationId !== "string" || effect.locationId.length === 0)) {
       errors.push(diag("INVALID_SET_LOCATION", "set_location requires locationId", effectAt));
+    }
+    if (["quest_offer", "quest_start", "quest_complete", "quest_fail"].includes(effect.type)) {
+      errors.push(...validateQuestEffect(effect, effectAt));
     }
   }
 }
