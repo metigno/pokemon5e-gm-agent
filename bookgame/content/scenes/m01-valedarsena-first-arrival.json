@@ -422,6 +422,15 @@
           "goto": "trial_roster_missing"
         },
         {
+          "id": "roster_preparation",
+          "text": "Chiedo dove posso ampliare legalmente il roster.",
+          "conditions": {
+            "path": "player.roster.length",
+            "eq": 1
+          },
+          "goto": "roster_preparation"
+        },
+        {
           "id": "watch",
           "text": "Resto qualche minuto a osservare i rookie.",
           "goto": "arena_watch"
@@ -660,6 +669,41 @@
           "id": "back_after_loss",
           "text": "Torno all'ingresso dell'Arena.",
           "goto": "arena_front"
+        }
+      ]
+    },
+    "roster_preparation": {
+      "stitches": [
+        {
+          "id": "roster_rule",
+          "text": "L'addetto non ti offre scorciatoie. «Per il Trial servono due Pokémon realmente tuoi. Nessun prestito, nessun regalo di servizio, nessuna registrazione fittizia.»"
+        },
+        {
+          "id": "roster_routes",
+          "text": "Le Ginestre e i pascoli della Fattoria del Vento hanno fauna selvatica ordinaria. Se incontri un Pokémon e la cattura riesce secondo le regole Pokémon 5e, entrerà davvero nel tuo roster."
+        },
+        {
+          "id": "roster_choice",
+          "text": "Puoi anche continuare con un solo Pokémon quanto vuoi. In quel caso resterai semplicemente non idoneo al Promotion Trial."
+        }
+      ],
+      "choices": [
+        {
+          "id": "seek_ginestre",
+          "text": "Torno alle Ginestre e cerco fauna selvatica.",
+          "goto": "m01-ginestre-crossroads#crossroads",
+          "timeCostMinutes": 70
+        },
+        {
+          "id": "seek_farm",
+          "text": "Vado verso la Fattoria del Vento.",
+          "goto": "m01-farm-first-arrival#approach",
+          "timeCostMinutes": 140
+        },
+        {
+          "id": "stay_one",
+          "text": "Resto con un solo Pokémon per ora.",
+          "goto": "city_hub"
         }
       ]
     }
