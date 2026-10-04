@@ -32,11 +32,27 @@
               "locationId": "asteria_farm"
             },
             {
-              "type": "set_flag",
-              "key": "sq_farm_herd_hands_state",
-              "value": "active"
+              "type": "quest_start",
+              "questId": "SQ_FARM_HERD_HANDS",
+              "title": "Recinti aperti",
+              "objective": "Aiuta la Fattoria del Vento a recuperare i Pokémon dispersi senza spaventarli."
             }
-          ]
+          ],
+          "conditions": {
+            "any": [
+              {
+                "path": "quests.SQ_FARM_HERD_HANDS.status",
+                "exists": false
+              },
+              {
+                "path": "quests.SQ_FARM_HERD_HANDS.status",
+                "in": [
+                  "available",
+                  "active"
+                ]
+              }
+            ]
+          }
         },
         {
           "id": "observe",
@@ -73,6 +89,19 @@
           "text": "Torno alle Ginestre.",
           "goto": "m01-ginestre-crossroads#crossroads",
           "timeCostMinutes": 70
+        },
+        {
+          "id": "job_already_resolved",
+          "text": "Chiedo come è finita la situazione dei recinti.",
+          "conditions": {
+            "path": "quests.SQ_FARM_HERD_HANDS.status",
+            "in": [
+              "completed",
+              "failed",
+              "expired"
+            ]
+          },
+          "goto": "resolved_return"
         }
       ]
     },
@@ -204,13 +233,13 @@
           "effects": [
             {
               "type": "set_flag",
-              "key": "sq_farm_herd_hands_state",
-              "value": "completed"
-            },
-            {
-              "type": "set_flag",
               "key": "m1_world_pressure_player_involved",
               "value": true
+            },
+            {
+              "type": "quest_complete",
+              "questId": "SQ_FARM_HERD_HANDS",
+              "resolution": "herd_recovered"
             }
           ]
         },
@@ -228,13 +257,13 @@
               "effects": [
                 {
                   "type": "set_flag",
-                  "key": "sq_farm_herd_hands_state",
-                  "value": "completed"
-                },
-                {
-                  "type": "set_flag",
                   "key": "m1_world_pressure_player_involved",
                   "value": true
+                },
+                {
+                  "type": "quest_complete",
+                  "questId": "SQ_FARM_HERD_HANDS",
+                  "resolution": "herd_recovered"
                 }
               ]
             },
@@ -296,13 +325,13 @@
           "effects": [
             {
               "type": "set_flag",
-              "key": "sq_farm_herd_hands_state",
-              "value": "completed"
-            },
-            {
-              "type": "set_flag",
               "key": "m1_world_pressure_player_involved",
               "value": true
+            },
+            {
+              "type": "quest_complete",
+              "questId": "SQ_FARM_HERD_HANDS",
+              "resolution": "herd_recovered"
             }
           ]
         }
@@ -347,13 +376,13 @@
           "effects": [
             {
               "type": "set_flag",
-              "key": "sq_farm_herd_hands_state",
-              "value": "completed"
-            },
-            {
-              "type": "set_flag",
               "key": "m1_world_pressure_player_involved",
               "value": true
+            },
+            {
+              "type": "quest_complete",
+              "questId": "SQ_FARM_HERD_HANDS",
+              "resolution": "herd_recovered"
             }
           ]
         }
@@ -406,9 +435,9 @@
           "goto": "m01-valedarsena-first-arrival#approach",
           "effects": [
             {
-              "type": "set_flag",
-              "key": "sq_farm_herd_hands_state",
-              "value": "abandoned"
+              "type": "quest_fail",
+              "questId": "SQ_FARM_HERD_HANDS",
+              "resolution": "abandoned"
             }
           ],
           "timeCostMinutes": 140
@@ -419,12 +448,34 @@
           "goto": "m01-ginestre-crossroads#crossroads",
           "effects": [
             {
-              "type": "set_flag",
-              "key": "sq_farm_herd_hands_state",
-              "value": "abandoned"
+              "type": "quest_fail",
+              "questId": "SQ_FARM_HERD_HANDS",
+              "resolution": "abandoned"
             }
           ],
           "timeCostMinutes": 70
+        }
+      ]
+    },
+    "resolved_return": {
+      "stitches": [
+        {
+          "id": "resolved_context",
+          "text": "Il lavoro ai recinti non è più aperto come prima. La fattoria ha registrato l'esito e il mondo è andato avanti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_ginestre",
+          "text": "Torno verso le Ginestre.",
+          "goto": "m01-ginestre-crossroads#crossroads",
+          "timeCostMinutes": 70
+        },
+        {
+          "id": "to_city",
+          "text": "Vado a Valedarsena.",
+          "goto": "m01-valedarsena-first-arrival#approach",
+          "timeCostMinutes": 140
         }
       ]
     }
