@@ -40,6 +40,11 @@ Before play also load:
 - `campaign/world/WORLD_STATE_SCHEMA.md`
 - `campaign/world/FACTIONS.md`
 - `campaign/world/COMPETITIVE_NETWORK.md`
+- `campaign/world/ecology/SPECIES_DISTRIBUTION.json`
+- `campaign/world/ecology/ZONE_POOLS.json`
+- `campaign/world/ecology/RARITY_SYSTEM.md`
+- `campaign/world/ecology/SPECIAL_ENCOUNTERS.md`
+- `campaign/world/ecology/BIOME_COVERAGE.md`
 - selected slot's `world-state.json`
 - selected slot's `checkpoints.json`
 

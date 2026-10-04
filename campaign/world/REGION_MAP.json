@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "world_id": "ASTERIA",
   "name": "Territorio Interregionale di Asteria",
   "map_model": "topological_graph",
@@ -217,6 +217,114 @@
         "arena",
         "media"
       ]
+    },
+    {
+      "id": "SOL-DRYLAND",
+      "name": "Calanchi di Solaria",
+      "type": "wild_zone",
+      "tier": "regional",
+      "tags": [
+        "desert",
+        "badland",
+        "grassland",
+        "dry"
+      ]
+    },
+    {
+      "id": "CEN-CALDERA",
+      "name": "Caldera Ceneriva",
+      "type": "wild_zone",
+      "tier": "regional_high",
+      "tags": [
+        "volcano",
+        "badland",
+        "cave",
+        "geothermal"
+      ]
+    },
+    {
+      "id": "BOR-GLACIER",
+      "name": "Ghiacciaio Boreale",
+      "type": "wild_zone",
+      "tier": "late_regional",
+      "tags": [
+        "glacier",
+        "tundra",
+        "mountain",
+        "ice"
+      ]
+    },
+    {
+      "id": "BOR-POLAR-SEA",
+      "name": "Mare di Brina",
+      "type": "marine_zone",
+      "tier": "late_regional",
+      "tags": [
+        "polar-sea",
+        "ocean",
+        "ice"
+      ]
+    },
+    {
+      "id": "LUM-ISLANDS",
+      "name": "Arcipelago Luminara",
+      "type": "island_zone",
+      "tier": "regional_high",
+      "tags": [
+        "jungle",
+        "reef",
+        "beach",
+        "forest",
+        "ocean"
+      ]
+    },
+    {
+      "id": "AST-LAKE",
+      "name": "Lago Specchio",
+      "type": "wild_zone",
+      "tier": "regional",
+      "tags": [
+        "lake",
+        "pond",
+        "riverside",
+        "forest"
+      ]
+    },
+    {
+      "id": "AST-ABYSS",
+      "name": "Fossa Aster",
+      "type": "marine_zone",
+      "tier": "late_regional",
+      "tags": [
+        "abyss",
+        "ocean",
+        "reef",
+        "deep-sea"
+      ]
+    },
+    {
+      "id": "CHR-PAST",
+      "name": "Frattura Cronale Arcaica",
+      "type": "anomaly_zone",
+      "tier": "event_only",
+      "tags": [
+        "paradox",
+        "past",
+        "hidden"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "CHR-FUTURE",
+      "name": "Frattura Cronale Futura",
+      "type": "anomaly_zone",
+      "tier": "event_only",
+      "tags": [
+        "paradox",
+        "future",
+        "hidden"
+      ],
+      "hidden": true
     }
   ],
   "edges": [
@@ -335,6 +443,88 @@
       "from": "FAR-RUINS",
       "to": "MER-CAPITAL",
       "walk_minutes": 360
+    },
+    {
+      "from": "MER-CAPITAL",
+      "to": "SOL-DRYLAND",
+      "walk_minutes": 240
+    },
+    {
+      "from": "SOL-DRYLAND",
+      "to": "CEN-CALDERA",
+      "walk_minutes": 210
+    },
+    {
+      "from": "ALT-TOWN",
+      "to": "BOR-GLACIER",
+      "walk_minutes": 180
+    },
+    {
+      "from": "BOR-GLACIER",
+      "to": "BOR-POLAR-SEA",
+      "walk_minutes": 240,
+      "transit": [
+        "expedition_route"
+      ]
+    },
+    {
+      "from": "MAR-CITY",
+      "to": "LUM-ISLANDS",
+      "walk_minutes": null,
+      "transit": [
+        "ferry"
+      ]
+    },
+    {
+      "from": "SAL-TOWN",
+      "to": "AST-LAKE",
+      "walk_minutes": 150
+    },
+    {
+      "from": "MIR-MARSH",
+      "to": "AST-LAKE",
+      "walk_minutes": 180
+    },
+    {
+      "from": "MAR-CITY",
+      "to": "AST-ABYSS",
+      "walk_minutes": null,
+      "transit": [
+        "licensed_deep_sea_expedition"
+      ]
+    },
+    {
+      "from": "FAR-RUINS",
+      "to": "CHR-PAST",
+      "walk_minutes": null,
+      "transit": [
+        "event_only"
+      ]
+    },
+    {
+      "from": "CEN-CALDERA",
+      "to": "CHR-PAST",
+      "walk_minutes": null,
+      "transit": [
+        "event_only"
+      ]
+    },
+    {
+      "from": "FER-TUNNELS",
+      "to": "CHR-FUTURE",
+      "walk_minutes": null,
+      "transit": [
+        "event_only"
+      ]
+    },
+    {
+      "from": "FUL-PLATEAU",
+      "to": "CHR-FUTURE",
+      "walk_minutes": null,
+      "transit": [
+        "event_only"
+      ]
     }
-  ]
+  ],
+  "fauna_distribution": "campaign/world/ecology/SPECIES_DISTRIBUTION.json"
 }

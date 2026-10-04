@@ -110,3 +110,18 @@ Possibili sblocchi:
 - vecchio canale tecnico sotto Valedarsena.
 
 Gli sblocchi devono derivare da eventi o accesso plausibile, non da livello astratto.
+
+
+## Espansione ecologica completa
+
+Per supportare tutte le linee Pokémon canoniche, Asteria comprende anche:
+
+- **Calanchi di Solaria** — deserto/badland;
+- **Caldera Ceneriva** — area vulcanica e geotermale;
+- **Ghiacciaio Boreale** — ghiacciaio/tundra;
+- **Mare di Brina** — mare polare;
+- **Arcipelago Luminara** — isole subtropicali, jungle e reef;
+- **Lago Specchio** — grande ecosistema lacustre;
+- **Fossa Aster** — ecosistema abissale accessibile solo tramite spedizioni.
+
+Le **Fratture Cronali** non compaiono sulla normale cartografia pubblica e sono event-only.

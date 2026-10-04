@@ -219,3 +219,22 @@ When the player returns to a known location, update it from its previous state r
 Use exact Pokemon 5e rules when an ecological encounter becomes mechanical.
 
 The current slot's `world-state.json` is authoritative for physical-world persistence; `campaign.json` remains authoritative for player/party/progression/combat.
+
+
+## Complete fauna registry
+
+Load `campaign/world/ecology/SPECIES_DISTRIBUTION.json`, `ZONE_POOLS.json`, `RARITY_SYSTEM.md`, `SPECIAL_ENCOUNTERS.md`, and `BIOME_COVERAGE.md`.
+
+All canonical Pokémon in the registry have an Asteria ecological placement or a special-event class.
+
+Never use unofficial/Fakémon records.
+
+For ordinary wild encounters, use the current location's zone pool, then filter by world state, time, weather and fiction before applying rarity weights.
+
+Do not spawn Paradox, Ultra Beasts, Legendary, Mythical or fossil-only species from ordinary random encounter pools.
+
+Paradox Pokémon only appear through their hidden chronal anomaly chains.
+
+When an encounter becomes mechanical, use the current Pokémon 5e stat block/rules; the ecology registry is distribution metadata only.
+
+Ecology does not auto-scale to the player.

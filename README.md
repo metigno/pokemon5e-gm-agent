@@ -143,3 +143,14 @@ The first city is **Valedarsena**, a dense estuary/rail hub rather than a one-sc
 Each save slot has its own `world-state.json`, so two players can permanently change the world in different ways.
 
 See `campaign/world/`.
+
+
+## Complete Pokémon fauna
+
+Asteria now has a generated ecology entry for every canonical Pokémon record in the current Pokémon 5e catalog used by the project.
+
+The distribution uses local habitats, evolution-family scarcity and rarity tiers. Unofficial/Fakémon records are excluded.
+
+Paradox Pokémon use hidden chronal anomaly zones; Ultra Beasts use rift events; Legendary/Mythical Pokémon are unique story/interregional encounters; fossils use paleontology/revival chains.
+
+See `campaign/world/ecology/`.
