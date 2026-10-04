@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "ruleset": "2024",
   "source": {
     "repository": "Auroratide/poke5e",
@@ -1231,6 +1231,73 @@
         "attribute": "wis"
       },
       "description": "You attempt to put the target to sleep. The target must make a {save}, falling asleep on a failure.",
+      "categories": []
+    },
+    "smog": {
+      "id": "smog",
+      "name": "Smog",
+      "type": "poison",
+      "power": [
+        "con"
+      ],
+      "time": {
+        "unit": "action"
+      },
+      "pp": 5,
+      "duration": {
+        "unit": "minute",
+        "value": 1,
+        "concentration": true
+      },
+      "range": {
+        "type": "distance",
+        "value": 40,
+        "unit": "feet"
+      },
+      "dice": {
+        "class": "30",
+        "modifier": "MOVE",
+        "type": "damage"
+      },
+      "save": {
+        "attribute": "con"
+      },
+      "description": "You release a toxic cloud of poisonous smog in a 10 foot radius, centered on a point within range. Any creature that starts their turn in this area must succeed on a {save}, taking {dice} {type} damage on a failure, or half as much on a success. Creatures that fail this save by 5 or more become poisoned.",
+      "categories": [],
+      "updated": {
+        "tag": "Updated",
+        "details": "Damage is updated."
+      }
+    },
+    "poison-gas": {
+      "id": "poison-gas",
+      "name": "Poison Gas",
+      "type": "poison",
+      "power": [
+        "con"
+      ],
+      "time": {
+        "unit": "action"
+      },
+      "pp": 10,
+      "duration": {
+        "unit": "round",
+        "value": 1
+      },
+      "range": {
+        "type": "distance",
+        "value": 30,
+        "unit": "feet"
+      },
+      "dice": {
+        "class": "10",
+        "modifier": "MOVE",
+        "type": "damage"
+      },
+      "save": {
+        "attribute": "con"
+      },
+      "description": "You create a fog of poisonous gas in a 15 foot radius, centered on a point within range. Creatures that begin their turn in the area take {dice} {type} damage and must succeed on a {save} or become poisoned. The gas cloud dissipates at the beginning of your next turn.",
       "categories": []
     }
   },
