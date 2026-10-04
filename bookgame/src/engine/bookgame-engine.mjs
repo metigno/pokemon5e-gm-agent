@@ -4,6 +4,7 @@ import { evaluateCondition } from "./conditions.mjs";
 import { SceneRepository } from "./scene-repository.mjs";
 import { proficiencyBonus, touchState } from "./state.mjs";
 import { advanceWorldTime, getWorldTimeView } from "./time.mjs";
+import { applyQuestEffect, getQuestJournal, processQuestDeadlines } from "./quest-state.mjs";
 
 function clone(value) {
   return structuredClone(value);
@@ -17,6 +18,10 @@ function applyEffects(state, effects = []) {
     }
     if (effect.type === "set_location") {
       state.world.locationId = effect.locationId;
+      continue;
+    }
+    if (["quest_offer", "quest_start", "quest_complete", "quest_fail"].includes(effect.type)) {
+      applyQuestEffect(state, effect);
       continue;
     }
     throw new Error(`Unsupported effect type: ${effect.type}`);
@@ -96,6 +101,7 @@ export class BookgameEngine {
       stitches: clone(node.stitches ?? null),
       choices: clone(visibleChoices),
       worldTime: getWorldTimeView(state.world),
+      questJournal: getQuestJournal(state),
       pending: clone(state.pending),
       lastRoll: clone(state.lastRoll)
     };
@@ -128,12 +134,16 @@ export class BookgameEngine {
     if (choice.timeCostMinutes !== undefined) {
       const fromTime = getWorldTimeView(next.world);
       advanceWorldTime(next.world, choice.timeCostMinutes);
+      const questDeadlineEvents = processQuestDeadlines(next);
       const toTime = getWorldTimeView(next.world);
       historyEntry.time = {
         minutes: choice.timeCostMinutes,
         from: fromTime,
         to: toTime
       };
+      if (questDeadlineEvents.length > 0) {
+        historyEntry.questDeadlineEvents = clone(questDeadlineEvents);
+      }
     }
 
     if (choice.check) {
