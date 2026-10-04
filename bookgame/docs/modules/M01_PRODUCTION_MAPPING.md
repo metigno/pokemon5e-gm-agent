@@ -66,12 +66,12 @@ The graph is reconvergent, not linear. The player may move repeatedly between Gi
 | M1_07_WORLD_MOVES | pressure state machine and off-screen consequences | 450 | 290 | ENGINE DEPENDENCY |
 | M1_08_BLUE_ENTERS | Blue causal introduction variants | 380 | 240 | ENGINE DEPENDENCY |
 | M1_09_FRIEND_BEAT_01 | one of the other Four selected causally | 390 | 250 | ENGINE DEPENDENCY |
-| M1_10_FIRST_OFFICIAL | first sanctioned non-trial match | 270 | 170 | ENGINE DEPENDENCY |
+| M1_10_FIRST_OFFICIAL | first sanctioned non-trial match | 270 | 170 | READY FOR CONTENT |
 | M1_11_SECOND_POKEMON | legal routes to roster size 2 | 280 | 180 | ENGINE DEPENDENCY |
 | M1_12_FIVE_ROADS | friends diverge and schedules update | 250 | 150 | ENGINE DEPENDENCY |
-| M1_13_TRIAL_REGISTRATION | gate eligibility and preparation | 160 | 90 | ENGINE DEPENDENCY |
-| M1_14_PROMOTION_TRIAL_F_E | official F→E trial | 200 | 110 | ENGINE DEPENDENCY |
-| M1_15_TRIAL_RESULT | win/loss/retry/callback consequences | 347 | 96 | ENGINE DEPENDENCY |
+| M1_13_TRIAL_REGISTRATION | gate eligibility and preparation | 160 | 90 | PARTIAL / E5 WIRED |
+| M1_14_PROMOTION_TRIAL_F_E | official F→E trial | 200 | 110 | READY FOR AUTHORED OPPONENT |
+| M1_15_TRIAL_RESULT | win/loss/retry/callback consequences | 347 | 96 | E5 LIFECYCLE READY |
 | **TOTAL** |  | **5,047** | **3,116** | |
 
 Budget means authored production capacity, not that one playthrough sees every stitch or choice.
@@ -140,7 +140,7 @@ Required for:
 - friends moving independently;
 - callbacks based on prior meeting/result.
 
-## E5 — Official competition / gate state
+## E5 — Official competition / gate state — IMPLEMENTED
 
 Required for:
 
