@@ -106,7 +106,8 @@ export class BookgameEngine {
         sourceNodeId: next.story.nodeId,
         opponent: clone(choice.combat.opponent),
         playerPokemon: clone(next.player.starter),
-        returnNodes: clone(choice.combat.returnNodes)
+        returnNodes: clone(choice.combat.returnNodes),
+        battle: null
       };
       next.story.nodeId = choice.combat.goto;
       historyEntry.toNodeId = choice.combat.goto;
@@ -122,9 +123,28 @@ export class BookgameEngine {
     return next;
   }
 
+  setCombatState(state, battle) {
+    if (!state.pending || state.pending.type !== "pokemon5e_combat") {
+      throw new Error("No Pokémon 5e combat handoff is pending");
+    }
+    if (battle.encounterId !== state.pending.encounterId) {
+      throw new Error("Combat state belongs to a different encounter");
+    }
+
+    const next = clone(state);
+    next.pending.battle = clone(battle);
+    next.pending.status = battle.outcome ? "resolved" : "in_progress";
+    touchState(next, this.now);
+    return next;
+  }
+
   resolveCombatHandoff(state, outcome) {
     if (!state.pending || state.pending.type !== "pokemon5e_combat") {
       throw new Error("No Pokémon 5e combat handoff is pending");
+    }
+
+    if (state.pending.battle?.outcome && state.pending.battle.outcome !== outcome) {
+      throw new Error(`Combat outcome mismatch: battle=${state.pending.battle.outcome}, requested=${outcome}`);
     }
 
     const target = state.pending.returnNodes[outcome];
