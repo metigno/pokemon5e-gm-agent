@@ -39,6 +39,7 @@ export function createNewGameState({
       flags: {}
     },
     quests: {},
+    events: {},
     npcs: {
       Mattew: createPersistentNpc({ id: "Mattew", name: "Mattew" }),
       Daniel: createPersistentNpc({ id: "Daniel", name: "Daniel" }),
