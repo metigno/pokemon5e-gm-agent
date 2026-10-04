@@ -5,6 +5,9 @@
   "type": "module",
   "scripts": {
     "play": "node src/cli.mjs",
+    "validate:story": "node src/compiler/cli.mjs --check",
+    "compile:story": "node src/compiler/cli.mjs",
+    "build": "npm run validate:story && npm run compile:story",
     "test": "node --test tests/*.test.mjs"
   }
 }
