@@ -2,9 +2,12 @@ import { attemptCapture } from "./capture.mjs";
 import { Poke5eDataRepository } from "./poke5e-data.mjs";
 import {
   abilityModifier,
+  calculateMoveStats,
   proficiencyBonus,
   resolveAttack,
   resolveSaveMove,
+  resolveSavingThrow,
+  rollExpression,
   scaledHp
 } from "./poke5e-rules.mjs";
 import {
@@ -17,6 +20,13 @@ import {
   reachForSize,
   withinLineOfSightDistance
 } from "./spatial.mjs";
+import { typeMultiplier } from "./type-chart.mjs";
+import {
+  createCircleZone,
+  expireZonesAtTurnStart,
+  removeZone,
+  zoneContains
+} from "./zones.mjs";
 import {
   applyStatus,
   createStatusState,
@@ -40,6 +50,11 @@ const SAVE_EFFECT_MOVES = new Set([
   "tail-whip",
   "sand-attack",
   "hypnosis"
+]);
+
+const AREA_MOVES = new Set([
+  "smog",
+  "poison-gas"
 ]);
 
 function clone(value) {
@@ -92,7 +107,9 @@ function moveSlot(move) {
 }
 
 function isMoveResolvable(move) {
-  return Boolean(move.attack && move.dice?.type === "damage") || SAVE_EFFECT_MOVES.has(move.id);
+  return Boolean(move.attack && move.dice?.type === "damage")
+    || SAVE_EFFECT_MOVES.has(move.id)
+    || AREA_MOVES.has(move.id);
 }
 
 function defaultPosition(value, fallback) {
@@ -134,7 +151,49 @@ function healthyBenchIndices(battle) {
     .map(({ index }) => index);
 }
 
+function endConcentrationState(battle, side, reason) {
+  const combatant = battle[side];
+  const concentration = combatant?.concentration;
+  if (!concentration) return false;
+
+  battle.zones = removeZone(battle.zones, concentration.zoneId);
+  combatant.concentration = null;
+  battle.log.push({
+    type: "concentration_end",
+    round: battle.round,
+    actor: side,
+    reason,
+    zoneId: concentration.zoneId,
+    moveId: concentration.moveId
+  });
+  return true;
+}
+
+function checkConcentrationAfterDamage(battle, side, damage, dice) {
+  if (damage <= 0 || !battle[side]?.concentration) return null;
+
+  const dc = Math.max(10, Math.floor(damage / 2));
+  const save = resolveSavingThrow({
+    defender: battle[side],
+    attribute: "con",
+    dc,
+    dice
+  });
+
+  battle.log.push({
+    type: "concentration_check",
+    round: battle.round,
+    actor: side,
+    damage,
+    ...save
+  });
+
+  if (!save.success) endConcentrationState(battle, side, "failed_damage_save");
+  return save;
+}
+
 function markDowned(battle, downedSide, reason) {
+  endConcentrationState(battle, downedSide, "fainted");
   battle.log.push({
     type: "fainted",
     round: battle.round,
@@ -177,6 +236,9 @@ function endTurnInternal(battle, side, dice) {
 
   for (const event of events) {
     next.log.push({ ...event, round: next.round, actor: side });
+    if (event.type === "status_damage" && event.damage > 0) {
+      checkConcentrationAfterDamage(next, side, event.damage, dice);
+    }
   }
 
   if (combatant.hp.current <= 0) {
@@ -270,6 +332,15 @@ function rangeCheckForMove(attacker, defender, move) {
   }
 
   return result;
+}
+
+function zoneDamage(zone, target, dice, saveSucceeded = false) {
+  const rolled = rollExpression(zone.damageDice, dice);
+  const raw = Math.max(0, rolled.total + zone.damageModifier);
+  const multiplier = typeMultiplier(zone.damageType, target.types);
+  let damage = multiplier === 0.5 ? Math.floor(raw / 2) : raw * multiplier;
+  if (saveSucceeded && zone.effect === "smog") damage = Math.floor(damage / 2);
+  return { rolled, raw, multiplier, damage };
 }
 
 export class Pokemon5eCombatEngine {
@@ -429,6 +500,63 @@ export class Pokemon5eCombatEngine {
 
     next.log.push({ type: "turn_start", round: next.round, actor: side });
 
+    const expiry = expireZonesAtTurnStart(next.zones, side, next.round);
+    next.zones = expiry.active;
+    for (const zone of expiry.expired) {
+      if (next[zone.sourceSide]?.concentration?.zoneId === zone.id) {
+        next[zone.sourceSide].concentration = null;
+      }
+      next.log.push({
+        type: "zone_end",
+        round: next.round,
+        zoneId: zone.id,
+        moveId: zone.moveId,
+        reason: "duration"
+      });
+    }
+
+    for (const zone of next.zones) {
+      if (!zoneContains(zone, combatant.position)) continue;
+
+      const save = resolveSavingThrow({
+        defender: combatant,
+        attribute: zone.saveAttribute,
+        dc: zone.saveDc,
+        dice: this.dice
+      });
+      const damageInfo = zoneDamage(zone, combatant, this.dice, save.success);
+      combatant.hp.current = Math.max(0, combatant.hp.current - damageInfo.damage);
+
+      let statusResult = null;
+      if (zone.effect === "poison-gas" && !save.success) {
+        statusResult = applyStatus(combatant, "Poisoned");
+      } else if (zone.effect === "smog" && !save.success && save.total <= zone.saveDc - 5) {
+        statusResult = applyStatus(combatant, "Poisoned");
+      }
+
+      next.log.push({
+        type: "zone_tick",
+        round: next.round,
+        actor: side,
+        zoneId: zone.id,
+        moveId: zone.moveId,
+        save,
+        damageRoll: damageInfo.rolled,
+        rawDamage: damageInfo.raw,
+        typeMultiplier: damageInfo.multiplier,
+        damage: damageInfo.damage,
+        hpAfter: combatant.hp.current,
+        statusResult
+      });
+
+      checkConcentrationAfterDamage(next, side, damageInfo.damage, this.dice);
+
+      if (combatant.hp.current <= 0) {
+        markDowned(next, side, "zone_damage");
+        return next;
+      }
+    }
+
     if (combatant.switchedInRound === next.round) {
       next.log.push({
         type: "turn_skipped",
@@ -511,6 +639,7 @@ export class Pokemon5eCombatEngine {
     });
 
     defender.hp.current = Math.max(0, defender.hp.current - result.damage);
+    checkConcentrationAfterDamage(next, targetSide, result.damage, this.dice);
 
     if (flashFireWasCharged) {
       attacker.abilityState.flashFireCharged = false;
@@ -570,7 +699,16 @@ export class Pokemon5eCombatEngine {
     const slot = moveSlot(move);
     if (!slot || !attacker.turn[slot]) throw new Error(`No ${move.time?.unit ?? "turn"} slot available for ${moveId}`);
 
-    const range = rangeCheckForMove(attacker, defender, move);
+    const areaTarget = AREA_MOVES.has(move.id) && arguments[3]?.targetPoint
+      ? point(arguments[3].targetPoint.x, arguments[3].targetPoint.y)
+      : null;
+    const range = areaTarget
+      ? {
+          legal: distance(attacker.position, areaTarget) <= move.range.value + 1e-9,
+          distance: distance(attacker.position, areaTarget),
+          maxRange: move.range.value
+        }
+      : rangeCheckForMove(attacker, defender, move);
     if (!range.legal) {
       throw new Error(`${move.name} is out of range: ${range.distance.toFixed(1)}ft > ${range.maxRange}ft`);
     }
@@ -618,6 +756,45 @@ export class Pokemon5eCombatEngine {
     if (move.attack && move.dice?.type === "damage") {
       next = await this.resolveAttackMove(next, side, move, {
         forceDisadvantage: intimidateUsed
+      });
+    } else if (AREA_MOVES.has(move.id)) {
+      const stats = calculateMoveStats(attacker, move);
+      const center = areaTarget ?? clone(defender.position);
+      const radius = move.id === "smog" ? 10 : 15;
+      const zoneId = `${next.encounterId}:${move.id}:${next.round}:${next.log.length}`;
+
+      if (move.duration?.concentration) {
+        endConcentrationState(next, side, "new_concentration");
+      }
+
+      const zone = createCircleZone({
+        id: zoneId,
+        moveId: move.id,
+        sourceSide: side,
+        center,
+        radius,
+        createdRound: next.round,
+        expiresRound: move.duration?.unit === "minute" ? next.round + (move.duration.value * 10) : null,
+        expiresAtSourceTurn: move.id === "poison-gas",
+        concentration: Boolean(move.duration?.concentration),
+        saveDc: stats.saveDc,
+        saveAttribute: stats.saveAttribute,
+        damageDice: stats.damageDice,
+        damageModifier: stats.damageModifier,
+        damageType: move.type,
+        effect: move.id
+      });
+
+      next.zones.push(zone);
+      if (zone.concentration) {
+        attacker.concentration = { zoneId, moveId: move.id };
+      }
+
+      next.log.push({
+        type: "zone_created",
+        round: next.round,
+        actor: side,
+        zone: clone(zone)
       });
     } else if (SAVE_EFFECT_MOVES.has(move.id)) {
       if (defender.abilityId === "levitate" && move.type === "ground") {
@@ -828,6 +1005,7 @@ export class Pokemon5eCombatEngine {
       Object.assign(next, prepared);
     }
 
+    endConcentrationState(next, "player", "switch");
     clearTransientEffects(outgoing);
     outgoing.position = null;
     outgoing.turn.started = false;
