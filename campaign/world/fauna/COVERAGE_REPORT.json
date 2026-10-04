@@ -44,11 +44,11 @@
     "paradox_future": 10
   },
   "rarity_counts": {
-    "common": 318,
+    "rare": 132,
     "exceptional": 367,
+    "common": 265,
     "very_rare": 162,
-    "rare": 88,
-    "uncommon": 44,
+    "uncommon": 53,
     "event_locked": 160
   },
   "source_biomes": [
@@ -114,5 +114,12 @@
     "every_canonical_stat_block_indexed": true,
     "every_source_biome_covered": true,
     "every_normal_wild_entry_has_zone": true
-  }
+  },
+  "refinements": [
+    "Starter families: base stages minimum rare; later stages very rare/exceptional.",
+    "Pseudo-legendary families: base stages minimum rare; later stages very rare/exceptional.",
+    "Selected signature rare families (Eevee/Riolu/Zorua/Larvesta/Charcadet) receive minimum rarity floors.",
+    "Single-region and regional-form populations cannot be common in Asteria.",
+    "Paleobiological Reserve excluded from ordinary wild biome selection."
+  ]
 }

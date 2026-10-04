@@ -42,6 +42,17 @@ Rarity is ecological frequency, NOT capture chance.
 
 The GM must still use exact Pokémon 5e capture mechanics.
 
+### Minimum rarity floors
+
+To keep cross-generational biodiversity believable:
+- starter families begin at **rare** and later stages become **very rare / exceptional**;
+- pseudo-legendary families follow the same minimum floor;
+- Eevee, Riolu, Zorua, Larvesta and Charcadet families receive special rarity floors;
+- populations documented in only one source region cannot be common in Asteria;
+- regional forms restricted to one known region are at least rare.
+
+The **Riserva Paleobiologica** is not part of ordinary biome rolls. Only its controlled fossil populations use that zone.
+
 ## Evolution ecology
 
 Evolution stages usually become progressively rarer in the wild.

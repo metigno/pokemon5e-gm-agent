@@ -26,8 +26,8 @@
       "family_root": "bulbasaur",
       "base_form_reference": "bulbasaur",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "forest",
@@ -150,8 +150,8 @@
       "family_root": "charmander",
       "base_form_reference": "charmander",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "volcano",
@@ -171,9 +171,7 @@
         "zones": [
           "CIN-CALDERA",
           "FUL-PLATEAU",
-          "FER-TUNNELS",
-          "BOR-GLACIER",
-          "AST-QUARRY"
+          "FER-TUNNELS"
         ],
         "conditions": [
           "geothermal_microhabitat"
@@ -281,8 +279,8 @@
       "family_root": "squirtle",
       "base_form_reference": "squirtle",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "pond",
@@ -301,7 +299,6 @@
         "population_status": "established_localized_population",
         "zones": [
           "AST-FARM",
-          "PAL-RESERVE",
           "LAC-LAKE",
           "MIR-MARSH"
         ],
@@ -726,7 +723,7 @@
         "zones": [
           "VIR-JUNGLE",
           "SAL-TOWN",
-          "PAL-RESERVE"
+          "SOL-BADLAND"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -891,7 +888,6 @@
         "population_status": "established_localized_population",
         "zones": [
           "AST-QUARRY",
-          "PAL-RESERVE",
           "SOL-BADLAND"
         ],
         "conditions": [
@@ -934,7 +930,7 @@
         "population_status": "established_localized_population",
         "zones": [
           "AST-QUARRY",
-          "PAL-RESERVE"
+          "SOL-BADLAND"
         ],
         "conditions": [
           "dry_conditions_preferred"
@@ -1042,8 +1038,8 @@
       "family_root": "pichu",
       "base_form_reference": "pikachu",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "forest",
@@ -1068,8 +1064,7 @@
           "VAL-WAREHOUSES",
           "AST-MISTWOOD",
           "FER-TUNNELS",
-          "MER-CAPITAL",
-          "AST-CANAL"
+          "MER-CAPITAL"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -1596,9 +1591,9 @@
         "zones": [
           "FAR-RUINS",
           "VAL-SUBCANAL",
-          "PAL-RESERVE",
           "AST-GINESTRE",
-          "AST-FARM"
+          "AST-FARM",
+          "CIN-CALDERA"
         ],
         "conditions": [
           "geothermal_microhabitat"
@@ -1646,7 +1641,7 @@
         "zones": [
           "FAR-RUINS",
           "VAL-SUBCANAL",
-          "PAL-RESERVE"
+          "AST-GINESTRE"
         ],
         "conditions": [
           "geothermal_microhabitat"
@@ -1693,10 +1688,10 @@
         "population_status": "widely_naturalized",
         "zones": [
           "VIR-JUNGLE",
-          "PAL-RESERVE",
           "AST-MISTWOOD",
           "SAL-TOWN",
-          "AST-GINESTRE"
+          "AST-GINESTRE",
+          "AST-FARM"
         ],
         "conditions": [
           "dawn_dusk_more_likely"
@@ -1743,7 +1738,7 @@
         "population_status": "widely_naturalized",
         "zones": [
           "VIR-JUNGLE",
-          "PAL-RESERVE"
+          "AST-MISTWOOD"
         ],
         "conditions": [
           "dawn_dusk_more_likely"
@@ -2390,7 +2385,7 @@
           "VAL-CITY",
           "VAL-SUBCANAL",
           "LAC-LAKE",
-          "PAL-RESERVE"
+          "RIV-TOWN"
         ],
         "conditions": [
           "wet_weather_can_increase_activity"
@@ -2667,8 +2662,8 @@
           "VAL-CITY",
           "MIR-MARSH",
           "AST-FARM",
-          "PAL-RESERVE",
-          "AST-CANAL"
+          "AST-CANAL",
+          "RIV-TOWN"
         ],
         "conditions": [
           "wet_weather_can_increase_activity"
@@ -4976,7 +4971,7 @@
           "SAL-COAST",
           "AST-QUARRY",
           "FAR-RUINS",
-          "PAL-RESERVE"
+          "VAL-SUBCANAL"
         ],
         "conditions": [
           "dry_conditions_preferred",
@@ -5299,7 +5294,7 @@
           "AST-FARM",
           "MIR-MARSH",
           "VAL-SUBCANAL",
-          "PAL-RESERVE"
+          "LAC-LAKE"
         ],
         "conditions": [
           "wet_weather_can_increase_activity"
@@ -5972,8 +5967,8 @@
       "family_root": "eevee",
       "base_form_reference": "eevee",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "forest",
@@ -5997,9 +5992,7 @@
         "zones": [
           "RIV-TOWN",
           "VIR-JUNGLE",
-          "SAL-TOWN",
-          "MER-CAPITAL",
-          "VAL-WAREHOUSES"
+          "SAL-TOWN"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -6086,8 +6079,8 @@
       "asteria": {
         "population_status": "widely_naturalized",
         "zones": [
-          "PAL-RESERVE",
-          "AST-QUARRY"
+          "AST-QUARRY",
+          "SOL-BADLAND"
         ],
         "conditions": [
           "dry_conditions_preferred"
@@ -6532,8 +6525,8 @@
       "family_root": "dratini",
       "base_form_reference": "dratini",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "lake"
@@ -6551,8 +6544,7 @@
       "asteria": {
         "population_status": "widely_naturalized",
         "zones": [
-          "LAC-LAKE",
-          "PAL-RESERVE"
+          "LAC-LAKE"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -6722,8 +6714,8 @@
       "family_root": "chikorita",
       "base_form_reference": "chikorita",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "grassland"
@@ -6740,9 +6732,7 @@
         "zones": [
           "AST-GINESTRE",
           "AST-FARM",
-          "AST-HILLS",
-          "FUL-PLATEAU",
-          "SOL-BADLAND"
+          "AST-HILLS"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -6837,8 +6827,8 @@
       "family_root": "cyndaquil",
       "base_form_reference": "cyndaquil",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "grassland",
@@ -6856,9 +6846,7 @@
         "zones": [
           "AST-GINESTRE",
           "AST-HILLS",
-          "CIN-CALDERA",
-          "SOL-BADLAND",
-          "AST-FARM"
+          "CIN-CALDERA"
         ],
         "conditions": [
           "geothermal_microhabitat"
@@ -6961,8 +6949,8 @@
       "family_root": "totodile",
       "base_form_reference": "totodile",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "lake",
@@ -6980,10 +6968,8 @@
         "population_status": "established_localized_population",
         "zones": [
           "LAC-LAKE",
-          "PAL-RESERVE",
           "VAL-SUBCANAL",
-          "VIR-JUNGLE",
-          "MIR-MARSH"
+          "VIR-JUNGLE"
         ],
         "conditions": [
           "wet_weather_can_increase_activity"
@@ -7581,8 +7567,8 @@
       "family_root": "pichu",
       "base_form_reference": "pichu",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "forest",
@@ -7607,8 +7593,7 @@
           "VAL-WAREHOUSES",
           "ALT-TOWN",
           "AST-MISTWOOD",
-          "FER-TUNNELS",
-          "VAL-CITY"
+          "FER-TUNNELS"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -7700,10 +7685,10 @@
         "population_status": "widely_naturalized",
         "zones": [
           "VIR-JUNGLE",
-          "PAL-RESERVE",
           "AST-MISTWOOD",
           "SAL-TOWN",
-          "AST-GINESTRE"
+          "AST-GINESTRE",
+          "AST-FARM"
         ],
         "conditions": [
           "dawn_dusk_more_likely"
@@ -7917,7 +7902,6 @@
       "asteria": {
         "population_status": "established_localized_population",
         "zones": [
-          "PAL-RESERVE",
           "AST-FARM",
           "AST-GINESTRE"
         ],
@@ -7958,7 +7942,6 @@
       "asteria": {
         "population_status": "established_localized_population",
         "zones": [
-          "PAL-RESERVE",
           "AST-FARM",
           "AST-GINESTRE"
         ],
@@ -7999,7 +7982,7 @@
       "asteria": {
         "population_status": "established_localized_population",
         "zones": [
-          "PAL-RESERVE"
+          "AST-FARM"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -8086,10 +8069,10 @@
         "population_status": "widely_naturalized",
         "zones": [
           "LAC-LAKE",
-          "PAL-RESERVE",
           "AST-FARM",
           "AST-GINESTRE",
-          "MIR-MARSH"
+          "MIR-MARSH",
+          "AST-CANAL"
         ],
         "conditions": [
           "dawn_dusk_more_likely",
@@ -8139,7 +8122,7 @@
         "population_status": "widely_naturalized",
         "zones": [
           "LAC-LAKE",
-          "PAL-RESERVE"
+          "AST-FARM"
         ],
         "conditions": [
           "dawn_dusk_more_likely",
@@ -8273,7 +8256,7 @@
           "AST-GINESTRE",
           "AST-QUARRY",
           "FER-TUNNELS",
-          "PAL-RESERVE"
+          "AST-HILLS"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -8434,8 +8417,7 @@
         "population_status": "established_localized_population",
         "zones": [
           "AST-FARM",
-          "AST-GINESTRE",
-          "PAL-RESERVE"
+          "AST-GINESTRE"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -8566,8 +8548,8 @@
           "MIR-MARSH",
           "VAL-CITY",
           "VAL-SUBCANAL",
-          "PAL-RESERVE",
-          "LAC-LAKE"
+          "LAC-LAKE",
+          "RIV-TOWN"
         ],
         "conditions": [
           "wet_weather_can_increase_activity"
@@ -10044,7 +10026,7 @@
         "population_status": "widely_naturalized",
         "zones": [
           "AST-QUARRY",
-          "PAL-RESERVE"
+          "BOR-GLACIER"
         ],
         "conditions": [
           "cold_conditions_preferred",
@@ -10092,8 +10074,8 @@
           "AST-HILLS",
           "CIN-CALDERA",
           "SAL-TOWN",
-          "PAL-RESERVE",
-          "AST-QUARRY"
+          "AST-QUARRY",
+          "AST-MISTWOOD"
         ],
         "conditions": [
           "night_or_low_light_more_likely",
@@ -10229,7 +10211,7 @@
           "FUL-PLATEAU",
           "AST-FARM",
           "AST-HILLS",
-          "PAL-RESERVE"
+          "AST-QUARRY"
         ],
         "conditions": [
           "dry_conditions_preferred"
@@ -10805,8 +10787,8 @@
       "family_root": "larvitar",
       "base_form_reference": "larvitar",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "cave",
@@ -10828,9 +10810,7 @@
         "zones": [
           "FAR-RUINS",
           "ALT-TOWN",
-          "AST-HILLS",
-          "AST-QUARRY",
-          "SAL-COAST"
+          "AST-HILLS"
         ],
         "conditions": [
           "dry_conditions_preferred",
@@ -11043,8 +11023,8 @@
       "family_root": "treecko",
       "base_form_reference": "treecko",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "forest",
@@ -11159,8 +11139,8 @@
       "family_root": "torchic",
       "base_form_reference": "torchic",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "grassland",
@@ -11178,9 +11158,7 @@
         "zones": [
           "SOL-BADLAND",
           "FUL-PLATEAU",
-          "AST-FARM",
-          "CIN-CALDERA",
-          "AST-GINESTRE"
+          "AST-FARM"
         ],
         "conditions": [
           "geothermal_microhabitat"
@@ -11285,8 +11263,8 @@
       "family_root": "mudkip",
       "base_form_reference": "mudkip",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "beach",
@@ -11304,9 +11282,7 @@
         "zones": [
           "RIV-TOWN",
           "FAR-RUINS",
-          "MIR-MARSH",
-          "SAL-COAST",
-          "MAR-CITY"
+          "MIR-MARSH"
         ],
         "conditions": [
           "tide_weather_can_modify_activity",
@@ -12057,10 +12033,10 @@
         "population_status": "restricted_micro_population",
         "zones": [
           "FUL-PLATEAU",
-          "PAL-RESERVE",
           "AST-FARM",
           "AST-GINESTRE",
-          "AST-HILLS"
+          "AST-HILLS",
+          "SOL-BADLAND"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -12099,7 +12075,7 @@
         "population_status": "restricted_micro_population",
         "zones": [
           "FUL-PLATEAU",
-          "PAL-RESERVE"
+          "AST-FARM"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -12383,7 +12359,6 @@
           "AST-FARM",
           "LAC-LAKE",
           "MIR-MARSH",
-          "PAL-RESERVE",
           "RIV-TOWN"
         ],
         "conditions": [
@@ -13002,10 +12977,10 @@
         "population_status": "widely_naturalized",
         "zones": [
           "LAC-LAKE",
-          "PAL-RESERVE",
           "AST-FARM",
           "AST-GINESTRE",
-          "MIR-MARSH"
+          "MIR-MARSH",
+          "AST-CANAL"
         ],
         "conditions": [
           "dawn_dusk_more_likely",
@@ -13644,7 +13619,7 @@
         "zones": [
           "MIR-MARSH",
           "AST-FARM",
-          "PAL-RESERVE"
+          "SAL-TOWN"
         ],
         "conditions": [
           "wet_weather_can_increase_activity"
@@ -13730,7 +13705,6 @@
       "asteria": {
         "population_status": "widely_naturalized",
         "zones": [
-          "PAL-RESERVE",
           "AST-FARM",
           "AST-GINESTRE"
         ],
@@ -14246,7 +14220,7 @@
           "ALT-TOWN",
           "CIN-CALDERA",
           "AST-QUARRY",
-          "PAL-RESERVE"
+          "AST-FARM"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -14861,11 +14835,11 @@
       "asteria": {
         "population_status": "widely_naturalized",
         "zones": [
-          "PAL-RESERVE",
           "AST-FARM",
           "LAC-LAKE",
           "VAL-SUBCANAL",
-          "VIR-JUNGLE"
+          "VIR-JUNGLE",
+          "AST-CANAL"
         ],
         "conditions": [
           "wet_weather_can_increase_activity"
@@ -14910,9 +14884,9 @@
       "asteria": {
         "population_status": "widely_naturalized",
         "zones": [
-          "PAL-RESERVE",
           "AST-FARM",
-          "LAC-LAKE"
+          "LAC-LAKE",
+          "VAL-SUBCANAL"
         ],
         "conditions": [
           "night_or_low_light_more_likely",
@@ -16218,8 +16192,8 @@
       "family_root": "bagon",
       "base_form_reference": "bagon",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "cave",
@@ -16239,9 +16213,7 @@
         "zones": [
           "CIN-CALDERA",
           "VAL-SUBCANAL",
-          "AST-QUARRY",
-          "SOL-BADLAND",
-          "SAL-COAST"
+          "AST-QUARRY"
         ],
         "conditions": [
           "dry_conditions_preferred",
@@ -16375,7 +16347,7 @@
         "zones": [
           "VAL-WAREHOUSES",
           "AST-QUARRY",
-          "PAL-RESERVE"
+          "MER-CAPITAL"
         ],
         "conditions": [
           "dry_conditions_preferred"
@@ -16873,8 +16845,8 @@
       "family_root": "turtwig",
       "base_form_reference": "turtwig",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "forest"
@@ -16987,8 +16959,8 @@
       "family_root": "chimchar",
       "base_form_reference": "chimchar",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "volcano",
@@ -17006,9 +16978,7 @@
         "zones": [
           "CIN-CALDERA",
           "FUL-PLATEAU",
-          "ALT-TOWN",
-          "FER-MOUNTAINS",
-          "AST-HILLS"
+          "ALT-TOWN"
         ],
         "conditions": [
           "geothermal_microhabitat"
@@ -17113,8 +17083,8 @@
       "family_root": "piplup",
       "base_form_reference": "piplup",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "polar-sea"
@@ -17457,7 +17427,6 @@
       "asteria": {
         "population_status": "established_localized_population",
         "zones": [
-          "PAL-RESERVE",
           "AST-FARM",
           "AST-GINESTRE"
         ],
@@ -17496,8 +17465,8 @@
       "asteria": {
         "population_status": "established_localized_population",
         "zones": [
-          "PAL-RESERVE",
-          "AST-FARM"
+          "AST-FARM",
+          "AST-GINESTRE"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -17539,8 +17508,8 @@
           "AST-HILLS",
           "AST-GINESTRE",
           "SOL-BADLAND",
-          "PAL-RESERVE",
-          "FUL-PLATEAU"
+          "FUL-PLATEAU",
+          "AST-FARM"
         ],
         "conditions": [
           "storms_increase_activity"
@@ -17665,9 +17634,9 @@
         "zones": [
           "LAC-LAKE",
           "RIV-TOWN",
-          "PAL-RESERVE",
           "AST-FARM",
-          "AST-CANAL"
+          "AST-CANAL",
+          "AST-GINESTRE"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -17708,7 +17677,7 @@
       "asteria": {
         "population_status": "widely_naturalized",
         "zones": [
-          "PAL-RESERVE"
+          "AST-FARM"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -18195,8 +18164,8 @@
         "population_status": "established_localized_population",
         "zones": [
           "VIR-JUNGLE",
-          "PAL-RESERVE",
-          "ALT-TOWN"
+          "ALT-TOWN",
+          "VAL-WAREHOUSES"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -19320,8 +19289,8 @@
       "family_root": "gible",
       "base_form_reference": "gible",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "volcano",
@@ -19342,10 +19311,8 @@
         "population_status": "widely_naturalized",
         "zones": [
           "VAL-SUBCANAL",
-          "PAL-RESERVE",
           "AST-QUARRY",
-          "SAL-COAST",
-          "FAR-RUINS"
+          "SAL-COAST"
         ],
         "conditions": [
           "dry_conditions_preferred",
@@ -19509,8 +19476,8 @@
       "family_root": "riolu",
       "base_form_reference": "riolu",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "mountain"
@@ -19531,9 +19498,7 @@
         "zones": [
           "FER-MOUNTAINS",
           "FER-TUNNELS",
-          "CIN-CALDERA",
-          "AST-QUARRY",
-          "AST-HILLS"
+          "CIN-CALDERA"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -21775,8 +21740,8 @@
       "family_root": "snivy",
       "base_form_reference": "snivy",
       "encounter_class": "normal_wild",
-      "rarity": "uncommon",
-      "relative_weight": 22,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "forest",
@@ -21794,7 +21759,6 @@
         "zones": [
           "SAL-TOWN",
           "AST-FARM",
-          "PAL-RESERVE",
           "FUL-PLATEAU"
         ],
         "conditions": [],
@@ -21892,8 +21856,8 @@
       "family_root": "tepig",
       "base_form_reference": "tepig",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "field",
@@ -21911,9 +21875,7 @@
         "zones": [
           "AST-FARM",
           "AST-GINESTRE",
-          "PAL-RESERVE",
-          "AST-HILLS",
-          "SOL-BADLAND"
+          "AST-HILLS"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -22012,8 +21974,8 @@
       "family_root": "oshawott",
       "base_form_reference": "oshawott",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "beach"
@@ -22149,9 +22111,9 @@
         "zones": [
           "AST-FARM",
           "FUL-PLATEAU",
-          "PAL-RESERVE",
           "SOL-BADLAND",
-          "AST-GINESTRE"
+          "AST-GINESTRE",
+          "AST-HILLS"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -24048,7 +24010,7 @@
         "zones": [
           "VAL-SUBCANAL",
           "VIR-JUNGLE",
-          "PAL-RESERVE"
+          "RIV-TOWN"
         ],
         "conditions": [
           "wet_weather_can_increase_activity"
@@ -24516,8 +24478,7 @@
         "population_status": "established_localized_population",
         "zones": [
           "AST-QUARRY",
-          "SOL-BADLAND",
-          "PAL-RESERVE"
+          "SOL-BADLAND"
         ],
         "conditions": [
           "night_or_low_light_more_likely",
@@ -24927,8 +24888,8 @@
       "family_root": "zorua",
       "base_form_reference": "zorua",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "forest",
@@ -24950,9 +24911,7 @@
         "zones": [
           "VAL-WAREHOUSES",
           "VAL-CITY",
-          "FER-CITY",
-          "SAL-TOWN",
-          "VIR-JUNGLE"
+          "FER-CITY"
         ],
         "conditions": [
           "night_or_low_light_more_likely"
@@ -25367,8 +25326,7 @@
         "zones": [
           "LAC-LAKE",
           "MIR-MARSH",
-          "AST-FARM",
-          "PAL-RESERVE"
+          "AST-FARM"
         ],
         "conditions": [
           "wet_weather_can_increase_activity"
@@ -25694,10 +25652,10 @@
         "population_status": "established_localized_population",
         "zones": [
           "MIR-MARSH",
-          "PAL-RESERVE",
           "AST-FARM",
           "RIV-TOWN",
-          "AST-GINESTRE"
+          "AST-GINESTRE",
+          "AST-MISTWOOD"
         ],
         "conditions": [
           "wet_weather_can_increase_activity"
@@ -27361,10 +27319,10 @@
         "population_status": "established_localized_population",
         "zones": [
           "RIV-TOWN",
-          "PAL-RESERVE",
           "FER-MOUNTAINS",
           "BOR-GLACIER",
-          "FUL-PLATEAU"
+          "FUL-PLATEAU",
+          "SOL-BADLAND"
         ],
         "conditions": [
           "wet_weather_can_increase_activity",
@@ -27456,9 +27414,9 @@
         "zones": [
           "FUL-PLATEAU",
           "AST-FARM",
-          "PAL-RESERVE",
           "AST-QUARRY",
-          "AST-GINESTRE"
+          "AST-GINESTRE",
+          "SOL-BADLAND"
         ],
         "conditions": [
           "night_or_low_light_more_likely",
@@ -27611,8 +27569,8 @@
       "family_root": "deino",
       "base_form_reference": "deino",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "cave"
@@ -27630,9 +27588,7 @@
         "zones": [
           "VAL-SUBCANAL",
           "FER-TUNNELS",
-          "CIN-CALDERA",
-          "FAR-RUINS",
-          "AST-QUARRY"
+          "CIN-CALDERA"
         ],
         "conditions": [
           "night_or_low_light_more_likely",
@@ -27743,8 +27699,8 @@
       "family_root": "larvesta",
       "base_form_reference": "larvesta",
       "encounter_class": "normal_wild",
-      "rarity": "uncommon",
-      "relative_weight": 22,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "volcano"
@@ -28415,8 +28371,8 @@
       "family_root": "chespin",
       "base_form_reference": "chespin",
       "encounter_class": "normal_wild",
-      "rarity": "uncommon",
-      "relative_weight": 22,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "forest",
@@ -28432,7 +28388,6 @@
       "asteria": {
         "population_status": "restricted_micro_population",
         "zones": [
-          "PAL-RESERVE",
           "AST-FARM",
           "AST-GINESTRE",
           "VIR-JUNGLE"
@@ -28473,7 +28428,7 @@
       "asteria": {
         "population_status": "restricted_micro_population",
         "zones": [
-          "PAL-RESERVE"
+          "AST-FARM"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -28512,7 +28467,7 @@
       "asteria": {
         "population_status": "restricted_micro_population",
         "zones": [
-          "PAL-RESERVE"
+          "AST-FARM"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -28533,8 +28488,8 @@
       "family_root": "fennekin",
       "base_form_reference": "fennekin",
       "encounter_class": "normal_wild",
-      "rarity": "uncommon",
-      "relative_weight": 22,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "forest",
@@ -28552,8 +28507,7 @@
         "zones": [
           "AST-FARM",
           "FUL-PLATEAU",
-          "AST-HILLS",
-          "SAL-TOWN"
+          "AST-HILLS"
         ],
         "conditions": [
           "dry_conditions_preferred"
@@ -28657,8 +28611,8 @@
       "family_root": "froakie",
       "base_form_reference": "froakie",
       "encounter_class": "normal_wild",
-      "rarity": "uncommon",
-      "relative_weight": 22,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "pond",
@@ -28675,8 +28629,7 @@
         "zones": [
           "AST-FARM",
           "MIR-MARSH",
-          "LAC-LAKE",
-          "RIV-TOWN"
+          "LAC-LAKE"
         ],
         "conditions": [
           "wet_weather_can_increase_activity"
@@ -29136,10 +29089,10 @@
         "population_status": "established_localized_population",
         "zones": [
           "SOL-BADLAND",
-          "PAL-RESERVE",
           "AST-FARM",
           "AST-GINESTRE",
-          "FUL-PLATEAU"
+          "FUL-PLATEAU",
+          "AST-HILLS"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -29216,7 +29169,6 @@
         "population_status": "established_localized_population",
         "zones": [
           "AST-FARM",
-          "PAL-RESERVE",
           "AST-GINESTRE"
         ],
         "conditions": [
@@ -29886,10 +29838,10 @@
         "population_status": "restricted_micro_population",
         "zones": [
           "AST-HILLS",
-          "PAL-RESERVE",
           "VAL-CITY",
           "RIV-TOWN",
-          "MAR-CITY"
+          "MAR-CITY",
+          "AST-MISTWOOD"
         ],
         "conditions": [
           "dawn_dusk_more_likely"
@@ -30682,8 +30634,8 @@
       "family_root": "goomy",
       "base_form_reference": "goomy",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "swamp"
@@ -32265,8 +32217,8 @@
       "family_root": "rowlet",
       "base_form_reference": "rowlet",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "forest",
@@ -32284,8 +32236,7 @@
         "zones": [
           "AST-MISTWOOD",
           "AST-HILLS",
-          "SAL-TOWN",
-          "VIR-JUNGLE"
+          "SAL-TOWN"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -32386,8 +32337,8 @@
       "family_root": "litten",
       "base_form_reference": "litten",
       "encounter_class": "normal_wild",
-      "rarity": "uncommon",
-      "relative_weight": 22,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "jungle",
@@ -32404,8 +32355,7 @@
         "zones": [
           "AST-GINESTRE",
           "FUL-PLATEAU",
-          "VIR-JUNGLE",
-          "AST-HILLS"
+          "VIR-JUNGLE"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -32503,8 +32453,8 @@
       "family_root": "popplio",
       "base_form_reference": "popplio",
       "encounter_class": "normal_wild",
-      "rarity": "uncommon",
-      "relative_weight": 22,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "beach"
@@ -33035,8 +32985,7 @@
         "population_status": "restricted_micro_population",
         "zones": [
           "AST-FARM",
-          "AST-GINESTRE",
-          "PAL-RESERVE"
+          "AST-GINESTRE"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -33073,7 +33022,6 @@
       "asteria": {
         "population_status": "restricted_micro_population",
         "zones": [
-          "PAL-RESERVE",
           "AST-FARM",
           "AST-GINESTRE"
         ],
@@ -33113,7 +33061,6 @@
         "population_status": "restricted_micro_population",
         "zones": [
           "AST-GINESTRE",
-          "PAL-RESERVE",
           "AST-FARM"
         ],
         "conditions": [],
@@ -33151,7 +33098,6 @@
       "asteria": {
         "population_status": "restricted_micro_population",
         "zones": [
-          "PAL-RESERVE",
           "AST-GINESTRE",
           "AST-FARM"
         ],
@@ -33195,10 +33141,10 @@
         "population_status": "established_localized_population",
         "zones": [
           "ALT-TOWN",
-          "PAL-RESERVE",
           "FER-CITY",
           "AST-FARM",
-          "MER-CAPITAL"
+          "MER-CAPITAL",
+          "SAL-TOWN"
         ],
         "conditions": [
           "dawn_dusk_more_likely"
@@ -33238,8 +33184,8 @@
       "asteria": {
         "population_status": "established_localized_population",
         "zones": [
-          "PAL-RESERVE",
-          "AST-FARM"
+          "AST-FARM",
+          "AST-GINESTRE"
         ],
         "conditions": [
           "dawn_dusk_more_likely"
@@ -33959,7 +33905,6 @@
         "zones": [
           "CIN-CALDERA",
           "AST-QUARRY",
-          "PAL-RESERVE",
           "SOL-BADLAND"
         ],
         "conditions": [
@@ -34988,8 +34933,8 @@
       "family_root": "jangmo-o",
       "base_form_reference": "jangmo-o",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "cave",
@@ -35006,11 +34951,9 @@
       "asteria": {
         "population_status": "established_localized_population",
         "zones": [
-          "PAL-RESERVE",
           "AST-HILLS",
           "FER-TUNNELS",
-          "BOR-GLACIER",
-          "FUL-PLATEAU"
+          "BOR-GLACIER"
         ],
         "conditions": [
           "dry_conditions_preferred",
@@ -35053,7 +34996,7 @@
       "asteria": {
         "population_status": "established_localized_population",
         "zones": [
-          "PAL-RESERVE"
+          "AST-HILLS"
         ],
         "conditions": [
           "dry_conditions_preferred",
@@ -35096,7 +35039,7 @@
       "asteria": {
         "population_status": "established_localized_population",
         "zones": [
-          "PAL-RESERVE"
+          "AST-HILLS"
         ],
         "conditions": [
           "dry_conditions_preferred",
@@ -36490,7 +36433,7 @@
         ]
       },
       "asteria": {
-        "population_status": "restricted_micro_population",
+        "population_status": "protected_localized_micro_population",
         "zones": [
           "MAR-REEF"
         ],
@@ -36517,8 +36460,8 @@
       "family_root": "galarian-zigzagoon",
       "base_form_reference": "zigzagoon",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "woodland",
@@ -36532,13 +36475,11 @@
         ]
       },
       "asteria": {
-        "population_status": "restricted_micro_population",
+        "population_status": "protected_localized_micro_population",
         "zones": [
           "SOL-BADLAND",
           "AST-GINESTRE",
-          "VAL-CITY",
-          "AST-HILLS",
-          "SAL-TOWN"
+          "VAL-CITY"
         ],
         "conditions": [
           "night_or_low_light_more_likely"
@@ -36577,7 +36518,7 @@
         ]
       },
       "asteria": {
-        "population_status": "restricted_micro_population",
+        "population_status": "protected_localized_micro_population",
         "zones": [
           "SOL-BADLAND",
           "AST-GINESTRE"
@@ -36603,8 +36544,8 @@
       "family_root": "galarian-darumaka",
       "base_form_reference": "darumaka",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "glacier",
@@ -36616,12 +36557,11 @@
         ]
       },
       "asteria": {
-        "population_status": "restricted_micro_population",
+        "population_status": "protected_localized_micro_population",
         "zones": [
           "FER-MOUNTAINS",
           "ALT-TOWN",
-          "BOR-GLACIER",
-          "FUL-PLATEAU"
+          "BOR-GLACIER"
         ],
         "conditions": [
           "cold_conditions_preferred"
@@ -36657,7 +36597,7 @@
         ]
       },
       "asteria": {
-        "population_status": "restricted_micro_population",
+        "population_status": "protected_localized_micro_population",
         "zones": [
           "FER-MOUNTAINS"
         ],
@@ -36764,8 +36704,8 @@
       "family_root": "grookey",
       "base_form_reference": "grookey",
       "encounter_class": "normal_wild",
-      "rarity": "uncommon",
-      "relative_weight": 22,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "jungle"
@@ -36872,8 +36812,8 @@
       "family_root": "scorbunny",
       "base_form_reference": "scorbunny",
       "encounter_class": "normal_wild",
-      "rarity": "uncommon",
-      "relative_weight": 22,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "grassland"
@@ -36889,8 +36829,7 @@
         "zones": [
           "AST-GINESTRE",
           "AST-FARM",
-          "FUL-PLATEAU",
-          "SOL-BADLAND"
+          "FUL-PLATEAU"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -36983,8 +36922,8 @@
       "family_root": "sobble",
       "base_form_reference": "sobble",
       "encounter_class": "normal_wild",
-      "rarity": "uncommon",
-      "relative_weight": 22,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "pond"
@@ -37321,8 +37260,8 @@
       "family_root": "blipbug",
       "base_form_reference": "blipbug",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "forest",
@@ -37339,7 +37278,6 @@
           "AST-FARM",
           "AST-GINESTRE",
           "AST-MISTWOOD",
-          "PAL-RESERVE",
           "VIR-JUNGLE"
         ],
         "conditions": [],
@@ -37380,7 +37318,7 @@
           "AST-FARM",
           "AST-GINESTRE",
           "AST-MISTWOOD",
-          "PAL-RESERVE"
+          "VIR-JUNGLE"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -37459,7 +37397,7 @@
           "SAL-TOWN",
           "AST-MISTWOOD",
           "VIR-JUNGLE",
-          "PAL-RESERVE"
+          "AST-HILLS"
         ],
         "conditions": [
           "night_or_low_light_more_likely"
@@ -37522,8 +37460,8 @@
       "family_root": "gossifleur",
       "base_form_reference": "gossifleur",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "field"
@@ -37536,7 +37474,6 @@
       "asteria": {
         "population_status": "restricted_micro_population",
         "zones": [
-          "PAL-RESERVE",
           "AST-FARM",
           "AST-GINESTRE"
         ],
@@ -37573,8 +37510,8 @@
       "asteria": {
         "population_status": "restricted_micro_population",
         "zones": [
-          "PAL-RESERVE",
-          "AST-FARM"
+          "AST-FARM",
+          "AST-GINESTRE"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -37595,8 +37532,8 @@
       "family_root": "wooloo",
       "base_form_reference": "wooloo",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "field",
@@ -37613,7 +37550,6 @@
           "FUL-PLATEAU",
           "AST-HILLS",
           "AST-GINESTRE",
-          "PAL-RESERVE",
           "SOL-BADLAND"
         ],
         "conditions": [],
@@ -37759,8 +37695,8 @@
       "family_root": "yamper",
       "base_form_reference": "yamper",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "field",
@@ -37777,7 +37713,6 @@
           "AST-FARM",
           "SOL-BADLAND",
           "FUL-PLATEAU",
-          "PAL-RESERVE",
           "AST-GINESTRE"
         ],
         "conditions": [
@@ -37816,7 +37751,7 @@
         "population_status": "restricted_micro_population",
         "zones": [
           "AST-FARM",
-          "PAL-RESERVE"
+          "AST-GINESTRE"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -38421,8 +38356,8 @@
       "family_root": "sizzlipede",
       "base_form_reference": "sizzlipede",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "volcano",
@@ -38439,8 +38374,7 @@
           "ALT-TOWN",
           "BOR-GLACIER",
           "FER-MOUNTAINS",
-          "CIN-CALDERA",
-          "AST-HILLS"
+          "CIN-CALDERA"
         ],
         "conditions": [
           "geothermal_microhabitat"
@@ -39189,7 +39123,7 @@
           "FER-CITY",
           "VAL-CITY",
           "VAL-SUBCANAL",
-          "PAL-RESERVE"
+          "RIV-TOWN"
         ],
         "conditions": [
           "dawn_dusk_more_likely"
@@ -39649,9 +39583,9 @@
         "zones": [
           "RIV-TOWN",
           "AST-CANAL",
-          "PAL-RESERVE",
           "FAR-RUINS",
-          "CIN-CALDERA"
+          "CIN-CALDERA",
+          "AST-FARM"
         ],
         "conditions": [
           "dry_conditions_preferred",
@@ -39893,8 +39827,8 @@
       "family_root": "dreepy",
       "base_form_reference": "dreepy",
       "encounter_class": "normal_wild",
-      "rarity": "uncommon",
-      "relative_weight": 22,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "badland",
@@ -39913,8 +39847,7 @@
         "zones": [
           "VAL-CITY",
           "FAR-RUINS",
-          "AST-GINESTRE",
-          "LAC-LAKE"
+          "AST-GINESTRE"
         ],
         "conditions": [
           "night_or_low_light_more_likely",
@@ -40938,8 +40871,8 @@
       "family_root": "zorua-hisui",
       "base_form_reference": "zorua",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "forest",
@@ -40958,9 +40891,7 @@
         "zones": [
           "RIV-TOWN",
           "VAL-WAREHOUSES",
-          "FER-CITY",
-          "VIR-JUNGLE",
-          "VAL-CITY"
+          "FER-CITY"
         ],
         "conditions": [
           "night_or_low_light_more_likely"
@@ -41629,7 +41560,7 @@
         ]
       },
       "asteria": {
-        "population_status": "restricted_micro_population",
+        "population_status": "protected_localized_micro_population",
         "zones": [
           "SOL-BADLAND"
         ],
@@ -41665,7 +41596,7 @@
         ]
       },
       "asteria": {
-        "population_status": "restricted_micro_population",
+        "population_status": "protected_localized_micro_population",
         "zones": [
           "AST-HILLS"
         ],
@@ -41701,7 +41632,7 @@
         ]
       },
       "asteria": {
-        "population_status": "restricted_micro_population",
+        "population_status": "protected_localized_micro_population",
         "zones": [
           "AST-HILLS"
         ],
@@ -41725,8 +41656,8 @@
       "family_root": "wooper-paldea",
       "base_form_reference": "wooper",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "pond",
@@ -41746,8 +41677,7 @@
           "RIV-TOWN",
           "AST-CANAL",
           "VAL-CITY",
-          "AST-GINESTRE",
-          "AST-FARM"
+          "AST-GINESTRE"
         ],
         "conditions": [
           "wet_weather_can_increase_activity"
@@ -41770,8 +41700,8 @@
       "family_root": "sprigatito",
       "base_form_reference": "sprigatito",
       "encounter_class": "normal_wild",
-      "rarity": "uncommon",
-      "relative_weight": 22,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "forest",
@@ -41788,7 +41718,6 @@
         "zones": [
           "AST-MISTWOOD",
           "AST-FARM",
-          "PAL-RESERVE",
           "AST-HILLS"
         ],
         "conditions": [],
@@ -41887,8 +41816,8 @@
       "family_root": "fuecoco",
       "base_form_reference": "fuecoco",
       "encounter_class": "normal_wild",
-      "rarity": "uncommon",
-      "relative_weight": 22,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "volcano",
@@ -42007,8 +41936,8 @@
       "family_root": "quaxly",
       "base_form_reference": "quaxly",
       "encounter_class": "normal_wild",
-      "rarity": "uncommon",
-      "relative_weight": 22,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "pond",
@@ -42026,7 +41955,6 @@
         "zones": [
           "MIR-MARSH",
           "AST-CANAL",
-          "PAL-RESERVE",
           "VIR-JUNGLE"
         ],
         "conditions": [
@@ -42131,8 +42059,8 @@
       "family_root": "lechonk",
       "base_form_reference": "lechonk",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "field",
@@ -42150,8 +42078,7 @@
           "AST-QUARRY",
           "AST-HILLS",
           "FER-TUNNELS",
-          "SOL-BADLAND",
-          "AST-GINESTRE"
+          "SOL-BADLAND"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -42246,8 +42173,8 @@
       "family_root": "tarountula",
       "base_form_reference": "tarountula",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "forest",
@@ -42324,8 +42251,8 @@
       "family_root": "nymble",
       "base_form_reference": "nymble",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "woodland",
@@ -42342,8 +42269,7 @@
           "AST-HILLS",
           "AST-FARM",
           "SAL-TOWN",
-          "AST-GINESTRE",
-          "AST-MISTWOOD"
+          "AST-GINESTRE"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -42404,8 +42330,8 @@
       "family_root": "pawmi",
       "base_form_reference": "pawmi",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "forest",
@@ -42424,8 +42350,7 @@
           "MER-CAPITAL",
           "AST-FARM",
           "AST-MISTWOOD",
-          "VAL-WAREHOUSES",
-          "AST-GINESTRE"
+          "VAL-WAREHOUSES"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -42525,8 +42450,8 @@
       "family_root": "tandemaus",
       "base_form_reference": "tandemaus",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "forest",
@@ -42541,7 +42466,6 @@
       "asteria": {
         "population_status": "restricted_micro_population",
         "zones": [
-          "PAL-RESERVE",
           "RIV-TOWN",
           "AST-GINESTRE",
           "FER-CITY",
@@ -42582,8 +42506,8 @@
       "asteria": {
         "population_status": "restricted_micro_population",
         "zones": [
-          "PAL-RESERVE",
-          "RIV-TOWN"
+          "RIV-TOWN",
+          "AST-GINESTRE"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -42687,8 +42611,8 @@
       "family_root": "smoliv",
       "base_form_reference": "smoliv",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "grassland"
@@ -42704,8 +42628,7 @@
           "AST-HILLS",
           "FUL-PLATEAU",
           "AST-FARM",
-          "AST-GINESTRE",
-          "SOL-BADLAND"
+          "AST-GINESTRE"
         ],
         "conditions": [],
         "spawn_policy": "wild_population",
@@ -42975,8 +42898,8 @@
       "family_root": "charcadet",
       "base_form_reference": "charcadet",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "volcano",
@@ -43097,8 +43020,8 @@
       "family_root": "tadbulb",
       "base_form_reference": "tadbulb",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "industrial",
@@ -43118,8 +43041,7 @@
           "MIR-MARSH",
           "AST-GINESTRE",
           "VAL-WAREHOUSES",
-          "VIR-JUNGLE",
-          "VAL-SUBCANAL"
+          "VIR-JUNGLE"
         ],
         "conditions": [
           "wet_weather_can_increase_activity"
@@ -43184,8 +43106,8 @@
       "family_root": "wattrel",
       "base_form_reference": "wattrel",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "beach",
@@ -43203,8 +43125,7 @@
           "MAR-REEF",
           "MAR-CITY",
           "AST-ABYSS",
-          "FAR-RUINS",
-          "BOR-GLACIER"
+          "FAR-RUINS"
         ],
         "conditions": [
           "tide_weather_can_modify_activity",
@@ -43433,8 +43354,8 @@
       "family_root": "bramblin",
       "base_form_reference": "bramblin",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "desert",
@@ -43449,8 +43370,7 @@
         "population_status": "restricted_micro_population",
         "zones": [
           "AST-QUARRY",
-          "SOL-BADLAND",
-          "PAL-RESERVE"
+          "SOL-BADLAND"
         ],
         "conditions": [
           "night_or_low_light_more_likely",
@@ -43516,8 +43436,8 @@
       "family_root": "toedscool",
       "base_form_reference": "toedscool",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "forest",
@@ -43606,8 +43526,8 @@
       "asteria": {
         "population_status": "restricted_micro_population",
         "zones": [
-          "PAL-RESERVE",
-          "AST-QUARRY"
+          "AST-QUARRY",
+          "SOL-BADLAND"
         ],
         "conditions": [
           "dry_conditions_preferred"
@@ -43647,7 +43567,6 @@
         "population_status": "restricted_micro_population",
         "zones": [
           "AST-QUARRY",
-          "PAL-RESERVE",
           "SOL-BADLAND"
         ],
         "conditions": [
@@ -43711,8 +43630,8 @@
       "family_root": "rellor",
       "base_form_reference": "rellor",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "desert"
@@ -43786,8 +43705,8 @@
       "family_root": "flittle",
       "base_form_reference": "flittle",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "grassland",
@@ -43805,7 +43724,6 @@
           "FUL-PLATEAU",
           "SOL-BADLAND",
           "AST-GINESTRE",
-          "PAL-RESERVE",
           "AST-FARM"
         ],
         "conditions": [
@@ -43994,8 +43912,8 @@
       "family_root": "wiglett",
       "base_form_reference": "wiglett",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "beach",
@@ -44116,8 +44034,8 @@
       "family_root": "finizen",
       "base_form_reference": "finizen",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "ocean",
@@ -44560,8 +44478,8 @@
       "family_root": "cetoddle",
       "base_form_reference": "cetoddle",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "glacier"
@@ -45333,8 +45251,8 @@
       "family_root": "frigibax",
       "base_form_reference": "frigibax",
       "encounter_class": "normal_wild",
-      "rarity": "uncommon",
-      "relative_weight": 22,
+      "rarity": "rare",
+      "relative_weight": 10,
       "source_habitat": {
         "biomes": [
           "glacier",
@@ -45351,8 +45269,7 @@
         "zones": [
           "FUL-PLATEAU",
           "ALT-TOWN",
-          "FER-MOUNTAINS",
-          "BOR-GLACIER"
+          "FER-MOUNTAINS"
         ],
         "conditions": [
           "cold_conditions_preferred"
@@ -45931,8 +45848,8 @@
       "family_root": "poltchageist",
       "base_form_reference": "poltchageist",
       "encounter_class": "normal_wild",
-      "rarity": "common",
-      "relative_weight": 40,
+      "rarity": "uncommon",
+      "relative_weight": 22,
       "source_habitat": {
         "biomes": [
           "city",
@@ -45949,8 +45866,7 @@
           "RIV-TOWN",
           "VAL-CITY",
           "SAL-TOWN",
-          "FAR-RUINS",
-          "VAL-WAREHOUSES"
+          "FAR-RUINS"
         ],
         "conditions": [
           "night_or_low_light_more_likely"

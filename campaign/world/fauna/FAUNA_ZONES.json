@@ -36,7 +36,8 @@
         "grassland",
         "riverside"
       ],
-      "access": "rookie"
+      "access": "rookie",
+      "general_wild_pool": true
     },
     "AST-FARM": {
       "name": "Fattoria del Vento",
@@ -45,7 +46,8 @@
         "grassland",
         "pond"
       ],
-      "access": "rookie"
+      "access": "rookie",
+      "general_wild_pool": true
     },
     "AST-HILLS": {
       "name": "Sentiero delle Colline",
@@ -54,7 +56,8 @@
         "woodland",
         "mountain"
       ],
-      "access": "rookie_mid"
+      "access": "rookie_mid",
+      "general_wild_pool": true
     },
     "AST-MISTWOOD": {
       "name": "Bosco Bruma",
@@ -62,7 +65,8 @@
         "forest",
         "woodland"
       ],
-      "access": "rookie_mid"
+      "access": "rookie_mid",
+      "general_wild_pool": true
     },
     "SAL-TOWN": {
       "name": "Borgo Salice e margini",
@@ -71,7 +75,8 @@
         "woodland",
         "city"
       ],
-      "access": "regional"
+      "access": "regional",
+      "general_wild_pool": true
     },
     "VIR-JUNGLE": {
       "name": "Selva Viridia",
@@ -80,7 +85,8 @@
         "forest",
         "river"
       ],
-      "access": "regional_high"
+      "access": "regional_high",
+      "general_wild_pool": true
     },
     "LAC-LAKE": {
       "name": "Lago Specchio",
@@ -89,7 +95,8 @@
         "pond",
         "riverside"
       ],
-      "access": "regional"
+      "access": "regional",
+      "general_wild_pool": true
     },
     "MIR-MARSH": {
       "name": "Palude Mirto",
@@ -99,7 +106,8 @@
         "river",
         "riverside"
       ],
-      "access": "regional"
+      "access": "regional",
+      "general_wild_pool": true
     },
     "RIV-TOWN": {
       "name": "Rivafonda",
@@ -109,7 +117,8 @@
         "riverside",
         "city"
       ],
-      "access": "regional"
+      "access": "regional",
+      "general_wild_pool": true
     },
     "VAL-CITY": {
       "name": "Valedarsena urbana",
@@ -117,7 +126,8 @@
         "city",
         "riverside"
       ],
-      "access": "rookie"
+      "access": "rookie",
+      "general_wild_pool": true
     },
     "VAL-WAREHOUSES": {
       "name": "Valedarsena — Distretto Magazzini",
@@ -125,7 +135,8 @@
         "industrial",
         "city"
       ],
-      "access": "rookie"
+      "access": "rookie",
+      "general_wild_pool": true
     },
     "VAL-SUBCANAL": {
       "name": "Valedarsena — Sottocanale",
@@ -135,7 +146,8 @@
         "river",
         "city"
       ],
-      "access": "deep_locked"
+      "access": "deep_locked",
+      "general_wild_pool": true
     },
     "AST-CANAL": {
       "name": "Canale delle Ruote",
@@ -144,7 +156,8 @@
         "riverside",
         "industrial"
       ],
-      "access": "rookie_mid"
+      "access": "rookie_mid",
+      "general_wild_pool": true
     },
     "AST-QUARRY": {
       "name": "Cava Grigia",
@@ -154,7 +167,8 @@
         "mountain",
         "industrial"
       ],
-      "access": "rookie_mid"
+      "access": "rookie_mid",
+      "general_wild_pool": true
     },
     "FER-CITY": {
       "name": "Ferravia",
@@ -162,7 +176,8 @@
         "city",
         "industrial"
       ],
-      "access": "regional"
+      "access": "regional",
+      "general_wild_pool": true
     },
     "FER-TUNNELS": {
       "name": "Gallerie Ferrox",
@@ -171,7 +186,8 @@
         "mountain",
         "industrial"
       ],
-      "access": "regional_high"
+      "access": "regional_high",
+      "general_wild_pool": true
     },
     "FER-MOUNTAINS": {
       "name": "Monti Ferrox",
@@ -179,7 +195,8 @@
         "mountain",
         "tundra"
       ],
-      "access": "regional_high"
+      "access": "regional_high",
+      "general_wild_pool": true
     },
     "ALT-TOWN": {
       "name": "Altacima e versanti",
@@ -188,7 +205,8 @@
         "tundra",
         "city"
       ],
-      "access": "regional_high"
+      "access": "regional_high",
+      "general_wild_pool": true
     },
     "FUL-PLATEAU": {
       "name": "Altopiano Fulgore",
@@ -197,7 +215,8 @@
         "tundra",
         "grassland"
       ],
-      "access": "late_regional"
+      "access": "late_regional",
+      "general_wild_pool": true
     },
     "BOR-GLACIER": {
       "name": "Ghiacciaio Boreale",
@@ -207,7 +226,8 @@
         "polar-sea",
         "mountain"
       ],
-      "access": "late_regional"
+      "access": "late_regional",
+      "general_wild_pool": true
     },
     "SOL-BADLAND": {
       "name": "Terre Rosse di Solaria",
@@ -216,7 +236,8 @@
         "badland",
         "grassland"
       ],
-      "access": "regional_high"
+      "access": "regional_high",
+      "general_wild_pool": true
     },
     "CIN-CALDERA": {
       "name": "Caldera Cineris",
@@ -225,7 +246,8 @@
         "mountain",
         "cave"
       ],
-      "access": "late_regional"
+      "access": "late_regional",
+      "general_wild_pool": true
     },
     "MAR-CITY": {
       "name": "Mareasale",
@@ -234,7 +256,8 @@
         "beach",
         "ocean"
       ],
-      "access": "regional"
+      "access": "regional",
+      "general_wild_pool": true
     },
     "SAL-COAST": {
       "name": "Costa di Sale",
@@ -243,7 +266,8 @@
         "ocean",
         "cave"
       ],
-      "access": "regional_high"
+      "access": "regional_high",
+      "general_wild_pool": true
     },
     "MAR-REEF": {
       "name": "Barriera Azzurra",
@@ -251,7 +275,8 @@
         "reef",
         "ocean"
       ],
-      "access": "regional_high_water"
+      "access": "regional_high_water",
+      "general_wild_pool": true
     },
     "AST-ABYSS": {
       "name": "Fossa Aster",
@@ -259,7 +284,8 @@
         "abyss",
         "ocean"
       ],
-      "access": "late_special_water"
+      "access": "late_special_water",
+      "general_wild_pool": true
     },
     "FAR-RUINS": {
       "name": "Rovine del Primo Faro",
@@ -268,7 +294,8 @@
         "cave",
         "beach"
       ],
-      "access": "late_regional"
+      "access": "late_regional",
+      "general_wild_pool": true
     },
     "MER-CAPITAL": {
       "name": "Meridiana",
@@ -276,7 +303,8 @@
         "city",
         "industrial"
       ],
-      "access": "late_regional"
+      "access": "late_regional",
+      "general_wild_pool": true
     },
     "PAL-RESERVE": {
       "name": "Riserva Paleobiologica di Asteria",
@@ -285,7 +313,9 @@
         "badland",
         "lake"
       ],
-      "access": "regulated_special"
+      "access": "regulated_special",
+      "general_wild_pool": false,
+      "note": "Controlled fossil populations only; excluded from ordinary wild-biome selection."
     }
   }
 }
