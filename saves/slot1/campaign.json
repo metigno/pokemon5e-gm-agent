@@ -113,7 +113,7 @@
         "quantity": 7
       }
     ],
-    "money": 2100,
+    "money": 1900,
     "starting_money_roll": {
       "formula": "1000 + 100 × 4d4",
       "rolls": [
@@ -168,7 +168,7 @@
         "medical_status": "fully_recovered"
       },
       "current_evolution_stance": "intends to evolve Eevee into Jolteon and will pursue the legal Pokemon 5e requirements when attainable",
-      "current_activity": "Job board: choosing another assignment independently",
+      "current_activity": "At Mercato delle Arcate with Luke for lunch; JOB-01 accepted, departure postponed until after lunch.",
       "ace_evolution_goal": {
         "target": "Jolteon",
         "evolution_path": [
@@ -191,7 +191,7 @@
         "level": 5,
         "status": "received"
       },
-      "current_activity": "Job board: choosing another assignment independently",
+      "current_activity": "At Mercato delle Arcate with Luke for lunch after checking Arena Civica registrations and match activity.",
       "ace_evolution_goal": {
         "target": "Gengar",
         "evolution_path": [
@@ -215,7 +215,7 @@
         "level": 5,
         "status": "received"
       },
-      "current_activity": "Job board: choosing another assignment independently",
+      "current_activity": "Traveling toward Fattoria del Vento for JOB-03; did not return for lunch because he was already underway.",
       "ace_evolution_goal": {
         "target": "Feraligatr",
         "evolution_path": [
@@ -239,7 +239,7 @@
         "level": 5,
         "status": "received"
       },
-      "current_activity": "Job board: choosing another assignment independently",
+      "current_activity": "At Mercato delle Arcate with Luke for lunch after exploring Valedarsena market/canal area.",
       "ace_evolution_goal": {
         "target": "Weezing",
         "evolution_path": [
@@ -313,7 +313,7 @@
         "demeanor": "curious_and_receptive"
       },
       "last_command_response": "Obeyed a lethal Bite command against the second active warehouse Rattata; did not eat the body and returned to Luke.",
-      "last_interaction": "Luke brought Growlithe to the city Pokécenter after completing JOB-02. The Pokécenter restored Growlithe to full HP and cleared any ordinary statuses. PP was not replenished.",
+      "last_interaction": "Luke bought Growlithe a very large portion of plain roasted meat at Mercato delle Arcate after his Pokécenter recovery. Growlithe ate enthusiastically and rested near Luke during lunch.",
       "resources": {
         "intimidate": {
           "uses_per_short_rest": 1,
@@ -335,9 +335,18 @@
     "Begin the journey as a fully licensed Trainer.",
     "Find a Fire Stone for Hisuian Growlithe.",
     "Search the city for a Fire Stone.",
-    "Earn enough money to buy a Fire Stone (₽4,000)."
+    "Earn enough money to buy a Fire Stone (₽4,000).",
+    "Ask Ranger Elio Mar about recent Bulbasaur sightings.",
+    "Investigate the Borgo Salice / Foresta Alta lead for Bulbasaur without assuming a guaranteed encounter."
   ],
-  "known_npcs": [],
+  "known_npcs": [
+    {
+      "name": "Dott.ssa Mira Venn",
+      "role": "Pokécenter senior staff, Valedarsena",
+      "relationship": "met",
+      "notes": "Told Luke that Bulbasaur are not a known common sight in Valedarsena and suggested asking Ranger Elio Mar; Borgo Salice / Foresta Alta is a plausible habitat lead, not a guaranteed sighting."
+    }
+  ],
   "active_combat": null,
   "gm_private_ref": "gm_private/SECRET_CANON_DO_NOT_OPEN.json",
   "character_bible_ref": "canon/ROSTER2060_CHARACTER_BIBLE.json",
@@ -398,12 +407,12 @@
     },
     "world_clock": {
       "day": 1,
-      "time_of_day": "morning"
+      "time_of_day": "afternoon"
     },
     "trigger_check_due": false,
     "last_trigger_check": {
-      "reason": "important_location_arrival_and_durable_healing_checkpoint",
-      "result": "No urgent interruption; previously queued early-campaign events remain queued for a natural transition."
+      "reason": "manual_save_at_lunch_after_city_exploration_and_friend_coordination",
+      "result": "World pulse applied for phase change to afternoon; early Act 1 queued events remain available for natural introduction."
     },
     "checkpoint_ledger": "saves/slot1/checkpoints.json"
   },
@@ -443,7 +452,7 @@
       "reaction_to_luke_aggression": "quietly_concerned"
     }
   },
-  "current_location": "Valedarsena — Centro Pokémon Centrale",
+  "current_location": "Valedarsena — Mercato delle Arcate",
   "shop_context": {
     "location": "Valedarsena — Via Allenatori — Trainer Shop",
     "prices": {
@@ -463,7 +472,7 @@
         "id": "JOB-01",
         "title": "Pacco smarrito sulla strada nord",
         "reward": 700,
-        "status": "available",
+        "status": "accepted_by_Mattew",
         "note": "Recuperare una cassa di medicinali caduta da un carro. Possibile fauna selvatica."
       },
       {
@@ -477,7 +486,7 @@
         "id": "JOB-03",
         "title": "Consegna urgente alla fattoria",
         "reward": 600,
-        "status": "available",
+        "status": "accepted_by_Edward",
         "note": "Portare un pacco fuori città e tornare con la ricevuta. Lavoro semplice ma richiede tempo."
       }
     ]
@@ -495,8 +504,8 @@
     },
     "rule": "NPC intent is scripted; evolution itself must satisfy current Pokemon 5e requirements and campaign causality."
   },
-  "last_saved_at": "2026-10-04T02:43:10+02:00",
-  "save_note": "Pokécenter visit after JOB-02. Growlithe healed from 13/35 to 35/35 HP for free with Trainer License. PP unchanged; Intimidate use remains spent until a qualifying rest.",
+  "last_saved_at": "2026-10-04T03:46:39+02:00",
+  "save_note": "Manual Save 1 at Mercato delle Arcate, Valedarsena. Luke has ₽1,900 after lunch (Growlithe meat ₽120 + Luke hamburger ₽80). Growlithe 35/35 HP. Mattew, Daniel and Fab are at lunch with Luke; Edward is en route to Fattoria del Vento. Mattew accepted JOB-01; Edward accepted JOB-03. Bulbasaur lead: ask Ranger Elio Mar / investigate Borgo Salice and Foresta Alta.",
   "job_history": [
     {
       "id": "JOB-02",
@@ -510,5 +519,5 @@
   ],
   "world_state_ref": "saves/slot1/world-state.json",
   "world_map_ref": "campaign/world/REGION_MAP.json",
-  "current_location_id": "VAL-POKECENTER"
+  "current_location_id": "VAL-MARKET"
 }
