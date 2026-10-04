@@ -1,4 +1,5 @@
 import { getStartingBuild } from "../../../src/bridge/motor-to-poke5e.mjs";
+import { DEFAULT_START_MINUTE, daypartForMinute } from "./time.mjs";
 
 export function proficiencyBonus(level) {
   if (!Number.isInteger(level) || level < 1) throw new RangeError("Trainer level must be >= 1");
@@ -30,7 +31,9 @@ export function createNewGameState({
     },
     world: {
       day: 1,
-      time: "morning",
+      elapsedMinutes: DEFAULT_START_MINUTE,
+      minuteOfDay: DEFAULT_START_MINUTE,
+      time: daypartForMinute(DEFAULT_START_MINUTE),
       locationId: "asteria_ginestre",
       flags: {}
     },
