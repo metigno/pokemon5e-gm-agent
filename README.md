@@ -165,3 +165,26 @@ The generator uses official Pokémon 5e biome tags, then applies Asteria rarity,
 Paradox Pokémon are included as temporal-anomaly-only encounters. Legendary/Mythical Pokémon and Ultra Beasts are also event-only.
 
 See `campaign/world/fauna/`.
+
+
+## Complete Asteria fauna
+
+Asteria now has a complete ecological registry derived from the Pokémon 5e 2024 canonical dataset:
+
+- **1,139 / 1,139 canonical stat-block records indexed**
+- **1,025 National Pokédex species represented**
+- Generations **1–9**, including DLC-era Gen 9 records
+- regional/official alternate forms
+- fossil lines
+- Legendary and Mythical Pokémon
+- Ultra Beasts
+- all supported Paradox Pokémon, including **Koraidon and Miraidon** as legendary-scale anomaly cases
+
+Ordinary wildlife is distributed by Pokémon 5e biome metadata, Asteria geography, evolution stage and rarity. Special classes do not enter normal random encounter pools.
+
+Runtime authority:
+- `campaign/world/ecology/SPECIES_DISTRIBUTION.json`
+- `campaign/world/ecology/ZONE_POOLS.json`
+- `campaign/world/ecology/FAUNA_COVERAGE.json`
+
+See `campaign/world/ecology/FINAL_FAUNA_AUDIT.md`.
