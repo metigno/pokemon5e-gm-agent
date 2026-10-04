@@ -469,7 +469,7 @@
       "reaction_to_luke_aggression": "quietly_concerned"
     }
   },
-  "current_location": "Valedarsena — Mercato delle Arcate",
+  "current_location": "Via delle Ginestre — bordo dei campi",
   "shop_context": {
     "location": "Valedarsena — Via Allenatori — Trainer Shop",
     "prices": {
@@ -521,8 +521,8 @@
     },
     "rule": "NPC intent is scripted; evolution itself must satisfy current Pokemon 5e requirements and campaign causality."
   },
-  "last_saved_at": "2026-10-04T03:46:39+02:00",
-  "save_note": "Manual Save 1 at Mercato delle Arcate, Valedarsena. Luke has ₽1,900 after lunch (Growlithe meat ₽120 + Luke hamburger ₽80). Growlithe 35/35 HP. Mattew, Daniel and Fab are at lunch with Luke; Edward is en route to Fattoria del Vento. Mattew accepted JOB-01; Edward accepted JOB-03. Bulbasaur lead: ask Ranger Elio Mar / investigate Borgo Salice and Foresta Alta.",
+  "last_saved_at": "2026-10-04T11:30:27+02:00",
+  "save_note": "Luke left Valedarsena after lunch to train Hisuian Growlithe on Via delle Ginestre. Arrived early afternoon; Growlithe 35/35 HP.",
   "job_history": [
     {
       "id": "JOB-02",
@@ -536,5 +536,5 @@
   ],
   "world_state_ref": "saves/slot1/world-state.json",
   "world_map_ref": "campaign/world/REGION_MAP.json",
-  "current_location_id": "VAL-MARKET"
+  "current_location_id": "AST-GINESTRE"
 }
