@@ -111,10 +111,6 @@
       {
         "item": "Poke Ball",
         "quantity": 7
-      },
-      {
-        "item": "Potion",
-        "quantity": 1
       }
     ],
     "money": 1200,
@@ -287,7 +283,7 @@
       },
       "bond_state": "strengthening_through_shared_hunt",
       "gender": null,
-      "hp": 6,
+      "hp": 13,
       "max_hp": 35,
       "moves": [
         {
@@ -317,7 +313,7 @@
         "demeanor": "curious_and_receptive"
       },
       "last_command_response": "Obeyed a lethal Bite command against the second active warehouse Rattata; did not eat the body and returned to Luke.",
-      "last_interaction": "Luke encouraged Growlithe during the Raticate fight: 'stai andando alla grande'.",
+      "last_interaction": "Luke gave Growlithe a Potion after clearing the immediate warehouse threat and praised him: 'bravo te la sei meritata'. Potion healing roll 2d4+2 = 1+4+2 = 7; Growlithe healed from 6/35 to 13/35 HP.",
       "resources": {
         "intimidate": {
           "uses_per_short_rest": 1,
@@ -1172,6 +1168,6 @@
     },
     "rule": "NPC intent is scripted; evolution itself must satisfy current Pokemon 5e requirements and campaign causality."
   },
-  "last_saved_at": "2026-10-04T01:48:21+02:00",
-  "save_note": "Warehouse fight saved after Growlithe defeated the Raticate; Growlithe at 6/35 HP. Job not yet formally turned in."
+  "last_saved_at": "2026-10-04T02:37:45+02:00",
+  "save_note": "Warehouse interior: Luke used 1 Potion on Hisuian Growlithe; healing roll 2d4+2 = 7; Growlithe now 13/35 HP. Immediate threat cleared; JOB-02 still not turned in."
 }
