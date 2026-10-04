@@ -32,6 +32,11 @@ export class CompiledSceneRepository {
     return structuredClone(bundle.worldEvents ?? []);
   }
 
+  async loadEcology() {
+    const bundle = await this.loadBundle();
+    return structuredClone(bundle.ecology ?? null);
+  }
+
   async load(sceneId) {
     if (!/^[A-Za-z0-9_-]+$/.test(sceneId)) {
       throw new Error("Invalid scene id: " + sceneId);
