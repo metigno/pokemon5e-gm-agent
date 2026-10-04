@@ -153,7 +153,7 @@ Required for:
 
 Combat resolution remains under Pokémon 5e; this dependency is competition state, not a second battle engine.
 
-## E6 — World trigger / off-screen event progression
+## E6 — World trigger / off-screen event progression — IMPLEMENTED
 
 Required for:
 
