@@ -67,3 +67,12 @@ Checkpoint: CP-INTRO-COMPLETE
 - Luke used 1 Potion on Hisuian Growlithe inside the warehouse and praised him: "bravo te la sei meritata".
 - Potion roll: 2d4+2 = 1+4+2 = 7 HP; Growlithe healed from 6/35 to 13/35 HP.
 - Potion inventory: 0 remaining. JOB-02 is still active and not yet turned in.
+
+Checkpoint: CP-JOB-02-COMPLETE
+
+- Luke carried the bodies of the two Rattata and the Raticate out of the warehouse.
+- JOB-02 “Pokémon nel magazzino” was completed and turned in.
+- Reward received: ₽900.
+- Luke's money: ₽1,200 → ₽2,100.
+- Hisuian Growlithe remains at 13/35 HP.
+- Active warehouse combat ended.
