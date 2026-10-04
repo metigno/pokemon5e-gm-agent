@@ -356,16 +356,70 @@
           "goto": "city_hub",
           "effects": [
             {
-              "type": "set_flag",
-              "key": "rank_trial_F_E_available",
-              "value": true
-            },
+              "type": "competition_trial_available",
+              "checkpointId": "RANK_F_TO_E",
+              "fromRank": "F",
+              "toRank": "E",
+              "requiredRosterSize": 2,
+              "retryable": true
+            }
+          ],
+          "conditions": {
+            "path": "competition.rank",
+            "eq": "F"
+          }
+        },
+        {
+          "id": "register_trial",
+          "text": "Registro il roster per il Promotion Trial F→E.",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.rank",
+                "eq": "F"
+              },
+              {
+                "path": "competition.trials.RANK_F_TO_E.available",
+                "eq": true
+              },
+              {
+                "path": "competition.trials.RANK_F_TO_E.registered",
+                "ne": true
+              },
+              {
+                "path": "player.roster.length",
+                "gte": 2
+              }
+            ]
+          },
+          "goto": "trial_registered",
+          "effects": [
             {
-              "type": "set_flag",
-              "key": "current_rank",
-              "value": "F"
+              "type": "competition_trial_register",
+              "checkpointId": "RANK_F_TO_E"
             }
           ]
+        },
+        {
+          "id": "trial_roster_missing",
+          "text": "Chiedo perché non posso ancora registrarmi.",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.rank",
+                "eq": "F"
+              },
+              {
+                "path": "competition.trials.RANK_F_TO_E.available",
+                "eq": true
+              },
+              {
+                "path": "player.roster.length",
+                "lt": 2
+              }
+            ]
+          },
+          "goto": "trial_roster_missing"
         },
         {
           "id": "watch",
@@ -462,6 +516,45 @@
           "text": "Torno alle Ginestre.",
           "goto": "m01-ginestre-crossroads#crossroads",
           "timeCostMinutes": 70
+        }
+      ]
+    },
+    "trial_registered": {
+      "stitches": [
+        {
+          "id": "trial_registration_confirmed",
+          "text": "L'Arena registra la tua iscrizione al Promotion Trial F→E. Il requisito non è stato aggirato: hai due Pokémon nel roster e la prova resta una battaglia ufficiale reale."
+        },
+        {
+          "id": "trial_battle_not_story_result",
+          "text": "L'iscrizione non vale come vittoria. Quando entrerai in campo, il risultato arriverà dal risolutore Pokémon 5e e verrà poi registrato sulla licenza."
+        }
+      ],
+      "choices": [
+        {
+          "id": "prepare",
+          "text": "Rimando l'ingresso e torno a prepararmi.",
+          "goto": "city_hub"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il focus della prova.",
+          "goto": "arena_front"
+        }
+      ]
+    },
+    "trial_roster_missing": {
+      "stitches": [
+        {
+          "id": "trial_two_required",
+          "text": "L'addetto indica il requisito sulla schermata: il Trial F→E richiede un roster ufficiale di due Pokémon. Con il solo Ace iniziale puoi continuare la carriera, ma non registrarti alla prova."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno in città e continuo a prepararmi.",
+          "goto": "city_hub"
         }
       ]
     }
