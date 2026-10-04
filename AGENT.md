@@ -273,3 +273,25 @@ The files under `campaign/world/fauna/` are supporting/generated reference mater
 If two generated fauna files disagree, the `campaign/world/ecology/` runtime set above wins.
 
 Never generate a Legendary, Mythical, Ultra Beast, Fossil-restricted Pokémon or Paradox Pokémon from an ordinary random zone pool.
+
+
+## Trainer-populated quest runtime
+
+Load:
+- `campaign/events/TRAINER_ENCOUNTER_SYSTEM.md`
+- `campaign/events/ROSTER_STAGE_POLICY.json`
+- `campaign/events/SIDE_QUEST_GRAPH.json`
+
+Main and side quests should contain believable trainers as opponents, rivals, officials, mentors, teammates, witnesses, researchers, rangers, criminals and competitors where the fiction supports them.
+
+Do not treat Species Rating as Challenge Rating. For Pokémon 5e encounter balance use Trainer Level, Pokémon levels, team size, legal Trainer Path features, feats/TMs/items, format and tactical competence.
+
+All named characters from `canon/ROSTER2060_CHARACTER_BIBLE.json` are stage-aware and persistent.
+
+Their 2060 ace/team is a long-term destination, not an early-game spawn list. If a named roster NPC is encountered earlier in their career, resolve the legal current evolutionary stage and actual earned resources first. Later encounters continue from that stored state; never regenerate or de-level them to follow the player.
+
+Future mechanics such as Mega Evolution, Gigamax/Dynamax access, Alpha status, legendary ownership or rare equipment require their own legal/story unlocks.
+
+If an already-established veteran appears in low-level content, do not physically de-evolve them for balance. Use a social appearance, mentor team, regulated challenge roster, or clearly telegraphed overmatch as appropriate.
+
+Side quests are optional living-world content. They can expire, transform or resolve off-screen and must respect world time and persistent consequences.

@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "campaign_model": "open_world_with_scripted_anchors",
   "acts": [
     {
@@ -75,7 +75,18 @@
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
-      ]
+      ],
+      "trainer_content": {
+        "presence": "persistent_named",
+        "combat_slots": {
+          "min": 0,
+          "max": 0
+        },
+        "difficulty_mix": [],
+        "named_roster_policy": "the_five_only",
+        "intended_trainer_level_band": "1",
+        "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
     },
     {
       "id": "A1_FIRST_ROAD",
@@ -94,7 +105,21 @@
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
-      ]
+      ],
+      "trainer_content": {
+        "presence": "encounter",
+        "combat_slots": {
+          "min": 0,
+          "max": 2
+        },
+        "difficulty_mix": [
+          "ROUTINE",
+          "STANDARD"
+        ],
+        "named_roster_policy": "rare",
+        "intended_trainer_level_band": "1-2",
+        "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
     },
     {
       "id": "A1_WORLD_MOVES",
@@ -114,7 +139,21 @@
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
-      ]
+      ],
+      "trainer_content": {
+        "presence": "encounter",
+        "combat_slots": {
+          "min": 0,
+          "max": 3
+        },
+        "difficulty_mix": [
+          "STANDARD",
+          "HARD"
+        ],
+        "named_roster_policy": "rare_or_contextual",
+        "intended_trainer_level_band": "1-2",
+        "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
     },
     {
       "id": "A1_FIRST_OFFICIAL",
@@ -134,7 +173,20 @@
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
-      ]
+      ],
+      "trainer_content": {
+        "presence": "official",
+        "combat_slots": {
+          "min": 1,
+          "max": 1
+        },
+        "difficulty_mix": [
+          "STANDARD"
+        ],
+        "named_roster_policy": "generic_or_friend_if_causally_valid",
+        "intended_trainer_level_band": "2",
+        "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
     },
     {
       "id": "A1_FIVE_ROADS",
@@ -155,7 +207,21 @@
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
-      ]
+      ],
+      "trainer_content": {
+        "presence": "persistent_named",
+        "combat_slots": {
+          "min": 0,
+          "max": 2
+        },
+        "difficulty_mix": [
+          "STANDARD",
+          "HARD"
+        ],
+        "named_roster_policy": "use_actual_character_state",
+        "intended_trainer_level_band": "2-3",
+        "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
     },
     {
       "id": "A1_FIRST_GATE",
@@ -175,7 +241,20 @@
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
-      ]
+      ],
+      "trainer_content": {
+        "presence": "official",
+        "combat_slots": {
+          "min": 1,
+          "max": 1
+        },
+        "difficulty_mix": [
+          "HARD"
+        ],
+        "named_roster_policy": "gate_staff_persistent",
+        "intended_trainer_level_band": "2-3",
+        "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
     },
     {
       "id": "A2_LOCAL_PROBLEM",
@@ -195,7 +274,21 @@
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
-      ]
+      ],
+      "trainer_content": {
+        "presence": "encounter",
+        "combat_slots": {
+          "min": 0,
+          "max": 3
+        },
+        "difficulty_mix": [
+          "STANDARD",
+          "HARD"
+        ],
+        "named_roster_policy": "rare_or_contextual",
+        "intended_trainer_level_band": "3-4",
+        "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
     },
     {
       "id": "A2_FRIEND_NEWS",
@@ -218,7 +311,21 @@
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
-      ]
+      ],
+      "trainer_content": {
+        "presence": "persistent_named",
+        "combat_slots": {
+          "min": 0,
+          "max": 2
+        },
+        "difficulty_mix": [
+          "STANDARD",
+          "HARD"
+        ],
+        "named_roster_policy": "use_actual_character_state",
+        "intended_trainer_level_band": "3-5",
+        "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
     },
     {
       "id": "A2_ROOKIE_CUP",
@@ -238,7 +345,21 @@
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
-      ]
+      ],
+      "trainer_content": {
+        "presence": "bracket",
+        "combat_slots": {
+          "min": 1,
+          "max": 4
+        },
+        "difficulty_mix": [
+          "STANDARD",
+          "HARD"
+        ],
+        "named_roster_policy": "friend_or_rare_roster_cameo",
+        "intended_trainer_level_band": "4-5",
+        "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
     },
     {
       "id": "A2_CRISIS_ESCALATES",
@@ -261,7 +382,21 @@
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
-      ]
+      ],
+      "trainer_content": {
+        "presence": "encounter",
+        "combat_slots": {
+          "min": 0,
+          "max": 3
+        },
+        "difficulty_mix": [
+          "STANDARD",
+          "HARD"
+        ],
+        "named_roster_policy": "rare_or_contextual",
+        "intended_trainer_level_band": "4-5",
+        "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
     },
     {
       "id": "A3_FRIEND_CALL",
@@ -281,7 +416,21 @@
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
-      ]
+      ],
+      "trainer_content": {
+        "presence": "persistent_named",
+        "combat_slots": {
+          "min": 0,
+          "max": 2
+        },
+        "difficulty_mix": [
+          "STANDARD",
+          "HARD"
+        ],
+        "named_roster_policy": "use_actual_character_state",
+        "intended_trainer_level_band": "5-7",
+        "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
     },
     {
       "id": "A3_CROSSROADS",
@@ -301,7 +450,20 @@
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
-      ]
+      ],
+      "trainer_content": {
+        "presence": "ambient",
+        "combat_slots": {
+          "min": 0,
+          "max": 2
+        },
+        "difficulty_mix": [
+          "STANDARD"
+        ],
+        "named_roster_policy": "only_if_event_logic_fits",
+        "intended_trainer_level_band": "6-8",
+        "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
     },
     {
       "id": "A3_REGIONAL_CUP",
@@ -321,7 +483,20 @@
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
-      ]
+      ],
+      "trainer_content": {
+        "presence": "bracket",
+        "combat_slots": {
+          "min": 1,
+          "max": 5
+        },
+        "difficulty_mix": [
+          "HARD"
+        ],
+        "named_roster_policy": "possible",
+        "intended_trainer_level_band": "7-9",
+        "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
     },
     {
       "id": "A4_LEAGUE_REG",
@@ -341,7 +516,21 @@
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
-      ]
+      ],
+      "trainer_content": {
+        "presence": "official",
+        "combat_slots": {
+          "min": 1,
+          "max": 4
+        },
+        "difficulty_mix": [
+          "STANDARD",
+          "HARD"
+        ],
+        "named_roster_policy": "contextual",
+        "intended_trainer_level_band": "8-10",
+        "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
     },
     {
       "id": "A4_MAJOR_NAME",
@@ -361,7 +550,21 @@
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
-      ]
+      ],
+      "trainer_content": {
+        "presence": "roster_anchor",
+        "combat_slots": {
+          "min": 0,
+          "max": 1
+        },
+        "difficulty_mix": [
+          "HARD",
+          "ELITE"
+        ],
+        "named_roster_policy": "required_one_character_bible_trainer_but_battle_not_required",
+        "intended_trainer_level_band": "8-10",
+        "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
     },
     {
       "id": "A4_REGIONAL_LEAGUE",
@@ -381,7 +584,21 @@
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
-      ]
+      ],
+      "trainer_content": {
+        "presence": "bracket",
+        "combat_slots": {
+          "min": 1,
+          "max": 6
+        },
+        "difficulty_mix": [
+          "HARD",
+          "ELITE"
+        ],
+        "named_roster_policy": "possible",
+        "intended_trainer_level_band": "9-11",
+        "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
     },
     {
       "id": "A4_AFTER_LEAGUE",
@@ -400,7 +617,20 @@
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
-      ]
+      ],
+      "trainer_content": {
+        "presence": "ambient",
+        "combat_slots": {
+          "min": 0,
+          "max": 2
+        },
+        "difficulty_mix": [
+          "STANDARD"
+        ],
+        "named_roster_policy": "only_if_event_logic_fits",
+        "intended_trainer_level_band": "10-12",
+        "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
     },
     {
       "id": "A5_INTERREGIONAL",
@@ -420,7 +650,21 @@
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
-      ]
+      ],
+      "trainer_content": {
+        "presence": "official",
+        "combat_slots": {
+          "min": 1,
+          "max": 4
+        },
+        "difficulty_mix": [
+          "STANDARD",
+          "HARD"
+        ],
+        "named_roster_policy": "contextual",
+        "intended_trainer_level_band": "11-13",
+        "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
     },
     {
       "id": "A5_TRACE",
@@ -440,7 +684,21 @@
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
-      ]
+      ],
+      "trainer_content": {
+        "presence": "encounter",
+        "combat_slots": {
+          "min": 0,
+          "max": 3
+        },
+        "difficulty_mix": [
+          "STANDARD",
+          "HARD"
+        ],
+        "named_roster_policy": "rare_or_contextual",
+        "intended_trainer_level_band": "12-14",
+        "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
     },
     {
       "id": "A5_FIVE_CROSS",
@@ -460,7 +718,21 @@
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
-      ]
+      ],
+      "trainer_content": {
+        "presence": "persistent_named",
+        "combat_slots": {
+          "min": 0,
+          "max": 2
+        },
+        "difficulty_mix": [
+          "STANDARD",
+          "HARD"
+        ],
+        "named_roster_policy": "use_actual_character_state",
+        "intended_trainer_level_band": "12-14",
+        "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
     },
     {
       "id": "A5_MASTERS_ENTRY",
@@ -480,7 +752,21 @@
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
-      ]
+      ],
+      "trainer_content": {
+        "presence": "bracket",
+        "combat_slots": {
+          "min": 1,
+          "max": 5
+        },
+        "difficulty_mix": [
+          "HARD",
+          "ELITE"
+        ],
+        "named_roster_policy": "regular",
+        "intended_trainer_level_band": "13-15",
+        "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
     },
     {
       "id": "A6_HIDDEN_TRAJECTORIES",
@@ -500,7 +786,21 @@
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
-      ]
+      ],
+      "trainer_content": {
+        "presence": "persistent_named",
+        "combat_slots": {
+          "min": 0,
+          "max": 2
+        },
+        "difficulty_mix": [
+          "STANDARD",
+          "HARD"
+        ],
+        "named_roster_policy": "use_actual_character_state",
+        "intended_trainer_level_band": "14-16",
+        "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
     },
     {
       "id": "A6_CONTINENTAL",
@@ -520,7 +820,20 @@
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
-      ]
+      ],
+      "trainer_content": {
+        "presence": "bracket",
+        "combat_slots": {
+          "min": 1,
+          "max": 6
+        },
+        "difficulty_mix": [
+          "ELITE"
+        ],
+        "named_roster_policy": "regular",
+        "intended_trainer_level_band": "15-17",
+        "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
     },
     {
       "id": "A6_CUTOFF",
@@ -540,7 +853,21 @@
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
-      ]
+      ],
+      "trainer_content": {
+        "presence": "encounter",
+        "combat_slots": {
+          "min": 0,
+          "max": 3
+        },
+        "difficulty_mix": [
+          "STANDARD",
+          "HARD"
+        ],
+        "named_roster_policy": "rare_or_contextual",
+        "intended_trainer_level_band": "16-18",
+        "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
     },
     {
       "id": "A7_WORLD_QUALIFIER",
@@ -563,7 +890,20 @@
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
-      ]
+      ],
+      "trainer_content": {
+        "presence": "bracket",
+        "combat_slots": {
+          "min": 1,
+          "max": 6
+        },
+        "difficulty_mix": [
+          "ELITE"
+        ],
+        "named_roster_policy": "many_actual_candidates",
+        "intended_trainer_level_band": "17-19",
+        "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
     },
     {
       "id": "A7_LAST_CHANCE",
@@ -583,7 +923,20 @@
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
-      ]
+      ],
+      "trainer_content": {
+        "presence": "bracket",
+        "combat_slots": {
+          "min": 1,
+          "max": 5
+        },
+        "difficulty_mix": [
+          "ELITE"
+        ],
+        "named_roster_policy": "many_actual_candidates",
+        "intended_trainer_level_band": "18-19",
+        "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
     },
     {
       "id": "A7_BEFORE_LIGHTS",
@@ -606,7 +959,21 @@
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
-      ]
+      ],
+      "trainer_content": {
+        "presence": "persistent_named",
+        "combat_slots": {
+          "min": 0,
+          "max": 2
+        },
+        "difficulty_mix": [
+          "STANDARD",
+          "HARD"
+        ],
+        "named_roster_policy": "use_actual_character_state",
+        "intended_trainer_level_band": "18-20",
+        "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
     },
     {
       "id": "WORLD_DRAW",
@@ -625,7 +992,18 @@
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
-      ]
+      ],
+      "trainer_content": {
+        "presence": "field",
+        "combat_slots": {
+          "min": 0,
+          "max": 0
+        },
+        "difficulty_mix": [],
+        "named_roster_policy": "build_32_from_actual_qualified_state",
+        "intended_trainer_level_band": "18-20",
+        "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
     },
     {
       "id": "WORLD_GROUPS",
@@ -644,7 +1022,20 @@
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
-      ]
+      ],
+      "trainer_content": {
+        "presence": "scheduled",
+        "combat_slots": {
+          "min": 3,
+          "max": 3
+        },
+        "difficulty_mix": [
+          "ELITE"
+        ],
+        "named_roster_policy": "actual_draw_only",
+        "intended_trainer_level_band": "18-20",
+        "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
     },
     {
       "id": "WORLD_R16",
@@ -663,7 +1054,20 @@
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
-      ]
+      ],
+      "trainer_content": {
+        "presence": "scheduled",
+        "combat_slots": {
+          "min": 1,
+          "max": 1
+        },
+        "difficulty_mix": [
+          "ELITE"
+        ],
+        "named_roster_policy": "actual_bracket_only",
+        "intended_trainer_level_band": "18-20",
+        "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
     },
     {
       "id": "WORLD_QF",
@@ -682,7 +1086,20 @@
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
-      ]
+      ],
+      "trainer_content": {
+        "presence": "scheduled",
+        "combat_slots": {
+          "min": 1,
+          "max": 1
+        },
+        "difficulty_mix": [
+          "ELITE"
+        ],
+        "named_roster_policy": "actual_bracket_only",
+        "intended_trainer_level_band": "18-20",
+        "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
     },
     {
       "id": "WORLD_SF",
@@ -701,7 +1118,20 @@
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
-      ]
+      ],
+      "trainer_content": {
+        "presence": "scheduled",
+        "combat_slots": {
+          "min": 1,
+          "max": 1
+        },
+        "difficulty_mix": [
+          "ELITE"
+        ],
+        "named_roster_policy": "actual_bracket_only",
+        "intended_trainer_level_band": "18-20",
+        "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
     },
     {
       "id": "WORLD_FINAL",
@@ -720,7 +1150,20 @@
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
-      ]
+      ],
+      "trainer_content": {
+        "presence": "scheduled",
+        "combat_slots": {
+          "min": 1,
+          "max": 1
+        },
+        "difficulty_mix": [
+          "ELITE"
+        ],
+        "named_roster_policy": "actual_bracket_only",
+        "intended_trainer_level_band": "18-20",
+        "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
     },
     {
       "id": "WORLD_EXIT",
@@ -741,7 +1184,24 @@
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
-      ]
+      ],
+      "trainer_content": {
+        "presence": "social",
+        "combat_slots": {
+          "min": 0,
+          "max": 0
+        },
+        "difficulty_mix": [],
+        "named_roster_policy": "survivors_and_actual_participants",
+        "intended_trainer_level_band": "18-20",
+        "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
     }
-  ]
+  ],
+  "trainer_framework": {
+    "authority": "campaign/events/TRAINER_ENCOUNTER_SYSTEM.md",
+    "roster_stage_policy": "campaign/events/ROSTER_STAGE_POLICY.json",
+    "side_quests": "campaign/events/SIDE_QUEST_GRAPH.json",
+    "balance_note": "Pokemon 5e trainer encounters are balanced with trainer/Pokemon levels and legal features; SR is not CR."
+  }
 }

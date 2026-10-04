@@ -1,0 +1,446 @@
+{
+  "schema_version": 1,
+  "source": "canon/ROSTER2060_CHARACTER_BIBLE.json",
+  "authority": "campaign/events/TRAINER_ENCOUNTER_SYSTEM.md",
+  "global_rules": {
+    "final_roster_is_future_target": true,
+    "resolve_actual_pokemon5e_evolution_requirements": true,
+    "no_free_evolution": true,
+    "no_free_mega_gmax_alpha_legendary": true,
+    "persist_first_instantiated_state": true,
+    "never_delevel_on_reencounter": true,
+    "veteran_low_level_encounter_modes": [
+      "SOCIAL",
+      "MENTOR",
+      "REGULATED",
+      "OVERMATCH"
+    ],
+    "early_career_mode": "Use the strongest legally reached pre-evolution/current form, not the mature 2060 form."
+  },
+  "explicit_examples": {
+    "lucas": {
+      "mature_target": "Torterra",
+      "rule": "If encountered earlier in his career, walk backward through the real Torterra evolution line and use the legal current stage. Do not grant Torterra solely because it is his 2060 ace."
+    },
+    "campione_di_borrius": {
+      "mature_target": "Shiny Mega Metagross",
+      "rule": "An early-career version may use the same shiny individual earlier in the Beldum line when legal. Mega status is a separate late unlock."
+    }
+  },
+  "roster": [
+    {
+      "id": 1,
+      "name": "Luke",
+      "origin": "Unima.",
+      "mature_ace_target": "**Arcanine di Hisui Alpha** — compagno simbolo di Luke e suo ACE storico fin dall’inizio della carriera. La forma di Hisui e lo status Alpha fanno parte della sua identità canonica da sempre; nel tempo cambiano build e funzione tattica, non il Pokémon che occupa questo ruolo.",
+      "mature_team_targets": [
+        "Arcanine di Hisui Alpha @ Choice Scarf"
+      ],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    },
+    {
+      "id": 2,
+      "name": "Mattew",
+      "origin": "Galar / circuito internazionale.",
+      "mature_ace_target": "Jolteon Alpha.",
+      "mature_team_targets": [
+        "Jolteon Alpha"
+      ],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    },
+    {
+      "id": 3,
+      "name": "Daniel",
+      "origin": "Kanto, generazione successiva a Red.",
+      "mature_ace_target": "Gengar.",
+      "mature_team_targets": [
+        "Gengar"
+      ],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    },
+    {
+      "id": 4,
+      "name": "Edward",
+      "origin": "Johto, generazione successiva a Ethan.",
+      "mature_ace_target": "Feraligatr.",
+      "mature_team_targets": [
+        "Feraligatr"
+      ],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    },
+    {
+      "id": 5,
+      "name": "Fab",
+      "origin": "Hoenn, generazione successiva a Brendan.",
+      "mature_ace_target": "Weezing.",
+      "mature_team_targets": [
+        "Weezing"
+      ],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    },
+    {
+      "id": 6,
+      "name": "Cynthia",
+      "origin": "Sinnoh.",
+      "mature_ace_target": "Garchomp.",
+      "mature_team_targets": [
+        "Garchomp"
+      ],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    },
+    {
+      "id": 7,
+      "name": "Steven Stone",
+      "origin": "Hoenn.",
+      "mature_ace_target": "Mega Metagross.",
+      "mature_team_targets": [
+        "Mega Metagross"
+      ],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    },
+    {
+      "id": 8,
+      "name": "N",
+      "origin": "Unima.",
+      "mature_ace_target": "Reshiram.",
+      "mature_team_targets": [
+        "Reshiram @ Heavy-Duty Boots"
+      ],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    },
+    {
+      "id": 9,
+      "name": "Red",
+      "origin": "Kanto.",
+      "mature_ace_target": "Charizard.",
+      "mature_team_targets": [
+        "Gigamax Charizard @ Life Orb"
+      ],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    },
+    {
+      "id": 10,
+      "name": "Lance",
+      "origin": "Kanto / Johto.",
+      "mature_ace_target": "Dragonite.",
+      "mature_team_targets": [
+        "Dragonite"
+      ],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    },
+    {
+      "id": 11,
+      "name": "Campione di Borrius",
+      "origin": "Borrius.",
+      "mature_ace_target": "Shiny Mega Metagross.",
+      "mature_team_targets": [
+        "Shiny Mega Metagross"
+      ],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    },
+    {
+      "id": 12,
+      "name": "Alder",
+      "origin": "Unima.",
+      "mature_ace_target": "Volcarona.",
+      "mature_team_targets": [
+        "Volcarona"
+      ],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    },
+    {
+      "id": 13,
+      "name": "Kael",
+      "origin": "Sinnoh, poi cinque Leghe regionali.",
+      "mature_ace_target": "Tentacruel.",
+      "mature_team_targets": [
+        "Ferrothorn @ Rocky Helmet"
+      ],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    },
+    {
+      "id": 14,
+      "name": "Darian",
+      "origin": "Circuito di cinque Leghe.",
+      "mature_ace_target": "Mega Blaziken.",
+      "mature_team_targets": [
+        "Mega Blaziken"
+      ],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    },
+    {
+      "id": 15,
+      "name": "Ferred",
+      "origin": "Circuito internazionale.",
+      "mature_ace_target": "Mega Tyranitar.",
+      "mature_team_targets": [
+        "Mega Tyranitar"
+      ],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    },
+    {
+      "id": 16,
+      "name": "Ren",
+      "origin": "Circuito moderno.",
+      "mature_ace_target": "Ninetales.",
+      "mature_team_targets": [
+        "Ninetales"
+      ],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    },
+    {
+      "id": 17,
+      "name": "Ethan",
+      "origin": "Johto.",
+      "mature_ace_target": "Mega Gyarados Rosso.",
+      "mature_team_targets": [
+        "Mega Gyarados Rosso"
+      ],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    },
+    {
+      "id": 18,
+      "name": "Brendan",
+      "origin": "Hoenn.",
+      "mature_ace_target": "Mega Sceptile.",
+      "mature_team_targets": [
+        "Mega Sceptile"
+      ],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    },
+    {
+      "id": 19,
+      "name": "Lucinda",
+      "origin": "Sinnoh.",
+      "mature_ace_target": "Empoleon.",
+      "mature_team_targets": [
+        "Empoleon"
+      ],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    },
+    {
+      "id": 20,
+      "name": "Rei",
+      "origin": "Hisui → epoca moderna.",
+      "mature_ace_target": "Samurott-Hisui.",
+      "mature_team_targets": [
+        "Samurott-Hisui"
+      ],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    },
+    {
+      "id": 21,
+      "name": "Blue",
+      "origin": "Kanto.",
+      "mature_ace_target": "Mega Blastoise.",
+      "mature_team_targets": [
+        "Mega Blastoise"
+      ],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    },
+    {
+      "id": 22,
+      "name": "Giovanni",
+      "origin": "Kanto / Team Rocket.",
+      "mature_ace_target": "Nessun ACE per scelta canonica.",
+      "mature_team_targets": [
+        "Miraidon"
+      ],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    },
+    {
+      "id": 23,
+      "name": "Dandel / Leon",
+      "origin": "Galar.",
+      "mature_ace_target": "Charizard-Gmax.",
+      "mature_team_targets": [
+        "Charizard-Gmax"
+      ],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    },
+    {
+      "id": 24,
+      "name": "Archie",
+      "origin": "Hoenn / Team Aqua.",
+      "mature_ace_target": "Mega Sharpedo.",
+      "mature_team_targets": [
+        "Kyogre"
+      ],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    },
+    {
+      "id": 25,
+      "name": "Maxie",
+      "origin": "Hoenn / Team Magma.",
+      "mature_ace_target": "Mega Camerupt.",
+      "mature_team_targets": [
+        "Primal Groudon"
+      ],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    },
+    {
+      "id": 26,
+      "name": "Astrid Vahl",
+      "origin": "Kalos → Galar.",
+      "mature_ace_target": "Mega Mawile.",
+      "mature_team_targets": [
+        "Xerneas"
+      ],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    },
+    {
+      "id": 27,
+      "name": "Silas Crowe",
+      "origin": "Galar.",
+      "mature_ace_target": "Ceruledge.",
+      "mature_team_targets": [
+        "Calyrex-Shadow"
+      ],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    },
+    {
+      "id": 28,
+      "name": "Rurik Dune",
+      "origin": "Unima / spedizioni archeologiche.",
+      "mature_ace_target": "Mega Tyranitar.",
+      "mature_team_targets": [
+        "Zygarde"
+      ],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    },
+    {
+      "id": 29,
+      "name": "Ayame Hoshino",
+      "origin": "Johto.",
+      "mature_ace_target": "Mega Lopunny.",
+      "mature_team_targets": [
+        "Ho-Oh"
+      ],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    },
+    {
+      "id": 30,
+      "name": "Orion Vale",
+      "origin": "Alola → Galar.",
+      "mature_ace_target": "Volcarona.",
+      "mature_team_targets": [
+        "Solgaleo"
+      ],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    },
+    {
+      "id": 31,
+      "name": "Nyx Vesper",
+      "origin": "Kalos / circuito clandestino.",
+      "mature_ace_target": "Weavile.",
+      "mature_team_targets": [
+        "Yveltal"
+      ],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    },
+    {
+      "id": 32,
+      "name": "Kaia Solari",
+      "origin": "Paldea.",
+      "mature_ace_target": "Mega Houndoom.",
+      "mature_team_targets": [
+        "Koraidon"
+      ],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    },
+    {
+      "id": 33,
+      "name": "Lucas",
+      "origin": "Sinnoh.",
+      "mature_ace_target": "Torterra.",
+      "mature_team_targets": [],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    },
+    {
+      "id": 34,
+      "name": "Ronan Ward",
+      "origin": "Galar.",
+      "mature_ace_target": "Rillaboom.",
+      "mature_team_targets": [],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    },
+    {
+      "id": 35,
+      "name": "Soren Veyr",
+      "origin": "Borrius",
+      "mature_ace_target": "**Garchomp**",
+      "mature_team_targets": [],
+      "current_state_policy": "derive_from_campaign_history_and_level_band_then_persist",
+      "evolution_policy": "verify_current_pokemon5e_chain_and_requirements_before_form_assignment",
+      "special_form_policy": "future special forms/items/legendary ownership require their own earned story state"
+    }
+  ]
+}

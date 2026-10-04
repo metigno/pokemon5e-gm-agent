@@ -1,5 +1,5 @@
 {
-  "schema_version": 3,
+  "schema_version": 4,
   "integration": "pokemon5e-npc-tactical-advisor",
   "mechanical_authority": "Pokemon 5e",
   "tactical_runtime": {
@@ -32,5 +32,15 @@
     "mode": "canon_convergence_with_honest_dice",
     "public_setup": "campaign/PROTAGONIST_SELECTION.md",
     "gm_private_canon": "gm_private/SECRET_CANON_DO_NOT_OPEN.json"
+  },
+  "trainer_encounters": {
+    "authority": "campaign/events/TRAINER_ENCOUNTER_SYSTEM.md",
+    "main_graph": "campaign/events/MAIN_EVENT_GRAPH.json",
+    "side_quest_graph": "campaign/events/SIDE_QUEST_GRAPH.json",
+    "roster_stage_policy": "campaign/events/ROSTER_STAGE_POLICY.json",
+    "balance_axis": "trainer_level_and_pokemon_levels",
+    "species_rating_is_challenge_rating": false,
+    "named_trainers_persistent": true,
+    "future_rosters_are_trajectory_targets": true
   }
 }

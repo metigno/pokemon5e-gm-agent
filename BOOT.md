@@ -31,6 +31,9 @@ Before play also load:
 - `campaign/events/INTRO_CHAIN.md`
 - `campaign/events/LEVEL_MILESTONES.json`
 - `campaign/events/CHECKPOINT_POLICY.md`
+- `campaign/events/TRAINER_ENCOUNTER_SYSTEM.md`
+- `campaign/events/ROSTER_STAGE_POLICY.json`
+- `campaign/events/SIDE_QUEST_GRAPH.json`
 - `campaign/GM_NARRATION_STYLE.md`
 
 - `campaign/world/WORLD_BIBLE.md`
@@ -88,3 +91,6 @@ Use `campaign/GM_NARRATION_STYLE.md`: fiction → exact mechanics → fictional 
 
 
 Fauna note: load `ZONE_TABLES.json` / `ASTERIA_FAUNA_INDEX.json` on demand for the current encounter rather than dumping the complete fauna database into every scene. Special fauna placement is GM-private.
+
+
+Trainer population note: main-event `trainer_content` and optional side quests use the stage-aware trainer system. Do not equate SR with CR. Named roster trainers encountered before their mature stage must use legal current forms/resources and then persist from that state.
