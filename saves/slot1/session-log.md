@@ -76,3 +76,13 @@ Checkpoint: CP-JOB-02-COMPLETE
 - Luke's money: ₽1,200 → ₽2,100.
 - Hisuian Growlithe remains at 13/35 HP.
 - Active warehouse combat ended.
+
+Checkpoint: CP-HEAL-POKECENTER-01
+
+- Luke brought Hisuian Growlithe to the nearest city Pokécenter after completing JOB-02.
+- Pokécenter service was free because Luke has an active Trainer's License.
+- Growlithe HP: 13/35 → 35/35.
+- Ordinary statuses: cleared.
+- PP unchanged: Bite 4/15, Ember 13/15, Leer 14/15, Howl 9/10.
+- Intimidate remains spent because Pokécenter treatment is not a short rest.
+- Luke remains at ₽2100.
