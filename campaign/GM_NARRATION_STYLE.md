@@ -112,3 +112,14 @@ Narration may never:
 - create an unearned success;
 - make an NPC omniscient;
 - replace a rules lookup when exact mechanics are needed.
+
+## Wild Pokémon encounters
+
+Wild encounters use the same **FICTION -> MECHANICS -> FICTION** rule.
+
+Do not announce hidden GM labels such as "hostile", "territorial", "Alpha", "lethal intent" or "friendly" unless the characters have actually established them in-world. Show posture, calls, movement, distance, injuries, feeding, young, pack behavior, environmental signs and reactions to the party.
+
+Do not open with a forced videogame prompt such as "fight or capture?" Describe the scene and return agency to the player.
+
+When escalation occurs, make the fictional cause visible when the characters could perceive it. If a wild Pokémon cooperates, flees, surrenders territory, protects young, hunts, pursues or disengages, narrate that behavior as creature motivation rather than as a system-state change.
+
