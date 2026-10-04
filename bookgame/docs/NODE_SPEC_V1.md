@@ -1,4 +1,4 @@
-# P5E LIBROGAME — NODE SPEC v1
+# P5E LIBROGAME — NODE SPEC v1.1
 
 Status: implementation contract for the offline bookgame compiler.
 Authority: subordinate to P5E_LIBROGAME_ENGINE_SOURCE_OF_TRUTH.md. If this document conflicts with the Source of Truth, the Source of Truth wins.
@@ -20,6 +20,17 @@ The shipped game must not require an AI, API, network request, or remote rules s
 
 An AI authoring agent may create or edit source content during development, but generated content is not trusted until the compiler accepts it.
 
+## 1.1 M1 scale lock
+
+The first production module is **M01 — Le Prime Strade**.
+
+Locked content budget:
+
+- 5,047 stitches
+- 3,116 player choice options
+
+The compiler reports implemented/target counts from the M01 module manifest. These are production targets, not a requirement that every playthrough visits every stitch.
+
 ## 2. Scene file
 
 Each scene is one UTF-8 JSON file under:
@@ -36,7 +47,15 @@ Required top-level fields:
 
 Optional:
 
+- moduleId: owning campaign module (for example M01)
 - entryNodeId: explicit entry node. If absent, the first authored node is the entry for graph analysis.
+
+A node may author narration in either of two backward-compatible forms:
+
+- `text`: one legacy stitch
+- `stitches`: an ordered array of `{ id, text }` narrative atoms
+
+Use one form or the other, never both. The runtime concatenates authored stitches for display while the compiler counts them individually.
 
 For the current runtime, the scene filename must be:
 
@@ -59,6 +78,13 @@ Every choice requires:
 - text: player-facing text
 
 A choice uses exactly one transition mode.
+
+Targets may be local or cross-scene:
+
+- `next_node`
+- `other-scene#entry_node`
+
+Cross-scene targets are validated globally by the compiler.
 
 ### 4.1 Direct transition
 

@@ -2,6 +2,7 @@ import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 const ID_RE = /^[A-Za-z0-9_-]+$/;
+const TARGET_RE = /^[A-Za-z0-9_-]+(?:#[A-Za-z0-9_-]+)?$/;
 const ABILITIES = new Set(["STR", "DEX", "CON", "INT", "WIS", "CHA"]);
 const EFFECT_TYPES = new Set(["set_flag", "set_location"]);
 
@@ -11,6 +12,13 @@ function diag(code, message, at) {
 
 function isObject(value) {
   return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+function parseTarget(target, currentSceneId) {
+  if (typeof target !== "string" || !TARGET_RE.test(target)) return null;
+  if (!target.includes("#")) return { sceneId: currentSceneId, nodeId: target };
+  const [sceneId, nodeId] = target.split("#");
+  return { sceneId, nodeId };
 }
 
 function validateEffects(effects, at, errors) {
@@ -36,31 +44,72 @@ function validateEffects(effects, at, errors) {
   }
 }
 
-function addEdge(adjacency, from, to) {
-  if (typeof to !== "string" || to.length === 0) return;
-  adjacency.get(from).add(to);
+function validateTargetShape(target, at, errors) {
+  if (typeof target !== "string" || !TARGET_RE.test(target)) {
+    errors.push(diag("INVALID_TARGET", "Transition target must be nodeId or sceneId#nodeId", at));
+    return false;
+  }
+  return true;
 }
 
-function validateTarget(target, knownNodes, at, errors) {
-  if (typeof target !== "string" || target.length === 0) {
-    errors.push(diag("INVALID_TARGET", "Transition target must be a non-empty node ID", at));
+function nodeStitchCount(node) {
+  if (Array.isArray(node.stitches)) return node.stitches.length;
+  return typeof node.text === "string" && node.text.trim().length > 0 ? 1 : 0;
+}
+
+function validateNodeNarration(node, nodeAt, errors) {
+  const hasText = typeof node.text === "string" && node.text.trim().length > 0;
+  const hasStitches = Array.isArray(node.stitches);
+
+  if (hasText && hasStitches) {
+    errors.push(diag("AMBIGUOUS_NARRATION", "Node must use text or stitches, not both", nodeAt));
     return;
   }
-  if (!knownNodes.has(target)) {
-    errors.push(diag("MISSING_TARGET", "Transition points to missing node: " + target, at));
+  if (!hasText && !hasStitches) {
+    errors.push(diag("INVALID_NODE_TEXT", "Node requires non-empty text or stitches", nodeAt));
+    return;
   }
+  if (hasStitches) {
+    if (node.stitches.length === 0) {
+      errors.push(diag("EMPTY_STITCHES", "stitches must contain at least one stitch", nodeAt));
+      return;
+    }
+    const stitchIds = new Set();
+    for (let index = 0; index < node.stitches.length; index += 1) {
+      const stitch = node.stitches[index];
+      const stitchAt = nodeAt + ".stitches[" + index + "]";
+      if (!isObject(stitch) || typeof stitch.id !== "string" || !ID_RE.test(stitch.id)) {
+        errors.push(diag("INVALID_STITCH_ID", "Stitch requires a valid id", stitchAt));
+        continue;
+      }
+      if (stitchIds.has(stitch.id)) {
+        errors.push(diag("DUPLICATE_STITCH_ID", "Duplicate stitch id: " + stitch.id, stitchAt));
+      }
+      stitchIds.add(stitch.id);
+      if (typeof stitch.text !== "string" || stitch.text.trim().length === 0) {
+        errors.push(diag("INVALID_STITCH_TEXT", "Stitch text must be non-empty", stitchAt));
+      }
+    }
+  }
+}
+
+function collectTarget(targets, target, at, currentSceneId) {
+  const parsed = parseTarget(target, currentSceneId);
+  if (parsed) targets.push({ ...parsed, at, raw: target });
 }
 
 export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
   const errors = [];
   const warnings = [];
+  const targets = [];
 
   if (!isObject(scene)) {
     return {
       valid: false,
       errors: [diag("INVALID_SCENE", "Scene must be a JSON object", sourceFile)],
       warnings,
-      metrics: { nodes: 0, choices: 0 }
+      targets,
+      metrics: { nodes: 0, stitches: 0, choices: 0 }
     };
   }
 
@@ -69,6 +118,9 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
   }
   if (typeof scene.id !== "string" || !ID_RE.test(scene.id)) {
     errors.push(diag("INVALID_SCENE_ID", "Scene id must match " + ID_RE, sourceFile));
+  }
+  if (scene.moduleId !== undefined && (typeof scene.moduleId !== "string" || !ID_RE.test(scene.moduleId))) {
+    errors.push(diag("INVALID_MODULE_ID", "moduleId must be a valid identifier", sourceFile));
   }
   if (typeof scene.title !== "string" || scene.title.trim().length === 0) {
     errors.push(diag("INVALID_TITLE", "Scene title must be non-empty", sourceFile));
@@ -82,7 +134,8 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
       valid: false,
       errors,
       warnings,
-      metrics: { nodes: 0, choices: 0 }
+      targets,
+      metrics: { nodes: 0, stitches: 0, choices: 0 }
     };
   }
 
@@ -90,6 +143,7 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
   const knownNodes = new Set(nodeIds);
   const adjacency = new Map(nodeIds.map((id) => [id, new Set()]));
   let choiceCount = 0;
+  let stitchCount = 0;
 
   const entryNodeId = scene.entryNodeId ?? nodeIds[0];
   if (!knownNodes.has(entryNodeId)) {
@@ -100,25 +154,21 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
     const node = scene.nodes[nodeId];
     const nodeAt = sourceFile + "#" + nodeId;
 
-    if (!ID_RE.test(nodeId)) {
-      errors.push(diag("INVALID_NODE_ID", "Invalid node ID: " + nodeId, nodeAt));
-    }
+    if (!ID_RE.test(nodeId)) errors.push(diag("INVALID_NODE_ID", "Invalid node ID: " + nodeId, nodeAt));
     if (!isObject(node)) {
       errors.push(diag("INVALID_NODE", "Node must be an object", nodeAt));
       continue;
     }
-    if (typeof node.text !== "string" || node.text.trim().length === 0) {
-      errors.push(diag("INVALID_NODE_TEXT", "Node text must be non-empty", nodeAt));
-    }
+
+    validateNodeNarration(node, nodeAt, errors);
+    stitchCount += nodeStitchCount(node);
 
     const choices = node.choices ?? [];
     if (!Array.isArray(choices)) {
       errors.push(diag("INVALID_CHOICES", "choices must be an array", nodeAt));
       continue;
     }
-    if (choices.length === 0) {
-      warnings.push(diag("TERMINAL_NODE", "Node has no choices", nodeAt));
-    }
+    if (choices.length === 0) warnings.push(diag("TERMINAL_NODE", "Node has no choices", nodeAt));
 
     const choiceIds = new Set();
     for (let index = 0; index < choices.length; index += 1) {
@@ -149,17 +199,16 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
       const modeCount = Number(hasCheck) + Number(hasCombat) + Number(hasGoto);
 
       if (modeCount !== 1) {
-        errors.push(diag(
-          "TRANSITION_MODE",
-          "Choice must use exactly one transition mode: goto, check, or combat",
-          choiceAt
-        ));
+        errors.push(diag("TRANSITION_MODE", "Choice must use exactly one transition mode: goto, check, or combat", choiceAt));
         continue;
       }
 
       if (hasGoto) {
-        addEdge(adjacency, nodeId, choice.goto);
-        validateTarget(choice.goto, knownNodes, choiceAt + ".goto", errors);
+        if (validateTargetShape(choice.goto, choiceAt + ".goto", errors)) {
+          const parsed = parseTarget(choice.goto, scene.id);
+          if (parsed.sceneId === scene.id) adjacency.get(nodeId).add(parsed.nodeId);
+          collectTarget(targets, choice.goto, choiceAt + ".goto", scene.id);
+        }
         continue;
       }
 
@@ -187,8 +236,11 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
             continue;
           }
           validateEffects(outcome.effects, outcomeAt, errors);
-          addEdge(adjacency, nodeId, outcome.goto);
-          validateTarget(outcome.goto, knownNodes, outcomeAt + ".goto", errors);
+          if (validateTargetShape(outcome.goto, outcomeAt + ".goto", errors)) {
+            const parsed = parseTarget(outcome.goto, scene.id);
+            if (parsed.sceneId === scene.id) adjacency.get(nodeId).add(parsed.nodeId);
+            collectTarget(targets, outcome.goto, outcomeAt + ".goto", scene.id);
+          }
         }
         continue;
       }
@@ -204,15 +256,22 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
         errors.push(diag("INVALID_COMBAT_LEVEL", "combat.opponent.level must be a positive integer", choiceAt + ".combat"));
       }
 
-      addEdge(adjacency, nodeId, combat.goto);
-      validateTarget(combat.goto, knownNodes, choiceAt + ".combat.goto", errors);
+      if (validateTargetShape(combat.goto, choiceAt + ".combat.goto", errors)) {
+        const parsed = parseTarget(combat.goto, scene.id);
+        if (parsed.sceneId === scene.id) adjacency.get(nodeId).add(parsed.nodeId);
+        collectTarget(targets, combat.goto, choiceAt + ".combat.goto", scene.id);
+      }
 
       if (!isObject(combat.returnNodes) || Object.keys(combat.returnNodes).length === 0) {
         errors.push(diag("INVALID_RETURN_NODES", "combat.returnNodes must contain at least one outcome", choiceAt + ".combat"));
       } else {
         for (const [outcome, target] of Object.entries(combat.returnNodes)) {
-          addEdge(adjacency, nodeId, target);
-          validateTarget(target, knownNodes, choiceAt + ".combat.returnNodes." + outcome, errors);
+          const at = choiceAt + ".combat.returnNodes." + outcome;
+          if (validateTargetShape(target, at, errors)) {
+            const parsed = parseTarget(target, scene.id);
+            if (parsed.sceneId === scene.id) adjacency.get(nodeId).add(parsed.nodeId);
+            collectTarget(targets, target, at, scene.id);
+          }
         }
       }
     }
@@ -232,7 +291,7 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
     }
     for (const nodeId of nodeIds) {
       if (!visited.has(nodeId)) {
-        warnings.push(diag("UNREACHABLE_NODE", "Node is unreachable from entry: " + nodeId, sourceFile + "#" + nodeId));
+        warnings.push(diag("UNREACHABLE_NODE_LOCAL", "Node is not locally reachable from scene entry", sourceFile + "#" + nodeId));
       }
     }
   }
@@ -241,24 +300,55 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
     valid: errors.length === 0,
     errors,
     warnings,
-    metrics: { nodes: nodeIds.length, choices: choiceCount }
+    targets,
+    metrics: { nodes: nodeIds.length, stitches: stitchCount, choices: choiceCount }
   };
 }
 
 async function listJsonFiles(root) {
   const entries = await readdir(root, { withFileTypes: true });
   const files = [];
-
   for (const entry of entries) {
     const full = path.join(root, entry.name);
-    if (entry.isDirectory()) {
-      files.push(...await listJsonFiles(full));
-    } else if (entry.isFile() && entry.name.endsWith(".json")) {
-      files.push(full);
-    }
+    if (entry.isDirectory()) files.push(...await listJsonFiles(full));
+    else if (entry.isFile() && entry.name.endsWith(".json")) files.push(full);
+  }
+  return files.sort((a, b) => a.localeCompare(b));
+}
+
+async function loadModuleManifests(modulesDir, errors) {
+  const manifests = {};
+  let files = [];
+  try {
+    files = await listJsonFiles(modulesDir);
+  } catch (error) {
+    if (error.code === "ENOENT") return manifests;
+    throw error;
   }
 
-  return files.sort((a, b) => a.localeCompare(b));
+  for (const file of files) {
+    let manifest;
+    try {
+      manifest = JSON.parse(await readFile(file, "utf8"));
+    } catch (error) {
+      errors.push(diag("INVALID_MODULE_JSON", error.message, file));
+      continue;
+    }
+    if (!isObject(manifest) || manifest.schemaVersion !== 1 || typeof manifest.id !== "string" || !ID_RE.test(manifest.id)) {
+      errors.push(diag("INVALID_MODULE_MANIFEST", "Module manifest requires schemaVersion=1 and valid id", file));
+      continue;
+    }
+    if (!isObject(manifest.targets) || !Number.isInteger(manifest.targets.stitches) || !Number.isInteger(manifest.targets.choices)) {
+      errors.push(diag("INVALID_MODULE_TARGETS", "Module manifest requires integer stitch/choice targets", file));
+      continue;
+    }
+    if (Object.hasOwn(manifests, manifest.id)) {
+      errors.push(diag("DUPLICATE_MODULE_ID", "Duplicate module manifest: " + manifest.id, file));
+      continue;
+    }
+    manifests[manifest.id] = manifest;
+  }
+  return manifests;
 }
 
 export class StoryCompileError extends Error {
@@ -269,13 +359,17 @@ export class StoryCompileError extends Error {
   }
 }
 
-export async function compileStory({ scenesDir }) {
+export async function compileStory({ scenesDir, modulesDir = path.join(path.dirname(scenesDir), "modules") }) {
   const files = await listJsonFiles(scenesDir);
   const scenes = {};
+  const sceneReports = {};
   const errors = [];
   const warnings = [];
   let nodeCount = 0;
+  let stitchCount = 0;
   let choiceCount = 0;
+
+  const modules = await loadModuleManifests(modulesDir, errors);
 
   for (const file of files) {
     let scene;
@@ -288,35 +382,77 @@ export async function compileStory({ scenesDir }) {
 
     const expectedId = path.basename(file, ".json");
     if (scene.id !== expectedId) {
-      errors.push(diag(
-        "SCENE_FILE_MISMATCH",
-        "Filename expects scene id " + expectedId + " but file declares " + scene.id,
-        file
-      ));
+      errors.push(diag("SCENE_FILE_MISMATCH", "Filename expects scene id " + expectedId + " but file declares " + scene.id, file));
     }
 
     const report = validateScene(scene, { sourceFile: file });
     errors.push(...report.errors);
     warnings.push(...report.warnings);
+    sceneReports[scene.id] = report;
     nodeCount += report.metrics.nodes;
+    stitchCount += report.metrics.stitches;
     choiceCount += report.metrics.choices;
 
     if (typeof scene.id === "string") {
-      if (Object.hasOwn(scenes, scene.id)) {
-        errors.push(diag("DUPLICATE_SCENE_ID", "Duplicate scene id: " + scene.id, file));
-      } else {
-        scenes[scene.id] = scene;
+      if (Object.hasOwn(scenes, scene.id)) errors.push(diag("DUPLICATE_SCENE_ID", "Duplicate scene id: " + scene.id, file));
+      else scenes[scene.id] = scene;
+    }
+  }
+
+  if (files.length === 0) errors.push(diag("NO_SCENES", "No scene JSON files found", scenesDir));
+
+  for (const [sceneId, report] of Object.entries(sceneReports)) {
+    for (const target of report.targets) {
+      const targetScene = scenes[target.sceneId];
+      if (!targetScene) {
+        errors.push(diag("MISSING_SCENE_TARGET", "Transition points to missing scene: " + target.sceneId, target.at));
+        continue;
+      }
+      if (!Object.hasOwn(targetScene.nodes, target.nodeId)) {
+        errors.push(diag("MISSING_TARGET", "Transition points to missing node: " + target.raw, target.at));
       }
     }
   }
 
-  if (files.length === 0) {
-    errors.push(diag("NO_SCENES", "No scene JSON files found", scenesDir));
+  const moduleMetrics = {};
+  for (const [moduleId, manifest] of Object.entries(modules)) {
+    moduleMetrics[moduleId] = {
+      title: manifest.title ?? moduleId,
+      targetStitches: manifest.targets.stitches,
+      targetChoices: manifest.targets.choices,
+      implementedScenes: 0,
+      implementedNodes: 0,
+      implementedStitches: 0,
+      implementedChoices: 0
+    };
   }
 
-  if (errors.length > 0) {
-    throw new StoryCompileError(errors);
+  for (const [sceneId, scene] of Object.entries(scenes)) {
+    if (!scene.moduleId) continue;
+    if (!Object.hasOwn(modules, scene.moduleId)) {
+      errors.push(diag("UNKNOWN_MODULE", "Scene references missing module manifest: " + scene.moduleId, sceneId));
+      continue;
+    }
+    const report = sceneReports[sceneId];
+    const metric = moduleMetrics[scene.moduleId];
+    metric.implementedScenes += 1;
+    metric.implementedNodes += report.metrics.nodes;
+    metric.implementedStitches += report.metrics.stitches;
+    metric.implementedChoices += report.metrics.choices;
   }
+
+  for (const metric of Object.values(moduleMetrics)) {
+    metric.stitchProgress = Number((metric.implementedStitches / metric.targetStitches).toFixed(6));
+    metric.choiceProgress = Number((metric.implementedChoices / metric.targetChoices).toFixed(6));
+    if (metric.implementedStitches > metric.targetStitches) {
+      warnings.push(diag("MODULE_STITCH_BUDGET_EXCEEDED", "Implemented stitches exceed module target", metric.title));
+    }
+    if (metric.implementedChoices > metric.targetChoices) {
+      warnings.push(diag("MODULE_CHOICE_BUDGET_EXCEEDED", "Implemented choices exceed module target", metric.title));
+    }
+  }
+
+  if (errors.length > 0) throw new StoryCompileError(errors);
 
   const sceneIds = Object.keys(scenes).sort((a, b) => a.localeCompare(b));
   const orderedScenes = {};
@@ -331,11 +467,11 @@ export async function compileStory({ scenesDir }) {
       sceneIds,
       sceneCount: sceneIds.length,
       nodeCount,
-      choiceCount
+      stitchCount,
+      choiceCount,
+      modules: moduleMetrics
     },
-    diagnostics: {
-      warnings
-    },
+    diagnostics: { warnings },
     scenes: orderedScenes
   };
 }

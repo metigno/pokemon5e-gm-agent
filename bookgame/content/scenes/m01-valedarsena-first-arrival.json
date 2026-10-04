@@ -1,0 +1,221 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "M01",
+  "id": "m01-valedarsena-first-arrival",
+  "title": "Valedarsena — primo arrivo",
+  "locationId": "valedarsena_city",
+  "entryNodeId": "approach",
+  "nodes": {
+    "approach": {
+      "stitches": [
+        { "id": "city_first_view", "text": "Valedarsena compare prima come rumore: ruote sui lastricati, richiami dai moli, porte automatiche del Centro Pokémon, voci di allenatori che confrontano orari." },
+        { "id": "city_shape", "text": "La strada principale divide il quartiere dei servizi dall'Arena Civica. Più in basso, verso il fiume, magazzini e banchine stringono il passaggio." },
+        { "id": "arrival_choice", "text": "Non ricevi una lista di cose da fare. La città è già in movimento e devi decidere dove entrare per primo." }
+      ],
+      "choices": [
+        {
+          "id": "enter_center",
+          "text": "Entro al Centro Pokémon.",
+          "goto": "center",
+          "effects": [
+            { "type": "set_location", "locationId": "valedarsena_center" },
+            { "type": "set_flag", "key": "first_settlement_reached", "value": true },
+            { "type": "set_flag", "key": "valedarsena_discovered", "value": true }
+          ]
+        },
+        {
+          "id": "job_board",
+          "text": "Cerco il Job Board.",
+          "goto": "job_board",
+          "effects": [
+            { "type": "set_location", "locationId": "valedarsena_job_board" },
+            { "type": "set_flag", "key": "first_settlement_reached", "value": true },
+            { "type": "set_flag", "key": "valedarsena_discovered", "value": true }
+          ]
+        },
+        {
+          "id": "arena",
+          "text": "Vado direttamente all'Arena Civica.",
+          "goto": "arena_front",
+          "effects": [
+            { "type": "set_location", "locationId": "valedarsena_arena" },
+            { "type": "set_flag", "key": "first_settlement_reached", "value": true },
+            { "type": "set_flag", "key": "valedarsena_discovered", "value": true }
+          ]
+        },
+        {
+          "id": "trainer_street",
+          "text": "Percorro Via Allenatori e guardo negozi e persone.",
+          "goto": "trainer_street",
+          "effects": [
+            { "type": "set_location", "locationId": "valedarsena_trainer_street" },
+            { "type": "set_flag", "key": "first_settlement_reached", "value": true },
+            { "type": "set_flag", "key": "valedarsena_discovered", "value": true }
+          ]
+        },
+        {
+          "id": "leave_city",
+          "text": "Non entro ancora: torno verso le Ginestre.",
+          "goto": "m01-ginestre-crossroads#crossroads"
+        }
+      ]
+    },
+    "center": {
+      "stitches": [
+        { "id": "center_flow", "text": "Il Centro Pokémon è più simile a una stazione operativa che a un santuario: allenatori in fila, schermi con numeri di chiamata, personale che separa urgenze e controlli ordinari." },
+        { "id": "mira_glimpse", "text": "Dietro il banco intravedi la Dott.ssa Mira Venn coordinare due casi senza alzare la voce. Nessuno ti tratta come il protagonista della giornata." }
+      ],
+      "choices": [
+        { "id": "ask_city", "text": "Chiedo quali servizi sono utili a un rookie.", "goto": "center_info" },
+        { "id": "back_city", "text": "Esco e torno sulla strada principale.", "goto": "city_hub" }
+      ]
+    },
+    "center_info": {
+      "stitches": [
+        { "id": "services", "text": "Un addetto ti indica l'Arena, il Job Board e Via Allenatori. «Se stai preparando un Trial, controlla prima il roster. Qui curiamo, non sistemiamo i requisiti al posto tuo.»" }
+      ],
+      "choices": [
+        { "id": "hub", "text": "Torno in città.", "goto": "city_hub" }
+      ]
+    },
+    "job_board": {
+      "stitches": [
+        { "id": "board_noise", "text": "La bacheca non è una lista congelata di missioni. Alcuni fogli hanno già il timbro PRESO; altri mostrano una finestra oraria o un contatto." },
+        { "id": "farm_job", "text": "Uno spicca per vicinanza: «Fattoria del Vento — recinti aperti. Supporto per recupero Pokémon dispersi. Priorità: evitare panico e ferite.»" },
+        { "id": "logistics_job", "text": "Un secondo lavoro riguarda una consegna ai magazzini fluviali. Paga minore, rischio basso, disponibilità immediata." }
+      ],
+      "choices": [
+        {
+          "id": "farm_job",
+          "text": "Prendo nota del lavoro alla Fattoria.",
+          "goto": "job_farm_taken",
+          "effects": [
+            { "type": "set_flag", "key": "sq_farm_herd_hands_state", "value": "active" }
+          ]
+        },
+        {
+          "id": "logistics",
+          "text": "Prendo il lavoro di consegna urbana.",
+          "goto": "job_logistics",
+          "effects": [
+            { "type": "set_flag", "key": "m1_logistics_job_state", "value": "active" }
+          ]
+        },
+        { "id": "ignore", "text": "Non accetto nulla per ora.", "goto": "city_hub" }
+      ]
+    },
+    "job_farm_taken": {
+      "stitches": [
+        { "id": "sera_note", "text": "La coordinatrice, Sera Noll, registra il tuo nome senza cerimonie. «Se arrivi tardi, potrebbero aver già risolto o la situazione potrebbe essere cambiata. È un lavoro, non una quest che ti aspetta.»" }
+      ],
+      "choices": [
+        { "id": "go_farm", "text": "Parto verso la Fattoria del Vento.", "goto": "m01-farm-first-arrival#approach" },
+        { "id": "later", "text": "Resto ancora in città.", "goto": "city_hub" }
+      ]
+    },
+    "job_logistics": {
+      "stitches": [
+        { "id": "logistics_hook", "text": "Il pacco è piccolo, ma il percorso verso i magazzini passa vicino alle banchine dove sono stati segnalati movimenti insoliti di Pokémon selvatici." },
+        { "id": "not_main_quest", "text": "Puoi consegnarlo senza trasformare ogni rumore in un'indagine, oppure usare il tragitto per osservare." }
+      ],
+      "choices": [
+        {
+          "id": "observe",
+          "text": "Consegno ma tengo d'occhio le banchine. (CT Investigation)",
+          "check": { "ability": "INT", "skill": "Investigation", "dc": 12 },
+          "outcomes": {
+            "success": {
+              "goto": "logistics_clue",
+              "effects": [
+                { "type": "set_flag", "key": "m1_world_pressure_known", "value": true },
+                { "type": "set_flag", "key": "m1_logistics_job_state", "value": "completed" }
+              ]
+            },
+            "failure": {
+              "goto": "logistics_done",
+              "effects": [
+                { "type": "set_flag", "key": "m1_logistics_job_state", "value": "completed" }
+              ]
+            }
+          }
+        },
+        {
+          "id": "just_deliver",
+          "text": "Faccio soltanto la consegna.",
+          "goto": "logistics_done",
+          "effects": [
+            { "type": "set_flag", "key": "m1_logistics_job_state", "value": "completed" }
+          ]
+        }
+      ]
+    },
+    "logistics_clue": {
+      "stitches": [
+        { "id": "river_clue", "text": "Tra i segni di trascinamento sulle banchine e le reti spostate noti un pattern: piccoli animali stanno usando corridoi urbani che normalmente eviterebbero." },
+        { "id": "no_single_culprit", "text": "Non vedi un colpevole né una creatura misteriosa. Vedi pressione sull'habitat, lavori, rumore e fauna che cambia percorso." }
+      ],
+      "choices": [
+        { "id": "hub", "text": "Torno verso il centro della città.", "goto": "city_hub" }
+      ]
+    },
+    "logistics_done": {
+      "stitches": [
+        { "id": "delivery_done", "text": "La consegna finisce senza incidenti. È un lavoro normale, e proprio per questo ti mostra che la tua carriera non sarà fatta soltanto di battaglie decisive." }
+      ],
+      "choices": [
+        { "id": "hub", "text": "Torno verso il centro della città.", "goto": "city_hub" }
+      ]
+    },
+    "arena_front": {
+      "stitches": [
+        { "id": "arena_rookies", "text": "Davanti all'Arena Civica due rookie discutono di registrazioni e roster. Sul tabellone, il Promotion Trial F→E è indicato come disponibile a chi soddisfa i requisiti." },
+        { "id": "roster_notice", "text": "Una riga è inequivocabile: roster ufficiale richiesto, due Pokémon. Con il solo Ace iniziale puoi informarti, ma non aggirare il requisito." }
+      ],
+      "choices": [
+        {
+          "id": "note_trial",
+          "text": "Memorizzo i requisiti del Trial.",
+          "goto": "city_hub",
+          "effects": [
+            { "type": "set_flag", "key": "rank_trial_F_E_available", "value": true },
+            { "type": "set_flag", "key": "current_rank", "value": "F" }
+          ]
+        },
+        { "id": "watch", "text": "Resto qualche minuto a osservare i rookie.", "goto": "arena_watch" },
+        { "id": "leave", "text": "Torno sulla strada principale.", "goto": "city_hub" }
+      ]
+    },
+    "arena_watch": {
+      "stitches": [
+        { "id": "competition_tone", "text": "Non tutti sono amici e non tutti sono rivali. C'è chi studia gli avversari, chi cerca un match facile, chi controlla in silenzio le condizioni del proprio Pokémon." },
+        { "id": "blue_hint", "text": "Per un attimo senti qualcuno chiedere al banco quanto tempo manca alla prossima finestra di registrazione. Il tono è impaziente, competitivo. Quando ti giri, la fila si è già mossa." }
+      ],
+      "choices": [
+        { "id": "hub", "text": "Torno in città.", "goto": "city_hub" }
+      ]
+    },
+    "trainer_street": {
+      "stitches": [
+        { "id": "shops", "text": "Via Allenatori vende soprattutto cose utili, non gloria: Poké Ball, materiali di viaggio, equipaggiamento consentito, piccole comodità." },
+        { "id": "rookie_economy", "text": "I prezzi ti ricordano che essere un professionista all'inizio significa anche scegliere cosa non comprare." }
+      ],
+      "choices": [
+        { "id": "hub", "text": "Torno verso il centro.", "goto": "city_hub" },
+        { "id": "ginestre", "text": "Esco dalla città e torno alle Ginestre.", "goto": "m01-ginestre-crossroads#crossroads" }
+      ]
+    },
+    "city_hub": {
+      "stitches": [
+        { "id": "city_hub_state", "text": "Ora hai abbastanza punti di riferimento per muoverti senza che qualcuno ti accompagni: Centro Pokémon, Job Board, Arena, Via Allenatori e le strade in uscita." }
+      ],
+      "choices": [
+        { "id": "center", "text": "Centro Pokémon.", "goto": "center" },
+        { "id": "board", "text": "Job Board.", "goto": "job_board" },
+        { "id": "arena", "text": "Arena Civica.", "goto": "arena_front" },
+        { "id": "street", "text": "Via Allenatori.", "goto": "trainer_street" },
+        { "id": "farm", "text": "Parto per la Fattoria del Vento.", "goto": "m01-farm-first-arrival#approach" },
+        { "id": "ginestre", "text": "Torno alle Ginestre.", "goto": "m01-ginestre-crossroads#crossroads" }
+      ]
+    }
+  }
+}

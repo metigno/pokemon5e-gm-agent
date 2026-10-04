@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "M01",
+  "title": "Le Prime Strade",
+  "targets": {
+    "stitches": 5047,
+    "choices": 3116
+  },
+  "progressionRole": "early-expansion",
+  "designDocument": "docs/modules/M01_LE_PRIME_STRADE_MODULE_DESIGN.md",
+  "requiredBeats": [
+    "M1_00_RELEASE",
+    "M1_01_FIRST_ROAD",
+    "M1_02_HOUNDOUR_GINESTRE",
+    "M1_03_FIRST_REAL_FORK",
+    "M1_04_VALEDARSENA_FIRST_ARRIVAL",
+    "M1_05_JOB_BOARD",
+    "M1_06_FARM_HERD_HANDS",
+    "M1_07_WORLD_MOVES",
+    "M1_08_BLUE_ENTERS",
+    "M1_09_FRIEND_BEAT_01",
+    "M1_10_FIRST_OFFICIAL",
+    "M1_11_SECOND_POKEMON",
+    "M1_12_FIVE_ROADS",
+    "M1_13_TRIAL_REGISTRATION",
+    "M1_14_PROMOTION_TRIAL_F_E",
+    "M1_15_TRIAL_RESULT"
+  ]
+}

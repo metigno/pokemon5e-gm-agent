@@ -247,7 +247,20 @@
     },
     "road_continue": {
       "text": "Lasci alle spalle la pozzanghera e continui lungo il sentiero. Il vertical slice termina qui, ma lo stato della scena è già parte del salvataggio.",
-      "choices": []
+      "choices": [
+        {
+          "id": "reach_first_fork",
+          "text": "Raggiungo il primo vero bivio.",
+          "goto": "m01-ginestre-crossroads#crossroads",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "free_roam",
+              "value": true
+            }
+          ]
+        }
+      ]
     },
     "houndour_captured": {
       "text": "La Pokéball si richiude e resta immobile sull'erba. Houndour è stato catturato: il motore conserva livello, HP, condizioni e stato al momento della cattura prima di restituirti alla storia.",
@@ -259,5 +272,6 @@
         }
       ]
     }
-  }
+  },
+  "moduleId": "M01"
 }

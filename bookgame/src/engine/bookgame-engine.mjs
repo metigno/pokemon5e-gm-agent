@@ -21,6 +21,37 @@ function applyEffects(state, effects = []) {
   }
 }
 
+function parseTarget(target, currentSceneId) {
+  if (typeof target !== "string" || target.length === 0) {
+    throw new Error("Invalid story target");
+  }
+
+  if (!target.includes("#")) {
+    return { sceneId: currentSceneId, nodeId: target };
+  }
+
+  const parts = target.split("#");
+  if (parts.length !== 2 || !parts[0] || !parts[1]) {
+    throw new Error(`Invalid cross-scene target: ${target}`);
+  }
+
+  return { sceneId: parts[0], nodeId: parts[1] };
+}
+
+function applyTarget(state, target, currentSceneId) {
+  const parsed = parseTarget(target, currentSceneId);
+  state.story.sceneId = parsed.sceneId;
+  state.story.nodeId = parsed.nodeId;
+  return parsed;
+}
+
+function nodeText(node) {
+  if (Array.isArray(node.stitches)) {
+    return node.stitches.map((stitch) => stitch.text).join("\n\n");
+  }
+  return node.text;
+}
+
 function getCheckModifier(state, check) {
   const score = state.player.abilities[check.ability];
   if (!Number.isInteger(score)) throw new Error(`Unknown ability: ${check.ability}`);
@@ -52,8 +83,10 @@ export class BookgameEngine {
     return {
       sceneId: scene.id,
       sceneTitle: scene.title,
+      moduleId: scene.moduleId ?? null,
       nodeId: state.story.nodeId,
-      text: node.text,
+      text: nodeText(node),
+      stitches: clone(node.stitches ?? null),
       choices: clone(node.choices ?? []),
       pending: clone(state.pending),
       lastRoll: clone(state.lastRoll)
@@ -94,8 +127,9 @@ export class BookgameEngine {
       };
       historyEntry.roll = clone(next.lastRoll);
       applyEffects(next, outcome.effects);
-      next.story.nodeId = outcome.goto;
-      historyEntry.toNodeId = outcome.goto;
+      const target = applyTarget(next, outcome.goto, scene.id);
+      historyEntry.toSceneId = target.sceneId;
+      historyEntry.toNodeId = target.nodeId;
     } else if (choice.combat) {
       next.pending = {
         type: "pokemon5e_combat",
@@ -121,13 +155,15 @@ export class BookgameEngine {
         returnNodes: clone(choice.combat.returnNodes),
         battle: null
       };
-      next.story.nodeId = choice.combat.goto;
-      historyEntry.toNodeId = choice.combat.goto;
+      const target = applyTarget(next, choice.combat.goto, scene.id);
+      historyEntry.toSceneId = target.sceneId;
+      historyEntry.toNodeId = target.nodeId;
       historyEntry.handoff = "pokemon5e_combat";
     } else {
       applyEffects(next, choice.effects);
-      next.story.nodeId = choice.goto;
-      historyEntry.toNodeId = choice.goto;
+      const target = applyTarget(next, choice.goto, scene.id);
+      historyEntry.toSceneId = target.sceneId;
+      historyEntry.toNodeId = target.nodeId;
     }
 
     next.story.history.push(historyEntry);
@@ -159,12 +195,13 @@ export class BookgameEngine {
       throw new Error(`Combat outcome mismatch: battle=${state.pending.battle.outcome}, requested=${outcome}`);
     }
 
-    const target = state.pending.returnNodes[outcome];
-    if (!target) throw new Error(`Unsupported combat outcome: ${outcome}`);
+    const targetRef = state.pending.returnNodes[outcome];
+    if (!targetRef) throw new Error(`Unsupported combat outcome: ${outcome}`);
 
     const next = clone(state);
     const encounterId = next.pending.encounterId;
     const resolvedBattle = next.pending.battle;
+    const sourceSceneId = next.pending.sceneId;
 
     if (resolvedBattle?.trainer?.inventory) {
       next.player.inventory = clone(resolvedBattle.trainer.inventory);
@@ -190,13 +227,14 @@ export class BookgameEngine {
     }
 
     next.pending = null;
-    next.story.nodeId = target;
+    const target = applyTarget(next, targetRef, sourceSceneId);
     next.story.history.push({
-      sceneId: next.story.sceneId,
+      sceneId: sourceSceneId,
       subsystem: "pokemon5e_combat",
       encounterId,
       outcome,
-      toNodeId: target
+      toSceneId: target.sceneId,
+      toNodeId: target.nodeId
     });
     touchState(next, this.now);
     return next;

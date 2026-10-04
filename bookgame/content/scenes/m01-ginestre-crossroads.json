@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "M01",
+  "id": "m01-ginestre-crossroads",
+  "title": "Il primo bivio",
+  "locationId": "asteria_ginestre",
+  "entryNodeId": "crossroads",
+  "nodes": {
+    "crossroads": {
+      "stitches": [
+        {
+          "id": "road_opens",
+          "text": "Oltre il tratto dove hai incontrato Houndour, il sentiero si allarga. Un cartello basso indica Valedarsena da una parte e la Fattoria del Vento dall'altra."
+        },
+        {
+          "id": "world_not_waiting",
+          "text": "Non c'è nessuno ad aspettare che tu scelga la strada giusta. Alcuni allenatori passano senza fermarsi; un furgone da lavoro solleva polvere verso la città."
+        },
+        {
+          "id": "trial_reminder",
+          "text": "Sai soltanto che, prima o poi, per salire dal Rank F dovrai presentarti a un Promotion Trial con una squadra legale. Il momento, però, è tuo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "to_valedarsena",
+          "text": "Prendo la strada per Valedarsena.",
+          "goto": "m01-valedarsena-first-arrival#approach",
+          "effects": [
+            { "type": "set_location", "locationId": "valedarsena_road" },
+            { "type": "set_flag", "key": "m1_first_fork_choice", "value": "valedarsena" }
+          ]
+        },
+        {
+          "id": "to_farm",
+          "text": "Devio verso la Fattoria del Vento.",
+          "goto": "m01-farm-first-arrival#approach",
+          "effects": [
+            { "type": "set_location", "locationId": "asteria_farm_road" },
+            { "type": "set_flag", "key": "m1_first_fork_choice", "value": "farm" }
+          ]
+        },
+        {
+          "id": "inspect_signs",
+          "text": "Prima osservo le tracce e il traffico sul bivio. (CT Perception)",
+          "check": {
+            "ability": "WIS",
+            "skill": "Perception",
+            "dc": 11
+          },
+          "outcomes": {
+            "success": {
+              "goto": "tracks_success",
+              "effects": [
+                { "type": "set_flag", "key": "m1_world_pressure_known", "value": true }
+              ]
+            },
+            "failure": {
+              "goto": "tracks_failure"
+            }
+          }
+        },
+        {
+          "id": "stay",
+          "text": "Resto ancora un po' nella zona delle Ginestre.",
+          "goto": "ginestre_pause"
+        }
+      ]
+    },
+    "tracks_success": {
+      "stitches": [
+        {
+          "id": "mud_marks",
+          "text": "Sul margine fangoso distingui impronte di Pokémon che attraversano la carreggiata più spesso di quanto ti aspetteresti."
+        },
+        {
+          "id": "maintenance_sign",
+          "text": "Più avanti, due paletti di manutenzione sono stati spostati di recente. Non basta per capire il problema, ma qualcosa sta modificando le abitudini della fauna locale."
+        }
+      ],
+      "choices": [
+        { "id": "city_followup", "text": "Vado a Valedarsena e cerco informazioni.", "goto": "m01-valedarsena-first-arrival#approach" },
+        { "id": "farm_followup", "text": "Controllo se alla Fattoria hanno visto la stessa cosa.", "goto": "m01-farm-first-arrival#approach" },
+        { "id": "back", "text": "Per ora torno al bivio.", "goto": "crossroads" }
+      ]
+    },
+    "tracks_failure": {
+      "stitches": [
+        {
+          "id": "too_many_marks",
+          "text": "Il terreno è troppo battuto per separare impronte recenti da quelle vecchie. Vedi segni di passaggio, ma niente che giustifichi una conclusione."
+        }
+      ],
+      "choices": [
+        { "id": "back", "text": "Torno a decidere la strada.", "goto": "crossroads" }
+      ]
+    },
+    "ginestre_pause": {
+      "stitches": [
+        {
+          "id": "roadside_life",
+          "text": "Restando fermo abbastanza a lungo, la strada smette di sembrare un corridoio tra due destinazioni: è un posto in cui persone e Pokémon passano, lavorano, evitano pericoli e scelgono direzioni."
+        },
+        {
+          "id": "rookie_passes",
+          "text": "Un rookie con lo zaino troppo pieno ti supera salutando appena. Ha l'aria di chi vuole arrivare in città prima che l'Arena chiuda le registrazioni giornaliere."
+        }
+      ],
+      "choices": [
+        { "id": "ask_rookie", "text": "Gli chiedo cosa c'è oggi a Valedarsena.", "goto": "rookie_info" },
+        { "id": "back", "text": "Riprendo a scegliere la mia strada.", "goto": "crossroads" }
+      ]
+    },
+    "rookie_info": {
+      "stitches": [
+        {
+          "id": "arena_info",
+          "text": "Il ragazzo rallenta. «Match liberi all'Arena Civica. E la board ha messo fuori nuovi lavori stamattina.»"
+        },
+        {
+          "id": "farm_info",
+          "text": "Poi indica l'altra strada con il pollice. «Alla Fattoria cercano mani. Pare siano usciti alcuni Pokémon dai recinti.»"
+        }
+      ],
+      "choices": [
+        { "id": "city", "text": "Lo ringrazio e vado verso Valedarsena.", "goto": "m01-valedarsena-first-arrival#approach" },
+        { "id": "farm", "text": "Cambio idea e vado alla Fattoria.", "goto": "m01-farm-first-arrival#approach" },
+        { "id": "crossroads", "text": "Lo lascio andare e resto al bivio.", "goto": "crossroads" }
+      ]
+    }
+  }
+}
