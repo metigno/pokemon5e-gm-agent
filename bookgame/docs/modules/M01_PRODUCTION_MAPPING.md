@@ -120,7 +120,7 @@ Required for:
 - service opening/closing;
 - timed jobs.
 
-## E3 — Quest state / journal
+## E3 — Quest state / journal — IMPLEMENTED
 
 Required for:
 
