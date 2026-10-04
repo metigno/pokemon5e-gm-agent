@@ -3,11 +3,11 @@
   "save_slot": 1,
   "world_id": "ASTERIA",
   "world_name": "Territorio Interregionale di Asteria",
-  "current_location_id": "VAL-POKECENTER",
+  "current_location_id": "VAL-MARKET",
   "clock": {
     "day": 1,
-    "phase": "morning",
-    "minutes_from_midnight": null
+    "phase": "afternoon",
+    "minutes_from_midnight": 750
   },
   "weather": {
     "status": "unresolved_until_relevant"
@@ -19,7 +19,11 @@
     "VAL-TRAINER-ROW",
     "VAL-JOB-BOARD",
     "VAL-WAREHOUSES",
-    "VAL-POKECENTER"
+    "VAL-POKECENTER",
+    "VAL-MARKET",
+    "VAL-CANAL-PARK",
+    "VAL-ARENA",
+    "VAL-INNER-HARBOR"
   ],
   "visited_locations": [
     "AST-CAMPUS",
@@ -28,7 +32,9 @@
     "VAL-TRAINER-ROW",
     "VAL-JOB-BOARD",
     "VAL-WAREHOUSES",
-    "VAL-POKECENTER"
+    "VAL-POKECENTER",
+    "VAL-MARKET",
+    "VAL-CANAL-PARK"
   ],
   "location_states": {
     "AST-CAMPUS": {
@@ -60,7 +66,23 @@
       }
     },
     "VAL-POKECENTER": {
+      "status": "visited",
+      "last_updated_day": 1
+    },
+    "VAL-MARKET": {
       "status": "current",
+      "last_updated_day": 1
+    },
+    "VAL-CANAL-PARK": {
+      "status": "visited",
+      "last_updated_day": 1
+    },
+    "VAL-ARENA": {
+      "status": "discovered",
+      "last_updated_day": 1
+    },
+    "VAL-INNER-HARBOR": {
+      "status": "discovered",
       "last_updated_day": 1
     }
   },
@@ -86,7 +108,7 @@
             "id": "JOB-01",
             "title": "Pacco smarrito sulla strada nord",
             "reward": 700,
-            "status": "available"
+            "status": "accepted_by_Mattew"
           },
           {
             "id": "JOB-02",
@@ -98,7 +120,7 @@
             "id": "JOB-03",
             "title": "Consegna urgente alla fattoria",
             "reward": 600,
-            "status": "available"
+            "status": "accepted_by_Edward"
           }
         ]
       }
@@ -129,7 +151,7 @@
   ],
   "last_world_pulse": {
     "day": 1,
-    "phase": "morning",
-    "reason": "state aligned to Asteria world map"
+    "phase": "afternoon",
+    "reason": "Lunch-time phase change; player city exploration and friend schedules updated."
   }
 }
