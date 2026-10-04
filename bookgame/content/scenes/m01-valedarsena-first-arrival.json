@@ -427,6 +427,27 @@
           "goto": "arena_watch"
         },
         {
+          "id": "first_official",
+          "text": "Cerco un incontro ufficiale da rookie, senza iscrivermi al Promotion Trial.",
+          "conditions": {
+            "all": [
+              {
+                "path": "player.trainerLevel",
+                "gte": 2
+              },
+              {
+                "path": "competition.rank",
+                "eq": "F"
+              },
+              {
+                "path": "competition.firstOfficialResolved",
+                "ne": true
+              }
+            ]
+          },
+          "goto": "first_official_offer"
+        },
+        {
           "id": "leave",
           "text": "Torno sulla strada principale.",
           "goto": "city_hub"
@@ -555,6 +576,90 @@
           "id": "back",
           "text": "Torno in città e continuo a prepararmi.",
           "goto": "city_hub"
+        }
+      ]
+    },
+    "first_official_offer": {
+      "stitches": [
+        {
+          "id": "official_desk",
+          "text": "Al banco incontri ti propongono un match sanzionato per rookie: Singles, un Pokémon registrato per parte. È un incontro ufficiale, ma non è il Promotion Trial F→E."
+        },
+        {
+          "id": "official_opponent",
+          "text": "Dall'altra parte del campo c'è un altro allenatore di Rank F con uno Shinx registrato. Nessun risultato è concordato: vince chi vince davvero sul campo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "accept_first_official",
+          "text": "Accetto il mio primo incontro ufficiale.",
+          "combat": {
+            "encounterId": "M1_FIRST_OFFICIAL_001",
+            "opponent": {
+              "species": "Shinx",
+              "level": 2,
+              "motive": "sanctioned_competition"
+            },
+            "opponentRegistered": true,
+            "goto": "first_official_handoff",
+            "returnNodes": {
+              "win": "first_official_win",
+              "lose": "first_official_loss"
+            },
+            "competition": {
+              "type": "official_match",
+              "matchId": "A1_FIRST_OFFICIAL",
+              "format": "Singles",
+              "officialRosterSize": 1,
+              "difficulty": "STANDARD",
+              "firstOfficial": true
+            }
+          }
+        },
+        {
+          "id": "defer_first_official",
+          "text": "Non combatto ora.",
+          "goto": "arena_front"
+        }
+      ]
+    },
+    "first_official_handoff": {
+      "stitches": [
+        {
+          "id": "official_handoff",
+          "text": "L'arbitro verifica i Pokémon registrati e apre il campo. Da qui il risultato appartiene al combattimento Pokémon 5e, non allo script."
+        }
+      ],
+      "choices": []
+    },
+    "first_official_win": {
+      "stitches": [
+        {
+          "id": "official_win",
+          "text": "Il tabellone registra la vittoria come risultato ufficiale. Hai completato un vero match sanzionato, ma il tuo Rank resta F: il Promotion Trial è una prova diversa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_after_win",
+          "text": "Torno all'ingresso dell'Arena.",
+          "goto": "arena_front"
+        }
+      ]
+    },
+    "first_official_loss": {
+      "stitches": [
+        {
+          "id": "official_loss",
+          "text": "Il tabellone registra la sconfitta senza chiuderti nessuna strada. È un risultato ufficiale, non un fallimento di carriera: resti Rank F e puoi continuare a prepararti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_after_loss",
+          "text": "Torno all'ingresso dell'Arena.",
+          "goto": "arena_front"
         }
       ]
     }
