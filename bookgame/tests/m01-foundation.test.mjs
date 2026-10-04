@@ -9,6 +9,7 @@ import { createNewGameState } from "../src/engine/state.mjs";
 import { evaluateCondition, validateCondition } from "../src/engine/conditions.mjs";
 import { advanceWorldTime, daypartForMinute, getWorldTimeView } from "../src/engine/time.mjs";
 import { getQuestJournal, processQuestDeadlines, startQuest } from "../src/engine/quest-state.mjs";
+import { adjustNpcRelationship, selectFriendBeatCandidate, setNpcSchedule } from "../src/engine/npc-state.mjs";
 
 const scenesDir = fileURLToPath(new URL("../content/scenes/", import.meta.url));
 const modulesDir = fileURLToPath(new URL("../content/modules/", import.meta.url));
@@ -513,4 +514,130 @@ test("M01 farm and logistics jobs use structured E3 quest state", async () => {
   assert.ok(farmStart.effects.some((effect) => effect.type === "quest_start"));
   assert.equal(JSON.stringify(farmScene).includes("sq_farm_herd_hands_state"), false);
   assert.equal(JSON.stringify(cityScene).includes("m1_logistics_job_state"), false);
+});
+
+
+test("E4 new careers contain persistent Four friends and Blue without future achievements", () => {
+  const state = createNewGameState({ protagonist: "Luke" });
+  assert.deepEqual(Object.keys(state.npcs).sort(), ["Blue", "Daniel", "Edward", "Fab", "Mattew"]);
+  assert.equal(state.npcs.Mattew.relationship.qualitative, "Neutral");
+  assert.equal(state.npcs.Blue.state.met, false);
+  assert.equal(state.npcs.Blue.state.rankState, "F");
+  assert.equal(state.npcs.Blue.state.teamStage, "rookie");
+  assert.equal(state.npcs.Blue.schedule, null);
+});
+
+test("E4 relationship score stays hidden internally but derives qualitative state", () => {
+  const state = createNewGameState({ protagonist: "Luke" });
+
+  adjustNpcRelationship(state, { npcId: "Blue", delta: 25 });
+  assert.equal(state.npcs.Blue.relationship.score, 25);
+  assert.equal(state.npcs.Blue.relationship.qualitative, "Friendly");
+
+  adjustNpcRelationship(state, { npcId: "Blue", delta: -100 });
+  assert.equal(state.npcs.Blue.relationship.score, -75);
+  assert.equal(state.npcs.Blue.relationship.qualitative, "Hostile");
+});
+
+test("E4 schedule presence follows E2 absolute time window", () => {
+  const state = createNewGameState({ protagonist: "Luke" });
+  state.world.elapsedMinutes = 600;
+  state.world.minuteOfDay = 600;
+  state.world.time = "morning";
+
+  setNpcSchedule(state, {
+    npcId: "Blue",
+    scheduleId: "blue_test",
+    locationId: "valedarsena_arena",
+    availability: "available",
+    startsAtMinutes: 540,
+    endsAtMinutes: 720
+  });
+  assert.equal(state.npcs.Blue.schedule.present, true);
+
+  advanceWorldTime(state.world, 121);
+  // Selector refreshes schedules before evaluating candidates.
+  selectFriendBeatCandidate(state, { candidateIds: ["Blue"], locationId: "valedarsena_arena" });
+  assert.equal(state.npcs.Blue.schedule.present, false);
+});
+
+test("E4 FRIEND_BEAT selector uses actual schedule, location and relationship", () => {
+  const state = createNewGameState({ protagonist: "Luke" });
+  state.world.locationId = "asteria_farm";
+
+  setNpcSchedule(state, {
+    npcId: "Mattew",
+    scheduleId: "mattew_farm",
+    locationId: "asteria_farm",
+    availability: "available"
+  });
+  setNpcSchedule(state, {
+    npcId: "Daniel",
+    scheduleId: "daniel_city",
+    locationId: "valedarsena_city",
+    availability: "available"
+  });
+  setNpcSchedule(state, {
+    npcId: "Edward",
+    scheduleId: "edward_farm",
+    locationId: "asteria_farm",
+    availability: "available"
+  });
+  adjustNpcRelationship(state, { npcId: "Edward", delta: 20 });
+
+  assert.equal(selectFriendBeatCandidate(state), "Edward");
+
+  state.npcs.Edward.schedule.availability = "busy";
+  assert.equal(selectFriendBeatCandidate(state), "Mattew");
+});
+
+test("E4 conditions can read safe NPC schedule, relationship and state fields", () => {
+  const state = createNewGameState({ protagonist: "Luke" });
+  setNpcSchedule(state, {
+    npcId: "Blue",
+    scheduleId: "blue_arena",
+    locationId: "valedarsena_arena",
+    availability: "available"
+  });
+  state.npcs.Blue.state.met = true;
+
+  assert.equal(evaluateCondition(state, {
+    all: [
+      { path: "npcs.Blue.schedule.present", eq: true },
+      { path: "npcs.Blue.schedule.locationId", eq: "valedarsena_arena" },
+      { path: "npcs.Blue.relationship.qualitative", eq: "Neutral" },
+      { path: "npcs.Blue.state.met", eq: true }
+    ]
+  }), true);
+});
+
+test("E4 compiler rejects malformed NPC schedule effects", () => {
+  const report = validateScene({
+    schemaVersion: 1,
+    id: "bad-npc",
+    title: "Bad NPC",
+    locationId: "test",
+    nodes: {
+      start: {
+        text: "Test",
+        choices: [{
+          id: "bad",
+          text: "Bad",
+          effects: [{
+            type: "npc_schedule_set",
+            npcId: "Blue",
+            scheduleId: "bad",
+            locationId: "arena",
+            startsAtMinutes: 100,
+            endsAtMinutes: 90
+          }],
+          goto: "end"
+        }]
+      },
+      end: { text: "End", choices: [] }
+    }
+  });
+
+  assert.equal(report.valid, false);
+  assert.ok(report.errors.some((error) => error.code === "INVALID_NPC_SCHEDULE_WINDOW"));
 });
