@@ -255,3 +255,21 @@ Legendary, Mythical, Ultra Beast, Paradox and unique variant exact placements ar
 Paradox Pokémon require the temporal anomaly protocol. They never appear as ordinary random fauna.
 
 Once a species is selected, fetch/verify its current Pokémon 5e mechanics before resolving the encounter.
+
+
+## Canonical fauna runtime authority
+
+For Asteria wildlife generation, the authoritative runtime files are:
+
+1. `campaign/world/ecology/SPECIES_DISTRIBUTION.json`
+2. `campaign/world/ecology/ZONE_POOLS.json`
+3. `campaign/world/ecology/FAUNA_COVERAGE.json`
+4. `campaign/world/ecology/RARITY_SYSTEM.md`
+5. `campaign/world/ecology/SPECIAL_ENCOUNTERS.md`
+6. `gm_private/ASTERIA_SPECIAL_FAUNA.json` for GM-private special anchors
+
+The files under `campaign/world/fauna/` are supporting/generated reference material only when they overlap with the ecology runtime set.
+
+If two generated fauna files disagree, the `campaign/world/ecology/` runtime set above wins.
+
+Never generate a Legendary, Mythical, Ultra Beast, Fossil-restricted Pokémon or Paradox Pokémon from an ordinary random zone pool.
