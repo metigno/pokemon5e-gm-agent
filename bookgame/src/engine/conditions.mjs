@@ -10,7 +10,12 @@ const FIXED_PATHS = new Set([
   "world.time",
   "world.locationId",
   "story.sceneId",
-  "story.nodeId"
+  "story.nodeId",
+  "competition.rank",
+  "competition.rankOrder",
+  "competition.circuitPoints",
+  "competition.firstOfficialResolved",
+  "competition.history.length"
 ]);
 
 const COMPARATORS = new Set(["eq", "ne", "gt", "gte", "lt", "lte", "in", "exists"]);
@@ -43,6 +48,11 @@ export function isAllowedConditionPath(path) {
       ID_RE.test(segments[1]) &&
       ["status", "outcomeId", "firedAtMinutes"].includes(segments[2])) return true;
   if (segments.length === 4 &&
+      segments[0] === "competition" &&
+      segments[1] === "trials" &&
+      ID_RE.test(segments[2]) &&
+      ["available", "registered", "attempts", "bestResult", "lastResult", "completed", "requiredRosterSize"].includes(segments[3])) return true;
+  if (segments.length === 4 &&
       segments[0] === "npcs" &&
       ID_RE.test(segments[1]) &&
       segments[2] === "relationship" &&
@@ -66,6 +76,9 @@ export function readConditionPath(state, path) {
 
   if (path === "player.roster.length") {
     return Array.isArray(state.player?.roster) ? state.player.roster.length : 0;
+  }
+  if (path === "competition.history.length") {
+    return Array.isArray(state.competition?.history) ? state.competition.history.length : 0;
   }
 
   const segments = path.split(".");
