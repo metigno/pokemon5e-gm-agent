@@ -33,9 +33,20 @@ async function continueGame() {
   return saves.load(slot);
 }
 
-function printAttack(entry) {
-  const who = entry.actor === "player" ? "Il tuo Pokémon" : "Houndour";
-  const roll = `d20+${entry.attackModifier}=${entry.attackTotal}`;
+function formatD20(roll) {
+  const list = roll.rolls?.join(",") ?? String(roll.natural);
+  const marker = roll.mode === "advantage" ? "↑" : roll.mode === "disadvantage" ? "↓" : "";
+  return roll.rolls?.length > 1 ? `d20[${list}]${marker}` : `d20=${roll.natural}`;
+}
+
+function actorName(battle, side) {
+  return side === "player" ? battle.player.name : battle.opponent.name;
+}
+
+function printAttack(battle, entry) {
+  const who = actorName(battle, entry.actor);
+  const roll = `${formatD20(entry.attackRoll)} ${entry.attackModifier >= 0 ? "+" : ""}${entry.attackModifier} = ${entry.attackTotal}`;
+
   if (!entry.hit) {
     console.log(`${who} usa ${entry.moveName}: ${roll} vs AC ${entry.defenderAc} — manca il bersaglio.`);
     return;
@@ -47,23 +58,74 @@ function printAttack(entry) {
     : entry.typeMultiplier === 0.5
       ? " Resiste."
       : entry.typeMultiplier === 0
-        ? " È immune."
+        ? ` Nessun danno${entry.immunityAbility ? ` (${entry.immunityAbility})` : ""}.`
         : "";
 
   console.log(
     `${who} usa ${entry.moveName}: ${roll} vs AC ${entry.defenderAc} — colpisce.${crit} ` +
     `${entry.damage} danni ${entry.damageType}.${effect}`
   );
+
+  if (entry.secondaryStatus && entry.statusResult) {
+    console.log(
+      entry.statusResult.applied
+        ? `→ ${actorName(battle, entry.target)} subisce ${entry.secondaryStatus}.`
+        : `→ ${entry.secondaryStatus} non viene applicato (${entry.statusResult.reason}).`
+    );
+  }
+}
+
+function printSaveMove(battle, entry) {
+  const who = actorName(battle, entry.actor);
+  const target = actorName(battle, entry.target);
+
+  if (entry.immune) {
+    console.log(`${who} usa ${entry.moveName}: ${target} è immune grazie a ${entry.immunityAbility}.`);
+    return;
+  }
+
+  const save = entry.save;
+  console.log(
+    `${who} usa ${entry.moveName}: ${target} tira ${save.attribute.toUpperCase()} ` +
+    `(${formatD20(save)} ${save.modifier >= 0 ? "+" : ""}${save.modifier} = ${save.total}) ` +
+    `vs DC ${save.dc} — ${save.success ? "successo" : "fallimento"}.`
+  );
 }
 
 function printNewCombatLogs(battle, fromIndex) {
   for (const entry of battle.log.slice(fromIndex)) {
-    if (entry.type === "attack") printAttack(entry);
+    if (entry.type === "attack") printAttack(battle, entry);
+    if (entry.type === "save_move") printSaveMove(battle, entry);
+    if (entry.type === "ability_use" && entry.abilityId === "intimidate") {
+      console.log(`→ ${actorName(battle, entry.actor)} usa Intimidate: il prossimo attacco viene tirato con svantaggio.`);
+    }
+    if (entry.type === "ability_trigger" && entry.abilityId === "flash-fire") {
+      console.log(`→ Flash Fire annulla il Fuoco e potenzia la prossima mossa Fuoco.`);
+    }
+    if (entry.type === "turn_skipped") {
+      console.log(`→ ${actorName(battle, entry.actor)} perde il turno per ${entry.reason}.`);
+    }
+    if (entry.type === "status_damage") {
+      console.log(`→ ${actorName(battle, entry.actor)} subisce ${entry.damage} danni da ${entry.status}.`);
+    }
+    if (entry.type === "wake_check") {
+      console.log(`→ Risveglio: ${entry.roll} — ${entry.wake ? "si sveglia" : "resta addormentato"}.`);
+    }
     if (entry.type === "combat_end") {
-      console.log(entry.outcome === "win" ? "Houndour non è più in grado di continuare lo scontro." : "Il tuo Pokémon non è più in grado di continuare lo scontro.");
+      console.log(
+        entry.outcome === "win"
+          ? `${battle.opponent.name} non è più in grado di continuare lo scontro.`
+          : `${battle.player.name} non è più in grado di continuare lo scontro.`
+      );
     }
   }
   return battle.log.length;
+}
+
+async function saveBattleIntoState(state, battle) {
+  const next = engine.setCombatState(state, battle);
+  await saves.save(next);
+  return next;
 }
 
 async function runCombat(state) {
@@ -71,11 +133,10 @@ async function runCombat(state) {
 
   if (!battle) {
     battle = await combatEngine.createBattle(state.pending);
-    state = engine.setCombatState(state, battle);
-    await saves.save(state);
+    state = await saveBattleIntoState(state, battle);
     console.log("\n=== COMBATTIMENTO POKÉMON 5e ===");
     console.log(
-      `Iniziativa: tuo Pokémon ${battle.initiative.player.total}, ` +
+      `Iniziativa: ${battle.player.name} ${battle.initiative.player.total}, ` +
       `${battle.opponent.name} ${battle.initiative.opponent.total}.`
     );
   } else {
@@ -85,11 +146,25 @@ async function runCombat(state) {
   let printed = battle.log.length;
 
   while (!battle.outcome) {
-    battle = await combatEngine.advanceToPlayerOrEnd(battle);
+    battle = await combatEngine.prepareCurrentTurn(battle);
     printed = printNewCombatLogs(battle, printed);
-    state = engine.setCombatState(state, battle);
-    await saves.save(state);
+    state = await saveBattleIntoState(state, battle);
     if (battle.outcome) break;
+
+    if (combatEngine.actor(battle) === "opponent") {
+      let useIntimidate = false;
+      if (combatEngine.canUseIntimidate(battle, "player")) {
+        const answer = (await rl.question("Usare Intimidate sul prossimo attacco avversario? [s/N] ")).trim().toLowerCase();
+        useIntimidate = answer === "s" || answer === "si" || answer === "y" || answer === "yes";
+      }
+
+      battle = await combatEngine.advanceToPlayerOrEnd(battle, {
+        usePlayerIntimidate: useIntimidate
+      });
+      printed = printNewCombatLogs(battle, printed);
+      state = await saveBattleIntoState(state, battle);
+      continue;
+    }
 
     console.log(
       `\nRound ${battle.round} — ${battle.player.name} ${battle.player.hp.current}/${battle.player.hp.max} HP ` +
@@ -98,10 +173,20 @@ async function runCombat(state) {
 
     const moves = await combatEngine.availablePlayerMoves(battle);
     moves.forEach((move, index) => {
-      console.log(`${index + 1}. ${move.name} (PP ${battle.player.pp[move.id]}/${move.pp})`);
+      const kind = move.time.unit === "bonus action" ? "Bonus" : "Azione";
+      console.log(`${index + 1}. [${kind}] ${move.name} (PP ${battle.player.pp[move.id]}/${move.pp})`);
     });
+    console.log("0. Termina turno");
 
-    const answer = Number(await rl.question("> ")) - 1;
+    const raw = await rl.question("> ");
+    if (raw.trim() === "0") {
+      battle = await combatEngine.endPlayerTurn(battle);
+      printed = printNewCombatLogs(battle, printed);
+      state = await saveBattleIntoState(state, battle);
+      continue;
+    }
+
+    const answer = Number(raw) - 1;
     const move = moves[answer];
     if (!move) {
       console.log("Mossa non valida.");
@@ -110,8 +195,7 @@ async function runCombat(state) {
 
     battle = await combatEngine.usePlayerMove(battle, move.id);
     printed = printNewCombatLogs(battle, printed);
-    state = engine.setCombatState(state, battle);
-    await saves.save(state);
+    state = await saveBattleIntoState(state, battle);
   }
 
   state = engine.resolveCombatHandoff(state, battle.outcome);
