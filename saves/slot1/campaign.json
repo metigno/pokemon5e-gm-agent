@@ -283,7 +283,7 @@
       },
       "bond_state": "strengthening_through_shared_hunt",
       "gender": null,
-      "hp": 32,
+      "hp": 28,
       "max_hp": 35,
       "moves": [
         {
@@ -294,7 +294,7 @@
         {
           "name": "Ember",
           "pp_max": 15,
-          "pp_current": 11
+          "pp_current": 10
         },
         {
           "name": "Leer",
@@ -380,7 +380,7 @@
       "training_only": true
     },
     "format": "1v1 singles",
-    "round": 2,
+    "round": 3,
     "player_trainer": "Luke",
     "player_pokemon": "luke-growlithe-hisui-001",
     "opponent_trainer": {
@@ -399,7 +399,7 @@
         "level": 5,
         "gender": "male",
         "nature": "Jolly",
-        "hp": 26,
+        "hp": 18,
         "max_hp": 26,
         "ac": 12,
         "ability": "Keen Eye",
@@ -425,7 +425,7 @@
           {
             "name": "Peck",
             "pp_max": 20,
-            "pp_current": 20
+            "pp_current": 19
           },
           {
             "name": "Leer",
@@ -456,7 +456,8 @@
     "environment": {
       "location": "Via delle Ginestre — roadside sparring clearing",
       "terrain": "grass verge beside old bus stop and fencing",
-      "starting_distance_ft": 30
+      "starting_distance_ft": 30,
+      "distance_ft": 5
     },
     "initiative": {
       "Growlithe": {
@@ -503,6 +504,59 @@
         "result": "active",
         "effect": "+1 to attack and damage rolls for 1 minute",
         "pp_after": 9
+      },
+      {
+        "round": 2,
+        "actor": "Luke/Growlithe",
+        "move": "Ember",
+        "attack_roll": {
+          "d20": 7,
+          "base_modifier": 5,
+          "leer_bonus": 1,
+          "total": 13
+        },
+        "target": "Lio/Rookidee",
+        "result": "hit",
+        "damage": {
+          "dice": [
+            3
+          ],
+          "move": 2,
+          "stab": 3,
+          "total": 8,
+          "type": "Fire"
+        },
+        "burn_trigger": false,
+        "target_hp_after": 18,
+        "pp_after": 10
+      },
+      {
+        "round": 2,
+        "actor": "Lio/Rookidee",
+        "move": "Peck",
+        "attack_roll": {
+          "d20": 12,
+          "base_modifier": 5,
+          "hone_claws_bonus": 1,
+          "total": 18
+        },
+        "target": "Luke/Growlithe",
+        "result": "hit",
+        "damage": {
+          "dice": [
+            2
+          ],
+          "move": 2,
+          "stab": 3,
+          "hone_claws_bonus": 1,
+          "total_before_resistance": 8,
+          "type": "Flying",
+          "resistance_applied": "Rock resists Flying",
+          "total_after_resistance": 4
+        },
+        "target_hp_after": 28,
+        "pp_after": 19,
+        "positioning": "Rookidee ended in melee range of Growlithe"
       }
     ],
     "effects": [
@@ -513,7 +567,7 @@
         "effect": "attacks_against_target_bonus",
         "bonus": 1,
         "duration_rounds": 10,
-        "remaining_rounds": 10
+        "remaining_rounds": 9
       },
       {
         "id": "hone-claws-rookidee-1",
@@ -522,7 +576,7 @@
         "effect": "attack_and_damage_bonus",
         "bonus": 1,
         "duration_rounds": 10,
-        "remaining_rounds": 10
+        "remaining_rounds": 9
       }
     ],
     "turn": "Growlithe"
@@ -699,8 +753,8 @@
     },
     "rule": "NPC intent is scripted; evolution itself must satisfy current Pokemon 5e requirements and campaign causality."
   },
-  "last_saved_at": "2026-10-04T12:54:40+02:00",
-  "save_note": "Trainer battle vs Lio active. Growlithe used Leer; Rookidee failed WIS save 6+0=6. Growlithe has +1 to attacks vs Rookidee for 1 minute. Rookidee used Hone Claws and has +1 attack/damage for 1 minute. Growlithe 32/35 HP. Growlithe acts next.",
+  "last_saved_at": "2026-10-04T13:03:17+02:00",
+  "save_note": "Trainer battle vs Lio active. Growlithe Ember hit Rookidee for 8 Fire damage (including STAB); Rookidee then hit with Peck for 8 Flying, reduced to 4 by Growlithe's Rock resistance. Growlithe 28/35; Rookidee 18/26. Rookidee is now in melee range. Growlithe's turn.",
   "job_history": [
     {
       "id": "JOB-02",
