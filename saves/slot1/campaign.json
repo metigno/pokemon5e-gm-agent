@@ -289,7 +289,7 @@
         {
           "name": "Bite",
           "pp_max": 15,
-          "pp_current": 3
+          "pp_current": 2
         },
         {
           "name": "Ember",
@@ -329,16 +329,16 @@
       ],
       "medical_status": "fully_recovered",
       "experience": {
-        "current_xp": 6200,
+        "current_xp": 6450,
         "level_floor_xp": 6000,
         "next_level_xp": 12000,
         "tracking_started_at": "Via delle Ginestre — Shinx training encounter",
         "note": "Explicit XP tracking initialized from the minimum XP for current Level 5. Do not infer unlogged prior XP without reconciliation.",
         "last_gain": {
-          "amount": 200,
-          "source": "Wild Shinx Lv.4, SR 1/4",
-          "resolution": "decisively defeated; fled while badly wounded",
-          "formula_2024": "200 × level × SR = 200 × 4 × 0.25 = 200"
+          "amount": 250,
+          "source": "Trainer battle vs Lio's Rookidee Lv.5, SR 1/4",
+          "resolution": "Rookidee fainted and was immediately recalled",
+          "formula_2024": "200 × 5 × 0.25 = 250"
         }
       }
     }
@@ -367,259 +367,11 @@
       "first_met": "Via delle Ginestre, Day 1",
       "pokemon_known": [
         "Rookidee"
-      ]
+      ],
+      "relationship_note": "Lost a friendly 1v1 training battle to Luke on Via delle Ginestre."
     }
   ],
-  "active_combat": {
-    "type": "informal_trainer_battle",
-    "status": "active",
-    "official": false,
-    "stakes": {
-      "money": false,
-      "wager": false,
-      "training_only": true
-    },
-    "format": "1v1 singles",
-    "round": 4,
-    "player_trainer": "Luke",
-    "player_pokemon": "luke-growlithe-hisui-001",
-    "opponent_trainer": {
-      "id": "rookie-lio-ginestre-d1-001",
-      "name": "Lio",
-      "trainer_level": 1,
-      "role": "rookie_challenger",
-      "persistent": true,
-      "motivation": "gain real battle experience before returning to Valedarsena",
-      "current_pokemon": "lio-rookidee-001"
-    },
-    "opponents": [
-      {
-        "id": "lio-rookidee-001",
-        "species": "Rookidee",
-        "level": 5,
-        "gender": "male",
-        "nature": "Jolly",
-        "hp": 7,
-        "max_hp": 26,
-        "ac": 12,
-        "ability": "Keen Eye",
-        "stats": {
-          "STR": 10,
-          "DEX": 15,
-          "CON": 11,
-          "INT": 5,
-          "WIS": 10,
-          "CHA": 10
-        },
-        "level4_progression": {
-          "DEX": 2,
-          "CON": 1
-        },
-        "hp_level_rolls": [
-          2,
-          4,
-          1,
-          3
-        ],
-        "moves": [
-          {
-            "name": "Peck",
-            "pp_max": 20,
-            "pp_current": 18
-          },
-          {
-            "name": "Leer",
-            "pp_max": 15,
-            "pp_current": 15
-          },
-          {
-            "name": "Power Trip",
-            "pp_max": 5,
-            "pp_current": 5
-          },
-          {
-            "name": "Hone Claws",
-            "pp_max": 10,
-            "pp_current": 9
-          }
-        ],
-        "status": "active",
-        "hidden_from_player": {
-          "exact_hp": true,
-          "exact_level": true,
-          "exact_stats": true,
-          "ability": true,
-          "nature": true
-        }
-      }
-    ],
-    "environment": {
-      "location": "Via delle Ginestre — roadside sparring clearing",
-      "terrain": "grass verge beside old bus stop and fencing",
-      "starting_distance_ft": 30,
-      "distance_ft": 5
-    },
-    "initiative": {
-      "Growlithe": {
-        "d20": 19,
-        "modifier": 1,
-        "total": 20
-      },
-      "Rookidee": {
-        "d20": 17,
-        "modifier": 2,
-        "total": 19
-      },
-      "order": [
-        "Growlithe",
-        "Rookidee"
-      ]
-    },
-    "history": [
-      {
-        "round": 0,
-        "event": "battle_start",
-        "summary": "Luke accepted Lio's one-on-one no-wager training battle."
-      },
-      {
-        "round": 1,
-        "actor": "Luke/Growlithe",
-        "move": "Leer",
-        "target": "Lio/Rookidee",
-        "move_dc": 11,
-        "target_save": {
-          "ability": "WIS",
-          "d20": 6,
-          "modifier": 0,
-          "total": 6
-        },
-        "result": "failed_save",
-        "effect": "+1 to attacks targeting Rookidee for 1 minute",
-        "pp_after": 12
-      },
-      {
-        "round": 1,
-        "actor": "Lio/Rookidee",
-        "move": "Hone Claws",
-        "result": "active",
-        "effect": "+1 to attack and damage rolls for 1 minute",
-        "pp_after": 9
-      },
-      {
-        "round": 2,
-        "actor": "Luke/Growlithe",
-        "move": "Ember",
-        "attack_roll": {
-          "d20": 7,
-          "base_modifier": 5,
-          "leer_bonus": 1,
-          "total": 13
-        },
-        "target": "Lio/Rookidee",
-        "result": "hit",
-        "damage": {
-          "dice": [
-            3
-          ],
-          "move": 2,
-          "stab": 3,
-          "total": 8,
-          "type": "Fire"
-        },
-        "burn_trigger": false,
-        "target_hp_after": 18,
-        "pp_after": 10
-      },
-      {
-        "round": 2,
-        "actor": "Lio/Rookidee",
-        "move": "Peck",
-        "attack_roll": {
-          "d20": 12,
-          "base_modifier": 5,
-          "hone_claws_bonus": 1,
-          "total": 18
-        },
-        "target": "Luke/Growlithe",
-        "result": "hit",
-        "damage": {
-          "dice": [
-            2
-          ],
-          "move": 2,
-          "stab": 3,
-          "hone_claws_bonus": 1,
-          "total_before_resistance": 8,
-          "type": "Flying",
-          "resistance_applied": "Rock resists Flying",
-          "total_after_resistance": 4
-        },
-        "target_hp_after": 28,
-        "pp_after": 19,
-        "positioning": "Rookidee ended in melee range of Growlithe"
-      },
-      {
-        "round": 3,
-        "actor": "Luke/Growlithe",
-        "move": "Bite",
-        "attack_roll": {
-          "d20": 16,
-          "base_modifier": 5,
-          "leer_bonus": 1,
-          "total": 22
-        },
-        "target": "Lio/Rookidee",
-        "result": "hit",
-        "damage": {
-          "dice": [
-            2,
-            6
-          ],
-          "move": 3,
-          "total": 11,
-          "type": "Dark"
-        },
-        "flinch_trigger": false,
-        "target_hp_after": 7,
-        "pp_after": 3
-      },
-      {
-        "round": 3,
-        "actor": "Lio/Rookidee",
-        "move": "Peck",
-        "attack_roll": {
-          "d20": 4,
-          "base_modifier": 5,
-          "hone_claws_bonus": 1,
-          "total": 10
-        },
-        "target": "Luke/Growlithe",
-        "result": "miss",
-        "pp_after": 18
-      }
-    ],
-    "effects": [
-      {
-        "id": "leer-on-rookidee",
-        "source": "luke-growlithe-hisui-001",
-        "target": "lio-rookidee-001",
-        "effect": "attacks_against_target_bonus",
-        "bonus": 1,
-        "duration_rounds": 10,
-        "remaining_rounds": 8
-      },
-      {
-        "id": "hone-claws-rookidee-1",
-        "source": "lio-rookidee-001",
-        "target": "lio-rookidee-001",
-        "effect": "attack_and_damage_bonus",
-        "bonus": 1,
-        "duration_rounds": 10,
-        "remaining_rounds": 8
-      }
-    ],
-    "turn": "Growlithe"
-  },
+  "active_combat": null,
   "gm_private_ref": "gm_private/SECRET_CANON_DO_NOT_OPEN.json",
   "character_bible_ref": "canon/ROSTER2060_CHARACTER_BIBLE.json",
   "runtime": {
@@ -792,8 +544,8 @@
     },
     "rule": "NPC intent is scripted; evolution itself must satisfy current Pokemon 5e requirements and campaign causality."
   },
-  "last_saved_at": "2026-10-04T13:07:40+02:00",
-  "save_note": "Trainer battle vs Lio active. Growlithe Bite hit Rookidee for 11 Dark damage; Rookidee now 7/26. Rookidee's Peck missed. Growlithe 28/35. Growlithe acts next.",
+  "last_saved_at": "2026-10-04T13:14:40+02:00",
+  "save_note": "Luke defeated rookie trainer Lio in a 1v1 training battle on Via delle Ginestre. Rookidee fainted and was immediately recalled. Growlithe 28/35 HP, Bite 2/15, XP 6450/12000.",
   "job_history": [
     {
       "id": "JOB-02",
@@ -807,5 +559,19 @@
   ],
   "world_state_ref": "saves/slot1/world-state.json",
   "world_map_ref": "campaign/world/REGION_MAP.json",
-  "current_location_id": "AST-GINESTRE"
+  "current_location_id": "AST-GINESTRE",
+  "battle_history": [
+    {
+      "id": "BATTLE-D1-LIO-001",
+      "day": 1,
+      "location": "Via delle Ginestre",
+      "opponent": "Lio",
+      "format": "1v1 informal training battle",
+      "result": "win",
+      "player_pokemon": "Hisuian Growlithe",
+      "opponent_pokemon": "Rookidee",
+      "growlithe_hp_after": 28,
+      "xp_awarded": 250
+    }
+  ]
 }
