@@ -90,13 +90,11 @@
             "habitat": "field",
             "method": "wild_observation",
             "allowedSpecies": [
-              "mareep",
               "wooloo",
               "shinx"
             ],
             "returnNodes": {
               "noEncounter": "m01-ecology-opportunities#gin_no_sighting",
-              "mareep": "m01-ecology-opportunities#gin_mareep",
               "wooloo": "m01-ecology-opportunities#gin_wooloo",
               "shinx": "m01-ecology-opportunities#gin_shinx"
             }
