@@ -160,7 +160,7 @@ test("voluntary switch uses the trainer action, never provokes, and preserves th
 
 test("fainted active Pokémon can be replaced immediately as a trainer reaction", async () => {
   const combat = new Pokemon5eCombatEngine({
-    dice: new SequenceDice([1, 20, 15, 6])
+    dice: new SequenceDice([1, 20, 15, 6, 6])
   });
   let battle = await combat.createBattle(handoff({
     opponent: { species: "Eevee", level: 5 },
