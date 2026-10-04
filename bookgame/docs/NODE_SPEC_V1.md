@@ -1,4 +1,4 @@
-# P5E LIBROGAME — NODE SPEC v1.3
+# P5E LIBROGAME — NODE SPEC v1.4
 
 Status: implementation contract for the offline bookgame compiler.
 Authority: subordinate to P5E_LIBROGAME_ENGINE_SOURCE_OF_TRUTH.md. If this document conflicts with the Source of Truth, the Source of Truth wins.
@@ -162,6 +162,54 @@ M01 canonical topology uses:
 
 Direct Valedarsena ↔ Fattoria transitions consume 140 minutes because the current canonical topology passes through Ginestre.
 
+## 3.3 Quest state — E3
+
+Quests are durable structured state under `state.quests`, keyed by stable quest ID. Do not mirror quest status in `world.flags`.
+
+Supported quest statuses:
+
+- `available`: authored offer exists but is not in the active journal
+- `active`
+- `completed`
+- `failed`
+- `expired`
+
+The Quest Journal exposes Active, Completed, Failed and Expired groups. `available` offers are world state, not accepted quests.
+
+Supported quest effects:
+
+    { "type": "quest_offer", "questId": "QUEST_ID", "title": "...", "objective": "..." }
+
+    { "type": "quest_start", "questId": "QUEST_ID", "title": "...", "objective": "..." }
+
+    { "type": "quest_complete", "questId": "QUEST_ID", "resolution": "player_completed" }
+
+    { "type": "quest_fail", "questId": "QUEST_ID", "resolution": "abandoned" }
+
+`quest_offer` may use `expiresInMinutes`. `quest_start` may use `deadlineMinutes`.
+
+Both may define a data-only deadline outcome:
+
+    {
+      "status": "completed",
+      "resolution": "completed_by_npc",
+      "resolvedBy": "world"
+    }
+
+Allowed deadline statuses are `completed`, `failed`, and `expired`.
+
+When E2 advances time, active/available quest deadlines are processed before the next scene is entered. This means travel cannot bypass quest consequences.
+
+E1 conditions may safely read:
+
+- `quests.<questId>.status`
+- `quests.<questId>.resolution`
+- `quests.<questId>.startedAtMinutes`
+- `quests.<questId>.deadlineAtMinutes`
+- `quests.<questId>.resolvedAtMinutes`
+
+Terminal quests cannot be restarted until a future repeatable-quest system explicitly supports that behavior.
+
 ## 4. Choice
 
 Every choice requires:
@@ -243,6 +291,10 @@ Current runtime effect types:
 
 - set_flag
 - set_location
+- quest_offer
+- quest_start
+- quest_complete
+- quest_fail
 
 Examples:
 
@@ -268,6 +320,7 @@ Compilation fails for at least:
 - malformed effects;
 - malformed/unsafe conditions or condition paths;
 - invalid time costs;
+- malformed quest transitions, IDs, deadlines, or deadline outcomes;
 - goto/outcome/combat targets that do not exist;
 - invalid combat encounter/opponent/return-node data.
 
