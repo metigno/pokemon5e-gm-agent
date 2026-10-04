@@ -1,3 +1,5 @@
+> **Runtime authority notice:** this directory contains generated/supporting fauna references. If any value here conflicts with the current runtime ecology set, use `campaign/world/ecology/SPECIES_DISTRIBUTION.json`, `ZONE_POOLS.json`, `FAUNA_COVERAGE.json`, `RARITY_SYSTEM.md` and `SPECIAL_ENCOUNTERS.md` as authoritative.
+
 # ASTERIA FAUNA RULES
 
 ## Source of truth
