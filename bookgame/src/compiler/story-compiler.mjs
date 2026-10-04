@@ -1,5 +1,6 @@
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { validateCondition } from "../engine/conditions.mjs";
 
 const ID_RE = /^[A-Za-z0-9_-]+$/;
 const TARGET_RE = /^[A-Za-z0-9_-]+(?:#[A-Za-z0-9_-]+)?$/;
@@ -122,6 +123,7 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
   if (scene.moduleId !== undefined && (typeof scene.moduleId !== "string" || !ID_RE.test(scene.moduleId))) {
     errors.push(diag("INVALID_MODULE_ID", "moduleId must be a valid identifier", sourceFile));
   }
+  errors.push(...validateCondition(scene.conditions, sourceFile + ".conditions"));
   if (typeof scene.title !== "string" || scene.title.trim().length === 0) {
     errors.push(diag("INVALID_TITLE", "Scene title must be non-empty", sourceFile));
   }
@@ -191,6 +193,7 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
         errors.push(diag("INVALID_CHOICE_TEXT", "Choice text must be non-empty", choiceAt));
       }
 
+      errors.push(...validateCondition(choice.conditions, choiceAt + ".conditions"));
       validateEffects(choice.effects, choiceAt, errors);
 
       const hasCheck = isObject(choice.check);

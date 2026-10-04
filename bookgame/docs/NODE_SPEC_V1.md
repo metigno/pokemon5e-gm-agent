@@ -1,4 +1,4 @@
-# P5E LIBROGAME — NODE SPEC v1.1
+# P5E LIBROGAME — NODE SPEC v1.2
 
 Status: implementation contract for the offline bookgame compiler.
 Authority: subordinate to P5E_LIBROGAME_ENGINE_SOURCE_OF_TRUTH.md. If this document conflicts with the Source of Truth, the Source of Truth wins.
@@ -69,6 +69,57 @@ A node contains:
 - choices: array; may be empty for a terminal or subsystem-handoff node
 
 Node IDs must be stable. Never reuse an old ID for a different semantic event after content has shipped, because saves and history may reference it.
+
+## 3.1 Conditions — E1
+
+Scenes and choices may declare an optional `conditions` object. Conditions are evaluated locally against the durable game state. They control whether a scene is legal to present and whether a choice is visible/selectable.
+
+No JavaScript, expressions, function calls, or `eval` are allowed.
+
+Allowed state paths in v1.2:
+
+- `player.name`
+- `player.trainerLevel`
+- `player.roster.length`
+- `world.day`
+- `world.time`
+- `world.locationId`
+- `world.flags.<flag_id>`
+- `story.sceneId`
+- `story.nodeId`
+
+Allowed leaf comparators:
+
+- `eq`
+- `ne`
+- `gt`
+- `gte`
+- `lt`
+- `lte`
+- `in`
+- `exists`
+
+Allowed logical groups:
+
+- `all`
+- `any`
+- `not`
+
+Example:
+
+    {
+      "conditions": {
+        "all": [
+          { "path": "world.flags.current_rank", "eq": "F" },
+          { "path": "player.roster.length", "gte": 2 },
+          { "path": "world.flags.rank_trial_F_E_available", "eq": true }
+        ]
+      }
+    }
+
+A hidden choice cannot be executed by supplying its ID directly: `choose()` re-evaluates the same condition before mutating state.
+
+A scene-level failed condition is a runtime guard and presentation fails rather than silently exposing illegal content.
 
 ## 4. Choice
 
@@ -174,6 +225,7 @@ Compilation fails for at least:
 - invalid ability code;
 - missing check outcomes;
 - malformed effects;
+- malformed/unsafe conditions or condition paths;
 - goto/outcome/combat targets that do not exist;
 - invalid combat encounter/opponent/return-node data.
 

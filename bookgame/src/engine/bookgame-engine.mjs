@@ -1,5 +1,6 @@
 import { abilityModifier } from "../../../src/bridge/motor-to-poke5e.mjs";
 import { CryptoDice, rollD20 } from "./dice.mjs";
+import { evaluateCondition } from "./conditions.mjs";
 import { SceneRepository } from "./scene-repository.mjs";
 import { proficiencyBonus, touchState } from "./state.mjs";
 
@@ -79,6 +80,11 @@ export class BookgameEngine {
     const scene = await this.scenes.load(state.story.sceneId);
     const node = scene.nodes[state.story.nodeId];
     if (!node) throw new Error(`Unknown node ${state.story.nodeId} in scene ${scene.id}`);
+    if (!evaluateCondition(state, scene.conditions)) {
+      throw new Error(`Scene conditions are not satisfied: ${scene.id}`);
+    }
+
+    const visibleChoices = (node.choices ?? []).filter((choice) => evaluateCondition(state, choice.conditions));
 
     return {
       sceneId: scene.id,
@@ -87,7 +93,7 @@ export class BookgameEngine {
       nodeId: state.story.nodeId,
       text: nodeText(node),
       stitches: clone(node.stitches ?? null),
-      choices: clone(node.choices ?? []),
+      choices: clone(visibleChoices),
       pending: clone(state.pending),
       lastRoll: clone(state.lastRoll)
     };
@@ -101,8 +107,15 @@ export class BookgameEngine {
     const node = scene.nodes[next.story.nodeId];
     if (!node) throw new Error(`Unknown node: ${next.story.nodeId}`);
 
+    if (!evaluateCondition(next, scene.conditions)) {
+      throw new Error(`Scene conditions are not satisfied: ${scene.id}`);
+    }
+
     const choice = (node.choices ?? []).find((entry) => entry.id === choiceId);
     if (!choice) throw new Error(`Unknown choice ${choiceId} at node ${next.story.nodeId}`);
+    if (!evaluateCondition(next, choice.conditions)) {
+      throw new Error(`Choice is not currently available: ${choiceId}`);
+    }
 
     const historyEntry = {
       sceneId: scene.id,
