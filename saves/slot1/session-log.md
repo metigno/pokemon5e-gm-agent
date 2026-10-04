@@ -63,3 +63,7 @@ Checkpoint: CP-INTRO-COMPLETE
 - Two Rattata and one Raticate have been killed during the clearing job.
 - Growlithe is at 6/35 HP.
 - Immediate threat is cleared, but the warehouse job has not yet been formally completed/turned in.
+
+- Luke used 1 Potion on Hisuian Growlithe inside the warehouse and praised him: "bravo te la sei meritata".
+- Potion roll: 2d4+2 = 1+4+2 = 7 HP; Growlithe healed from 6/35 to 13/35 HP.
+- Potion inventory: 0 remaining. JOB-02 is still active and not yet turned in.
