@@ -1,4 +1,4 @@
-# P5E LIBROGAME — NODE SPEC v1.4
+# P5E LIBROGAME — NODE SPEC v1.5
 
 Status: implementation contract for the offline bookgame compiler.
 Authority: subordinate to P5E_LIBROGAME_ENGINE_SOURCE_OF_TRUTH.md. If this document conflicts with the Source of Truth, the Source of Truth wins.
@@ -210,6 +210,91 @@ E1 conditions may safely read:
 
 Terminal quests cannot be restarted until a future repeatable-quest system explicitly supports that behavior.
 
+## 3.4 Persistent NPCs, schedules and relationships — E4
+
+Named persistent NPCs live under `state.npcs`.
+
+M01 initializes the four non-player members of the Five plus Blue:
+
+- Mattew
+- Daniel
+- Edward
+- Fab
+- Blue
+
+Their late-career canon does not pre-populate future achievements or teams.
+
+Each persistent NPC contains:
+
+- hidden relationship score, clamped to -100..100;
+- player-facing qualitative relationship;
+- current authored schedule;
+- small typed persistent state map.
+
+Qualitative relationship bands are:
+
+- Hostile
+- Distrustful
+- Neutral
+- Friendly
+- Loyal
+
+The numeric score is internal. UI should normally expose only the qualitative state.
+
+Supported NPC effects:
+
+    {
+      "type": "npc_relationship_adjust",
+      "npcId": "Blue",
+      "delta": 10
+    }
+
+    {
+      "type": "npc_state_set",
+      "npcId": "Blue",
+      "key": "met",
+      "value": true
+    }
+
+    {
+      "type": "npc_schedule_set",
+      "npcId": "Blue",
+      "scheduleId": "blue_vale_arena_01",
+      "locationId": "valedarsena_arena",
+      "availability": "available",
+      "activity": "trial_information",
+      "startsAtMinutes": 540,
+      "endsAtMinutes": 720
+    }
+
+`npc_register` exists for authored persistent named NPCs introduced later. Do not register anonymous background roles that do not require continuity.
+
+Schedule availability values:
+
+- available
+- busy
+- away
+- traveling
+
+A schedule is considered present only while its time window is active and availability is `available`.
+
+E1 conditions may safely read:
+
+- `npcs.<npcId>.relationship.score`
+- `npcs.<npcId>.relationship.qualitative`
+- `npcs.<npcId>.schedule.id`
+- `npcs.<npcId>.schedule.locationId`
+- `npcs.<npcId>.schedule.availability`
+- `npcs.<npcId>.schedule.activity`
+- `npcs.<npcId>.schedule.startsAtMinutes`
+- `npcs.<npcId>.schedule.endsAtMinutes`
+- `npcs.<npcId>.schedule.present`
+- `npcs.<npcId>.state.<key>`
+
+The runtime also provides a deterministic FRIEND_BEAT candidate selector. It considers only authored candidates who are actually present at the requested location, then prefers the strongest current relationship; ties preserve canonical candidate order. Later E6/world-event logic may add more compatibility inputs without replacing the authored schedule requirement.
+
+E4 does **not** assign arbitrary schedules by itself. A named NPC appears only because authored content/world progression assigned a schedule.
+
 ## 4. Choice
 
 Every choice requires:
@@ -295,6 +380,10 @@ Current runtime effect types:
 - quest_start
 - quest_complete
 - quest_fail
+- npc_register
+- npc_relationship_adjust
+- npc_state_set
+- npc_schedule_set
 
 Examples:
 
@@ -321,6 +410,7 @@ Compilation fails for at least:
 - malformed/unsafe conditions or condition paths;
 - invalid time costs;
 - malformed quest transitions, IDs, deadlines, or deadline outcomes;
+- malformed NPC IDs, schedules, relationship changes, or NPC state values;
 - goto/outcome/combat targets that do not exist;
 - invalid combat encounter/opponent/return-node data.
 
