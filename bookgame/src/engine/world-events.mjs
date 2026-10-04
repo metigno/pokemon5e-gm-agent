@@ -20,6 +20,7 @@ export function processWorldEvents(state, events = [], applyEffects) {
   ensureWorldClock(state.world);
   const eventState = ensureEventTable(state);
   const fired = [];
+  const firedThisCall = new Set();
   let progress = true;
   let passes = 0;
 
@@ -31,7 +32,9 @@ export function processWorldEvents(state, events = [], applyEffects) {
     }
 
     for (const event of events) {
+      if (firedThisCall.has(event.id)) continue;
       if (event.once !== false && eventState[event.id]?.status === "resolved") continue;
+      if (event.once === false && eventState[event.id]?.firedAtMinutes === state.world.elapsedMinutes) continue;
       if (!evaluateCondition(state, event.trigger)) continue;
 
       const outcome = matchingOutcome(state, event);
@@ -43,6 +46,7 @@ export function processWorldEvents(state, events = [], applyEffects) {
         outcomeId: outcome.id,
         firedAtMinutes: state.world.elapsedMinutes
       };
+      firedThisCall.add(event.id);
       fired.push({
         eventId: event.id,
         outcomeId: outcome.id,
