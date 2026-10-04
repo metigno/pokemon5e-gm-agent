@@ -119,3 +119,22 @@ Use:
 Do not improvise a wild species outside this distribution unless a world event explicitly changes local ecology.
 
 Legendary, Mythical, Ultra Beast, Paradox and unique-event placements are GM-private and never random.
+
+## Behavioral encounter authority
+
+Species distribution answers **what can be here**. It does not by itself answer **what the creature is doing**.
+
+For every selected ordinary wild species, load `WILD_ENCOUNTER_BEHAVIOR.md` and resolve:
+- social structure;
+- current activity;
+- disposition toward humans;
+- protected interest/stakes;
+- escalation threshold;
+- whether the scene is innocuous, hazardous, actively hostile or credibly lethal.
+
+The encounter should normally begin as an observable wildlife scene rather than an automatic combat.
+
+Alpha/Beta status is a social/ecological role only unless a separate legal Pokémon 5e or explicit campaign mechanic applies.
+
+Wild Pokémon may cooperate with humans without capture, and important relationships or population consequences should persist in world state.
+
