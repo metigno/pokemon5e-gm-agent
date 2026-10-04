@@ -313,11 +313,11 @@
         "demeanor": "curious_and_receptive"
       },
       "last_command_response": "Obeyed a lethal Bite command against the second active warehouse Rattata; did not eat the body and returned to Luke.",
-      "last_interaction": "Luke praised Growlithe after the Shinx encounter and told him they need to finish their opponents to gain EXP. Growlithe received 200 XP because forcing the Shinx to flee counted as a decisive defeat; killing is not required.",
+      "last_interaction": "Luke stopped training after the battle with Lio and let Growlithe take a proper short rest under the old bus-stop shelter on Via delle Ginestre.",
       "resources": {
         "intimidate": {
           "uses_per_short_rest": 1,
-          "remaining": 0
+          "remaining": 1
         }
       },
       "damage_taken": 8,
@@ -544,8 +544,8 @@
     },
     "rule": "NPC intent is scripted; evolution itself must satisfy current Pokemon 5e requirements and campaign causality."
   },
-  "last_saved_at": "2026-10-04T13:14:40+02:00",
-  "save_note": "Luke defeated rookie trainer Lio in a 1v1 training battle on Via delle Ginestre. Rookidee fainted and was immediately recalled. Growlithe 28/35 HP, Bite 2/15, XP 6450/12000.",
+  "last_saved_at": "2026-10-04T13:18:30+02:00",
+  "save_note": "Day 1, Via delle Ginestre. Luke gave Growlithe a 30-minute short rest after defeating Lio. Growlithe remains 28/35 HP because no Hit Die was spent; PP unchanged. Intimidate refreshed to 1/1. XP 6450/12000.",
   "job_history": [
     {
       "id": "JOB-02",
