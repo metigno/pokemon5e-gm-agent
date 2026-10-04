@@ -680,7 +680,7 @@ export class Pokemon5eCombatEngine {
     return next;
   }
 
-  async useMove(battle, side, moveId, { useDefenderIntimidate = false } = {}) {
+  async useMove(battle, side, moveId, { useDefenderIntimidate = false, targetPoint = null } = {}) {
     if (battle.outcome) return clone(battle);
     if (battle.awaitingSwitch) throw new Error("A required switch must be resolved first");
     if (this.actor(battle) !== side) throw new Error(`It is not ${side}'s turn`);
@@ -699,8 +699,8 @@ export class Pokemon5eCombatEngine {
     const slot = moveSlot(move);
     if (!slot || !attacker.turn[slot]) throw new Error(`No ${move.time?.unit ?? "turn"} slot available for ${moveId}`);
 
-    const areaTarget = AREA_MOVES.has(move.id) && arguments[3]?.targetPoint
-      ? point(arguments[3].targetPoint.x, arguments[3].targetPoint.y)
+    const areaTarget = AREA_MOVES.has(move.id) && targetPoint
+      ? point(targetPoint.x, targetPoint.y)
       : null;
     const range = areaTarget
       ? {
