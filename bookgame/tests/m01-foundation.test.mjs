@@ -1165,7 +1165,7 @@ test("E7 M01 executable fauna can enter the real offline Pokémon 5e combat core
   assert.equal(shinx.speciesId, "shinx");
   assert.ok(shinx.moveIds.includes("tackle"));
 
-  const growlithe = await combat.createCombatant({ species: "Growlithe", form: "Hisui", level: 1, abilityId: "intimidate" });
+  const growlithe = await combat.createCombatant({ species: "Growlithe", form: "Hisuian", level: 1, abilityId: "intimidate" });
   assert.equal(growlithe.speciesId, "growlithe-hisui");
 });
 
