@@ -7,6 +7,7 @@ import { compileStory, validateScene } from "../src/compiler/story-compiler.mjs"
 import { SequenceDice } from "../src/engine/dice.mjs";
 import { createNewGameState } from "../src/engine/state.mjs";
 import { evaluateCondition, validateCondition } from "../src/engine/conditions.mjs";
+import { advanceWorldTime, daypartForMinute, getWorldTimeView } from "../src/engine/time.mjs";
 
 const scenesDir = fileURLToPath(new URL("../content/scenes/", import.meta.url));
 const modulesDir = fileURLToPath(new URL("../content/modules/", import.meta.url));
@@ -250,4 +251,117 @@ test("E1 compiler rejects unsafe paths and malformed logical groups", () => {
   });
   assert.equal(report.valid, false);
   assert.ok(report.errors.some((error) => error.code === "INVALID_CONDITION_GROUP"));
+});
+
+
+test("E2 new careers start on a deterministic local in-game clock", () => {
+  const state = createNewGameState({ protagonist: "Luke" });
+  assert.equal(state.world.day, 1);
+  assert.equal(state.world.elapsedMinutes, 480);
+  assert.equal(state.world.minuteOfDay, 480);
+  assert.equal(state.world.time, "morning");
+  assert.equal(getWorldTimeView(state.world).clock, "08:00");
+});
+
+test("E2 advancing time updates day, clock and time-of-day across midnight", () => {
+  const world = {
+    day: 1,
+    elapsedMinutes: 23 * 60 + 50,
+    minuteOfDay: 23 * 60 + 50,
+    time: "evening",
+    locationId: "test",
+    flags: {}
+  };
+
+  advanceWorldTime(world, 20);
+  assert.equal(world.day, 2);
+  assert.equal(world.minuteOfDay, 10);
+  assert.equal(world.time, "night");
+  assert.equal(getWorldTimeView(world).clock, "00:10");
+
+  assert.equal(daypartForMinute(5 * 60 + 59), "night");
+  assert.equal(daypartForMinute(6 * 60), "morning");
+  assert.equal(daypartForMinute(12 * 60), "afternoon");
+  assert.equal(daypartForMinute(18 * 60), "evening");
+});
+
+test("E2 choice timeCostMinutes is consumed exactly once and recorded in history", async () => {
+  const repository = {
+    async load() {
+      return {
+        id: "time-scene",
+        title: "Travel",
+        nodes: {
+          start: {
+            text: "Road.",
+            choices: [
+              { id: "travel", text: "Travel.", timeCostMinutes: 70, goto: "done" }
+            ]
+          },
+          done: { text: "Arrived.", choices: [] }
+        }
+      };
+    }
+  };
+
+  const engine = new BookgameEngine({ scenes: repository });
+  const state = createNewGameState({ protagonist: "Luke" });
+  state.story.sceneId = "time-scene";
+  state.story.nodeId = "start";
+
+  const next = await engine.choose(state, "travel");
+  assert.equal(next.world.elapsedMinutes, 550);
+  assert.equal(next.world.minuteOfDay, 550);
+  assert.equal(next.world.day, 1);
+  assert.equal(next.story.history.at(-1).time.minutes, 70);
+  assert.equal(next.story.history.at(-1).time.from.clock, "08:00");
+  assert.equal(next.story.history.at(-1).time.to.clock, "09:10");
+});
+
+test("E2 compiler rejects invalid time costs", () => {
+  const report = validateScene({
+    schemaVersion: 1,
+    id: "bad-time",
+    title: "Bad time",
+    locationId: "test",
+    nodes: {
+      start: {
+        text: "Test",
+        choices: [
+          { id: "bad", text: "Bad", timeCostMinutes: -1, goto: "end" }
+        ]
+      },
+      end: { text: "End", choices: [] }
+    }
+  });
+
+  assert.equal(report.valid, false);
+  assert.ok(report.errors.some((error) => error.code === "INVALID_TIME_COST"));
+});
+
+test("E2 conditions can use absolute and minute-of-day time safely", () => {
+  const state = createNewGameState({ protagonist: "Luke" });
+  state.world.elapsedMinutes = 14 * 60 + 30;
+  state.world.minuteOfDay = 14 * 60 + 30;
+  state.world.time = "afternoon";
+
+  assert.equal(evaluateCondition(state, {
+    all: [
+      { path: "world.minuteOfDay", gte: 14 * 60 },
+      { path: "world.minuteOfDay", lt: 15 * 60 },
+      { path: "world.elapsedMinutes", gte: 800 }
+    ]
+  }), true);
+});
+
+test("M01 canonical Ginestre travel choices carry real topology time", async () => {
+  const bundle = await compileStory({ scenesDir, modulesDir });
+  const crossroadsScene = bundle.scenes["m01-ginestre-crossroads"];
+  const fork = crossroadsScene.nodes.crossroads;
+
+  assert.equal(fork.choices.find((choice) => choice.id === "to_valedarsena").timeCostMinutes, 70);
+  assert.equal(fork.choices.find((choice) => choice.id === "to_farm").timeCostMinutes, 70);
+
+  const cityScene = bundle.scenes["m01-valedarsena-first-arrival"];
+  assert.equal(cityScene.nodes.city_hub.choices.find((choice) => choice.id === "farm").timeCostMinutes, 140);
 });
