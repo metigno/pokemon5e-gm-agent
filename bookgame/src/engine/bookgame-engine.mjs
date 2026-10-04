@@ -6,6 +6,7 @@ import { proficiencyBonus, touchState } from "./state.mjs";
 import { advanceWorldTime, getWorldTimeView } from "./time.mjs";
 import { applyQuestEffect, getQuestJournal, processQuestDeadlines } from "./quest-state.mjs";
 import { applyNpcEffect, refreshNpcSchedules } from "./npc-state.mjs";
+import { processWorldEvents } from "./world-events.mjs";
 
 function clone(value) {
   return structuredClone(value);
@@ -80,11 +81,21 @@ export class BookgameEngine {
   constructor({
     scenes = new SceneRepository(),
     dice = new CryptoDice(),
-    now = () => new Date().toISOString()
+    now = () => new Date().toISOString(),
+    worldEvents = null
   } = {}) {
     this.scenes = scenes;
     this.dice = dice;
     this.now = now;
+    this.worldEvents = worldEvents;
+  }
+
+  async loadWorldEvents() {
+    if (Array.isArray(this.worldEvents)) return this.worldEvents;
+    if (typeof this.scenes.loadWorldEvents === "function") {
+      return this.scenes.loadWorldEvents();
+    }
+    return [];
   }
 
   async present(state) {
@@ -208,6 +219,14 @@ export class BookgameEngine {
       const target = applyTarget(next, choice.goto, scene.id);
       historyEntry.toSceneId = target.sceneId;
       historyEntry.toNodeId = target.nodeId;
+    }
+
+    const worldEvents = await this.loadWorldEvents();
+    const firedWorldEvents = processWorldEvents(next, worldEvents, (eventState, effects) => {
+      applyEffects(eventState, effects);
+    });
+    if (firedWorldEvents.length > 0) {
+      historyEntry.worldEvents = clone(firedWorldEvents);
     }
 
     next.story.history.push(historyEntry);
