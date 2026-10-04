@@ -3,6 +3,7 @@ import { CryptoDice, rollD20 } from "./dice.mjs";
 import { evaluateCondition } from "./conditions.mjs";
 import { SceneRepository } from "./scene-repository.mjs";
 import { proficiencyBonus, touchState } from "./state.mjs";
+import { advanceWorldTime, getWorldTimeView } from "./time.mjs";
 
 function clone(value) {
   return structuredClone(value);
@@ -94,6 +95,7 @@ export class BookgameEngine {
       text: nodeText(node),
       stitches: clone(node.stitches ?? null),
       choices: clone(visibleChoices),
+      worldTime: getWorldTimeView(state.world),
       pending: clone(state.pending),
       lastRoll: clone(state.lastRoll)
     };
@@ -122,6 +124,17 @@ export class BookgameEngine {
       nodeId: next.story.nodeId,
       choiceId
     };
+
+    if (choice.timeCostMinutes !== undefined) {
+      const fromTime = getWorldTimeView(next.world);
+      advanceWorldTime(next.world, choice.timeCostMinutes);
+      const toTime = getWorldTimeView(next.world);
+      historyEntry.time = {
+        minutes: choice.timeCostMinutes,
+        from: fromTime,
+        to: toTime
+      };
+    }
 
     if (choice.check) {
       const modifier = getCheckModifier(next, choice.check);
