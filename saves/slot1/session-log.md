@@ -100,3 +100,9 @@ Checkpoint: CP-MANUAL-D1-LUNCH
 - Daniel is at the market with Luke and Gastly after checking Arena Civica activity.
 - Fab is at the market with Luke and Koffing.
 - Edward accepted JOB-03 and is already traveling toward Fattoria del Vento with Totodile; he did not return for lunch.
+
+Checkpoint: CP-TRAVEL-D1-GINESTRE
+
+- Luke left Valedarsena after lunch to train Hisuian Growlithe.
+- Arrived at Via delle Ginestre in the early afternoon after about 70 minutes of walking.
+- Growlithe remains at 35/35 HP.
