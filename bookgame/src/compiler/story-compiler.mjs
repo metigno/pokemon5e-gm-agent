@@ -194,6 +194,14 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
       }
 
       errors.push(...validateCondition(choice.conditions, choiceAt + ".conditions"));
+      if (choice.timeCostMinutes !== undefined &&
+          (!Number.isInteger(choice.timeCostMinutes) || choice.timeCostMinutes < 0)) {
+        errors.push(diag(
+          "INVALID_TIME_COST",
+          "timeCostMinutes must be a non-negative integer",
+          choiceAt + ".timeCostMinutes"
+        ));
+      }
       validateEffects(choice.effects, choiceAt, errors);
 
       const hasCheck = isObject(choice.check);
