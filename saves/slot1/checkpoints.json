@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "save_slot": 1,
-  "next_checkpoint_number": 9,
+  "next_checkpoint_number": 10,
   "checkpoints": [
     {
       "id": "CP-PRE-INTRO",
@@ -82,6 +82,16 @@
       "type": "CP-CHAIN",
       "result": "arrived_for_training",
       "summary": "Luke left Valedarsena after lunch and traveled to Via delle Ginestre to train Hisuian Growlithe."
+    },
+    {
+      "id": "CP-SHORTREST-D1-GINESTRE",
+      "event_id": "FREE_ROAM",
+      "world_day": 1,
+      "trainer_level": 1,
+      "location": "Via delle Ginestre",
+      "type": "CP-REST",
+      "result": "short_rest_completed",
+      "summary": "Luke and Hisuian Growlithe completed a 30-minute short rest after the battle with Lio. Growlithe 28/35 HP; PP unchanged; Intimidate refreshed."
     }
   ]
 }
