@@ -34,10 +34,25 @@ export function isAllowedConditionPath(path) {
       segments[0] === "world" &&
       segments[1] === "flags" &&
       ID_RE.test(segments[2])) return true;
-  return segments.length === 3 &&
-    segments[0] === "quests" &&
+  if (segments.length === 3 &&
+      segments[0] === "quests" &&
+      ID_RE.test(segments[1]) &&
+      ["status", "resolution", "startedAtMinutes", "deadlineAtMinutes", "resolvedAtMinutes"].includes(segments[2])) return true;
+  if (segments.length === 4 &&
+      segments[0] === "npcs" &&
+      ID_RE.test(segments[1]) &&
+      segments[2] === "relationship" &&
+      ["score", "qualitative"].includes(segments[3])) return true;
+  if (segments.length === 4 &&
+      segments[0] === "npcs" &&
+      ID_RE.test(segments[1]) &&
+      segments[2] === "schedule" &&
+      ["id", "locationId", "availability", "activity", "startsAtMinutes", "endsAtMinutes", "present"].includes(segments[3])) return true;
+  return segments.length === 4 &&
+    segments[0] === "npcs" &&
     ID_RE.test(segments[1]) &&
-    ["status", "resolution", "startedAtMinutes", "deadlineAtMinutes", "resolvedAtMinutes"].includes(segments[2]);
+    segments[2] === "state" &&
+    ID_RE.test(segments[3]);
 }
 
 export function readConditionPath(state, path) {
