@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "ruleset": "2024",
   "source": {
     "repository": "Auroratide/poke5e",
@@ -7,7 +7,8 @@
     "version": "v1.12.15",
     "speciesPath": "static/data/pokemon.json",
     "movesPath": "src/lib/srd/data/2024/moves/en.json",
-    "policy": "minimal_vertical_slice_mechanics_only"
+    "abilitiesPath": "src/lib/srd/data/2024/abilities/en.json",
+    "policy": "minimal_offline_bookgame_mechanics_pack"
   },
   "species": {
     "growlithe-hisui": {
@@ -815,6 +816,12 @@
         "unit": "action"
       },
       "pp": 20,
+      "duration": {
+        "unit": "instantaneous"
+      },
+      "range": {
+        "type": "melee"
+      },
       "dice": {
         "class": "40",
         "modifier": "MOVE",
@@ -822,6 +829,12 @@
       },
       "attack": {
         "scope": "melee"
+      },
+      "description": "You rush forward and slam into a creature. Make a melee attack roll against a target, doing {dice} {type} damage on a hit.",
+      "categories": [],
+      "updated": {
+        "tag": "Updated",
+        "details": "Damage is updated."
       }
     },
     "bite": {
@@ -836,6 +849,12 @@
         "unit": "action"
       },
       "pp": 15,
+      "duration": {
+        "unit": "instantaneous"
+      },
+      "range": {
+        "type": "melee"
+      },
       "dice": {
         "class": "60",
         "modifier": "MOVE",
@@ -843,7 +862,12 @@
       },
       "attack": {
         "scope": "melee"
-      }
+      },
+      "description": "You sink your teeth into a target creature. Make a melee attack roll, doing {dice} {type} damage on a successful hit. On natural attack rolls of 19 or 20, the target flinches",
+      "categories": [
+        "biting"
+      ],
+      "optional": "Instead of a natural roll of 19 or higher, the target must make a CON save against your MOVE DC. On failure, the target flinches."
     },
     "ember": {
       "id": "ember",
@@ -857,6 +881,14 @@
         "unit": "action"
       },
       "pp": 15,
+      "duration": {
+        "unit": "instantaneous"
+      },
+      "range": {
+        "type": "distance",
+        "value": 60,
+        "unit": "feet"
+      },
       "dice": {
         "class": "40",
         "modifier": "MOVE",
@@ -864,7 +896,10 @@
       },
       "attack": {
         "scope": "ranged"
-      }
+      },
+      "description": "You hurl a ball of flame at a target within range. Make a ranged attack, doing {dice} {type} damage on a successful hit. If the natural attack roll is 19 or 20, the target is burnt.",
+      "categories": [],
+      "optional": "Instead of a roll of 19 or higher, target makes a DEX save against your MOVE DC. On failure, the target is burnt."
     },
     "covet": {
       "id": "covet",
@@ -877,6 +912,12 @@
         "unit": "action"
       },
       "pp": 15,
+      "duration": {
+        "unit": "instantaneous"
+      },
+      "range": {
+        "type": "melee"
+      },
       "dice": {
         "class": "60",
         "modifier": "MOVE",
@@ -884,7 +925,9 @@
       },
       "attack": {
         "scope": "melee"
-      }
+      },
+      "description": "You strike out with quick and sticky hands. Make a melee attack roll against a creature, doing {dice} {type} damage on a hit. On a successful attack, you steal the creatures held item if you are not currently holding one.",
+      "categories": []
     },
     "lick": {
       "id": "lick",
@@ -898,6 +941,12 @@
         "unit": "action"
       },
       "pp": 15,
+      "duration": {
+        "unit": "instantaneous"
+      },
+      "range": {
+        "type": "melee"
+      },
       "dice": {
         "class": "30",
         "modifier": "MOVE",
@@ -905,7 +954,9 @@
       },
       "attack": {
         "scope": "melee"
-      }
+      },
+      "description": "You reach out and lick a target. Make a melee attack roll. On a hit, do {dice} {type} damage. On a natural attack roll of 18 or higher, the target becomes paralyzed.",
+      "categories": []
     },
     "scratch": {
       "id": "scratch",
@@ -919,6 +970,12 @@
         "unit": "action"
       },
       "pp": 20,
+      "duration": {
+        "unit": "instantaneous"
+      },
+      "range": {
+        "type": "melee"
+      },
       "dice": {
         "class": "40",
         "modifier": "MOVE",
@@ -926,7 +983,9 @@
       },
       "attack": {
         "scope": "melee"
-      }
+      },
+      "description": "You slash out at a creature in range. Make a melee attack, doing {dice} {type} damage on a hit.",
+      "categories": []
     },
     "water-gun": {
       "id": "water-gun",
@@ -939,6 +998,14 @@
         "unit": "action"
       },
       "pp": 15,
+      "duration": {
+        "unit": "instantaneous"
+      },
+      "range": {
+        "type": "distance",
+        "value": 40,
+        "unit": "feet"
+      },
       "dice": {
         "class": "40",
         "modifier": "MOVE",
@@ -946,7 +1013,240 @@
       },
       "attack": {
         "scope": "ranged"
-      }
+      },
+      "description": "You fire a quick spurt of water at a creature in range. Make a ranged attack roll, doing {dice} {type} damage on a hit.",
+      "categories": []
+    },
+    "quick-attack": {
+      "id": "quick-attack",
+      "name": "Quick Attack",
+      "type": "normal",
+      "power": [
+        "dex"
+      ],
+      "time": {
+        "unit": "bonus action"
+      },
+      "pp": 15,
+      "duration": {
+        "unit": "instantaneous"
+      },
+      "range": {
+        "type": "melee"
+      },
+      "dice": {
+        "class": "0",
+        "modifier": "0",
+        "type": "damage"
+      },
+      "attack": {
+        "scope": "melee"
+      },
+      "description": "You lash out with a quick unarmed strike at a creature in range. As a bonus action, you can immediately move up to 10ft and make a melee attack against a creature in range without taking an attack of opportunity, doing {dice} {type} damage on a hit.",
+      "categories": []
+    },
+    "growl": {
+      "id": "growl",
+      "name": "Growl",
+      "type": "normal",
+      "power": [
+        "str",
+        "cha"
+      ],
+      "time": {
+        "unit": "action"
+      },
+      "pp": 20,
+      "duration": {
+        "unit": "minute",
+        "value": 1
+      },
+      "range": {
+        "type": "distance",
+        "value": 100,
+        "unit": "feet"
+      },
+      "save": {
+        "attribute": "wis"
+      },
+      "description": "You target a creature with an intimidating growl. The creature must make a {save}. On a fail, it adds -1 to any attack it makes for the duration. This modifier can be stacked if it fails multiple growl saves, up to a maximum of -5.",
+      "categories": [
+        "sound"
+      ]
+    },
+    "leer": {
+      "id": "leer",
+      "name": "Leer",
+      "type": "normal",
+      "power": [
+        "wis",
+        "cha"
+      ],
+      "time": {
+        "unit": "action"
+      },
+      "pp": 15,
+      "duration": {
+        "unit": "minute",
+        "value": 1
+      },
+      "range": {
+        "type": "distance",
+        "value": 60,
+        "unit": "feet"
+      },
+      "save": {
+        "attribute": "wis"
+      },
+      "description": "You stare down a target, reducing its will. The creature must make a {save}. On a fail, allies may add +1 to any attack they target it with for the duration. This modifier can be stacked if it fails multiple leer saves, up to a maximum of +5.",
+      "categories": []
+    },
+    "tail-whip": {
+      "id": "tail-whip",
+      "name": "Tail Whip",
+      "type": "normal",
+      "power": [
+        "dex",
+        "cha"
+      ],
+      "time": {
+        "unit": "action"
+      },
+      "pp": 15,
+      "duration": {
+        "unit": "minute",
+        "value": 1
+      },
+      "range": {
+        "type": "distance",
+        "value": 100,
+        "unit": "feet"
+      },
+      "save": {
+        "attribute": "wis"
+      },
+      "description": "You shake your tail at a target, distracting it and opening up its defenses. The creature must make a {save}. On a fail, allies add +1 to any attack they target it with for the duration. This modifier can be stacked if it fails multiple tail whip saves, up to a maximum of +5.",
+      "categories": []
+    },
+    "sand-attack": {
+      "id": "sand-attack",
+      "name": "Sand Attack",
+      "type": "ground",
+      "power": [
+        "dex",
+        "con"
+      ],
+      "time": {
+        "unit": "action"
+      },
+      "pp": 10,
+      "duration": {
+        "unit": "instantaneous"
+      },
+      "range": {
+        "type": "distance",
+        "value": 30,
+        "unit": "feet"
+      },
+      "save": {
+        "attribute": "con"
+      },
+      "description": "You kick up a cloud of sand in an attempt to blind a target in range. The target must make a {save}. On a fail, for the remainder of the encounter, they add -1 to all of their attack rolls. This move can be stacked for a maximum of -5 to attack rolls.",
+      "categories": [],
+      "optional": "Instead of range 30ft, range is 5ft radius circle centered up to 30ft away."
+    },
+    "hypnosis": {
+      "id": "hypnosis",
+      "name": "Hypnosis",
+      "type": "psychic",
+      "power": [
+        "int",
+        "wis"
+      ],
+      "time": {
+        "unit": "action"
+      },
+      "pp": 10,
+      "duration": {
+        "unit": "instantaneous"
+      },
+      "range": {
+        "type": "distance",
+        "value": 30,
+        "unit": "feet"
+      },
+      "save": {
+        "attribute": "wis"
+      },
+      "description": "You attempt to put the target to sleep. The target must make a {save}, falling asleep on a failure.",
+      "categories": []
+    }
+  },
+  "abilities": {
+    "intimidate": {
+      "id": "intimidate",
+      "name": "Intimidate",
+      "description": "Once per short rest, you can impose disadvantage on an enemy attack roll of your choice."
+    },
+    "flash-fire": {
+      "id": "flash-fire",
+      "name": "Flash Fire",
+      "description": "This Pokémon takes no damage from fire or fire-type attacks. Instead, immediately after taking a hit from a fire-type move, or in open flames, double the STAB bonus on the next fire-type move."
+    },
+    "rock-head": {
+      "id": "rock-head",
+      "name": "Rock Head",
+      "description": "This Pokémon takes no recoil damage."
+    },
+    "run-away": {
+      "id": "run-away",
+      "name": "Run Away",
+      "description": "This Pokémon cannot be the target of an attack of opportunity."
+    },
+    "adaptability": {
+      "id": "adaptability",
+      "name": "Adaptability",
+      "description": "When this Pokémon uses a move of its own type, it may roll the damage twice and choose either total."
+    },
+    "anticipation": {
+      "id": "anticipation",
+      "name": "Anticipation",
+      "description": "When this Pokémon enters the battle, an opponent must reveal if it has a move that the Pokémon is vulnerable to. The move itself does not have to be revealed, only that there is such a move."
+    },
+    "levitate": {
+      "id": "levitate",
+      "name": "Levitate",
+      "description": "This Pokémon is immune to ground moves."
+    },
+    "torrent": {
+      "id": "torrent",
+      "name": "Torrent",
+      "description": "This Pokémon doubles its STAB bonus when it has 25% or less of its maximum health."
+    },
+    "sheer-force": {
+      "id": "sheer-force",
+      "name": "Sheer Force",
+      "description": "When activating a move that has a chance to impose a stat change or inflict a status, this creature instead doubles its MOVE modifier (not STAB) for the damage with no chance of the additional effect."
+    },
+    "neutralizing-gas": {
+      "id": "neutralizing-gas",
+      "name": "Neutralizing Gas",
+      "description": "The abilities of Pokémon within 30ft of this Pokémon are nullified and cannot trigger. This nullification does not apply to the Neutralizing Gas ability or any form changes."
+    },
+    "stench": {
+      "id": "stench",
+      "name": "Stench",
+      "description": "When this Pokémon is hit by a melee attack, roll a d10. On a 10, the attacker flinches."
+    },
+    "early-bird": {
+      "id": "early-bird",
+      "name": "Early Bird",
+      "description": "This Pokémon has advantage on the D20 roll to wake from the asleep condition."
+    },
+    "unnerve": {
+      "id": "unnerve",
+      "name": "Unnerve",
+      "description": "Opponents in combat with this Pokémon cannot eat held berries."
     }
   }
 }
