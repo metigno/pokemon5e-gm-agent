@@ -7,7 +7,7 @@
   "clock": {
     "day": 1,
     "phase": "afternoon",
-    "minutes_from_midnight": 820
+    "minutes_from_midnight": 850
   },
   "weather": {
     "status": "unresolved_until_relevant"
