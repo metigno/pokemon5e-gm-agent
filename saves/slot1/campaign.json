@@ -294,7 +294,7 @@
         {
           "name": "Ember",
           "pp_max": 15,
-          "pp_current": 13
+          "pp_current": 12
         },
         {
           "name": "Leer",
@@ -351,7 +351,7 @@
   "active_combat": {
     "type": "wild_training_encounter",
     "status": "active",
-    "round": 1,
+    "round": 2,
     "player_trainer": "Luke",
     "player_pokemon": "luke-growlithe-hisui-001",
     "opponents": [
@@ -360,7 +360,7 @@
         "species": "Shinx",
         "level": 4,
         "gender": "female",
-        "hp": 26,
+        "hp": 12,
         "max_hp": 26,
         "ac": 11,
         "ability": "Intimidate",
@@ -379,7 +379,7 @@
           {
             "name": "Tackle",
             "pp_max": 20,
-            "pp_current": 19
+            "pp_current": 18
           },
           {
             "name": "Leer",
@@ -449,6 +449,42 @@
           "total_after_resistance": 3
         },
         "target_hp_after": 32
+      },
+      {
+        "round": 1,
+        "actor": "Luke/Growlithe",
+        "move": "Ember",
+        "attack_roll": {
+          "d20": 9,
+          "base_modifier": 5,
+          "leer_bonus": 1,
+          "total": 15
+        },
+        "target": "Wild Shinx",
+        "result": "hit",
+        "damage": {
+          "dice": [
+            12
+          ],
+          "move": 2,
+          "total": 14,
+          "type": "Fire"
+        },
+        "burn_trigger": false,
+        "target_hp_after": 12,
+        "pp_after": 12
+      },
+      {
+        "round": 2,
+        "actor": "Wild Shinx",
+        "move": "Tackle",
+        "attack_roll": {
+          "d20": 7,
+          "modifier": 3,
+          "total": 10
+        },
+        "target": "Luke/Growlithe",
+        "result": "miss"
       }
     ],
     "effects": [
@@ -459,7 +495,7 @@
         "effect": "attacks_against_target_bonus",
         "bonus": 1,
         "duration_rounds": 10,
-        "remaining_rounds": 9
+        "remaining_rounds": 8
       }
     ],
     "turn": "Growlithe"
@@ -636,8 +672,8 @@
     },
     "rule": "NPC intent is scripted; evolution itself must satisfy current Pokemon 5e requirements and campaign causality."
   },
-  "last_saved_at": "2026-10-04T12:37:30+02:00",
-  "save_note": "Wild Shinx training encounter active. Leer is affecting Shinx (+1 attacks against it, 9 rounds remaining). Shinx hit Growlithe with Tackle for 3 damage after Normal resistance. Growlithe 32/35 HP; Growlithe's turn.",
+  "last_saved_at": "2026-10-04T12:40:32+02:00",
+  "save_note": "Training encounter active on Via delle Ginestre. Growlithe hit wild Shinx with Ember for 14 damage; Shinx now 12/26 HP. Shinx answered with Tackle and missed. Growlithe 32/35 HP. Leer remains active.",
   "job_history": [
     {
       "id": "JOB-02",
