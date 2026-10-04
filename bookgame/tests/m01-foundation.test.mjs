@@ -1182,3 +1182,60 @@ test("E7 M01 ecology choices map only species valid in the compiled canonical zo
   assert.ok(gin.ecology.allowedSpecies.every((id) => ginValid.has(id)));
   assert.ok(farm.ecology.allowedSpecies.every((id) => farmValid.has(id)));
 });
+
+
+test("M1_10 First Official is a real sanctioned match and a loss does not block Rank F", async () => {
+  const bundle = await compileStory({ scenesDir, modulesDir, ecologyOptions });
+  const scene = bundle.scenes["m01-valedarsena-first-arrival"];
+  const arenaChoice = scene.nodes.arena_front.choices.find((choice) => choice.id === "first_official");
+
+  assert.ok(arenaChoice);
+  assert.equal(arenaChoice.conditions.all.some((condition) => condition.path === "player.trainerLevel" && condition.gte === 2), true);
+
+  const offer = scene.nodes.first_official_offer;
+  const fight = offer.choices.find((choice) => choice.id === "accept_first_official");
+  assert.equal(fight.combat.opponentRegistered, true);
+  assert.deepEqual(fight.combat.returnNodes, {
+    win: "first_official_win",
+    lose: "first_official_loss"
+  });
+  assert.deepEqual(fight.combat.competition, {
+    type: "official_match",
+    matchId: "A1_FIRST_OFFICIAL",
+    format: "Singles",
+    officialRosterSize: 1,
+    difficulty: "STANDARD",
+    firstOfficial: true
+  });
+
+  const repository = {
+    async load(sceneId) {
+      return structuredClone(bundle.scenes[sceneId]);
+    },
+    async loadWorldEvents() {
+      return structuredClone(bundle.worldEvents);
+    },
+    async loadEcology() {
+      return structuredClone(bundle.ecology);
+    }
+  };
+
+  const engine = new BookgameEngine({ scenes: repository });
+  let state = createNewGameState({ protagonist: "Luke" });
+  state.player.trainerLevel = 2;
+  state.story.sceneId = "m01-valedarsena-first-arrival";
+  state.story.nodeId = "arena_front";
+
+  state = await engine.choose(state, "first_official");
+  assert.equal(state.story.nodeId, "first_official_offer");
+
+  state = await engine.choose(state, "accept_first_official");
+  assert.equal(state.competition.activeMatch.matchId, "A1_FIRST_OFFICIAL");
+  assert.equal(state.pending.opponentRegistered, true);
+
+  state = engine.resolveCombatHandoff(state, "lose");
+  assert.equal(state.competition.firstOfficialResolved, true);
+  assert.equal(state.competition.rank, "F");
+  assert.equal(state.competition.history.at(-1).outcome, "lose");
+  assert.equal(state.story.nodeId, "first_official_loss");
+});
