@@ -12,9 +12,18 @@ import { getQuestJournal, processQuestDeadlines, startQuest } from "../src/engin
 import { adjustNpcRelationship, selectFriendBeatCandidate, setNpcSchedule } from "../src/engine/npc-state.mjs";
 import { processWorldEvents } from "../src/engine/world-events.mjs";
 import { registerTrial, setTrialAvailable } from "../src/engine/competition-state.mjs";
+import { compileEcologyCatalog } from "../src/compiler/ecology-compiler.mjs";
+import { ordinaryEncounterCandidates, selectOrdinaryEncounter } from "../src/engine/ecology.mjs";
+import { Pokemon5eCombatEngine } from "../src/combat/combat-engine.mjs";
 
 const scenesDir = fileURLToPath(new URL("../content/scenes/", import.meta.url));
 const modulesDir = fileURLToPath(new URL("../content/modules/", import.meta.url));
+const ecologyProfilesDir = fileURLToPath(new URL("../content/ecology/", import.meta.url));
+const zonePoolsFile = fileURLToPath(new URL("../../campaign/world/ecology/ZONE_POOLS.json", import.meta.url));
+const distributionFile = fileURLToPath(new URL("../../campaign/world/ecology/SPECIES_DISTRIBUTION.json", import.meta.url));
+const faunaIndexFile = fileURLToPath(new URL("../../campaign/world/fauna/ASTERIA_FAUNA_INDEX.json", import.meta.url));
+
+const ecologyOptions = { profilesDir: ecologyProfilesDir, zonePoolsFile, distributionFile, faunaIndexFile };
 
 test("M01 manifest locks the 5047 stitch / 3116 choice production budget", async () => {
   const bundle = await compileStory({ scenesDir, modulesDir });
@@ -1026,4 +1035,150 @@ test("M01 Arena uses structured E5 Trial state instead of rank flags", async () 
   assert.ok(register.effects.some((effect) => effect.type === "competition_trial_register"));
   assert.equal(JSON.stringify(arena).includes("rank_trial_F_E_available"), false);
   assert.equal(JSON.stringify(arena).includes('"current_rank"'), false);
+});
+
+
+test("E7 compiles M01 ecology from authoritative Agent runtime data", async () => {
+  const report = await compileEcologyCatalog(ecologyOptions);
+  assert.equal(report.valid, true);
+  assert.deepEqual(report.errors, []);
+
+  const ecology = report.catalog;
+  assert.equal(ecology.weights.common, 100);
+  assert.equal(ecology.weights.uncommon, 45);
+  assert.equal(ecology.weights.rare, 15);
+  assert.equal(ecology.weights.very_rare, 5);
+  assert.equal(ecology.weights.exceptional, 1);
+  assert.equal(ecology.weights.protected_rare, 2);
+  assert.equal(ecology.weights.protected_very_rare, 1);
+
+  assert.deepEqual(Object.keys(ecology.zones).sort(), [
+    "AST-FARM",
+    "AST-GINESTRE",
+    "VAL-CITY",
+    "VAL-WAREHOUSES"
+  ]);
+});
+
+test("E7 ordinary selector filters by canonical zone, habitat and in-game activity", async () => {
+  const { catalog } = await compileEcologyCatalog(ecologyOptions);
+  const state = createNewGameState({ protagonist: "Luke" });
+
+  const candidates = ordinaryEncounterCandidates(state, catalog, {
+    zoneId: "AST-GINESTRE",
+    habitat: "field",
+    method: "wild_observation",
+    allowedSpecies: ["wooloo", "shinx"]
+  });
+
+  assert.deepEqual(candidates.map((entry) => entry.id).sort(), ["shinx", "wooloo"]);
+  assert.ok(candidates.every((entry) => entry.weight === 100));
+});
+
+test("E7 preserves relative rarity after authored habitat filtering", async () => {
+  const { catalog } = await compileEcologyCatalog(ecologyOptions);
+  const state = createNewGameState({ protagonist: "Luke" });
+
+  const candidates = ordinaryEncounterCandidates(state, catalog, {
+    zoneId: "AST-FARM",
+    habitat: "grassland",
+    method: "wild_observation",
+    allowedSpecies: ["wooloo", "shinx", "growlithe-hisui"]
+  });
+  const weights = Object.fromEntries(candidates.map((entry) => [entry.id, entry.weight]));
+
+  assert.equal(weights.wooloo, 100);
+  assert.equal(weights.shinx, 100);
+  assert.equal(weights["growlithe-hisui"], 15);
+
+  const rareFirst = selectOrdinaryEncounter(state, catalog, {
+    requestId: "TEST_FARM",
+    zoneId: "AST-FARM",
+    habitat: "grassland",
+    method: "wild_observation",
+    allowedSpecies: ["wooloo", "shinx", "growlithe-hisui"]
+  }, new SequenceDice([1]));
+
+  assert.equal(rareFirst.speciesId, "growlithe-hisui");
+  assert.equal(rareFirst.capturable, true);
+  assert.equal(rareFirst.alphaBetaRole, null);
+});
+
+test("E7 compiled ordinary zones never contain special encounter classes", async () => {
+  const { catalog } = await compileEcologyCatalog(ecologyOptions);
+  const forbidden = new Set([
+    "legendary",
+    "legendary_paradox_future",
+    "legendary_paradox_past",
+    "mythical",
+    "paleo_restricted",
+    "paradox_future",
+    "paradox_past",
+    "ultra_beast",
+    "unique_special"
+  ]);
+
+  for (const zone of Object.values(catalog.zones)) {
+    assert.equal(zone.species.some((entry) => forbidden.has(entry.distributionClass)), false);
+  }
+});
+
+test("E7 story bundle embeds ecology and routes a wildlife choice offline", async () => {
+  const bundle = await compileStory({ scenesDir, modulesDir, ecologyOptions });
+  assert.equal(bundle.index.ecologyZoneCount, 4);
+  assert.ok(bundle.index.ecologySpeciesCount > 0);
+
+  const repository = {
+    async load(sceneId) {
+      return structuredClone(bundle.scenes[sceneId]);
+    },
+    async loadWorldEvents() {
+      return structuredClone(bundle.worldEvents);
+    },
+    async loadEcology() {
+      return structuredClone(bundle.ecology);
+    }
+  };
+
+  const engine = new BookgameEngine({ scenes: repository, dice: new SequenceDice([1]) });
+  let state = createNewGameState({ protagonist: "Luke" });
+  state.story.sceneId = "m01-ginestre-crossroads";
+  state.story.nodeId = "crossroads";
+
+  state = await engine.choose(state, "observe_wildlife");
+  assert.equal(state.ecology.history.length, 1);
+  assert.equal(state.ecology.lastEncounter.zoneId, "AST-GINESTRE");
+  assert.equal(["wooloo", "shinx"].includes(state.ecology.lastEncounter.speciesId), true);
+  assert.equal(state.ecology.lastEncounter.capturable, true);
+  assert.equal(state.ecology.lastEncounter.alphaBetaRole, null);
+  assert.equal(state.story.sceneId, "m01-ecology-opportunities");
+});
+
+test("E7 M01 executable fauna can enter the real offline Pokémon 5e combat core", async () => {
+  const combat = new Pokemon5eCombatEngine({ dice: new SequenceDice([10, 10, 10, 10, 10, 10]) });
+
+  const wooloo = await combat.createCombatant({ species: "Wooloo", level: 1, abilityId: "run-away" });
+  assert.equal(wooloo.speciesId, "wooloo");
+  assert.ok(wooloo.moveIds.includes("tackle"));
+
+  const shinx = await combat.createCombatant({ species: "Shinx", level: 1, abilityId: "intimidate" });
+  assert.equal(shinx.speciesId, "shinx");
+  assert.ok(shinx.moveIds.includes("tackle"));
+
+  const growlithe = await combat.createCombatant({ species: "Growlithe", form: "Hisui", level: 1, abilityId: "intimidate" });
+  assert.equal(growlithe.speciesId, "growlithe-hisui");
+});
+
+test("E7 M01 ecology choices map only species valid in the compiled canonical zone", async () => {
+  const bundle = await compileStory({ scenesDir, modulesDir, ecologyOptions });
+  const gin = bundle.scenes["m01-ginestre-crossroads"].nodes.crossroads.choices.find((choice) => choice.id === "observe_wildlife");
+  const farm = bundle.scenes["m01-farm-first-arrival"].nodes.approach.choices.find((choice) => choice.id === "field_wildlife");
+
+  assert.deepEqual(gin.ecology.allowedSpecies, ["wooloo", "shinx"]);
+  assert.deepEqual(farm.ecology.allowedSpecies, ["wooloo", "shinx", "growlithe-hisui"]);
+
+  const ginValid = new Set(bundle.ecology.zones["AST-GINESTRE"].species.map((entry) => entry.id));
+  const farmValid = new Set(bundle.ecology.zones["AST-FARM"].species.map((entry) => entry.id));
+  assert.ok(gin.ecology.allowedSpecies.every((id) => ginValid.has(id)));
+  assert.ok(farm.ecology.allowedSpecies.every((id) => farmValid.has(id)));
 });
