@@ -78,10 +78,19 @@ export function endTurnStatus(combatant, dice, proficiencyBonus) {
   }
 
   if (combatant.statuses.nonVolatile === "Asleep") {
-    const roll = dice.roll(20);
+    const rolls = combatant.abilityId === "early-bird"
+      ? [dice.roll(20), dice.roll(20)]
+      : [dice.roll(20)];
+    const roll = Math.max(...rolls);
     combatant.statuses.remainingRounds = Math.max(0, (combatant.statuses.remainingRounds ?? 1) - 1);
     const wake = roll >= 11 || combatant.statuses.remainingRounds === 0;
-    events.push({ type: "wake_check", roll, wake });
+    events.push({
+      type: "wake_check",
+      roll,
+      rolls,
+      advantage: combatant.abilityId === "early-bird",
+      wake
+    });
     if (wake) {
       combatant.statuses.nonVolatile = null;
       combatant.statuses.remainingRounds = null;
