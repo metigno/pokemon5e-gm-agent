@@ -5,6 +5,7 @@ import { SceneRepository } from "./scene-repository.mjs";
 import { proficiencyBonus, touchState } from "./state.mjs";
 import { advanceWorldTime, getWorldTimeView } from "./time.mjs";
 import { applyQuestEffect, getQuestJournal, processQuestDeadlines } from "./quest-state.mjs";
+import { applyNpcEffect, refreshNpcSchedules } from "./npc-state.mjs";
 
 function clone(value) {
   return structuredClone(value);
@@ -22,6 +23,10 @@ function applyEffects(state, effects = []) {
     }
     if (["quest_offer", "quest_start", "quest_complete", "quest_fail"].includes(effect.type)) {
       applyQuestEffect(state, effect);
+      continue;
+    }
+    if (["npc_register", "npc_relationship_adjust", "npc_state_set", "npc_schedule_set"].includes(effect.type)) {
+      applyNpcEffect(state, effect);
       continue;
     }
     throw new Error(`Unsupported effect type: ${effect.type}`);
@@ -83,6 +88,7 @@ export class BookgameEngine {
   }
 
   async present(state) {
+    refreshNpcSchedules(state);
     const scene = await this.scenes.load(state.story.sceneId);
     const node = scene.nodes[state.story.nodeId];
     if (!node) throw new Error(`Unknown node ${state.story.nodeId} in scene ${scene.id}`);
@@ -111,6 +117,7 @@ export class BookgameEngine {
     if (state.pending) throw new Error("Cannot choose while a subsystem handoff is pending");
 
     const next = clone(state);
+    refreshNpcSchedules(next);
     const scene = await this.scenes.load(next.story.sceneId);
     const node = scene.nodes[next.story.nodeId];
     if (!node) throw new Error(`Unknown node: ${next.story.nodeId}`);
@@ -135,6 +142,7 @@ export class BookgameEngine {
       const fromTime = getWorldTimeView(next.world);
       advanceWorldTime(next.world, choice.timeCostMinutes);
       const questDeadlineEvents = processQuestDeadlines(next);
+      refreshNpcSchedules(next);
       const toTime = getWorldTimeView(next.world);
       historyEntry.time = {
         minutes: choice.timeCostMinutes,
