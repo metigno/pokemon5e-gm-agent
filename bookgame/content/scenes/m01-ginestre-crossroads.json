@@ -81,6 +81,28 @@
           }
         },
         {
+          "id": "observe_wildlife",
+          "text": "Mi allontano un poco dalla carreggiata e osservo la fauna dei campi.",
+          "timeCostMinutes": 20,
+          "ecology": {
+            "requestId": "M1_GINESTRE_FIELD_01",
+            "zoneId": "AST-GINESTRE",
+            "habitat": "field",
+            "method": "wild_observation",
+            "allowedSpecies": [
+              "mareep",
+              "wooloo",
+              "shinx"
+            ],
+            "returnNodes": {
+              "noEncounter": "m01-ecology-opportunities#gin_no_sighting",
+              "mareep": "m01-ecology-opportunities#gin_mareep",
+              "wooloo": "m01-ecology-opportunities#gin_wooloo",
+              "shinx": "m01-ecology-opportunities#gin_shinx"
+            }
+          }
+        },
+        {
           "id": "stay",
           "text": "Resto ancora un po' nella zona delle Ginestre.",
           "goto": "ginestre_pause"
