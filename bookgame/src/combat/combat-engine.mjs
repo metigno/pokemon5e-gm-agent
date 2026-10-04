@@ -101,6 +101,7 @@ function defaultPosition(value, fallback) {
 }
 
 function normalizeTrainer(trainer = {}, positionValue) {
+  trainer ??= {};
   return {
     name: trainer.name ?? "Trainer",
     level: trainer.level ?? trainer.trainerLevel ?? 1,
