@@ -31,7 +31,7 @@ The player may witness it, hear about it later, arrive too late, or never intera
 Belongs to a persistent NPC/friend and can advance off-screen.
 
 ### COMPETITIVE_GATE
-Registration, badge, cup, qualifier, ranking cutoff or tournament event. Actual results decide progression.
+Registration, Promotion Trial, cup, qualifier, ranking cutoff or tournament event. Actual results decide progression.
 
 ### SYSTEM_MILESTONE
 A Pokémon 5e class-level milestone.
@@ -43,7 +43,7 @@ Events may depend on:
 - party/Pokémon state;
 - completed event IDs;
 - campaign flags;
-- badges;
+- Circuit Rank and Promotion Trial wins;
 - circuit/ranking points;
 - world day;
 - location tags;
@@ -66,7 +66,7 @@ Evaluate after:
 1. long rest / new day;
 2. important-location arrival;
 3. Trainer Level increase;
-4. badge or official competition result;
+4. Promotion Trial / rank change or official competition result;
 5. chain completion/failure;
 6. major capture/evolution/death/injury;
 7. multi-day travel;
@@ -129,3 +129,14 @@ Off-screen results are honest. Death, injury or campaign divergence may permanen
 Never show internal event IDs or hidden trigger conditions to the player.
 
 Only expose objectives that the character has actually learned about.
+
+
+## Rank Promotion Trial lifecycle
+
+Promotion Trials are retryable hard competitive gates.
+
+`LOCKED → ELIGIBLE → ACTIVE → ATTEMPT_FAILED → ELIGIBLE`
+
+until a legitimate win produces `ACTIVE → PROMOTED`.
+
+On promotion update Circuit Rank, append the checkpoint win, unlock the new access band and create a durable checkpoint. Trainer Level, circuit points and optional tournaments cannot bypass this lifecycle. The World Qualifier is the exception: retry availability follows season / Last Chance rules.

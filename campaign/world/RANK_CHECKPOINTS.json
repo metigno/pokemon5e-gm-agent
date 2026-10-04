@@ -1,0 +1,243 @@
+{
+  "schema_version": 1,
+  "system": "Asteria Circuit Rank",
+  "progression": [
+    "F",
+    "E",
+    "D",
+    "C",
+    "B",
+    "A",
+    "S"
+  ],
+  "hard_gate": true,
+  "points_can_bypass": false,
+  "ranks": [
+    {
+      "code": "F",
+      "name": "Licenziato",
+      "order": 0,
+      "description": "Trainer appena certificato; fascia iniziale di Asteria."
+    },
+    {
+      "code": "E",
+      "name": "Locale",
+      "order": 1,
+      "description": "Prima promozione; cintura rookie esterna."
+    },
+    {
+      "code": "D",
+      "name": "Regionale",
+      "order": 2,
+      "description": "Circuito regionale e aree intermedie."
+    },
+    {
+      "code": "C",
+      "name": "Avanzato",
+      "order": 3,
+      "description": "Aree regionali difficili e competizioni alte."
+    },
+    {
+      "code": "B",
+      "name": "Interregionale",
+      "order": 4,
+      "description": "Tratte e circuito interregionale."
+    },
+    {
+      "code": "A",
+      "name": "Master",
+      "order": 5,
+      "description": "Contenuti élite e zone estreme."
+    },
+    {
+      "code": "S",
+      "name": "Candidato Mondiale",
+      "order": 6,
+      "description": "Accesso al percorso World Qualifier."
+    }
+  ],
+  "checkpoints": [
+    {
+      "id": "RANK_F_TO_E",
+      "event_id": "A1_FIRST_GATE",
+      "from_rank": "F",
+      "to_rank": "E",
+      "location_id": "VAL-CITY",
+      "venue": "Valedarsena — Arena Civica",
+      "intended_trainer_level_band": "2-3",
+      "format": {
+        "battle": "Singles",
+        "official_roster_size": 2,
+        "opponents": 1
+      },
+      "challenge_identity": "Fondamentali: comando, sicurezza e gestione di due Pokémon.",
+      "win_required": true,
+      "retryable": true,
+      "unlock_rank": "E"
+    },
+    {
+      "id": "RANK_E_TO_D",
+      "event_id": "A2_RANK_TRIAL_E_D",
+      "from_rank": "E",
+      "to_rank": "D",
+      "location_id": "SAL-TOWN",
+      "venue": "Borgo Salice — Sala Verde",
+      "intended_trainer_level_band": "4-5",
+      "format": {
+        "battle": "Singles",
+        "official_roster_size": 3,
+        "opponents": 1
+      },
+      "challenge_identity": "Controllo del campo, status, switching e disciplina.",
+      "win_required": true,
+      "retryable": true,
+      "unlock_rank": "D"
+    },
+    {
+      "id": "RANK_D_TO_C",
+      "event_id": "A3_RANK_TRIAL_D_C",
+      "from_rank": "D",
+      "to_rank": "C",
+      "location_id": "FER-CITY",
+      "venue": "Ferravia — Officina Arena",
+      "intended_trainer_level_band": "6-8",
+      "format": {
+        "battle": "Singles",
+        "official_roster_size": 3,
+        "opponents": 1
+      },
+      "challenge_identity": "Tempo, resistenze, coperture e switch.",
+      "win_required": true,
+      "retryable": true,
+      "unlock_rank": "C"
+    },
+    {
+      "id": "RANK_C_TO_B",
+      "event_id": "A4_RANK_TRIAL_C_B",
+      "from_rank": "C",
+      "to_rank": "B",
+      "location_id": "MAR-CITY",
+      "venue": "Mareasale — Arena del Molo",
+      "intended_trainer_level_band": "9-11",
+      "format": {
+        "battle": "Singles",
+        "official_roster_size": 4,
+        "opponents": 1
+      },
+      "challenge_identity": "Resource management e adattamento.",
+      "win_required": true,
+      "retryable": true,
+      "unlock_rank": "B"
+    },
+    {
+      "id": "RANK_B_TO_A",
+      "event_id": "A5_RANK_TRIAL_B_A",
+      "from_rank": "B",
+      "to_rank": "A",
+      "location_id": "ALT-TOWN",
+      "venue": "Altacima — Sala della Cresta",
+      "intended_trainer_level_band": "11-14",
+      "format": {
+        "battle": "Singles",
+        "official_roster_size": 5,
+        "opponents": 1
+      },
+      "challenge_identity": "Endurance e team depth.",
+      "win_required": true,
+      "retryable": true,
+      "unlock_rank": "A"
+    },
+    {
+      "id": "RANK_A_TO_S",
+      "event_id": "A6_RANK_TRIAL_A_S",
+      "from_rank": "A",
+      "to_rank": "S",
+      "location_id": "FAR-RUINS",
+      "venue": "Rovine del Primo Faro — Gate del Faro",
+      "intended_trainer_level_band": "14-17",
+      "format": {
+        "battle": "Singles",
+        "official_roster_size": 6,
+        "opponents": 1
+      },
+      "challenge_identity": "Esame Master completo a sei Pokémon.",
+      "win_required": true,
+      "retryable": true,
+      "unlock_rank": "S"
+    },
+    {
+      "id": "WORLD_QUALIFIER",
+      "event_id": "A7_WORLD_QUALIFIER",
+      "from_rank": "S",
+      "to_rank": null,
+      "location_id": "MER-CAPITAL",
+      "venue": "Meridiana — Grand Hall",
+      "intended_trainer_level_band": "17-19",
+      "format": {
+        "battle": "Qualifier bracket",
+        "official_roster_size": 6,
+        "opponents": "field-dependent"
+      },
+      "challenge_identity": "Qualificazione mondiale reale contro il field corrente.",
+      "win_required": "qualification_result_required",
+      "retryable": "last_chance_or_next_cycle_only",
+      "success_state": "world_qualified"
+    }
+  ],
+  "access_bands": {
+    "F": [
+      "AST-CAMPUS",
+      "AST-GINESTRE",
+      "VAL-CITY",
+      "AST-FARM",
+      "AST-CANAL"
+    ],
+    "E": [
+      "AST-MISTWOOD",
+      "AST-HILLS",
+      "AST-QUARRY",
+      "SAL-TOWN",
+      "AST-LAKE",
+      "LAC-LAKE"
+    ],
+    "D": [
+      "MIR-MARSH",
+      "RIV-TOWN",
+      "FER-CITY",
+      "VIR-JUNGLE"
+    ],
+    "C": [
+      "FER-TUNNELS",
+      "FER-MOUNTAINS",
+      "MAR-CITY",
+      "SAL-COAST",
+      "MAR-REEF"
+    ],
+    "B": [
+      "ALT-TOWN",
+      "FUL-PLATEAU",
+      "LUM-ISLANDS",
+      "SOL-DRYLAND",
+      "SOL-BADLAND"
+    ],
+    "A": [
+      "CEN-CALDERA",
+      "CIN-CALDERA",
+      "FAR-RUINS",
+      "PAL-RESERVE",
+      "BOR-GLACIER",
+      "BOR-POLAR-SEA",
+      "AST-ABYSS"
+    ],
+    "S": [
+      "MER-CAPITAL"
+    ],
+    "EVENT_ONLY": [
+      "CHR-PAST",
+      "CHR-FUTURE"
+    ]
+  },
+  "access_rule": "A location is accessible only if current rank order satisfies required_rank. EVENT nodes also require their scripted unlock.",
+  "loss_rule": "A lost Promotion Trial leaves rank unchanged and keeps the next band locked.",
+  "npc_rule": "Persistent NPCs resolve their own trials honestly and may advance, fail or stall independently."
+}

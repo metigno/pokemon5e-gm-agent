@@ -1,5 +1,5 @@
 {
-  "schema_version": 7,
+  "schema_version": 8,
   "save_slot": 3,
   "slot_status": "empty",
   "project": "pokemon5e-gm-agent",
@@ -128,14 +128,30 @@
     }
   },
   "progression": {
-    "regional_badges": 0,
-    "open_qualifier_complete": false,
+    "circuit_rank": "F",
+    "circuit_rank_name": "Licenziato",
+    "rank_checkpoint_wins": [],
+    "rank_trial_attempts": {},
+    "next_rank_checkpoint": "RANK_F_TO_E",
+    "unlocked_access_rank": "F",
     "circuit_points": 0,
-    "regional_league": {
-      "status": "not_qualified"
+    "upper_regional_circuit": {
+      "status": "not_qualified",
+      "primary_progression": false
+    },
+    "world_qualification": {
+      "status": "locked_rank_s_required",
+      "qualifier_result": null,
+      "last_chance_status": "not_evaluated"
     },
     "world_championship": {
       "status": "not_eligible"
+    },
+    "migration": {
+      "system": "badges_to_circuit_rank",
+      "legacy_regional_badges": 0,
+      "legacy_open_qualifier_complete": false,
+      "migration_note": "Migration happened before any stored slot had earned a regional badge; starting rank is F."
     }
   },
   "event_engine": {

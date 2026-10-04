@@ -30,7 +30,7 @@ The campaign becomes a classic Pokémon journey run through Pokémon 5e:
 - towns and Pokémon Centers;
 - trainers and rivals;
 - quests and regional conflicts;
-- badges / formal competitive progression when introduced;
+- Circuit Rank progression through mandatory Promotion Trials;
 - evolving teams;
 - recurring friends;
 - cooperation, separation and reunions;
@@ -112,3 +112,10 @@ Asteria is the shared starting territory for all saves. The friends' later regio
 The world is semi-open: routes, settlements, jobs, NPC schedules, ecology, transport and competitions continue to change with campaign time.
 
 See `campaign/world/`.
+
+
+## Circuit Rank progression
+
+Asteria does not use badges as the main progression key. The licensed ladder is **F → E → D → C → B → A → S**. Each promotion requires a scripted Pokémon Promotion Trial, and the next geographic access band remains locked until that victory. Rank S opens the World Qualifier route but does not automatically qualify anyone for the World Championship.
+
+See `campaign/world/RANK_PROGRESSION_SYSTEM.md` and `campaign/world/RANK_CHECKPOINTS.json`.

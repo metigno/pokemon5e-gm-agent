@@ -295,3 +295,14 @@ Future mechanics such as Mega Evolution, Gigamax/Dynamax access, Alpha status, l
 If an already-established veteran appears in low-level content, do not physically de-evolve them for balance. Use a social appearance, mentor team, regulated challenge roster, or clearly telegraphed overmatch as appropriate.
 
 Side quests are optional living-world content. They can expire, transform or resolve off-screen and must respect world time and persistent consequences.
+
+
+## Circuit Rank hard progression
+
+Load `campaign/world/RANK_PROGRESSION_SYSTEM.md` and `campaign/world/RANK_CHECKPOINTS.json`.
+
+Asteria uses **F→E→D→C→B→A→S**, not badges, as the primary progression key. Each promotion requires a real scripted Pokémon Promotion Trial. The next map access band is a hard lock until the required trial is won; levels, circuit points, side quests, money and alternate routes cannot bypass it. Use `required_rank` on `REGION_MAP.json` nodes.
+
+A failed trial leaves rank unchanged. Ordinary rank trials are retryable; the World Qualifier follows seasonal eligibility / Last Chance rules. Rank S opens the World Qualifier but does not mean `world_qualified`.
+
+Persistent NPCs resolve their own rank trials honestly and may advance before the player, fail repeatedly or never reach Rank S.

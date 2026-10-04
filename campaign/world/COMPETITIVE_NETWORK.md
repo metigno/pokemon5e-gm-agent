@@ -1,38 +1,57 @@
 # CIRCUITO COMPETITIVO DI ASTERIA
 
-## Filosofia
+## Sistema ufficiale
 
-La campagna resta classica Pokémon: badge/gate ufficiali contano.
+Asteria non usa medaglie come chiave di progressione.
 
-Asteria usa Palestre e Challenge Halls con roster registrati per fasce di esperienza.
+Il sistema è il **Circuit Rank**:
 
-Questo evita auto-scaling invisibile: l'organizzatore seleziona una **fascia ufficiale** in base al curriculum del challenger.
+**F → E → D → C → B → A → S**
 
-## Otto Gate regionali
+Ogni avanzamento richiede una Promotion Trial ufficiale. Sono sfide con importanza simile alle Palestre classiche, ma promuovono direttamente il rank della Trainer License.
 
-L'ordine non è completamente fisso.
+## Hard area gate
 
-1. **Valedarsena — Arena Civica**
-2. **Borgo Salice — Sala Verde**
-3. **Ferravia — Officina Arena**
-4. **Rivafonda — Casa delle Acque**
-5. **Mareasale — Arena del Molo**
-6. **Altacima — Sala della Cresta**
-7. **Rovine/Faro — Gate del Faro**
-8. **Meridiana — Grand Hall**
+Il player può esplorare liberamente la fascia già autorizzata, ma **la fascia successiva resta inaccessibile finché non vince la Promotion Trial precedente**.
 
-Il tema preciso del team del responsabile può usare identità locale, non deve essere una caricatura monotipo se il source canon/GM decide diversamente.
+Né livelli, né side quest, né denaro, né circuit points sostituiscono una Promotion Trial.
 
-## Fasce
+## Promotion Trial
 
-I gate registrano il numero di badge e il curriculum ufficiale.
+1. Valedarsena — Arena Civica: **F → E**
+2. Borgo Salice — Sala Verde: **E → D**
+3. Ferravia — Officina Arena: **D → C**
+4. Mareasale — Arena del Molo: **C → B**
+5. Altacima — Sala della Cresta: **B → A**
+6. Rovine del Primo Faro — Gate del Faro: **A → S**
 
-Un leader può possedere Pokémon molto più forti fuori dalla sfida ufficiale.
+Dopo Rank S:
+7. Meridiana — Grand Hall: **World Qualifier**
 
-Il team usato nella challenge è un roster regolamentato.
+Il World Qualifier non assegna un nuovo rank: produce o meno `world_qualified`.
 
-## Alternative
+## Sconfitte
 
-Open qualifier, coppe e circuit points possono offrire percorsi competitivi alternativi quando il grafo eventi lo consente.
+Una Promotion Trial persa:
+- non retrocede il trainer;
+- non sblocca la fascia successiva;
+- resta ritentabile dopo recupero/preparazione;
+- viene registrata nella storia competitiva.
 
-Nessuna alternativa garantisce il Mondiale.
+Il World Qualifier segue invece il calendario stagionale e le eventuali Last Chance reali.
+
+## Circuit Points
+
+I punti servono a seeding, inviti, ranking, reputazione e tiebreak.
+
+Non sbloccano aree e non comprano promozioni.
+
+## Tornei
+
+Rookie Cup, Upper Regional Circuit, Masters, Continental Cup e altri eventi possono dare punti, fama e premi, ma non sostituiscono la scala F→S.
+
+## NPC
+
+Gli NPC persistenti hanno un proprio rank e possono superare, fallire o ritentare le loro Promotion Trial indipendentemente dal protagonista.
+
+Vedi `RANK_PROGRESSION_SYSTEM.md` e `RANK_CHECKPOINTS.json`.

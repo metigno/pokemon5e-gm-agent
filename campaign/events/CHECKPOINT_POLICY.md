@@ -12,6 +12,8 @@ Git history is the true snapshot history; this ledger is the readable index.
 - **CP-CHAIN** — after a major scripted-chain stage.
 - **CP-WORLD** — after an off-screen world event creates a durable relevant consequence.
 - **CP-DEATH** — immediately after irreversible death/equivalent loss.
+- **CP-RANK-PRE** — immediately before a Promotion Trial attempt.
+- **CP-RANK-POST** — after a Promotion Trial win; also after a loss when the attempt creates a durable consequence.
 
 High-stakes events should normally have PRE and POST checkpoints.
 
@@ -36,3 +38,8 @@ Record:
 - short factual `summary`
 
 Do not place hidden spoilers in player-visible checkpoint summaries.
+
+
+## Rank checkpoint fields
+
+Record current rank, target rank, Promotion Trial ID, attempt number, battle result, new rank when promoted and the newly unlocked access band. A lost trial never records the target rank as unlocked.

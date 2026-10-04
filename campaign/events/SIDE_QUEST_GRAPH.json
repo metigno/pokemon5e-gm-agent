@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "authority": "campaign/events/TRAINER_ENCOUNTER_SYSTEM.md",
   "principles": [
     "Optional content; outcomes are not locked.",
@@ -21,7 +21,8 @@
           "difficulty": "STANDARD"
         }
       ],
-      "named_roster_policy": "none_required"
+      "named_roster_policy": "none_required",
+      "minimum_rank": "F"
     },
     {
       "id": "SQ_FARM_HERD_HANDS",
@@ -41,7 +42,8 @@
           "difficulty": "STANDARD"
         }
       ],
-      "named_roster_policy": "friend_cameo_possible"
+      "named_roster_policy": "friend_cameo_possible",
+      "minimum_rank": "F"
     },
     {
       "id": "SQ_VALE_DOCK_LADDER",
@@ -56,7 +58,8 @@
           "difficulty": "STANDARD"
         }
       ],
-      "named_roster_policy": "rare"
+      "named_roster_policy": "rare",
+      "minimum_rank": "F"
     },
     {
       "id": "SQ_CANAL_COURIER_RACE",
@@ -71,7 +74,8 @@
           "difficulty": "STANDARD"
         }
       ],
-      "named_roster_policy": "none_required"
+      "named_roster_policy": "none_required",
+      "minimum_rank": "F"
     },
     {
       "id": "SQ_MISTWOOD_RANGER_TRIAL",
@@ -91,7 +95,8 @@
           "difficulty": "STANDARD"
         }
       ],
-      "named_roster_policy": "rare"
+      "named_roster_policy": "rare",
+      "minimum_rank": "E"
     },
     {
       "id": "SQ_HILLS_WIND_DUEL",
@@ -106,7 +111,8 @@
           "difficulty": "STANDARD"
         }
       ],
-      "named_roster_policy": "none_required"
+      "named_roster_policy": "none_required",
+      "minimum_rank": "E"
     },
     {
       "id": "SQ_QUARRY_SHIFT",
@@ -126,7 +132,8 @@
           "difficulty": "HARD"
         }
       ],
-      "named_roster_policy": "rare"
+      "named_roster_policy": "rare",
+      "minimum_rank": "E"
     },
     {
       "id": "SQ_SALICE_PATROL",
@@ -141,7 +148,8 @@
           "difficulty": "STANDARD"
         }
       ],
-      "named_roster_policy": "possible_if_origin_or_travel_fits"
+      "named_roster_policy": "possible_if_origin_or_travel_fits",
+      "minimum_rank": "E"
     },
     {
       "id": "SQ_MIRTO_POACHERS",
@@ -161,7 +169,8 @@
           "difficulty": "HARD"
         }
       ],
-      "named_roster_policy": "do_not_force"
+      "named_roster_policy": "do_not_force",
+      "minimum_rank": "D"
     },
     {
       "id": "SQ_RIVAFONDA_FIELD_STUDY",
@@ -176,7 +185,8 @@
           "difficulty": "STANDARD"
         }
       ],
-      "named_roster_policy": "rare"
+      "named_roster_policy": "rare",
+      "minimum_rank": "D"
     },
     {
       "id": "SQ_FERRAVIA_WORKSHOP_CUP",
@@ -191,7 +201,8 @@
           "difficulty": "STANDARD"
         }
       ],
-      "named_roster_policy": "possible_cameo"
+      "named_roster_policy": "possible_cameo",
+      "minimum_rank": "D"
     },
     {
       "id": "SQ_FERROX_RESCUE",
@@ -211,7 +222,8 @@
           "difficulty": "HARD"
         }
       ],
-      "named_roster_policy": "possible_if_travel_fits"
+      "named_roster_policy": "possible_if_travel_fits",
+      "minimum_rank": "C"
     },
     {
       "id": "SQ_MOUNTAIN_SUMMIT",
@@ -226,7 +238,8 @@
           "difficulty": "HARD"
         }
       ],
-      "named_roster_policy": "possible"
+      "named_roster_policy": "possible",
+      "minimum_rank": "C"
     },
     {
       "id": "SQ_MAREASALE_DOCK_CUP",
@@ -241,7 +254,8 @@
           "difficulty": "STANDARD"
         }
       ],
-      "named_roster_policy": "possible"
+      "named_roster_policy": "possible",
+      "minimum_rank": "C"
     },
     {
       "id": "SQ_SALTCOAST_SMUGGLERS",
@@ -261,7 +275,8 @@
           "difficulty": "HARD"
         }
       ],
-      "named_roster_policy": "do_not_force"
+      "named_roster_policy": "do_not_force",
+      "minimum_rank": "C"
     },
     {
       "id": "SQ_ALTACIMA_CLIMB",
@@ -276,7 +291,8 @@
           "difficulty": "HARD"
         }
       ],
-      "named_roster_policy": "possible"
+      "named_roster_policy": "possible",
+      "minimum_rank": "B"
     },
     {
       "id": "SQ_FULGORE_RELAY",
@@ -291,7 +307,8 @@
           "difficulty": "HARD"
         }
       ],
-      "named_roster_policy": "possible"
+      "named_roster_policy": "possible",
+      "minimum_rank": "B"
     },
     {
       "id": "SQ_FARO_ARCHAEOLOGY",
@@ -311,7 +328,8 @@
           "difficulty": "ELITE"
         }
       ],
-      "named_roster_policy": "possible_named_researcher_or_veteran"
+      "named_roster_policy": "possible_named_researcher_or_veteran",
+      "minimum_rank": "A"
     },
     {
       "id": "SQ_MERIDIANA_SPONSOR_TRIAL",
@@ -326,7 +344,8 @@
           "difficulty": "HARD"
         }
       ],
-      "named_roster_policy": "likely_cameo"
+      "named_roster_policy": "likely_cameo",
+      "minimum_rank": "S"
     },
     {
       "id": "SQ_SOLARIA_CARAVAN",
@@ -346,7 +365,8 @@
           "difficulty": "HARD"
         }
       ],
-      "named_roster_policy": "possible"
+      "named_roster_policy": "possible",
+      "minimum_rank": "B"
     },
     {
       "id": "SQ_CENERIVA_HEATLINE",
@@ -366,7 +386,8 @@
           "difficulty": "ELITE"
         }
       ],
-      "named_roster_policy": "possible"
+      "named_roster_policy": "possible",
+      "minimum_rank": "A"
     },
     {
       "id": "SQ_LUMINARA_ISLAND_TRIAL",
@@ -381,7 +402,8 @@
           "difficulty": "HARD"
         }
       ],
-      "named_roster_policy": "possible"
+      "named_roster_policy": "possible",
+      "minimum_rank": "B"
     },
     {
       "id": "SQ_LAKE_MIRROR_LEAGUE",
@@ -396,7 +418,8 @@
           "difficulty": "STANDARD"
         }
       ],
-      "named_roster_policy": "possible"
+      "named_roster_policy": "possible",
+      "minimum_rank": "E"
     },
     {
       "id": "SQ_RESERVE_ETHICS",
@@ -416,7 +439,8 @@
           "difficulty": "HARD"
         }
       ],
-      "named_roster_policy": "possible_named_collector"
+      "named_roster_policy": "possible_named_collector",
+      "minimum_rank": "A"
     },
     {
       "id": "SQ_BOREAL_EXPEDITION",
@@ -431,7 +455,8 @@
           "difficulty": "ELITE"
         }
       ],
-      "named_roster_policy": "regular"
+      "named_roster_policy": "regular",
+      "minimum_rank": "A"
     },
     {
       "id": "SQ_ABYSS_SALVAGE",
@@ -446,7 +471,8 @@
           "difficulty": "ELITE"
         }
       ],
-      "named_roster_policy": "regular"
+      "named_roster_policy": "regular",
+      "minimum_rank": "A"
     },
     {
       "id": "SQ_MERIDIANA_MASTERS_SCRIM",
@@ -461,7 +487,8 @@
           "difficulty": "ELITE"
         }
       ],
-      "named_roster_policy": "named_roster_preferred"
+      "named_roster_policy": "named_roster_preferred",
+      "minimum_rank": "S"
     },
     {
       "id": "SQ_PREWORLD_MEDIA_EXHIBITION",
@@ -476,7 +503,8 @@
           "difficulty": "ELITE"
         }
       ],
-      "named_roster_policy": "named_roster_likely"
+      "named_roster_policy": "named_roster_likely",
+      "minimum_rank": "S"
     },
     {
       "id": "SQ_LAST_FREE_WEEK",
@@ -491,7 +519,12 @@
           "difficulty": "ELITE"
         }
       ],
-      "named_roster_policy": "use_actual_surviving_roster_state"
+      "named_roster_policy": "use_actual_surviving_roster_state",
+      "minimum_rank": "S"
     }
-  ]
+  ],
+  "rank_access": {
+    "authority": "campaign/world/RANK_PROGRESSION_SYSTEM.md",
+    "rule": "A quest may be known before reachable, but travel requires minimum_rank."
+  }
 }

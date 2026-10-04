@@ -1,6 +1,6 @@
 {
-  "schema_version": 2,
-  "campaign_model": "open_world_with_scripted_anchors",
+  "schema_version": 3,
+  "campaign_model": "semi_open_world_with_hard_rank_access_bands_and_scripted_anchors",
   "acts": [
     {
       "id": "ACT_0",
@@ -12,43 +12,43 @@
       "id": "ACT_1",
       "name": "First Roads",
       "level_band": "1-3",
-      "purpose": "free roam, first badge, friends separate"
+      "purpose": "first rank promotion, first roads, friends separate"
     },
     {
       "id": "ACT_2",
       "name": "The World Starts Moving",
       "level_band": "3-5",
-      "purpose": "deadlines, NPC results, first regional problem"
+      "purpose": "Rank E→D, deadlines, NPC results, first regional problem"
     },
     {
       "id": "ACT_3",
       "name": "Crossroads",
       "level_band": "5-8",
-      "purpose": "friend chains and competing priorities"
+      "purpose": "Rank D→C, crossroads and competing priorities"
     },
     {
       "id": "ACT_4",
-      "name": "League Road",
+      "name": "Upper Regional Circuit",
       "level_band": "8-11",
-      "purpose": "regional league and consequence"
+      "purpose": "Rank C→B and upper regional competition"
     },
     {
       "id": "ACT_5",
       "name": "Interregional Circuit",
       "level_band": "11-14",
-      "purpose": "wider world and ancient clues"
+      "purpose": "Rank B→A, interregional circuit and ancient clues"
     },
     {
       "id": "ACT_6",
       "name": "Masters",
       "level_band": "14-17",
-      "purpose": "continental competition and hidden trajectories"
+      "purpose": "Rank A→S, Masters and world-ranking cutoff"
     },
     {
       "id": "ACT_7",
       "name": "World Qualification",
       "level_band": "17-19",
-      "purpose": "cutoff and finite qualification chances"
+      "purpose": "Rank S World Qualification"
     },
     {
       "id": "ACT_8",
@@ -196,7 +196,7 @@
       "trigger": {
         "any": [
           "trainer_level>=3",
-          "first_badge_complete",
+          "rank_at_least_E",
           "world_day>=7"
         ]
       },
@@ -227,17 +227,20 @@
       "id": "A1_FIRST_GATE",
       "act": "ACT_1",
       "type": "competitive_gate",
-      "title": "First Regional Gate",
+      "title": "Valedarsena Promotion Trial",
       "trigger": {
+        "all": [
+          "current_rank=F"
+        ],
         "any": [
-          "trainer_level>=3",
-          "local_badge_challenge_unlocked"
+          "trainer_level>=2",
+          "rank_trial_F_E_available"
         ]
       },
       "intended_trainer_level_band": "2-3",
-      "once": true,
+      "once": false,
       "outcome_locked": false,
-      "summary": "First badge or equivalent regional gate. Failure remains canon.",
+      "summary": "Mandatory Rank F→E checkpoint at Arena Civica. Win promotes to Rank E and unlocks the next access band; loss keeps Rank F and the next band locked.",
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
@@ -254,6 +257,15 @@
         "named_roster_policy": "gate_staff_persistent",
         "intended_trainer_level_band": "2-3",
         "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      },
+      "rank_checkpoint": {
+        "checkpoint_id": "RANK_F_TO_E",
+        "from_rank": "F",
+        "to_rank": "E",
+        "hard_area_gate": true,
+        "win_required": true,
+        "retry_on_loss": true,
+        "points_can_bypass": false
       }
     },
     {
@@ -263,7 +275,7 @@
       "title": "A Quiet Problem",
       "trigger": {
         "any": [
-          "first_badge_complete",
+          "rank_at_least_E",
           "world_day>=12"
         ]
       },
@@ -335,7 +347,7 @@
       "trigger": {
         "any": [
           "trainer_level>=4",
-          "regional_badges>=2"
+          "rank_at_least_E"
         ]
       },
       "intended_trainer_level_band": "4-5",
@@ -359,6 +371,52 @@
         "named_roster_policy": "friend_or_rare_roster_cameo",
         "intended_trainer_level_band": "4-5",
         "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
+    },
+    {
+      "id": "A2_RANK_TRIAL_E_D",
+      "act": "ACT_2",
+      "type": "competitive_gate",
+      "title": "Borgo Salice Promotion Trial",
+      "trigger": {
+        "all": [
+          "rank_at_least_E",
+          "current_rank=E"
+        ],
+        "any": [
+          "trainer_level>=4",
+          "rank_trial_E_D_available"
+        ]
+      },
+      "intended_trainer_level_band": "4-5",
+      "once": false,
+      "outcome_locked": false,
+      "summary": "Mandatory Rank E→D checkpoint. Win unlocks the Rank D access band; loss keeps Rank E.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ],
+      "trainer_content": {
+        "presence": "official",
+        "combat_slots": {
+          "min": 1,
+          "max": 1
+        },
+        "difficulty_mix": [
+          "HARD"
+        ],
+        "named_roster_policy": "gate_staff_persistent",
+        "intended_trainer_level_band": "4-5",
+        "rule": "Fixed checkpoint roster for this band; no invisible scaling."
+      },
+      "rank_checkpoint": {
+        "checkpoint_id": "RANK_E_TO_D",
+        "from_rank": "E",
+        "to_rank": "D",
+        "hard_area_gate": true,
+        "win_required": true,
+        "retry_on_loss": true,
+        "points_can_bypass": false
       }
     },
     {
@@ -406,7 +464,7 @@
       "trigger": {
         "any": [
           "trainer_level>=6",
-          "regional_badges>=3"
+          "rank_at_least_D"
         ]
       },
       "intended_trainer_level_band": "5-7",
@@ -433,6 +491,52 @@
       }
     },
     {
+      "id": "A3_RANK_TRIAL_D_C",
+      "act": "ACT_3",
+      "type": "competitive_gate",
+      "title": "Ferravia Promotion Trial",
+      "trigger": {
+        "all": [
+          "rank_at_least_D",
+          "current_rank=D"
+        ],
+        "any": [
+          "trainer_level>=6",
+          "rank_trial_D_C_available"
+        ]
+      },
+      "intended_trainer_level_band": "6-8",
+      "once": false,
+      "outcome_locked": false,
+      "summary": "Mandatory Rank D→C checkpoint. Win unlocks the Rank C access band; loss keeps Rank D.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ],
+      "trainer_content": {
+        "presence": "official",
+        "combat_slots": {
+          "min": 1,
+          "max": 1
+        },
+        "difficulty_mix": [
+          "HARD"
+        ],
+        "named_roster_policy": "gate_staff_persistent",
+        "intended_trainer_level_band": "6-8",
+        "rule": "Fixed checkpoint roster for this band; no invisible scaling."
+      },
+      "rank_checkpoint": {
+        "checkpoint_id": "RANK_D_TO_C",
+        "from_rank": "D",
+        "to_rank": "C",
+        "hard_area_gate": true,
+        "win_required": true,
+        "retry_on_loss": true,
+        "points_can_bypass": false
+      }
+    },
+    {
       "id": "A3_CROSSROADS",
       "act": "ACT_3",
       "type": "hard_anchor",
@@ -440,7 +544,7 @@
       "trigger": {
         "any": [
           "trainer_level>=7",
-          "regional_badges>=4"
+          "rank_at_least_C"
         ]
       },
       "intended_trainer_level_band": "6-8",
@@ -473,7 +577,7 @@
       "trigger": {
         "any": [
           "trainer_level>=8",
-          "regional_badges>=4"
+          "rank_at_least_C"
         ]
       },
       "intended_trainer_level_band": "7-9",
@@ -502,17 +606,17 @@
       "id": "A4_LEAGUE_REG",
       "act": "ACT_4",
       "type": "competitive_gate",
-      "title": "Regional League Registration",
+      "title": "Upper Regional Circuit Registration",
       "trigger": {
         "any": [
-          "regional_badges>=6",
+          "rank_at_least_C",
           "trainer_level>=9"
         ]
       },
       "intended_trainer_level_band": "8-10",
       "once": true,
       "outcome_locked": false,
-      "summary": "League window opens; 8 badges OR valid open qualifier can qualify.",
+      "summary": "Optional upper-regional registration for points, prizes and seeding; it does not replace the mandatory C→B Promotion Trial.",
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
@@ -540,7 +644,7 @@
       "trigger": {
         "any": [
           "trainer_level>=9",
-          "regional_badges>=6"
+          "rank_at_least_C"
         ]
       },
       "intended_trainer_level_band": "8-10",
@@ -567,20 +671,69 @@
       }
     },
     {
+      "id": "A4_RANK_TRIAL_C_B",
+      "act": "ACT_4",
+      "type": "competitive_gate",
+      "title": "Mareasale Promotion Trial",
+      "trigger": {
+        "all": [
+          "rank_at_least_C",
+          "current_rank=C"
+        ],
+        "any": [
+          "trainer_level>=9",
+          "rank_trial_C_B_available"
+        ]
+      },
+      "intended_trainer_level_band": "9-11",
+      "once": false,
+      "outcome_locked": false,
+      "summary": "Mandatory Rank C→B checkpoint. Win unlocks the Rank B access band; loss keeps Rank C.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ],
+      "trainer_content": {
+        "presence": "official",
+        "combat_slots": {
+          "min": 1,
+          "max": 1
+        },
+        "difficulty_mix": [
+          "ELITE"
+        ],
+        "named_roster_policy": "gate_staff_persistent",
+        "intended_trainer_level_band": "9-11",
+        "rule": "Fixed checkpoint roster for this band; no invisible scaling."
+      },
+      "rank_checkpoint": {
+        "checkpoint_id": "RANK_C_TO_B",
+        "from_rank": "C",
+        "to_rank": "B",
+        "hard_area_gate": true,
+        "win_required": true,
+        "retry_on_loss": true,
+        "points_can_bypass": false
+      }
+    },
+    {
       "id": "A4_REGIONAL_LEAGUE",
       "act": "ACT_4",
       "type": "competitive_gate",
-      "title": "Regional League",
+      "title": "Upper Regional Circuit",
       "trigger": {
+        "all": [
+          "rank_at_least_C"
+        ],
         "any": [
-          "regional_badges>=8",
-          "open_qualifier_complete"
+          "upper_regional_registration_complete",
+          "trainer_level>=10"
         ]
       },
       "intended_trainer_level_band": "9-11",
       "once": true,
       "outcome_locked": false,
-      "summary": "Run actual regional bracket; loss at any stage is valid.",
+      "summary": "Optional upper-regional bracket. Results affect points/reputation but do not unlock the next geographic band.",
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
@@ -604,16 +757,17 @@
       "id": "A4_AFTER_LEAGUE",
       "act": "ACT_4",
       "type": "hard_anchor",
-      "title": "After the League",
+      "title": "After the Upper Circuit",
       "trigger": {
-        "all": [
-          "regional_league_resolved"
+        "any": [
+          "regional_league_resolved",
+          "rank_at_least_B"
         ]
       },
       "intended_trainer_level_band": "10-12",
       "once": true,
       "outcome_locked": false,
-      "summary": "Consequences adapt to champion, deep run, early loss, injury, DQ or absence.",
+      "summary": "Consequences adapt to the actual upper-circuit result or promotion into Rank B.",
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
@@ -638,15 +792,18 @@
       "type": "competitive_gate",
       "title": "Interregional License",
       "trigger": {
+        "all": [
+          "rank_at_least_B"
+        ],
         "any": [
-          "trainer_level>=12",
-          "regional_league_resolved"
+          "trainer_level>=11",
+          "interregional_schedule_open"
         ]
       },
       "intended_trainer_level_band": "11-13",
       "once": true,
       "outcome_locked": false,
-      "summary": "Unlock wider travel/circuit via merit, sponsorship, application or alternative legal route.",
+      "summary": "Rank B activates the interregional license layer and its legal travel/competition services.",
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
@@ -735,20 +892,69 @@
       }
     },
     {
+      "id": "A5_RANK_TRIAL_B_A",
+      "act": "ACT_5",
+      "type": "competitive_gate",
+      "title": "Altacima Promotion Trial",
+      "trigger": {
+        "all": [
+          "rank_at_least_B",
+          "current_rank=B"
+        ],
+        "any": [
+          "trainer_level>=11",
+          "rank_trial_B_A_available"
+        ]
+      },
+      "intended_trainer_level_band": "11-14",
+      "once": false,
+      "outcome_locked": false,
+      "summary": "Mandatory Rank B→A checkpoint. Win unlocks the Rank A access band; loss keeps Rank B.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ],
+      "trainer_content": {
+        "presence": "official",
+        "combat_slots": {
+          "min": 1,
+          "max": 1
+        },
+        "difficulty_mix": [
+          "ELITE"
+        ],
+        "named_roster_policy": "gate_staff_persistent",
+        "intended_trainer_level_band": "11-14",
+        "rule": "Fixed checkpoint roster for this band; no invisible scaling."
+      },
+      "rank_checkpoint": {
+        "checkpoint_id": "RANK_B_TO_A",
+        "from_rank": "B",
+        "to_rank": "A",
+        "hard_area_gate": true,
+        "win_required": true,
+        "retry_on_loss": true,
+        "points_can_bypass": false
+      }
+    },
+    {
       "id": "A5_MASTERS_ENTRY",
       "act": "ACT_5",
       "type": "competitive_gate",
       "title": "Masters Circuit Entry",
       "trigger": {
+        "all": [
+          "rank_at_least_A"
+        ],
         "any": [
           "trainer_level>=14",
-          "circuit_points>=threshold_mid"
+          "masters_invitation"
         ]
       },
       "intended_trainer_level_band": "13-15",
       "once": true,
       "outcome_locked": false,
-      "summary": "Higher-tier international circuit; entry is not guaranteed.",
+      "summary": "Masters circuit entry after Rank A. Points and results affect seeding, not geographic unlocks.",
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
@@ -808,6 +1014,9 @@
       "type": "competitive_gate",
       "title": "Continental Cup",
       "trigger": {
+        "all": [
+          "rank_at_least_A"
+        ],
         "any": [
           "trainer_level>=16",
           "masters_result_qualifies"
@@ -816,7 +1025,7 @@
       "intended_trainer_level_band": "15-17",
       "once": true,
       "outcome_locked": false,
-      "summary": "Major route to World ranking points; bracket comes from current living trainers.",
+      "summary": "Major elite event for ranking points. It cannot replace the A→S Promotion Trial.",
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
@@ -833,6 +1042,52 @@
         "named_roster_policy": "regular",
         "intended_trainer_level_band": "15-17",
         "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      }
+    },
+    {
+      "id": "A6_RANK_TRIAL_A_S",
+      "act": "ACT_6",
+      "type": "competitive_gate",
+      "title": "Gate del Faro Promotion Trial",
+      "trigger": {
+        "all": [
+          "rank_at_least_A",
+          "current_rank=A"
+        ],
+        "any": [
+          "trainer_level>=14",
+          "rank_trial_A_S_available"
+        ]
+      },
+      "intended_trainer_level_band": "14-17",
+      "once": false,
+      "outcome_locked": false,
+      "summary": "Mandatory Rank A→S checkpoint. Win unlocks the Rank S access band; loss keeps Rank A.",
+      "checkpoint_policy": [
+        "pre_if_high_stakes",
+        "post_on_durable_resolution"
+      ],
+      "trainer_content": {
+        "presence": "official",
+        "combat_slots": {
+          "min": 1,
+          "max": 1
+        },
+        "difficulty_mix": [
+          "ELITE"
+        ],
+        "named_roster_policy": "gate_staff_persistent",
+        "intended_trainer_level_band": "14-17",
+        "rule": "Fixed checkpoint roster for this band; no invisible scaling."
+      },
+      "rank_checkpoint": {
+        "checkpoint_id": "RANK_A_TO_S",
+        "from_rank": "A",
+        "to_rank": "S",
+        "hard_area_gate": true,
+        "win_required": true,
+        "retry_on_loss": true,
+        "points_can_bypass": false
       }
     },
     {
@@ -876,7 +1131,8 @@
       "title": "World Qualifier",
       "trigger": {
         "all": [
-          "world_not_autoqualified"
+          "rank_at_least_S",
+          "world_not_qualified"
         ],
         "any": [
           "trainer_level>=17",
@@ -884,9 +1140,9 @@
         ]
       },
       "intended_trainer_level_band": "17-19",
-      "once": true,
+      "once": false,
       "outcome_locked": false,
-      "summary": "Main qualifier; losing can end this season's World run.",
+      "summary": "Final qualification checkpoint at Meridiana. Rank S grants entry, not qualification; only the actual qualifier result can set world_qualified.",
       "checkpoint_policy": [
         "pre_if_high_stakes",
         "post_on_durable_resolution"
@@ -903,6 +1159,15 @@
         "named_roster_policy": "many_actual_candidates",
         "intended_trainer_level_band": "17-19",
         "rule": "Instantiate trainers through TRAINER_ENCOUNTER_SYSTEM; named roster characters must use persistent stage-aware state."
+      },
+      "rank_checkpoint": {
+        "checkpoint_id": "WORLD_QUALIFIER",
+        "from_rank": "S",
+        "to_rank": null,
+        "hard_area_gate": true,
+        "win_required": "qualification_result_required",
+        "retry_on_loss": "last_chance_or_next_cycle_only",
+        "points_can_bypass": false
       }
     },
     {
@@ -1203,5 +1468,20 @@
     "roster_stage_policy": "campaign/events/ROSTER_STAGE_POLICY.json",
     "side_quests": "campaign/events/SIDE_QUEST_GRAPH.json",
     "balance_note": "Pokemon 5e trainer encounters are balanced with trainer/Pokemon levels and legal features; SR is not CR."
+  },
+  "rank_progression": {
+    "authority": "campaign/world/RANK_PROGRESSION_SYSTEM.md",
+    "checkpoints": "campaign/world/RANK_CHECKPOINTS.json",
+    "ladder": [
+      "F",
+      "E",
+      "D",
+      "C",
+      "B",
+      "A",
+      "S"
+    ],
+    "hard_area_gate": true,
+    "badges_used": false
   }
 }

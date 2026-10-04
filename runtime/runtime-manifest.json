@@ -1,5 +1,5 @@
 {
-  "schema_version": 4,
+  "schema_version": 5,
   "integration": "pokemon5e-npc-tactical-advisor",
   "mechanical_authority": "Pokemon 5e",
   "tactical_runtime": {
@@ -42,5 +42,23 @@
     "species_rating_is_challenge_rating": false,
     "named_trainers_persistent": true,
     "future_rosters_are_trajectory_targets": true
+  },
+  "circuit_rank": {
+    "authority": "campaign/world/RANK_PROGRESSION_SYSTEM.md",
+    "checkpoints": "campaign/world/RANK_CHECKPOINTS.json",
+    "map": "campaign/world/REGION_MAP.json",
+    "ranks": [
+      "F",
+      "E",
+      "D",
+      "C",
+      "B",
+      "A",
+      "S"
+    ],
+    "hard_area_gate": true,
+    "badges_primary_progression": false,
+    "circuit_points_can_bypass": false,
+    "rank_s_means_world_qualified": false
   }
 }

@@ -43,6 +43,8 @@ Before play also load:
 - `campaign/world/WORLD_STATE_SCHEMA.md`
 - `campaign/world/FACTIONS.md`
 - `campaign/world/COMPETITIVE_NETWORK.md`
+- `campaign/world/RANK_PROGRESSION_SYSTEM.md`
+- `campaign/world/RANK_CHECKPOINTS.json`
 - `campaign/world/fauna/FAUNA_RULES.md`
 - `campaign/world/fauna/FAUNA_ZONES.json`
 - `campaign/world/ecology/SPECIES_DISTRIBUTION.json`
@@ -94,3 +96,6 @@ Fauna note: load `ZONE_TABLES.json` / `ASTERIA_FAUNA_INDEX.json` on demand for t
 
 
 Trainer population note: main-event `trainer_content` and optional side quests use the stage-aware trainer system. Do not equate SR with CR. Named roster trainers encountered before their mature stage must use legal current forms/resources and then persist from that state.
+
+
+Circuit Rank note: Asteria uses hard access bands F→E→D→C→B→A→S, not badges. The next area band remains locked until the associated Promotion Trial is actually won. Rank S only unlocks the World Qualifier route.
