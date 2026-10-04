@@ -175,11 +175,27 @@
           "goto": "job_farm_taken",
           "effects": [
             {
-              "type": "set_flag",
-              "key": "sq_farm_herd_hands_state",
-              "value": "active"
+              "type": "quest_start",
+              "questId": "SQ_FARM_HERD_HANDS",
+              "title": "Recinti aperti",
+              "objective": "Aiuta la Fattoria del Vento a recuperare i Pokémon dispersi senza spaventarli."
             }
-          ]
+          ],
+          "conditions": {
+            "any": [
+              {
+                "path": "quests.SQ_FARM_HERD_HANDS.status",
+                "exists": false
+              },
+              {
+                "path": "quests.SQ_FARM_HERD_HANDS.status",
+                "in": [
+                  "available",
+                  "active"
+                ]
+              }
+            ]
+          }
         },
         {
           "id": "logistics",
@@ -187,11 +203,16 @@
           "goto": "job_logistics",
           "effects": [
             {
-              "type": "set_flag",
-              "key": "m1_logistics_job_state",
-              "value": "active"
+              "type": "quest_start",
+              "questId": "M1_VALE_LOGISTICS_01",
+              "title": "Consegna ai magazzini",
+              "objective": "Consegna il pacco ai magazzini fluviali di Valedarsena."
             }
-          ]
+          ],
+          "conditions": {
+            "path": "quests.M1_VALE_LOGISTICS_01.status",
+            "exists": false
+          }
         },
         {
           "id": "ignore",
@@ -251,9 +272,9 @@
                   "value": true
                 },
                 {
-                  "type": "set_flag",
-                  "key": "m1_logistics_job_state",
-                  "value": "completed"
+                  "type": "quest_complete",
+                  "questId": "M1_VALE_LOGISTICS_01",
+                  "resolution": "completed_with_clue"
                 }
               ]
             },
@@ -261,9 +282,9 @@
               "goto": "logistics_done",
               "effects": [
                 {
-                  "type": "set_flag",
-                  "key": "m1_logistics_job_state",
-                  "value": "completed"
+                  "type": "quest_complete",
+                  "questId": "M1_VALE_LOGISTICS_01",
+                  "resolution": "completed_delivery"
                 }
               ]
             }
@@ -275,9 +296,9 @@
           "goto": "logistics_done",
           "effects": [
             {
-              "type": "set_flag",
-              "key": "m1_logistics_job_state",
-              "value": "completed"
+              "type": "quest_complete",
+              "questId": "M1_VALE_LOGISTICS_01",
+              "resolution": "completed_delivery"
             }
           ]
         }
