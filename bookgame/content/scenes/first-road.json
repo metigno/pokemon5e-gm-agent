@@ -1,0 +1,214 @@
+{
+  "schemaVersion": 1,
+  "id": "first-road",
+  "title": "Il sentiero delle Ginestre",
+  "locationId": "asteria_ginestre",
+  "nodes": {
+    "arrival": {
+      "text": "La strada lascia Valedarsena e si stringe tra muretti bassi e ginestre. Poco avanti, un giovane Houndour sta bevendo da una pozzanghera ai margini del sentiero. Ha già percepito la tua presenza: non attacca, ma irrigidisce le zampe e ti segue con gli occhi.",
+      "choices": [
+        {
+          "id": "observe",
+          "text": "Resto a distanza e osservo il suo comportamento.",
+          "goto": "observed"
+        },
+        {
+          "id": "approach",
+          "text": "Mi abbasso e provo ad avvicinarmi senza minacciarlo.",
+          "check": {
+            "ability": "WIS",
+            "skill": "Animal Handling",
+            "dc": 12
+          },
+          "outcomes": {
+            "success": {
+              "goto": "trust",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "houndour_ginestre_disposition",
+                  "value": "calm"
+                }
+              ]
+            },
+            "failure": {
+              "goto": "warning",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "houndour_ginestre_disposition",
+                  "value": "defensive"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "send_starter",
+          "text": "Mando avanti il mio Pokémon e accetto il rischio di uno scontro.",
+          "combat": {
+            "encounterId": "HOUNDOUR_GINESTRE_001",
+            "goto": "combat_handoff",
+            "opponent": {
+              "species": "Houndour",
+              "level": 3,
+              "motive": "defend_space_and_escape"
+            },
+            "returnNodes": {
+              "win": "combat_win",
+              "lose": "combat_loss",
+              "fled": "houndour_fled"
+            }
+          }
+        },
+        {
+          "id": "leave",
+          "text": "Gli lascio spazio e continuo lungo la strada.",
+          "goto": "road_continue"
+        }
+      ]
+    },
+    "observed": {
+      "text": "Non sta cacciando. Beve in fretta e controlla spesso il pendio alle sue spalle. Il ringhio basso che senti quando muovi un piede sembra un avvertimento, non un invito allo scontro.",
+      "choices": [
+        {
+          "id": "approach",
+          "text": "Ora provo ad avvicinarmi con calma.",
+          "check": {
+            "ability": "WIS",
+            "skill": "Animal Handling",
+            "dc": 12
+          },
+          "outcomes": {
+            "success": {
+              "goto": "trust",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "houndour_ginestre_disposition",
+                  "value": "calm"
+                }
+              ]
+            },
+            "failure": {
+              "goto": "warning",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "houndour_ginestre_disposition",
+                  "value": "defensive"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "send_starter",
+          "text": "Mando avanti il mio Pokémon.",
+          "combat": {
+            "encounterId": "HOUNDOUR_GINESTRE_001",
+            "goto": "combat_handoff",
+            "opponent": {
+              "species": "Houndour",
+              "level": 3,
+              "motive": "defend_space_and_escape"
+            },
+            "returnNodes": {
+              "win": "combat_win",
+              "lose": "combat_loss",
+              "fled": "houndour_fled"
+            }
+          }
+        },
+        {
+          "id": "leave",
+          "text": "Non lo disturbo oltre.",
+          "goto": "road_continue"
+        }
+      ]
+    },
+    "trust": {
+      "text": "Houndour tende il muso verso di te. Per qualche secondo resta pronto a scattare, poi le spalle si abbassano. Torna a bere senza smettere di controllarti: non si fida ancora, ma ha deciso che non sei una minaccia immediata.",
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Riprendo il cammino.",
+          "goto": "road_continue"
+        }
+      ]
+    },
+    "warning": {
+      "text": "Hai ridotto la distanza troppo in fretta. Houndour arretra di mezzo passo, scopre i denti e lascia uscire un ringhio più netto. Ti sta dando la possibilità di fermarti.",
+      "choices": [
+        {
+          "id": "back_away",
+          "text": "Mi fermo e gli restituisco spazio.",
+          "goto": "road_continue",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "houndour_ginestre_escalation",
+              "value": "avoided"
+            }
+          ]
+        },
+        {
+          "id": "fight",
+          "text": "Mando avanti il mio Pokémon.",
+          "combat": {
+            "encounterId": "HOUNDOUR_GINESTRE_001",
+            "goto": "combat_handoff",
+            "opponent": {
+              "species": "Houndour",
+              "level": 3,
+              "motive": "defend_space_and_escape"
+            },
+            "returnNodes": {
+              "win": "combat_win",
+              "lose": "combat_loss",
+              "fled": "houndour_fled"
+            }
+          }
+        }
+      ]
+    },
+    "combat_handoff": {
+      "text": "Il momento passa dalla scena narrativa al risolutore Pokémon 5e. Il Bookgame conserva il contesto, ma non decide danni, HP, condizioni o risultato del combattimento.",
+      "choices": []
+    },
+    "combat_win": {
+      "text": "Lo scontro si chiude a tuo favore. Houndour cerca una via di fuga invece di continuare a rischiare ferite inutili. Il sentiero torna silenzioso.",
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Continuo verso l'interno.",
+          "goto": "road_continue"
+        }
+      ]
+    },
+    "combat_loss": {
+      "text": "Sei costretto a cedere terreno. Houndour non insegue oltre il necessario: mantiene la distanza che voleva e lascia che tu ti ritiri.",
+      "choices": [
+        {
+          "id": "retreat",
+          "text": "Mi allontano e riprendo fiato.",
+          "goto": "road_continue"
+        }
+      ]
+    },
+    "houndour_fled": {
+      "text": "Houndour trova un varco tra le ginestre e scompare sul pendio. Non hai vinto né perso: l'animale ha semplicemente scelto di uscire dalla situazione.",
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Riprendo il cammino.",
+          "goto": "road_continue"
+        }
+      ]
+    },
+    "road_continue": {
+      "text": "Lasci alle spalle la pozzanghera e continui lungo il sentiero. Il vertical slice termina qui, ma lo stato della scena è già parte del salvataggio.",
+      "choices": []
+    }
+  }
+}
