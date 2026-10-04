@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "M01",
+  "events": [
+    {
+      "id": "A1_WORLD_MOVES",
+      "once": true,
+      "trigger": {
+        "any": [
+          {
+            "path": "world.day",
+            "gte": 3
+          },
+          {
+            "path": "world.flags.first_settlement_reached",
+            "eq": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "pressure_already_noticed",
+          "when": {
+            "path": "world.flags.m1_world_pressure_known",
+            "eq": true
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_state",
+              "value": "pressure_noticed"
+            }
+          ]
+        },
+        {
+          "id": "pressure_unnoticed",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_state",
+              "value": "pressure_unnoticed"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
