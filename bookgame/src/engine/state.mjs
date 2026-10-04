@@ -1,6 +1,7 @@
 import { getStartingBuild } from "../../../src/bridge/motor-to-poke5e.mjs";
 import { DEFAULT_START_MINUTE, daypartForMinute } from "./time.mjs";
 import { createPersistentNpc } from "./npc-state.mjs";
+import { createCompetitionState } from "./competition-state.mjs";
 
 export function proficiencyBonus(level) {
   if (!Number.isInteger(level) || level < 1) throw new RangeError("Trainer level must be >= 1");
@@ -40,6 +41,7 @@ export function createNewGameState({
     },
     quests: {},
     events: {},
+    competition: createCompetitionState(),
     npcs: {
       Mattew: createPersistentNpc({ id: "Mattew", name: "Mattew" }),
       Daniel: createPersistentNpc({ id: "Daniel", name: "Daniel" }),
