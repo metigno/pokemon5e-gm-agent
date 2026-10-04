@@ -1139,7 +1139,11 @@ export class Pokemon5eCombatEngine {
     if (usable.length === 0) return endTurnInternal(next, "opponent", this.dice);
 
     usable.sort((a, b) => {
-      const rank = (move) => move.time?.unit === "action" ? 0 : 1;
+      const rank = (move) => {
+        const timeRank = move.time?.unit === "action" ? 0 : 10;
+        const directRank = move.attack && move.dice?.type === "damage" ? 0 : 1;
+        return timeRank + directRank;
+      };
       return rank(a) - rank(b);
     });
 
