@@ -1,0 +1,135 @@
+{
+  "schema_version": 1,
+  "save_slot": 1,
+  "world_id": "ASTERIA",
+  "world_name": "Territorio Interregionale di Asteria",
+  "current_location_id": "VAL-POKECENTER",
+  "clock": {
+    "day": 1,
+    "phase": "morning",
+    "minutes_from_midnight": null
+  },
+  "weather": {
+    "status": "unresolved_until_relevant"
+  },
+  "discovered_locations": [
+    "AST-CAMPUS",
+    "AST-GINESTRE",
+    "VAL-CITY",
+    "VAL-TRAINER-ROW",
+    "VAL-JOB-BOARD",
+    "VAL-WAREHOUSES",
+    "VAL-POKECENTER"
+  ],
+  "visited_locations": [
+    "AST-CAMPUS",
+    "AST-GINESTRE",
+    "VAL-CITY",
+    "VAL-TRAINER-ROW",
+    "VAL-JOB-BOARD",
+    "VAL-WAREHOUSES",
+    "VAL-POKECENTER"
+  ],
+  "location_states": {
+    "AST-CAMPUS": {
+      "status": "left_after_licensing",
+      "last_updated_day": 1
+    },
+    "AST-GINESTRE": {
+      "status": "traversed",
+      "last_updated_day": 1
+    },
+    "VAL-CITY": {
+      "status": "active",
+      "last_updated_day": 1
+    },
+    "VAL-TRAINER-ROW": {
+      "status": "visited",
+      "last_updated_day": 1
+    },
+    "VAL-JOB-BOARD": {
+      "status": "visited",
+      "last_updated_day": 1
+    },
+    "VAL-WAREHOUSES": {
+      "status": "visited",
+      "last_updated_day": 1,
+      "flags": {
+        "warehouse_job_02_completed_by": "Luke",
+        "wild_rattata_incident_resolved": true
+      }
+    },
+    "VAL-POKECENTER": {
+      "status": "current",
+      "last_updated_day": 1
+    }
+  },
+  "economy": {
+    "VAL-TRAINER-SHOP": {
+      "reference_prices": {
+        "fire_stone": 4000,
+        "poke_ball": 250
+      },
+      "supply_tags": {
+        "fire_stone": "scarce",
+        "poke_ball": "normal"
+      },
+      "last_updated_day": 1
+    }
+  },
+  "jobs": {
+    "boards": {
+      "VAL-JOB-BOARD": {
+        "generated_day": 1,
+        "jobs": [
+          {
+            "id": "JOB-01",
+            "title": "Pacco smarrito sulla strada nord",
+            "reward": 700,
+            "status": "available"
+          },
+          {
+            "id": "JOB-02",
+            "title": "Pokémon nel magazzino",
+            "reward": 900,
+            "status": "completed_by_Luke"
+          },
+          {
+            "id": "JOB-03",
+            "title": "Consegna urgente alla fattoria",
+            "reward": 600,
+            "status": "available"
+          }
+        ]
+      }
+    }
+  },
+  "news": [],
+  "rumors": [],
+  "faction_clocks": {},
+  "ecology": {},
+  "transit": {
+    "rail": {
+      "status": "not_yet_used"
+    },
+    "ferry": {
+      "status": "not_yet_used"
+    },
+    "local_bus": {
+      "status": "available_where_scheduled"
+    }
+  },
+  "persistent_changes": [
+    {
+      "id": "PC-VAL-WH-01",
+      "day": 1,
+      "location_id": "VAL-WAREHOUSES",
+      "summary": "Luke completed the warehouse wild-Pokémon job; the involved business remembers the intervention."
+    }
+  ],
+  "last_world_pulse": {
+    "day": 1,
+    "phase": "morning",
+    "reason": "state aligned to Asteria world map"
+  }
+}

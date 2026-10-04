@@ -130,3 +130,16 @@ Combat includes movement, impacts, positioning and visible reactions while still
 Routine actions stay concise; major moments receive richer narration.
 
 See `campaign/GM_NARRATION_STYLE.md`.
+
+
+## Asteria — living world
+
+The campaign starts in the **Territorio Interregionale di Asteria**.
+
+Asteria has a persistent topological map, cities, districts, routes, transport, ecology, jobs, factions, news, schedules and off-screen NPC activity.
+
+The first city is **Valedarsena**, a dense estuary/rail hub rather than a one-screen service town.
+
+Each save slot has its own `world-state.json`, so two players can permanently change the world in different ways.
+
+See `campaign/world/`.

@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "save_slot": 3,
+  "world_id": "ASTERIA",
+  "world_name": "Territorio Interregionale di Asteria",
+  "current_location_id": null,
+  "clock": {
+    "day": 0,
+    "phase": "morning",
+    "minutes_from_midnight": null
+  },
+  "weather": {
+    "status": "unresolved_until_relevant"
+  },
+  "discovered_locations": [
+    "AST-CAMPUS"
+  ],
+  "visited_locations": [],
+  "location_states": {
+    "AST-CAMPUS": {
+      "status": "opening_ready",
+      "last_updated_day": 0
+    }
+  },
+  "economy": {},
+  "jobs": {
+    "boards": {}
+  },
+  "news": [],
+  "rumors": [],
+  "faction_clocks": {},
+  "ecology": {},
+  "transit": {
+    "rail": {
+      "status": "not_yet_used"
+    },
+    "ferry": {
+      "status": "not_yet_used"
+    },
+    "local_bus": {
+      "status": "available_where_scheduled"
+    }
+  },
+  "persistent_changes": [],
+  "last_world_pulse": null
+}

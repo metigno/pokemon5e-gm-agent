@@ -1,5 +1,5 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "save_system": "five_independent_slots",
   "slot_count": 5,
   "active_slot": null,
@@ -15,7 +15,8 @@
       "protagonist": "Luke",
       "checkpoints_file": "saves/slot1/checkpoints.json",
       "last_saved_at": "2026-10-04T02:43:10+02:00",
-      "summary": "JOB-02 complete. Luke at city Pokécenter; Hisuian Growlithe fully healed to 35/35 HP; ₽2100."
+      "summary": "JOB-02 complete. Luke at city Pokécenter; Hisuian Growlithe fully healed to 35/35 HP; ₽2100.",
+      "world_state_file": "saves/slot1/world-state.json"
     },
     {
       "slot": 2,
@@ -25,7 +26,8 @@
       "session_log": "saves/slot2/session-log.md",
       "player_label": null,
       "protagonist": null,
-      "checkpoints_file": "saves/slot2/checkpoints.json"
+      "checkpoints_file": "saves/slot2/checkpoints.json",
+      "world_state_file": "saves/slot2/world-state.json"
     },
     {
       "slot": 3,
@@ -35,7 +37,8 @@
       "session_log": "saves/slot3/session-log.md",
       "player_label": null,
       "protagonist": null,
-      "checkpoints_file": "saves/slot3/checkpoints.json"
+      "checkpoints_file": "saves/slot3/checkpoints.json",
+      "world_state_file": "saves/slot3/world-state.json"
     },
     {
       "slot": 4,
@@ -45,7 +48,8 @@
       "session_log": "saves/slot4/session-log.md",
       "player_label": null,
       "protagonist": null,
-      "checkpoints_file": "saves/slot4/checkpoints.json"
+      "checkpoints_file": "saves/slot4/checkpoints.json",
+      "world_state_file": "saves/slot4/world-state.json"
     },
     {
       "slot": 5,
@@ -55,12 +59,18 @@
       "session_log": "saves/slot5/session-log.md",
       "player_label": null,
       "protagonist": null,
-      "checkpoints_file": "saves/slot5/checkpoints.json"
+      "checkpoints_file": "saves/slot5/checkpoints.json",
+      "world_state_file": "saves/slot5/world-state.json"
     }
   ],
   "event_system": {
     "shared_event_graph": "campaign/events/MAIN_EVENT_GRAPH.json",
     "intro": "campaign/events/INTRO_CHAIN.md",
     "checkpoint_policy": "campaign/events/CHECKPOINT_POLICY.md"
+  },
+  "world": {
+    "id": "ASTERIA",
+    "map_file": "campaign/world/REGION_MAP.json",
+    "living_world_rules": "campaign/world/LIVING_WORLD_SYSTEM.md"
   }
 }

@@ -10,7 +10,8 @@ This project has exactly **5 independent campaign save slots**.
 
 Each slot contains:
 - `campaign.json` — authoritative mechanical/durable state;
-- `session-log.md` — chronological factual checkpoint log.
+- `session-log.md` — chronological factual checkpoint log;
+- `world-state.json` — persistent state of locations, jobs, economy, news, ecology and world changes.
 
 ## Safety rule
 

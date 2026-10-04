@@ -19,8 +19,8 @@
   "campaign": {
     "title": "Five Friends — Road to the World Championship",
     "structure": "classic Pokemon journey using Pokemon 5e tabletop rules",
-    "starting_region": null,
-    "starting_location": null,
+    "starting_region": "Territorio Interregionale di Asteria",
+    "starting_location": "Campus Licenze Interregionale di Asteria",
     "world_championship": {
       "long_term_objective": true,
       "guaranteed_reach": false,
@@ -176,5 +176,7 @@
       "Fab": "Weezing"
     },
     "rule": "NPC intent is scripted; evolution itself must satisfy current Pokemon 5e requirements and campaign causality."
-  }
+  },
+  "world_state_ref": "saves/slot4/world-state.json",
+  "world_map_ref": "campaign/world/REGION_MAP.json"
 }

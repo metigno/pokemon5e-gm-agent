@@ -101,3 +101,14 @@ Named trainers outside the five friends keep their own established identity, his
 Use `canon/ROSTER2060_CHARACTER_BIBLE.json` whenever one of them appears.
 
 Do not flatten them into generic rivals or make them exist only to serve the protagonist.
+
+
+## Starting world — Asteria
+
+The five friends begin together in the **Territorio Interregionale di Asteria**, at the Campus Licenze Interregionale outside Valedarsena.
+
+Asteria is the shared starting territory for all saves. The friends' later regional associations remain character/lore references, not separate starting maps.
+
+The world is semi-open: routes, settlements, jobs, NPC schedules, ecology, transport and competitions continue to change with campaign time.
+
+See `campaign/world/`.

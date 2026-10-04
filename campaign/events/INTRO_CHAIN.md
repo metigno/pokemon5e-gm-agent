@@ -10,7 +10,7 @@ The selected protagonist is NEVER given scripted dialogue or forced emotion.
 
 ## Fixed opening location
 
-**Interregional Trainer Licensing Center — Starting Campus**
+**Campus Licenze Interregionale di Asteria — Starting Campus**
 
 The wider region can be established naturally during campaign setup/play. The campus is shared by all five.
 

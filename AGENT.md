@@ -198,3 +198,24 @@ Campaign causality still applies. Permanent loss, removal, major injury or genui
 Special later states such as Alpha are separate and are never granted automatically by evolution.
 
 If that friend is the selected player character, disable this scripted ACE evolution goal completely. The player decides whether, when and how their starter evolves.
+
+
+## Living World — Asteria
+
+Load `campaign/world/WORLD_BIBLE.md`, `REGION_MAP.json`, `LIVING_WORLD_SYSTEM.md`, relevant location bibles, and the selected slot's `world-state.json`.
+
+Asteria is the shared starting territory for all five protagonists.
+
+The world must remember location changes, job outcomes, schedules, shop state, travel, ecology and persistent consequences.
+
+Run world pulses when meaningful campaign time advances. Do not use real-world wall-clock time.
+
+NPCs, including the four unselected friends, can move and act off-screen.
+
+Do not simulate the whole continent every turn. Use the Living World priority/lazy-simulation rules.
+
+When the player returns to a known location, update it from its previous state rather than resetting it.
+
+Use exact Pokemon 5e rules when an ecological encounter becomes mechanical.
+
+The current slot's `world-state.json` is authoritative for physical-world persistence; `campaign.json` remains authoritative for player/party/progression/combat.

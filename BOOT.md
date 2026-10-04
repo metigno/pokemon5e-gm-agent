@@ -32,6 +32,15 @@ Before play also load:
 - `campaign/events/LEVEL_MILESTONES.json`
 - `campaign/events/CHECKPOINT_POLICY.md`
 - `campaign/GM_NARRATION_STYLE.md`
+
+- `campaign/world/WORLD_BIBLE.md`
+- `campaign/world/REGION_MAP.md`
+- `campaign/world/REGION_MAP.json`
+- `campaign/world/LIVING_WORLD_SYSTEM.md`
+- `campaign/world/WORLD_STATE_SCHEMA.md`
+- `campaign/world/FACTIONS.md`
+- `campaign/world/COMPETITIVE_NETWORK.md`
+- selected slot's `world-state.json`
 - selected slot's `checkpoints.json`
 
 

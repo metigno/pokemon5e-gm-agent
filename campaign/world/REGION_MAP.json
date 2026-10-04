@@ -1,0 +1,340 @@
+{
+  "schema_version": 1,
+  "world_id": "ASTERIA",
+  "name": "Territorio Interregionale di Asteria",
+  "map_model": "topological_graph",
+  "nodes": [
+    {
+      "id": "AST-CAMPUS",
+      "name": "Campus Licenze Interregionale di Asteria",
+      "type": "campus",
+      "tier": "rookie",
+      "tags": [
+        "start",
+        "license",
+        "safe"
+      ]
+    },
+    {
+      "id": "AST-GINESTRE",
+      "name": "Via delle Ginestre",
+      "type": "route",
+      "tier": "rookie",
+      "tags": [
+        "fields",
+        "road"
+      ]
+    },
+    {
+      "id": "VAL-CITY",
+      "name": "Valedarsena",
+      "type": "city",
+      "tier": "rookie_hub",
+      "tags": [
+        "estuary",
+        "market",
+        "rail",
+        "jobs",
+        "arena"
+      ]
+    },
+    {
+      "id": "AST-FARM",
+      "name": "Fattoria del Vento",
+      "type": "rural_zone",
+      "tier": "rookie",
+      "tags": [
+        "farm",
+        "open_fields"
+      ]
+    },
+    {
+      "id": "AST-CANAL",
+      "name": "Canale delle Ruote",
+      "type": "route_zone",
+      "tier": "rookie",
+      "tags": [
+        "water",
+        "bridges",
+        "industry"
+      ]
+    },
+    {
+      "id": "AST-MISTWOOD",
+      "name": "Bosco Bruma",
+      "type": "wild_zone",
+      "tier": "rookie_mid",
+      "tags": [
+        "forest",
+        "fog"
+      ]
+    },
+    {
+      "id": "AST-HILLS",
+      "name": "Sentiero delle Colline",
+      "type": "route_zone",
+      "tier": "rookie_mid",
+      "tags": [
+        "hills",
+        "wind"
+      ]
+    },
+    {
+      "id": "AST-QUARRY",
+      "name": "Cava Grigia",
+      "type": "wild_industrial_zone",
+      "tier": "rookie_mid",
+      "tags": [
+        "rock",
+        "mining"
+      ]
+    },
+    {
+      "id": "SAL-TOWN",
+      "name": "Borgo Salice",
+      "type": "town",
+      "tier": "regional",
+      "tags": [
+        "rangers",
+        "forest"
+      ]
+    },
+    {
+      "id": "MIR-MARSH",
+      "name": "Palude Mirto",
+      "type": "wild_zone",
+      "tier": "regional",
+      "tags": [
+        "marsh",
+        "poison",
+        "wetlands"
+      ]
+    },
+    {
+      "id": "RIV-TOWN",
+      "name": "Rivafonda",
+      "type": "town",
+      "tier": "regional",
+      "tags": [
+        "wetlands",
+        "research"
+      ]
+    },
+    {
+      "id": "FER-CITY",
+      "name": "Ferravia",
+      "type": "city",
+      "tier": "regional",
+      "tags": [
+        "industry",
+        "rail",
+        "steel"
+      ]
+    },
+    {
+      "id": "FER-TUNNELS",
+      "name": "Gallerie Ferrox",
+      "type": "dungeon_zone",
+      "tier": "regional_high",
+      "tags": [
+        "caves",
+        "mines",
+        "dark"
+      ]
+    },
+    {
+      "id": "FER-MOUNTAINS",
+      "name": "Monti Ferrox",
+      "type": "wild_zone",
+      "tier": "regional_high",
+      "tags": [
+        "mountain",
+        "cold"
+      ]
+    },
+    {
+      "id": "ALT-TOWN",
+      "name": "Altacima",
+      "type": "town",
+      "tier": "regional_high",
+      "tags": [
+        "altitude",
+        "climbing"
+      ]
+    },
+    {
+      "id": "FUL-PLATEAU",
+      "name": "Altopiano Fulgore",
+      "type": "wild_zone",
+      "tier": "late_regional",
+      "tags": [
+        "storms",
+        "electric",
+        "wind"
+      ]
+    },
+    {
+      "id": "MAR-CITY",
+      "name": "Mareasale",
+      "type": "city",
+      "tier": "regional",
+      "tags": [
+        "coast",
+        "ferry",
+        "fish_market"
+      ]
+    },
+    {
+      "id": "SAL-COAST",
+      "name": "Costa di Sale",
+      "type": "wild_zone",
+      "tier": "regional_high",
+      "tags": [
+        "coast",
+        "caves",
+        "wind"
+      ]
+    },
+    {
+      "id": "FAR-RUINS",
+      "name": "Rovine del Primo Faro",
+      "type": "ruins",
+      "tier": "late_regional",
+      "tags": [
+        "ruins",
+        "archaeology",
+        "cliffs"
+      ]
+    },
+    {
+      "id": "MER-CAPITAL",
+      "name": "Meridiana",
+      "type": "capital_city",
+      "tier": "late_regional",
+      "tags": [
+        "league",
+        "international",
+        "arena",
+        "media"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "AST-CAMPUS",
+      "to": "AST-GINESTRE",
+      "walk_minutes": 20
+    },
+    {
+      "from": "AST-GINESTRE",
+      "to": "VAL-CITY",
+      "walk_minutes": 70
+    },
+    {
+      "from": "AST-GINESTRE",
+      "to": "AST-FARM",
+      "walk_minutes": 70
+    },
+    {
+      "from": "VAL-CITY",
+      "to": "AST-CANAL",
+      "walk_minutes": 90
+    },
+    {
+      "from": "VAL-CITY",
+      "to": "AST-MISTWOOD",
+      "walk_minutes": 150
+    },
+    {
+      "from": "VAL-CITY",
+      "to": "AST-HILLS",
+      "walk_minutes": 180
+    },
+    {
+      "from": "VAL-CITY",
+      "to": "AST-QUARRY",
+      "walk_minutes": 180
+    },
+    {
+      "from": "AST-MISTWOOD",
+      "to": "SAL-TOWN",
+      "walk_minutes": 210
+    },
+    {
+      "from": "SAL-TOWN",
+      "to": "MIR-MARSH",
+      "walk_minutes": 180
+    },
+    {
+      "from": "MIR-MARSH",
+      "to": "RIV-TOWN",
+      "walk_minutes": 150
+    },
+    {
+      "from": "AST-QUARRY",
+      "to": "FER-CITY",
+      "walk_minutes": 240
+    },
+    {
+      "from": "FER-CITY",
+      "to": "FER-TUNNELS",
+      "walk_minutes": 120
+    },
+    {
+      "from": "FER-TUNNELS",
+      "to": "FER-MOUNTAINS",
+      "walk_minutes": 180
+    },
+    {
+      "from": "FER-MOUNTAINS",
+      "to": "ALT-TOWN",
+      "walk_minutes": 150
+    },
+    {
+      "from": "ALT-TOWN",
+      "to": "FUL-PLATEAU",
+      "walk_minutes": 120
+    },
+    {
+      "from": "AST-CANAL",
+      "to": "MAR-CITY",
+      "walk_minutes": 330
+    },
+    {
+      "from": "MAR-CITY",
+      "to": "SAL-COAST",
+      "walk_minutes": 150
+    },
+    {
+      "from": "SAL-COAST",
+      "to": "FAR-RUINS",
+      "walk_minutes": 180
+    },
+    {
+      "from": "VAL-CITY",
+      "to": "MER-CAPITAL",
+      "walk_minutes": 1020,
+      "transit": [
+        "rail_when_unlocked"
+      ]
+    },
+    {
+      "from": "FER-CITY",
+      "to": "MER-CAPITAL",
+      "walk_minutes": 480,
+      "transit": [
+        "rail"
+      ]
+    },
+    {
+      "from": "ALT-TOWN",
+      "to": "MER-CAPITAL",
+      "walk_minutes": 420
+    },
+    {
+      "from": "FAR-RUINS",
+      "to": "MER-CAPITAL",
+      "walk_minutes": 360
+    }
+  ]
+}
