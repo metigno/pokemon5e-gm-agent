@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "M01",
+  "zones": [
+    {
+      "id": "AST-GINESTRE",
+      "sourceZoneId": "AST-GINESTRE",
+      "habitats": ["field", "grassland", "riverside"],
+      "methods": ["wild_observation", "overland_encounter"]
+    },
+    {
+      "id": "AST-FARM",
+      "sourceZoneId": "AST-FARM",
+      "habitats": ["field", "grassland", "pond"],
+      "methods": ["wild_observation", "overland_encounter", "shoreline_or_water_travel", "fishing_when_plausible"]
+    },
+    {
+      "id": "VAL-CITY",
+      "sourceZoneId": "VAL-CITY",
+      "habitats": ["city", "riverside"],
+      "methods": ["wild_observation", "overland_encounter", "shoreline_or_water_travel"]
+    },
+    {
+      "id": "VAL-WAREHOUSES",
+      "sourceZoneId": "VAL-CITY",
+      "habitats": ["industrial", "city"],
+      "methods": ["wild_observation", "overland_encounter"]
+    }
+  ]
+}
