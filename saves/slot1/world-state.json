@@ -3,11 +3,11 @@
   "save_slot": 1,
   "world_id": "ASTERIA",
   "world_name": "Territorio Interregionale di Asteria",
-  "current_location_id": "VAL-MARKET",
+  "current_location_id": "AST-GINESTRE",
   "clock": {
     "day": 1,
     "phase": "afternoon",
-    "minutes_from_midnight": 750
+    "minutes_from_midnight": 820
   },
   "weather": {
     "status": "unresolved_until_relevant"
@@ -42,7 +42,7 @@
       "last_updated_day": 1
     },
     "AST-GINESTRE": {
-      "status": "traversed",
+      "status": "current",
       "last_updated_day": 1
     },
     "VAL-CITY": {
@@ -70,7 +70,7 @@
       "last_updated_day": 1
     },
     "VAL-MARKET": {
-      "status": "current",
+      "status": "visited",
       "last_updated_day": 1
     },
     "VAL-CANAL-PARK": {
