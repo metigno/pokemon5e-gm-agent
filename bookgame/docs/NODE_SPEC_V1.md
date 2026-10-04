@@ -1,4 +1,4 @@
-# P5E LIBROGAME — NODE SPEC v1.6
+# P5E LIBROGAME — NODE SPEC v1.7
 
 Status: implementation contract for the offline bookgame compiler.
 Authority: subordinate to P5E_LIBROGAME_ENGINE_SOURCE_OF_TRUTH.md. If this document conflicts with the Source of Truth, the Source of Truth wins.
@@ -110,9 +110,9 @@ Example:
     {
       "conditions": {
         "all": [
-          { "path": "world.flags.current_rank", "eq": "F" },
+          { "path": "competition.rank", "eq": "F" },
           { "path": "player.roster.length", "gte": 2 },
-          { "path": "world.flags.rank_trial_F_E_available", "eq": true }
+          { "path": "competition.trials.RANK_F_TO_E.available", "eq": true }
         ]
       }
     }
@@ -355,6 +355,102 @@ One-shot events never fire twice. Recurring events, when authored later, may fir
 
 E6 supports off-screen progression but does not fabricate simulation results. Any NPC result, quest resolution or schedule change must be explicitly authored in an event outcome or delegated to an approved resolver.
 
+## 3.6 Official competition / Circuit Rank — E5
+
+Competitive progression is durable structured state under `state.competition`.
+
+Core fields:
+
+- `competition.rank`: F → E → D → C → B → A → S
+- `competition.rankOrder`: numeric order for authored `gte` checks
+- `competition.circuitPoints`: parallel ranking value; never bypasses Promotion Trials
+- `competition.firstOfficialResolved`
+- `competition.history`
+- `competition.activeMatch`
+- `competition.trials.<checkpointId>`
+
+M01 begins at Rank F.
+
+Promotion Trial state records:
+
+- availability;
+- registration;
+- attempts;
+- required roster size;
+- last result;
+- best result;
+- completion;
+- from/to rank;
+- retryability.
+
+Supported competition effects:
+
+    {
+      "type": "competition_trial_available",
+      "checkpointId": "RANK_F_TO_E",
+      "fromRank": "F",
+      "toRank": "E",
+      "requiredRosterSize": 2,
+      "retryable": true
+    }
+
+    {
+      "type": "competition_trial_register",
+      "checkpointId": "RANK_F_TO_E"
+    }
+
+Registration is rejected unless the current rank and real player roster satisfy the authored checkpoint requirement.
+
+Official battles continue to use the normal Pokémon 5e combat handoff. An official combat adds data-only metadata:
+
+    {
+      "combat": {
+        "...": "...",
+        "opponentRegistered": true,
+        "competition": {
+          "type": "promotion_trial",
+          "matchId": "A1_FIRST_GATE_ATTEMPT",
+          "checkpointId": "RANK_F_TO_E",
+          "fromRank": "F",
+          "toRank": "E",
+          "format": "Singles",
+          "officialRosterSize": 2,
+          "difficulty": "HARD",
+          "retryable": true
+        }
+      }
+    }
+
+For `official_match`, use the same structure without checkpoint/fromRank/toRank/retryable. Set `firstOfficial: true` only for the canonical first sanctioned match.
+
+Rules:
+
+- E5 never computes battle mechanics or decides the winner.
+- Official opponents are treated as registered Trainer Pokémon, so capture is illegal.
+- Competitive combat must provide `win` and `lose` return nodes.
+- A Promotion Trial attempt increments when the battle handoff begins.
+- Loss leaves rank unchanged and, when retryable, reopens registration.
+- Win is the only result that completes the checkpoint and promotes rank.
+- The first official match may be won or lost; either real result can mark it resolved.
+- HP, PP, conditions and other battle consequences remain owned by the Pokémon 5e resolver.
+
+E1 may read:
+
+- `competition.rank`
+- `competition.rankOrder`
+- `competition.circuitPoints`
+- `competition.firstOfficialResolved`
+- `competition.history.length`
+- `competition.trials.<checkpointId>.available`
+- `competition.trials.<checkpointId>.registered`
+- `competition.trials.<checkpointId>.attempts`
+- `competition.trials.<checkpointId>.bestResult`
+- `competition.trials.<checkpointId>.lastResult`
+- `competition.trials.<checkpointId>.completed`
+- `competition.trials.<checkpointId>.requiredRosterSize`
+
+Do not mirror Circuit Rank or Trial state into `world.flags`.
+
 ## 4. Choice
 
 Every choice requires:
@@ -444,6 +540,8 @@ Current runtime effect types:
 - npc_relationship_adjust
 - npc_state_set
 - npc_schedule_set
+- competition_trial_available
+- competition_trial_register
 
 Examples:
 
@@ -472,6 +570,7 @@ Compilation fails for at least:
 - malformed quest transitions, IDs, deadlines, or deadline outcomes;
 - malformed NPC IDs, schedules, relationship changes, or NPC state values;
 - malformed world-event triggers, outcomes, fallback ordering, or event effects;
+- malformed official competition metadata, Trial state effects, roster requirements, or competitive return outcomes;
 - goto/outcome/combat targets that do not exist;
 - invalid combat encounter/opponent/return-node data.
 
