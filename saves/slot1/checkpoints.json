@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "save_slot": 1,
-  "next_checkpoint_number": 8,
+  "next_checkpoint_number": 9,
   "checkpoints": [
     {
       "id": "CP-PRE-INTRO",
@@ -72,6 +72,16 @@
       "type": "MANUAL",
       "result": "saved",
       "summary": "Luke saved during lunch at Mercato delle Arcate with Mattew, Daniel and Fab. Growlithe is 35/35 HP; Luke has ₽1,900. Edward is traveling toward Fattoria del Vento. Mattew has JOB-01; Edward has JOB-03. Luke has a Bulbasaur lead through Ranger Elio Mar / Borgo Salice."
+    },
+    {
+      "id": "CP-TRAVEL-D1-GINESTRE",
+      "event_id": "FREE_ROAM",
+      "world_day": 1,
+      "trainer_level": 1,
+      "location": "Via delle Ginestre",
+      "type": "CP-CHAIN",
+      "result": "arrived_for_training",
+      "summary": "Luke left Valedarsena after lunch and traveled to Via delle Ginestre to train Hisuian Growlithe."
     }
   ]
 }
