@@ -106,6 +106,18 @@ export class BookgameEngine {
         sourceNodeId: next.story.nodeId,
         opponent: clone(choice.combat.opponent),
         playerPokemon: clone(next.player.starter),
+        playerBench: clone(choice.combat.playerBench ?? []),
+        trainer: {
+          name: next.player.name,
+          level: next.player.trainerLevel,
+          abilities: clone(next.player.abilities),
+          skills: clone(next.player.skills),
+          inventory: clone(next.player.inventory)
+        },
+        trainerPosition: clone(choice.combat.trainerPosition ?? { x: 0, y: 0 }),
+        playerPosition: clone(choice.combat.playerPosition ?? { x: 0, y: 0 }),
+        opponentPosition: clone(choice.combat.opponentPosition ?? { x: 5, y: 0 }),
+        opponentRegistered: Boolean(choice.combat.opponentRegistered),
         returnNodes: clone(choice.combat.returnNodes),
         battle: null
       };
@@ -152,6 +164,31 @@ export class BookgameEngine {
 
     const next = clone(state);
     const encounterId = next.pending.encounterId;
+    const resolvedBattle = next.pending.battle;
+
+    if (resolvedBattle?.trainer?.inventory) {
+      next.player.inventory = clone(resolvedBattle.trainer.inventory);
+    }
+
+    if (outcome === "captured" && resolvedBattle?.opponent) {
+      next.player.roster ??= [clone(next.player.starter)];
+      next.player.roster.push({
+        speciesId: resolvedBattle.opponent.speciesId,
+        name: resolvedBattle.opponent.name,
+        level: resolvedBattle.opponent.level,
+        hp: clone(resolvedBattle.opponent.hp),
+        statuses: clone(resolvedBattle.opponent.statuses),
+        abilityId: resolvedBattle.opponent.abilityId,
+        moveIds: clone(resolvedBattle.opponent.moveIds),
+        pp: clone(resolvedBattle.opponent.pp),
+        capturedAt: {
+          day: next.world.day,
+          locationId: next.world.locationId,
+          encounterId
+        }
+      });
+    }
+
     next.pending = null;
     next.story.nodeId = target;
     next.story.history.push({
