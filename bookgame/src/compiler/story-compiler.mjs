@@ -362,6 +362,44 @@ async function loadModuleManifests(modulesDir, errors) {
       errors.push(diag("INVALID_MODULE_TARGETS", "Module manifest requires integer stitch/choice targets", file));
       continue;
     }
+    if (Array.isArray(manifest.blocks)) {
+      const blockIds = new Set();
+      let blockStitches = 0;
+      let blockChoices = 0;
+
+      for (let index = 0; index < manifest.blocks.length; index += 1) {
+        const block = manifest.blocks[index];
+        const blockAt = file + ".blocks[" + index + "]";
+        if (!isObject(block) || typeof block.id !== "string" || !ID_RE.test(block.id)) {
+          errors.push(diag("INVALID_MODULE_BLOCK", "Module block requires a valid id", blockAt));
+          continue;
+        }
+        if (blockIds.has(block.id)) {
+          errors.push(diag("DUPLICATE_MODULE_BLOCK", "Duplicate module block id: " + block.id, blockAt));
+          continue;
+        }
+        blockIds.add(block.id);
+        if (!isObject(block.targets) ||
+            !Number.isInteger(block.targets.stitches) || block.targets.stitches < 0 ||
+            !Number.isInteger(block.targets.choices) || block.targets.choices < 0) {
+          errors.push(diag("INVALID_MODULE_BLOCK_TARGETS", "Module block requires non-negative integer stitch/choice targets", blockAt));
+          continue;
+        }
+        blockStitches += block.targets.stitches;
+        blockChoices += block.targets.choices;
+      }
+
+      if (blockStitches !== manifest.targets.stitches || blockChoices !== manifest.targets.choices) {
+        errors.push(diag(
+          "MODULE_BLOCK_BUDGET_MISMATCH",
+          "Block budgets must sum exactly to module targets: got " +
+            blockStitches + "/" + blockChoices + ", expected " +
+            manifest.targets.stitches + "/" + manifest.targets.choices,
+          file
+        ));
+      }
+    }
+
     if (Object.hasOwn(manifests, manifest.id)) {
       errors.push(diag("DUPLICATE_MODULE_ID", "Duplicate module manifest: " + manifest.id, file));
       continue;
@@ -440,6 +478,12 @@ export async function compileStory({ scenesDir, modulesDir = path.join(path.dirn
       title: manifest.title ?? moduleId,
       targetStitches: manifest.targets.stitches,
       targetChoices: manifest.targets.choices,
+      blockTargets: (manifest.blocks ?? []).map((block) => ({
+        id: block.id,
+        title: block.title ?? block.id,
+        targetStitches: block.targets.stitches,
+        targetChoices: block.targets.choices
+      })),
       implementedScenes: 0,
       implementedNodes: 0,
       implementedStitches: 0,

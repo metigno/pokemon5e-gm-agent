@@ -111,3 +111,14 @@ test("cross-scene check outcome preserves target scene and node", async () => {
   assert.equal(next.story.sceneId, "target");
   assert.equal(next.story.nodeId, "done");
 });
+
+
+test("M01 production block budgets sum exactly to the module budget", async () => {
+  const bundle = await compileStory({ scenesDir, modulesDir });
+  const blocks = bundle.index.modules.M01.blockTargets;
+
+  assert.equal(blocks.length, 16);
+  assert.equal(blocks.reduce((sum, block) => sum + block.targetStitches, 0), 5047);
+  assert.equal(blocks.reduce((sum, block) => sum + block.targetChoices, 0), 3116);
+  assert.equal(new Set(blocks.map((block) => block.id)).size, blocks.length);
+});

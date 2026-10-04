@@ -25,5 +25,136 @@
     "M1_13_TRIAL_REGISTRATION",
     "M1_14_PROMOTION_TRIAL_F_E",
     "M1_15_TRIAL_RESULT"
+  ],
+  "mappingDocument": "docs/modules/M01_PRODUCTION_MAPPING.md",
+  "blocks": [
+    {
+      "id": "M1_00_RELEASE",
+      "title": "Release to the World",
+      "targets": {
+        "stitches": 150,
+        "choices": 90
+      }
+    },
+    {
+      "id": "M1_01_FIRST_ROAD",
+      "title": "The First Road",
+      "targets": {
+        "stitches": 320,
+        "choices": 200
+      }
+    },
+    {
+      "id": "M1_02_HOUNDOUR_GINESTRE",
+      "title": "Houndour di Ginestre",
+      "targets": {
+        "stitches": 360,
+        "choices": 220
+      }
+    },
+    {
+      "id": "M1_03_FIRST_REAL_FORK",
+      "title": "Primo bivio reale",
+      "targets": {
+        "stitches": 220,
+        "choices": 150
+      }
+    },
+    {
+      "id": "M1_04_VALEDARSENA_FIRST_ARRIVAL",
+      "title": "Valedarsena: First Arrival",
+      "targets": {
+        "stitches": 460,
+        "choices": 310
+      }
+    },
+    {
+      "id": "M1_05_JOB_BOARD",
+      "title": "Job Board",
+      "targets": {
+        "stitches": 360,
+        "choices": 260
+      }
+    },
+    {
+      "id": "M1_06_FARM_HERD_HANDS",
+      "title": "Fattoria del Vento / Recinti aperti",
+      "targets": {
+        "stitches": 450,
+        "choices": 310
+      }
+    },
+    {
+      "id": "M1_07_WORLD_MOVES",
+      "title": "The World Moves Without You",
+      "targets": {
+        "stitches": 450,
+        "choices": 290
+      }
+    },
+    {
+      "id": "M1_08_BLUE_ENTERS",
+      "title": "Blue Enters the Circuit",
+      "targets": {
+        "stitches": 380,
+        "choices": 240
+      }
+    },
+    {
+      "id": "M1_09_FRIEND_BEAT_01",
+      "title": "FRIEND_BEAT_01",
+      "targets": {
+        "stitches": 390,
+        "choices": 250
+      }
+    },
+    {
+      "id": "M1_10_FIRST_OFFICIAL",
+      "title": "First Official Match",
+      "targets": {
+        "stitches": 270,
+        "choices": 170
+      }
+    },
+    {
+      "id": "M1_11_SECOND_POKEMON",
+      "title": "Second Pokémon / Roster Preparation",
+      "targets": {
+        "stitches": 280,
+        "choices": 180
+      }
+    },
+    {
+      "id": "M1_12_FIVE_ROADS",
+      "title": "Five Roads",
+      "targets": {
+        "stitches": 250,
+        "choices": 150
+      }
+    },
+    {
+      "id": "M1_13_TRIAL_REGISTRATION",
+      "title": "Trial Registration",
+      "targets": {
+        "stitches": 160,
+        "choices": 90
+      }
+    },
+    {
+      "id": "M1_14_PROMOTION_TRIAL_F_E",
+      "title": "Promotion Trial F→E",
+      "targets": {
+        "stitches": 200,
+        "choices": 110
+      }
+    },
+    {
+      "id": "M1_15_TRIAL_RESULT",
+      "title": "Trial Result / Retry / Exit",
+      "targets": {
+        "stitches": 347,
+        "choices": 96
+      }
+    }
   ]
 }
