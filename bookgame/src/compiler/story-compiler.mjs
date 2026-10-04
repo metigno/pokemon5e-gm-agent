@@ -2,11 +2,23 @@ import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { validateCondition } from "../engine/conditions.mjs";
 import { validateQuestEffect } from "../engine/quest-state.mjs";
+import { validateNpcEffect } from "../engine/npc-state.mjs";
 
 const ID_RE = /^[A-Za-z0-9_-]+$/;
 const TARGET_RE = /^[A-Za-z0-9_-]+(?:#[A-Za-z0-9_-]+)?$/;
 const ABILITIES = new Set(["STR", "DEX", "CON", "INT", "WIS", "CHA"]);
-const EFFECT_TYPES = new Set(["set_flag", "set_location", "quest_offer", "quest_start", "quest_complete", "quest_fail"]);
+const EFFECT_TYPES = new Set([
+  "set_flag",
+  "set_location",
+  "quest_offer",
+  "quest_start",
+  "quest_complete",
+  "quest_fail",
+  "npc_register",
+  "npc_relationship_adjust",
+  "npc_state_set",
+  "npc_schedule_set"
+]);
 
 function diag(code, message, at) {
   return { code, message, at };
@@ -45,6 +57,9 @@ function validateEffects(effects, at, errors) {
     }
     if (["quest_offer", "quest_start", "quest_complete", "quest_fail"].includes(effect.type)) {
       errors.push(...validateQuestEffect(effect, effectAt));
+    }
+    if (["npc_register", "npc_relationship_adjust", "npc_state_set", "npc_schedule_set"].includes(effect.type)) {
+      errors.push(...validateNpcEffect(effect, effectAt));
     }
   }
 }
