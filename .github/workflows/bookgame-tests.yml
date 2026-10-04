@@ -20,5 +20,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "22"
+      - name: Check Bookgame CLI syntax
+        run: |
+          node --check bookgame/src/cli.mjs
+          node --check bookgame/src/combat/cli-controls.mjs
       - name: Run Bookgame tests
         run: node --test bookgame/tests/*.test.mjs
