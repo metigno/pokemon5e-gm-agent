@@ -1239,3 +1239,129 @@ test("M1_10 First Official is a real sanctioned match and a loss does not block 
   assert.equal(state.competition.history.at(-1).outcome, "lose");
   assert.equal(state.story.nodeId, "first_official_loss");
 });
+
+
+test("M1_11 roster preparation exposes multiple legal capture routes without gifts or loans", async () => {
+  const bundle = await compileStory({ scenesDir, modulesDir, ecologyOptions });
+  const city = bundle.scenes["m01-valedarsena-first-arrival"];
+  const prepChoice = city.nodes.arena_front.choices.find((choice) => choice.id === "roster_preparation");
+  assert.ok(prepChoice);
+  assert.deepEqual(prepChoice.conditions, { path: "player.roster.length", eq: 1 });
+
+  const prep = city.nodes.roster_preparation;
+  assert.ok(prep.choices.some((choice) => choice.id === "seek_ginestre"));
+  assert.ok(prep.choices.some((choice) => choice.id === "seek_farm"));
+  assert.ok(prep.choices.some((choice) => choice.id === "stay_one"));
+
+  const text = JSON.stringify(prep).toLowerCase();
+  assert.equal(text.includes("prestito"), true);
+  assert.equal(text.includes("regalo"), true);
+
+  const gin = bundle.scenes["m01-ginestre-crossroads"].nodes.crossroads
+    .choices.find((choice) => choice.id === "observe_wildlife");
+  const farm = bundle.scenes["m01-farm-first-arrival"].nodes.approach
+    .choices.find((choice) => choice.id === "field_wildlife");
+
+  assert.deepEqual(gin.ecology.allowedSpecies, ["wooloo", "shinx"]);
+  assert.deepEqual(farm.ecology.allowedSpecies, ["wooloo", "shinx", "growlithe-hisui"]);
+
+  const houndour = bundle.scenes["first-road"].nodes;
+  const houndourCaptureRoutes = Object.values(houndour)
+    .flatMap((node) => node.choices ?? [])
+    .filter((choice) => choice.combat?.encounterId === "HOUNDOUR_GINESTRE_001");
+  assert.ok(houndourCaptureRoutes.length > 0);
+  assert.ok(houndourCaptureRoutes.every((choice) => choice.combat.returnNodes.captured));
+});
+
+test("M1_11 first successful wild capture persists roster size two and second Pokemon identity", async () => {
+  const bundle = await compileStory({ scenesDir, modulesDir, ecologyOptions });
+  const repository = {
+    async load(sceneId) {
+      return structuredClone(bundle.scenes[sceneId]);
+    },
+    async loadWorldEvents() {
+      return structuredClone(bundle.worldEvents);
+    },
+    async loadEcology() {
+      return structuredClone(bundle.ecology);
+    }
+  };
+
+  const engine = new BookgameEngine({ scenes: repository });
+  let state = createNewGameState({ protagonist: "Luke" });
+  state.story.sceneId = "m01-ecology-opportunities";
+  state.story.nodeId = "farm_hisuian_growlithe";
+
+  state = await engine.choose(state, "engage");
+  assert.equal(state.pending.encounterId, "M1_FARM_HISUI_GROWLITHE_001");
+
+  state = engine.setCombatState(state, {
+    encounterId: "M1_FARM_HISUI_GROWLITHE_001",
+    outcome: "captured",
+    opponent: {
+      speciesId: "growlithe-hisui",
+      name: "Growlithe",
+      level: 1,
+      hp: { current: 4, max: 9 },
+      statuses: { nonVolatile: null, volatile: [] },
+      abilityId: "intimidate",
+      moveIds: ["tackle"],
+      pp: { tackle: 20 }
+    }
+  });
+
+  state = engine.resolveCombatHandoff(state, "captured");
+
+  assert.equal(state.player.roster.length, 2);
+  assert.equal(state.player.roster[1].speciesId, "growlithe-hisui");
+  assert.deepEqual(state.player.secondPokemonAcquisition, {
+    speciesId: "growlithe-hisui",
+    name: "Growlithe",
+    level: 1,
+    day: state.world.day,
+    locationId: state.world.locationId,
+    encounterId: "M1_FARM_HISUI_GROWLITHE_001"
+  });
+
+  state.story.sceneId = "m01-valedarsena-first-arrival";
+  state.story.nodeId = "arena_front";
+  const view = await engine.present(state);
+  assert.equal(view.choices.some((choice) => choice.id === "roster_preparation"), false);
+});
+
+test("M1_11 player may remain with one Pokemon and Trial registration stays unavailable", async () => {
+  const bundle = await compileStory({ scenesDir, modulesDir, ecologyOptions });
+  const repository = {
+    async load(sceneId) {
+      return structuredClone(bundle.scenes[sceneId]);
+    },
+    async loadWorldEvents() {
+      return structuredClone(bundle.worldEvents);
+    },
+    async loadEcology() {
+      return structuredClone(bundle.ecology);
+    }
+  };
+
+  const engine = new BookgameEngine({ scenes: repository });
+  let state = createNewGameState({ protagonist: "Luke" });
+  state.story.sceneId = "m01-valedarsena-first-arrival";
+  state.story.nodeId = "arena_front";
+  state.competition.trials.RANK_F_TO_E = {
+    available: true,
+    registered: false,
+    attempts: 0,
+    bestResult: null,
+    completed: false,
+    fromRank: "F",
+    toRank: "E",
+    requiredRosterSize: 2,
+    retryable: true
+  };
+
+  const view = await engine.present(state);
+  assert.equal(state.player.roster.length, 1);
+  assert.equal(view.choices.some((choice) => choice.id === "register_trial"), false);
+  assert.equal(view.choices.some((choice) => choice.id === "trial_roster_missing"), true);
+  assert.equal(view.choices.some((choice) => choice.id === "roster_preparation"), true);
+});
