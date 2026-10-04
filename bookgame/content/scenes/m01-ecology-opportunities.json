@@ -36,126 +36,6 @@
         }
       ]
     },
-    "gin_mareep": {
-      "stitches": [
-        {
-          "id": "mareep_scene",
-          "text": "In un tratto d'erba più bassa trovi un piccolo gruppo di Mareep che bruca senza fretta. Ogni tanto una scarica azzurra corre nella lana di uno di loro."
-        },
-        {
-          "id": "mareep_signal",
-          "text": "Uno alza la testa quando ti vede. Non avanza e non fugge: mantiene il gruppo alla propria destra e lascia aperto un corridoio verso il campo."
-        }
-      ],
-      "choices": [
-        {
-          "id": "mareep_watch",
-          "text": "Resto a distanza e osservo senza interferire.",
-          "goto": "gin_peaceful_return"
-        },
-        {
-          "id": "mareep_approach",
-          "text": "Mi avvicino lentamente, lasciando libera la via di fuga. (CT Animal Handling)",
-          "check": {
-            "ability": "WIS",
-            "skill": "Animal Handling",
-            "dc": 11
-          },
-          "outcomes": {
-            "success": {
-              "goto": "mareep_calm"
-            },
-            "failure": {
-              "goto": "mareep_warning"
-            }
-          }
-        },
-        {
-          "id": "mareep_engage",
-          "text": "Porto avanti il mio Pokémon e provo a ingaggiare un individuo.",
-          "combat": {
-            "encounterId": "M1_WILD_MAREEP_001",
-            "opponent": {
-              "species": "Mareep",
-              "level": 1
-            },
-            "opponentRegistered": false,
-            "goto": "wild_combat_handoff",
-            "returnNodes": {
-              "win": "gin_wild_win",
-              "lose": "gin_wild_loss",
-              "captured": "gin_wild_captured"
-            }
-          }
-        }
-      ]
-    },
-    "mareep_calm": {
-      "stitches": [
-        {
-          "id": "mareep_accepts_distance",
-          "text": "Il Mareep più vicino smette di arretrare. Ti lascia entrare nella sua distanza di attenzione, ma continua a controllare gli altri e il campo dietro di sé."
-        }
-      ],
-      "choices": [
-        {
-          "id": "leave",
-          "text": "Mi fermo qui e torno alla strada.",
-          "goto": "gin_peaceful_return"
-        },
-        {
-          "id": "engage",
-          "text": "Se resta disposto a reggere il confronto, provo a ingaggiarlo col mio Pokémon.",
-          "combat": {
-            "encounterId": "M1_WILD_MAREEP_002",
-            "opponent": {
-              "species": "Mareep",
-              "level": 1
-            },
-            "opponentRegistered": false,
-            "goto": "wild_combat_handoff",
-            "returnNodes": {
-              "win": "gin_wild_win",
-              "lose": "gin_wild_loss",
-              "captured": "gin_wild_captured"
-            }
-          }
-        }
-      ]
-    },
-    "mareep_warning": {
-      "stitches": [
-        {
-          "id": "mareep_warning_signal",
-          "text": "La lana del Mareep crepita più forte e il gruppo si stringe. È un avvertimento evidente: un altro passo aumenterebbe la pressione."
-        }
-      ],
-      "choices": [
-        {
-          "id": "back_off",
-          "text": "Arretro e lascio che il gruppo si rilassi.",
-          "goto": "gin_peaceful_return"
-        },
-        {
-          "id": "press",
-          "text": "Continuo comunque e porto avanti il mio Pokémon.",
-          "combat": {
-            "encounterId": "M1_WILD_MAREEP_003",
-            "opponent": {
-              "species": "Mareep",
-              "level": 1
-            },
-            "opponentRegistered": false,
-            "goto": "wild_combat_handoff",
-            "returnNodes": {
-              "win": "gin_wild_win",
-              "lose": "gin_wild_loss",
-              "captured": "gin_wild_captured"
-            }
-          }
-        }
-      ]
-    },
     "gin_wooloo": {
       "stitches": [
         {
@@ -197,7 +77,8 @@
             "encounterId": "M1_WILD_WOOLOO_001",
             "opponent": {
               "species": "Wooloo",
-              "level": 1
+              "level": 1,
+              "abilityId": "run-away"
             },
             "opponentRegistered": false,
             "goto": "wild_combat_handoff",
@@ -230,7 +111,8 @@
             "encounterId": "M1_WILD_WOOLOO_002",
             "opponent": {
               "species": "Wooloo",
-              "level": 1
+              "level": 1,
+              "abilityId": "run-away"
             },
             "opponentRegistered": false,
             "goto": "wild_combat_handoff",
@@ -284,7 +166,8 @@
             "encounterId": "M1_WILD_SHINX_001",
             "opponent": {
               "species": "Shinx",
-              "level": 1
+              "level": 1,
+              "abilityId": "intimidate"
             },
             "opponentRegistered": false,
             "goto": "wild_combat_handoff",
@@ -317,7 +200,8 @@
             "encounterId": "M1_WILD_SHINX_002",
             "opponent": {
               "species": "Shinx",
-              "level": 1
+              "level": 1,
+              "abilityId": "intimidate"
             },
             "opponentRegistered": false,
             "goto": "wild_combat_handoff",
@@ -350,7 +234,8 @@
             "encounterId": "M1_WILD_SHINX_003",
             "opponent": {
               "species": "Shinx",
-              "level": 1
+              "level": 1,
+              "abilityId": "intimidate"
             },
             "opponentRegistered": false,
             "goto": "wild_combat_handoff",
@@ -358,126 +243,6 @@
               "win": "gin_wild_win",
               "lose": "gin_wild_loss",
               "captured": "gin_wild_captured"
-            }
-          }
-        }
-      ]
-    },
-    "farm_psyduck": {
-      "stitches": [
-        {
-          "id": "psyduck_scene",
-          "text": "Vicino alla riva trovi un Psyduck mezzo immerso nell'acqua bassa. Si porta entrambe le zampe alla testa, poi resta immobile mentre il rumore dei recinti arriva da lontano."
-        },
-        {
-          "id": "psyduck_context",
-          "text": "Quando nota la tua presenza non ti corre incontro. Si sposta invece di lato per mantenere acqua fra sé e il sentiero."
-        }
-      ],
-      "choices": [
-        {
-          "id": "leave",
-          "text": "Gli lascio spazio e torno ai recinti.",
-          "goto": "farm_peaceful_return"
-        },
-        {
-          "id": "handling",
-          "text": "Mi fermo e provo a ridurre la pressione della mia presenza. (CT Animal Handling)",
-          "check": {
-            "ability": "WIS",
-            "skill": "Animal Handling",
-            "dc": 11
-          },
-          "outcomes": {
-            "success": {
-              "goto": "psyduck_calm"
-            },
-            "failure": {
-              "goto": "psyduck_warning"
-            }
-          }
-        },
-        {
-          "id": "engage",
-          "text": "Porto avanti il mio Pokémon e provo a ingaggiarlo.",
-          "combat": {
-            "encounterId": "M1_WILD_PSYDUCK_001",
-            "opponent": {
-              "species": "Psyduck",
-              "level": 1
-            },
-            "opponentRegistered": false,
-            "goto": "wild_combat_handoff",
-            "returnNodes": {
-              "win": "farm_wild_win",
-              "lose": "farm_wild_loss",
-              "captured": "farm_wild_captured"
-            }
-          }
-        }
-      ]
-    },
-    "psyduck_calm": {
-      "stitches": [
-        {
-          "id": "psyduck_calm_scene",
-          "text": "Il Psyduck smette di allontanarsi. Non si avvicina, ma torna a concentrarsi sull'acqua invece che su di te: la situazione si è de-escalata."
-        }
-      ],
-      "choices": [
-        {
-          "id": "leave",
-          "text": "Lo lascio tranquillo.",
-          "goto": "farm_peaceful_return"
-        },
-        {
-          "id": "engage",
-          "text": "Porto avanti il mio Pokémon e vedo se resta nel confronto.",
-          "combat": {
-            "encounterId": "M1_WILD_PSYDUCK_002",
-            "opponent": {
-              "species": "Psyduck",
-              "level": 1
-            },
-            "opponentRegistered": false,
-            "goto": "wild_combat_handoff",
-            "returnNodes": {
-              "win": "farm_wild_win",
-              "lose": "farm_wild_loss",
-              "captured": "farm_wild_captured"
-            }
-          }
-        }
-      ]
-    },
-    "psyduck_warning": {
-      "stitches": [
-        {
-          "id": "psyduck_warning_scene",
-          "text": "Il Psyduck si irrigidisce e l'acqua attorno alle zampe si agita. Non serve conoscere un'etichetta nascosta per capire che la distanza è diventata importante."
-        }
-      ],
-      "choices": [
-        {
-          "id": "back",
-          "text": "Arretro e chiudo l'incontro senza combattere.",
-          "goto": "farm_peaceful_return"
-        },
-        {
-          "id": "engage",
-          "text": "Continuo e porto avanti il mio Pokémon.",
-          "combat": {
-            "encounterId": "M1_WILD_PSYDUCK_003",
-            "opponent": {
-              "species": "Psyduck",
-              "level": 1
-            },
-            "opponentRegistered": false,
-            "goto": "wild_combat_handoff",
-            "returnNodes": {
-              "win": "farm_wild_win",
-              "lose": "farm_wild_loss",
-              "captured": "farm_wild_captured"
             }
           }
         }
@@ -573,6 +338,324 @@
           "id": "back",
           "text": "Torno verso i recinti.",
           "goto": "m01-farm-first-arrival#approach"
+        }
+      ]
+    },
+    "farm_wooloo": {
+      "stitches": [
+        {
+          "id": "farm_wooloo_scene",
+          "text": "Due Wooloo selvatici brucano sul margine esterno del pascolo, separati dagli animali della fattoria. Quando ti notano si avvicinano fra loro invece di correrti incontro."
+        },
+        {
+          "id": "farm_wooloo_signal",
+          "text": "Uno resta qualche passo indietro e controlla il movimento del tuo Pokémon. Il gruppo ha spazio per allontanarsi e non mostra intenzione di attaccare."
+        }
+      ],
+      "choices": [
+        {
+          "id": "leave",
+          "text": "Li lascio continuare e torno ai recinti.",
+          "goto": "farm_peaceful_return"
+        },
+        {
+          "id": "handling",
+          "text": "Mi fermo e provo a ridurre la distanza senza chiuderne la fuga. (CT Animal Handling)",
+          "check": {
+            "ability": "WIS",
+            "skill": "Animal Handling",
+            "dc": 10
+          },
+          "outcomes": {
+            "success": {
+              "goto": "farm_wooloo_curious"
+            },
+            "failure": {
+              "goto": "farm_peaceful_return"
+            }
+          }
+        },
+        {
+          "id": "engage",
+          "text": "Porto avanti il mio Pokémon e provo a ingaggiare quello rimasto più vicino.",
+          "combat": {
+            "encounterId": "M1_FARM_WOOLOO_001",
+            "opponent": {
+              "species": "Wooloo",
+              "level": 1,
+              "abilityId": "run-away"
+            },
+            "opponentRegistered": false,
+            "goto": "wild_combat_handoff",
+            "returnNodes": {
+              "win": "farm_wild_win",
+              "lose": "farm_wild_loss",
+              "captured": "farm_wild_captured"
+            }
+          }
+        }
+      ]
+    },
+    "farm_wooloo_curious": {
+      "stitches": [
+        {
+          "id": "farm_wooloo_curious",
+          "text": "Il Wooloo più vicino rimane fermo abbastanza da osservarti. Non è addestrato e non ti appartiene: per ora ha soltanto deciso di non fuggire."
+        }
+      ],
+      "choices": [
+        {
+          "id": "leave",
+          "text": "Chiudo qui l'incontro.",
+          "goto": "farm_peaceful_return"
+        },
+        {
+          "id": "engage",
+          "text": "Porto avanti il mio Pokémon e vedo se accetta il confronto.",
+          "combat": {
+            "encounterId": "M1_FARM_WOOLOO_002",
+            "opponent": {
+              "species": "Wooloo",
+              "level": 1,
+              "abilityId": "run-away"
+            },
+            "opponentRegistered": false,
+            "goto": "wild_combat_handoff",
+            "returnNodes": {
+              "win": "farm_wild_win",
+              "lose": "farm_wild_loss",
+              "captured": "farm_wild_captured"
+            }
+          }
+        }
+      ]
+    },
+    "farm_shinx": {
+      "stitches": [
+        {
+          "id": "farm_shinx_scene",
+          "text": "Un giovane Shinx si muove lungo il bordo del campo, concentrato sulle erbe alte e sui piccoli rumori del terreno. Si accorge di te e si immobilizza."
+        },
+        {
+          "id": "farm_shinx_signal",
+          "text": "Una breve luce attraversa la pelliccia. Ha una via di fuga verso il fossato; per il momento ti avverte invece di caricare."
+        }
+      ],
+      "choices": [
+        {
+          "id": "leave",
+          "text": "Gli lascio libero il passaggio.",
+          "goto": "farm_peaceful_return"
+        },
+        {
+          "id": "observe",
+          "text": "Leggo postura e distanza prima di muovermi. (CT Perception)",
+          "check": {
+            "ability": "WIS",
+            "skill": "Perception",
+            "dc": 11
+          },
+          "outcomes": {
+            "success": {
+              "goto": "farm_shinx_read"
+            },
+            "failure": {
+              "goto": "farm_shinx_tense"
+            }
+          }
+        },
+        {
+          "id": "engage",
+          "text": "Porto avanti il mio Pokémon e provo a ingaggiarlo.",
+          "combat": {
+            "encounterId": "M1_FARM_SHINX_001",
+            "opponent": {
+              "species": "Shinx",
+              "level": 1,
+              "abilityId": "intimidate"
+            },
+            "opponentRegistered": false,
+            "goto": "wild_combat_handoff",
+            "returnNodes": {
+              "win": "farm_wild_win",
+              "lose": "farm_wild_loss",
+              "captured": "farm_wild_captured"
+            }
+          }
+        }
+      ]
+    },
+    "farm_shinx_read": {
+      "text": "Lo Shinx continua a controllare la distanza più che il tuo corpo: il segnale elettrico serve soprattutto a scoraggiare un avvicinamento improvviso.",
+      "choices": [
+        {
+          "id": "leave",
+          "text": "Arretro e lo lascio continuare.",
+          "goto": "farm_peaceful_return"
+        },
+        {
+          "id": "engage",
+          "text": "Resto visibile e provo a ingaggiarlo col mio Pokémon.",
+          "combat": {
+            "encounterId": "M1_FARM_SHINX_002",
+            "opponent": {
+              "species": "Shinx",
+              "level": 1,
+              "abilityId": "intimidate"
+            },
+            "opponentRegistered": false,
+            "goto": "wild_combat_handoff",
+            "returnNodes": {
+              "win": "farm_wild_win",
+              "lose": "farm_wild_loss",
+              "captured": "farm_wild_captured"
+            }
+          }
+        }
+      ]
+    },
+    "farm_shinx_tense": {
+      "text": "Ti muovi mentre lo Shinx sta già arretrando. La pelliccia si illumina di nuovo e il margine per una soluzione tranquilla si riduce.",
+      "choices": [
+        {
+          "id": "back",
+          "text": "Mi fermo e gli lascio spazio.",
+          "goto": "farm_peaceful_return"
+        },
+        {
+          "id": "engage",
+          "text": "Continuo e porto avanti il mio Pokémon.",
+          "combat": {
+            "encounterId": "M1_FARM_SHINX_003",
+            "opponent": {
+              "species": "Shinx",
+              "level": 1,
+              "abilityId": "intimidate"
+            },
+            "opponentRegistered": false,
+            "goto": "wild_combat_handoff",
+            "returnNodes": {
+              "win": "farm_wild_win",
+              "lose": "farm_wild_loss",
+              "captured": "farm_wild_captured"
+            }
+          }
+        }
+      ]
+    },
+    "farm_hisuian_growlithe": {
+      "stitches": [
+        {
+          "id": "hisuian_growlithe_scene",
+          "text": "Vicino a un muretto di pietra compare un Growlithe di Hisui selvatico. Annusa il vento e controlla il pascolo prima di accorgersi di te."
+        },
+        {
+          "id": "hisuian_growlithe_signal",
+          "text": "Non corre all'attacco. Pianta le zampe, solleva il pelo sul dorso e tiene il muretto alle spalle: un avvertimento chiaro, non una battaglia già decisa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "leave",
+          "text": "Cambio traiettoria e gli lascio spazio.",
+          "goto": "farm_peaceful_return"
+        },
+        {
+          "id": "handling",
+          "text": "Rallento e provo a mostrare che non sto chiudendo la sua via. (CT Animal Handling)",
+          "check": {
+            "ability": "WIS",
+            "skill": "Animal Handling",
+            "dc": 12
+          },
+          "outcomes": {
+            "success": {
+              "goto": "farm_hisuian_growlithe_calm"
+            },
+            "failure": {
+              "goto": "farm_hisuian_growlithe_warning"
+            }
+          }
+        },
+        {
+          "id": "engage",
+          "text": "Porto avanti il mio Pokémon e provo a ingaggiarlo.",
+          "combat": {
+            "encounterId": "M1_FARM_HISUI_GROWLITHE_001",
+            "opponent": {
+              "species": "Growlithe",
+              "form": "Hisui",
+              "level": 1,
+              "abilityId": "intimidate"
+            },
+            "opponentRegistered": false,
+            "goto": "wild_combat_handoff",
+            "returnNodes": {
+              "win": "farm_wild_win",
+              "lose": "farm_wild_loss",
+              "captured": "farm_wild_captured"
+            }
+          }
+        }
+      ]
+    },
+    "farm_hisuian_growlithe_calm": {
+      "text": "Il Growlithe di Hisui smette di avanzare. Continua a sorvegliarti, ma il ringhio si abbassa e la via lungo il muretto resta aperta.",
+      "choices": [
+        {
+          "id": "leave",
+          "text": "Accetto la de-escalation e torno verso la fattoria.",
+          "goto": "farm_peaceful_return"
+        },
+        {
+          "id": "engage",
+          "text": "Porto avanti il mio Pokémon e vedo se regge il confronto.",
+          "combat": {
+            "encounterId": "M1_FARM_HISUI_GROWLITHE_002",
+            "opponent": {
+              "species": "Growlithe",
+              "form": "Hisui",
+              "level": 1,
+              "abilityId": "intimidate"
+            },
+            "opponentRegistered": false,
+            "goto": "wild_combat_handoff",
+            "returnNodes": {
+              "win": "farm_wild_win",
+              "lose": "farm_wild_loss",
+              "captured": "farm_wild_captured"
+            }
+          }
+        }
+      ]
+    },
+    "farm_hisuian_growlithe_warning": {
+      "text": "Il Growlithe di Hisui alza il ringhio e sposta il peso in avanti. La causa è visibile: ti sei avvicinato oltre la distanza che stava cercando di mantenere.",
+      "choices": [
+        {
+          "id": "back",
+          "text": "Arretro e interrompo l'escalation.",
+          "goto": "farm_peaceful_return"
+        },
+        {
+          "id": "engage",
+          "text": "Continuo e porto avanti il mio Pokémon.",
+          "combat": {
+            "encounterId": "M1_FARM_HISUI_GROWLITHE_003",
+            "opponent": {
+              "species": "Growlithe",
+              "form": "Hisui",
+              "level": 1,
+              "abilityId": "intimidate"
+            },
+            "opponentRegistered": false,
+            "goto": "wild_combat_handoff",
+            "returnNodes": {
+              "win": "farm_wild_win",
+              "lose": "farm_wild_loss",
+              "captured": "farm_wild_captured"
+            }
+          }
         }
       ]
     }
