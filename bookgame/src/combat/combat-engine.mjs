@@ -1,3 +1,4 @@
+import { attemptCapture } from "./capture.mjs";
 import { Poke5eDataRepository } from "./poke5e-data.mjs";
 import {
   abilityModifier,
@@ -6,6 +7,16 @@ import {
   resolveSaveMove,
   scaledHp
 } from "./poke5e-rules.mjs";
+import {
+  canTargetMove,
+  distance,
+  leavesReach,
+  moveToward,
+  movementSpeed,
+  point,
+  reachForSize,
+  withinLineOfSightDistance
+} from "./spatial.mjs";
 import {
   applyStatus,
   createStatusState,
@@ -84,7 +95,63 @@ function isMoveResolvable(move) {
   return Boolean(move.attack && move.dice?.type === "damage") || SAVE_EFFECT_MOVES.has(move.id);
 }
 
-function setOutcomeForDowned(battle, downedSide, reason) {
+function defaultPosition(value, fallback) {
+  if (value && Number.isFinite(value.x) && Number.isFinite(value.y)) return point(value.x, value.y);
+  return point(fallback.x, fallback.y);
+}
+
+function normalizeTrainer(trainer = {}, positionValue) {
+  return {
+    name: trainer.name ?? "Trainer",
+    level: trainer.level ?? trainer.trainerLevel ?? 1,
+    abilities: clone(trainer.abilities ?? {
+      STR: 10, DEX: 10, CON: 10, INT: 10, WIS: 10, CHA: 10
+    }),
+    skills: clone(trainer.skills ?? []),
+    inventory: clone(trainer.inventory ?? []),
+    position: defaultPosition(positionValue ?? trainer.position, { x: 0, y: 0 }),
+    speed: trainer.speed ?? 30,
+    movementRemaining: trainer.speed ?? 30,
+    actionAvailable: true,
+    bonusActionAvailable: true,
+    reactionAvailable: true
+  };
+}
+
+function clearTransientEffects(combatant) {
+  combatant.effects = {
+    attackModifierSources: [],
+    incomingAttackBonusSources: []
+  };
+  combatant.concentration = null;
+}
+
+function healthyBenchIndices(battle) {
+  return battle.playerBench
+    .map((combatant, index) => ({ combatant, index }))
+    .filter(({ combatant }) => combatant.hp.current > 0)
+    .map(({ index }) => index);
+}
+
+function markDowned(battle, downedSide, reason) {
+  battle.log.push({
+    type: "fainted",
+    round: battle.round,
+    actor: downedSide,
+    reason
+  });
+
+  if (downedSide === "player" && healthyBenchIndices(battle).length > 0) {
+    battle.awaitingSwitch = "player";
+    battle.log.push({
+      type: "switch_required",
+      round: battle.round,
+      actor: "player",
+      reason: "active_fainted"
+    });
+    return;
+  }
+
   battle.outcome = downedSide === "player" ? "lose" : "win";
   battle.log.push({
     type: "combat_end",
@@ -112,13 +179,15 @@ function endTurnInternal(battle, side, dice) {
   }
 
   if (combatant.hp.current <= 0) {
-    setOutcomeForDowned(next, side, "status_damage");
+    markDowned(next, side, "status_damage");
     return next;
   }
 
   combatant.turn.started = false;
   combatant.turn.actionAvailable = true;
   combatant.turn.bonusActionAvailable = true;
+  combatant.turn.disengaged = false;
+  combatant.turn.movementRemaining = movementSpeed(combatant).value;
   advanceTurnIndex(next);
   return next;
 }
@@ -175,6 +244,33 @@ function applySaveEffect(battle, side, move, saveResult) {
   throw new Error(`No save effect handler for ${move.id}`);
 }
 
+function normaliseBallName(value) {
+  return String(value).toLowerCase().replace(/é/g, "e").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+
+function findBallIndex(inventory, requested) {
+  const wanted = normaliseBallName(requested);
+  return inventory.findIndex((item) => {
+    const value = typeof item === "string" ? item : item?.id ?? item?.name;
+    const normalized = normaliseBallName(value);
+    return normalized === wanted || (wanted === "pokeball" && normalized === "poke-ball");
+  });
+}
+
+function rangeCheckForMove(attacker, defender, move) {
+  const result = canTargetMove(attacker, defender, move);
+  if (result.legal) return result;
+
+  if (move.id === "quick-attack" && move.range?.type === "melee") {
+    const actual = distance(attacker.position, defender.position);
+    if (actual <= attacker.reach + 10 + 1e-9) {
+      return { legal: true, distance: actual, maxRange: attacker.reach + 10, quickAttackStep: true };
+    }
+  }
+
+  return result;
+}
+
 export class Pokemon5eCombatEngine {
   constructor({ data = new Poke5eDataRepository(), dice } = {}) {
     if (!dice) throw new Error("Pokemon5eCombatEngine requires a dice source");
@@ -182,7 +278,7 @@ export class Pokemon5eCombatEngine {
     this.dice = dice;
   }
 
-  async createCombatant(descriptor) {
+  async createCombatant(descriptor, positionValue = null) {
     const species = await this.data.getSpecies(descriptor);
     const level = descriptor.level ?? species.minLevel;
     const moves = (await this.data.getSupportedMoves(species, level)).filter(isMoveResolvable);
@@ -200,11 +296,16 @@ export class Pokemon5eCombatEngine {
     }
 
     const maxHp = scaledHp(species, level);
-    return {
+    const combatant = {
       speciesId: species.id,
       name: species.name,
       level,
+      sr: species.sr,
+      size: species.size,
       types: species.type,
+      speed: clone(species.speed ?? []),
+      reach: reachForSize(species.size),
+      position: defaultPosition(positionValue ?? descriptor.position, { x: 0, y: 0 }),
       ac: species.ac,
       hp: { current: maxHp, max: maxHp },
       attributes: species.attributes,
@@ -214,6 +315,9 @@ export class Pokemon5eCombatEngine {
         intimidateAvailable: abilityId === "intimidate",
         flashFireCharged: false
       },
+      reactionAvailable: true,
+      switchedInRound: null,
+      concentration: null,
       statuses: createStatusState(),
       effects: {
         attackModifierSources: [],
@@ -222,22 +326,41 @@ export class Pokemon5eCombatEngine {
       turn: {
         started: false,
         actionAvailable: true,
-        bonusActionAvailable: true
+        bonusActionAvailable: true,
+        disengaged: false,
+        movementRemaining: 0
       },
       moveIds: moves.map((move) => move.id),
       pp: Object.fromEntries(moves.map((move) => [move.id, move.pp]))
     };
+
+    combatant.turn.movementRemaining = movementSpeed(combatant).value;
+    return combatant;
   }
 
   async createBattle(handoff) {
-    const player = await this.createCombatant(handoff.playerPokemon);
-    const opponent = await this.createCombatant(handoff.opponent);
+    const player = await this.createCombatant(
+      handoff.playerPokemon,
+      handoff.playerPosition ?? { x: 0, y: 0 }
+    );
+    const opponent = await this.createCombatant(
+      handoff.opponent,
+      handoff.opponentPosition ?? { x: 5, y: 0 }
+    );
+    const playerBench = [];
+    for (const descriptor of handoff.playerBench ?? []) {
+      const reserve = await this.createCombatant(descriptor, { x: 0, y: 0 });
+      reserve.position = null;
+      reserve.turn.movementRemaining = 0;
+      playerBench.push(reserve);
+    }
+
     const playerInitiative = initiative(player, this.dice);
     const opponentInitiative = initiative(opponent, this.dice);
     const order = chooseOrder(player, opponent, playerInitiative, opponentInitiative);
 
     return {
-      schemaVersion: 2,
+      schemaVersion: 3,
       ruleset: "2024",
       encounterId: handoff.encounterId,
       round: 1,
@@ -247,8 +370,13 @@ export class Pokemon5eCombatEngine {
         player: playerInitiative,
         opponent: opponentInitiative
       },
+      trainer: normalizeTrainer(handoff.trainer, handoff.trainerPosition),
       player,
+      playerBench,
       opponent,
+      opponentRegistered: Boolean(handoff.opponentRegistered),
+      awaitingSwitch: null,
+      zones: [],
       outcome: null,
       log: [{
         type: "initiative",
@@ -260,20 +388,23 @@ export class Pokemon5eCombatEngine {
   }
 
   actor(battle) {
-    return battle.outcome ? null : currentActor(battle);
+    if (battle.outcome || battle.awaitingSwitch) return null;
+    return currentActor(battle);
   }
 
   canUseIntimidate(battle, side) {
     const combatant = battle[side];
     return (
       !battle.outcome &&
+      !battle.awaitingSwitch &&
       combatant.abilityId === "intimidate" &&
-      combatant.abilityState.intimidateAvailable
+      combatant.abilityState.intimidateAvailable &&
+      combatant.reactionAvailable
     );
   }
 
   async prepareCurrentTurn(battle) {
-    if (battle.outcome) return clone(battle);
+    if (battle.outcome || battle.awaitingSwitch) return clone(battle);
 
     const next = clone(battle);
     const side = currentActor(next);
@@ -284,7 +415,28 @@ export class Pokemon5eCombatEngine {
     combatant.turn.started = true;
     combatant.turn.actionAvailable = true;
     combatant.turn.bonusActionAvailable = true;
+    combatant.turn.disengaged = false;
+    combatant.turn.movementRemaining = movementSpeed(combatant).value;
+    combatant.reactionAvailable = true;
+
+    if (side === "player") {
+      next.trainer.actionAvailable = true;
+      next.trainer.bonusActionAvailable = true;
+      next.trainer.reactionAvailable = true;
+      next.trainer.movementRemaining = next.trainer.speed;
+    }
+
     next.log.push({ type: "turn_start", round: next.round, actor: side });
+
+    if (combatant.switchedInRound === next.round) {
+      next.log.push({
+        type: "turn_skipped",
+        round: next.round,
+        actor: side,
+        reason: "switch_stabilization"
+      });
+      return endTurnInternal(next, side, this.dice);
+    }
 
     const status = startTurnStatus(combatant, this.dice);
     if (status.rolls.length > 0) {
@@ -313,6 +465,7 @@ export class Pokemon5eCombatEngine {
 
   async legalMoves(battle, side) {
     const combatant = battle[side];
+    const defender = battle[otherSide(side)];
     const result = [];
 
     for (const id of combatant.moveIds) {
@@ -321,6 +474,7 @@ export class Pokemon5eCombatEngine {
       const slot = moveSlot(move);
       if (!slot || !combatant.turn[slot]) continue;
       if (!isMoveResolvable(move)) continue;
+      if (!rangeCheckForMove(combatant, defender, move).legal) continue;
       result.push(move);
     }
 
@@ -332,8 +486,73 @@ export class Pokemon5eCombatEngine {
     return this.legalMoves(battle, "player");
   }
 
+  async resolveAttackMove(next, side, move, { forceDisadvantage = false, reaction = false } = {}) {
+    const attacker = next[side];
+    const targetSide = otherSide(side);
+    const defender = next[targetSide];
+
+    const attackBonus =
+      activeModifier(attacker.effects.attackModifierSources, next.round) +
+      activeModifier(defender.effects.incomingAttackBonusSources, next.round);
+
+    const flashFireWasCharged =
+      attacker.abilityId === "flash-fire" &&
+      attacker.abilityState.flashFireCharged &&
+      move.type === "fire";
+
+    const result = resolveAttack({
+      attacker,
+      defender,
+      move,
+      dice: this.dice,
+      extraAttackModifier: attackBonus,
+      forceDisadvantage
+    });
+
+    defender.hp.current = Math.max(0, defender.hp.current - result.damage);
+
+    if (flashFireWasCharged) {
+      attacker.abilityState.flashFireCharged = false;
+    }
+
+    if (result.hit && result.immunityAbility === "flash-fire") {
+      defender.abilityState.flashFireCharged = true;
+      next.log.push({
+        type: "ability_trigger",
+        round: next.round,
+        actor: targetSide,
+        abilityId: "flash-fire",
+        trigger: move.id
+      });
+    }
+
+    let statusResult = null;
+    const secondary = result.hit && result.typeMultiplier > 0
+      ? secondaryStatusFor(move.id, result.natural)
+      : null;
+    if (secondary) statusResult = applyStatus(defender, secondary);
+
+    next.log.push({
+      type: reaction ? "opportunity_attack" : "attack",
+      round: next.round,
+      actor: side,
+      target: targetSide,
+      ...result,
+      secondaryStatus: secondary,
+      statusResult,
+      targetHpAfter: defender.hp.current
+    });
+
+    if (defender.hp.current <= 0) {
+      markDowned(next, targetSide, reaction ? "opportunity_attack" : "move_damage");
+    }
+
+    return next;
+  }
+
   async useMove(battle, side, moveId, { useDefenderIntimidate = false } = {}) {
     if (battle.outcome) return clone(battle);
+    if (battle.awaitingSwitch) throw new Error("A required switch must be resolved first");
     if (this.actor(battle) !== side) throw new Error(`It is not ${side}'s turn`);
 
     let next = await this.prepareCurrentTurn(battle);
@@ -350,6 +569,28 @@ export class Pokemon5eCombatEngine {
     const slot = moveSlot(move);
     if (!slot || !attacker.turn[slot]) throw new Error(`No ${move.time?.unit ?? "turn"} slot available for ${moveId}`);
 
+    const range = rangeCheckForMove(attacker, defender, move);
+    if (!range.legal) {
+      throw new Error(`${move.name} is out of range: ${range.distance.toFixed(1)}ft > ${range.maxRange}ft`);
+    }
+
+    if (range.quickAttackStep) {
+      const needed = Math.max(0, distance(attacker.position, defender.position) - attacker.reach);
+      const step = Math.min(10, needed);
+      const from = clone(attacker.position);
+      attacker.position = moveToward(attacker.position, defender.position, step);
+      next.log.push({
+        type: "move_step",
+        round: next.round,
+        actor: side,
+        moveId: "quick-attack",
+        from,
+        to: clone(attacker.position),
+        feet: step,
+        provokesOpportunity: false
+      });
+    }
+
     attacker.pp[move.id] -= 1;
     attacker.turn[slot] = false;
 
@@ -358,9 +599,11 @@ export class Pokemon5eCombatEngine {
       move.attack &&
       useDefenderIntimidate &&
       defender.abilityId === "intimidate" &&
-      defender.abilityState.intimidateAvailable
+      defender.abilityState.intimidateAvailable &&
+      defender.reactionAvailable
     ) {
       defender.abilityState.intimidateAvailable = false;
+      defender.reactionAvailable = false;
       intimidateUsed = true;
       next.log.push({
         type: "ability_use",
@@ -372,56 +615,8 @@ export class Pokemon5eCombatEngine {
     }
 
     if (move.attack && move.dice?.type === "damage") {
-      const attackBonus =
-        activeModifier(attacker.effects.attackModifierSources, next.round) +
-        activeModifier(defender.effects.incomingAttackBonusSources, next.round);
-
-      const flashFireWasCharged =
-        attacker.abilityId === "flash-fire" &&
-        attacker.abilityState.flashFireCharged &&
-        move.type === "fire";
-
-      const result = resolveAttack({
-        attacker,
-        defender,
-        move,
-        dice: this.dice,
-        extraAttackModifier: attackBonus,
+      next = await this.resolveAttackMove(next, side, move, {
         forceDisadvantage: intimidateUsed
-      });
-
-      defender.hp.current = Math.max(0, defender.hp.current - result.damage);
-
-      if (flashFireWasCharged) {
-        attacker.abilityState.flashFireCharged = false;
-      }
-
-      if (result.hit && result.immunityAbility === "flash-fire") {
-        defender.abilityState.flashFireCharged = true;
-        next.log.push({
-          type: "ability_trigger",
-          round: next.round,
-          actor: targetSide,
-          abilityId: "flash-fire",
-          trigger: move.id
-        });
-      }
-
-      let statusResult = null;
-      const secondary = result.hit && result.typeMultiplier > 0
-        ? secondaryStatusFor(move.id, result.natural)
-        : null;
-      if (secondary) statusResult = applyStatus(defender, secondary);
-
-      next.log.push({
-        type: "attack",
-        round: next.round,
-        actor: side,
-        target: targetSide,
-        ...result,
-        secondaryStatus: secondary,
-        statusResult,
-        targetHpAfter: defender.hp.current
       });
     } else if (SAVE_EFFECT_MOVES.has(move.id)) {
       if (defender.abilityId === "levitate" && move.type === "ground") {
@@ -457,13 +652,10 @@ export class Pokemon5eCombatEngine {
       throw new Error(`Move ${move.id} is in the pack but not implemented by the resolver`);
     }
 
-    if (defender.hp.current <= 0) {
-      setOutcomeForDowned(next, targetSide, "move_damage");
-      return next;
-    }
+    if (next.outcome || next.awaitingSwitch) return next;
 
     const remaining = await this.legalMoves(next, side);
-    if (remaining.length === 0) {
+    if (remaining.length === 0 && next[side].turn.movementRemaining <= 0) {
       return endTurnInternal(next, side, this.dice);
     }
 
@@ -474,8 +666,259 @@ export class Pokemon5eCombatEngine {
     return this.useMove(battle, "player", moveId, options);
   }
 
+  async useDisengage(battle, side) {
+    if (battle.outcome || battle.awaitingSwitch) return clone(battle);
+    if (this.actor(battle) !== side) throw new Error(`It is not ${side}'s turn`);
+
+    const next = await this.prepareCurrentTurn(battle);
+    if (this.actor(next) !== side) return next;
+    const combatant = next[side];
+    if (!combatant.turn.actionAvailable) throw new Error("No action available for Disengage");
+
+    combatant.turn.actionAvailable = false;
+    combatant.turn.disengaged = true;
+    next.log.push({ type: "disengage", round: next.round, actor: side });
+    return next;
+  }
+
+  async opportunityAttack(battle, reactorSide, moverSide, moveId) {
+    const next = clone(battle);
+    const reactor = next[reactorSide];
+    const mover = next[moverSide];
+
+    if (!reactor.reactionAvailable) throw new Error(`${reactor.name} has no reaction available`);
+    if (mover.abilityId === "run-away") throw new Error(`${mover.name} cannot be targeted by attacks of opportunity`);
+    if (!reactor.moveIds.includes(moveId)) throw new Error(`${reactor.name} does not know ${moveId}`);
+    if ((reactor.pp[moveId] ?? 0) <= 0) throw new Error(`${moveId} has no PP remaining`);
+
+    const move = await this.data.getMove(moveId);
+    if (move.time?.unit !== "action" || move.range?.type !== "melee" || !move.attack) {
+      throw new Error("Attack of opportunity requires a melee move with Move Time 1 Action");
+    }
+
+    if (distance(reactor.position, mover.position) > reactor.reach + 1e-9) {
+      throw new Error("Target is not within melee reach for the opportunity attack");
+    }
+
+    reactor.reactionAvailable = false;
+    reactor.pp[move.id] -= 1;
+    next.log.push({
+      type: "reaction_use",
+      round: next.round,
+      actor: reactorSide,
+      reaction: "attack_of_opportunity",
+      moveId
+    });
+
+    return this.resolveAttackMove(next, reactorSide, move, { reaction: true });
+  }
+
+  async moveCombatant(battle, side, destination, { opportunityMoveId = null } = {}) {
+    if (battle.outcome || battle.awaitingSwitch) return clone(battle);
+    if (this.actor(battle) !== side) throw new Error(`It is not ${side}'s turn`);
+
+    let next = await this.prepareCurrentTurn(battle);
+    if (this.actor(next) !== side) return next;
+
+    const mover = next[side];
+    const reactorSide = otherSide(side);
+    const reactor = next[reactorSide];
+    const target = point(destination.x, destination.y);
+    const travel = distance(mover.position, target);
+
+    if (travel > mover.turn.movementRemaining + 1e-9) {
+      throw new Error(`Movement exceeds remaining speed: ${travel.toFixed(1)}ft > ${mover.turn.movementRemaining}ft`);
+    }
+
+    const provokes =
+      !mover.turn.disengaged &&
+      mover.abilityId !== "run-away" &&
+      reactor.hp.current > 0 &&
+      leavesReach({
+        moverStart: mover.position,
+        moverEnd: target,
+        reactor
+      });
+
+    if (provokes && opportunityMoveId && reactor.reactionAvailable) {
+      next = await this.opportunityAttack(next, reactorSide, side, opportunityMoveId);
+      if (next.outcome || next.awaitingSwitch || next[side].hp.current <= 0) return next;
+    }
+
+    const from = clone(next[side].position);
+    next[side].position = target;
+    next[side].turn.movementRemaining -= travel;
+    next.log.push({
+      type: "movement",
+      round: next.round,
+      actor: side,
+      from,
+      to: clone(target),
+      feet: travel,
+      provokedOpportunity: provokes,
+      opportunityTaken: Boolean(provokes && opportunityMoveId)
+    });
+    return next;
+  }
+
+  async moveTrainer(battle, destination) {
+    if (battle.outcome || battle.awaitingSwitch) return clone(battle);
+    if (this.actor(battle) !== "player") throw new Error("Trainer movement is available on the player's turn");
+
+    const next = await this.prepareCurrentTurn(battle);
+    if (this.actor(next) !== "player") return next;
+
+    const target = point(destination.x, destination.y);
+    const travel = distance(next.trainer.position, target);
+    if (travel > next.trainer.movementRemaining + 1e-9) {
+      throw new Error(`Trainer movement exceeds remaining speed: ${travel.toFixed(1)}ft > ${next.trainer.movementRemaining}ft`);
+    }
+
+    const from = clone(next.trainer.position);
+    next.trainer.position = target;
+    next.trainer.movementRemaining -= travel;
+    next.log.push({
+      type: "trainer_movement",
+      round: next.round,
+      from,
+      to: clone(target),
+      feet: travel
+    });
+    return next;
+  }
+
+  async switchPlayer(battle, benchIndex, { releasePosition = null } = {}) {
+    if (battle.outcome) return clone(battle);
+    const next = clone(battle);
+    const forced = next.awaitingSwitch === "player";
+
+    if (!forced && this.actor(next) !== "player") {
+      throw new Error("A voluntary switch can only be made on the player's turn");
+    }
+
+    if (!Number.isInteger(benchIndex) || benchIndex < 0 || benchIndex >= next.playerBench.length) {
+      throw new Error("Invalid bench index");
+    }
+
+    const incoming = next.playerBench[benchIndex];
+    if (incoming.hp.current <= 0) throw new Error("Cannot switch to a fainted Pokémon");
+
+    const outgoing = next.player;
+    if (!withinLineOfSightDistance(next.trainer.position, outgoing.position, 60)) {
+      throw new Error("Active Pokémon is more than 60ft from the trainer");
+    }
+
+    const release = defaultPosition(releasePosition, next.trainer.position);
+    if (!withinLineOfSightDistance(next.trainer.position, release, 15)) {
+      throw new Error("Switched-in Pokémon must be released within 15ft of the trainer");
+    }
+
+    if (forced) {
+      if (!next.trainer.reactionAvailable) throw new Error("Trainer has no reaction available to replace the fainted Pokémon");
+      next.trainer.reactionAvailable = false;
+    } else {
+      const prepared = await this.prepareCurrentTurn(next);
+      if (this.actor(prepared) !== "player") return prepared;
+      if (!prepared.player.turn.actionAvailable || !prepared.trainer.actionAvailable) {
+        throw new Error("Switching requires the trainer's action");
+      }
+      prepared.player.turn.actionAvailable = false;
+      prepared.trainer.actionAvailable = false;
+      Object.assign(next, prepared);
+    }
+
+    clearTransientEffects(outgoing);
+    outgoing.position = null;
+    outgoing.turn.started = false;
+    outgoing.turn.movementRemaining = 0;
+
+    next.playerBench[benchIndex] = outgoing;
+    incoming.position = release;
+    incoming.switchedInRound = next.round;
+    incoming.reactionAvailable = false;
+    incoming.turn.started = true;
+    incoming.turn.actionAvailable = false;
+    incoming.turn.bonusActionAvailable = false;
+    incoming.turn.disengaged = false;
+    incoming.turn.movementRemaining = 0;
+    next.player = incoming;
+    next.awaitingSwitch = null;
+
+    next.log.push({
+      type: "switch",
+      round: next.round,
+      actor: "player",
+      forced,
+      out: outgoing.speciesId,
+      in: incoming.speciesId,
+      releasePosition: clone(release),
+      provokesOpportunity: false
+    });
+
+    if (!forced) return endTurnInternal(next, "player", this.dice);
+    return next;
+  }
+
+  async attemptPlayerCapture(battle, ball = "pokeball", context = {}) {
+    if (battle.outcome || battle.awaitingSwitch) return { battle: clone(battle), result: { legal: false, reason: "combat_not_active" } };
+    if (this.actor(battle) !== "player") throw new Error("Throw Pokéball is only available on the player's turn");
+
+    const next = await this.prepareCurrentTurn(battle);
+    if (this.actor(next) !== "player") return { battle: next, result: { legal: false, reason: "turn_skipped" } };
+    if (!next.trainer.actionAvailable || !next.player.turn.actionAvailable) {
+      return { battle: next, result: { legal: false, reason: "no_action" } };
+    }
+
+    const inventoryIndex = findBallIndex(next.trainer.inventory, ball);
+    if (inventoryIndex < 0) {
+      return { battle: next, result: { legal: false, reason: "no_ball", consumed: false, captured: false } };
+    }
+
+    const result = attemptCapture({
+      trainer: next.trainer,
+      target: next.opponent,
+      activePokemon: next.player,
+      ball,
+      distanceFeet: distance(next.trainer.position, next.opponent.position),
+      round: next.round,
+      registered: next.opponentRegistered,
+      context,
+      dice: this.dice
+    });
+
+    if (!result.legal) return { battle: next, result };
+
+    next.trainer.inventory.splice(inventoryIndex, 1);
+    next.trainer.actionAvailable = false;
+    next.player.turn.actionAvailable = false;
+    next.log.push({
+      type: "capture_attempt",
+      round: next.round,
+      actor: "trainer",
+      target: "opponent",
+      ...result
+    });
+
+    if (result.captured) {
+      next.outcome = "captured";
+      next.log.push({
+        type: "combat_end",
+        round: next.round,
+        outcome: "captured",
+        reason: "capture"
+      });
+    }
+
+    return { battle: next, result };
+  }
+
+  async usePlayerMove(battle, moveId, options = {}) {
+    return this.useMove(battle, "player", moveId, options);
+  }
+
   async endPlayerTurn(battle) {
     if (battle.outcome) return clone(battle);
+    if (battle.awaitingSwitch) throw new Error("A required switch must be resolved first");
     if (this.actor(battle) !== "player") throw new Error("It is not the player's turn");
     const prepared = await this.prepareCurrentTurn(battle);
     if (this.actor(prepared) !== "player") return prepared;
@@ -483,13 +926,37 @@ export class Pokemon5eCombatEngine {
   }
 
   async useOpponentTurn(battle, { usePlayerIntimidate = false } = {}) {
-    if (battle.outcome) return clone(battle);
+    if (battle.outcome || battle.awaitingSwitch) return clone(battle);
     if (this.actor(battle) !== "opponent") return clone(battle);
 
     let next = await this.prepareCurrentTurn(battle);
     if (this.actor(next) !== "opponent") return next;
 
-    const usable = await this.legalMoves(next, "opponent");
+    let usable = await this.legalMoves(next, "opponent");
+    if (usable.length === 0 && next.opponent.turn.movementRemaining > 0) {
+      const before = clone(next.opponent.position);
+      const targetDistance = distance(next.opponent.position, next.player.position);
+      const desiredTravel = Math.min(
+        next.opponent.turn.movementRemaining,
+        Math.max(0, targetDistance - next.opponent.reach)
+      );
+      if (desiredTravel > 0) {
+        next.opponent.position = moveToward(next.opponent.position, next.player.position, desiredTravel);
+        next.opponent.turn.movementRemaining -= desiredTravel;
+        next.log.push({
+          type: "movement",
+          round: next.round,
+          actor: "opponent",
+          from: before,
+          to: clone(next.opponent.position),
+          feet: desiredTravel,
+          provokedOpportunity: false,
+          opportunityTaken: false
+        });
+      }
+      usable = await this.legalMoves(next, "opponent");
+    }
+
     if (usable.length === 0) return endTurnInternal(next, "opponent", this.dice);
 
     usable.sort((a, b) => {
@@ -507,8 +974,10 @@ export class Pokemon5eCombatEngine {
     let intimidateRequested = usePlayerIntimidate;
 
     while (!next.outcome) {
+      if (next.awaitingSwitch) return next;
+
       next = await this.prepareCurrentTurn(next);
-      if (next.outcome) break;
+      if (next.outcome || next.awaitingSwitch) break;
 
       if (this.actor(next) === "player") return next;
 
