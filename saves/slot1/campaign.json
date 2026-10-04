@@ -113,7 +113,7 @@
         "quantity": 7
       }
     ],
-    "money": 1200,
+    "money": 2100,
     "starting_money_roll": {
       "formula": "1000 + 100 × 4d4",
       "rolls": [
@@ -338,676 +338,7 @@
     "Earn enough money to buy a Fire Stone (₽4,000)."
   ],
   "known_npcs": [],
-  "active_combat": {
-    "type": "wild_warehouse_encounter",
-    "status": "immediate_threat_cleared",
-    "round": 16,
-    "player_trainer": "Luke",
-    "player_pokemon": "luke-growlithe-hisui-001",
-    "opponents": [
-      {
-        "species": "Rattata",
-        "level": null,
-        "hp": 0,
-        "max_hp": 16,
-        "ac": 12,
-        "disposition": "frightened_and_defensive",
-        "status": "dead"
-      },
-      {
-        "species": "Rattata",
-        "level": null,
-        "hp": 0,
-        "max_hp": 16,
-        "ac": 12,
-        "disposition": "cornered_and_panicked",
-        "position": "still on low shelf, cornered but not grappled",
-        "status": "dead"
-      },
-      {
-        "species": "Raticate",
-        "level": 5,
-        "hp": 0,
-        "max_hp": 45,
-        "ac": 15,
-        "status": "dead",
-        "disposition": "territorial_and_hostile"
-      }
-    ],
-    "environment": {
-      "location": "warehouse",
-      "hazard": "Smoldering crate extinguished; light smoke remains but no active fire."
-    },
-    "history": [
-      {
-        "actor": "Luke/Growlithe",
-        "move": "Ember",
-        "attack_roll": {
-          "d20": 2,
-          "modifier": 5,
-          "total": 7
-        },
-        "target": "Wild Rattata",
-        "result": "miss",
-        "environmental_result": "flame struck a wooden crate and started a small smoldering patch"
-      },
-      {
-        "round": 1,
-        "actor": "Luke",
-        "action": "Extinguish smoldering crate",
-        "check": {
-          "skill": "Survival",
-          "d20": 13,
-          "modifier": 4,
-          "total": 17
-        },
-        "result": "success",
-        "effect": "Small smoldering patch extinguished before open flames spread."
-      },
-      {
-        "round": 1,
-        "actor": "Growlithe",
-        "action": "Guard Luke",
-        "result": "positioned between Luke and the wild Rattata; no attack command issued"
-      },
-      {
-        "round": 1,
-        "actor": "Wild Rattata",
-        "action": "Retreat",
-        "result": "used the opening to flee deeper between warehouse shelves rather than attack"
-      },
-      {
-        "round": 2,
-        "actor": "Luke",
-        "action": "Perception check",
-        "check": {
-          "d20": 11,
-          "modifier": 2,
-          "total": 13
-        },
-        "result": "success",
-        "learned": "At least three Rattata are moving through the warehouse; one is near the food crates, one is higher on shelving, and the first is deeper inside."
-      },
-      {
-        "round": 2,
-        "actor": "Luke",
-        "action": "Perception check",
-        "check": {
-          "d20": 11,
-          "modifier": 2,
-          "total": 13
-        },
-        "result": "partial_success",
-        "learned": "At least two Rattata are active in the warehouse; additional movement is audible deeper inside, exact count unknown."
-      },
-      {
-        "round": 2,
-        "actor": "Luke/Growlithe",
-        "intent": "lethal",
-        "move": "Bite",
-        "attack_roll": {
-          "d20": 7,
-          "modifier": 5,
-          "total": 12
-        },
-        "target": "Wild Rattata #1",
-        "result": "hit",
-        "damage": {
-          "dice": [
-            8,
-            3
-          ],
-          "move": 2,
-          "total": 13,
-          "type": "Dark"
-        },
-        "target_hp_after": 3,
-        "target_max_hp": 16
-      },
-      {
-        "round": 2,
-        "actor": "Wild Rattata #1",
-        "action": "Disengage and retreat",
-        "result": "badly wounded, escaped deeper behind warehouse shelving"
-      },
-      {
-        "round": 3,
-        "actor": "Luke",
-        "action": "Move between Growlithe and Wild Rattata #2",
-        "result": "Luke interposed himself while Growlithe pursued Rattata #1"
-      },
-      {
-        "round": 3,
-        "actor": "Luke/Growlithe",
-        "intent": "lethal",
-        "move": "Bite",
-        "attack_roll": {
-          "d20": 15,
-          "modifier": 5,
-          "total": 20
-        },
-        "target": "Wild Rattata #1",
-        "result": "hit",
-        "damage": {
-          "dice": [
-            7,
-            4
-          ],
-          "move": 2,
-          "total": 13,
-          "type": "Dark"
-        },
-        "target_hp_before": 3,
-        "target_hp_after": 0,
-        "target_status": "dead"
-      },
-      {
-        "round": 3,
-        "actor": "Wild Rattata #2",
-        "action": "Retreat",
-        "result": "Fled deeper through shelving after seeing Rattata #1 killed and Luke interpose."
-      },
-      {
-        "round": 4,
-        "actor": "Luke",
-        "action": "Slide crate to pin/trap Wild Rattata #2 without breaking warehouse goods",
-        "check": {
-          "type": "Strength",
-          "d20": 13,
-          "modifier": -1,
-          "total": 12,
-          "dc": 12
-        },
-        "result": "success"
-      },
-      {
-        "round": 4,
-        "actor": "Wild Rattata #2",
-        "action": "DEX save to avoid crate",
-        "save": {
-          "d20": 13,
-          "modifier": 2,
-          "total": 15
-        },
-        "result": "success",
-        "effect": "Dodged onto a low shelf instead of being pinned"
-      },
-      {
-        "round": 4,
-        "actor": "Growlithe",
-        "action": "Cover escape route",
-        "result": "Blocked the aisle exit, forcing Rattata to remain inside the warehouse encounter area"
-      },
-      {
-        "round": 5,
-        "actor": "Luke/Growlithe",
-        "action": "Grapple attempt",
-        "target": "Wild Rattata #2",
-        "grapple_dc": 13,
-        "target_save": {
-          "ability": "DEX",
-          "d20": 18,
-          "modifier": 2,
-          "total": 20
-        },
-        "result": "failed_grapple"
-      },
-      {
-        "round": 6,
-        "actor": "Luke/Growlithe",
-        "move": "Bite",
-        "attack_roll": {
-          "d20": 17,
-          "modifier": 5,
-          "total": 22
-        },
-        "target": "Wild Rattata #2",
-        "result": "hit",
-        "damage": {
-          "dice": [
-            3,
-            2
-          ],
-          "move": 2,
-          "total": 7,
-          "type": "Dark"
-        },
-        "target_hp_after": 9
-      },
-      {
-        "round": 7,
-        "actor": "Luke/Growlithe",
-        "intent": "lethal",
-        "move": "Bite",
-        "attack_roll": {
-          "d20": 15,
-          "modifier": 5,
-          "total": 20
-        },
-        "target": "Wild Rattata #2",
-        "result": "hit",
-        "damage": {
-          "dice": [
-            2,
-            2
-          ],
-          "move": 2,
-          "total": 6,
-          "type": "Dark"
-        },
-        "target_hp_after": 3
-      },
-      {
-        "round": 7,
-        "actor": "Wild Rattata #2",
-        "action": "Desperate retreat attempt",
-        "result": "failed to escape the blocked aisle; remains cornered"
-      },
-      {
-        "round": 8,
-        "actor": "Luke/Growlithe",
-        "intent": "lethal",
-        "move": "Bite",
-        "attack_roll": {
-          "d20": 9,
-          "modifier": 5,
-          "total": 14
-        },
-        "target": "Wild Rattata #2",
-        "result": "hit",
-        "damage": {
-          "dice": [
-            7,
-            4
-          ],
-          "move": 2,
-          "total": 13,
-          "type": "Dark"
-        },
-        "target_hp_before": 3,
-        "target_hp_after": 0,
-        "target_status": "dead"
-      },
-      {
-        "round": 8,
-        "actor": "Growlithe",
-        "action": "Post-kill behavior",
-        "result": "Released the dead Rattata and returned to Luke rather than feeding."
-      },
-      {
-        "round": 9,
-        "actor": "Luke",
-        "action": "Pet Growlithe and advance deeper into warehouse",
-        "result": "team advances toward remaining noises"
-      },
-      {
-        "round": 9,
-        "actor": "Luke",
-        "action": "Perception check toward moving crates",
-        "check": {
-          "d20": 13,
-          "modifier": 2,
-          "total": 15
-        },
-        "result": "success",
-        "learned": "A larger rodent Pokemon is behind the crates; identified as Raticate."
-      },
-      {
-        "round": 9,
-        "actor": "Luke/Growlithe",
-        "move": "Leer",
-        "target": "Wild Raticate",
-        "move_dc": 11,
-        "target_save": {
-          "ability": "WIS",
-          "d20": 17,
-          "modifier": 1,
-          "total": 18
-        },
-        "result": "save_success",
-        "effect": "No attack bonus gained."
-      },
-      {
-        "round": 9,
-        "actor": "Wild Raticate",
-        "move": "Bite",
-        "attack_roll": {
-          "d20": 12,
-          "modifier": 5,
-          "total": 17
-        },
-        "target": "Luke/Growlithe",
-        "result": "hit",
-        "damage": {
-          "dice": [
-            1,
-            5
-          ],
-          "move": 2,
-          "total": 8,
-          "type": "Dark"
-        },
-        "target_hp_after": 27
-      },
-      {
-        "round": 10,
-        "actor": "Luke/Growlithe",
-        "move": "Ember",
-        "positioning": "point_blank",
-        "attack_rolls_with_disadvantage": [
-          18,
-          8
-        ],
-        "chosen_roll": 8,
-        "attack_modifier": 5,
-        "total": 13,
-        "target": "Wild Raticate",
-        "result": "miss",
-        "environmental_result": "missed cleanly without igniting or damaging warehouse crates"
-      },
-      {
-        "round": 10,
-        "actor": "Luke/Growlithe",
-        "ability": "Intimidate",
-        "target": "Wild Raticate",
-        "result": "Raticate's next attack made with disadvantage"
-      },
-      {
-        "round": 10,
-        "actor": "Wild Raticate",
-        "move": "Bite",
-        "attack_rolls_with_disadvantage": [
-          2,
-          19
-        ],
-        "chosen_roll": 2,
-        "attack_modifier": 5,
-        "total": 7,
-        "target": "Luke/Growlithe",
-        "result": "miss"
-      },
-      {
-        "round": 11,
-        "actor": "Luke/Growlithe",
-        "move": "Howl",
-        "result": "active",
-        "effect": "Until end of Growlithe's next turn, Growlithe and allies have advantage on melee attacks against creatures within 5 ft of Growlithe."
-      },
-      {
-        "round": 11,
-        "actor": "Luke",
-        "action": "Reposition behind Raticate and taunt it",
-        "result": "Luke moved behind Raticate, putting it between Luke and Growlithe."
-      },
-      {
-        "round": 11,
-        "actor": "Wild Raticate",
-        "move": "Bite",
-        "target": "Luke",
-        "attack_roll": {
-          "d20": 3,
-          "modifier": 5,
-          "total": 8
-        },
-        "target_ac": 12,
-        "result": "miss"
-      },
-      {
-        "round": 12,
-        "actor": "Luke/Growlithe",
-        "move": "Bite",
-        "advantage_from": "Howl",
-        "attack_rolls_with_advantage": [
-          9,
-          7
-        ],
-        "chosen_roll": 9,
-        "attack_modifier": 5,
-        "total": 14,
-        "target": "Wild Raticate",
-        "target_ac": 15,
-        "result": "miss"
-      },
-      {
-        "round": 12,
-        "actor": "Wild Raticate",
-        "move": "Bite",
-        "target": "Luke",
-        "attack_roll": {
-          "d20": 4,
-          "modifier": 5,
-          "total": 9
-        },
-        "target_ac": 12,
-        "result": "miss"
-      },
-      {
-        "round": 12,
-        "actor": "Luke/Growlithe",
-        "move": "Bite",
-        "advantage": "Howl",
-        "attack_rolls": [
-          20,
-          16
-        ],
-        "chosen_roll": 20,
-        "attack_modifier": 5,
-        "total": 25,
-        "target": "Wild Raticate",
-        "result": "critical_hit",
-        "critical_damage": {
-          "base_dice": [
-            7,
-            8
-          ],
-          "critical_extra_dice": [
-            7,
-            6
-          ],
-          "move": 2,
-          "total": 30,
-          "type": "Dark"
-        },
-        "effect": "Flinched",
-        "target_hp_after": 15
-      },
-      {
-        "round": 12,
-        "actor": "Wild Raticate",
-        "move": "Bite",
-        "disadvantage_reason": "Flinched",
-        "attack_rolls": [
-          20,
-          7
-        ],
-        "chosen_roll": 7,
-        "attack_modifier": 5,
-        "total": 12,
-        "target": "Luke/Growlithe",
-        "result": "miss"
-      },
-      {
-        "round": 13,
-        "actor": "Luke/Growlithe",
-        "move": "Bite",
-        "attack_roll": {
-          "d20": 17,
-          "modifier": 5,
-          "total": 22
-        },
-        "target": "Wild Raticate",
-        "result": "hit",
-        "damage": {
-          "dice": [
-            3,
-            2
-          ],
-          "move": 2,
-          "total": 7,
-          "type": "Dark"
-        },
-        "target_hp_after": 8
-      },
-      {
-        "round": 13,
-        "actor": "Wild Raticate",
-        "move": "Bite",
-        "attack_roll": {
-          "d20": 8,
-          "modifier": 5,
-          "total": 13
-        },
-        "target": "Luke/Growlithe",
-        "target_ac": 13,
-        "result": "hit",
-        "damage": {
-          "dice": [
-            5,
-            2
-          ],
-          "move": 2,
-          "total": 9,
-          "type": "Dark"
-        },
-        "target_hp_after": 18
-      },
-      {
-        "round": 13,
-        "actor": "Luke/Growlithe",
-        "move": "Bite",
-        "attack_roll": {
-          "d20": 9,
-          "modifier": 5,
-          "total": 14
-        },
-        "target": "Wild Raticate",
-        "result": "miss"
-      },
-      {
-        "round": 13,
-        "actor": "Wild Raticate",
-        "move": "Bite",
-        "attack_roll": {
-          "d20": 14,
-          "modifier": 5,
-          "total": 19
-        },
-        "target": "Luke/Growlithe",
-        "result": "hit",
-        "damage": {
-          "dice": [
-            8,
-            3
-          ],
-          "move": 2,
-          "total": 13,
-          "type": "Dark"
-        },
-        "target_hp_after": 14
-      },
-      {
-        "round": 14,
-        "actor": "Luke",
-        "action": "Reposition opposite Growlithe",
-        "result": "escape lane closed; no automatic advantage granted"
-      },
-      {
-        "round": 14,
-        "actor": "Luke/Growlithe",
-        "move": "Bite",
-        "attack_roll": {
-          "d20": 19,
-          "modifier": 5,
-          "total": 24
-        },
-        "target": "Wild Raticate",
-        "result": "hit",
-        "damage": {
-          "dice": [
-            6,
-            6
-          ],
-          "move": 2,
-          "total": 14,
-          "type": "Dark"
-        },
-        "effect": "Flinched",
-        "target_hp_after": 1
-      },
-      {
-        "round": 14,
-        "actor": "Wild Raticate",
-        "move": "Bite",
-        "disadvantage_reason": "Flinched",
-        "attack_rolls": [
-          17,
-          16
-        ],
-        "chosen_roll": 16,
-        "attack_modifier": 5,
-        "total": 21,
-        "target": "Luke/Growlithe",
-        "result": "hit",
-        "damage": {
-          "dice": [
-            1,
-            5
-          ],
-          "move": 2,
-          "total": 8,
-          "type": "Dark"
-        },
-        "target_hp_after": 6
-      },
-      {
-        "round": 15,
-        "actor": "Luke/Growlithe",
-        "intent": "lethal",
-        "move": "Bite",
-        "attack_roll": {
-          "d20": 18,
-          "modifier": 5,
-          "total": 23
-        },
-        "target": "Wild Raticate",
-        "result": "hit",
-        "damage": {
-          "dice": [
-            4,
-            8
-          ],
-          "move": 2,
-          "total": 14,
-          "type": "Dark"
-        },
-        "target_hp_before": 1,
-        "target_hp_after": 0,
-        "target_status": "dead"
-      }
-    ],
-    "turn": "Luke",
-    "detected_opponents": {
-      "species": "Rattata",
-      "minimum_count": 3,
-      "exact_count_known": false
-    },
-    "observed_enemies": {
-      "confirmed": [
-        {
-          "species": "Raticate",
-          "count": 1
-        }
-      ],
-      "suspected_more": false,
-      "exact_count_known": true
-    },
-    "effects": [],
-    "positioning": {
-      "Raticate": "between Luke and Growlithe",
-      "Luke": "opposite Growlithe, blocking escape",
-      "Growlithe": "engaged in melee with Raticate"
-    }
-  },
+  "active_combat": null,
   "gm_private_ref": "gm_private/SECRET_CANON_DO_NOT_OPEN.json",
   "character_bible_ref": "canon/ROSTER2060_CHARACTER_BIBLE.json",
   "runtime": {
@@ -1043,7 +374,10 @@
     "status": "active",
     "active_chain": "INTRO_FIVE",
     "active_event": null,
-    "queued_events": [],
+    "queued_events": [
+      "A1_FIRST_ROAD",
+      "A1_WORLD_MOVES"
+    ],
     "completed_events": [
       "INTRO_00",
       "INTRO_01",
@@ -1059,7 +393,8 @@
     "flags": {
       "intro_complete": true,
       "free_roam": true,
-      "friends_split": false
+      "friends_split": false,
+      "first_settlement_reached": true
     },
     "world_clock": {
       "day": 1,
@@ -1067,8 +402,8 @@
     },
     "trigger_check_due": false,
     "last_trigger_check": {
-      "reason": "player_ordered_lethal_action_against_ko_wild_pokemon",
-      "result": "instructor_intervened_before lethal harm; certification safety concern recorded"
+      "reason": "durable_checkpoint_after_JOB-02_completion",
+      "result": "A1_FIRST_ROAD and A1_WORLD_MOVES are eligible/queued for natural transition; no immediate interruption."
     },
     "checkpoint_ledger": "saves/slot1/checkpoints.json"
   },
@@ -1108,7 +443,7 @@
       "reaction_to_luke_aggression": "quietly_concerned"
     }
   },
-  "current_location": "Nearest city — warehouse interior, deeper storage section",
+  "current_location": "Nearest city — outside the cleared warehouse",
   "shop_context": {
     "location": "Nearest city — Trainer shop",
     "prices": {
@@ -1135,7 +470,7 @@
         "id": "JOB-02",
         "title": "Pokémon nel magazzino",
         "reward": 900,
-        "status": "accepted_by_Luke",
+        "status": "completed_by_Luke",
         "note": "Un commerciante cerca aiuto per allontanare alcuni Pokémon selvatici entrati nel deposito. Cattura non richiesta."
       },
       {
@@ -1147,15 +482,7 @@
       }
     ]
   },
-  "active_job": {
-    "id": "JOB-02",
-    "title": "Pokémon nel magazzino",
-    "reward": 900,
-    "status": "accepted",
-    "assigned_trainer": "Luke",
-    "companions": [],
-    "objective": "Help a merchant clear wild Pokémon from a warehouse; capture is optional."
-  },
+  "active_job": null,
   "npc_ace_evolution_policy": {
     "applies_to": "the four unselected friends",
     "player_exempt": true,
@@ -1168,6 +495,17 @@
     },
     "rule": "NPC intent is scripted; evolution itself must satisfy current Pokemon 5e requirements and campaign causality."
   },
-  "last_saved_at": "2026-10-04T02:37:45+02:00",
-  "save_note": "Warehouse interior: Luke used 1 Potion on Hisuian Growlithe; healing roll 2d4+2 = 7; Growlithe now 13/35 HP. Immediate threat cleared; JOB-02 still not turned in."
+  "last_saved_at": "2026-10-04T02:40:00+02:00",
+  "save_note": "JOB-02 completed and turned in. Merchant paid ₽900; Luke now has ₽2,100. Growlithe remains at 13/35 HP. Two Rattata and one Raticate bodies were carried outside.",
+  "job_history": [
+    {
+      "id": "JOB-02",
+      "title": "Pokémon nel magazzino",
+      "result": "completed",
+      "reward": 900,
+      "reward_paid": true,
+      "completed_on_world_day": 1,
+      "resolution": "Luke and Hisuian Growlithe cleared the warehouse. Luke carried the bodies of two Rattata and one Raticate outside before turning in the job."
+    }
+  ]
 }
