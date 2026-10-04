@@ -1,6 +1,7 @@
 import { createInterface } from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
 import { Pokemon5eCombatEngine } from "./combat/combat-engine.mjs";
+import { handleAuxiliaryCommand, handleRequiredSwitch, printAuxiliaryOptions, printBattlefield } from "./combat/cli-controls.mjs";
 import { BookgameEngine } from "./engine/bookgame-engine.mjs";
 import { CryptoDice } from "./engine/dice.mjs";
 import { SaveStore } from "./engine/save-store.mjs";
@@ -94,7 +95,10 @@ function printSaveMove(battle, entry) {
 
 function printNewCombatLogs(battle, fromIndex) {
   for (const entry of battle.log.slice(fromIndex)) {
-    if (entry.type === "attack") printAttack(battle, entry);
+    if (entry.type === "attack" || entry.type === "opportunity_attack") {
+      if (entry.type === "opportunity_attack") console.log("→ Attacco d'opportunità!");
+      printAttack(battle, entry);
+    }
     if (entry.type === "save_move") printSaveMove(battle, entry);
     if (entry.type === "ability_use" && entry.abilityId === "intimidate") {
       console.log(`→ ${actorName(battle, entry.actor)} usa Intimidate: il prossimo attacco viene tirato con svantaggio.`);
@@ -146,6 +150,17 @@ async function runCombat(state) {
   let printed = battle.log.length;
 
   while (!battle.outcome) {
+    if (battle.awaitingSwitch === "player") {
+      try {
+        battle = await handleRequiredSwitch({ battle, combatEngine, rl });
+        printed = printNewCombatLogs(battle, printed);
+        state = await saveBattleIntoState(state, battle);
+      } catch (error) {
+        console.log(error.message);
+      }
+      continue;
+    }
+
     battle = await combatEngine.prepareCurrentTurn(battle);
     printed = printNewCombatLogs(battle, printed);
     state = await saveBattleIntoState(state, battle);
@@ -166,10 +181,7 @@ async function runCombat(state) {
       continue;
     }
 
-    console.log(
-      `\nRound ${battle.round} — ${battle.player.name} ${battle.player.hp.current}/${battle.player.hp.max} HP ` +
-      `| ${battle.opponent.name} ${battle.opponent.hp.current}/${battle.opponent.hp.max} HP`
-    );
+    printBattlefield(battle);
 
     const moves = await combatEngine.availablePlayerMoves(battle);
     moves.forEach((move, index) => {
