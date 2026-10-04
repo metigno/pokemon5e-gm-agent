@@ -355,6 +355,113 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
   };
 }
 
+export function validateWorldEventCatalog(catalog, { sourceFile = "<memory>" } = {}) {
+  const errors = [];
+  if (!isObject(catalog) || catalog.schemaVersion !== 1 || !Array.isArray(catalog.events)) {
+    return {
+      valid: false,
+      errors: [diag("INVALID_WORLD_EVENT_CATALOG", "World event catalog requires schemaVersion=1 and events[]", sourceFile)],
+      events: []
+    };
+  }
+
+  const ids = new Set();
+  const validEvents = [];
+
+  for (let index = 0; index < catalog.events.length; index += 1) {
+    const event = catalog.events[index];
+    const eventAt = sourceFile + ".events[" + index + "]";
+    if (!isObject(event) || typeof event.id !== "string" || !ID_RE.test(event.id)) {
+      errors.push(diag("INVALID_WORLD_EVENT_ID", "World event requires a valid id", eventAt));
+      continue;
+    }
+    if (ids.has(event.id)) {
+      errors.push(diag("DUPLICATE_WORLD_EVENT_ID", "Duplicate world event id: " + event.id, eventAt));
+      continue;
+    }
+    ids.add(event.id);
+
+    if (event.once !== undefined && typeof event.once !== "boolean") {
+      errors.push(diag("INVALID_WORLD_EVENT_ONCE", "once must be boolean when present", eventAt + ".once"));
+    }
+    errors.push(...validateCondition(event.trigger, eventAt + ".trigger"));
+
+    if (!Array.isArray(event.outcomes) || event.outcomes.length === 0) {
+      errors.push(diag("INVALID_WORLD_EVENT_OUTCOMES", "World event requires at least one outcome", eventAt + ".outcomes"));
+      continue;
+    }
+
+    const outcomeIds = new Set();
+    let unconditionalCount = 0;
+    for (let outcomeIndex = 0; outcomeIndex < event.outcomes.length; outcomeIndex += 1) {
+      const outcome = event.outcomes[outcomeIndex];
+      const outcomeAt = eventAt + ".outcomes[" + outcomeIndex + "]";
+      if (!isObject(outcome) || typeof outcome.id !== "string" || !ID_RE.test(outcome.id)) {
+        errors.push(diag("INVALID_WORLD_EVENT_OUTCOME_ID", "Outcome requires a valid id", outcomeAt));
+        continue;
+      }
+      if (outcomeIds.has(outcome.id)) {
+        errors.push(diag("DUPLICATE_WORLD_EVENT_OUTCOME_ID", "Duplicate outcome id: " + outcome.id, outcomeAt));
+      }
+      outcomeIds.add(outcome.id);
+
+      if (outcome.when === undefined) {
+        unconditionalCount += 1;
+        if (outcomeIndex !== event.outcomes.length - 1) {
+          errors.push(diag("WORLD_EVENT_FALLBACK_ORDER", "Unconditional outcome must be last", outcomeAt));
+        }
+      } else {
+        errors.push(...validateCondition(outcome.when, outcomeAt + ".when"));
+      }
+      validateEffects(outcome.effects, outcomeAt, errors);
+    }
+    if (unconditionalCount > 1) {
+      errors.push(diag("WORLD_EVENT_MULTIPLE_FALLBACKS", "World event may have at most one unconditional outcome", eventAt));
+    }
+
+    validEvents.push(event);
+  }
+
+  return { valid: errors.length === 0, errors, events: validEvents };
+}
+
+async function loadWorldEventCatalogs(eventsDir, errors) {
+  const byId = {};
+  let files = [];
+  try {
+    files = await listJsonFiles(eventsDir);
+  } catch (error) {
+    if (error.code === "ENOENT") return [];
+    throw error;
+  }
+
+  for (const file of files) {
+    let catalog;
+    try {
+      catalog = JSON.parse(await readFile(file, "utf8"));
+    } catch (error) {
+      errors.push(diag("INVALID_WORLD_EVENT_JSON", error.message, file));
+      continue;
+    }
+
+    const report = validateWorldEventCatalog(catalog, { sourceFile: file });
+    errors.push(...report.errors);
+
+    for (const event of report.events) {
+      if (Object.hasOwn(byId, event.id)) {
+        errors.push(diag("DUPLICATE_WORLD_EVENT_ID", "Duplicate world event id across catalogs: " + event.id, file));
+      } else {
+        byId[event.id] = {
+          ...event,
+          moduleId: event.moduleId ?? catalog.moduleId ?? null
+        };
+      }
+    }
+  }
+
+  return Object.values(byId).sort((a, b) => a.id.localeCompare(b.id));
+}
+
 async function listJsonFiles(root) {
   const entries = await readdir(root, { withFileTypes: true });
   const files = [];
@@ -447,7 +554,11 @@ export class StoryCompileError extends Error {
   }
 }
 
-export async function compileStory({ scenesDir, modulesDir = path.join(path.dirname(scenesDir), "modules") }) {
+export async function compileStory({
+  scenesDir,
+  modulesDir = path.join(path.dirname(scenesDir), "modules"),
+  eventsDir = path.join(path.dirname(scenesDir), "events")
+}) {
   const files = await listJsonFiles(scenesDir);
   const scenes = {};
   const sceneReports = {};
@@ -458,6 +569,7 @@ export async function compileStory({ scenesDir, modulesDir = path.join(path.dirn
   let choiceCount = 0;
 
   const modules = await loadModuleManifests(modulesDir, errors);
+  const worldEvents = await loadWorldEventCatalogs(eventsDir, errors);
 
   for (const file of files) {
     let scene;
@@ -563,9 +675,11 @@ export async function compileStory({ scenesDir, modulesDir = path.join(path.dirn
       nodeCount,
       stitchCount,
       choiceCount,
+      worldEventCount: worldEvents.length,
       modules: moduleMetrics
     },
     diagnostics: { warnings },
+    worldEvents,
     scenes: orderedScenes
   };
 }
