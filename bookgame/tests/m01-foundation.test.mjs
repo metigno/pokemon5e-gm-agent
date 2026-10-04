@@ -11,6 +11,7 @@ import { advanceWorldTime, daypartForMinute, getWorldTimeView } from "../src/eng
 import { getQuestJournal, processQuestDeadlines, startQuest } from "../src/engine/quest-state.mjs";
 import { adjustNpcRelationship, selectFriendBeatCandidate, setNpcSchedule } from "../src/engine/npc-state.mjs";
 import { processWorldEvents } from "../src/engine/world-events.mjs";
+import { registerTrial, setTrialAvailable } from "../src/engine/competition-state.mjs";
 
 const scenesDir = fileURLToPath(new URL("../content/scenes/", import.meta.url));
 const modulesDir = fileURLToPath(new URL("../content/modules/", import.meta.url));
@@ -811,4 +812,218 @@ test("E6 compiler rejects malformed event fallback ordering and unsafe trigger p
   assert.equal(report.valid, false);
   assert.ok(report.errors.some((error) => error.code === "INVALID_CONDITION_PATH"));
   assert.ok(report.errors.some((error) => error.code === "WORLD_EVENT_FALLBACK_ORDER"));
+});
+
+
+test("E5 new careers start at Circuit Rank F with no invented Trial completion", () => {
+  const state = createNewGameState({ protagonist: "Luke" });
+  assert.equal(state.competition.rank, "F");
+  assert.equal(state.competition.rankOrder, 0);
+  assert.equal(state.competition.firstOfficialResolved, false);
+  assert.deepEqual(state.competition.trials, {});
+  assert.deepEqual(state.competition.history, []);
+});
+
+test("E5 Trial registration enforces the real two-Pokemon roster requirement", () => {
+  const state = createNewGameState({ protagonist: "Luke" });
+  setTrialAvailable(state, {
+    checkpointId: "RANK_F_TO_E",
+    fromRank: "F",
+    toRank: "E",
+    requiredRosterSize: 2,
+    retryable: true
+  });
+
+  assert.equal(state.competition.trials.RANK_F_TO_E.available, true);
+  assert.throws(
+    () => registerTrial(state, { checkpointId: "RANK_F_TO_E" }),
+    /requires roster size 2/
+  );
+
+  state.player.roster.push({ speciesId: "houndour", level: 3 });
+  registerTrial(state, { checkpointId: "RANK_F_TO_E" });
+  assert.equal(state.competition.trials.RANK_F_TO_E.registered, true);
+});
+
+test("E5 first official match records real resolver result without acting as a rank gate", async () => {
+  const repository = {
+    async load() {
+      return {
+        id: "official-test",
+        title: "Official",
+        nodes: {
+          start: {
+            text: "Match.",
+            choices: [{
+              id: "fight",
+              text: "Fight.",
+              combat: {
+                encounterId: "OFFICIAL_TEST_001",
+                opponent: { species: "Eevee", level: 1 },
+                opponentRegistered: true,
+                goto: "handoff",
+                returnNodes: { win: "win", lose: "lose" },
+                competition: {
+                  type: "official_match",
+                  matchId: "A1_FIRST_OFFICIAL",
+                  format: "Singles",
+                  officialRosterSize: 1,
+                  difficulty: "STANDARD",
+                  firstOfficial: true
+                }
+              }
+            }]
+          },
+          handoff: { text: "Resolver.", choices: [] },
+          win: { text: "Win.", choices: [] },
+          lose: { text: "Lose.", choices: [] }
+        }
+      };
+    }
+  };
+
+  const engine = new BookgameEngine({ scenes: repository });
+  let state = createNewGameState({ protagonist: "Luke" });
+  state.story.sceneId = "official-test";
+  state.story.nodeId = "start";
+
+  state = await engine.choose(state, "fight");
+  assert.equal(state.pending.opponentRegistered, true);
+  assert.equal(state.competition.activeMatch.matchId, "A1_FIRST_OFFICIAL");
+
+  state = engine.resolveCombatHandoff(state, "lose");
+  assert.equal(state.competition.firstOfficialResolved, true);
+  assert.equal(state.competition.rank, "F");
+  assert.equal(state.competition.history.at(-1).outcome, "lose");
+});
+
+test("E5 Promotion Trial loss stays F and retry win promotes to E", async () => {
+  const repository = {
+    async load() {
+      return {
+        id: "trial-test",
+        title: "Trial",
+        nodes: {
+          start: {
+            text: "Trial.",
+            choices: [{
+              id: "fight",
+              text: "Fight.",
+              combat: {
+                encounterId: "TRIAL_TEST_001",
+                opponent: { species: "Houndour", level: 3 },
+                opponentRegistered: true,
+                goto: "handoff",
+                returnNodes: { win: "win", lose: "lose" },
+                competition: {
+                  type: "promotion_trial",
+                  matchId: "RANK_F_TO_E_TEST",
+                  checkpointId: "RANK_F_TO_E",
+                  fromRank: "F",
+                  toRank: "E",
+                  format: "Singles",
+                  officialRosterSize: 2,
+                  difficulty: "HARD",
+                  retryable: true
+                }
+              }
+            }]
+          },
+          handoff: { text: "Resolver.", choices: [] },
+          win: { text: "Win.", choices: [] },
+          lose: { text: "Lose.", choices: [] }
+        }
+      };
+    }
+  };
+
+  const engine = new BookgameEngine({ scenes: repository });
+  let state = createNewGameState({ protagonist: "Luke" });
+  state.story.sceneId = "trial-test";
+  state.story.nodeId = "start";
+  state.player.roster.push({ speciesId: "houndour", level: 3 });
+
+  setTrialAvailable(state, {
+    checkpointId: "RANK_F_TO_E",
+    fromRank: "F",
+    toRank: "E",
+    requiredRosterSize: 2,
+    retryable: true
+  });
+  registerTrial(state, { checkpointId: "RANK_F_TO_E" });
+
+  state = await engine.choose(state, "fight");
+  assert.equal(state.competition.trials.RANK_F_TO_E.attempts, 1);
+  state = engine.resolveCombatHandoff(state, "lose");
+  assert.equal(state.competition.rank, "F");
+  assert.equal(state.competition.trials.RANK_F_TO_E.lastResult, "lose");
+  assert.equal(state.competition.trials.RANK_F_TO_E.available, true);
+  assert.equal(state.competition.trials.RANK_F_TO_E.registered, false);
+
+  state.story.sceneId = "trial-test";
+  state.story.nodeId = "start";
+  registerTrial(state, { checkpointId: "RANK_F_TO_E" });
+  state = await engine.choose(state, "fight");
+  state = engine.resolveCombatHandoff(state, "win");
+
+  assert.equal(state.competition.trials.RANK_F_TO_E.attempts, 2);
+  assert.equal(state.competition.trials.RANK_F_TO_E.bestResult, "win");
+  assert.equal(state.competition.trials.RANK_F_TO_E.completed, true);
+  assert.equal(state.competition.rank, "E");
+  assert.equal(state.competition.rankOrder, 1);
+});
+
+test("E5 compiler rejects competitive capture branches and malformed metadata", () => {
+  const report = validateScene({
+    schemaVersion: 1,
+    id: "bad-competition",
+    title: "Bad competition",
+    locationId: "test",
+    nodes: {
+      start: {
+        text: "Test",
+        choices: [{
+          id: "fight",
+          text: "Fight",
+          combat: {
+            encounterId: "BAD_OFFICIAL",
+            opponent: { species: "Eevee", level: 1 },
+            opponentRegistered: false,
+            goto: "handoff",
+            returnNodes: { win: "win", lose: "lose", captured: "captured" },
+            competition: {
+              type: "official_match",
+              matchId: "BAD_MATCH",
+              format: "Doubles",
+              officialRosterSize: 0,
+              difficulty: "STANDARD"
+            }
+          }
+        }]
+      },
+      handoff: { text: "Handoff", choices: [] },
+      win: { text: "Win", choices: [] },
+      lose: { text: "Lose", choices: [] },
+      captured: { text: "Captured", choices: [] }
+    }
+  });
+
+  assert.equal(report.valid, false);
+  assert.ok(report.errors.some((error) => error.code === "INVALID_COMPETITION_FORMAT"));
+  assert.ok(report.errors.some((error) => error.code === "INVALID_OFFICIAL_ROSTER_SIZE"));
+  assert.ok(report.errors.some((error) => error.code === "COMPETITION_OPPONENT_MUST_BE_REGISTERED"));
+  assert.ok(report.errors.some((error) => error.code === "INVALID_COMPETITION_CAPTURE_OUTCOME"));
+});
+
+test("M01 Arena uses structured E5 Trial state instead of rank flags", async () => {
+  const bundle = await compileStory({ scenesDir, modulesDir });
+  const scene = bundle.scenes["m01-valedarsena-first-arrival"];
+  const arena = scene.nodes.arena_front;
+  const note = arena.choices.find((choice) => choice.id === "note_trial");
+  const register = arena.choices.find((choice) => choice.id === "register_trial");
+
+  assert.ok(note.effects.some((effect) => effect.type === "competition_trial_available"));
+  assert.ok(register.effects.some((effect) => effect.type === "competition_trial_register"));
+  assert.equal(JSON.stringify(arena).includes("rank_trial_F_E_available"), false);
+  assert.equal(JSON.stringify(arena).includes('"current_rank"'), false);
 });
