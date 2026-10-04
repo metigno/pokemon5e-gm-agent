@@ -67,7 +67,7 @@ The graph is reconvergent, not linear. The player may move repeatedly between Gi
 | M1_08_BLUE_ENTERS | Blue causal introduction variants | 380 | 240 | ENGINE DEPENDENCY |
 | M1_09_FRIEND_BEAT_01 | one of the other Four selected causally | 390 | 250 | ENGINE DEPENDENCY |
 | M1_10_FIRST_OFFICIAL | first sanctioned non-trial match | 270 | 170 | IMPLEMENTED / E5 WIRED |
-| M1_11_SECOND_POKEMON | legal routes to roster size 2 | 280 | 180 | PARTIAL / E7 WIRED |
+| M1_11_SECOND_POKEMON | legal routes to roster size 2 | 280 | 180 | IMPLEMENTED / E7 WIRED |
 | M1_12_FIVE_ROADS | friends diverge and schedules update | 250 | 150 | ENGINE DEPENDENCY |
 | M1_13_TRIAL_REGISTRATION | gate eligibility and preparation | 160 | 90 | PARTIAL / E5 WIRED |
 | M1_14_PROMOTION_TRIAL_F_E | official F→E trial | 200 | 110 | READY FOR AUTHORED OPPONENT |
