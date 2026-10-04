@@ -27,6 +27,11 @@ export class CompiledSceneRepository {
     return this.bundlePromise;
   }
 
+  async loadWorldEvents() {
+    const bundle = await this.loadBundle();
+    return structuredClone(bundle.worldEvents ?? []);
+  }
+
   async load(sceneId) {
     if (!/^[A-Za-z0-9_-]+$/.test(sceneId)) {
       throw new Error("Invalid scene id: " + sceneId);
