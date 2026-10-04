@@ -584,7 +584,7 @@
             "encounterId": "M1_FARM_HISUI_GROWLITHE_001",
             "opponent": {
               "species": "Growlithe",
-              "form": "Hisui",
+              "form": "Hisuian",
               "level": 1,
               "abilityId": "intimidate"
             },
@@ -614,7 +614,7 @@
             "encounterId": "M1_FARM_HISUI_GROWLITHE_002",
             "opponent": {
               "species": "Growlithe",
-              "form": "Hisui",
+              "form": "Hisuian",
               "level": 1,
               "abilityId": "intimidate"
             },
@@ -644,7 +644,7 @@
             "encounterId": "M1_FARM_HISUI_GROWLITHE_003",
             "opponent": {
               "species": "Growlithe",
-              "form": "Hisui",
+              "form": "Hisuian",
               "level": 1,
               "abilityId": "intimidate"
             },
