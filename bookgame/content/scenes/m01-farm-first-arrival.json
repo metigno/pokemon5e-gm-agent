@@ -8,9 +8,18 @@
   "nodes": {
     "approach": {
       "stitches": [
-        { "id": "farm_sound", "text": "Prima di vedere i recinti senti richiami brevi, porte metalliche e qualcuno che conta ad alta voce." },
-        { "id": "open_gate", "text": "Un cancello laterale è stato assicurato in fretta con una corda. Nel campo oltre il fossato, più tracce convergono verso l'erba alta." },
-        { "id": "staff_busy", "text": "Un addetto ti vede arrivare ma non corre verso di te come se fossi la soluzione promessa. Ti chiede soltanto se sei qui per il lavoro o di passaggio." }
+        {
+          "id": "farm_sound",
+          "text": "Prima di vedere i recinti senti richiami brevi, porte metalliche e qualcuno che conta ad alta voce."
+        },
+        {
+          "id": "open_gate",
+          "text": "Un cancello laterale è stato assicurato in fretta con una corda. Nel campo oltre il fossato, più tracce convergono verso l'erba alta."
+        },
+        {
+          "id": "staff_busy",
+          "text": "Un addetto ti vede arrivare ma non corre verso di te come se fossi la soluzione promessa. Ti chiede soltanto se sei qui per il lavoro o di passaggio."
+        }
       ],
       "choices": [
         {
@@ -18,77 +27,174 @@
           "text": "Dico che posso aiutare con i Pokémon dispersi.",
           "goto": "briefing",
           "effects": [
-            { "type": "set_location", "locationId": "asteria_farm" },
-            { "type": "set_flag", "key": "sq_farm_herd_hands_state", "value": "active" }
+            {
+              "type": "set_location",
+              "locationId": "asteria_farm"
+            },
+            {
+              "type": "set_flag",
+              "key": "sq_farm_herd_hands_state",
+              "value": "active"
+            }
           ]
         },
-        { "id": "observe", "text": "Prima osservo i recinti. (CT Perception)", "check": {
-          "ability": "WIS",
-          "skill": "Perception",
-          "dc": 11
-        }, "outcomes": {
-          "success": {
-            "goto": "observe_success",
-            "effects": [
-              { "type": "set_flag", "key": "m1_world_pressure_known", "value": true }
-            ]
+        {
+          "id": "observe",
+          "text": "Prima osservo i recinti. (CT Perception)",
+          "check": {
+            "ability": "WIS",
+            "skill": "Perception",
+            "dc": 11
           },
-          "failure": { "goto": "observe_failure" }
-        }},
-        { "id": "leave_city", "text": "Non mi fermo e continuo verso Valedarsena.", "goto": "m01-valedarsena-first-arrival#approach" },
-        { "id": "leave_crossroads", "text": "Torno alle Ginestre.", "goto": "m01-ginestre-crossroads#crossroads" }
+          "outcomes": {
+            "success": {
+              "goto": "observe_success",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "m1_world_pressure_known",
+                  "value": true
+                }
+              ]
+            },
+            "failure": {
+              "goto": "observe_failure"
+            }
+          }
+        },
+        {
+          "id": "leave_city",
+          "text": "Non mi fermo e continuo verso Valedarsena.",
+          "goto": "m01-valedarsena-first-arrival#approach",
+          "timeCostMinutes": 140
+        },
+        {
+          "id": "leave_crossroads",
+          "text": "Torno alle Ginestre.",
+          "goto": "m01-ginestre-crossroads#crossroads",
+          "timeCostMinutes": 70
+        }
       ]
     },
     "briefing": {
       "stitches": [
-        { "id": "herd_problem", "text": "L'addetto spiega che alcuni Pokémon da pascolo si sono dispersi quando un rumore improvviso li ha spinti verso il lato sbagliato dei recinti." },
-        { "id": "wild_pressure", "text": "Non è l'unico problema: negli ultimi giorni specie selvatiche sono state viste più vicine agli abbeveratoi e ai depositi di mangime." },
-        { "id": "no_forced_battle", "text": "«Se riesci a recuperarli senza farli correre ancora, meglio. Combattere è l'ultima cosa che ci serve.»" }
+        {
+          "id": "herd_problem",
+          "text": "L'addetto spiega che alcuni Pokémon da pascolo si sono dispersi quando un rumore improvviso li ha spinti verso il lato sbagliato dei recinti."
+        },
+        {
+          "id": "wild_pressure",
+          "text": "Non è l'unico problema: negli ultimi giorni specie selvatiche sono state viste più vicine agli abbeveratoi e ai depositi di mangime."
+        },
+        {
+          "id": "no_forced_battle",
+          "text": "«Se riesci a recuperarli senza farli correre ancora, meglio. Combattere è l'ultima cosa che ci serve.»"
+        }
       ],
       "choices": [
-        { "id": "tracks", "text": "Cerco di separare le tracce recenti. (CT Investigation)", "check": {
-          "ability": "INT",
-          "skill": "Investigation",
-          "dc": 12
-        }, "outcomes": {
-          "success": { "goto": "tracks_success" },
-          "failure": { "goto": "tracks_failure" }
-        }},
-        { "id": "handling", "text": "Mi avvicino al campo e provo a richiamare i Pokémon con calma. (CT Animal Handling)", "check": {
-          "ability": "WIS",
-          "skill": "Animal Handling",
-          "dc": 12
-        }, "outcomes": {
-          "success": { "goto": "handling_success" },
-          "failure": { "goto": "handling_failure" }
-        }},
-        { "id": "decline", "text": "Dico che non sono pronto e lascio il lavoro.", "goto": "leave_job" }
+        {
+          "id": "tracks",
+          "text": "Cerco di separare le tracce recenti. (CT Investigation)",
+          "check": {
+            "ability": "INT",
+            "skill": "Investigation",
+            "dc": 12
+          },
+          "outcomes": {
+            "success": {
+              "goto": "tracks_success"
+            },
+            "failure": {
+              "goto": "tracks_failure"
+            }
+          }
+        },
+        {
+          "id": "handling",
+          "text": "Mi avvicino al campo e provo a richiamare i Pokémon con calma. (CT Animal Handling)",
+          "check": {
+            "ability": "WIS",
+            "skill": "Animal Handling",
+            "dc": 12
+          },
+          "outcomes": {
+            "success": {
+              "goto": "handling_success"
+            },
+            "failure": {
+              "goto": "handling_failure"
+            }
+          }
+        },
+        {
+          "id": "decline",
+          "text": "Dico che non sono pronto e lascio il lavoro.",
+          "goto": "leave_job"
+        }
       ]
     },
     "observe_success": {
       "stitches": [
-        { "id": "fence_detail", "text": "Noti che il danno al recinto non sembra causato da un singolo impatto. Ci sono segni di passaggi ripetuti vicino a un punto che dovrebbe essere poco usato." },
-        { "id": "pressure_pattern", "text": "Qualunque cosa stia succedendo non comincia qui: la fattoria sta ricevendo le conseguenze di movimenti più ampi della fauna." }
+        {
+          "id": "fence_detail",
+          "text": "Noti che il danno al recinto non sembra causato da un singolo impatto. Ci sono segni di passaggi ripetuti vicino a un punto che dovrebbe essere poco usato."
+        },
+        {
+          "id": "pressure_pattern",
+          "text": "Qualunque cosa stia succedendo non comincia qui: la fattoria sta ricevendo le conseguenze di movimenti più ampi della fauna."
+        }
       ],
       "choices": [
-        { "id": "help", "text": "Offro il mio aiuto.", "goto": "briefing" },
-        { "id": "city", "text": "Vado a Valedarsena per chiedere informazioni.", "goto": "m01-valedarsena-first-arrival#approach" },
-        { "id": "leave", "text": "Torno alle Ginestre.", "goto": "m01-ginestre-crossroads#crossroads" }
+        {
+          "id": "help",
+          "text": "Offro il mio aiuto.",
+          "goto": "briefing"
+        },
+        {
+          "id": "city",
+          "text": "Vado a Valedarsena per chiedere informazioni.",
+          "goto": "m01-valedarsena-first-arrival#approach",
+          "timeCostMinutes": 140
+        },
+        {
+          "id": "leave",
+          "text": "Torno alle Ginestre.",
+          "goto": "m01-ginestre-crossroads#crossroads",
+          "timeCostMinutes": 70
+        }
       ]
     },
     "observe_failure": {
       "stitches": [
-        { "id": "farm_confusion", "text": "Tra impronte, ruote e persone che hanno già attraversato il campo, non riesci a ricostruire una direzione affidabile." }
+        {
+          "id": "farm_confusion",
+          "text": "Tra impronte, ruote e persone che hanno già attraversato il campo, non riesci a ricostruire una direzione affidabile."
+        }
       ],
       "choices": [
-        { "id": "help", "text": "Chiedo comunque come posso aiutare.", "goto": "briefing" },
-        { "id": "leave", "text": "Per ora me ne vado.", "goto": "m01-ginestre-crossroads#crossroads" }
+        {
+          "id": "help",
+          "text": "Chiedo comunque come posso aiutare.",
+          "goto": "briefing"
+        },
+        {
+          "id": "leave",
+          "text": "Per ora me ne vado.",
+          "goto": "m01-ginestre-crossroads#crossroads",
+          "timeCostMinutes": 70
+        }
       ]
     },
     "tracks_success": {
       "stitches": [
-        { "id": "track_split", "text": "Riesci a distinguere il gruppo principale da due animali separati. Uno ha girato verso l'acqua, l'altro verso il margine del campo." },
-        { "id": "safe_plan", "text": "L'addetto cambia piano sulla base della tua lettura: prima bloccare le vie di fuga, poi recuperare i più vicini senza spingere il branco." }
+        {
+          "id": "track_split",
+          "text": "Riesci a distinguere il gruppo principale da due animali separati. Uno ha girato verso l'acqua, l'altro verso il margine del campo."
+        },
+        {
+          "id": "safe_plan",
+          "text": "L'addetto cambia piano sulla base della tua lettura: prima bloccare le vie di fuga, poi recuperare i più vicini senza spingere il branco."
+        }
       ],
       "choices": [
         {
@@ -96,46 +202,91 @@
           "text": "Seguo il piano e aiuto a chiudere il recupero.",
           "goto": "job_complete",
           "effects": [
-            { "type": "set_flag", "key": "sq_farm_herd_hands_state", "value": "completed" },
-            { "type": "set_flag", "key": "m1_world_pressure_player_involved", "value": true }
+            {
+              "type": "set_flag",
+              "key": "sq_farm_herd_hands_state",
+              "value": "completed"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_player_involved",
+              "value": true
+            }
           ]
         },
-        { "id": "handling", "text": "Provo anche a calmare il gruppo più nervoso. (CT Animal Handling)", "check": {
-          "ability": "WIS",
-          "skill": "Animal Handling",
-          "dc": 12
-        }, "outcomes": {
-          "success": {
-            "goto": "job_complete",
-            "effects": [
-              { "type": "set_flag", "key": "sq_farm_herd_hands_state", "value": "completed" },
-              { "type": "set_flag", "key": "m1_world_pressure_player_involved", "value": true }
-            ]
+        {
+          "id": "handling",
+          "text": "Provo anche a calmare il gruppo più nervoso. (CT Animal Handling)",
+          "check": {
+            "ability": "WIS",
+            "skill": "Animal Handling",
+            "dc": 12
           },
-          "failure": { "goto": "handling_failure" }
-        }}
+          "outcomes": {
+            "success": {
+              "goto": "job_complete",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "sq_farm_herd_hands_state",
+                  "value": "completed"
+                },
+                {
+                  "type": "set_flag",
+                  "key": "m1_world_pressure_player_involved",
+                  "value": true
+                }
+              ]
+            },
+            "failure": {
+              "goto": "handling_failure"
+            }
+          }
+        }
       ]
     },
     "tracks_failure": {
       "stitches": [
-        { "id": "wrong_split", "text": "Segui una pista per diversi metri prima di accorgerti che appartiene a un passaggio precedente. Hai perso tempo, non la possibilità di aiutare." }
+        {
+          "id": "wrong_split",
+          "text": "Segui una pista per diversi metri prima di accorgerti che appartiene a un passaggio precedente. Hai perso tempo, non la possibilità di aiutare."
+        }
       ],
       "choices": [
-        { "id": "handling", "text": "Cambio metodo e provo con Animal Handling.", "check": {
-          "ability": "WIS",
-          "skill": "Animal Handling",
-          "dc": 12
-        }, "outcomes": {
-          "success": { "goto": "handling_success" },
-          "failure": { "goto": "handling_failure" }
-        }},
-        { "id": "ask_help", "text": "Chiedo all'addetto di guidarmi invece di improvvisare.", "goto": "guided_help" }
+        {
+          "id": "handling",
+          "text": "Cambio metodo e provo con Animal Handling.",
+          "check": {
+            "ability": "WIS",
+            "skill": "Animal Handling",
+            "dc": 12
+          },
+          "outcomes": {
+            "success": {
+              "goto": "handling_success"
+            },
+            "failure": {
+              "goto": "handling_failure"
+            }
+          }
+        },
+        {
+          "id": "ask_help",
+          "text": "Chiedo all'addetto di guidarmi invece di improvvisare.",
+          "goto": "guided_help"
+        }
       ]
     },
     "handling_success": {
       "stitches": [
-        { "id": "calm_group", "text": "Riduci la pressione invece di aumentarla: niente corsa frontale, niente urla. Il gruppo smette di allargarsi e l'addetto riesce a richiudere il primo passaggio." },
-        { "id": "earned_not_magic", "text": "Non hai controllato gli animali con la volontà. Hai semplicemente letto bene distanza, paura e direzione." }
+        {
+          "id": "calm_group",
+          "text": "Riduci la pressione invece di aumentarla: niente corsa frontale, niente urla. Il gruppo smette di allargarsi e l'addetto riesce a richiudere il primo passaggio."
+        },
+        {
+          "id": "earned_not_magic",
+          "text": "Non hai controllato gli animali con la volontà. Hai semplicemente letto bene distanza, paura e direzione."
+        }
       ],
       "choices": [
         {
@@ -143,25 +294,50 @@
           "text": "Continuo finché il recupero è stabile.",
           "goto": "job_complete",
           "effects": [
-            { "type": "set_flag", "key": "sq_farm_herd_hands_state", "value": "completed" },
-            { "type": "set_flag", "key": "m1_world_pressure_player_involved", "value": true }
+            {
+              "type": "set_flag",
+              "key": "sq_farm_herd_hands_state",
+              "value": "completed"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_player_involved",
+              "value": true
+            }
           ]
         }
       ]
     },
     "handling_failure": {
       "stitches": [
-        { "id": "pressure_wrong", "text": "Ti muovi quando uno degli animali sta già cercando una via laterale. Il gruppo reagisce a catena e per alcuni secondi la situazione peggiora." },
-        { "id": "staff_recovers", "text": "L'addetto interviene prima che qualcuno si faccia male. Non ti insulta, ma ti toglie il centro della manovra: «Adesso segui me.»" }
+        {
+          "id": "pressure_wrong",
+          "text": "Ti muovi quando uno degli animali sta già cercando una via laterale. Il gruppo reagisce a catena e per alcuni secondi la situazione peggiora."
+        },
+        {
+          "id": "staff_recovers",
+          "text": "L'addetto interviene prima che qualcuno si faccia male. Non ti insulta, ma ti toglie il centro della manovra: «Adesso segui me.»"
+        }
       ],
       "choices": [
-        { "id": "guided", "text": "Accetto e seguo le istruzioni.", "goto": "guided_help" },
-        { "id": "leave", "text": "Mi tiro fuori prima di peggiorare ancora.", "goto": "leave_job" }
+        {
+          "id": "guided",
+          "text": "Accetto e seguo le istruzioni.",
+          "goto": "guided_help"
+        },
+        {
+          "id": "leave",
+          "text": "Mi tiro fuori prima di peggiorare ancora.",
+          "goto": "leave_job"
+        }
       ]
     },
     "guided_help": {
       "stitches": [
-        { "id": "guided_work", "text": "Seguendo le indicazioni, fai meno di quanto avresti voluto ma abbastanza da essere utile. Il recupero procede senza un altro incidente." }
+        {
+          "id": "guided_work",
+          "text": "Seguendo le indicazioni, fai meno di quanto avresti voluto ma abbastanza da essere utile. Il recupero procede senza un altro incidente."
+        }
       ],
       "choices": [
         {
@@ -169,16 +345,30 @@
           "text": "Resto fino alla fine del lavoro.",
           "goto": "job_complete",
           "effects": [
-            { "type": "set_flag", "key": "sq_farm_herd_hands_state", "value": "completed" },
-            { "type": "set_flag", "key": "m1_world_pressure_player_involved", "value": true }
+            {
+              "type": "set_flag",
+              "key": "sq_farm_herd_hands_state",
+              "value": "completed"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_player_involved",
+              "value": true
+            }
           ]
         }
       ]
     },
     "job_complete": {
       "stitches": [
-        { "id": "job_done", "text": "Quando l'ultimo passaggio viene richiuso, nessuno applaude. Il risultato è più concreto: animali recuperati, nessun ferito, lavoro finito." },
-        { "id": "callback_seed", "text": "Prima che tu parta, l'addetto ti dice che non è la prima anomalia della settimana. Se vuoi capire il quadro intero, i ranger di Valedarsena stanno raccogliendo segnalazioni." }
+        {
+          "id": "job_done",
+          "text": "Quando l'ultimo passaggio viene richiuso, nessuno applaude. Il risultato è più concreto: animali recuperati, nessun ferito, lavoro finito."
+        },
+        {
+          "id": "callback_seed",
+          "text": "Prima che tu parta, l'addetto ti dice che non è la prima anomalia della settimana. Se vuoi capire il quadro intero, i ranger di Valedarsena stanno raccogliendo segnalazioni."
+        }
       ],
       "choices": [
         {
@@ -186,15 +376,28 @@
           "text": "Vado a Valedarsena.",
           "goto": "m01-valedarsena-first-arrival#approach",
           "effects": [
-            { "type": "set_flag", "key": "m1_world_pressure_known", "value": true }
-          ]
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_known",
+              "value": true
+            }
+          ],
+          "timeCostMinutes": 140
         },
-        { "id": "ginestre", "text": "Torno alle Ginestre.", "goto": "m01-ginestre-crossroads#crossroads" }
+        {
+          "id": "ginestre",
+          "text": "Torno alle Ginestre.",
+          "goto": "m01-ginestre-crossroads#crossroads",
+          "timeCostMinutes": 70
+        }
       ]
     },
     "leave_job": {
       "stitches": [
-        { "id": "job_continues", "text": "Il lavoro non si congela perché te ne vai. Gli addetti continuano senza di te e cercheranno un'altra mano se serve." }
+        {
+          "id": "job_continues",
+          "text": "Il lavoro non si congela perché te ne vai. Gli addetti continuano senza di te e cercheranno un'altra mano se serve."
+        }
       ],
       "choices": [
         {
@@ -202,16 +405,26 @@
           "text": "Vado verso Valedarsena.",
           "goto": "m01-valedarsena-first-arrival#approach",
           "effects": [
-            { "type": "set_flag", "key": "sq_farm_herd_hands_state", "value": "abandoned" }
-          ]
+            {
+              "type": "set_flag",
+              "key": "sq_farm_herd_hands_state",
+              "value": "abandoned"
+            }
+          ],
+          "timeCostMinutes": 140
         },
         {
           "id": "ginestre",
           "text": "Torno alle Ginestre.",
           "goto": "m01-ginestre-crossroads#crossroads",
           "effects": [
-            { "type": "set_flag", "key": "sq_farm_herd_hands_state", "value": "abandoned" }
-          ]
+            {
+              "type": "set_flag",
+              "key": "sq_farm_herd_hands_state",
+              "value": "abandoned"
+            }
+          ],
+          "timeCostMinutes": 70
         }
       ]
     }
