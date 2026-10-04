@@ -30,10 +30,14 @@ export function isAllowedConditionPath(path) {
   const segments = path.split(".");
   if (segments.some((segment) => FORBIDDEN_SEGMENTS.has(segment))) return false;
   if (FIXED_PATHS.has(path)) return true;
+  if (segments.length === 3 &&
+      segments[0] === "world" &&
+      segments[1] === "flags" &&
+      ID_RE.test(segments[2])) return true;
   return segments.length === 3 &&
-    segments[0] === "world" &&
-    segments[1] === "flags" &&
-    ID_RE.test(segments[2]);
+    segments[0] === "quests" &&
+    ID_RE.test(segments[1]) &&
+    ["status", "resolution", "startedAtMinutes", "deadlineAtMinutes", "resolvedAtMinutes"].includes(segments[2]);
 }
 
 export function readConditionPath(state, path) {
