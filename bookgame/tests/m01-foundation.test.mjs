@@ -8,6 +8,7 @@ import { SequenceDice } from "../src/engine/dice.mjs";
 import { createNewGameState } from "../src/engine/state.mjs";
 import { evaluateCondition, validateCondition } from "../src/engine/conditions.mjs";
 import { advanceWorldTime, daypartForMinute, getWorldTimeView } from "../src/engine/time.mjs";
+import { getQuestJournal, processQuestDeadlines, startQuest } from "../src/engine/quest-state.mjs";
 
 const scenesDir = fileURLToPath(new URL("../content/scenes/", import.meta.url));
 const modulesDir = fileURLToPath(new URL("../content/modules/", import.meta.url));
@@ -364,4 +365,152 @@ test("M01 canonical Ginestre travel choices carry real topology time", async () 
 
   const cityScene = bundle.scenes["m01-valedarsena-first-arrival"];
   assert.equal(cityScene.nodes.city_hub.choices.find((choice) => choice.id === "farm").timeCostMinutes, 140);
+});
+
+
+test("E3 quest_start creates durable active quest state and journal entry", async () => {
+  const repository = {
+    async load() {
+      return {
+        id: "quest-scene",
+        title: "Quest",
+        nodes: {
+          start: {
+            text: "Board.",
+            choices: [{
+              id: "accept",
+              text: "Accept.",
+              effects: [{
+                type: "quest_start",
+                questId: "QUEST_TEST",
+                title: "Test Quest",
+                objective: "Do the thing."
+              }],
+              goto: "done"
+            }]
+          },
+          done: { text: "Done.", choices: [] }
+        }
+      };
+    }
+  };
+
+  const engine = new BookgameEngine({ scenes: repository });
+  const state = createNewGameState({ protagonist: "Luke" });
+  state.story.sceneId = "quest-scene";
+  state.story.nodeId = "start";
+
+  const next = await engine.choose(state, "accept");
+  assert.equal(next.quests.QUEST_TEST.status, "active");
+  assert.equal(next.quests.QUEST_TEST.startedAtMinutes, 480);
+  assert.equal(next.quests.QUEST_TEST.objective, "Do the thing.");
+  assert.equal(getQuestJournal(next).active.length, 1);
+});
+
+test("E3 travel processes active quest deadlines and records off-screen outcome", async () => {
+  const repository = {
+    async load() {
+      return {
+        id: "deadline-scene",
+        title: "Deadline",
+        nodes: {
+          start: {
+            text: "Road.",
+            choices: [{ id: "travel", text: "Travel.", timeCostMinutes: 70, goto: "done" }]
+          },
+          done: { text: "Arrived.", choices: [] }
+        }
+      };
+    }
+  };
+
+  const engine = new BookgameEngine({ scenes: repository });
+  const state = createNewGameState({ protagonist: "Luke" });
+  state.story.sceneId = "deadline-scene";
+  state.story.nodeId = "start";
+  startQuest(state, {
+    questId: "TIMED_TEST",
+    deadlineMinutes: 60,
+    onDeadline: {
+      status: "completed",
+      resolution: "completed_by_npc",
+      resolvedBy: "world"
+    }
+  });
+
+  const next = await engine.choose(state, "travel");
+  assert.equal(next.quests.TIMED_TEST.status, "completed");
+  assert.equal(next.quests.TIMED_TEST.resolution, "completed_by_npc");
+  assert.equal(next.quests.TIMED_TEST.resolvedBy, "world");
+  assert.equal(next.story.history.at(-1).questDeadlineEvents[0].questId, "TIMED_TEST");
+});
+
+test("E3 default active deadline failure does not freeze the world", () => {
+  const state = createNewGameState({ protagonist: "Luke" });
+  startQuest(state, { questId: "FAIL_TEST", deadlineMinutes: 30 });
+  advanceWorldTime(state.world, 31);
+
+  const events = processQuestDeadlines(state);
+  assert.equal(events.length, 1);
+  assert.equal(state.quests.FAIL_TEST.status, "failed");
+  assert.equal(state.quests.FAIL_TEST.resolution, "deadline_expired");
+});
+
+test("E3 quest conditions expose only validated quest fields", () => {
+  const state = createNewGameState({ protagonist: "Luke" });
+  startQuest(state, { questId: "COND_TEST" });
+
+  assert.equal(evaluateCondition(state, {
+    path: "quests.COND_TEST.status",
+    eq: "active"
+  }), true);
+
+  const invalid = validateCondition({
+    path: "quests.COND_TEST.__proto__",
+    exists: true
+  });
+  assert.ok(invalid.some((error) => error.code === "INVALID_CONDITION_PATH"));
+});
+
+test("E3 compiler rejects malformed quest effect deadline", () => {
+  const report = validateScene({
+    schemaVersion: 1,
+    id: "bad-quest",
+    title: "Bad quest",
+    locationId: "test",
+    nodes: {
+      start: {
+        text: "Test",
+        choices: [{
+          id: "bad",
+          text: "Bad",
+          effects: [{
+            type: "quest_start",
+            questId: "QUEST_BAD",
+            deadlineMinutes: 0
+          }],
+          goto: "end"
+        }]
+      },
+      end: { text: "End", choices: [] }
+    }
+  });
+
+  assert.equal(report.valid, false);
+  assert.ok(report.errors.some((error) => error.code === "INVALID_QUEST_DEADLINE"));
+});
+
+test("M01 farm and logistics jobs use structured E3 quest state", async () => {
+  const bundle = await compileStory({ scenesDir, modulesDir });
+  const cityScene = bundle.scenes["m01-valedarsena-first-arrival"];
+  const farmScene = bundle.scenes["m01-farm-first-arrival"];
+
+  const farmBoard = cityScene.nodes.job_board.choices.find((choice) => choice.id === "farm_job");
+  assert.equal(farmBoard.effects[0].type, "quest_start");
+  assert.equal(farmBoard.effects[0].questId, "SQ_FARM_HERD_HANDS");
+
+  const farmStart = farmScene.nodes.approach.choices.find((choice) => choice.id === "job");
+  assert.ok(farmStart.effects.some((effect) => effect.type === "quest_start"));
+  assert.equal(JSON.stringify(farmScene).includes("sq_farm_herd_hands_state"), false);
+  assert.equal(JSON.stringify(cityScene).includes("m1_logistics_job_state"), false);
 });
