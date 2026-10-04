@@ -853,6 +853,531 @@
           "value": 30
         }
       ]
+    },
+    "mareep": {
+      "id": "mareep",
+      "name": "Mareep",
+      "type": [
+        "electric"
+      ],
+      "minLevel": 1,
+      "ac": 12,
+      "hp": 17,
+      "hitDice": "d6",
+      "attributes": {
+        "str": 10,
+        "dex": 12,
+        "con": 13,
+        "int": 6,
+        "wis": 10,
+        "cha": 12
+      },
+      "savingThrows": [
+        "con"
+      ],
+      "abilities": [
+        {
+          "id": "static",
+          "hidden": false
+        },
+        {
+          "id": "plus",
+          "hidden": true
+        }
+      ],
+      "moves": {
+        "start": [
+          "growl",
+          "tackle",
+          "thunder-wave"
+        ],
+        "level2": [
+          "thunder-shock",
+          "cotton-spore"
+        ],
+        "level6": [
+          "charge",
+          "take-down",
+          "electro-ball"
+        ],
+        "level10": [
+          "confuse-ray",
+          "power-gem",
+          "discharge"
+        ],
+        "level14": [
+          "cotton-guard",
+          "signal-beam"
+        ],
+        "level18": [
+          "light-screen",
+          "thunder"
+        ],
+        "tm": [
+          6,
+          10,
+          11,
+          16,
+          17,
+          18,
+          20,
+          21,
+          24,
+          25,
+          27,
+          32,
+          33,
+          42,
+          44,
+          45,
+          48,
+          49,
+          57,
+          72,
+          73,
+          87,
+          88,
+          90,
+          93,
+          99,
+          100,
+          102,
+          105,
+          116,
+          118,
+          133,
+          135,
+          141,
+          146,
+          155,
+          159,
+          178,
+          183,
+          205,
+          206,
+          232,
+          233,
+          239
+        ],
+        "egg": [
+          "after-you",
+          "agility",
+          "body-slam",
+          "charge",
+          "eerie-impulse",
+          "electric-terrain",
+          "flatter",
+          "iron-tail",
+          "odor-sleuth",
+          "reflect",
+          "safeguard",
+          "sand-attack",
+          "screech",
+          "take-down"
+        ]
+      },
+      "size": "tiny",
+      "sr": 0.25,
+      "speed": [
+        {
+          "type": "walking",
+          "value": 25
+        }
+      ]
+    },
+    "wooloo": {
+      "id": "wooloo",
+      "name": "Wooloo",
+      "type": [
+        "normal"
+      ],
+      "minLevel": 1,
+      "ac": 13,
+      "hp": 16,
+      "hitDice": "d6",
+      "attributes": {
+        "str": 11,
+        "dex": 10,
+        "con": 11,
+        "int": 6,
+        "wis": 10,
+        "cha": 10
+      },
+      "savingThrows": [
+        "con"
+      ],
+      "abilities": [
+        {
+          "id": "fluffy",
+          "hidden": false
+        },
+        {
+          "id": "run-away",
+          "hidden": false
+        },
+        {
+          "id": "bulletproof",
+          "hidden": true
+        }
+      ],
+      "moves": {
+        "start": [
+          "tackle",
+          "growl"
+        ],
+        "level2": [
+          "defense-curl",
+          "copycat"
+        ],
+        "level6": [
+          "guard-split",
+          "double-kick"
+        ],
+        "level10": [
+          "headbutt",
+          "take-down",
+          "guard-swap"
+        ],
+        "level14": [
+          "reversal",
+          "cotton-guard"
+        ],
+        "level18": [
+          "double-edge"
+        ],
+        "tm": [
+          1,
+          6,
+          10,
+          17,
+          42,
+          44,
+          45,
+          48,
+          66,
+          73,
+          88,
+          90,
+          93,
+          100
+        ],
+        "egg": [
+          "counter",
+          "stomp",
+          "swagger"
+        ]
+      },
+      "size": "tiny",
+      "sr": 0.25,
+      "speed": [
+        {
+          "type": "walking",
+          "value": 25
+        }
+      ]
+    },
+    "shinx": {
+      "id": "shinx",
+      "name": "Shinx",
+      "type": [
+        "electric"
+      ],
+      "minLevel": 1,
+      "ac": 11,
+      "hp": 16,
+      "hitDice": "d6",
+      "attributes": {
+        "str": 11,
+        "dex": 13,
+        "con": 11,
+        "int": 6,
+        "wis": 10,
+        "cha": 12
+      },
+      "savingThrows": [
+        "dex"
+      ],
+      "abilities": [
+        {
+          "id": "rivalry",
+          "hidden": false
+        },
+        {
+          "id": "intimidate",
+          "hidden": false
+        },
+        {
+          "id": "guts",
+          "hidden": true
+        }
+      ],
+      "moves": {
+        "start": [
+          "tackle"
+        ],
+        "level2": [
+          "leer",
+          "charge",
+          "baby-doll-eyes"
+        ],
+        "level6": [
+          "spark",
+          "bite",
+          "roar"
+        ],
+        "level10": [
+          "swagger",
+          "thunder-fang"
+        ],
+        "level14": [
+          "crunch",
+          "scary-face",
+          "discharge"
+        ],
+        "level18": [
+          "wild-charge"
+        ],
+        "tm": [
+          5,
+          6,
+          10,
+          11,
+          16,
+          17,
+          18,
+          21,
+          24,
+          25,
+          27,
+          32,
+          42,
+          44,
+          45,
+          46,
+          48,
+          57,
+          72,
+          73,
+          87,
+          88,
+          90,
+          93,
+          95,
+          100,
+          102,
+          104,
+          107,
+          108,
+          109,
+          110,
+          116,
+          118,
+          124,
+          133,
+          139,
+          146,
+          155,
+          163,
+          176,
+          178,
+          183,
+          205,
+          206,
+          232,
+          239
+        ],
+        "egg": [
+          "double-kick",
+          "eerie-impulse",
+          "fake-tears",
+          "fire-fang",
+          "helping-hand",
+          "howl",
+          "ice-fang",
+          "night-slash",
+          "quick-attack",
+          "shock-wave",
+          "signal-beam",
+          "swift",
+          "take-down",
+          "thunder-fang"
+        ]
+      },
+      "size": "tiny",
+      "sr": 0.25,
+      "speed": [
+        {
+          "type": "walking",
+          "value": 25
+        }
+      ]
+    },
+    "psyduck": {
+      "id": "psyduck",
+      "name": "Psyduck",
+      "type": [
+        "water"
+      ],
+      "minLevel": 1,
+      "ac": 13,
+      "hp": 18,
+      "hitDice": "d6",
+      "attributes": {
+        "str": 11,
+        "dex": 12,
+        "con": 14,
+        "int": 6,
+        "wis": 12,
+        "cha": 10
+      },
+      "savingThrows": [
+        "con",
+        "wis"
+      ],
+      "abilities": [
+        {
+          "id": "damp",
+          "hidden": false
+        },
+        {
+          "id": "cloud-nine",
+          "hidden": false
+        },
+        {
+          "id": "swift-swim",
+          "hidden": true
+        }
+      ],
+      "moves": {
+        "start": [
+          "scratch",
+          "water-sport"
+        ],
+        "level2": [
+          "tail-whip",
+          "water-gun",
+          "confusion"
+        ],
+        "level6": [
+          "fury-swipes",
+          "water-pulse",
+          "disable"
+        ],
+        "level10": [
+          "screech",
+          "zen-headbutt"
+        ],
+        "level14": [
+          "aqua-tail",
+          "soak",
+          "psych-up"
+        ],
+        "level18": [
+          "amnesia",
+          "hydro-pump",
+          "wonder-room"
+        ],
+        "tm": [
+          3,
+          4,
+          6,
+          7,
+          10,
+          12,
+          13,
+          14,
+          16,
+          17,
+          18,
+          21,
+          27,
+          29,
+          31,
+          32,
+          40,
+          42,
+          44,
+          45,
+          46,
+          47,
+          48,
+          55,
+          56,
+          65,
+          77,
+          87,
+          88,
+          90,
+          94,
+          98,
+          100,
+          102,
+          111,
+          112,
+          115,
+          116,
+          118,
+          119,
+          124,
+          126,
+          127,
+          133,
+          135,
+          137,
+          141,
+          144,
+          149,
+          156,
+          165,
+          174,
+          177,
+          178,
+          187,
+          188,
+          205,
+          207,
+          211,
+          214,
+          221,
+          225,
+          232,
+          233,
+          236,
+          237,
+          255
+        ],
+        "egg": [
+          "clear-smog",
+          "confuse-ray",
+          "cross-chop",
+          "encore",
+          "foresight",
+          "future-sight",
+          "hypnosis",
+          "light-screen",
+          "mud-bomb",
+          "psybeam",
+          "psychic",
+          "refresh",
+          "secret-power",
+          "simple-beam",
+          "sleep-talk",
+          "synchronoise",
+          "yawn"
+        ]
+      },
+      "size": "small",
+      "sr": 0.5,
+      "speed": [
+        {
+          "type": "walking",
+          "value": 20
+        },
+        {
+          "type": "swimming",
+          "value": 25
+        }
+      ]
     }
   },
   "moves": {
