@@ -208,3 +208,28 @@ When a Pokémon becomes an actual encounter:
 ## Final result
 
 **PASS — complete canonical Pokémon 5e fauna coverage for Asteria, including Gen 9 DLC and all Paradox records present in the current Pokémon 5e source.**
+
+
+## Independent revalidation lock
+
+Revalidated against the current Pokémon 5e 2024 source dataset after generation.
+
+Results:
+- upstream canonical records: **1,139**
+- Asteria distribution records: **1,139**
+- missing IDs: **0**
+- extra IDs: **0**
+- Asteria map nodes available to the ecology system: **35**
+- invalid distribution location references: **0**
+- ordinary fauna records: **955**
+- ordinary fauna missing from zone pools: **0**
+- Paradox records verified: **22**
+  - 10 past Paradox
+  - 10 future Paradox
+  - Koraidon as legendary-scale past anomaly
+  - Miraidon as legendary-scale future anomaly
+- special/event-only records present in ordinary random pools: **0**
+
+Runtime authority is locked to the `campaign/world/ecology/` files listed above.
+
+**REVALIDATION: PASS**
