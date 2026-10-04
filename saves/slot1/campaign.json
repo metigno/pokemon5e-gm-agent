@@ -283,7 +283,7 @@
       },
       "bond_state": "strengthening_through_shared_hunt",
       "gender": null,
-      "hp": 35,
+      "hp": 32,
       "max_hp": 35,
       "moves": [
         {
@@ -374,7 +374,19 @@
           "level": true,
           "exact_hp": true,
           "ability": true
-        }
+        },
+        "moves": [
+          {
+            "name": "Tackle",
+            "pp_max": 20,
+            "pp_current": 19
+          },
+          {
+            "name": "Leer",
+            "pp_max": 15,
+            "pp_current": 15
+          }
+        ]
       }
     ],
     "environment": {
@@ -414,6 +426,29 @@
         "result": "failed_save",
         "effect": "+1 to attacks targeting Shinx for 1 minute",
         "pp_after": 13
+      },
+      {
+        "round": 1,
+        "actor": "Wild Shinx",
+        "move": "Tackle",
+        "attack_roll": {
+          "d20": 16,
+          "modifier": 3,
+          "total": 19
+        },
+        "target": "Luke/Growlithe",
+        "result": "hit",
+        "damage": {
+          "dice": [
+            5
+          ],
+          "move": 1,
+          "total_before_resistance": 6,
+          "type": "Normal",
+          "resistance_applied": true,
+          "total_after_resistance": 3
+        },
+        "target_hp_after": 32
       }
     ],
     "effects": [
@@ -424,10 +459,10 @@
         "effect": "attacks_against_target_bonus",
         "bonus": 1,
         "duration_rounds": 10,
-        "remaining_rounds": 10
+        "remaining_rounds": 9
       }
     ],
-    "turn": "Shinx"
+    "turn": "Growlithe"
   },
   "gm_private_ref": "gm_private/SECRET_CANON_DO_NOT_OPEN.json",
   "character_bible_ref": "canon/ROSTER2060_CHARACTER_BIBLE.json",
@@ -601,8 +636,8 @@
     },
     "rule": "NPC intent is scripted; evolution itself must satisfy current Pokemon 5e requirements and campaign causality."
   },
-  "last_saved_at": "2026-10-04T12:37:00+02:00",
-  "save_note": "Training encounter on Via delle Ginestre. Growlithe used Leer on a wild Shinx; Shinx failed WIS save (1+0=1). Leer active for 1 minute; Growlithe Leer PP 13/15. Combat initiated; Shinx won initiative.",
+  "last_saved_at": "2026-10-04T12:37:30+02:00",
+  "save_note": "Wild Shinx training encounter active. Leer is affecting Shinx (+1 attacks against it, 9 rounds remaining). Shinx hit Growlithe with Tackle for 3 damage after Normal resistance. Growlithe 32/35 HP; Growlithe's turn.",
   "job_history": [
     {
       "id": "JOB-02",
