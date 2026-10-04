@@ -7,6 +7,7 @@ import { advanceWorldTime, getWorldTimeView } from "./time.mjs";
 import { applyQuestEffect, getQuestJournal, processQuestDeadlines } from "./quest-state.mjs";
 import { applyNpcEffect, refreshNpcSchedules } from "./npc-state.mjs";
 import { processWorldEvents } from "./world-events.mjs";
+import { applyCompetitionEffect, beginCompetitionMatch, resolveCompetitionMatch } from "./competition-state.mjs";
 
 function clone(value) {
   return structuredClone(value);
@@ -28,6 +29,10 @@ function applyEffects(state, effects = []) {
     }
     if (["npc_register", "npc_relationship_adjust", "npc_state_set", "npc_schedule_set"].includes(effect.type)) {
       applyNpcEffect(state, effect);
+      continue;
+    }
+    if (["competition_trial_available", "competition_trial_register"].includes(effect.type)) {
+      applyCompetitionEffect(state, effect);
       continue;
     }
     throw new Error(`Unsupported effect type: ${effect.type}`);
@@ -186,6 +191,9 @@ export class BookgameEngine {
       historyEntry.toSceneId = target.sceneId;
       historyEntry.toNodeId = target.nodeId;
     } else if (choice.combat) {
+      if (choice.combat.competition) {
+        beginCompetitionMatch(next, choice.combat.competition);
+      }
       next.pending = {
         type: "pokemon5e_combat",
         authority: "pokemon5e_rules",
@@ -206,8 +214,9 @@ export class BookgameEngine {
         trainerPosition: clone(choice.combat.trainerPosition ?? { x: 0, y: 0 }),
         playerPosition: clone(choice.combat.playerPosition ?? { x: 0, y: 0 }),
         opponentPosition: clone(choice.combat.opponentPosition ?? { x: 5, y: 0 }),
-        opponentRegistered: Boolean(choice.combat.opponentRegistered),
+        opponentRegistered: Boolean(choice.combat.opponentRegistered || choice.combat.competition),
         returnNodes: clone(choice.combat.returnNodes),
+        competition: clone(choice.combat.competition ?? null),
         battle: null
       };
       const target = applyTarget(next, choice.combat.goto, scene.id);
@@ -265,6 +274,7 @@ export class BookgameEngine {
     const encounterId = next.pending.encounterId;
     const resolvedBattle = next.pending.battle;
     const sourceSceneId = next.pending.sceneId;
+    const competitionMeta = clone(next.pending.competition);
 
     if (resolvedBattle?.trainer?.inventory) {
       next.player.inventory = clone(resolvedBattle.trainer.inventory);
@@ -289,6 +299,10 @@ export class BookgameEngine {
       });
     }
 
+    if (competitionMeta) {
+      resolveCompetitionMatch(next, competitionMeta, outcome);
+    }
+
     next.pending = null;
     const target = applyTarget(next, targetRef, sourceSceneId);
     next.story.history.push({
@@ -296,6 +310,7 @@ export class BookgameEngine {
       subsystem: "pokemon5e_combat",
       encounterId,
       outcome,
+      competition: competitionMeta,
       toSceneId: target.sceneId,
       toNodeId: target.nodeId
     });
