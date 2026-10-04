@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "save_slot": 1,
-  "next_checkpoint_number": 6,
+  "next_checkpoint_number": 7,
   "checkpoints": [
     {
       "id": "CP-PRE-INTRO",
@@ -52,6 +52,16 @@
       "type": "CP-CHAIN",
       "result": "job_completed",
       "summary": "Luke and Hisuian Growlithe cleared the warehouse, carried out the bodies of two Rattata and one Raticate, and received the agreed ₽900 reward."
+    },
+    {
+      "id": "CP-HEAL-POKECENTER-01",
+      "event_id": "POKECENTER_VISIT",
+      "world_day": 1,
+      "trainer_level": 1,
+      "location": "Nearest city — Pokécenter",
+      "type": "CP-CHAIN",
+      "result": "growlithe_fully_healed",
+      "summary": "Luke brought Hisuian Growlithe to the city Pokécenter after JOB-02. Growlithe healed from 13/35 to 35/35 HP; PP was unchanged."
     }
   ]
 }
