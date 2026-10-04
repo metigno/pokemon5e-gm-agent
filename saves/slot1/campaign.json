@@ -492,7 +492,7 @@
       "reaction_to_luke_aggression": "quietly_concerned"
     }
   },
-  "current_location": "Via delle Ginestre — bordo dei campi",
+  "current_location": "Valedarsena — Via Allenatori / Job Board",
   "shop_context": {
     "location": "Valedarsena — Via Allenatori — Trainer Shop",
     "prices": {
@@ -544,8 +544,8 @@
     },
     "rule": "NPC intent is scripted; evolution itself must satisfy current Pokemon 5e requirements and campaign causality."
   },
-  "last_saved_at": "2026-10-04T13:18:30+02:00",
-  "save_note": "Day 1, Via delle Ginestre. Luke gave Growlithe a 30-minute short rest after defeating Lio. Growlithe remains 28/35 HP because no Hit Die was spent; PP unchanged. Intimidate refreshed to 1/1. XP 6450/12000.",
+  "last_saved_at": "2026-10-04T15:20:00+02:00",
+  "save_note": "Day 1 afternoon. Luke and Growlithe returned to Valedarsena Job Board after training. New JOB-04 posted: Recinti aperti alla Fattoria del Vento, reward ₽800, available.",
   "job_history": [
     {
       "id": "JOB-02",
@@ -559,7 +559,7 @@
   ],
   "world_state_ref": "saves/slot1/world-state.json",
   "world_map_ref": "campaign/world/REGION_MAP.json",
-  "current_location_id": "AST-GINESTRE",
+  "current_location_id": "VAL-CITY",
   "battle_history": [
     {
       "id": "BATTLE-D1-LIO-001",
@@ -573,5 +573,17 @@
       "growlithe_hp_after": 28,
       "xp_awarded": 250
     }
-  ]
+  ],
+  "jobs": {
+    "generated_on_world_day": 1,
+    "jobs": [
+      {
+        "id": "JOB-04",
+        "title": "Recinti aperti alla Fattoria del Vento",
+        "reward": 800,
+        "status": "available",
+        "note": "Aiutare un addetto a recuperare Pokémon dispersi dopo l'apertura di alcuni recinti. Possibili incontri selvatici; cattura non richiesta. Incarico adatto a rookie."
+      }
+    ]
+  }
 }
