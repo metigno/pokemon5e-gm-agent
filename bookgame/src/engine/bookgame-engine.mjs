@@ -311,7 +311,8 @@ export class BookgameEngine {
 
     if (outcome === "captured" && resolvedBattle?.opponent) {
       next.player.roster ??= [clone(next.player.starter)];
-      next.player.roster.push({
+      const rosterSizeBeforeCapture = next.player.roster.length;
+      const capturedPokemon = {
         speciesId: resolvedBattle.opponent.speciesId,
         name: resolvedBattle.opponent.name,
         level: resolvedBattle.opponent.level,
@@ -325,7 +326,19 @@ export class BookgameEngine {
           locationId: next.world.locationId,
           encounterId
         }
-      });
+      };
+      next.player.roster.push(capturedPokemon);
+
+      if (rosterSizeBeforeCapture === 1 && !next.player.secondPokemonAcquisition) {
+        next.player.secondPokemonAcquisition = {
+          speciesId: capturedPokemon.speciesId,
+          name: capturedPokemon.name,
+          level: capturedPokemon.level,
+          day: next.world.day,
+          locationId: next.world.locationId,
+          encounterId
+        };
+      }
     }
 
     if (competitionMeta) {
