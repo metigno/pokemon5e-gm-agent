@@ -1,0 +1,2552 @@
+{
+  "schema_version": 1,
+  "warning": "GM PRIVATE. Event-only legendary, mythical, Ultra Beast, Paradox and unique variant placement. Never disclose before in-world discovery.",
+  "world": "ASTERIA",
+  "entries": {
+    "articuno": {
+      "id": "articuno",
+      "name": "Articuno",
+      "number": 144,
+      "generation": 1,
+      "class": "legendary",
+      "native_region": "Kanto",
+      "possible_asteria_anchor_zones": [
+        "AST-HILLS",
+        "SAL-COAST"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "zapdos": {
+      "id": "zapdos",
+      "name": "Zapdos",
+      "number": 145,
+      "generation": 1,
+      "class": "legendary",
+      "native_region": "Kanto",
+      "possible_asteria_anchor_zones": [
+        "FER-CITY",
+        "SAL-COAST"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "moltres": {
+      "id": "moltres",
+      "name": "Moltres",
+      "number": 146,
+      "generation": 1,
+      "class": "legendary",
+      "native_region": "Kanto",
+      "possible_asteria_anchor_zones": [
+        "FUL-PLATEAU",
+        "FER-MOUNTAINS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "mewtwo": {
+      "id": "mewtwo",
+      "name": "Mewtwo",
+      "number": 150,
+      "generation": 1,
+      "class": "legendary",
+      "native_region": "Kanto",
+      "possible_asteria_anchor_zones": [
+        "LAC-LAKE",
+        "FAR-RUINS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "mew": {
+      "id": "mew",
+      "name": "Mew",
+      "number": 151,
+      "generation": 1,
+      "class": "mythical",
+      "native_region": "Kanto",
+      "possible_asteria_anchor_zones": [
+        "LAC-LAKE",
+        "FAR-RUINS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "raikou": {
+      "id": "raikou",
+      "name": "Raikou",
+      "number": 243,
+      "generation": 2,
+      "class": "legendary",
+      "native_region": "Johto",
+      "possible_asteria_anchor_zones": [
+        "VAL-WAREHOUSES",
+        "FUL-PLATEAU"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "entei": {
+      "id": "entei",
+      "name": "Entei",
+      "number": 244,
+      "generation": 2,
+      "class": "legendary",
+      "native_region": "Johto",
+      "possible_asteria_anchor_zones": [
+        "CIN-CALDERA",
+        "SOL-BADLAND"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "suicune": {
+      "id": "suicune",
+      "name": "Suicune",
+      "number": 245,
+      "generation": 2,
+      "class": "legendary",
+      "native_region": "Johto",
+      "possible_asteria_anchor_zones": [
+        "SAL-COAST",
+        "AST-CANAL"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "lugia": {
+      "id": "lugia",
+      "name": "Lugia",
+      "number": 249,
+      "generation": 2,
+      "class": "legendary",
+      "native_region": "Johto",
+      "possible_asteria_anchor_zones": [
+        "FAR-RUINS",
+        "LAC-LAKE"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "ho-oh": {
+      "id": "ho-oh",
+      "name": "Ho-oh",
+      "number": 250,
+      "generation": 2,
+      "class": "legendary",
+      "native_region": "Johto",
+      "possible_asteria_anchor_zones": [
+        "AST-HILLS",
+        "SOL-BADLAND"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "celebi": {
+      "id": "celebi",
+      "name": "Celebi",
+      "number": 251,
+      "generation": 2,
+      "class": "mythical",
+      "native_region": "Johto",
+      "possible_asteria_anchor_zones": [
+        "VIR-JUNGLE",
+        "MER-CAPITAL"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "regirock": {
+      "id": "regirock",
+      "name": "Regirock",
+      "number": 377,
+      "generation": 3,
+      "class": "legendary",
+      "native_region": "Hoenn",
+      "possible_asteria_anchor_zones": [
+        "AST-QUARRY",
+        "SOL-BADLAND"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "regice": {
+      "id": "regice",
+      "name": "Regice",
+      "number": 378,
+      "generation": 3,
+      "class": "legendary",
+      "native_region": "Hoenn",
+      "possible_asteria_anchor_zones": [
+        "FER-MOUNTAINS",
+        "BOR-GLACIER"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "registeel": {
+      "id": "registeel",
+      "name": "Registeel",
+      "number": 379,
+      "generation": 3,
+      "class": "legendary",
+      "native_region": "Hoenn",
+      "possible_asteria_anchor_zones": [
+        "FER-TUNNELS",
+        "FER-CITY"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "latias": {
+      "id": "latias",
+      "name": "Latias",
+      "number": 380,
+      "generation": 3,
+      "class": "legendary",
+      "native_region": "Hoenn",
+      "possible_asteria_anchor_zones": [
+        "MER-CAPITAL",
+        "FER-MOUNTAINS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "latios": {
+      "id": "latios",
+      "name": "Latios",
+      "number": 381,
+      "generation": 3,
+      "class": "legendary",
+      "native_region": "Hoenn",
+      "possible_asteria_anchor_zones": [
+        "LAC-LAKE",
+        "FAR-RUINS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "kyogre": {
+      "id": "kyogre",
+      "name": "Kyogre",
+      "number": 382,
+      "generation": 3,
+      "class": "legendary",
+      "native_region": "Hoenn",
+      "possible_asteria_anchor_zones": [
+        "AST-CANAL",
+        "LAC-LAKE"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "kyogre-primal": {
+      "id": "kyogre-primal",
+      "name": "Kyogre (Primal)",
+      "number": 382,
+      "generation": 3,
+      "class": "legendary",
+      "native_region": "Hoenn",
+      "possible_asteria_anchor_zones": [
+        "AST-CANAL",
+        "MAR-REEF"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "groudon": {
+      "id": "groudon",
+      "name": "Groudon",
+      "number": 383,
+      "generation": 3,
+      "class": "legendary",
+      "native_region": "Hoenn",
+      "possible_asteria_anchor_zones": [
+        "SOL-BADLAND",
+        "AST-QUARRY"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "groudon-primal": {
+      "id": "groudon-primal",
+      "name": "Groudon (Primal)",
+      "number": 383,
+      "generation": 3,
+      "class": "legendary",
+      "native_region": "Hoenn",
+      "possible_asteria_anchor_zones": [
+        "SOL-BADLAND",
+        "AST-QUARRY"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "rayquaza": {
+      "id": "rayquaza",
+      "name": "Rayquaza",
+      "number": 384,
+      "generation": 3,
+      "class": "legendary",
+      "native_region": "Hoenn",
+      "possible_asteria_anchor_zones": [
+        "FUL-PLATEAU",
+        "FAR-RUINS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "jirachi": {
+      "id": "jirachi",
+      "name": "Jirachi",
+      "number": 385,
+      "generation": 3,
+      "class": "mythical",
+      "native_region": "Hoenn",
+      "possible_asteria_anchor_zones": [
+        "MER-CAPITAL",
+        "FAR-RUINS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "deoxys": {
+      "id": "deoxys",
+      "name": "Deoxys",
+      "number": 386,
+      "generation": 3,
+      "class": "mythical",
+      "native_region": "Hoenn",
+      "possible_asteria_anchor_zones": [
+        "LAC-LAKE",
+        "MER-CAPITAL"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "uxie": {
+      "id": "uxie",
+      "name": "Uxie",
+      "number": 480,
+      "generation": 4,
+      "class": "legendary",
+      "native_region": "Sinnoh",
+      "possible_asteria_anchor_zones": [
+        "LAC-LAKE",
+        "FAR-RUINS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "mesprit": {
+      "id": "mesprit",
+      "name": "Mesprit",
+      "number": 481,
+      "generation": 4,
+      "class": "legendary",
+      "native_region": "Sinnoh",
+      "possible_asteria_anchor_zones": [
+        "FAR-RUINS",
+        "MER-CAPITAL"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "azelf": {
+      "id": "azelf",
+      "name": "Azelf",
+      "number": 482,
+      "generation": 4,
+      "class": "legendary",
+      "native_region": "Sinnoh",
+      "possible_asteria_anchor_zones": [
+        "LAC-LAKE",
+        "MER-CAPITAL"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "dialga": {
+      "id": "dialga",
+      "name": "Dialga",
+      "number": 483,
+      "generation": 4,
+      "class": "legendary",
+      "native_region": "Sinnoh",
+      "possible_asteria_anchor_zones": [
+        "AST-QUARRY",
+        "FER-TUNNELS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "dialga-origin": {
+      "id": "dialga-origin",
+      "name": "Dialga (Origin Forme)",
+      "number": 483,
+      "generation": 4,
+      "class": "legendary",
+      "native_region": "Hisui",
+      "possible_asteria_anchor_zones": [
+        "FER-TUNNELS",
+        "FER-MOUNTAINS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "palkia": {
+      "id": "palkia",
+      "name": "Palkia",
+      "number": 484,
+      "generation": 4,
+      "class": "legendary",
+      "native_region": "Sinnoh",
+      "possible_asteria_anchor_zones": [
+        "AST-CANAL",
+        "MAR-REEF"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "palkia-origin": {
+      "id": "palkia-origin",
+      "name": "Palkia (Origin Forme)",
+      "number": 484,
+      "generation": 4,
+      "class": "legendary",
+      "native_region": "Hisui",
+      "possible_asteria_anchor_zones": [
+        "LAC-LAKE",
+        "MAR-REEF"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "heatran": {
+      "id": "heatran",
+      "name": "Heatran",
+      "number": 485,
+      "generation": 4,
+      "class": "legendary",
+      "native_region": "Sinnoh",
+      "possible_asteria_anchor_zones": [
+        "FER-CITY",
+        "FER-TUNNELS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "regigigas": {
+      "id": "regigigas",
+      "name": "Regigigas",
+      "number": 486,
+      "generation": 4,
+      "class": "legendary",
+      "native_region": "Sinnoh",
+      "possible_asteria_anchor_zones": [
+        "AST-GINESTRE",
+        "AST-MISTWOOD"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "giratina-altered-forme": {
+      "id": "giratina-altered-forme",
+      "name": "Giratina Altered Forme",
+      "number": 487,
+      "generation": 4,
+      "class": "legendary",
+      "native_region": "Sinnoh",
+      "possible_asteria_anchor_zones": [
+        "FAR-RUINS",
+        "AST-MISTWOOD"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "giratina-origin-forme": {
+      "id": "giratina-origin-forme",
+      "name": "Giratina Origin Forme",
+      "number": 487,
+      "generation": 4,
+      "class": "legendary",
+      "native_region": "Sinnoh",
+      "possible_asteria_anchor_zones": [
+        "VAL-SUBCANAL",
+        "FER-MOUNTAINS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "cresselia": {
+      "id": "cresselia",
+      "name": "Cresselia",
+      "number": 488,
+      "generation": 4,
+      "class": "legendary",
+      "native_region": "Sinnoh",
+      "possible_asteria_anchor_zones": [
+        "FAR-RUINS",
+        "LAC-LAKE"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "phione": {
+      "id": "phione",
+      "name": "Phione",
+      "number": 489,
+      "generation": 4,
+      "class": "mythical",
+      "native_region": "Sinnoh",
+      "possible_asteria_anchor_zones": [
+        "SAL-COAST",
+        "MAR-REEF"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "manaphy": {
+      "id": "manaphy",
+      "name": "Manaphy",
+      "number": 490,
+      "generation": 4,
+      "class": "mythical",
+      "native_region": "Sinnoh",
+      "possible_asteria_anchor_zones": [
+        "AST-CANAL",
+        "SAL-COAST"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "darkrai": {
+      "id": "darkrai",
+      "name": "Darkrai",
+      "number": 491,
+      "generation": 4,
+      "class": "mythical",
+      "native_region": "Sinnoh",
+      "possible_asteria_anchor_zones": [
+        "SOL-BADLAND",
+        "AST-MISTWOOD"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "shaymin-land": {
+      "id": "shaymin-land",
+      "name": "Shaymin Land",
+      "number": 492,
+      "generation": 4,
+      "class": "mythical",
+      "native_region": "Sinnoh",
+      "possible_asteria_anchor_zones": [
+        "AST-FARM",
+        "AST-MISTWOOD"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "shaymin-sky": {
+      "id": "shaymin-sky",
+      "name": "Shaymin Sky",
+      "number": 492,
+      "generation": 4,
+      "class": "mythical",
+      "native_region": "Sinnoh",
+      "possible_asteria_anchor_zones": [
+        "AST-FARM",
+        "FUL-PLATEAU"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "arceus": {
+      "id": "arceus",
+      "name": "Arceus",
+      "number": 493,
+      "generation": 4,
+      "class": "mythical",
+      "native_region": "Sinnoh",
+      "possible_asteria_anchor_zones": [
+        "AST-GINESTRE",
+        "VAL-CITY"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "victini": {
+      "id": "victini",
+      "name": "Victini",
+      "number": 494,
+      "generation": 5,
+      "class": "mythical",
+      "native_region": "Unova",
+      "possible_asteria_anchor_zones": [
+        "FAR-RUINS",
+        "MER-CAPITAL"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "cobalion": {
+      "id": "cobalion",
+      "name": "Cobalion",
+      "number": 638,
+      "generation": 5,
+      "class": "legendary",
+      "native_region": "Unova",
+      "possible_asteria_anchor_zones": [
+        "FER-MOUNTAINS",
+        "SOL-BADLAND"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "terrakion": {
+      "id": "terrakion",
+      "name": "Terrakion",
+      "number": 639,
+      "generation": 5,
+      "class": "legendary",
+      "native_region": "Unova",
+      "possible_asteria_anchor_zones": [
+        "FER-MOUNTAINS",
+        "SOL-BADLAND"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "virizion": {
+      "id": "virizion",
+      "name": "Virizion",
+      "number": 640,
+      "generation": 5,
+      "class": "legendary",
+      "native_region": "Unova",
+      "possible_asteria_anchor_zones": [
+        "AST-MISTWOOD",
+        "AST-FARM"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "tornadus": {
+      "id": "tornadus",
+      "name": "Tornadus (Incarnate)",
+      "number": 641,
+      "generation": 5,
+      "class": "legendary",
+      "native_region": "Unova",
+      "possible_asteria_anchor_zones": [
+        "SAL-COAST",
+        "FUL-PLATEAU"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "tornadus-therian": {
+      "id": "tornadus-therian",
+      "name": "Tornadus (Therian)",
+      "number": 641,
+      "generation": 5,
+      "class": "legendary",
+      "native_region": "Unova",
+      "possible_asteria_anchor_zones": [
+        "FUL-PLATEAU",
+        "AST-HILLS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "thundurus": {
+      "id": "thundurus",
+      "name": "Thundurus (Incarnate)",
+      "number": 642,
+      "generation": 5,
+      "class": "legendary",
+      "native_region": "Unova",
+      "possible_asteria_anchor_zones": [
+        "FER-CITY",
+        "SAL-COAST"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "thundurus-therian": {
+      "id": "thundurus-therian",
+      "name": "Thundurus (Therian)",
+      "number": 642,
+      "generation": 5,
+      "class": "legendary",
+      "native_region": "Unova",
+      "possible_asteria_anchor_zones": [
+        "FUL-PLATEAU",
+        "AST-HILLS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "reshiram": {
+      "id": "reshiram",
+      "name": "Reshiram",
+      "number": 643,
+      "generation": 5,
+      "class": "legendary",
+      "native_region": "Unova",
+      "possible_asteria_anchor_zones": [
+        "CIN-CALDERA",
+        "FAR-RUINS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "zekrom": {
+      "id": "zekrom",
+      "name": "Zekrom",
+      "number": 644,
+      "generation": 5,
+      "class": "legendary",
+      "native_region": "Unova",
+      "possible_asteria_anchor_zones": [
+        "FER-MOUNTAINS",
+        "FUL-PLATEAU"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "landorus": {
+      "id": "landorus",
+      "name": "Landorus (Incarnate)",
+      "number": 645,
+      "generation": 5,
+      "class": "legendary",
+      "native_region": "Unova",
+      "possible_asteria_anchor_zones": [
+        "SAL-COAST",
+        "AST-HILLS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "landorus-therian": {
+      "id": "landorus-therian",
+      "name": "Landorus (Therian)",
+      "number": 645,
+      "generation": 5,
+      "class": "legendary",
+      "native_region": "Unova",
+      "possible_asteria_anchor_zones": [
+        "FER-MOUNTAINS",
+        "AST-QUARRY"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "kyurem": {
+      "id": "kyurem",
+      "name": "Kyurem",
+      "number": 646,
+      "generation": 5,
+      "class": "legendary",
+      "native_region": "Unova",
+      "possible_asteria_anchor_zones": [
+        "FER-MOUNTAINS",
+        "FUL-PLATEAU"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "white-kyurem": {
+      "id": "white-kyurem",
+      "name": "White Kyurem",
+      "number": 646,
+      "generation": 5,
+      "class": "legendary",
+      "native_region": "Unova",
+      "possible_asteria_anchor_zones": [
+        "ALT-TOWN",
+        "FAR-RUINS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "black-kyurem": {
+      "id": "black-kyurem",
+      "name": "Black Kyurem",
+      "number": 646,
+      "generation": 5,
+      "class": "legendary",
+      "native_region": "Unova",
+      "possible_asteria_anchor_zones": [
+        "ALT-TOWN",
+        "BOR-GLACIER"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "keldeo": {
+      "id": "keldeo",
+      "name": "Keldeo",
+      "number": 647,
+      "generation": 5,
+      "class": "mythical",
+      "native_region": "Unova",
+      "possible_asteria_anchor_zones": [
+        "AST-CANAL",
+        "MAR-REEF"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "meloetta---aria": {
+      "id": "meloetta---aria",
+      "name": "Meloetta - Aria",
+      "number": 648,
+      "generation": 5,
+      "class": "mythical",
+      "native_region": "Unova",
+      "possible_asteria_anchor_zones": [
+        "VAL-CITY",
+        "FAR-RUINS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "meloetta---pirouette": {
+      "id": "meloetta---pirouette",
+      "name": "Meloetta - Pirouette",
+      "number": 648,
+      "generation": 5,
+      "class": "mythical",
+      "native_region": "Unova",
+      "possible_asteria_anchor_zones": [
+        "AST-HILLS",
+        "SOL-BADLAND"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "genesect": {
+      "id": "genesect",
+      "name": "Genesect",
+      "number": 649,
+      "generation": 5,
+      "class": "mythical",
+      "native_region": "Unova",
+      "possible_asteria_anchor_zones": [
+        "FER-TUNNELS",
+        "AST-FARM"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "floette-eternal": {
+      "id": "floette-eternal",
+      "name": "Floette (Eternal Flower)",
+      "number": 670,
+      "generation": 6,
+      "class": "unique_variant_event",
+      "native_region": "Kalos",
+      "possible_asteria_anchor_zones": [
+        "LAC-LAKE",
+        "FUL-PLATEAU"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "specific_unique_character_or_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "xerneas": {
+      "id": "xerneas",
+      "name": "Xerneas",
+      "number": 716,
+      "generation": 6,
+      "class": "legendary",
+      "native_region": "Kalos",
+      "possible_asteria_anchor_zones": [
+        "FUL-PLATEAU",
+        "AST-MISTWOOD"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "yveltal": {
+      "id": "yveltal",
+      "name": "Yveltal",
+      "number": 717,
+      "generation": 6,
+      "class": "legendary",
+      "native_region": "Kalos",
+      "possible_asteria_anchor_zones": [
+        "AST-MISTWOOD",
+        "FUL-PLATEAU"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "zygarde-10-forme": {
+      "id": "zygarde-10-forme",
+      "name": "Zygarde 10% Forme",
+      "number": 718,
+      "generation": 6,
+      "class": "legendary",
+      "native_region": "Kalos",
+      "possible_asteria_anchor_zones": [
+        "SOL-BADLAND",
+        "AST-QUARRY"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "zygarde-50-forme": {
+      "id": "zygarde-50-forme",
+      "name": "Zygarde 50% Forme",
+      "number": 718,
+      "generation": 6,
+      "class": "legendary",
+      "native_region": "Kalos",
+      "possible_asteria_anchor_zones": [
+        "FUL-PLATEAU",
+        "FER-MOUNTAINS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "zygarde-complete-forme": {
+      "id": "zygarde-complete-forme",
+      "name": "Zygarde Complete Forme",
+      "number": 718,
+      "generation": 6,
+      "class": "legendary",
+      "native_region": "Kalos",
+      "possible_asteria_anchor_zones": [
+        "FAR-RUINS",
+        "FER-MOUNTAINS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "diancie": {
+      "id": "diancie",
+      "name": "Diancie",
+      "number": 719,
+      "generation": 6,
+      "class": "mythical",
+      "native_region": "Kalos",
+      "possible_asteria_anchor_zones": [
+        "SOL-BADLAND",
+        "LAC-LAKE"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "hoopa-confined": {
+      "id": "hoopa-confined",
+      "name": "Hoopa Confined",
+      "number": 720,
+      "generation": 6,
+      "class": "mythical",
+      "native_region": "Kalos",
+      "possible_asteria_anchor_zones": [
+        "AST-MISTWOOD",
+        "VAL-SUBCANAL"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "hoopa-unbound": {
+      "id": "hoopa-unbound",
+      "name": "Hoopa Unbound",
+      "number": 720,
+      "generation": 6,
+      "class": "mythical",
+      "native_region": "Kalos",
+      "possible_asteria_anchor_zones": [
+        "SOL-BADLAND",
+        "AST-MISTWOOD"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "volcanion": {
+      "id": "volcanion",
+      "name": "Volcanion",
+      "number": 721,
+      "generation": 6,
+      "class": "mythical",
+      "native_region": "Kalos",
+      "possible_asteria_anchor_zones": [
+        "SOL-BADLAND",
+        "MAR-REEF"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "type-null": {
+      "id": "type-null",
+      "name": "Type: Null",
+      "number": 772,
+      "generation": 7,
+      "class": "legendary",
+      "native_region": "Alola",
+      "possible_asteria_anchor_zones": [
+        "VAL-CITY",
+        "AST-GINESTRE"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "silvally": {
+      "id": "silvally",
+      "name": "Silvally",
+      "number": 773,
+      "generation": 7,
+      "class": "legendary",
+      "native_region": "Alola",
+      "possible_asteria_anchor_zones": [
+        "VAL-CITY",
+        "AST-MISTWOOD"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "tapu-koko": {
+      "id": "tapu-koko",
+      "name": "Tapu Koko",
+      "number": 785,
+      "generation": 7,
+      "class": "legendary",
+      "native_region": "Alola",
+      "possible_asteria_anchor_zones": [
+        "VAL-WAREHOUSES",
+        "AST-MISTWOOD"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "tapu-lele": {
+      "id": "tapu-lele",
+      "name": "Tapu Lele",
+      "number": 786,
+      "generation": 7,
+      "class": "legendary",
+      "native_region": "Alola",
+      "possible_asteria_anchor_zones": [
+        "FUL-PLATEAU",
+        "AST-MISTWOOD"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "tapu-bulu": {
+      "id": "tapu-bulu",
+      "name": "Tapu Bulu",
+      "number": 787,
+      "generation": 7,
+      "class": "legendary",
+      "native_region": "Alola",
+      "possible_asteria_anchor_zones": [
+        "VIR-JUNGLE",
+        "LAC-LAKE"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "tapu-fini": {
+      "id": "tapu-fini",
+      "name": "Tapu Fini",
+      "number": 788,
+      "generation": 7,
+      "class": "legendary",
+      "native_region": "Alola",
+      "possible_asteria_anchor_zones": [
+        "LAC-LAKE",
+        "FUL-PLATEAU"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "cosmog": {
+      "id": "cosmog",
+      "name": "Cosmog",
+      "number": 789,
+      "generation": 7,
+      "class": "legendary",
+      "native_region": "Alola",
+      "possible_asteria_anchor_zones": [
+        "FAR-RUINS",
+        "LAC-LAKE"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "cosmoem": {
+      "id": "cosmoem",
+      "name": "Cosmoem",
+      "number": 790,
+      "generation": 7,
+      "class": "legendary",
+      "native_region": "Alola",
+      "possible_asteria_anchor_zones": [
+        "FAR-RUINS",
+        "MER-CAPITAL"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "solgaleo": {
+      "id": "solgaleo",
+      "name": "Solgaleo",
+      "number": 791,
+      "generation": 7,
+      "class": "legendary",
+      "native_region": "Alola",
+      "possible_asteria_anchor_zones": [
+        "FAR-RUINS",
+        "FER-TUNNELS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "lunala": {
+      "id": "lunala",
+      "name": "Lunala",
+      "number": 792,
+      "generation": 7,
+      "class": "legendary",
+      "native_region": "Alola",
+      "possible_asteria_anchor_zones": [
+        "AST-MISTWOOD",
+        "FAR-RUINS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "nihilego": {
+      "id": "nihilego",
+      "name": "Nihilego",
+      "number": 793,
+      "generation": 7,
+      "class": "ultra_beast",
+      "native_region": "Alola",
+      "possible_asteria_anchor_zones": [
+        "MIR-MARSH",
+        "VAL-WAREHOUSES"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "ultra_space_incursion_or_equivalent_world_event_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "buzzwole": {
+      "id": "buzzwole",
+      "name": "Buzzwole",
+      "number": 794,
+      "generation": 7,
+      "class": "ultra_beast",
+      "native_region": "Alola",
+      "possible_asteria_anchor_zones": [
+        "VIR-JUNGLE",
+        "AST-MISTWOOD"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "ultra_space_incursion_or_equivalent_world_event_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "pheromosa": {
+      "id": "pheromosa",
+      "name": "Pheromosa",
+      "number": 795,
+      "generation": 7,
+      "class": "ultra_beast",
+      "native_region": "Alola",
+      "possible_asteria_anchor_zones": [
+        "AST-FARM",
+        "FER-MOUNTAINS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "ultra_space_incursion_or_equivalent_world_event_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "xurkitree": {
+      "id": "xurkitree",
+      "name": "Xurkitree",
+      "number": 796,
+      "generation": 7,
+      "class": "ultra_beast",
+      "native_region": "Alola",
+      "possible_asteria_anchor_zones": [
+        "FUL-PLATEAU",
+        "FER-CITY"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "ultra_space_incursion_or_equivalent_world_event_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "celesteela": {
+      "id": "celesteela",
+      "name": "Celesteela",
+      "number": 797,
+      "generation": 7,
+      "class": "ultra_beast",
+      "native_region": "Alola",
+      "possible_asteria_anchor_zones": [
+        "FER-CITY",
+        "AST-HILLS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "ultra_space_incursion_or_equivalent_world_event_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "kartana": {
+      "id": "kartana",
+      "name": "Kartana",
+      "number": 798,
+      "generation": 7,
+      "class": "ultra_beast",
+      "native_region": "Alola",
+      "possible_asteria_anchor_zones": [
+        "AST-QUARRY",
+        "AST-FARM"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "ultra_space_incursion_or_equivalent_world_event_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "guzzlord": {
+      "id": "guzzlord",
+      "name": "Guzzlord",
+      "number": 799,
+      "generation": 7,
+      "class": "ultra_beast",
+      "native_region": "Alola",
+      "possible_asteria_anchor_zones": [
+        "FUL-PLATEAU",
+        "FAR-RUINS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "ultra_space_incursion_or_equivalent_world_event_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "necrozma": {
+      "id": "necrozma",
+      "name": "Necrozma",
+      "number": 800,
+      "generation": 7,
+      "class": "legendary",
+      "native_region": "Alola",
+      "possible_asteria_anchor_zones": [
+        "LAC-LAKE",
+        "FAR-RUINS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "dusk-mane-necrozma": {
+      "id": "dusk-mane-necrozma",
+      "name": "Dusk Mane Necrozma",
+      "number": 800,
+      "generation": 7,
+      "class": "legendary",
+      "native_region": "Alola",
+      "possible_asteria_anchor_zones": [
+        "FER-TUNNELS",
+        "FER-CITY"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "dawn-wings-necrozma": {
+      "id": "dawn-wings-necrozma",
+      "name": "Dawn Wings Necrozma",
+      "number": 800,
+      "generation": 7,
+      "class": "legendary",
+      "native_region": "Alola",
+      "possible_asteria_anchor_zones": [
+        "MER-CAPITAL",
+        "FAR-RUINS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "ultra-necrozma": {
+      "id": "ultra-necrozma",
+      "name": "Ultra Necrozma",
+      "number": 800,
+      "generation": 7,
+      "class": "legendary",
+      "native_region": "Alola",
+      "possible_asteria_anchor_zones": [
+        "LAC-LAKE",
+        "FER-MOUNTAINS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "magearna": {
+      "id": "magearna",
+      "name": "Magearna",
+      "number": 801,
+      "generation": 7,
+      "class": "mythical",
+      "native_region": "Alola",
+      "possible_asteria_anchor_zones": [
+        "FUL-PLATEAU",
+        "AST-QUARRY"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "marshadow": {
+      "id": "marshadow",
+      "name": "Marshadow",
+      "number": 802,
+      "generation": 7,
+      "class": "mythical",
+      "native_region": "Alola",
+      "possible_asteria_anchor_zones": [
+        "AST-MISTWOOD",
+        "VAL-SUBCANAL"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "poipole": {
+      "id": "poipole",
+      "name": "Poipole",
+      "number": 803,
+      "generation": 7,
+      "class": "ultra_beast",
+      "native_region": "Alola",
+      "possible_asteria_anchor_zones": [
+        "VAL-WAREHOUSES",
+        "VIR-JUNGLE"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "ultra_space_incursion_or_equivalent_world_event_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "naganadel": {
+      "id": "naganadel",
+      "name": "Naganadel",
+      "number": 804,
+      "generation": 7,
+      "class": "ultra_beast",
+      "native_region": "Alola",
+      "possible_asteria_anchor_zones": [
+        "MIR-MARSH",
+        "FUL-PLATEAU"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "ultra_space_incursion_or_equivalent_world_event_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "stakataka": {
+      "id": "stakataka",
+      "name": "Stakataka",
+      "number": 805,
+      "generation": 7,
+      "class": "ultra_beast",
+      "native_region": "Alola",
+      "possible_asteria_anchor_zones": [
+        "FER-TUNNELS",
+        "FER-CITY"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "ultra_space_incursion_or_equivalent_world_event_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "blacephalon": {
+      "id": "blacephalon",
+      "name": "Blacephalon",
+      "number": 806,
+      "generation": 7,
+      "class": "ultra_beast",
+      "native_region": "Alola",
+      "possible_asteria_anchor_zones": [
+        "AST-MISTWOOD",
+        "CIN-CALDERA"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "ultra_space_incursion_or_equivalent_world_event_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "zeraora": {
+      "id": "zeraora",
+      "name": "Zeraora",
+      "number": 807,
+      "generation": 7,
+      "class": "mythical",
+      "native_region": "Alola",
+      "possible_asteria_anchor_zones": [
+        "FUL-PLATEAU",
+        "FER-CITY"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "meltan": {
+      "id": "meltan",
+      "name": "Meltan",
+      "number": 808,
+      "generation": 7,
+      "class": "mythical",
+      "native_region": "Alola",
+      "possible_asteria_anchor_zones": [
+        "FER-CITY",
+        "AST-QUARRY"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "melmetal": {
+      "id": "melmetal",
+      "name": "Melmetal",
+      "number": 809,
+      "generation": 7,
+      "class": "mythical",
+      "native_region": "Alola",
+      "possible_asteria_anchor_zones": [
+        "FER-CITY",
+        "AST-QUARRY"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "articuno-galar": {
+      "id": "articuno-galar",
+      "name": "Galarian Articuno",
+      "number": 144,
+      "generation": 1,
+      "class": "legendary",
+      "native_region": "Galar",
+      "possible_asteria_anchor_zones": [
+        "AST-HILLS",
+        "SAL-COAST"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "zapdos-galar": {
+      "id": "zapdos-galar",
+      "name": "Galarian Zapdos",
+      "number": 145,
+      "generation": 1,
+      "class": "legendary",
+      "native_region": "Galar",
+      "possible_asteria_anchor_zones": [
+        "FUL-PLATEAU",
+        "FER-MOUNTAINS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "moltres-galar": {
+      "id": "moltres-galar",
+      "name": "Galarian Moltres",
+      "number": 146,
+      "generation": 1,
+      "class": "legendary",
+      "native_region": "Galar",
+      "possible_asteria_anchor_zones": [
+        "VAL-SUBCANAL",
+        "AST-HILLS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "zacian": {
+      "id": "zacian",
+      "name": "Zacian",
+      "number": 888,
+      "generation": 8,
+      "class": "legendary",
+      "native_region": "Galar",
+      "possible_asteria_anchor_zones": [
+        "LAC-LAKE",
+        "AST-MISTWOOD"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "zacian-crowned": {
+      "id": "zacian-crowned",
+      "name": "Zacian (Crowned)",
+      "number": 888,
+      "generation": 8,
+      "class": "legendary",
+      "native_region": "Galar",
+      "possible_asteria_anchor_zones": [
+        "LAC-LAKE",
+        "AST-MISTWOOD"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "zamazenta": {
+      "id": "zamazenta",
+      "name": "Zamazenta",
+      "number": 889,
+      "generation": 8,
+      "class": "legendary",
+      "native_region": "Galar",
+      "possible_asteria_anchor_zones": [
+        "AST-HILLS",
+        "SOL-BADLAND"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "zamazenta-crowned": {
+      "id": "zamazenta-crowned",
+      "name": "Zamazenta (Crowned)",
+      "number": 889,
+      "generation": 8,
+      "class": "legendary",
+      "native_region": "Galar",
+      "possible_asteria_anchor_zones": [
+        "AST-QUARRY",
+        "AST-HILLS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "eternatus": {
+      "id": "eternatus",
+      "name": "Eternatus",
+      "number": 890,
+      "generation": 8,
+      "class": "legendary",
+      "native_region": "Galar",
+      "possible_asteria_anchor_zones": [
+        "VAL-WAREHOUSES",
+        "FAR-RUINS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "eternatus-eternamax": {
+      "id": "eternatus-eternamax",
+      "name": "Eternatus (Eternamax)",
+      "number": 890,
+      "generation": 8,
+      "class": "legendary",
+      "native_region": "Galar",
+      "possible_asteria_anchor_zones": [
+        "VIR-JUNGLE",
+        "MIR-MARSH"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "kubfu": {
+      "id": "kubfu",
+      "name": "Kubfu",
+      "number": 891,
+      "generation": 8,
+      "class": "legendary",
+      "native_region": "Galar",
+      "possible_asteria_anchor_zones": [
+        "FER-MOUNTAINS",
+        "AST-HILLS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "urshifu-single": {
+      "id": "urshifu-single",
+      "name": "Urshifu (Single Strike)",
+      "number": 892,
+      "generation": 8,
+      "class": "legendary",
+      "native_region": "Galar",
+      "possible_asteria_anchor_zones": [
+        "AST-MISTWOOD",
+        "VAL-SUBCANAL"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "urshifu-rapid": {
+      "id": "urshifu-rapid",
+      "name": "Urshifu (Rapid Strike)",
+      "number": 892,
+      "generation": 8,
+      "class": "legendary",
+      "native_region": "Galar",
+      "possible_asteria_anchor_zones": [
+        "MAR-REEF",
+        "SAL-COAST"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "zarude": {
+      "id": "zarude",
+      "name": "Zarude",
+      "number": 893,
+      "generation": 8,
+      "class": "mythical",
+      "native_region": "Galar",
+      "possible_asteria_anchor_zones": [
+        "AST-MISTWOOD",
+        "VIR-JUNGLE"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "regieleki": {
+      "id": "regieleki",
+      "name": "Regieleki",
+      "number": 894,
+      "generation": 8,
+      "class": "legendary",
+      "native_region": "Galar",
+      "possible_asteria_anchor_zones": [
+        "FER-CITY",
+        "VAL-WAREHOUSES"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "regidrago": {
+      "id": "regidrago",
+      "name": "Regidrago",
+      "number": 895,
+      "generation": 8,
+      "class": "legendary",
+      "native_region": "Galar",
+      "possible_asteria_anchor_zones": [
+        "FER-MOUNTAINS",
+        "FAR-RUINS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "glastrier": {
+      "id": "glastrier",
+      "name": "Glastrier",
+      "number": 896,
+      "generation": 8,
+      "class": "legendary",
+      "native_region": "Galar",
+      "possible_asteria_anchor_zones": [
+        "BOR-GLACIER",
+        "FER-MOUNTAINS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "spectrier": {
+      "id": "spectrier",
+      "name": "Spectrier",
+      "number": 897,
+      "generation": 8,
+      "class": "legendary",
+      "native_region": "Galar",
+      "possible_asteria_anchor_zones": [
+        "FAR-RUINS",
+        "AST-MISTWOOD"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "calyrex": {
+      "id": "calyrex",
+      "name": "Calyrex",
+      "number": 898,
+      "generation": 8,
+      "class": "legendary",
+      "native_region": "Galar",
+      "possible_asteria_anchor_zones": [
+        "FAR-RUINS",
+        "MER-CAPITAL"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "calyrex-ice": {
+      "id": "calyrex-ice",
+      "name": "Calyrex (Ice Rider)",
+      "number": 898,
+      "generation": 8,
+      "class": "legendary",
+      "native_region": "Galar",
+      "possible_asteria_anchor_zones": [
+        "FAR-RUINS",
+        "LAC-LAKE"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "calyrex-shadow": {
+      "id": "calyrex-shadow",
+      "name": "Calyrex (Shadow Rider)",
+      "number": 898,
+      "generation": 8,
+      "class": "legendary",
+      "native_region": "Galar",
+      "possible_asteria_anchor_zones": [
+        "FAR-RUINS",
+        "AST-MISTWOOD"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "ursaluna-bloodmoon": {
+      "id": "ursaluna-bloodmoon",
+      "name": "Bloodmoon Ursaluna",
+      "number": 901,
+      "generation": 8,
+      "class": "unique_variant_event",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "SOL-BADLAND",
+        "FER-MOUNTAINS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "specific_unique_character_or_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "enamorus": {
+      "id": "enamorus",
+      "name": "Enamorus (Incarnate)",
+      "number": 905,
+      "generation": 8,
+      "class": "legendary",
+      "native_region": "Hisui",
+      "possible_asteria_anchor_zones": [
+        "SAL-COAST",
+        "AST-MISTWOOD"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "enamorus-therian": {
+      "id": "enamorus-therian",
+      "name": "Enamorus (Therian)",
+      "number": 905,
+      "generation": 8,
+      "class": "legendary",
+      "native_region": "Hisui",
+      "possible_asteria_anchor_zones": [
+        "AST-HILLS",
+        "AST-MISTWOOD"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "great-tusk": {
+      "id": "great-tusk",
+      "name": "Great Tusk",
+      "number": 984,
+      "generation": 9,
+      "class": "paradox_past",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "SOL-BADLAND"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "temporal_anomaly_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "scream-tail": {
+      "id": "scream-tail",
+      "name": "Scream Tail",
+      "number": 985,
+      "generation": 9,
+      "class": "paradox_past",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "FAR-RUINS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "temporal_anomaly_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "brute-bonnet": {
+      "id": "brute-bonnet",
+      "name": "Brute Bonnet",
+      "number": 986,
+      "generation": 9,
+      "class": "paradox_past",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "VIR-JUNGLE"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "temporal_anomaly_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "flutter-mane": {
+      "id": "flutter-mane",
+      "name": "Flutter Mane",
+      "number": 987,
+      "generation": 9,
+      "class": "paradox_past",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "FAR-RUINS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "temporal_anomaly_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "slither-wing": {
+      "id": "slither-wing",
+      "name": "Slither Wing",
+      "number": 988,
+      "generation": 9,
+      "class": "paradox_past",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "VIR-JUNGLE",
+        "SOL-BADLAND"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "temporal_anomaly_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "sandy-shocks": {
+      "id": "sandy-shocks",
+      "name": "Sandy Shocks",
+      "number": 989,
+      "generation": 9,
+      "class": "paradox_past",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "FUL-PLATEAU"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "temporal_anomaly_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "iron-treads": {
+      "id": "iron-treads",
+      "name": "Iron Treads",
+      "number": 990,
+      "generation": 9,
+      "class": "paradox_future",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "FER-CITY",
+        "AST-QUARRY"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "temporal_anomaly_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "iron-bundle": {
+      "id": "iron-bundle",
+      "name": "Iron Bundle",
+      "number": 991,
+      "generation": 9,
+      "class": "paradox_future",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "BOR-GLACIER"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "temporal_anomaly_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "iron-hands": {
+      "id": "iron-hands",
+      "name": "Iron Hands",
+      "number": 992,
+      "generation": 9,
+      "class": "paradox_future",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "FER-CITY"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "temporal_anomaly_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "iron-jugulis": {
+      "id": "iron-jugulis",
+      "name": "Iron Jugulis",
+      "number": 993,
+      "generation": 9,
+      "class": "paradox_future",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "FER-TUNNELS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "temporal_anomaly_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "iron-moth": {
+      "id": "iron-moth",
+      "name": "Iron Moth",
+      "number": 994,
+      "generation": 9,
+      "class": "paradox_future",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "CIN-CALDERA",
+        "FER-CITY"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "temporal_anomaly_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "iron-thorns": {
+      "id": "iron-thorns",
+      "name": "Iron Thorns",
+      "number": 995,
+      "generation": 9,
+      "class": "paradox_future",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "AST-QUARRY",
+        "FUL-PLATEAU"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "temporal_anomaly_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "wo-chien": {
+      "id": "wo-chien",
+      "name": "Wo-Chien",
+      "number": 1001,
+      "generation": 9,
+      "class": "legendary",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "SOL-BADLAND",
+        "VAL-SUBCANAL"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "chien-pao": {
+      "id": "chien-pao",
+      "name": "Chien-Pao",
+      "number": 1002,
+      "generation": 9,
+      "class": "legendary",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "FER-MOUNTAINS",
+        "AST-MISTWOOD"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "ting-lu": {
+      "id": "ting-lu",
+      "name": "Ting-Lu",
+      "number": 1003,
+      "generation": 9,
+      "class": "legendary",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "AST-MISTWOOD",
+        "SOL-BADLAND"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "chi-yu": {
+      "id": "chi-yu",
+      "name": "Chi-Yu",
+      "number": 1004,
+      "generation": 9,
+      "class": "legendary",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "CIN-CALDERA",
+        "FER-MOUNTAINS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "roaring-moon": {
+      "id": "roaring-moon",
+      "name": "Roaring Moon",
+      "number": 1005,
+      "generation": 9,
+      "class": "paradox_past",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "FER-MOUNTAINS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "temporal_anomaly_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "iron-valiant": {
+      "id": "iron-valiant",
+      "name": "Iron Valiant",
+      "number": 1006,
+      "generation": 9,
+      "class": "paradox_future",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "MER-CAPITAL",
+        "FAR-RUINS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "temporal_anomaly_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "koraidon": {
+      "id": "koraidon",
+      "name": "Koraidon",
+      "number": 1007,
+      "generation": 9,
+      "class": "legendary",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "FER-MOUNTAINS",
+        "FUL-PLATEAU"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "miraidon": {
+      "id": "miraidon",
+      "name": "Miraidon",
+      "number": 1008,
+      "generation": 9,
+      "class": "legendary",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "FER-CITY",
+        "FER-MOUNTAINS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "walking-wake": {
+      "id": "walking-wake",
+      "name": "Walking Wake",
+      "number": 1009,
+      "generation": 9,
+      "class": "paradox_past",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "LAC-LAKE"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "temporal_anomaly_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "iron-leaves": {
+      "id": "iron-leaves",
+      "name": "Iron Leaves",
+      "number": 1010,
+      "generation": 9,
+      "class": "paradox_future",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "VIR-JUNGLE"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "temporal_anomaly_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "okidogi": {
+      "id": "okidogi",
+      "name": "Okidogi",
+      "number": 1014,
+      "generation": 9,
+      "class": "legendary",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "AST-HILLS",
+        "VIR-JUNGLE"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "munkidori": {
+      "id": "munkidori",
+      "name": "Munkidori",
+      "number": 1015,
+      "generation": 9,
+      "class": "legendary",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "MER-CAPITAL",
+        "FAR-RUINS"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "fezandipiti": {
+      "id": "fezandipiti",
+      "name": "Fezandipiti",
+      "number": 1016,
+      "generation": 9,
+      "class": "legendary",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "VAL-WAREHOUSES",
+        "LAC-LAKE"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "ogerpon": {
+      "id": "ogerpon",
+      "name": "Ogerpon (Teal Mask)",
+      "number": 1017,
+      "generation": 9,
+      "class": "legendary",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "AST-MISTWOOD",
+        "AST-FARM"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "ogerpon-wellspring-mask": {
+      "id": "ogerpon-wellspring-mask",
+      "name": "Ogerpon (Wellspring Mask)",
+      "number": 1017,
+      "generation": 9,
+      "class": "legendary",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "AST-FARM",
+        "MAR-REEF"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "ogerpon-heartflame-mask": {
+      "id": "ogerpon-heartflame-mask",
+      "name": "Ogerpon (Heartflame Mask)",
+      "number": 1017,
+      "generation": 9,
+      "class": "legendary",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "AST-MISTWOOD",
+        "AST-FARM"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "ogerpon-cornerstone-mask": {
+      "id": "ogerpon-cornerstone-mask",
+      "name": "Ogerpon (Cornerstone Mask)",
+      "number": 1017,
+      "generation": 9,
+      "class": "legendary",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "AST-QUARRY",
+        "SOL-BADLAND"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "gouging-fire": {
+      "id": "gouging-fire",
+      "name": "Gouging Fire",
+      "number": 1020,
+      "generation": 9,
+      "class": "paradox_past",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "CIN-CALDERA"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "temporal_anomaly_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "raging-bolt": {
+      "id": "raging-bolt",
+      "name": "Raging Bolt",
+      "number": 1021,
+      "generation": 9,
+      "class": "paradox_past",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "FUL-PLATEAU"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "temporal_anomaly_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "iron-boulder": {
+      "id": "iron-boulder",
+      "name": "Iron Boulder",
+      "number": 1022,
+      "generation": 9,
+      "class": "paradox_future",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "AST-QUARRY"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "temporal_anomaly_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "iron-crown": {
+      "id": "iron-crown",
+      "name": "Iron Crown",
+      "number": 1023,
+      "generation": 9,
+      "class": "paradox_future",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "MER-CAPITAL"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "temporal_anomaly_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "terapagos": {
+      "id": "terapagos",
+      "name": "Terapagos",
+      "number": 1024,
+      "generation": 9,
+      "class": "legendary",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "AST-MISTWOOD",
+        "AST-GINESTRE"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "terapagos-terastal-form": {
+      "id": "terapagos-terastal-form",
+      "name": "Terapagos (Terastal)",
+      "number": 1024,
+      "generation": 9,
+      "class": "legendary",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "AST-GINESTRE",
+        "VAL-CITY"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "terapagos-stellar-form": {
+      "id": "terapagos-stellar-form",
+      "name": "Terapagos (Stellar)",
+      "number": 1024,
+      "generation": 9,
+      "class": "legendary",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "VAL-CITY",
+        "AST-GINESTRE"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    },
+    "pecharunt": {
+      "id": "pecharunt",
+      "name": "Pecharunt",
+      "number": 1025,
+      "generation": 9,
+      "class": "mythical",
+      "native_region": "Paldea",
+      "possible_asteria_anchor_zones": [
+        "VAL-WAREHOUSES",
+        "AST-MISTWOOD"
+      ],
+      "random_spawn": false,
+      "unique_or_limited": true,
+      "activation": "legendary_or_mythical_world_chain_only",
+      "secrecy": "Do not reveal location/availability before legitimate in-world discovery."
+    }
+  }
+}

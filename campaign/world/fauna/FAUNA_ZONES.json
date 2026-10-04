@@ -1,0 +1,291 @@
+{
+  "schema_version": 1,
+  "world": "ASTERIA",
+  "source_biomes": [
+    "abyss",
+    "badland",
+    "beach",
+    "cave",
+    "city",
+    "desert",
+    "field",
+    "forest",
+    "glacier",
+    "grassland",
+    "industrial",
+    "jungle",
+    "lake",
+    "mountain",
+    "ocean",
+    "polar-sea",
+    "pond",
+    "reef",
+    "river",
+    "riverside",
+    "ruin",
+    "swamp",
+    "tundra",
+    "volcano",
+    "woodland"
+  ],
+  "zones": {
+    "AST-GINESTRE": {
+      "name": "Via delle Ginestre",
+      "biomes": [
+        "field",
+        "grassland",
+        "riverside"
+      ],
+      "access": "rookie"
+    },
+    "AST-FARM": {
+      "name": "Fattoria del Vento",
+      "biomes": [
+        "field",
+        "grassland",
+        "pond"
+      ],
+      "access": "rookie"
+    },
+    "AST-HILLS": {
+      "name": "Sentiero delle Colline",
+      "biomes": [
+        "grassland",
+        "woodland",
+        "mountain"
+      ],
+      "access": "rookie_mid"
+    },
+    "AST-MISTWOOD": {
+      "name": "Bosco Bruma",
+      "biomes": [
+        "forest",
+        "woodland"
+      ],
+      "access": "rookie_mid"
+    },
+    "SAL-TOWN": {
+      "name": "Borgo Salice e margini",
+      "biomes": [
+        "forest",
+        "woodland",
+        "city"
+      ],
+      "access": "regional"
+    },
+    "VIR-JUNGLE": {
+      "name": "Selva Viridia",
+      "biomes": [
+        "jungle",
+        "forest",
+        "river"
+      ],
+      "access": "regional_high"
+    },
+    "LAC-LAKE": {
+      "name": "Lago Specchio",
+      "biomes": [
+        "lake",
+        "pond",
+        "riverside"
+      ],
+      "access": "regional"
+    },
+    "MIR-MARSH": {
+      "name": "Palude Mirto",
+      "biomes": [
+        "swamp",
+        "pond",
+        "river",
+        "riverside"
+      ],
+      "access": "regional"
+    },
+    "RIV-TOWN": {
+      "name": "Rivafonda",
+      "biomes": [
+        "swamp",
+        "river",
+        "riverside",
+        "city"
+      ],
+      "access": "regional"
+    },
+    "VAL-CITY": {
+      "name": "Valedarsena urbana",
+      "biomes": [
+        "city",
+        "riverside"
+      ],
+      "access": "rookie"
+    },
+    "VAL-WAREHOUSES": {
+      "name": "Valedarsena — Distretto Magazzini",
+      "biomes": [
+        "industrial",
+        "city"
+      ],
+      "access": "rookie"
+    },
+    "VAL-SUBCANAL": {
+      "name": "Valedarsena — Sottocanale",
+      "biomes": [
+        "cave",
+        "ruin",
+        "river",
+        "city"
+      ],
+      "access": "deep_locked"
+    },
+    "AST-CANAL": {
+      "name": "Canale delle Ruote",
+      "biomes": [
+        "river",
+        "riverside",
+        "industrial"
+      ],
+      "access": "rookie_mid"
+    },
+    "AST-QUARRY": {
+      "name": "Cava Grigia",
+      "biomes": [
+        "cave",
+        "badland",
+        "mountain",
+        "industrial"
+      ],
+      "access": "rookie_mid"
+    },
+    "FER-CITY": {
+      "name": "Ferravia",
+      "biomes": [
+        "city",
+        "industrial"
+      ],
+      "access": "regional"
+    },
+    "FER-TUNNELS": {
+      "name": "Gallerie Ferrox",
+      "biomes": [
+        "cave",
+        "mountain",
+        "industrial"
+      ],
+      "access": "regional_high"
+    },
+    "FER-MOUNTAINS": {
+      "name": "Monti Ferrox",
+      "biomes": [
+        "mountain",
+        "tundra"
+      ],
+      "access": "regional_high"
+    },
+    "ALT-TOWN": {
+      "name": "Altacima e versanti",
+      "biomes": [
+        "mountain",
+        "tundra",
+        "city"
+      ],
+      "access": "regional_high"
+    },
+    "FUL-PLATEAU": {
+      "name": "Altopiano Fulgore",
+      "biomes": [
+        "mountain",
+        "tundra",
+        "grassland"
+      ],
+      "access": "late_regional"
+    },
+    "BOR-GLACIER": {
+      "name": "Ghiacciaio Boreale",
+      "biomes": [
+        "glacier",
+        "tundra",
+        "polar-sea",
+        "mountain"
+      ],
+      "access": "late_regional"
+    },
+    "SOL-BADLAND": {
+      "name": "Terre Rosse di Solaria",
+      "biomes": [
+        "desert",
+        "badland",
+        "grassland"
+      ],
+      "access": "regional_high"
+    },
+    "CIN-CALDERA": {
+      "name": "Caldera Cineris",
+      "biomes": [
+        "volcano",
+        "mountain",
+        "cave"
+      ],
+      "access": "late_regional"
+    },
+    "MAR-CITY": {
+      "name": "Mareasale",
+      "biomes": [
+        "city",
+        "beach",
+        "ocean"
+      ],
+      "access": "regional"
+    },
+    "SAL-COAST": {
+      "name": "Costa di Sale",
+      "biomes": [
+        "beach",
+        "ocean",
+        "cave"
+      ],
+      "access": "regional_high"
+    },
+    "MAR-REEF": {
+      "name": "Barriera Azzurra",
+      "biomes": [
+        "reef",
+        "ocean"
+      ],
+      "access": "regional_high_water"
+    },
+    "AST-ABYSS": {
+      "name": "Fossa Aster",
+      "biomes": [
+        "abyss",
+        "ocean"
+      ],
+      "access": "late_special_water"
+    },
+    "FAR-RUINS": {
+      "name": "Rovine del Primo Faro",
+      "biomes": [
+        "ruin",
+        "cave",
+        "beach"
+      ],
+      "access": "late_regional"
+    },
+    "MER-CAPITAL": {
+      "name": "Meridiana",
+      "biomes": [
+        "city",
+        "industrial"
+      ],
+      "access": "late_regional"
+    },
+    "PAL-RESERVE": {
+      "name": "Riserva Paleobiologica di Asteria",
+      "biomes": [
+        "field",
+        "badland",
+        "lake"
+      ],
+      "access": "regulated_special"
+    }
+  }
+}

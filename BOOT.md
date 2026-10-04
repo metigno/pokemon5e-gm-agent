@@ -40,6 +40,8 @@ Before play also load:
 - `campaign/world/WORLD_STATE_SCHEMA.md`
 - `campaign/world/FACTIONS.md`
 - `campaign/world/COMPETITIVE_NETWORK.md`
+- `campaign/world/fauna/FAUNA_RULES.md`
+- `campaign/world/fauna/FAUNA_ZONES.json`
 - `campaign/world/ecology/SPECIES_DISTRIBUTION.json`
 - `campaign/world/ecology/ZONE_POOLS.json`
 - `campaign/world/ecology/RARITY_SYSTEM.md`
@@ -83,3 +85,6 @@ If the selected slot is empty/ready, show the five protagonist choices and wait 
 
 ## Presentation
 Use `campaign/GM_NARRATION_STYLE.md`: fiction → exact mechanics → fictional consequence. Do not narrate play as a bare combat/system log.
+
+
+Fauna note: load `ZONE_TABLES.json` / `ASTERIA_FAUNA_INDEX.json` on demand for the current encounter rather than dumping the complete fauna database into every scene. Special fauna placement is GM-private.

@@ -325,6 +325,71 @@
         "hidden"
       ],
       "hidden": true
+    },
+    {
+      "id": "SOL-BADLAND",
+      "name": "Terre Rosse di Solaria",
+      "type": "wild_zone",
+      "tier": "regional_high",
+      "tags": [
+        "desert",
+        "badland",
+        "drylands"
+      ]
+    },
+    {
+      "id": "CIN-CALDERA",
+      "name": "Caldera Cineris",
+      "type": "wild_zone",
+      "tier": "late_regional",
+      "tags": [
+        "volcano",
+        "geothermal",
+        "caves"
+      ]
+    },
+    {
+      "id": "VIR-JUNGLE",
+      "name": "Selva Viridia",
+      "type": "wild_zone",
+      "tier": "regional_high",
+      "tags": [
+        "jungle",
+        "forest",
+        "river"
+      ]
+    },
+    {
+      "id": "LAC-LAKE",
+      "name": "Lago Specchio",
+      "type": "wild_zone",
+      "tier": "regional",
+      "tags": [
+        "lake",
+        "pond",
+        "riverside"
+      ]
+    },
+    {
+      "id": "MAR-REEF",
+      "name": "Barriera Azzurra",
+      "type": "wild_zone",
+      "tier": "regional_high",
+      "tags": [
+        "reef",
+        "ocean"
+      ]
+    },
+    {
+      "id": "PAL-RESERVE",
+      "name": "Riserva Paleobiologica di Asteria",
+      "type": "regulated_reserve",
+      "tier": "regional_special",
+      "tags": [
+        "fossil",
+        "research",
+        "controlled_population"
+      ]
     }
   ],
   "edges": [
@@ -523,6 +588,53 @@
       "walk_minutes": null,
       "transit": [
         "event_only"
+      ]
+    },
+    {
+      "from": "MER-CAPITAL",
+      "to": "SOL-BADLAND",
+      "walk_minutes": 360
+    },
+    {
+      "from": "SOL-BADLAND",
+      "to": "CIN-CALDERA",
+      "walk_minutes": 240
+    },
+    {
+      "from": "SAL-TOWN",
+      "to": "VIR-JUNGLE",
+      "walk_minutes": 300
+    },
+    {
+      "from": "SAL-TOWN",
+      "to": "LAC-LAKE",
+      "walk_minutes": 180
+    },
+    {
+      "from": "MAR-CITY",
+      "to": "MAR-REEF",
+      "walk_minutes": null,
+      "transit": [
+        "boat_required"
+      ],
+      "travel_minutes": 90
+    },
+    {
+      "from": "MAR-REEF",
+      "to": "AST-ABYSS",
+      "walk_minutes": null,
+      "transit": [
+        "special_deep_water_access"
+      ],
+      "travel_minutes": 120
+    },
+    {
+      "from": "MER-CAPITAL",
+      "to": "PAL-RESERVE",
+      "walk_minutes": 120,
+      "transit": [
+        "road",
+        "scheduled_bus"
       ]
     }
   ],

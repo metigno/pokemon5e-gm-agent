@@ -103,3 +103,19 @@ Ecology is independent of Trainer Level.
 A powerful mature Pokémon may exist in an accessible habitat.
 
 Use warning signs rather than silently weakening it for the player.
+
+
+## Complete Pokédex distribution
+
+The authoritative Asteria fauna distribution is now generated from Pokémon 5e 2024 official biome data.
+
+Use:
+- `fauna/FAUNA_RULES.md`
+- `fauna/FAUNA_ZONES.json`
+- `fauna/ASTERIA_FAUNA_INDEX.json`
+- `fauna/ZONE_TABLES.json`
+- `fauna/COVERAGE_REPORT.json`
+
+Do not improvise a wild species outside this distribution unless a world event explicitly changes local ecology.
+
+Legendary, Mythical, Ultra Beast, Paradox and unique-event placements are GM-private and never random.

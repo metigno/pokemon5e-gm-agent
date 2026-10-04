@@ -238,3 +238,20 @@ Paradox Pokémon only appear through their hidden chronal anomaly chains.
 When an encounter becomes mechanical, use the current Pokémon 5e stat block/rules; the ecology registry is distribution metadata only.
 
 Ecology does not auto-scale to the player.
+
+
+## Complete Asteria fauna
+
+For wild Pokémon generation, follow `campaign/world/fauna/FAUNA_RULES.md`.
+
+Use `FAUNA_ZONES.json` and `ZONE_TABLES.json` to determine which species are ecologically available in the current zone.
+
+Use `ASTERIA_FAUNA_INDEX.json` for species-specific rarity, habitat and conditions.
+
+Do not load/scan the full index when it is unnecessary; use the current zone table first.
+
+Legendary, Mythical, Ultra Beast, Paradox and unique variant exact placements are in `gm_private/ASTERIA_SPECIAL_FAUNA.json` and must remain hidden until discovered.
+
+Paradox Pokémon require the temporal anomaly protocol. They never appear as ordinary random fauna.
+
+Once a species is selected, fetch/verify its current Pokémon 5e mechanics before resolving the encounter.

@@ -154,3 +154,14 @@ The distribution uses local habitats, evolution-family scarcity and rarity tiers
 Paradox Pokémon use hidden chronal anomaly zones; Ultra Beasts use rift events; Legendary/Mythical Pokémon are unique story/interregional encounters; fossils use paleontology/revival chains.
 
 See `campaign/world/ecology/`.
+
+
+## Complete fauna database
+
+Asteria has a deterministic ecological distribution for every canonical Pokémon 5e 2024 stat block through Gen 9/DLC.
+
+The generator uses official Pokémon 5e biome tags, then applies Asteria rarity, evolution-stage scarcity and local microhabitats.
+
+Paradox Pokémon are included as temporal-anomaly-only encounters. Legendary/Mythical Pokémon and Ultra Beasts are also event-only.
+
+See `campaign/world/fauna/`.

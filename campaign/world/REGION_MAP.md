@@ -125,3 +125,21 @@ Per supportare tutte le linee Pokémon canoniche, Asteria comprende anche:
 - **Fossa Aster** — ecosistema abissale accessibile solo tramite spedizioni.
 
 Le **Fratture Cronali** non compaiono sulla normale cartografia pubblica e sono event-only.
+
+
+## Espansioni ecologiche
+
+Per supportare in modo plausibile l'intero Pokédex senza comprimere ogni specie negli stessi tre habitat, Asteria include macro-zone ecologiche periferiche e tardive:
+
+- **Terre Rosse di Solaria** — desert / badland;
+- **Caldera Cineris** — volcano / geothermal cave;
+- **Selva Viridia** — jungle / tropical forest;
+- **Lago Specchio** — lake / pond / riverside;
+- **Ghiacciaio Boreale** — glacier / tundra / polar-sea edge;
+- **Barriera Azzurra** — reef / ocean;
+- **Fossa Aster** — abyss / deep ocean;
+- **Riserva Paleobiologica di Asteria** — popolazioni fossili ricostituite e controllate.
+
+Queste aree esistono nel mondo dall'inizio, ma alcune richiedono viaggio, autorizzazione o mezzi specifici.
+
+La distribuzione completa è in `campaign/world/fauna/`.
