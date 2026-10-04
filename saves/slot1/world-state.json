@@ -3,11 +3,11 @@
   "save_slot": 1,
   "world_id": "ASTERIA",
   "world_name": "Territorio Interregionale di Asteria",
-  "current_location_id": "AST-GINESTRE",
+  "current_location_id": "VAL-CITY",
   "clock": {
     "day": 1,
     "phase": "afternoon",
-    "minutes_from_midnight": 850
+    "minutes_from_midnight": 920
   },
   "weather": {
     "status": "unresolved_until_relevant"
@@ -42,11 +42,11 @@
       "last_updated_day": 1
     },
     "AST-GINESTRE": {
-      "status": "current",
+      "status": "visited",
       "last_updated_day": 1
     },
     "VAL-CITY": {
-      "status": "active",
+      "status": "current",
       "last_updated_day": 1
     },
     "VAL-TRAINER-ROW": {
@@ -121,6 +121,12 @@
             "title": "Consegna urgente alla fattoria",
             "reward": 600,
             "status": "accepted_by_Edward"
+          },
+          {
+            "id": "JOB-04",
+            "title": "Recinti aperti alla Fattoria del Vento",
+            "reward": 800,
+            "status": "available"
           }
         ]
       }
