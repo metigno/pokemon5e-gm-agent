@@ -106,3 +106,10 @@ Checkpoint: CP-TRAVEL-D1-GINESTRE
 - Luke left Valedarsena after lunch to train Hisuian Growlithe.
 - Arrived at Via delle Ginestre in the early afternoon after about 70 minutes of walking.
 - Growlithe remains at 35/35 HP.
+
+Checkpoint: CP-SHORTREST-D1-GINESTRE
+
+- Luke stopped training after defeating Lio and let Growlithe rest for 30 minutes under the old bus-stop shelter on Via delle Ginestre.
+- No Hit Die was spent, so Growlithe remains 28/35 HP.
+- PP unchanged; Intimidate refreshed to 1/1.
+- Growlithe XP: 6450/12000 toward Level 6.
