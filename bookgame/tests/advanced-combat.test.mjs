@@ -76,18 +76,19 @@ test("Ember can burn a non-Fire target and Burned uses the lower damage roll plu
   const combat = new Pokemon5eCombatEngine({ dice });
   let battle = await combat.createBattle(handoff(
     { species: "Growlithe", form: "Hisuian", level: 5 },
-    { species: "Totodile", level: 5 }
+    { species: "Koffing", level: 5 }
   ));
 
   battle = await combat.usePlayerMove(battle, "ember");
   assert.equal(battle.opponent.statuses.nonVolatile, "Burned");
 
   battle = await combat.advanceToPlayerOrEnd(battle);
-  const scratch = battle.log.find((entry) => entry.type === "attack" && entry.actor === "opponent");
-  assert.equal(scratch.damageRoll.mode, "disadvantage");
-  assert.equal(scratch.damageRoll.attempts[0].total, 12);
-  assert.equal(scratch.damageRoll.attempts[1].total, 1);
-  assert.equal(scratch.damageRoll.selected.total, 1);
+  const tackle = battle.log.find((entry) => entry.type === "attack" && entry.actor === "opponent");
+  assert.equal(tackle.moveId, "tackle");
+  assert.equal(tackle.damageRoll.mode, "disadvantage");
+  assert.equal(tackle.damageRoll.attempts[0].total, 12);
+  assert.equal(tackle.damageRoll.attempts[1].total, 1);
+  assert.equal(tackle.damageRoll.selected.total, 1);
 
   const burn = battle.log.find((entry) => entry.type === "status_damage" && entry.actor === "opponent");
   assert.equal(burn.status, "Burned");
@@ -95,11 +96,11 @@ test("Ember can burn a non-Fire target and Burned uses the lower damage roll plu
 });
 
 test("Bite on natural 19 flinches and the next attack is made with disadvantage", async () => {
-  const dice = new SequenceDice([15, 5, 19, 5, 18, 2]);
+  const dice = new SequenceDice([15, 5, 19, 5, 5, 18, 2]);
   const combat = new Pokemon5eCombatEngine({ dice });
   let battle = await combat.createBattle(handoff(
     { species: "Growlithe", form: "Hisuian", level: 5 },
-    { species: "Totodile", level: 5 }
+    { species: "Koffing", level: 5 }
   ));
 
   battle = await combat.usePlayerMove(battle, "bite");
