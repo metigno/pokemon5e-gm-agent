@@ -3,13 +3,14 @@ import assert from "node:assert/strict";
 import { fileURLToPath } from "node:url";
 import { BookgameEngine } from "../src/engine/bookgame-engine.mjs";
 import { CompiledSceneRepository } from "../src/engine/compiled-scene-repository.mjs";
-import { compileStory, validateScene } from "../src/compiler/story-compiler.mjs";
+import { compileStory, validateScene, validateWorldEventCatalog } from "../src/compiler/story-compiler.mjs";
 import { SequenceDice } from "../src/engine/dice.mjs";
 import { createNewGameState } from "../src/engine/state.mjs";
 import { evaluateCondition, validateCondition } from "../src/engine/conditions.mjs";
 import { advanceWorldTime, daypartForMinute, getWorldTimeView } from "../src/engine/time.mjs";
 import { getQuestJournal, processQuestDeadlines, startQuest } from "../src/engine/quest-state.mjs";
 import { adjustNpcRelationship, selectFriendBeatCandidate, setNpcSchedule } from "../src/engine/npc-state.mjs";
+import { processWorldEvents } from "../src/engine/world-events.mjs";
 
 const scenesDir = fileURLToPath(new URL("../content/scenes/", import.meta.url));
 const modulesDir = fileURLToPath(new URL("../content/modules/", import.meta.url));
@@ -640,4 +641,174 @@ test("E4 compiler rejects malformed NPC schedule effects", () => {
 
   assert.equal(report.valid, false);
   assert.ok(report.errors.some((error) => error.code === "INVALID_NPC_SCHEDULE_WINDOW"));
+});
+
+
+test("E6 compiler includes canonical A1_WORLD_MOVES in offline bundle", async () => {
+  const bundle = await compileStory({ scenesDir, modulesDir });
+  assert.equal(bundle.index.worldEventCount >= 1, true);
+  const event = bundle.worldEvents.find((entry) => entry.id === "A1_WORLD_MOVES");
+  assert.ok(event);
+  assert.equal(event.once, true);
+  assert.equal(event.moduleId, "M01");
+});
+
+test("E6 A1_WORLD_MOVES fires when first settlement is reached and only once", async () => {
+  const bundle = await compileStory({ scenesDir, modulesDir });
+  const repository = {
+    async load(sceneId) {
+      return structuredClone(bundle.scenes[sceneId]);
+    },
+    async loadWorldEvents() {
+      return structuredClone(bundle.worldEvents);
+    }
+  };
+
+  const engine = new BookgameEngine({ scenes: repository });
+  let state = createNewGameState({ protagonist: "Luke" });
+  state.story.sceneId = "m01-valedarsena-first-arrival";
+  state.story.nodeId = "approach";
+
+  state = await engine.choose(state, "enter_center");
+  assert.equal(state.events.A1_WORLD_MOVES.status, "resolved");
+  assert.equal(state.events.A1_WORLD_MOVES.outcomeId, "pressure_unnoticed");
+  assert.equal(state.world.flags.m1_world_pressure_state, "pressure_unnoticed");
+  assert.equal(state.story.history.at(-1).worldEvents.length, 1);
+
+  state.story.nodeId = "center";
+  state = await engine.choose(state, "back_city");
+  assert.equal(state.story.history.at(-1).worldEvents, undefined);
+});
+
+test("E6 A1_WORLD_MOVES selects noticed outcome when evidence was already found", async () => {
+  const bundle = await compileStory({ scenesDir, modulesDir });
+  const repository = {
+    async load() {
+      return {
+        id: "event-test",
+        title: "Event test",
+        nodes: {
+          start: {
+            text: "Continue.",
+            choices: [{ id: "continue", text: "Continue.", goto: "done" }]
+          },
+          done: { text: "Done.", choices: [] }
+        }
+      };
+    },
+    async loadWorldEvents() {
+      return structuredClone(bundle.worldEvents);
+    }
+  };
+
+  const engine = new BookgameEngine({ scenes: repository });
+  let state = createNewGameState({ protagonist: "Luke" });
+  state.story.sceneId = "event-test";
+  state.story.nodeId = "start";
+  state.world.flags.m1_world_pressure_known = true;
+  state.world.elapsedMinutes = (2 * 24 * 60) + 480;
+  state.world.day = 3;
+  state.world.minuteOfDay = 480;
+  state.world.time = "morning";
+
+  state = await engine.choose(state, "continue");
+  assert.equal(state.events.A1_WORLD_MOVES.outcomeId, "pressure_already_noticed");
+  assert.equal(state.world.flags.m1_world_pressure_state, "pressure_noticed");
+});
+
+test("E6 authored off-screen event may update persistent NPC schedule after time passes", async () => {
+  const worldEvents = [{
+    id: "TEST_NPC_MOVES",
+    once: true,
+    trigger: { path: "world.elapsedMinutes", "gte": 540 },
+    outcomes: [{
+      id: "blue_moves",
+      effects: [{
+        type: "npc_schedule_set",
+        npcId: "Blue",
+        scheduleId: "blue_test_move",
+        locationId: "valedarsena_arena",
+        availability: "available",
+        activity: "registration"
+      }]
+    }]
+  }];
+
+  const repository = {
+    async load() {
+      return {
+        id: "travel-test",
+        title: "Travel",
+        nodes: {
+          start: {
+            text: "Travel.",
+            choices: [{ id: "go", text: "Go.", timeCostMinutes: 60, goto: "done" }]
+          },
+          done: { text: "Done.", choices: [] }
+        }
+      };
+    }
+  };
+
+  const engine = new BookgameEngine({ scenes: repository, worldEvents });
+  let state = createNewGameState({ protagonist: "Luke" });
+  state.story.sceneId = "travel-test";
+  state.story.nodeId = "start";
+
+  state = await engine.choose(state, "go");
+  assert.equal(state.events.TEST_NPC_MOVES.status, "resolved");
+  assert.equal(state.npcs.Blue.schedule.id, "blue_test_move");
+  assert.equal(state.npcs.Blue.schedule.locationId, "valedarsena_arena");
+});
+
+test("E6 event processor can resolve authored quest consequences off-screen", () => {
+  const state = createNewGameState({ protagonist: "Luke" });
+  startQuest(state, { questId: "OFFSCREEN_QUEST" });
+  state.world.flags.resolve_offscreen = true;
+
+  const events = [{
+    id: "OFFSCREEN_RESOLUTION",
+    once: true,
+    trigger: { path: "world.flags.resolve_offscreen", eq: true },
+    outcomes: [{
+      id: "npc_completed",
+      effects: [{
+        type: "quest_complete",
+        questId: "OFFSCREEN_QUEST",
+        resolution: "completed_by_npc"
+      }]
+    }]
+  }];
+
+  const fired = processWorldEvents(state, events, (eventState, effects) => {
+    for (const effect of effects) {
+      if (effect.type === "quest_complete") {
+        eventState.quests[effect.questId].status = "completed";
+        eventState.quests[effect.questId].resolution = effect.resolution;
+        eventState.quests[effect.questId].resolvedBy = "world";
+      }
+    }
+  });
+
+  assert.equal(fired.length, 1);
+  assert.equal(state.quests.OFFSCREEN_QUEST.status, "completed");
+  assert.equal(state.events.OFFSCREEN_RESOLUTION.outcomeId, "npc_completed");
+});
+
+test("E6 compiler rejects malformed event fallback ordering and unsafe trigger paths", () => {
+  const report = validateWorldEventCatalog({
+    schemaVersion: 1,
+    events: [{
+      id: "BAD_EVENT",
+      trigger: { path: "unsafe.private.value", eq: true },
+      outcomes: [
+        { id: "fallback", effects: [] },
+        { id: "later", when: { path: "world.day", gte: 2 }, effects: [] }
+      ]
+    }]
+  });
+
+  assert.equal(report.valid, false);
+  assert.ok(report.errors.some((error) => error.code === "INVALID_CONDITION_PATH"));
+  assert.ok(report.errors.some((error) => error.code === "WORLD_EVENT_FALLBACK_ORDER"));
 });
