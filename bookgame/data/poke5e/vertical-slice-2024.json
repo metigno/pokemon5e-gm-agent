@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "ruleset": "2024",
   "source": {
     "repository": "Auroratide/poke5e",
@@ -127,7 +127,15 @@
           "covet",
           "head-smash"
         ]
-      }
+      },
+      "size": "small",
+      "sr": 0.5,
+      "speed": [
+        {
+          "type": "walking",
+          "value": 30
+        }
+      ]
     },
     "eevee": {
       "id": "eevee",
@@ -251,7 +259,15 @@
           "wish",
           "yawn"
         ]
-      }
+      },
+      "size": "tiny",
+      "sr": 0.5,
+      "speed": [
+        {
+          "type": "walking",
+          "value": 30
+        }
+      ]
     },
     "gastly": {
       "id": "gastly",
@@ -389,7 +405,15 @@
           "thunder-punch",
           "will-o-wisp"
         ]
-      }
+      },
+      "size": "small",
+      "sr": 0.5,
+      "speed": [
+        {
+          "type": "hover",
+          "value": 25
+        }
+      ]
     },
     "totodile": {
       "id": "totodile",
@@ -528,7 +552,19 @@
           "thrash",
           "water-sport"
         ]
-      }
+      },
+      "size": "tiny",
+      "sr": 0.5,
+      "speed": [
+        {
+          "type": "walking",
+          "value": 30
+        },
+        {
+          "type": "swimming",
+          "value": 20
+        }
+      ]
     },
     "koffing": {
       "id": "koffing",
@@ -655,7 +691,15 @@
           "toxic-spikes",
           "will-o-wisp"
         ]
-      }
+      },
+      "size": "tiny",
+      "sr": 0.5,
+      "speed": [
+        {
+          "type": "hover",
+          "value": 20
+        }
+      ]
     },
     "houndour": {
       "id": "houndour",
@@ -800,7 +844,15 @@
           "thunder-fang",
           "will-o-wisp"
         ]
-      }
+      },
+      "size": "tiny",
+      "sr": 0.5,
+      "speed": [
+        {
+          "type": "walking",
+          "value": 30
+        }
+      ]
     }
   },
   "moves": {
