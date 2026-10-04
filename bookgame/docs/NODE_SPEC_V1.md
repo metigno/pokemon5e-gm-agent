@@ -1,4 +1,4 @@
-# P5E LIBROGAME — NODE SPEC v1.7
+# P5E LIBROGAME — NODE SPEC v1.8
 
 Status: implementation contract for the offline bookgame compiler.
 Authority: subordinate to P5E_LIBROGAME_ENGINE_SOURCE_OF_TRUTH.md. If this document conflicts with the Source of Truth, the Source of Truth wins.
@@ -451,6 +451,112 @@ E1 may read:
 
 Do not mirror Circuit Rank or Trial state into `world.flags`.
 
+## 3.7 Canonical ecology / wild encounters — E7
+
+E7 ports the Pokémon 5e GM Agent ecology contract into the offline bookgame without runtime AI.
+
+Authority order:
+
+1. `campaign/world/ecology/SPECIES_DISTRIBUTION.json`
+2. `campaign/world/ecology/ZONE_POOLS.json`
+3. `campaign/world/ecology/FAUNA_COVERAGE.json`
+4. `campaign/world/ecology/RARITY_SYSTEM.md`
+5. `campaign/world/ecology/SPECIAL_ENCOUNTERS.md`
+6. GM-private special anchors only for authored special-event content
+
+`campaign/world/fauna/ASTERIA_FAUNA_INDEX.json` is used only as supporting habitat-tag metadata. It never overrides authoritative zone, rarity, weight, distribution class or activity from `campaign/world/ecology/`.
+
+Canonical ordinary rarity weights are preserved exactly after filtering:
+
+- common: 100
+- uncommon: 45
+- rare: 15
+- very_rare: 5
+- exceptional: 1
+- protected_rare: 2
+- protected_very_rare: 1
+
+These are relative weights, not percentages.
+
+Ordinary selection pipeline:
+
+1. choose the authored Asteria ecology zone;
+2. use only the authoritative source-zone pool;
+3. filter by authored microhabitat;
+4. filter by in-game time/activity;
+5. filter by encounter method;
+6. apply any authored species subset/exclusions required by the local scene;
+7. apply the canonical relative weights;
+8. enter a small authored wildlife scene.
+
+Special classes can never pass this selector:
+
+- Legendary
+- Mythical
+- Ultra Beast
+- Paradox
+- fossil/paleo restricted
+- unique special event
+
+A scene choice may use the `ecology` transition mode:
+
+    {
+      "id": "observe_wildlife",
+      "text": "Osservo la fauna.",
+      "ecology": {
+        "requestId": "M1_GINESTRE_FIELD_01",
+        "zoneId": "AST-GINESTRE",
+        "habitat": "field",
+        "method": "wild_observation",
+        "allowedSpecies": ["wooloo", "shinx"],
+        "returnNodes": {
+          "noEncounter": "no_sighting",
+          "wooloo": "wooloo_scene",
+          "shinx": "shinx_scene"
+        }
+      }
+    }
+
+Every allowed species requires an authored return node. A no-encounter branch is also mandatory.
+
+The selected encounter is persisted under:
+
+- `ecology.lastEncounter`
+- `ecology.history[]`
+
+Internal ecology metadata is not automatically shown in the player-facing `present()` view.
+
+### Wildlife behavior contract
+
+Species selection does not mean combat.
+
+Every authored wild branch follows `campaign/world/WILD_ENCOUNTER_BEHAVIOR.md`:
+
+- the creature is already doing something;
+- observable posture/movement/calls are narrated before mechanics;
+- social context and escape routes matter;
+- de-escalation, observation, avoidance and cooperation are valid outcomes;
+- combat occurs only after fiction/player action makes it happen;
+- capture is never the default resolution;
+- combat/capture use the exact Pokémon 5e resolver;
+- meaningful ecological consequences may persist.
+
+Alpha/Beta are never assigned automatically by E7. The ordinary selector records `alphaBetaRole: null`. Any future Alpha/Beta role must be explicitly authored and may not invent stat bonuses.
+
+### Capture rule
+
+Rarity is not capture legality.
+
+If an ordinary wild Pokémon is selected and the fiction reaches a legal capture attempt, use normal Pokémon 5e capture mechanics. Do not mark an otherwise ordinary encountered Pokémon uncapturable merely because it is rare or belongs to a protected population.
+
+### Mechanical data gate
+
+An authored branch may offer battle/capture only when the exact Pokémon 5e stat block, legal ability and at least one executable move are present in the offline combat pack.
+
+The ecology catalog may contain many more species than the current combat pack. Those species are valid ecological data but must not be routed into an unsupported mechanical battle.
+
+M01 currently wires executable local opportunities for Wooloo, Shinx and Hisuian Growlithe, in addition to the pre-existing scripted Houndour encounter.
+
 ## 4. Choice
 
 Every choice requires:
@@ -571,6 +677,7 @@ Compilation fails for at least:
 - malformed NPC IDs, schedules, relationship changes, or NPC state values;
 - malformed world-event triggers, outcomes, fallback ordering, or event effects;
 - malformed official competition metadata, Trial state effects, roster requirements, or competitive return outcomes;
+- invalid ecology zones, habitats, encounter methods, species mappings, or special-class leakage;
 - goto/outcome/combat targets that do not exist;
 - invalid combat encounter/opponent/return-node data.
 
