@@ -206,7 +206,12 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
       if (hasGoto) {
         if (validateTargetShape(choice.goto, choiceAt + ".goto", errors)) {
           const parsed = parseTarget(choice.goto, scene.id);
-          if (parsed.sceneId === scene.id) adjacency.get(nodeId).add(parsed.nodeId);
+          if (parsed.sceneId === scene.id) {
+            adjacency.get(nodeId).add(parsed.nodeId);
+            if (!knownNodes.has(parsed.nodeId)) {
+              errors.push(diag("MISSING_TARGET", "Transition points to missing node: " + choice.goto, choiceAt + ".goto"));
+            }
+          }
           collectTarget(targets, choice.goto, choiceAt + ".goto", scene.id);
         }
         continue;
@@ -238,7 +243,12 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
           validateEffects(outcome.effects, outcomeAt, errors);
           if (validateTargetShape(outcome.goto, outcomeAt + ".goto", errors)) {
             const parsed = parseTarget(outcome.goto, scene.id);
-            if (parsed.sceneId === scene.id) adjacency.get(nodeId).add(parsed.nodeId);
+            if (parsed.sceneId === scene.id) {
+              adjacency.get(nodeId).add(parsed.nodeId);
+              if (!knownNodes.has(parsed.nodeId)) {
+                errors.push(diag("MISSING_TARGET", "Transition points to missing node: " + outcome.goto, outcomeAt + ".goto"));
+              }
+            }
             collectTarget(targets, outcome.goto, outcomeAt + ".goto", scene.id);
           }
         }
@@ -258,7 +268,12 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
 
       if (validateTargetShape(combat.goto, choiceAt + ".combat.goto", errors)) {
         const parsed = parseTarget(combat.goto, scene.id);
-        if (parsed.sceneId === scene.id) adjacency.get(nodeId).add(parsed.nodeId);
+        if (parsed.sceneId === scene.id) {
+          adjacency.get(nodeId).add(parsed.nodeId);
+          if (!knownNodes.has(parsed.nodeId)) {
+            errors.push(diag("MISSING_TARGET", "Transition points to missing node: " + combat.goto, choiceAt + ".combat.goto"));
+          }
+        }
         collectTarget(targets, combat.goto, choiceAt + ".combat.goto", scene.id);
       }
 
@@ -269,7 +284,12 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
           const at = choiceAt + ".combat.returnNodes." + outcome;
           if (validateTargetShape(target, at, errors)) {
             const parsed = parseTarget(target, scene.id);
-            if (parsed.sceneId === scene.id) adjacency.get(nodeId).add(parsed.nodeId);
+            if (parsed.sceneId === scene.id) {
+              adjacency.get(nodeId).add(parsed.nodeId);
+              if (!knownNodes.has(parsed.nodeId)) {
+                errors.push(diag("MISSING_TARGET", "Transition points to missing node: " + target, at));
+              }
+            }
             collectTarget(targets, target, at, scene.id);
           }
         }
