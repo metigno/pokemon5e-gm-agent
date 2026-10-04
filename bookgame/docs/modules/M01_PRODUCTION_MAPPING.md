@@ -108,7 +108,7 @@ Required for:
 
 No arbitrary JavaScript or `eval`. Conditions must be data-driven and compiler validated.
 
-## E2 — Time/calendar mutation
+## E2 — Time/calendar mutation — IMPLEMENTED
 
 Required for:
 
