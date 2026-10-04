@@ -36,8 +36,15 @@ export class Poke5eDataRepository {
   async getMove(id) {
     const pack = await loadPack();
     const move = pack.moves[id];
-    if (!move) throw new Error(`Move not supported by offline core resolver: ${id}`);
+    if (!move) throw new Error(`Move not supported by offline combat pack: ${id}`);
     return structuredClone(move);
+  }
+
+  async getAbility(id) {
+    const pack = await loadPack();
+    const ability = pack.abilities[id];
+    if (!ability) throw new Error(`Ability not supported by offline combat pack: ${id}`);
+    return structuredClone(ability);
   }
 
   async getSupportedMoves(species, level) {
