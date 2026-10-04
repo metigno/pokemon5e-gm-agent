@@ -86,3 +86,17 @@ Checkpoint: CP-HEAL-POKECENTER-01
 - PP unchanged: Bite 4/15, Ember 13/15, Leer 14/15, Howl 9/10.
 - Intimidate remains spent because Pokécenter treatment is not a short rest.
 - Luke remains at ₽2100.
+
+Checkpoint: CP-MANUAL-D1-LUNCH
+
+- Manual Save 1 requested by Luke.
+- Location: Valedarsena — Mercato delle Arcate, World Day 1, around lunch / early afternoon.
+- Growlithe was previously healed at the Centro Pokémon and is at 35/35 HP. PP remains Bite 4/15, Ember 13/15, Leer 14/15, Howl 9/10; Intimidate remains expended until a qualifying short rest.
+- Luke bought Growlithe a very large plain meat meal for ₽120 and an hamburger for himself for ₽80.
+- Luke money: ₽2,100 → ₽1,900.
+- Luke met Dott.ssa Mira Venn and asked about Bulbasaur. No common/recent Valedarsena sighting was established; she suggested Ranger Elio Mar and the Borgo Salice / Foresta Alta area as a plausible lead, not a guaranteed encounter.
+- Luke explored Valedarsena around Mercato delle Arcate and Parco del Canale, discovering the Arena Civica and Darsena Interna.
+- Mattew accepted JOB-01 but postponed departure until after lunch and is currently at the market with Luke and Eevee.
+- Daniel is at the market with Luke and Gastly after checking Arena Civica activity.
+- Fab is at the market with Luke and Koffing.
+- Edward accepted JOB-03 and is already traveling toward Fattoria del Vento with Totodile; he did not return for lunch.
