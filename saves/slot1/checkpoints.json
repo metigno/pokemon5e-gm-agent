@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "save_slot": 1,
-  "next_checkpoint_number": 5,
+  "next_checkpoint_number": 6,
   "checkpoints": [
     {
       "id": "CP-PRE-INTRO",
@@ -42,6 +42,16 @@
       "type": "CP-POST-ANCHOR",
       "result": "certification_passed",
       "summary": "Luke completed certification, received an active Trainer's License, Growlithe recovered after the first official victory, and free roam opened on World Day 1."
+    },
+    {
+      "id": "CP-JOB-02-COMPLETE",
+      "event_id": "JOB-02",
+      "world_day": 1,
+      "trainer_level": 1,
+      "location": "Nearest city — outside the cleared warehouse",
+      "type": "CP-CHAIN",
+      "result": "job_completed",
+      "summary": "Luke and Hisuian Growlithe cleared the warehouse, carried out the bodies of two Rattata and one Raticate, and received the agreed ₽900 reward."
     }
   ]
 }
