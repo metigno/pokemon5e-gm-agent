@@ -1,0 +1,580 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "M01",
+  "id": "m01-ecology-opportunities",
+  "title": "Fauna di Asteria — incontri locali",
+  "locationId": "asteria_m1_ecology",
+  "entryNodeId": "gin_no_sighting",
+  "nodes": {
+    "gin_no_sighting": {
+      "stitches": [
+        {
+          "id": "gin_quiet",
+          "text": "Per qualche minuto osservi solo erba piegata dal vento, insetti lontani e tracce troppo vecchie per diventare un incontro. La fauna non appare a comando."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno al bivio.",
+          "goto": "m01-ginestre-crossroads#crossroads"
+        }
+      ]
+    },
+    "farm_no_sighting": {
+      "stitches": [
+        {
+          "id": "farm_quiet",
+          "text": "L'acqua resta quasi immobile. Qualche segno sulla riva conferma che i Pokémon passano di qui, ma in questo momento nessuno si mostra."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno verso i recinti.",
+          "goto": "m01-farm-first-arrival#approach"
+        }
+      ]
+    },
+    "gin_mareep": {
+      "stitches": [
+        {
+          "id": "mareep_scene",
+          "text": "In un tratto d'erba più bassa trovi un piccolo gruppo di Mareep che bruca senza fretta. Ogni tanto una scarica azzurra corre nella lana di uno di loro."
+        },
+        {
+          "id": "mareep_signal",
+          "text": "Uno alza la testa quando ti vede. Non avanza e non fugge: mantiene il gruppo alla propria destra e lascia aperto un corridoio verso il campo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "mareep_watch",
+          "text": "Resto a distanza e osservo senza interferire.",
+          "goto": "gin_peaceful_return"
+        },
+        {
+          "id": "mareep_approach",
+          "text": "Mi avvicino lentamente, lasciando libera la via di fuga. (CT Animal Handling)",
+          "check": {
+            "ability": "WIS",
+            "skill": "Animal Handling",
+            "dc": 11
+          },
+          "outcomes": {
+            "success": {
+              "goto": "mareep_calm"
+            },
+            "failure": {
+              "goto": "mareep_warning"
+            }
+          }
+        },
+        {
+          "id": "mareep_engage",
+          "text": "Porto avanti il mio Pokémon e provo a ingaggiare un individuo.",
+          "combat": {
+            "encounterId": "M1_WILD_MAREEP_001",
+            "opponent": {
+              "species": "Mareep",
+              "level": 1
+            },
+            "opponentRegistered": false,
+            "goto": "wild_combat_handoff",
+            "returnNodes": {
+              "win": "gin_wild_win",
+              "lose": "gin_wild_loss",
+              "captured": "gin_wild_captured"
+            }
+          }
+        }
+      ]
+    },
+    "mareep_calm": {
+      "stitches": [
+        {
+          "id": "mareep_accepts_distance",
+          "text": "Il Mareep più vicino smette di arretrare. Ti lascia entrare nella sua distanza di attenzione, ma continua a controllare gli altri e il campo dietro di sé."
+        }
+      ],
+      "choices": [
+        {
+          "id": "leave",
+          "text": "Mi fermo qui e torno alla strada.",
+          "goto": "gin_peaceful_return"
+        },
+        {
+          "id": "engage",
+          "text": "Se resta disposto a reggere il confronto, provo a ingaggiarlo col mio Pokémon.",
+          "combat": {
+            "encounterId": "M1_WILD_MAREEP_002",
+            "opponent": {
+              "species": "Mareep",
+              "level": 1
+            },
+            "opponentRegistered": false,
+            "goto": "wild_combat_handoff",
+            "returnNodes": {
+              "win": "gin_wild_win",
+              "lose": "gin_wild_loss",
+              "captured": "gin_wild_captured"
+            }
+          }
+        }
+      ]
+    },
+    "mareep_warning": {
+      "stitches": [
+        {
+          "id": "mareep_warning_signal",
+          "text": "La lana del Mareep crepita più forte e il gruppo si stringe. È un avvertimento evidente: un altro passo aumenterebbe la pressione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_off",
+          "text": "Arretro e lascio che il gruppo si rilassi.",
+          "goto": "gin_peaceful_return"
+        },
+        {
+          "id": "press",
+          "text": "Continuo comunque e porto avanti il mio Pokémon.",
+          "combat": {
+            "encounterId": "M1_WILD_MAREEP_003",
+            "opponent": {
+              "species": "Mareep",
+              "level": 1
+            },
+            "opponentRegistered": false,
+            "goto": "wild_combat_handoff",
+            "returnNodes": {
+              "win": "gin_wild_win",
+              "lose": "gin_wild_loss",
+              "captured": "gin_wild_captured"
+            }
+          }
+        }
+      ]
+    },
+    "gin_wooloo": {
+      "stitches": [
+        {
+          "id": "wooloo_scene",
+          "text": "Tre Wooloo avanzano lungo una fascia d'erba parallela alla strada, mangiando e spostandosi insieme. Quello più vicino si ferma quando nota il movimento del tuo Pokémon."
+        },
+        {
+          "id": "wooloo_space",
+          "text": "Il gruppo non ti circonda né cerca lo scontro. Si compatta appena, pronto a rotolare via se la distanza si chiude troppo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "watch",
+          "text": "Li lascio passare e osservo il gruppo.",
+          "goto": "gin_peaceful_return"
+        },
+        {
+          "id": "handling",
+          "text": "Resto basso e provo a farmi accettare a distanza. (CT Animal Handling)",
+          "check": {
+            "ability": "WIS",
+            "skill": "Animal Handling",
+            "dc": 10
+          },
+          "outcomes": {
+            "success": {
+              "goto": "wooloo_curious"
+            },
+            "failure": {
+              "goto": "gin_peaceful_return"
+            }
+          }
+        },
+        {
+          "id": "engage",
+          "text": "Avanzo con il mio Pokémon e provo a ingaggiare quello rimasto più vicino.",
+          "combat": {
+            "encounterId": "M1_WILD_WOOLOO_001",
+            "opponent": {
+              "species": "Wooloo",
+              "level": 1
+            },
+            "opponentRegistered": false,
+            "goto": "wild_combat_handoff",
+            "returnNodes": {
+              "win": "gin_wild_win",
+              "lose": "gin_wild_loss",
+              "captured": "gin_wild_captured"
+            }
+          }
+        }
+      ]
+    },
+    "wooloo_curious": {
+      "stitches": [
+        {
+          "id": "wooloo_curious_scene",
+          "text": "Uno dei Wooloo resta qualche secondo in più degli altri, annusa l'aria e ti osserva. Non è obbedienza: è curiosità sufficiente a non scappare subito."
+        }
+      ],
+      "choices": [
+        {
+          "id": "leave",
+          "text": "Non trasformo la curiosità in pressione e torno al bivio.",
+          "goto": "gin_peaceful_return"
+        },
+        {
+          "id": "engage",
+          "text": "Porto avanti il mio Pokémon e vedo se accetta il confronto.",
+          "combat": {
+            "encounterId": "M1_WILD_WOOLOO_002",
+            "opponent": {
+              "species": "Wooloo",
+              "level": 1
+            },
+            "opponentRegistered": false,
+            "goto": "wild_combat_handoff",
+            "returnNodes": {
+              "win": "gin_wild_win",
+              "lose": "gin_wild_loss",
+              "captured": "gin_wild_captured"
+            }
+          }
+        }
+      ]
+    },
+    "gin_shinx": {
+      "stitches": [
+        {
+          "id": "shinx_scene",
+          "text": "Tra l'erba e il fossato compare un giovane Shinx. Non sta aspettando un allenatore: sta seguendo piccoli movimenti nel terreno e si interrompe soltanto quando percepisce la tua presenza."
+        },
+        {
+          "id": "shinx_warning",
+          "text": "La pelliccia si illumina per un istante. Il Pokémon resta di traverso, con una via libera alle spalle: può scappare, ma per ora ti sta valutando."
+        }
+      ],
+      "choices": [
+        {
+          "id": "leave",
+          "text": "Non lo inseguo e torno alla strada.",
+          "goto": "gin_peaceful_return"
+        },
+        {
+          "id": "observe",
+          "text": "Studio postura e distanza prima di muovermi. (CT Perception)",
+          "check": {
+            "ability": "WIS",
+            "skill": "Perception",
+            "dc": 11
+          },
+          "outcomes": {
+            "success": {
+              "goto": "shinx_read"
+            },
+            "failure": {
+              "goto": "shinx_tense"
+            }
+          }
+        },
+        {
+          "id": "engage",
+          "text": "Porto avanti il mio Pokémon e provo a trasformare la tensione in un confronto.",
+          "combat": {
+            "encounterId": "M1_WILD_SHINX_001",
+            "opponent": {
+              "species": "Shinx",
+              "level": 1
+            },
+            "opponentRegistered": false,
+            "goto": "wild_combat_handoff",
+            "returnNodes": {
+              "win": "gin_wild_win",
+              "lose": "gin_wild_loss",
+              "captured": "gin_wild_captured"
+            }
+          }
+        }
+      ]
+    },
+    "shinx_read": {
+      "stitches": [
+        {
+          "id": "shinx_escape_read",
+          "text": "Capisci che il lampo nella pelliccia è soprattutto un segnale. Lo Shinx vuole sapere se deve fuggire; non sta cercando una preda."
+        }
+      ],
+      "choices": [
+        {
+          "id": "leave",
+          "text": "Gli lascio la via libera.",
+          "goto": "gin_peaceful_return"
+        },
+        {
+          "id": "engage",
+          "text": "Resto nel suo campo visivo e provo a ingaggiarlo col mio Pokémon.",
+          "combat": {
+            "encounterId": "M1_WILD_SHINX_002",
+            "opponent": {
+              "species": "Shinx",
+              "level": 1
+            },
+            "opponentRegistered": false,
+            "goto": "wild_combat_handoff",
+            "returnNodes": {
+              "win": "gin_wild_win",
+              "lose": "gin_wild_loss",
+              "captured": "gin_wild_captured"
+            }
+          }
+        }
+      ]
+    },
+    "shinx_tense": {
+      "stitches": [
+        {
+          "id": "shinx_tense_scene",
+          "text": "Ti muovi mentre lo Shinx sta già cambiando appoggio. La luce nella pelliccia aumenta e il margine tra avvertimento e reazione si accorcia."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Mi fermo e mi allontano.",
+          "goto": "gin_peaceful_return"
+        },
+        {
+          "id": "engage",
+          "text": "Continuo e porto avanti il mio Pokémon.",
+          "combat": {
+            "encounterId": "M1_WILD_SHINX_003",
+            "opponent": {
+              "species": "Shinx",
+              "level": 1
+            },
+            "opponentRegistered": false,
+            "goto": "wild_combat_handoff",
+            "returnNodes": {
+              "win": "gin_wild_win",
+              "lose": "gin_wild_loss",
+              "captured": "gin_wild_captured"
+            }
+          }
+        }
+      ]
+    },
+    "farm_psyduck": {
+      "stitches": [
+        {
+          "id": "psyduck_scene",
+          "text": "Vicino alla riva trovi un Psyduck mezzo immerso nell'acqua bassa. Si porta entrambe le zampe alla testa, poi resta immobile mentre il rumore dei recinti arriva da lontano."
+        },
+        {
+          "id": "psyduck_context",
+          "text": "Quando nota la tua presenza non ti corre incontro. Si sposta invece di lato per mantenere acqua fra sé e il sentiero."
+        }
+      ],
+      "choices": [
+        {
+          "id": "leave",
+          "text": "Gli lascio spazio e torno ai recinti.",
+          "goto": "farm_peaceful_return"
+        },
+        {
+          "id": "handling",
+          "text": "Mi fermo e provo a ridurre la pressione della mia presenza. (CT Animal Handling)",
+          "check": {
+            "ability": "WIS",
+            "skill": "Animal Handling",
+            "dc": 11
+          },
+          "outcomes": {
+            "success": {
+              "goto": "psyduck_calm"
+            },
+            "failure": {
+              "goto": "psyduck_warning"
+            }
+          }
+        },
+        {
+          "id": "engage",
+          "text": "Porto avanti il mio Pokémon e provo a ingaggiarlo.",
+          "combat": {
+            "encounterId": "M1_WILD_PSYDUCK_001",
+            "opponent": {
+              "species": "Psyduck",
+              "level": 1
+            },
+            "opponentRegistered": false,
+            "goto": "wild_combat_handoff",
+            "returnNodes": {
+              "win": "farm_wild_win",
+              "lose": "farm_wild_loss",
+              "captured": "farm_wild_captured"
+            }
+          }
+        }
+      ]
+    },
+    "psyduck_calm": {
+      "stitches": [
+        {
+          "id": "psyduck_calm_scene",
+          "text": "Il Psyduck smette di allontanarsi. Non si avvicina, ma torna a concentrarsi sull'acqua invece che su di te: la situazione si è de-escalata."
+        }
+      ],
+      "choices": [
+        {
+          "id": "leave",
+          "text": "Lo lascio tranquillo.",
+          "goto": "farm_peaceful_return"
+        },
+        {
+          "id": "engage",
+          "text": "Porto avanti il mio Pokémon e vedo se resta nel confronto.",
+          "combat": {
+            "encounterId": "M1_WILD_PSYDUCK_002",
+            "opponent": {
+              "species": "Psyduck",
+              "level": 1
+            },
+            "opponentRegistered": false,
+            "goto": "wild_combat_handoff",
+            "returnNodes": {
+              "win": "farm_wild_win",
+              "lose": "farm_wild_loss",
+              "captured": "farm_wild_captured"
+            }
+          }
+        }
+      ]
+    },
+    "psyduck_warning": {
+      "stitches": [
+        {
+          "id": "psyduck_warning_scene",
+          "text": "Il Psyduck si irrigidisce e l'acqua attorno alle zampe si agita. Non serve conoscere un'etichetta nascosta per capire che la distanza è diventata importante."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Arretro e chiudo l'incontro senza combattere.",
+          "goto": "farm_peaceful_return"
+        },
+        {
+          "id": "engage",
+          "text": "Continuo e porto avanti il mio Pokémon.",
+          "combat": {
+            "encounterId": "M1_WILD_PSYDUCK_003",
+            "opponent": {
+              "species": "Psyduck",
+              "level": 1
+            },
+            "opponentRegistered": false,
+            "goto": "wild_combat_handoff",
+            "returnNodes": {
+              "win": "farm_wild_win",
+              "lose": "farm_wild_loss",
+              "captured": "farm_wild_captured"
+            }
+          }
+        }
+      ]
+    },
+    "wild_combat_handoff": {
+      "text": "La scena passa al risolutore Pokémon 5e. Danni, AC, HP, PP, condizioni, movimento e cattura vengono determinati soltanto dalle regole meccaniche."
+    },
+    "gin_peaceful_return": {
+      "stitches": [
+        {
+          "id": "gin_peaceful",
+          "text": "L'incontro finisce senza uno scontro. Il Pokémon continua la propria attività e tu torni verso la strada."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno al bivio.",
+          "goto": "m01-ginestre-crossroads#crossroads"
+        }
+      ]
+    },
+    "farm_peaceful_return": {
+      "stitches": [
+        {
+          "id": "farm_peaceful",
+          "text": "Lasci che il Pokémon resti parte del luogo invece di trasformarlo per forza in un combattimento. Poi torni verso la fattoria."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno ai recinti.",
+          "goto": "m01-farm-first-arrival#approach"
+        }
+      ]
+    },
+    "gin_wild_win": {
+      "text": "Il confronto si chiude con il Pokémon selvatico fuori combattimento. Il risultato meccanico resta registrato; la strada continua.",
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno al bivio.",
+          "goto": "m01-ginestre-crossroads#crossroads"
+        }
+      ]
+    },
+    "gin_wild_loss": {
+      "text": "Il confronto si chiude a tuo sfavore. Le conseguenze meccaniche restano quelle prodotte dal combattimento; nessun testo le annulla.",
+      "choices": [
+        {
+          "id": "back",
+          "text": "Quando posso muovermi di nuovo, torno verso il bivio.",
+          "goto": "m01-ginestre-crossroads#crossroads"
+        }
+      ]
+    },
+    "gin_wild_captured": {
+      "text": "La cattura è riuscita secondo le regole Pokémon 5e. Il nuovo Pokémon entra nello stato persistente del roster; non era un premio garantito dalla scena.",
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno al bivio.",
+          "goto": "m01-ginestre-crossroads#crossroads"
+        }
+      ]
+    },
+    "farm_wild_win": {
+      "text": "Il confronto finisce senza che la narrazione sostituisca il risultato del resolver. Il Pokémon selvatico è stato sconfitto e la fattoria resta davanti a te.",
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno ai recinti.",
+          "goto": "m01-farm-first-arrival#approach"
+        }
+      ]
+    },
+    "farm_wild_loss": {
+      "text": "Il confronto si chiude a tuo sfavore. HP, condizioni e altre conseguenze restano quelle determinate dal resolver Pokémon 5e.",
+      "choices": [
+        {
+          "id": "back",
+          "text": "Quando posso, torno verso la fattoria.",
+          "goto": "m01-farm-first-arrival#approach"
+        }
+      ]
+    },
+    "farm_wild_captured": {
+      "text": "La cattura riesce soltanto perché il resolver Pokémon 5e l'ha resa valida. Il Pokémon viene aggiunto al roster persistente.",
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno verso i recinti.",
+          "goto": "m01-farm-first-arrival#approach"
+        }
+      ]
+    }
+  }
+}
