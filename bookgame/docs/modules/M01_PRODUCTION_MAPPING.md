@@ -131,7 +131,7 @@ Required for:
 - `SQ_FARM_HERD_HANDS`;
 - urban/logistics jobs.
 
-## E4 — NPC schedule + relationship state
+## E4 — NPC schedule + relationship state — IMPLEMENTED
 
 Required for:
 
