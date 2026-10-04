@@ -299,7 +299,7 @@
         {
           "name": "Leer",
           "pp_max": 15,
-          "pp_current": 13
+          "pp_current": 12
         },
         {
           "name": "Howl",
@@ -380,7 +380,7 @@
       "training_only": true
     },
     "format": "1v1 singles",
-    "round": 1,
+    "round": 2,
     "player_trainer": "Luke",
     "player_pokemon": "luke-growlithe-hisui-001",
     "opponent_trainer": {
@@ -440,7 +440,7 @@
           {
             "name": "Hone Claws",
             "pp_max": 10,
-            "pp_current": 10
+            "pp_current": 9
           }
         ],
         "status": "active",
@@ -479,9 +479,52 @@
         "round": 0,
         "event": "battle_start",
         "summary": "Luke accepted Lio's one-on-one no-wager training battle."
+      },
+      {
+        "round": 1,
+        "actor": "Luke/Growlithe",
+        "move": "Leer",
+        "target": "Lio/Rookidee",
+        "move_dc": 11,
+        "target_save": {
+          "ability": "WIS",
+          "d20": 6,
+          "modifier": 0,
+          "total": 6
+        },
+        "result": "failed_save",
+        "effect": "+1 to attacks targeting Rookidee for 1 minute",
+        "pp_after": 12
+      },
+      {
+        "round": 1,
+        "actor": "Lio/Rookidee",
+        "move": "Hone Claws",
+        "result": "active",
+        "effect": "+1 to attack and damage rolls for 1 minute",
+        "pp_after": 9
       }
     ],
-    "effects": [],
+    "effects": [
+      {
+        "id": "leer-on-rookidee",
+        "source": "luke-growlithe-hisui-001",
+        "target": "lio-rookidee-001",
+        "effect": "attacks_against_target_bonus",
+        "bonus": 1,
+        "duration_rounds": 10,
+        "remaining_rounds": 10
+      },
+      {
+        "id": "hone-claws-rookidee-1",
+        "source": "lio-rookidee-001",
+        "target": "lio-rookidee-001",
+        "effect": "attack_and_damage_bonus",
+        "bonus": 1,
+        "duration_rounds": 10,
+        "remaining_rounds": 10
+      }
+    ],
     "turn": "Growlithe"
   },
   "gm_private_ref": "gm_private/SECRET_CANON_DO_NOT_OPEN.json",
@@ -656,8 +699,8 @@
     },
     "rule": "NPC intent is scripted; evolution itself must satisfy current Pokemon 5e requirements and campaign causality."
   },
-  "last_saved_at": "2026-10-04T12:52:44+02:00",
-  "save_note": "Luke accepted Lio's 1v1 training battle on Via delle Ginestre. Growlithe 32/35 HP vs Rookidee. Growlithe won initiative 20 to 19 and acts first.",
+  "last_saved_at": "2026-10-04T12:54:40+02:00",
+  "save_note": "Trainer battle vs Lio active. Growlithe used Leer; Rookidee failed WIS save 6+0=6. Growlithe has +1 to attacks vs Rookidee for 1 minute. Rookidee used Hone Claws and has +1 attack/damage for 1 minute. Growlithe 32/35 HP. Growlithe acts next.",
   "job_history": [
     {
       "id": "JOB-02",
