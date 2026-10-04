@@ -66,6 +66,8 @@ test("Eevee can spend an action and a bonus action in the same turn", async () =
   assert.deepEqual(remaining.map((move) => move.id), ["quick-attack"]);
 
   battle = await combat.usePlayerMove(battle, "quick-attack");
+  assert.equal(combat.actor(battle), "player");
+  battle = await combat.endPlayerTurn(battle);
   assert.equal(combat.actor(battle), "opponent");
   assert.equal(battle.player.pp["tackle"], 19);
   assert.equal(battle.player.pp["quick-attack"], 14);
@@ -82,6 +84,7 @@ test("Ember can burn a non-Fire target and Burned uses the lower damage roll plu
   battle = await combat.usePlayerMove(battle, "ember");
   assert.equal(battle.opponent.statuses.nonVolatile, "Burned");
 
+  battle = await combat.endPlayerTurn(battle);
   battle = await combat.advanceToPlayerOrEnd(battle);
   const tackle = battle.log.find((entry) => entry.type === "attack" && entry.actor === "opponent");
   assert.equal(tackle.moveId, "tackle");
@@ -106,6 +109,7 @@ test("Bite on natural 19 flinches and the next attack is made with disadvantage"
   battle = await combat.usePlayerMove(battle, "bite");
   assert.equal(battle.opponent.statuses.flinchedTurns, 1);
 
+  battle = await combat.endPlayerTurn(battle);
   battle = await combat.advanceToPlayerOrEnd(battle);
   const attack = battle.log.find((entry) => entry.type === "attack" && entry.actor === "opponent");
   assert.equal(attack.attackRoll.mode, "disadvantage");
@@ -124,6 +128,7 @@ test("Lick on natural 18 paralyzes and a 1 on d4 skips the target turn", async (
   battle = await combat.usePlayerMove(battle, "lick");
   assert.equal(battle.opponent.statuses.nonVolatile, "Paralysis");
 
+  battle = await combat.endPlayerTurn(battle);
   battle = await combat.advanceToPlayerOrEnd(battle);
   const skipped = battle.log.find((entry) => entry.type === "turn_skipped" && entry.actor === "opponent");
   assert.equal(skipped.reason, "Paralysis");
@@ -194,6 +199,7 @@ test("Early Bird gives advantage on the end-turn wake check", async () => {
   battle = await combat.usePlayerMove(battle, "hypnosis");
   assert.equal(battle.opponent.statuses.nonVolatile, "Asleep");
 
+  battle = await combat.endPlayerTurn(battle);
   battle = await combat.advanceToPlayerOrEnd(battle);
   const wake = battle.log.find((entry) => entry.type === "wake_check" && entry.actor === "opponent");
   assert.equal(wake.advantage, true);
