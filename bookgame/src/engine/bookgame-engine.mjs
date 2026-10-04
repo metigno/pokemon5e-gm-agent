@@ -8,6 +8,7 @@ import { applyQuestEffect, getQuestJournal, processQuestDeadlines } from "./ques
 import { applyNpcEffect, refreshNpcSchedules } from "./npc-state.mjs";
 import { processWorldEvents } from "./world-events.mjs";
 import { applyCompetitionEffect, beginCompetitionMatch, resolveCompetitionMatch } from "./competition-state.mjs";
+import { recordWildEncounter, selectOrdinaryEncounter } from "./ecology.mjs";
 
 function clone(value) {
   return structuredClone(value);
@@ -87,12 +88,14 @@ export class BookgameEngine {
     scenes = new SceneRepository(),
     dice = new CryptoDice(),
     now = () => new Date().toISOString(),
-    worldEvents = null
+    worldEvents = null,
+    ecology = null
   } = {}) {
     this.scenes = scenes;
     this.dice = dice;
     this.now = now;
     this.worldEvents = worldEvents;
+    this.ecology = ecology;
   }
 
   async loadWorldEvents() {
@@ -101,6 +104,14 @@ export class BookgameEngine {
       return this.scenes.loadWorldEvents();
     }
     return [];
+  }
+
+  async loadEcology() {
+    if (this.ecology) return this.ecology;
+    if (typeof this.scenes.loadEcology === "function") {
+      return this.scenes.loadEcology();
+    }
+    return null;
   }
 
   async present(state) {
@@ -170,7 +181,25 @@ export class BookgameEngine {
       }
     }
 
-    if (choice.check) {
+    if (choice.ecology) {
+      const catalog = await this.loadEcology();
+      if (!catalog) throw new Error("Ecology catalog is not available");
+      applyEffects(next, choice.effects);
+      const encounter = selectOrdinaryEncounter(next, catalog, choice.ecology, this.dice);
+      const targetRef = encounter
+        ? choice.ecology.returnNodes[encounter.speciesId]
+        : choice.ecology.returnNodes.noEncounter;
+      if (!targetRef) throw new Error("Ecology request has no authored return target");
+      if (encounter) {
+        recordWildEncounter(next, encounter);
+        historyEntry.ecology = clone(encounter);
+      } else {
+        historyEntry.ecology = { requestId: choice.ecology.requestId, result: "no_encounter" };
+      }
+      const target = applyTarget(next, targetRef, scene.id);
+      historyEntry.toSceneId = target.sceneId;
+      historyEntry.toNodeId = target.nodeId;
+    } else if (choice.check) {
       const modifier = getCheckModifier(next, choice.check);
       const roll = rollD20(this.dice, modifier);
       const passed = roll.total >= choice.check.dc;
