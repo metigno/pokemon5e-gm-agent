@@ -313,7 +313,7 @@
         "demeanor": "curious_and_receptive"
       },
       "last_command_response": "Obeyed a lethal Bite command against the second active warehouse Rattata; did not eat the body and returned to Luke.",
-      "last_interaction": "Luke bought Growlithe a very large portion of plain roasted meat at Mercato delle Arcate after his Pokécenter recovery. Growlithe ate enthusiastically and rested near Luke during lunch.",
+      "last_interaction": "Luke praised Growlithe after the Shinx encounter and told him they need to finish their opponents to gain EXP. Growlithe received 200 XP because forcing the Shinx to flee counted as a decisive defeat; killing is not required.",
       "resources": {
         "intimidate": {
           "uses_per_short_rest": 1,
@@ -327,7 +327,20 @@
         1,
         2
       ],
-      "medical_status": "fully_recovered"
+      "medical_status": "fully_recovered",
+      "experience": {
+        "current_xp": 6200,
+        "level_floor_xp": 6000,
+        "next_level_xp": 12000,
+        "tracking_started_at": "Via delle Ginestre — Shinx training encounter",
+        "note": "Explicit XP tracking initialized from the minimum XP for current Level 5. Do not infer unlogged prior XP without reconciliation.",
+        "last_gain": {
+          "amount": 200,
+          "source": "Wild Shinx Lv.4, SR 1/4",
+          "resolution": "decisively defeated; fled while badly wounded",
+          "formula_2024": "200 × level × SR = 200 × 4 × 0.25 = 200"
+        }
+      }
     }
   ],
   "pc_storage": [],
@@ -348,188 +361,7 @@
       "notes": "Told Luke that Bulbasaur are not a known common sight in Valedarsena and suggested asking Ranger Elio Mar; Borgo Salice / Foresta Alta is a plausible habitat lead, not a guaranteed sighting."
     }
   ],
-  "active_combat": {
-    "type": "wild_training_encounter",
-    "status": "ended_by_wild_retreat",
-    "round": 3,
-    "player_trainer": "Luke",
-    "player_pokemon": "luke-growlithe-hisui-001",
-    "opponents": [
-      {
-        "id": "wild-shinx-ginestre-d1-001",
-        "species": "Shinx",
-        "level": 4,
-        "gender": "female",
-        "hp": 6,
-        "max_hp": 26,
-        "ac": 11,
-        "ability": "Intimidate",
-        "ability_resource": {
-          "uses_per_short_rest": 1,
-          "remaining": 1
-        },
-        "disposition": "frightened_and_retreating",
-        "status": "fled",
-        "hidden_from_player": {
-          "level": true,
-          "exact_hp": true,
-          "ability": true
-        },
-        "moves": [
-          {
-            "name": "Tackle",
-            "pp_max": 20,
-            "pp_current": 18
-          },
-          {
-            "name": "Leer",
-            "pp_max": 15,
-            "pp_current": 15
-          }
-        ]
-      }
-    ],
-    "environment": {
-      "location": "Via delle Ginestre — bordo dei campi",
-      "terrain": "grassland with roadside ditch and low fencing",
-      "distance_ft": 20
-    },
-    "initiative": {
-      "Growlithe": {
-        "d20": 7,
-        "modifier": 1,
-        "total": 8
-      },
-      "Shinx": {
-        "d20": 19,
-        "modifier": 1,
-        "total": 20
-      },
-      "order": [
-        "Shinx",
-        "Growlithe"
-      ]
-    },
-    "history": [
-      {
-        "round": 0,
-        "actor": "Luke/Growlithe",
-        "move": "Leer",
-        "target": "Wild Shinx",
-        "move_dc": 11,
-        "target_save": {
-          "ability": "WIS",
-          "d20": 1,
-          "modifier": 0,
-          "total": 1
-        },
-        "result": "failed_save",
-        "effect": "+1 to attacks targeting Shinx for 1 minute",
-        "pp_after": 13
-      },
-      {
-        "round": 1,
-        "actor": "Wild Shinx",
-        "move": "Tackle",
-        "attack_roll": {
-          "d20": 16,
-          "modifier": 3,
-          "total": 19
-        },
-        "target": "Luke/Growlithe",
-        "result": "hit",
-        "damage": {
-          "dice": [
-            5
-          ],
-          "move": 1,
-          "total_before_resistance": 6,
-          "type": "Normal",
-          "resistance_applied": true,
-          "total_after_resistance": 3
-        },
-        "target_hp_after": 32
-      },
-      {
-        "round": 1,
-        "actor": "Luke/Growlithe",
-        "move": "Ember",
-        "attack_roll": {
-          "d20": 9,
-          "base_modifier": 5,
-          "leer_bonus": 1,
-          "total": 15
-        },
-        "target": "Wild Shinx",
-        "result": "hit",
-        "damage": {
-          "dice": [
-            12
-          ],
-          "move": 2,
-          "total": 14,
-          "type": "Fire"
-        },
-        "burn_trigger": false,
-        "target_hp_after": 12,
-        "pp_after": 12
-      },
-      {
-        "round": 2,
-        "actor": "Wild Shinx",
-        "move": "Tackle",
-        "attack_roll": {
-          "d20": 7,
-          "modifier": 3,
-          "total": 10
-        },
-        "target": "Luke/Growlithe",
-        "result": "miss"
-      },
-      {
-        "round": 2,
-        "actor": "Luke/Growlithe",
-        "move": "Ember",
-        "attack_roll": {
-          "d20": 6,
-          "base_modifier": 5,
-          "leer_bonus": 1,
-          "total": 12
-        },
-        "target": "Wild Shinx",
-        "result": "hit",
-        "damage": {
-          "dice": [
-            4
-          ],
-          "move": 2,
-          "total": 6,
-          "type": "Fire"
-        },
-        "burn_trigger": false,
-        "target_hp_after": 6,
-        "pp_after": 11
-      },
-      {
-        "round": 3,
-        "actor": "Wild Shinx",
-        "action": "Disengage and flee",
-        "result": "retreated through the roadside grass after being badly wounded; encounter ends unless pursued"
-      }
-    ],
-    "effects": [
-      {
-        "id": "leer-on-shinx",
-        "source": "luke-growlithe-hisui-001",
-        "target": "wild-shinx-ginestre-d1-001",
-        "effect": "attacks_against_target_bonus",
-        "bonus": 1,
-        "duration_rounds": 10,
-        "remaining_rounds": 7
-      }
-    ],
-    "turn": "Luke"
-  },
+  "active_combat": null,
   "gm_private_ref": "gm_private/SECRET_CANON_DO_NOT_OPEN.json",
   "character_bible_ref": "canon/ROSTER2060_CHARACTER_BIBLE.json",
   "runtime": {
@@ -702,8 +534,8 @@
     },
     "rule": "NPC intent is scripted; evolution itself must satisfy current Pokemon 5e requirements and campaign causality."
   },
-  "last_saved_at": "2026-10-04T12:41:54+02:00",
-  "save_note": "Via delle Ginestre training encounter: Growlithe hit Shinx with a second Ember for 6 damage. Shinx dropped to 6/26 HP, disengaged and fled into the grass. Growlithe remains 32/35 HP. Ember 11/15.",
+  "last_saved_at": "2026-10-04T12:43:03+02:00",
+  "save_note": "Via delle Ginestre training: wild Shinx decisively defeated by retreat. Growlithe gained 200 XP and is 32/35 HP. Explicit XP tracking now active at 6200/12000 toward Level 6.",
   "job_history": [
     {
       "id": "JOB-02",
