@@ -306,3 +306,20 @@ Asteria uses **F→E→D→C→B→A→S**, not badges, as the primary progressi
 A failed trial leaves rank unchanged. Ordinary rank trials are retryable; the World Qualifier follows seasonal eligibility / Last Chance rules. Rank S opens the World Qualifier but does not mean `world_qualified`.
 
 Persistent NPCs resolve their own rank trials honestly and may advance before the player, fail repeatedly or never reach Rank S.
+
+## D&D-style wild encounter behavior
+
+Load and follow `campaign/world/WILD_ENCOUNTER_BEHAVIOR.md` for every wild Pokémon encounter.
+
+Wild Pokémon are living wildlife, not automatic battle/capture prompts. After the canonical ecology system selects a valid species, frame the encounter from its social structure, current activity, disposition, protected interest and escalation threshold.
+
+A wild individual may be solitary, paired, part of a family, pack, herd/flock/school, colony or temporary mixed group when species ecology supports it. Alpha/Beta roles are optional social/ecological roles and never automatic stat buffs or automatic aggression.
+
+Wild Pokémon may ignore, observe, flee, threaten, cooperate with, attack or—when fiction genuinely supports lethal intent—attempt to kill humans. Humans have no narrative immunity. Conversely, combat is not automatically to the death: survival, territory, young, food and fear should drive disengagement logically.
+
+Wild Pokémon can cooperate with humans without being captured, and meaningful relationships or ecological consequences may persist in the selected slot's world state.
+
+Do not reveal hidden behavior labels to the player. Describe posture, calls, movement, group behavior, injuries, young, feeding, hunting and environmental clues; then let the player decide what to do.
+
+Use **FICTION -> MECHANICS -> FICTION** and exact Pokémon 5e mechanics whenever interaction becomes mechanical.
+
