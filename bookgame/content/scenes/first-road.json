@@ -57,7 +57,20 @@
             "returnNodes": {
               "win": "combat_win",
               "lose": "combat_loss",
-              "fled": "houndour_fled"
+              "fled": "houndour_fled",
+              "captured": "houndour_captured"
+            },
+            "trainerPosition": {
+              "x": 0,
+              "y": 0
+            },
+            "playerPosition": {
+              "x": 0,
+              "y": 0
+            },
+            "opponentPosition": {
+              "x": 20,
+              "y": 0
             }
           }
         },
@@ -116,7 +129,20 @@
             "returnNodes": {
               "win": "combat_win",
               "lose": "combat_loss",
-              "fled": "houndour_fled"
+              "fled": "houndour_fled",
+              "captured": "houndour_captured"
+            },
+            "trainerPosition": {
+              "x": 0,
+              "y": 0
+            },
+            "playerPosition": {
+              "x": 0,
+              "y": 0
+            },
+            "opponentPosition": {
+              "x": 20,
+              "y": 0
             }
           }
         },
@@ -166,7 +192,20 @@
             "returnNodes": {
               "win": "combat_win",
               "lose": "combat_loss",
-              "fled": "houndour_fled"
+              "fled": "houndour_fled",
+              "captured": "houndour_captured"
+            },
+            "trainerPosition": {
+              "x": 0,
+              "y": 0
+            },
+            "playerPosition": {
+              "x": 0,
+              "y": 0
+            },
+            "opponentPosition": {
+              "x": 20,
+              "y": 0
             }
           }
         }
@@ -209,6 +248,16 @@
     "road_continue": {
       "text": "Lasci alle spalle la pozzanghera e continui lungo il sentiero. Il vertical slice termina qui, ma lo stato della scena è già parte del salvataggio.",
       "choices": []
+    },
+    "houndour_captured": {
+      "text": "La Pokéball si richiude e resta immobile sull'erba. Houndour è stato catturato: il motore conserva livello, HP, condizioni e stato al momento della cattura prima di restituirti alla storia.",
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Riprendo il cammino.",
+          "goto": "road_continue"
+        }
+      ]
     }
   }
 }
