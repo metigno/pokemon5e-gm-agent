@@ -79,20 +79,24 @@
           }
         },
         {
-          "id": "pond_wildlife",
-          "text": "Prima di decidere, controllo con calma il piccolo specchio d'acqua oltre i recinti.",
-          "timeCostMinutes": 15,
+          "id": "field_wildlife",
+          "text": "Prima di decidere, osservo la fascia di pascolo oltre i recinti.",
+          "timeCostMinutes": 20,
           "ecology": {
-            "requestId": "M1_FARM_POND_01",
+            "requestId": "M1_FARM_GRASSLAND_01",
             "zoneId": "AST-FARM",
-            "habitat": "pond",
+            "habitat": "grassland",
             "method": "wild_observation",
             "allowedSpecies": [
-              "psyduck"
+              "wooloo",
+              "shinx",
+              "growlithe-hisui"
             ],
             "returnNodes": {
               "noEncounter": "m01-ecology-opportunities#farm_no_sighting",
-              "psyduck": "m01-ecology-opportunities#farm_psyduck"
+              "wooloo": "m01-ecology-opportunities#farm_wooloo",
+              "shinx": "m01-ecology-opportunities#farm_shinx",
+              "growlithe-hisui": "m01-ecology-opportunities#farm_hisuian_growlithe"
             }
           }
         },
