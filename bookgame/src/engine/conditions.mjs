@@ -5,6 +5,8 @@ const FIXED_PATHS = new Set([
   "player.trainerLevel",
   "player.roster.length",
   "world.day",
+  "world.elapsedMinutes",
+  "world.minuteOfDay",
   "world.time",
   "world.locationId",
   "story.sceneId",
