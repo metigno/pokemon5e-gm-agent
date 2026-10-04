@@ -1,3 +1,4 @@
+import { attackHasDisadvantage, damageHasDisadvantage, saveHasDisadvantage } from "./status.mjs";
 import { typeMultiplier } from "./type-chart.mjs";
 
 export const DICE_CLASSES = {
@@ -55,7 +56,7 @@ export function bestMoveAttribute(move, attributes) {
 }
 
 export function damageDiceForLevel(move, level) {
-  if (!move.dice) throw new Error(`Move ${move.id} has no damage dice`);
+  if (!move.dice) return null;
   const tier = (level >= 5 ? 1 : 0) + (level >= 10 ? 1 : 0) + (level >= 17 ? 1 : 0);
   if (move.dice.class === "custom") return move.dice.tiers[tier];
   const tiers = DICE_CLASSES[move.dice.class];
@@ -63,11 +64,34 @@ export function damageDiceForLevel(move, level) {
   return tiers[tier];
 }
 
+function stabFor(combatant, move, pb) {
+  if (!combatant.types.includes(move.type)) return 0;
+  let stab = pb;
+
+  if (
+    combatant.abilityId === "torrent" &&
+    move.type === "water" &&
+    combatant.hp.current <= Math.floor(combatant.hp.max * 0.25)
+  ) {
+    stab *= 2;
+  }
+
+  if (
+    combatant.abilityId === "flash-fire" &&
+    combatant.abilityState?.flashFireCharged &&
+    move.type === "fire"
+  ) {
+    stab *= 2;
+  }
+
+  return stab;
+}
+
 export function calculateMoveStats(combatant, move) {
   const attribute = bestMoveAttribute(move, combatant.attributes);
   const moveMod = attribute ? abilityModifier(combatant.attributes[attribute]) : 0;
   const pb = proficiencyBonus(combatant.level);
-  const stab = combatant.types.includes(move.type) ? pb : 0;
+  const stab = stabFor(combatant, move, pb);
 
   let damageModifier = stab;
   const code = move.dice?.modifier;
@@ -87,9 +111,32 @@ export function calculateMoveStats(combatant, move) {
     moveModifier: moveMod,
     proficiencyBonus: pb,
     toHit: move.attack ? pb + moveMod : null,
+    saveDc: move.save ? 8 + pb + moveMod : null,
+    saveAttribute: move.save?.attribute ?? null,
     damageDice: damageDiceForLevel(move, combatant.level),
     damageModifier,
     stab
+  };
+}
+
+export function rollD20(dice, { advantage = false, disadvantage = false } = {}) {
+  if (advantage && disadvantage) {
+    advantage = false;
+    disadvantage = false;
+  }
+
+  const count = advantage || disadvantage ? 2 : 1;
+  const rolls = Array.from({ length: count }, () => dice.roll(20));
+  const natural = advantage
+    ? Math.max(...rolls)
+    : disadvantage
+      ? Math.min(...rolls)
+      : rolls[0];
+
+  return {
+    rolls,
+    natural,
+    mode: advantage ? "advantage" : disadvantage ? "disadvantage" : "normal"
   };
 }
 
@@ -103,21 +150,80 @@ export function rollExpression(expression, dice, { critical = false } = {}) {
   return { expression: `${count}d${sides}`, rolls, total: rolls.reduce((a, b) => a + b, 0) };
 }
 
-export function resolveAttack({ attacker, defender, move, dice }) {
-  const stats = calculateMoveStats(attacker, move);
-  if (stats.toHit == null) throw new Error(`Move ${move.id} is not an attack-roll move`);
+function rollDamage(expression, dice, { critical = false, disadvantage = false } = {}) {
+  const first = rollExpression(expression, dice, { critical });
+  if (!disadvantage) return { selected: first, attempts: [first], mode: "normal" };
 
-  const natural = dice.roll(20);
-  const attackTotal = natural + stats.toHit;
-  const critical = natural === 20;
-  const hit = critical || (natural !== 1 && attackTotal >= defender.ac);
+  const second = rollExpression(expression, dice, { critical });
+  return {
+    selected: first.total <= second.total ? first : second,
+    attempts: [first, second],
+    mode: "disadvantage"
+  };
+}
+
+function abilityImmunity(defender, moveType) {
+  if (defender.abilityId === "levitate" && moveType === "ground") return "levitate";
+  if (defender.abilityId === "flash-fire" && moveType === "fire") return "flash-fire";
+  return null;
+}
+
+export function resolveSavingThrow({
+  defender,
+  attribute,
+  dc,
+  dice,
+  advantage = false,
+  disadvantage = false
+}) {
+  const statusDisadvantage = saveHasDisadvantage(defender, attribute);
+  const roll = rollD20(dice, {
+    advantage,
+    disadvantage: disadvantage || statusDisadvantage
+  });
+  const modifier =
+    abilityModifier(defender.attributes[attribute]) +
+    (defender.savingThrows.includes(attribute) ? proficiencyBonus(defender.level) : 0);
+  const total = roll.natural + modifier;
+
+  return {
+    attribute,
+    dc,
+    modifier,
+    total,
+    success: total >= dc,
+    ...roll
+  };
+}
+
+export function resolveAttack({
+  attacker,
+  defender,
+  move,
+  dice,
+  extraAttackModifier = 0,
+  forceDisadvantage = false
+}) {
+  const stats = calculateMoveStats(attacker, move);
+  if (stats.toHit == null || stats.damageDice == null) {
+    throw new Error(`Move ${move.id} is not a supported damaging attack-roll move`);
+  }
+
+  const attackRoll = rollD20(dice, {
+    disadvantage: forceDisadvantage || attackHasDisadvantage(attacker)
+  });
+  const attackModifier = stats.toHit + extraAttackModifier;
+  const attackTotal = attackRoll.natural + attackModifier;
+  const critical = attackRoll.natural === 20;
+  const hit = critical || (attackRoll.natural !== 1 && attackTotal >= defender.ac);
 
   if (!hit) {
     return {
       moveId: move.id,
       moveName: move.name,
-      natural,
-      attackModifier: stats.toHit,
+      attackRoll,
+      natural: attackRoll.natural,
+      attackModifier,
       attackTotal,
       defenderAc: defender.ac,
       hit: false,
@@ -128,9 +234,13 @@ export function resolveAttack({ attacker, defender, move, dice }) {
     };
   }
 
-  const rolled = rollExpression(stats.damageDice, dice, { critical });
-  const rawDamage = Math.max(0, rolled.total + stats.damageModifier);
-  const multiplier = typeMultiplier(move.type, defender.types);
+  const damageRoll = rollDamage(stats.damageDice, dice, {
+    critical,
+    disadvantage: damageHasDisadvantage(attacker)
+  });
+  const rawDamage = Math.max(0, damageRoll.selected.total + stats.damageModifier);
+  const immunityAbility = abilityImmunity(defender, move.type);
+  const multiplier = immunityAbility ? 0 : typeMultiplier(move.type, defender.types);
   const damage = multiplier === 0.5
     ? Math.floor(rawDamage / 2)
     : rawDamage * multiplier;
@@ -138,18 +248,47 @@ export function resolveAttack({ attacker, defender, move, dice }) {
   return {
     moveId: move.id,
     moveName: move.name,
-    natural,
-    attackModifier: stats.toHit,
+    attackRoll,
+    natural: attackRoll.natural,
+    attackModifier,
     attackTotal,
     defenderAc: defender.ac,
     hit: true,
     critical,
-    damageRoll: rolled,
+    damageRoll,
     damageModifier: stats.damageModifier,
     rawDamage,
     damage,
     damageType: move.type,
     typeMultiplier: multiplier,
+    immunityAbility,
     stab: stats.stab
+  };
+}
+
+export function resolveSaveMove({ attacker, defender, move, dice }) {
+  const stats = calculateMoveStats(attacker, move);
+  if (stats.saveDc == null || stats.saveAttribute == null) {
+    throw new Error(`Move ${move.id} is not a save move`);
+  }
+
+  const targetAdvantage =
+    attacker.statuses?.flinchedTurns > 0 &&
+    move.time?.unit === "action";
+
+  const save = resolveSavingThrow({
+    defender,
+    attribute: stats.saveAttribute,
+    dc: stats.saveDc,
+    dice,
+    advantage: targetAdvantage
+  });
+
+  return {
+    moveId: move.id,
+    moveName: move.name,
+    save,
+    saveDc: stats.saveDc,
+    saveAttribute: stats.saveAttribute
   };
 }
