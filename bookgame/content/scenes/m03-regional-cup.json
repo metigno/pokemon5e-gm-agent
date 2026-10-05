@@ -1,0 +1,947 @@
+{
+  "schemaVersion": 1,
+  "id": "m03-regional-cup",
+  "moduleId": "M03",
+  "title": "M3_10 — Regional Cup",
+  "locationId": "fer_city_arena",
+  "entryNodeId": "cup_board",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m2_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m03_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m3_active",
+        "eq": true
+      },
+      {
+        "path": "world.flags.a3_regional_cup_available",
+        "eq": true
+      },
+      {
+        "path": "world.flags.regional_cup_complete",
+        "ne": true
+      },
+      {
+        "path": "competition.rankOrder",
+        "gte": 2
+      }
+    ]
+  },
+  "nodes": {
+    "cup_board": {
+      "stitches": [
+        {
+          "id": "cup_board_1",
+          "text": "La Regional Cup di Ferravia occupa l'Officina Arena per una giornata. È un torneo opzionale: prestigio e risultati contano, ma non sostituiscono il Promotion Trial D→C."
+        },
+        {
+          "id": "cup_board_2",
+          "text": "Il tabellone è a eliminazione diretta. Ogni match è ufficiale e usa il roster reale; perdere chiude la tua corsa senza modificare il Rank."
+        }
+      ],
+      "choices": [
+        {
+          "id": "cup_info",
+          "text": "Leggo formato, orari e regole prima di decidere.",
+          "goto": "cup_info"
+        },
+        {
+          "id": "cup_register",
+          "text": "Mi iscrivo alla Regional Cup.",
+          "conditions": {
+            "path": "world.flags.regional_cup_registered",
+            "ne": true
+          },
+          "goto": "cup_registration",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_registered",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "cup_decline",
+          "text": "Non partecipo alla Regional Cup.",
+          "conditions": {
+            "path": "world.flags.regional_cup_registered",
+            "ne": true
+          },
+          "goto": "cup_declined"
+        },
+        {
+          "id": "cup_resume",
+          "text": "Sono già iscritto: torno al tabellone.",
+          "conditions": {
+            "path": "world.flags.regional_cup_registered",
+            "eq": true
+          },
+          "goto": "quarterfinal_announce"
+        }
+      ]
+    },
+    "cup_info": {
+      "stitches": [
+        {
+          "id": "cup_info_1",
+          "text": "Formato Singles, tre Pokémon ufficiali per match. Quarti, semifinale e finale se continui a vincere. I Pokémon avversari sono registrati: non sono catturabili."
+        },
+        {
+          "id": "cup_info_2",
+          "text": "Il torneo registra ogni risultato nella storia competitiva. Non esiste un percorso narrativo che trasformi una sconfitta in vittoria."
+        }
+      ],
+      "choices": [
+        {
+          "id": "register_after_info",
+          "text": "Mi iscrivo sapendo cosa comporta.",
+          "goto": "cup_registration",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_registered",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "decline_after_info",
+          "text": "Non è la mia priorità.",
+          "goto": "cup_declined"
+        },
+        {
+          "id": "back_board",
+          "text": "Torno al tabellone.",
+          "goto": "cup_board"
+        }
+      ]
+    },
+    "cup_registration": {
+      "stitches": [
+        {
+          "id": "cup_reg_1",
+          "text": "La registrazione fissa la tua presenza nel bracket, non una squadra narrativa separata. Il match userà il roster reale che il motore possiede in questo momento."
+        }
+      ],
+      "choices": [
+        {
+          "id": "check_roster",
+          "text": "Controllo se ho almeno tre Pokémon disponibili nel roster.",
+          "goto": "cup_roster_check"
+        },
+        {
+          "id": "to_qf",
+          "text": "Vado ai quarti di finale.",
+          "conditions": {
+            "path": "player.roster.length",
+            "gte": 3
+          },
+          "goto": "quarterfinal_announce"
+        },
+        {
+          "id": "withdraw_early",
+          "text": "Ritiro l'iscrizione prima del primo match.",
+          "goto": "cup_withdrawn",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_withdrew",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "cup_roster_check": {
+      "stitches": [
+        {
+          "id": "cup_roster_1",
+          "text": "La Cup non crea Pokémon per renderti eleggibile. Servono almeno tre membri reali nel roster per iniziare un match ufficiale a tre."
+        }
+      ],
+      "choices": [
+        {
+          "id": "roster_ok",
+          "text": "Il roster è sufficiente: vado ai quarti.",
+          "conditions": {
+            "path": "player.roster.length",
+            "gte": 3
+          },
+          "goto": "quarterfinal_announce"
+        },
+        {
+          "id": "roster_short",
+          "text": "Non ho ancora tre Pokémon: torno a prepararmi.",
+          "conditions": {
+            "path": "player.roster.length",
+            "lt": 3
+          },
+          "goto": "cup_pause"
+        },
+        {
+          "id": "roster_back",
+          "text": "Torno alla registrazione.",
+          "goto": "cup_registration"
+        }
+      ]
+    },
+    "cup_pause": {
+      "stitches": [
+        {
+          "id": "cup_pause_1",
+          "text": "La finestra della Cup resta una scelta del calendario. Non ricevi membri temporanei né bypass di roster."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pause_hub",
+          "text": "Torno a Ferravia.",
+          "goto": "m03-ferravia-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        },
+        {
+          "id": "pause_withdraw",
+          "text": "Ritiro formalmente l'iscrizione.",
+          "goto": "cup_withdrawn",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_withdrew",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "quarterfinal_announce": {
+      "stitches": [
+        {
+          "id": "qf_1",
+          "text": "Quarti di finale. L'avversaria registrata è Mira Doss, trainer regionale con un approccio ordinato alle resistenze. Il profilo pubblico non rivela mosse o HP nascosti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "qf_scout",
+          "text": "Studio soltanto le informazioni pubbliche disponibili.",
+          "goto": "quarterfinal_scout"
+        },
+        {
+          "id": "qf_start",
+          "text": "Entro nel match dei quarti.",
+          "goto": "quarterfinal_handoff"
+        },
+        {
+          "id": "qf_forfeit",
+          "text": "Non mi presento: forfait e torneo finito.",
+          "goto": "cup_forfeit"
+        }
+      ]
+    },
+    "quarterfinal_scout": {
+      "stitches": [
+        {
+          "id": "qf_scout_1",
+          "text": "Il registro mostra risultati recenti e preferenza per cambi prudenti. È scouting pubblico, non conoscenza delle mosse correnti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "qf_after_scout",
+          "text": "Entro nel match.",
+          "goto": "quarterfinal_handoff",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_qf_scouted",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "qf_back",
+          "text": "Torno all'annuncio.",
+          "goto": "quarterfinal_announce"
+        }
+      ]
+    },
+    "quarterfinal_handoff": {
+      "stitches": [
+        {
+          "id": "qf_handoff_1",
+          "text": "Il giudice chiama i roster. Da questo punto il risultato appartiene al resolver Pokémon 5e e a E5."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fight_qf",
+          "text": "Inizio il quarto di finale.",
+          "combat": {
+            "encounterId": "M3_REGIONAL_CUP_QF",
+            "opponentRegistered": true,
+            "competition": {
+              "type": "official_match",
+              "matchId": "A3_REGIONAL_CUP_QF",
+              "format": "Singles",
+              "officialRosterSize": 3,
+              "difficulty": "HARD",
+              "opponentTrainerId": "FER_CUP_MIRA_DOSS"
+            },
+            "returnNodes": {
+              "win": "quarterfinal_win",
+              "lose": "quarterfinal_loss"
+            }
+          }
+        }
+      ]
+    },
+    "quarterfinal_win": {
+      "stitches": [
+        {
+          "id": "qf_win_1",
+          "text": "Il risultato ufficiale è una vittoria. Sei in semifinale; il record E5 esiste indipendentemente dalla narrazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "qf_win_continue",
+          "text": "Proseguo verso la semifinale.",
+          "goto": "semifinal_announce",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_qf_result",
+              "value": "win"
+            }
+          ]
+        },
+        {
+          "id": "qf_win_withdraw",
+          "text": "Mi ritiro dopo i quarti.",
+          "goto": "cup_eliminated",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_qf_result",
+              "value": "win"
+            },
+            {
+              "type": "set_flag",
+              "key": "regional_cup_withdrew",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "quarterfinal_loss": {
+      "stitches": [
+        {
+          "id": "qf_loss_1",
+          "text": "Il risultato ufficiale è una sconfitta. Non c'è ramo che ti faccia avanzare comunque."
+        }
+      ],
+      "choices": [
+        {
+          "id": "qf_loss_close",
+          "text": "Accetto l'eliminazione.",
+          "goto": "cup_eliminated",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_qf_result",
+              "value": "loss"
+            }
+          ]
+        },
+        {
+          "id": "qf_loss_review",
+          "text": "Rivedo il match senza alterarne il risultato.",
+          "goto": "cup_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_qf_result",
+              "value": "loss"
+            }
+          ]
+        }
+      ]
+    },
+    "semifinal_announce": {
+      "stitches": [
+        {
+          "id": "sf_1",
+          "text": "Semifinale. Il prossimo avversario è Oren Pike, noto per pressione continua e gestione aggressiva degli switch."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sf_scout",
+          "text": "Controllo il profilo pubblico di Oren.",
+          "goto": "semifinal_scout"
+        },
+        {
+          "id": "sf_start",
+          "text": "Entro in semifinale.",
+          "goto": "semifinal_handoff"
+        },
+        {
+          "id": "sf_withdraw",
+          "text": "Mi ritiro prima della semifinale.",
+          "goto": "cup_eliminated",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_withdrew",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "semifinal_scout": {
+      "stitches": [
+        {
+          "id": "sf_scout_1",
+          "text": "Il profilo mostra ritmo alto e match brevi, ma non rivela il set attuale. Devi ancora adattarti durante la battaglia reale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sf_after_scout",
+          "text": "Entro in semifinale.",
+          "goto": "semifinal_handoff",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_sf_scouted",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "sf_back",
+          "text": "Torno all'annuncio.",
+          "goto": "semifinal_announce"
+        }
+      ]
+    },
+    "semifinal_handoff": {
+      "stitches": [
+        {
+          "id": "sf_handoff_1",
+          "text": "Il secondo match ufficiale viene aperto come evento separato nella history competitiva."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fight_sf",
+          "text": "Inizio la semifinale.",
+          "combat": {
+            "encounterId": "M3_REGIONAL_CUP_SF",
+            "opponentRegistered": true,
+            "competition": {
+              "type": "official_match",
+              "matchId": "A3_REGIONAL_CUP_SF",
+              "format": "Singles",
+              "officialRosterSize": 3,
+              "difficulty": "HARD",
+              "opponentTrainerId": "FER_CUP_OREN_PIKE"
+            },
+            "returnNodes": {
+              "win": "semifinal_win",
+              "lose": "semifinal_loss"
+            }
+          }
+        }
+      ]
+    },
+    "semifinal_win": {
+      "stitches": [
+        {
+          "id": "sf_win_1",
+          "text": "Vittoria ufficiale: la finale è aperta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sf_win_continue",
+          "text": "Vado in finale.",
+          "goto": "final_announce",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_sf_result",
+              "value": "win"
+            }
+          ]
+        },
+        {
+          "id": "sf_win_withdraw",
+          "text": "Mi ritiro prima della finale.",
+          "goto": "cup_eliminated",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_sf_result",
+              "value": "win"
+            },
+            {
+              "type": "set_flag",
+              "key": "regional_cup_withdrew",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "semifinal_loss": {
+      "stitches": [
+        {
+          "id": "sf_loss_1",
+          "text": "La semifinale termina con una sconfitta ufficiale. La Cup prosegue senza di te."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sf_loss_close",
+          "text": "Accetto il risultato.",
+          "goto": "cup_eliminated",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_sf_result",
+              "value": "loss"
+            }
+          ]
+        },
+        {
+          "id": "sf_loss_review",
+          "text": "Analizzo dove il ritmo mi ha messo in difficoltà.",
+          "goto": "cup_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_sf_result",
+              "value": "loss"
+            }
+          ]
+        }
+      ]
+    },
+    "final_announce": {
+      "stitches": [
+        {
+          "id": "final_1",
+          "text": "Finale. Sena Volta ha attraversato l'altra metà del tabellone. Il pubblico conosce il nome; il motore conosce soltanto ciò che il match deve conoscere."
+        }
+      ],
+      "choices": [
+        {
+          "id": "final_scout",
+          "text": "Controllo il profilo pubblico della finalista.",
+          "goto": "final_scout"
+        },
+        {
+          "id": "final_start",
+          "text": "Entro nella finale.",
+          "goto": "final_handoff"
+        },
+        {
+          "id": "final_withdraw",
+          "text": "Mi ritiro prima della finale.",
+          "goto": "cup_eliminated",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_withdrew",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "final_scout": {
+      "stitches": [
+        {
+          "id": "final_scout_1",
+          "text": "Sena ha risultati equilibrati e match lunghi. Non c'è altro che il registro pubblico possa dirti senza trasformarsi in fog-of-war leakage."
+        }
+      ],
+      "choices": [
+        {
+          "id": "final_after_scout",
+          "text": "Entro nella finale.",
+          "goto": "final_handoff",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_final_scouted",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "final_back",
+          "text": "Torno all'annuncio.",
+          "goto": "final_announce"
+        }
+      ]
+    },
+    "final_handoff": {
+      "stitches": [
+        {
+          "id": "final_handoff_1",
+          "text": "L'ultimo match parte con un nuovo record ufficiale E5. Nessun flag decide il vincitore."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fight_final",
+          "text": "Inizio la finale.",
+          "combat": {
+            "encounterId": "M3_REGIONAL_CUP_FINAL",
+            "opponentRegistered": true,
+            "competition": {
+              "type": "official_match",
+              "matchId": "A3_REGIONAL_CUP_FINAL",
+              "format": "Singles",
+              "officialRosterSize": 3,
+              "difficulty": "HARD",
+              "opponentTrainerId": "FER_CUP_SENA_VOLTA"
+            },
+            "returnNodes": {
+              "win": "final_win",
+              "lose": "final_loss"
+            }
+          }
+        }
+      ]
+    },
+    "final_win": {
+      "stitches": [
+        {
+          "id": "final_win_1",
+          "text": "Hai vinto la Regional Cup di Ferravia. È un risultato del bracket, non una promozione di Rank."
+        }
+      ],
+      "choices": [
+        {
+          "id": "final_win_close",
+          "text": "Registro la vittoria e chiudo il torneo.",
+          "goto": "cup_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_result",
+              "value": "winner"
+            },
+            {
+              "type": "set_flag",
+              "key": "regional_cup_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "final_win_review",
+          "text": "Rivedo il percorso prima di chiudere.",
+          "goto": "cup_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_result",
+              "value": "winner"
+            }
+          ]
+        }
+      ]
+    },
+    "final_loss": {
+      "stitches": [
+        {
+          "id": "final_loss_1",
+          "text": "La finale termina con una sconfitta. Sei finalista, non campione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "final_loss_close",
+          "text": "Registro il piazzamento.",
+          "goto": "cup_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_result",
+              "value": "finalist"
+            },
+            {
+              "type": "set_flag",
+              "key": "regional_cup_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "final_loss_review",
+          "text": "Analizzo la finale prima di chiudere.",
+          "goto": "cup_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_result",
+              "value": "finalist"
+            }
+          ]
+        }
+      ]
+    },
+    "cup_review": {
+      "stitches": [
+        {
+          "id": "cup_review_1",
+          "text": "Il tabellone non cambia mentre lo riguardi. Puoi estrarre una lezione tattica, ma il risultato resta quello già scritto nella competition history."
+        }
+      ],
+      "choices": [
+        {
+          "id": "review_eliminated",
+          "text": "Chiudo il torneo con il piazzamento raggiunto.",
+          "conditions": {
+            "any": [
+              {
+                "path": "world.flags.regional_cup_qf_result",
+                "eq": "loss"
+              },
+              {
+                "path": "world.flags.regional_cup_sf_result",
+                "eq": "loss"
+              }
+            ]
+          },
+          "goto": "cup_eliminated"
+        },
+        {
+          "id": "review_winner",
+          "text": "Chiudo come vincitore.",
+          "conditions": {
+            "path": "world.flags.regional_cup_result",
+            "eq": "winner"
+          },
+          "goto": "cup_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "review_finalist",
+          "text": "Chiudo come finalista.",
+          "conditions": {
+            "path": "world.flags.regional_cup_result",
+            "eq": "finalist"
+          },
+          "goto": "cup_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "cup_eliminated": {
+      "stitches": [
+        {
+          "id": "cup_elim_1",
+          "text": "Il tuo percorso nella Cup è terminato. Il piazzamento dipende dal round realmente raggiunto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "elim_qf",
+          "text": "Registro eliminazione ai quarti.",
+          "conditions": {
+            "path": "world.flags.regional_cup_qf_result",
+            "eq": "loss"
+          },
+          "goto": "cup_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_result",
+              "value": "quarterfinal"
+            },
+            {
+              "type": "set_flag",
+              "key": "regional_cup_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "elim_sf",
+          "text": "Registro eliminazione in semifinale.",
+          "conditions": {
+            "path": "world.flags.regional_cup_sf_result",
+            "eq": "loss"
+          },
+          "goto": "cup_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_result",
+              "value": "semifinal"
+            },
+            {
+              "type": "set_flag",
+              "key": "regional_cup_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "elim_withdraw",
+          "text": "Registro il ritiro dal torneo.",
+          "conditions": {
+            "path": "world.flags.regional_cup_withdrew",
+            "eq": true
+          },
+          "goto": "cup_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_result",
+              "value": "withdrew"
+            },
+            {
+              "type": "set_flag",
+              "key": "regional_cup_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "cup_forfeit": {
+      "stitches": [
+        {
+          "id": "cup_forfeit_1",
+          "text": "Il forfait chiude il torneo senza fingere un match mai disputato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "forfeit_close",
+          "text": "Registro il forfait.",
+          "goto": "cup_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_result",
+              "value": "forfeited"
+            },
+            {
+              "type": "set_flag",
+              "key": "regional_cup_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "cup_withdrawn": {
+      "stitches": [
+        {
+          "id": "cup_withdrawn_1",
+          "text": "Il ritiro avviene prima del primo match; nessun record ufficiale viene creato per una battaglia mai iniziata."
+        }
+      ],
+      "choices": [
+        {
+          "id": "withdraw_close",
+          "text": "Chiudo la partecipazione.",
+          "goto": "cup_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_result",
+              "value": "withdrew"
+            },
+            {
+              "type": "set_flag",
+              "key": "regional_cup_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "cup_declined": {
+      "stitches": [
+        {
+          "id": "cup_declined_1",
+          "text": "La Cup resta opzionale. Rifiutarla non blocca il Promotion Trial né M3."
+        }
+      ],
+      "choices": [
+        {
+          "id": "decline_close",
+          "text": "Torno a Ferravia.",
+          "goto": "cup_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_result",
+              "value": "declined"
+            },
+            {
+              "type": "set_flag",
+              "key": "regional_cup_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "cup_close": {
+      "stitches": [
+        {
+          "id": "cup_close_1",
+          "text": "La finestra della Regional Cup è chiusa per questa run. Se hai disputato match, i risultati ufficiali restano nella competition history."
+        }
+      ],
+      "choices": [
+        {
+          "id": "cup_back_hub",
+          "text": "Torno al centro di Ferravia.",
+          "goto": "m03-ferravia-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
