@@ -1,0 +1,379 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "M01",
+  "id": "m01-first-road",
+  "title": "La prima strada",
+  "locationId": "asteria_ginestre",
+  "entryNodeId": "road_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.intro_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.free_roam",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "road_entry": {
+      "stitches": [
+        {
+          "id": "road_is_place",
+          "text": "Via delle Ginestre non è un corridoio tra due scene. Contadini, rookie, mezzi di lavoro e Pokémon selvatici la usano nello stesso momento, ognuno per ragioni proprie."
+        },
+        {
+          "id": "travel_clock",
+          "text": "Dal Campus a questo tratto servono circa venti minuti a piedi. Il tempo di viaggio è già passato: ciò che accade altrove non resta fermo mentre cammini."
+        },
+        {
+          "id": "visible_life",
+          "text": "Un rookie con uno zaino troppo pieno procede poco avanti; sul margine della carreggiata ci sono segni recenti di manutenzione e, oltre il muretto, l'erba alta si muove senza che nessun Pokémon cerchi automaticamente lo scontro."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue_to_houndour",
+          "text": "Continuo lungo la strada senza fermarmi.",
+          "goto": "first-road#arrival"
+        },
+        {
+          "id": "talk_rookie",
+          "text": "Raggiungo il rookie e faccio due parole.",
+          "goto": "rookie_intro"
+        },
+        {
+          "id": "inspect_road",
+          "text": "Controllo meglio tracce, paletti e segni dei lavori. (CT Perception)",
+          "check": {
+            "ability": "WIS",
+            "skill": "Perception",
+            "dc": 10
+          },
+          "outcomes": {
+            "success": {
+              "goto": "clue_success",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "m1_first_road_clue",
+                  "value": "displaced_markers"
+                },
+                {
+                  "type": "set_flag",
+                  "key": "m1_world_pressure_known",
+                  "value": true
+                }
+              ]
+            },
+            "failure": {
+              "goto": "clue_unclear",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "m1_first_road_clue",
+                  "value": "unclear"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "watch_wildlife",
+          "text": "Mi fermo a osservare la fauna oltre il muretto.",
+          "timeCostMinutes": 15,
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_first_road_wildlife_checked",
+              "value": true
+            }
+          ],
+          "ecology": {
+            "requestId": "M1_FIRST_ROAD_WILDLIFE",
+            "zoneId": "AST-GINESTRE",
+            "habitat": "field",
+            "method": "wild_observation",
+            "allowedSpecies": [
+              "wooloo",
+              "shinx"
+            ],
+            "returnNodes": {
+              "noEncounter": "m01-ecology-opportunities#gin_no_sighting",
+              "wooloo": "m01-ecology-opportunities#gin_wooloo",
+              "shinx": "m01-ecology-opportunities#gin_shinx"
+            }
+          }
+        },
+        {
+          "id": "bypass_to_fork",
+          "text": "Prendo la traccia laterale e raggiungo direttamente il bivio.",
+          "goto": "m01-ginestre-crossroads#crossroads",
+          "timeCostMinutes": 15
+        },
+        {
+          "id": "wait_here",
+          "text": "Resto lungo la strada ancora venti minuti e guardo il traffico passare.",
+          "goto": "road_entry",
+          "timeCostMinutes": 20
+        }
+      ]
+    },
+    "rookie_intro": {
+      "stitches": [
+        {
+          "id": "rookie_not_gate",
+          "text": "Il rookie rallenta ma non ti blocca la strada. Sta andando verso Valedarsena e dice che questa è la prima volta che si allontana davvero dal Campus senza un tutor alle spalle."
+        },
+        {
+          "id": "rookie_hook",
+          "text": "Ti chiede se hai già fatto uno sparring fuori dalle aree di prova. Se vuoi, può fermarsi qualche minuto; se non vuoi, riparte senza insistere."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ask_sparring",
+          "text": "Gli chiedo dello sparring.",
+          "goto": "sparring_offer",
+          "effects": [
+            {
+              "type": "quest_offer",
+              "questId": "SQ_GINESTRE_FIRST_SPARRING",
+              "title": "Due chilometri di coraggio",
+              "objective": "Affronta, se vuoi, il rookie in uno sparring informale lungo Via delle Ginestre."
+            }
+          ]
+        },
+        {
+          "id": "ask_directions",
+          "text": "Gli chiedo cosa c'è più avanti.",
+          "goto": "rookie_directions"
+        },
+        {
+          "id": "leave_rookie",
+          "text": "Lo saluto e continuo per conto mio.",
+          "goto": "road_entry"
+        },
+        {
+          "id": "continue_from_rookie",
+          "text": "Riprendo subito la strada.",
+          "goto": "first-road#arrival"
+        }
+      ]
+    },
+    "rookie_directions": {
+      "stitches": [
+        {
+          "id": "directions",
+          "text": "Ti indica Valedarsena oltre il tratto principale e la deviazione verso la Fattoria del Vento. Aggiunge che alcuni rookie corrono verso l'Arena, altri passano giorni interi tra lavori, allenamento e incontri casuali."
+        },
+        {
+          "id": "trial_not_order",
+          "text": "Il Promotion Trial esiste, certo, ma ne parla come di una tappa da preparare, non come di un ordine da eseguire oggi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_to_rookie",
+          "text": "Torno alla conversazione.",
+          "goto": "rookie_intro"
+        },
+        {
+          "id": "to_houndour",
+          "text": "Proseguo lungo la strada.",
+          "goto": "first-road#arrival"
+        },
+        {
+          "id": "to_fork",
+          "text": "Seguo la traccia che porta al bivio.",
+          "goto": "m01-ginestre-crossroads#crossroads",
+          "timeCostMinutes": 15
+        }
+      ]
+    },
+    "sparring_offer": {
+      "stitches": [
+        {
+          "id": "sparring_terms",
+          "text": "Propone un uno contro uno informale, niente posta e niente obbligo di continuare se uno dei due vuole fermarsi. È allenamento, non una sfida ufficiale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "accept_sparring",
+          "text": "Accetto lo sparring.",
+          "goto": "sparring_ready",
+          "effects": [
+            {
+              "type": "quest_start",
+              "questId": "SQ_GINESTRE_FIRST_SPARRING",
+              "title": "Due chilometri di coraggio",
+              "objective": "Completa lo sparring informale con il rookie di Via delle Ginestre."
+            }
+          ]
+        },
+        {
+          "id": "decline_sparring",
+          "text": "Declino. Non voglio combattere adesso.",
+          "goto": "road_entry"
+        }
+      ]
+    },
+    "sparring_ready": {
+      "stitches": [
+        {
+          "id": "rookie_partner",
+          "text": "Il rookie libera una fascia sicura accanto alla strada e manda avanti il suo Wooloo. Aspetta che tu sia pronto prima di iniziare."
+        }
+      ],
+      "choices": [
+        {
+          "id": "begin_sparring",
+          "text": "Inizio lo sparring.",
+          "combat": {
+            "encounterId": "SQ_GINESTRE_FIRST_SPARRING_001",
+            "goto": "sparring_handoff",
+            "opponent": {
+              "species": "Wooloo",
+              "level": 4,
+              "abilityId": "run-away"
+            },
+            "opponentRegistered": true,
+            "returnNodes": {
+              "win": "sparring_win",
+              "lose": "sparring_loss",
+              "fled": "sparring_withdrawn"
+            }
+          }
+        },
+        {
+          "id": "change_mind",
+          "text": "Cambio idea prima di iniziare.",
+          "goto": "sparring_withdrawn"
+        }
+      ]
+    },
+    "sparring_handoff": {
+      "text": "Lo sparring passa al risolutore Pokémon 5e. Il risultato non è deciso dalla scena narrativa.",
+      "choices": []
+    },
+    "sparring_win": {
+      "text": "Quando lo sparring finisce a tuo favore, il rookie richiama Wooloo e ride più per il sollievo che per il risultato. Era venuto qui per provare davvero, non per difendere un record.",
+      "choices": [
+        {
+          "id": "close_win",
+          "text": "Ci salutiamo e riprendo la strada.",
+          "goto": "road_entry",
+          "effects": [
+            {
+              "type": "quest_complete",
+              "questId": "SQ_GINESTRE_FIRST_SPARRING",
+              "resolution": "sparring_win"
+            },
+            {
+              "type": "set_flag",
+              "key": "sq_ginestre_first_sparring_result",
+              "value": "win"
+            }
+          ]
+        }
+      ]
+    },
+    "sparring_loss": {
+      "text": "Il rookie chiude lo sparring davanti. Non c'è pubblico e non c'è classifica: richiama Wooloo, controlla che stiate tutti bene e ti ringrazia per esserti fermato.",
+      "choices": [
+        {
+          "id": "close_loss",
+          "text": "Accetto il risultato e riprendo la strada.",
+          "goto": "road_entry",
+          "effects": [
+            {
+              "type": "quest_complete",
+              "questId": "SQ_GINESTRE_FIRST_SPARRING",
+              "resolution": "sparring_loss"
+            },
+            {
+              "type": "set_flag",
+              "key": "sq_ginestre_first_sparring_result",
+              "value": "loss"
+            }
+          ]
+        }
+      ]
+    },
+    "sparring_withdrawn": {
+      "text": "Decidi di non portare a termine lo sparring. Il rookie non protesta: richiama l'attenzione sulla strada e riparte verso Valedarsena.",
+      "choices": [
+        {
+          "id": "close_withdrawal",
+          "text": "Riprendo la mia strada.",
+          "goto": "road_entry",
+          "effects": [
+            {
+              "type": "quest_fail",
+              "questId": "SQ_GINESTRE_FIRST_SPARRING",
+              "resolution": "player_withdrew"
+            },
+            {
+              "type": "set_flag",
+              "key": "sq_ginestre_first_sparring_result",
+              "value": "withdrew"
+            }
+          ]
+        }
+      ]
+    },
+    "clue_success": {
+      "stitches": [
+        {
+          "id": "markers",
+          "text": "Due paletti di manutenzione sono stati rimessi nel terreno da poco, ma non nelle vecchie buche. Accanto, impronte di Pokémon attraversano la carreggiata in punti insoliti."
+        },
+        {
+          "id": "no_conclusion",
+          "text": "Non basta per sapere cosa stia succedendo. Basta però per capire che i movimenti della fauna e i lavori lungo la strada non sono del tutto normali."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue_after_clue",
+          "text": "Proseguo lungo la strada.",
+          "goto": "first-road#arrival"
+        },
+        {
+          "id": "back_after_clue",
+          "text": "Resto ancora nella zona.",
+          "goto": "road_entry"
+        },
+        {
+          "id": "fork_after_clue",
+          "text": "Raggiungo il bivio e tengo a mente quello che ho visto.",
+          "goto": "m01-ginestre-crossroads#crossroads",
+          "timeCostMinutes": 15
+        }
+      ]
+    },
+    "clue_unclear": {
+      "stitches": [
+        {
+          "id": "mixed_tracks",
+          "text": "Ci sono troppe impronte, segni di pneumatici e terreno smosso per ricostruire qualcosa con sicurezza. La strada è frequentata: non ogni segno è un mistero."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue_unclear",
+          "text": "Proseguo.",
+          "goto": "first-road#arrival"
+        },
+        {
+          "id": "back_unclear",
+          "text": "Torno a osservare la strada.",
+          "goto": "road_entry"
+        }
+      ]
+    }
+  }
+}
