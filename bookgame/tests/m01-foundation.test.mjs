@@ -1610,3 +1610,266 @@ test("M1_14 loss records the persistent gate staff and leaves the same Trial ret
   assert.equal(state.competition.trials.RANK_F_TO_E.registered, false);
   assert.equal(state.competition.history.at(-1).opponentTrainerId, "VAL_GATE_F_E_NARA_VOSS");
 });
+
+
+test("M1_15 loss preserves real battle condition and opens retry without reset", async () => {
+  const bundle = await compileStory({ scenesDir, modulesDir, ecologyOptions });
+  const repository = {
+    async load(sceneId) {
+      return structuredClone(bundle.scenes[sceneId]);
+    },
+    async loadWorldEvents() {
+      return structuredClone(bundle.worldEvents);
+    },
+    async loadEcology() {
+      return structuredClone(bundle.ecology);
+    }
+  };
+
+  const engine = new BookgameEngine({ scenes: repository });
+  let state = createNewGameState({ protagonist: "Luke" });
+  state.player.trainerLevel = 2;
+  state.player.roster.push({
+    speciesId: "shinx",
+    name: "Shinx",
+    level: 2,
+    abilityId: "intimidate"
+  });
+  state.story.sceneId = "m01-valedarsena-first-arrival";
+  state.story.nodeId = "arena_front";
+
+  state = await engine.choose(state, "note_trial");
+  state = await engine.choose(state, "register");
+  state = await engine.choose(state, "enter_trial");
+  state = await engine.choose(state, "begin_trial");
+
+  state = engine.setCombatState(state, {
+    encounterId: "A1_FIRST_GATE",
+    outcome: "lose",
+    trainer: { inventory: [] },
+    player: {
+      rosterIndex: 0,
+      speciesId: "growlithe-hisui",
+      name: "Growlithe",
+      level: 5,
+      hp: { current: 0, max: 31 },
+      statuses: { nonVolatile: "Burned", remainingRounds: null, flinchedTurns: 0 },
+      abilityId: "intimidate",
+      moveIds: ["tackle", "leer", "bite", "ember", "howl"],
+      pp: { tackle: 7, leer: 20, bite: 8, ember: 5, howl: 10 }
+    },
+    playerBench: [{
+      rosterIndex: 1,
+      speciesId: "shinx",
+      name: "Shinx",
+      level: 2,
+      hp: { current: 3, max: 13 },
+      statuses: { nonVolatile: "Paralysis", remainingRounds: null, flinchedTurns: 0 },
+      abilityId: "intimidate",
+      moveIds: ["tackle", "leer", "charge", "baby-doll-eyes"],
+      pp: { tackle: 11, leer: 20, charge: 9, "baby-doll-eyes": 10 }
+    }],
+    opponent: {
+      speciesId: "shinx",
+      name: "Shinx",
+      level: 4,
+      hp: { current: 5, max: 19 },
+      statuses: { nonVolatile: null, remainingRounds: null, flinchedTurns: 0 },
+      abilityId: "intimidate",
+      moveIds: ["tackle"],
+      pp: { tackle: 10 }
+    },
+    opponentBench: []
+  });
+
+  state = engine.resolveCombatHandoff(state, "lose");
+
+  assert.equal(state.story.nodeId, "trial_result_loss");
+  assert.equal(state.competition.rank, "F");
+  assert.equal(state.competition.trials.RANK_F_TO_E.available, true);
+  assert.equal(state.competition.trials.RANK_F_TO_E.registered, false);
+  assert.equal(state.competition.trials.RANK_F_TO_E.attempts, 1);
+
+  assert.deepEqual(state.player.roster[0].hp, { current: 0, max: 31 });
+  assert.equal(state.player.roster[0].statuses.nonVolatile, "Burned");
+  assert.equal(state.player.roster[0].pp.tackle, 7);
+  assert.deepEqual(state.player.roster[1].hp, { current: 3, max: 13 });
+  assert.equal(state.player.roster[1].statuses.nonVolatile, "Paralysis");
+  assert.equal(state.player.roster[1].pp.tackle, 11);
+  assert.deepEqual(state.player.starter.hp, { current: 0, max: 31 });
+
+  const view = await engine.present(state);
+  assert.equal(view.choices.some((choice) => choice.id === "retry_desk"), true);
+  assert.equal(view.choices.some((choice) => choice.id === "heal"), true);
+  assert.equal(view.choices.some((choice) => choice.id === "free_roam"), true);
+});
+
+test("M1_15 persisted HP PP and status are loaded into the next real combat", async () => {
+  const combat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([10, 10])
+  });
+
+  const battle = await combat.createBattle({
+    encounterId: "PERSISTENCE_TEST",
+    playerPokemon: {
+      species: "Growlithe",
+      form: "Hisuian",
+      level: 5,
+      rosterIndex: 0,
+      abilityId: "intimidate",
+      hp: { current: 9, max: 31 },
+      statuses: { nonVolatile: "Burned", remainingRounds: null, flinchedTurns: 0 },
+      pp: { tackle: 6, ember: 4 }
+    },
+    opponent: { species: "Eevee", level: 4, abilityId: "run-away" },
+    opponentRegistered: true,
+    trainer: {
+      name: "Luke",
+      level: 2,
+      abilities: { STR: 8, DEX: 14, CON: 10, INT: 12, WIS: 15, CHA: 13 },
+      skills: ["Animal Handling", "Insight", "Survival"],
+      inventory: []
+    }
+  });
+
+  assert.equal(battle.player.rosterIndex, 0);
+  assert.equal(battle.player.hp.current, 9);
+  assert.equal(battle.player.statuses.nonVolatile, "Burned");
+  assert.equal(battle.player.pp.tackle, 6);
+  assert.equal(battle.player.pp.ember, 4);
+});
+
+test("M1_15 win opens Rank E and M02 without erasing prior M1 callbacks", async () => {
+  const bundle = await compileStory({ scenesDir, modulesDir, ecologyOptions });
+  const repository = {
+    async load(sceneId) {
+      return structuredClone(bundle.scenes[sceneId]);
+    },
+    async loadWorldEvents() {
+      return structuredClone(bundle.worldEvents);
+    },
+    async loadEcology() {
+      return structuredClone(bundle.ecology);
+    }
+  };
+
+  const engine = new BookgameEngine({ scenes: repository });
+  let state = createNewGameState({ protagonist: "Luke" });
+  state.player.trainerLevel = 3;
+  state.player.roster.push({
+    speciesId: "houndour",
+    name: "Houndour",
+    level: 3,
+    abilityId: "early-bird"
+  });
+  state.player.secondPokemonAcquisition = {
+    speciesId: "houndour",
+    name: "Houndour",
+    level: 3,
+    day: 1,
+    locationId: "asteria_ginestre",
+    encounterId: "HOUNDOUR_GINESTRE_001"
+  };
+
+  state.world.flags.houndour_ginestre_disposition = "calmed_then_captured";
+  state.world.flags.valedarsena_reputation = "helpful_rookie";
+  state.world.flags.m1_world_pressure_known = true;
+  state.world.flags.m1_world_pressure_state = "investigated";
+  state.world.flags.friend_beat_01_complete = true;
+  state.world.flags.friend_beat_01_friend_id = "Mattew";
+  state.world.flags.friend_beat_01_type = "training";
+  state.world.flags.friends_split = true;
+
+  state.quests.SQ_FARM_HERD_HANDS = {
+    id: "SQ_FARM_HERD_HANDS",
+    title: "Recinti aperti",
+    objective: "Test",
+    status: "failed",
+    resolution: "abandoned"
+  };
+
+  adjustNpcRelationship(state, { npcId: "Blue", delta: 25 });
+  state.npcs.Blue.state.resultContext = "player_win";
+  state.npcs.Mattew.schedule = {
+    id: "M1_SPLIT_REMOTE",
+    locationId: "remote_route",
+    availability: "traveling",
+    activity: "remote_work",
+    startsAtMinutes: null,
+    endsAtMinutes: null
+  };
+  state.competition.firstOfficialResolved = true;
+
+  const preserved = {
+    houndour: state.world.flags.houndour_ginestre_disposition,
+    reputation: state.world.flags.valedarsena_reputation,
+    pressureKnown: state.world.flags.m1_world_pressure_known,
+    pressureState: state.world.flags.m1_world_pressure_state,
+    friendBeat: state.world.flags.friend_beat_01_friend_id,
+    friendsSplit: state.world.flags.friends_split,
+    quest: structuredClone(state.quests.SQ_FARM_HERD_HANDS),
+    blue: structuredClone(state.npcs.Blue),
+    mattewSchedule: structuredClone(state.npcs.Mattew.schedule),
+    second: structuredClone(state.player.secondPokemonAcquisition),
+    firstOfficial: state.competition.firstOfficialResolved
+  };
+
+  state.story.sceneId = "m01-valedarsena-first-arrival";
+  state.story.nodeId = "arena_front";
+  state = await engine.choose(state, "note_trial");
+  state = await engine.choose(state, "register");
+  state = await engine.choose(state, "enter_trial");
+  state = await engine.choose(state, "begin_trial");
+  state = engine.resolveCombatHandoff(state, "win");
+
+  assert.equal(state.story.nodeId, "trial_result_win");
+  assert.equal(state.competition.rank, "E");
+  assert.equal(state.competition.rankOrder, 1);
+  assert.equal(state.competition.trials.RANK_F_TO_E.completed, true);
+  assert.equal(state.competition.trials.RANK_F_TO_E.bestResult, "win");
+
+  assert.equal(state.world.flags.houndour_ginestre_disposition, preserved.houndour);
+  assert.equal(state.world.flags.valedarsena_reputation, preserved.reputation);
+  assert.equal(state.world.flags.m1_world_pressure_known, preserved.pressureKnown);
+  assert.equal(state.world.flags.m1_world_pressure_state, preserved.pressureState);
+  assert.equal(state.world.flags.friend_beat_01_friend_id, preserved.friendBeat);
+  assert.equal(state.world.flags.friends_split, preserved.friendsSplit);
+  assert.deepEqual(state.quests.SQ_FARM_HERD_HANDS, preserved.quest);
+  assert.deepEqual(state.npcs.Blue, preserved.blue);
+  assert.deepEqual(state.npcs.Mattew.schedule, preserved.mattewSchedule);
+  assert.deepEqual(state.player.secondPokemonAcquisition, preserved.second);
+  assert.equal(state.competition.firstOfficialResolved, preserved.firstOfficial);
+
+  state = await engine.choose(state, "rank_e_access");
+  assert.equal(state.story.nodeId, "rank_e_access");
+  state = await engine.choose(state, "unlock_m02");
+  assert.equal(state.story.nodeId, "m02_handoff");
+  assert.equal(state.world.flags.m1_complete, true);
+  assert.equal(state.world.flags.m02_unlocked, true);
+  assert.equal(state.competition.rank, "E");
+});
+
+test("M1_15 Rank E access remains reachable from Valedarsena free-roam after promotion", async () => {
+  const bundle = await compileStory({ scenesDir, modulesDir, ecologyOptions });
+  const repository = {
+    async load(sceneId) {
+      return structuredClone(bundle.scenes[sceneId]);
+    },
+    async loadWorldEvents() {
+      return structuredClone(bundle.worldEvents);
+    },
+    async loadEcology() {
+      return structuredClone(bundle.ecology);
+    }
+  };
+
+  const engine = new BookgameEngine({ scenes: repository });
+  const state = createNewGameState({ protagonist: "Luke" });
+  state.competition.rank = "E";
+  state.competition.rankOrder = 1;
+  state.story.sceneId = "m01-valedarsena-first-arrival";
+  state.story.nodeId = "city_hub";
+
+  const view = await engine.present(state);
+  assert.equal(view.choices.some((choice) => choice.id === "rank_e_access"), true);
+});
