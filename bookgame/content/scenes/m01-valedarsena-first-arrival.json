@@ -641,6 +641,10 @@
               "goto": "logistics_clue",
               "effects": [
                 {
+                  "type": "set_location",
+                  "locationId": "valedarsena_warehouses"
+                },
+                {
                   "type": "set_flag",
                   "key": "m1_world_pressure_known",
                   "value": true
@@ -656,6 +660,10 @@
               "goto": "logistics_done",
               "effects": [
                 {
+                  "type": "set_location",
+                  "locationId": "valedarsena_warehouses"
+                },
+                {
                   "type": "quest_complete",
                   "questId": "M1_VALE_LOGISTICS_01",
                   "resolution": "completed_delivery"
@@ -670,9 +678,24 @@
           "goto": "logistics_done",
           "effects": [
             {
+              "type": "set_location",
+              "locationId": "valedarsena_warehouses"
+            },
+            {
               "type": "quest_complete",
               "questId": "M1_VALE_LOGISTICS_01",
               "resolution": "completed_delivery"
+            }
+          ]
+        },
+        {
+          "id": "later",
+          "text": "Non parto ancora: torno in città e tengo l'incarico aperto.",
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
             }
           ]
         }
@@ -1830,6 +1853,10 @@
               "goto": "logistics_clue",
               "effects": [
                 {
+                  "type": "set_location",
+                  "locationId": "valedarsena_warehouses"
+                },
+                {
                   "type": "set_flag",
                   "key": "m1_world_pressure_known",
                   "value": true
@@ -1850,6 +1877,10 @@
               "goto": "logistics_done",
               "effects": [
                 {
+                  "type": "set_location",
+                  "locationId": "valedarsena_warehouses"
+                },
+                {
                   "type": "quest_complete",
                   "questId": "M1_VALE_LOGISTICS_02",
                   "resolution": "repost_completed_delivery"
@@ -1864,9 +1895,24 @@
           "goto": "logistics_done",
           "effects": [
             {
+              "type": "set_location",
+              "locationId": "valedarsena_warehouses"
+            },
+            {
               "type": "quest_complete",
               "questId": "M1_VALE_LOGISTICS_02",
               "resolution": "repost_completed_delivery"
+            }
+          ]
+        },
+        {
+          "id": "later",
+          "text": "Tengo aperto anche questo incarico e torno in città.",
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
             }
           ]
         }
