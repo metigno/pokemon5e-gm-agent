@@ -441,6 +441,10 @@
           {
             "path": "world.flags.free_roam",
             "eq": true
+          },
+          {
+            "path": "world.flags.friends_split",
+            "ne": true
           }
         ]
       },
@@ -809,6 +813,10 @@
           {
             "path": "world.day",
             "gte": 2
+          },
+          {
+            "path": "world.flags.friends_split",
+            "ne": true
           }
         ]
       },
@@ -1177,6 +1185,10 @@
           {
             "path": "world.day",
             "gte": 3
+          },
+          {
+            "path": "world.flags.friends_split",
+            "ne": true
           }
         ]
       },
@@ -1545,6 +1557,10 @@
           {
             "path": "world.day",
             "gte": 4
+          },
+          {
+            "path": "world.flags.friends_split",
+            "ne": true
           }
         ]
       },
