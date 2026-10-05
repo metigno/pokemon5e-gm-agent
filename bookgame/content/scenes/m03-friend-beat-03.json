@@ -1,0 +1,1528 @@
+{
+  "schemaVersion": 1,
+  "id": "m03-friend-beat-03",
+  "moduleId": "M03",
+  "title": "M3_08 — One of the Five Calls",
+  "locationId": "fer_city",
+  "entryNodeId": "friend_call",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m2_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m03_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m3_active",
+        "eq": true
+      },
+      {
+        "path": "world.flags.friends_split",
+        "eq": true
+      },
+      {
+        "path": "world.flags.a3_friend_call_available",
+        "eq": true
+      },
+      {
+        "path": "world.flags.friend_beat_03_complete",
+        "ne": true
+      },
+      {
+        "path": "competition.rankOrder",
+        "gte": 2
+      }
+    ]
+  },
+  "nodes": {
+    "friend_call": {
+      "stitches": [
+        {
+          "id": "friend_call_1",
+          "text": "Uno degli altri Five ti contatta mentre Ferravia continua a muoversi intorno a te. Il nome non viene scelto per comodità narrativa: è quello fissato dall'evento A3_FRIEND_CALL usando stato e disponibilità persistenti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "dispatch_luke",
+          "text": "Apro il contatto con Luke.",
+          "conditions": {
+            "path": "world.flags.friend_beat_03_friend_id",
+            "eq": "Luke"
+          },
+          "goto": "luke_contact"
+        },
+        {
+          "id": "dispatch_mattew",
+          "text": "Apro il contatto con Mattew.",
+          "conditions": {
+            "path": "world.flags.friend_beat_03_friend_id",
+            "eq": "Mattew"
+          },
+          "goto": "mattew_contact"
+        },
+        {
+          "id": "dispatch_daniel",
+          "text": "Apro il contatto con Daniel.",
+          "conditions": {
+            "path": "world.flags.friend_beat_03_friend_id",
+            "eq": "Daniel"
+          },
+          "goto": "daniel_contact"
+        },
+        {
+          "id": "dispatch_edward",
+          "text": "Apro il contatto con Edward.",
+          "conditions": {
+            "path": "world.flags.friend_beat_03_friend_id",
+            "eq": "Edward"
+          },
+          "goto": "edward_contact"
+        },
+        {
+          "id": "dispatch_fab",
+          "text": "Apro il contatto con Fab.",
+          "conditions": {
+            "path": "world.flags.friend_beat_03_friend_id",
+            "eq": "Fab"
+          },
+          "goto": "fab_contact"
+        }
+      ]
+    },
+    "luke_contact": {
+      "stitches": [
+        {
+          "id": "luke_root_text",
+          "text": "Luke chiama da una tratta più lunga del circuito. Il suo percorso non si è riavvolto per incontrarti: se è a Ferravia, lo è perché la schedule lo permette; altrimenti il contatto resta remoto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "luke_meet_physical",
+          "text": "Ci incontriamo di persona a Ferravia.",
+          "conditions": {
+            "path": "world.flags.friend_beat_03_contact_mode",
+            "eq": "physical"
+          },
+          "goto": "luke_physical",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_type",
+              "value": "physical_meeting"
+            }
+          ]
+        },
+        {
+          "id": "luke_answer_remote",
+          "text": "Rispondo e resto sul contatto remoto.",
+          "conditions": {
+            "path": "world.flags.friend_beat_03_contact_mode",
+            "eq": "remote"
+          },
+          "goto": "luke_remote",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_type",
+              "value": "remote_call"
+            }
+          ]
+        },
+        {
+          "id": "luke_rescue_context",
+          "text": "Gli racconto cosa è successo a Ferrox.",
+          "conditions": {
+            "path": "world.flags.ferrox_rescue_state",
+            "exists": true
+          },
+          "goto": "luke_rescue",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_type",
+              "value": "rescue_debrief"
+            }
+          ]
+        },
+        {
+          "id": "luke_competition_context",
+          "text": "Parliamo del prossimo gradino competitivo.",
+          "conditions": {
+            "path": "world.flags.a3_rank_trial_d_c_available",
+            "eq": true
+          },
+          "goto": "luke_competition",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_type",
+              "value": "competition_exchange"
+            }
+          ]
+        }
+      ]
+    },
+    "luke_physical": {
+      "stitches": [
+        {
+          "id": "luke_physical_text",
+          "text": "Luke parla soprattutto di distanza e scelta delle rotte. Non ti chiede se stai 'vincendo' M3; vuole sapere se hai iniziato a distinguere il rischio reale dal rumore del mondo. Essere nello stesso posto cambia il ritmo della conversazione: potete leggere reazioni e silenzi senza ridurre tutto a un messaggio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "luke_physical_deep",
+          "text": "Gli racconto una scelta di M3 che mi ha fatto cambiare idea.",
+          "goto": "luke_personal_result",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 4
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "personal_exchange"
+            }
+          ]
+        },
+        {
+          "id": "luke_physical_brief",
+          "text": "Tengo l'incontro breve e concreto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "brief_physical"
+            }
+          ]
+        }
+      ]
+    },
+    "luke_remote": {
+      "stitches": [
+        {
+          "id": "luke_remote_text",
+          "text": "Luke parla soprattutto di distanza e scelta delle rotte. Non ti chiede se stai 'vincendo' M3; vuole sapere se hai iniziato a distinguere il rischio reale dal rumore del mondo. La distanza resta reale: non potete trasformare la chiamata in un incontro fisico se la schedule non lo permette."
+        }
+      ],
+      "choices": [
+        {
+          "id": "luke_remote_engage",
+          "text": "Resto sulla chiamata e approfondisco.",
+          "timeCostMinutes": 15,
+          "goto": "luke_personal_result",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 3
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "remote_exchange"
+            }
+          ]
+        },
+        {
+          "id": "luke_remote_brief",
+          "text": "Rispondo in modo breve e ci aggiorniamo più avanti.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "remote_brief"
+            }
+          ]
+        }
+      ]
+    },
+    "luke_rescue": {
+      "stitches": [
+        {
+          "id": "luke_rescue_text",
+          "text": "Quando racconti Ferrox, Luke torna sulla sequenza: cosa sapevi prima, quando hai deciso di entrare, quando hai smesso. Per lui il punto è se il percorso ha cambiato la tua lettura del rischio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "luke_rescue_honest",
+          "text": "Descrivo anche ciò che non so ancora dell'outcome.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 4
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "rescue_honest_debrief"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "knowsFerroxRescueContext",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "luke_rescue_focus",
+          "text": "Mi concentro soltanto sulla decisione che ho preso.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 2
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "rescue_choice_discussed"
+            }
+          ]
+        }
+      ]
+    },
+    "luke_competition": {
+      "stitches": [
+        {
+          "id": "luke_competition_text",
+          "text": "Sul circuito è pragmatico: salire di Rank apre strade, ma non rende automaticamente migliore ogni decisione fatta per arrivarci."
+        }
+      ],
+      "choices": [
+        {
+          "id": "luke_competition_compare",
+          "text": "Confrontiamo come stiamo preparando il prossimo step.",
+          "timeCostMinutes": 10,
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 3
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "competition_notes_shared"
+            }
+          ]
+        },
+        {
+          "id": "luke_competition_close",
+          "text": "Prendo il punto e chiudo il contatto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "competition_acknowledged"
+            }
+          ]
+        }
+      ]
+    },
+    "luke_personal_result": {
+      "stitches": [
+        {
+          "id": "luke_personal_result_text",
+          "text": "La conversazione non assegna un premio. Cambia una relazione persistente e lascia un pezzo di contesto che potrà riemergere quando le strade dei Five si incroceranno di nuovo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "luke_personal_close",
+          "text": "Chiudiamo il contatto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "friendBeat03SharedContext",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "mattew_contact": {
+      "stitches": [
+        {
+          "id": "mattew_root_text",
+          "text": "Mattew apre il contatto con il tono di chi ha già una sessione di allenamento in testa. Il suo vecchio focus sul Promotion Trial non è sparito; si è trasformato in metodo competitivo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "mattew_meet_physical",
+          "text": "Ci incontriamo di persona a Ferravia.",
+          "conditions": {
+            "path": "world.flags.friend_beat_03_contact_mode",
+            "eq": "physical"
+          },
+          "goto": "mattew_physical",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_type",
+              "value": "physical_meeting"
+            }
+          ]
+        },
+        {
+          "id": "mattew_answer_remote",
+          "text": "Rispondo e resto sul contatto remoto.",
+          "conditions": {
+            "path": "world.flags.friend_beat_03_contact_mode",
+            "eq": "remote"
+          },
+          "goto": "mattew_remote",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_type",
+              "value": "remote_call"
+            }
+          ]
+        },
+        {
+          "id": "mattew_rescue_context",
+          "text": "Gli racconto cosa è successo a Ferrox.",
+          "conditions": {
+            "path": "world.flags.ferrox_rescue_state",
+            "exists": true
+          },
+          "goto": "mattew_rescue",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_type",
+              "value": "rescue_debrief"
+            }
+          ]
+        },
+        {
+          "id": "mattew_competition_context",
+          "text": "Parliamo del prossimo gradino competitivo.",
+          "conditions": {
+            "path": "world.flags.a3_rank_trial_d_c_available",
+            "eq": true
+          },
+          "goto": "mattew_competition",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_type",
+              "value": "competition_exchange"
+            }
+          ]
+        }
+      ]
+    },
+    "mattew_physical": {
+      "stitches": [
+        {
+          "id": "mattew_physical_text",
+          "text": "Mattew confronta preparazione, ritmo e capacità di non sprecare tentativi. Non chiede dettagli che non hai; vuole capire cosa stai facendo diversamente da quando eravate Rank F. Essere nello stesso posto cambia il ritmo della conversazione: potete leggere reazioni e silenzi senza ridurre tutto a un messaggio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "mattew_physical_deep",
+          "text": "Gli racconto una scelta di M3 che mi ha fatto cambiare idea.",
+          "goto": "mattew_personal_result",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 4
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "personal_exchange"
+            }
+          ]
+        },
+        {
+          "id": "mattew_physical_brief",
+          "text": "Tengo l'incontro breve e concreto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "brief_physical"
+            }
+          ]
+        }
+      ]
+    },
+    "mattew_remote": {
+      "stitches": [
+        {
+          "id": "mattew_remote_text",
+          "text": "Mattew confronta preparazione, ritmo e capacità di non sprecare tentativi. Non chiede dettagli che non hai; vuole capire cosa stai facendo diversamente da quando eravate Rank F. La distanza resta reale: non potete trasformare la chiamata in un incontro fisico se la schedule non lo permette."
+        }
+      ],
+      "choices": [
+        {
+          "id": "mattew_remote_engage",
+          "text": "Resto sulla chiamata e approfondisco.",
+          "timeCostMinutes": 15,
+          "goto": "mattew_personal_result",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 3
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "remote_exchange"
+            }
+          ]
+        },
+        {
+          "id": "mattew_remote_brief",
+          "text": "Rispondo in modo breve e ci aggiorniamo più avanti.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "remote_brief"
+            }
+          ]
+        }
+      ]
+    },
+    "mattew_rescue": {
+      "stitches": [
+        {
+          "id": "mattew_rescue_text",
+          "text": "Su Ferrox evita la retorica. «Hai avuto una finestra, hai scelto un piano, poi hai dovuto vivere con il risultato. Non è così diverso da un match, solo che qui il costo non è un record.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "mattew_rescue_honest",
+          "text": "Descrivo anche ciò che non so ancora dell'outcome.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 4
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "rescue_honest_debrief"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "knowsFerroxRescueContext",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "mattew_rescue_focus",
+          "text": "Mi concentro soltanto sulla decisione che ho preso.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 2
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "rescue_choice_discussed"
+            }
+          ]
+        }
+      ]
+    },
+    "mattew_competition": {
+      "stitches": [
+        {
+          "id": "mattew_competition_text",
+          "text": "Quando parlate del Trial D→C, Mattew insiste sul roster reale e sul fatto che perdere un tentativo non deve cancellare il resto del percorso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "mattew_competition_compare",
+          "text": "Confrontiamo come stiamo preparando il prossimo step.",
+          "timeCostMinutes": 10,
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 3
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "competition_notes_shared"
+            }
+          ]
+        },
+        {
+          "id": "mattew_competition_close",
+          "text": "Prendo il punto e chiudo il contatto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "competition_acknowledged"
+            }
+          ]
+        }
+      ]
+    },
+    "mattew_personal_result": {
+      "stitches": [
+        {
+          "id": "mattew_personal_result_text",
+          "text": "La conversazione non assegna un premio. Cambia una relazione persistente e lascia un pezzo di contesto che potrà riemergere quando le strade dei Five si incroceranno di nuovo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "mattew_personal_close",
+          "text": "Chiudiamo il contatto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "friendBeat03SharedContext",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "daniel_contact": {
+      "stitches": [
+        {
+          "id": "daniel_root_text",
+          "text": "Daniel risponde fra un incarico logistico e l'altro. Il suo modo di leggere il mondo è rimasto concreto: tempi, persone, passaggi e chi deve sapere cosa prima che un problema diventi di tutti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "daniel_meet_physical",
+          "text": "Ci incontriamo di persona a Ferravia.",
+          "conditions": {
+            "path": "world.flags.friend_beat_03_contact_mode",
+            "eq": "physical"
+          },
+          "goto": "daniel_physical",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_type",
+              "value": "physical_meeting"
+            }
+          ]
+        },
+        {
+          "id": "daniel_answer_remote",
+          "text": "Rispondo e resto sul contatto remoto.",
+          "conditions": {
+            "path": "world.flags.friend_beat_03_contact_mode",
+            "eq": "remote"
+          },
+          "goto": "daniel_remote",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_type",
+              "value": "remote_call"
+            }
+          ]
+        },
+        {
+          "id": "daniel_rescue_context",
+          "text": "Gli racconto cosa è successo a Ferrox.",
+          "conditions": {
+            "path": "world.flags.ferrox_rescue_state",
+            "exists": true
+          },
+          "goto": "daniel_rescue",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_type",
+              "value": "rescue_debrief"
+            }
+          ]
+        },
+        {
+          "id": "daniel_competition_context",
+          "text": "Parliamo del prossimo gradino competitivo.",
+          "conditions": {
+            "path": "world.flags.a3_rank_trial_d_c_available",
+            "eq": true
+          },
+          "goto": "daniel_competition",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_type",
+              "value": "competition_exchange"
+            }
+          ]
+        }
+      ]
+    },
+    "daniel_physical": {
+      "stitches": [
+        {
+          "id": "daniel_physical_text",
+          "text": "Daniel ti racconta cosa ha imparato dai contratti: quasi nessuna crisi nasce da una sola decisione. Di solito è una catena di piccoli ritardi che nessuno considera importante da sola. Essere nello stesso posto cambia il ritmo della conversazione: potete leggere reazioni e silenzi senza ridurre tutto a un messaggio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "daniel_physical_deep",
+          "text": "Gli racconto una scelta di M3 che mi ha fatto cambiare idea.",
+          "goto": "daniel_personal_result",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 4
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "personal_exchange"
+            }
+          ]
+        },
+        {
+          "id": "daniel_physical_brief",
+          "text": "Tengo l'incontro breve e concreto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "brief_physical"
+            }
+          ]
+        }
+      ]
+    },
+    "daniel_remote": {
+      "stitches": [
+        {
+          "id": "daniel_remote_text",
+          "text": "Daniel ti racconta cosa ha imparato dai contratti: quasi nessuna crisi nasce da una sola decisione. Di solito è una catena di piccoli ritardi che nessuno considera importante da sola. La distanza resta reale: non potete trasformare la chiamata in un incontro fisico se la schedule non lo permette."
+        }
+      ],
+      "choices": [
+        {
+          "id": "daniel_remote_engage",
+          "text": "Resto sulla chiamata e approfondisco.",
+          "timeCostMinutes": 15,
+          "goto": "daniel_personal_result",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 3
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "remote_exchange"
+            }
+          ]
+        },
+        {
+          "id": "daniel_remote_brief",
+          "text": "Rispondo in modo breve e ci aggiorniamo più avanti.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "remote_brief"
+            }
+          ]
+        }
+      ]
+    },
+    "daniel_rescue": {
+      "stitches": [
+        {
+          "id": "daniel_rescue_text",
+          "text": "Ferrox lo interessa per il flusso delle informazioni. Ti chiede chi sapeva della mappa, chi sapeva dei turni e quanto tempo è passato fra il primo segnale e il dispaccio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "daniel_rescue_honest",
+          "text": "Descrivo anche ciò che non so ancora dell'outcome.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 4
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "rescue_honest_debrief"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "knowsFerroxRescueContext",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "daniel_rescue_focus",
+          "text": "Mi concentro soltanto sulla decisione che ho preso.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 2
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "rescue_choice_discussed"
+            }
+          ]
+        }
+      ]
+    },
+    "daniel_competition": {
+      "stitches": [
+        {
+          "id": "daniel_competition_text",
+          "text": "Sul circuito Daniel non finge di essere meno competitivo degli altri, ma considera i match una parte del calendario, non l'unico motivo per cui il calendario esiste."
+        }
+      ],
+      "choices": [
+        {
+          "id": "daniel_competition_compare",
+          "text": "Confrontiamo come stiamo preparando il prossimo step.",
+          "timeCostMinutes": 10,
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 3
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "competition_notes_shared"
+            }
+          ]
+        },
+        {
+          "id": "daniel_competition_close",
+          "text": "Prendo il punto e chiudo il contatto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "competition_acknowledged"
+            }
+          ]
+        }
+      ]
+    },
+    "daniel_personal_result": {
+      "stitches": [
+        {
+          "id": "daniel_personal_result_text",
+          "text": "La conversazione non assegna un premio. Cambia una relazione persistente e lascia un pezzo di contesto che potrà riemergere quando le strade dei Five si incroceranno di nuovo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "daniel_personal_close",
+          "text": "Chiudiamo il contatto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "friendBeat03SharedContext",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "edward_contact": {
+      "stitches": [
+        {
+          "id": "edward_root_text",
+          "text": "Edward risponde da un ambiente aperto, con rumore di vento e terreno sotto i passi. Il suo allenamento sul campo gli ha dato l'abitudine di leggere prima il posto e poi la sfida."
+        }
+      ],
+      "choices": [
+        {
+          "id": "edward_meet_physical",
+          "text": "Ci incontriamo di persona a Ferravia.",
+          "conditions": {
+            "path": "world.flags.friend_beat_03_contact_mode",
+            "eq": "physical"
+          },
+          "goto": "edward_physical",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_type",
+              "value": "physical_meeting"
+            }
+          ]
+        },
+        {
+          "id": "edward_answer_remote",
+          "text": "Rispondo e resto sul contatto remoto.",
+          "conditions": {
+            "path": "world.flags.friend_beat_03_contact_mode",
+            "eq": "remote"
+          },
+          "goto": "edward_remote",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_type",
+              "value": "remote_call"
+            }
+          ]
+        },
+        {
+          "id": "edward_rescue_context",
+          "text": "Gli racconto cosa è successo a Ferrox.",
+          "conditions": {
+            "path": "world.flags.ferrox_rescue_state",
+            "exists": true
+          },
+          "goto": "edward_rescue",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_type",
+              "value": "rescue_debrief"
+            }
+          ]
+        },
+        {
+          "id": "edward_competition_context",
+          "text": "Parliamo del prossimo gradino competitivo.",
+          "conditions": {
+            "path": "world.flags.a3_rank_trial_d_c_available",
+            "eq": true
+          },
+          "goto": "edward_competition",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_type",
+              "value": "competition_exchange"
+            }
+          ]
+        }
+      ]
+    },
+    "edward_physical": {
+      "stitches": [
+        {
+          "id": "edward_physical_text",
+          "text": "Edward parla di come la squadra reagisce ai terreni diversi e di quanto spesso la soluzione più forte non sia quella più veloce. Non trasforma ogni problema in combattimento. Essere nello stesso posto cambia il ritmo della conversazione: potete leggere reazioni e silenzi senza ridurre tutto a un messaggio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "edward_physical_deep",
+          "text": "Gli racconto una scelta di M3 che mi ha fatto cambiare idea.",
+          "goto": "edward_personal_result",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 4
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "personal_exchange"
+            }
+          ]
+        },
+        {
+          "id": "edward_physical_brief",
+          "text": "Tengo l'incontro breve e concreto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "brief_physical"
+            }
+          ]
+        }
+      ]
+    },
+    "edward_remote": {
+      "stitches": [
+        {
+          "id": "edward_remote_text",
+          "text": "Edward parla di come la squadra reagisce ai terreni diversi e di quanto spesso la soluzione più forte non sia quella più veloce. Non trasforma ogni problema in combattimento. La distanza resta reale: non potete trasformare la chiamata in un incontro fisico se la schedule non lo permette."
+        }
+      ],
+      "choices": [
+        {
+          "id": "edward_remote_engage",
+          "text": "Resto sulla chiamata e approfondisco.",
+          "timeCostMinutes": 15,
+          "goto": "edward_personal_result",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 3
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "remote_exchange"
+            }
+          ]
+        },
+        {
+          "id": "edward_remote_brief",
+          "text": "Rispondo in modo breve e ci aggiorniamo più avanti.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "remote_brief"
+            }
+          ]
+        }
+      ]
+    },
+    "edward_rescue": {
+      "stitches": [
+        {
+          "id": "edward_rescue_text",
+          "text": "Quando gli descrivi Ferrox, si concentra su aria, spazio e vie di fuga. «Se il posto ti dice di rallentare, correre più forte non lo rende meno pericoloso.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "edward_rescue_honest",
+          "text": "Descrivo anche ciò che non so ancora dell'outcome.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 4
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "rescue_honest_debrief"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "knowsFerroxRescueContext",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "edward_rescue_focus",
+          "text": "Mi concentro soltanto sulla decisione che ho preso.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 2
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "rescue_choice_discussed"
+            }
+          ]
+        }
+      ]
+    },
+    "edward_competition": {
+      "stitches": [
+        {
+          "id": "edward_competition_text",
+          "text": "Sul Trial D→C ragiona in termini di adattamento: tre Pokémon ufficiali significano anche scegliere cosa lasciare fuori, non soltanto cosa portare."
+        }
+      ],
+      "choices": [
+        {
+          "id": "edward_competition_compare",
+          "text": "Confrontiamo come stiamo preparando il prossimo step.",
+          "timeCostMinutes": 10,
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 3
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "competition_notes_shared"
+            }
+          ]
+        },
+        {
+          "id": "edward_competition_close",
+          "text": "Prendo il punto e chiudo il contatto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "competition_acknowledged"
+            }
+          ]
+        }
+      ]
+    },
+    "edward_personal_result": {
+      "stitches": [
+        {
+          "id": "edward_personal_result_text",
+          "text": "La conversazione non assegna un premio. Cambia una relazione persistente e lascia un pezzo di contesto che potrà riemergere quando le strade dei Five si incroceranno di nuovo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "edward_personal_close",
+          "text": "Chiudiamo il contatto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "friendBeat03SharedContext",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "fab_contact": {
+      "stitches": [
+        {
+          "id": "fab_root_text",
+          "text": "Fab entra nel contatto senza preamboli. La rotta Ranger le ha lasciato un modo asciutto di parlare di rischio: chi è sul posto, chi ha autorità, chi può peggiorare la situazione anche con buone intenzioni."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fab_meet_physical",
+          "text": "Ci incontriamo di persona a Ferravia.",
+          "conditions": {
+            "path": "world.flags.friend_beat_03_contact_mode",
+            "eq": "physical"
+          },
+          "goto": "fab_physical",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_type",
+              "value": "physical_meeting"
+            }
+          ]
+        },
+        {
+          "id": "fab_answer_remote",
+          "text": "Rispondo e resto sul contatto remoto.",
+          "conditions": {
+            "path": "world.flags.friend_beat_03_contact_mode",
+            "eq": "remote"
+          },
+          "goto": "fab_remote",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_type",
+              "value": "remote_call"
+            }
+          ]
+        },
+        {
+          "id": "fab_rescue_context",
+          "text": "Gli racconto cosa è successo a Ferrox.",
+          "conditions": {
+            "path": "world.flags.ferrox_rescue_state",
+            "exists": true
+          },
+          "goto": "fab_rescue",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_type",
+              "value": "rescue_debrief"
+            }
+          ]
+        },
+        {
+          "id": "fab_competition_context",
+          "text": "Parliamo del prossimo gradino competitivo.",
+          "conditions": {
+            "path": "world.flags.a3_rank_trial_d_c_available",
+            "eq": true
+          },
+          "goto": "fab_competition",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_type",
+              "value": "competition_exchange"
+            }
+          ]
+        }
+      ]
+    },
+    "fab_physical": {
+      "stitches": [
+        {
+          "id": "fab_physical_text",
+          "text": "Fab ti aggiorna sul proprio percorso senza farne un racconto eroico. Per lei essere utile significa spesso non occupare lo spazio di chi ha competenza migliore. Essere nello stesso posto cambia il ritmo della conversazione: potete leggere reazioni e silenzi senza ridurre tutto a un messaggio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fab_physical_deep",
+          "text": "Gli racconto una scelta di M3 che mi ha fatto cambiare idea.",
+          "goto": "fab_personal_result",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 4
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "personal_exchange"
+            }
+          ]
+        },
+        {
+          "id": "fab_physical_brief",
+          "text": "Tengo l'incontro breve e concreto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "brief_physical"
+            }
+          ]
+        }
+      ]
+    },
+    "fab_remote": {
+      "stitches": [
+        {
+          "id": "fab_remote_text",
+          "text": "Fab ti aggiorna sul proprio percorso senza farne un racconto eroico. Per lei essere utile significa spesso non occupare lo spazio di chi ha competenza migliore. La distanza resta reale: non potete trasformare la chiamata in un incontro fisico se la schedule non lo permette."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fab_remote_engage",
+          "text": "Resto sulla chiamata e approfondisco.",
+          "timeCostMinutes": 15,
+          "goto": "fab_personal_result",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 3
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "remote_exchange"
+            }
+          ]
+        },
+        {
+          "id": "fab_remote_brief",
+          "text": "Rispondo in modo breve e ci aggiorniamo più avanti.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "remote_brief"
+            }
+          ]
+        }
+      ]
+    },
+    "fab_rescue": {
+      "stitches": [
+        {
+          "id": "fab_rescue_text",
+          "text": "Ferrox le interessa subito. Ti chiede se il perimetro aveva regole chiare e se le hai rispettate. La differenza fra intervento e intralcio, dice, è spesso una singola decisione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fab_rescue_honest",
+          "text": "Descrivo anche ciò che non so ancora dell'outcome.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 4
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "rescue_honest_debrief"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "knowsFerroxRescueContext",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "fab_rescue_focus",
+          "text": "Mi concentro soltanto sulla decisione che ho preso.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 2
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "rescue_choice_discussed"
+            }
+          ]
+        }
+      ]
+    },
+    "fab_competition": {
+      "stitches": [
+        {
+          "id": "fab_competition_text",
+          "text": "Sulla competizione non è disinteressata: semplicemente rifiuta l'idea che una coppa o un Rank possano assorbire ogni altra priorità del mondo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fab_competition_compare",
+          "text": "Confrontiamo come stiamo preparando il prossimo step.",
+          "timeCostMinutes": 10,
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 3
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "competition_notes_shared"
+            }
+          ]
+        },
+        {
+          "id": "fab_competition_close",
+          "text": "Prendo il punto e chiudo il contatto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_result",
+              "value": "competition_acknowledged"
+            }
+          ]
+        }
+      ]
+    },
+    "fab_personal_result": {
+      "stitches": [
+        {
+          "id": "fab_personal_result_text",
+          "text": "La conversazione non assegna un premio. Cambia una relazione persistente e lascia un pezzo di contesto che potrà riemergere quando le strade dei Five si incroceranno di nuovo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fab_personal_close",
+          "text": "Chiudiamo il contatto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "friendBeat03SharedContext",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "friend_beat_close": {
+      "stitches": [
+        {
+          "id": "friend_beat_close_1",
+          "text": "Il terzo beat con uno degli altri Five si chiude senza congelare la sua carriera. Il contatto registra chi era, che tipo di interazione avete avuto e quale contesto avete condiviso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_friend_beat_03",
+          "text": "Torno a Ferravia.",
+          "goto": "m03-ferravia-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
