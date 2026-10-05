@@ -2,31 +2,124 @@
   "schemaVersion": 1,
   "id": "m03-handoff",
   "moduleId": "M03",
-  "title": "M3_00 — Handoff (stub)",
+  "title": "M3_00 — Fascia Rank D",
   "locationId": "m03_entry_point",
   "entryNodeId": "m03_entry",
   "conditions": {
     "all": [
       { "path": "world.flags.m2_complete", "eq": true },
-      { "path": "world.flags.m03_unlocked", "eq": true }
+      { "path": "world.flags.m03_unlocked", "eq": true },
+      { "path": "competition.rank", "eq": "D" }
     ]
   },
   "nodes": {
     "m03_entry": {
       "stitches": [
         {
-          "id": "m03_stub_1",
-          "text": "STUB — M3 non ancora implementato."
+          "id": "rank_d_registered",
+          "text": "Il Circuito Asteria aggiorna la tessera e conferma Rank D. L'uscita formale da M2 non è un intermezzo narrativo: è un cambio reale di fascia di accesso. La nuova fascia include Cava Grigia (AST-QUARRY), Ferravia (FER-CITY), le Gallerie Ferrox (FER-TUNNELS) e la direttrice che le collega oltre Valedarsena, insieme a tutti i nodi Rank E e F già aperti."
+        },
+        {
+          "id": "m2_history_intact",
+          "text": "Lo stato accumulato in M1 e M2 resta integro. Roster, HP, PP, condizioni, inventario, denaro, quest, cronologia competitiva, relazioni NPC, orari, FRIEND_BEAT_01 e FRIEND_BEAT_02, l'esito della rete di bracconaggio nel Mistwood, la relazione con N e qualsiasi callback ambientale di Borgo Salice o Valedarsena viaggiano intatti nella nuova fascia."
+        },
+        {
+          "id": "world_still_moving",
+          "text": "Il mondo non si ferma mentre consulti la nuova fascia. Gli altri Four continuano le proprie carriere, le competizioni non-player si risolvono, le quest con scadenza avanzano, e Steven Stone — l'Anchor di questa fascia — è una presenza possibile ma non obbligatoria: comparirà quando la causalità del tuo stato lo renderà plausibile, non perché sei entrato in M3."
+        },
+        {
+          "id": "no_premature_m3",
+          "text": "Nessun contenuto di M3 è stato attivato automaticamente. L'incidente di Ferrox, il soccorso, FRIEND_BEAT_03, il Crossroads, la Regional Cup e il Trial D→C non sono registrati. La fauna industriale e tunnel non viene forzata nei pool, e il Rookie Invitational di M2 resta chiuso nel suo blocco canonico."
         }
       ],
       "choices": [
         {
-          "id": "back_to_borgo_stub",
-          "text": "Torna a Borgo Salice.",
+          "id": "confirm_rank_d_active",
+          "text": "Registro ufficialmente l'apertura della fascia Rank D e avvio M3.",
+          "conditions": {
+            "path": "world.flags.m3_active",
+            "ne": true
+          },
+          "goto": "access_band_open",
+          "effects": [
+            { "type": "set_flag", "key": "m3_active", "value": true }
+          ]
+        },
+        {
+          "id": "already_active_m3",
+          "text": "M3 è già attivo. Rivedo la fascia di accesso confermata.",
+          "conditions": {
+            "path": "world.flags.m3_active",
+            "eq": true
+          },
+          "goto": "access_band_open"
+        }
+      ]
+    },
+    "access_band_open": {
+      "stitches": [
+        {
+          "id": "band_summary",
+          "text": "Fascia Rank D confermata e registrata nel Circuito. I nodi industriali — Cava Grigia come porta d'ingresso, Ferravia come hub, Gallerie Ferrox come profondità tecnica — sono raggiungibili con viaggio esplicito. Nessun teletrasporto narrativo: il tempo in gioco scorre con il viaggio, come in M1 e M2."
+        },
+        {
+          "id": "available_destinations",
+          "text": "Da qui puoi orientarti verso Cava Grigia per vedere il primo paesaggio industriale della regione, oppure restare a Borgo Salice e Valedarsena per chiudere thread aperti, allenarti, usare servizi e consolidare la squadra prima di spingere oltre."
+        },
+        {
+          "id": "callbacks_available",
+          "text": "I callback della fascia precedente — esito della rete di bracconaggio (risolta/parziale/ignorata/escalata), relazione con N, FRIEND_BEAT_02, cronologia del Rookie Invitational, risultato del Trial E→D — restano leggibili da ogni nodo di M3. Non attribuiscono ricompense mai guadagnate; cambiano dialogo, prezzo, informazione o accesso quando è causalmente coerente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_to_valedarsena_d",
+          "text": "Per ora resto in base a Valedarsena.",
+          "goto": "m01-valedarsena-first-arrival#city_hub",
+          "effects": [
+            { "type": "set_location", "locationId": "valedarsena_city" }
+          ]
+        },
+        {
+          "id": "back_to_borgo_d",
+          "text": "Torno a Borgo Salice per chiudere o rivedere thread della fascia precedente.",
+          "timeCostMinutes": 210,
           "goto": "m02-borgo-salice#borough_hub",
           "effects": [
             { "type": "set_location", "locationId": "borgo_salice" }
           ]
+        },
+        {
+          "id": "review_m2_summary",
+          "text": "Rileggo il quadro di M2 prima di muovermi — voglio verificare cosa è persistente.",
+          "goto": "m2_summary"
+        }
+      ]
+    },
+    "m2_summary": {
+      "stitches": [
+        {
+          "id": "summary_header",
+          "text": "Il sistema offre un riepilogo di lettura — non una ri-attribuzione di premi — su ciò che la fascia Rank E ha prodotto nella tua run. È uno specchio dello stato, non un canone imposto."
+        },
+        {
+          "id": "summary_network",
+          "text": "Rete di bracconaggio: lo stato persistente determina come la regione reagisce. Risolta significa minor pressione e Ranger più disponibili; parziale significa tensione aperta; ignorata significa che altri hanno agito senza di te; escalata significa che il mondo si è mosso contro il thread quando lo hai lasciato correre troppo."
+        },
+        {
+          "id": "summary_relations",
+          "text": "N: se incontrato, resta un contatto possibile ma non un compagno fisso. FRIEND_BEAT_02: l'amico scelto dal selector M2 e il tipo di beat (combat/conversation/intelligence_share/remote_brief) sono registrati e potranno essere richiamati da M3 se la causalità lo consente — ma non vengono usati come plot armor."
+        },
+        {
+          "id": "summary_career",
+          "text": "Carriera: Rank D è attivo. Il Trial E→D è nella cronologia competitiva. Il Rookie Invitational, se disputato, è registrato con il suo risultato reale. Niente è stato ri-giocato dietro le quinte."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_to_access_band",
+          "text": "Chiudo il riepilogo e torno alla scelta di direzione.",
+          "goto": "access_band_open"
         }
       ]
     }
