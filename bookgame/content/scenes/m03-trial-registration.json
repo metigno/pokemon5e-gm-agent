@@ -1,0 +1,350 @@
+{
+  "schemaVersion": 1,
+  "id": "m03-trial-registration",
+  "moduleId": "M03",
+  "title": "M3_12 — Registrazione Trial D→C",
+  "locationId": "fer_city_arena",
+  "entryNodeId": "trial_info",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m2_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m03_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m3_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "D"
+      },
+      {
+        "path": "world.flags.a3_rank_trial_d_c_available",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "trial_info": {
+      "stitches": [
+        {
+          "id": "info_1",
+          "text": "Il Promotion Trial D→C si svolge all'Officina Arena di Ferravia. È il gate reale verso Rank C: Singles, roster ufficiale da tre, una sola esaminatrice, vittoria obbligatoria, retry consentito."
+        }
+      ],
+      "choices": [
+        {
+          "id": "go_desk",
+          "text": "Vado al banco di registrazione.",
+          "goto": "trial_desk"
+        },
+        {
+          "id": "format_info",
+          "text": "Chiedo come viene valutato il Trial.",
+          "goto": "format_review"
+        },
+        {
+          "id": "registered_status",
+          "text": "Controllo una registrazione già attiva.",
+          "conditions": {
+            "path": "competition.trials.RANK_D_TO_C.registered",
+            "eq": true
+          },
+          "goto": "registered"
+        },
+        {
+          "id": "postpone",
+          "text": "Non sono pronto. Torno più tardi.",
+          "goto": "postponed"
+        }
+      ]
+    },
+    "format_review": {
+      "stitches": [
+        {
+          "id": "format_1",
+          "text": "L'identità del checkpoint è tempo, resistenze, coperture e switch. Non c'è level scaling invisibile: l'esaminatore usa il roster fissato per questa fascia."
+        }
+      ],
+      "choices": [
+        {
+          "id": "format_to_desk",
+          "text": "Vado al banco.",
+          "goto": "trial_desk"
+        },
+        {
+          "id": "format_roster",
+          "text": "Controllo prima il mio roster reale.",
+          "goto": "roster_review"
+        },
+        {
+          "id": "format_back",
+          "text": "Torno alle informazioni generali.",
+          "goto": "trial_info"
+        }
+      ]
+    },
+    "trial_desk": {
+      "stitches": [
+        {
+          "id": "desk_1",
+          "text": "Il banco legge direttamente lo stato E5. Se il checkpoint non è disponibile o il roster non raggiunge tre Pokémon, la registrazione non viene simulata da un flag narrativo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "register_now",
+          "text": "Registro il roster per il Trial D→C.",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.trials.RANK_D_TO_C.available",
+                "eq": true
+              },
+              {
+                "path": "competition.trials.RANK_D_TO_C.registered",
+                "ne": true
+              },
+              {
+                "path": "player.roster.length",
+                "gte": 3
+              }
+            ]
+          },
+          "goto": "registered",
+          "effects": [
+            {
+              "type": "competition_trial_register",
+              "checkpointId": "RANK_D_TO_C"
+            }
+          ]
+        },
+        {
+          "id": "check_roster",
+          "text": "Controllo l'idoneità del roster.",
+          "goto": "roster_review"
+        },
+        {
+          "id": "examiner_info",
+          "text": "Chiedo il profilo pubblico dell'esaminatrice.",
+          "goto": "examiner_review"
+        },
+        {
+          "id": "leave_desk",
+          "text": "Mi allontano senza registrarmi.",
+          "goto": "postponed"
+        }
+      ]
+    },
+    "roster_review": {
+      "stitches": [
+        {
+          "id": "roster_1",
+          "text": "Servono almeno tre Pokémon reali nel roster. Il Trial non presta membri e non usa copie narrative della squadra."
+        }
+      ],
+      "choices": [
+        {
+          "id": "roster_ok_register",
+          "text": "Ho almeno tre Pokémon: registro.",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.trials.RANK_D_TO_C.available",
+                "eq": true
+              },
+              {
+                "path": "competition.trials.RANK_D_TO_C.registered",
+                "ne": true
+              },
+              {
+                "path": "player.roster.length",
+                "gte": 3
+              }
+            ]
+          },
+          "goto": "registered",
+          "effects": [
+            {
+              "type": "competition_trial_register",
+              "checkpointId": "RANK_D_TO_C"
+            }
+          ]
+        },
+        {
+          "id": "roster_short",
+          "text": "Non ho ancora tre Pokémon: torno a prepararmi.",
+          "conditions": {
+            "path": "player.roster.length",
+            "lt": 3
+          },
+          "goto": "postponed"
+        },
+        {
+          "id": "roster_back",
+          "text": "Torno al banco.",
+          "goto": "trial_desk"
+        }
+      ]
+    },
+    "examiner_review": {
+      "stitches": [
+        {
+          "id": "examiner_1",
+          "text": "L'esaminatrice di fascia usa un profilo tecnico stabile: controllo del tempo e punizione dei cambi prevedibili. Il registro pubblico non rivela mosse o risorse correnti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "examiner_strategy",
+          "text": "Chiedo quale abilità generale viene valutata di più.",
+          "goto": "strategy_review"
+        },
+        {
+          "id": "examiner_desk",
+          "text": "Torno al banco.",
+          "goto": "trial_desk"
+        },
+        {
+          "id": "examiner_postpone",
+          "text": "Mi preparo ancora prima di registrarmi.",
+          "goto": "postponed"
+        }
+      ]
+    },
+    "strategy_review": {
+      "stitches": [
+        {
+          "id": "strategy_1",
+          "text": "Il consiglio è volutamente generale: non perdere tempo in cambi senza scopo, proteggi le resistenze che ti servono e non costruire la linea di gioco su informazioni che il tuo Trainer non possiede."
+        }
+      ],
+      "choices": [
+        {
+          "id": "strategy_desk",
+          "text": "Ora registro.",
+          "goto": "trial_desk"
+        },
+        {
+          "id": "strategy_roster",
+          "text": "Rivedo il roster.",
+          "goto": "roster_review"
+        },
+        {
+          "id": "strategy_postpone",
+          "text": "Torno più tardi.",
+          "goto": "postponed"
+        }
+      ]
+    },
+    "registered": {
+      "stitches": [
+        {
+          "id": "registered_1",
+          "text": "E5 conferma la registrazione. Il roster ufficiale richiesto è tre; il rank resta D finché il resolver non restituisce una vittoria reale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "enter_trial",
+          "text": "Entro nel Promotion Trial D→C.",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.rank",
+                "eq": "D"
+              },
+              {
+                "path": "competition.trials.RANK_D_TO_C.registered",
+                "eq": true
+              }
+            ]
+          },
+          "goto": "m03-promotion-trial-d-c#trial_gate_call"
+        },
+        {
+          "id": "prep_first",
+          "text": "Rivedo ancora la preparazione.",
+          "goto": "registered_prep"
+        },
+        {
+          "id": "return_later",
+          "text": "La registrazione resta valida; torno a Ferravia.",
+          "goto": "m03-ferravia-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        }
+      ]
+    },
+    "registered_prep": {
+      "stitches": [
+        {
+          "id": "prep_1",
+          "text": "Prepararti non cambia il roster registrato in un duplicato narrativo. Stai soltanto decidendo se entrare adesso o più tardi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "prep_enter",
+          "text": "Sono pronto: entro nel Trial.",
+          "conditions": {
+            "path": "competition.trials.RANK_D_TO_C.registered",
+            "eq": true
+          },
+          "goto": "m03-promotion-trial-d-c#trial_gate_call"
+        },
+        {
+          "id": "prep_back",
+          "text": "Torno alla conferma di registrazione.",
+          "goto": "registered"
+        },
+        {
+          "id": "prep_hub",
+          "text": "Torno al centro di Ferravia.",
+          "goto": "m03-ferravia-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        }
+      ]
+    },
+    "postponed": {
+      "stitches": [
+        {
+          "id": "postpone_1",
+          "text": "Il Trial resta disponibile secondo lo stato E5. Rimandare non promuove, non consuma un tentativo e non resetta M3."
+        }
+      ],
+      "choices": [
+        {
+          "id": "postpone_hub",
+          "text": "Torno a Ferravia.",
+          "goto": "m03-ferravia-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        },
+        {
+          "id": "postpone_desk",
+          "text": "Cambio idea e torno al banco.",
+          "goto": "trial_desk"
+        }
+      ]
+    }
+  }
+}
