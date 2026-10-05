@@ -5,6 +5,8 @@
 **Purpose:** production map for converting M01 into validated offline story content  
 **Locked budget:** **5,047 stitches / 3,116 player choices**
 
+**Module implementation status:** **COMPLETE** — all M1_00→M1_15 block contracts are closed, the M01 exit contract is enforced, and the full Bookgame test workflow is green on the canonical branch.
+
 This file maps the full production surface of M01. It does not replace the design document. It defines where content belongs, what state each block reads/writes, which callbacks must exist, and which runtime capabilities are prerequisites.
 
 ---
@@ -56,10 +58,10 @@ The graph is reconvergent, not linear. The player may move repeatedly between Gi
 
 | Block | Function | Stitches | Choices | Current state |
 |---|---|---:|---:|---|
-| M1_00_RELEASE | release from guided intro into free-roam | 150 | 90 | IMPLEMENTED |
-| M1_01_FIRST_ROAD | road life, travel teaching, optional trainer/fauna signals | 320 | 200 | IMPLEMENTED |
-| M1_02_HOUNDOUR_GINESTRE | ecological Houndour encounter and callbacks | 360 | 220 | IMPLEMENTED |
-| M1_03_FIRST_REAL_FORK | first real route choice and local exploration | 220 | 150 | IMPLEMENTED |
+| M1_00_RELEASE | release from guided intro into free-roam | 150 | 90 | COMPLETE |
+| M1_01_FIRST_ROAD | road life, travel teaching, optional trainer/fauna signals | 320 | 200 | COMPLETE |
+| M1_02_HOUNDOUR_GINESTRE | ecological Houndour encounter and callbacks | 360 | 220 | COMPLETE |
+| M1_03_FIRST_REAL_FORK | first real route choice and local exploration | 220 | 150 | COMPLETE |
 | M1_04_VALEDARSENA_FIRST_ARRIVAL | first hub arrival and orientation | 460 | 310 | COMPLETE |
 | M1_05_JOB_BOARD | temporal jobs, logistics, Sera Noll | 360 | 260 | COMPLETE |
 | M1_06_FARM_HERD_HANDS | farm recovery quest and ecology | 450 | 310 | COMPLETE |
