@@ -1,0 +1,485 @@
+{
+  "schemaVersion": 1,
+  "id": "m02-network-outcome",
+  "moduleId": "M02",
+  "title": "M2_11 — Esito della Rete",
+  "locationId": "borgo_salice",
+  "entryNodeId": "network_outcome_review",
+  "conditions": {
+    "all": [
+      {"path": "world.flags.m1_complete", "eq": true},
+      {"path": "world.flags.m02_unlocked", "eq": true},
+      {"path": "world.flags.m2_active", "eq": true},
+      {"path": "competition.rank", "eq": "E"},
+      {"path": "world.flags.a2_network_outcome_available", "eq": true},
+      {"path": "world.flags.network_outcome_complete", "ne": true}
+    ]
+  },
+  "nodes": {
+    "network_outcome_review": {
+      "stitches": [
+        {
+          "id": "review_1",
+          "text": "Il Bosco Bruma è lo stesso di prima. La rete che hai trovato non è scomparsa con una decisione o un'azione isolata — le reti non funzionano così. Ma quello che hai fatto o non fatto ha lasciato una traccia nel sistema, nei dati, nelle relazioni tra i pezzi visibili e quelli nascosti."
+        },
+        {
+          "id": "review_2",
+          "text": "Questa è la sintesi di quello che è rimasto — la valutazione di ciò che è cambiato tra il momento in cui hai trovato il primo segno di attività illegale e questo momento."
+        }
+      ],
+      "choices": [
+        {
+          "id": "enter_resolved",
+          "text": "L'operazione è stata effettivamente interrotta — c'è documentazione formale e Elio ha una traccia ufficiale.",
+          "conditions": {
+            "all": [
+              {"path": "world.flags.poaching_network_state", "eq": "intervened"},
+              {"path": "world.flags.crisis_ranger_alerted", "eq": true},
+              {"path": "world.flags.crisis_ranger_full_report", "eq": true}
+            ]
+          },
+          "goto": "outcome_context_resolved",
+          "effects": [
+            {"type": "set_flag", "key": "poaching_network_state", "value": "resolved"}
+          ]
+        },
+        {
+          "id": "enter_partial",
+          "text": "Ho agito — in qualche misura — ma il problema non è chiuso. C'è ancora qualcosa in piedi.",
+          "conditions": {
+            "all": [
+              {
+                "any": [
+                  {"path": "world.flags.poaching_network_state", "eq": "intervened"},
+                  {"path": "world.flags.poaching_network_state", "eq": "investigating"},
+                  {"path": "world.flags.poaching_network_disrupted", "eq": true},
+                  {"path": "world.flags.crisis_ranger_alerted", "eq": true}
+                ]
+              },
+              {
+                "not": {
+                  "all": [
+                    {"path": "world.flags.poaching_network_state", "eq": "intervened"},
+                    {"path": "world.flags.crisis_ranger_alerted", "eq": true},
+                    {"path": "world.flags.crisis_ranger_full_report", "eq": true}
+                  ]
+                }
+              }
+            ]
+          },
+          "goto": "outcome_context_partial",
+          "effects": [
+            {"type": "set_flag", "key": "poaching_network_state", "value": "partial"}
+          ]
+        },
+        {
+          "id": "enter_escalated",
+          "text": "Ho scelto di non intervenire direttamente — e il problema ha continuato a muoversi senza risposta.",
+          "conditions": {
+            "all": [
+              {"path": "world.flags.local_problem_ignored", "eq": true},
+              {
+                "not": {
+                  "any": [
+                    {"path": "world.flags.poaching_network_state", "eq": "intervened"},
+                    {"path": "world.flags.poaching_network_state", "eq": "investigating"},
+                    {"path": "world.flags.poaching_network_disrupted", "eq": true},
+                    {"path": "world.flags.crisis_ranger_alerted", "eq": true}
+                  ]
+                }
+              }
+            ]
+          },
+          "goto": "outcome_context_escalated",
+          "effects": [
+            {"type": "set_flag", "key": "poaching_network_state", "value": "escalated"}
+          ]
+        },
+        {
+          "id": "enter_ignored",
+          "text": "Non ho interagito in modo significativo con il problema — è rimasto aperto senza traccia mia nel sistema.",
+          "conditions": {
+            "all": [
+              {"not": {"path": "world.flags.local_problem_ignored", "eq": true}},
+              {
+                "not": {
+                  "any": [
+                    {"path": "world.flags.poaching_network_state", "eq": "intervened"},
+                    {"path": "world.flags.poaching_network_state", "eq": "investigating"},
+                    {"path": "world.flags.poaching_network_disrupted", "eq": true},
+                    {"path": "world.flags.crisis_ranger_alerted", "eq": true}
+                  ]
+                }
+              }
+            ]
+          },
+          "goto": "outcome_context_ignored",
+          "effects": [
+            {"type": "set_flag", "key": "poaching_network_state", "value": "ignored"}
+          ]
+        }
+      ]
+    },
+
+    "outcome_context_resolved": {
+      "stitches": [
+        {
+          "id": "resolved_1",
+          "text": "Hai documentato l'attività, hai allertato Elio con un rapporto completo. La procedura formale è aperta, le coordinate sono nel sistema del Servizio Ranger. Non è un'operazione smantellata nel senso pieno — ma è stata interrotta nella sua configurazione attuale, e i punti di raccordo sono tracciati."
+        },
+        {
+          "id": "resolved_2",
+          "text": "Elio lo ha detto in modo diretto: «Questo è abbastanza per andare avanti. Non chiudiamo le reti clandestine in una settimana — ma adesso questa ha un'identità nel sistema.» Non è un elogio. È un aggiornamento professionale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "check_ranger_record",
+          "text": "Controllo con Elio cos'è rimasto nel registro formale.",
+          "timeCostMinutes": 15,
+          "goto": "outcome_ranger_debrief"
+        },
+        {
+          "id": "ask_n_contribution",
+          "text": "Penso a N — era presente in un momento chiave. Il suo contributo non è nel registro ufficiale.",
+          "goto": "outcome_n_impact_resolved"
+        },
+        {
+          "id": "acknowledge_resolved",
+          "text": "Non c'è altro da aggiungere — è documentato.",
+          "goto": "outcome_register_resolved"
+        }
+      ]
+    },
+
+    "outcome_n_impact_resolved": {
+      "stitches": [
+        {
+          "id": "n_resolved_1",
+          "text": "N era presente in un momento chiave. Zorua ha visto quello che hai visto — e N ha scelto di non restare a guardare. Il fatto che lui fosse lì non entra nel registro formale. Ma è parte di quello che ha reso possibile raccogliere quello che hai raccolto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "note_n_and_continue",
+          "text": "Lo tengo presente — poi controllo il registro con Elio.",
+          "timeCostMinutes": 10,
+          "goto": "outcome_ranger_debrief"
+        },
+        {
+          "id": "note_n_significance",
+          "text": "Rifletto su cosa significa il fatto che N si sia esposto — non per il Circuito, ma per il bosco.",
+          "goto": "outcome_register_resolved"
+        },
+        {
+          "id": "note_n_and_close",
+          "text": "È abbastanza — registro l'esito.",
+          "goto": "outcome_register_resolved"
+        }
+      ]
+    },
+
+    "outcome_ranger_debrief": {
+      "stitches": [
+        {
+          "id": "debrief_1",
+          "text": "Elio Mar mostra il riepilogo formale: tracciatura delle coordinate, timestamp dei sopralluoghi, tipo di attrezzatura censita. Non è un dossier completo — ma è uno scheletro che tiene. La procedura aperta ha un numero di protocollo e una scadenza di revisione."
+        },
+        {
+          "id": "debrief_2",
+          "text": "«Hai fatto quello che un Ranger avrebbe dovuto fare prima.» Lo dice senza ironia. È una valutazione dei fatti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ask_follow_up_steps",
+          "text": "Chiedo cosa succede adesso — chi eredita questa procedura.",
+          "timeCostMinutes": 10,
+          "goto": "outcome_register_resolved"
+        },
+        {
+          "id": "ask_about_poachers",
+          "text": "Chiedo se c'è qualcuno identificato nell'operazione.",
+          "goto": "outcome_register_resolved"
+        },
+        {
+          "id": "thank_elio",
+          "text": "Non c'è altro — Elio ha quello che gli serve.",
+          "goto": "outcome_register_resolved"
+        }
+      ]
+    },
+
+    "outcome_register_resolved": {
+      "stitches": [
+        {
+          "id": "register_resolved_1",
+          "text": "La rete di bracconaggio nel settore est del Bosco Bruma: interrotta nella sua configurazione attuale, documentazione formale attiva, procedura Ranger aperta. Non risolta nel senso permanente — ma portata a un punto di chiusura pratica per questa fase."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_to_outro_resolved",
+          "text": "Segno l'esito e torno.",
+          "goto": "outcome_network_close"
+        }
+      ]
+    },
+
+    "outcome_context_partial": {
+      "stitches": [
+        {
+          "id": "partial_1",
+          "text": "Hai fatto qualcosa. Un sopralluogo, una traccia aperta, un rapporto consegnato — o una combinazione di questi. Ma non è abbastanza per dire che il problema sia risolto. Il sistema ha ricevuto un input, non una risposta definitiva."
+        },
+        {
+          "id": "partial_2",
+          "text": "Il Servizio Ranger sa che qualcosa esiste. Non sa abbastanza. L'operazione clandestina nel Bosco Bruma è ancora attiva — ridimensionata forse, più cauta, ma non disarticolata."
+        }
+      ],
+      "choices": [
+        {
+          "id": "review_partial_evidence",
+          "text": "Rivedo quello che ho raccolto — cosa c'è nel sistema e cosa manca.",
+          "goto": "outcome_partial_assess"
+        },
+        {
+          "id": "check_ranger_partial",
+          "text": "Controllo cosa può fare Elio con quello che ha ricevuto.",
+          "timeCostMinutes": 10,
+          "goto": "outcome_partial_assess"
+        },
+        {
+          "id": "acknowledge_partial",
+          "text": "Non posso fare altro adesso — registro quello che c'è.",
+          "goto": "outcome_register_partial"
+        }
+      ]
+    },
+
+    "outcome_partial_assess": {
+      "stitches": [
+        {
+          "id": "partial_assess_1",
+          "text": "Quello che esiste nel sistema: una o più segnalazioni, forse dati di posizione, forse un rapporto ranger incompleto. Abbastanza per aprire un file — non abbastanza per avviare un'operazione di sequestro. Elio ha qualcosa con cui lavorare, ma non è sufficiente a chiudere il caso in questa fase."
+        }
+      ],
+      "choices": [
+        {
+          "id": "note_what_remains",
+          "text": "Noto quello che è ancora aperto — potrebbe esserci spazio per riprendere.",
+          "goto": "outcome_register_partial"
+        },
+        {
+          "id": "assess_ranger_can_do",
+          "text": "Chiedo se Elio può portare avanti qualcosa da solo con i dati che ha.",
+          "timeCostMinutes": 5,
+          "goto": "outcome_register_partial"
+        },
+        {
+          "id": "ask_partial_scope",
+          "text": "Chiedo quanto è ampia la parte rimasta irrisolta rispetto a quella affrontata.",
+          "goto": "outcome_register_partial"
+        },
+        {
+          "id": "accept_partial_outcome",
+          "text": "È ciò che è — registro l'esito parziale.",
+          "goto": "outcome_register_partial"
+        }
+      ]
+    },
+
+    "outcome_register_partial": {
+      "stitches": [
+        {
+          "id": "register_partial_1",
+          "text": "La rete di bracconaggio nel settore est del Bosco Bruma: risposta parziale avviata, elementi residui non risolti. Il file esiste — incompleto. La situazione è in sospeso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_to_outro_partial",
+          "text": "Segno l'esito e torno.",
+          "goto": "outcome_network_close"
+        }
+      ]
+    },
+
+    "outcome_context_escalated": {
+      "stitches": [
+        {
+          "id": "escalated_1",
+          "text": "Hai ignorato il problema — o lo hai lasciato ignorare senza risposta. Nel frattempo, la rete ha continuato a muoversi. I punti di raccolta si sono spostati, i contatti si sono adattati, il pattern ha preso forma più solida. Non è colpa tua nel senso legale. È colpa tua nel senso pratico."
+        },
+        {
+          "id": "escalated_2",
+          "text": "Il Circuito non ha traccia del tuo non-intervento. Ma il bosco ha memoria. Le specie che stavi osservando si sono spostate. Le anomalie che avevi notato sono diventate struttura."
+        }
+      ],
+      "choices": [
+        {
+          "id": "assess_escalated_damage",
+          "text": "Valuto quanto la situazione è cambiata rispetto a quando l'ho trovata.",
+          "goto": "outcome_escalated_assess"
+        },
+        {
+          "id": "ask_what_ranger_knows",
+          "text": "Controllo se Elio ha rilevato qualcosa da parte sua nel frattempo.",
+          "timeCostMinutes": 10,
+          "goto": "outcome_escalated_assess"
+        },
+        {
+          "id": "accept_escalated",
+          "text": "È andata come è andata — registro l'esito.",
+          "goto": "outcome_register_escalated"
+        }
+      ]
+    },
+
+    "outcome_escalated_assess": {
+      "stitches": [
+        {
+          "id": "escalated_assess_1",
+          "text": "Elio ha rilevato l'escalation dal suo lato — anomalie nel conteggio delle catture, segnalazioni da altri trainer, un silenzio troppo regolare in certi settori. Non ha un file aperto su di te. Non sa che sapevi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "note_cost_of_inaction",
+          "text": "Noto il costo — il problema adesso è più difficile da contenere.",
+          "goto": "outcome_register_escalated"
+        },
+        {
+          "id": "consider_future_action",
+          "text": "Non è finita — potrebbe esserci ancora spazio per intervenire in futuro.",
+          "goto": "outcome_register_escalated"
+        },
+        {
+          "id": "ask_escalation_extent",
+          "text": "Chiedo a Elio quanto è cambiato rispetto alla situazione iniziale.",
+          "timeCostMinutes": 10,
+          "goto": "outcome_register_escalated"
+        },
+        {
+          "id": "close_escalated_quietly",
+          "text": "Non c'è niente da fare adesso — registro e vado avanti.",
+          "goto": "outcome_register_escalated"
+        }
+      ]
+    },
+
+    "outcome_register_escalated": {
+      "stitches": [
+        {
+          "id": "register_escalated_1",
+          "text": "La rete di bracconaggio nel settore est del Bosco Bruma: escalation non contenuta. Il problema ha guadagnato spazio e struttura. Nessuna risposta formale da parte tua — l'operazione è ancora attiva in forma più consolidata."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_to_outro_escalated",
+          "text": "Segno l'esito e torno.",
+          "goto": "outcome_network_close"
+        }
+      ]
+    },
+
+    "outcome_context_ignored": {
+      "stitches": [
+        {
+          "id": "ignored_1",
+          "text": "Non hai interagito con il problema in modo significativo. Non hai avviato una traccia ranger, non hai raccolto prove formali, non hai coinvolto nessuno. Non è stata una scelta esplicita di evitare — semplicemente non è entrato nella tua lista di priorità."
+        },
+        {
+          "id": "ignored_2",
+          "text": "Il bosco ha continuato. L'operazione ha continuato. Tu hai continuato in un'altra direzione. Non esiste un registro di questo — perché non c'è un registro del non-agire."
+        }
+      ],
+      "choices": [
+        {
+          "id": "observe_what_continued",
+          "text": "Osservo cosa è successo nel bosco senza di me.",
+          "goto": "outcome_ignored_assess"
+        },
+        {
+          "id": "check_if_matter",
+          "text": "Mi chiedo se quello che non ho fatto aveva importanza in questa fase.",
+          "goto": "outcome_ignored_assess"
+        },
+        {
+          "id": "accept_ignored",
+          "text": "Non c'era niente da fare diversamente adesso — registro e torno.",
+          "goto": "outcome_register_ignored"
+        }
+      ]
+    },
+
+    "outcome_ignored_assess": {
+      "stitches": [
+        {
+          "id": "ignored_assess_1",
+          "text": "Il bosco non ti aspettava. L'operazione non si è fermata aspettando che tu decidessi. Il Circuito ha altri meccanismi — altri trainer, altri ranger. Quello che hai scelto di non fare è rimasto non fatto. Il problema esiste ancora — nella sua forma originale, forse leggermente trasformata dal tempo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "note_world_without_me",
+          "text": "Noto che il mondo funzionava senza il mio intervento — che ci fosse o no.",
+          "goto": "outcome_register_ignored"
+        },
+        {
+          "id": "accept_gap_in_record",
+          "text": "Accetto che ci sia un gap nel mio record — non ho agito qui.",
+          "goto": "outcome_register_ignored"
+        },
+        {
+          "id": "reflect_on_priority",
+          "text": "Rifletto sulla priorità che ho dato — o non ho dato — a questo.",
+          "goto": "outcome_register_ignored"
+        },
+        {
+          "id": "check_current_network_state",
+          "text": "Chiedo se qualcuno d'altro canto ha notato qualcosa.",
+          "timeCostMinutes": 5,
+          "goto": "outcome_register_ignored"
+        }
+      ]
+    },
+
+    "outcome_register_ignored": {
+      "stitches": [
+        {
+          "id": "register_ignored_1",
+          "text": "La rete di bracconaggio nel settore est del Bosco Bruma: nessuna risposta formale registrata. L'operazione esiste — non è nel sistema a nome tuo. Resta un problema aperto, non contenuto, senza una traccia che ti riguardi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_to_outro_ignored",
+          "text": "Segno l'esito e torno.",
+          "goto": "outcome_network_close"
+        }
+      ]
+    },
+
+    "outcome_network_close": {
+      "stitches": [
+        {
+          "id": "close_1",
+          "text": "Qualunque cosa sia successa nel Bosco Bruma — qualunque scelta tu abbia fatto o evitato — è adesso parte della storia di questo posto. E parte della tua. Quello che hai registrato oggi rimarrà come dato permanente per il resto di M2 e oltre."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_to_borgo_outcome",
+          "text": "Torno al borgo.",
+          "goto": "m02-borgo-salice#borough_hub",
+          "effects": [
+            {"type": "set_flag", "key": "network_outcome_complete", "value": true},
+            {"type": "set_location", "locationId": "borgo_salice"}
+          ]
+        }
+      ]
+    }
+  }
+}
