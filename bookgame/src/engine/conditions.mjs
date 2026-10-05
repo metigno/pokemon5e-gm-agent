@@ -54,6 +54,15 @@ export function isAllowedConditionPath(path) {
       ID_RE.test(segments[2]) &&
       ["available", "registered", "attempts", "bestResult", "lastResult", "completed", "requiredRosterSize"].includes(segments[3])) return true;
   if (segments.length === 4 &&
+      segments[0] === "shops" &&
+      ID_RE.test(segments[1]) &&
+      segments[2] === "stock" &&
+      ID_RE.test(segments[3])) return true;
+  if (segments.length === 3 &&
+      segments[0] === "shops" &&
+      ID_RE.test(segments[1]) &&
+      ["refreshCycle", "lastRefreshDay", "refreshEveryDays"].includes(segments[2])) return true;
+  if (segments.length === 4 &&
       segments[0] === "npcs" &&
       ID_RE.test(segments[1]) &&
       segments[2] === "relationship" &&
