@@ -21,6 +21,7 @@ const EFFECT_TYPES = new Set([
   "npc_relationship_adjust",
   "npc_state_set",
   "npc_schedule_set",
+  "friend_beat_select",
   "competition_trial_available",
   "competition_trial_register"
 ]);
@@ -112,7 +113,7 @@ function validateEffects(effects, at, errors) {
     if (["quest_offer", "quest_start", "quest_complete", "quest_fail"].includes(effect.type)) {
       errors.push(...validateQuestEffect(effect, effectAt));
     }
-    if (["npc_register", "npc_relationship_adjust", "npc_state_set", "npc_schedule_set"].includes(effect.type)) {
+    if (["npc_register", "npc_relationship_adjust", "npc_state_set", "npc_schedule_set", "friend_beat_select"].includes(effect.type)) {
       errors.push(...validateNpcEffect(effect, effectAt));
     }
     if (["competition_trial_available", "competition_trial_register"].includes(effect.type)) {
