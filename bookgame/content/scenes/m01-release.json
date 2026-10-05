@@ -22,19 +22,19 @@
       "stitches": [
         {
           "id": "guided_part_ends",
-          "text": "L'ultima indicazione dell'onboarding finisce al cancello del Campus Licenze. Da qui nessuno ti assegna una strada: il tempo è tuo e il mondo continua a muoversi anche senza aspettarti."
+          "text": "Al cancello del Campus Licenze, l'istruttore che vi ha accompagnati fin lì smette di camminare. Dietro di te il cortile resta pieno di richiami, passi e ultime indicazioni; davanti, la strada scende senza nessuno che venga a indicarti la prossima tappa."
         },
         {
           "id": "three_directions",
-          "text": "I cartelli mostrano tre direzioni immediate. Via delle Ginestre scende tra campi e muretti; Valedarsena è raggiungibile proseguendo verso la costa; una deviazione porta alla Fattoria del Vento."
+          "text": "Un cartello basso divide subito il percorso. Via delle Ginestre corre tra campi e muretti; più avanti la strada principale porta verso Valedarsena, mentre una deviazione piega nell'entroterra verso la Fattoria del Vento."
         },
         {
           "id": "trial_exists_not_order",
-          "text": "Sai che i Promotion Trial servono per salire di Rank, ma non hai ricevuto una missione principale da accettare. Puoi informarti, esplorare, allenarti, lavorare o semplicemente cambiare direzione."
+          "text": "Sulla licenza che hai appena ricevuto compare anche la prima soglia del Circuito: Promotion Trial, Rank F → E. Non c'è un orario assegnato. Prima di presentarti puoi allenarti, lavorare, esplorare o semplicemente vedere dove porta una delle strade."
         },
         {
           "id": "persistent_world",
-          "text": "Allenatori, lavoratori, fauna e opportunità hanno i propri tempi. Restare qui, partire subito o ignorare una pista non congela ciò che accade altrove."
+          "text": "Mentre resti davanti al cancello, due rookie si separano senza consultarsi: uno accelera verso la costa, l'altro prende la deviazione rurale. Poco dopo passa un furgone da lavoro diretto alle Ginestre. Nessuno dei tre aspetta che tu decida."
         }
       ],
       "choices": [
