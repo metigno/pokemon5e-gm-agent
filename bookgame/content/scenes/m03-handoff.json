@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "id": "m03-handoff",
+  "moduleId": "M03",
+  "title": "M3_00 — Handoff (stub)",
+  "locationId": "m03_entry_point",
+  "entryNodeId": "m03_entry",
+  "conditions": {
+    "all": [
+      { "path": "world.flags.m2_complete", "eq": true },
+      { "path": "world.flags.m03_unlocked", "eq": true }
+    ]
+  },
+  "nodes": {
+    "m03_entry": {
+      "stitches": [
+        {
+          "id": "m03_stub_1",
+          "text": "STUB — M3 non ancora implementato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_to_borgo_stub",
+          "text": "Torna a Borgo Salice.",
+          "goto": "m02-borgo-salice#borough_hub",
+          "effects": [
+            { "type": "set_location", "locationId": "borgo_salice" }
+          ]
+        }
+      ]
+    }
+  }
+}
