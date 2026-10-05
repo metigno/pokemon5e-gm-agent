@@ -145,7 +145,8 @@ test("M1_15 Rank E alone cannot formally close M1 or unlock M02", async () => {
   view = await engine.present(state);
   assert.equal(view.choices.some((choice) => choice.id === "blue_pending"), true);
   assert.equal(view.choices.some((choice) => choice.id === "friend_pending"), true);
-  assert.equal(view.choices.some((choice) => choice.id === "split_pending"), true);
+  assert.equal(state.world.flags.friends_split, true);
+  assert.equal(view.choices.some((choice) => choice.id === "split_pending"), false);
   assert.equal(state.world.flags.m1_complete, undefined);
   assert.equal(state.world.flags.m02_unlocked, undefined);
 });
