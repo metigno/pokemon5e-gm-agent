@@ -60,7 +60,7 @@ The graph is reconvergent, not linear. The player may move repeatedly between Gi
 | M1_01_FIRST_ROAD | road life, travel teaching, optional trainer/fauna signals | 320 | 200 | IMPLEMENTED |
 | M1_02_HOUNDOUR_GINESTRE | ecological Houndour encounter and callbacks | 360 | 220 | IMPLEMENTED |
 | M1_03_FIRST_REAL_FORK | first real route choice and local exploration | 220 | 150 | IMPLEMENTED |
-| M1_04_VALEDARSENA_FIRST_ARRIVAL | first hub arrival and orientation | 460 | 310 | IMPLEMENTED |
+| M1_04_VALEDARSENA_FIRST_ARRIVAL | first hub arrival and orientation | 460 | 310 | COMPLETE |
 | M1_05_JOB_BOARD | temporal jobs, logistics, Sera Noll | 360 | 260 | PARTIAL |
 | M1_06_FARM_HERD_HANDS | farm recovery quest and ecology | 450 | 310 | PARTIAL |
 | M1_07_WORLD_MOVES | pressure state machine and off-screen consequences | 450 | 290 | ENGINE DEPENDENCY |
@@ -338,7 +338,9 @@ Required for:
 - Via Allenatori contains a real offline shop using Pokémon 5e 2024 upstream item IDs and prices: Poké Ball ₽250, Potion ₽200, Antidote ₽200;
 - trainer money is persisted as `player.money`; New Game starts at ₽0 because the upstream trainer money model has no implicit campaign grant;
 - `purchase_item` is atomic: insufficient funds cannot buy on credit, successful purchase subtracts the exact cost and adds the canonical item ID to the same persistent inventory consumed by combat/capture;
-- money and inventory survive save/reload exactly;
+- Via Allenatori stock is finite and authored; sold-out purchase choices disappear rather than allowing impossible transactions;
+- shop stock is part of persistent career state and refreshes on the locked three-in-game-day cycle (day 1–3, then day 4–6, etc.);
+- money, inventory and remaining shop stock survive save/reload exactly;
 - M1_04 does not invent rewards or starting cash: jobs/rewards may feed the same ledger in later blocks.
 
 **Item authority:** Pokémon 5e 2024 SRD / `Auroratide/poke5e` (project `rules/sources.yaml` exact-item lookup policy).
