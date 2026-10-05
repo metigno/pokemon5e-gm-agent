@@ -1322,6 +1322,34 @@
           "goto": "rank_e_access"
         },
         {
+          "id": "mistwood",
+          "text": "Parto per Bosco Bruma.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.m02_unlocked",
+                "eq": true
+              },
+              {
+                "path": "world.flags.m2_active",
+                "eq": true
+              },
+              {
+                "path": "competition.rank",
+                "eq": "E"
+              }
+            ]
+          },
+          "goto": "m02-mistwood-entry#departure",
+          "timeCostMinutes": 150,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "asteria_mistwood"
+            }
+          ]
+        },
+        {
           "id": "center",
           "text": "Centro Pokémon.",
           "goto": "center",
