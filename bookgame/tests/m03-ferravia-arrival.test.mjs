@@ -356,3 +356,92 @@ test("M3_02 state survives save/reload identically", async () => {
     if (tmpDir) await rm(tmpDir, { recursive: true, force: true });
   }
 });
+
+
+// ─── MODEL ALIGNMENT PASS ────────────────────────────────────────────────────
+
+test("M3_02 Sala Verde rest advances time but never auto-heals HP, PP or status", async () => {
+  const { engine } = await makeEngine();
+  let state = enterFerravia(legalM3State());
+  state.player.roster = [{
+    speciesId: "growlithe",
+    name: "Growlithe",
+    level: 5,
+    hp: { current: 3, max: 20 },
+    statuses: ["poisoned"],
+    pp: { ember: 1 }
+  }];
+  state.player.starter = structuredClone(state.player.roster[0]);
+  const rosterBefore = structuredClone(state.player.roster);
+  state = await engine.choose(state, "enter_city_hub");
+  state = await engine.choose(state, "hub_sala_verde");
+  state = await engine.choose(state, "sala_verde_rest");
+  assert.deepEqual(state.player.roster, rosterBefore);
+  assert.equal(state.world.flags.ferravia_sala_verde_used, true);
+});
+
+test("M3_02 medical consult is informational and leaves roster unchanged", async () => {
+  const { engine } = await makeEngine();
+  let state = enterFerravia(legalM3State());
+  const rosterBefore = structuredClone(state.player.roster);
+  state = await engine.choose(state, "enter_city_hub");
+  state = await engine.choose(state, "hub_sala_verde");
+  state = await engine.choose(state, "sala_verde_consult");
+  assert.equal(state.world.flags.ferravia_medical_consulted, true);
+  assert.deepEqual(state.player.roster, rosterBefore);
+});
+
+test("M3_02 shop purchase uses persistent money, inventory and finite stock", async () => {
+  const { engine } = await makeEngine();
+  let state = enterFerravia(legalM3State());
+  state.player.money = 500;
+  state = await engine.choose(state, "enter_city_hub");
+  state = await engine.choose(state, "hub_shop");
+  let view = await engine.present(state);
+  assert.ok(view.choices.find((c) => c.id === "buy_poke_ball"));
+  state = await engine.choose(state, "buy_poke_ball");
+  assert.equal(state.player.money, 250);
+  assert.ok(state.player.inventory.includes("poke-ball"));
+  assert.equal(state.shops.ferravia_trainer_shop.stock["poke-ball"], 5);
+});
+
+test("M3_02 shop hides unaffordable purchases instead of allowing credit", async () => {
+  const { engine } = await makeEngine();
+  let state = enterFerravia(legalM3State());
+  state.player.money = 0;
+  state = await engine.choose(state, "enter_city_hub");
+  state = await engine.choose(state, "hub_shop");
+  const view = await engine.present(state);
+  assert.equal(view.choices.some((c) => c.id === "buy_poke_ball"), false);
+  assert.equal(view.choices.some((c) => c.id === "buy_potion"), false);
+  assert.equal(view.choices.some((c) => c.id === "buy_antidote"), false);
+});
+
+test("M3_02 deferred Steven contact becomes recoverable from the Ferravia hub", async () => {
+  const { engine } = await makeEngine();
+  let state = enterFerravia(legalM3State());
+  state.world.flags.old_maps_read = true;
+  state.world.flags.steven_declined_contact = true;
+  state = await engine.choose(state, "enter_city_hub");
+  const view = await engine.present(state);
+  assert.ok(view.choices.find((c) => c.id === "hub_recontact_steven"));
+  state = await engine.choose(state, "hub_recontact_steven");
+  assert.equal(state.story.sceneId, "m03-steven-enters");
+  assert.equal(state.story.nodeId, "deferred_contact");
+});
+
+test("M3_02 re-entry preserves shop stock and prior Ferravia state", async () => {
+  const { engine } = await makeEngine();
+  let state = enterFerravia(legalM3State());
+  state.player.money = 500;
+  state = await engine.choose(state, "enter_city_hub");
+  state = await engine.choose(state, "hub_shop");
+  state = await engine.choose(state, "buy_poke_ball");
+  const stockAfter = state.shops.ferravia_trainer_shop.stock["poke-ball"];
+  state.story.sceneId = "m03-ferravia-arrival";
+  state.story.nodeId = "city_hub";
+  state.world.locationId = "fer_city";
+  await engine.present(state);
+  assert.equal(state.shops.ferravia_trainer_shop.stock["poke-ball"], stockAfter);
+  assert.equal(state.world.flags.ferravia_discovered, true);
+});
