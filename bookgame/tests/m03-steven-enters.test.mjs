@@ -429,3 +429,46 @@ test("M3_04 Steven-met state survives save/reload identically", async () => {
     if (tmpDir) await rm(tmpDir, { recursive: true, force: true });
   }
 });
+
+
+// ─── MODEL ALIGNMENT PASS ────────────────────────────────────────────────────
+
+test("M3_04 deferred contact can be recovered and satisfies steven_met", async () => {
+  const { engine } = await makeEngine();
+  let state = legalM3StevenGate();
+  state.world.flags.steven_declined_contact = true;
+  state.story.sceneId = "m03-steven-enters";
+  state.story.nodeId = "deferred_contact";
+  state.world.locationId = "fer_city_archive";
+  state = await engine.choose(state, "deferred_introduce");
+  assert.equal(state.story.nodeId, "introduction_exchange");
+  assert.equal(state.world.flags.steven_met, true);
+  assert.equal(state.world.flags.steven_contact_recovered, true);
+  assert.equal(state.npcs.Steven.state.role, "technical_observer");
+});
+
+test("M3_04 deferring twice never permanently removes the recovery route", async () => {
+  const { engine } = await makeEngine();
+  let state = legalM3StevenGate();
+  state.world.flags.steven_declined_contact = true;
+  state.story.sceneId = "m03-steven-enters";
+  state.story.nodeId = "deferred_contact";
+  state.world.locationId = "fer_city_archive";
+  state = await engine.choose(state, "deferred_wait_again");
+  state = await engine.choose(state, "post_back_city_hub");
+  assert.equal(state.story.sceneId, "m03-ferravia-arrival");
+  assert.equal(state.story.nodeId, "city_hub");
+  const view = await engine.present(state);
+  assert.ok(view.choices.find((c) => c.id === "hub_recontact_steven"));
+  assert.equal(state.world.flags.steven_met, undefined);
+});
+
+test("M3_04 initial refusal records historical deferral without making it terminal", async () => {
+  const { engine } = await makeEngine();
+  let state = enterSteven(legalM3StevenGate());
+  state = await engine.choose(state, "leave_without_meeting");
+  assert.equal(state.world.flags.steven_declined_contact, true);
+  assert.equal(state.world.flags.steven_contact_deferred, true);
+  const view = await engine.present(state);
+  assert.ok(view.choices.find((c) => c.id === "hub_recontact_steven"));
+});
