@@ -18,6 +18,14 @@ import { createNewGameState } from "../src/engine/state.mjs";
 
 const fixedNow = () => "2026-10-04T10:20:00.000Z";
 
+function firstRoadState({ slot = "slot1" } = {}) {
+  const state = createNewGameState({ protagonist: "Luke", slot, now: fixedNow });
+  state.world.locationId = "asteria_ginestre";
+  state.story.sceneId = "first-road";
+  state.story.nodeId = "arrival";
+  return state;
+}
+
 test("local combat pack is pinned to the selected Poke5e 2024 upstream ref", async () => {
   const data = new Poke5eDataRepository();
   const meta = await data.metadata();
@@ -114,7 +122,7 @@ test("a local combat win returns to the authored narrative node", async () => {
   const combat = new Pokemon5eCombatEngine({ dice });
   const book = new BookgameEngine({ now: fixedNow });
 
-  let state = createNewGameState({ protagonist: "Luke", now: fixedNow });
+  let state = firstRoadState();
   state = await book.choose(state, "send_starter");
 
   let battle = await combat.createBattle(state.pending);
@@ -142,7 +150,7 @@ test("save -> close -> reload preserves exact mid-combat HP, PP, round and turn"
       dice: new SequenceDice([15, 5])
     });
 
-    let state = createNewGameState({ protagonist: "Luke", slot: "slot-combat", now: fixedNow });
+    let state = firstRoadState({ slot: "slot-combat" });
     state = await book.choose(state, "send_starter");
     const battle = await combat.createBattle(state.pending);
     state = book.setCombatState(state, battle);
