@@ -693,6 +693,11 @@
           "id": "damage_detail_back",
           "text": "Torno al quadro delle responsabilità.",
           "goto": "responsibility_review"
+        },
+        {
+          "id": "damage_future_inspection",
+          "text": "Controllo quali verifiche serviranno per riaprire.",
+          "goto": "future_inspection"
         }
       ]
     },
@@ -844,6 +849,65 @@
           "id": "economy_skip",
           "text": "Non aggiungo altro al mio diario.",
           "goto": "reputation_review"
+        },
+        {
+          "id": "economy_rail",
+          "text": "Controllo l'effetto sulle tratte di servizio.",
+          "goto": "rail_consequence"
+        }
+      ]
+    },
+    "rail_consequence": {
+      "stitches": [
+        {
+          "id": "rail_1",
+          "text": "La chiusura tecnica cambia anche la logistica ferroviaria: alcuni convogli di servizio vengono deviati e i turni di manutenzione aumentano finché il ramo nord resta limitato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rail_record",
+          "text": "Registro la deviazione come conseguenza del danno.",
+          "goto": "reputation_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_rail_state",
+              "value": "service_diversions_active"
+            }
+          ]
+        },
+        {
+          "id": "rail_back",
+          "text": "Torno al quadro locale.",
+          "goto": "local_economy"
+        }
+      ]
+    },
+    "future_inspection": {
+      "stitches": [
+        {
+          "id": "inspection_1",
+          "text": "Il rapporto impone una revisione tecnica successiva prima della piena riapertura. È un gancio futuro autorizzato dallo stato, non una promessa che il player debba per forza seguirlo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "inspection_record",
+          "text": "Registro la revisione futura.",
+          "goto": "reputation_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_future_inspection_required",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "inspection_back",
+          "text": "Torno al bilancio strutturale.",
+          "goto": "damage_detail"
         }
       ]
     }
