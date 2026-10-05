@@ -215,7 +215,7 @@ test("M3_03 browse_open_shelf without reading report does NOT set ferrox_survey_
 
 // ─── NO PREMATURE M3 CONTENT ──────────────────────────────────────────────────
 
-test("M3_03 full archive investigation does NOT trigger Steven arrival, Ferrox incident or Trial", async () => {
+test("M3_03 full archive investigation does not auto-complete Steven/Ferrox/Trial content", async () => {
   const { engine } = await makeEngine(new SequenceDice([20]));
   let state = enterArchive(legalM3State());
   state = await engine.choose(state, "ask_archivist_quarry");
@@ -235,7 +235,8 @@ test("M3_03 full archive investigation does NOT trigger Steven arrival, Ferrox i
   assert.equal(state.world.flags.regional_cup_registered, undefined);
   assert.equal(state.competition.rank, "D");
   assert.equal(state.competition.trials.RANK_D_TO_C, undefined);
-  assert.equal(state.events.A3_FRIEND_CALL, undefined);
+  assert.equal(state.events.A3_FRIEND_CALL?.status, "resolved");
+  assert.equal(state.world.flags.a3_friend_call_available, true);
   assert.equal(state.events.A3_CROSSROADS, undefined);
   assert.equal(state.events.A3_REGIONAL_CUP, undefined);
   assert.equal(state.events.A3_RANK_TRIAL_D_C, undefined);
