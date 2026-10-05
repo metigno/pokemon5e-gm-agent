@@ -1,0 +1,449 @@
+{
+  "schemaVersion": 1,
+  "id": "m03-ferrox-incident",
+  "moduleId": "M03",
+  "title": "M3_06 — Incidente Ferrox",
+  "locationId": "fer_city_dispatch",
+  "entryNodeId": "incident_alert",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m2_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m03_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m3_active",
+        "eq": true
+      },
+      {
+        "path": "world.flags.a3_ferrox_incident_available",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "D"
+      }
+    ]
+  },
+  "nodes": {
+    "incident_alert": {
+      "stitches": [
+        {
+          "id": "incident_alert_1",
+          "text": "Il dispaccio arriva senza musica né sirene teatrali: «Ferrox, ramo tecnico nord. Cedimento locale e interruzione della ventilazione secondaria. Squadre interne in verifica. Accesso civile sospeso.»"
+        },
+        {
+          "id": "incident_alert_2",
+          "text": "La parte importante è il timestamp. La finestra di soccorso è già in corso nel mondo reale del gioco; il timer non è nato quando hai aperto questo messaggio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "read_live_incident",
+          "text": "Leggo il dispaccio mentre la finestra operativa è ancora aperta.",
+          "conditions": {
+            "path": "quests.M3_FERROX_RESCUE.status",
+            "eq": "active"
+          },
+          "goto": "incident_live"
+        },
+        {
+          "id": "read_late_incident",
+          "text": "Leggo il dispaccio dopo che la finestra operativa si è chiusa.",
+          "conditions": {
+            "path": "quests.M3_FERROX_RESCUE.status",
+            "eq": "failed"
+          },
+          "goto": "incident_late"
+        }
+      ]
+    },
+    "incident_live": {
+      "stitches": [
+        {
+          "id": "incident_live_1",
+          "text": "Il centro operativo di Ferravia non ti assegna il comando. Sei un trainer Rank D presente in zona: puoi offrire supporto, raccogliere informazioni utili o arrivare al perimetro. Le squadre professionali continuano a lavorare con o senza di te."
+        }
+      ],
+      "choices": [
+        {
+          "id": "listen_dispatch_details",
+          "text": "Chiedo al dispatcher la situazione operativa precisa.",
+          "timeCostMinutes": 10,
+          "goto": "dispatch_detail",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_incident_briefed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "contact_steven_incident",
+          "text": "Contatto Steven e gli chiedo se sta già seguendo il cedimento.",
+          "timeCostMinutes": 5,
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.steven_met",
+                "eq": true
+              },
+              {
+                "path": "world.flags.steven_rescue_contacted",
+                "ne": true
+              }
+            ]
+          },
+          "goto": "steven_incident",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "steven_rescue_contacted",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "call_site_supervisor",
+          "text": "Chiedo un aggiornamento al responsabile del perimetro Ferrox.",
+          "timeCostMinutes": 5,
+          "goto": "site_report",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_site_report_requested",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "go_to_rescue_now",
+          "text": "Vado subito al perimetro Ferrox.",
+          "goto": "m03-ferrox-rescue#rescue_perimeter",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_incident_briefed",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "ferrox_rescue_perimeter"
+            }
+          ]
+        },
+        {
+          "id": "return_hub_prepare",
+          "text": "Torno nel centro di Ferravia per prepararmi; il timer continuerà a scorrere.",
+          "timeCostMinutes": 15,
+          "goto": "m03-ferravia-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_incident_briefed",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        }
+      ]
+    },
+    "dispatch_detail": {
+      "stitches": [
+        {
+          "id": "dispatch_detail_1",
+          "text": "Il dispatcher distingue ciò che sa da ciò che non sa: un tratto è ostruito, una squadra interna ha perso il collegamento diretto e la ventilazione secondaria è ferma. Non conferma vittime perché non ha ancora un conteggio affidabile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ask_access_route",
+          "text": "Chiedo quale accesso resta autorizzato per il supporto esterno.",
+          "goto": "access_route",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_rescue_access_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "ask_people_status",
+          "text": "Chiedo quante persone siano effettivamente coinvolte.",
+          "goto": "people_status"
+        },
+        {
+          "id": "dispatch_go_now",
+          "text": "Ho abbastanza informazioni. Vado al perimetro.",
+          "goto": "m03-ferrox-rescue#rescue_perimeter",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "ferrox_rescue_perimeter"
+            }
+          ]
+        },
+        {
+          "id": "dispatch_back_live",
+          "text": "Torno al quadro generale.",
+          "goto": "incident_live"
+        }
+      ]
+    },
+    "access_route": {
+      "stitches": [
+        {
+          "id": "access_route_1",
+          "text": "L'accesso sud è aperto alle squadre di supporto registrate. Il ramo nord resta interdetto finché un caposquadra non autorizza l'ingresso. Sapere la strada corretta ti evita di perdere tempo al checkpoint sbagliato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "route_to_rescue",
+          "text": "Raggiungo l'accesso sud.",
+          "timeCostMinutes": 10,
+          "goto": "m03-ferrox-rescue#rescue_perimeter",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "ferrox_rescue_perimeter"
+            }
+          ]
+        },
+        {
+          "id": "route_back_dispatch",
+          "text": "Prima torno al dispatcher.",
+          "goto": "dispatch_detail"
+        }
+      ]
+    },
+    "people_status": {
+      "stitches": [
+        {
+          "id": "people_status_1",
+          "text": "«Tre badge risultano ancora nel settore isolato, ma il sistema non distingue chi è bloccato da chi sta già uscendo per un'altra via.» È un dato operativo, non una sentenza su tre vittime."
+        }
+      ],
+      "choices": [
+        {
+          "id": "people_record",
+          "text": "Registro il numero come dato incerto, non come bilancio.",
+          "goto": "dispatch_detail",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_people_at_risk_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "people_go_rescue",
+          "text": "Non aspetto oltre e vado al perimetro.",
+          "goto": "m03-ferrox-rescue#rescue_perimeter",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_people_at_risk_known",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "ferrox_rescue_perimeter"
+            }
+          ]
+        }
+      ]
+    },
+    "steven_incident": {
+      "stitches": [
+        {
+          "id": "steven_incident_1",
+          "text": "Steven risponde dal lato opposto della zona tecnica. «Sto seguendo la cartografia e le letture delle paratie. Non entro senza il coordinamento del sito. Se vai al perimetro, porta informazioni precise: posizione, aria, tempi. Non eroismo.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "steven_strong_warning",
+          "text": "Gli dico che prima dell'incidente avevo già correlato più segnali.",
+          "conditions": {
+            "path": "world.flags.ferrox_warning_quality",
+            "eq": "strong"
+          },
+          "goto": "steven_strong",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Steven",
+              "key": "player_warned_before_incident",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "steven_share_partial",
+          "text": "Gli dico cosa avevo notato senza sovrastimarlo.",
+          "goto": "steven_neutral"
+        },
+        {
+          "id": "steven_go_rescue",
+          "text": "Chiudo la chiamata e vado al perimetro.",
+          "goto": "m03-ferrox-rescue#rescue_perimeter",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "ferrox_rescue_perimeter"
+            }
+          ]
+        }
+      ]
+    },
+    "steven_strong": {
+      "stitches": [
+        {
+          "id": "steven_strong_1",
+          "text": "«Allora porta quella sequenza al caposquadra. Non perché avevi 'ragione', ma perché riduce il tempo necessario a ricostruire cosa è cambiato.» La tua informazione precedente diventa utilità operativa, non profezia."
+        }
+      ],
+      "choices": [
+        {
+          "id": "strong_to_rescue",
+          "text": "Porto la sequenza al perimetro.",
+          "goto": "m03-ferrox-rescue#rescue_perimeter",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_preincident_warning_actionable",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "ferrox_rescue_perimeter"
+            }
+          ]
+        },
+        {
+          "id": "strong_back_live",
+          "text": "Torno al quadro del dispatcher.",
+          "goto": "incident_live"
+        }
+      ]
+    },
+    "steven_neutral": {
+      "stitches": [
+        {
+          "id": "steven_neutral_1",
+          "text": "Steven non forza una conclusione: «Va bene. Le osservazioni parziali servono se restano parziali. Ci vediamo quando il sito avrà un quadro verificato.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "neutral_to_rescue",
+          "text": "Vado al perimetro.",
+          "goto": "m03-ferrox-rescue#rescue_perimeter",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "ferrox_rescue_perimeter"
+            }
+          ]
+        },
+        {
+          "id": "neutral_back_live",
+          "text": "Torno al quadro del dispatcher.",
+          "goto": "incident_live"
+        }
+      ]
+    },
+    "site_report": {
+      "stitches": [
+        {
+          "id": "site_report_1",
+          "text": "Il responsabile del sito conferma due priorità: mantenere libera la via sud e non sovraccaricare il ramo vecchio finché i supporti non sono controllati. Ti chiede di non arrivare con un Pokémon fuori capsula senza istruzioni della squadra di soccorso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "site_note_protocol",
+          "text": "Registro i limiti del perimetro e li rispetto.",
+          "goto": "incident_live",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_site_protocol_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "site_go_rescue",
+          "text": "Raggiungo il perimetro seguendo il protocollo.",
+          "timeCostMinutes": 10,
+          "goto": "m03-ferrox-rescue#rescue_perimeter",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_site_protocol_known",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "ferrox_rescue_perimeter"
+            }
+          ]
+        }
+      ]
+    },
+    "incident_late": {
+      "stitches": [
+        {
+          "id": "incident_late_1",
+          "text": "Il timestamp è ormai oltre la finestra operativa prevista dalla quest. Le squadre del sito hanno continuato senza di te. Puoi ancora raggiungere Ferrox e capire cosa è successo, ma non puoi fingere di essere arrivato in tempo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "late_go_perimeter",
+          "text": "Vado comunque al perimetro e accetto le conseguenze del ritardo.",
+          "goto": "m03-ferrox-rescue#rescue_perimeter",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_incident_briefed",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "ferrox_rescue_perimeter"
+            }
+          ]
+        },
+        {
+          "id": "late_return_hub",
+          "text": "Resto a Ferravia e aspetto il rapporto ufficiale.",
+          "goto": "m03-ferravia-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_incident_briefed",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
