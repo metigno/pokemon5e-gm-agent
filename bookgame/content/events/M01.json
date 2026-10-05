@@ -1918,6 +1918,548 @@
       ]
     },
     {
+      "id": "A1_FIVE_ROADS",
+      "once": true,
+      "trigger": {
+        "any": [
+          {
+            "path": "player.trainerLevel",
+            "gte": 3
+          },
+          {
+            "path": "competition.rank",
+            "eq": "E"
+          },
+          {
+            "path": "world.day",
+            "gte": 7
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "luke_protagonist",
+          "when": {
+            "path": "player.name",
+            "eq": "Luke"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friends_split",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_five_roads_available",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_five_roads_focus_friend_id",
+              "value": "Mattew"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Mattew",
+              "scheduleId": "m1_split_mattew",
+              "locationId": "valedarsena_arena",
+              "availability": "available",
+              "activity": "promotion_trial_preparation"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "fiveRoadsPath",
+              "value": "trial_preparation"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "recentResult",
+              "value": "trial_preparation_started"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Daniel",
+              "scheduleId": "m1_split_daniel",
+              "locationId": "valedarsena_warehouses",
+              "availability": "available",
+              "activity": "remote_logistics_contract"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "fiveRoadsPath",
+              "value": "remote_work"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "recentResult",
+              "value": "remote_contract_accepted"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Edward",
+              "scheduleId": "m1_split_edward",
+              "locationId": "asteria_farm",
+              "availability": "available",
+              "activity": "field_training_contract"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "fiveRoadsPath",
+              "value": "field_training"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "recentResult",
+              "value": "field_training_started"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Fab",
+              "scheduleId": "m1_split_fab",
+              "locationId": "asteria_upper_river",
+              "availability": "traveling",
+              "activity": "ranger_field_route"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "fiveRoadsPath",
+              "value": "ranger_route"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "recentResult",
+              "value": "ranger_route_started"
+            }
+          ]
+        },
+        {
+          "id": "mattew_protagonist",
+          "when": {
+            "path": "player.name",
+            "eq": "Mattew"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friends_split",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_five_roads_available",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_five_roads_focus_friend_id",
+              "value": "Daniel"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Luke",
+              "scheduleId": "m1_split_luke",
+              "locationId": "asteria_east_road",
+              "availability": "traveling",
+              "activity": "long_route_exploration"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "fiveRoadsPath",
+              "value": "long_route"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "recentResult",
+              "value": "departed_on_long_route"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Daniel",
+              "scheduleId": "m1_split_daniel",
+              "locationId": "valedarsena_warehouses",
+              "availability": "available",
+              "activity": "remote_logistics_contract"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "fiveRoadsPath",
+              "value": "remote_work"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "recentResult",
+              "value": "remote_contract_accepted"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Edward",
+              "scheduleId": "m1_split_edward",
+              "locationId": "asteria_farm",
+              "availability": "available",
+              "activity": "field_training_contract"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "fiveRoadsPath",
+              "value": "field_training"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "recentResult",
+              "value": "field_training_started"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Fab",
+              "scheduleId": "m1_split_fab",
+              "locationId": "asteria_upper_river",
+              "availability": "traveling",
+              "activity": "ranger_field_route"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "fiveRoadsPath",
+              "value": "ranger_route"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "recentResult",
+              "value": "ranger_route_started"
+            }
+          ]
+        },
+        {
+          "id": "daniel_protagonist",
+          "when": {
+            "path": "player.name",
+            "eq": "Daniel"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friends_split",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_five_roads_available",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_five_roads_focus_friend_id",
+              "value": "Edward"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Luke",
+              "scheduleId": "m1_split_luke",
+              "locationId": "asteria_east_road",
+              "availability": "traveling",
+              "activity": "long_route_exploration"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "fiveRoadsPath",
+              "value": "long_route"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "recentResult",
+              "value": "departed_on_long_route"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Mattew",
+              "scheduleId": "m1_split_mattew",
+              "locationId": "valedarsena_arena",
+              "availability": "available",
+              "activity": "promotion_trial_preparation"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "fiveRoadsPath",
+              "value": "trial_preparation"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "recentResult",
+              "value": "trial_preparation_started"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Edward",
+              "scheduleId": "m1_split_edward",
+              "locationId": "asteria_farm",
+              "availability": "available",
+              "activity": "field_training_contract"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "fiveRoadsPath",
+              "value": "field_training"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "recentResult",
+              "value": "field_training_started"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Fab",
+              "scheduleId": "m1_split_fab",
+              "locationId": "asteria_upper_river",
+              "availability": "traveling",
+              "activity": "ranger_field_route"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "fiveRoadsPath",
+              "value": "ranger_route"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "recentResult",
+              "value": "ranger_route_started"
+            }
+          ]
+        },
+        {
+          "id": "edward_protagonist",
+          "when": {
+            "path": "player.name",
+            "eq": "Edward"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friends_split",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_five_roads_available",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_five_roads_focus_friend_id",
+              "value": "Fab"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Luke",
+              "scheduleId": "m1_split_luke",
+              "locationId": "asteria_east_road",
+              "availability": "traveling",
+              "activity": "long_route_exploration"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "fiveRoadsPath",
+              "value": "long_route"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "recentResult",
+              "value": "departed_on_long_route"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Mattew",
+              "scheduleId": "m1_split_mattew",
+              "locationId": "valedarsena_arena",
+              "availability": "available",
+              "activity": "promotion_trial_preparation"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "fiveRoadsPath",
+              "value": "trial_preparation"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "recentResult",
+              "value": "trial_preparation_started"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Daniel",
+              "scheduleId": "m1_split_daniel",
+              "locationId": "valedarsena_warehouses",
+              "availability": "available",
+              "activity": "remote_logistics_contract"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "fiveRoadsPath",
+              "value": "remote_work"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "recentResult",
+              "value": "remote_contract_accepted"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Fab",
+              "scheduleId": "m1_split_fab",
+              "locationId": "asteria_upper_river",
+              "availability": "traveling",
+              "activity": "ranger_field_route"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "fiveRoadsPath",
+              "value": "ranger_route"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "recentResult",
+              "value": "ranger_route_started"
+            }
+          ]
+        },
+        {
+          "id": "fab_protagonist",
+          "when": {
+            "path": "player.name",
+            "eq": "Fab"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friends_split",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_five_roads_available",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_five_roads_focus_friend_id",
+              "value": "Luke"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Luke",
+              "scheduleId": "m1_split_luke",
+              "locationId": "asteria_east_road",
+              "availability": "traveling",
+              "activity": "long_route_exploration"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "fiveRoadsPath",
+              "value": "long_route"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "recentResult",
+              "value": "departed_on_long_route"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Mattew",
+              "scheduleId": "m1_split_mattew",
+              "locationId": "valedarsena_arena",
+              "availability": "available",
+              "activity": "promotion_trial_preparation"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "fiveRoadsPath",
+              "value": "trial_preparation"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "recentResult",
+              "value": "trial_preparation_started"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Daniel",
+              "scheduleId": "m1_split_daniel",
+              "locationId": "valedarsena_warehouses",
+              "availability": "available",
+              "activity": "remote_logistics_contract"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "fiveRoadsPath",
+              "value": "remote_work"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "recentResult",
+              "value": "remote_contract_accepted"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Edward",
+              "scheduleId": "m1_split_edward",
+              "locationId": "asteria_farm",
+              "availability": "available",
+              "activity": "field_training_contract"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "fiveRoadsPath",
+              "value": "field_training"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "recentResult",
+              "value": "field_training_started"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "A1_FIRST_OFFICIAL_WINDOW",
       "once": true,
       "trigger": {
