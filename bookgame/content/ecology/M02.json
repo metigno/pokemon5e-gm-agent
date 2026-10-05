@@ -15,6 +15,20 @@
         "wild_observation",
         "overland_encounter"
       ]
+    },
+    {
+      "id": "MIR-MARSH",
+      "sourceZoneId": "MIR-MARSH",
+      "habitats": [
+        "wetland",
+        "aquatic",
+        "marsh",
+        "grassland"
+      ],
+      "methods": [
+        "wild_observation",
+        "overland_encounter"
+      ]
     }
   ]
 }

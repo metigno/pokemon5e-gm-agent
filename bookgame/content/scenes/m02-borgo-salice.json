@@ -67,6 +67,15 @@
           ]
         },
         {
+          "id": "head_to_marsh",
+          "text": "Mi avvio verso Palude Mirto per esplorare l'area di confine.",
+          "timeCostMinutes": 180,
+          "goto": "m02-marsh-approach#marsh_road",
+          "effects": [
+            { "type": "set_location", "locationId": "mir_marsh_approach" }
+          ]
+        },
+        {
           "id": "return_to_forest_n",
           "text": "Torno nel bosco a investigare ulteriormente.",
           "timeCostMinutes": 210,

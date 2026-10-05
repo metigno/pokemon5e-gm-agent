@@ -1,0 +1,273 @@
+{
+  "schemaVersion": 1,
+  "id": "m02-marsh-approach",
+  "moduleId": "M02",
+  "title": "M2_06 — Approccio a Palude Mirto",
+  "locationId": "mir_marsh_approach",
+  "entryNodeId": "marsh_road",
+  "conditions": {
+    "all": [
+      { "path": "world.flags.m1_complete", "eq": true },
+      { "path": "world.flags.m02_unlocked", "eq": true },
+      { "path": "world.flags.m2_active", "eq": true },
+      { "path": "competition.rank", "eq": "E" }
+    ]
+  },
+  "nodes": {
+    "marsh_road": {
+      "stitches": [
+        {
+          "id": "road_opening",
+          "text": "Centoottanta minuti da Borgo Salice: il percorso abbandona la pietra dei sentieri forestali e scende verso una pianura bassa. L'erba alta comincia a sostituire il sottobosco, l'aria si fa più umida e l'odore cambia — acqua ferma, vegetazione in decomposizione, qualcosa di più organico del bosco."
+        },
+        {
+          "id": "road_signs",
+          "text": "I cartelli del Circuito compaiono con frequenza crescente man mano che ci si avvicina: zone di tutela faunistica, restrizione di accesso per categoria Rank, indicazioni sul comportamento in presenza di habitat protetti. L'infrastruttura è quella di un'area monitorata, non selvaggia."
+        },
+        {
+          "id": "road_arrival",
+          "text": "Il confine della Palude Mirto è segnato da un sistema di paletti e cavo basso: non un muro, ma una demarcazione precisa. Oltre il cavo inizia la zona MIR-MARSH a accesso riservato Rank D. Da qui si vede la superficie della palude — acqua che riflette il cielo, canneti, sagome di Pokémon acquatici al limite del visibile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "arrive_at_boundary",
+          "text": "Raggiungo il confine e mi fermo a valutare.",
+          "goto": "marsh_boundary",
+          "effects": [
+            { "type": "set_flag", "key": "marsh_approach_reached", "value": true },
+            { "type": "set_location", "locationId": "mir_marsh_approach" }
+          ]
+        }
+      ]
+    },
+    "marsh_boundary": {
+      "stitches": [
+        {
+          "id": "boundary_view",
+          "text": "Il lato vicino del confine è accessibile. La palude inizia tre metri oltre il cavo: superficie d'acqua bassa tra le canne, zone di fanghiglia consolidata, rami e radici che emergono in modo irregolare. È un habitat diverso dal bosco — più orizzontale, meno verticale, meno ombre definite."
+        },
+        {
+          "id": "boundary_rank_gate",
+          "text": "Il terminale del Circuito sul paletto di confine mostra: «AREA MIR-MARSH — Accesso riservato Rank D e superiore. Trainer Rank E: osservazione consentita dalla zona cuscinetto. Ingresso non autorizzato viene registrato.» Non è un divieto arbitrario: la fauna interna e i livelli del terreno richiedono competenze specifiche per non causare danni."
+        },
+        {
+          "id": "boundary_ambience",
+          "text": "La zona cuscinetto dove ti trovi è ecologicamente attiva: specie di margine, uccelli acquatici, qualcosa che si muove sotto la superficie dell'acqua più vicina. Puoi osservare senza entrare."
+        }
+      ],
+      "choices": [
+        {
+          "id": "observe_boundary_ecology",
+          "text": "Mi fermo ad osservare sistematicamente le specie vicino al confine.",
+          "timeCostMinutes": 10,
+          "goto": "ecology_check"
+        },
+        {
+          "id": "check_rank_gate",
+          "text": "Esamino il terminale del confine e le informazioni sull'area.",
+          "timeCostMinutes": 5,
+          "goto": "rank_gate_info",
+          "effects": [
+            { "type": "set_flag", "key": "marsh_rank_gate_seen", "value": true }
+          ]
+        },
+        {
+          "id": "look_for_boundary_signs",
+          "text": "Controllo se ci sono tracce di attività anomala vicino al confine.",
+          "timeCostMinutes": 15,
+          "conditions": {
+            "any": [
+              { "path": "world.flags.capture_signs_noticed", "eq": true },
+              { "path": "world.flags.ranger_thread_opened", "eq": true }
+            ]
+          },
+          "goto": "boundary_anomaly_check"
+        },
+        {
+          "id": "head_back_sal_town",
+          "text": "Torno a Borgo Salice.",
+          "timeCostMinutes": 180,
+          "goto": "m02-borgo-salice#borough_hub",
+          "effects": [
+            { "type": "set_location", "locationId": "borgo_salice" }
+          ]
+        }
+      ]
+    },
+    "ecology_check": {
+      "stitches": [
+        {
+          "id": "ecology_attempt",
+          "text": "La zona di margine ha la sua fauna specifica: specie che usano entrambi gli ambienti, alcune caratteristiche dell'uno o dell'altro, alcune che si trovano solo nella transizione. Non è il cuore della palude, ma è un punto di osservazione reale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ecology_check_wis",
+          "text": "Osservo con attenzione i movimenti nell'area di confine.",
+          "check": {
+            "ability": "WIS",
+            "skill": "Perception",
+            "dc": 10
+          },
+          "outcomes": {
+            "success": {
+              "goto": "ecology_success",
+              "effects": [
+                { "type": "set_flag", "key": "marsh_boundary_observed", "value": true }
+              ]
+            },
+            "failure": {
+              "goto": "ecology_obscured"
+            }
+          }
+        }
+      ]
+    },
+    "ecology_success": {
+      "stitches": [
+        {
+          "id": "ecology_seen",
+          "text": "Ducklett in volo radente sulla superficie, una coppia di Wooper nella fanghiglia alla base delle canne, qualcosa di più grande — probabile Poliwag o simile — che si sposta nella parte più profonda visibile. La distribuzione è coerente con quanto descritto da Elio: fauna acquatica che usa questo margine come zona di transizione."
+        },
+        {
+          "id": "ecology_context",
+          "text": "L'area appare integra da qui. Non ci sono segni evidenti di disturbo nella zona di osservazione, ma la parte interna della palude non è visibile dall'esterno del confine."
+        }
+      ],
+      "choices": [
+        {
+          "id": "note_ecology_and_continue",
+          "text": "Registro l'osservazione e valuto le altre opzioni.",
+          "goto": "marsh_boundary"
+        }
+      ]
+    },
+    "ecology_obscured": {
+      "stitches": [
+        {
+          "id": "obscured_1",
+          "text": "Il margine è attivo ma difficile da leggere: troppo movimento in troppi punti, riflessi sull'acqua che confondono le silhouette, canne che coprono gli spostamenti. Sai che c'è fauna, non riesci a identificarla con precisione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_from_obscured",
+          "text": "Torno ai bordi del confine.",
+          "goto": "marsh_boundary"
+        }
+      ]
+    },
+    "rank_gate_info": {
+      "stitches": [
+        {
+          "id": "gate_details",
+          "text": "Il sistema di accesso del Circuito per MIR-MARSH richiede Rank D per una ragione tecnica: il terreno interno ha zone di fanghiglia profonda, vegetazione densa e habitat sovrapposti che richiedono competenze di navigazione e gestione dei Pokémon oltre la fascia E. Non è solo un ostacolo burocratico — è una misura di sicurezza per la fauna e il trainer."
+        },
+        {
+          "id": "gate_horizon",
+          "text": "L'accesso a Rank D è raggiungibile attraverso il Trial di promozione a Borgo Salice. Da quel punto, MIR-MARSH e le zone Rank D dell'area diventano accessibili. Per ora, l'osservazione dal margine è il limite legale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_from_gate",
+          "text": "Torno al confine.",
+          "goto": "marsh_boundary"
+        }
+      ]
+    },
+    "boundary_anomaly_check": {
+      "stitches": [
+        {
+          "id": "anomaly_search",
+          "text": "Sai già cosa cercare: tracce di passaggio fuori dai percorsi ufficiali, segni di contenimento o trasporto, resti di attività che non corrispondono ai profili normali dei trainer. Il confine della palude è un punto logico di transito se qualcuno opera nelle aree interne senza autorizzazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "search_anomaly_int",
+          "text": "Esamino la zona cuscinetto metodicamente.",
+          "check": {
+            "ability": "INT",
+            "skill": "Investigation",
+            "dc": 13
+          },
+          "outcomes": {
+            "success": {
+              "goto": "anomaly_found",
+              "effects": [
+                { "type": "set_flag", "key": "marsh_boundary_anomaly_noticed", "value": true }
+              ]
+            },
+            "failure": {
+              "goto": "anomaly_unclear"
+            }
+          }
+        }
+      ]
+    },
+    "anomaly_found": {
+      "stitches": [
+        {
+          "id": "anomaly_1",
+          "text": "La zona cuscinetto sul lato est del confine mostra qualcosa che non dovrebbe esserci: tracce di calpestio fuori dai percorsi ufficiali, un'erba che non si è ancora rialzata, l'angolo di un contenitore interrato parzialmente visibile tra le radici. Non è traffico normale di trainer."
+        },
+        {
+          "id": "anomaly_2",
+          "text": "Il pattern è coerente con quello che hai trovato nel bosco: qualcuno che usa la vegetazione come copertura, che non segue i sentieri del Circuito, che ha bisogno di punti di deposito temporaneo. La palude e il bosco fanno parte della stessa rete, non sono eventi separati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "document_anomaly",
+          "text": "Documento la posizione e l'evidenza per riportarla al presidio.",
+          "goto": "marsh_threshold_done",
+          "effects": [
+            { "type": "set_flag", "key": "marsh_evidence_documented", "value": true }
+          ]
+        },
+        {
+          "id": "note_anomaly_only",
+          "text": "Registro mentalmente la posizione e proseguo.",
+          "goto": "marsh_threshold_done"
+        }
+      ]
+    },
+    "anomaly_unclear": {
+      "stitches": [
+        {
+          "id": "unclear_1",
+          "text": "Il terreno vicino al confine è perturbato in modo difficile da leggere: potrebbero essere passaggi recenti di fauna, oppure tracce di trainer in visita legale, oppure qualcos'altro. Non riesci a distinguere le sovrapposizioni."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_from_unclear",
+          "text": "Torno al confine.",
+          "goto": "marsh_boundary"
+        }
+      ]
+    },
+    "marsh_threshold_done": {
+      "stitches": [
+        {
+          "id": "done_1",
+          "text": "Hai visto quello che è visibile da qui. La palude è reale: ha dimensioni, fauna, pressione ambientale. Il confine del Rank D non è la fine del problema — è dove il tuo accesso si interrompe per ora."
+        }
+      ],
+      "choices": [
+        {
+          "id": "head_back_from_done",
+          "text": "Torno a Borgo Salice.",
+          "timeCostMinutes": 180,
+          "goto": "m02-borgo-salice#borough_hub",
+          "effects": [
+            { "type": "set_location", "locationId": "borgo_salice" }
+          ]
+        }
+      ]
+    }
+  }
+}

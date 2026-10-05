@@ -59,7 +59,7 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 | M2_03_BORGO_SALICE | hub locale, Ranger, servizi, voci e Sala Verde | 336 | 218 | COMPLETE |
 | M2_04_N_ENTERS | introduzione causale di N e primo contrasto etico | 336 | 218 | COMPLETE |
 | M2_05_RANGER_THREAD | collegare conseguenze Ranger/M1 alle nuove anomalie | 336 | 218 | COMPLETE |
-| M2_06_MARSH_APPROACH | accesso progressivo verso Palude Mirto e aumento del rischio | 336 | 218 | PLANNED |
+| M2_06_MARSH_APPROACH | accesso progressivo verso Palude Mirto e aumento del rischio | 336 | 218 | COMPLETE |
 | M2_07_POACHING_NETWORK | rami investigazione/intervento/evitamento con stato reale | 488 | 317 | PLANNED |
 | M2_08_FRIEND_BEAT_02 | interazione concreta con uno dei Four selezionato da schedule e stato | 488 | 317 | PLANNED |
 | M2_09_ROOKIE_INVITATIONAL | Rookie Invitational opzionale e deadline reale | 336 | 218 | PLANNED |
@@ -202,6 +202,9 @@ Scene `m02-ranger-thread` (moduleId M02, locationId borgo_salice_ranger) require
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+**Implementation lock (verified 2026-10-05):**
+Scene `m02-marsh-approach` (moduleId M02, locationId mir_marsh_approach) requires the four M2 entry conditions at scene level: `m1_complete=true`, `m02_unlocked=true`, `m2_active=true`, `competition.rank=E`. Illegal state throws "Scene conditions are not satisfied". Navigation in: from `m02-borgo-salice#borough_hub` via `head_to_marsh` (180 min); travel uses the canonical `REGION_MAP.json` edge SAL-TOWN→MIR-MARSH at exactly 180 minutes. Navigation out: `head_back_sal_town` (180 min → m02-borgo-salice#borough_hub); `head_back_from_done` same. The MIR-MARSH zone is added to `content/ecology/M02.json` using authoritative source zone `MIR-MARSH` with wetland/aquatic/marsh/grassland habitats. Durable writes scoped to: `marsh_approach_reached`, `marsh_boundary_observed`, `marsh_rank_gate_seen`, `marsh_boundary_anomaly_noticed`, `marsh_evidence_documented`. Rank D gate: communicated via narration at `rank_gate_info` — no Rank change, no scene-level block for the player. Ecology check: WIS/Perception DC 10 at boundary. Investigation check: INT/Investigation DC 13 for anomaly detection. `look_for_boundary_signs` and `boundary_anomaly_check` are gated by `capture_signs_noticed OR ranger_thread_opened`. No N introduction, no poaching_network_state, no quest open, no FRIEND_BEAT_02/trial. M2_01–M2_05 regressions: zero. Verified by 19 dedicated regressions (all pass).
 
 ---
 
