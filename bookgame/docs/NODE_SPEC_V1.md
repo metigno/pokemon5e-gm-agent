@@ -291,9 +291,29 @@ E1 conditions may safely read:
 - `npcs.<npcId>.schedule.present`
 - `npcs.<npcId>.state.<key>`
 
-The runtime also provides a deterministic FRIEND_BEAT candidate selector. It considers only authored candidates who are actually present at the requested location, then prefers the strongest current relationship; ties preserve canonical candidate order. Later E6/world-event logic may add more compatibility inputs without replacing the authored schedule requirement.
+The runtime also provides a deterministic FRIEND_BEAT candidate selector. It always excludes the current player character and considers only authored friends who are actually present at the requested location.
 
-E4 does **not** assign arbitrary schedules by itself. A named NPC appears only because authored content/world progression assigned a schedule.
+Selector priority is deterministic:
+
+1. actual authored schedule + location are hard eligibility gates;
+2. activity/content compatibility;
+3. compatible recent-result context;
+4. current relationship score;
+5. canonical Five order as the final tie-break.
+
+Authored content may invoke that selector through:
+
+    {
+      "type": "friend_beat_select",
+      "contentType": "farm_help",
+      "locationId": "asteria_farm",
+      "compatibleActivities": ["farm_support", "fauna_help"],
+      "preferredRecentResults": ["herd_helped", "fauna_assisted"]
+    }
+
+The effect writes the selected friend and content type into the durable M1 FRIEND_BEAT selection state. It throws instead of fabricating an NPC if no legal candidate is present. Candidate IDs may be supplied explicitly, but the default domain is the Five minus the player character.
+
+E4 does **not** assign arbitrary schedules by itself. A named NPC appears only because authored content/world progression assigned a schedule. Timeless schedules (no start/end window) do not normalize or mutate the world clock merely to refresh presence.
 
 ## 3.5 Living world / authored world events — E6
 
