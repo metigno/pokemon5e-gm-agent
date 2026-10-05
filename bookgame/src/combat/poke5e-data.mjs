@@ -8,7 +8,10 @@ async function loadPack() {
   return cached;
 }
 
-function normalizeSpeciesId({ species, form }) {
+function normalizeSpeciesId({ species, speciesId, form }) {
+  if (typeof speciesId === "string" && speciesId.length > 0) {
+    return speciesId.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  }
   const base = String(species).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   if (base === "growlithe" && String(form).toLowerCase() === "hisuian") return "growlithe-hisui";
   return base;
