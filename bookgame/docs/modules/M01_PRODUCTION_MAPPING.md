@@ -67,7 +67,7 @@ The graph is reconvergent, not linear. The player may move repeatedly between Gi
 | M1_08_BLUE_ENTERS | Blue causal introduction variants | 380 | 240 | COMPLETE |
 | M1_09_FRIEND_BEAT_01 | one of the other Four selected causally | 390 | 250 | COMPLETE |
 | M1_10_FIRST_OFFICIAL | first sanctioned non-trial match | 270 | 170 | COMPLETE |
-| M1_11_SECOND_POKEMON | legal routes to roster size 2 | 280 | 180 | IMPLEMENTED / E7 WIRED |
+| M1_11_SECOND_POKEMON | legal routes to roster size 2 | 280 | 180 | COMPLETE |
 | M1_12_FIVE_ROADS | friends diverge and schedules update | 250 | 150 | ENGINE DEPENDENCY |
 | M1_13_TRIAL_REGISTRATION | gate eligibility and preparation | 160 | 90 | IMPLEMENTED / E5 WIRED |
 | M1_14_PROMOTION_TRIAL_F_E | official F→E trial | 200 | 110 | IMPLEMENTED / E5 + COMBAT WIRED |
@@ -617,6 +617,24 @@ Required for:
 - player may remain with one Pokémon indefinitely and therefore remain ineligible for Trial.
 
 **Callback:** identity/result of second capture persists.
+
+**Implementation lock:**
+
+- M1 exposes multiple legal sources instead of manufacturing a gate solution: the scripted Houndour encounter, ordinary `AST-GINESTRE` fauna, ordinary `AST-FARM` fauna and an authored `VAL-CITY` urban ecology route;
+- the Arena roster-preparation desk explicitly offers Ginestre, Farm, Valedarsena or continuing with one Pokémon; it never grants, lends, substitutes or auto-registers a second Pokémon;
+- all ecology choices are compiled from the authoritative E7 zone/distribution/fauna data and remain time-, habitat- and method-filtered;
+- the Valedarsena urban subset is `pidgey / burmy / tandemaus / purrloin`, all canonical ordinary `VAL-CITY` species; observing one does not imply combat or capture;
+- the E7 mechanical-data gate is enforced per species: Pidgey, Burmy and Purrloin remain observation-only in M1 because they are not yet executable in the local combat slice;
+- Tandemaus is ported directly from the locked Pokémon 5e 2024 source into the offline vertical slice with its canonical Lv1 stat block; `Run Away` is supported and `Pound` is executable, making it a real urban battle/capture opportunity;
+- wild combat handoff never mutates the roster merely because a fight starts, and a `win` outcome never counts as capture;
+- a `captured` handoff is rejected unless a real resolved Pokémon 5e opponent state exists; registered Trainer Pokémon remain uncapturable;
+- a valid capture persists the exact species, level, HP, status, ability, move/PP state and capture provenance into the player roster;
+- the first capture performed while roster size is exactly one creates durable `player.secondPokemonAcquisition` with species, name, level, day, location and encounter ID;
+- later captures may grow the roster but never overwrite the identity/provenance of the actual second Pokémon;
+- roster size 2 only makes Trial registration mechanically eligible; it does not auto-register, auto-promote or complete a Trial;
+- remaining with one Pokémon is indefinitely legal: Rank stays F and the Trial registration action remains unavailable;
+- second-Pokémon identity and all captured state survive save/reload exactly;
+- regression coverage validates all four source families, canonical VAL-CITY membership, time filtering, mechanical data gating, Tandemaus executable combat, no auto-capture, resolver-state requirement, second-capture provenance stability, Trial eligibility and save/reload.
 
 ---
 
