@@ -1,0 +1,552 @@
+{
+  "schemaVersion": 1,
+  "id": "m03-crossroads",
+  "moduleId": "M03",
+  "title": "M3_09 — Crossroads",
+  "locationId": "fer_city",
+  "entryNodeId": "crossroads",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m2_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m03_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m3_active",
+        "eq": true
+      },
+      {
+        "path": "world.flags.a3_crossroads_available",
+        "eq": true
+      },
+      {
+        "path": "world.flags.a3_crossroads_complete",
+        "ne": true
+      },
+      {
+        "path": "competition.rankOrder",
+        "gte": 2
+      }
+    ]
+  },
+  "nodes": {
+    "crossroads": {
+      "stitches": [
+        {
+          "id": "crossroads_1",
+          "text": "Ferravia ti mette davanti più cose vere nello stesso momento. Ferrox ha lasciato un risultato ancora da metabolizzare, gli altri Five continuano le proprie carriere, il Trial D→C si avvicina e la Regional Cup può entrare nel calendario quando il tuo stato la rende disponibile."
+        },
+        {
+          "id": "crossroads_2",
+          "text": "Non puoi trattare ogni priorità come se avesse il primo posto. Scegliere qui non cancella le altre attività, ma registra quale pressione decidi di mettere davanti alle altre."
+        }
+      ],
+      "choices": [
+        {
+          "id": "review_rescue_priority",
+          "text": "Metto al primo posto le conseguenze di Ferrox.",
+          "conditions": {
+            "path": "world.flags.ferrox_rescue_state",
+            "exists": true
+          },
+          "goto": "rescue_priority"
+        },
+        {
+          "id": "review_friend_priority",
+          "text": "Metto al primo posto il contatto con uno degli altri Five.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.a3_friend_call_available",
+                "eq": true
+              },
+              {
+                "path": "world.flags.friend_beat_03_complete",
+                "ne": true
+              }
+            ]
+          },
+          "goto": "friend_priority"
+        },
+        {
+          "id": "review_trial_priority",
+          "text": "Metto al primo posto la preparazione al Trial D→C.",
+          "conditions": {
+            "path": "world.flags.a3_rank_trial_d_c_available",
+            "eq": true
+          },
+          "goto": "trial_priority"
+        },
+        {
+          "id": "review_cup_priority",
+          "text": "Metto al primo posto la finestra della Regional Cup.",
+          "conditions": {
+            "path": "world.flags.a3_regional_cup_available",
+            "eq": true
+          },
+          "goto": "cup_priority"
+        },
+        {
+          "id": "review_technical_priority",
+          "text": "Metto al primo posto capire meglio il sistema industriale prima di correre al prossimo risultato.",
+          "goto": "technical_priority"
+        },
+        {
+          "id": "defer_crossroads",
+          "text": "Non fisso ancora una priorità. Torno nel mondo aperto.",
+          "timeCostMinutes": 15,
+          "goto": "m03-ferravia-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a3_crossroads_deferred",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        }
+      ]
+    },
+    "rescue_priority": {
+      "stitches": [
+        {
+          "id": "rescue_priority_1",
+          "text": "Scegliere Ferrox significa accettare che il risultato competitivo può aspettare mentre dai peso a ciò che è successo fuori dall'Arena. Non cambia retroattivamente il rescue state; cambia il modo in cui affronti il seguito."
+        }
+      ],
+      "choices": [
+        {
+          "id": "review_rescue_success",
+          "text": "Rileggo ciò che ha funzionato nel soccorso.",
+          "conditions": {
+            "path": "world.flags.ferrox_rescue_state",
+            "in": [
+              "evacuation_supported",
+              "stabilization_supported",
+              "balanced_support",
+              "support_only"
+            ]
+          },
+          "goto": "rescue_success_context"
+        },
+        {
+          "id": "review_rescue_failure",
+          "text": "Affronto il fatto di aver rifiutato o perso la finestra.",
+          "conditions": {
+            "path": "world.flags.ferrox_rescue_state",
+            "in": [
+              "declined",
+              "missed"
+            ]
+          },
+          "goto": "rescue_failure_context"
+        },
+        {
+          "id": "commit_rescue_priority",
+          "text": "Ferrox resta la mia priorità principale.",
+          "goto": "crossroads_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a3_crossroads_priority",
+              "value": "ferrox"
+            },
+            {
+              "type": "set_flag",
+              "key": "a3_crossroads_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "crossroads_rescue_followup",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "rescue_reconsider",
+          "text": "Riconsidero le altre priorità.",
+          "goto": "crossroads"
+        }
+      ]
+    },
+    "rescue_success_context": {
+      "stitches": [
+        {
+          "id": "rescue_success_context_1",
+          "text": "Il contributo che hai dato non equivale al bilancio finale. M3_11 dovrà ancora registrare persone, danni e responsabilità; il fatto utile qui è che hai partecipato entro la finestra e hai scelto un tipo concreto di supporto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "success_commit_rescue",
+          "text": "Mantengo Ferrox al primo posto.",
+          "goto": "crossroads_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a3_crossroads_priority",
+              "value": "ferrox"
+            },
+            {
+              "type": "set_flag",
+              "key": "a3_crossroads_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "crossroads_rescue_followup",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "success_back_crossroads",
+          "text": "Torno al bivio delle priorità.",
+          "goto": "crossroads"
+        }
+      ]
+    },
+    "rescue_failure_context": {
+      "stitches": [
+        {
+          "id": "rescue_failure_context_1",
+          "text": "Il mondo non ti offre una versione più comoda della scelta: hai rifiutato il soccorso oppure sei arrivato oltre la finestra. Puoi decidere che affrontarne le conseguenze venga prima del prossimo risultato competitivo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "failure_commit_rescue",
+          "text": "Metto comunque Ferrox al primo posto e affronto l'outcome.",
+          "goto": "crossroads_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a3_crossroads_priority",
+              "value": "ferrox"
+            },
+            {
+              "type": "set_flag",
+              "key": "a3_crossroads_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "crossroads_rescue_accountability",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "failure_back_crossroads",
+          "text": "Torno al bivio delle priorità.",
+          "goto": "crossroads"
+        }
+      ]
+    },
+    "friend_priority": {
+      "stitches": [
+        {
+          "id": "friend_priority_1",
+          "text": "Scegliere il contatto con un amico significa dare spazio a una relazione mentre il circuito continua. Non forza l'amico a comparire fisicamente e non cambia il suo risultato off-screen."
+        }
+      ],
+      "choices": [
+        {
+          "id": "commit_friend_priority",
+          "text": "Rispondo adesso: questa relazione viene prima del prossimo impegno.",
+          "goto": "m03-friend-beat-03#friend_call",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a3_crossroads_priority",
+              "value": "friend"
+            },
+            {
+              "type": "set_flag",
+              "key": "a3_crossroads_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "friend_note_then_back",
+          "text": "Registro che il contatto conta, ma riconsidero prima di impegnarmi.",
+          "goto": "crossroads",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "crossroads_friend_considered",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "trial_priority": {
+      "stitches": [
+        {
+          "id": "trial_priority_1",
+          "text": "Il Trial D→C è il gate geografico reale. Prepararlo significa accettare di spendere tempo sul roster e sul formato ufficiale, non ricevere una promozione perché hai scelto questa voce."
+        }
+      ],
+      "choices": [
+        {
+          "id": "review_trial_requirements",
+          "text": "Ripasso ciò che so del formato e dei requisiti.",
+          "goto": "trial_context"
+        },
+        {
+          "id": "commit_trial_priority",
+          "text": "Il Trial diventa la mia priorità principale.",
+          "goto": "crossroads_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a3_crossroads_priority",
+              "value": "trial"
+            },
+            {
+              "type": "set_flag",
+              "key": "a3_crossroads_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "crossroads_trial_focus",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "trial_reconsider",
+          "text": "Non mi impegno ancora sul Trial.",
+          "goto": "crossroads"
+        }
+      ]
+    },
+    "trial_context": {
+      "stitches": [
+        {
+          "id": "trial_context_1",
+          "text": "Il formato resta quello strutturato dal subsystem Competition. Nessuna scelta di Crossroads registra il Trial, seleziona il roster o concede una vittoria: prepara soltanto la tua priorità narrativa e di tempo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "trial_context_commit",
+          "text": "Confermo il Trial come priorità.",
+          "goto": "crossroads_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a3_crossroads_priority",
+              "value": "trial"
+            },
+            {
+              "type": "set_flag",
+              "key": "a3_crossroads_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "crossroads_trial_focus",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "trial_context_back",
+          "text": "Torno alle altre priorità.",
+          "goto": "crossroads"
+        }
+      ]
+    },
+    "cup_priority": {
+      "stitches": [
+        {
+          "id": "cup_priority_1",
+          "text": "La Regional Cup è prestigiosa ma opzionale. Se la metti davanti al resto, stai scegliendo una finestra competitiva che può chiudersi o cambiare il tuo calendario; non stai sostituendo il Promotion Trial."
+        }
+      ],
+      "choices": [
+        {
+          "id": "review_cup_tradeoff",
+          "text": "Valuto cosa sto lasciando in secondo piano scegliendo la Cup.",
+          "goto": "cup_context"
+        },
+        {
+          "id": "commit_cup_priority",
+          "text": "La Regional Cup diventa la mia priorità principale.",
+          "goto": "crossroads_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a3_crossroads_priority",
+              "value": "regional_cup"
+            },
+            {
+              "type": "set_flag",
+              "key": "a3_crossroads_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "crossroads_cup_focus",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "cup_reconsider",
+          "text": "La Cup può aspettare; torno al bivio.",
+          "goto": "crossroads"
+        }
+      ]
+    },
+    "cup_context": {
+      "stitches": [
+        {
+          "id": "cup_context_1",
+          "text": "Il costo non è una penalità nascosta: è tempo. Se scegli la Cup, altri thread possono avanzare, scadere o risolversi senza di te secondo i propri sistemi. Il bracket, quando arriverà, userà risultati reali."
+        }
+      ],
+      "choices": [
+        {
+          "id": "cup_context_commit",
+          "text": "Accetto il trade-off e scelgo la Cup.",
+          "goto": "crossroads_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a3_crossroads_priority",
+              "value": "regional_cup"
+            },
+            {
+              "type": "set_flag",
+              "key": "a3_crossroads_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "crossroads_cup_focus",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "cup_context_back",
+          "text": "Torno alle altre priorità.",
+          "goto": "crossroads"
+        }
+      ]
+    },
+    "technical_priority": {
+      "stitches": [
+        {
+          "id": "technical_priority_1",
+          "text": "Restare sul filo tecnico significa continuare a leggere Ferravia, Cava e Ferrox come un sistema prima di inseguire il prossimo checkpoint. È una scelta valida, ma consuma tempo mentre eventi e opportunità restano vivi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "technical_review_archive",
+          "text": "Torno mentalmente alle mappe e ai segnali che ho raccolto.",
+          "goto": "technical_context"
+        },
+        {
+          "id": "commit_technical_priority",
+          "text": "La comprensione del territorio resta la mia priorità.",
+          "goto": "crossroads_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a3_crossroads_priority",
+              "value": "technical"
+            },
+            {
+              "type": "set_flag",
+              "key": "a3_crossroads_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "crossroads_technical_focus",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "technical_reconsider",
+          "text": "Torno al bivio prima di impegnarmi.",
+          "goto": "crossroads"
+        }
+      ]
+    },
+    "technical_context": {
+      "stitches": [
+        {
+          "id": "technical_context_1",
+          "text": "Hai già abbastanza dati per sapere che il sistema non si riduce a un colpevole singolo: vecchie mappe, manutenzione, pressione produttiva, procedure e scelte umane si sovrappongono. Continuare a osservare può darti contesto, non immunità dalle conseguenze."
+        }
+      ],
+      "choices": [
+        {
+          "id": "technical_context_commit",
+          "text": "Confermo questa come priorità.",
+          "goto": "crossroads_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a3_crossroads_priority",
+              "value": "technical"
+            },
+            {
+              "type": "set_flag",
+              "key": "a3_crossroads_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "crossroads_technical_focus",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "technical_context_back",
+          "text": "Torno alle altre priorità.",
+          "goto": "crossroads"
+        }
+      ]
+    },
+    "crossroads_close": {
+      "stitches": [
+        {
+          "id": "crossroads_close_1",
+          "text": "La scelta non chiude le altre strade. Registra quale pressione hai messo davanti alle altre in questo momento. Il mondo continuerà a verificare deadline, eventi, NPC e competizioni senza aspettare che tu faccia tutto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "crossroads_to_hub",
+          "text": "Torno a Ferravia con una priorità definita.",
+          "goto": "m03-ferravia-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
