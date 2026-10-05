@@ -94,7 +94,19 @@
             "path": "world.flags.houndour_ginestre_escalation",
             "eq": "avoided"
           },
-          "goto": "houndour_context"
+          "goto": "houndour_context",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_wildlife_behavior_evidence",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_known",
+              "value": true
+            }
+          ]
         },
         {
           "id": "houndour_captured",
@@ -106,7 +118,19 @@
               "calmed_then_captured"
             ]
           },
-          "goto": "houndour_context"
+          "goto": "houndour_context",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_wildlife_behavior_evidence",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_known",
+              "value": true
+            }
+          ]
         },
         {
           "id": "start_local_response",
