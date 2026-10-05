@@ -1035,6 +1035,15 @@
             "path": "world.flags.regional_cup_legacy_noted",
             "ne": true
           }
+        },
+        {
+          "id": "cup_public_result_review",
+          "text": "Controllo come il piazzamento apparirà pubblicamente.",
+          "conditions": {
+            "path": "world.flags.regional_cup_public_result_noted",
+            "ne": true
+          },
+          "goto": "cup_public_result"
         }
       ]
     },
@@ -1453,6 +1462,15 @@
           "id": "legacy_review_history",
           "text": "Controllo quanti match ufficiali ho realmente disputato.",
           "goto": "cup_history"
+        },
+        {
+          "id": "legacy_crossroads",
+          "text": "Ricollego il torneo alla priorità scelta al Crossroads.",
+          "conditions": {
+            "path": "world.flags.a3_crossroads_priority",
+            "eq": "regional_cup"
+          },
+          "goto": "cup_priority_echo"
         }
       ]
     },
@@ -1475,6 +1493,60 @@
               "value": true
             }
           ]
+        }
+      ]
+    },
+    "cup_public_result": {
+      "stitches": [
+        {
+          "id": "public_result_1",
+          "text": "Il tabellone pubblico conserva il piazzamento finale e i match realmente disputati. Questo è ciò che NPC e inviti futuri possono conoscere senza accedere a dati privati del combattimento."
+        }
+      ],
+      "choices": [
+        {
+          "id": "public_result_record",
+          "text": "Registro il piazzamento pubblico.",
+          "goto": "cup_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_public_result_noted",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "public_result_history",
+          "text": "Confronto il tabellone con la competition history.",
+          "goto": "cup_history"
+        }
+      ]
+    },
+    "cup_priority_echo": {
+      "stitches": [
+        {
+          "id": "priority_echo_1",
+          "text": "Se avevi scelto la Cup al Crossroads, il torneo mostra il costo reale di quella priorità: tempo e match disputati, non un bonus nascosto al risultato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "priority_echo_note",
+          "text": "Registro il trade-off scelto.",
+          "goto": "cup_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_crossroads_echo",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "priority_echo_back",
+          "text": "Torno al riepilogo del torneo.",
+          "goto": "cup_legacy"
         }
       ]
     }
