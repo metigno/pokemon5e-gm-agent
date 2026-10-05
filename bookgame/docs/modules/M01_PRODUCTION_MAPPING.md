@@ -70,7 +70,7 @@ The graph is reconvergent, not linear. The player may move repeatedly between Gi
 | M1_11_SECOND_POKEMON | legal routes to roster size 2 | 280 | 180 | IMPLEMENTED / E7 WIRED |
 | M1_12_FIVE_ROADS | friends diverge and schedules update | 250 | 150 | ENGINE DEPENDENCY |
 | M1_13_TRIAL_REGISTRATION | gate eligibility and preparation | 160 | 90 | IMPLEMENTED / E5 WIRED |
-| M1_14_PROMOTION_TRIAL_F_E | official F→E trial | 200 | 110 | READY FOR AUTHORED OPPONENT |
+| M1_14_PROMOTION_TRIAL_F_E | official F→E trial | 200 | 110 | IMPLEMENTED / E5 + COMBAT WIRED |
 | M1_15_TRIAL_RESULT | win/loss/retry/callback consequences | 347 | 96 | E5 LIFECYCLE READY |
 | **TOTAL** |  | **5,047** | **3,116** | |
 
