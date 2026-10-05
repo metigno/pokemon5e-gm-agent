@@ -254,7 +254,7 @@ test("M3_04 leave_without_meeting sets steven_declined_contact and routes to Fer
 
 // ─── NO PREMATURE M3 CONTENT ──────────────────────────────────────────────────
 
-test("M3_04 meeting Steven does NOT trigger Ferrox incident, FRIEND_BEAT_03, Regional Cup or D→C trial", async () => {
+test("M3_04 meeting Steven does not auto-complete Ferrox/FRIEND_BEAT_03/Cup/Trial content", async () => {
   const { engine } = await makeEngine();
   let state = enterSteven(legalM3StevenGate());
   state = await engine.choose(state, "introduce_self");
@@ -269,7 +269,8 @@ test("M3_04 meeting Steven does NOT trigger Ferrox incident, FRIEND_BEAT_03, Reg
   assert.equal(state.world.flags.m3_complete, undefined);
   assert.equal(state.competition.rank, "D");
   assert.equal(state.competition.trials.RANK_D_TO_C, undefined);
-  assert.equal(state.events.A3_FRIEND_CALL, undefined);
+  assert.equal(state.events.A3_FRIEND_CALL?.status, "resolved");
+  assert.equal(state.world.flags.a3_friend_call_available, true);
   assert.equal(state.events.A3_CROSSROADS, undefined);
   assert.equal(state.events.A3_REGIONAL_CUP, undefined);
   assert.equal(state.events.A3_RANK_TRIAL_D_C, undefined);
