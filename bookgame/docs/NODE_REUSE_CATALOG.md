@@ -1,8 +1,8 @@
 # P5E LIBROGAME — NODE REUSE CATALOG V1
 
 **Status:** STRUCTURAL PRODUCTION STANDARD  
-**Source module:** M01 — Le Prime Strade  
-**Purpose:** reuse proven node structures from M01 while M02→M12 are produced without final screenplay.
+**Source base:** M01 — Le Prime Strade, with promoted reusable deltas from later modules  
+**Purpose:** reuse proven node structures while M02→M12 are produced without final screenplay.
 
 ---
 
@@ -945,3 +945,186 @@ NEW MODULE
 ```
 
 M01 remains the first structural reference, but later modules may improve an archetype. If a later implementation becomes clearly superior and remains generic, promote that pattern into a newer catalog version rather than keeping M01 forever as an artificial limitation.
+
+
+---
+
+# 9. PROMOTED DELTAS FROM M02_05→M02_07
+
+Reviewed against canonical branch commit `acc19d4`.
+
+These blocks add **38 nodes / 73 choices**:
+- `m02-ranger-thread.json` — 10 nodes / 20 choices
+- `m02-marsh-approach.json` — 10 nodes / 15 choices
+- `m02-poaching-network.json` — 18 nodes / 38 choices
+
+Most of their structure is already expressible through R01–R32. Only the following patterns are promoted as genuinely reusable additions.
+
+## R33 — CROSS-MODULE CALLBACK
+
+**Class:** REUSE / ADAPT
+
+**M02 example:** Ranger Elio can connect current Mistwood evidence with the player's earlier M01 knowledge when the relevant prior flag exists.
+
+### Shape
+
+```
+CURRENT INTERACTION
+├─ prior state absent → normal local path
+└─ prior state present
+   → historical callback
+   → altered information / relationship / access / interpretation
+```
+
+### Parameters
+- source module/state;
+- current NPC/location;
+- callback condition;
+- callback consequence.
+
+### Rule
+A callback may react to history but must never invent an event the player did not actually complete.
+
+### Why this is new
+M01 established persistence; M02 is the first module that demonstrates **cross-module history as a first-class branch input**.
+
+---
+
+## R34 — ACCESS BOUNDARY / RECONNAISSANCE GATE
+
+**Class:** REUSE
+
+**M02 example:** Palude Mirto boundary.
+
+The player may legally reach and inspect a boundary even when full access beyond it is gated.
+
+### Shape
+
+```
+APPROACH RESTRICTED AREA
+→ boundary
+├─ inspect access requirement
+├─ observe local ecology
+├─ investigate nearby anomaly
+├─ return
+└─ enter deeper area only if legal
+```
+
+### Parameters
+- required rank/access state;
+- boundary location;
+- legal observations/actions;
+- deeper destination;
+- optional evidence hooks.
+
+### Rule
+Do not teleport the player past a gate and do not disable all interaction merely because deeper access is locked.
+
+### Reuse for
+- rank-gated zones;
+- tournament backstage;
+- restricted facilities;
+- dangerous biomes;
+- qualification-only venues;
+- World-stage access layers.
+
+---
+
+## R35 — CONDITIONAL ALLY CO-ACTION
+
+**Class:** ADAPT
+
+**M02 example:** N can become an active witness/partner in the poaching-network encounter only when the real relationship/context supports it.
+
+### Shape
+
+```
+EVENT
+├─ ally unavailable/incompatible → solo routes
+└─ ally available + compatible state
+   → coordinate
+      ├─ gather evidence together
+      ├─ divide roles
+      ├─ intervene
+      └─ defer / separate
+```
+
+### Inputs
+- NPC presence;
+- relationship;
+- prior encounter state;
+- compatible motive;
+- current event.
+
+### Rule
+An NPC must not materialize solely to unlock a branch.
+
+### Difference from Friend Beat
+R35 is not a scheduled social beat. The NPC is participating in a live world event with a causal role.
+
+---
+
+## R36 — MULTI-MODAL CONFLICT RESOLUTION LATTICE
+
+**Class:** REUSE CORE → ADAPT CONSEQUENCES
+
+**M02 example:** poaching-network encounter.
+
+A live conflict can support several legitimate intervention modes without requiring combat.
+
+### Shape
+
+```
+CONFLICT DISCOVERED
+├─ observe
+│  ├─ strong evidence
+│  └─ partial evidence
+├─ follow / investigate further
+├─ report to authority
+├─ confront
+│  ├─ combat
+│  ├─ blockade / physical prevention
+│  └─ demand / social pressure
+├─ coordinate with ally
+└─ withdraw
+```
+
+All routes write a persistent conflict state appropriate to what actually occurred.
+
+### Parameters
+- conflict ID;
+- evidence states;
+- authority/report destination;
+- legal intervention modes;
+- combat encounter if any;
+- ally hooks;
+- partial/resolved/disrupted/ignored outcomes.
+
+### Rules
+- combat is one option, not the default solution;
+- non-combat routes must have real state consequences;
+- withdrawal remains legal when fiction allows it;
+- a victory in combat does not automatically equal full investigation/resolution;
+- evidence and disruption are separate concepts.
+
+### Why this is worth promoting
+R31 LOCAL PROBLEM RESPONSE covered broad world response. R36 formalizes the richer **branch lattice inside one active confrontation**, which is reusable for later criminal, ecological, public-safety and competitive incidents.
+
+---
+
+# 10. M02_05→M02_07 — WHAT WAS NOT PROMOTED
+
+The following are **not** new archetypes:
+
+- Ranger evidence discussion → R30 INVESTIGATION / EVIDENCE AGGREGATION
+- opening a formal Ranger thread → R11 QUEST LIFECYCLE + R30
+- ecology observation at Palude Mirto → R03/R07
+- anomaly check → R03/R04
+- rank information → R16 ROSTER / ELIGIBILITY INFO generalized to access requirements
+- N-specific ethics/dialogue → UNIQUE Anchor content
+- combat with poacher → R06 COMBAT HANDOFF
+- report-ready return to Borgo Salice → R01 LOCATION RETURN + R30
+- strong vs partial evidence from a check → R03/R04 outcome adaptation
+
+Therefore M2_05→M2_07 expand the library by **four reusable patterns**, not by 38 new systems.
+
