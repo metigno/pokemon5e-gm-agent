@@ -251,14 +251,7 @@
         {
           "id": "reach_first_fork",
           "text": "Raggiungo il primo vero bivio.",
-          "goto": "m01-ginestre-crossroads#crossroads",
-          "effects": [
-            {
-              "type": "set_flag",
-              "key": "free_roam",
-              "value": true
-            }
-          ]
+          "goto": "m01-ginestre-crossroads#crossroads"
         }
       ]
     },
