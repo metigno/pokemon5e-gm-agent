@@ -147,6 +147,27 @@
       ],
       "choices": [
         {
+          "id": "blue_center_intro",
+          "text": "Blue è qui con Squirtle. Posso fermarmi a parlargli.",
+          "conditions": {
+            "all": [
+              {
+                "path": "npcs.Blue.state.met",
+                "eq": false
+              },
+              {
+                "path": "npcs.Blue.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Blue.schedule.locationId",
+                "eq": "valedarsena_center"
+              }
+            ]
+          },
+          "goto": "m01-blue-enters#center_intro"
+        },
+        {
           "id": "ask_city",
           "text": "Chiedo quali servizi sono utili a un rookie.",
           "goto": "center_info"
@@ -714,6 +735,27 @@
       ],
       "choices": [
         {
+          "id": "blue_field_intro",
+          "text": "Blue sta chiudendo un altro incarico qui vicino. Lo coinvolgo solo nel confronto pratico.",
+          "conditions": {
+            "all": [
+              {
+                "path": "npcs.Blue.state.met",
+                "eq": false
+              },
+              {
+                "path": "npcs.Blue.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Blue.schedule.locationId",
+                "eq": "valedarsena_warehouses"
+              }
+            ]
+          },
+          "goto": "m01-blue-enters#field_intro_clue"
+        },
+        {
           "id": "ranger",
           "text": "Porto direttamente queste osservazioni al presidio Ranger.",
           "goto": "m01-world-moves#ranger_post",
@@ -755,6 +797,27 @@
       ],
       "choices": [
         {
+          "id": "blue_field_intro",
+          "text": "Incrocio Blue mentre chiude un altro lavoro ai magazzini.",
+          "conditions": {
+            "all": [
+              {
+                "path": "npcs.Blue.state.met",
+                "eq": false
+              },
+              {
+                "path": "npcs.Blue.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Blue.schedule.locationId",
+                "eq": "valedarsena_warehouses"
+              }
+            ]
+          },
+          "goto": "m01-blue-enters#field_intro_done"
+        },
+        {
           "id": "hub",
           "text": "Torno verso il centro della città.",
           "goto": "city_hub",
@@ -779,6 +842,27 @@
         }
       ],
       "choices": [
+        {
+          "id": "blue_arena_intro",
+          "text": "Blue sta osservando il programma rookie. Mi avvicino.",
+          "conditions": {
+            "all": [
+              {
+                "path": "npcs.Blue.state.met",
+                "eq": false
+              },
+              {
+                "path": "npcs.Blue.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Blue.schedule.locationId",
+                "eq": "valedarsena_arena"
+              }
+            ]
+          },
+          "goto": "m01-blue-enters#arena_intro"
+        },
         {
           "id": "note_trial",
           "text": "Controllo requisiti e banco registrazione del Trial F→E.",
@@ -1692,6 +1776,27 @@
         }
       ],
       "choices": [
+        {
+          "id": "blue_shop_intro",
+          "text": "Blue sta preparando il proprio equipaggiamento. Mi fermo.",
+          "conditions": {
+            "all": [
+              {
+                "path": "npcs.Blue.state.met",
+                "eq": false
+              },
+              {
+                "path": "npcs.Blue.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Blue.schedule.locationId",
+                "eq": "valedarsena_trainer_shop"
+              }
+            ]
+          },
+          "goto": "m01-blue-enters#shop_intro"
+        },
         {
           "id": "buy_poke_ball",
           "text": "Compro una Poké Ball — ₽250.",
