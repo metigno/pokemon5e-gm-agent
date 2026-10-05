@@ -239,7 +239,7 @@ test("M3_02 shop entry does not auto-purchase or modify money", async () => {
 
 // ─── NO PREMATURE M3 CONTENT ──────────────────────────────────────────────────
 
-test("M3_02 full tour does not auto-trigger Steven arrival, Ferrox incident, FRIEND_BEAT_03 or Regional Cup", async () => {
+test("M3_02 full tour does not auto-complete Steven/Ferrox/FRIEND_BEAT_03/Cup content", async () => {
   const { engine } = await makeEngine();
   let state = enterFerravia(legalM3State());
   state = await engine.choose(state, "station_board_check");
@@ -261,7 +261,8 @@ test("M3_02 full tour does not auto-trigger Steven arrival, Ferrox incident, FRI
   assert.equal(state.competition.rank, "D");
   assert.equal(state.competition.trials.RANK_D_TO_C, undefined);
   assert.equal(state.events.A3_RANK_TRIAL_D_C, undefined);
-  assert.equal(state.events.A3_FRIEND_CALL, undefined);
+  assert.equal(state.events.A3_FRIEND_CALL?.status, "resolved");
+  assert.equal(state.world.flags.a3_friend_call_available, true);
   assert.equal(state.events.A3_CROSSROADS, undefined);
   assert.equal(state.events.A3_REGIONAL_CUP, undefined);
 });
