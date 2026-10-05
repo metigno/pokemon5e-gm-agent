@@ -7,10 +7,30 @@
   "entryNodeId": "borough_hub",
   "conditions": {
     "all": [
-      { "path": "world.flags.m1_complete", "eq": true },
-      { "path": "world.flags.m02_unlocked", "eq": true },
-      { "path": "world.flags.m2_active", "eq": true },
-      { "path": "competition.rank", "eq": "E" }
+      {
+        "path": "world.flags.m1_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m02_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m2_active",
+        "eq": true
+      },
+      {
+        "any": [
+          {
+            "path": "competition.rank",
+            "eq": "E"
+          },
+          {
+            "path": "competition.rank",
+            "eq": "D"
+          }
+        ]
+      }
     ]
   },
   "nodes": {
@@ -36,7 +56,10 @@
           "timeCostMinutes": 5,
           "goto": "ranger_post",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice_ranger" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice_ranger"
+            }
           ]
         },
         {
@@ -45,7 +68,10 @@
           "timeCostMinutes": 5,
           "goto": "sala_verde",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice_sala_verde" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice_sala_verde"
+            }
           ]
         },
         {
@@ -54,7 +80,10 @@
           "timeCostMinutes": 5,
           "goto": "shop",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice_shop" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice_shop"
+            }
           ]
         },
         {
@@ -63,7 +92,10 @@
           "timeCostMinutes": 10,
           "goto": "town_rumors",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
           ]
         },
         {
@@ -72,7 +104,10 @@
           "timeCostMinutes": 180,
           "goto": "m02-marsh-approach#marsh_road",
           "effects": [
-            { "type": "set_location", "locationId": "mir_marsh_approach" }
+            {
+              "type": "set_location",
+              "locationId": "mir_marsh_approach"
+            }
           ]
         },
         {
@@ -81,13 +116,22 @@
           "timeCostMinutes": 210,
           "conditions": {
             "any": [
-              { "path": "world.flags.capture_signs_noticed", "eq": true },
-              { "path": "world.flags.capture_ranger_told", "eq": true }
+              {
+                "path": "world.flags.capture_signs_noticed",
+                "eq": true
+              },
+              {
+                "path": "world.flags.capture_ranger_told",
+                "eq": true
+              }
             ]
           },
           "goto": "m02-n-enters#zorua_encounter",
           "effects": [
-            { "type": "set_location", "locationId": "asteria_mistwood" }
+            {
+              "type": "set_location",
+              "locationId": "asteria_mistwood"
+            }
           ]
         },
         {
@@ -95,13 +139,23 @@
           "text": "La situazione nel bosco ha subito un'escalation — devo valutare come rispondere.",
           "conditions": {
             "all": [
-              { "path": "world.flags.a2_crisis_escalates_available", "eq": true },
-              { "path": "world.flags.crisis_moves_complete", "ne": true }
+              {
+                "path": "world.flags.a2_crisis_escalates_available",
+                "eq": true
+              },
+              {
+                "path": "world.flags.crisis_moves_complete",
+                "ne": true
+              }
             ]
           },
           "goto": "m02-crisis-moves#crisis_news_arrive",
           "effects": [
-            { "type": "set_flag", "key": "crisis_moves_started", "value": true }
+            {
+              "type": "set_flag",
+              "key": "crisis_moves_started",
+              "value": true
+            }
           ]
         },
         {
@@ -109,8 +163,14 @@
           "text": "Chiudo il bilancio di quello che è successo nel Mistwood — registro l'esito formale.",
           "conditions": {
             "all": [
-              {"path": "world.flags.a2_network_outcome_available", "eq": true},
-              {"path": "world.flags.network_outcome_complete", "ne": true}
+              {
+                "path": "world.flags.a2_network_outcome_available",
+                "eq": true
+              },
+              {
+                "path": "world.flags.network_outcome_complete",
+                "ne": true
+              }
             ]
           },
           "goto": "m02-network-outcome#network_outcome_review"
@@ -120,13 +180,23 @@
           "text": "Leggo il messaggio di un amico — sembra che abbiano qualcosa da dirmi.",
           "conditions": {
             "all": [
-              { "path": "world.flags.a2_friend_news_available", "eq": true },
-              { "path": "world.flags.friend_beat_02_complete", "ne": true }
+              {
+                "path": "world.flags.a2_friend_news_available",
+                "eq": true
+              },
+              {
+                "path": "world.flags.friend_beat_02_complete",
+                "ne": true
+              }
             ]
           },
           "goto": "m02-friend-beat-02#friend_news_arrive",
           "effects": [
-            { "type": "set_flag", "key": "friend_beat_02_started", "value": true }
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_started",
+              "value": true
+            }
           ]
         },
         {
@@ -135,7 +205,10 @@
           "timeCostMinutes": 210,
           "goto": "m02-mistwood-entry#threshold",
           "effects": [
-            { "type": "set_location", "locationId": "asteria_mistwood" }
+            {
+              "type": "set_location",
+              "locationId": "asteria_mistwood"
+            }
           ]
         },
         {
@@ -144,7 +217,10 @@
           "timeCostMinutes": 360,
           "goto": "m01-valedarsena-first-arrival#city_hub",
           "effects": [
-            { "type": "set_location", "locationId": "valedarsena_city" }
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
           ]
         }
       ]
@@ -184,7 +260,9 @@
               "npcId": "ElioMar",
               "name": "Ranger Elio Mar",
               "relationshipScore": 0,
-              "state": { "role": "ranger" }
+              "state": {
+                "role": "ranger"
+              }
             }
           ]
         },
@@ -193,7 +271,10 @@
           "text": "Non entro.",
           "goto": "borough_hub",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
           ]
         }
       ]
@@ -220,7 +301,11 @@
           "timeCostMinutes": 10,
           "goto": "ranger_signs_shared",
           "effects": [
-            { "type": "set_flag", "key": "capture_ranger_told", "value": true }
+            {
+              "type": "set_flag",
+              "key": "capture_ranger_told",
+              "value": true
+            }
           ]
         },
         {
@@ -234,7 +319,10 @@
           "text": "Saluto e torno al borgo.",
           "goto": "borough_hub",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
           ]
         }
       ]
@@ -261,7 +349,11 @@
           "timeCostMinutes": 10,
           "goto": "ranger_signs_shared",
           "effects": [
-            { "type": "set_flag", "key": "capture_ranger_told", "value": true }
+            {
+              "type": "set_flag",
+              "key": "capture_ranger_told",
+              "value": true
+            }
           ]
         },
         {
@@ -275,7 +367,10 @@
           "text": "Rispondo alle domande di rito e saluto.",
           "goto": "borough_hub",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
           ]
         }
       ]
@@ -297,7 +392,10 @@
           "text": "Torno al borgo.",
           "goto": "borough_hub",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
           ]
         }
       ]
@@ -324,7 +422,11 @@
           "timeCostMinutes": 5,
           "goto": "ranger_evidence_received",
           "effects": [
-            { "type": "set_flag", "key": "capture_report_given", "value": true }
+            {
+              "type": "set_flag",
+              "key": "capture_report_given",
+              "value": true
+            }
           ]
         },
         {
@@ -338,7 +440,10 @@
           "timeCostMinutes": 5,
           "goto": "m02-ranger-thread#thread_open",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice_ranger" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice_ranger"
+            }
           ]
         }
       ]
@@ -361,7 +466,10 @@
           "timeCostMinutes": 5,
           "goto": "m02-ranger-thread#thread_open",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice_ranger" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice_ranger"
+            }
           ]
         },
         {
@@ -369,7 +477,10 @@
           "text": "Torno al borgo.",
           "goto": "borough_hub",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
           ]
         }
       ]
@@ -391,7 +502,10 @@
           "text": "Torno al borgo.",
           "goto": "borough_hub",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
           ]
         }
       ]
@@ -419,14 +533,23 @@
           "text": "Controllo le iscrizioni al Rookie Invitational.",
           "conditions": {
             "all": [
-              { "path": "world.flags.a2_rookie_cup_available", "eq": true },
-              { "path": "world.flags.rookie_cup_complete", "ne": true }
+              {
+                "path": "world.flags.a2_rookie_cup_available",
+                "eq": true
+              },
+              {
+                "path": "world.flags.rookie_cup_complete",
+                "ne": true
+              }
             ]
           },
           "timeCostMinutes": 5,
           "goto": "m02-rookie-invitational#cup_announcement",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice_sala_verde" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice_sala_verde"
+            }
           ]
         },
         {
@@ -434,8 +557,14 @@
           "text": "Accedo al banco del Promotion Trial E→D.",
           "conditions": {
             "all": [
-              { "path": "world.flags.a2_rank_trial_e_d_available", "eq": true },
-              { "path": "competition.rank", "eq": "E" }
+              {
+                "path": "world.flags.a2_rank_trial_e_d_available",
+                "eq": true
+              },
+              {
+                "path": "competition.rank",
+                "eq": "E"
+              }
             ]
           },
           "timeCostMinutes": 5,
@@ -456,7 +585,10 @@
           "text": "Prendo nota e torno al borgo.",
           "goto": "borough_hub",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
           ]
         }
       ]
@@ -478,7 +610,10 @@
           "text": "Torno al borgo.",
           "goto": "borough_hub",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
           ]
         }
       ]
@@ -554,7 +689,10 @@
           "text": "Esco dal negozio.",
           "goto": "borough_hub",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
           ]
         }
       ]
@@ -606,7 +744,11 @@
           "timeCostMinutes": 5,
           "goto": "rumors_connected",
           "effects": [
-            { "type": "set_flag", "key": "capture_rumors_connected", "value": true }
+            {
+              "type": "set_flag",
+              "key": "capture_rumors_connected",
+              "value": true
+            }
           ]
         },
         {

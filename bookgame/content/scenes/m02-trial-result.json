@@ -7,9 +7,18 @@
   "entryNodeId": "trial_win",
   "conditions": {
     "all": [
-      { "path": "world.flags.m1_complete", "eq": true },
-      { "path": "world.flags.m02_unlocked", "eq": true },
-      { "path": "world.flags.m2_active", "eq": true }
+      {
+        "path": "world.flags.m1_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m02_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m2_active",
+        "eq": true
+      }
     ]
   },
   "nodes": {
@@ -17,189 +26,721 @@
       "stitches": [
         {
           "id": "win_1",
-          "text": "Il tabellone registra la vittoria. Il Promotion Trial RANK_E_TO_D è risolto. La licenza passa realmente al Rank D — non è un titolo narrativo né un flag parallelo. Ines Varga annota il risultato senza aggiungere commenti inutili."
+          "text": "Il tabellone registra la vittoria del Promotion Trial RANK_E_TO_D. Il risultato entra nella cronologia competitiva e il Circuito aggiorna la licenza a Rank D: non è un titolo narrativo, ma lo stato competitivo reale."
         },
         {
           "id": "win_2",
-          "text": "«Hai usato quello che avevi in modo coerente sotto pressione. Questo è il test.» Si allontana verso il banco. Il campo torna disponibile per il prossimo slot."
-        },
-        {
-          "id": "win_m2_check",
-          "text": "Il Rank D apre la fascia successiva. Prima di uscire dal Circuito Asteria, il sistema verifica se hai completato il quadro di M2: la rete di bracconaggio, N, il Friend Beat 02. Se tutto è in ordine, M2 si chiude formalmente."
+          "text": "Ines Varga chiude il referto. «Hai superato il gate. Il resto del tuo percorso non viene cancellato da questa vittoria.» HP, PP, status, relazioni e conseguenze del mondo restano quelli realmente prodotti fin qui."
         }
       ],
       "choices": [
         {
+          "id": "inspect_win_record",
+          "text": "Controllo il referto ufficiale del Trial e la cronologia competitiva.",
+          "goto": "win_record_review"
+        },
+        {
+          "id": "inspect_rank_d_access",
+          "text": "Controllo cosa apre davvero il Rank D.",
+          "goto": "rank_d_access_review"
+        },
+        {
           "id": "complete_m2_exit",
-          "text": "Il quadro è completo — chiudo M2 e accedo alla fascia successiva.",
+          "text": "Tutti i requisiti di M2 sono soddisfatti — formalizzo la chiusura.",
           "conditions": {
             "all": [
-              { "path": "competition.rank", "eq": "D" },
-              { "path": "world.flags.n_met", "eq": true },
-              { "path": "world.flags.friend_beat_02_complete", "eq": true },
-              { "path": "world.flags.network_outcome_complete", "eq": true }
+              {
+                "path": "competition.rank",
+                "eq": "D"
+              },
+              {
+                "path": "world.flags.n_met",
+                "eq": true
+              },
+              {
+                "path": "world.flags.friend_beat_02_complete",
+                "eq": true
+              },
+              {
+                "any": [
+                  {
+                    "path": "world.flags.poaching_network_state",
+                    "eq": "resolved"
+                  },
+                  {
+                    "path": "world.flags.poaching_network_state",
+                    "eq": "partial"
+                  },
+                  {
+                    "path": "world.flags.poaching_network_state",
+                    "eq": "ignored"
+                  },
+                  {
+                    "path": "world.flags.poaching_network_state",
+                    "eq": "escalated"
+                  }
+                ]
+              },
+              {
+                "path": "world.flags.m2_complete",
+                "ne": true
+              }
             ]
           },
           "goto": "m2_exit_confirmed",
           "effects": [
-            { "type": "set_flag", "key": "m2_complete", "value": true },
-            { "type": "set_flag", "key": "m03_unlocked", "value": true }
+            {
+              "type": "set_flag",
+              "key": "m2_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m03_unlocked",
+              "value": true
+            }
           ]
         },
         {
           "id": "review_m2_pending",
-          "text": "Controllo cosa manca prima di chiudere formalmente M2.",
+          "text": "Controllo quali requisiti di M2 sono ancora aperti.",
           "conditions": {
             "all": [
-              { "path": "competition.rank", "eq": "D" },
+              {
+                "path": "competition.rank",
+                "eq": "D"
+              },
+              {
+                "path": "world.flags.m2_complete",
+                "ne": true
+              },
               {
                 "not": {
                   "all": [
-                    { "path": "world.flags.n_met", "eq": true },
-                    { "path": "world.flags.friend_beat_02_complete", "eq": true },
-                    { "path": "world.flags.network_outcome_complete", "eq": true }
+                    {
+                      "path": "competition.rank",
+                      "eq": "D"
+                    },
+                    {
+                      "path": "world.flags.n_met",
+                      "eq": true
+                    },
+                    {
+                      "path": "world.flags.friend_beat_02_complete",
+                      "eq": true
+                    },
+                    {
+                      "any": [
+                        {
+                          "path": "world.flags.poaching_network_state",
+                          "eq": "resolved"
+                        },
+                        {
+                          "path": "world.flags.poaching_network_state",
+                          "eq": "partial"
+                        },
+                        {
+                          "path": "world.flags.poaching_network_state",
+                          "eq": "ignored"
+                        },
+                        {
+                          "path": "world.flags.poaching_network_state",
+                          "eq": "escalated"
+                        }
+                      ]
+                    }
                   ]
                 }
               }
             ]
           },
           "goto": "m2_pending_items"
-        }
-      ]
-    },
-
-    "m2_exit_confirmed": {
-      "stitches": [
-        {
-          "id": "exit_1",
-          "text": "M2 — Sotto la Nebbia è formalmente concluso. Il Rank D è registrato nel Circuito Asteria. Tutto ciò che hai lasciato aperto in questa fascia — relazioni, fauna, cronologia competitiva, conseguenze del mondo — resta persistente."
         },
         {
-          "id": "exit_2",
-          "text": "Il sistema segnala una nuova finestra di accesso. M3 è disponibile. La strada continua."
-        }
-      ],
-      "choices": [
-        {
-          "id": "go_to_m03",
-          "text": "Procedo verso la fascia successiva.",
+          "id": "review_completed_m2",
+          "text": "Rivedo lo stato concluso di M2.",
           "conditions": {
             "path": "world.flags.m2_complete",
             "eq": true
           },
-          "goto": "m03-handoff#m03_entry",
-          "effects": [
-            { "type": "set_location", "locationId": "m03_entry_point" }
-          ]
+          "goto": "completed_state_review"
+        }
+      ]
+    },
+    "win_record_review": {
+      "stitches": [
+        {
+          "id": "record_1",
+          "text": "Il record mostra A2_RANK_TRIAL_E_D come vittoria, l'esaminatrice SAL_GATE_E_D_INES_VARGA e il passaggio E→D. I tentativi precedenti, se esistono, restano nella storia: la promozione non li riscrive."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record_to_access",
+          "text": "Passo alle nuove autorizzazioni Rank D.",
+          "goto": "rank_d_access_review"
         },
         {
-          "id": "stay_rank_d",
-          "text": "Resto a Borgo Salice prima di partire.",
+          "id": "record_to_contract",
+          "text": "Controllo il contratto di uscita di M2.",
+          "goto": "m2_contract_review"
+        },
+        {
+          "id": "record_back_win",
+          "text": "Torno al riepilogo del risultato.",
+          "goto": "trial_win"
+        }
+      ]
+    },
+    "rank_d_access_review": {
+      "stitches": [
+        {
+          "id": "access_1",
+          "text": "Il Rank D rende legalmente accessibile la fascia D del circuito: MIR-MARSH, RIV-TOWN, FER-CITY e VIR-JUNGLE. L'apertura deriva dal Rank strutturato; non vengono creati flag duplicati per queste località."
+        },
+        {
+          "id": "access_2",
+          "text": "Gli eventuali accessi speciali ottenuti prima della promozione restano eccezioni autoriali: non equivalevano, e non equivalgono retroattivamente, al normale accesso Rank D."
+        }
+      ],
+      "choices": [
+        {
+          "id": "access_to_contract",
+          "text": "Verifico se posso chiudere formalmente M2.",
+          "goto": "m2_contract_review"
+        },
+        {
+          "id": "access_back_win",
+          "text": "Torno al riepilogo della vittoria.",
+          "goto": "trial_win"
+        },
+        {
+          "id": "access_to_borgo",
+          "text": "Rientro a Borgo Salice mantenendo il Rank D.",
           "goto": "m02-borgo-salice#borough_hub",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
           ]
         }
       ]
     },
-
+    "m2_contract_review": {
+      "stitches": [
+        {
+          "id": "contract_1",
+          "text": "La chiusura formale richiede quattro fatti reali: Rank D, incontro con N, Friend Beat 02 completato e un esito finale della rete di bracconaggio classificato come resolved, partial, ignored oppure escalated."
+        },
+        {
+          "id": "contract_2",
+          "text": "Il callback network_outcome_complete può documentare il passaggio nel blocco di esito, ma non sostituisce mai la classificazione canonica poaching_network_state."
+        }
+      ],
+      "choices": [
+        {
+          "id": "complete_m2_exit_review",
+          "text": "Il contratto è completo — formalizzo M2.",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.rank",
+                "eq": "D"
+              },
+              {
+                "path": "world.flags.n_met",
+                "eq": true
+              },
+              {
+                "path": "world.flags.friend_beat_02_complete",
+                "eq": true
+              },
+              {
+                "any": [
+                  {
+                    "path": "world.flags.poaching_network_state",
+                    "eq": "resolved"
+                  },
+                  {
+                    "path": "world.flags.poaching_network_state",
+                    "eq": "partial"
+                  },
+                  {
+                    "path": "world.flags.poaching_network_state",
+                    "eq": "ignored"
+                  },
+                  {
+                    "path": "world.flags.poaching_network_state",
+                    "eq": "escalated"
+                  }
+                ]
+              },
+              {
+                "path": "world.flags.m2_complete",
+                "ne": true
+              }
+            ]
+          },
+          "goto": "m2_exit_confirmed",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m2_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m03_unlocked",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "contract_pending_review",
+          "text": "C'è ancora qualcosa da completare — apro il dettaglio.",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.rank",
+                "eq": "D"
+              },
+              {
+                "path": "world.flags.m2_complete",
+                "ne": true
+              },
+              {
+                "not": {
+                  "all": [
+                    {
+                      "path": "competition.rank",
+                      "eq": "D"
+                    },
+                    {
+                      "path": "world.flags.n_met",
+                      "eq": true
+                    },
+                    {
+                      "path": "world.flags.friend_beat_02_complete",
+                      "eq": true
+                    },
+                    {
+                      "any": [
+                        {
+                          "path": "world.flags.poaching_network_state",
+                          "eq": "resolved"
+                        },
+                        {
+                          "path": "world.flags.poaching_network_state",
+                          "eq": "partial"
+                        },
+                        {
+                          "path": "world.flags.poaching_network_state",
+                          "eq": "ignored"
+                        },
+                        {
+                          "path": "world.flags.poaching_network_state",
+                          "eq": "escalated"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "goto": "m2_pending_items"
+        },
+        {
+          "id": "contract_back_win",
+          "text": "Torno al risultato del Trial.",
+          "goto": "trial_win"
+        }
+      ]
+    },
     "m2_pending_items": {
       "stitches": [
         {
           "id": "pending_1",
-          "text": "Il Rank D è confermato, ma M2 non si chiude formalmente finché non hai completato il quadro. Il sistema mostra i thread ancora aperti."
+          "text": "Il Rank D resta valido, ma il modulo non si chiude finché il contratto narrativo non è completo. Nessun requisito viene inventato come già risolto e nessun thread viene resettato."
         }
       ],
       "choices": [
         {
           "id": "finish_network_outcome",
-          "text": "Torno al bilancio della rete di bracconaggio nel Mistwood.",
+          "text": "La rete non ha ancora una classificazione finale valida — verifico il percorso per chiuderla.",
           "conditions": {
-            "path": "world.flags.network_outcome_complete",
-            "ne": true
+            "not": {
+              "any": [
+                {
+                  "path": "world.flags.poaching_network_state",
+                  "eq": "resolved"
+                },
+                {
+                  "path": "world.flags.poaching_network_state",
+                  "eq": "partial"
+                },
+                {
+                  "path": "world.flags.poaching_network_state",
+                  "eq": "ignored"
+                },
+                {
+                  "path": "world.flags.poaching_network_state",
+                  "eq": "escalated"
+                }
+              ]
+            }
           },
-          "goto": "m02-borgo-salice#borough_hub",
-          "effects": [
-            { "type": "set_location", "locationId": "borgo_salice" }
-          ]
+          "goto": "pending_network_route"
         },
         {
           "id": "find_n_pending",
-          "text": "Devo ancora incontrare N.",
+          "text": "N manca ancora dal mio percorso — torno verso il thread già esistente.",
           "conditions": {
             "path": "world.flags.n_met",
             "ne": true
           },
-          "goto": "m02-borgo-salice#borough_hub",
-          "effects": [
-            { "type": "set_location", "locationId": "borgo_salice" }
-          ]
+          "goto": "pending_n_route"
         },
         {
           "id": "finish_friend_beat",
-          "text": "Devo ancora completare il Friend Beat 02.",
+          "text": "Il Friend Beat 02 è ancora aperto — torno alla sua disponibilità reale.",
           "conditions": {
             "path": "world.flags.friend_beat_02_complete",
             "ne": true
           },
-          "goto": "m02-borgo-salice#borough_hub",
-          "effects": [
-            { "type": "set_location", "locationId": "borgo_salice" }
-          ]
+          "goto": "pending_friend_route"
+        },
+        {
+          "id": "recheck_contract",
+          "text": "Ricontrollo il contratto con lo stato attuale.",
+          "goto": "m2_contract_review"
         },
         {
           "id": "back_to_borgo_pending",
-          "text": "Torno al borgo — finisco quello che manca.",
+          "text": "Torno a Borgo Salice senza chiudere M2.",
           "goto": "m02-borgo-salice#borough_hub",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
           ]
         }
       ]
     },
-
+    "pending_network_route": {
+      "stitches": [
+        {
+          "id": "network_route_1",
+          "text": "La classificazione finale appartiene a M2_11. Se la finestra A2_NETWORK_OUTCOME è disponibile, il bilancio della rete resta il punto corretto da completare; se lo stato è incoerente, M2 resta aperto invece di accettare un valore non canonico."
+        }
+      ],
+      "choices": [
+        {
+          "id": "network_route_direct",
+          "text": "Entro nel bilancio della rete disponibile.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.a2_network_outcome_available",
+                "eq": true
+              },
+              {
+                "path": "world.flags.network_outcome_complete",
+                "ne": true
+              }
+            ]
+          },
+          "goto": "m02-network-outcome#network_outcome_review",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
+          ]
+        },
+        {
+          "id": "network_route_hub",
+          "text": "Torno al borgo e riprendo il thread da lì.",
+          "goto": "m02-borgo-salice#borough_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
+          ]
+        }
+      ]
+    },
+    "pending_n_route": {
+      "stitches": [
+        {
+          "id": "n_route_1",
+          "text": "La promozione non sostituisce l'incontro con N. Il thread resta quello già aperto nel Bosco Bruma; il percorso corretto parte da Borgo Salice e usa le condizioni già autorializzate, senza marcare n_met artificialmente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "n_route_hub",
+          "text": "Torno a Borgo Salice e seguo il percorso esistente verso N.",
+          "goto": "m02-borgo-salice#borough_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
+          ]
+        },
+        {
+          "id": "n_route_back_pending",
+          "text": "Resto sul riepilogo dei requisiti.",
+          "goto": "m2_pending_items"
+        }
+      ]
+    },
+    "pending_friend_route": {
+      "stitches": [
+        {
+          "id": "friend_route_1",
+          "text": "Il Friend Beat 02 resta un evento persistente selezionato dal mondo e dagli schedule. Il Rank D non lo completa automaticamente: devo rientrare nel flusso già disponibile e risolverlo realmente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "friend_route_hub",
+          "text": "Torno a Borgo Salice e riprendo il Friend Beat dalla sua disponibilità reale.",
+          "goto": "m02-borgo-salice#borough_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
+          ]
+        },
+        {
+          "id": "friend_route_back_pending",
+          "text": "Resto sul riepilogo dei requisiti.",
+          "goto": "m2_pending_items"
+        }
+      ]
+    },
+    "m2_exit_confirmed": {
+      "stitches": [
+        {
+          "id": "exit_1",
+          "text": "M2 — Sotto la Nebbia è formalmente concluso. Rank D, incontro con N, Friend Beat 02 e classificazione della rete sono tutti presenti nello stato persistente."
+        },
+        {
+          "id": "exit_2",
+          "text": "Il sistema abilita la prossima fascia impostando m03_unlocked=true, ma non esiste ancora contenuto M3 autorializzato né un collegamento a una scena M3. Il mondo di M2 resta esplorabile da Borgo Salice."
+        }
+      ],
+      "choices": [
+        {
+          "id": "review_completed_state",
+          "text": "Rivedo cosa è stato registrato alla chiusura.",
+          "goto": "completed_state_review"
+        },
+        {
+          "id": "stay_rank_d",
+          "text": "Resto a Borgo Salice con il mio stato attuale.",
+          "goto": "m02-borgo-salice#borough_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
+          ]
+        },
+        {
+          "id": "visit_sala_after_completion",
+          "text": "Torno alla Sala Verde senza iniziare nuovo contenuto.",
+          "goto": "m02-borgo-salice#sala_verde",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice_sala_verde"
+            }
+          ]
+        }
+      ]
+    },
+    "completed_state_review": {
+      "stitches": [
+        {
+          "id": "completed_1",
+          "text": "Lo stato concluso mostra m2_complete=true e m03_unlocked=true. Non vengono assegnate ricompense duplicate al rientro: la chiusura è un passaggio idempotente e la cronologia competitiva resta invariata."
+        }
+      ],
+      "choices": [
+        {
+          "id": "completed_back_exit",
+          "text": "Torno al riepilogo conclusivo.",
+          "goto": "m2_exit_confirmed"
+        },
+        {
+          "id": "completed_to_borgo",
+          "text": "Rientro a Borgo Salice.",
+          "goto": "m02-borgo-salice#borough_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
+          ]
+        }
+      ]
+    },
     "trial_loss": {
       "stitches": [
         {
           "id": "loss_1",
-          "text": "Il tabellone registra la sconfitta senza cancellare il tentativo. Resti Rank E — il Promotion Trial RANK_E_TO_D torna disponibile perché il checkpoint è retryable. La registrazione del tuo Official Three è ancora attiva."
+          "text": "Il tabellone registra la sconfitta. Resti Rank E e il tentativo rimane nella cronologia del Circuito. Poiché il checkpoint è retryable, il Trial torna disponibile."
         },
         {
           "id": "loss_2",
-          "text": "Ines Varga raccoglie il registro. «Il problema non era la potenza. Pensa a cosa hai fatto sotto pressione.» Non aggiunge altro."
+          "text": "La registrazione usata per questo tentativo viene chiusa dal motore: l'Official Three precedente non resta registrato. Per un nuovo tentativo devi registrarti di nuovo, e in quella nuova registrazione puoi scegliere un nuovo Official Three legale tramite l'ordine del roster."
         },
         {
           "id": "loss_world",
-          "text": "Fuori dall'arena il mondo non torna indietro. HP, PP e condizioni restano quelli prodotti dal combattimento finché non usi servizi o regole che li modificano davvero. Relazioni, fauna e storia accumulata restano persistenti."
+          "text": "Il mondo non viene ripristinato: HP, PP, status, EXP, relazioni, flag e conseguenze restano nello stato realmente prodotto. Non avviene alcuna cura automatica."
+        }
+      ],
+      "choices": [
+        {
+          "id": "inspect_loss_record",
+          "text": "Controllo come il tentativo è stato registrato.",
+          "goto": "loss_record_review"
+        },
+        {
+          "id": "inspect_roster_condition",
+          "text": "Controllo la condizione attuale dei Pokémon dopo il combattimento.",
+          "goto": "loss_roster_condition"
+        },
+        {
+          "id": "retry_options",
+          "text": "Valuto un nuovo tentativo e la nuova registrazione.",
+          "goto": "loss_retry_options"
+        },
+        {
+          "id": "back_to_borough_loss",
+          "text": "Lascio temporaneamente la progressione del Trial e torno al borgo.",
+          "goto": "m02-borgo-salice#borough_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
+          ]
+        }
+      ]
+    },
+    "loss_record_review": {
+      "stitches": [
+        {
+          "id": "loss_record_1",
+          "text": "La cronologia conserva l'esito lose, il checkpoint RANK_E_TO_D, l'esaminatrice e l'Official Three usato in quel tentativo. Il contatore dei tentativi non viene azzerato quando riprovi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "loss_record_to_roster",
+          "text": "Controllo adesso il roster vivo.",
+          "goto": "loss_roster_condition"
+        },
+        {
+          "id": "loss_record_to_retry",
+          "text": "Passo alle opzioni di retry.",
+          "goto": "loss_retry_options"
+        },
+        {
+          "id": "loss_record_back",
+          "text": "Torno al riepilogo della sconfitta.",
+          "goto": "trial_loss"
+        }
+      ]
+    },
+    "loss_roster_condition": {
+      "stitches": [
+        {
+          "id": "loss_condition_1",
+          "text": "La schermata mostra la condizione corrente del roster. I Pokémon non vengono riportati ai valori della registrazione: qualunque HP, PP o status legittimamente cambiato resta quello corrente finché una regola o un servizio non lo modifica."
+        }
+      ],
+      "choices": [
+        {
+          "id": "condition_to_retry",
+          "text": "Con questa condizione, valuto se registrarmi di nuovo.",
+          "goto": "loss_retry_options"
+        },
+        {
+          "id": "rest_before_retry",
+          "text": "Torno alla Sala Verde per decidere cosa fare, senza cura automatica.",
+          "goto": "m02-borgo-salice#sala_verde",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice_sala_verde"
+            }
+          ]
+        },
+        {
+          "id": "condition_back_loss",
+          "text": "Torno al riepilogo della sconfitta.",
+          "goto": "trial_loss"
+        }
+      ]
+    },
+    "loss_retry_options": {
+      "stitches": [
+        {
+          "id": "retry_1",
+          "text": "Un retry è un nuovo tentativo. La registrazione precedente è chiusa; al banco puoi rivedere l'ordine del roster e registrare nuovamente tre identità valide. Solo dopo la nuova conferma il Trial può ripartire."
         }
       ],
       "choices": [
         {
           "id": "retry_trial",
-          "text": "Torno al banco per preparare un nuovo tentativo.",
+          "text": "Torno al banco e avvio una nuova registrazione.",
           "conditions": {
             "all": [
-              { "path": "competition.rank", "eq": "E" },
-              { "path": "competition.trials.RANK_E_TO_D.available", "eq": true },
-              { "path": "competition.trials.RANK_E_TO_D.registered", "ne": true }
+              {
+                "path": "competition.rank",
+                "eq": "E"
+              },
+              {
+                "path": "competition.trials.RANK_E_TO_D.available",
+                "eq": true
+              },
+              {
+                "path": "competition.trials.RANK_E_TO_D.registered",
+                "ne": true
+              }
             ]
           },
           "goto": "m02-trial-registration#trial_desk"
         },
         {
-          "id": "rest_before_retry",
-          "text": "Ho bisogno di prepararmi meglio — torno alla Sala Verde.",
+          "id": "retry_to_sala",
+          "text": "Torno alla Sala Verde e rimando la nuova registrazione.",
           "goto": "m02-borgo-salice#sala_verde",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice_sala_verde" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice_sala_verde"
+            }
           ]
         },
         {
-          "id": "back_to_borough_loss",
-          "text": "Torno al borgo — penso a cosa è andato storto.",
+          "id": "retry_leave_progression",
+          "text": "Torno al borgo e mi occupo di altro.",
           "goto": "m02-borgo-salice#borough_hub",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
           ]
         }
       ]

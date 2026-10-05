@@ -7,11 +7,34 @@
   "entryNodeId": "zorua_encounter",
   "conditions": {
     "all": [
-      { "path": "world.flags.m1_complete", "eq": true },
-      { "path": "world.flags.m02_unlocked", "eq": true },
-      { "path": "world.flags.m2_active", "eq": true },
-      { "path": "competition.rank", "eq": "E" },
-      { "path": "world.flags.mistwood_entry_complete", "eq": true }
+      {
+        "path": "world.flags.m1_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m02_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m2_active",
+        "eq": true
+      },
+      {
+        "any": [
+          {
+            "path": "competition.rank",
+            "eq": "E"
+          },
+          {
+            "path": "competition.rank",
+            "eq": "D"
+          }
+        ]
+      },
+      {
+        "path": "world.flags.mistwood_entry_complete",
+        "eq": true
+      }
     ]
   },
   "nodes": {
@@ -47,8 +70,12 @@
             "dc": 11
           },
           "outcomes": {
-            "success": { "goto": "zorua_shield_seen" },
-            "failure": { "goto": "zorua_obscured" }
+            "success": {
+              "goto": "zorua_shield_seen"
+            },
+            "failure": {
+              "goto": "zorua_obscured"
+            }
           }
         },
         {
@@ -57,7 +84,11 @@
           "timeCostMinutes": 5,
           "goto": "zorua_left",
           "effects": [
-            { "type": "set_flag", "key": "n_encounter_avoided", "value": true }
+            {
+              "type": "set_flag",
+              "key": "n_encounter_avoided",
+              "value": true
+            }
           ]
         }
       ]
@@ -105,7 +136,11 @@
           "text": "Mi ritiro senza disturbare.",
           "goto": "zorua_left",
           "effects": [
-            { "type": "set_flag", "key": "n_encounter_avoided", "value": true }
+            {
+              "type": "set_flag",
+              "key": "n_encounter_avoided",
+              "value": true
+            }
           ]
         }
       ]
@@ -129,9 +164,16 @@
               "npcId": "N",
               "name": "N",
               "relationshipScore": 0,
-              "state": { "introduced": true, "zorua_context": "mistwood" }
+              "state": {
+                "introduced": true,
+                "zorua_context": "mistwood"
+              }
             },
-            { "type": "set_flag", "key": "n_met", "value": true }
+            {
+              "type": "set_flag",
+              "key": "n_met",
+              "value": true
+            }
           ]
         },
         {
@@ -168,9 +210,16 @@
               "npcId": "N",
               "name": "N",
               "relationshipScore": 0,
-              "state": { "introduced": true, "zorua_context": "mistwood" }
+              "state": {
+                "introduced": true,
+                "zorua_context": "mistwood"
+              }
             },
-            { "type": "set_flag", "key": "n_met", "value": true }
+            {
+              "type": "set_flag",
+              "key": "n_met",
+              "value": true
+            }
           ]
         },
         {
@@ -194,9 +243,16 @@
               "npcId": "N",
               "name": "N",
               "relationshipScore": 0,
-              "state": { "introduced": true, "zorua_context": "mistwood" }
+              "state": {
+                "introduced": true,
+                "zorua_context": "mistwood"
+              }
             },
-            { "type": "set_flag", "key": "n_met", "value": true }
+            {
+              "type": "set_flag",
+              "key": "n_met",
+              "value": true
+            }
           ]
         }
       ]
@@ -376,7 +432,11 @@
           "text": "Accetto.",
           "goto": "n_parted_ways",
           "effects": [
-            { "type": "set_flag", "key": "n_relationship_positive", "value": true }
+            {
+              "type": "set_flag",
+              "key": "n_relationship_positive",
+              "value": true
+            }
           ]
         },
         {
@@ -506,7 +566,11 @@
           "text": "Saluto N senza aggiungere altro.",
           "goto": "n_parted_tense",
           "effects": [
-            { "type": "set_flag", "key": "n_relationship_tension", "value": true }
+            {
+              "type": "set_flag",
+              "key": "n_relationship_tension",
+              "value": true
+            }
           ]
         }
       ]
@@ -619,7 +683,10 @@
           "timeCostMinutes": 210,
           "goto": "m02-borgo-salice#borough_hub",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
           ]
         },
         {
@@ -628,7 +695,10 @@
           "timeCostMinutes": 20,
           "goto": "m02-mistwood-entry#threshold",
           "effects": [
-            { "type": "set_location", "locationId": "asteria_mistwood" }
+            {
+              "type": "set_location",
+              "locationId": "asteria_mistwood"
+            }
           ]
         }
       ]

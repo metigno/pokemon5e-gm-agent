@@ -60,7 +60,8 @@ function legalTrialState(overrides = {}) {
       toRank: "D",
       requiredRosterSize: 3,
       retryable: true,
-      registered: true
+      registered: true,
+      registeredPokemonIds: ["bulbasaur_1", "charmander_1", "squirtle_1"]
     }
   };
   state.player.roster = [

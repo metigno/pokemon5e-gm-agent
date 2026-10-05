@@ -9,447 +9,269 @@ import { BookgameEngine } from "../src/engine/bookgame-engine.mjs";
 import { compileStory } from "../src/compiler/story-compiler.mjs";
 import { SaveStore } from "../src/engine/save-store.mjs";
 import { createNewGameState } from "../src/engine/state.mjs";
+import { registerTrial, setTrialAvailable } from "../src/engine/competition-state.mjs";
 import { SequenceDice } from "../src/engine/dice.mjs";
 
-const scenesDir = fileURLToPath(new URL("../content/scenes/", import.meta.url));
-const modulesDir = fileURLToPath(new URL("../content/modules/", import.meta.url));
-const ecologyProfilesDir = fileURLToPath(new URL("../content/ecology/", import.meta.url));
-const zonePoolsFile = fileURLToPath(new URL("../../campaign/world/ecology/ZONE_POOLS.json", import.meta.url));
-const distributionFile = fileURLToPath(new URL("../../campaign/world/ecology/SPECIES_DISTRIBUTION.json", import.meta.url));
-const faunaIndexFile = fileURLToPath(new URL("../../campaign/world/fauna/ASTERIA_FAUNA_INDEX.json", import.meta.url));
-const ecologyOptions = { profilesDir: ecologyProfilesDir, zonePoolsFile, distributionFile, faunaIndexFile };
-const fixedNow = () => "2026-10-05T11:30:00.000Z";
+const scenesDir=fileURLToPath(new URL("../content/scenes/",import.meta.url));
+const modulesDir=fileURLToPath(new URL("../content/modules/",import.meta.url));
+const ecologyProfilesDir=fileURLToPath(new URL("../content/ecology/",import.meta.url));
+const zonePoolsFile=fileURLToPath(new URL("../../campaign/world/ecology/ZONE_POOLS.json",import.meta.url));
+const distributionFile=fileURLToPath(new URL("../../campaign/world/ecology/SPECIES_DISTRIBUTION.json",import.meta.url));
+const faunaIndexFile=fileURLToPath(new URL("../../campaign/world/fauna/ASTERIA_FAUNA_INDEX.json",import.meta.url));
+const ecologyOptions={profilesDir:ecologyProfilesDir,zonePoolsFile,distributionFile,faunaIndexFile};
+const fixedNow=()=> "2026-10-05T19:10:00.000Z";
+const FINAL_STATES=["resolved","partial","ignored","escalated"];
 
-async function makeEngine(dice = new SequenceDice([1])) {
-  const bundle = await compileStory({ scenesDir, modulesDir, ecologyOptions });
-  const scenes = {
-    async load(sceneId) {
-      const scene = bundle.scenes[sceneId];
-      if (!scene) throw new Error("missing scene " + sceneId);
-      return structuredClone(scene);
-    },
-    async loadWorldEvents() {
-      return structuredClone(bundle.worldEvents ?? []);
-    },
-    async loadEcology() {
-      return structuredClone(bundle.ecology);
-    }
+async function makeEngine(dice=new SequenceDice([1])){
+  const bundle=await compileStory({scenesDir,modulesDir,ecologyOptions});
+  const scenes={
+    async load(id){const s=bundle.scenes[id]; if(!s) throw new Error("missing scene "+id); return structuredClone(s);},
+    async loadWorldEvents(){return structuredClone(bundle.worldEvents??[]);},
+    async loadEcology(){return structuredClone(bundle.ecology);}
   };
-  return { engine: new BookgameEngine({ scenes, dice, now: fixedNow }), bundle };
+  return {engine:new BookgameEngine({scenes,dice,now:fixedNow}),bundle};
 }
 
-function legalM2State(protagonist = "Luke") {
-  const state = createNewGameState({ protagonist, now: fixedNow });
-  state.competition.rank = "E";
-  state.competition.rankOrder = 1;
-  state.world.flags.m1_complete = true;
-  state.world.flags.m02_unlocked = true;
-  state.world.flags.m2_active = true;
-  state.world.locationId = "valedarsena_city";
-  state.story.sceneId = "m01-valedarsena-first-arrival";
-  state.story.nodeId = "city_hub";
-  return state;
+function base(){
+  const s=createNewGameState({protagonist:"Luke",now:fixedNow});
+  s.world.flags.m1_complete=true;
+  s.world.flags.m02_unlocked=true;
+  s.world.flags.m2_active=true;
+  s.competition.rank="D";
+  s.competition.rankOrder=2;
+  s.world.locationId="borgo_salice_arena";
+  s.story.sceneId="m02-trial-result";
+  s.story.nodeId="trial_win";
+  return s;
 }
 
-// State that arrives at trial_win after a successful combat resolution
-function winState(overrides = {}) {
-  const state = legalM2State();
-  state.competition.rank = "D";
-  state.competition.rankOrder = 2;
-  state.competition.trials = {
-    RANK_E_TO_D: {
-      available: true,
-      fromRank: "E",
-      toRank: "D",
-      requiredRosterSize: 3,
-      retryable: true,
-      registered: true,
-      completed: true
-    }
+function winState(flags={}){
+  const s=base();
+  Object.assign(s.world.flags,flags);
+  return s;
+}
+
+function full(state="resolved"){
+  return {n_met:true,friend_beat_02_complete:true,network_outcome_complete:true,poaching_network_state:state};
+}
+
+function lossState(){
+  const s=createNewGameState({protagonist:"Luke",now:fixedNow});
+  s.world.flags.m1_complete=true;
+  s.world.flags.m02_unlocked=true;
+  s.world.flags.m2_active=true;
+  s.competition.rank="E";
+  s.competition.rankOrder=1;
+  s.competition.trials.RANK_E_TO_D={
+    checkpointId:"RANK_E_TO_D",available:true,fromRank:"E",toRank:"D",
+    requiredRosterSize:3,retryable:true,registered:false,registeredPokemonIds:[],
+    attempts:1,lastResult:"lose",bestResult:"lose",completed:false
   };
-  state.player.roster = [
-    { id: "bulbasaur_1", species: "Bulbasaur", level: 5 },
-    { id: "charmander_1", species: "Charmander", level: 5 },
-    { id: "squirtle_1", species: "Squirtle", level: 5 }
-  ];
-  state.world.locationId = "borgo_salice_arena";
-  state.story.sceneId = "m02-trial-result";
-  state.story.nodeId = "trial_win";
-  Object.assign(state.world.flags, overrides);
-  return state;
+  s.story.sceneId="m02-trial-result";
+  s.story.nodeId="trial_loss";
+  s.world.locationId="borgo_salice_arena";
+  return s;
 }
 
-// State that arrives at trial_loss after a failed combat
-function lossState(overrides = {}) {
-  const state = legalM2State();
-  state.competition.trials = {
-    RANK_E_TO_D: {
-      available: true,
-      fromRank: "E",
-      toRank: "D",
-      requiredRosterSize: 3,
-      retryable: true,
-      registered: true
-    }
-  };
-  state.player.roster = [
-    { id: "bulbasaur_1", species: "Bulbasaur", level: 5 },
-    { id: "charmander_1", species: "Charmander", level: 5 },
-    { id: "squirtle_1", species: "Squirtle", level: 5 }
-  ];
-  state.world.locationId = "borgo_salice_arena";
-  state.story.sceneId = "m02-trial-result";
-  state.story.nodeId = "trial_loss";
-  Object.assign(state.world.flags, overrides);
-  return state;
-}
-
-// Full M2 exit contract met
-function m2ExitFlags() {
-  return {
-    n_met: true,
-    friend_beat_02_complete: true,
-    network_outcome_complete: true
-  };
-}
-
-// ─── COMPILATION ──────────────────────────────────────────────────────────────
-
-test("M2_14 scene compiles and trial_win node is present", async () => {
-  const { bundle } = await makeEngine();
-  const scene = bundle.scenes["m02-trial-result"];
-  assert.ok(scene, "m02-trial-result must compile");
-  assert.ok(scene.nodes["trial_win"], "trial_win must exist");
-  assert.equal(scene.moduleId, "M02");
+test("M2_14 compiles with no M3 scene target",async()=>{
+  const {bundle}=await makeEngine();
+  const scene=bundle.scenes["m02-trial-result"];
+  assert.ok(scene);
+  assert.equal(JSON.stringify(scene).includes("m03-handoff"),false);
+  assert.equal(bundle.scenes["m03-handoff"],undefined);
 });
 
-test("M2_14 scene has all required nodes", async () => {
-  const { bundle } = await makeEngine();
-  const scene = bundle.scenes["m02-trial-result"];
-  const required = [
-    "trial_win", "m2_exit_confirmed", "m2_pending_items", "trial_loss"
-  ];
-  for (const nodeId of required) {
-    assert.ok(scene.nodes[nodeId], `node ${nodeId} must exist`);
-  }
+test("M2_14 has expanded real-state nodes",async()=>{
+  const {bundle}=await makeEngine();
+  const nodes=Object.keys(bundle.scenes["m02-trial-result"].nodes);
+  for(const id of ["trial_win","win_record_review","rank_d_access_review","m2_contract_review","m2_pending_items","pending_network_route","pending_n_route","pending_friend_route","m2_exit_confirmed","completed_state_review","trial_loss","loss_record_review","loss_roster_condition","loss_retry_options"]) assert.ok(nodes.includes(id),id);
 });
 
-// ─── WIN PATH: EXIT CONTRACT ──────────────────────────────────────────────────
-
-test("M2_14 win: complete_m2_exit visible when all exit conditions met", async () => {
-  const { engine } = await makeEngine();
-  const state = winState(m2ExitFlags());
-  const view = await engine.present(state);
-  const choice = view.choices.find(c => c.id === "complete_m2_exit");
-  assert.ok(choice, "complete_m2_exit must be visible when all exit conditions are met");
+test("A: missing poaching_network_state never closes even when callback=true",async()=>{
+  const {engine}=await makeEngine();
+  const s=winState({n_met:true,friend_beat_02_complete:true,network_outcome_complete:true});
+  const v=await engine.present(s);
+  assert.equal(v.choices.some(c=>c.id==="complete_m2_exit"),false);
+  assert.equal(v.choices.some(c=>c.id==="review_m2_pending"),true);
 });
 
-test("M2_14 win: complete_m2_exit hidden when n_met missing", async () => {
-  const { engine } = await makeEngine();
-  const state = winState({ friend_beat_02_complete: true, network_outcome_complete: true });
-  const view = await engine.present(state);
-  const choice = view.choices.find(c => c.id === "complete_m2_exit");
-  assert.equal(choice, undefined, "complete_m2_exit must be hidden when n_met is false");
+test("B: non-final intervened state never closes even when callback=true",async()=>{
+  const {engine}=await makeEngine();
+  const s=winState({...full(),poaching_network_state:"intervened"});
+  const v=await engine.present(s);
+  assert.equal(v.choices.some(c=>c.id==="complete_m2_exit"),false);
 });
 
-test("M2_14 win: complete_m2_exit hidden when friend_beat_02_complete missing", async () => {
-  const { engine } = await makeEngine();
-  const state = winState({ n_met: true, network_outcome_complete: true });
-  const view = await engine.present(state);
-  const choice = view.choices.find(c => c.id === "complete_m2_exit");
-  assert.equal(choice, undefined, "complete_m2_exit must be hidden when friend_beat_02_complete is false");
-});
-
-test("M2_14 win: complete_m2_exit hidden when network_outcome_complete missing", async () => {
-  const { engine } = await makeEngine();
-  const state = winState({ n_met: true, friend_beat_02_complete: true });
-  const view = await engine.present(state);
-  const choice = view.choices.find(c => c.id === "complete_m2_exit");
-  assert.equal(choice, undefined, "complete_m2_exit must be hidden when network_outcome_complete is false");
-});
-
-test("M2_14 win: review_m2_pending visible when any exit condition missing", async () => {
-  const { engine } = await makeEngine();
-  const state = winState({ n_met: true }); // missing friend_beat and network
-  const view = await engine.present(state);
-  const choice = view.choices.find(c => c.id === "review_m2_pending");
-  assert.ok(choice, "review_m2_pending must be visible when exit conditions are incomplete");
-});
-
-test("M2_14 win: review_m2_pending hidden when all exit conditions met", async () => {
-  const { engine } = await makeEngine();
-  const state = winState(m2ExitFlags());
-  const view = await engine.present(state);
-  const choice = view.choices.find(c => c.id === "review_m2_pending");
-  assert.equal(choice, undefined, "review_m2_pending must be hidden when all exit conditions are met");
-});
-
-// ─── M2 EXIT CONTRACT EFFECTS ─────────────────────────────────────────────────
-
-test("M2_14 complete_m2_exit sets m2_complete=true", async () => {
-  const { engine } = await makeEngine();
-  const state = winState(m2ExitFlags());
-  const next = await engine.choose(state, "complete_m2_exit");
-  assert.equal(next.world.flags.m2_complete, true);
-});
-
-test("M2_14 complete_m2_exit sets m03_unlocked=true", async () => {
-  const { engine } = await makeEngine();
-  const state = winState(m2ExitFlags());
-  const next = await engine.choose(state, "complete_m2_exit");
-  assert.equal(next.world.flags.m03_unlocked, true);
-});
-
-test("M2_14 complete_m2_exit navigates to m2_exit_confirmed", async () => {
-  const { engine } = await makeEngine();
-  const state = winState(m2ExitFlags());
-  const next = await engine.choose(state, "complete_m2_exit");
-  assert.equal(next.story.nodeId, "m2_exit_confirmed");
-  assert.equal(next.story.sceneId, "m02-trial-result");
-});
-
-test("M2_14 m2_exit_confirmed: go_to_m03 visible when m2_complete=true", async () => {
-  const { engine } = await makeEngine();
-  const state = winState(m2ExitFlags());
-  state.world.flags.m2_complete = true;
-  state.world.flags.m03_unlocked = true;
-  state.story.nodeId = "m2_exit_confirmed";
-  const view = await engine.present(state);
-  const choice = view.choices.find(c => c.id === "go_to_m03");
-  assert.ok(choice, "go_to_m03 must be visible when m2_complete=true");
-});
-
-test("M2_14 go_to_m03 navigates to m03-handoff#m03_entry", async () => {
-  const { engine } = await makeEngine();
-  const state = winState(m2ExitFlags());
-  const exitState = await engine.choose(state, "complete_m2_exit");
-  const next = await engine.choose(exitState, "go_to_m03");
-  assert.equal(next.story.sceneId, "m03-handoff");
-  assert.equal(next.story.nodeId, "m03_entry");
-});
-
-// ─── PENDING ITEMS PATH ───────────────────────────────────────────────────────
-
-test("M2_14 review_m2_pending navigates to m2_pending_items", async () => {
-  const { engine } = await makeEngine();
-  const state = winState({ n_met: true }); // incomplete
-  const next = await engine.choose(state, "review_m2_pending");
-  assert.equal(next.story.nodeId, "m2_pending_items");
-});
-
-test("M2_14 m2_pending_items: finish_network_outcome visible when network_outcome_complete missing", async () => {
-  const { engine } = await makeEngine();
-  const state = winState({ n_met: true, friend_beat_02_complete: true });
-  state.story.nodeId = "m2_pending_items";
-  const view = await engine.present(state);
-  const choice = view.choices.find(c => c.id === "finish_network_outcome");
-  assert.ok(choice, "finish_network_outcome must be visible");
-});
-
-test("M2_14 m2_pending_items: find_n_pending visible when n_met missing", async () => {
-  const { engine } = await makeEngine();
-  const state = winState({ friend_beat_02_complete: true, network_outcome_complete: true });
-  state.story.nodeId = "m2_pending_items";
-  const view = await engine.present(state);
-  const choice = view.choices.find(c => c.id === "find_n_pending");
-  assert.ok(choice, "find_n_pending must be visible");
-});
-
-test("M2_14 m2_pending_items: finish_friend_beat visible when friend_beat_02_complete missing", async () => {
-  const { engine } = await makeEngine();
-  const state = winState({ n_met: true, network_outcome_complete: true });
-  state.story.nodeId = "m2_pending_items";
-  const view = await engine.present(state);
-  const choice = view.choices.find(c => c.id === "finish_friend_beat");
-  assert.ok(choice, "finish_friend_beat must be visible");
-});
-
-test("M2_14 m2_pending_items: back_to_borgo_pending always visible", async () => {
-  const { engine } = await makeEngine();
-  const state = winState();
-  state.story.nodeId = "m2_pending_items";
-  const view = await engine.present(state);
-  const choice = view.choices.find(c => c.id === "back_to_borgo_pending");
-  assert.ok(choice, "back_to_borgo_pending must always be visible");
-});
-
-// ─── LOSS PATH ────────────────────────────────────────────────────────────────
-
-test("M2_14 loss: rank remains E", async () => {
-  const { engine } = await makeEngine();
-  const state = lossState();
-  const view = await engine.present(state);
-  assert.ok(view, "loss state must present");
-  // State was already rank E when we set up lossState
-  assert.equal(state.competition.rank, "E");
-});
-
-test("M2_14 loss: retry_trial visible when rank=E, available=true, not registered", async () => {
-  const { engine } = await makeEngine();
-  const state = lossState();
-  state.competition.trials.RANK_E_TO_D.registered = false; // as set by loss resolution
-  const view = await engine.present(state);
-  const choice = view.choices.find(c => c.id === "retry_trial");
-  assert.ok(choice, "retry_trial must be visible after loss with available=true and not registered");
-});
-
-test("M2_14 loss: retry_trial hidden when not available (non-retryable)", async () => {
-  const { engine } = await makeEngine();
-  const state = lossState();
-  state.competition.trials.RANK_E_TO_D.available = false;
-  state.competition.trials.RANK_E_TO_D.registered = false;
-  const view = await engine.present(state);
-  const choice = view.choices.find(c => c.id === "retry_trial");
-  assert.equal(choice, undefined, "retry_trial must be hidden when trial not available");
-});
-
-test("M2_14 loss: retry_trial navigates to m02-trial-registration#trial_desk", async () => {
-  const { engine } = await makeEngine();
-  const state = lossState();
-  state.competition.trials.RANK_E_TO_D.registered = false;
-  const next = await engine.choose(state, "retry_trial");
-  assert.equal(next.story.sceneId, "m02-trial-registration");
-  assert.equal(next.story.nodeId, "trial_desk");
-});
-
-test("M2_14 loss: rest_before_retry returns to sala_verde", async () => {
-  const { engine } = await makeEngine();
-  const state = lossState();
-  const next = await engine.choose(state, "rest_before_retry");
-  assert.equal(next.story.sceneId, "m02-borgo-salice");
-  assert.equal(next.world.locationId, "borgo_salice_sala_verde");
-});
-
-test("M2_14 loss: back_to_borough_loss returns to borough_hub", async () => {
-  const { engine } = await makeEngine();
-  const state = lossState();
-  const next = await engine.choose(state, "back_to_borough_loss");
-  assert.equal(next.story.sceneId, "m02-borgo-salice");
-  assert.equal(next.world.locationId, "borgo_salice");
-});
-
-// ─── WORLD PRESERVATION ───────────────────────────────────────────────────────
-
-test("M2_14 loss: world flags not reset on loss", async () => {
-  const { engine } = await makeEngine();
-  const state = lossState({
-    n_met: true,
-    friend_beat_02_complete: true,
-    network_outcome_complete: true,
-    local_problem_started: true
+for(const networkState of FINAL_STATES){
+  test("final network state "+networkState+" satisfies exit contract",async()=>{
+    const {engine}=await makeEngine();
+    const s=winState(full(networkState));
+    const v=await engine.present(s);
+    assert.equal(v.choices.some(c=>c.id==="complete_m2_exit"),true);
+    const next=await engine.choose(s,"complete_m2_exit");
+    assert.equal(next.world.flags.m2_complete,true);
+    assert.equal(next.world.flags.m03_unlocked,true);
+    assert.equal(next.competition.rank,"D");
   });
-  state.competition.trials.RANK_E_TO_D.registered = false; // as set by loss resolution
-  const next = await engine.choose(state, "retry_trial");
-  assert.equal(next.world.flags.n_met, true, "n_met must persist through loss");
-  assert.equal(next.world.flags.local_problem_started, true, "local_problem_started must persist");
+}
+
+test("missing N blocks completion while Rank D persists",async()=>{
+  const {engine}=await makeEngine();
+  const s=winState({friend_beat_02_complete:true,network_outcome_complete:true,poaching_network_state:"resolved"});
+  const v=await engine.present(s);
+  assert.equal(v.choices.some(c=>c.id==="complete_m2_exit"),false);
+  const pending=await engine.choose(s,"review_m2_pending");
+  assert.equal(pending.competition.rank,"D");
+  assert.equal(pending.world.flags.m03_unlocked,undefined);
+  assert.equal(pending.story.nodeId,"m2_pending_items");
+  const pv=await engine.present(pending);
+  assert.ok(pv.choices.some(c=>c.id==="find_n_pending"));
 });
 
-// ─── FULL E→D PATH INTEGRATION ────────────────────────────────────────────────
+test("missing Friend Beat blocks completion",async()=>{
+  const {engine}=await makeEngine();
+  const s=winState({n_met:true,network_outcome_complete:true,poaching_network_state:"partial"});
+  const pending=await engine.choose(s,"review_m2_pending");
+  const pv=await engine.present(pending);
+  assert.ok(pv.choices.some(c=>c.id==="finish_friend_beat"));
+  assert.equal(pending.world.flags.m03_unlocked,undefined);
+});
 
-test("M2_14 full path: M2_13 win → M2_14 exit contract → m2_complete", async () => {
-  const { engine } = await makeEngine();
+test("rank E can never close M2 even with all narrative requirements",async()=>{
+  const {engine}=await makeEngine();
+  const s=winState(full("resolved"));
+  s.competition.rank="E"; s.competition.rankOrder=1;
+  const v=await engine.present(s);
+  assert.equal(v.choices.some(c=>c.id==="complete_m2_exit"),false);
+});
 
-  // Start at trial briefing
-  const state = legalM2State();
-  state.competition.trials = {
-    RANK_E_TO_D: {
-      available: true,
-      fromRank: "E",
-      toRank: "D",
-      requiredRosterSize: 3,
-      retryable: true,
-      registered: true
-    }
-  };
-  state.player.roster = [
-    { id: "bulbasaur_1", species: "Bulbasaur", level: 5 },
-    { id: "charmander_1", species: "Charmander", level: 5 },
-    { id: "squirtle_1", species: "Squirtle", level: 5 }
+test("Rank D pending routes can legally return to Borgo Salice",async()=>{
+  const {engine}=await makeEngine();
+  let s=winState({friend_beat_02_complete:true,network_outcome_complete:true,poaching_network_state:"resolved"});
+  s=await engine.choose(s,"review_m2_pending");
+  s=await engine.choose(s,"find_n_pending");
+  s=await engine.choose(s,"n_route_hub");
+  assert.equal(s.story.sceneId,"m02-borgo-salice");
+  assert.equal(s.competition.rank,"D");
+  const v=await engine.present(s);
+  assert.ok(v);
+});
+
+test("Rank D pending N scene accepts legal continuation",async()=>{
+  const {engine}=await makeEngine();
+  const s=winState({friend_beat_02_complete:true,poaching_network_state:"resolved",mistwood_entry_complete:true,capture_signs_noticed:true});
+  s.story.sceneId="m02-n-enters"; s.story.nodeId="zorua_encounter";
+  const v=await engine.present(s);
+  assert.ok(v);
+});
+
+test("Rank D pending Friend Beat scene accepts legal continuation",async()=>{
+  const {engine}=await makeEngine();
+  const s=winState({n_met:true,poaching_network_state:"resolved",friends_split:true,a2_friend_news_available:true,friend_beat_02_friend_id:"Daniel"});
+  s.story.sceneId="m02-friend-beat-02"; s.story.nodeId="friend_news_arrive";
+  const v=await engine.present(s);
+  assert.ok(v);
+});
+
+test("completion is idempotent on re-entry",async()=>{
+  const {engine}=await makeEngine();
+  let s=winState(full("ignored"));
+  s=await engine.choose(s,"complete_m2_exit");
+  const historyLen=s.story.history.length;
+  s.story.nodeId="trial_win";
+  const v=await engine.present(s);
+  assert.equal(v.choices.some(c=>c.id==="complete_m2_exit"),false);
+  assert.equal(v.choices.some(c=>c.id==="review_completed_m2"),true);
+  assert.equal(s.world.flags.m2_complete,true);
+  assert.equal(s.world.flags.m03_unlocked,true);
+  assert.equal(s.story.history.length,historyLen);
+});
+
+test("loss state explicitly has registration cleared and retry available",async()=>{
+  const {engine}=await makeEngine();
+  const s=lossState();
+  const v=await engine.present(s);
+  assert.equal(s.competition.rank,"E");
+  assert.equal(s.competition.trials.RANK_E_TO_D.registered,false);
+  assert.ok(v.choices.some(c=>c.id==="retry_options"));
+});
+
+test("loss retry requires a new registration",async()=>{
+  const {engine}=await makeEngine();
+  let s=lossState();
+  s=await engine.choose(s,"retry_options");
+  s=await engine.choose(s,"retry_trial");
+  assert.equal(s.story.sceneId,"m02-trial-registration");
+  assert.equal(s.story.nodeId,"trial_desk");
+  assert.equal(s.competition.trials.RANK_E_TO_D.registered,false);
+});
+
+test("loss route preserves existing world state",async()=>{
+  const {engine}=await makeEngine();
+  let s=lossState();
+  s.world.flags.n_met=true;
+  s.world.flags.local_problem_started=true;
+  s=await engine.choose(s,"back_to_borough_loss");
+  assert.equal(s.world.flags.n_met,true);
+  assert.equal(s.world.flags.local_problem_started,true);
+  assert.equal(s.competition.rank,"E");
+});
+
+test("actual Trial loss clears registration and keeps attempt in history",async()=>{
+  const {engine}=await makeEngine();
+  let s=createNewGameState({protagonist:"Luke",now:fixedNow});
+  s.world.flags.m1_complete=true; s.world.flags.m02_unlocked=true; s.world.flags.m2_active=true;
+  s.competition.rank="E"; s.competition.rankOrder=1;
+  s.player.roster=[
+    {id:"A",species:"Bulbasaur",level:5},
+    {id:"B",species:"Charmander",level:5},
+    {id:"C",species:"Squirtle",level:5}
   ];
-  state.world.locationId = "borgo_salice_arena";
-  state.story.sceneId = "m02-promotion-trial-e-d";
-  state.story.nodeId = "trial_ines_briefing";
-
-  // Begin trial → combat handoff
-  const pendingState = await engine.choose(state, "begin_trial");
-  assert.ok(pendingState.pending);
-
-  // Resolve win → lands on trial_win with rank=D
-  const winResult = await engine.resolveCombatHandoff(pendingState, "win");
-  assert.equal(winResult.competition.rank, "D");
-  assert.equal(winResult.story.nodeId, "trial_win");
-
-  // Set up all exit conditions (normally achieved during M2 play)
-  winResult.world.flags.n_met = true;
-  winResult.world.flags.friend_beat_02_complete = true;
-  winResult.world.flags.network_outcome_complete = true;
-
-  // Confirm M2 exit
-  const exitState = await engine.choose(winResult, "complete_m2_exit");
-  assert.equal(exitState.world.flags.m2_complete, true);
-  assert.equal(exitState.world.flags.m03_unlocked, true);
-  assert.equal(exitState.story.nodeId, "m2_exit_confirmed");
+  setTrialAvailable(s,{checkpointId:"RANK_E_TO_D",fromRank:"E",toRank:"D",requiredRosterSize:3,retryable:true});
+  registerTrial(s,{checkpointId:"RANK_E_TO_D"});
+  s.story.sceneId="m02-promotion-trial-e-d"; s.story.nodeId="trial_ines_briefing";
+  s.world.locationId="borgo_salice_arena";
+  s=await engine.choose(s,"begin_trial");
+  s=engine.resolveCombatHandoff(s,"lose");
+  assert.equal(s.competition.rank,"E");
+  assert.equal(s.competition.trials.RANK_E_TO_D.registered,false);
+  assert.deepEqual(s.competition.trials.RANK_E_TO_D.registeredPokemonIds,[]);
+  assert.equal(s.competition.history.at(-1).outcome,"lose");
+  assert.deepEqual(s.competition.history.at(-1).registeredPokemonIds,["A","B","C"]);
 });
 
-test("M2_14 full path: M2_13 loss → M2_14 retry → m02-trial-registration", async () => {
-  const { engine } = await makeEngine();
-
-  const state = legalM2State();
-  state.competition.trials = {
-    RANK_E_TO_D: {
-      available: true,
-      fromRank: "E",
-      toRank: "D",
-      requiredRosterSize: 3,
-      retryable: true,
-      registered: true
-    }
-  };
-  state.player.roster = [
-    { id: "bulbasaur_1", species: "Bulbasaur", level: 5 },
-    { id: "charmander_1", species: "Charmander", level: 5 },
-    { id: "squirtle_1", species: "Squirtle", level: 5 }
-  ];
-  state.world.locationId = "borgo_salice_arena";
-  state.story.sceneId = "m02-promotion-trial-e-d";
-  state.story.nodeId = "trial_ines_briefing";
-
-  const pendingState = await engine.choose(state, "begin_trial");
-  const lossResult = await engine.resolveCombatHandoff(pendingState, "lose");
-
-  assert.equal(lossResult.competition.rank, "E");
-  assert.equal(lossResult.story.nodeId, "trial_loss");
-  // After loss, engine sets registered=false and available=true (retryable)
-  assert.equal(lossResult.competition.trials.RANK_E_TO_D.registered, false);
-  assert.equal(lossResult.competition.trials.RANK_E_TO_D.available, true);
-
-  const retryState = await engine.choose(lossResult, "retry_trial");
-  assert.equal(retryState.story.sceneId, "m02-trial-registration");
-  assert.equal(retryState.story.nodeId, "trial_desk");
-  assert.equal(retryState.competition.rank, "E");
+test("actual Trial win promotes to D but does not unlock M3 when N is missing",async()=>{
+  const {engine}=await makeEngine();
+  let s=createNewGameState({protagonist:"Luke",now:fixedNow});
+  s.world.flags.m1_complete=true; s.world.flags.m02_unlocked=true; s.world.flags.m2_active=true;
+  s.competition.rank="E"; s.competition.rankOrder=1;
+  s.player.roster=[{id:"A",species:"Bulbasaur",level:5},{id:"B",species:"Charmander",level:5},{id:"C",species:"Squirtle",level:5}];
+  setTrialAvailable(s,{checkpointId:"RANK_E_TO_D",fromRank:"E",toRank:"D",requiredRosterSize:3,retryable:true});
+  registerTrial(s,{checkpointId:"RANK_E_TO_D"});
+  s.story.sceneId="m02-promotion-trial-e-d"; s.story.nodeId="trial_ines_briefing";
+  s.world.locationId="borgo_salice_arena";
+  s=await engine.choose(s,"begin_trial");
+  s=engine.resolveCombatHandoff(s,"win");
+  assert.equal(s.competition.rank,"D");
+  s.world.flags.friend_beat_02_complete=true;
+  s.world.flags.poaching_network_state="resolved";
+  const v=await engine.present(s);
+  assert.equal(v.choices.some(c=>c.id==="complete_m2_exit"),false);
+  assert.equal(s.world.flags.m03_unlocked,undefined);
 });
 
-// ─── SAVE / RELOAD ────────────────────────────────────────────────────────────
-
-test("M2_14 save/reload preserves m2_complete and rank D", async () => {
-  let tmpDir;
-  try {
-    tmpDir = await mkdtemp(path.join(os.tmpdir(), "trial-result-save-"));
-    const store = new SaveStore(tmpDir);
-    const { engine } = await makeEngine();
-
-    const state = winState(m2ExitFlags());
-    const exitState = await engine.choose(state, "complete_m2_exit");
-    assert.equal(exitState.world.flags.m2_complete, true);
-    assert.equal(exitState.competition.rank, "D");
-
-    exitState.slot = "slot1";
-    await store.save(exitState);
-    const loaded = await store.load("slot1");
-    assert.equal(loaded.world.flags.m2_complete, true);
-    assert.equal(loaded.world.flags.m03_unlocked, true);
-    assert.equal(loaded.competition.rank, "D");
-  } finally {
-    if (tmpDir) await rm(tmpDir, { recursive: true, force: true });
-  }
+test("save/reload preserves completed M2 and Rank D",async()=>{
+  const dir=await mkdtemp(path.join(os.tmpdir(),"m2-final-save-"));
+  try{
+    const {engine}=await makeEngine();
+    const store=new SaveStore(dir);
+    let s=winState(full("escalated")); s.slot="m2-final";
+    s=await engine.choose(s,"complete_m2_exit");
+    await store.save(s);
+    const loaded=await store.load("m2-final");
+    assert.equal(loaded.world.flags.m2_complete,true);
+    assert.equal(loaded.world.flags.m03_unlocked,true);
+    assert.equal(loaded.competition.rank,"D");
+    assert.equal(loaded.world.flags.poaching_network_state,"escalated");
+  } finally { await rm(dir,{recursive:true,force:true}); }
 });

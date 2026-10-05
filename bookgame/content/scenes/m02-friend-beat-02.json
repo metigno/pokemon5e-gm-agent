@@ -7,12 +7,38 @@
   "entryNodeId": "friend_news_arrive",
   "conditions": {
     "all": [
-      { "path": "world.flags.m1_complete", "eq": true },
-      { "path": "world.flags.m02_unlocked", "eq": true },
-      { "path": "world.flags.m2_active", "eq": true },
-      { "path": "competition.rank", "eq": "E" },
-      { "path": "world.flags.friends_split", "eq": true },
-      { "path": "world.flags.a2_friend_news_available", "eq": true }
+      {
+        "path": "world.flags.m1_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m02_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m2_active",
+        "eq": true
+      },
+      {
+        "any": [
+          {
+            "path": "competition.rank",
+            "eq": "E"
+          },
+          {
+            "path": "competition.rank",
+            "eq": "D"
+          }
+        ]
+      },
+      {
+        "path": "world.flags.friends_split",
+        "eq": true
+      },
+      {
+        "path": "world.flags.a2_friend_news_available",
+        "eq": true
+      }
     ]
   },
   "nodes": {
@@ -84,7 +110,11 @@
           "timeCostMinutes": 45,
           "goto": "mattew_combat_handoff",
           "effects": [
-            { "type": "set_flag", "key": "friend_beat_02_type", "value": "combat" }
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_type",
+              "value": "combat"
+            }
           ]
         },
         {
@@ -93,7 +123,11 @@
           "timeCostMinutes": 20,
           "goto": "mattew_conversation",
           "effects": [
-            { "type": "set_flag", "key": "friend_beat_02_type", "value": "conversation" }
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_type",
+              "value": "conversation"
+            }
           ]
         },
         {
@@ -122,7 +156,11 @@
           "timeCostMinutes": 35,
           "goto": "mattew_combat_handoff",
           "effects": [
-            { "type": "set_flag", "key": "friend_beat_02_type", "value": "combat" }
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_type",
+              "value": "combat"
+            }
           ]
         },
         {
@@ -131,7 +169,11 @@
           "timeCostMinutes": 5,
           "goto": "mattew_conversation",
           "effects": [
-            { "type": "set_flag", "key": "friend_beat_02_type", "value": "conversation" }
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_type",
+              "value": "conversation"
+            }
           ]
         }
       ]
@@ -188,7 +230,11 @@
           "timeCostMinutes": 15,
           "goto": "mattew_post_match",
           "effects": [
-            { "type": "set_flag", "key": "friend_beat_02_result", "value": "win_discussed" }
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_result",
+              "value": "win_discussed"
+            }
           ]
         },
         {
@@ -196,7 +242,11 @@
           "text": "Lo saluto — ha già quello che gli serve.",
           "goto": "friend_beat_close",
           "effects": [
-            { "type": "set_flag", "key": "friend_beat_02_result", "value": "win_parted" }
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_result",
+              "value": "win_parted"
+            }
           ]
         }
       ]
@@ -219,7 +269,11 @@
           "timeCostMinutes": 15,
           "goto": "mattew_post_match",
           "effects": [
-            { "type": "set_flag", "key": "friend_beat_02_result", "value": "loss_discussed" }
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_result",
+              "value": "loss_discussed"
+            }
           ]
         },
         {
@@ -227,7 +281,11 @@
           "text": "Lo saluto — ho abbastanza su cui riflettere.",
           "goto": "friend_beat_close",
           "effects": [
-            { "type": "set_flag", "key": "friend_beat_02_result", "value": "loss_parted" }
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_result",
+              "value": "loss_parted"
+            }
           ]
         }
       ]
@@ -264,7 +322,11 @@
           "text": "Chiudiamo la chiamata.",
           "goto": "friend_beat_close",
           "effects": [
-            { "type": "set_flag", "key": "friend_beat_02_result", "value": "conversation_complete" }
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_result",
+              "value": "conversation_complete"
+            }
           ]
         }
       ]
@@ -287,7 +349,11 @@
           "timeCostMinutes": 20,
           "goto": "daniel_engaged",
           "effects": [
-            { "type": "set_flag", "key": "friend_beat_02_type", "value": "conversation" }
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_type",
+              "value": "conversation"
+            }
           ]
         },
         {
@@ -296,7 +362,11 @@
           "timeCostMinutes": 5,
           "goto": "daniel_brief",
           "effects": [
-            { "type": "set_flag", "key": "friend_beat_02_type", "value": "remote_brief" }
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_type",
+              "value": "remote_brief"
+            }
           ]
         },
         {
@@ -321,7 +391,11 @@
           "timeCostMinutes": 15,
           "goto": "daniel_engaged",
           "effects": [
-            { "type": "set_flag", "key": "friend_beat_02_type", "value": "conversation" }
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_type",
+              "value": "conversation"
+            }
           ]
         },
         {
@@ -330,7 +404,11 @@
           "timeCostMinutes": 5,
           "goto": "daniel_brief",
           "effects": [
-            { "type": "set_flag", "key": "friend_beat_02_type", "value": "remote_brief" }
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_type",
+              "value": "remote_brief"
+            }
           ]
         }
       ]
@@ -352,7 +430,11 @@
           "text": "Chiudiamo la conversazione.",
           "goto": "friend_beat_close",
           "effects": [
-            { "type": "set_flag", "key": "friend_beat_02_result", "value": "exchange_complete" }
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_result",
+              "value": "exchange_complete"
+            }
           ]
         }
       ]
@@ -370,7 +452,11 @@
           "text": "Chiudi il messaggio.",
           "goto": "friend_beat_close",
           "effects": [
-            { "type": "set_flag", "key": "friend_beat_02_result", "value": "brief_acknowledged" }
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_result",
+              "value": "brief_acknowledged"
+            }
           ]
         }
       ]
@@ -393,7 +479,11 @@
           "timeCostMinutes": 60,
           "goto": "edward_combat_handoff",
           "effects": [
-            { "type": "set_flag", "key": "friend_beat_02_type", "value": "combat" }
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_type",
+              "value": "combat"
+            }
           ]
         },
         {
@@ -402,7 +492,11 @@
           "timeCostMinutes": 40,
           "goto": "edward_conversation",
           "effects": [
-            { "type": "set_flag", "key": "friend_beat_02_type", "value": "conversation" }
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_type",
+              "value": "conversation"
+            }
           ]
         },
         {
@@ -431,8 +525,16 @@
           "timeCostMinutes": 45,
           "goto": "edward_combat_handoff",
           "effects": [
-            { "type": "set_flag", "key": "friend_beat_02_type", "value": "combat" },
-            { "type": "set_flag", "key": "friend_beat_02_ecology_context", "value": true }
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_type",
+              "value": "combat"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_ecology_context",
+              "value": true
+            }
           ]
         },
         {
@@ -441,8 +543,16 @@
           "timeCostMinutes": 20,
           "goto": "edward_conversation",
           "effects": [
-            { "type": "set_flag", "key": "friend_beat_02_type", "value": "conversation" },
-            { "type": "set_flag", "key": "friend_beat_02_ecology_context", "value": true }
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_type",
+              "value": "conversation"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_ecology_context",
+              "value": true
+            }
           ]
         }
       ]
@@ -499,7 +609,11 @@
           "timeCostMinutes": 10,
           "goto": "edward_post_match",
           "effects": [
-            { "type": "set_flag", "key": "friend_beat_02_result", "value": "win_discussed" }
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_result",
+              "value": "win_discussed"
+            }
           ]
         },
         {
@@ -507,7 +621,11 @@
           "text": "Lo saluto — ci vediamo la prossima volta.",
           "goto": "friend_beat_close",
           "effects": [
-            { "type": "set_flag", "key": "friend_beat_02_result", "value": "win_parted" }
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_result",
+              "value": "win_parted"
+            }
           ]
         }
       ]
@@ -530,7 +648,11 @@
           "timeCostMinutes": 10,
           "goto": "edward_post_match",
           "effects": [
-            { "type": "set_flag", "key": "friend_beat_02_result", "value": "loss_discussed" }
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_result",
+              "value": "loss_discussed"
+            }
           ]
         },
         {
@@ -538,7 +660,11 @@
           "text": "Lo saluto — ho capito il punto.",
           "goto": "friend_beat_close",
           "effects": [
-            { "type": "set_flag", "key": "friend_beat_02_result", "value": "loss_parted" }
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_result",
+              "value": "loss_parted"
+            }
           ]
         }
       ]
@@ -575,7 +701,11 @@
           "text": "Lo saluto e torno verso Borgo Salice.",
           "goto": "friend_beat_close",
           "effects": [
-            { "type": "set_flag", "key": "friend_beat_02_result", "value": "conversation_complete" }
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_result",
+              "value": "conversation_complete"
+            }
           ]
         }
       ]
@@ -602,7 +732,11 @@
           "timeCostMinutes": 30,
           "goto": "fab_network_intel",
           "effects": [
-            { "type": "set_flag", "key": "friend_beat_02_type", "value": "intelligence_share" }
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_type",
+              "value": "intelligence_share"
+            }
           ]
         },
         {
@@ -611,7 +745,11 @@
           "timeCostMinutes": 40,
           "goto": "fab_conversation",
           "effects": [
-            { "type": "set_flag", "key": "friend_beat_02_type", "value": "conversation" }
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_type",
+              "value": "conversation"
+            }
           ]
         },
         {
@@ -620,7 +758,11 @@
           "timeCostMinutes": 10,
           "goto": "fab_remote_exchange",
           "effects": [
-            { "type": "set_flag", "key": "friend_beat_02_type", "value": "remote_brief" }
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_type",
+              "value": "remote_brief"
+            }
           ]
         }
       ]
@@ -647,7 +789,11 @@
           "timeCostMinutes": 10,
           "goto": "fab_ranger_link",
           "effects": [
-            { "type": "set_flag", "key": "poaching_n_fab_connected", "value": true }
+            {
+              "type": "set_flag",
+              "key": "poaching_n_fab_connected",
+              "value": true
+            }
           ]
         },
         {
@@ -655,7 +801,11 @@
           "text": "Registro quello che ha detto e la saluto.",
           "goto": "friend_beat_close",
           "effects": [
-            { "type": "set_flag", "key": "friend_beat_02_result", "value": "intel_shared" }
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_result",
+              "value": "intel_shared"
+            }
           ]
         }
       ]
@@ -677,7 +827,11 @@
           "text": "La saluto — le cose potrebbero convergere.",
           "goto": "friend_beat_close",
           "effects": [
-            { "type": "set_flag", "key": "friend_beat_02_result", "value": "ranger_link_established" }
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_result",
+              "value": "ranger_link_established"
+            }
           ]
         }
       ]
@@ -699,7 +853,11 @@
           "text": "La saluto — è ora di tornare.",
           "goto": "friend_beat_close",
           "effects": [
-            { "type": "set_flag", "key": "friend_beat_02_result", "value": "conversation_complete" }
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_result",
+              "value": "conversation_complete"
+            }
           ]
         }
       ]
@@ -717,7 +875,11 @@
           "text": "Chiudi il messaggio.",
           "goto": "friend_beat_close",
           "effects": [
-            { "type": "set_flag", "key": "friend_beat_02_result", "value": "remote_acknowledged" }
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_result",
+              "value": "remote_acknowledged"
+            }
           ]
         }
       ]
@@ -735,8 +897,15 @@
           "text": "Torno a Borgo Salice.",
           "goto": "m02-borgo-salice#borough_hub",
           "effects": [
-            { "type": "set_flag", "key": "friend_beat_02_complete", "value": true },
-            { "type": "set_location", "locationId": "borgo_salice" }
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
           ]
         }
       ]
