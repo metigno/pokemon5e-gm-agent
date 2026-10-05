@@ -7,10 +7,22 @@
   "entryNodeId": "station_approach",
   "conditions": {
     "all": [
-      { "path": "world.flags.m2_complete", "eq": true },
-      { "path": "world.flags.m03_unlocked", "eq": true },
-      { "path": "world.flags.m3_active", "eq": true },
-      { "path": "competition.rank", "eq": "D" }
+      {
+        "path": "world.flags.m2_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m03_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m3_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "D"
+      }
     ]
   },
   "nodes": {
@@ -36,8 +48,15 @@
           "timeCostMinutes": 5,
           "goto": "city_hub",
           "effects": [
-            { "type": "set_flag", "key": "ferravia_discovered", "value": true },
-            { "type": "set_location", "locationId": "fer_city" }
+            {
+              "type": "set_flag",
+              "key": "ferravia_discovered",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
           ]
         },
         {
@@ -52,7 +71,10 @@
           "timeCostMinutes": 90,
           "goto": "m03-cava-grigia#approach",
           "effects": [
-            { "type": "set_location", "locationId": "ast_quarry_approach" }
+            {
+              "type": "set_location",
+              "locationId": "ast_quarry_approach"
+            }
           ]
         }
       ]
@@ -79,8 +101,15 @@
           "timeCostMinutes": 5,
           "goto": "city_hub",
           "effects": [
-            { "type": "set_flag", "key": "ferravia_discovered", "value": true },
-            { "type": "set_location", "locationId": "fer_city" }
+            {
+              "type": "set_flag",
+              "key": "ferravia_discovered",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
           ]
         }
       ]
@@ -107,7 +136,10 @@
           "timeCostMinutes": 10,
           "goto": "workshop",
           "effects": [
-            { "type": "set_location", "locationId": "fer_city_workshop" }
+            {
+              "type": "set_location",
+              "locationId": "fer_city_workshop"
+            }
           ]
         },
         {
@@ -116,7 +148,10 @@
           "timeCostMinutes": 5,
           "goto": "sala_verde",
           "effects": [
-            { "type": "set_location", "locationId": "fer_city_sala_verde" }
+            {
+              "type": "set_location",
+              "locationId": "fer_city_sala_verde"
+            }
           ]
         },
         {
@@ -125,7 +160,10 @@
           "timeCostMinutes": 10,
           "goto": "arena_lobby",
           "effects": [
-            { "type": "set_location", "locationId": "fer_city_arena" }
+            {
+              "type": "set_location",
+              "locationId": "fer_city_arena"
+            }
           ]
         },
         {
@@ -134,7 +172,10 @@
           "timeCostMinutes": 5,
           "goto": "shop",
           "effects": [
-            { "type": "set_location", "locationId": "fer_city_shop" }
+            {
+              "type": "set_location",
+              "locationId": "fer_city_shop"
+            }
           ]
         },
         {
@@ -143,7 +184,46 @@
           "timeCostMinutes": 10,
           "goto": "m03-old-maps#archive_entry",
           "effects": [
-            { "type": "set_location", "locationId": "fer_city_archive" }
+            {
+              "type": "set_location",
+              "locationId": "fer_city_archive"
+            }
+          ]
+        },
+        {
+          "id": "hub_recontact_steven",
+          "text": "Ho rimandato il contatto con il consulente tecnico. Chiedo dove posso ritrovarlo.",
+          "timeCostMinutes": 15,
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.steven_declined_contact",
+                "eq": true
+              },
+              {
+                "path": "world.flags.steven_met",
+                "ne": true
+              },
+              {
+                "any": [
+                  {
+                    "path": "world.flags.old_maps_read",
+                    "eq": true
+                  },
+                  {
+                    "path": "world.flags.ferrox_survey_report_read",
+                    "eq": true
+                  }
+                ]
+              }
+            ]
+          },
+          "goto": "m03-steven-enters#deferred_contact",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "fer_city_archive"
+            }
           ]
         },
         {
@@ -152,7 +232,10 @@
           "timeCostMinutes": 90,
           "goto": "m03-cava-grigia#approach",
           "effects": [
-            { "type": "set_location", "locationId": "ast_quarry_approach" }
+            {
+              "type": "set_location",
+              "locationId": "ast_quarry_approach"
+            }
           ]
         },
         {
@@ -161,7 +244,10 @@
           "timeCostMinutes": 180,
           "goto": "m01-valedarsena-first-arrival#city_hub",
           "effects": [
-            { "type": "set_location", "locationId": "valedarsena_city" }
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
           ]
         }
       ]
@@ -199,7 +285,10 @@
           "text": "Lo ringrazio e torno nel centro città.",
           "goto": "city_hub",
           "effects": [
-            { "type": "set_location", "locationId": "fer_city" }
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
           ]
         }
       ]
@@ -217,7 +306,11 @@
           "text": "Prendo nota del principio.",
           "goto": "workshop",
           "effects": [
-            { "type": "set_flag", "key": "ferravia_safety_principle_noted", "value": true }
+            {
+              "type": "set_flag",
+              "key": "ferravia_safety_principle_noted",
+              "value": true
+            }
           ]
         }
       ]
@@ -239,8 +332,15 @@
           "text": "Lo ringrazio e torno nel centro città.",
           "goto": "city_hub",
           "effects": [
-            { "type": "set_flag", "key": "steven_rumor_heard", "value": true },
-            { "type": "set_location", "locationId": "fer_city" }
+            {
+              "type": "set_flag",
+              "key": "steven_rumor_heard",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
           ]
         }
       ]
@@ -249,21 +349,38 @@
       "stitches": [
         {
           "id": "sala_verde_1",
-          "text": "La Sala Verde di Ferravia è più funzionale di quella di Borgo Salice: due banchi di riposo pokémon, un medico di turno, un piccolo spazio di consulto. Il protocollo di recupero è quello standard del Circuito — niente scorciatoie custom che violano le regole Pokémon 5e."
+          "text": "La Sala Verde di Ferravia è un punto di riposo e consulto del Circuito: panche, area tranquilla per i Pokémon, un medico di turno e un banco informazioni. Il motore del librogame non inventa una guarigione automatica: HP, PP e condizioni restano proprietà delle vere regole Pokémon 5e e dei relativi sottosistemi."
         },
         {
           "id": "sala_verde_2",
-          "text": "Un addetto ti saluta e indica il banco centrale. Puoi lasciare la squadra per un ciclo di cura standard o fare richieste specifiche se qualcuno dei tuoi Pokémon ha una condizione particolare — in quel caso il medico ti chiama per discutere l'intervento."
+          "text": "Puoi fermarti con la squadra e lasciare scorrere il tempo, oppure chiedere un consulto descrittivo sullo stato dei tuoi Pokémon. Finché non esiste un effetto medico canonico nel runtime, nessuna di queste azioni modifica di nascosto HP, PP o status."
         }
       ],
       "choices": [
         {
           "id": "sala_verde_rest",
-          "text": "Lascio la squadra per un ciclo di cura standard.",
+          "text": "Mi fermo un'ora con la squadra per riposare, senza applicare guarigioni automatiche.",
           "timeCostMinutes": 60,
           "goto": "sala_verde_rest_done",
           "effects": [
-            { "type": "set_flag", "key": "ferravia_sala_verde_used", "value": true }
+            {
+              "type": "set_flag",
+              "key": "ferravia_sala_verde_used",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "sala_verde_consult",
+          "text": "Chiedo al medico un consulto sullo stato della squadra, senza trattamento automatico.",
+          "timeCostMinutes": 15,
+          "goto": "sala_verde_consult_done",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferravia_medical_consulted",
+              "value": true
+            }
           ]
         },
         {
@@ -271,7 +388,10 @@
           "text": "Esco senza usare il servizio.",
           "goto": "city_hub",
           "effects": [
-            { "type": "set_location", "locationId": "fer_city" }
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
           ]
         }
       ]
@@ -280,7 +400,7 @@
       "stitches": [
         {
           "id": "rest_done_narration",
-          "text": "Un'ora dopo la squadra è recuperata secondo il protocollo P5e standard. Nessun effetto arbitrario oltre quello che le regole prevedono. Il mondo esterno è andato avanti — orari, eventi, schedule NPC — mentre eri qui."
+          "text": "Passa un'ora in un ambiente tranquillo mentre il mondo continua a muoversi: orari, eventi e schedule NPC avanzano normalmente. Questo riposo non riscrive HP, PP o status; eventuale recupero meccanico deve passare da una regola o da un sottosistema medico canonico."
         }
       ],
       "choices": [
@@ -289,7 +409,10 @@
           "text": "Esco dalla Sala Verde.",
           "goto": "city_hub",
           "effects": [
-            { "type": "set_location", "locationId": "fer_city" }
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
           ]
         }
       ]
@@ -327,7 +450,10 @@
           "text": "Esco dall'Arena.",
           "goto": "city_hub",
           "effects": [
-            { "type": "set_location", "locationId": "fer_city" }
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
           ]
         }
       ]
@@ -349,7 +475,11 @@
           "text": "Lo ringrazio e torno nell'atrio.",
           "goto": "arena_lobby",
           "effects": [
-            { "type": "set_flag", "key": "ferravia_trial_rules_known", "value": true }
+            {
+              "type": "set_flag",
+              "key": "ferravia_trial_rules_known",
+              "value": true
+            }
           ]
         }
       ]
@@ -371,7 +501,11 @@
           "text": "Torno nell'atrio.",
           "goto": "arena_lobby",
           "effects": [
-            { "type": "set_flag", "key": "ferravia_results_board_seen", "value": true }
+            {
+              "type": "set_flag",
+              "key": "ferravia_results_board_seen",
+              "value": true
+            }
           ]
         }
       ]
@@ -380,23 +514,135 @@
       "stitches": [
         {
           "id": "shop_1",
-          "text": "Il negozio è stretto e profondo, scaffalature metalliche, catalogo di consumi standard P5e. Niente oggetti narrativi — solo materiali che il Rank D potrebbe realmente usare secondo il regolamento. Un cartello elenca orari e giorno del prossimo rifornimento secondo il ciclo canonico di 3 giorni."
+          "text": "Il negozio di Ferravia usa lo stesso sistema economico reale già attivo a Valedarsena e Borgo Salice: denaro persistente, inventario persistente e stock finito. Nessun credito e nessun acquisto narrativo finto."
         },
         {
           "id": "shop_2",
-          "text": "Il titolare ti saluta senza alzarsi dallo sgabello. Non è un venditore invadente: è un negozio che vende quello che il regolamento prevede. Nessun oggetto esclusivo di M3 è in vetrina — l'offerta è coerente con la fascia Rank D e con eventuali esclusive narrative future."
+          "text": "Il listino standard disponibile qui è Poké Ball ₽250, Potion ₽200 e Antidote ₽200. Lo stock si rifornisce ogni tre giorni di gioco; gli oggetti comprati sono gli stessi consumabili usati dal resto del motore."
         }
       ],
       "choices": [
         {
+          "id": "buy_poke_ball",
+          "text": "Compro una Poké Ball — ₽250.",
+          "conditions": {
+            "all": [
+              {
+                "path": "player.money",
+                "gte": 250
+              },
+              {
+                "path": "shops.ferravia_trainer_shop.stock.poke-ball",
+                "gte": 1
+              }
+            ]
+          },
+          "goto": "shop",
+          "effects": [
+            {
+              "type": "purchase_item",
+              "shopId": "ferravia_trainer_shop",
+              "itemId": "poke-ball",
+              "cost": 250,
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "id": "buy_potion",
+          "text": "Compro una Potion — ₽200.",
+          "conditions": {
+            "all": [
+              {
+                "path": "player.money",
+                "gte": 200
+              },
+              {
+                "path": "shops.ferravia_trainer_shop.stock.potion",
+                "gte": 1
+              }
+            ]
+          },
+          "goto": "shop",
+          "effects": [
+            {
+              "type": "purchase_item",
+              "shopId": "ferravia_trainer_shop",
+              "itemId": "potion",
+              "cost": 200,
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "id": "buy_antidote",
+          "text": "Compro un Antidote — ₽200.",
+          "conditions": {
+            "all": [
+              {
+                "path": "player.money",
+                "gte": 200
+              },
+              {
+                "path": "shops.ferravia_trainer_shop.stock.antidote",
+                "gte": 1
+              }
+            ]
+          },
+          "goto": "shop",
+          "effects": [
+            {
+              "type": "purchase_item",
+              "shopId": "ferravia_trainer_shop",
+              "itemId": "antidote",
+              "cost": 200,
+              "quantity": 1
+            }
+          ]
+        },
+        {
           "id": "shop_back",
-          "text": "Esco senza acquistare — era un sopralluogo.",
+          "text": "Esco dal negozio.",
           "goto": "city_hub",
           "effects": [
-            { "type": "set_location", "locationId": "fer_city" }
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
           ]
         }
       ]
+    },
+    "sala_verde_consult_done": {
+      "stitches": [
+        {
+          "id": "consult_done_narration",
+          "text": "Il medico osserva la squadra e ti dà indicazioni generali su affaticamento e prudenza, ma non applica una cura narrativa. Il consulto è informazione e tempo speso, non una scorciatoia sullo stato Pokémon."
+        }
+      ],
+      "choices": [
+        {
+          "id": "consult_done_back",
+          "text": "Ringrazio il medico e torno nel centro città.",
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "shops": {
+    "ferravia_trainer_shop": {
+      "refreshEveryDays": 3,
+      "stock": {
+        "poke-ball": 6,
+        "potion": 4,
+        "antidote": 4
+      }
     }
   }
 }
