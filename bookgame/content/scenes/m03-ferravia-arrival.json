@@ -350,6 +350,84 @@
           "goto": "m03-crossroads#crossroads"
         },
         {
+          "id": "hub_regional_cup",
+          "text": "Controllo la Regional Cup di Ferravia.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.a3_regional_cup_available",
+                "eq": true
+              },
+              {
+                "path": "world.flags.regional_cup_complete",
+                "ne": true
+              }
+            ]
+          },
+          "goto": "m03-regional-cup#cup_board",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "fer_city_arena"
+            }
+          ]
+        },
+        {
+          "id": "hub_rescue_outcome",
+          "text": "Leggo il bilancio ufficiale del soccorso Ferrox.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.ferrox_rescue_state",
+                "exists": true
+              },
+              {
+                "path": "world.flags.ferrox_rescue_outcome_complete",
+                "ne": true
+              }
+            ]
+          },
+          "goto": "m03-rescue-outcome#outcome_board",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        },
+        {
+          "id": "hub_trial_d_c",
+          "text": "Accedo al banco del Promotion Trial D→C.",
+          "timeCostMinutes": 5,
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.a3_rank_trial_d_c_available",
+                "eq": true
+              },
+              {
+                "path": "competition.rank",
+                "eq": "D"
+              }
+            ]
+          },
+          "goto": "m03-trial-registration#trial_info",
+          "effects": [
+            {
+              "type": "competition_trial_available",
+              "checkpointId": "RANK_D_TO_C",
+              "fromRank": "D",
+              "toRank": "C",
+              "requiredRosterSize": 3,
+              "retryable": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "fer_city_arena"
+            }
+          ]
+        },
+        {
           "id": "hub_leave_to_cava",
           "text": "Torno verso Cava Grigia.",
           "timeCostMinutes": 90,
