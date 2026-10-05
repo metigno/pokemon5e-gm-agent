@@ -519,8 +519,16 @@ test("M01 farm and logistics jobs use structured E3 quest state", async () => {
   const farmScene = bundle.scenes["m01-farm-first-arrival"];
 
   const farmBoard = cityScene.nodes.job_board.choices.find((choice) => choice.id === "farm_job");
-  assert.equal(farmBoard.effects[0].type, "quest_start");
-  assert.equal(farmBoard.effects[0].questId, "SQ_FARM_HERD_HANDS");
+  assert.ok(farmBoard.effects.some((effect) =>
+    effect.type === "quest_offer" &&
+    effect.questId === "SQ_FARM_HERD_HANDS" &&
+    effect.expiresInMinutes === 360
+  ));
+  assert.ok(farmBoard.effects.some((effect) =>
+    effect.type === "quest_start" &&
+    effect.questId === "SQ_FARM_HERD_HANDS" &&
+    effect.deadlineMinutes === 480
+  ));
 
   const farmStart = farmScene.nodes.approach.choices.find((choice) => choice.id === "job");
   assert.ok(farmStart.effects.some((effect) => effect.type === "quest_start"));
