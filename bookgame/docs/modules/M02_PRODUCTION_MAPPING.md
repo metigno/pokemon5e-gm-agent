@@ -58,7 +58,7 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 | M2_02_CAPTURE_SIGNS | indizi di cattura illegale senza rendere il crimine automaticamente evidente | 337 | 218 | COMPLETE |
 | M2_03_BORGO_SALICE | hub locale, Ranger, servizi, voci e Sala Verde | 336 | 218 | COMPLETE |
 | M2_04_N_ENTERS | introduzione causale di N e primo contrasto etico | 336 | 218 | COMPLETE |
-| M2_05_RANGER_THREAD | collegare conseguenze Ranger/M1 alle nuove anomalie | 336 | 218 | PLANNED |
+| M2_05_RANGER_THREAD | collegare conseguenze Ranger/M1 alle nuove anomalie | 336 | 218 | COMPLETE |
 | M2_06_MARSH_APPROACH | accesso progressivo verso Palude Mirto e aumento del rischio | 336 | 218 | PLANNED |
 | M2_07_POACHING_NETWORK | rami investigazione/intervento/evitamento con stato reale | 488 | 317 | PLANNED |
 | M2_08_FRIEND_BEAT_02 | interazione concreta con uno dei Four selezionato da schedule e stato | 488 | 317 | PLANNED |
@@ -187,6 +187,9 @@ Scene `m02-n-enters` (moduleId M02, locationId asteria_mistwood) requires all fi
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+**Implementation lock (verified 2026-10-05):**
+Scene `m02-ranger-thread` (moduleId M02, locationId borgo_salice_ranger) requires the four M2 entry conditions at scene level: `m1_complete=true`, `m02_unlocked=true`, `m2_active=true`, `competition.rank=E`. Illegal state throws "Scene conditions are not satisfied". Navigation in: from `m02-borgo-salice#ranger_signs_shared` via `pursue_investigation_signs` (5 min); from `m02-borgo-salice#ranger_evidence_received` via `pursue_investigation_evidence` (5 min). Navigation out: `thread_close#back_to_borough` returns to `m02-borgo-salice#borough_hub`. Durable writes scoped to: `ranger_thread_opened`, `local_problem_started`, `ranger_m1_m2_connected`. M1 callbacks: `mention_m1_pressure`/`mention_m1_pressure_signs` hidden until `m1_world_pressure_known=true`; when chosen, sets `ranger_m1_m2_connected=true` and routes to `elio_m1_connection`. Formal opening: all paths that call `request_formal_from_evidence`, `request_formal_from_signs`, `open_formal_from_scope`, `confirm_formal_open`, or `stay_observer` set both `ranger_thread_opened=true` and `local_problem_started=true`. Note: `local_problem_started=true` is the flag that enables `A2_CRISIS_ESCALATES` trigger via the canonical world-events engine (E6). `confirm_formal_open` also fires `npc_relationship_adjust ElioMar delta=1`. No N introduction, no poaching_network_state, no quest open, no FRIEND_BEAT_02/trial/roster mutation. M2_01–M2_04 regressions: zero (12+24+28+23 pass). Verified by 21 dedicated regressions (all pass).
 
 ---
 

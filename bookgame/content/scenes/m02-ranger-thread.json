@@ -1,0 +1,304 @@
+{
+  "schemaVersion": 1,
+  "id": "m02-ranger-thread",
+  "moduleId": "M02",
+  "title": "M2_05 — Ranger Thread",
+  "locationId": "borgo_salice_ranger",
+  "entryNodeId": "thread_open",
+  "conditions": {
+    "all": [
+      { "path": "world.flags.m1_complete", "eq": true },
+      { "path": "world.flags.m02_unlocked", "eq": true },
+      { "path": "world.flags.m2_active", "eq": true },
+      { "path": "competition.rank", "eq": "E" }
+    ]
+  },
+  "nodes": {
+    "thread_open": {
+      "stitches": [
+        {
+          "id": "thread_open_1",
+          "text": "Elio ha messo da parte il lavoro ordinario. Non è un'accelerazione: è il tipo di attenzione che arriva quando le informazioni raggiungono una soglia che giustifica più tempo. Tira fuori una mappa del settore con annotazioni a matita."
+        },
+        {
+          "id": "thread_open_2",
+          "text": "«Ho già qualcosa sul settore. Quello che hai portato si sovrappone in modo non casuale.» Non spiega ancora cosa — prima vuole capire esattamente cosa hai visto tu, senza influenzare il racconto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "describe_evidence_detail",
+          "text": "Gli descrivo nel dettaglio il materiale fisico che ho trovato.",
+          "conditions": { "path": "world.flags.capture_evidence_held", "eq": true },
+          "timeCostMinutes": 15,
+          "goto": "elio_evidence_analysis"
+        },
+        {
+          "id": "describe_signs_detail",
+          "text": "Gli racconto con precisione i segni che ho notato nel bosco.",
+          "conditions": { "path": "world.flags.capture_signs_investigated", "eq": true },
+          "timeCostMinutes": 10,
+          "goto": "elio_signs_analysis"
+        },
+        {
+          "id": "share_general_overview",
+          "text": "Faccio un resoconto generale di quello che ho osservato.",
+          "timeCostMinutes": 10,
+          "goto": "elio_general_analysis"
+        }
+      ]
+    },
+    "elio_evidence_analysis": {
+      "stitches": [
+        {
+          "id": "evidence_analysis_1",
+          "text": "Elio esamina il materiale metodicamente: confronta angoli, misure, tracce di consumo. Non fa commenti mentre lavora. Poi: «Questo non è un singolo evento. C'è una struttura qui — qualcuno ha lavorato in questo settore con intenzione e con tempo.»"
+        },
+        {
+          "id": "evidence_analysis_2",
+          "text": "È la prima volta che nomina una struttura esplicitamente. Fino ad ora parlava di segnalazioni; adesso parla di un pattern operativo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "mention_m1_pressure",
+          "text": "Ho visto qualcosa di simile già a Valedarsena — pressioni anomale sulla fauna nel settore portuale.",
+          "conditions": { "path": "world.flags.m1_world_pressure_known", "eq": true },
+          "timeCostMinutes": 10,
+          "goto": "elio_m1_connection",
+          "effects": [
+            { "type": "set_flag", "key": "ranger_m1_m2_connected", "value": true }
+          ]
+        },
+        {
+          "id": "ask_about_scale",
+          "text": "Chiedo a Elio se è un problema isolato o parte di qualcosa di più grande.",
+          "timeCostMinutes": 5,
+          "goto": "elio_scope_assessment"
+        },
+        {
+          "id": "request_formal_from_evidence",
+          "text": "Chiedo se c'è modo di aprire un tracciamento formale.",
+          "timeCostMinutes": 5,
+          "goto": "elio_formal_track",
+          "effects": [
+            { "type": "set_flag", "key": "ranger_thread_opened", "value": true },
+            { "type": "set_flag", "key": "local_problem_started", "value": true }
+          ]
+        }
+      ]
+    },
+    "elio_signs_analysis": {
+      "stitches": [
+        {
+          "id": "signs_analysis_1",
+          "text": "Elio segue il racconto sulla mappa, tracciando mentalmente la posizione dei segni. «Zona interna, non i percorsi principali. Significa che sanno come si muove la fauna in quella parte del bosco.» Una competenza locale o acquisita nel tempo."
+        },
+        {
+          "id": "signs_analysis_2",
+          "text": "Aggiunge le coordinate al registro del presidio. Non è ancora un caso formale, ma è abbastanza per aprire un file di monitoraggio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "mention_m1_pressure_signs",
+          "text": "Ho incrociato qualcosa di simile a Valedarsena — segnalazioni sul comportamento anomalo della fauna portuale.",
+          "conditions": { "path": "world.flags.m1_world_pressure_known", "eq": true },
+          "timeCostMinutes": 10,
+          "goto": "elio_m1_connection",
+          "effects": [
+            { "type": "set_flag", "key": "ranger_m1_m2_connected", "value": true }
+          ]
+        },
+        {
+          "id": "ask_about_scale_signs",
+          "text": "Chiedo se il presidio ha già notizie di attività simili nell'area.",
+          "timeCostMinutes": 5,
+          "goto": "elio_scope_assessment"
+        },
+        {
+          "id": "request_formal_from_signs",
+          "text": "Chiedo se è possibile registrare formalmente la segnalazione.",
+          "timeCostMinutes": 5,
+          "goto": "elio_formal_track",
+          "effects": [
+            { "type": "set_flag", "key": "ranger_thread_opened", "value": true },
+            { "type": "set_flag", "key": "local_problem_started", "value": true }
+          ]
+        }
+      ]
+    },
+    "elio_general_analysis": {
+      "stitches": [
+        {
+          "id": "general_analysis_1",
+          "text": "Elio ascolta, poi rileva il punto debole del resoconto: «Hai abbastanza per una segnalazione di primo livello. Non abbastanza per aprire un file operativo. Se torni nel bosco e trovi qualcosa di più specifico, vale la pena tornare qui.»"
+        },
+        {
+          "id": "general_analysis_2",
+          "text": "Non è un no — è una descrizione di cosa manca. Il presidio lavora con soglie: sotto la soglia si registra, sopra si agisce. Sei vicino alla soglia."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ask_what_threshold",
+          "text": "Chiedo cosa basta perché il presidio agisca formalmente.",
+          "timeCostMinutes": 5,
+          "goto": "elio_threshold_info"
+        },
+        {
+          "id": "accept_situation",
+          "text": "Capito. Ci penso e torno se trovo qualcosa di più.",
+          "goto": "thread_close"
+        }
+      ]
+    },
+    "elio_m1_connection": {
+      "stitches": [
+        {
+          "id": "m1_connection_1",
+          "text": "Elio si ferma. Non era un'informazione che aveva. Valedarsena non è nel suo perimetro diretto, ma capisce immediatamente il significato: se la pressione sulla fauna si estende dal settore portuale a Bosco Bruma, non è un problema locale isolato."
+        },
+        {
+          "id": "m1_connection_2",
+          "text": "«Questo cambia la valutazione dell'ampiezza.» Non dice di più, ma la conseguenza è chiara: un problema che attraversa settori diversi richiede una risposta diversa da un'anomalia locale. Elio apre un nuovo file nel sistema."
+        }
+      ],
+      "choices": [
+        {
+          "id": "confirm_formal_open",
+          "text": "Confermo che sono disponibile a collaborare se serve.",
+          "timeCostMinutes": 5,
+          "goto": "elio_formal_track",
+          "effects": [
+            { "type": "set_flag", "key": "ranger_thread_opened", "value": true },
+            { "type": "set_flag", "key": "local_problem_started", "value": true },
+            { "type": "npc_relationship_adjust", "npcId": "ElioMar", "delta": 1 }
+          ]
+        },
+        {
+          "id": "stay_observer",
+          "text": "Prendo nota e aspetto di capire meglio la situazione prima di impegnarmi.",
+          "goto": "elio_formal_track",
+          "effects": [
+            { "type": "set_flag", "key": "ranger_thread_opened", "value": true },
+            { "type": "set_flag", "key": "local_problem_started", "value": true }
+          ]
+        }
+      ]
+    },
+    "elio_scope_assessment": {
+      "stitches": [
+        {
+          "id": "scope_1",
+          "text": "Elio risponde con cura: «Ci sono segnalazioni sparse nel settore Asteria-Centro degli ultimi mesi. Niente che abbia raggiunto una soglia di azione, ma abbastanza per tenerlo monitorato.» Non ti dice se è preoccupato — ti dice cosa ha nel registro."
+        },
+        {
+          "id": "scope_2",
+          "text": "Il quadro che emerge è di un problema che esiste, che ha una certa dimensione, e che finora non ha trovato punti focali abbastanza concreti da giustificare risorse. Quello che hai portato potrebbe essere un punto focale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "open_formal_from_scope",
+          "text": "Se può aiutare, sono disposto a continuare a monitorare e riferire.",
+          "timeCostMinutes": 5,
+          "goto": "elio_formal_track",
+          "effects": [
+            { "type": "set_flag", "key": "ranger_thread_opened", "value": true },
+            { "type": "set_flag", "key": "local_problem_started", "value": true }
+          ]
+        },
+        {
+          "id": "note_and_leave",
+          "text": "Prendo nota del contesto e lascio che sia il presidio a gestirlo.",
+          "goto": "thread_close",
+          "effects": [
+            { "type": "set_flag", "key": "ranger_thread_opened", "value": true }
+          ]
+        }
+      ]
+    },
+    "elio_formal_track": {
+      "stitches": [
+        {
+          "id": "formal_track_1",
+          "text": "Elio apre un file operativo nel sistema del presidio. Non è ancora un'indagine ufficiale — è un tracciamento che permette di raccogliere segnalazioni successive e confrontarle. Ha un numero di protocollo. Ha una data di apertura."
+        },
+        {
+          "id": "formal_track_2",
+          "text": "«Se trovi qualcosa di nuovo nel bosco o a Palude Mirto, portalo qui. Non ti sto chiedendo di fare il lavoro del presidio — ti sto dicendo che le informazioni dal campo hanno valore.» Non è un incarico. È un canale aperto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ask_palude_mirto",
+          "text": "Chiedo se il problema si estende verso Palude Mirto.",
+          "timeCostMinutes": 5,
+          "goto": "elio_marsh_context"
+        },
+        {
+          "id": "confirm_and_leave",
+          "text": "Confermo e torno al borgo.",
+          "goto": "thread_close"
+        }
+      ]
+    },
+    "elio_threshold_info": {
+      "stitches": [
+        {
+          "id": "threshold_1",
+          "text": "«Prove fisiche di attività sistematica, non solo tracce ambientali. O una testimonianza diretta di cattura non autorizzata. O due segnalazioni correlate da posizioni diverse.» Elio elenca con precisione: non stai chiedendo qualcosa di vago, e lui ti risponde in modo concreto."
+        },
+        {
+          "id": "threshold_2",
+          "text": "Hai già parzialmente soddisfatto la soglia — dipende da quello che hai effettivamente raccolto. Il presidio si muove su prove, non su intuizioni, anche se le intuizioni spesso arrivano prima."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_from_threshold",
+          "text": "Torno al borgo.",
+          "goto": "thread_close"
+        }
+      ]
+    },
+    "elio_marsh_context": {
+      "stitches": [
+        {
+          "id": "marsh_context_1",
+          "text": "Elio annuisce lentamente. «Palude Mirto è fuori dal tuo accesso attuale per via del Rank. Ma è nell'area di monitoraggio del presidio. Se l'attività si estende là, la gravità cambia.» Non ti dice di andarci — ti dice perché è rilevante."
+        },
+        {
+          "id": "marsh_context_2",
+          "text": "La palude ha specie protette e un ecosistema più fragile di Bosco Bruma. Se qualcuno opera tra i due ambienti, l'impatto è amplificato. Il presidio tiene gli occhi aperti sul confine."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_from_marsh",
+          "text": "Torno al borgo.",
+          "goto": "thread_close"
+        }
+      ]
+    },
+    "thread_close": {
+      "stitches": [
+        {
+          "id": "close_1",
+          "text": "La conversazione si chiude dove si apre ogni conversazione con Elio: senza promesse, senza drammatizzazione. Le informazioni sono state condivise, il presidio ha quello che gli serve, tu hai quello che puoi portare avanti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_to_borough",
+          "text": "Torno al borgo.",
+          "goto": "m02-borgo-salice#borough_hub",
+          "effects": [
+            { "type": "set_location", "locationId": "borgo_salice" }
+          ]
+        }
+      ]
+    }
+  }
+}
