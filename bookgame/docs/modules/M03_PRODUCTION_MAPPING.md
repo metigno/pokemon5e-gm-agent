@@ -5,7 +5,7 @@
 **Purpose:** production map for converting M3 into validated offline story content  
 **Locked authored budget:** **6,000 stitches / 3,900 player choices**
 
-**Module implementation status:** **M3_00–M3_04 COMPLETE / MODEL-ALIGNED; M3_05–M3_14 PLANNED**
+**Module implementation status:** **M3_00–M3_09 COMPLETE / MODEL-ALIGNED; M3_10–M3_14 PLANNED**
 
 E1–E7 are reusable infrastructure from M1. A block may extend generic data or content, but must not fork those engines into module-specific substitutes.
 
@@ -58,11 +58,11 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 | M3_02_FERRAVIA_ARRIVAL | hub ferroviario/officina, servizi e Arena | 342 | 222 | COMPLETE |
 | M3_03_OLD_MAPS | rendere leggibili segnali tecnici e mappe incomplete | 342 | 222 | COMPLETE |
 | M3_04_STEVEN_ENTERS | introduzione di Steven come osservatore tecnico, non boss | 342 | 222 | COMPLETE |
-| M3_05_TUNNEL_WARNINGS | accumulare segnali di rischio senza imporre una sola interpretazione | 342 | 222 | PLANNED |
-| M3_06_FERROX_INCIDENT | attivare l'incidente e i suoi timer reali | 342 | 222 | PLANNED |
-| M3_07_FERROX_RESCUE | soccorso con scelte di rischio, tempo e risorse | 496 | 323 | PLANNED |
-| M3_08_FRIEND_BEAT_03 | A3_FRIEND_CALL con uno dei Four causalmente disponibile | 496 | 323 | PLANNED |
-| M3_09_CROSSROADS | A3_CROSSROADS: priorità incompatibili e conseguenze | 342 | 222 | PLANNED |
+| M3_05_TUNNEL_WARNINGS | accumulare segnali di rischio senza imporre una sola interpretazione | 342 | 222 | COMPLETE |
+| M3_06_FERROX_INCIDENT | attivare l'incidente e i suoi timer reali | 342 | 222 | COMPLETE |
+| M3_07_FERROX_RESCUE | soccorso con scelte di rischio, tempo e risorse | 496 | 323 | COMPLETE |
+| M3_08_FRIEND_BEAT_03 | A3_FRIEND_CALL con uno dei Four causalmente disponibile | 496 | 323 | COMPLETE |
+| M3_09_CROSSROADS | A3_CROSSROADS: priorità incompatibili e conseguenze | 342 | 222 | COMPLETE |
 | M3_10_REGIONAL_CUP | competizione opzionale con bracket e risultati emergenti | 496 | 322 | PLANNED |
 | M3_11_RESCUE_OUTCOME | persistenza di vittime, danni, reputazione e responsabilità | 444 | 289 | PLANNED |
 | M3_12_TRIAL_REGISTRATION | eligibility D→C a Ferravia | 444 | 289 | PLANNED |
@@ -83,7 +83,14 @@ The legacy 6,000-stitch / 3,900-choice table above remains the authored-surface 
 - M3_03: **12 nodes / 23 choices**.
 - M3_04: **9 nodes / 16 choices**.
 - Cycle M3_00–M3_04: **58 nodes / 113 choices**.
-- Approximate remaining logical budget for M3_05–M3_14: **202 nodes / 459 choices**.
+- M3_05: **14 nodes / 36 choices**.
+- M3_06: **10 nodes / 26 choices**.
+- M3_07: **22 nodes / 51 choices**.
+- M3_08: **32 nodes / 71 choices**.
+- M3_09: **12 nodes / 32 choices**.
+- Cycle M3_05–M3_09: **90 nodes / 216 choices**.
+- Cumulative M3_00–M3_09: **148 nodes / 329 choices**.
+- Approximate remaining logical budget for M3_10–M3_14: **112 nodes / 243 choices**.
 
 These logical counts are not padding quotas. Content is expanded only when it creates real route, information, time, risk, relationship, resource, state or future-access differences.
 
@@ -98,6 +105,33 @@ Model-alignment validation was executed on GitHub Actions from branch `m3-00-04-
 - no M1/M2 regression was reported by the full suite.
 
 The temporary CI branch trigger used for this verification was reverted immediately afterward; the canonical workflow configuration is unchanged.
+
+M3_05–M3_09 cycle validation was then executed after implementation and repair:
+
+- syntax checks: PASS;
+- `npm --prefix bookgame run validate:story`: PASS;
+- compiled graph: **36 scenes / 539 nodes / 852 stitches / 1,206 choices / 28 world events / 9 ecology zones / 343 ecology species**;
+- `npm --prefix bookgame test`: **777 pass / 0 fail / 0 skipped / 0 cancelled**;
+- validation workflow run: **#280**;
+- the first cycle-2 validation correctly exposed 9 stale/test-fixture mismatches; those were repaired without weakening canonical A3 triggers or runtime rules, and the full rerun was green;
+- no M1/M2 regression remained after the final rerun.
+
+The temporary branch trigger was again restored to the canonical workflow after validation.
+
+## 2C. NODE LIBRARY / PATTERN REUSE AUDIT
+
+The repository does not contain a standalone `NODE_LIBRARY` asset on this branch. Production reuse therefore treats the validated M1/M2 scene families and engine contracts as the concrete node-pattern library rather than inventing parallel systems.
+
+Cycle M3_05–M3_09 reuses:
+
+- **investigation / information ladder** from M2_02 and the existing M3_03 archive pattern → M3_05;
+- **living-world escalation / crisis dispatch** from M1_07 and M2_10 → M3_06;
+- **real quest deadline + off-screen consequence** from M1_06 / E3 → M3_06–M3_07;
+- **stateful multi-route consequence graph** from M2_07/M2_11 → M3_07;
+- **persistent friend-beat dispatch and relationship writes** from M1_09/M2_08 → M3_08;
+- **contextual crossroads / diamond routing** from M1_03 plus the canonical A3 hard-anchor binding → M3_09;
+- existing E1–E7 effect types only; **no new runtime effect type or duplicate subsystem was introduced**.
+
 
 ---
 
@@ -218,6 +252,10 @@ Scene `m03-steven-enters` now contains 9 nodes / 16 choices. Steven remains a ca
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Implementation lock (verified 2026-10-05):**
+
+Scene `m03-tunnel-warnings` implements a multi-source warning ladder (14 nodes / 36 choices) using existing E1 checks and prior M3 callbacks. Notice records, worker testimony, a permitted-route Perception read, old maps, survey material and Steven context may converge without forcing one interpretation. The final synthesis records `strong`, `partial` or `low` confidence. Completing the warning block does not directly script the accident: the authored M03 Living World event starts the real Ferrox rescue quest with a 240-minute E3 deadline.
+
 ---
 
 ## M3_06_FERROX_INCIDENT
@@ -229,6 +267,10 @@ Scene `m03-steven-enters` now contains 9 nodes / 16 choices. Steven remains a ca
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+**Implementation lock (verified 2026-10-05):**
+
+Scene `m03-ferrox-incident` contains 10 nodes / 26 choices and consumes, rather than creates, the live rescue quest. It distinguishes a still-active window from a missed one, preserves the timer while the player gathers information or returns to Ferravia, and never fabricates casualties. Steven can contribute only when he is an actually registered persistent NPC. Late arrival never reopens an expired rescue window.
 
 ---
 
@@ -242,6 +284,10 @@ Scene `m03-steven-enters` now contains 9 nodes / 16 choices. Steven remains a ca
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Implementation lock (verified 2026-10-05):**
+
+Scene `m03-ferrox-rescue` contains 22 nodes / 51 choices. It reuses the E3 deadline contract and offers distinct route, coordination, airflow, old-map, stabilization and direct-observation approaches. Long actions can genuinely expire the rescue quest. A mandatory `rescue_checkpoint` re-reads quest status before success can be finalized, preventing deadline bypass. Persistent player contribution states are `evacuation_supported`, `stabilization_supported`, `balanced_support`, `support_only`, `declined` or `missed`; the overall casualty/damage/accountability result remains owned by M3_11.
+
 ---
 
 ## M3_08_FRIEND_BEAT_03
@@ -254,6 +300,10 @@ Scene `m03-steven-enters` now contains 9 nodes / 16 choices. Steven remains a ca
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Implementation lock (verified 2026-10-05):**
+
+Scene `m03-friend-beat-03` contains 32 nodes / 71 choices and consumes canonical `A3_FRIEND_CALL`. The event always excludes the protagonist, prefers a physically present scheduled friend when causally legal, otherwise uses persistent Five-road context and a deterministic protagonist-specific remote fallback. Physical meetings cannot be fabricated from remote state. The block writes the required `friend_beat_03_complete`, friend ID, type and result plus E4 relationship/context changes, without changing roster, money or competition state.
+
 ---
 
 ## M3_09_CROSSROADS
@@ -265,6 +315,10 @@ Scene `m03-steven-enters` now contains 9 nodes / 16 choices. Steven remains a ca
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+**Implementation lock (verified 2026-10-05):**
+
+Scene `m03-crossroads` contains 12 nodes / 32 choices and consumes canonical `A3_CROSSROADS`. Ferrox accountability, friend contact, D→C Trial preparation, Regional Cup and technical/exploration priorities can coexist but the player records one current priority. Regional Cup and friend routes appear only when their real event state exists. Choosing Trial or Cup never registers, resolves or promotes through narrative flags; those remain owned by E5 and their later blocks. Deferral is legal and time-bearing without falsely completing the anchor.
 
 ---
 
