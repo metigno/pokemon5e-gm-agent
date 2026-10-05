@@ -58,7 +58,7 @@ The graph is reconvergent, not linear. The player may move repeatedly between Gi
 |---|---|---:|---:|---|
 | M1_00_RELEASE | release from guided intro into free-roam | 150 | 90 | IMPLEMENTED |
 | M1_01_FIRST_ROAD | road life, travel teaching, optional trainer/fauna signals | 320 | 200 | IMPLEMENTED |
-| M1_02_HOUNDOUR_GINESTRE | ecological Houndour encounter and callbacks | 360 | 220 | PARTIAL / CANONICAL ASSET EXISTS |
+| M1_02_HOUNDOUR_GINESTRE | ecological Houndour encounter and callbacks | 360 | 220 | IMPLEMENTED |
 | M1_03_FIRST_REAL_FORK | first real route choice and local exploration | 220 | 150 | PARTIAL |
 | M1_04_VALEDARSENA_FIRST_ARRIVAL | first hub arrival and orientation | 460 | 310 | PARTIAL |
 | M1_05_JOB_BOARD | temporal jobs, logistics, Sera Noll | 360 | 260 | PARTIAL |
@@ -261,6 +261,17 @@ Required for:
 **Callbacks:** Ranger Elio, fauna pressure interpretation, second-Pokémon preparation.
 
 **No-go:** moral punishment merely for choosing combat; predetermined capture; narrative damage resolution.
+
+**Implementation lock:**
+
+- `HOUNDOUR_GINESTRE_001` remains a one-off ecological encounter whose combat authority stays entirely in the Pokémon 5e resolver;
+- observation and Animal Handling preserve the existing DC 12 behavior;
+- calm, defensive/back-away, leave-alone, battle, flee and capture routes all produce durable authored callback state;
+- `houndour_ginestre_available=false` closes this instance after a terminal authored outcome, so returning to Ginestre cannot respawn the same encounter;
+- `houndour_ginestre_disposition` records the factual outcome for later Ranger/fauna callbacks without attaching automatic moral judgment;
+- `houndour_ginestre_escalation=avoided` is preserved for the de-escalation callback;
+- capture is never authored in advance: the Pokémon enters the roster and `secondPokemonAcquisition` only after the combat resolver returns `captured`; the scene then records the callback flags;
+- save/reload preserves both the captured Pokémon state and the resolved Houndour callback state exactly.
 
 ---
 
