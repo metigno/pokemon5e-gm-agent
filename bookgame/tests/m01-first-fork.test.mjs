@@ -62,7 +62,7 @@ test("M1_03 direct Valedarsena and Farm routes are peer exits with equal travel 
   const cityBefore = cityStart.world.elapsedMinutes;
   const city = await engine.choose(cityStart, "to_valedarsena");
   assert.equal(city.world.elapsedMinutes, cityBefore + 70);
-  assert.equal(city.world.locationId, "valedarsena_road");
+  assert.equal(city.world.locationId, "valedarsena_city");
   assert.equal(city.world.flags.m1_first_fork_choice, "valedarsena");
   assert.equal(city.story.sceneId, "m01-valedarsena-first-arrival");
   assert.equal(city.story.nodeId, "approach");
@@ -170,7 +170,7 @@ test("M1_03 known world-pressure clue replaces redundant discovery check with co
   assert.equal(state.story.nodeId, "pressure_context");
 
   const city = await engine.choose(state, "city");
-  assert.equal(city.world.locationId, "valedarsena_road");
+  assert.equal(city.world.locationId, "valedarsena_city");
   assert.equal(city.world.flags.m1_first_fork_choice, "valedarsena");
   assert.equal(city.world.elapsedMinutes, state.world.elapsedMinutes + 70);
 });
@@ -235,7 +235,7 @@ test("M1_03 alternate information routes update location and fork history exactl
   assert.equal(state.story.nodeId, "tracks_success");
   state = await engine.choose(state, "city_followup");
 
-  assert.equal(state.world.locationId, "valedarsena_road");
+  assert.equal(state.world.locationId, "valedarsena_city");
   assert.equal(state.world.flags.m1_first_fork_choice, "valedarsena");
   assert.equal(state.story.sceneId, "m01-valedarsena-first-arrival");
 });
