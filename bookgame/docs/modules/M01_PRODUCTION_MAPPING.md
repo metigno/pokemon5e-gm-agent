@@ -59,7 +59,7 @@ The graph is reconvergent, not linear. The player may move repeatedly between Gi
 | M1_00_RELEASE | release from guided intro into free-roam | 150 | 90 | IMPLEMENTED |
 | M1_01_FIRST_ROAD | road life, travel teaching, optional trainer/fauna signals | 320 | 200 | IMPLEMENTED |
 | M1_02_HOUNDOUR_GINESTRE | ecological Houndour encounter and callbacks | 360 | 220 | IMPLEMENTED |
-| M1_03_FIRST_REAL_FORK | first real route choice and local exploration | 220 | 150 | PARTIAL |
+| M1_03_FIRST_REAL_FORK | first real route choice and local exploration | 220 | 150 | IMPLEMENTED |
 | M1_04_VALEDARSENA_FIRST_ARRIVAL | first hub arrival and orientation | 460 | 310 | PARTIAL |
 | M1_05_JOB_BOARD | temporal jobs, logistics, Sera Noll | 360 | 260 | PARTIAL |
 | M1_06_FARM_HERD_HANDS | farm recovery quest and ecology | 450 | 310 | PARTIAL |
@@ -288,6 +288,20 @@ Required for:
 - ability to remain in Ginestre while time passes.
 
 **Shape:** diamond with loops, not one-way menu.
+
+**Implementation lock:**
+
+- the fork never assumes the Houndour encounter occurred; bypass routes remain canonically valid;
+- Valedarsena and Fattoria are peer 70-minute exits and all alternate information routes write the same destination/location history as the direct choices;
+- Ginestre can be explored indefinitely through loops that consume real world time rather than freezing the simulation;
+- remaining in place can advance day boundaries and fire existing off-screen world events;
+- Houndour callbacks appear only for factual outcomes already stored in M1_02 (calm, avoided escalation, captured, fled, battle-position change);
+- captured Houndour is treated as roster context, never as a forced next objective;
+- known world-pressure information replaces the redundant discovery check with a contextual follow-up, while unknown pressure can still be investigated via Perception;
+- failed investigation never traps progress: both destination roads and return-to-fork remain available;
+- local observation changes with the current world daypart and consumes time, proving the fork reads the live clock;
+- wildlife observation remains optional and reuses E7 ecology;
+- no branch is tagged or treated as the correct route.
 
 ---
 
