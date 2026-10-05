@@ -572,13 +572,17 @@ Rarity is not capture legality.
 
 If an ordinary wild Pokémon is selected and the fiction reaches a legal capture attempt, use normal Pokémon 5e capture mechanics. Do not mark an otherwise ordinary encountered Pokémon uncapturable merely because it is rare or belongs to a protected population.
 
+A story-level `captured` return is never sufficient by itself. The combat handoff must contain a real resolved Pokémon 5e opponent state; otherwise the runtime rejects the capture outcome instead of fabricating a roster entry. A normal battle `win` never auto-captures the opponent. Registered Trainer Pokémon cannot be captured.
+
+When a legal capture changes roster size from one to two, the runtime records `player.secondPokemonAcquisition` with factual species/name/level/day/location/encounter provenance. Later captures never overwrite that first second-Pokémon record.
+
 ### Mechanical data gate
 
 An authored branch may offer battle/capture only when the exact Pokémon 5e stat block, legal ability and at least one executable move are present in the offline combat pack.
 
 The ecology catalog may contain many more species than the current combat pack. Those species are valid ecological data but must not be routed into an unsupported mechanical battle.
 
-M01 currently wires executable local opportunities for Wooloo, Shinx and Hisuian Growlithe, in addition to the pre-existing scripted Houndour encounter.
+M01 currently wires executable local opportunities for Wooloo, Shinx, Hisuian Growlithe and urban Tandemaus, in addition to the pre-existing scripted Houndour encounter. Other canonical ecology species may still appear in observation-only scenes when their battle data is not yet part of the local combat pack.
 
 ## 4. Choice
 
