@@ -34,14 +34,24 @@
       "id": "A1_WORLD_MOVES",
       "once": true,
       "trigger": {
-        "any": [
+        "all": [
           {
-            "path": "world.day",
-            "gte": 3
+            "not": {
+              "path": "world.flags.m1_world_pressure_state",
+              "exists": true
+            }
           },
           {
-            "path": "world.flags.first_settlement_reached",
-            "eq": true
+            "any": [
+              {
+                "path": "world.day",
+                "gte": 3
+              },
+              {
+                "path": "world.flags.first_settlement_reached",
+                "eq": true
+              }
+            ]
           }
         ]
       },
