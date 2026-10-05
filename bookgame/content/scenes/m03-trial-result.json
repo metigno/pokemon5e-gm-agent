@@ -1,0 +1,338 @@
+{
+  "schemaVersion": 1,
+  "id": "m03-trial-result",
+  "moduleId": "M03",
+  "title": "M3_14 — Trial Result",
+  "locationId": "fer_city_arena",
+  "entryNodeId": "trial_win",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m2_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m03_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m3_active",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "trial_win": {
+      "stitches": [
+        {
+          "id": "win_1",
+          "text": "E5 ha registrato una vittoria: il Rank è ora C e la fascia successiva è legalmente aperta. M3, però, si chiude solo se i suoi contratti narrativi obbligatori sono realmente soddisfatti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_m3",
+          "text": "Il quadro M3 è completo: chiudo il modulo.",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.rank",
+                "eq": "C"
+              },
+              {
+                "path": "world.flags.steven_met",
+                "eq": true
+              },
+              {
+                "path": "world.flags.friend_beat_03_complete",
+                "eq": true
+              },
+              {
+                "path": "world.flags.ferrox_rescue_state",
+                "exists": true
+              },
+              {
+                "path": "world.flags.ferrox_rescue_outcome_complete",
+                "eq": true
+              },
+              {
+                "any": [
+                  {
+                    "path": "world.flags.regional_cup_registered",
+                    "ne": true
+                  },
+                  {
+                    "path": "world.flags.regional_cup_result",
+                    "exists": true
+                  }
+                ]
+              }
+            ]
+          },
+          "goto": "m3_exit_confirmed",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m3_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m04_unlocked",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "review_pending",
+          "text": "Controllo cosa manca prima di chiudere M3.",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.rank",
+                "eq": "C"
+              },
+              {
+                "not": {
+                  "all": [
+                    {
+                      "path": "world.flags.steven_met",
+                      "eq": true
+                    },
+                    {
+                      "path": "world.flags.friend_beat_03_complete",
+                      "eq": true
+                    },
+                    {
+                      "path": "world.flags.ferrox_rescue_state",
+                      "exists": true
+                    },
+                    {
+                      "path": "world.flags.ferrox_rescue_outcome_complete",
+                      "eq": true
+                    },
+                    {
+                      "any": [
+                        {
+                          "path": "world.flags.regional_cup_registered",
+                          "ne": true
+                        },
+                        {
+                          "path": "world.flags.regional_cup_result",
+                          "exists": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "goto": "pending_items"
+        }
+      ]
+    },
+    "pending_items": {
+      "stitches": [
+        {
+          "id": "pending_1",
+          "text": "La promozione non cancella contenuti obbligatori lasciati aperti. Il modulo ti rimanda soltanto ai thread che mancano davvero."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pending_steven",
+          "text": "Devo ancora incontrare Steven.",
+          "conditions": {
+            "path": "world.flags.steven_met",
+            "ne": true
+          },
+          "goto": "m03-ferravia-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        },
+        {
+          "id": "pending_friend",
+          "text": "Devo ancora completare FRIEND_BEAT_03.",
+          "conditions": {
+            "path": "world.flags.friend_beat_03_complete",
+            "ne": true
+          },
+          "goto": "m03-ferravia-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        },
+        {
+          "id": "pending_rescue",
+          "text": "Devo ancora avere uno stato persistente del rescue Ferrox.",
+          "conditions": {
+            "path": "world.flags.ferrox_rescue_state",
+            "exists": false
+          },
+          "goto": "m03-ferravia-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        },
+        {
+          "id": "pending_outcome",
+          "text": "Devo ancora chiudere il bilancio Ferrox.",
+          "conditions": {
+            "path": "world.flags.ferrox_rescue_outcome_complete",
+            "ne": true
+          },
+          "goto": "m03-rescue-outcome#outcome_board",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        },
+        {
+          "id": "pending_cup",
+          "text": "Mi sono iscritto alla Regional Cup ma non ho ancora un risultato.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.regional_cup_registered",
+                "eq": true
+              },
+              {
+                "path": "world.flags.regional_cup_result",
+                "exists": false
+              }
+            ]
+          },
+          "goto": "m03-regional-cup#cup_board",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "fer_city_arena"
+            }
+          ]
+        },
+        {
+          "id": "pending_hub",
+          "text": "Torno a Ferravia.",
+          "goto": "m03-ferravia-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        }
+      ]
+    },
+    "m3_exit_confirmed": {
+      "stitches": [
+        {
+          "id": "exit_1",
+          "text": "M3 è chiuso. Il gioco conserva integralmente Rank C, history competitiva, roster, condizioni, denaro, relazioni, bilancio Ferrox, risultato Cup se disputata e tutti i callback precedenti."
+        },
+        {
+          "id": "exit_2",
+          "text": "`m04_unlocked` apre il contratto del modulo successivo quando M4 verrà implementato; M3 non inventa oggi contenuti futuri per riempire il vuoto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "stay_ferravia",
+          "text": "Resto a Ferravia prima di proseguire.",
+          "goto": "m03-ferravia-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        }
+      ]
+    },
+    "trial_loss": {
+      "stitches": [
+        {
+          "id": "loss_1",
+          "text": "E5 ha registrato una sconfitta. Il Rank resta D, il checkpoint torna disponibile e la registrazione è stata consumata. Tutto il resto di M3 resta intatto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "retry",
+          "text": "Torno al banco per preparare un nuovo tentativo.",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.rank",
+                "eq": "D"
+              },
+              {
+                "path": "competition.trials.RANK_D_TO_C.available",
+                "eq": true
+              },
+              {
+                "path": "competition.trials.RANK_D_TO_C.registered",
+                "ne": true
+              }
+            ]
+          },
+          "goto": "m03-trial-registration#trial_desk"
+        },
+        {
+          "id": "rest_hub",
+          "text": "Torno a Ferravia e preparo meglio la squadra.",
+          "goto": "m03-ferravia-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        },
+        {
+          "id": "review_attempt",
+          "text": "Controllo il risultato dell'ultimo tentativo.",
+          "goto": "loss_review"
+        }
+      ]
+    },
+    "loss_review": {
+      "stitches": [
+        {
+          "id": "loss_review_1",
+          "text": "La history registra il match come loss e il Trial incrementa gli attempts. Nessuna scelta narrativa può cambiare quell'esito; puoi soltanto usarlo per il tentativo successivo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "review_retry",
+          "text": "Torno alla registrazione.",
+          "goto": "m03-trial-registration#trial_desk"
+        },
+        {
+          "id": "review_hub",
+          "text": "Torno al centro di Ferravia.",
+          "goto": "m03-ferravia-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
