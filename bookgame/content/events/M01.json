@@ -1938,10 +1938,153 @@
       },
       "outcomes": [
         {
+          "id": "luke_already_split",
+          "when": {
+            "all": [
+              {
+                "path": "world.flags.friends_split",
+                "eq": true
+              },
+              {
+                "path": "player.name",
+                "eq": "Luke"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_five_roads_available",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_five_roads_seen",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "mattew_already_split",
+          "when": {
+            "all": [
+              {
+                "path": "world.flags.friends_split",
+                "eq": true
+              },
+              {
+                "path": "player.name",
+                "eq": "Mattew"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_five_roads_available",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_five_roads_seen",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "daniel_already_split",
+          "when": {
+            "all": [
+              {
+                "path": "world.flags.friends_split",
+                "eq": true
+              },
+              {
+                "path": "player.name",
+                "eq": "Daniel"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_five_roads_available",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_five_roads_seen",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "edward_already_split",
+          "when": {
+            "all": [
+              {
+                "path": "world.flags.friends_split",
+                "eq": true
+              },
+              {
+                "path": "player.name",
+                "eq": "Edward"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_five_roads_available",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_five_roads_seen",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "fab_already_split",
+          "when": {
+            "all": [
+              {
+                "path": "world.flags.friends_split",
+                "eq": true
+              },
+              {
+                "path": "player.name",
+                "eq": "Fab"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_five_roads_available",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_five_roads_seen",
+              "value": true
+            }
+          ]
+        },
+        {
           "id": "luke_protagonist",
           "when": {
-            "path": "player.name",
-            "eq": "Luke"
+            "all": [
+              {
+                "path": "world.flags.friends_split",
+                "ne": true
+              },
+              {
+                "path": "player.name",
+                "eq": "Luke"
+              }
+            ]
           },
           "effects": [
             {
@@ -2044,8 +2187,16 @@
         {
           "id": "mattew_protagonist",
           "when": {
-            "path": "player.name",
-            "eq": "Mattew"
+            "all": [
+              {
+                "path": "world.flags.friends_split",
+                "ne": true
+              },
+              {
+                "path": "player.name",
+                "eq": "Mattew"
+              }
+            ]
           },
           "effects": [
             {
@@ -2148,8 +2299,16 @@
         {
           "id": "daniel_protagonist",
           "when": {
-            "path": "player.name",
-            "eq": "Daniel"
+            "all": [
+              {
+                "path": "world.flags.friends_split",
+                "ne": true
+              },
+              {
+                "path": "player.name",
+                "eq": "Daniel"
+              }
+            ]
           },
           "effects": [
             {
@@ -2252,8 +2411,16 @@
         {
           "id": "edward_protagonist",
           "when": {
-            "path": "player.name",
-            "eq": "Edward"
+            "all": [
+              {
+                "path": "world.flags.friends_split",
+                "ne": true
+              },
+              {
+                "path": "player.name",
+                "eq": "Edward"
+              }
+            ]
           },
           "effects": [
             {
@@ -2356,8 +2523,16 @@
         {
           "id": "fab_protagonist",
           "when": {
-            "path": "player.name",
-            "eq": "Fab"
+            "all": [
+              {
+                "path": "world.flags.friends_split",
+                "ne": true
+              },
+              {
+                "path": "player.name",
+                "eq": "Fab"
+              }
+            ]
           },
           "effects": [
             {
