@@ -1296,6 +1296,23 @@
           ]
         },
         {
+          "id": "five_roads_update",
+          "text": "Controllo dove stanno andando gli altri Four: ormai le nostre strade non coincidono più.",
+          "conditions": {
+            "all": [
+              {
+                "path": "events.A1_FIVE_ROADS.status",
+                "eq": "resolved"
+              },
+              {
+                "path": "world.flags.m1_five_roads_seen",
+                "ne": true
+              }
+            ]
+          },
+          "goto": "m01-five-roads#dispatch"
+        },
+        {
           "id": "rank_e_access",
           "text": "Controllo le nuove destinazioni disponibili al Rank E.",
           "conditions": {
