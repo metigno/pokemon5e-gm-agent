@@ -400,3 +400,37 @@ test("M3_01 state survives save/reload identically", async () => {
     if (tmpDir) await rm(tmpDir, { recursive: true, force: true });
   }
 });
+
+
+// ─── MODEL ALIGNMENT PASS ────────────────────────────────────────────────────
+
+test("M3_01 production-pressure follow-up success records the tighter shift margin", async () => {
+  const { engine } = await makeEngine(new SequenceDice([20]));
+  let state = enterCava(legalM3State());
+  state = await engine.choose(state, "enter_perimeter");
+  state = await engine.choose(state, "visitor_glass_wall");
+  state = await engine.choose(state, "glass_wall_note_pressure");
+  state = await engine.choose(state, "visitor_tech_office");
+  const view = await engine.present(state);
+  assert.ok(view.choices.find((c) => c.id === "tech_raise_pressure"));
+  state = await engine.choose(state, "tech_raise_pressure");
+  state = await engine.choose(state, "pressure_probe_details");
+  assert.equal(state.story.nodeId, "tech_pressure_detail");
+  assert.equal(state.world.flags.cava_pressure_response_heard, true);
+  assert.equal(state.world.flags.cava_shift_margin_known, true);
+});
+
+test("M3_01 re-entry preserves prior quarry observations without replaying effects", async () => {
+  const { engine } = await makeEngine();
+  let state = enterCava(legalM3State());
+  state = await engine.choose(state, "enter_perimeter");
+  state = await engine.choose(state, "visitor_glass_wall");
+  state = await engine.choose(state, "glass_wall_note_pressure");
+  state.story.sceneId = "m03-cava-grigia";
+  state.story.nodeId = "approach";
+  state.world.locationId = "ast_quarry";
+  const view = await engine.present(state);
+  assert.equal(view.nodeId, "approach");
+  assert.equal(state.world.flags.cava_grigia_discovered, true);
+  assert.equal(state.world.flags.cava_production_pressure_noticed, true);
+});
