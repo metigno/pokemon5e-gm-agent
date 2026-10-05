@@ -87,6 +87,18 @@ The legacy 6,000-stitch / 3,900-choice table above remains the authored-surface 
 
 These logical counts are not padding quotas. Content is expanded only when it creates real route, information, time, risk, relationship, resource, state or future-access differences.
 
+## 2B. VALIDATION EVIDENCE
+
+Model-alignment validation was executed on GitHub Actions from branch `m3-00-04-work` after the M3_00–M3_04 repair pass:
+
+- syntax checks: PASS;
+- `npm --prefix bookgame run validate:story`: PASS;
+- `npm --prefix bookgame test`: **718 pass / 0 fail / 0 skipped / 0 cancelled**;
+- validation workflow run: **#278**;
+- no M1/M2 regression was reported by the full suite.
+
+The temporary CI branch trigger used for this verification was reverted immediately afterward; the canonical workflow configuration is unchanged.
+
 ---
 
 # 3. CANONICAL EVENT BINDINGS
