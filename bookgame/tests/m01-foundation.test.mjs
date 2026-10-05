@@ -1365,3 +1365,121 @@ test("M1_11 player may remain with one Pokemon and Trial registration stays unav
   assert.equal(view.choices.some((choice) => choice.id === "trial_roster_missing"), true);
   assert.equal(view.choices.some((choice) => choice.id === "roster_preparation"), true);
 });
+
+
+test("M1_13 registration desk exposes the full authored choice set and mechanical gate", async () => {
+  const bundle = await compileStory({ scenesDir, modulesDir, ecologyOptions });
+  const repository = {
+    async load(sceneId) {
+      return structuredClone(bundle.scenes[sceneId]);
+    },
+    async loadWorldEvents() {
+      return structuredClone(bundle.worldEvents);
+    },
+    async loadEcology() {
+      return structuredClone(bundle.ecology);
+    }
+  };
+
+  const engine = new BookgameEngine({ scenes: repository });
+  let state = createNewGameState({ protagonist: "Luke" });
+  state.story.sceneId = "m01-valedarsena-first-arrival";
+  state.story.nodeId = "arena_front";
+
+  state = await engine.choose(state, "note_trial");
+  assert.equal(state.story.nodeId, "trial_registration_desk");
+  assert.equal(state.competition.trials.RANK_F_TO_E.available, true);
+  assert.equal(state.competition.trials.RANK_F_TO_E.requiredRosterSize, 2);
+
+  let view = await engine.present(state);
+  assert.equal(view.choices.some((choice) => choice.id === "register"), false);
+  assert.equal(view.choices.some((choice) => choice.id === "missing_roster"), true);
+  assert.equal(view.choices.some((choice) => choice.id === "heal_prepare"), true);
+  assert.equal(view.choices.some((choice) => choice.id === "postpone"), true);
+  assert.equal(view.choices.some((choice) => choice.id === "free_roam"), true);
+
+  await assert.rejects(
+    () => engine.choose(state, "register"),
+    /not currently available/
+  );
+});
+
+test("M1_13 eligible roster registers persistently and preparation does not cancel entry", async () => {
+  const bundle = await compileStory({ scenesDir, modulesDir, ecologyOptions });
+  const repository = {
+    async load(sceneId) {
+      return structuredClone(bundle.scenes[sceneId]);
+    },
+    async loadWorldEvents() {
+      return structuredClone(bundle.worldEvents);
+    },
+    async loadEcology() {
+      return structuredClone(bundle.ecology);
+    }
+  };
+
+  const engine = new BookgameEngine({ scenes: repository });
+  let state = createNewGameState({ protagonist: "Luke" });
+  state.player.roster.push({
+    speciesId: "houndour",
+    name: "Houndour",
+    level: 1
+  });
+  state.story.sceneId = "m01-valedarsena-first-arrival";
+  state.story.nodeId = "arena_front";
+
+  state = await engine.choose(state, "note_trial");
+  let view = await engine.present(state);
+  assert.equal(view.choices.some((choice) => choice.id === "register"), true);
+  assert.equal(view.choices.some((choice) => choice.id === "missing_roster"), false);
+
+  const registeredAt = state.world.elapsedMinutes;
+  state = await engine.choose(state, "register");
+
+  assert.equal(state.story.nodeId, "trial_registered");
+  assert.equal(state.competition.rank, "F");
+  assert.equal(state.competition.trials.RANK_F_TO_E.registered, true);
+  assert.equal(state.competition.trials.RANK_F_TO_E.registeredAtMinutes, registeredAt);
+  assert.equal(state.competition.trials.RANK_F_TO_E.attempts, 0);
+
+  state = await engine.choose(state, "heal_prepare");
+  assert.equal(state.story.nodeId, "center");
+  assert.equal(state.competition.trials.RANK_F_TO_E.registered, true);
+  assert.equal(state.competition.trials.RANK_F_TO_E.attempts, 0);
+
+  state.story.nodeId = "arena_front";
+  view = await engine.present(state);
+  assert.equal(view.choices.some((choice) => choice.id === "register_trial"), false);
+  assert.equal(view.choices.some((choice) => choice.id === "trial_registration_status"), true);
+});
+
+test("M1_13 registration never promotes Rank or starts a Trial attempt by itself", async () => {
+  const bundle = await compileStory({ scenesDir, modulesDir, ecologyOptions });
+  const repository = {
+    async load(sceneId) {
+      return structuredClone(bundle.scenes[sceneId]);
+    },
+    async loadWorldEvents() {
+      return structuredClone(bundle.worldEvents);
+    },
+    async loadEcology() {
+      return structuredClone(bundle.ecology);
+    }
+  };
+
+  const engine = new BookgameEngine({ scenes: repository });
+  let state = createNewGameState({ protagonist: "Luke" });
+  state.player.roster.push({ speciesId: "shinx", name: "Shinx", level: 1 });
+  state.story.sceneId = "m01-valedarsena-first-arrival";
+  state.story.nodeId = "arena_front";
+
+  state = await engine.choose(state, "note_trial");
+  state = await engine.choose(state, "register");
+
+  assert.equal(state.competition.rank, "F");
+  assert.equal(state.competition.rankOrder, 0);
+  assert.equal(state.competition.activeMatch, null);
+  assert.equal(state.competition.history.length, 0);
+  assert.equal(state.competition.trials.RANK_F_TO_E.attempts, 0);
+  assert.equal(state.competition.trials.RANK_F_TO_E.completed, false);
+});
