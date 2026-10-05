@@ -658,6 +658,244 @@
           }
         }
       ]
+    },
+    "val_no_sighting": {
+      "stitches": [
+        {
+          "id": "val_quiet",
+          "text": "Per un po' Valedarsena resta soltanto città: passi, acqua, tetti e rumore. Nessun Pokémon selvatico si espone abbastanza da diventare un incontro reale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno alle attività di Valedarsena.",
+          "goto": "m01-valedarsena-first-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
+        }
+      ]
+    },
+    "val_pidgey": {
+      "stitches": [
+        {
+          "id": "val_pidgey_scene",
+          "text": "Un Pidgey selvatico scende da un cornicione verso una fascia d'erba tra due strade. Becca in fretta e controlla spesso il cielo e i passanti."
+        },
+        {
+          "id": "val_pidgey_space",
+          "text": "Non è un Pokémon di qualcuno: mantiene distanza dalle persone e può riprendere quota appena la situazione cambia."
+        }
+      ],
+      "choices": [
+        {
+          "id": "leave",
+          "text": "Lo lascio continuare senza disturbarlo.",
+          "goto": "val_peaceful_return"
+        },
+        {
+          "id": "engage",
+          "text": "Porto avanti il mio Pokémon e provo a ingaggiarlo.",
+          "combat": {
+            "encounterId": "M1_VAL_PIDGEY_001",
+            "opponent": {
+              "species": "Pidgey",
+              "level": 1
+            },
+            "opponentRegistered": false,
+            "goto": "wild_combat_handoff",
+            "returnNodes": {
+              "win": "val_wild_win",
+              "lose": "val_wild_loss",
+              "captured": "val_wild_captured"
+            }
+          }
+        }
+      ]
+    },
+    "val_burmy": {
+      "stitches": [
+        {
+          "id": "val_burmy_scene",
+          "text": "Un Burmy selvatico resta appeso sotto una bassa struttura verde, quasi confuso con foglie e materiale raccolto nei dintorni."
+        },
+        {
+          "id": "val_burmy_space",
+          "text": "Si muove soltanto quando ti avvicini abbastanza da cambiare il suo equilibrio. Non c'è alcun motivo per cui debba combattere se gli lasci spazio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "leave",
+          "text": "Lo osservo e poi mi allontano.",
+          "goto": "val_peaceful_return"
+        },
+        {
+          "id": "engage",
+          "text": "Porto avanti il mio Pokémon e provo a ingaggiarlo.",
+          "combat": {
+            "encounterId": "M1_VAL_BURMY_001",
+            "opponent": {
+              "species": "Burmy",
+              "level": 1
+            },
+            "opponentRegistered": false,
+            "goto": "wild_combat_handoff",
+            "returnNodes": {
+              "win": "val_wild_win",
+              "lose": "val_wild_loss",
+              "captured": "val_wild_captured"
+            }
+          }
+        }
+      ]
+    },
+    "val_tandemaus": {
+      "stitches": [
+        {
+          "id": "val_tandemaus_scene",
+          "text": "Due Tandemaus selvatici attraversano insieme un tratto riparato tra un'aiuola e un muro basso. Si fermano nello stesso istante quando notano il movimento."
+        },
+        {
+          "id": "val_tandemaus_space",
+          "text": "Restano vicini e cercano una via libera invece di avvicinarsi alle persone. Il loro comportamento è coordinato, non addomesticato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "leave",
+          "text": "Non chiudo la via e li lascio passare.",
+          "goto": "val_peaceful_return"
+        },
+        {
+          "id": "engage",
+          "text": "Porto avanti il mio Pokémon e provo a ingaggiarli come singolo incontro selvatico.",
+          "combat": {
+            "encounterId": "M1_VAL_TANDEMAUS_001",
+            "opponent": {
+              "species": "Tandemaus",
+              "level": 1
+            },
+            "opponentRegistered": false,
+            "goto": "wild_combat_handoff",
+            "returnNodes": {
+              "win": "val_wild_win",
+              "lose": "val_wild_loss",
+              "captured": "val_wild_captured"
+            }
+          }
+        }
+      ]
+    },
+    "val_purrloin": {
+      "stitches": [
+        {
+          "id": "val_purrloin_scene",
+          "text": "Un Purrloin selvatico compare sul bordo di un vicolo tranquillo e ti studia con la calma di chi conosce già molte vie di fuga."
+        },
+        {
+          "id": "val_purrloin_space",
+          "text": "Non si avvicina per essere catturato e non difende una proprietà umana: per ora decide soltanto se restare o sparire."
+        }
+      ],
+      "choices": [
+        {
+          "id": "leave",
+          "text": "Gli lascio il vicolo e torno indietro.",
+          "goto": "val_peaceful_return"
+        },
+        {
+          "id": "engage",
+          "text": "Porto avanti il mio Pokémon e provo a ingaggiarlo.",
+          "combat": {
+            "encounterId": "M1_VAL_PURRLOIN_001",
+            "opponent": {
+              "species": "Purrloin",
+              "level": 1
+            },
+            "opponentRegistered": false,
+            "goto": "wild_combat_handoff",
+            "returnNodes": {
+              "win": "val_wild_win",
+              "lose": "val_wild_loss",
+              "captured": "val_wild_captured"
+            }
+          }
+        }
+      ]
+    },
+    "val_peaceful_return": {
+      "stitches": [
+        {
+          "id": "val_peaceful",
+          "text": "L'incontro finisce senza battaglia. Il Pokémon resta parte della fauna urbana e tu torni verso le attività della città."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno in città.",
+          "goto": "m01-valedarsena-first-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
+        }
+      ]
+    },
+    "val_wild_win": {
+      "text": "Il confronto si chiude con il Pokémon selvatico sconfitto. Nessuna vittoria lo aggiunge automaticamente al tuo roster.",
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno verso il centro di Valedarsena.",
+          "goto": "m01-valedarsena-first-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
+        }
+      ]
+    },
+    "val_wild_loss": {
+      "text": "Il confronto si chiude a tuo sfavore. HP, PP, condizioni e altre conseguenze restano quelle prodotte dal resolver Pokémon 5e.",
+      "choices": [
+        {
+          "id": "back",
+          "text": "Quando posso, torno verso il centro di Valedarsena.",
+          "goto": "m01-valedarsena-first-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
+        }
+      ]
+    },
+    "val_wild_captured": {
+      "text": "La cattura è valida perché il resolver Pokémon 5e l'ha realmente prodotta. Il Pokémon entra nel roster con il proprio stato persistente; la scena non concede nulla da sola.",
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno verso il centro di Valedarsena.",
+          "goto": "m01-valedarsena-first-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
+        }
+      ]
     }
   }
 }
