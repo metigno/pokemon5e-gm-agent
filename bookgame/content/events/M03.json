@@ -1,0 +1,657 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "M03",
+  "events": [
+    {
+      "id": "M3_FERROX_INCIDENT",
+      "once": true,
+      "trigger": {
+        "path": "world.flags.tunnel_warnings_complete",
+        "eq": true
+      },
+      "outcomes": [
+        {
+          "id": "incident_opens",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a3_ferrox_incident_available",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "ferrox_incident_started",
+              "value": true
+            },
+            {
+              "type": "quest_start",
+              "questId": "M3_FERROX_RESCUE",
+              "title": "Emergenza alle Gallerie Ferrox",
+              "objective": "Raggiungi il perimetro Ferrox e contribuisci al soccorso prima che la finestra operativa si chiuda.",
+              "deadlineMinutes": 240,
+              "onDeadline": {
+                "status": "failed",
+                "resolution": "rescue_window_missed",
+                "resolvedBy": "world"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M3_FERROX_DEADLINE_OUTCOME",
+      "once": true,
+      "trigger": {
+        "path": "quests.M3_FERROX_RESCUE.status",
+        "eq": "failed"
+      },
+      "outcomes": [
+        {
+          "id": "player_declined",
+          "when": {
+            "path": "quests.M3_FERROX_RESCUE.resolution",
+            "eq": "player_declined"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_rescue_state",
+              "value": "declined"
+            },
+            {
+              "type": "set_flag",
+              "key": "ferrox_rescue_outcome_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "window_missed",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_rescue_state",
+              "value": "missed"
+            },
+            {
+              "type": "set_flag",
+              "key": "ferrox_rescue_outcome_available",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A3_FRIEND_CALL",
+      "once": true,
+      "trigger": {
+        "any": [
+          {
+            "path": "player.trainerLevel",
+            "gte": 6
+          },
+          {
+            "path": "competition.rankOrder",
+            "gte": 2
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "luke_present_ferravia",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Luke"
+              },
+              {
+                "path": "npcs.Luke.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Luke.schedule.locationId",
+                "eq": "fer_city"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_friend_id",
+              "value": "Luke"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "a3_friend_call_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "mattew_present_ferravia",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Mattew"
+              },
+              {
+                "path": "npcs.Mattew.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Mattew.schedule.locationId",
+                "eq": "fer_city"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_friend_id",
+              "value": "Mattew"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "a3_friend_call_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "daniel_present_ferravia",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Daniel"
+              },
+              {
+                "path": "npcs.Daniel.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Daniel.schedule.locationId",
+                "eq": "fer_city"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_friend_id",
+              "value": "Daniel"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "a3_friend_call_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "edward_present_ferravia",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Edward"
+              },
+              {
+                "path": "npcs.Edward.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Edward.schedule.locationId",
+                "eq": "fer_city"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_friend_id",
+              "value": "Edward"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "a3_friend_call_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "fab_present_ferravia",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Fab"
+              },
+              {
+                "path": "npcs.Fab.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Fab.schedule.locationId",
+                "eq": "fer_city"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_friend_id",
+              "value": "Fab"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "a3_friend_call_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "fab_ranger_context",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Fab"
+              },
+              {
+                "path": "npcs.Fab.state.fiveRoadsPath",
+                "eq": "ranger_route"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_friend_id",
+              "value": "Fab"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "a3_friend_call_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "edward_field_context",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Edward"
+              },
+              {
+                "path": "npcs.Edward.state.fiveRoadsPath",
+                "eq": "field_training"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_friend_id",
+              "value": "Edward"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "a3_friend_call_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "mattew_trial_context",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Mattew"
+              },
+              {
+                "path": "npcs.Mattew.state.fiveRoadsPath",
+                "eq": "trial_preparation"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_friend_id",
+              "value": "Mattew"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "a3_friend_call_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "daniel_remote_context",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Daniel"
+              },
+              {
+                "path": "npcs.Daniel.state.fiveRoadsPath",
+                "eq": "remote_work"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_friend_id",
+              "value": "Daniel"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "a3_friend_call_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "luke_long_route_context",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Luke"
+              },
+              {
+                "path": "npcs.Luke.state.fiveRoadsPath",
+                "eq": "long_route"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_friend_id",
+              "value": "Luke"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "a3_friend_call_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "luke_fallback_mattew",
+          "when": {
+            "path": "player.name",
+            "eq": "Luke"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_friend_id",
+              "value": "Mattew"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "a3_friend_call_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "mattew_fallback_daniel",
+          "when": {
+            "path": "player.name",
+            "eq": "Mattew"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_friend_id",
+              "value": "Daniel"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "a3_friend_call_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "daniel_fallback_edward",
+          "when": {
+            "path": "player.name",
+            "eq": "Daniel"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_friend_id",
+              "value": "Edward"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "a3_friend_call_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "edward_fallback_fab",
+          "when": {
+            "path": "player.name",
+            "eq": "Edward"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_friend_id",
+              "value": "Fab"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "a3_friend_call_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "fab_fallback_luke",
+          "when": {
+            "path": "player.name",
+            "eq": "Fab"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_friend_id",
+              "value": "Luke"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_03_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "a3_friend_call_available",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A3_RANK_TRIAL_D_C",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "competition.rank",
+            "eq": "D"
+          },
+          {
+            "any": [
+              {
+                "path": "player.trainerLevel",
+                "gte": 6
+              },
+              {
+                "path": "world.flags.rank_trial_D_C_available",
+                "eq": true
+              }
+            ]
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "trial_window",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a3_rank_trial_d_c_available",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A3_CROSSROADS",
+      "once": true,
+      "trigger": {
+        "any": [
+          {
+            "path": "player.trainerLevel",
+            "gte": 7
+          },
+          {
+            "path": "competition.rankOrder",
+            "gte": 3
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "crossroads_window",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a3_crossroads_available",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A3_REGIONAL_CUP",
+      "once": true,
+      "trigger": {
+        "any": [
+          {
+            "path": "player.trainerLevel",
+            "gte": 8
+          },
+          {
+            "path": "competition.rankOrder",
+            "gte": 3
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "regional_cup_window",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a3_regional_cup_available",
+              "value": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
