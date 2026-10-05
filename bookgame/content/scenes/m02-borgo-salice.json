@@ -105,6 +105,17 @@
           ]
         },
         {
+          "id": "network_outcome",
+          "text": "Chiudo il bilancio di quello che è successo nel Mistwood — registro l'esito formale.",
+          "conditions": {
+            "all": [
+              {"path": "world.flags.a2_network_outcome_available", "eq": true},
+              {"path": "world.flags.network_outcome_complete", "ne": true}
+            ]
+          },
+          "goto": "m02-network-outcome#network_outcome_review"
+        },
+        {
           "id": "receive_friend_news",
           "text": "Leggo il messaggio di un amico — sembra che abbiano qualcosa da dirmi.",
           "conditions": {
@@ -416,6 +427,28 @@
           "goto": "m02-rookie-invitational#cup_announcement",
           "effects": [
             { "type": "set_location", "locationId": "borgo_salice_sala_verde" }
+          ]
+        },
+        {
+          "id": "trial_access",
+          "text": "Accedo al banco del Promotion Trial E→D.",
+          "conditions": {
+            "all": [
+              { "path": "world.flags.a2_rank_trial_e_d_available", "eq": true },
+              { "path": "competition.rank", "eq": "E" }
+            ]
+          },
+          "timeCostMinutes": 5,
+          "goto": "m02-trial-registration#trial_info",
+          "effects": [
+            {
+              "type": "competition_trial_available",
+              "checkpointId": "RANK_E_TO_D",
+              "fromRank": "E",
+              "toRank": "D",
+              "requiredRosterSize": 3,
+              "retryable": true
+            }
           ]
         },
         {
