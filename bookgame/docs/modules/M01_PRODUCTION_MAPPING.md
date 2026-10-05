@@ -70,7 +70,7 @@ The graph is reconvergent, not linear. The player may move repeatedly between Gi
 | M1_11_SECOND_POKEMON | legal routes to roster size 2 | 280 | 180 | COMPLETE |
 | M1_12_FIVE_ROADS | friends diverge and schedules update | 250 | 150 | COMPLETE |
 | M1_13_TRIAL_REGISTRATION | gate eligibility and preparation | 160 | 90 | COMPLETE |
-| M1_14_PROMOTION_TRIAL_F_E | official F→E trial | 200 | 110 | IMPLEMENTED / E5 + COMBAT WIRED |
+| M1_14_PROMOTION_TRIAL_F_E | official F→E trial | 200 | 110 | COMPLETE |
 | M1_15_TRIAL_RESULT | win/loss/retry/callback consequences | 347 | 96 | IMPLEMENTED / E5 + PERSISTENCE WIRED |
 | **TOTAL** |  | **5,047** | **3,116** | |
 
@@ -719,6 +719,21 @@ Others update off-screen honestly.
 **Opponent:** persistent gate staff with fixed validated Pokémon 5e roster.
 
 Blue/friends are not automatically used as gate opponent.
+
+**Implementation lock:**
+
+- the gate is entered only from a real E5 registration for `RANK_F_TO_E`; merely reaching the Arena or viewing the registration desk never consumes an attempt;
+- entering the called gate registers Nara Voss as persistent NPC `VAL_GATE_F_E_NARA_VOSS`, with Arena examiner schedule and fixed checkpoint identity;
+- `begin_trial` is the only action that increments the Trial attempt counter and creates the active competition match;
+- the combat handoff is a real Pokémon 5e Singles battle using exactly two player roster slots and Nara's fixed authored roster: Eevee Lv4 (`run-away`) followed by Shinx Lv4 (`intimidate`);
+- Eevee, Shinx, both abilities and executable moves at Level 4 are validated against the project's offline Pokémon 5e 2024 combat pack;
+- Nara's roster never scales to player Trainer level, Pokémon level, roster strength, prior results or retry count; HARD is the authored difficulty band, not a hidden stat modifier;
+- the first opponent KO does not end the Trial while Nara still has her registered bench Pokémon: normal forced-switch combat rules continue the 2v2 match;
+- withdrawing before combat keeps the registration active and consumes zero attempts;
+- after a legal loss, retry uses the same examiner, encounter ID, fixed roster, levels, abilities and official format;
+- Blue and the other Five are never substituted automatically as gate opponent;
+- the authored scene never decides the winner: only the Pokémon 5e combat resolver may return `win` or `lose`, after which M1_15 owns the persistent result consequences;
+- dedicated M1_14 regression tests cover combat-pack validity, persistent examiner identity, pre-start withdrawal, fixed 2v2 handoff, no scaling and retry stability.
 
 ---
 
