@@ -91,6 +91,20 @@
           ]
         },
         {
+          "id": "receive_friend_news",
+          "text": "Leggo il messaggio di un amico — sembra che abbiano qualcosa da dirmi.",
+          "conditions": {
+            "all": [
+              { "path": "world.flags.a2_friend_news_available", "eq": true },
+              { "path": "world.flags.friend_beat_02_complete", "ne": true }
+            ]
+          },
+          "goto": "m02-friend-beat-02#friend_news_arrive",
+          "effects": [
+            { "type": "set_flag", "key": "friend_beat_02_started", "value": true }
+          ]
+        },
+        {
           "id": "back_to_mistwood",
           "text": "Rientro verso Bosco Bruma.",
           "timeCostMinutes": 210,
