@@ -1,0 +1,619 @@
+{
+  "schemaVersion": 1,
+  "id": "m03-rescue-outcome",
+  "moduleId": "M03",
+  "title": "M3_11 — Bilancio Ferrox",
+  "locationId": "fer_city",
+  "entryNodeId": "outcome_board",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m2_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m03_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m3_active",
+        "eq": true
+      },
+      {
+        "path": "world.flags.ferrox_rescue_state",
+        "exists": true
+      },
+      {
+        "path": "world.flags.ferrox_rescue_outcome_complete",
+        "ne": true
+      }
+    ]
+  },
+  "nodes": {
+    "outcome_board": {
+      "stitches": [
+        {
+          "id": "outcome_1",
+          "text": "Il rapporto Ferrox arriva quando le squadre hanno finito di contare persone, sezioni isolate e danni verificati. Questa è la prima volta in M3 in cui il gioco può trasformare il tuo rescue state in un bilancio complessivo."
+        },
+        {
+          "id": "outcome_2",
+          "text": "Il rapporto distingue tre cose: esito umano, danno strutturale e responsabilità. Il tuo contributo può aver cambiato il margine, ma non ti rende automaticamente responsabile dell'intero incidente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "outcome_balanced",
+          "text": "Leggo il rapporto relativo al supporto coordinato.",
+          "conditions": {
+            "path": "world.flags.ferrox_rescue_state",
+            "eq": "balanced_support"
+          },
+          "goto": "balanced_outcome"
+        },
+        {
+          "id": "outcome_evac",
+          "text": "Leggo il rapporto relativo alla priorità evacuazione.",
+          "conditions": {
+            "path": "world.flags.ferrox_rescue_state",
+            "eq": "evacuation_supported"
+          },
+          "goto": "evac_outcome"
+        },
+        {
+          "id": "outcome_stable",
+          "text": "Leggo il rapporto relativo alla priorità stabilizzazione.",
+          "conditions": {
+            "path": "world.flags.ferrox_rescue_state",
+            "eq": "stabilization_supported"
+          },
+          "goto": "stable_outcome"
+        },
+        {
+          "id": "outcome_support",
+          "text": "Leggo il rapporto relativo al supporto logistico.",
+          "conditions": {
+            "path": "world.flags.ferrox_rescue_state",
+            "eq": "support_only"
+          },
+          "goto": "support_outcome"
+        },
+        {
+          "id": "outcome_missed",
+          "text": "Leggo il bilancio dopo aver perso la finestra.",
+          "conditions": {
+            "path": "world.flags.ferrox_rescue_state",
+            "eq": "missed"
+          },
+          "goto": "missed_outcome"
+        },
+        {
+          "id": "outcome_declined",
+          "text": "Leggo il bilancio dopo aver scelto di non intervenire.",
+          "conditions": {
+            "path": "world.flags.ferrox_rescue_state",
+            "eq": "declined"
+          },
+          "goto": "declined_outcome"
+        }
+      ]
+    },
+    "balanced_outcome": {
+      "stitches": [
+        {
+          "id": "balanced_1",
+          "text": "La combinazione fra evacuazione e stabilizzazione ha ridotto gli arresti reciproci fra squadre. Tutte le persone coinvolte sono state localizzate e portate fuori; restano feriti non critici e una sezione nord chiusa per ripristino."
+        }
+      ],
+      "choices": [
+        {
+          "id": "balanced_register",
+          "text": "Registro il bilancio verificato.",
+          "goto": "responsibility_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_people_outcome",
+              "value": "all_accounted_injuries_noncritical"
+            },
+            {
+              "type": "set_flag",
+              "key": "ferrox_damage_state",
+              "value": "contained_section_closure"
+            },
+            {
+              "type": "set_flag",
+              "key": "ferrox_outcome_class",
+              "value": "best_contained"
+            }
+          ]
+        },
+        {
+          "id": "balanced_compare_warning",
+          "text": "Confronto il bilancio con i segnali raccolti prima dell'incidente.",
+          "conditions": {
+            "path": "world.flags.ferrox_warning_quality",
+            "exists": true
+          },
+          "goto": "warning_accountability"
+        }
+      ]
+    },
+    "evac_outcome": {
+      "stitches": [
+        {
+          "id": "evac_1",
+          "text": "La spinta sull'evacuazione ha fatto uscire le persone prima che il ramo nord venisse completamente interdetto. Il costo è strutturale: una porzione maggiore della galleria resta inutilizzabile finché non verrà rinforzata."
+        }
+      ],
+      "choices": [
+        {
+          "id": "evac_register",
+          "text": "Registro persone in salvo e danno strutturale elevato.",
+          "goto": "responsibility_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_people_outcome",
+              "value": "all_accounted_after_fast_evacuation"
+            },
+            {
+              "type": "set_flag",
+              "key": "ferrox_damage_state",
+              "value": "major_section_closure"
+            },
+            {
+              "type": "set_flag",
+              "key": "ferrox_outcome_class",
+              "value": "people_first"
+            }
+          ]
+        },
+        {
+          "id": "evac_compare",
+          "text": "Confronto la scelta con gli avvisi precedenti.",
+          "conditions": {
+            "path": "world.flags.ferrox_warning_quality",
+            "exists": true
+          },
+          "goto": "warning_accountability"
+        }
+      ]
+    },
+    "stable_outcome": {
+      "stitches": [
+        {
+          "id": "stable_1",
+          "text": "Mettere in sicurezza il supporto ha rallentato l'uscita, ma ha evitato un secondo cedimento durante il passaggio delle squadre. Tutte le persone sono state recuperate; alcuni hanno richiesto assistenza per esposizione e contusioni."
+        }
+      ],
+      "choices": [
+        {
+          "id": "stable_register",
+          "text": "Registro il recupero ritardato ma stabile.",
+          "goto": "responsibility_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_people_outcome",
+              "value": "all_accounted_after_stabilization"
+            },
+            {
+              "type": "set_flag",
+              "key": "ferrox_damage_state",
+              "value": "controlled_structural_damage"
+            },
+            {
+              "type": "set_flag",
+              "key": "ferrox_outcome_class",
+              "value": "structure_first"
+            }
+          ]
+        },
+        {
+          "id": "stable_compare",
+          "text": "Confronto la decisione con le informazioni tecniche che avevo.",
+          "goto": "warning_accountability"
+        }
+      ]
+    },
+    "support_outcome": {
+      "stitches": [
+        {
+          "id": "support_1",
+          "text": "Il tuo ruolo informativo ha aiutato il coordinamento, ma il lavoro operativo è rimasto alle squadre interne. Le persone sono state recuperate con feriti non critici; la chiusura del ramo nord è più estesa rispetto agli scenari meglio coordinati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "support_register",
+          "text": "Registro un contributo utile ma limitato.",
+          "goto": "responsibility_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_people_outcome",
+              "value": "recovered_with_noncritical_injuries"
+            },
+            {
+              "type": "set_flag",
+              "key": "ferrox_damage_state",
+              "value": "significant_section_closure"
+            },
+            {
+              "type": "set_flag",
+              "key": "ferrox_outcome_class",
+              "value": "support_limited"
+            }
+          ]
+        },
+        {
+          "id": "support_reflect",
+          "text": "Rileggo il confine fra aiutare e occupare spazio operativo.",
+          "goto": "responsibility_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_support_boundary_reflected",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "missed_outcome": {
+      "stitches": [
+        {
+          "id": "missed_1",
+          "text": "Quando sei arrivato, la finestra utile per contribuire era già chiusa. Le squadre hanno recuperato tutti, ma il rapporto registra feriti e una chiusura ampia del ramo nord. Il tuo ritardo non causa l'incidente; significa soltanto che non hai potuto ridurne il margine."
+        }
+      ],
+      "choices": [
+        {
+          "id": "missed_register",
+          "text": "Registro il bilancio senza riscrivere il mio ruolo.",
+          "goto": "responsibility_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_people_outcome",
+              "value": "recovered_with_injuries"
+            },
+            {
+              "type": "set_flag",
+              "key": "ferrox_damage_state",
+              "value": "major_section_closure"
+            },
+            {
+              "type": "set_flag",
+              "key": "ferrox_outcome_class",
+              "value": "window_missed"
+            }
+          ]
+        },
+        {
+          "id": "missed_accountability",
+          "text": "Affronto il costo pratico del ritardo.",
+          "goto": "personal_accountability",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_player_accountability",
+              "value": "late"
+            }
+          ]
+        }
+      ]
+    },
+    "declined_outcome": {
+      "stitches": [
+        {
+          "id": "declined_1",
+          "text": "Hai scelto di non partecipare. Le squadre Ferrox hanno comunque recuperato tutti, ma con feriti e danni estesi. Il rapporto non ti attribuisce colpa legale; la tua storia registra però che avevi una finestra e l'hai lasciata ad altri."
+        }
+      ],
+      "choices": [
+        {
+          "id": "declined_register",
+          "text": "Registro il bilancio e la mia non-partecipazione.",
+          "goto": "responsibility_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_people_outcome",
+              "value": "recovered_with_injuries"
+            },
+            {
+              "type": "set_flag",
+              "key": "ferrox_damage_state",
+              "value": "major_section_closure"
+            },
+            {
+              "type": "set_flag",
+              "key": "ferrox_outcome_class",
+              "value": "player_declined"
+            }
+          ]
+        },
+        {
+          "id": "declined_accountability",
+          "text": "Riconosco che ho scelto di non intervenire.",
+          "goto": "personal_accountability",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_player_accountability",
+              "value": "declined"
+            }
+          ]
+        }
+      ]
+    },
+    "warning_accountability": {
+      "stitches": [
+        {
+          "id": "warning_1",
+          "text": "Gli avvisi precedenti non provano sabotaggio né colpa individuale. Possono però mostrare quanto il rischio fosse leggibile prima del cedimento e se le procedure avessero abbastanza margine rispetto alla pressione produttiva."
+        }
+      ],
+      "choices": [
+        {
+          "id": "warning_strong",
+          "text": "Avevo raccolto segnali convergenti prima dell'incidente.",
+          "conditions": {
+            "path": "world.flags.ferrox_warning_quality",
+            "eq": "strong"
+          },
+          "goto": "responsibility_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_preincident_signal_record",
+              "value": "strong"
+            }
+          ]
+        },
+        {
+          "id": "warning_partial",
+          "text": "Avevo soltanto un quadro parziale.",
+          "conditions": {
+            "path": "world.flags.ferrox_warning_quality",
+            "eq": "partial"
+          },
+          "goto": "responsibility_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_preincident_signal_record",
+              "value": "partial"
+            }
+          ]
+        },
+        {
+          "id": "warning_low",
+          "text": "Non avevo trovato abbastanza per sostenere un allarme.",
+          "conditions": {
+            "path": "world.flags.ferrox_warning_quality",
+            "eq": "low"
+          },
+          "goto": "responsibility_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_preincident_signal_record",
+              "value": "low"
+            }
+          ]
+        },
+        {
+          "id": "warning_back",
+          "text": "Torno al bilancio senza attribuire peso extra agli avvisi.",
+          "goto": "responsibility_review"
+        }
+      ]
+    },
+    "personal_accountability": {
+      "stitches": [
+        {
+          "id": "personal_1",
+          "text": "Responsabilità personale e responsabilità dell'incidente non sono la stessa cosa. Puoi riconoscere una scelta tardiva o un rifiuto senza trasformarti nel colpevole tecnico del cedimento."
+        }
+      ],
+      "choices": [
+        {
+          "id": "personal_accept",
+          "text": "Mantengo la distinzione: la mia scelta conta, ma non riscrive la causa.",
+          "goto": "responsibility_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_accountability_reflection",
+              "value": "accepted"
+            }
+          ]
+        },
+        {
+          "id": "personal_deflect",
+          "text": "Decido di non soffermarmi oltre sul mio ruolo.",
+          "goto": "responsibility_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_accountability_reflection",
+              "value": "deferred"
+            }
+          ]
+        }
+      ]
+    },
+    "responsibility_review": {
+      "stitches": [
+        {
+          "id": "resp_1",
+          "text": "La commissione tecnica individua una catena, non un singolo colpevole: cartografia incompleta, cicli di manutenzione rinviati entro margini formali, pressione produttiva e vulnerabilità del ramo vecchio si sono sovrapposti."
+        },
+        {
+          "id": "resp_2",
+          "text": "Il tuo rapporto personale può aver accelerato informazioni o soccorso, ma la responsabilità sistemica resta distinta dal tuo comportamento sul campo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "resp_systemic",
+          "text": "Registro la responsabilità come sistemica e condivisa.",
+          "goto": "reputation_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_responsibility_state",
+              "value": "systemic_shared"
+            }
+          ]
+        },
+        {
+          "id": "resp_pressure",
+          "text": "Metto in evidenza il ruolo della pressione produttiva.",
+          "goto": "reputation_review",
+          "conditions": {
+            "any": [
+              {
+                "path": "world.flags.cava_production_pressure_noted",
+                "eq": true
+              },
+              {
+                "path": "world.flags.ferrox_warning_worker_general",
+                "eq": true
+              },
+              {
+                "path": "world.flags.ferrox_warning_worker_specific",
+                "eq": true
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_responsibility_state",
+              "value": "production_pressure_contributed"
+            }
+          ]
+        },
+        {
+          "id": "resp_maintenance",
+          "text": "Metto in evidenza la fragilità della catena di manutenzione.",
+          "goto": "reputation_review",
+          "conditions": {
+            "any": [
+              {
+                "path": "world.flags.ferrox_warning_notice_specific",
+                "eq": true
+              },
+              {
+                "path": "world.flags.ferrox_survey_report_read",
+                "eq": true
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_responsibility_state",
+              "value": "maintenance_margin_failed"
+            }
+          ]
+        }
+      ]
+    },
+    "reputation_review": {
+      "stitches": [
+        {
+          "id": "rep_1",
+          "text": "Ferravia non possiede ancora un subsystem di reputazione separato nel runtime. M3 registra quindi soltanto un esito qualitativo locale, senza inventare punti reputazione o un nuovo effect type."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rep_high",
+          "text": "Il mio contributo è riconosciuto come affidabile.",
+          "conditions": {
+            "path": "world.flags.ferrox_outcome_class",
+            "in": [
+              "best_contained",
+              "people_first",
+              "structure_first"
+            ]
+          },
+          "goto": "outcome_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_local_reputation_outcome",
+              "value": "trusted_responder"
+            }
+          ]
+        },
+        {
+          "id": "rep_neutral",
+          "text": "Il mio contributo resta limitato ma corretto.",
+          "conditions": {
+            "path": "world.flags.ferrox_outcome_class",
+            "eq": "support_limited"
+          },
+          "goto": "outcome_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_local_reputation_outcome",
+              "value": "limited_positive"
+            }
+          ]
+        },
+        {
+          "id": "rep_none",
+          "text": "Non ricevo credito operativo per un intervento che non ho fatto.",
+          "conditions": {
+            "path": "world.flags.ferrox_outcome_class",
+            "in": [
+              "window_missed",
+              "player_declined"
+            ]
+          },
+          "goto": "outcome_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_local_reputation_outcome",
+              "value": "no_operational_credit"
+            }
+          ]
+        }
+      ]
+    },
+    "outcome_close": {
+      "stitches": [
+        {
+          "id": "close_1",
+          "text": "Il bilancio Ferrox è ora persistente: persone, danni, responsabilità e riconoscimento locale possono essere letti dai moduli successivi senza riaprire l'incidente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_hub",
+          "text": "Torno a Ferravia.",
+          "goto": "m03-ferravia-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_rescue_outcome_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
