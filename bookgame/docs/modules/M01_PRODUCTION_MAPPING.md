@@ -68,7 +68,7 @@ The graph is reconvergent, not linear. The player may move repeatedly between Gi
 | M1_09_FRIEND_BEAT_01 | one of the other Four selected causally | 390 | 250 | COMPLETE |
 | M1_10_FIRST_OFFICIAL | first sanctioned non-trial match | 270 | 170 | COMPLETE |
 | M1_11_SECOND_POKEMON | legal routes to roster size 2 | 280 | 180 | COMPLETE |
-| M1_12_FIVE_ROADS | friends diverge and schedules update | 250 | 150 | ENGINE DEPENDENCY |
+| M1_12_FIVE_ROADS | friends diverge and schedules update | 250 | 150 | COMPLETE |
 | M1_13_TRIAL_REGISTRATION | gate eligibility and preparation | 160 | 90 | IMPLEMENTED / E5 WIRED |
 | M1_14_PROMOTION_TRIAL_F_E | official F→E trial | 200 | 110 | IMPLEMENTED / E5 + COMBAT WIRED |
 | M1_15_TRIAL_RESULT | win/loss/retry/callback consequences | 347 | 96 | IMPLEMENTED / E5 + PERSISTENCE WIRED |
@@ -658,6 +658,17 @@ Required for:
 - obtains own result.
 
 Others update off-screen honestly.
+
+**Implementation lock:**
+
+- `A1_FIVE_ROADS` is a one-shot E6 world event and fires on the canonical OR trigger: Trainer level 3+, current Circuit Rank E, or world day 7+;
+- the event always sets `friends_split=true` and replaces the pre-split day rotation with persistent per-friend schedules for exactly the other Four; the protagonist is never duplicated as an NPC;
+- identity-specific paths remain stable across protagonist choices: Luke takes a longer exploration route, Mattew shifts to Promotion Trial preparation, Daniel accepts a logistics contract, Edward commits to field training, and Fab joins a ranger field route;
+- at least one concrete divergence is exposed diegetically through `m01-five-roads` from the Valedarsena hub, while every other friend still receives an off-screen schedule/result update;
+- NPC progress never grants the player money, relationship credit, rank, quest completion or other unearned rewards;
+- the event is idempotent: once resolved it never rewrites later NPC state, and the older M1 day-rotation events stop owning schedules after `friends_split=true`;
+- `m1_five_roads_focus_friend_id` chooses a deterministic visible callback for each protagonist, and `m1_five_roads_seen` prevents the introductory callback from replaying forever;
+- split state, all four schedules, NPC path/result state and the visible callback survive save/reload exactly.
 
 ---
 
