@@ -143,11 +143,39 @@ test("M1_04 shop uses canonical Pokémon 5e 2024 rookie item prices", async () =
   const potion = shop.choices.find((choice) => choice.id === "buy_potion");
   const antidote = shop.choices.find((choice) => choice.id === "buy_antidote");
 
-  assert.deepEqual(pokeball.effects, [{ type: "purchase_item", itemId: "poke-ball", cost: 250, quantity: 1 }]);
-  assert.deepEqual(potion.effects, [{ type: "purchase_item", itemId: "potion", cost: 200, quantity: 1 }]);
-  assert.deepEqual(antidote.effects, [{ type: "purchase_item", itemId: "antidote", cost: 200, quantity: 1 }]);
-  assert.deepEqual(pokeball.conditions, { path: "player.money", gte: 250 });
-  assert.deepEqual(potion.conditions, { path: "player.money", gte: 200 });
+  assert.deepEqual(pokeball.effects, [{
+    type: "purchase_item",
+    shopId: "valedarsena_trainer_shop",
+    itemId: "poke-ball",
+    cost: 250,
+    quantity: 1
+  }]);
+  assert.deepEqual(potion.effects, [{
+    type: "purchase_item",
+    shopId: "valedarsena_trainer_shop",
+    itemId: "potion",
+    cost: 200,
+    quantity: 1
+  }]);
+  assert.deepEqual(antidote.effects, [{
+    type: "purchase_item",
+    shopId: "valedarsena_trainer_shop",
+    itemId: "antidote",
+    cost: 200,
+    quantity: 1
+  }]);
+  assert.deepEqual(pokeball.conditions, {
+    all: [
+      { path: "player.money", gte: 250 },
+      { path: "shops.valedarsena_trainer_shop.stock.poke-ball", gte: 1 }
+    ]
+  });
+  assert.deepEqual(potion.conditions, {
+    all: [
+      { path: "player.money", gte: 200 },
+      { path: "shops.valedarsena_trainer_shop.stock.potion", gte: 1 }
+    ]
+  });
 });
 
 test("M1_04 trainer begins without invented campaign cash and cannot buy on credit", async () => {
@@ -238,7 +266,7 @@ test("M1_04 purchase compiler contract rejects malformed or negative authored pu
           id: "bad",
           text: "Bad",
           goto: "start",
-          effects: [{ type: "purchase_item", itemId: "???", cost: -1, quantity: 0 }]
+          effects: [{ type: "purchase_item", shopId: "???", itemId: "???", cost: -1, quantity: 0 }]
         }]
       }
     }
@@ -248,6 +276,7 @@ test("M1_04 purchase compiler contract rejects malformed or negative authored pu
   assert.ok(report.errors.some((error) => error.code === "INVALID_PURCHASE_ITEM_ID"));
   assert.ok(report.errors.some((error) => error.code === "INVALID_PURCHASE_COST"));
   assert.ok(report.errors.some((error) => error.code === "INVALID_PURCHASE_QUANTITY"));
+  assert.ok(report.errors.some((error) => error.code === "INVALID_PURCHASE_SHOP_ID"));
 });
 
 test("M1_04 money and purchases survive save/reload exactly", async () => {
@@ -273,3 +302,73 @@ test("M1_04 money and purchases survive save/reload exactly", async () => {
     await rm(dir, { recursive: true, force: true });
   }
 });
+
+test("M1_04 trainer shop has finite stock and hides exhausted purchases", async () => {
+  const { scenes } = await makeRepository();
+  const engine = new BookgameEngine({ scenes, now: fixedNow });
+  let state = createNewGameState({ protagonist: "Luke", now: fixedNow });
+  state.player.money = 5000;
+  state.world.locationId = "valedarsena_trainer_shop";
+  state.story.sceneId = "m01-valedarsena-first-arrival";
+  state.story.nodeId = "trainer_shop";
+
+  for (let index = 0; index < 6; index += 1) {
+    state = await engine.choose(state, "buy_poke_ball");
+  }
+
+  assert.equal(state.shops.valedarsena_trainer_shop.stock["poke-ball"], 0);
+  const view = await engine.present(state);
+  assert.equal(view.choices.some((choice) => choice.id === "buy_poke_ball"), false);
+  await assert.rejects(() => engine.choose(state, "buy_poke_ball"), /not currently available/i);
+});
+
+test("M1_04 trainer shop refreshes stock every three in-game days", async () => {
+  const { scenes } = await makeRepository();
+  const engine = new BookgameEngine({ scenes, now: fixedNow });
+  let state = createNewGameState({ protagonist: "Luke", now: fixedNow });
+  state.player.money = 5000;
+  state.world.locationId = "valedarsena_trainer_shop";
+  state.story.sceneId = "m01-valedarsena-first-arrival";
+  state.story.nodeId = "trainer_shop";
+
+  for (let index = 0; index < 6; index += 1) {
+    state = await engine.choose(state, "buy_poke_ball");
+  }
+  assert.equal(state.shops.valedarsena_trainer_shop.stock["poke-ball"], 0);
+
+  state.world.day = 3;
+  await engine.present(state);
+  assert.equal(state.shops.valedarsena_trainer_shop.stock["poke-ball"], 0);
+
+  state.world.day = 4;
+  const refreshed = await engine.present(state);
+  assert.equal(state.shops.valedarsena_trainer_shop.stock["poke-ball"], 6);
+  assert.equal(state.shops.valedarsena_trainer_shop.lastRefreshDay, 4);
+  assert.equal(refreshed.choices.some((choice) => choice.id === "buy_poke_ball"), true);
+});
+
+test("M1_04 shop stock survives save/reload together with money and inventory", async () => {
+  const dir = await mkdtemp(path.join(os.tmpdir(), "pokemon5e-m1-shop-stock-"));
+  try {
+    const { scenes } = await makeRepository();
+    const engine = new BookgameEngine({ scenes, now: fixedNow });
+    const store = new SaveStore(dir);
+    let state = createNewGameState({ protagonist: "Luke", slot: "m1-shop-stock", now: fixedNow });
+    state.player.money = 1000;
+    state.world.locationId = "valedarsena_trainer_shop";
+    state.story.sceneId = "m01-valedarsena-first-arrival";
+    state.story.nodeId = "trainer_shop";
+
+    state = await engine.choose(state, "buy_poke_ball");
+    state = await engine.choose(state, "buy_potion");
+    await store.save(state);
+    const loaded = await store.load("m1-shop-stock");
+
+    assert.deepEqual(loaded, state);
+    assert.equal(loaded.shops.valedarsena_trainer_shop.stock["poke-ball"], 5);
+    assert.equal(loaded.shops.valedarsena_trainer_shop.stock.potion, 3);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
