@@ -10,6 +10,7 @@ import { compileStory } from "../src/compiler/story-compiler.mjs";
 import { SequenceDice } from "../src/engine/dice.mjs";
 import { SaveStore } from "../src/engine/save-store.mjs";
 import { createNewGameState } from "../src/engine/state.mjs";
+import { Pokemon5eCombatEngine } from "../src/combat/combat-engine.mjs";
 
 const scenesDir = fileURLToPath(new URL("../content/scenes/", import.meta.url));
 const modulesDir = fileURLToPath(new URL("../content/modules/", import.meta.url));
@@ -120,17 +121,37 @@ test("M1_11 city ecology remains time-aware instead of spawning every authored s
   assert.notEqual(state.ecology.lastEncounter.speciesId, "purrloin");
 });
 
+test("M1_11 only mechanically executable urban species can offer battle/capture", async () => {
+  const { bundle } = await makeEngine();
+  const scene = bundle.scenes["m01-ecology-opportunities"];
+
+  for (const nodeId of ["val_pidgey", "val_burmy", "val_purrloin"]) {
+    assert.equal(scene.nodes[nodeId].choices.some((choice) => choice.id === "engage"), false);
+  }
+  assert.equal(scene.nodes.val_tandemaus.choices.some((choice) => choice.id === "engage"), true);
+});
+
+test("M1_11 Tandemaus is executable in the offline Pokémon 5e combat pack", async () => {
+  const combat = new Pokemon5eCombatEngine({ dice: new SequenceDice([10, 10, 10, 10]) });
+  const tandemaus = await combat.createCombatant({ species: "Tandemaus", level: 1 });
+
+  assert.equal(tandemaus.speciesId, "tandemaus");
+  assert.equal(tandemaus.abilityId, "run-away");
+  assert.ok(tandemaus.moveIds.includes("pound"));
+});
+
 test("M1_11 merely entering a wild battle never mutates the roster or grants a Pokémon", async () => {
   const { engine } = await makeEngine();
   let state = createNewGameState({ protagonist: "Luke", now: fixedNow });
   state.world.locationId = "valedarsena_city";
   state.story.sceneId = "m01-ecology-opportunities";
-  state.story.nodeId = "val_burmy";
+  state.story.nodeId = "val_tandemaus";
   const before = structuredClone(state.player.roster);
 
   state = await engine.choose(state, "engage");
 
   assert.equal(state.pending.type, "pokemon5e_combat");
+  assert.equal(state.pending.encounterId, "M1_VAL_TANDEMAUS_001");
   assert.equal(state.pending.opponentRegistered, false);
   assert.deepEqual(state.player.roster, before);
   assert.equal(state.player.secondPokemonAcquisition, undefined);
@@ -140,7 +161,7 @@ test("M1_11 captured outcome without real resolver opponent state is rejected", 
   const { engine } = await makeEngine();
   let state = createNewGameState({ protagonist: "Luke", now: fixedNow });
   state.story.sceneId = "m01-ecology-opportunities";
-  state.story.nodeId = "val_burmy";
+  state.story.nodeId = "val_tandemaus";
 
   state = await engine.choose(state, "engage");
 
@@ -155,16 +176,18 @@ test("M1_11 defeating a wild Pokémon does not auto-capture it", async () => {
   const { engine } = await makeEngine();
   let state = createNewGameState({ protagonist: "Luke", now: fixedNow });
   state.story.sceneId = "m01-ecology-opportunities";
-  state.story.nodeId = "val_pidgey";
+  state.story.nodeId = "val_tandemaus";
 
   state = await engine.choose(state, "engage");
   state = engine.setCombatState(state, {
-    encounterId: "M1_VAL_PIDGEY_001",
+    encounterId: "M1_VAL_TANDEMAUS_001",
     outcome: "win",
     opponent: resolvedOpponent({
-      speciesId: "pidgey",
-      name: "Pidgey",
-      abilityId: "keen-eye"
+      speciesId: "tandemaus",
+      name: "Tandemaus",
+      abilityId: "run-away",
+      moveIds: ["pound"],
+      pp: { pound: 20 }
     })
   });
   state = engine.resolveCombatHandoff(state, "win");
@@ -179,29 +202,32 @@ test("M1_11 real urban capture persists species, state and second-Pokémon prove
   let state = createNewGameState({ protagonist: "Luke", now: fixedNow });
   state.world.locationId = "valedarsena_city";
   state.story.sceneId = "m01-ecology-opportunities";
-  state.story.nodeId = "val_burmy";
+  state.story.nodeId = "val_tandemaus";
 
   state = await engine.choose(state, "engage");
   state = engine.setCombatState(state, {
-    encounterId: "M1_VAL_BURMY_001",
+    encounterId: "M1_VAL_TANDEMAUS_001",
     outcome: "captured",
     opponent: resolvedOpponent({
-      speciesId: "burmy",
-      name: "Burmy",
-      abilityId: "shed-skin",
-      hp: { current: 1, max: 7 }
+      speciesId: "tandemaus",
+      name: "Tandemaus",
+      abilityId: "run-away",
+      hp: { current: 3, max: 17 },
+      moveIds: ["pound"],
+      pp: { pound: 18 }
     })
   });
   state = engine.resolveCombatHandoff(state, "captured");
 
   assert.equal(state.story.nodeId, "val_wild_captured");
   assert.equal(state.player.roster.length, 2);
-  assert.equal(state.player.roster[1].speciesId, "burmy");
-  assert.deepEqual(state.player.roster[1].hp, { current: 1, max: 7 });
-  assert.equal(state.player.roster[1].abilityId, "shed-skin");
-  assert.equal(state.player.secondPokemonAcquisition.speciesId, "burmy");
+  assert.equal(state.player.roster[1].speciesId, "tandemaus");
+  assert.deepEqual(state.player.roster[1].hp, { current: 3, max: 17 });
+  assert.equal(state.player.roster[1].abilityId, "run-away");
+  assert.deepEqual(state.player.roster[1].moveIds, ["pound"]);
+  assert.equal(state.player.secondPokemonAcquisition.speciesId, "tandemaus");
   assert.equal(state.player.secondPokemonAcquisition.locationId, "valedarsena_city");
-  assert.equal(state.player.secondPokemonAcquisition.encounterId, "M1_VAL_BURMY_001");
+  assert.equal(state.player.secondPokemonAcquisition.encounterId, "M1_VAL_TANDEMAUS_001");
 });
 
 test("M1_11 later captures never overwrite the identity of the true second Pokémon", async () => {
@@ -209,44 +235,47 @@ test("M1_11 later captures never overwrite the identity of the true second Poké
   let state = createNewGameState({ protagonist: "Luke", now: fixedNow });
   state.world.locationId = "valedarsena_city";
   state.story.sceneId = "m01-ecology-opportunities";
-  state.story.nodeId = "val_burmy";
+  state.story.nodeId = "val_tandemaus";
 
   state = await engine.choose(state, "engage");
   state = engine.setCombatState(state, {
-    encounterId: "M1_VAL_BURMY_001",
+    encounterId: "M1_VAL_TANDEMAUS_001",
     outcome: "captured",
     opponent: resolvedOpponent({
-      speciesId: "burmy",
-      name: "Burmy",
-      abilityId: "shed-skin"
+      speciesId: "tandemaus",
+      name: "Tandemaus",
+      abilityId: "run-away",
+      moveIds: ["pound"],
+      pp: { pound: 20 }
     })
   });
   state = engine.resolveCombatHandoff(state, "captured");
   const second = structuredClone(state.player.secondPokemonAcquisition);
 
+  state.world.locationId = "asteria_farm";
   state.story.sceneId = "m01-ecology-opportunities";
-  state.story.nodeId = "val_pidgey";
+  state.story.nodeId = "farm_shinx";
   state = await engine.choose(state, "engage");
   state = engine.setCombatState(state, {
-    encounterId: "M1_VAL_PIDGEY_001",
+    encounterId: "M1_FARM_SHINX_001",
     outcome: "captured",
     opponent: resolvedOpponent({
-      speciesId: "pidgey",
-      name: "Pidgey",
-      abilityId: "keen-eye"
+      speciesId: "shinx",
+      name: "Shinx",
+      abilityId: "intimidate"
     })
   });
   state = engine.resolveCombatHandoff(state, "captured");
 
   assert.equal(state.player.roster.length, 3);
   assert.deepEqual(state.player.secondPokemonAcquisition, second);
-  assert.equal(state.player.secondPokemonAcquisition.speciesId, "burmy");
+  assert.equal(state.player.secondPokemonAcquisition.speciesId, "tandemaus");
 });
 
 test("M1_11 roster size two mechanically unlocks Trial registration but does not auto-register", async () => {
   const { engine } = await makeEngine();
   let state = createNewGameState({ protagonist: "Luke", now: fixedNow });
-  state.player.roster.push({ speciesId: "burmy", name: "Burmy", level: 1 });
+  state.player.roster.push({ speciesId: "tandemaus", name: "Tandemaus", level: 1 });
   state.story.sceneId = "m01-valedarsena-first-arrival";
   state.story.nodeId = "arena_front";
   state.world.locationId = "valedarsena_arena";
