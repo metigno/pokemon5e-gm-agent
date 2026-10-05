@@ -9,7 +9,7 @@ import { createNewGameState } from "../src/engine/state.mjs";
 const fixedNow = () => "2026-10-04T11:20:00.000Z";
 
 function firstRoadState() {
-  const state = firstRoadState();
+  const state = createNewGameState({ protagonist: "Luke", now: fixedNow });
   state.world.locationId = "asteria_ginestre";
   state.story.sceneId = "first-road";
   state.story.nodeId = "arrival";
