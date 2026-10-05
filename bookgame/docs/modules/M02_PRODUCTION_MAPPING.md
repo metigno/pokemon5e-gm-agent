@@ -63,7 +63,7 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 | M2_07_POACHING_NETWORK | rami investigazione/intervento/evitamento con stato reale | 488 | 317 | COMPLETE |
 | M2_08_FRIEND_BEAT_02 | interazione concreta con uno dei Four selezionato da schedule e stato | 488 | 317 | COMPLETE |
 | M2_09_ROOKIE_INVITATIONAL | Rookie Invitational opzionale e deadline reale | 336 | 218 | COMPLETE |
-| M2_10_CRISIS_MOVES | A2_CRISIS_ESCALATES e conseguenze se il player ritarda | 336 | 218 | PLANNED |
+| M2_10_CRISIS_MOVES | A2_CRISIS_ESCALATES e conseguenze se il player ritarda | 336 | 218 | COMPLETE |
 | M2_11_NETWORK_OUTCOME | registrare esito resolved/partial/ignored/escalated senza reset | 437 | 284 | PLANNED |
 | M2_12_TRIAL_REGISTRATION | eligibility E→D alla Sala Verde, roster legale e preparazione | 437 | 284 | PLANNED |
 | M2_13_PROMOTION_TRIAL_E_D | checkpoint RANK_E_TO_D, Singles roster ufficiale 3 | 488 | 316 | PLANNED |
@@ -262,6 +262,18 @@ Scene `m02-rookie-invitational` (moduleId M02, locationId `borgo_salice_sala_ver
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+**Implementation lock (verified 2026-10-05):**
+- Scene file: `content/scenes/m02-crisis-moves.json` (11 nodes / 26 choices)
+- World event: `A2_CRISIS_ESCALATES` in `content/events/M02.json` (3 outcomes: network_unchecked / silent_spread / partial_response)
+- Entry guard: `a2_crisis_escalates_available=true` (plus m1_complete, m02_unlocked, m2_active, rank=E)
+- Hub entry via `crisis_update` choice in `m02-borgo-salice#borough_hub` (hidden after crisis_moves_complete)
+- Three conditional branches from `crisis_news_arrive` gating on `crisis_escalation_type`
+- Shared `crisis_assess_options` hub; ranger choices mutex on `ranger_thread_opened`
+- Durable writes: `crisis_moves_complete`, `crisis_response_type`, `crisis_evidence_gathered`, `crisis_ranger_alerted`, `crisis_ranger_full_report`, `crisis_intensified`, `crisis_passive_monitor`, `local_problem_ignored`
+- **Does NOT write `poaching_network_state` final values** — those are owned by M2_11
+- Tests: `tests/m02-crisis-moves.test.mjs` — 22 tests, 22 pass, 0 fail
+- M02 cumulative after M2_10: **155 nodes / 314 choices** (baseline 103/213; added M2_08: +25/+44, M2_09: +16/+28, M2_10: +11/+26; borgo-salice expanded: +7 choices)
 
 ---
 

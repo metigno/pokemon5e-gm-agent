@@ -91,6 +91,20 @@
           ]
         },
         {
+          "id": "crisis_update",
+          "text": "La situazione nel bosco ha subito un'escalation — devo valutare come rispondere.",
+          "conditions": {
+            "all": [
+              { "path": "world.flags.a2_crisis_escalates_available", "eq": true },
+              { "path": "world.flags.crisis_moves_complete", "ne": true }
+            ]
+          },
+          "goto": "m02-crisis-moves#crisis_news_arrive",
+          "effects": [
+            { "type": "set_flag", "key": "crisis_moves_started", "value": true }
+          ]
+        },
+        {
           "id": "receive_friend_news",
           "text": "Leggo il messaggio di un amico — sembra che abbiano qualcosa da dirmi.",
           "conditions": {
