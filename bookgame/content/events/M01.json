@@ -1916,6 +1916,55 @@
           ]
         }
       ]
+    },
+    {
+      "id": "A1_FIRST_OFFICIAL_WINDOW",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "world.flags.valedarsena_discovered",
+            "eq": true
+          },
+          {
+            "path": "competition.firstOfficialResolved",
+            "ne": true
+          },
+          {
+            "any": [
+              {
+                "path": "player.trainerLevel",
+                "gte": 2
+              },
+              {
+                "path": "world.flags.friend_beat_01_complete",
+                "eq": true
+              },
+              {
+                "path": "world.day",
+                "gte": 2
+              }
+            ]
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "rookie_match_slot_available",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "official_match_opportunity",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "official_match_opportunity_source",
+              "value": "valedarsena_rookie_board"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
