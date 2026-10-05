@@ -165,6 +165,17 @@
       ],
       "choices": [
         {
+          "id": "insight_steven_arrives",
+          "text": "Mentre richiudo la mappa, qualcuno entra nell'archivio.",
+          "conditions": {
+            "all": [
+              { "path": "world.flags.steven_met", "ne": true },
+              { "path": "world.flags.steven_declined_contact", "ne": true }
+            ]
+          },
+          "goto": "m03-steven-enters#steven_appears"
+        },
+        {
           "id": "insight_back",
           "text": "Chiudo l'approfondimento e torno al banco dell'archivista.",
           "goto": "archive_entry"
@@ -223,6 +234,20 @@
         }
       ],
       "choices": [
+        {
+          "id": "report_steven_arrives",
+          "text": "Mentre chiudo il rapporto qualcuno entra nell'archivio.",
+          "conditions": {
+            "all": [
+              { "path": "world.flags.steven_met", "ne": true },
+              { "path": "world.flags.steven_declined_contact", "ne": true }
+            ]
+          },
+          "goto": "m03-steven-enters#steven_appears",
+          "effects": [
+            { "type": "set_flag", "key": "ferrox_survey_report_read", "value": true }
+          ]
+        },
         {
           "id": "report_back",
           "text": "Chiudo il rapporto e torno al banco.",

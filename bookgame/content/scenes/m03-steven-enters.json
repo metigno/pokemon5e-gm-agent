@@ -1,0 +1,290 @@
+{
+  "schemaVersion": 1,
+  "id": "m03-steven-enters",
+  "moduleId": "M03",
+  "title": "M3_04 — L'Ingegnere di Passaggio",
+  "locationId": "fer_city_archive",
+  "entryNodeId": "steven_appears",
+  "conditions": {
+    "all": [
+      { "path": "world.flags.m2_complete", "eq": true },
+      { "path": "world.flags.m03_unlocked", "eq": true },
+      { "path": "world.flags.m3_active", "eq": true },
+      { "path": "world.flags.ferravia_discovered", "eq": true },
+      { "path": "competition.rank", "eq": "D" },
+      {
+        "any": [
+          { "path": "world.flags.old_maps_read", "eq": true },
+          { "path": "world.flags.ferrox_survey_report_read", "eq": true }
+        ]
+      }
+    ]
+  },
+  "nodes": {
+    "steven_appears": {
+      "stitches": [
+        {
+          "id": "appears_1",
+          "text": "L'archivista chiude un cassetto e saluta con un cenno sommesso. «Buon pomeriggio, ingegnere.» Non è a te che si rivolge: dietro di te è entrato qualcuno in giacca grigia, cartella rigida sotto il braccio, aria di uno che è stato qui più volte senza farsi notare. Non si avvicina al banco subito — passa prima davanti allo scaffale aperto, controlla una collocazione, poi si ferma a un metro dalla tua spalla."
+        },
+        {
+          "id": "appears_2",
+          "text": "«Vedo che hai estratto l'edizione 1987 anche tu. Buon segno — vuol dire che qualcuno a Ferravia legge ancora le cose scritte prima di questo trimestre.» Il tono è quello di un collega che non ha interesse ad imporre la conversazione: ti sta semplicemente riconoscendo come lettore attento, non come intruso."
+        },
+        {
+          "id": "appears_3",
+          "text": "Dall'archivista arriva un piccolo cenno di conferma: è normale che quest'uomo sia qui, e non è normale che un Rank D arrivi contemporaneamente allo stesso materiale. L'incontro è causalmente credibile — segnali tecnici convergenti, non orchestrati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "introduce_self",
+          "text": "Mi presento come trainer del Circuito, Rank D, interessato alla situazione tecnica.",
+          "timeCostMinutes": 10,
+          "goto": "introduction_exchange",
+          "effects": [
+            {
+              "type": "npc_register",
+              "npcId": "Steven",
+              "name": "Steven Stone",
+              "relationshipScore": 0,
+              "state": {
+                "introduced": true,
+                "context": "ferravia_archive",
+                "role": "technical_observer"
+              }
+            },
+            { "type": "set_flag", "key": "steven_met", "value": true }
+          ]
+        },
+        {
+          "id": "wait_and_listen",
+          "text": "Resto in silenzio e osservo come interagisce con l'archivista — non ho ancora motivo di presentarmi.",
+          "timeCostMinutes": 10,
+          "goto": "silent_observation"
+        },
+        {
+          "id": "leave_without_meeting",
+          "text": "Chiudo la consultazione e esco dall'archivio senza presentarmi.",
+          "goto": "m03-ferravia-arrival#city_hub",
+          "effects": [
+            { "type": "set_flag", "key": "steven_declined_contact", "value": true },
+            { "type": "set_location", "locationId": "fer_city" }
+          ]
+        }
+      ]
+    },
+    "introduction_exchange": {
+      "stitches": [
+        {
+          "id": "intro_1",
+          "text": "«Steven. Faccio consulenza tecnica per infrastrutture industriali regionali — oggi sono qui per leggere la stessa cartografia che hai in mano.» Non estrae tessere ufficiali, non pretende deferenza. Ti porge invece una domanda neutra: «Che cosa ti ha portato a chiedere l'edizione 1987 in particolare?»"
+        },
+        {
+          "id": "intro_2",
+          "text": "Il suo modo di parlare è quello di qualcuno che valuta la qualità delle domande, non la grandezza dei risultati. Non c'è nessun test di valore in corso — solo un'osservazione reciproca. Il tuo motore registra: Steven è ora un contatto noto, non un boss attivo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "answer_old_maps",
+          "text": "«L'archivista ha spiegato che le vecchie gallerie non sono demolite — mi è sembrato interessante.»",
+          "conditions": {
+            "path": "world.flags.old_maps_read",
+            "eq": true
+          },
+          "goto": "steven_notes_old_maps"
+        },
+        {
+          "id": "answer_report",
+          "text": "«Ho letto il rapporto di sopralluogo sullo scaffale aperto. La nota a margine non suonava rassicurante.»",
+          "conditions": {
+            "path": "world.flags.ferrox_survey_report_read",
+            "eq": true
+          },
+          "goto": "steven_notes_survey"
+        },
+        {
+          "id": "answer_generic",
+          "text": "«Volevo capire come è messa l'industria di questa fascia prima di muovermi oltre.»",
+          "goto": "steven_notes_generic"
+        }
+      ]
+    },
+    "steven_notes_old_maps": {
+      "stitches": [
+        {
+          "id": "notes_old_maps_1",
+          "text": "«Hai letto il punto giusto. Le gallerie dismesse non sono una curiosità storica: sono una variabile tecnica. Se qualcuno riaprisse una diramazione per fretta operativa, il margine di sicurezza perderebbe un piano. Non è un allarme — è ingegneria.»"
+        },
+        {
+          "id": "notes_old_maps_2",
+          "text": "Non ti chiede di agire, non ti consegna un dossier. Ti considera un lettore della stessa pagina. Prende nota mentale e termina la conversazione tecnica con una frase che non è né promessa né minaccia: «Se Ferravia dovesse chiedere competenza esterna, probabilmente sarò ancora in zona.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "steven_notes_back_old",
+          "text": "Lo saluto e torno al banco.",
+          "goto": "post_steven_hub",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Steven",
+              "key": "respects_player_insight",
+              "value": true
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Steven",
+              "delta": 10
+            }
+          ]
+        }
+      ]
+    },
+    "steven_notes_survey": {
+      "stitches": [
+        {
+          "id": "notes_survey_1",
+          "text": "«Il rapporto di sopralluogo. Firma di un ingegnere che lavora bene. La nota a margine è un classico — competenza che si confronta con priorità trimestrali. Non è corruzione, è gestione. Però lascia uno spazio di rischio che qualcuno dovrà prima o poi colmare.»"
+        },
+        {
+          "id": "notes_survey_2",
+          "text": "Non ti chiede di esporti; non ti elogia nemmeno. Trattiene il tono di qualcuno che registra che hai saputo scegliere un documento rilevante da uno scaffale pieno. «Se ti ritroverò nella zona tecnica, immagino non per caso.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "steven_notes_back_survey",
+          "text": "Lo saluto e torno al banco.",
+          "goto": "post_steven_hub",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Steven",
+              "key": "respects_player_insight",
+              "value": true
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Steven",
+              "delta": 8
+            }
+          ]
+        }
+      ]
+    },
+    "steven_notes_generic": {
+      "stitches": [
+        {
+          "id": "notes_generic_1",
+          "text": "«Risposta corretta. La zona industriale non è un paesaggio di sfondo — è un sistema. Più la leggi come sistema, più ti torna utile.» Non ti consegna informazioni che non hai cercato. Riconosce la risposta come ragionevole, senza elogiarla."
+        },
+        {
+          "id": "notes_generic_2",
+          "text": "La conversazione termina sobria. Steven annota qualcosa sulla cartella rigida, saluta l'archivista con un cenno, e torna allo scaffale — ha altro da fare. Non è stato un incontro drammatico. È stato un incontro reale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "steven_notes_back_generic",
+          "text": "Lo saluto e torno al banco.",
+          "goto": "post_steven_hub",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Steven",
+              "key": "neutral_contact",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "silent_observation": {
+      "stitches": [
+        {
+          "id": "silent_1",
+          "text": "Resti vicino allo scaffale e osservi. Steven parla a bassa voce con l'archivista di una collocazione — chiede una cartella del 1991, prende un paio di note, non alza mai il tono. Non ti fissa, non ti ignora: ti registra come lettore presente, nulla di più."
+        },
+        {
+          "id": "silent_2",
+          "text": "Prima di andarsene, prende dallo scaffale la stessa edizione 1987 che hai consultato tu, la sfoglia per trenta secondi, la rimette con cura. Esce con il saluto all'archivista. Niente scambio diretto con te — ma la tua presenza non gli è sfuggita."
+        }
+      ],
+      "choices": [
+        {
+          "id": "silent_follow_outside",
+          "text": "Lo seguo fuori per decidere con calma se avvicinarlo.",
+          "goto": "silent_outside"
+        },
+        {
+          "id": "silent_stay_in_archive",
+          "text": "Lo lascio andare e resto dentro.",
+          "goto": "post_steven_hub",
+          "effects": [
+            { "type": "set_flag", "key": "steven_observed_silently", "value": true }
+          ]
+        }
+      ]
+    },
+    "silent_outside": {
+      "stitches": [
+        {
+          "id": "outside_1",
+          "text": "Fuori l'aria è più fresca. Steven è già a venti metri, direzione officina. Non si volta, ma rallenta leggermente in corrispondenza di un incrocio, come se lasciasse spazio a chi lo seguisse di decidere. Non ti chiama."
+        }
+      ],
+      "choices": [
+        {
+          "id": "catch_up_and_introduce",
+          "text": "Lo raggiungo e mi presento.",
+          "timeCostMinutes": 5,
+          "goto": "introduction_exchange",
+          "effects": [
+            {
+              "type": "npc_register",
+              "npcId": "Steven",
+              "name": "Steven Stone",
+              "relationshipScore": 0,
+              "state": {
+                "introduced": true,
+                "context": "ferravia_street",
+                "role": "technical_observer"
+              }
+            },
+            { "type": "set_flag", "key": "steven_met", "value": true }
+          ]
+        },
+        {
+          "id": "let_him_go",
+          "text": "Lo lascio andare — non è il momento.",
+          "goto": "post_steven_hub",
+          "effects": [
+            { "type": "set_flag", "key": "steven_observed_silently", "value": true },
+            { "type": "set_flag", "key": "steven_declined_contact", "value": true }
+          ]
+        }
+      ]
+    },
+    "post_steven_hub": {
+      "stitches": [
+        {
+          "id": "post_1",
+          "text": "L'archivista chiude il registro delle consultazioni e ti saluta. Fuori Ferravia continua la sua giornata: officine aperte, Arena operativa, treni che portano materiale verso la cava. L'incontro — avvenuto o declinato — è registrato nel tuo stato di gioco e condizionerà il modo in cui M3 continuerà a leggerti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "post_back_city_hub",
+          "text": "Torno nel centro città.",
+          "goto": "m03-ferravia-arrival#city_hub",
+          "effects": [
+            { "type": "set_location", "locationId": "fer_city" }
+          ]
+        }
+      ]
+    }
+  }
+}
