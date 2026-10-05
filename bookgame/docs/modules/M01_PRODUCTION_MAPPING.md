@@ -71,7 +71,7 @@ The graph is reconvergent, not linear. The player may move repeatedly between Gi
 | M1_12_FIVE_ROADS | friends diverge and schedules update | 250 | 150 | COMPLETE |
 | M1_13_TRIAL_REGISTRATION | gate eligibility and preparation | 160 | 90 | COMPLETE |
 | M1_14_PROMOTION_TRIAL_F_E | official F→E trial | 200 | 110 | COMPLETE |
-| M1_15_TRIAL_RESULT | win/loss/retry/callback consequences | 347 | 96 | IMPLEMENTED / E5 + PERSISTENCE WIRED |
+| M1_15_TRIAL_RESULT | win/loss/retry/callback consequences | 347 | 96 | COMPLETE |
 | **TOTAL** |  | **5,047** | **3,116** | |
 
 Budget means authored production capacity, not that one playthrough sees every stitch or choice.
@@ -769,6 +769,20 @@ Blue/friends are not automatically used as gate opponent.
 - second Pokémon;
 - failed/expired jobs;
 - world-pressure state.
+
+**Implementation lock:**
+
+- a Trial loss records the real E5 attempt/history result, keeps Rank F, clears active registration only as required by the retry lifecycle, and leaves `RANK_F_TO_E` available for another legal registration;
+- loss never performs a narrative heal/reset: persisted HP, PP, non-volatile status and other combat state come only from the Pokémon 5e resolver and remain available to later battles/services;
+- free-roam, healing and retry are all valid post-loss routes; choosing free-roam does not erase the failed attempt or pause world/NPC progression;
+- a later retry uses the same M1_14 gate and a win records the second attempt honestly, sets the structured competition Rank to E and closes the checkpoint with `bestResult=win`;
+- Rank E access is reachable from the result screen and from Valedarsena free-roam, but Rank E alone does not fabricate completion of remaining mandatory story beats;
+- formal M1 completion / M02 unlock requires the complete exit contract: structured Rank E, `blue_met=true`, `friend_beat_01_complete=true`, and `friends_split=true`;
+- if any required beat is still missing, Rank E remains valid while `m1_complete` and `m02_unlocked` stay unset; the player is routed back to live free-roam rather than receiving a fake completion;
+- the canonical Rank E trigger may itself resolve `A1_FIVE_ROADS`, so Five Roads can legitimately satisfy the split requirement before the final exit screen;
+- once the exit contract is satisfied, `unlock_m02` sets only `m1_complete=true` and `m02_unlocked=true`; it does not reset quests, ecology, money, roster, second-Pokémon provenance, relationships, Blue/Friend callbacks, First Official history, world pressure or NPC schedules;
+- all final completion state and preserved callbacks survive save/reload exactly;
+- dedicated M1_15 regression tests cover loss, retry→win, premature Rank E exit blocking, independent mandatory-beat gates, preserved callbacks, M02 unlock and final persistence.
 
 ---
 
