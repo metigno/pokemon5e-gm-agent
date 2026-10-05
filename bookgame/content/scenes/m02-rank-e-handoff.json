@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "id": "m02-rank-e-handoff",
+  "moduleId": "M02",
+  "title": "M2_00 — Fascia Rank E",
+  "locationId": "valedarsena_city",
+  "conditions": {
+    "all": [
+      { "path": "world.flags.m1_complete", "eq": true },
+      { "path": "world.flags.m02_unlocked", "eq": true },
+      { "path": "competition.rank", "eq": "E" }
+    ]
+  },
+  "nodes": {
+    "rank_e_world": {
+      "stitches": [
+        {
+          "id": "rank_confirmed",
+          "text": "Il Circuito Asteria registra Rank E. La fascia di accesso ora include: Bosco Bruma (AST-MISTWOOD), Colline Aspre (AST-HILLS), la Cava (AST-QUARRY), Borgo Salice (SAL-TOWN), il Lago Astera (AST-LAKE) e il Lago Lacustre (LAC-LAKE)."
+        },
+        {
+          "id": "m1_preserved",
+          "text": "Lo stato accumulato in M1 è intatto: roster, HP, PP, condizioni, inventario, denaro, quest, relazioni NPC, orario, risultati competitivi, FRIEND_BEAT_01 e tutti i callback ambientali viaggiano intatti nella nuova fascia."
+        },
+        {
+          "id": "living_world_continues",
+          "text": "Il mondo continua a muoversi. Gli altri trainer si spostano, le competizioni si risolvono fuori scena, le opportunità nascono e scompaiono in base al tempo reale di gioco. Nessun evento di M2 si attiva automaticamente: il territorio Rank E si apre, ma è il giocatore a decidere quando e verso dove muoversi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "confirm_rank_e_active",
+          "text": "Registro ufficialmente l'apertura della fascia Rank E e avvio M2.",
+          "conditions": {
+            "path": "world.flags.m2_active",
+            "ne": true
+          },
+          "goto": "access_band_open",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m2_active",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "already_active",
+          "text": "M2 è già attivo. Rivedo la fascia di accesso confermata.",
+          "conditions": {
+            "path": "world.flags.m2_active",
+            "eq": true
+          },
+          "goto": "access_band_open"
+        }
+      ]
+    },
+    "access_band_open": {
+      "stitches": [
+        {
+          "id": "band_confirmed",
+          "text": "Fascia Rank E confermata e registrata nel Circuito. Bosco Bruma è il primo nodo M2 raggiungibile; il viaggio richiede una scelta esplicita del giocatore — il motore non ti sposta automaticamente in nessun luogo."
+        },
+        {
+          "id": "no_premature_m2",
+          "text": "N non è ancora stato introdotto. La rete di catture illegali non è attiva. FRIEND_BEAT_02 non è partito. Il Rookie Invitational e il Trial Rank E→D non sono registrati. Nessuna risorsa è stata modificata, nessuna quest è stata silenziata o avviata."
+        },
+        {
+          "id": "callbacks_intact",
+          "text": "I callback di M1 — esito Houndour, stato Valedarsena, relazione con Blue, relazione con Ranger Elio, FRIEND_BEAT_01, identità e provenienza del secondo Pokémon, stato della pressione mondiale, storia competitiva e FRIEND_BEAT risultato — sono disponibili per lettura da tutti i nodi di M2."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_to_valedarsena",
+          "text": "Per ora resto a Valedarsena.",
+          "goto": "m01-valedarsena-first-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

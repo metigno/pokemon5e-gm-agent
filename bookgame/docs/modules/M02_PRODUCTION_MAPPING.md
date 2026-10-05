@@ -53,7 +53,7 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 
 | Block | Function | Stitches | Choices | Current state |
 |---|---|---:|---:|---|
-| M2_00_RANK_E_HANDOFF | ereditare integralmente M1 e aprire la fascia Rank E | 286 | 186 | PLANNED |
+| M2_00_RANK_E_HANDOFF | ereditare integralmente M1 e aprire la fascia Rank E | 286 | 186 | COMPLETE |
 | M2_01_MISTWOOD_ENTRY | primo ingresso a Bosco Bruma, viaggio, nebbia e fauna contestuale | 286 | 186 | PLANNED |
 | M2_02_CAPTURE_SIGNS | indizi di cattura illegale senza rendere il crimine automaticamente evidente | 337 | 218 | PLANNED |
 | M2_03_BORGO_SALICE | hub locale, Ranger, servizi, voci e Sala Verde | 336 | 218 | PLANNED |
@@ -111,6 +111,9 @@ A content gap is not permission to implement a second engine.
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+**Implementation lock (verified 2026-10-05):**
+Scene `m02-rank-e-handoff` (moduleId M02) requires all three canonical entry conditions at scene level: `m1_complete=true`, `m02_unlocked=true`, `competition.rank=E`. Any attempt to access the scene — via `present()` or `choose()` — from illegal state throws "Scene conditions are not satisfied". The idempotent activation flag `m2_active` is set by the `confirm_rank_e_active` choice (condition: `m2_active ne true`); re-entry uses `already_active` without re-firing effects. No state is modified on entry except `m2_active=true`. All M01 callbacks, roster, resources, NPC schedules, world time, quest history, and competition state are preserved verbatim. The Rank E access band (AST-MISTWOOD, AST-HILLS, AST-QUARRY, SAL-TOWN, AST-LAKE, LAC-LAKE) is confirmed via narration only — no engine mutation. N, poaching network, FRIEND_BEAT_02, Rookie Invitational, E→D Trial, and Rank D promotion are not triggered. Verified by 17 dedicated regressions (all pass) plus 260 existing M01 regressions (all pass, zero regressions).
 
 ---
 

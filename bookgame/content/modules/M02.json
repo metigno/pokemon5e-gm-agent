@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 1,
+  "id": "M02",
+  "title": "Sotto la Nebbia",
+  "targets": {
+    "stitches": 5700,
+    "choices": 3700
+  },
+  "progressionRole": "rank-e-band",
+  "designDocument": "docs/modules/M02_SOTTO_LA_NEBBIA_MODULE_DESIGN.md",
+  "mappingDocument": "docs/modules/M02_PRODUCTION_MAPPING.md",
+  "requiredBeats": [
+    "M2_00_RANK_E_HANDOFF",
+    "M2_01_MISTWOOD_ENTRY",
+    "M2_02_CAPTURE_SIGNS",
+    "M2_03_BORGO_SALICE",
+    "M2_04_N_ENTERS",
+    "M2_05_RANGER_THREAD",
+    "M2_06_MARSH_APPROACH",
+    "M2_07_POACHING_NETWORK",
+    "M2_08_FRIEND_BEAT_02",
+    "M2_09_ROOKIE_INVITATIONAL",
+    "M2_10_CRISIS_MOVES",
+    "M2_11_NETWORK_OUTCOME",
+    "M2_12_TRIAL_REGISTRATION",
+    "M2_13_PROMOTION_TRIAL_E_D",
+    "M2_14_TRIAL_RESULT"
+  ],
+  "blocks": [
+    {
+      "id": "M2_00_RANK_E_HANDOFF",
+      "title": "Rank E Handoff",
+      "targets": {
+        "stitches": 286,
+        "choices": 186
+      }
+    },
+    {
+      "id": "M2_01_MISTWOOD_ENTRY",
+      "title": "Mistwood Entry",
+      "targets": {
+        "stitches": 286,
+        "choices": 186
+      }
+    },
+    {
+      "id": "M2_02_CAPTURE_SIGNS",
+      "title": "Capture Signs",
+      "targets": {
+        "stitches": 337,
+        "choices": 218
+      }
+    },
+    {
+      "id": "M2_03_BORGO_SALICE",
+      "title": "Borgo Salice",
+      "targets": {
+        "stitches": 336,
+        "choices": 218
+      }
+    },
+    {
+      "id": "M2_04_N_ENTERS",
+      "title": "N Enters",
+      "targets": {
+        "stitches": 336,
+        "choices": 218
+      }
+    },
+    {
+      "id": "M2_05_RANGER_THREAD",
+      "title": "Ranger Thread",
+      "targets": {
+        "stitches": 336,
+        "choices": 218
+      }
+    },
+    {
+      "id": "M2_06_MARSH_APPROACH",
+      "title": "Marsh Approach",
+      "targets": {
+        "stitches": 336,
+        "choices": 218
+      }
+    },
+    {
+      "id": "M2_07_POACHING_NETWORK",
+      "title": "Poaching Network",
+      "targets": {
+        "stitches": 488,
+        "choices": 317
+      }
+    },
+    {
+      "id": "M2_08_FRIEND_BEAT_02",
+      "title": "Friend Beat 02",
+      "targets": {
+        "stitches": 488,
+        "choices": 317
+      }
+    },
+    {
+      "id": "M2_09_ROOKIE_INVITATIONAL",
+      "title": "Rookie Invitational",
+      "targets": {
+        "stitches": 336,
+        "choices": 218
+      }
+    },
+    {
+      "id": "M2_10_CRISIS_MOVES",
+      "title": "Crisis Moves",
+      "targets": {
+        "stitches": 336,
+        "choices": 218
+      }
+    },
+    {
+      "id": "M2_11_NETWORK_OUTCOME",
+      "title": "Network Outcome",
+      "targets": {
+        "stitches": 437,
+        "choices": 284
+      }
+    },
+    {
+      "id": "M2_12_TRIAL_REGISTRATION",
+      "title": "Trial Registration",
+      "targets": {
+        "stitches": 437,
+        "choices": 284
+      }
+    },
+    {
+      "id": "M2_13_PROMOTION_TRIAL_E_D",
+      "title": "Promotion Trial E→D",
+      "targets": {
+        "stitches": 488,
+        "choices": 316
+      }
+    },
+    {
+      "id": "M2_14_TRIAL_RESULT",
+      "title": "Trial Result",
+      "targets": {
+        "stitches": 437,
+        "choices": 284
+      }
+    }
+  ]
+}
