@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "M03",
+  "title": "M03 (stub)",
+  "targets": {
+    "stitches": 1,
+    "choices": 1
+  },
+  "progressionRole": "rank-d-band",
+  "requiredBeats": []
+}

@@ -2,13 +2,14 @@
   "schemaVersion": 1,
   "id": "m02-promotion-trial-e-d",
   "moduleId": "M02",
-  "title": "M2_13 — Promotion Trial E→D (stub)",
+  "title": "M2_13 — Promotion Trial E→D",
   "locationId": "borgo_salice_arena",
   "entryNodeId": "trial_gate_call",
   "conditions": {
     "all": [
       { "path": "world.flags.m1_complete", "eq": true },
       { "path": "world.flags.m02_unlocked", "eq": true },
+      { "path": "world.flags.m2_active", "eq": true },
       { "path": "competition.rank", "eq": "E" },
       { "path": "competition.trials.RANK_E_TO_D.registered", "eq": true }
     ]
@@ -18,19 +19,105 @@
       "stitches": [
         {
           "id": "gate_1",
-          "text": "STUB — M2_13 non ancora implementato."
+          "text": "L'ingresso dell'arena porta il simbolo del Circuito Asteria. Il tabellone mostra il tuo nome — la registrazione è confermata. Il Trial E→D è assegnato alla pista laterale, separate dall'arena principale."
+        },
+        {
+          "id": "gate_2",
+          "text": "Ad attenderti non c'è un avversario della tua stessa fascia. C'è Ines Varga, esaminatrice certificata del Circuito da cinque anni. Il suo roster è fisso, il campo è neutro, il risultato appartiene al combattimento."
         }
       ],
       "choices": [
         {
-          "id": "back_to_sala",
-          "text": "Torna alla Sala Verde.",
-          "goto": "m02-borgo-salice#sala_verde",
-          "effects": [
-            { "type": "set_location", "locationId": "borgo_salice_sala_verde" }
-          ]
+          "id": "approach_ines",
+          "text": "Mi avvicino a Ines per il briefing finale.",
+          "goto": "trial_ines_briefing"
+        },
+        {
+          "id": "withdraw_before_briefing",
+          "text": "Non sono pronto — torno alla registrazione.",
+          "goto": "m02-trial-registration#trial_registered"
         }
       ]
+    },
+
+    "trial_ines_briefing": {
+      "stitches": [
+        {
+          "id": "briefing_1",
+          "text": "Ines Varga non sorride. Ti osserva mentre ti avvicini con l'attenzione di chi sta già valutando. «Il tuo Official Three è nel sistema. Io ho il mio roster. Niente di tutto questo cambia tra un tentativo e il successivo.»"
+        },
+        {
+          "id": "briefing_2",
+          "text": "«Il formato è Singles. Un Pokémon attivo per volta. Puoi cambiare — ma ogni cambio ha un costo. Non ti sto cercando di sopraffare. Ti sto aspettando sbagliare.» Indica il campo. «Quando sei pronto.»"
+        },
+        {
+          "id": "briefing_roster",
+          "text": "Sul registro compaiono tre Pokémon fissi: Growlithe, Roselia e Sableye. Nessuno cambia livello in base alla tua squadra — il Trial usa un roster autoriale stabile e difficoltà HARD."
+        }
+      ],
+      "choices": [
+        {
+          "id": "begin_trial",
+          "text": "Confermo il roster e inizio il Promotion Trial E→D.",
+          "combat": {
+            "encounterId": "A2_RANK_TRIAL_E_D",
+            "opponentTrainerId": "SAL_GATE_E_D_INES_VARGA",
+            "opponent": {
+              "species": "Growlithe",
+              "level": 5,
+              "abilityId": "intimidate",
+              "trainerId": "SAL_GATE_E_D_INES_VARGA"
+            },
+            "opponentBench": [
+              {
+                "species": "Roselia",
+                "level": 5,
+                "abilityId": "natural-cure",
+                "trainerId": "SAL_GATE_E_D_INES_VARGA"
+              },
+              {
+                "species": "Sableye",
+                "level": 4,
+                "abilityId": "keen-eye",
+                "trainerId": "SAL_GATE_E_D_INES_VARGA"
+              }
+            ],
+            "opponentRegistered": true,
+            "goto": "trial_combat_handoff",
+            "returnNodes": {
+              "win": "m02-trial-result#trial_win",
+              "lose": "m02-trial-result#trial_loss"
+            },
+            "competition": {
+              "type": "promotion_trial",
+              "matchId": "A2_RANK_TRIAL_E_D",
+              "checkpointId": "RANK_E_TO_D",
+              "fromRank": "E",
+              "toRank": "D",
+              "format": "Singles",
+              "officialRosterSize": 3,
+              "difficulty": "HARD",
+              "retryable": true,
+              "opponentTrainerId": "SAL_GATE_E_D_INES_VARGA"
+            }
+          }
+        },
+        {
+          "id": "withdraw_before_start",
+          "text": "Non inizio ancora — torno alla registrazione.",
+          "goto": "m02-trial-registration#trial_registered"
+        }
+      ]
+    },
+
+    "trial_combat_handoff": {
+      "stitches": [
+        {
+          "id": "handoff_1",
+          "text": "L'arbitro chiude il gate e passa il controllo al risolutore Pokémon 5e. Il tuo Official Three e il roster fisso di Ines vengono usati realmente. Nessun vincitore è deciso dallo script."
+        }
+      ],
+      "choices": []
     }
   }
 }
