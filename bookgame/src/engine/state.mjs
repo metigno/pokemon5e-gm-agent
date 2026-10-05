@@ -47,6 +47,7 @@ export function createNewGameState({
     events: {},
     competition: createCompetitionState(),
     ecology: { history: [], lastEncounter: null },
+    shops: {},
     npcs: {
       Mattew: createPersistentNpc({ id: "Mattew", name: "Mattew" }),
       Daniel: createPersistentNpc({ id: "Daniel", name: "Daniel" }),
