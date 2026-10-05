@@ -1,0 +1,1918 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "M01",
+  "id": "m01-blue-enters",
+  "title": "Blue entra nel Circuito",
+  "locationId": "valedarsena_city",
+  "entryNodeId": "arena_intro",
+  "nodes": {
+    "arena_intro": {
+      "stitches": [
+        {
+          "id": "arena_blue_seen",
+          "text": "Vicino alla linea laterale dell'Arena Civica un ragazzo con uno Squirtle controlla turni, distanze e tempi come se ogni minuto fosse già parte di una classifica."
+        },
+        {
+          "id": "arena_blue_measure",
+          "text": "Blue ti riconosce come un altro rookie del circuito. Non fa il simpatico e non cerca un nemico: vuole capire in fretta se sei uno che sa davvero cosa sta facendo."
+        },
+        {
+          "id": "arena_blue_choice",
+          "text": "Puoi trasformare l'incrocio in conversazione, confronto tecnico, provocazione leggera o niente di più di un cenno. Nessuna di queste strade richiede di batterlo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "talk",
+          "text": "Gli parlo senza fare scena.",
+          "goto": "arena_talk",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "blue_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_relationship_state",
+              "value": "measured"
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_m1_result_context",
+              "value": "conversation"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_blue_intro_complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "met",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "relationshipContext",
+              "value": "measured"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "resultContext",
+              "value": "conversation"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Blue",
+              "delta": 4
+            }
+          ]
+        },
+        {
+          "id": "ignore",
+          "text": "Ricambio appena il cenno e continuo per conto mio.",
+          "goto": "arena_exit",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "blue_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_relationship_state",
+              "value": "distant"
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_m1_result_context",
+              "value": "brief_recognition"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_blue_intro_complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "met",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "relationshipContext",
+              "value": "distant"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "resultContext",
+              "value": "brief_recognition"
+            }
+          ]
+        },
+        {
+          "id": "compete_verbally",
+          "text": "Gli faccio capire che non sono qui per fare presenza.",
+          "goto": "arena_verbal",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "blue_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_relationship_state",
+              "value": "competitive"
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_m1_result_context",
+              "value": "verbal_competition"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_blue_intro_complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "met",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "relationshipContext",
+              "value": "competitive"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "resultContext",
+              "value": "verbal_competition"
+            }
+          ]
+        },
+        {
+          "id": "ask_information",
+          "text": "Gli chiedo cosa sta controllando sul tabellone.",
+          "goto": "arena_info",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "blue_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_relationship_state",
+              "value": "technical"
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_m1_result_context",
+              "value": "information_exchange"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_blue_intro_complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "met",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "relationshipContext",
+              "value": "technical"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "resultContext",
+              "value": "information_exchange"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Blue",
+              "delta": 2
+            }
+          ]
+        },
+        {
+          "id": "offer_spar",
+          "text": "Gli propongo di misurarci davvero con uno sparring da rookie.",
+          "goto": "arena_match_offer",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "blue_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_relationship_state",
+              "value": "competitive"
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_m1_result_context",
+              "value": "spar_offered"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_blue_intro_complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "met",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "relationshipContext",
+              "value": "competitive"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "resultContext",
+              "value": "spar_offered"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Blue",
+              "delta": 1
+            }
+          ]
+        },
+        {
+          "id": "leave",
+          "text": "Lascio che l'incrocio resti soltanto un primo riconoscimento.",
+          "goto": "arena_exit",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "blue_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_relationship_state",
+              "value": "distant"
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_m1_result_context",
+              "value": "brief_recognition"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_blue_intro_complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "met",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "relationshipContext",
+              "value": "distant"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "resultContext",
+              "value": "brief_recognition"
+            }
+          ]
+        }
+      ]
+    },
+    "arena_talk": {
+      "stitches": [
+        {
+          "id": "arena_talk_read",
+          "text": "Blue non spreca tempo con presentazioni lunghe. Ti chiede che tipo di allenatore vuoi diventare e ascolta la risposta soprattutto per capire se sai distinguere intenzione e risultato."
+        },
+        {
+          "id": "arena_talk_not_friend",
+          "text": "Il tono resta competitivo. Non è amicizia automatica e non è ostilità automatica: è un primo metro di giudizio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno alle attività dell'Arena.",
+          "goto": "m01-valedarsena-first-arrival#arena_front",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_arena"
+            }
+          ]
+        }
+      ]
+    },
+    "arena_verbal": {
+      "stitches": [
+        {
+          "id": "arena_verbal",
+          "text": "Blue sorride appena. «Meglio. Almeno non hai iniziato dicendo che vincerai tutto.» La risposta è una provocazione, ma anche un invito a dimostrare le parole sul campo quando avrà senso farlo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "spar",
+          "text": "Allora proponiamo uno sparring.",
+          "goto": "arena_match_offer"
+        },
+        {
+          "id": "back",
+          "text": "Per ora basta così.",
+          "goto": "m01-valedarsena-first-arrival#arena_front",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_arena"
+            }
+          ]
+        }
+      ]
+    },
+    "arena_info": {
+      "stitches": [
+        {
+          "id": "arena_info",
+          "text": "Blue indica il ritmo degli incontri, i requisiti del Promotion Trial e il modo in cui i rookie vengono chiamati. Non ti regala una scorciatoia: ti dà informazioni che chiunque può verificare, solo con più precisione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Lo ringrazio e torno al tabellone.",
+          "goto": "m01-valedarsena-first-arrival#arena_front",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_arena"
+            }
+          ]
+        }
+      ]
+    },
+    "arena_match_offer": {
+      "stitches": [
+        {
+          "id": "arena_match_terms",
+          "text": "Blue accetta soltanto se resta uno sparring reale: un Pokémon per parte, nessun risultato concordato e nessun valore ufficiale nel Circuito."
+        },
+        {
+          "id": "arena_squirtle",
+          "text": "Fa un cenno a Squirtle. È ancora un team da rookie, non l'ombra anticipata di un roster futuro."
+        }
+      ],
+      "choices": [
+        {
+          "id": "accept_spar",
+          "text": "Accetto lo sparring.",
+          "combat": {
+            "encounterId": "M1_BLUE_SPAR_001",
+            "opponent": {
+              "species": "Squirtle",
+              "level": 5,
+              "motive": "rookie_sparring"
+            },
+            "opponentRegistered": true,
+            "goto": "arena_match_handoff",
+            "returnNodes": {
+              "win": "arena_match_win",
+              "lose": "arena_match_loss"
+            }
+          }
+        },
+        {
+          "id": "decline_spar",
+          "text": "Non adesso. Non devo dimostrare tutto in questo momento.",
+          "goto": "m01-valedarsena-first-arrival#arena_front",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_arena"
+            }
+          ]
+        }
+      ]
+    },
+    "arena_match_handoff": {
+      "stitches": [
+        {
+          "id": "arena_match_pending",
+          "text": "Lo sparring passa al resolver Pokémon 5e. La scena non decide chi vince."
+        }
+      ],
+      "choices": []
+    },
+    "arena_match_win": {
+      "stitches": [
+        {
+          "id": "arena_match_win_text",
+          "text": "Lo sparring finisce a tuo favore. Blue guarda prima Squirtle, poi te. Non cerca una scusa e non trasforma una sconfitta da rookie in una resa della propria traiettoria."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record_win",
+          "text": "Chiudo lo sparring e torno all'Arena.",
+          "goto": "m01-valedarsena-first-arrival#arena_front",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "blue_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_relationship_state",
+              "value": "competitive_respect"
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_m1_result_context",
+              "value": "spar_win"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_blue_intro_complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "met",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "relationshipContext",
+              "value": "competitive_respect"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "resultContext",
+              "value": "spar_win"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Blue",
+              "delta": 4
+            },
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_arena"
+            }
+          ]
+        }
+      ]
+    },
+    "arena_match_loss": {
+      "stitches": [
+        {
+          "id": "arena_match_loss_text",
+          "text": "Lo sparring finisce a favore di Blue. «Meglio di quanto pensavo,» dice, senza fingere che la vittoria chiuda il discorso. È un risultato reale, non un gate narrativo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record_loss",
+          "text": "Accetto il risultato e torno all'Arena.",
+          "goto": "m01-valedarsena-first-arrival#arena_front",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "blue_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_relationship_state",
+              "value": "competitive_respect"
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_m1_result_context",
+              "value": "spar_loss"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_blue_intro_complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "met",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "relationshipContext",
+              "value": "competitive_respect"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "resultContext",
+              "value": "spar_loss"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Blue",
+              "delta": 3
+            },
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_arena"
+            }
+          ]
+        }
+      ]
+    },
+    "arena_exit": {
+      "stitches": [
+        {
+          "id": "arena_exit_text",
+          "text": "Blue torna al suo programma e tu al tuo. Il Circuito non congela nessuno dei due perché il primo incontro è stato breve."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno alle attività dell'Arena.",
+          "goto": "m01-valedarsena-first-arrival#arena_front",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_arena"
+            }
+          ]
+        }
+      ]
+    },
+    "center_intro": {
+      "stitches": [
+        {
+          "id": "center_blue_seen",
+          "text": "Al Centro Pokémon Blue aspetta che Squirtle venga controllato e nel frattempo confronta tempi e appuntamenti sul terminale del Circuito."
+        },
+        {
+          "id": "center_blue_context",
+          "text": "Qui non c'è un campo da occupare: il primo contatto può restare pratico, tecnico o appena accennato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "talk",
+          "text": "Gli parlo.",
+          "goto": "center_talk",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "blue_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_relationship_state",
+              "value": "measured"
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_m1_result_context",
+              "value": "conversation"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_blue_intro_complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "met",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "relationshipContext",
+              "value": "measured"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "resultContext",
+              "value": "conversation"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Blue",
+              "delta": 4
+            }
+          ]
+        },
+        {
+          "id": "ignore",
+          "text": "Lo lascio al suo programma.",
+          "goto": "center_exit",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "blue_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_relationship_state",
+              "value": "distant"
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_m1_result_context",
+              "value": "brief_recognition"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_blue_intro_complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "met",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "relationshipContext",
+              "value": "distant"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "resultContext",
+              "value": "brief_recognition"
+            }
+          ]
+        },
+        {
+          "id": "compete_verbally",
+          "text": "Gli dico che lo rivedrò in classifica.",
+          "goto": "center_verbal",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "blue_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_relationship_state",
+              "value": "competitive"
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_m1_result_context",
+              "value": "verbal_competition"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_blue_intro_complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "met",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "relationshipContext",
+              "value": "competitive"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "resultContext",
+              "value": "verbal_competition"
+            }
+          ]
+        },
+        {
+          "id": "ask_information",
+          "text": "Gli chiedo come sta organizzando la giornata.",
+          "goto": "center_info",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "blue_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_relationship_state",
+              "value": "technical"
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_m1_result_context",
+              "value": "information_exchange"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_blue_intro_complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "met",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "relationshipContext",
+              "value": "technical"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "resultContext",
+              "value": "information_exchange"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Blue",
+              "delta": 2
+            }
+          ]
+        },
+        {
+          "id": "leave",
+          "text": "Esco senza trasformare l'incontro in altro.",
+          "goto": "center_exit",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "blue_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_relationship_state",
+              "value": "distant"
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_m1_result_context",
+              "value": "brief_recognition"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_blue_intro_complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "met",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "relationshipContext",
+              "value": "distant"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "resultContext",
+              "value": "brief_recognition"
+            }
+          ]
+        }
+      ]
+    },
+    "center_talk": {
+      "stitches": [
+        {
+          "id": "center_talk_text",
+          "text": "Blue parla di recupero, tempi morti e preparazione come parti della competizione. Non cerca di impressionarti: per lui sono già lavoro normale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno al Centro.",
+          "goto": "m01-valedarsena-first-arrival#center",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_center"
+            }
+          ]
+        }
+      ]
+    },
+    "center_verbal": {
+      "stitches": [
+        {
+          "id": "center_verbal_text",
+          "text": "«Allora arrivaci,» risponde Blue. La frase resta competitiva ma non diventa una sfida obbligatoria."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno al Centro.",
+          "goto": "m01-valedarsena-first-arrival#center",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_center"
+            }
+          ]
+        }
+      ]
+    },
+    "center_info": {
+      "stitches": [
+        {
+          "id": "center_info_text",
+          "text": "Blue ti spiega che sta alternando Arena, recupero e lavoro pratico per non dipendere da un solo tipo di esperienza. È informazione utile, non una quest assegnata."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno al Centro.",
+          "goto": "m01-valedarsena-first-arrival#center",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_center"
+            }
+          ]
+        }
+      ]
+    },
+    "center_exit": {
+      "stitches": [
+        {
+          "id": "center_exit_text",
+          "text": "Il turno di Blue procede e il tuo resta libero. Esservi riconosciuti non vi obbliga a fare strada insieme."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Resto al Centro.",
+          "goto": "m01-valedarsena-first-arrival#center",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_center"
+            }
+          ]
+        }
+      ]
+    },
+    "shop_intro": {
+      "stitches": [
+        {
+          "id": "shop_blue_seen",
+          "text": "Nel Trainer Shop Blue controlla lo stock prima di spendere. Non compra per posa: confronta ciò che può usare subito con quello che può rimandare."
+        },
+        {
+          "id": "shop_blue_context",
+          "text": "Ti riconosce e alza appena un sopracciglio, come se anche il modo in cui prepari la borsa dicesse qualcosa sul tuo livello."
+        }
+      ],
+      "choices": [
+        {
+          "id": "talk",
+          "text": "Gli parlo della preparazione.",
+          "goto": "shop_talk",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "blue_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_relationship_state",
+              "value": "measured"
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_m1_result_context",
+              "value": "conversation"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_blue_intro_complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "met",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "relationshipContext",
+              "value": "measured"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "resultContext",
+              "value": "conversation"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Blue",
+              "delta": 4
+            }
+          ]
+        },
+        {
+          "id": "ignore",
+          "text": "Continuo con i miei acquisti.",
+          "goto": "shop_exit",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "blue_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_relationship_state",
+              "value": "distant"
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_m1_result_context",
+              "value": "brief_recognition"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_blue_intro_complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "met",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "relationshipContext",
+              "value": "distant"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "resultContext",
+              "value": "brief_recognition"
+            }
+          ]
+        },
+        {
+          "id": "compete_verbally",
+          "text": "Gli dico che preferisco farmi giudicare sul campo.",
+          "goto": "shop_verbal",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "blue_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_relationship_state",
+              "value": "competitive"
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_m1_result_context",
+              "value": "verbal_competition"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_blue_intro_complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "met",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "relationshipContext",
+              "value": "competitive"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "resultContext",
+              "value": "verbal_competition"
+            }
+          ]
+        },
+        {
+          "id": "ask_information",
+          "text": "Gli chiedo cosa considera davvero indispensabile per un rookie.",
+          "goto": "shop_info",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "blue_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_relationship_state",
+              "value": "technical"
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_m1_result_context",
+              "value": "information_exchange"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_blue_intro_complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "met",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "relationshipContext",
+              "value": "technical"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "resultContext",
+              "value": "information_exchange"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Blue",
+              "delta": 2
+            }
+          ]
+        },
+        {
+          "id": "leave",
+          "text": "Esco senza fermarmi.",
+          "goto": "shop_exit",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "blue_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_relationship_state",
+              "value": "distant"
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_m1_result_context",
+              "value": "brief_recognition"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_blue_intro_complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "met",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "relationshipContext",
+              "value": "distant"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "resultContext",
+              "value": "brief_recognition"
+            }
+          ]
+        }
+      ]
+    },
+    "shop_talk": {
+      "stitches": [
+        {
+          "id": "shop_talk_text",
+          "text": "Blue distingue tra preparazione e accumulo: «Se non sai perché porti una cosa, probabilmente non ti serve ancora.» Poi torna ai prezzi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno al banco.",
+          "goto": "m01-valedarsena-first-arrival#trainer_shop",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_trainer_shop"
+            }
+          ]
+        }
+      ]
+    },
+    "shop_verbal": {
+      "stitches": [
+        {
+          "id": "shop_verbal_text",
+          "text": "«Giusto. Ma arrivaci preparato, sul campo.» Blue non insiste oltre."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno al banco.",
+          "goto": "m01-valedarsena-first-arrival#trainer_shop",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_trainer_shop"
+            }
+          ]
+        }
+      ]
+    },
+    "shop_info": {
+      "stitches": [
+        {
+          "id": "shop_info_text",
+          "text": "Blue parte dalle basi: cura sufficiente per non trasformare un errore in una giornata persa, strumenti di cattura solo se hai davvero intenzione di usarli, e niente acquisti che ti lascino senza margine."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno al banco.",
+          "goto": "m01-valedarsena-first-arrival#trainer_shop",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_trainer_shop"
+            }
+          ]
+        }
+      ]
+    },
+    "shop_exit": {
+      "stitches": [
+        {
+          "id": "shop_exit_text",
+          "text": "Blue resta concentrato sulla propria lista. Il tuo percorso non cambia perché hai scelto di non approfondire il primo contatto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno al banco.",
+          "goto": "m01-valedarsena-first-arrival#trainer_shop",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_trainer_shop"
+            }
+          ]
+        }
+      ]
+    },
+    "field_intro_done": {
+      "stitches": [
+        {
+          "id": "field_blue_seen",
+          "text": "Ai magazzini Blue sta chiudendo un incarico diverso dal tuo. Ha polvere sulle scarpe e Squirtle vicino, abbastanza per capire che non passa le giornate soltanto a parlare di competizione."
+        },
+        {
+          "id": "field_blue_context",
+          "text": "Il confronto nasce dal lavoro reale: tempi, percorsi, osservazione e capacità di non intralciare chi sta già lavorando."
+        }
+      ],
+      "choices": [
+        {
+          "id": "talk",
+          "text": "Confronto con lui il lavoro appena fatto.",
+          "goto": "field_talk_done",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "blue_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_relationship_state",
+              "value": "measured"
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_m1_result_context",
+              "value": "field_overlap"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_blue_intro_complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "met",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "relationshipContext",
+              "value": "measured"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "resultContext",
+              "value": "field_overlap"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Blue",
+              "delta": 4
+            }
+          ]
+        },
+        {
+          "id": "ignore",
+          "text": "Finisco il mio incarico e basta.",
+          "goto": "field_exit_done",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "blue_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_relationship_state",
+              "value": "distant"
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_m1_result_context",
+              "value": "brief_recognition"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_blue_intro_complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "met",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "relationshipContext",
+              "value": "distant"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "resultContext",
+              "value": "brief_recognition"
+            }
+          ]
+        },
+        {
+          "id": "compete_verbally",
+          "text": "Gli chiedo chi dei due ha chiuso meglio il lavoro.",
+          "goto": "field_verbal_done",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "blue_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_relationship_state",
+              "value": "competitive"
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_m1_result_context",
+              "value": "verbal_competition"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_blue_intro_complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "met",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "relationshipContext",
+              "value": "competitive"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "resultContext",
+              "value": "verbal_competition"
+            }
+          ]
+        },
+        {
+          "id": "ask_information",
+          "text": "Gli chiedo cosa ha notato sui percorsi dei magazzini.",
+          "goto": "field_info_done",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "blue_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_relationship_state",
+              "value": "technical"
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_m1_result_context",
+              "value": "information_exchange"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_blue_intro_complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "met",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "relationshipContext",
+              "value": "technical"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "resultContext",
+              "value": "information_exchange"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Blue",
+              "delta": 2
+            }
+          ]
+        },
+        {
+          "id": "leave",
+          "text": "Lo saluto e torno verso la città.",
+          "goto": "field_exit_done",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "blue_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_relationship_state",
+              "value": "distant"
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_m1_result_context",
+              "value": "brief_recognition"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_blue_intro_complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "met",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "relationshipContext",
+              "value": "distant"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "resultContext",
+              "value": "brief_recognition"
+            }
+          ]
+        }
+      ]
+    },
+    "field_intro_clue": {
+      "stitches": [
+        {
+          "id": "field_blue_seen_clue",
+          "text": "Mentre stai ancora mettendo in ordine ciò che hai notato sulle banchine, incroci Blue che chiude un incarico separato con Squirtle al seguito."
+        },
+        {
+          "id": "field_blue_context_clue",
+          "text": "Non conosce automaticamente le tue conclusioni e non diventa una scorciatoia investigativa. Puoi però confrontare impressioni pratiche."
+        }
+      ],
+      "choices": [
+        {
+          "id": "talk",
+          "text": "Gli dico solo ciò che ho visto davvero.",
+          "goto": "field_talk_clue",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "blue_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_relationship_state",
+              "value": "measured"
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_m1_result_context",
+              "value": "field_overlap"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_blue_intro_complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "met",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "relationshipContext",
+              "value": "measured"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "resultContext",
+              "value": "field_overlap"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Blue",
+              "delta": 4
+            }
+          ]
+        },
+        {
+          "id": "ignore",
+          "text": "Tengo separate le due cose e continuo il mio percorso.",
+          "goto": "field_exit_clue",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "blue_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_relationship_state",
+              "value": "distant"
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_m1_result_context",
+              "value": "brief_recognition"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_blue_intro_complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "met",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "relationshipContext",
+              "value": "distant"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "resultContext",
+              "value": "brief_recognition"
+            }
+          ]
+        },
+        {
+          "id": "compete_verbally",
+          "text": "Gli faccio notare che non basta arrivare per primi per aver capito meglio.",
+          "goto": "field_verbal_clue",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "blue_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_relationship_state",
+              "value": "competitive"
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_m1_result_context",
+              "value": "verbal_competition"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_blue_intro_complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "met",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "relationshipContext",
+              "value": "competitive"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "resultContext",
+              "value": "verbal_competition"
+            }
+          ]
+        },
+        {
+          "id": "ask_information",
+          "text": "Gli chiedo cosa ha osservato durante il suo incarico.",
+          "goto": "field_info_clue",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "blue_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_relationship_state",
+              "value": "technical"
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_m1_result_context",
+              "value": "information_exchange"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_blue_intro_complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "met",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "relationshipContext",
+              "value": "technical"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "resultContext",
+              "value": "information_exchange"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Blue",
+              "delta": 2
+            }
+          ]
+        },
+        {
+          "id": "leave",
+          "text": "Lo saluto e continuo con ciò che stavo facendo.",
+          "goto": "field_exit_clue",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "blue_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_relationship_state",
+              "value": "distant"
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_m1_result_context",
+              "value": "brief_recognition"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_blue_intro_complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "met",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "relationshipContext",
+              "value": "distant"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "resultContext",
+              "value": "brief_recognition"
+            }
+          ]
+        }
+      ]
+    },
+    "field_talk_done": {
+      "stitches": [
+        {
+          "id": "field_talk_done_text",
+          "text": "Blue confronta tempi e scelte senza fingere che esista un solo modo corretto di svolgere il lavoro. Vuole sapere quale decisione ti ha fatto perdere più tempo e perché."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno alla consegna conclusa.",
+          "goto": "m01-valedarsena-first-arrival#logistics_done",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_warehouses"
+            }
+          ]
+        }
+      ]
+    },
+    "field_verbal_done": {
+      "stitches": [
+        {
+          "id": "field_verbal_done_text",
+          "text": "Blue accetta il confronto con un mezzo sorriso: «Se vuoi contare i minuti, conta anche gli errori che hai evitato.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno alla consegna conclusa.",
+          "goto": "m01-valedarsena-first-arrival#logistics_done",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_warehouses"
+            }
+          ]
+        }
+      ]
+    },
+    "field_info_done": {
+      "stitches": [
+        {
+          "id": "field_info_done_text",
+          "text": "Blue parla di passaggi congestionati, turni e persone che cambiano percorso. Non presenta una teoria totale e non prende il posto dei ranger."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno alla consegna conclusa.",
+          "goto": "m01-valedarsena-first-arrival#logistics_done",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_warehouses"
+            }
+          ]
+        }
+      ]
+    },
+    "field_exit_done": {
+      "stitches": [
+        {
+          "id": "field_exit_done_text",
+          "text": "Blue prosegue il proprio programma. Il primo incrocio resta breve e il tuo incarico resta tuo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno alla consegna conclusa.",
+          "goto": "m01-valedarsena-first-arrival#logistics_done",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_warehouses"
+            }
+          ]
+        }
+      ]
+    },
+    "field_talk_clue": {
+      "stitches": [
+        {
+          "id": "field_talk_clue_text",
+          "text": "Blue separa ciò che ha visto da ciò che presume. È competitivo anche nel ragionare, ma non trasforma la tua osservazione in una spiegazione che non possiedi ancora."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Riprendo il filo delle segnalazioni.",
+          "goto": "m01-valedarsena-first-arrival#logistics_clue",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_warehouses"
+            }
+          ]
+        }
+      ]
+    },
+    "field_verbal_clue": {
+      "stitches": [
+        {
+          "id": "field_verbal_clue_text",
+          "text": "«Allora vediamo chi controlla meglio i fatti,» risponde Blue. La rivalità resta sul metodo, non diventa una prova di colpevolezza o una sfida obbligatoria."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Riprendo il filo delle segnalazioni.",
+          "goto": "m01-valedarsena-first-arrival#logistics_clue",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_warehouses"
+            }
+          ]
+        }
+      ]
+    },
+    "field_info_clue": {
+      "stitches": [
+        {
+          "id": "field_info_clue_text",
+          "text": "Le sue osservazioni riguardano il lavoro: rumore, deviazioni e traffico irregolare. Sono compatibili con ciò che hai visto, ma non sostituiscono il rapporto che puoi portare a Elio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Riprendo il filo delle segnalazioni.",
+          "goto": "m01-valedarsena-first-arrival#logistics_clue",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_warehouses"
+            }
+          ]
+        }
+      ]
+    },
+    "field_exit_clue": {
+      "stitches": [
+        {
+          "id": "field_exit_clue_text",
+          "text": "L'incrocio finisce senza rubare il centro alla segnalazione che stavi seguendo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Riprendo il filo delle segnalazioni.",
+          "goto": "m01-valedarsena-first-arrival#logistics_clue",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_warehouses"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
