@@ -17,6 +17,70 @@ function rankOrder(rank) {
   return index;
 }
 
+function getPokemonIdentity(pokemon) {
+  return typeof pokemon?.id === "string" && ID_RE.test(pokemon.id) ? pokemon.id : null;
+}
+
+function ensureRegisteredPokemonIdentities(state, requiredRosterSize) {
+  const roster = Array.isArray(state.player?.roster) ? state.player.roster : [];
+  const usedIds = new Set();
+
+  for (const pokemon of roster) {
+    const id = getPokemonIdentity(pokemon);
+    if (!id) continue;
+    if (usedIds.has(id)) throw new Error("Duplicate Pokémon identity in roster: " + id);
+    usedIds.add(id);
+  }
+
+  state.player.pokemonIdentitySeq ??= 1;
+  const official = roster.slice(0, requiredRosterSize);
+
+  return official.map((pokemon) => {
+    let id = getPokemonIdentity(pokemon);
+    if (id) return id;
+
+    do {
+      id = "pkm_" + state.player.pokemonIdentitySeq;
+      state.player.pokemonIdentitySeq += 1;
+    } while (usedIds.has(id));
+
+    pokemon.id = id;
+    usedIds.add(id);
+    return id;
+  });
+}
+
+export function resolveRegisteredTrialRoster(state, checkpointId) {
+  requireId(checkpointId, "checkpointId");
+  const competition = ensureCompetition(state);
+  const trial = competition.trials[checkpointId];
+  if (!trial || !trial.registered || trial.completed) {
+    throw new Error("Promotion Trial is not registered: " + checkpointId);
+  }
+
+  const ids = trial.registeredPokemonIds;
+  if (!Array.isArray(ids) || ids.length !== trial.requiredRosterSize) {
+    throw new Error("Promotion Trial registered roster identity is incomplete: " + checkpointId);
+  }
+
+  const roster = Array.isArray(state.player?.roster) ? state.player.roster : [];
+  const byId = new Map();
+  for (const pokemon of roster) {
+    const id = getPokemonIdentity(pokemon);
+    if (!id) continue;
+    if (byId.has(id)) throw new Error("Duplicate Pokémon identity in roster: " + id);
+    byId.set(id, pokemon);
+  }
+
+  return ids.map((id) => {
+    const pokemon = byId.get(id);
+    if (!pokemon) {
+      throw new Error("Registered Pokémon is unavailable for Promotion Trial " + checkpointId + ": " + id);
+    }
+    return pokemon;
+  });
+}
+
 export function createCompetitionState() {
   return {
     rank: "F",
@@ -68,7 +132,8 @@ export function setTrialAvailable(state, {
     lastResult: null,
     completed: false,
     registered: false,
-    registeredAtMinutes: null
+    registeredAtMinutes: null,
+    registeredPokemonIds: []
   };
 
   trial.fromRank = fromRank;
@@ -98,10 +163,17 @@ export function registerTrial(state, { checkpointId }) {
     );
   }
 
+  const registeredPokemonIds = ensureRegisteredPokemonIdentities(state, trial.requiredRosterSize);
+
   ensureWorldClock(state.world);
   trial.registered = true;
   trial.registeredAtMinutes = state.world.elapsedMinutes;
+  trial.registeredPokemonIds = registeredPokemonIds;
   return trial;
+}
+
+function cloneRegisteredIds(ids) {
+  return Array.isArray(ids) ? [...ids] : null;
 }
 
 function validateMetaRuntime(meta) {
@@ -156,6 +228,7 @@ export function beginCompetitionMatch(state, meta) {
     if (trial.requiredRosterSize !== meta.officialRosterSize) {
       throw new Error("Promotion Trial roster metadata mismatch: " + meta.checkpointId);
     }
+    resolveRegisteredTrialRoster(state, meta.checkpointId);
     trial.attempts += 1;
   }
 
@@ -168,7 +241,10 @@ export function beginCompetitionMatch(state, meta) {
     officialRosterSize: meta.officialRosterSize,
     format: meta.format,
     difficulty: meta.difficulty,
-    opponentTrainerId: meta.opponentTrainerId ?? null
+    opponentTrainerId: meta.opponentTrainerId ?? null,
+    registeredPokemonIds: meta.type === "promotion_trial"
+      ? [...competition.trials[meta.checkpointId].registeredPokemonIds]
+      : null
   };
   return competition.activeMatch;
 }
@@ -194,6 +270,7 @@ export function resolveCompetitionMatch(state, meta, outcome) {
     officialRosterSize: meta.officialRosterSize,
     difficulty: meta.difficulty,
     opponentTrainerId: meta.opponentTrainerId ?? null,
+    registeredPokemonIds: cloneRegisteredIds(competition.activeMatch.registeredPokemonIds),
     resolvedAtMinutes: state.world.elapsedMinutes
   };
   competition.history.push(record);
@@ -215,6 +292,7 @@ export function resolveCompetitionMatch(state, meta, outcome) {
     trial.lastResult = outcome;
     trial.registered = false;
     trial.registeredAtMinutes = null;
+    trial.registeredPokemonIds = [];
 
     if (outcome === "win") {
       trial.bestResult = "win";

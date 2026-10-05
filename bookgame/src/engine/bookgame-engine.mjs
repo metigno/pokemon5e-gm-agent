@@ -7,7 +7,12 @@ import { advanceWorldTime, getWorldTimeView } from "./time.mjs";
 import { applyQuestEffect, getQuestJournal, processQuestDeadlines } from "./quest-state.mjs";
 import { applyNpcEffect, refreshNpcSchedules } from "./npc-state.mjs";
 import { processWorldEvents } from "./world-events.mjs";
-import { applyCompetitionEffect, beginCompetitionMatch, resolveCompetitionMatch } from "./competition-state.mjs";
+import {
+  applyCompetitionEffect,
+  beginCompetitionMatch,
+  resolveCompetitionMatch,
+  resolveRegisteredTrialRoster
+} from "./competition-state.mjs";
 import { recordWildEncounter, selectOrdinaryEncounter } from "./ecology.mjs";
 import { applyPurchaseItem, ensureSceneShops } from "./shop-state.mjs";
 
@@ -236,9 +241,29 @@ export class BookgameEngine {
         ...clone(pokemon),
         rosterIndex
       }));
-      const playerRoster = officialRosterSize
-        ? stateRoster.slice(0, officialRosterSize)
-        : null;
+      let playerRoster = null;
+      if (officialRosterSize) {
+        if (choice.combat.competition?.type === "promotion_trial") {
+          const registeredRoster = resolveRegisteredTrialRoster(
+            next,
+            choice.combat.competition.checkpointId
+          );
+          const registeredIds = registeredRoster.map((pokemon) => pokemon.id);
+          const byId = new Map(stateRoster.map((pokemon) => [pokemon.id, pokemon]));
+          playerRoster = registeredIds.map((id) => {
+            const pokemon = byId.get(id);
+            if (!pokemon) {
+              throw new Error(
+                "Registered Pokémon is unavailable for Promotion Trial " +
+                choice.combat.competition.checkpointId + ": " + id
+              );
+            }
+            return pokemon;
+          });
+        } else {
+          playerRoster = stateRoster.slice(0, officialRosterSize);
+        }
+      }
 
       next.pending = {
         type: "pokemon5e_combat",
