@@ -66,7 +66,7 @@ The graph is reconvergent, not linear. The player may move repeatedly between Gi
 | M1_07_WORLD_MOVES | pressure state machine and off-screen consequences | 450 | 290 | COMPLETE |
 | M1_08_BLUE_ENTERS | Blue causal introduction variants | 380 | 240 | COMPLETE |
 | M1_09_FRIEND_BEAT_01 | one of the other Four selected causally | 390 | 250 | COMPLETE |
-| M1_10_FIRST_OFFICIAL | first sanctioned non-trial match | 270 | 170 | IMPLEMENTED / E5 WIRED |
+| M1_10_FIRST_OFFICIAL | first sanctioned non-trial match | 270 | 170 | COMPLETE |
 | M1_11_SECOND_POKEMON | legal routes to roster size 2 | 280 | 180 | IMPLEMENTED / E7 WIRED |
 | M1_12_FIVE_ROADS | friends diverge and schedules update | 250 | 150 | ENGINE DEPENDENCY |
 | M1_13_TRIAL_REGISTRATION | gate eligibility and preparation | 160 | 90 | IMPLEMENTED / E5 WIRED |
@@ -575,6 +575,23 @@ Required for:
 
 **Loss:** does not block M1.  
 **Must teach:** sanctioned match != Promotion Trial.
+
+**Implementation lock:**
+
+- the canonical first sanctioned match remains `A1_FIRST_OFFICIAL` and is an E5 `official_match`, never a `promotion_trial`;
+- the Arena first-official hook is legal when either Trainer level is at least 2 **or** an authored `official_match_opportunity` exists, while Rank F and unresolved-first-match remain hard requirements;
+- E6 authors `A1_FIRST_OFFICIAL_WINDOW` after Valedarsena has been discovered and a rookie match slot becomes causally available through level progression, FRIEND_BEAT progress or world-day progression; the opportunity is data-authored, not randomly invented;
+- deferring the offer leaves the opportunity and competition state untouched and writes no result;
+- the match is sanctioned Singles with official roster size 1 and STANDARD difficulty; the combat handoff slices the real player roster to exactly one registered Pokémon even if more are owned;
+- the authored generic opponent is stable `VALE_ROOKIE_001` with a registered Shinx, and the opponent trainer ID is written into E5 match history;
+- official opponents are registered Trainer Pokémon and therefore cannot enter wild-capture outcomes;
+- win and loss are both real resolver outcomes; neither is scripted and neither changes Rank F or completes/creates the Promotion Trial;
+- resolving either result writes `competition.firstOfficialResolved`, `competition.firstOfficialResult`, the durable E5 history record, plus explicit callbacks `first_official_resolved`, `first_official_result` and `first_official_match_id`;
+- resolving the match consumes the authored match opportunity so the first official cannot replay;
+- the result screen explicitly teaches that an official sanctioned match belongs to career history but is not the Promotion Trial gate;
+- HP/PP/status consequences still return from the Pokémon 5e combat resolver through the normal roster persistence path;
+- full save/reload preserves result callbacks and official history exactly;
+- regression coverage validates both legal triggers, defer behavior, one-Pokémon registration, stable opponent identity, win/loss persistence, Rank-F non-promotion, non-replay and save/reload.
 
 ---
 
