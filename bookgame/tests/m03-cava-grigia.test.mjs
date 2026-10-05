@@ -275,7 +275,7 @@ test("M3_01 ecology observation never catches a Pokémon and leaves roster uncha
 
 // ─── NO PREMATURE M3 CONTENT ──────────────────────────────────────────────────
 
-test("M3_01 does not auto-trigger Steven, Ferrox, FRIEND_BEAT_03, Regional Cup or D→C trial", async () => {
+test("M3_01 does not auto-complete Steven/Ferrox/FRIEND_BEAT_03/Cup/Trial content when canonical A3 call becomes available", async () => {
   const { engine } = await makeEngine();
   let state = enterCava(legalM3State());
   state = await engine.choose(state, "enter_perimeter");
@@ -296,7 +296,8 @@ test("M3_01 does not auto-trigger Steven, Ferrox, FRIEND_BEAT_03, Regional Cup o
   assert.equal(state.world.flags.m3_complete, undefined);
   assert.equal(state.competition.rank, "D", "rank must remain D");
   assert.equal(state.competition.trials.RANK_D_TO_C, undefined);
-  assert.equal(state.events.A3_FRIEND_CALL, undefined);
+  assert.equal(state.events.A3_FRIEND_CALL?.status, "resolved");
+  assert.equal(state.world.flags.a3_friend_call_available, true);
   assert.equal(state.events.A3_CROSSROADS, undefined);
   assert.equal(state.events.A3_REGIONAL_CUP, undefined);
   assert.equal(state.events.A3_RANK_TRIAL_D_C, undefined);
