@@ -105,6 +105,17 @@
           ]
         },
         {
+          "id": "network_outcome",
+          "text": "Chiudo il bilancio di quello che è successo nel Mistwood — registro l'esito formale.",
+          "conditions": {
+            "all": [
+              {"path": "world.flags.a2_network_outcome_available", "eq": true},
+              {"path": "world.flags.network_outcome_complete", "ne": true}
+            ]
+          },
+          "goto": "m02-network-outcome#network_outcome_review"
+        },
+        {
           "id": "receive_friend_news",
           "text": "Leggo il messaggio di un amico — sembra che abbiano qualcosa da dirmi.",
           "conditions": {

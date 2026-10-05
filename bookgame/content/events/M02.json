@@ -230,6 +230,28 @@
           ]
         }
       ]
+    },
+    {
+      "id": "A2_NETWORK_OUTCOME",
+      "once": true,
+      "trigger": {
+        "all": [
+          {"path": "world.flags.local_problem_started", "eq": true},
+          {"any": [
+            {"path": "world.flags.crisis_moves_complete", "eq": true},
+            {"path": "world.flags.poaching_network_state", "eq": "intervened"},
+            {"path": "world.day", "gte": 25}
+          ]}
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "network_outcome_window",
+          "effects": [
+            {"type": "set_flag", "key": "a2_network_outcome_available", "value": true}
+          ]
+        }
+      ]
     }
   ]
 }
