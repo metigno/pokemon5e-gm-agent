@@ -1080,6 +1080,130 @@
           "value": 25
         }
       ]
+    },
+    "tandemaus": {
+      "id": "tandemaus",
+      "name": "Tandemaus",
+      "number": 924,
+      "type": [
+        "normal"
+      ],
+      "size": "tiny",
+      "sr": 0.5,
+      "minLevel": 1,
+      "ac": 13,
+      "hp": 17,
+      "hitDice": "d6",
+      "speed": [
+        {
+          "type": "walking",
+          "value": 30
+        }
+      ],
+      "attributes": {
+        "str": 12,
+        "dex": 14,
+        "con": 12,
+        "int": 6,
+        "wis": 11,
+        "cha": 10
+      },
+      "skills": [
+        "sleight of hand"
+      ],
+      "savingThrows": [
+        "cha"
+      ],
+      "senses": [],
+      "abilities": [
+        {
+          "id": "run-away",
+          "hidden": false
+        },
+        {
+          "id": "pickup",
+          "hidden": false
+        },
+        {
+          "id": "own-tempo",
+          "hidden": true
+        }
+      ],
+      "moves": {
+        "start": [
+          "pound",
+          "baby-doll-eyes"
+        ],
+        "level2": [
+          "helping-hand",
+          "echoed-voice"
+        ],
+        "level6": [
+          "super-fang",
+          "bullet-seed",
+          "double-hit"
+        ],
+        "level10": [
+          "encore",
+          "hyper-voice",
+          "play-rough"
+        ],
+        "level14": [
+          "charm",
+          "beat-up"
+        ],
+        "level18": [
+          "copycat",
+          "population-bomb"
+        ],
+        "tm": [
+          11,
+          12,
+          17,
+          18,
+          40,
+          42,
+          44,
+          46,
+          47,
+          65,
+          73,
+          86,
+          88,
+          89,
+          90,
+          102,
+          103,
+          104,
+          105,
+          106,
+          111,
+          112,
+          124,
+          127,
+          133,
+          135,
+          136,
+          145,
+          163,
+          171,
+          174,
+          176,
+          178,
+          180,
+          205,
+          213,
+          232
+        ],
+        "egg": [
+          "bite",
+          "baton-pass",
+          "tickle",
+          "feint",
+          "switcheroo",
+          "after-you"
+        ]
+      }
     }
   },
   "moves": {
@@ -1525,6 +1649,35 @@
         "attribute": "con"
       },
       "description": "You create a fog of poisonous gas in a 15 foot radius, centered on a point within range. Creatures that begin their turn in the area take {dice} {type} damage and must succeed on a {save} or become poisoned. The gas cloud dissipates at the beginning of your next turn.",
+      "categories": []
+    },
+    "pound": {
+      "id": "pound",
+      "name": "Pound",
+      "type": "normal",
+      "power": [
+        "str",
+        "dex"
+      ],
+      "time": {
+        "unit": "action"
+      },
+      "pp": 20,
+      "duration": {
+        "unit": "instantaneous"
+      },
+      "range": {
+        "type": "melee"
+      },
+      "dice": {
+        "class": "40",
+        "modifier": "MOVE",
+        "type": "damage"
+      },
+      "attack": {
+        "scope": "melee"
+      },
+      "description": "You crush a creature with a pound attack. Make a melee attack roll against a target, doing {dice} {type} damage on a hit.",
       "categories": []
     }
   },
