@@ -73,6 +73,15 @@
       ],
       "choices": [
         {
+          "id": "orient_toward_cava",
+          "text": "Mi oriento verso Cava Grigia — voglio vedere il primo paesaggio industriale della fascia.",
+          "timeCostMinutes": 60,
+          "goto": "m03-cava-grigia#approach",
+          "effects": [
+            { "type": "set_location", "locationId": "ast_quarry" }
+          ]
+        },
+        {
           "id": "back_to_valedarsena_d",
           "text": "Per ora resto in base a Valedarsena.",
           "goto": "m01-valedarsena-first-arrival#city_hub",

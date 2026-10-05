@@ -1,0 +1,498 @@
+{
+  "schemaVersion": 1,
+  "id": "m03-cava-grigia",
+  "moduleId": "M03",
+  "title": "M3_01 — Cava Grigia",
+  "locationId": "ast_quarry",
+  "entryNodeId": "approach",
+  "conditions": {
+    "all": [
+      { "path": "world.flags.m2_complete", "eq": true },
+      { "path": "world.flags.m03_unlocked", "eq": true },
+      { "path": "world.flags.m3_active", "eq": true },
+      { "path": "competition.rank", "eq": "D" }
+    ]
+  },
+  "nodes": {
+    "approach": {
+      "stitches": [
+        {
+          "id": "road_opens_industrial",
+          "text": "La strada che da Valedarsena porta nell'entroterra cambia carattere dopo i primi dieci chilometri. L'erba si fa più corta, i cespugli si diradano, e all'orizzonte compaiono due silhouette rettangolari che non sono alberi: una tramoggia di carico e un ponte-nastro. Il cartello del Circuito identifica l'area come AST-QUARRY — Cava Grigia, accesso Rank D."
+        },
+        {
+          "id": "quarry_first_view",
+          "text": "Vista dall'alto del sentiero, la cava è una conca a terrazze. Scavi vecchi e nuovi si sovrappongono: lo strato superficiale è pulito, quello sottostante mostra parete di roccia nuda, e in profondità si intravede una zona ancora attiva. Mezzi di cantiere piccoli, voci di uomini, il clangore ritmico di qualcosa che carica materiale."
+        },
+        {
+          "id": "weight_of_industry",
+          "text": "Non è ostile. È un posto di lavoro, con regole esposte e trainer di cantiere che compensano la fatica con pause e rotazioni. L'odore è quello di polvere minerale secca, non di scarico; il rumore ha pattern leggibili, non caos."
+        }
+      ],
+      "choices": [
+        {
+          "id": "enter_perimeter",
+          "text": "Entro nel perimetro di accesso visitatori.",
+          "timeCostMinutes": 10,
+          "goto": "visitor_perimeter",
+          "effects": [
+            { "type": "set_flag", "key": "cava_grigia_discovered", "value": true },
+            { "type": "set_location", "locationId": "ast_quarry_perimeter" }
+          ]
+        },
+        {
+          "id": "observe_from_ridge",
+          "text": "Mi fermo sul ciglio e osservo la cava prima di entrare.",
+          "timeCostMinutes": 15,
+          "goto": "ridge_overview"
+        },
+        {
+          "id": "turn_back_to_valedarsena",
+          "text": "Non entro ancora. Torno a Valedarsena.",
+          "timeCostMinutes": 180,
+          "goto": "m01-valedarsena-first-arrival#city_hub",
+          "effects": [
+            { "type": "set_location", "locationId": "valedarsena_city" }
+          ]
+        }
+      ]
+    },
+    "ridge_overview": {
+      "stitches": [
+        {
+          "id": "overview_terraces",
+          "text": "Da qui si legge meglio la stratificazione della cava: terrazze alte più fresche, con cordoli di sicurezza visibili e cartelli di avviso ad alta visibilità; terrazze medie più usate, con tracce di passaggio di mezzi e trainer da lavoro; una zona bassa dove il taglio della roccia è recente e qualche parete mostra la firma di escavazione moderna sopra scarti più antichi."
+        },
+        {
+          "id": "overview_signs",
+          "text": "I segnali di cantiere seguono una logica riconoscibile: aree a passaggio libero per visitatori Rank D, aree con restrizione per squadre tecniche, un paio di zone chiuse per lavori in corso. Non c'è nulla di spettacolare. C'è gestione."
+        },
+        {
+          "id": "overview_fauna_hints",
+          "text": "Attraverso la rete metallica che chiude il bordo della terrazza bassa, un paio di silhouette veloci — forse Rolycoly, forse Nacli — si spostano dove la polvere è più spessa. La fauna di cava non è stata rimossa: convive con il lavoro, con regole che a questa distanza non puoi ancora leggere nei dettagli."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ridge_wis_check",
+          "text": "Studio attentamente la disposizione delle terrazze e dei cartelli. (CT Perception)",
+          "timeCostMinutes": 10,
+          "check": { "ability": "WIS", "skill": "Perception", "dc": 12 },
+          "outcomes": {
+            "success": {
+              "goto": "ridge_insight",
+              "effects": [
+                { "type": "set_flag", "key": "cava_layout_read", "value": true }
+              ]
+            },
+            "failure": {
+              "goto": "ridge_unclear"
+            }
+          }
+        },
+        {
+          "id": "descend_into_perimeter",
+          "text": "Scendo verso l'ingresso dei visitatori.",
+          "timeCostMinutes": 10,
+          "goto": "visitor_perimeter",
+          "effects": [
+            { "type": "set_location", "locationId": "ast_quarry_perimeter" }
+          ]
+        }
+      ]
+    },
+    "ridge_insight": {
+      "stitches": [
+        {
+          "id": "insight_pattern",
+          "text": "La logica è chiara: il turno diurno occupa le terrazze medie, lascia la bassa a interventi programmati, e tiene l'alta aperta ai visitatori. Il perimetro della zona chiusa non è arbitrario — segue una curva di livello che tiene fuori chi non ha competenza di terreno. È un sistema che si fida di cartelli e discipline interne, non di muri."
+        },
+        {
+          "id": "insight_fragility",
+          "text": "La stessa lettura rivela anche il punto delicato: la zona bassa recente è coperta da avvisi che richiedono fiducia nella disciplina di cantiere. Se qualcuno accelera i tempi senza aggiornare i cartelli, il margine di sicurezza si assottiglia prima che qualcuno se ne accorga."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_from_insight",
+          "text": "Scendo verso l'ingresso visitatori.",
+          "timeCostMinutes": 10,
+          "goto": "visitor_perimeter",
+          "effects": [
+            { "type": "set_location", "locationId": "ast_quarry_perimeter" }
+          ]
+        }
+      ]
+    },
+    "ridge_unclear": {
+      "stitches": [
+        {
+          "id": "unclear_ridge",
+          "text": "Vedi forme, cartelli, movimenti, ma non le relazioni tra di loro. Sai che la cava ha una logica; non la decodifichi al primo colpo. L'ingresso visitatori è comunque dove bisogna andare per saperne di più."
+        }
+      ],
+      "choices": [
+        {
+          "id": "move_to_perimeter_unclear",
+          "text": "Scendo lo stesso verso l'ingresso visitatori.",
+          "timeCostMinutes": 10,
+          "goto": "visitor_perimeter",
+          "effects": [
+            { "type": "set_location", "locationId": "ast_quarry_perimeter" }
+          ]
+        }
+      ]
+    },
+    "visitor_perimeter": {
+      "stitches": [
+        {
+          "id": "perimeter_desk",
+          "text": "L'ingresso visitatori è un prefabbricato basso con uno sportello aperto. Un addetto di sicurezza — tesserino al collo, giacca ad alta visibilità — controlla rapidamente la tessera Circuito e segna l'orario di ingresso. Rank D è registrato come autorizzato per il percorso visitatori; aree di squadra richiedono accompagnamento."
+        },
+        {
+          "id": "perimeter_rules",
+          "text": "«Percorso segnato, caschi obbligatori nelle aree gialle, i tuoi Pokémon in capsula tranne quando sei in area osservazione. Qualunque cosa veda un operaio è sua competenza prima della tua. Se noti qualcosa di strano, lo dici all'ufficio tecnico, non lo tocchi.» Il tono è quello di chi ripete regole che funzionano."
+        },
+        {
+          "id": "perimeter_options",
+          "text": "Dentro il perimetro il percorso si articola: una zona di osservazione fauna, una vetrata sul cantiere con brevi tabelle informative, un piccolo punto ristoro, e una porta marcata «Ufficio Tecnico — solo su richiesta». Niente di immersivo oltre il necessario."
+        }
+      ],
+      "choices": [
+        {
+          "id": "visitor_fauna_zone",
+          "text": "Vado alla zona di osservazione fauna.",
+          "timeCostMinutes": 10,
+          "goto": "fauna_viewpoint",
+          "effects": [
+            { "type": "set_location", "locationId": "ast_quarry_fauna_point" }
+          ]
+        },
+        {
+          "id": "visitor_glass_wall",
+          "text": "Mi fermo alla vetrata sul cantiere.",
+          "timeCostMinutes": 10,
+          "goto": "glass_wall"
+        },
+        {
+          "id": "visitor_tech_office",
+          "text": "Chiedo di parlare con qualcuno dell'Ufficio Tecnico.",
+          "timeCostMinutes": 10,
+          "goto": "tech_office"
+        },
+        {
+          "id": "leave_quarry",
+          "text": "Esco dal perimetro — ho visto quello che mi bastava per ora.",
+          "timeCostMinutes": 10,
+          "goto": "exit_point"
+        }
+      ]
+    },
+    "fauna_viewpoint": {
+      "stitches": [
+        {
+          "id": "fauna_setup",
+          "text": "La zona di osservazione si affaccia su un settore della cava dove la vegetazione ha ricolonizzato parzialmente i vecchi scarti. È il margine ideale per vedere le specie di cava senza interferire col lavoro. Le capsule dei tuoi Pokémon restano al cinturone — non è un'area di cattura."
+        },
+        {
+          "id": "fauna_notice",
+          "text": "Un cartello spiega la logica dell'osservazione: la fauna qui è abituata al rumore ritmico delle macchine e si disturba quando il pattern cambia. Osservare in silenzio durante i turni normali non interferisce; muoversi bruscamente o avvicinarsi può alterare un habitat che ha trovato un equilibrio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "observe_cava_fauna",
+          "text": "Mi fermo e osservo in silenzio la zona per qualche minuto.",
+          "timeCostMinutes": 20,
+          "ecology": {
+            "requestId": "M3_CAVA_GRIGIA_OBSERVATION_01",
+            "zoneId": "AST-QUARRY",
+            "habitat": "cave",
+            "method": "wild_observation",
+            "allowedSpecies": [
+              "rolycoly",
+              "nacli",
+              "roggenrola",
+              "drilbur",
+              "diglett"
+            ],
+            "returnNodes": {
+              "noEncounter": "fauna_no_encounter",
+              "rolycoly": "fauna_rolycoly",
+              "nacli": "fauna_nacli",
+              "roggenrola": "fauna_roggenrola",
+              "drilbur": "fauna_drilbur",
+              "diglett": "fauna_diglett"
+            }
+          }
+        },
+        {
+          "id": "fauna_back",
+          "text": "Torno dentro il perimetro.",
+          "goto": "visitor_perimeter",
+          "effects": [
+            { "type": "set_location", "locationId": "ast_quarry_perimeter" }
+          ]
+        }
+      ]
+    },
+    "fauna_no_encounter": {
+      "stitches": [
+        {
+          "id": "nothing_showed",
+          "text": "Per qualche minuto la cava rende solo polvere e rumore ritmico delle macchine. Nessun Pokémon si espone abbastanza da diventare un incontro vero. L'habitat non è vuoto: ha solo deciso che adesso non è il momento di mostrarsi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "no_enc_back",
+          "text": "Torno dentro il perimetro.",
+          "goto": "visitor_perimeter",
+          "effects": [
+            { "type": "set_location", "locationId": "ast_quarry_perimeter" }
+          ]
+        }
+      ]
+    },
+    "fauna_rolycoly": {
+      "stitches": [
+        {
+          "id": "rolycoly_rolling",
+          "text": "Un Rolycoly selvatico attraversa lentamente un corridoio tra due cumuli di scarti. L'occhio singolo riflette la luce bianca della cava; il ritmo del suo movimento sembra sincronizzarsi con il clangore del nastro trasportatore poco oltre. Non si avvicina, non fugge. Ti registra come parte del paesaggio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rolycoly_leave",
+          "text": "Lo osservo scendere e torno dentro il perimetro.",
+          "goto": "visitor_perimeter",
+          "effects": [
+            { "type": "set_location", "locationId": "ast_quarry_perimeter" }
+          ]
+        }
+      ]
+    },
+    "fauna_nacli": {
+      "stitches": [
+        {
+          "id": "nacli_crystal",
+          "text": "Un piccolo Nacli selvatico siede alla base di una parete bianca di sale minerale. La luce ne attraversa parzialmente il corpo cristallino; non si muove molto, ma segue con lo sguardo i trainer di cantiere che passano in lontananza. Non è una posizione difensiva — è il suo posto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "nacli_leave",
+          "text": "Lo lascio stare e torno dentro il perimetro.",
+          "goto": "visitor_perimeter",
+          "effects": [
+            { "type": "set_location", "locationId": "ast_quarry_perimeter" }
+          ]
+        }
+      ]
+    },
+    "fauna_roggenrola": {
+      "stitches": [
+        {
+          "id": "roggenrola_still",
+          "text": "Un Roggenrola selvatico è semi-interrato in una zona di pietrisco. L'orecchio centrale si orienta verso il nastro, poi verso di te, poi di nuovo verso il nastro. È una creatura di territorio stabile: la cava è casa sua, non un ambiente ostile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "roggenrola_leave",
+          "text": "Non lo disturbo e torno dentro il perimetro.",
+          "goto": "visitor_perimeter",
+          "effects": [
+            { "type": "set_location", "locationId": "ast_quarry_perimeter" }
+          ]
+        }
+      ]
+    },
+    "fauna_drilbur": {
+      "stitches": [
+        {
+          "id": "drilbur_tracks",
+          "text": "Un Drilbur selvatico emerge brevemente da un tunnel laterale, scrolla la polvere, e scompare in un secondo tunnel che la sua rotazione ha scavato tempo fa. Da qui si vede la rete sotterranea come una serie di piccole uscite in sequenza — la cava sopra, un'altra cava sotto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "drilbur_leave",
+          "text": "Lo lascio al suo giro e torno dentro il perimetro.",
+          "goto": "visitor_perimeter",
+          "effects": [
+            { "type": "set_location", "locationId": "ast_quarry_perimeter" }
+          ]
+        }
+      ]
+    },
+    "fauna_diglett": {
+      "stitches": [
+        {
+          "id": "diglett_pop",
+          "text": "Un Diglett selvatico spunta dalla polvere tra due terrazze. Osserva con il suo caratteristico distacco il nastro trasportatore, poi scompare prima che tu riesca a capire da quale direzione sia emerso. Niente di tutto questo è disturbo: è routine ecologica della cava."
+        }
+      ],
+      "choices": [
+        {
+          "id": "diglett_leave",
+          "text": "Torno dentro il perimetro.",
+          "goto": "visitor_perimeter",
+          "effects": [
+            { "type": "set_location", "locationId": "ast_quarry_perimeter" }
+          ]
+        }
+      ]
+    },
+    "glass_wall": {
+      "stitches": [
+        {
+          "id": "glass_cycle",
+          "text": "La vetrata affaccia su una terrazza media attiva. Un operaio e il suo Machoke caricano pietrisco a mano in un piccolo trasporto; più in là un'escavatrice vera e propria lavora su una parete appena scoperta. Il ritmo è lento ma costante — niente fretta visibile."
+        },
+        {
+          "id": "glass_boards",
+          "text": "Due pannelli informativi dividono la vetrata. Uno descrive la fascia di produttività giornaliera e le pause programmate; l'altro parla della fauna di cava e dei protocolli per non interferire. Entrambi hanno margini aggiornati di recente — qualcuno tiene le informazioni vive."
+        },
+        {
+          "id": "glass_production_signal",
+          "text": "Nel riquadro in basso del secondo pannello una piccola nota mette in evidenza: «Produzione in salita questo trimestre. Rotazioni e verifiche di sicurezza invariate; cartellonistica delle aree chiuse aggiornata su base settimanale.» Non è un allarme — è l'inizio di un elemento che può diventare uno."
+        }
+      ],
+      "choices": [
+        {
+          "id": "glass_wall_note_pressure",
+          "text": "Prendo nota mentale della pressione produttiva.",
+          "goto": "visitor_perimeter",
+          "effects": [
+            { "type": "set_flag", "key": "cava_production_pressure_noticed", "value": true }
+          ]
+        },
+        {
+          "id": "glass_wall_back",
+          "text": "Torno al centro del perimetro.",
+          "goto": "visitor_perimeter"
+        }
+      ]
+    },
+    "tech_office": {
+      "stitches": [
+        {
+          "id": "tech_office_waiting",
+          "text": "L'Ufficio Tecnico è una stanza piccola con due scrivanie e una parete di carte topografiche sovrapposte. Un ingegnere di cantiere — tuta grigia, carteggio tecnico sotto il braccio — ti riceve senza fretta ma con il tono di chi ha una giornata già piena."
+        },
+        {
+          "id": "tech_office_intro",
+          "text": "«Rank D, visita all'area. Posso darti dieci minuti. Se la tua domanda è generica, il pannello della vetrata basta. Se è specifica, posso rispondere su geologia, protocolli, fauna di cava, o rapporto con Ferravia.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "tech_ask_geology",
+          "text": "Chiedo come leggono la geologia della zona.",
+          "timeCostMinutes": 10,
+          "goto": "tech_geology"
+        },
+        {
+          "id": "tech_ask_fauna",
+          "text": "Chiedo come gestiscono la convivenza con la fauna di cava.",
+          "timeCostMinutes": 10,
+          "goto": "tech_fauna"
+        },
+        {
+          "id": "tech_ask_ferravia",
+          "text": "Chiedo che rapporto hanno con Ferravia e le gallerie.",
+          "timeCostMinutes": 10,
+          "goto": "tech_ferravia"
+        },
+        {
+          "id": "tech_office_leave",
+          "text": "Lo lascio al suo lavoro e torno nel perimetro.",
+          "goto": "visitor_perimeter"
+        }
+      ]
+    },
+    "tech_geology": {
+      "stitches": [
+        {
+          "id": "geology_answer",
+          "text": "«Lavoriamo su un bacino sedimentario con intrusioni locali. La parte alta è prevedibile; più scendi, più trovi cavità naturali che non compaiono sulle mappe storiche. Lavoriamo con la geologia reale, non con la mappa.» Indica una delle carte sovrapposte: una più vecchia e una recente in trasparenza. Le linee non coincidono dappertutto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "geology_back",
+          "text": "Prendo nota mentale e torno in ufficio.",
+          "goto": "tech_office",
+          "effects": [
+            { "type": "set_flag", "key": "cava_old_maps_mentioned", "value": true }
+          ]
+        }
+      ]
+    },
+    "tech_fauna": {
+      "stitches": [
+        {
+          "id": "fauna_answer",
+          "text": "«Non spostiamo la fauna. La fauna si è adattata, noi stiamo attenti a non cambiare i pattern troppo bruscamente. Quando dobbiamo chiudere un settore, lo chiudiamo gradualmente e aspettiamo che gli animali ridistribuiscano le aree di nido. Non è beneficenza — è l'unico modo in cui questo posto funziona a lungo termine.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "fauna_tech_back",
+          "text": "Chiudo la domanda e torno in ufficio.",
+          "goto": "tech_office"
+        }
+      ]
+    },
+    "tech_ferravia": {
+      "stitches": [
+        {
+          "id": "ferravia_answer",
+          "text": "«Ferravia è l'hub a valle. Il materiale che carichiamo qui passa di lì; le gallerie Ferrox più oltre sono una zona tecnica a parte, non parte della cava. Se vuoi vedere come l'industria regionale si tiene insieme, Ferravia è la tappa successiva. Avranno un'officina che fa manutenzione a mezzi come i nostri, un'arena, servizi.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "ferravia_back",
+          "text": "Prendo nota del collegamento con Ferravia.",
+          "goto": "tech_office",
+          "effects": [
+            { "type": "set_flag", "key": "ferravia_mentioned", "value": true }
+          ]
+        }
+      ]
+    },
+    "exit_point": {
+      "stitches": [
+        {
+          "id": "exit_1",
+          "text": "Firmi il registro di uscita. L'addetto segna l'orario e ti saluta con un cenno. Fuori dal perimetro l'aria torna meno densa di polvere; dalla ridge si vede la direttrice di valle che prosegue verso Ferravia."
+        },
+        {
+          "id": "exit_2",
+          "text": "Cava Grigia è ora un posto reale sulla tua mappa interna: paesaggio industriale, regole di cantiere, fauna convivente, prime tensioni leggibili tra produttività e sicurezza. M3_01 ha fatto il suo compito senza forzare l'incidente che verrà più avanti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "exit_back_to_valedarsena",
+          "text": "Torno a Valedarsena.",
+          "timeCostMinutes": 180,
+          "goto": "m01-valedarsena-first-arrival#city_hub",
+          "effects": [
+            { "type": "set_location", "locationId": "valedarsena_city" }
+          ]
+        },
+        {
+          "id": "exit_back_to_handoff",
+          "text": "Torno al punto di ingresso della fascia Rank D per riorientarmi.",
+          "goto": "m03-handoff#access_band_open",
+          "effects": [
+            { "type": "set_location", "locationId": "m03_entry_point" }
+          ]
+        }
+      ]
+    }
+  }
+}

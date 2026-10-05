@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "M03",
+  "zones": [
+    {
+      "id": "AST-QUARRY",
+      "sourceZoneId": "AST-QUARRY",
+      "habitats": [
+        "cave",
+        "mountain",
+        "industrial",
+        "badland"
+      ],
+      "methods": [
+        "wild_observation",
+        "cave_exploration",
+        "overland_encounter"
+      ]
+    },
+    {
+      "id": "FER-CITY",
+      "sourceZoneId": "FER-CITY",
+      "habitats": [
+        "city",
+        "industrial"
+      ],
+      "methods": [
+        "wild_observation",
+        "overland_encounter"
+      ]
+    },
+    {
+      "id": "FER-TUNNELS",
+      "sourceZoneId": "FER-TUNNELS",
+      "habitats": [
+        "cave",
+        "industrial"
+      ],
+      "methods": [
+        "wild_observation",
+        "cave_exploration",
+        "overland_encounter"
+      ]
+    }
+  ]
+}
