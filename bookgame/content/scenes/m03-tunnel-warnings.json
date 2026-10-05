@@ -1,0 +1,719 @@
+{
+  "schemaVersion": 1,
+  "id": "m03-tunnel-warnings",
+  "moduleId": "M03",
+  "title": "M3_05 — Avvisi nelle Gallerie",
+  "locationId": "ferrox_access",
+  "entryNodeId": "warning_board",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m2_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m03_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m3_active",
+        "eq": true
+      },
+      {
+        "path": "world.flags.ferravia_discovered",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "D"
+      }
+    ]
+  },
+  "nodes": {
+    "warning_board": {
+      "stitches": [
+        {
+          "id": "warning_board_1",
+          "text": "L'accesso tecnico alle Gallerie Ferrox è separato dalla stazione passeggeri da una recinzione bassa e da un gabbiotto di controllo. Non c'è un allarme in corso: ci sono cartelli, registri e operai che entrano e escono seguendo turni normali."
+        },
+        {
+          "id": "warning_board_2",
+          "text": "Tre avvisi attirano l'attenzione: una revisione programmata delle paratie laterali, una nota sulla ventilazione del ramo vecchio e un richiamo a usare la cartografia aggiornata. Nessuno dice «pericolo imminente». Il punto è capire se i segnali convergono davvero."
+        }
+      ],
+      "choices": [
+        {
+          "id": "inspect_notice",
+          "text": "Leggo con attenzione gli avvisi e le date di revisione. (CT Investigation)",
+          "timeCostMinutes": 10,
+          "check": {
+            "ability": "INT",
+            "skill": "Investigation",
+            "dc": 12
+          },
+          "outcomes": {
+            "success": {
+              "goto": "notice_clear",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "ferrox_warning_notice_specific",
+                  "value": true
+                }
+              ]
+            },
+            "failure": {
+              "goto": "notice_partial",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "ferrox_warning_notice_partial",
+                  "value": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "ask_worker",
+          "text": "Chiedo a un addetto cosa è cambiato davvero nelle ultime settimane.",
+          "timeCostMinutes": 10,
+          "goto": "worker_gate"
+        },
+        {
+          "id": "walk_permitted_route",
+          "text": "Percorro il tratto visitabile e osservo supporti, rumori e flussi d'aria. (CT Perception)",
+          "timeCostMinutes": 15,
+          "check": {
+            "ability": "WIS",
+            "skill": "Perception",
+            "dc": 12
+          },
+          "outcomes": {
+            "success": {
+              "goto": "structural_signal",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "ferrox_warning_structural_signal",
+                  "value": true
+                }
+              ]
+            },
+            "failure": {
+              "goto": "route_unclear",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "ferrox_warning_route_checked",
+                  "value": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "compare_old_maps",
+          "text": "Confronto gli avvisi con le vecchie mappe che ho studiato.",
+          "timeCostMinutes": 10,
+          "conditions": {
+            "path": "world.flags.old_maps_read",
+            "eq": true
+          },
+          "goto": "old_map_context",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_warning_old_map_linked",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "compare_survey",
+          "text": "Confronto gli avvisi con il rapporto di sopralluogo.",
+          "timeCostMinutes": 10,
+          "conditions": {
+            "path": "world.flags.ferrox_survey_report_read",
+            "eq": true
+          },
+          "goto": "survey_context",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_warning_survey_linked",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "ask_steven",
+          "text": "Chiedo a Steven se questi segnali cambiano la sua lettura tecnica.",
+          "timeCostMinutes": 10,
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.steven_met",
+                "eq": true
+              },
+              {
+                "path": "world.flags.ferrox_warning_steven_context",
+                "ne": true
+              }
+            ]
+          },
+          "goto": "steven_context",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_warning_steven_context",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "synthesize_now",
+          "text": "Mi fermo e decido quanto peso dare ai segnali raccolti.",
+          "goto": "warning_synthesis"
+        }
+      ]
+    },
+    "notice_clear": {
+      "stitches": [
+        {
+          "id": "notice_clear_1",
+          "text": "Le date non mostrano violazioni formali, ma due revisioni sono state rinviate entro i margini consentiti. Il ramo vecchio è ancora aperto per servizio tecnico e la nota sulla ventilazione è più recente della planimetria esposta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "notice_to_board",
+          "text": "Torno agli altri segnali.",
+          "goto": "warning_board"
+        },
+        {
+          "id": "notice_to_synthesis",
+          "text": "Questo è abbastanza concreto da entrare nella mia valutazione.",
+          "goto": "warning_synthesis"
+        }
+      ]
+    },
+    "notice_partial": {
+      "stitches": [
+        {
+          "id": "notice_partial_1",
+          "text": "Le sigle e le revisioni non sono abbastanza chiare per distinguere manutenzione ordinaria da un problema reale. Registri che esiste una catena di controlli, non che sia fallita."
+        }
+      ],
+      "choices": [
+        {
+          "id": "partial_to_board",
+          "text": "Cerco un'altra fonte.",
+          "goto": "warning_board"
+        },
+        {
+          "id": "partial_to_synthesis",
+          "text": "Valuto comunque il poco che ho.",
+          "goto": "warning_synthesis"
+        }
+      ]
+    },
+    "worker_gate": {
+      "stitches": [
+        {
+          "id": "worker_gate_1",
+          "text": "L'addetto non ha motivo di raccontare dettagli interni a un trainer di passaggio. Ti conferma però che il ramo vecchio viene ancora usato da squadre di manutenzione e che le rotazioni sono più strette quando la produzione sale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "worker_persuade",
+          "text": "Gli chiedo un esempio concreto, senza chiedergli di violare procedure. (CT Persuasion)",
+          "timeCostMinutes": 10,
+          "check": {
+            "ability": "CHA",
+            "skill": "Persuasion",
+            "dc": 12
+          },
+          "outcomes": {
+            "success": {
+              "goto": "worker_open",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "ferrox_warning_worker_specific",
+                  "value": true
+                }
+              ]
+            },
+            "failure": {
+              "goto": "worker_guarded",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "ferrox_warning_worker_guarded",
+                  "value": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "worker_general",
+          "text": "Mi basta sapere se il ritmo di lavoro è cambiato.",
+          "goto": "worker_general",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_warning_worker_general",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "worker_back",
+          "text": "Non insisto e torno agli avvisi.",
+          "goto": "warning_board"
+        }
+      ]
+    },
+    "worker_open": {
+      "stitches": [
+        {
+          "id": "worker_open_1",
+          "text": "«Due volte questo mese abbiamo trovato polvere fine dove prima non arrivava. Niente crolli, niente feriti. Abbiamo chiuso il tratto, controllato, riaperto. Il problema è che ogni controllo mangia ore e quelle ore poi mancano altrove.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "worker_open_board",
+          "text": "Lo ringrazio e confronto il dato con il resto.",
+          "goto": "warning_board"
+        },
+        {
+          "id": "worker_open_synthesis",
+          "text": "Registro il cambiamento come segnale concreto.",
+          "goto": "warning_synthesis"
+        }
+      ]
+    },
+    "worker_guarded": {
+      "stitches": [
+        {
+          "id": "worker_guarded_1",
+          "text": "L'addetto chiude la conversazione con cortesia. «Se ci fosse un'emergenza, il perimetro sarebbe chiuso. Per il resto valgono le procedure.» Non hai ottenuto un dettaglio, ma nemmeno una conferma artificiale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "guarded_board",
+          "text": "Cerco altre fonti.",
+          "goto": "warning_board"
+        },
+        {
+          "id": "guarded_synthesis",
+          "text": "Valuto ciò che so senza riempire i vuoti.",
+          "goto": "warning_synthesis"
+        }
+      ]
+    },
+    "worker_general": {
+      "stitches": [
+        {
+          "id": "worker_general_1",
+          "text": "«Più carichi, più passaggi. I turni non sono più lunghi, ma sono più pieni.» È un dato operativo utile: pressione sul sistema, non prova di negligenza."
+        }
+      ],
+      "choices": [
+        {
+          "id": "general_board",
+          "text": "Torno agli altri segnali.",
+          "goto": "warning_board"
+        },
+        {
+          "id": "general_synthesis",
+          "text": "Aggiungo il dato alla valutazione.",
+          "goto": "warning_synthesis"
+        }
+      ]
+    },
+    "structural_signal": {
+      "stitches": [
+        {
+          "id": "structural_signal_1",
+          "text": "Nel tratto visitabile senti una vibrazione corta e regolare sotto il passaggio di un convoglio. Poco dopo, una linea di polvere scende da una giunzione alta. Non è un cedimento; è un segnale fisico che vale più di una voce."
+        }
+      ],
+      "choices": [
+        {
+          "id": "structural_board",
+          "text": "Torno al gabbiotto e confronto il segnale.",
+          "goto": "warning_board"
+        },
+        {
+          "id": "structural_synthesis",
+          "text": "Registro il segnale strutturale nella mia valutazione.",
+          "goto": "warning_synthesis"
+        }
+      ]
+    },
+    "route_unclear": {
+      "stitches": [
+        {
+          "id": "route_unclear_1",
+          "text": "Il rumore della galleria copre troppo: ventilatori, ruote, voci e metallo si sommano senza lasciarti isolare un pattern affidabile. Non trasformi il rumore in una diagnosi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "unclear_board",
+          "text": "Cerco un'altra fonte.",
+          "goto": "warning_board"
+        },
+        {
+          "id": "unclear_synthesis",
+          "text": "Valuto il quadro senza questo elemento.",
+          "goto": "warning_synthesis"
+        }
+      ]
+    },
+    "old_map_context": {
+      "stitches": [
+        {
+          "id": "old_map_context_1",
+          "text": "La vecchia planimetria rende più leggibile l'avviso sulle paratie: il ramo segnalato corre vicino a una cavità che nelle mappe moderne appare semplificata. Non significa che stia cedendo; significa che il margine storico conta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "old_map_board",
+          "text": "Torno agli altri segnali.",
+          "goto": "warning_board"
+        },
+        {
+          "id": "old_map_synthesis",
+          "text": "Uso il confronto cartografico nella valutazione.",
+          "goto": "warning_synthesis"
+        }
+      ]
+    },
+    "survey_context": {
+      "stitches": [
+        {
+          "id": "survey_context_1",
+          "text": "Il rapporto aveva già chiesto controlli più frequenti sulle pareti leggere di separazione. Gli avvisi odierni non contraddicono quella raccomandazione: mostrano che il problema tecnico è noto, ma ancora gestito come manutenzione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "survey_board",
+          "text": "Torno agli altri segnali.",
+          "goto": "warning_board"
+        },
+        {
+          "id": "survey_synthesis",
+          "text": "Registro la continuità tra rapporto e avvisi.",
+          "goto": "warning_synthesis"
+        }
+      ]
+    },
+    "steven_context": {
+      "stitches": [
+        {
+          "id": "steven_context_1",
+          "text": "Steven ascolta e guarda le date prima di rispondere. «Un singolo rinvio non mi preoccupa. Mi interessa la combinazione: cartografia vecchia, produzione alta, segnali fisici ripetuti. Se due di questi elementi si incontrano nello stesso ramo, smette di essere solo amministrazione.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "steven_board",
+          "text": "Torno agli altri segnali.",
+          "goto": "warning_board"
+        },
+        {
+          "id": "steven_synthesis",
+          "text": "Integro la sua lettura senza trattarla come certezza.",
+          "goto": "warning_synthesis"
+        }
+      ]
+    },
+    "warning_synthesis": {
+      "stitches": [
+        {
+          "id": "warning_synthesis_1",
+          "text": "Hai abbastanza elementi per decidere come descrivere il rischio, non per predire il futuro. Il valore della scelta è nel livello di attenzione che porterai avanti, non nell'inventare un colpevole."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record_converging_warnings",
+          "text": "I segnali convergono: registro un rischio tecnico credibile.",
+          "conditions": {
+            "any": [
+              {
+                "all": [
+                  {
+                    "path": "world.flags.ferrox_warning_structural_signal",
+                    "eq": true
+                  },
+                  {
+                    "any": [
+                      {
+                        "path": "world.flags.ferrox_warning_notice_specific",
+                        "eq": true
+                      },
+                      {
+                        "path": "world.flags.ferrox_warning_worker_specific",
+                        "eq": true
+                      },
+                      {
+                        "path": "world.flags.ferrox_warning_old_map_linked",
+                        "eq": true
+                      },
+                      {
+                        "path": "world.flags.ferrox_warning_survey_linked",
+                        "eq": true
+                      },
+                      {
+                        "path": "world.flags.ferrox_warning_steven_context",
+                        "eq": true
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "all": [
+                  {
+                    "path": "world.flags.ferrox_warning_notice_specific",
+                    "eq": true
+                  },
+                  {
+                    "path": "world.flags.ferrox_warning_worker_specific",
+                    "eq": true
+                  }
+                ]
+              }
+            ]
+          },
+          "goto": "warning_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_warning_quality",
+              "value": "strong"
+            },
+            {
+              "type": "set_flag",
+              "key": "tunnel_warnings_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "record_partial_warning",
+          "text": "C'è abbastanza per restare vigile, ma non per parlare di emergenza.",
+          "conditions": {
+            "all": [
+              {
+                "any": [
+                  {
+                    "path": "world.flags.ferrox_warning_notice_specific",
+                    "eq": true
+                  },
+                  {
+                    "path": "world.flags.ferrox_warning_notice_partial",
+                    "eq": true
+                  },
+                  {
+                    "path": "world.flags.ferrox_warning_worker_specific",
+                    "eq": true
+                  },
+                  {
+                    "path": "world.flags.ferrox_warning_worker_general",
+                    "eq": true
+                  },
+                  {
+                    "path": "world.flags.ferrox_warning_structural_signal",
+                    "eq": true
+                  },
+                  {
+                    "path": "world.flags.ferrox_warning_old_map_linked",
+                    "eq": true
+                  },
+                  {
+                    "path": "world.flags.ferrox_warning_survey_linked",
+                    "eq": true
+                  },
+                  {
+                    "path": "world.flags.ferrox_warning_steven_context",
+                    "eq": true
+                  }
+                ]
+              },
+              {
+                "not": {
+                  "any": [
+                    {
+                      "all": [
+                        {
+                          "path": "world.flags.ferrox_warning_structural_signal",
+                          "eq": true
+                        },
+                        {
+                          "any": [
+                            {
+                              "path": "world.flags.ferrox_warning_notice_specific",
+                              "eq": true
+                            },
+                            {
+                              "path": "world.flags.ferrox_warning_worker_specific",
+                              "eq": true
+                            },
+                            {
+                              "path": "world.flags.ferrox_warning_old_map_linked",
+                              "eq": true
+                            },
+                            {
+                              "path": "world.flags.ferrox_warning_survey_linked",
+                              "eq": true
+                            },
+                            {
+                              "path": "world.flags.ferrox_warning_steven_context",
+                              "eq": true
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "all": [
+                        {
+                          "path": "world.flags.ferrox_warning_notice_specific",
+                          "eq": true
+                        },
+                        {
+                          "path": "world.flags.ferrox_warning_worker_specific",
+                          "eq": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "goto": "warning_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_warning_quality",
+              "value": "partial"
+            },
+            {
+              "type": "set_flag",
+              "key": "tunnel_warnings_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "record_low_confidence",
+          "text": "Non ho trovato abbastanza: registro soltanto che ho controllato.",
+          "conditions": {
+            "not": {
+              "any": [
+                {
+                  "path": "world.flags.ferrox_warning_notice_specific",
+                  "eq": true
+                },
+                {
+                  "path": "world.flags.ferrox_warning_notice_partial",
+                  "eq": true
+                },
+                {
+                  "path": "world.flags.ferrox_warning_worker_specific",
+                  "eq": true
+                },
+                {
+                  "path": "world.flags.ferrox_warning_worker_general",
+                  "eq": true
+                },
+                {
+                  "path": "world.flags.ferrox_warning_structural_signal",
+                  "eq": true
+                },
+                {
+                  "path": "world.flags.ferrox_warning_old_map_linked",
+                  "eq": true
+                },
+                {
+                  "path": "world.flags.ferrox_warning_survey_linked",
+                  "eq": true
+                },
+                {
+                  "path": "world.flags.ferrox_warning_steven_context",
+                  "eq": true
+                }
+              ]
+            }
+          },
+          "goto": "warning_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_warning_quality",
+              "value": "low"
+            },
+            {
+              "type": "set_flag",
+              "key": "tunnel_warnings_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "keep_investigating",
+          "text": "Non chiudo ancora la valutazione; torno alle fonti.",
+          "goto": "warning_board"
+        }
+      ]
+    },
+    "warning_close": {
+      "stitches": [
+        {
+          "id": "warning_close_1",
+          "text": "La tua valutazione resta nel diario di stato come conoscenza, non come profezia. Mentre ti prepari a lasciare l'accesso, il sistema del mondo continua a processare turni, ritardi e imprevisti indipendentemente da te."
+        }
+      ],
+      "choices": [
+        {
+          "id": "open_incident_alert",
+          "text": "Un allarme arriva da Ferrox. Apro subito il dispaccio.",
+          "conditions": {
+            "path": "world.flags.a3_ferrox_incident_available",
+            "eq": true
+          },
+          "goto": "m03-ferrox-incident#incident_alert",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "fer_city_dispatch"
+            }
+          ]
+        },
+        {
+          "id": "back_to_ferravia",
+          "text": "Torno a Ferravia e mantengo il quadro in mente.",
+          "goto": "m03-ferravia-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
