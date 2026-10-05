@@ -3,6 +3,7 @@ const ID_RE = /^[A-Za-z0-9_-]+$/;
 const FIXED_PATHS = new Set([
   "player.name",
   "player.trainerLevel",
+  "player.money",
   "player.roster.length",
   "world.day",
   "world.elapsedMinutes",
