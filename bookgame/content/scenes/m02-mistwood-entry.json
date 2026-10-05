@@ -238,6 +238,12 @@
           "goto": "threshold"
         },
         {
+          "id": "explore_inner",
+          "text": "Avanzo nella zona interna del bosco oltre la fascia d'ingresso.",
+          "timeCostMinutes": 15,
+          "goto": "m02-capture-signs#signs_entry"
+        },
+        {
           "id": "return_city",
           "text": "Per ora torno a Valedarsena.",
           "goto": "m01-valedarsena-first-arrival#city_hub",

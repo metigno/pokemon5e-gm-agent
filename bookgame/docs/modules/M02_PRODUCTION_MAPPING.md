@@ -55,7 +55,7 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 |---|---|---:|---:|---|
 | M2_00_RANK_E_HANDOFF | ereditare integralmente M1 e aprire la fascia Rank E | 286 | 186 | COMPLETE |
 | M2_01_MISTWOOD_ENTRY | primo ingresso a Bosco Bruma, viaggio, nebbia e fauna contestuale | 286 | 186 | COMPLETE |
-| M2_02_CAPTURE_SIGNS | indizi di cattura illegale senza rendere il crimine automaticamente evidente | 337 | 218 | PLANNED |
+| M2_02_CAPTURE_SIGNS | indizi di cattura illegale senza rendere il crimine automaticamente evidente | 337 | 218 | COMPLETE |
 | M2_03_BORGO_SALICE | hub locale, Ranger, servizi, voci e Sala Verde | 336 | 218 | PLANNED |
 | M2_04_N_ENTERS | introduzione causale di N e primo contrasto etico | 336 | 218 | PLANNED |
 | M2_05_RANGER_THREAD | collegare conseguenze Ranger/M1 alle nuove anomalie | 336 | 218 | PLANNED |
@@ -142,6 +142,9 @@ M2_01 is entered from `m01-valedarsena-first-arrival#city_hub` only when `m02_un
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+**Implementation lock (verified 2026-10-05):**
+Scene `m02-capture-signs` (moduleId M02, locationId asteria_mistwood) requires all five canonical entry conditions at scene level: `m1_complete=true`, `m02_unlocked=true`, `m2_active=true`, `competition.rank=E`, `mistwood_entry_complete=true`. Any attempt to access the scene from illegal state throws "Scene conditions are not satisfied". Navigation is exposed via `m02-mistwood-entry#inner_path` through a new `explore_inner` choice (15 min travel). Durable writes are scoped to: `capture_ground_signs`, `capture_aerial_signs`, `capture_signs_noticed`, `capture_signs_investigated`, `capture_evidence_held`, `capture_site_located`, `capture_ranger_note`, `mistwood_inner_traversed`. N is not introduced, the poaching network is not identified, no quest is opened, no Ranger NPC is registered, no FRIEND_BEAT_02/Rookie Invitational/E→D Trial is started. Investigation checks (INT/Investigation DC 12/13/14) and Perception check (WIS/Perception DC 11) gate divergent information without forcing conclusions. The `correlate_with_ground` choice is hidden until `capture_ground_signs=true` is set by a prior successful ground examination. M2_01 regressions are zero (12/12 pass). Verified by 24 dedicated regressions (all pass).
 
 ---
 

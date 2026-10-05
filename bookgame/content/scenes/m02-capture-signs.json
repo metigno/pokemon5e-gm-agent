@@ -1,0 +1,570 @@
+{
+  "schemaVersion": 1,
+  "id": "m02-capture-signs",
+  "moduleId": "M02",
+  "title": "M2_02 — Segnali di Cattura",
+  "locationId": "asteria_mistwood",
+  "entryNodeId": "signs_entry",
+  "conditions": {
+    "all": [
+      { "path": "world.flags.m1_complete", "eq": true },
+      { "path": "world.flags.m02_unlocked", "eq": true },
+      { "path": "world.flags.m2_active", "eq": true },
+      { "path": "competition.rank", "eq": "E" },
+      { "path": "world.flags.mistwood_entry_complete", "eq": true }
+    ]
+  },
+  "nodes": {
+    "signs_entry": {
+      "stitches": [
+        {
+          "id": "inner_zone_description",
+          "text": "La parte interna di Bosco Bruma è diversa dall'ingresso: la nebbia è più densa tra le radici, i rumori meno continui. Non c'è un confine segnato, ma il sottobosco qui è più fitto e la luce filtra a tratti."
+        },
+        {
+          "id": "first_anomaly",
+          "text": "La vegetazione è schiacciata lungo una linea che non corrisponde a nessun sentiero noto. Non si tratta di un percorso frequentato da trainer; la traiettoria è troppo diretta e le piante ai lati mostrano sfregamenti a un'altezza costante, come se qualcosa di pesante fosse stato trascinato."
+        },
+        {
+          "id": "ambiguity",
+          "text": "Potrebbe essere una Pokémon territoriale che marca i confini, un ramo caduto trascinato dalla corrente d'aria, o qualcosa portato da mani umane. L'area non ha indicatori di Circuito e nessun segnale dice cosa aspettarsi qui."
+        }
+      ],
+      "choices": [
+        {
+          "id": "examine_ground",
+          "text": "Esamino il terreno con attenzione.",
+          "check": {
+            "ability": "INT",
+            "skill": "Investigation",
+            "dc": 12
+          },
+          "outcomes": {
+            "success": {
+              "goto": "ground_clear",
+              "effects": [
+                { "type": "set_flag", "key": "capture_ground_signs", "value": true }
+              ]
+            },
+            "failure": {
+              "goto": "ground_ambiguous"
+            }
+          }
+        },
+        {
+          "id": "watch_zone",
+          "text": "Mi fermo e osservo la distribuzione della fauna nella zona.",
+          "timeCostMinutes": 10,
+          "check": {
+            "ability": "WIS",
+            "skill": "Perception",
+            "dc": 11
+          },
+          "outcomes": {
+            "success": {
+              "goto": "zone_pattern",
+              "effects": [
+                { "type": "set_flag", "key": "capture_aerial_signs", "value": true },
+                { "type": "set_flag", "key": "capture_signs_noticed", "value": true }
+              ]
+            },
+            "failure": {
+              "goto": "zone_fog"
+            }
+          }
+        },
+        {
+          "id": "northeast_hollow",
+          "text": "Raggiungo un cavo nel tronco a nord-est che ha qualcosa di insolito.",
+          "timeCostMinutes": 15,
+          "goto": "hollow_approach"
+        },
+        {
+          "id": "move_through",
+          "text": "Non mi fermo a investigare. Continuo verso il bordo del bosco.",
+          "timeCostMinutes": 30,
+          "goto": "inner_exit",
+          "effects": [
+            { "type": "set_flag", "key": "mistwood_inner_traversed", "value": true }
+          ]
+        },
+        {
+          "id": "return_threshold",
+          "text": "Torno verso l'ingresso del bosco.",
+          "goto": "m02-mistwood-entry#threshold"
+        }
+      ]
+    },
+    "ground_clear": {
+      "stitches": [
+        {
+          "id": "ground_read_1",
+          "text": "Il terreno conserva impressioni chiare: un'impronta da stivale vicino a un gruppo di bacche, orientata in direzione contraria al sentiero principale. Chi ha lasciato questa traccia non stava camminando casualmente."
+        },
+        {
+          "id": "ground_read_2",
+          "text": "Più avanti, sul margine della linea schiacciata, c'è uno sfregamento nel fango che corrisponde al trascinamento di qualcosa di forme irregolari — troppo irregolare per un contenitore standard da trainer, troppo regolare per essere un ramo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "follow_drag",
+          "text": "Seguo la linea di trascinamento per vedere dove porta.",
+          "timeCostMinutes": 20,
+          "goto": "drag_trail"
+        },
+        {
+          "id": "catalog_ground",
+          "text": "Annoto mentalmente la posizione e il tipo di traccia.",
+          "timeCostMinutes": 5,
+          "goto": "signs_entry",
+          "effects": [
+            { "type": "set_flag", "key": "capture_signs_noticed", "value": true }
+          ]
+        },
+        {
+          "id": "leave_ground",
+          "text": "Non spingo oltre qui.",
+          "goto": "signs_entry"
+        }
+      ]
+    },
+    "ground_ambiguous": {
+      "stitches": [
+        {
+          "id": "ground_wet",
+          "text": "Il terreno è troppo saturo d'acqua e nebbia per distinguere un pattern. Ci sono tracce, ma si sovrappongono e si perdono nel fango senza senso leggibile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "try_canopy",
+          "text": "Provo a osservare dall'alto invece.",
+          "goto": "signs_entry"
+        },
+        {
+          "id": "abandon_ground",
+          "text": "Lascio perdere questo approccio.",
+          "goto": "signs_entry"
+        }
+      ]
+    },
+    "drag_trail": {
+      "stitches": [
+        {
+          "id": "trail_continues",
+          "text": "La traccia di trascinamento porta verso una zona più densa, dove la vegetazione si chiude quasi a nascondere un'area schiarita artificialmente — non dalla luce, ma da qualcosa che ha rotto la copertura verticalmente."
+        },
+        {
+          "id": "human_presence",
+          "text": "Ci sono anche segni di presenza umana più recente: foglie girate dalla parte sbagliata, un ramo spezzato con angolo netto invece che strappato. Non sono le tracce di un ranger in servizio regolare."
+        }
+      ],
+      "choices": [
+        {
+          "id": "investigate_endpoint",
+          "text": "Arrivo fino all'area schiarita e la esamino.",
+          "timeCostMinutes": 15,
+          "check": {
+            "ability": "INT",
+            "skill": "Investigation",
+            "dc": 14
+          },
+          "outcomes": {
+            "success": {
+              "goto": "cache_site",
+              "effects": [
+                { "type": "set_flag", "key": "capture_signs_investigated", "value": true }
+              ]
+            },
+            "failure": {
+              "goto": "trail_lost"
+            }
+          }
+        },
+        {
+          "id": "mark_trail",
+          "text": "Segno mentalmente la posizione per un eventuale riferimento.",
+          "goto": "signs_entry",
+          "effects": [
+            { "type": "set_flag", "key": "capture_ranger_note", "value": true }
+          ]
+        },
+        {
+          "id": "retreat_trail",
+          "text": "Non mi addentro oltre in questa direzione.",
+          "goto": "signs_entry"
+        }
+      ]
+    },
+    "cache_site": {
+      "stitches": [
+        {
+          "id": "site_description",
+          "text": "L'area è stata liberata: la vegetazione ai bordi è tagliata in modo netto, non strappata. Sul terreno rimangono i segni di casse o contenitori poggiate e poi rimosse — tracce quadrate nel fango, resti di fibra vegetale usata come imbottitura."
+        },
+        {
+          "id": "site_recent",
+          "text": "L'odore è di esca: qualcosa di dolce e artificiale che non appartiene al bosco. Il sito è stato usato di recente e poi ripulito con cura. Non ci sono Pokémon selvatici nelle vicinanze immediate."
+        }
+      ],
+      "choices": [
+        {
+          "id": "document_site",
+          "text": "Raccolgo un campione di fibra come prova documentabile.",
+          "timeCostMinutes": 10,
+          "goto": "cache_documented",
+          "effects": [
+            { "type": "set_flag", "key": "capture_evidence_held", "value": true }
+          ]
+        },
+        {
+          "id": "leave_intact",
+          "text": "Lascio tutto dov'è e segno la posizione esatta.",
+          "goto": "signs_entry",
+          "effects": [
+            { "type": "set_flag", "key": "capture_site_located", "value": true }
+          ]
+        },
+        {
+          "id": "flag_ranger",
+          "text": "Decido che questo va riferito a qualcuno di competente.",
+          "goto": "ranger_noted",
+          "effects": [
+            { "type": "set_flag", "key": "capture_ranger_note", "value": true }
+          ]
+        }
+      ]
+    },
+    "trail_lost": {
+      "stitches": [
+        {
+          "id": "site_cleared",
+          "text": "L'area alla fine del percorso è stata ripulita: non c'è nulla di utile, solo vegetazione schiacciata che potrebbe essere interpretata in troppi modi diversi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "note_clearing",
+          "text": "Il fatto che l'area sia stata pulita è già un'informazione.",
+          "goto": "signs_entry",
+          "effects": [
+            { "type": "set_flag", "key": "capture_signs_noticed", "value": true }
+          ]
+        },
+        {
+          "id": "give_up_trail",
+          "text": "Non ci sono abbastanza dati qui.",
+          "goto": "signs_entry"
+        }
+      ]
+    },
+    "zone_pattern": {
+      "stitches": [
+        {
+          "id": "fauna_absent",
+          "text": "La distribuzione della fauna non corrisponde all'ecologia attesa. Alcune specie che dovrebbero essere presenti in quest'area a quest'ora non sono visibili; i richiami che senti vengono tutti dalla stessa direzione, come se tutto si stesse spostando lontano da qualcosa."
+        },
+        {
+          "id": "combee_erratic",
+          "text": "Un gruppo di Combee selvatici segue una traiettoria irregolare invece del percorso diretto verso i fiori. Li guardi un momento: qualcosa ha spostato il loro riferimento spaziale nell'ultimo periodo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "correlate_with_ground",
+          "text": "Confronto quello che vedo qui con le tracce che ho già esaminato.",
+          "conditions": {
+            "path": "world.flags.capture_ground_signs",
+            "eq": true
+          },
+          "timeCostMinutes": 5,
+          "goto": "dual_read",
+          "effects": [
+            { "type": "set_flag", "key": "capture_signs_investigated", "value": true }
+          ]
+        },
+        {
+          "id": "follow_combee",
+          "text": "Seguo il gruppo di Combee per vedere dove li porta la traiettoria anomala.",
+          "timeCostMinutes": 10,
+          "check": {
+            "ability": "WIS",
+            "skill": "Perception",
+            "dc": 12
+          },
+          "outcomes": {
+            "success": {
+              "goto": "combee_leads"
+            },
+            "failure": {
+              "goto": "combee_lost"
+            }
+          }
+        },
+        {
+          "id": "note_fauna",
+          "text": "Registro l'anomalia faunistica e continuo.",
+          "goto": "signs_entry"
+        }
+      ]
+    },
+    "zone_fog": {
+      "stitches": [
+        {
+          "id": "fog_blocks",
+          "text": "La nebbia e la distanza rendono impossibile valutare la distribuzione della fauna. Qualsiasi osservazione a questo punto sarebbe una supposizione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "try_ground_instead",
+          "text": "Provo con un approccio diverso.",
+          "goto": "signs_entry"
+        },
+        {
+          "id": "press_on",
+          "text": "Continuo senza dati certi.",
+          "goto": "signs_entry"
+        }
+      ]
+    },
+    "dual_read": {
+      "stitches": [
+        {
+          "id": "pattern_emerges",
+          "text": "Le tracce a terra e i movimenti della fauna si incastrano: la distribuzione anomala degli animali corrisponde all'area da cui vengono le tracce di trascinamento. Non è un incidente isolato e non è naturale."
+        },
+        {
+          "id": "no_conclusions",
+          "text": "Non hai ancora abbastanza elementi per capire chi o quante persone siano coinvolte, né se si tratti di un episodio singolo o di qualcosa di sistematico. Sai solo che è successo qualcosa che non doveva succedere."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue_from_dual",
+          "text": "Porto queste informazioni con me.",
+          "goto": "signs_entry"
+        }
+      ]
+    },
+    "combee_leads": {
+      "stitches": [
+        {
+          "id": "combee_direction",
+          "text": "Il gruppo di Combee vira in modo brusco vicino a una zona di terreno schiacciato che corrisponde alla linea di trascinamento che hai già notato. Il loro comportamento evitante è coerente con una presenza recente di esseri umani in quell'area."
+        },
+        {
+          "id": "combee_confirms",
+          "text": "Non è prova definitiva — i Combee rispondono a molti stimoli — ma il raccordo tra i loro movimenti e le tracce fisiche è abbastanza specifico da non essere casuale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "follow_to_trail",
+          "text": "Seguo l'indicazione verso la zona di trascinamento.",
+          "timeCostMinutes": 10,
+          "goto": "drag_trail",
+          "effects": [
+            { "type": "set_flag", "key": "capture_signs_noticed", "value": true }
+          ]
+        },
+        {
+          "id": "note_combee_confirm",
+          "text": "Registro il dato e non disturbo ulteriormente la zona.",
+          "goto": "signs_entry",
+          "effects": [
+            { "type": "set_flag", "key": "capture_signs_noticed", "value": true }
+          ]
+        }
+      ]
+    },
+    "combee_lost": {
+      "stitches": [
+        {
+          "id": "combee_dispersed",
+          "text": "Il gruppo di Combee si disperde nella nebbia prima di arrivare a un punto identificabile. Hai perso il filo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_from_combee",
+          "text": "Torno al punto di partenza.",
+          "goto": "signs_entry"
+        }
+      ]
+    },
+    "hollow_approach": {
+      "stitches": [
+        {
+          "id": "hollow_visible",
+          "text": "Il tronco è antico e largo abbastanza da contenere qualcosa di significativo. L'apertura è a livello del suolo, parzialmente coperta da felci; i segni sul legno intorno all'apertura non sono quelli di artigli — hanno angoli troppo regolari."
+        },
+        {
+          "id": "hollow_marks",
+          "text": "Le sfregature sul bordo del cavo sono fresche, fatte con un materiale rigido invece che con parti corporee di Pokémon. Qualcuno ha maneggiato questa cavità di recente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "investigate_hollow",
+          "text": "Esamino l'interno del cavo.",
+          "timeCostMinutes": 10,
+          "check": {
+            "ability": "INT",
+            "skill": "Investigation",
+            "dc": 13
+          },
+          "outcomes": {
+            "success": {
+              "goto": "hollow_used",
+              "effects": [
+                { "type": "set_flag", "key": "capture_signs_noticed", "value": true }
+              ]
+            },
+            "failure": {
+              "goto": "hollow_old"
+            }
+          }
+        },
+        {
+          "id": "leave_hollow",
+          "text": "Lascio il cavo dov'è senza toccare nulla.",
+          "goto": "signs_entry"
+        }
+      ]
+    },
+    "hollow_used": {
+      "stitches": [
+        {
+          "id": "remnants_inside",
+          "text": "Dentro il cavo ci sono residui di un contenitore: bordi di legno lavorato con chiodi piccoli, un pezzo di tessuto sintetico nero probabilmente da una rete, e odore di plastica scaldata. Non è equipaggiamento da trainer standard."
+        },
+        {
+          "id": "hollow_temporary",
+          "text": "Il cavo è stato usato come punto di stoccaggio temporaneo. Non sai quante volte né da quanto tempo, ma il materiale non è abbastanza deteriorato da essere vecchio di settimane."
+        }
+      ],
+      "choices": [
+        {
+          "id": "collect_remnant",
+          "text": "Prendo il pezzo di tessuto come elemento documentabile.",
+          "timeCostMinutes": 5,
+          "goto": "remnant_examined",
+          "effects": [
+            { "type": "set_flag", "key": "capture_evidence_held", "value": true }
+          ]
+        },
+        {
+          "id": "flag_hollow_ranger",
+          "text": "Segno mentalmente questo punto come informazione per il Ranger.",
+          "goto": "signs_entry",
+          "effects": [
+            { "type": "set_flag", "key": "capture_ranger_note", "value": true }
+          ]
+        },
+        {
+          "id": "leave_hollow_intact",
+          "text": "Non tocco nulla e mi allontano senza disturbare il sito.",
+          "goto": "signs_entry",
+          "effects": [
+            { "type": "set_flag", "key": "capture_site_located", "value": true }
+          ]
+        }
+      ]
+    },
+    "hollow_old": {
+      "stitches": [
+        {
+          "id": "hollow_inconclusive",
+          "text": "L'interno del cavo non rivela nulla di inequivocabile: ci sono graffi che potrebbero risalire a anni fa e materiale organico decomposto che non aiuta a datare nulla. Se c'era qualcosa, è stato rimosso o si è degradato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_from_hollow",
+          "text": "Mi allontano dal cavo.",
+          "goto": "signs_entry"
+        }
+      ]
+    },
+    "cache_documented": {
+      "stitches": [
+        {
+          "id": "sample_secured",
+          "text": "La fibra è riposta in modo sicuro. Non è prova da Circuito, ma è un elemento concreto che potrebbe tornare utile se le cose si chiariscono."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_from_cache_doc",
+          "text": "Torno al punto di osservazione.",
+          "goto": "signs_entry"
+        }
+      ]
+    },
+    "ranger_noted": {
+      "stitches": [
+        {
+          "id": "ranger_mental_note",
+          "text": "Hai deciso che quello che hai trovato supera il livello di 'curiosità personale'. Se esiste un ranger con competenza su questa zona, questa è informazione che non dovresti tenere solo per te."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_from_ranger_note",
+          "text": "Torno a esplorare.",
+          "goto": "signs_entry"
+        }
+      ]
+    },
+    "remnant_examined": {
+      "stitches": [
+        {
+          "id": "remnant_confirmed",
+          "text": "Il tessuto è sintetico, da rete con maglie strette, simile a quello usato per contenitori di trasporto. Non è qualcosa che si porta per fare escursioni nel bosco; è qualcosa che si porta quando si prevede di portare via qualcosa di vivo."
+        },
+        {
+          "id": "remnant_implication",
+          "text": "Non puoi affermare nulla di certo solo da un pezzo di tessuto. Ma la combinazione con quello che hai visto finora rende l'interpretazione più difficile da scartare."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_from_remnant",
+          "text": "Proseguo.",
+          "goto": "signs_entry"
+        }
+      ]
+    },
+    "inner_exit": {
+      "stitches": [
+        {
+          "id": "exit_description",
+          "text": "Il sentiero interno porta verso il bordo orientale del bosco, dove la nebbia si dirada e il terreno diventa più stabile. La strada per Borgo Salice è da questa parte; da qui, il bosco ha già detto quello che ti stava dicendo."
+        },
+        {
+          "id": "exit_open",
+          "text": "Non sei obbligato a partire adesso. Puoi tornare indietro nel bosco o proseguire: entrambe le direzioni restano aperte."
+        }
+      ],
+      "choices": [
+        {
+          "id": "return_to_signs",
+          "text": "Torno nella zona interna del bosco.",
+          "timeCostMinutes": 20,
+          "goto": "signs_entry"
+        },
+        {
+          "id": "back_to_entry",
+          "text": "Rientro verso l'ingresso del bosco.",
+          "goto": "m02-mistwood-entry#threshold",
+          "timeCostMinutes": 25,
+          "effects": [
+            { "type": "set_location", "locationId": "asteria_mistwood" }
+          ]
+        }
+      ]
+    }
+  }
+}
