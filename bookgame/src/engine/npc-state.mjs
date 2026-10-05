@@ -2,6 +2,7 @@ import { ensureWorldClock } from "./time.mjs";
 
 export const RELATIONSHIP_STATES = ["Hostile", "Distrustful", "Neutral", "Friendly", "Loyal"];
 export const NPC_AVAILABILITY = new Set(["available", "busy", "away", "traveling"]);
+export const FIVE_FRIEND_IDS = ["Luke", "Mattew", "Daniel", "Edward", "Fab"];
 const ID_RE = /^[A-Za-z0-9_-]+$/;
 
 function requireId(value, label) {
@@ -151,6 +152,7 @@ export function applyNpcEffect(state, effect) {
     case "npc_relationship_adjust": return adjustNpcRelationship(state, effect);
     case "npc_state_set": return setNpcState(state, effect);
     case "npc_schedule_set": return setNpcSchedule(state, effect);
+    case "friend_beat_select": return applyFriendBeatSelection(state, effect);
     default: throw new Error("Unsupported NPC effect type: " + effect.type);
   }
 }
@@ -168,22 +170,67 @@ export function getNpcPublicView(state, npcId) {
 }
 
 export function selectFriendBeatCandidate(state, {
-  candidateIds = ["Mattew", "Daniel", "Edward", "Fab"],
-  locationId = state.world.locationId
+  candidateIds = FIVE_FRIEND_IDS,
+  locationId = state.world.locationId,
+  compatibleActivities = [],
+  preferredRecentResults = []
 } = {}) {
   refreshNpcSchedules(state);
-  const candidates = candidateIds
-    .map((npcId, index) => ({ npc: state.npcs?.[npcId], index }))
+  const canonicalOrder = new Map(FIVE_FRIEND_IDS.map((id, index) => [id, index]));
+  const requested = new Set(candidateIds);
+  const activitySet = new Set(compatibleActivities);
+  const resultSet = new Set(preferredRecentResults);
+
+  const candidates = FIVE_FRIEND_IDS
+    .filter((npcId) => requested.has(npcId) && npcId !== state.player?.name)
+    .map((npcId) => {
+      const npc = state.npcs?.[npcId];
+      return {
+        npc,
+        index: canonicalOrder.get(npcId),
+        activityMatch: Boolean(npc && activitySet.size > 0 && activitySet.has(npc.schedule?.activity)),
+        recentResultMatch: Boolean(npc && resultSet.size > 0 && resultSet.has(npc.state?.recentResult))
+      };
+    })
     .filter(({ npc }) =>
       npc &&
       npc.schedule?.present &&
       npc.schedule.locationId === locationId
     )
     .sort((a, b) =>
+      Number(b.activityMatch) - Number(a.activityMatch) ||
+      Number(b.recentResultMatch) - Number(a.recentResultMatch) ||
       b.npc.relationship.score - a.npc.relationship.score ||
       a.index - b.index
     );
+
   return candidates[0]?.npc.id ?? null;
+}
+
+export function applyFriendBeatSelection(state, {
+  candidateIds = FIVE_FRIEND_IDS,
+  locationId = state.world.locationId,
+  contentType,
+  compatibleActivities = [],
+  preferredRecentResults = []
+}) {
+  requireId(contentType, "friend beat contentType");
+  const selectedId = selectFriendBeatCandidate(state, {
+    candidateIds,
+    locationId,
+    compatibleActivities,
+    preferredRecentResults
+  });
+  if (!selectedId) {
+    throw new Error("No eligible FRIEND_BEAT candidate at location: " + locationId);
+  }
+
+  state.world.flags.friend_beat_01_selected = true;
+  state.world.flags.friend_beat_01_friend_id = selectedId;
+  state.world.flags.friend_beat_01_type = contentType;
+  state.npcs[selectedId].state.friendBeat01Selected = true;
+  state.npcs[selectedId].state.friendBeat01Type = contentType;
+  return selectedId;
 }
 
 export function validateNpcEffect(effect, at = "effect") {
@@ -193,7 +240,7 @@ export function validateNpcEffect(effect, at = "effect") {
     push("INVALID_NPC_EFFECT", "NPC effect must be an object");
     return errors;
   }
-  if (!["npc_register", "npc_relationship_adjust", "npc_state_set", "npc_schedule_set"].includes(effect.type)) {
+  if (!["npc_register", "npc_relationship_adjust", "npc_state_set", "npc_schedule_set", "friend_beat_select"].includes(effect.type)) {
     push("INVALID_NPC_EFFECT", "Unsupported NPC effect type");
     return errors;
   }
@@ -240,6 +287,21 @@ export function validateNpcEffect(effect, at = "effect") {
     if (Number.isInteger(effect.startsAtMinutes) && Number.isInteger(effect.endsAtMinutes) &&
         effect.endsAtMinutes <= effect.startsAtMinutes) {
       push("INVALID_NPC_SCHEDULE_WINDOW", "endsAtMinutes must be greater than startsAtMinutes", at);
+    }
+  }
+  if (effect.type === "friend_beat_select") {
+    if (typeof effect.contentType !== "string" || !ID_RE.test(effect.contentType)) {
+      push("INVALID_FRIEND_BEAT_TYPE", "friend_beat_select requires a stable contentType", at + ".contentType");
+    }
+    if (effect.locationId !== undefined && (typeof effect.locationId !== "string" || effect.locationId.length === 0)) {
+      push("INVALID_FRIEND_BEAT_LOCATION", "friend_beat_select locationId must be a non-empty string", at + ".locationId");
+    }
+    for (const field of ["candidateIds", "compatibleActivities", "preferredRecentResults"]) {
+      if (effect[field] !== undefined &&
+          (!Array.isArray(effect[field]) || effect[field].length === 0 ||
+           effect[field].some((value) => typeof value !== "string" || !ID_RE.test(value)))) {
+        push("INVALID_FRIEND_BEAT_SELECTOR", field + " must be a non-empty list of stable identifiers", at + "." + field);
+      }
     }
   }
   return errors;
