@@ -9,6 +9,7 @@ import { applyNpcEffect, refreshNpcSchedules } from "./npc-state.mjs";
 import { processWorldEvents } from "./world-events.mjs";
 import { applyCompetitionEffect, beginCompetitionMatch, resolveCompetitionMatch } from "./competition-state.mjs";
 import { recordWildEncounter, selectOrdinaryEncounter } from "./ecology.mjs";
+import { applyPurchaseItem, ensureSceneShops } from "./shop-state.mjs";
 
 function clone(value) {
   return structuredClone(value);
@@ -25,17 +26,7 @@ function applyEffects(state, effects = []) {
       continue;
     }
     if (effect.type === "purchase_item") {
-      const quantity = effect.quantity ?? 1;
-      state.player.money ??= 0;
-      state.player.inventory ??= [];
-      const totalCost = effect.cost * quantity;
-      if (state.player.money < totalCost) {
-        throw new Error(`Insufficient funds for ${effect.itemId}: need ₽${totalCost}, have ₽${state.player.money}`);
-      }
-      state.player.money -= totalCost;
-      for (let index = 0; index < quantity; index += 1) {
-        state.player.inventory.push(effect.itemId);
-      }
+      applyPurchaseItem(state, effect);
       continue;
     }
     if (["quest_offer", "quest_start", "quest_complete", "quest_fail"].includes(effect.type)) {
@@ -131,6 +122,7 @@ export class BookgameEngine {
   async present(state) {
     refreshNpcSchedules(state);
     const scene = await this.scenes.load(state.story.sceneId);
+    ensureSceneShops(state, scene.shops);
     const node = scene.nodes[state.story.nodeId];
     if (!node) throw new Error(`Unknown node ${state.story.nodeId} in scene ${scene.id}`);
     if (!evaluateCondition(state, scene.conditions)) {
@@ -160,6 +152,7 @@ export class BookgameEngine {
     const next = clone(state);
     refreshNpcSchedules(next);
     const scene = await this.scenes.load(next.story.sceneId);
+    ensureSceneShops(next, scene.shops);
     const node = scene.nodes[next.story.nodeId];
     if (!node) throw new Error(`Unknown node: ${next.story.nodeId}`);
 
