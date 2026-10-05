@@ -244,7 +244,8 @@ export function validateNpcEffect(effect, at = "effect") {
     push("INVALID_NPC_EFFECT", "Unsupported NPC effect type");
     return errors;
   }
-  if (typeof effect.npcId !== "string" || !ID_RE.test(effect.npcId)) {
+  if (effect.type !== "friend_beat_select" &&
+      (typeof effect.npcId !== "string" || !ID_RE.test(effect.npcId))) {
     push("INVALID_NPC_ID", "npcId must be a stable identifier", at + ".npcId");
   }
   if (effect.type === "npc_register") {
