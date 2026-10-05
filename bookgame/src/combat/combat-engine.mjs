@@ -472,6 +472,14 @@ export class Pokemon5eCombatEngine {
       playerBench.push(reserve);
     }
 
+    const opponentBench = [];
+    for (const descriptor of handoff.opponentBench ?? []) {
+      const reserve = await this.createCombatant(descriptor, { x: 5, y: 0 });
+      reserve.position = null;
+      reserve.turn.movementRemaining = 0;
+      opponentBench.push(reserve);
+    }
+
     const playerInitiative = initiative(player, this.dice);
     const opponentInitiative = initiative(opponent, this.dice);
     const order = chooseOrder(player, opponent, playerInitiative, opponentInitiative);
@@ -491,6 +499,7 @@ export class Pokemon5eCombatEngine {
       player,
       playerBench,
       opponent,
+      opponentBench,
       opponentRegistered: Boolean(handoff.opponentRegistered),
       awaitingSwitch: null,
       zones: [],
