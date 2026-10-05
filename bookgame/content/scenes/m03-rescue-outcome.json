@@ -521,6 +521,35 @@
               "value": "maintenance_margin_failed"
             }
           ]
+        },
+        {
+          "id": "resp_people_detail",
+          "text": "Rileggo il bilancio umano verificato.",
+          "goto": "people_detail"
+        },
+        {
+          "id": "resp_damage_detail",
+          "text": "Rileggo l'estensione del danno strutturale.",
+          "goto": "damage_detail"
+        },
+        {
+          "id": "resp_worker_debrief",
+          "text": "Ascolto come gli operai leggono la catena di cause.",
+          "goto": "worker_debrief"
+        },
+        {
+          "id": "resp_steven_debrief",
+          "text": "Confronto il rapporto con Steven.",
+          "conditions": {
+            "path": "world.flags.steven_met",
+            "eq": true
+          },
+          "goto": "steven_debrief"
+        },
+        {
+          "id": "resp_counterfactual",
+          "text": "Controllo cosa il rapporto NON può dimostrare.",
+          "goto": "counterfactual_review"
         }
       ]
     },
@@ -586,6 +615,11 @@
               "value": "no_operational_credit"
             }
           ]
+        },
+        {
+          "id": "rep_local_economy",
+          "text": "Considero anche l'impatto locale della chiusura.",
+          "goto": "local_economy"
         }
       ]
     },
@@ -612,6 +646,204 @@
               "locationId": "fer_city"
             }
           ]
+        }
+      ]
+    },
+    "people_detail": {
+      "stitches": [
+        {
+          "id": "people_detail_1",
+          "text": "Il rapporto sanitario distingue recuperati, feriti non critici e tempi di esposizione. Non usa il linguaggio di 'vittime' per creare gravità artificiale: registra soltanto ciò che è stato verificato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "people_detail_back",
+          "text": "Torno al quadro delle responsabilità.",
+          "goto": "responsibility_review"
+        },
+        {
+          "id": "people_detail_record",
+          "text": "Segno che il bilancio umano è verificato.",
+          "goto": "responsibility_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_people_report_verified",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "damage_detail": {
+      "stitches": [
+        {
+          "id": "damage_detail_1",
+          "text": "Le sezioni chiuse vengono classificate per estensione, non per spettacolarità. Il danno decide tempi di ripristino, deviazioni ferroviarie e accesso futuro alle gallerie."
+        }
+      ],
+      "choices": [
+        {
+          "id": "damage_detail_access",
+          "text": "Controllo cosa significa per l'accesso futuro.",
+          "goto": "access_consequence"
+        },
+        {
+          "id": "damage_detail_back",
+          "text": "Torno al quadro delle responsabilità.",
+          "goto": "responsibility_review"
+        }
+      ]
+    },
+    "access_consequence": {
+      "stitches": [
+        {
+          "id": "access_consequence_1",
+          "text": "Finché il ramo nord non supera i nuovi controlli, alcune tratte tecniche restano chiuse. Questo non blocca il player in M3, ma diventa stato leggibile dai moduli successivi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "access_register",
+          "text": "Registro la limitazione futura.",
+          "goto": "responsibility_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_access_after_incident",
+              "value": "north_branch_restricted"
+            }
+          ]
+        },
+        {
+          "id": "access_back",
+          "text": "Torno al rapporto.",
+          "goto": "responsibility_review"
+        }
+      ]
+    },
+    "worker_debrief": {
+      "stitches": [
+        {
+          "id": "worker_debrief_1",
+          "text": "Gli operai non parlano con una voce unica. Alcuni vedono il problema nei rinvii, altri nel carico produttivo, altri ancora nella vecchia geometria della galleria. La pluralità resta nel report."
+        }
+      ],
+      "choices": [
+        {
+          "id": "worker_debrief_pressure",
+          "text": "Registro che il tema della pressione produttiva è ricorrente.",
+          "goto": "responsibility_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_worker_debrief",
+              "value": "pressure_recurring"
+            }
+          ]
+        },
+        {
+          "id": "worker_debrief_mixed",
+          "text": "Registro un quadro misto senza forzare una causa sola.",
+          "goto": "responsibility_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_worker_debrief",
+              "value": "mixed_causes"
+            }
+          ]
+        }
+      ]
+    },
+    "steven_debrief": {
+      "stitches": [
+        {
+          "id": "steven_debrief_1",
+          "text": "Steven legge il rapporto come aveva letto gli avvisi: cerca una catena verificabile. «Se trasformi tutto in una sola colpa, perdi proprio il punto che ti serviva capire.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "steven_debrief_systemic",
+          "text": "Concordo: mantengo il quadro sistemico.",
+          "goto": "responsibility_review",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Steven",
+              "key": "ferroxDebriefShared",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "steven_debrief_warning",
+          "text": "Gli chiedo quanto contavano davvero i segnali precedenti.",
+          "goto": "warning_accountability",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Steven",
+              "key": "ferroxDebriefShared",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "counterfactual_review": {
+      "stitches": [
+        {
+          "id": "counterfactual_1",
+          "text": "Il rapporto evita il controfattuale facile: non può dimostrare che una singola scelta diversa avrebbe cancellato l'incidente. Può soltanto mostrare quali margini sono stati consumati prima e durante il soccorso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "counterfactual_accept",
+          "text": "Registro il limite del controfattuale.",
+          "goto": "responsibility_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_counterfactual_noted",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "counterfactual_people",
+          "text": "Torno ai fatti sul bilancio umano.",
+          "goto": "people_detail"
+        }
+      ]
+    },
+    "local_economy": {
+      "stitches": [
+        {
+          "id": "economy_1",
+          "text": "La chiusura del ramo nord rallenta turni e trasporto materiali. Ferravia assorbe il colpo, ma il costo esiste anche senza trasformarsi in una penalità monetaria automatica al player."
+        }
+      ],
+      "choices": [
+        {
+          "id": "economy_register",
+          "text": "Registro la conseguenza economica locale.",
+          "goto": "reputation_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_local_economy_state",
+              "value": "temporary_slowdown"
+            }
+          ]
+        },
+        {
+          "id": "economy_skip",
+          "text": "Non aggiungo altro al mio diario.",
+          "goto": "reputation_review"
         }
       ]
     }
