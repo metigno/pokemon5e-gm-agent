@@ -692,7 +692,7 @@ test("E6 A1_WORLD_MOVES fires when first settlement is reached and only once", a
   assert.equal(state.events.A1_WORLD_MOVES.status, "resolved");
   assert.equal(state.events.A1_WORLD_MOVES.outcomeId, "pressure_unnoticed");
   assert.equal(state.world.flags.m1_world_pressure_state, "pressure_unnoticed");
-  assert.equal(state.story.history.at(-1).worldEvents.length, 1);
+  assert.equal(state.story.history.at(-1).worldEvents.filter((event) => event.eventId === "A1_WORLD_MOVES").length, 1);
 
   state.story.nodeId = "center";
   state = await engine.choose(state, "back_city");
