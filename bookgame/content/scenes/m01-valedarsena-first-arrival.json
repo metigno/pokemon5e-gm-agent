@@ -1988,8 +1988,24 @@
           "id": "unlock_m02",
           "text": "Segno Bosco Bruma come prossima destinazione e chiudo M1.",
           "conditions": {
-            "path": "competition.rank",
-            "eq": "E"
+            "all": [
+              {
+                "path": "competition.rank",
+                "eq": "E"
+              },
+              {
+                "path": "world.flags.blue_met",
+                "eq": true
+              },
+              {
+                "path": "world.flags.friend_beat_01_complete",
+                "eq": true
+              },
+              {
+                "path": "world.flags.friends_split",
+                "eq": true
+              }
+            ]
           },
           "goto": "m02_handoff",
           "effects": [
@@ -2004,6 +2020,35 @@
               "value": true
             }
           ]
+        },
+        {
+          "id": "review_m1_exit",
+          "text": "Controllo cosa manca prima di chiudere formalmente M1.",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.rank",
+                "eq": "E"
+              },
+              {
+                "any": [
+                  {
+                    "path": "world.flags.blue_met",
+                    "ne": true
+                  },
+                  {
+                    "path": "world.flags.friend_beat_01_complete",
+                    "ne": true
+                  },
+                  {
+                    "path": "world.flags.friends_split",
+                    "ne": true
+                  }
+                ]
+              }
+            ]
+          },
+          "goto": "m1_exit_pending"
         },
         {
           "id": "stay_city",
@@ -2344,6 +2389,76 @@
         {
           "id": "later",
           "text": "Tengo aperto anche questo incarico e torno in città.",
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
+        }
+      ]
+    },
+    "m1_exit_pending": {
+      "stitches": [
+        {
+          "id": "promotion_is_valid",
+          "text": "La promozione a Rank E è già valida e non viene annullata. Però M1 non si chiude formalmente finché i beat obbligatori rimasti nel mondo non sono realmente avvenuti."
+        },
+        {
+          "id": "no_fake_completion",
+          "text": "Il terminale non sostituisce eventi mancanti con flag narrativi: Blue deve essere stato introdotto, almeno un FRIEND_BEAT_01 deve essere concluso e le strade dei Five devono essersi realmente separate."
+        }
+      ],
+      "choices": [
+        {
+          "id": "blue_pending",
+          "text": "Blue non è ancora stato introdotto: torno al free-roam e lascio che il suo incontro avvenga causalmente.",
+          "conditions": {
+            "path": "world.flags.blue_met",
+            "ne": true
+          },
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
+        },
+        {
+          "id": "friend_pending",
+          "text": "Il primo beat con uno degli altri Four non è ancora concluso: torno al free-roam.",
+          "conditions": {
+            "path": "world.flags.friend_beat_01_complete",
+            "ne": true
+          },
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
+        },
+        {
+          "id": "split_pending",
+          "text": "Le schedule dei Five non si sono ancora separate: lascio scorrere il mondo e continuo la carriera.",
+          "conditions": {
+            "path": "world.flags.friends_split",
+            "ne": true
+          },
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
+        },
+        {
+          "id": "back",
+          "text": "Torno a Valedarsena.",
           "goto": "city_hub",
           "effects": [
             {
