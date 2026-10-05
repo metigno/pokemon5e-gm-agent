@@ -352,8 +352,8 @@
       "choices": [
         {
           "id": "note_trial",
-          "text": "Memorizzo i requisiti del Trial.",
-          "goto": "city_hub",
+          "text": "Controllo requisiti e banco registrazione del Trial F→E.",
+          "goto": "trial_registration_desk",
           "effects": [
             {
               "type": "competition_trial_available",
@@ -368,6 +368,44 @@
             "path": "competition.rank",
             "eq": "F"
           }
+        },
+        {
+          "id": "trial_registration_desk",
+          "text": "Vado al banco registrazione del Promotion Trial F→E.",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.rank",
+                "eq": "F"
+              },
+              {
+                "path": "competition.trials.RANK_F_TO_E.available",
+                "eq": true
+              },
+              {
+                "path": "competition.trials.RANK_F_TO_E.registered",
+                "ne": true
+              }
+            ]
+          },
+          "goto": "trial_registration_desk"
+        },
+        {
+          "id": "trial_registration_status",
+          "text": "Controllo la mia registrazione già attiva.",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.rank",
+                "eq": "F"
+              },
+              {
+                "path": "competition.trials.RANK_F_TO_E.registered",
+                "eq": true
+              }
+            ]
+          },
+          "goto": "trial_registered"
         },
         {
           "id": "register_trial",
@@ -553,22 +591,36 @@
       "stitches": [
         {
           "id": "trial_registration_confirmed",
-          "text": "L'Arena registra la tua iscrizione al Promotion Trial F→E. Il requisito non è stato aggirato: hai due Pokémon nel roster e la prova resta una battaglia ufficiale reale."
+          "text": "Il sistema accetta l'iscrizione al Promotion Trial F→E perché Rank e roster soddisfano davvero i requisiti. La registrazione resta attiva anche se esci dall'Arena per prepararti."
         },
         {
           "id": "trial_battle_not_story_result",
-          "text": "L'iscrizione non vale come vittoria. Quando entrerai in campo, il risultato arriverà dal risolutore Pokémon 5e e verrà poi registrato sulla licenza."
+          "text": "L'iscrizione non vale come vittoria. Quando entrerai in campo, il risultato arriverà dal risolutore Pokémon 5e e verrà registrato sulla licenza."
+        },
+        {
+          "id": "trial_no_forced_start",
+          "text": "Non sei costretto a iniziare subito la prova: puoi curarti, sistemare la squadra o continuare a muoverti nel mondo prima di tornare."
         }
       ],
       "choices": [
         {
-          "id": "prepare",
-          "text": "Rimando l'ingresso e torno a prepararmi.",
+          "id": "heal_prepare",
+          "text": "Vado al Centro Pokémon prima della prova.",
+          "goto": "center"
+        },
+        {
+          "id": "postpone",
+          "text": "Rimando l'ingresso e torno in città.",
+          "goto": "city_hub"
+        },
+        {
+          "id": "free_roam",
+          "text": "Continuo il free-roam prima di affrontare il Trial.",
           "goto": "city_hub"
         },
         {
           "id": "review",
-          "text": "Rileggo il focus della prova.",
+          "text": "Rileggo lo stato della registrazione.",
           "goto": "arena_front"
         }
       ]
@@ -703,6 +755,91 @@
         {
           "id": "stay_one",
           "text": "Resto con un solo Pokémon per ora.",
+          "goto": "city_hub"
+        }
+      ]
+    },
+    "trial_registration_desk": {
+      "stitches": [
+        {
+          "id": "trial_desk_header",
+          "text": "Il banco del Promotion Trial non valuta intenzioni: controlla licenza, Rank e roster. Il checkpoint F→E è aperto, ma l'iscrizione viene accettata soltanto se i requisiti meccanici sono reali."
+        },
+        {
+          "id": "trial_desk_roster",
+          "text": "Il formato richiede un roster ufficiale di due Pokémon. Registrarsi non cura la squadra, non assegna Pokémon e non modifica il risultato della prova."
+        },
+        {
+          "id": "trial_desk_choice",
+          "text": "Puoi registrarti adesso, rimandare, passare prima dal Centro Pokémon oppure tornare alla carriera libera."
+        }
+      ],
+      "choices": [
+        {
+          "id": "register",
+          "text": "Registro il roster per il Promotion Trial F→E.",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.rank",
+                "eq": "F"
+              },
+              {
+                "path": "competition.trials.RANK_F_TO_E.available",
+                "eq": true
+              },
+              {
+                "path": "competition.trials.RANK_F_TO_E.registered",
+                "ne": true
+              },
+              {
+                "path": "player.roster.length",
+                "gte": 2
+              }
+            ]
+          },
+          "goto": "trial_registered",
+          "effects": [
+            {
+              "type": "competition_trial_register",
+              "checkpointId": "RANK_F_TO_E"
+            }
+          ]
+        },
+        {
+          "id": "missing_roster",
+          "text": "Chiedo cosa mi manca per registrarmi.",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.rank",
+                "eq": "F"
+              },
+              {
+                "path": "competition.trials.RANK_F_TO_E.available",
+                "eq": true
+              },
+              {
+                "path": "player.roster.length",
+                "lt": 2
+              }
+            ]
+          },
+          "goto": "trial_roster_missing"
+        },
+        {
+          "id": "heal_prepare",
+          "text": "Prima passo dal Centro Pokémon e preparo la squadra.",
+          "goto": "center"
+        },
+        {
+          "id": "postpone",
+          "text": "Rimando la registrazione.",
+          "goto": "arena_front"
+        },
+        {
+          "id": "free_roam",
+          "text": "Continuo il free-roam e tornerò quando voglio.",
           "goto": "city_hub"
         }
       ]
