@@ -1200,7 +1200,10 @@ test("M1_10 First Official is a real sanctioned match and a loss does not block 
   const arenaChoice = scene.nodes.arena_front.choices.find((choice) => choice.id === "first_official");
 
   assert.ok(arenaChoice);
-  assert.equal(arenaChoice.conditions.all.some((condition) => condition.path === "player.trainerLevel" && condition.gte === 2), true);
+  const triggerGroup = arenaChoice.conditions.all.find((condition) => Array.isArray(condition.any));
+  assert.ok(triggerGroup);
+  assert.equal(triggerGroup.any.some((condition) => condition.path === "player.trainerLevel" && condition.gte === 2), true);
+  assert.equal(triggerGroup.any.some((condition) => condition.path === "world.flags.official_match_opportunity" && condition.eq === true), true);
 
   const offer = scene.nodes.first_official_offer;
   const fight = offer.choices.find((choice) => choice.id === "accept_first_official");
