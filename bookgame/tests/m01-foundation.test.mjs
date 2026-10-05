@@ -1798,6 +1798,8 @@ test("M1_15 win opens Rank E and M02 without erasing prior M1 callbacks", async 
   state.world.flags.friend_beat_01_friend_id = "Mattew";
   state.world.flags.friend_beat_01_type = "training";
   state.world.flags.friends_split = true;
+  state.world.flags.blue_met = true;
+  state.npcs.Blue.state.met = true;
 
   state.quests.SQ_FARM_HERD_HANDS = {
     id: "SQ_FARM_HERD_HANDS",
