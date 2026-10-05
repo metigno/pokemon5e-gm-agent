@@ -1,0 +1,435 @@
+{
+  "schemaVersion": 1,
+  "id": "m02-trial-registration",
+  "moduleId": "M02",
+  "title": "M2_12 — Registrazione Trial E→D",
+  "locationId": "borgo_salice_sala_verde",
+  "entryNodeId": "trial_info",
+  "conditions": {
+    "all": [
+      { "path": "world.flags.m1_complete", "eq": true },
+      { "path": "world.flags.m02_unlocked", "eq": true },
+      { "path": "world.flags.m2_active", "eq": true },
+      { "path": "competition.rank", "eq": "E" },
+      { "path": "world.flags.a2_rank_trial_e_d_available", "eq": true }
+    ]
+  },
+  "nodes": {
+    "trial_info": {
+      "stitches": [
+        {
+          "id": "info_1",
+          "text": "Il banco del Promotion Trial E→D è gestito da Ines Varga, esaminatrice certificata del Circuito Asteria. Il Trial usa formato Singles con tre Pokémon ufficiali — l'Official Three deve essere registrato prima di accedere all'arena. L'esaminatrice non cambia roster tra un tentativo e il successivo."
+        },
+        {
+          "id": "info_2",
+          "text": "La sfida è definita come 'controllo del campo, status, switching e disciplina'. Non è un test di pura potenza — è un test di come usi quello che hai in modo coerente sotto pressione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "go_to_desk",
+          "text": "Vado al banco di registrazione.",
+          "goto": "trial_desk"
+        },
+        {
+          "id": "check_format_first",
+          "text": "Chiedo informazioni sul formato prima di procedere.",
+          "timeCostMinutes": 5,
+          "goto": "trial_format_info"
+        },
+        {
+          "id": "check_if_already_registered",
+          "text": "Verifico lo stato della mia registrazione.",
+          "conditions": {
+            "path": "competition.trials.RANK_E_TO_D.registered",
+            "eq": true
+          },
+          "goto": "trial_return_registered"
+        },
+        {
+          "id": "postpone_trial",
+          "text": "Non sono pronto — torno più tardi.",
+          "goto": "trial_postponed"
+        }
+      ]
+    },
+
+    "trial_desk": {
+      "stitches": [
+        {
+          "id": "desk_1",
+          "text": "Al banco trovi il modulo di registrazione del Promotion Trial RANK_E_TO_D. Il sistema verifica eligibility in tempo reale: Rank E attivo, roster di almeno tre Pokémon, nessuna sospensione pendente. I tre Pokémon che usi adesso sono il tuo Official Three — non puoi cambiarli dopo la registrazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "register_now",
+          "text": "Registro il roster per il Promotion Trial E→D.",
+          "conditions": {
+            "all": [
+              { "path": "competition.trials.RANK_E_TO_D.available", "eq": true },
+              { "path": "competition.trials.RANK_E_TO_D.registered", "ne": true },
+              { "path": "player.roster.length", "gte": 3 }
+            ]
+          },
+          "goto": "trial_registered",
+          "effects": [
+            { "type": "competition_trial_register", "checkpointId": "RANK_E_TO_D" }
+          ]
+        },
+        {
+          "id": "check_roster_eligibility",
+          "text": "Controllo se il mio roster è sufficiente.",
+          "goto": "trial_roster_check"
+        },
+        {
+          "id": "ask_about_opponent",
+          "text": "Chiedo informazioni sull'esaminatrice.",
+          "timeCostMinutes": 5,
+          "goto": "trial_opponent_preview"
+        },
+        {
+          "id": "roster_missing_warning",
+          "text": "Non ho abbastanza Pokémon — chiedo cosa mi manca.",
+          "conditions": {
+            "all": [
+              { "path": "competition.trials.RANK_E_TO_D.available", "eq": true },
+              { "path": "player.roster.length", "lt": 3 }
+            ]
+          },
+          "goto": "trial_roster_missing"
+        },
+        {
+          "id": "leave_desk",
+          "text": "Mi allontano dal banco — ci penso ancora.",
+          "goto": "trial_postponed"
+        }
+      ]
+    },
+
+    "trial_format_info": {
+      "stitches": [
+        {
+          "id": "format_1",
+          "text": "Singles a tre Pokémon: hai un Official Three, l'avversario ha il suo roster fisso. Il formato richiede che ogni mossa conti — non puoi portare un Pokémon di riserva, non puoi sostituire uno dei tuoi tre se viene sconfitto definitivamente. Lo switching è legale durante lo scontro."
+        },
+        {
+          "id": "format_2",
+          "text": "L'esaminatrice ha un team costruito per testare il controllo tattico. Aspettati status, cambi strategici, pressione sugli status effect. Se entri con una squadra orientata solo all'attacco grezzo, troverai difficoltà."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ask_opponent_after_format",
+          "text": "Chiedo informazioni sull'esaminatrice.",
+          "timeCostMinutes": 5,
+          "goto": "trial_opponent_preview"
+        },
+        {
+          "id": "proceed_to_desk_after_format",
+          "text": "Capito il formato — vado al banco.",
+          "goto": "trial_desk"
+        },
+        {
+          "id": "postpone_after_format",
+          "text": "Ho bisogno di prepararmi meglio — torno più tardi.",
+          "goto": "trial_postponed"
+        }
+      ]
+    },
+
+    "trial_opponent_preview": {
+      "stitches": [
+        {
+          "id": "opponent_1",
+          "text": "Ines Varga è esaminatrice certificata del Circuito da cinque anni. Il suo team è orientato al controllo: status passivi, cambi per recuperare posizione, attacchi che limitano le opzioni piuttosto che infliggere danni immediati. Non è il tipo di esaminatrice che ti sopraffà — è quella che ti aspetta sbagliare."
+        },
+        {
+          "id": "opponent_2",
+          "text": "Il suo roster è fisso per ogni sessione di Trial: non cambia in base al tuo Rank o ai tuoi Pokémon. È la stessa sfida per chiunque si iscriva in questa finestra. La coerenza è parte della valutazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ask_opponent_detail",
+          "text": "Chiedo dettagli tattici sull'approccio di Ines.",
+          "timeCostMinutes": 5,
+          "goto": "trial_examiner_detail"
+        },
+        {
+          "id": "register_after_preview",
+          "text": "Ho abbastanza informazioni — vado al banco.",
+          "goto": "trial_desk"
+        },
+        {
+          "id": "postpone_after_preview",
+          "text": "Ci penso ancora — non è il momento giusto.",
+          "goto": "trial_postponed"
+        }
+      ]
+    },
+
+    "trial_examiner_detail": {
+      "stitches": [
+        {
+          "id": "examiner_detail_1",
+          "text": "L'addetto al banco spiega che Ines usa il controllo dello spazio tattico come strumento principale. Apre con pressione di status, poi sfrutta il terreno emotivo del trainer sotto stress per forzare cambi frettolosi. «Non è violenta nella strategia — è paziente. E la pazienza vince contro chi non ha disciplina.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "proceed_to_desk_after_detail",
+          "text": "Capito — vado al banco di registrazione.",
+          "goto": "trial_desk"
+        },
+        {
+          "id": "ask_strategy_advice",
+          "text": "Chiedo consiglio su come prepararsi.",
+          "timeCostMinutes": 10,
+          "goto": "trial_prep_review"
+        },
+        {
+          "id": "step_back_after_detail",
+          "text": "Ho bisogno di elaborare — non registro adesso.",
+          "goto": "trial_postponed"
+        }
+      ]
+    },
+
+    "trial_roster_check": {
+      "stitches": [
+        {
+          "id": "roster_check_1",
+          "text": "Il sistema verifica il tuo roster attuale. Per il Promotion Trial E→D sono necessari almeno tre Pokémon registrati nel tuo profilo trainer. I tre che hai adesso diventano il tuo Official Three — non potrai aggiungerne altri dopo la registrazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "roster_ok_register",
+          "text": "Il roster è sufficiente — procedo con la registrazione.",
+          "conditions": {
+            "all": [
+              { "path": "competition.trials.RANK_E_TO_D.available", "eq": true },
+              { "path": "competition.trials.RANK_E_TO_D.registered", "ne": true },
+              { "path": "player.roster.length", "gte": 3 }
+            ]
+          },
+          "goto": "trial_registered",
+          "effects": [
+            { "type": "competition_trial_register", "checkpointId": "RANK_E_TO_D" }
+          ]
+        },
+        {
+          "id": "roster_insufficient_check",
+          "text": "Non ho abbastanza Pokémon — chiedo cosa manca.",
+          "conditions": {
+            "path": "player.roster.length",
+            "lt": 3
+          },
+          "goto": "trial_roster_missing"
+        },
+        {
+          "id": "back_to_desk_after_check",
+          "text": "Torno al banco.",
+          "goto": "trial_desk"
+        }
+      ]
+    },
+
+    "trial_roster_missing": {
+      "stitches": [
+        {
+          "id": "missing_1",
+          "text": "Il sistema rifiuta la registrazione: roster insufficiente. Per il Promotion Trial E→D sono necessari almeno tre Pokémon nel profilo. Attualmente il tuo profilo non soddisfa questo requisito. Non vengono aggiunti Pokémon artificialmente — devi completare il roster attraverso l'avanzamento regolare della campagna."
+        }
+      ],
+      "choices": [
+        {
+          "id": "acknowledge_missing_roster",
+          "text": "Capito — torno quando avrò un roster completo.",
+          "goto": "trial_postponed"
+        },
+        {
+          "id": "back_to_desk_missing",
+          "text": "Torno al banco per altre opzioni.",
+          "goto": "trial_desk"
+        }
+      ]
+    },
+
+    "trial_registered": {
+      "stitches": [
+        {
+          "id": "registered_1",
+          "text": "Registrazione confermata. Il tuo Official Three è nel sistema — Ines Varga è disponibile in arena. Puoi affrontare il Trial ora o tornare quando sei pronto. La registrazione resta attiva fino all'esito del tentativo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "proceed_to_trial",
+          "text": "Sono pronto — entro nel Promotion Trial E→D adesso.",
+          "conditions": {
+            "all": [
+              { "path": "competition.rank", "eq": "E" },
+              { "path": "competition.trials.RANK_E_TO_D.registered", "eq": true }
+            ]
+          },
+          "goto": "m02-promotion-trial-e-d#trial_gate_call"
+        },
+        {
+          "id": "review_prep_before_trial",
+          "text": "Rivedo la strategia prima di entrare.",
+          "timeCostMinutes": 15,
+          "goto": "trial_prep_review"
+        },
+        {
+          "id": "check_opponent_registered",
+          "text": "Controllo di nuovo il profilo dell'esaminatrice.",
+          "goto": "trial_opponent_preview"
+        },
+        {
+          "id": "return_later_registered",
+          "text": "Torno più tardi — la registrazione è confermata.",
+          "goto": "m02-borgo-salice#sala_verde",
+          "effects": [
+            { "type": "set_location", "locationId": "borgo_salice_sala_verde" }
+          ]
+        }
+      ]
+    },
+
+    "trial_prep_review": {
+      "stitches": [
+        {
+          "id": "prep_1",
+          "text": "La preparazione per un Promotion Trial E→D non consiste solo nell'avere tre Pokémon forti. Ines costruisce pressione attraverso status e cambi: se entri senza aver pensato alla copertura dei tipi e alle mosse di status nel tuo team, la troverai difficile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "think_about_status_coverage",
+          "text": "Penso alla copertura contro status — chi nel mio team regge meglio.",
+          "timeCostMinutes": 10,
+          "goto": "trial_strategy_notes"
+        },
+        {
+          "id": "think_about_switching",
+          "text": "Penso ai cambi — chi uso come pivot tattico.",
+          "timeCostMinutes": 10,
+          "goto": "trial_strategy_notes"
+        },
+        {
+          "id": "ready_after_prep",
+          "text": "Sono pronto — entro nel Trial.",
+          "conditions": {
+            "path": "competition.trials.RANK_E_TO_D.registered",
+            "eq": true
+          },
+          "goto": "m02-promotion-trial-e-d#trial_gate_call"
+        },
+        {
+          "id": "return_later_from_prep",
+          "text": "Ci vuole più tempo — torno domani.",
+          "goto": "m02-borgo-salice#sala_verde",
+          "effects": [
+            { "type": "set_location", "locationId": "borgo_salice_sala_verde" }
+          ]
+        }
+      ]
+    },
+
+    "trial_strategy_notes": {
+      "stitches": [
+        {
+          "id": "strategy_1",
+          "text": "Metti insieme quello che sai del tuo team con quello che sai di Ines. Il suo approccio è paziente — non ti sovraccaricherà nella prima mossa. Costruirà posizione. Il tuo compito è non lasciarti comprimere senza risposta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "proceed_to_trial_after_strategy",
+          "text": "Ho una strategia — entro nel Trial.",
+          "conditions": {
+            "path": "competition.trials.RANK_E_TO_D.registered",
+            "eq": true
+          },
+          "goto": "m02-promotion-trial-e-d#trial_gate_call"
+        },
+        {
+          "id": "return_to_prep_from_strategy",
+          "text": "Rivedo ancora — non è ancora tutto chiaro.",
+          "goto": "trial_prep_review"
+        },
+        {
+          "id": "leave_for_later_strategy",
+          "text": "Mi fermo qui — torno quando sono più sicuro.",
+          "goto": "m02-borgo-salice#sala_verde",
+          "effects": [
+            { "type": "set_location", "locationId": "borgo_salice_sala_verde" }
+          ]
+        }
+      ]
+    },
+
+    "trial_postponed": {
+      "stitches": [
+        {
+          "id": "postponed_1",
+          "text": "Il Trial E→D resta disponibile. Puoi tornare alla Sala Verde quando vuoi per registrarti o procedere. La finestra non si chiude — ma il problema nel bosco non aspetta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_to_sala_verde",
+          "text": "Torno alla Sala Verde.",
+          "goto": "m02-borgo-salice#sala_verde",
+          "effects": [
+            { "type": "set_location", "locationId": "borgo_salice_sala_verde" }
+          ]
+        },
+        {
+          "id": "back_to_borgo_postponed",
+          "text": "Torno al borgo.",
+          "goto": "m02-borgo-salice#borough_hub",
+          "effects": [
+            { "type": "set_location", "locationId": "borgo_salice" }
+          ]
+        }
+      ]
+    },
+
+    "trial_return_registered": {
+      "stitches": [
+        {
+          "id": "return_registered_1",
+          "text": "Sei già registrato al Promotion Trial E→D. Il tuo Official Three è nel sistema. Ines Varga è disponibile in arena. Puoi entrare adesso o continuare a prepararti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "enter_trial_return",
+          "text": "Entro nel Trial — sono pronto.",
+          "conditions": {
+            "all": [
+              { "path": "competition.rank", "eq": "E" },
+              { "path": "competition.trials.RANK_E_TO_D.registered", "eq": true }
+            ]
+          },
+          "goto": "m02-promotion-trial-e-d#trial_gate_call"
+        },
+        {
+          "id": "review_before_entry",
+          "text": "Rivedo la strategia prima di entrare.",
+          "timeCostMinutes": 10,
+          "goto": "trial_prep_review"
+        },
+        {
+          "id": "defer_again",
+          "text": "Non ancora — torno più tardi.",
+          "goto": "trial_postponed"
+        }
+      ]
+    }
+  }
+}

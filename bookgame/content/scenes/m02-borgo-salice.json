@@ -430,6 +430,28 @@
           ]
         },
         {
+          "id": "trial_access",
+          "text": "Accedo al banco del Promotion Trial E→D.",
+          "conditions": {
+            "all": [
+              { "path": "world.flags.a2_rank_trial_e_d_available", "eq": true },
+              { "path": "competition.rank", "eq": "E" }
+            ]
+          },
+          "timeCostMinutes": 5,
+          "goto": "m02-trial-registration#trial_info",
+          "effects": [
+            {
+              "type": "competition_trial_available",
+              "checkpointId": "RANK_E_TO_D",
+              "fromRank": "E",
+              "toRank": "D",
+              "requiredRosterSize": 3,
+              "retryable": true
+            }
+          ]
+        },
+        {
           "id": "leave_sala",
           "text": "Prendo nota e torno al borgo.",
           "goto": "borough_hub",

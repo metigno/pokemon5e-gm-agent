@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "m02-promotion-trial-e-d",
+  "moduleId": "M02",
+  "title": "M2_13 — Promotion Trial E→D (stub)",
+  "locationId": "borgo_salice_arena",
+  "entryNodeId": "trial_gate_call",
+  "conditions": {
+    "all": [
+      { "path": "world.flags.m1_complete", "eq": true },
+      { "path": "world.flags.m02_unlocked", "eq": true },
+      { "path": "competition.rank", "eq": "E" },
+      { "path": "competition.trials.RANK_E_TO_D.registered", "eq": true }
+    ]
+  },
+  "nodes": {
+    "trial_gate_call": {
+      "stitches": [
+        {
+          "id": "gate_1",
+          "text": "STUB — M2_13 non ancora implementato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_to_sala",
+          "text": "Torna alla Sala Verde.",
+          "goto": "m02-borgo-salice#sala_verde",
+          "effects": [
+            { "type": "set_location", "locationId": "borgo_salice_sala_verde" }
+          ]
+        }
+      ]
+    }
+  }
+}
