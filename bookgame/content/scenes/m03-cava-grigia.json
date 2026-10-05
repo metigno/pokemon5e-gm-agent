@@ -476,6 +476,15 @@
       ],
       "choices": [
         {
+          "id": "exit_to_ferravia",
+          "text": "Proseguo verso Ferravia lungo la direttrice di valle.",
+          "timeCostMinutes": 90,
+          "goto": "m03-ferravia-arrival#station_approach",
+          "effects": [
+            { "type": "set_location", "locationId": "fer_city_station" }
+          ]
+        },
+        {
           "id": "exit_back_to_valedarsena",
           "text": "Torno a Valedarsena.",
           "timeCostMinutes": 180,

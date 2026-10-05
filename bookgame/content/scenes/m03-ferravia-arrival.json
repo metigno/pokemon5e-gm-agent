@@ -1,0 +1,393 @@
+{
+  "schemaVersion": 1,
+  "id": "m03-ferravia-arrival",
+  "moduleId": "M03",
+  "title": "M3_02 — Ferravia",
+  "locationId": "fer_city",
+  "entryNodeId": "station_approach",
+  "conditions": {
+    "all": [
+      { "path": "world.flags.m2_complete", "eq": true },
+      { "path": "world.flags.m03_unlocked", "eq": true },
+      { "path": "world.flags.m3_active", "eq": true },
+      { "path": "competition.rank", "eq": "D" }
+    ]
+  },
+  "nodes": {
+    "station_approach": {
+      "stitches": [
+        {
+          "id": "station_approach_1",
+          "text": "Ferravia non si annuncia con un cartello: si annuncia con il fischio di un treno merci che taglia la valle. Il cartello del Circuito arriva solo dopo l'ultima curva — FER-CITY, hub industriale della fascia Rank D. Il paesaggio è un reticolo di binari, tettoie basse e una stazione di media grandezza fatta per persone, mezzi e materiale."
+        },
+        {
+          "id": "station_approach_2",
+          "text": "La piazza antistante la stazione è un piccolo nodo civile: un chiosco con mappa aggiornata, un paio di operai che aspettano la coincidenza, un addetto Circuito in giacca da servizio pubblico che smista i trainer in arrivo. Non è una città turistica. È un posto di lavoro che non ha paura di chi passa."
+        },
+        {
+          "id": "station_approach_3",
+          "text": "Dall'ingresso della stazione partono tre direttrici visibili: un corridoio pedonale verso l'officina e la zona dei magazzini, una strada verso l'Arena del Circuito, una via laterale che porta ai servizi — alloggio, infermeria, piccolo negozio. L'addetto Circuito annota la tua tessera senza intralcio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "enter_city_hub",
+          "text": "Entro nel cuore di Ferravia e vado al mio orientamento.",
+          "timeCostMinutes": 5,
+          "goto": "city_hub",
+          "effects": [
+            { "type": "set_flag", "key": "ferravia_discovered", "value": true },
+            { "type": "set_location", "locationId": "fer_city" }
+          ]
+        },
+        {
+          "id": "station_board_check",
+          "text": "Prima guardo il tabellone e la mappa aggiornata della stazione.",
+          "timeCostMinutes": 10,
+          "goto": "station_board"
+        },
+        {
+          "id": "head_back_from_station",
+          "text": "Non entro ancora — torno verso Cava Grigia.",
+          "timeCostMinutes": 90,
+          "goto": "m03-cava-grigia#approach",
+          "effects": [
+            { "type": "set_location", "locationId": "ast_quarry_approach" }
+          ]
+        }
+      ]
+    },
+    "station_board": {
+      "stitches": [
+        {
+          "id": "board_lines",
+          "text": "Il tabellone elenca linee merci regolari e due servizi passeggeri: uno che risale verso l'entroterra lungo le Gallerie Ferrox e uno che riporta a valle verso Valedarsena. Le gallerie non sono accessibili dal servizio passeggeri senza autorizzazione tecnica."
+        },
+        {
+          "id": "board_notice",
+          "text": "Un avviso rotante del Circuito elenca gli eventi locali: Arena del Circuito aperta ai Rank D, finestre di registrazione per il Trial D→C (date variabili, verificare al banco), e una nota di sistema sulla Regional Cup — qualificazioni aperte quando il programma lo prevede, iscrizione separata dal Trial."
+        },
+        {
+          "id": "board_summary",
+          "text": "Nessuna di queste informazioni ti iscrive automaticamente a nulla. La bacheca mostra cosa esiste; i registri reali richiedono di andare ai banchi specifici — Arena per i match, Ufficio Trial per i tentativi di promozione, segreteria Regional Cup per la competizione opzionale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "board_to_hub",
+          "text": "Entro in città con il quadro aggiornato.",
+          "timeCostMinutes": 5,
+          "goto": "city_hub",
+          "effects": [
+            { "type": "set_flag", "key": "ferravia_discovered", "value": true },
+            { "type": "set_location", "locationId": "fer_city" }
+          ]
+        }
+      ]
+    },
+    "city_hub": {
+      "stitches": [
+        {
+          "id": "hub_description",
+          "text": "Il centro di Ferravia è ordinato: strade in asfalto scuro, insegne basse, poche vetrine. Due isolati più in là senti il suono di un torchio idraulico — l'officina lavora. L'Arena del Circuito è l'edificio più alto del quartiere, un ovale a facciata grigia che si vede da ogni angolo utile."
+        },
+        {
+          "id": "hub_services",
+          "text": "Ferravia offre i servizi che una fascia Rank D si aspetta: una Sala Verde del Circuito per riposare la squadra, un negozio orientato sulla fascia media, un'infermeria pubblica, un paio di punti di ristoro con un orario che segue i turni di cantiere più che quelli civili."
+        },
+        {
+          "id": "hub_people",
+          "text": "I trainer che incroci qui sono un mix: lavoratori con Pokémon da cantiere (Machoke, Rhyhorn, Cufant), trainer competitivi in avvicinamento al Trial, qualche figura in giacca tecnica diretta verso l'officina. Nessuno sembra sorpreso di vedere un nuovo Rank D."
+        }
+      ],
+      "choices": [
+        {
+          "id": "hub_workshop",
+          "text": "Vado verso l'officina — voglio vedere come si tiene insieme la logistica di cantiere.",
+          "timeCostMinutes": 10,
+          "goto": "workshop",
+          "effects": [
+            { "type": "set_location", "locationId": "fer_city_workshop" }
+          ]
+        },
+        {
+          "id": "hub_sala_verde",
+          "text": "Entro nella Sala Verde del Circuito.",
+          "timeCostMinutes": 5,
+          "goto": "sala_verde",
+          "effects": [
+            { "type": "set_location", "locationId": "fer_city_sala_verde" }
+          ]
+        },
+        {
+          "id": "hub_arena",
+          "text": "Vado all'Arena del Circuito per vedere com'è organizzata.",
+          "timeCostMinutes": 10,
+          "goto": "arena_lobby",
+          "effects": [
+            { "type": "set_location", "locationId": "fer_city_arena" }
+          ]
+        },
+        {
+          "id": "hub_shop",
+          "text": "Entro nel negozio della fascia media.",
+          "timeCostMinutes": 5,
+          "goto": "shop",
+          "effects": [
+            { "type": "set_location", "locationId": "fer_city_shop" }
+          ]
+        },
+        {
+          "id": "hub_leave_to_cava",
+          "text": "Torno verso Cava Grigia.",
+          "timeCostMinutes": 90,
+          "goto": "m03-cava-grigia#approach",
+          "effects": [
+            { "type": "set_location", "locationId": "ast_quarry_approach" }
+          ]
+        },
+        {
+          "id": "hub_leave_to_valedarsena",
+          "text": "Prendo il servizio passeggeri verso Valedarsena.",
+          "timeCostMinutes": 180,
+          "goto": "m01-valedarsena-first-arrival#city_hub",
+          "effects": [
+            { "type": "set_location", "locationId": "valedarsena_city" }
+          ]
+        }
+      ]
+    },
+    "workshop": {
+      "stitches": [
+        {
+          "id": "workshop_1",
+          "text": "L'officina occupa una tettoia grande con portoni aperti e piano in cemento. Due mezzi di cantiere sono in manutenzione; uno dei tecnici dà istruzioni al suo Magnemite che tiene sollevata una lamiera. Il rumore non è aggressivo — è lavoro ordinato."
+        },
+        {
+          "id": "workshop_2",
+          "text": "Un cartello all'ingresso spiega: l'officina serve Cava Grigia, Ferravia e, in condizioni autorizzate, le Gallerie Ferrox. Pezzi di ricambio in catalogo, tempi di intervento, protocolli di sicurezza. Non è un posto per chi passa, ma non ti caccia."
+        },
+        {
+          "id": "workshop_3",
+          "text": "Un operaio ti nota e ti saluta con un cenno. «Rank D? Se cerchi informazioni tecniche su cosa si fa qui, posso darti due minuti. Se cerchi di comprare qualcosa, il negozio è dall'altra parte — qui vendiamo manodopera, non attrezzatura.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "workshop_ask_mechanics",
+          "text": "Chiedo che tipo di manutenzione fate qui.",
+          "timeCostMinutes": 10,
+          "goto": "workshop_mechanics"
+        },
+        {
+          "id": "workshop_ask_ferrox",
+          "text": "Chiedo se hanno visto qualcosa di anomalo venire dalle Gallerie Ferrox di recente.",
+          "timeCostMinutes": 10,
+          "goto": "workshop_ferrox_rumor"
+        },
+        {
+          "id": "workshop_back",
+          "text": "Lo ringrazio e torno nel centro città.",
+          "goto": "city_hub",
+          "effects": [
+            { "type": "set_location", "locationId": "fer_city" }
+          ]
+        }
+      ]
+    },
+    "workshop_mechanics": {
+      "stitches": [
+        {
+          "id": "mechanics_answer",
+          "text": "«Trasporti pesanti, nastri, piccoli perforatori. Niente di esotico. La parte interessante è che la nostra manutenzione è anche la prima linea di sicurezza: se un cavo di sollevamento o un cuscinetto cedono qui, da qualche parte in cava o in galleria qualcuno si fa male. Per questo abbiamo tempi ferrei. Produttività in salita? Niente scorciatoie sulle verifiche.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "mechanics_back",
+          "text": "Prendo nota del principio.",
+          "goto": "workshop",
+          "effects": [
+            { "type": "set_flag", "key": "ferravia_safety_principle_noted", "value": true }
+          ]
+        }
+      ]
+    },
+    "workshop_ferrox_rumor": {
+      "stitches": [
+        {
+          "id": "ferrox_rumor_1",
+          "text": "«Le Gallerie sono zona tecnica separata. Non siamo in prima linea su quello. Però ultimamente c'è un ingegnere nuovo che gira — non uno dei nostri, uno di passaggio, con un modo di chiedere domande che non è né turista né ispettore. Ci ha chiesto di vecchie mappe. È segnalato, non ci dà fastidio.»"
+        },
+        {
+          "id": "ferrox_rumor_2",
+          "text": "L'operaio non pronuncia il nome ma la descrizione è precisa. È un segnale ambientale, non una rivelazione: un tecnico esterno sta leggendo lo stesso territorio con occhio diverso. Il tuo motore di gioco registra l'indizio senza forzare Steven Stone sulla scena."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rumor_back",
+          "text": "Lo ringrazio e torno nel centro città.",
+          "goto": "city_hub",
+          "effects": [
+            { "type": "set_flag", "key": "steven_rumor_heard", "value": true },
+            { "type": "set_location", "locationId": "fer_city" }
+          ]
+        }
+      ]
+    },
+    "sala_verde": {
+      "stitches": [
+        {
+          "id": "sala_verde_1",
+          "text": "La Sala Verde di Ferravia è più funzionale di quella di Borgo Salice: due banchi di riposo pokémon, un medico di turno, un piccolo spazio di consulto. Il protocollo di recupero è quello standard del Circuito — niente scorciatoie custom che violano le regole Pokémon 5e."
+        },
+        {
+          "id": "sala_verde_2",
+          "text": "Un addetto ti saluta e indica il banco centrale. Puoi lasciare la squadra per un ciclo di cura standard o fare richieste specifiche se qualcuno dei tuoi Pokémon ha una condizione particolare — in quel caso il medico ti chiama per discutere l'intervento."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sala_verde_rest",
+          "text": "Lascio la squadra per un ciclo di cura standard.",
+          "timeCostMinutes": 60,
+          "goto": "sala_verde_rest_done",
+          "effects": [
+            { "type": "set_flag", "key": "ferravia_sala_verde_used", "value": true }
+          ]
+        },
+        {
+          "id": "sala_verde_back",
+          "text": "Esco senza usare il servizio.",
+          "goto": "city_hub",
+          "effects": [
+            { "type": "set_location", "locationId": "fer_city" }
+          ]
+        }
+      ]
+    },
+    "sala_verde_rest_done": {
+      "stitches": [
+        {
+          "id": "rest_done_narration",
+          "text": "Un'ora dopo la squadra è recuperata secondo il protocollo P5e standard. Nessun effetto arbitrario oltre quello che le regole prevedono. Il mondo esterno è andato avanti — orari, eventi, schedule NPC — mentre eri qui."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rest_done_back",
+          "text": "Esco dalla Sala Verde.",
+          "goto": "city_hub",
+          "effects": [
+            { "type": "set_location", "locationId": "fer_city" }
+          ]
+        }
+      ]
+    },
+    "arena_lobby": {
+      "stitches": [
+        {
+          "id": "arena_1",
+          "text": "L'ingresso dell'Arena del Circuito è un atrio con pavimento lucido, bacheca di risultati recenti e due banchi: uno per i match registrati — i tipici incontri Rank D — e uno marcato «Trial D→C» con un addetto fisso. Niente teatralità: è una struttura tecnica."
+        },
+        {
+          "id": "arena_2",
+          "text": "La bacheca mostra risultati di trainer locali e di passaggio. Non tutti vincono: alcune sconfitte sono registrate accanto a nomi che ritroverai durante il modulo. È un segnale sano — l'Arena non è un palcoscenico truccato."
+        },
+        {
+          "id": "arena_3",
+          "text": "Il banco del Trial D→C è presidiato. Non puoi iscriverti senza aver visto i prerequisiti — è il tuo compito, non del banco, assicurarti di avere ciò che serve. Il banco ti dirà quando sarà tempo; qui ti dà il contesto, non il permesso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "arena_check_rules",
+          "text": "Chiedo quali sono i prerequisiti per il Trial D→C.",
+          "timeCostMinutes": 10,
+          "goto": "arena_trial_rules"
+        },
+        {
+          "id": "arena_read_results",
+          "text": "Studio la bacheca dei risultati recenti.",
+          "timeCostMinutes": 5,
+          "goto": "arena_results_board"
+        },
+        {
+          "id": "arena_back",
+          "text": "Esco dall'Arena.",
+          "goto": "city_hub",
+          "effects": [
+            { "type": "set_location", "locationId": "fer_city" }
+          ]
+        }
+      ]
+    },
+    "arena_trial_rules": {
+      "stitches": [
+        {
+          "id": "trial_rules_1",
+          "text": "«Trial D→C: formato ufficiale tre contro tre, roster registrato all'iscrizione. Prerequisito tecnico Rank D attivo — che hai — e aver completato il quadro di contenuto M3 richiesto dal Circuito. Quest'ultimo controllo lo faremo al momento dell'iscrizione, non prima. Non c'è una scadenza stretta; se vuoi aspettare per preparare meglio la squadra, aspetta.»"
+        },
+        {
+          "id": "trial_rules_2",
+          "text": "L'addetto non ti vende urgenza. Il Trial resterà disponibile; il contenuto che il Circuito richiede farà parte del percorso naturale di M3. L'iscrizione concreta è compito di M3_12, non di questo blocco."
+        }
+      ],
+      "choices": [
+        {
+          "id": "trial_rules_back",
+          "text": "Lo ringrazio e torno nell'atrio.",
+          "goto": "arena_lobby",
+          "effects": [
+            { "type": "set_flag", "key": "ferravia_trial_rules_known", "value": true }
+          ]
+        }
+      ]
+    },
+    "arena_results_board": {
+      "stitches": [
+        {
+          "id": "results_board_text",
+          "text": "La bacheca è aggiornata ad oggi. Risultati di match Rank D ordinati per data recente, qualche risultato del circuito giovanile, un pannello laterale sulla Regional Cup — iscrizioni aperte in finestre periodiche, bracket pubblicato alla chiusura delle iscrizioni, risultato finale registrato come storia competitiva reale."
+        },
+        {
+          "id": "results_board_tone",
+          "text": "Non ci sono volti noti vincenti in modo sospetto. L'Arena rispetta la regola base: i risultati competitivi sono emergenti, non scritti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "results_board_back",
+          "text": "Torno nell'atrio.",
+          "goto": "arena_lobby",
+          "effects": [
+            { "type": "set_flag", "key": "ferravia_results_board_seen", "value": true }
+          ]
+        }
+      ]
+    },
+    "shop": {
+      "stitches": [
+        {
+          "id": "shop_1",
+          "text": "Il negozio è stretto e profondo, scaffalature metalliche, catalogo di consumi standard P5e. Niente oggetti narrativi — solo materiali che il Rank D potrebbe realmente usare secondo il regolamento. Un cartello elenca orari e giorno del prossimo rifornimento secondo il ciclo canonico di 3 giorni."
+        },
+        {
+          "id": "shop_2",
+          "text": "Il titolare ti saluta senza alzarsi dallo sgabello. Non è un venditore invadente: è un negozio che vende quello che il regolamento prevede. Nessun oggetto esclusivo di M3 è in vetrina — l'offerta è coerente con la fascia Rank D e con eventuali esclusive narrative future."
+        }
+      ],
+      "choices": [
+        {
+          "id": "shop_back",
+          "text": "Esco senza acquistare — era un sopralluogo.",
+          "goto": "city_hub",
+          "effects": [
+            { "type": "set_location", "locationId": "fer_city" }
+          ]
+        }
+      ]
+    }
+  }
+}
