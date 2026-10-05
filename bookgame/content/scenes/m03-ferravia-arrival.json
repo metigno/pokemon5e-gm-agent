@@ -227,6 +227,129 @@
           ]
         },
         {
+          "id": "hub_tunnel_warnings",
+          "text": "Raggiungo l'accesso tecnico Ferrox e verifico gli avvisi sulle gallerie.",
+          "timeCostMinutes": 20,
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.tunnel_warnings_complete",
+                "ne": true
+              },
+              {
+                "any": [
+                  {
+                    "path": "world.flags.old_maps_read",
+                    "eq": true
+                  },
+                  {
+                    "path": "world.flags.ferrox_survey_report_read",
+                    "eq": true
+                  },
+                  {
+                    "path": "world.flags.steven_met",
+                    "eq": true
+                  },
+                  {
+                    "path": "world.flags.ferravia_safety_principle_noted",
+                    "eq": true
+                  }
+                ]
+              }
+            ]
+          },
+          "goto": "m03-tunnel-warnings#warning_board",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "ferrox_access"
+            }
+          ]
+        },
+        {
+          "id": "hub_ferrox_incident",
+          "text": "È arrivato un allarme dalle Gallerie Ferrox. Controllo il dispaccio.",
+          "timeCostMinutes": 5,
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.a3_ferrox_incident_available",
+                "eq": true
+              },
+              {
+                "path": "world.flags.ferrox_incident_briefed",
+                "ne": true
+              }
+            ]
+          },
+          "goto": "m03-ferrox-incident#incident_alert",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "fer_city_dispatch"
+            }
+          ]
+        },
+        {
+          "id": "hub_ferrox_rescue",
+          "text": "Raggiungo il perimetro Ferrox: la finestra di soccorso è ancora una questione aperta.",
+          "timeCostMinutes": 20,
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.ferrox_incident_started",
+                "eq": true
+              },
+              {
+                "path": "world.flags.ferrox_rescue_state",
+                "exists": false
+              }
+            ]
+          },
+          "goto": "m03-ferrox-rescue#rescue_perimeter",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "ferrox_rescue_perimeter"
+            }
+          ]
+        },
+        {
+          "id": "hub_friend_beat_03",
+          "text": "Rispondo al contatto di uno degli altri Five.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.a3_friend_call_available",
+                "eq": true
+              },
+              {
+                "path": "world.flags.friend_beat_03_complete",
+                "ne": true
+              }
+            ]
+          },
+          "goto": "m03-friend-beat-03#friend_call"
+        },
+        {
+          "id": "hub_crossroads",
+          "text": "Mi fermo a decidere quale priorità seguire adesso.",
+          "timeCostMinutes": 10,
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.a3_crossroads_available",
+                "eq": true
+              },
+              {
+                "path": "world.flags.a3_crossroads_complete",
+                "ne": true
+              }
+            ]
+          },
+          "goto": "m03-crossroads#crossroads"
+        },
+        {
           "id": "hub_leave_to_cava",
           "text": "Torno verso Cava Grigia.",
           "timeCostMinutes": 90,
