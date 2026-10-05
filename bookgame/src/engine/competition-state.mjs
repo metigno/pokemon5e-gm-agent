@@ -118,6 +118,9 @@ function validateMetaRuntime(meta) {
   if (meta.firstOfficial !== undefined && typeof meta.firstOfficial !== "boolean") {
     throw new Error("firstOfficial must be boolean");
   }
+  if (meta.opponentTrainerId !== undefined) {
+    requireId(meta.opponentTrainerId, "opponentTrainerId");
+  }
   if (meta.type === "promotion_trial") {
     requireId(meta.checkpointId, "checkpointId");
     rankOrder(meta.fromRank);
@@ -162,7 +165,8 @@ export function beginCompetitionMatch(state, meta) {
     startedAtMinutes: state.world.elapsedMinutes,
     officialRosterSize: meta.officialRosterSize,
     format: meta.format,
-    difficulty: meta.difficulty
+    difficulty: meta.difficulty,
+    opponentTrainerId: meta.opponentTrainerId ?? null
   };
   return competition.activeMatch;
 }
@@ -187,6 +191,7 @@ export function resolveCompetitionMatch(state, meta, outcome) {
     format: meta.format,
     officialRosterSize: meta.officialRosterSize,
     difficulty: meta.difficulty,
+    opponentTrainerId: meta.opponentTrainerId ?? null,
     resolvedAtMinutes: state.world.elapsedMinutes
   };
   competition.history.push(record);
@@ -288,6 +293,9 @@ export function validateCompetitionCombat(meta, at = "combat.competition") {
   }
   if (meta.firstOfficial !== undefined && typeof meta.firstOfficial !== "boolean") {
     push("INVALID_FIRST_OFFICIAL", "firstOfficial must be boolean", at + ".firstOfficial");
+  }
+  if (meta.opponentTrainerId !== undefined && (typeof meta.opponentTrainerId !== "string" || !ID_RE.test(meta.opponentTrainerId))) {
+    push("INVALID_OPPONENT_TRAINER_ID", "opponentTrainerId must be a stable identifier", at + ".opponentTrainerId");
   }
   if (meta.type === "promotion_trial") {
     if (typeof meta.checkpointId !== "string" || !ID_RE.test(meta.checkpointId)) {
