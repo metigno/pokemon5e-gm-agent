@@ -61,9 +61,9 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 | M2_05_RANGER_THREAD | collegare conseguenze Ranger/M1 alle nuove anomalie | 336 | 218 | COMPLETE |
 | M2_06_MARSH_APPROACH | accesso progressivo verso Palude Mirto e aumento del rischio | 336 | 218 | COMPLETE |
 | M2_07_POACHING_NETWORK | rami investigazione/intervento/evitamento con stato reale | 488 | 317 | COMPLETE |
-| M2_08_FRIEND_BEAT_02 | interazione concreta con uno dei Four selezionato da schedule e stato | 488 | 317 | PLANNED |
-| M2_09_ROOKIE_INVITATIONAL | Rookie Invitational opzionale e deadline reale | 336 | 218 | PLANNED |
-| M2_10_CRISIS_MOVES | A2_CRISIS_ESCALATES e conseguenze se il player ritarda | 336 | 218 | PLANNED |
+| M2_08_FRIEND_BEAT_02 | interazione concreta con uno dei Four selezionato da schedule e stato | 488 | 317 | COMPLETE |
+| M2_09_ROOKIE_INVITATIONAL | Rookie Invitational opzionale e deadline reale | 336 | 218 | COMPLETE |
+| M2_10_CRISIS_MOVES | A2_CRISIS_ESCALATES e conseguenze se il player ritarda | 336 | 218 | COMPLETE |
 | M2_11_NETWORK_OUTCOME | registrare esito resolved/partial/ignored/escalated senza reset | 437 | 284 | PLANNED |
 | M2_12_TRIAL_REGISTRATION | eligibility E→D alla Sala Verde, roster legale e preparazione | 437 | 284 | PLANNED |
 | M2_13_PROMOTION_TRIAL_E_D | checkpoint RANK_E_TO_D, Singles roster ufficiale 3 | 488 | 316 | PLANNED |
@@ -233,6 +233,9 @@ Scene `m02-poaching-network` (moduleId M02, locationId asteria_mistwood) require
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Implementation lock (verified 2026-10-05):**
+Scene `m02-friend-beat-02` (moduleId M02, locationId `borgo_salice`) requires all six entry conditions at scene level: `m1_complete=true`, `m02_unlocked=true`, `m2_active=true`, `competition.rank=E`, `friends_split=true`, `a2_friend_news_available=true`. Event binding: `A2_FRIEND_NEWS` (world event, once, trigger: `friends_split=true AND (world_day>=14 OR trainerLevel>=4)`) fires via `bookgame/content/events/M02.json` and sets both `friend_beat_02_friend_id` and `a2_friend_news_available=true` with a state-aware selector: (1) Fab if `npcs.Fab.state.fiveRoadsPath=ranger_route AND ranger_thread_opened=true`; (2) Edward if `npcs.Edward.state.fiveRoadsPath=field_training`; (3) Mattew if `npcs.Mattew.state.fiveRoadsPath=trial_preparation`; (4) Daniel (default). Navigation in: `m02-borgo-salice#borough_hub` via `receive_friend_news` (condition: `a2_friend_news_available=true AND friend_beat_02_complete ne true`). Navigation out: `friend_beat_close#back_to_borgo` → `m02-borgo-salice#borough_hub`. Four per-friend branches: **Mattew** (spar combat M2_FRIEND_MATTEW_SPAR level 3/Eevee, or conversation); **Daniel** (remote exchange, engaged or brief); **Edward** (spar combat M2_FRIEND_EDWARD_SPAR level 3/Totodile, or ecology conversation); **Fab** (intelligence share conditional on `poaching_network_state exists`, with `share_ranger_context` sub-choice if `ranger_thread_opened=true`, or general conversation). Durable writes: `friend_beat_02_complete=true` (on `back_to_borgo`), `friend_beat_02_friend_id` (set by event), `friend_beat_02_type` (combat/conversation/intelligence_share/remote_brief), `friend_beat_02_result` (win_discussed/loss_discussed/conversation_complete/etc.), optional `friend_beat_02_ecology_context` (Edward), `poaching_n_fab_connected` (Fab ranger link). Also creates `M02.json` events file with `A2_ROOKIE_CUP` (trigger: `friend_beat_02_complete=true AND (trainerLevel>=4 OR rank=E)`, sets `a2_rookie_cup_available=true`) and `A2_CRISIS_ESCALATES` (trigger: `local_problem_started AND (world_day>=20 OR local_problem_ignored)`, sets `a2_crisis_escalates_available=true` and `crisis_escalation_type`). No premature FRIEND_BEAT_02 re-trigger, no Rank change, no trial. M2_00–M2_07 regressions: zero (17+12+24+28+23+21+19+22 pass). Verified by 30 dedicated regressions (all pass). Nodes added: 25. Choices added: 45. Cumulative M02: 128 nodes / 258 choices.
+
 ---
 
 ## M2_09_ROOKIE_INVITATIONAL
@@ -245,6 +248,9 @@ Scene `m02-poaching-network` (moduleId M02, locationId asteria_mistwood) require
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Implementation lock (verified 2026-10-05):**
+Scene `m02-rookie-invitational` (moduleId M02, locationId `borgo_salice_sala_verde`) requires five entry conditions: `m1_complete=true`, `m02_unlocked=true`, `m2_active=true`, `competition.rank=E`, `a2_rookie_cup_available=true`. Event binding: `A2_ROOKIE_CUP` fires when `friend_beat_02_complete=true AND (trainerLevel>=4 OR rank=E)`, sets `a2_rookie_cup_available=true`. Navigation in: `m02-borgo-salice#sala_verde` via `check_rookie_cup` (condition: `a2_rookie_cup_available=true AND rookie_cup_complete ne true`). Navigation out: all terminal choices route to `m02-borgo-salice#borough_hub`. Full outcome set: **declined** (register_for_cup not taken → `rookie_cup_result=declined`); **forfeited** (registered but forfeit_r1 → `rookie_cup_result=forfeited`); **withdrew** (withdrew_registration or withdraw_before_r2 → `rookie_cup_result=declined`, `rookie_cup_withdrew=true`); **r1 loss** (fight_r1 loss → `rookie_cup_result=loss`); **r2 loss** (fight_r2 loss → `rookie_cup_result=loss`); **win** (fight_r2 win → `rookie_cup_result=win`). Two opponents: `M2_ROOKIE_CUP_R1` (TomasFerri, Rattata, level 4) and `M2_ROOKIE_CUP_R2` (VeraConti, Slowpoke, level 4). Optional scout: `scout_r1_opponent` sets `rookie_cup_r1_scouted=true`. No Rank E→D promotion — result is narrative/points only. Durable writes: `rookie_cup_complete=true`, `rookie_cup_result`, `rookie_cup_registered`, `rookie_cup_declined`, `rookie_cup_r1_result`, `rookie_cup_r2_result`, optionals. M2_00–M2_08 regressions: zero (17+12+24+28+23+21+19+22+30 pass). Verified by 22 dedicated regressions (all pass). Nodes added: 16. Choices added: 29. Cumulative M02: 144 nodes / 287 choices.
+
 ---
 
 ## M2_10_CRISIS_MOVES
@@ -256,6 +262,18 @@ Scene `m02-poaching-network` (moduleId M02, locationId asteria_mistwood) require
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+**Implementation lock (verified 2026-10-05):**
+- Scene file: `content/scenes/m02-crisis-moves.json` (11 nodes / 26 choices)
+- World event: `A2_CRISIS_ESCALATES` in `content/events/M02.json` (3 outcomes: network_unchecked / silent_spread / partial_response)
+- Entry guard: `a2_crisis_escalates_available=true` (plus m1_complete, m02_unlocked, m2_active, rank=E)
+- Hub entry via `crisis_update` choice in `m02-borgo-salice#borough_hub` (hidden after crisis_moves_complete)
+- Three conditional branches from `crisis_news_arrive` gating on `crisis_escalation_type`
+- Shared `crisis_assess_options` hub; ranger choices mutex on `ranger_thread_opened`
+- Durable writes: `crisis_moves_complete`, `crisis_response_type`, `crisis_evidence_gathered`, `crisis_ranger_alerted`, `crisis_ranger_full_report`, `crisis_intensified`, `crisis_passive_monitor`, `local_problem_ignored`
+- **Does NOT write `poaching_network_state` final values** — those are owned by M2_11
+- Tests: `tests/m02-crisis-moves.test.mjs` — 22 tests, 22 pass, 0 fail
+- M02 cumulative after M2_10: **155 nodes / 314 choices** (baseline 103/213; added M2_08: +25/+44, M2_09: +16/+28, M2_10: +11/+26; borgo-salice expanded: +7 choices)
 
 ---
 

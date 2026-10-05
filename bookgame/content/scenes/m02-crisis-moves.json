@@ -1,0 +1,375 @@
+{
+  "schemaVersion": 1,
+  "id": "m02-crisis-moves",
+  "moduleId": "M02",
+  "title": "M2_10 — Conseguenze della Crisi",
+  "locationId": "borgo_salice",
+  "entryNodeId": "crisis_news_arrive",
+  "conditions": {
+    "all": [
+      { "path": "world.flags.m1_complete", "eq": true },
+      { "path": "world.flags.m02_unlocked", "eq": true },
+      { "path": "world.flags.m2_active", "eq": true },
+      { "path": "competition.rank", "eq": "E" },
+      { "path": "world.flags.a2_crisis_escalates_available", "eq": true }
+    ]
+  },
+  "nodes": {
+    "crisis_news_arrive": {
+      "stitches": [
+        {
+          "id": "arrive_1",
+          "text": "Qualcosa è cambiato mentre eri occupato in altro. Non un'esplosione, non un annuncio — la sensazione che il problema che hai visto formarsi nel bosco ha guadagnato spazio, silenziosamente. Il segnale arriva in modo diverso a seconda di cosa hai fatto o non hai fatto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "read_network_unchecked",
+          "text": "La rete di bracconaggio si è espansa — ho scelto di non intervenire direttamente.",
+          "conditions": {
+            "path": "world.flags.crisis_escalation_type",
+            "eq": "network_unchecked"
+          },
+          "goto": "crisis_network_unchecked"
+        },
+        {
+          "id": "read_silent_spread",
+          "text": "Il problema si è diffuso in silenzio — nessuna traccia ufficiale aperta.",
+          "conditions": {
+            "path": "world.flags.crisis_escalation_type",
+            "eq": "silent_spread"
+          },
+          "goto": "crisis_silent_spread"
+        },
+        {
+          "id": "read_partial_response",
+          "text": "La risposta parziale che ho avviato non è bastata — il problema è ancora attivo.",
+          "conditions": {
+            "path": "world.flags.crisis_escalation_type",
+            "eq": "partial_response"
+          },
+          "goto": "crisis_partial_response"
+        }
+      ]
+    },
+    "crisis_network_unchecked": {
+      "stitches": [
+        {
+          "id": "unchecked_1",
+          "text": "Hai visto la rete di bracconaggio e hai scelto di non agire direttamente. Nel frattempo, l'operazione ha continuato. Le zone di prelievo si sono spostate più in profondità nella fascia Rank E — più difficili da raggiungere senza autorizzazione Rank D, più difficili da documentare senza rischiare."
+        },
+        {
+          "id": "unchecked_2",
+          "text": "Non è ancora arrivata risposta ufficiale dal Circuito o dal Servizio Ranger. Se qualcuno sta monitorando, non lo sta rendendo pubblico. Il tuo margine per agire in modo significativo prima che la situazione diventi permanente si sta restringendo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "unchecked_assess",
+          "text": "Valuto la situazione e le opzioni disponibili.",
+          "goto": "crisis_assess_options"
+        },
+        {
+          "id": "unchecked_go_direct",
+          "text": "Torno immediatamente nel bosco per raccogliere prove.",
+          "timeCostMinutes": 210,
+          "goto": "crisis_investigate_move",
+          "effects": [
+            { "type": "set_flag", "key": "crisis_response_type", "value": "investigate" }
+          ]
+        },
+        {
+          "id": "unchecked_ignore_again",
+          "text": "Non è ancora il mio problema diretto — aspetto che qualcun altro intervenga.",
+          "goto": "crisis_defer_watch",
+          "effects": [
+            { "type": "set_flag", "key": "local_problem_ignored", "value": true }
+          ]
+        }
+      ]
+    },
+    "crisis_silent_spread": {
+      "stitches": [
+        {
+          "id": "silent_1",
+          "text": "Senza una traccia ranger aperta e senza documentazione formale, il problema nel bosco si è propagato in modo invisibile al Circuito. Altre aree della fascia E mostrano segni simili a quello che hai trovato nel Mistwood — contenitori nascosti, anomalie nei movimenti della fauna, zone di calpestio fuori sentiero."
+        },
+        {
+          "id": "silent_2",
+          "text": "Il fatto che non ci sia traccia ufficiale è sia un problema che un'opportunità: se apri la traccia adesso, la narrativa inizia da dove sei ora, non da dove avresti potuto essere prima."
+        }
+      ],
+      "choices": [
+        {
+          "id": "silent_assess",
+          "text": "Valuto la situazione e le opzioni disponibili.",
+          "goto": "crisis_assess_options"
+        },
+        {
+          "id": "silent_open_ranger_now",
+          "text": "Vado immediatamente al presidio ranger — meglio tardi che mai.",
+          "timeCostMinutes": 10,
+          "goto": "crisis_ranger_report",
+          "effects": [
+            { "type": "set_flag", "key": "crisis_response_type", "value": "ranger_report" }
+          ]
+        },
+        {
+          "id": "silent_continue_ignore",
+          "text": "Non cambio approccio — non è ancora una mia priorità.",
+          "goto": "crisis_defer_watch",
+          "effects": [
+            { "type": "set_flag", "key": "local_problem_ignored", "value": true }
+          ]
+        }
+      ]
+    },
+    "crisis_partial_response": {
+      "stitches": [
+        {
+          "id": "partial_1",
+          "text": "Hai avviato qualcosa — una traccia ranger, una documentazione, un coinvolgimento parziale. Non era abbastanza. Il problema è ancora attivo, probabilmente in modo più consapevole della tua presenza rispetto a quando hai iniziato."
+        },
+        {
+          "id": "partial_2",
+          "text": "Non sei al punto di partenza — hai dati, hai una traccia aperta o hai testimoni. Ma ciò che hai fatto non ha risolto la situazione: è rimasta ferma mentre il mondo è andato avanti. L'escalation è il momento in cui questo diventa evidente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "partial_assess",
+          "text": "Valuto cosa ho già e cosa manca per chiudere il problema.",
+          "goto": "crisis_assess_options"
+        },
+        {
+          "id": "partial_push_harder",
+          "text": "Intensifico le azioni — torno nel bosco con più determinazione.",
+          "timeCostMinutes": 210,
+          "goto": "crisis_investigate_move",
+          "effects": [
+            { "type": "set_flag", "key": "crisis_response_type", "value": "investigate" },
+            { "type": "set_flag", "key": "crisis_intensified", "value": true }
+          ]
+        },
+        {
+          "id": "partial_step_back",
+          "text": "Riconosco che quello che ho fatto non è stato sufficiente — mi fermo.",
+          "goto": "crisis_defer_watch"
+        }
+      ]
+    },
+    "crisis_assess_options": {
+      "stitches": [
+        {
+          "id": "assess_1",
+          "text": "Metti insieme quello che sai: la struttura dell'operazione, i punti di accesso, i tempi che hai osservato, chi sai che è coinvolto o coinvolgibile. Non è un'analisi completa — ma è abbastanza per decidere cosa fare adesso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "assess_investigate",
+          "text": "Torno nel bosco per raccogliere prove o aggiornare quello che ho.",
+          "timeCostMinutes": 210,
+          "goto": "crisis_investigate_move",
+          "effects": [
+            { "type": "set_flag", "key": "crisis_response_type", "value": "investigate" }
+          ]
+        },
+        {
+          "id": "assess_report_ranger",
+          "text": "Porto quello che ho al presidio ranger — è il canale giusto.",
+          "timeCostMinutes": 10,
+          "conditions": {
+            "path": "world.flags.ranger_thread_opened",
+            "eq": true
+          },
+          "goto": "crisis_ranger_report",
+          "effects": [
+            { "type": "set_flag", "key": "crisis_response_type", "value": "ranger_report" }
+          ]
+        },
+        {
+          "id": "assess_open_ranger_first",
+          "text": "Vado al presidio ranger a riferire — non ho ancora una traccia ufficiale.",
+          "timeCostMinutes": 10,
+          "conditions": {
+            "path": "world.flags.ranger_thread_opened",
+            "ne": true
+          },
+          "goto": "crisis_ranger_report",
+          "effects": [
+            { "type": "set_flag", "key": "crisis_response_type", "value": "ranger_report" }
+          ]
+        },
+        {
+          "id": "assess_defer_now",
+          "text": "Non agisco adesso — il problema è reale ma non è il momento.",
+          "goto": "crisis_defer_watch",
+          "effects": [
+            { "type": "set_flag", "key": "local_problem_ignored", "value": true }
+          ]
+        }
+      ]
+    },
+    "crisis_investigate_move": {
+      "stitches": [
+        {
+          "id": "investigate_1",
+          "text": "Torni nel Bosco Mistwood con più urgenza di prima. Le condizioni sono cambiate: ci sono tracce più recenti, i punti di deposito si sono spostati, l'operazione ha sviluppato più cautela. Non è impossibile trovare prove — ma è più difficile di quanto fosse la prima volta."
+        },
+        {
+          "id": "investigate_2",
+          "text": "Dopo un'ora di ricerca sistematica, trovi quello che cerchi: una cache di attrezzatura fresca, movimenti visibili in un'area che prima era pulita, segni di una presenza attiva nelle ultime ore. Non è prova definitiva — ma è abbastanza da rafforzare quello che già sai."
+        }
+      ],
+      "choices": [
+        {
+          "id": "document_crisis_find",
+          "text": "Documento quello che ho trovato e mi preparo a portarlo al presidio.",
+          "goto": "crisis_evidence_documented",
+          "effects": [
+            { "type": "set_flag", "key": "crisis_evidence_gathered", "value": true }
+          ]
+        },
+        {
+          "id": "retreat_with_knowledge",
+          "text": "Ho quello che mi serve — mi ritiro senza esporre la mia posizione.",
+          "goto": "crisis_moves_close",
+          "effects": [
+            { "type": "set_flag", "key": "crisis_evidence_gathered", "value": true },
+            { "type": "set_flag", "key": "crisis_moves_complete", "value": true }
+          ]
+        }
+      ]
+    },
+    "crisis_evidence_documented": {
+      "stitches": [
+        {
+          "id": "documented_1",
+          "text": "La documentazione è fatta: posizioni, tempi, caratteristiche dell'attrezzatura, pattern di movimento. Non è una relazione completa da inviare al Circuito — ma è il tipo di dato che un ranger può usare per avviare una procedura formale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "bring_evidence_ranger",
+          "text": "Porto la documentazione al presidio ranger.",
+          "timeCostMinutes": 210,
+          "goto": "crisis_ranger_report",
+          "effects": [
+            { "type": "set_flag", "key": "crisis_response_type", "value": "ranger_report" }
+          ]
+        },
+        {
+          "id": "hold_evidence_now",
+          "text": "Tengo la documentazione per il momento — decido dopo come usarla.",
+          "goto": "crisis_moves_close",
+          "effects": [
+            { "type": "set_flag", "key": "crisis_moves_complete", "value": true }
+          ]
+        }
+      ]
+    },
+    "crisis_ranger_report": {
+      "stitches": [
+        {
+          "id": "report_1",
+          "text": "Elio Mar ascolta quello che hai da dire. Non interrompe, non semplifica — prende nota con la metodicità di chi ha imparato a non fidarsi delle sintesi approssimative. Quando finisci, rimane qualche secondo in silenzio."
+        },
+        {
+          "id": "report_2",
+          "text": "«L'escalation che descrivi è coerente con quello che monitoriamo da questa parte. Non avevo il quadro completo.» Non è un ringraziamento — è un aggiornamento professionale. Ma il fatto che lo dica indica che quello che hai portato ha valore reale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "report_full_detail",
+          "text": "Gli do tutti i dettagli — posizioni, tempi, tipologia di attrezzatura.",
+          "timeCostMinutes": 20,
+          "goto": "crisis_ranger_alerted_close",
+          "effects": [
+            { "type": "set_flag", "key": "crisis_ranger_alerted", "value": true },
+            { "type": "set_flag", "key": "crisis_ranger_full_report", "value": true }
+          ]
+        },
+        {
+          "id": "report_partial_detail",
+          "text": "Gli do un quadro parziale — abbastanza da aprire una procedura.",
+          "timeCostMinutes": 10,
+          "goto": "crisis_ranger_alerted_close",
+          "effects": [
+            { "type": "set_flag", "key": "crisis_ranger_alerted", "value": true }
+          ]
+        }
+      ]
+    },
+    "crisis_ranger_alerted_close": {
+      "stitches": [
+        {
+          "id": "alerted_1",
+          "text": "Elio apre una procedura di monitoraggio formale basata sul tuo report. «Questo non si chiude in un giorno. Ma adesso è tracciato.» È la differenza tra qualcosa che esiste solo nella tua testa e qualcosa che esiste nel sistema."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_ranger_alerted",
+          "text": "Torno alle mie attività.",
+          "goto": "crisis_moves_close",
+          "effects": [
+            { "type": "set_flag", "key": "crisis_moves_complete", "value": true }
+          ]
+        }
+      ]
+    },
+    "crisis_defer_watch": {
+      "stitches": [
+        {
+          "id": "defer_1",
+          "text": "Scegli di non agire adesso. Non è paura — o forse sì, in parte. È anche valutazione razionale: non hai abbastanza risorse, non hai il Rank giusto, non è il momento. Il problema continua senza di te."
+        },
+        {
+          "id": "defer_2",
+          "text": "Il fatto che tu abbia scelto di non agire è anche un dato. Non invisibile — il Circuito ha sistemi per rilevare quando i problemi persistono senza intervento. A un certo punto, la situazione si risolve da sola oppure peggiora al punto in cui qualcuno con più autorità deve intervenire."
+        }
+      ],
+      "choices": [
+        {
+          "id": "defer_passive_monitor",
+          "text": "Resto attento a qualsiasi cambiamento nell'area — senza agire direttamente.",
+          "goto": "crisis_moves_close",
+          "effects": [
+            { "type": "set_flag", "key": "crisis_moves_complete", "value": true },
+            { "type": "set_flag", "key": "crisis_passive_monitor", "value": true }
+          ]
+        },
+        {
+          "id": "defer_walk_away",
+          "text": "Mi allontano completamente dalla questione — non è più qualcosa che seguo.",
+          "goto": "crisis_moves_close",
+          "effects": [
+            { "type": "set_flag", "key": "crisis_moves_complete", "value": true },
+            { "type": "set_flag", "key": "local_problem_ignored", "value": true }
+          ]
+        }
+      ]
+    },
+    "crisis_moves_close": {
+      "stitches": [
+        {
+          "id": "close_1",
+          "text": "Hai fatto la tua scelta. La situazione nel bosco non è risolta — ma hai risposto alla crisi nel modo che hai potuto o voluto, in questo momento. Quello che hai fatto o non hai fatto rimarrà come dato permanente di questa fase del gioco."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_to_borgo_crisis",
+          "text": "Torno al borgo.",
+          "goto": "m02-borgo-salice#borough_hub",
+          "effects": [
+            { "type": "set_flag", "key": "crisis_moves_complete", "value": true },
+            { "type": "set_location", "locationId": "borgo_salice" }
+          ]
+        }
+      ]
+    }
+  }
+}

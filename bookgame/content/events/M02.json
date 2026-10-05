@@ -1,0 +1,235 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "M02",
+  "events": [
+    {
+      "id": "A2_FRIEND_NEWS",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "world.flags.friends_split",
+            "eq": true
+          },
+          {
+            "any": [
+              {
+                "path": "world.day",
+                "gte": 14
+              },
+              {
+                "path": "player.trainerLevel",
+                "gte": 4
+              }
+            ]
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "fab_ranger_intersection",
+          "when": {
+            "all": [
+              {
+                "path": "npcs.Fab.state.fiveRoadsPath",
+                "eq": "ranger_route"
+              },
+              {
+                "path": "world.flags.ranger_thread_opened",
+                "eq": true
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_friend_id",
+              "value": "Fab"
+            },
+            {
+              "type": "set_flag",
+              "key": "a2_friend_news_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "edward_field_active",
+          "when": {
+            "path": "npcs.Edward.state.fiveRoadsPath",
+            "eq": "field_training"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_friend_id",
+              "value": "Edward"
+            },
+            {
+              "type": "set_flag",
+              "key": "a2_friend_news_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "mattew_trial_track",
+          "when": {
+            "path": "npcs.Mattew.state.fiveRoadsPath",
+            "eq": "trial_preparation"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_friend_id",
+              "value": "Mattew"
+            },
+            {
+              "type": "set_flag",
+              "key": "a2_friend_news_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "daniel_remote_contact",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_02_friend_id",
+              "value": "Daniel"
+            },
+            {
+              "type": "set_flag",
+              "key": "a2_friend_news_available",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A2_ROOKIE_CUP",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "world.flags.friend_beat_02_complete",
+            "eq": true
+          },
+          {
+            "any": [
+              {
+                "path": "player.trainerLevel",
+                "gte": 4
+              },
+              {
+                "path": "competition.rank",
+                "eq": "E"
+              }
+            ]
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "cup_window_open",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a2_rookie_cup_available",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A2_CRISIS_ESCALATES",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "world.flags.local_problem_started",
+            "eq": true
+          },
+          {
+            "any": [
+              {
+                "path": "world.day",
+                "gte": 20
+              },
+              {
+                "path": "world.flags.local_problem_ignored",
+                "eq": true
+              }
+            ]
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "crisis_network_escalated",
+          "when": {
+            "path": "world.flags.poaching_network_state",
+            "eq": "avoided"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a2_crisis_escalates_available",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "crisis_escalation_type",
+              "value": "network_unchecked"
+            }
+          ]
+        },
+        {
+          "id": "crisis_escalated_no_ranger",
+          "when": {
+            "all": [
+              {
+                "path": "world.flags.poaching_network_state",
+                "ne": "intervened"
+              },
+              {
+                "path": "world.flags.ranger_thread_opened",
+                "ne": true
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a2_crisis_escalates_available",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "crisis_escalation_type",
+              "value": "silent_spread"
+            }
+          ]
+        },
+        {
+          "id": "crisis_escalated_partial",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a2_crisis_escalates_available",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "crisis_escalation_type",
+              "value": "partial_response"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

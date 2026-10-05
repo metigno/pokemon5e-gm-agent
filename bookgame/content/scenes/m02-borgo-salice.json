@@ -91,6 +91,34 @@
           ]
         },
         {
+          "id": "crisis_update",
+          "text": "La situazione nel bosco ha subito un'escalation — devo valutare come rispondere.",
+          "conditions": {
+            "all": [
+              { "path": "world.flags.a2_crisis_escalates_available", "eq": true },
+              { "path": "world.flags.crisis_moves_complete", "ne": true }
+            ]
+          },
+          "goto": "m02-crisis-moves#crisis_news_arrive",
+          "effects": [
+            { "type": "set_flag", "key": "crisis_moves_started", "value": true }
+          ]
+        },
+        {
+          "id": "receive_friend_news",
+          "text": "Leggo il messaggio di un amico — sembra che abbiano qualcosa da dirmi.",
+          "conditions": {
+            "all": [
+              { "path": "world.flags.a2_friend_news_available", "eq": true },
+              { "path": "world.flags.friend_beat_02_complete", "ne": true }
+            ]
+          },
+          "goto": "m02-friend-beat-02#friend_news_arrive",
+          "effects": [
+            { "type": "set_flag", "key": "friend_beat_02_started", "value": true }
+          ]
+        },
+        {
           "id": "back_to_mistwood",
           "text": "Rientro verso Bosco Bruma.",
           "timeCostMinutes": 210,
@@ -374,6 +402,21 @@
           "text": "Chiedo informazioni sui requisiti di accesso.",
           "timeCostMinutes": 10,
           "goto": "sala_verde_reqs"
+        },
+        {
+          "id": "check_rookie_cup",
+          "text": "Controllo le iscrizioni al Rookie Invitational.",
+          "conditions": {
+            "all": [
+              { "path": "world.flags.a2_rookie_cup_available", "eq": true },
+              { "path": "world.flags.rookie_cup_complete", "ne": true }
+            ]
+          },
+          "timeCostMinutes": 5,
+          "goto": "m02-rookie-invitational#cup_announcement",
+          "effects": [
+            { "type": "set_location", "locationId": "borgo_salice_sala_verde" }
+          ]
         },
         {
           "id": "leave_sala",

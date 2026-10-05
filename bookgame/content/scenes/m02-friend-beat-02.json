@@ -1,0 +1,745 @@
+{
+  "schemaVersion": 1,
+  "id": "m02-friend-beat-02",
+  "moduleId": "M02",
+  "title": "M2_08 — Notizie da un Amico",
+  "locationId": "borgo_salice",
+  "entryNodeId": "friend_news_arrive",
+  "conditions": {
+    "all": [
+      { "path": "world.flags.m1_complete", "eq": true },
+      { "path": "world.flags.m02_unlocked", "eq": true },
+      { "path": "world.flags.m2_active", "eq": true },
+      { "path": "competition.rank", "eq": "E" },
+      { "path": "world.flags.friends_split", "eq": true },
+      { "path": "world.flags.a2_friend_news_available", "eq": true }
+    ]
+  },
+  "nodes": {
+    "friend_news_arrive": {
+      "stitches": [
+        {
+          "id": "news_intro",
+          "text": "Mentre sei a Borgo Salice arriva un messaggio — non dal Circuito, non un avviso automatico. È uno dei tuoi. Il testo è breve: una posizione, un aggiornamento su quello che stanno facendo, un'implicita offerta di incrociarsi se sei nei paraggi."
+        },
+        {
+          "id": "news_context",
+          "text": "Dopo la separazione ognuno ha preso una direzione diversa. Non ti aspettavi notizie così presto, ma il fatto che abbiano scritto significa che qualcosa è successo — abbastanza da volerlo condividere."
+        }
+      ],
+      "choices": [
+        {
+          "id": "read_mattew_update",
+          "text": "È Mattew.",
+          "conditions": {
+            "path": "world.flags.friend_beat_02_friend_id",
+            "eq": "Mattew"
+          },
+          "goto": "mattew_update"
+        },
+        {
+          "id": "read_daniel_update",
+          "text": "È Daniel.",
+          "conditions": {
+            "path": "world.flags.friend_beat_02_friend_id",
+            "eq": "Daniel"
+          },
+          "goto": "daniel_update"
+        },
+        {
+          "id": "read_edward_update",
+          "text": "È Edward.",
+          "conditions": {
+            "path": "world.flags.friend_beat_02_friend_id",
+            "eq": "Edward"
+          },
+          "goto": "edward_update"
+        },
+        {
+          "id": "read_fab_update",
+          "text": "È Fab.",
+          "conditions": {
+            "path": "world.flags.friend_beat_02_friend_id",
+            "eq": "Fab"
+          },
+          "goto": "fab_update"
+        }
+      ]
+    },
+    "mattew_update": {
+      "stitches": [
+        {
+          "id": "mattew_message",
+          "text": "Mattew è a un giorno di viaggio da Borgo Salice — si sta preparando per un Trial di promozione in una struttura dell'entroterra. Il messaggio dice che sta testando la sua sequenza di allenamento, che Eevee risponde meglio del previsto, e che se sei disponibile vorrebbe un match di sparring prima della sessione ufficiale."
+        },
+        {
+          "id": "mattew_stakes",
+          "text": "Non è una richiesta — è un invito. Mattew non chiede quando le cose stanno andando bene. Il fatto che l'abbia scritto significa che vuole un avversario reale, non una sessione controllata. Probabilmente si aspetta che tu dica di sì."
+        }
+      ],
+      "choices": [
+        {
+          "id": "accept_mattew_spar",
+          "text": "Lo raggiungo per uno sparring.",
+          "timeCostMinutes": 45,
+          "goto": "mattew_combat_handoff",
+          "effects": [
+            { "type": "set_flag", "key": "friend_beat_02_type", "value": "combat" }
+          ]
+        },
+        {
+          "id": "talk_to_mattew",
+          "text": "Preferisco parlare piuttosto che combattere — lo chiamo.",
+          "timeCostMinutes": 20,
+          "goto": "mattew_conversation",
+          "effects": [
+            { "type": "set_flag", "key": "friend_beat_02_type", "value": "conversation" }
+          ]
+        },
+        {
+          "id": "ask_mattew_progress",
+          "text": "Gli chiedo come sta andando la preparazione.",
+          "timeCostMinutes": 10,
+          "goto": "mattew_progress_detail"
+        }
+      ]
+    },
+    "mattew_progress_detail": {
+      "stitches": [
+        {
+          "id": "progress_detail_1",
+          "text": "Mattew descrive il programma: sessioni di check tecnico al mattino, analisi dei match dell'avversario tipo nel pomeriggio, un ripasso della sequenza di risposta sotto pressione. Eevee è al centro di tutto — l'adattabilità è il punto forte, ma richiede lettura dell'avversario più che potenza grezza."
+        },
+        {
+          "id": "progress_detail_2",
+          "text": "Ha l'approccio di sempre: metodo, non improvvisazione. Ma sotto la descrizione tecnica si sente che c'è qualcosa da dimostrare — a sé stesso, probabilmente più che agli altri."
+        }
+      ],
+      "choices": [
+        {
+          "id": "offer_spar_after_detail",
+          "text": "Quello che descrivi mi convince — vengo per lo sparring.",
+          "timeCostMinutes": 35,
+          "goto": "mattew_combat_handoff",
+          "effects": [
+            { "type": "set_flag", "key": "friend_beat_02_type", "value": "combat" }
+          ]
+        },
+        {
+          "id": "encourage_from_detail",
+          "text": "Lo incoraggio senza offrire uno sparring — non è il momento.",
+          "timeCostMinutes": 5,
+          "goto": "mattew_conversation",
+          "effects": [
+            { "type": "set_flag", "key": "friend_beat_02_type", "value": "conversation" }
+          ]
+        }
+      ]
+    },
+    "mattew_combat_handoff": {
+      "stitches": [
+        {
+          "id": "spar_setup",
+          "text": "Vi incontrate in un'area aperta fuori dal sentiero principale. Mattew è già in posizione quando arrivi — ha scelto il terreno con attenzione, spazio sufficiente per le manovre di Eevee, nessun vantaggio ambientale per nessuno dei due. Un match pulito."
+        },
+        {
+          "id": "spar_ready",
+          "text": "«Regole standard. Niente hold. Facciamo un turno completo.» Non aspetta risposta. Eevee è già davanti a lui, orecchie dritte, pronta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fight_mattew",
+          "text": "Inizio il match.",
+          "combat": {
+            "encounterId": "M2_FRIEND_MATTEW_SPAR",
+            "opponent": {
+              "type": "trainer",
+              "level": 3,
+              "trainerId": "Mattew",
+              "species": "Eevee",
+              "motive": "sparring_preparation"
+            },
+            "opponentRegistered": true,
+            "goto": "mattew_combat_handoff",
+            "returnNodes": {
+              "win": "mattew_combat_win",
+              "lose": "mattew_combat_lose"
+            }
+          }
+        }
+      ]
+    },
+    "mattew_combat_win": {
+      "stitches": [
+        {
+          "id": "win_reaction",
+          "text": "Il match finisce. Mattew richiama Eevee e resta fermo un momento — non deluso, ma concentrato, come se stesse già analizzando cosa non ha funzionato. «Bene. Questo era il punto. Sapevo che c'era un problema nella transizione di difesa — ora so dove.»"
+        },
+        {
+          "id": "win_context",
+          "text": "Non è un complimento per te — è un risultato utile per lui. Ma è lo stesso di sempre: anche una sconfitta diventa dati. Questo è Mattew."
+        }
+      ],
+      "choices": [
+        {
+          "id": "discuss_win_technical",
+          "text": "Discuto il match con lui — cosa ho visto, cosa potrebbe migliorare.",
+          "timeCostMinutes": 15,
+          "goto": "mattew_post_match",
+          "effects": [
+            { "type": "set_flag", "key": "friend_beat_02_result", "value": "win_discussed" }
+          ]
+        },
+        {
+          "id": "close_after_win",
+          "text": "Lo saluto — ha già quello che gli serve.",
+          "goto": "friend_beat_close",
+          "effects": [
+            { "type": "set_flag", "key": "friend_beat_02_result", "value": "win_parted" }
+          ]
+        }
+      ]
+    },
+    "mattew_combat_lose": {
+      "stitches": [
+        {
+          "id": "lose_reaction",
+          "text": "Eevee era più precisa di quanto ti aspettassi — Mattew ha letto bene la tua sequenza e ha trovato il momento esatto. Non è una sconfitta che brucia in modo semplice. È la sconfitta di chi ha incontrato qualcuno che si è preparato meglio."
+        },
+        {
+          "id": "lose_context",
+          "text": "Mattew annuisce. «Ti ho visto esitare nel secondo scambio. Lo stesso punto. Lavoriamoci.» Non è condiscendenza — è la cosa più utile che qualcuno ti abbia detto oggi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "discuss_loss_technical",
+          "text": "Accetto l'analisi — parliamo di quello che non ha funzionato.",
+          "timeCostMinutes": 15,
+          "goto": "mattew_post_match",
+          "effects": [
+            { "type": "set_flag", "key": "friend_beat_02_result", "value": "loss_discussed" }
+          ]
+        },
+        {
+          "id": "close_after_loss",
+          "text": "Lo saluto — ho abbastanza su cui riflettere.",
+          "goto": "friend_beat_close",
+          "effects": [
+            { "type": "set_flag", "key": "friend_beat_02_result", "value": "loss_parted" }
+          ]
+        }
+      ]
+    },
+    "mattew_post_match": {
+      "stitches": [
+        {
+          "id": "post_match_1",
+          "text": "Passate venti minuti a parlare del match nel dettaglio — non come punteggio, ma come problema tecnico da risolvere. È il tipo di conversazione che raramente si fa con qualcuno che non conosci da abbastanza tempo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_post_match",
+          "text": "È ora di andare.",
+          "goto": "friend_beat_close"
+        }
+      ]
+    },
+    "mattew_conversation": {
+      "stitches": [
+        {
+          "id": "conversation_1",
+          "text": "La conversazione è breve ma non superficiale. Mattew ti aggiorna sulla preparazione, sulla struttura del Trial che ha nel mirino, su cosa pensa di fare se passa e cosa se non passa. Non chiede la tua opinione sulle sue scelte — ma ascolta quando la dai."
+        },
+        {
+          "id": "conversation_2",
+          "text": "Prima di chiudere ti chiede come stanno andando le cose da questa parte. Non i dettagli — solo il quadro generale. È il modo di Mattew di dire che si ricorda che ci sei anche tu."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_mattew_talk",
+          "text": "Chiudiamo la chiamata.",
+          "goto": "friend_beat_close",
+          "effects": [
+            { "type": "set_flag", "key": "friend_beat_02_result", "value": "conversation_complete" }
+          ]
+        }
+      ]
+    },
+    "daniel_update": {
+      "stitches": [
+        {
+          "id": "daniel_message",
+          "text": "Daniel scrive da lontano — un contratto logistico lo ha portato verso il distretto portuale orientale. Il messaggio è lungo, più lungo di quanto ti aspettassi: un riassunto di quello che ha osservato nella catena di distribuzione dell'attrezzatura per trainer, alcune incongruenze nei listini, una nota su un venditore che non gli tornava."
+        },
+        {
+          "id": "daniel_detail",
+          "text": "Non è solo un aggiornamento sulla sua carriera — è Daniel che elabora ad alta voce. Lo fa con chi si fida abbastanza da pensare che l'interlocutore possa contribuire qualcosa, non solo ascoltare."
+        }
+      ],
+      "choices": [
+        {
+          "id": "reply_engage_daniel",
+          "text": "Rispondo in modo approfondito — quello che ha trovato è interessante.",
+          "timeCostMinutes": 20,
+          "goto": "daniel_engaged",
+          "effects": [
+            { "type": "set_flag", "key": "friend_beat_02_type", "value": "conversation" }
+          ]
+        },
+        {
+          "id": "reply_brief_daniel",
+          "text": "Rispondo in modo breve — confermo di aver letto, niente di più.",
+          "timeCostMinutes": 5,
+          "goto": "daniel_brief",
+          "effects": [
+            { "type": "set_flag", "key": "friend_beat_02_type", "value": "remote_brief" }
+          ]
+        },
+        {
+          "id": "ask_daniel_about_region",
+          "text": "Lo interrompo per chiedergli qualcosa sulla regione in cui si trova.",
+          "timeCostMinutes": 10,
+          "goto": "daniel_region_context"
+        }
+      ]
+    },
+    "daniel_region_context": {
+      "stitches": [
+        {
+          "id": "region_context_1",
+          "text": "Daniel risponde con la precisione di chi ha già cartografato mentalmente il territorio: struttura del mercato locale, rotte usate dai trainer che operano nella fascia E, come cambia il tipo di lavoro disponibile man mano che ci si allontana dai centri della Lega. È utile — forse non adesso, ma in futuro potrebbe esserlo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "engage_after_region",
+          "text": "Proseguo la conversazione — c'è altro da capire.",
+          "timeCostMinutes": 15,
+          "goto": "daniel_engaged",
+          "effects": [
+            { "type": "set_flag", "key": "friend_beat_02_type", "value": "conversation" }
+          ]
+        },
+        {
+          "id": "close_after_region",
+          "text": "Ho abbastanza — chiudo la conversazione.",
+          "timeCostMinutes": 5,
+          "goto": "daniel_brief",
+          "effects": [
+            { "type": "set_flag", "key": "friend_beat_02_type", "value": "remote_brief" }
+          ]
+        }
+      ]
+    },
+    "daniel_engaged": {
+      "stitches": [
+        {
+          "id": "engaged_1",
+          "text": "Passate mezz'ora a scambiarvi informazioni — lui su quello che vede nei mercati dell'attrezzatura, tu su quello che hai notato nell'area del Bosco. Daniel non fa domande dirette sul tuo lavoro, ma è evidente che sta assemblando un quadro più grande con i pezzi che gli dai."
+        },
+        {
+          "id": "engaged_2",
+          "text": "Prima di chiudere: «Se trovi qualcosa di anomalo nei prezzi o nelle forniture da questa parte, dimmi. Potrei essere utile dall'altro lato.» Non è una promessa vuota — è il modo in cui Daniel opera."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_daniel_engaged",
+          "text": "Chiudiamo la conversazione.",
+          "goto": "friend_beat_close",
+          "effects": [
+            { "type": "set_flag", "key": "friend_beat_02_result", "value": "exchange_complete" }
+          ]
+        }
+      ]
+    },
+    "daniel_brief": {
+      "stitches": [
+        {
+          "id": "brief_1",
+          "text": "Rispondi in poche righe — confermato, hai letto, tienimi aggiornato. Daniel risponde con un acknowledgment altrettanto breve. Non è freddo: è il linguaggio di chi sa che non sempre c'è tempo per sviluppare ogni conversazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_daniel_brief",
+          "text": "Chiudi il messaggio.",
+          "goto": "friend_beat_close",
+          "effects": [
+            { "type": "set_flag", "key": "friend_beat_02_result", "value": "brief_acknowledged" }
+          ]
+        }
+      ]
+    },
+    "edward_update": {
+      "stitches": [
+        {
+          "id": "edward_message",
+          "text": "Edward è nei pressi della zona di allenamento sul campo — le aree agricole dell'entroterra, dove alcuni farmer locali lo usano come supporto per la gestione della fauna selvatica in prossimità dei coltivi. È il tipo di lavoro che si addice a lui: pratico, fisicamente impegnativo, utile in modo diretto."
+        },
+        {
+          "id": "edward_location",
+          "text": "Il messaggio dice che è a meno di un'ora da Borgo Salice. Non lo dice esplicitamente, ma l'implicazione è chiara: se vuoi, puoi raggiungerlo. Probabilmente non è il tipo di posto in cui si capiti per caso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "accept_edward_spar",
+          "text": "Lo raggiungo per un match — qui c'è spazio.",
+          "timeCostMinutes": 60,
+          "goto": "edward_combat_handoff",
+          "effects": [
+            { "type": "set_flag", "key": "friend_beat_02_type", "value": "combat" }
+          ]
+        },
+        {
+          "id": "talk_to_edward",
+          "text": "Vado a trovarlo ma non per combattere — voglio parlare.",
+          "timeCostMinutes": 40,
+          "goto": "edward_conversation",
+          "effects": [
+            { "type": "set_flag", "key": "friend_beat_02_type", "value": "conversation" }
+          ]
+        },
+        {
+          "id": "ask_edward_ecology",
+          "text": "Gli chiedo cosa sta osservando sulla fauna locale.",
+          "timeCostMinutes": 15,
+          "goto": "edward_ecology_note"
+        }
+      ]
+    },
+    "edward_ecology_note": {
+      "stitches": [
+        {
+          "id": "ecology_note_1",
+          "text": "Edward descrive quello che vede: distribuzioni di fauna irregolari nelle zone di confine tra i coltivi e il bosco, comportamenti difensivi in specie che normalmente non li mostrano in quell'area, un numero di avvistamenti di Pokémon giovani più basso del solito per la stagione. Non è un'analisi formale — è la lettura di chi guarda queste cose ogni giorno."
+        },
+        {
+          "id": "ecology_note_2",
+          "text": "Alcune di quelle osservazioni corrispondono a quello che hai visto nel Bosco Mistwood. Le aree non sono lontane — forse non è una coincidenza."
+        }
+      ],
+      "choices": [
+        {
+          "id": "spar_after_ecology",
+          "text": "Le sue osservazioni mi interessano — e voglio anche uno sparring.",
+          "timeCostMinutes": 45,
+          "goto": "edward_combat_handoff",
+          "effects": [
+            { "type": "set_flag", "key": "friend_beat_02_type", "value": "combat" },
+            { "type": "set_flag", "key": "friend_beat_02_ecology_context", "value": true }
+          ]
+        },
+        {
+          "id": "talk_after_ecology",
+          "text": "L'ecology mi interessa più di un match — resto a parlare.",
+          "timeCostMinutes": 20,
+          "goto": "edward_conversation",
+          "effects": [
+            { "type": "set_flag", "key": "friend_beat_02_type", "value": "conversation" },
+            { "type": "set_flag", "key": "friend_beat_02_ecology_context", "value": true }
+          ]
+        }
+      ]
+    },
+    "edward_combat_handoff": {
+      "stitches": [
+        {
+          "id": "edward_spar_setup",
+          "text": "Il terreno fuori dai coltivi è irregolare — erba alta, zolle sollevate, un fossato d'irrigazione che divide il campo. Non è un ring neutro. Edward non sembra disturbato dalla cosa: ha allenato Totodile qui, conosce ogni centimetro."
+        },
+        {
+          "id": "edward_spar_ready",
+          "text": "«Quando sei pronto.» Niente cerimonie. Totodile è già fuori dalla Pokéball, mascelle aperte in un sorriso che non è esattamente rassicurante."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fight_edward",
+          "text": "Inizio il match.",
+          "combat": {
+            "encounterId": "M2_FRIEND_EDWARD_SPAR",
+            "opponent": {
+              "type": "trainer",
+              "level": 3,
+              "trainerId": "Edward",
+              "species": "Totodile",
+              "motive": "field_sparring"
+            },
+            "opponentRegistered": true,
+            "goto": "edward_combat_handoff",
+            "returnNodes": {
+              "win": "edward_combat_win",
+              "lose": "edward_combat_lose"
+            }
+          }
+        }
+      ]
+    },
+    "edward_combat_win": {
+      "stitches": [
+        {
+          "id": "edward_win_1",
+          "text": "Totodile si ferma, ansimante. Edward lo richiama con calma — nessun gesto drammatico, nessuna analisi immediata. Guarda il campo per un momento, poi annuisce. «Avevi ragione sulla distanza. Non ci avevo pensato in questi termini.»"
+        },
+        {
+          "id": "edward_win_2",
+          "text": "Per Edward il match non è finito — sta già rielaborando quello che ha visto. Vincere contro di lui non è scontato, anche adesso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "discuss_edward_win",
+          "text": "Parliamo del match — e di quello che ha osservato sulla fauna.",
+          "timeCostMinutes": 10,
+          "goto": "edward_post_match",
+          "effects": [
+            { "type": "set_flag", "key": "friend_beat_02_result", "value": "win_discussed" }
+          ]
+        },
+        {
+          "id": "close_edward_win",
+          "text": "Lo saluto — ci vediamo la prossima volta.",
+          "goto": "friend_beat_close",
+          "effects": [
+            { "type": "set_flag", "key": "friend_beat_02_result", "value": "win_parted" }
+          ]
+        }
+      ]
+    },
+    "edward_combat_lose": {
+      "stitches": [
+        {
+          "id": "edward_lose_1",
+          "text": "Totodile ha usato il terreno in modo sistematico — copertura, profondità, angolazione degli attacchi. Non era potenza: era conoscenza del posto. Edward ha allenato Totodile qui, e si vedeva."
+        },
+        {
+          "id": "edward_lose_2",
+          "text": "«Il terreno conta quanto il Pokémon» dice Edward, richiamando Totodile. Non è una lezione — è una constatazione. Il tipo di cosa che dice quando pensa che tu sia abbastanza pronto per capirla."
+        }
+      ],
+      "choices": [
+        {
+          "id": "discuss_edward_lose",
+          "text": "Parliamo del match — e delle sue osservazioni ecologiche.",
+          "timeCostMinutes": 10,
+          "goto": "edward_post_match",
+          "effects": [
+            { "type": "set_flag", "key": "friend_beat_02_result", "value": "loss_discussed" }
+          ]
+        },
+        {
+          "id": "close_edward_lose",
+          "text": "Lo saluto — ho capito il punto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            { "type": "set_flag", "key": "friend_beat_02_result", "value": "loss_parted" }
+          ]
+        }
+      ]
+    },
+    "edward_post_match": {
+      "stitches": [
+        {
+          "id": "edward_post_1",
+          "text": "Seduti sul bordo del fossato, con i Pokémon a recuperare, parlate delle osservazioni di Edward sulla fauna del confine. Non è un rapporto ufficiale — è la lettura di qualcuno che ha trascorso settimane in quest'area. Alcune cose che descrivi del Bosco lo fanno alzare un sopracciglio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_edward_post",
+          "text": "È ora di andare.",
+          "goto": "friend_beat_close"
+        }
+      ]
+    },
+    "edward_conversation": {
+      "stitches": [
+        {
+          "id": "edward_conv_1",
+          "text": "Trovate Edward nel punto in cui stava lavorando — al bordo di un campo, con Totodile che sbucciava le radici di un fossato ostruito. Lavoro concreto, niente di glorioso. Edward lo fa come se fosse normale."
+        },
+        {
+          "id": "edward_conv_2",
+          "text": "Parlate mentre lui continua — di quello che ha visto, di come funziona il lavoro sul campo, delle differenze tra allenare in un ambiente controllato e farlo dove le variabili sono reali. Alla fine dice qualcosa che ti resta: «Il Bosco è diverso da qui. Ma i problemi sono gli stessi — troppa pressione in un posto solo.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_edward_conv",
+          "text": "Lo saluto e torno verso Borgo Salice.",
+          "goto": "friend_beat_close",
+          "effects": [
+            { "type": "set_flag", "key": "friend_beat_02_result", "value": "conversation_complete" }
+          ]
+        }
+      ]
+    },
+    "fab_update": {
+      "stitches": [
+        {
+          "id": "fab_message",
+          "text": "Il messaggio di Fab arriva da un'area che conosci — la zona di confine tra il Bosco Mistwood e i sentieri che portano verso nord. È in pattuglia su un percorso ranger non ufficiale, uno di quelli che esistono perché qualcuno ha deciso che era necessario anche se non erano sulla mappa del Circuito."
+        },
+        {
+          "id": "fab_location",
+          "text": "Dice che ha notato qualcosa di anomalo lungo il percorso — non specifica cosa, ma la formulazione è quella di chi sa che l'interlocutore capirà il contesto senza troppi dettagli. Vuole incrociarsi se sei disponibile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "compare_fab_notes",
+          "text": "Confronto le mie osservazioni con le sue — potrebbe esserci una connessione.",
+          "conditions": {
+            "path": "world.flags.poaching_network_state",
+            "exists": true
+          },
+          "timeCostMinutes": 30,
+          "goto": "fab_network_intel",
+          "effects": [
+            { "type": "set_flag", "key": "friend_beat_02_type", "value": "intelligence_share" }
+          ]
+        },
+        {
+          "id": "meet_fab_patrol",
+          "text": "La raggiungo sul percorso.",
+          "timeCostMinutes": 40,
+          "goto": "fab_conversation",
+          "effects": [
+            { "type": "set_flag", "key": "friend_beat_02_type", "value": "conversation" }
+          ]
+        },
+        {
+          "id": "respond_fab_remote",
+          "text": "Rispondo dal messaggio — non posso raggiugerla adesso.",
+          "timeCostMinutes": 10,
+          "goto": "fab_remote_exchange",
+          "effects": [
+            { "type": "set_flag", "key": "friend_beat_02_type", "value": "remote_brief" }
+          ]
+        }
+      ]
+    },
+    "fab_network_intel": {
+      "stitches": [
+        {
+          "id": "intel_1",
+          "text": "Fab ha osservato le stesse anomalie da un angolo diverso: tracce di movimento notturno su sentieri non ufficiali, segni di contenitore temporaneo nascosto, Pokémon selvatici spostati in modi che non corrispondono ai comportamenti naturali stagionali. Non ha collegato esplicitamente i pezzi — ma quando gli descrivi quello che hai trovato nel Bosco, lo fa in tempo reale."
+        },
+        {
+          "id": "intel_2",
+          "text": "«Queste due aree si toccano. Chi opera là dentro usa anche i percorsi vicino al confine settentrionale.» Fab non è sorpresa — è come se parte di lei lo sapesse già. Stava solo aspettando qualcuno con dati dall'altro lato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "share_ranger_context",
+          "text": "Le dico del presidio ranger a Borgo Salice — potrebbe esserci una connessione formale.",
+          "conditions": {
+            "path": "world.flags.ranger_thread_opened",
+            "eq": true
+          },
+          "timeCostMinutes": 10,
+          "goto": "fab_ranger_link",
+          "effects": [
+            { "type": "set_flag", "key": "poaching_n_fab_connected", "value": true }
+          ]
+        },
+        {
+          "id": "close_fab_intel",
+          "text": "Registro quello che ha detto e la saluto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            { "type": "set_flag", "key": "friend_beat_02_result", "value": "intel_shared" }
+          ]
+        }
+      ]
+    },
+    "fab_ranger_link": {
+      "stitches": [
+        {
+          "id": "ranger_link_1",
+          "text": "Fab annuisce quando menzioni il presidio. «Elio Mar. Lo conosco di nome — ha la reputazione di essere meticoloso.» Non dice che si fiderà automaticamente del canale ufficiale, ma non lo esclude. Per Fab, i canali valgono quanto le persone che li gestiscono."
+        },
+        {
+          "id": "ranger_link_2",
+          "text": "«Se hai aperto una traccia con lui, tienila aperta. Quello che ho visto potrebbe essere utile al momento giusto.» È un impegno implicito — Fab non promette, ma fa capire che non sparirà."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_fab_ranger_link",
+          "text": "La saluto — le cose potrebbero convergere.",
+          "goto": "friend_beat_close",
+          "effects": [
+            { "type": "set_flag", "key": "friend_beat_02_result", "value": "ranger_link_established" }
+          ]
+        }
+      ]
+    },
+    "fab_conversation": {
+      "stitches": [
+        {
+          "id": "fab_conv_1",
+          "text": "Trovi Fab su un dosso con vista sul confine del Bosco. Koffing è a poca distanza, in orbita lenta — rilassato, ma attento. Fab ti guarda arrivare senza sorprendersi, come se ti aspettasse da più tempo di quanto tu non l'abbia avvisata."
+        },
+        {
+          "id": "fab_conv_2",
+          "text": "Parlate per una ventina di minuti — di quello che ha visto nel suo percorso, di come funziona la logistica del pattugliamento informale, di cosa significa operare in un'area senza autorizzazione ufficiale ma con una ragione chiara. Fab non si scusa mai per nessuna delle scelte che ha fatto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_fab_conv",
+          "text": "La saluto — è ora di tornare.",
+          "goto": "friend_beat_close",
+          "effects": [
+            { "type": "set_flag", "key": "friend_beat_02_result", "value": "conversation_complete" }
+          ]
+        }
+      ]
+    },
+    "fab_remote_exchange": {
+      "stitches": [
+        {
+          "id": "remote_1",
+          "text": "Risponde in poche righe: capito, ci aggiorniamo dopo. Non è fredda — è efficiente. Fab sa che non ogni contatto può essere approfondito nel momento esatto in cui arriva."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_fab_remote",
+          "text": "Chiudi il messaggio.",
+          "goto": "friend_beat_close",
+          "effects": [
+            { "type": "set_flag", "key": "friend_beat_02_result", "value": "remote_acknowledged" }
+          ]
+        }
+      ]
+    },
+    "friend_beat_close": {
+      "stitches": [
+        {
+          "id": "close_1",
+          "text": "Il contatto con il tuo amico è concluso. Non è stato un evento ad alto rischio — ma non era questo il punto. Era un aggiornamento su dove siete, ognuno per la propria strada, e una conferma che la distanza non ha cambiato la sostanza delle cose."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_to_borgo",
+          "text": "Torno a Borgo Salice.",
+          "goto": "m02-borgo-salice#borough_hub",
+          "effects": [
+            { "type": "set_flag", "key": "friend_beat_02_complete", "value": true },
+            { "type": "set_location", "locationId": "borgo_salice" }
+          ]
+        }
+      ]
+    }
+  }
+}

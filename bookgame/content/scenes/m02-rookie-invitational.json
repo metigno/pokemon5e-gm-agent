@@ -1,0 +1,495 @@
+{
+  "schemaVersion": 1,
+  "id": "m02-rookie-invitational",
+  "moduleId": "M02",
+  "title": "M2_09 — Rookie Invitational",
+  "locationId": "borgo_salice_sala_verde",
+  "entryNodeId": "cup_announcement",
+  "conditions": {
+    "all": [
+      { "path": "world.flags.m1_complete", "eq": true },
+      { "path": "world.flags.m02_unlocked", "eq": true },
+      { "path": "world.flags.m2_active", "eq": true },
+      { "path": "competition.rank", "eq": "E" },
+      { "path": "world.flags.a2_rookie_cup_available", "eq": true }
+    ]
+  },
+  "nodes": {
+    "cup_announcement": {
+      "stitches": [
+        {
+          "id": "announcement_1",
+          "text": "La bacheca della Sala Verde riporta un avviso del Circuito regionale: «ROOKIE INVITATIONAL — Torneo facoltativo aperto ai trainer Rank E della zona. Sede: Sala Verde di Borgo Salice. Data: questo ciclo. Bracket singolo eliminazione diretta, massimo otto partecipanti. Nessuna promozione di Rank automatica — solo classifica regionale e punti circuito.»"
+        },
+        {
+          "id": "announcement_2",
+          "text": "Non è obbligatorio. Non cambia il tuo Rank di partenza. Ma è un torneo reale, con trainer veri, e i punti si accumulano sulla tua scheda circuito indipendentemente da come va a finire."
+        },
+        {
+          "id": "announcement_3",
+          "text": "C'è ancora spazio nella lista di iscrizione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "register_for_cup",
+          "text": "Mi iscrivo al Rookie Invitational.",
+          "conditions": {
+            "path": "world.flags.rookie_cup_registered",
+            "ne": true
+          },
+          "goto": "cup_registration",
+          "effects": [
+            { "type": "set_flag", "key": "rookie_cup_registered", "value": true }
+          ]
+        },
+        {
+          "id": "decline_cup",
+          "text": "Non voglio partecipare a questo torneo.",
+          "conditions": {
+            "path": "world.flags.rookie_cup_registered",
+            "ne": true
+          },
+          "goto": "cup_declined",
+          "effects": [
+            { "type": "set_flag", "key": "rookie_cup_declined", "value": true }
+          ]
+        },
+        {
+          "id": "ask_about_cup",
+          "text": "Chiedo informazioni sul torneo prima di decidere.",
+          "conditions": {
+            "path": "world.flags.rookie_cup_registered",
+            "ne": true
+          },
+          "goto": "cup_info"
+        },
+        {
+          "id": "enter_registered_cup",
+          "text": "Sono già iscritto — vado alle fasi del torneo.",
+          "conditions": {
+            "path": "world.flags.rookie_cup_registered",
+            "eq": true
+          },
+          "goto": "cup_r1_announce"
+        }
+      ]
+    },
+    "cup_info": {
+      "stitches": [
+        {
+          "id": "info_format",
+          "text": "Il formato è singolo eliminazione diretta: perdi un match e sei fuori. I trainer iscritti sono nella fascia Rank E locale — nessuno è sottovalutabile, ma non ci sono big della stagione. I punti circuito si sommano anche per le vittorie di round intermedi."
+        },
+        {
+          "id": "info_stakes",
+          "text": "Vincere l'invitational non promuove direttamente. Ma la classifica regionale pesa sulla valutazione complessiva quando arriva il Trial E→D. Perdere non è un disastro — è esperienza di bracket contro avversari reali."
+        },
+        {
+          "id": "info_timing",
+          "text": "Le finestre di match sono flessibili: puoi fare il tuo round quando sei pronto, purché entro il ciclo del torneo. Non sei obbligato a essere disponibile in un orario fisso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "register_after_info",
+          "text": "Dopo aver sentito le regole, mi iscrivo.",
+          "goto": "cup_registration",
+          "effects": [
+            { "type": "set_flag", "key": "rookie_cup_registered", "value": true }
+          ]
+        },
+        {
+          "id": "decline_after_info",
+          "text": "Ho capito le regole. Non mi interessa partecipare.",
+          "goto": "cup_declined",
+          "effects": [
+            { "type": "set_flag", "key": "rookie_cup_declined", "value": true }
+          ]
+        }
+      ]
+    },
+    "cup_registration": {
+      "stitches": [
+        {
+          "id": "reg_confirm",
+          "text": "Il tuo nome è sulla lista. Il terminale del Circuito registra l'iscrizione con il tuo ID trainer, la tua scheda rank E e il roster attuale. Verrai notificato dell'assegnazione del primo avversario."
+        },
+        {
+          "id": "reg_bracket",
+          "text": "Il tuo primo match è contro un trainer del bracket locale: non hai informazioni dettagliate su di loro, solo il fatto che sono Rank E e che hanno passato la verifica di eligibility del Circuito."
+        }
+      ],
+      "choices": [
+        {
+          "id": "proceed_to_r1",
+          "text": "Vado a prepararmi per il primo round.",
+          "timeCostMinutes": 30,
+          "goto": "cup_r1_announce"
+        },
+        {
+          "id": "withdraw_registration",
+          "text": "Ripensandoci, ritiro l'iscrizione.",
+          "timeCostMinutes": 5,
+          "goto": "cup_declined",
+          "effects": [
+            { "type": "set_flag", "key": "rookie_cup_registered", "value": false },
+            { "type": "set_flag", "key": "rookie_cup_declined", "value": true },
+            { "type": "set_flag", "key": "rookie_cup_withdrew", "value": true }
+          ]
+        }
+      ]
+    },
+    "cup_r1_announce": {
+      "stitches": [
+        {
+          "id": "r1_setup",
+          "text": "Primo round: il bracket ti assegna un trainer di nome Tomás Ferri, Rank E da tre mesi. Ha un Rattata e un Pidgey in roster — la combinazione classica di chi ha puntato sulla velocità e sulla pressione continuata invece che sul singolo attacco forte."
+        },
+        {
+          "id": "r1_context",
+          "text": "Il match si svolge sul campo ufficiale della Sala Verde, con un giudice del Circuito presente. Formato Singles, massimo tre Pokémon a testa. Regole standard di Rank E."
+        }
+      ],
+      "choices": [
+        {
+          "id": "enter_r1_fight",
+          "text": "Entro nel campo per il primo round.",
+          "timeCostMinutes": 45,
+          "goto": "cup_r1_handoff"
+        },
+        {
+          "id": "scout_r1_opponent",
+          "text": "Prima del match, cerco informazioni pubbliche su Tomás Ferri.",
+          "timeCostMinutes": 15,
+          "goto": "cup_r1_scout"
+        },
+        {
+          "id": "forfeit_r1",
+          "text": "Non mi presento al match — rinuncio al torneo.",
+          "goto": "cup_forfeited",
+          "effects": [
+            { "type": "set_flag", "key": "rookie_cup_forfeited", "value": true }
+          ]
+        }
+      ]
+    },
+    "cup_r1_scout": {
+      "stitches": [
+        {
+          "id": "scout_1",
+          "text": "La scheda pubblica di Tomás Ferri mostra tre vittorie e due sconfitte nel bracket regionale. Tende a chiudere i match velocemente quando ha il vantaggio — non aspetta, non gioca in difesa. Se lo metti in svantaggio presto, potrebbe affrettarsi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fight_after_scout",
+          "text": "Ho abbastanza. Entro nel campo.",
+          "timeCostMinutes": 30,
+          "goto": "cup_r1_handoff",
+          "effects": [
+            { "type": "set_flag", "key": "rookie_cup_r1_scouted", "value": true }
+          ]
+        }
+      ]
+    },
+    "cup_r1_handoff": {
+      "stitches": [
+        {
+          "id": "r1_start",
+          "text": "Tomás è già in posizione. Annuisce in modo breve — non è arrogante, ma è concentrato. Il giudice legge i dati di entrambi i roster e dà il via."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fight_r1",
+          "text": "Inizio il match.",
+          "combat": {
+            "encounterId": "M2_ROOKIE_CUP_R1",
+            "opponent": {
+              "type": "trainer",
+              "level": 4,
+              "trainerId": "TomasFerri",
+              "species": "Rattata",
+              "motive": "bracket_competition"
+            },
+            "opponentRegistered": false,
+            "goto": "cup_r1_handoff",
+            "returnNodes": {
+              "win": "cup_r1_win",
+              "lose": "cup_r1_loss"
+            }
+          }
+        }
+      ]
+    },
+    "cup_r1_win": {
+      "stitches": [
+        {
+          "id": "r1_win_1",
+          "text": "Il match è finito. Tomás richiama il suo ultimo Pokémon e si stringe la mano prima che tu possa dirgli qualcosa. «Bel match. Hai letto il ritmo meglio di me.» È sincero — e questo la dice lunga su di lui."
+        },
+        {
+          "id": "r1_win_2",
+          "text": "Il giudice registra il risultato. Punti circuito accreditati. Sei ai quarti di finale — o alla semifinale, a seconda dei dropout. Il tuo prossimo avversario è assegnato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue_to_r2",
+          "text": "Proseguo verso il secondo round.",
+          "timeCostMinutes": 30,
+          "goto": "cup_r2_announce",
+          "effects": [
+            { "type": "set_flag", "key": "rookie_cup_r1_result", "value": "win" }
+          ]
+        },
+        {
+          "id": "recover_before_r2",
+          "text": "Mi prendo del tempo per recuperare prima del secondo round.",
+          "timeCostMinutes": 90,
+          "goto": "cup_r2_announce",
+          "effects": [
+            { "type": "set_flag", "key": "rookie_cup_r1_result", "value": "win" },
+            { "type": "set_flag", "key": "rookie_cup_r2_recovered", "value": true }
+          ]
+        }
+      ]
+    },
+    "cup_r1_loss": {
+      "stitches": [
+        {
+          "id": "r1_loss_1",
+          "text": "Il match è finito. Tomás ha trovato il momento giusto — un'apertura nel tuo secondo scambio che non hai chiuso abbastanza in fretta. È eliminazione diretta: sei fuori dal torneo al primo round."
+        },
+        {
+          "id": "r1_loss_2",
+          "text": "Il giudice registra il risultato. Punti circuito minimi per la partecipazione. Non è la fine di niente — è un dato su dove sei adesso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "accept_r1_loss",
+          "text": "Accetto il risultato.",
+          "goto": "cup_result_loss",
+          "effects": [
+            { "type": "set_flag", "key": "rookie_cup_r1_result", "value": "loss" }
+          ]
+        },
+        {
+          "id": "analyze_r1_loss",
+          "text": "Parlo con il giudice o con Tomás per capire cosa non ha funzionato.",
+          "timeCostMinutes": 15,
+          "goto": "cup_result_loss",
+          "effects": [
+            { "type": "set_flag", "key": "rookie_cup_r1_result", "value": "loss" },
+            { "type": "set_flag", "key": "rookie_cup_postmatch_analysis", "value": true }
+          ]
+        }
+      ]
+    },
+    "cup_r2_announce": {
+      "stitches": [
+        {
+          "id": "r2_setup",
+          "text": "Secondo round: il tuo prossimo avversario è Vera Conti, che ha vinto il suo primo match con un Slowpoke. Il suo stile è l'opposto di Tomás — paziente, reattivo, aspetta che tu commetta l'errore prima di attaccare."
+        },
+        {
+          "id": "r2_context",
+          "text": "Se vinci questo, sei in finale o hai già vinto l'invitational, a seconda del bracket. Se perdi, esci come semifinalista — non male per una prima partecipazione al torneo locale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "enter_r2_fight",
+          "text": "Entro nel campo per il secondo round.",
+          "timeCostMinutes": 45,
+          "goto": "cup_r2_handoff"
+        },
+        {
+          "id": "withdraw_before_r2",
+          "text": "Sono soddisfatto di aver raggiunto questo punto — ritiro prima del secondo round.",
+          "goto": "cup_result_loss",
+          "effects": [
+            { "type": "set_flag", "key": "rookie_cup_r2_withdrew", "value": true },
+            { "type": "set_flag", "key": "rookie_cup_r1_result", "value": "win" }
+          ]
+        }
+      ]
+    },
+    "cup_r2_handoff": {
+      "stitches": [
+        {
+          "id": "r2_start",
+          "text": "Vera Conti è già sul campo, Slowpoke accanto a lei. Non c'è fretta nei suoi movimenti — ha già letto il bracket e sa chi sei. Il giudice dà il via."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fight_r2",
+          "text": "Inizio il match.",
+          "combat": {
+            "encounterId": "M2_ROOKIE_CUP_R2",
+            "opponent": {
+              "type": "trainer",
+              "level": 4,
+              "trainerId": "VeraConti",
+              "species": "Slowpoke",
+              "motive": "bracket_competition"
+            },
+            "opponentRegistered": false,
+            "goto": "cup_r2_handoff",
+            "returnNodes": {
+              "win": "cup_r2_win",
+              "lose": "cup_r2_loss"
+            }
+          }
+        }
+      ]
+    },
+    "cup_r2_win": {
+      "stitches": [
+        {
+          "id": "r2_win_1",
+          "text": "Vera Conti richiama il suo Slowpoke. Applaudisce — non per gentilezza, ma perché è il suo modo di riconoscere un match giocato bene. «Hai rotto il mio ritmo nel terzo scambio. Non me lo aspettavo.»"
+        },
+        {
+          "id": "r2_win_2",
+          "text": "Il giudice registra il risultato: sei il vincitore del Rookie Invitational di questo ciclo. Punti circuito accreditati, classifica regionale aggiornata. Non è una promozione — ma è un risultato reale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "accept_cup_win",
+          "text": "Accetto il risultato e concludo il torneo.",
+          "goto": "cup_result_win",
+          "effects": [
+            { "type": "set_flag", "key": "rookie_cup_r2_result", "value": "win" }
+          ]
+        },
+        {
+          "id": "talk_to_vera_after_win",
+          "text": "Scambio qualche parola con Vera prima di andare.",
+          "timeCostMinutes": 10,
+          "goto": "cup_result_win",
+          "effects": [
+            { "type": "set_flag", "key": "rookie_cup_r2_result", "value": "win" },
+            { "type": "set_flag", "key": "rookie_cup_postmatch_analysis", "value": true }
+          ]
+        }
+      ]
+    },
+    "cup_r2_loss": {
+      "stitches": [
+        {
+          "id": "r2_loss_1",
+          "text": "Vera ha aspettato il momento giusto e lo ha trovato. Non ha fretta — non la sentivi mai sotto pressione. È uscita dal suo ritmo solo una volta, e tu non eri pronto ad approfittarne."
+        },
+        {
+          "id": "r2_loss_2",
+          "text": "Il giudice registra il risultato: semifinalista. Punti circuito per la performance. Non è quello che speravi, ma hai giocato due match in un bracket ufficiale — questo conta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "accept_r2_loss",
+          "text": "Accetto il risultato.",
+          "goto": "cup_result_loss",
+          "effects": [
+            { "type": "set_flag", "key": "rookie_cup_r2_result", "value": "loss" }
+          ]
+        },
+        {
+          "id": "analyze_r2_loss",
+          "text": "Chiedo un'analisi del match prima di andare.",
+          "timeCostMinutes": 15,
+          "goto": "cup_result_loss",
+          "effects": [
+            { "type": "set_flag", "key": "rookie_cup_r2_result", "value": "loss" },
+            { "type": "set_flag", "key": "rookie_cup_postmatch_analysis", "value": true }
+          ]
+        }
+      ]
+    },
+    "cup_result_win": {
+      "stitches": [
+        {
+          "id": "win_close_1",
+          "text": "Il Rookie Invitational è concluso. Il tuo nome è sulla classifica regionale del ciclo — primo. Non è la cosa più importante che abbia mai fatto, ma è una prova che i risultati sono raggiungibili. Il Circuito lo ha registrato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_to_borgo_win",
+          "text": "Torno al borgo.",
+          "goto": "m02-borgo-salice#borough_hub",
+          "effects": [
+            { "type": "set_flag", "key": "rookie_cup_result", "value": "win" },
+            { "type": "set_flag", "key": "rookie_cup_complete", "value": true },
+            { "type": "set_location", "locationId": "borgo_salice" }
+          ]
+        }
+      ]
+    },
+    "cup_result_loss": {
+      "stitches": [
+        {
+          "id": "loss_close_1",
+          "text": "Il Rookie Invitational è concluso per te. Sei uscito prima del traguardo — ma hai giocato match ufficiali, hai accumulato punti circuito e hai dati reali su dove sei. Non è il risultato migliore. È comunque qualcosa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_to_borgo_loss",
+          "text": "Torno al borgo.",
+          "goto": "m02-borgo-salice#borough_hub",
+          "effects": [
+            { "type": "set_flag", "key": "rookie_cup_result", "value": "loss" },
+            { "type": "set_flag", "key": "rookie_cup_complete", "value": true },
+            { "type": "set_location", "locationId": "borgo_salice" }
+          ]
+        }
+      ]
+    },
+    "cup_forfeited": {
+      "stitches": [
+        {
+          "id": "forfeit_1",
+          "text": "Il tuo slot viene liberato. Il torneo procede senza di te. Nessun penale — la partecipazione era facoltativa. Ma il bracket è chiuso ora: non puoi rientrare."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_to_borgo_forfeit",
+          "text": "Torno al borgo.",
+          "goto": "m02-borgo-salice#borough_hub",
+          "effects": [
+            { "type": "set_flag", "key": "rookie_cup_result", "value": "forfeited" },
+            { "type": "set_flag", "key": "rookie_cup_complete", "value": true },
+            { "type": "set_location", "locationId": "borgo_salice" }
+          ]
+        }
+      ]
+    },
+    "cup_declined": {
+      "stitches": [
+        {
+          "id": "declined_1",
+          "text": "Non ti iscrivi al torneo. Il Rookie Invitational procede senza di te — altri trainer partecipano, la classifica si aggiorna, i punti vengono distribuiti. Hai fatto la scelta che ha senso per te adesso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_to_borgo_declined",
+          "text": "Torno al borgo.",
+          "goto": "m02-borgo-salice#borough_hub",
+          "effects": [
+            { "type": "set_flag", "key": "rookie_cup_result", "value": "declined" },
+            { "type": "set_flag", "key": "rookie_cup_complete", "value": true },
+            { "type": "set_location", "locationId": "borgo_salice" }
+          ]
+        }
+      ]
+    }
+  }
+}
