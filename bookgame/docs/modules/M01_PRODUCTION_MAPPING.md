@@ -69,7 +69,7 @@ The graph is reconvergent, not linear. The player may move repeatedly between Gi
 | M1_10_FIRST_OFFICIAL | first sanctioned non-trial match | 270 | 170 | COMPLETE |
 | M1_11_SECOND_POKEMON | legal routes to roster size 2 | 280 | 180 | COMPLETE |
 | M1_12_FIVE_ROADS | friends diverge and schedules update | 250 | 150 | COMPLETE |
-| M1_13_TRIAL_REGISTRATION | gate eligibility and preparation | 160 | 90 | IMPLEMENTED / E5 WIRED |
+| M1_13_TRIAL_REGISTRATION | gate eligibility and preparation | 160 | 90 | COMPLETE |
 | M1_14_PROMOTION_TRIAL_F_E | official F→E trial | 200 | 110 | IMPLEMENTED / E5 + COMBAT WIRED |
 | M1_15_TRIAL_RESULT | win/loss/retry/callback consequences | 347 | 96 | IMPLEMENTED / E5 + PERSISTENCE WIRED |
 | **TOTAL** |  | **5,047** | **3,116** | |
@@ -690,6 +690,17 @@ Others update off-screen honestly.
 - continue free-roam.
 
 **No narrative substitute** for mechanical eligibility.
+
+**Implementation lock:**
+
+- the Arena uses the existing E5 checkpoint `RANK_F_TO_E`; M1_13 does not create a quest-shaped substitute or a parallel Rank flag;
+- the registration action is visible only when the real competition state is Rank F, the Trial is mechanically available, the checkpoint is not already registered/completed, and the persistent roster contains at least the required two Pokémon;
+- a one-Pokémon roster receives an explicit mechanical explanation but can continue free-roam indefinitely at Rank F;
+- a non-F trainer or an unavailable Trial cannot register even if the player has two or more Pokémon; hidden choices cannot be forced through `choose()`;
+- successful registration records `registered=true` and `registeredAtMinutes` on the E5 Trial state, but does not increment attempts, create an active match, add competition history, promote Rank, heal the party or otherwise simulate the Trial result;
+- after registration the player may heal/prepare, postpone the entrance, or return to free-roam without losing the registered checkpoint;
+- registration remains persistent across save/reload and is only consumed by the real M1_14 Promotion Trial lifecycle;
+- dedicated M1_13 regression tests cover unavailable gate, wrong Rank, missing roster, valid registration, preparation/postponement and persistence.
 
 ---
 
