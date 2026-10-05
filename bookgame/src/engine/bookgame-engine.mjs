@@ -225,8 +225,12 @@ export class BookgameEngine {
       }
 
       const officialRosterSize = choice.combat.competition?.officialRosterSize ?? null;
+      const stateRoster = (next.player.roster ?? [next.player.starter]).map((pokemon, rosterIndex) => ({
+        ...clone(pokemon),
+        rosterIndex
+      }));
       const playerRoster = officialRosterSize
-        ? (next.player.roster ?? [next.player.starter]).slice(0, officialRosterSize)
+        ? stateRoster.slice(0, officialRosterSize)
         : null;
 
       next.pending = {
@@ -238,7 +242,7 @@ export class BookgameEngine {
         sourceNodeId: next.story.nodeId,
         opponent: clone(choice.combat.opponent),
         opponentBench: clone(choice.combat.opponentBench ?? []),
-        playerPokemon: clone(playerRoster?.[0] ?? next.player.starter),
+        playerPokemon: clone(playerRoster?.[0] ?? stateRoster[0] ?? next.player.starter),
         playerBench: clone(playerRoster ? playerRoster.slice(1) : (choice.combat.playerBench ?? [])),
         trainer: {
           name: next.player.name,
@@ -314,6 +318,37 @@ export class BookgameEngine {
 
     if (resolvedBattle?.trainer?.inventory) {
       next.player.inventory = clone(resolvedBattle.trainer.inventory);
+    }
+
+    if (resolvedBattle?.player) {
+      const combatants = [resolvedBattle.player, ...(resolvedBattle.playerBench ?? [])];
+      next.player.roster ??= [clone(next.player.starter)];
+
+      for (const combatant of combatants) {
+        if (!Number.isInteger(combatant.rosterIndex)) continue;
+        const existing = next.player.roster[combatant.rosterIndex];
+        if (!existing) continue;
+
+        const persisted = {
+          ...existing,
+          speciesId: combatant.speciesId,
+          name: combatant.name,
+          level: combatant.level,
+          hp: clone(combatant.hp),
+          statuses: clone(combatant.statuses),
+          abilityId: combatant.abilityId,
+          moveIds: clone(combatant.moveIds),
+          pp: clone(combatant.pp)
+        };
+        next.player.roster[combatant.rosterIndex] = persisted;
+
+        if (combatant.rosterIndex === 0) {
+          next.player.starter = {
+            ...next.player.starter,
+            ...clone(persisted)
+          };
+        }
+      }
     }
 
     if (outcome === "captured" && resolvedBattle?.opponent) {
