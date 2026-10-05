@@ -1,0 +1,367 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "M01",
+  "id": "m01-world-moves",
+  "title": "Segnalazioni di Valedarsena",
+  "locationId": "valedarsena_ranger_post",
+  "entryNodeId": "ranger_post",
+  "nodes": {
+    "ranger_post": {
+      "stitches": [
+        {
+          "id": "elio_intro",
+          "text": "Il presidio ranger occupa una stanza piccola vicino ai magazzini, piena di mappe annotate e rapporti brevi. Elio Mar non ti chiede se hai una teoria: ti chiede cosa hai visto davvero."
+        },
+        {
+          "id": "no_villain",
+          "text": "Tra recinti, moli, rumore e percorsi della fauna non emerge un singolo colpevole. Il problema è fatto di pressioni locali che si sommano e spostano gli animali dove prima passavano raramente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "share_farm_evidence",
+          "text": "Gli mostro ciò che ho osservato alla Fattoria del Vento.",
+          "conditions": {
+            "path": "world.flags.m1_farm_evidence",
+            "eq": true
+          },
+          "goto": "farm_report",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_known",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_state",
+              "value": "pressure_investigated"
+            }
+          ]
+        },
+        {
+          "id": "share_logistics_evidence",
+          "text": "Gli descrivo i segni trovati lungo le banchine.",
+          "conditions": {
+            "path": "world.flags.m1_logistics_evidence",
+            "eq": true
+          },
+          "goto": "warehouse_report",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_known",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_state",
+              "value": "pressure_investigated"
+            }
+          ]
+        },
+        {
+          "id": "share_general_pattern",
+          "text": "Gli riferisco le segnalazioni che ho collegato finora.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.m1_world_pressure_known",
+                "eq": true
+              },
+              {
+                "path": "world.flags.m1_world_pressure_state",
+                "in": [
+                  "pressure_noticed",
+                  "pressure_unnoticed"
+                ]
+              }
+            ]
+          },
+          "goto": "general_report",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_state",
+              "value": "pressure_investigated"
+            }
+          ]
+        },
+        {
+          "id": "houndour_calm",
+          "text": "Gli racconto di aver evitato l'escalation con lo Houndour di Ginestre.",
+          "conditions": {
+            "path": "world.flags.houndour_ginestre_escalation",
+            "eq": "avoided"
+          },
+          "goto": "houndour_context"
+        },
+        {
+          "id": "houndour_captured",
+          "text": "Gli racconto come si è concluso l'incontro con lo Houndour di Ginestre.",
+          "conditions": {
+            "path": "world.flags.houndour_ginestre_disposition",
+            "in": [
+              "captured",
+              "calmed_then_captured"
+            ]
+          },
+          "goto": "houndour_context"
+        },
+        {
+          "id": "start_local_response",
+          "text": "Chiedo dove posso essere utile sul campo, senza pretendere di risolvere tutto.",
+          "conditions": {
+            "path": "world.flags.m1_world_pressure_state",
+            "eq": "pressure_investigated"
+          },
+          "goto": "local_response",
+          "timeCostMinutes": 60,
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_player_involved",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_local_action",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_state",
+              "value": "pressure_partially_resolved"
+            }
+          ]
+        },
+        {
+          "id": "verify_local_response",
+          "text": "Torno con Elio a verificare se le misure locali stanno funzionando.",
+          "conditions": {
+            "path": "world.flags.m1_world_pressure_state",
+            "eq": "pressure_partially_resolved"
+          },
+          "goto": "local_resolution",
+          "timeCostMinutes": 90,
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_state",
+              "value": "pressure_resolved_local"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_local_resolved",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "offscreen_update",
+          "text": "Chiedo cosa è successo mentre non me ne occupavo.",
+          "conditions": {
+            "path": "world.flags.m1_world_pressure_state",
+            "eq": "pressure_resolved_offscreen"
+          },
+          "goto": "offscreen_resolution"
+        },
+        {
+          "id": "ignored_update",
+          "text": "Chiedo perché la situazione è cambiata mentre ero occupato altrove.",
+          "conditions": {
+            "path": "world.flags.m1_world_pressure_state",
+            "eq": "pressure_ignored"
+          },
+          "goto": "ignored_context"
+        },
+        {
+          "id": "leave",
+          "text": "Lascio il presidio e torno in città.",
+          "goto": "m01-valedarsena-first-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
+        }
+      ]
+    },
+    "farm_report": {
+      "stitches": [
+        {
+          "id": "farm_evidence_read",
+          "text": "Elio mette il rapporto della fattoria accanto alle segnalazioni delle Ginestre. I passaggi ripetuti vicino ai recinti hanno senso come deviazione di percorso, non come attacco deliberato."
+        },
+        {
+          "id": "farm_not_solution",
+          "text": "Aver aiutato la fattoria ha ridotto un rischio locale, ma non ha cancellato la pressione che ha spinto la fauna fin lì."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno alla mappa dei rapporti.",
+          "goto": "ranger_post"
+        }
+      ]
+    },
+    "warehouse_report": {
+      "stitches": [
+        {
+          "id": "warehouse_evidence_read",
+          "text": "Le reti spostate e i corridoi usati vicino ai moli coincidono con altre segnalazioni. Elio segna due punti sulla mappa e scarta una spiegazione troppo semplice."
+        },
+        {
+          "id": "warehouse_not_solution",
+          "text": "Una consegna riuscita non risolve il fenomeno; ciò che hai visto serve perché aggiunge un'altra fonte indipendente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno alla mappa dei rapporti.",
+          "goto": "ranger_post"
+        }
+      ]
+    },
+    "general_report": {
+      "stitches": [
+        {
+          "id": "pattern_connected",
+          "text": "Mettendo insieme le segnalazioni, Elio distingue almeno tre pressioni diverse: lavori e rumore vicino al fiume, passaggi agricoli più stretti e animali che cercano nuove vie tra le due zone."
+        },
+        {
+          "id": "investigated_state",
+          "text": "Non hai trovato una causa unica. Hai però trasformato voci sparse in un quadro abbastanza solido da scegliere interventi locali sensati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno alla mappa dei rapporti.",
+          "goto": "ranger_post"
+        }
+      ]
+    },
+    "houndour_context": {
+      "stitches": [
+        {
+          "id": "houndour_callback",
+          "text": "Elio ascolta il resoconto senza trasformarlo in un voto morale. Per lui conta soprattutto il comportamento osservato: distanza, via di fuga, escalation e risposta dell'animale."
+        },
+        {
+          "id": "ecology_callback",
+          "text": "«È lo stesso tipo di dato che ci serve adesso. Un incontro singolo non prova tutto, ma può dirci come la pressione cambia il comportamento.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno ai rapporti.",
+          "goto": "ranger_post"
+        }
+      ]
+    },
+    "local_response": {
+      "stitches": [
+        {
+          "id": "local_work",
+          "text": "Per un'ora aiuti a spostare segnaletica temporanea, liberare un corridoio vicino all'acqua e coordinare due passaggi con i lavoratori. È manutenzione, non una boss fight."
+        },
+        {
+          "id": "partial_only",
+          "text": "La misura riduce la pressione in quel tratto ma non stabilizza l'intera area. Elio lascia il rapporto aperto per una verifica successiva."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno al presidio.",
+          "goto": "ranger_post"
+        },
+        {
+          "id": "city",
+          "text": "Per ora torno in città.",
+          "goto": "m01-valedarsena-first-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
+        }
+      ]
+    },
+    "local_resolution": {
+      "stitches": [
+        {
+          "id": "verification",
+          "text": "Alla verifica successiva il corridoio è usato di nuovo senza spingere gli animali verso i recinti o i magazzini. Altri ranger stanno lavorando sugli altri tratti."
+        },
+        {
+          "id": "local_not_global",
+          "text": "Elio chiude soltanto il caso locale. Il fenomeno più ampio resta qualcosa da monitorare: hai contribuito a una soluzione concreta, non risolto l'ecologia della regione in un pomeriggio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "city",
+          "text": "Torno a Valedarsena.",
+          "goto": "m01-valedarsena-first-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
+        }
+      ]
+    },
+    "ignored_context": {
+      "stitches": [
+        {
+          "id": "ignored_facts",
+          "text": "Mentre eri occupato altrove, le segnalazioni hanno continuato ad accumularsi. Alcuni passaggi sono stati chiusi temporaneamente e i ranger hanno iniziato a distribuire interventi tra fattoria, moli e vie secondarie."
+        },
+        {
+          "id": "no_punishment",
+          "text": "Non c'è una punizione personale per non esserti occupato del problema. Semplicemente, non hai il merito di interventi fatti da altri."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno ai rapporti.",
+          "goto": "ranger_post"
+        }
+      ]
+    },
+    "offscreen_resolution": {
+      "stitches": [
+        {
+          "id": "offscreen_facts",
+          "text": "I ranger e i lavoratori hanno stabilizzato i passaggi più critici senza aspettarti. Alcune rotte della fauna sono state riaperte, altre deviate con barriere temporanee."
+        },
+        {
+          "id": "no_unearned_credit",
+          "text": "Il caso locale risulta chiuso dall'intervento collettivo. Il tuo stato non registra ricompense o reputazione per un lavoro che non hai svolto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "city",
+          "text": "Torno in città.",
+          "goto": "m01-valedarsena-first-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
