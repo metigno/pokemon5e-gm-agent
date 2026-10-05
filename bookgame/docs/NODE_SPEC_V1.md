@@ -385,6 +385,7 @@ Core fields:
 - `competition.rankOrder`: numeric order for authored `gte` checks
 - `competition.circuitPoints`: parallel ranking value; never bypasses Promotion Trials
 - `competition.firstOfficialResolved`
+- `competition.firstOfficialResult`
 - `competition.history`
 - `competition.activeMatch`
 - `competition.trials.<checkpointId>`
@@ -441,7 +442,9 @@ Official battles continue to use the normal Pokémon 5e combat handoff. An offic
       }
     }
 
-For `official_match`, use the same structure without checkpoint/fromRank/toRank/retryable. Set `firstOfficial: true` only for the canonical first sanctioned match.
+For `official_match`, use the same structure without checkpoint/fromRank/toRank/retryable. Set `firstOfficial: true` only for the canonical first sanctioned match. A stable `opponentTrainerId` should be supplied for sanctioned opponents when the pairing identity is authored.
+
+For the canonical first official match, E5 records both `competition.firstOfficialResolved` and `competition.firstOfficialResult`. It also writes the M1 callbacks `world.flags.first_official_resolved`, `world.flags.first_official_result`, and `world.flags.first_official_match_id`, and clears any consumed `official_match_opportunity`.
 
 Rules:
 
