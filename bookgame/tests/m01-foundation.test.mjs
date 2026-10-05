@@ -69,6 +69,7 @@ test("first-road can cross into the M01 multi-scene graph offline", async () => 
   const engine = new BookgameEngine({ scenes: repository, dice: new SequenceDice([20]) });
   let state = createNewGameState({ protagonist: "Luke" });
 
+  state.story.sceneId = "first-road";
   state.story.nodeId = "road_continue";
   state = await engine.choose(state, "reach_first_fork");
 
