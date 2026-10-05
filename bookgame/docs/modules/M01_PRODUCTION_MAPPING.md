@@ -57,7 +57,7 @@ The graph is reconvergent, not linear. The player may move repeatedly between Gi
 | Block | Function | Stitches | Choices | Current state |
 |---|---|---:|---:|---|
 | M1_00_RELEASE | release from guided intro into free-roam | 150 | 90 | IMPLEMENTED |
-| M1_01_FIRST_ROAD | road life, travel teaching, optional trainer/fauna signals | 320 | 200 | PARTIAL |
+| M1_01_FIRST_ROAD | road life, travel teaching, optional trainer/fauna signals | 320 | 200 | IMPLEMENTED |
 | M1_02_HOUNDOUR_GINESTRE | ecological Houndour encounter and callbacks | 360 | 220 | PARTIAL / CANONICAL ASSET EXISTS |
 | M1_03_FIRST_REAL_FORK | first real route choice and local exploration | 220 | 150 | PARTIAL |
 | M1_04_VALEDARSENA_FIRST_ARRIVAL | first hub arrival and orientation | 460 | 310 | PARTIAL |
@@ -223,6 +223,17 @@ Required for:
 **Canonical reuse:** `A1_FIRST_ROAD`, `SQ_GINESTRE_FIRST_SPARRING`.
 
 **Exits:** Houndour, first fork, optional local branches.
+
+**Implementation lock:**
+
+- `m01-release#free_roam -> m01-first-road#road_entry` consumes the canonical 20-minute Campus → Ginestre travel;
+- `A1_FIRST_ROAD` resolves once on entry to AST-GINESTRE and records `m1_first_road_seen=true`;
+- the road can be crossed immediately without doing optional content;
+- the rookie conversation exposes `SQ_GINESTRE_FIRST_SPARRING` only by explicit player choice;
+- accepting the sparring uses the existing Pokémon 5e combat handoff and registered-opponent protection;
+- environmental inspection can reveal the existing M1 world-pressure clue but never blocks travel;
+- wildlife observation reuses E7 ecology and never auto-starts combat;
+- Houndour can be reached normally or bypassed toward the first fork, so later content cannot assume the encounter happened.
 
 ---
 
