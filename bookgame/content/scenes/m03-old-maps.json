@@ -7,11 +7,26 @@
   "entryNodeId": "archive_entry",
   "conditions": {
     "all": [
-      { "path": "world.flags.m2_complete", "eq": true },
-      { "path": "world.flags.m03_unlocked", "eq": true },
-      { "path": "world.flags.m3_active", "eq": true },
-      { "path": "world.flags.ferravia_discovered", "eq": true },
-      { "path": "competition.rank", "eq": "D" }
+      {
+        "path": "world.flags.m2_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m03_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m3_active",
+        "eq": true
+      },
+      {
+        "path": "world.flags.ferravia_discovered",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "D"
+      }
     ]
   },
   "nodes": {
@@ -50,11 +65,32 @@
           "goto": "open_shelf"
         },
         {
+          "id": "compare_quarry_material",
+          "text": "Confronto quello che ho visto a Cava Grigia con le carte d'archivio.",
+          "timeCostMinutes": 15,
+          "conditions": {
+            "any": [
+              {
+                "path": "world.flags.cava_old_maps_mentioned",
+                "eq": true
+              },
+              {
+                "path": "world.flags.cava_layout_read",
+                "eq": true
+              }
+            ]
+          },
+          "goto": "quarry_crosscheck"
+        },
+        {
           "id": "archive_leave",
           "text": "Non adesso — esco dall'archivio.",
           "goto": "m03-ferravia-arrival#city_hub",
           "effects": [
-            { "type": "set_location", "locationId": "fer_city" }
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
           ]
         }
       ]
@@ -76,7 +112,11 @@
           "text": "Prendo nota mentale della sovrapposizione.",
           "goto": "archive_entry",
           "effects": [
-            { "type": "set_flag", "key": "quarry_old_maps_read", "value": true }
+            {
+              "type": "set_flag",
+              "key": "quarry_old_maps_read",
+              "value": true
+            }
           ]
         }
       ]
@@ -104,7 +144,11 @@
           "text": "Mi fermo qui per adesso.",
           "goto": "archive_entry",
           "effects": [
-            { "type": "set_flag", "key": "tunnels_history_mentioned", "value": true }
+            {
+              "type": "set_flag",
+              "key": "tunnels_history_mentioned",
+              "value": true
+            }
           ]
         }
       ]
@@ -125,19 +169,35 @@
           "id": "hist_map_investigate",
           "text": "Studio attentamente le incongruenze tra storia e stato attuale. (CT Investigation)",
           "timeCostMinutes": 20,
-          "check": { "ability": "INT", "skill": "Investigation", "dc": 13 },
+          "check": {
+            "ability": "INT",
+            "skill": "Investigation",
+            "dc": 13
+          },
           "outcomes": {
             "success": {
               "goto": "hist_map_insight",
               "effects": [
-                { "type": "set_flag", "key": "old_maps_read", "value": true },
-                { "type": "set_flag", "key": "tunnels_history_mentioned", "value": true }
+                {
+                  "type": "set_flag",
+                  "key": "old_maps_read",
+                  "value": true
+                },
+                {
+                  "type": "set_flag",
+                  "key": "tunnels_history_mentioned",
+                  "value": true
+                }
               ]
             },
             "failure": {
               "goto": "hist_map_partial",
               "effects": [
-                { "type": "set_flag", "key": "tunnels_history_mentioned", "value": true }
+                {
+                  "type": "set_flag",
+                  "key": "tunnels_history_mentioned",
+                  "value": true
+                }
               ]
             }
           }
@@ -147,7 +207,11 @@
           "text": "Rimetto la mappa a posto senza approfondire.",
           "goto": "archive_entry",
           "effects": [
-            { "type": "set_flag", "key": "tunnels_history_mentioned", "value": true }
+            {
+              "type": "set_flag",
+              "key": "tunnels_history_mentioned",
+              "value": true
+            }
           ]
         }
       ]
@@ -169,8 +233,14 @@
           "text": "Mentre richiudo la mappa, qualcuno entra nell'archivio.",
           "conditions": {
             "all": [
-              { "path": "world.flags.steven_met", "ne": true },
-              { "path": "world.flags.steven_declined_contact", "ne": true }
+              {
+                "path": "world.flags.steven_met",
+                "ne": true
+              },
+              {
+                "path": "world.flags.steven_declined_contact",
+                "ne": true
+              }
             ]
           },
           "goto": "m03-steven-enters#steven_appears"
@@ -216,6 +286,16 @@
           "goto": "survey_report"
         },
         {
+          "id": "shelf_crosscheck_safety",
+          "text": "Confronto il materiale con il principio di sicurezza spiegato nell'officina.",
+          "timeCostMinutes": 10,
+          "conditions": {
+            "path": "world.flags.ferravia_safety_principle_noted",
+            "eq": true
+          },
+          "goto": "safety_crosscheck"
+        },
+        {
           "id": "shelf_back",
           "text": "Rimetto a posto e torno al banco.",
           "goto": "archive_entry"
@@ -239,13 +319,23 @@
           "text": "Mentre chiudo il rapporto qualcuno entra nell'archivio.",
           "conditions": {
             "all": [
-              { "path": "world.flags.steven_met", "ne": true },
-              { "path": "world.flags.steven_declined_contact", "ne": true }
+              {
+                "path": "world.flags.steven_met",
+                "ne": true
+              },
+              {
+                "path": "world.flags.steven_declined_contact",
+                "ne": true
+              }
             ]
           },
           "goto": "m03-steven-enters#steven_appears",
           "effects": [
-            { "type": "set_flag", "key": "ferrox_survey_report_read", "value": true }
+            {
+              "type": "set_flag",
+              "key": "ferrox_survey_report_read",
+              "value": true
+            }
           ]
         },
         {
@@ -253,8 +343,111 @@
           "text": "Chiudo il rapporto e torno al banco.",
           "goto": "open_shelf",
           "effects": [
-            { "type": "set_flag", "key": "ferrox_survey_report_read", "value": true }
+            {
+              "type": "set_flag",
+              "key": "ferrox_survey_report_read",
+              "value": true
+            }
           ]
+        }
+      ]
+    },
+    "quarry_crosscheck": {
+      "stitches": [
+        {
+          "id": "quarry_crosscheck_text",
+          "text": "Metti fianco a fianco la geometria osservata in cava e una carta storica. Le differenze non sono automaticamente anomalie: alcune sono ampliamenti normali, altre seguono cavità che le mappe più vecchie trattavano come margini inutilizzati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "quarry_crosscheck_investigate",
+          "text": "Cerco una corrispondenza precisa tra terrazze moderne e cavità storiche. (CT Investigation)",
+          "timeCostMinutes": 15,
+          "check": {
+            "ability": "INT",
+            "skill": "Investigation",
+            "dc": 12
+          },
+          "outcomes": {
+            "success": {
+              "goto": "quarry_crosscheck_clear",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "archive_quarry_crosscheck",
+                  "value": true
+                }
+              ]
+            },
+            "failure": {
+              "goto": "quarry_crosscheck_partial",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "archive_quarry_crosscheck_partial",
+                  "value": true
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "quarry_crosscheck_clear": {
+      "stitches": [
+        {
+          "id": "quarry_crosscheck_clear_text",
+          "text": "Trovi una sovrapposizione utile: una parte della terrazza bassa moderna segue quasi esattamente il margine di una vecchia cavità documentata. Non prova un pericolo, ma rende leggibile il collegamento fra cava e sottosuolo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "quarry_crosscheck_clear_back",
+          "text": "Registro mentalmente il collegamento e torno al banco.",
+          "goto": "archive_entry"
+        }
+      ]
+    },
+    "quarry_crosscheck_partial": {
+      "stitches": [
+        {
+          "id": "quarry_crosscheck_partial_text",
+          "text": "Le scale e le revisioni non coincidono abbastanza da permetterti una lettura sicura. Sai solo che le due mappe parlano dello stesso terreno con linguaggi diversi; non trasformi un dubbio in una certezza."
+        }
+      ],
+      "choices": [
+        {
+          "id": "quarry_crosscheck_partial_back",
+          "text": "Lascio il confronto aperto e torno al banco.",
+          "goto": "archive_entry"
+        }
+      ]
+    },
+    "safety_crosscheck": {
+      "stitches": [
+        {
+          "id": "safety_crosscheck_text",
+          "text": "Le procedure scritte confermano quello che l'officina ti ha detto: manutenzione e cartografia sono parte della stessa catena di sicurezza. Il punto fragile non è l'assenza di regole, ma il ritardo con cui un aggiornamento tecnico può raggiungere chi decide i turni."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record_safety_gap",
+          "text": "Registro il possibile ritardo tra informazione tecnica e decisione operativa.",
+          "goto": "open_shelf",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_safety_gap_noted",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "leave_safety_unresolved",
+          "text": "Non trasformo una possibilità in una conclusione e torno ai documenti.",
+          "goto": "open_shelf"
         }
       ]
     }
