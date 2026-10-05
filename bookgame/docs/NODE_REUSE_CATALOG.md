@@ -1128,3 +1128,162 @@ The following are **not** new archetypes:
 
 Therefore M2_05→M2_07 expand the library by **four reusable patterns**, not by 38 new systems.
 
+
+
+---
+
+# 11. M02 COMPLETE — FINAL PROMOTIONS
+
+Canonical M02 completion reviewed at `pokemon5e-digital-bookgame@770acec`.
+
+Final M02 runtime surface:
+
+- **189 nodes**
+- **409 choices**
+- M01 + M02 combined: **391 nodes / 872 choices**
+- observed combined ratio: **~2.23 choices per node**
+
+M02_08→M02_14 mostly reuse R01→R36. Two additional reusable families are now proven strongly enough to promote.
+
+## R37 — MULTI-ROUND TOURNAMENT LIFECYCLE
+
+**Class:** REUSE CORE → ADAPT EVENT DATA  
+**First proven implementation:** M2_09 Rookie Invitational.
+
+### Shape
+
+```
+ANNOUNCEMENT
+├─ decline
+├─ inspect info
+└─ register
+   → ROUND 1
+      ├─ scout / prepare
+      ├─ fight
+      │  ├─ loss → final event result
+      │  └─ win → next round
+      └─ forfeit
+   → ROUND 2+
+      ├─ fight
+      ├─ withdraw if legal
+      ├─ loss
+      └─ win
+   → EVENT RESULT
+      ├─ placement / win
+      ├─ elimination
+      ├─ withdrawal
+      └─ forfeit
+```
+
+### Parameters
+
+- competition/event ID;
+- eligibility/registration;
+- round count;
+- opponents from authoritative competition state;
+- scouting/preparation hooks;
+- withdrawal/forfeit policy;
+- result callbacks;
+- event completion/history.
+
+### Rules
+
+- every match uses the existing combat/competition resolver;
+- a win is never scripted by the narrative;
+- advancing requires the actual prior result;
+- withdrawal/forfeit is distinct from losing a played match;
+- later rounds must not become visible before the required prior result;
+- event history/result must be idempotent.
+
+### Reuse for
+
+- Regional Cup;
+- Upper Regional;
+- Continental Cup;
+- World Qualifier;
+- Last Chance;
+- World knockout rounds where a multi-round event shell is useful.
+
+R37 does **not** replace E5 competition state. It is the reusable scene/node lifecycle around E5.
+
+---
+
+## R38 — COMPOSITE OUTCOME CLASSIFIER
+
+**Class:** REUSE CORE → ADAPT AXES  
+**First proven implementation:** M2_11 Network Outcome.
+
+A conflict result may depend on several independent pieces of persistent state rather than one binary flag.
+
+### Shape
+
+```
+READ PERSISTENT AXES
+→ classify canonical outcome
+├─ resolved
+├─ partial
+├─ escalated
+└─ ignored
+→ expose outcome-specific review/callbacks
+→ register outcome completion
+```
+
+### Possible input axes
+
+- player intervention;
+- evidence gathered;
+- authority informed;
+- conflict disruption;
+- ally contribution;
+- delay/inaction;
+- crisis escalation;
+- world/NPC response.
+
+### Rules
+
+- classification reads facts already produced by play;
+- result branches must be mutually coherent;
+- no outcome branch may fabricate an action the player never took;
+- `partial` must preserve what remains unresolved;
+- `resolved` should require the actual required combination, not one convenient flag;
+- classification should be deterministic for the same state;
+- registration is idempotent.
+
+### Reuse for
+
+- rescue aftermath;
+- smuggling investigations;
+- environmental crises;
+- multi-part public incidents;
+- qualification/career aftermath where several axes matter;
+- M12 callback synthesis.
+
+R38 is related to R29/R36 but distinct:
+- R29 = the world progresses independently;
+- R36 = multiple intervention modes inside a live conflict;
+- R38 = after those actions, derive one coherent persistent outcome from several state axes.
+
+---
+
+# 12. M02 COMPLETE — PATTERNS NOT PROMOTED
+
+The following final-M02 structures are already covered:
+
+- FRIEND_BEAT_02 dispatch/content → R23 + R26 + R27
+- remote friend exchange → variant of R27, not a new system
+- optional friend spar → R05 + R06
+- crisis response after off-screen escalation → R29 + R31 + R36
+- Ranger report during crisis → R30
+- Trial information / roster requirements → R16
+- Trial registration / postponement → R17
+- Promotion Trial battle → R18 + R06
+- Trial win/loss/retry → R19
+- M2 exit contract / M3 unlock → R20 + R21
+
+Therefore the completed first two modules establish:
+
+**NODE REUSE LIBRARY V1 = R01→R38**
+
+This is now the default structural vocabulary for M03 production.
+
+New Rxx families should be added only after an implemented block proves that R01→R38 cannot express its structural job cleanly.
