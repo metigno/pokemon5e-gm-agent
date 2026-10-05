@@ -63,7 +63,7 @@ The graph is reconvergent, not linear. The player may move repeatedly between Gi
 | M1_04_VALEDARSENA_FIRST_ARRIVAL | first hub arrival and orientation | 460 | 310 | COMPLETE |
 | M1_05_JOB_BOARD | temporal jobs, logistics, Sera Noll | 360 | 260 | COMPLETE |
 | M1_06_FARM_HERD_HANDS | farm recovery quest and ecology | 450 | 310 | COMPLETE |
-| M1_07_WORLD_MOVES | pressure state machine and off-screen consequences | 450 | 290 | ENGINE DEPENDENCY |
+| M1_07_WORLD_MOVES | pressure state machine and off-screen consequences | 450 | 290 | COMPLETE |
 | M1_08_BLUE_ENTERS | Blue causal introduction variants | 380 | 240 | ENGINE DEPENDENCY |
 | M1_09_FRIEND_BEAT_01 | one of the other Four selected causally | 390 | 250 | ENGINE DEPENDENCY |
 | M1_10_FIRST_OFFICIAL | first sanctioned non-trial match | 270 | 170 | IMPLEMENTED / E5 WIRED |
@@ -447,6 +447,21 @@ Required for:
 **Core rule:** no single villain or magical one-step solution.
 
 **Ignored path:** authored NPC/off-screen response continues without player rewards.
+
+**Implementation lock:**
+
+- `A1_WORLD_MOVES` initializes the pressure state only when no pressure state already exists, so later terminal states can never be overwritten by a late world trigger;
+- the canonical state machine is fully authored: `pressure_unnoticed → pressure_noticed → pressure_investigated → pressure_partially_resolved → pressure_resolved_local`, with the alternate unattended route `pressure_ignored → pressure_resolved_offscreen`;
+- evidence discovered after activation advances `pressure_unnoticed` to `pressure_noticed` through the central world-event layer instead of individual scenes owning state transitions;
+- Sera/Job Board, Farm evidence, logistics/warehouse evidence and Houndour/wildlife behavior all feed the same pressure model without creating parallel quest flags;
+- Ranger Elio Mar is a persistent NPC introduced through the Valedarsena ranger post and can connect independent reports into `pressure_investigated`;
+- local resolution requires multiple authored actions: first a field-response step that produces `pressure_partially_resolved`, then a later verification step that closes only the local case as `pressure_resolved_local`;
+- successful Farm intervention itself counts as real partial mitigation, never as a magical total solution;
+- if the player leaves the pressure unattended through day 5, the state becomes `pressure_ignored`; by day 7 ranger/workforce intervention can close the local problem as `pressure_resolved_offscreen`;
+- off-screen resolution gives no player involvement, reward or reputation credit;
+- resolved-local states are terminal with respect to ignored/off-screen events and are never downgraded;
+- Houndour callbacks are factual ecology observations, explicitly not moral scoring;
+- the complete state machine, late evidence, Farm partial mitigation, Ranger investigation, local resolution, ignored route, off-screen route, terminal-state protection and save/reload persistence are covered by dedicated regression tests.
 
 ---
 
