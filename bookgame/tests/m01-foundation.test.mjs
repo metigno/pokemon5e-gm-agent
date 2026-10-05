@@ -838,6 +838,7 @@ test("E5 new careers start at Circuit Rank F with no invented Trial completion",
   assert.equal(state.competition.rank, "F");
   assert.equal(state.competition.rankOrder, 0);
   assert.equal(state.competition.firstOfficialResolved, false);
+  assert.equal(state.competition.firstOfficialResult, null);
   assert.deepEqual(state.competition.trials, {});
   assert.deepEqual(state.competition.history, []);
 });
@@ -1214,7 +1215,8 @@ test("M1_10 First Official is a real sanctioned match and a loss does not block 
     format: "Singles",
     officialRosterSize: 1,
     difficulty: "STANDARD",
-    firstOfficial: true
+    firstOfficial: true,
+    opponentTrainerId: "VALE_ROOKIE_001"
   });
 
   const repository = {
@@ -1244,8 +1246,13 @@ test("M1_10 First Official is a real sanctioned match and a loss does not block 
 
   state = engine.resolveCombatHandoff(state, "lose");
   assert.equal(state.competition.firstOfficialResolved, true);
+  assert.equal(state.competition.firstOfficialResult, "lose");
+  assert.equal(state.world.flags.first_official_resolved, true);
+  assert.equal(state.world.flags.first_official_result, "lose");
+  assert.equal(state.world.flags.first_official_match_id, "A1_FIRST_OFFICIAL");
   assert.equal(state.competition.rank, "F");
   assert.equal(state.competition.history.at(-1).outcome, "lose");
+  assert.equal(state.competition.history.at(-1).opponentTrainerId, "VALE_ROOKIE_001");
   assert.equal(state.story.nodeId, "first_official_loss");
 });
 
