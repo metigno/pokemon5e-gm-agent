@@ -666,7 +666,7 @@ Others update off-screen honestly.
 - identity-specific paths remain stable across protagonist choices: Luke takes a longer exploration route, Mattew shifts to Promotion Trial preparation, Daniel accepts a logistics contract, Edward commits to field training, and Fab joins a ranger field route;
 - at least one concrete divergence is exposed diegetically through `m01-five-roads` from the Valedarsena hub, while every other friend still receives an off-screen schedule/result update;
 - NPC progress never grants the player money, relationship credit, rank, quest completion or other unearned rewards;
-- the event is idempotent: once resolved it never rewrites later NPC state, and the older M1 day-rotation events stop owning schedules after `friends_split=true`;
+- the event is idempotent: once resolved it never rewrites later NPC state, and the older M1 day-rotation events stop owning schedules after `friends_split=true`; pre-existing persisted `friends_split=true` saves are treated as already diverged and their NPC schedules are preserved rather than rewritten;
 - `m1_five_roads_focus_friend_id` chooses a deterministic visible callback for each protagonist, and `m1_five_roads_seen` prevents the introductory callback from replaying forever;
 - split state, all four schedules, NPC path/result state and the visible callback survive save/reload exactly.
 
