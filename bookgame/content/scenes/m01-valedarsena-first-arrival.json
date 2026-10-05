@@ -1492,7 +1492,28 @@
               }
             ]
           },
-          "goto": "trial_gate_call"
+          "goto": "trial_gate_call",
+          "effects": [
+            {
+              "type": "npc_register",
+              "npcId": "VAL_GATE_F_E_NARA_VOSS",
+              "name": "Nara Voss",
+              "relationshipScore": 0,
+              "state": {
+                "role": "promotion_trial_examiner",
+                "checkpointId": "RANK_F_TO_E",
+                "fixedRoster": "eevee_l4_shinx_l4"
+              }
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "VAL_GATE_F_E_NARA_VOSS",
+              "scheduleId": "nara_voss_f_to_e_gate",
+              "locationId": "valedarsena_arena",
+              "availability": "available",
+              "activity": "promotion_trial_examiner"
+            }
+          ]
         },
         {
           "id": "heal_prepare",
