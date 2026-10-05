@@ -604,6 +604,31 @@
       ],
       "choices": [
         {
+          "id": "enter_trial",
+          "text": "Sono pronto: entro nel Promotion Trial F→E.",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.rank",
+                "eq": "F"
+              },
+              {
+                "path": "competition.trials.RANK_F_TO_E.available",
+                "eq": true
+              },
+              {
+                "path": "competition.trials.RANK_F_TO_E.registered",
+                "eq": true
+              },
+              {
+                "path": "player.roster.length",
+                "gte": 2
+              }
+            ]
+          },
+          "goto": "trial_gate_call"
+        },
+        {
           "id": "heal_prepare",
           "text": "Vado al Centro Pokémon prima della prova.",
           "goto": "center"
@@ -841,6 +866,108 @@
           "id": "free_roam",
           "text": "Continuo il free-roam e tornerò quando voglio.",
           "goto": "city_hub"
+        }
+      ]
+    },
+    "trial_gate_call": {
+      "stitches": [
+        {
+          "id": "gate_staff_intro",
+          "text": "Quando il tuo numero viene chiamato, ad attenderti non c'è Blue né uno dei tuoi amici. Il gate F→E è affidato all'istruttrice dell'Arena Nara Voss, la stessa esaminatrice prevista per ogni tentativo di questa fascia."
+        },
+        {
+          "id": "gate_staff_roster",
+          "text": "Sul registro compaiono due Pokémon fissi: Eevee e Shinx. Nessuno dei due cambia livello in base alla tua squadra; il Trial usa un roster autoriale stabile e una difficoltà HARD per questa fascia."
+        },
+        {
+          "id": "gate_focus",
+          "text": "«Non mi interessa vedere una vittoria elegante. Voglio vedere comando, sicurezza e gestione reale di due Pokémon.» Il formato è Singles: un Pokémon attivo per volta, con sostituzioni dal roster ufficiale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "begin_trial",
+          "text": "Confermo il roster e inizio il Trial.",
+          "combat": {
+            "encounterId": "A1_FIRST_GATE",
+            "opponentTrainerId": "VAL_GATE_F_E_NARA_VOSS",
+            "opponent": {
+              "species": "Eevee",
+              "level": 4,
+              "abilityId": "run-away",
+              "trainerId": "VAL_GATE_F_E_NARA_VOSS"
+            },
+            "opponentBench": [
+              {
+                "species": "Shinx",
+                "level": 4,
+                "abilityId": "intimidate",
+                "trainerId": "VAL_GATE_F_E_NARA_VOSS"
+              }
+            ],
+            "opponentRegistered": true,
+            "goto": "trial_combat_handoff",
+            "returnNodes": {
+              "win": "trial_result_win",
+              "lose": "trial_result_loss"
+            },
+            "competition": {
+              "type": "promotion_trial",
+              "matchId": "A1_FIRST_GATE",
+              "checkpointId": "RANK_F_TO_E",
+              "fromRank": "F",
+              "toRank": "E",
+              "format": "Singles",
+              "officialRosterSize": 2,
+              "difficulty": "HARD",
+              "retryable": true,
+              "opponentTrainerId": "VAL_GATE_F_E_NARA_VOSS"
+            }
+          }
+        },
+        {
+          "id": "withdraw_before_start",
+          "text": "Non inizio ancora: torno a prepararmi.",
+          "goto": "trial_registered"
+        }
+      ]
+    },
+    "trial_combat_handoff": {
+      "stitches": [
+        {
+          "id": "trial_handoff",
+          "text": "L'arbitro chiude il gate e passa il controllo al risolutore Pokémon 5e. Il tuo roster ufficiale di due Pokémon e quello fisso di Nara vengono usati realmente: nessun vincitore è deciso dallo script."
+        }
+      ],
+      "choices": []
+    },
+    "trial_result_win": {
+      "stitches": [
+        {
+          "id": "trial_win_pending",
+          "text": "Il combattimento termina con una vittoria registrata dal sistema ufficiale. Il risultato meccanico ha superato il gate F→E; le conseguenze di promozione vengono applicate allo stato carriera."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Lascio il campo e torno all'Arena.",
+          "goto": "arena_front"
+        }
+      ]
+    },
+    "trial_result_loss": {
+      "stitches": [
+        {
+          "id": "trial_loss_pending",
+          "text": "Il combattimento termina con una sconfitta registrata. Il Rank resta F e il gate non viene riscritto: Nara, il suo roster e la prova restano gli stessi per un eventuale nuovo tentativo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Lascio il campo e torno all'Arena.",
+          "goto": "arena_front"
         }
       ]
     }
