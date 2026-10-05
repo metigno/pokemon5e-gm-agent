@@ -62,7 +62,7 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 | M2_06_MARSH_APPROACH | accesso progressivo verso Palude Mirto e aumento del rischio | 336 | 218 | COMPLETE |
 | M2_07_POACHING_NETWORK | rami investigazione/intervento/evitamento con stato reale | 488 | 317 | COMPLETE |
 | M2_08_FRIEND_BEAT_02 | interazione concreta con uno dei Four selezionato da schedule e stato | 488 | 317 | COMPLETE |
-| M2_09_ROOKIE_INVITATIONAL | Rookie Invitational opzionale e deadline reale | 336 | 218 | PLANNED |
+| M2_09_ROOKIE_INVITATIONAL | Rookie Invitational opzionale e deadline reale | 336 | 218 | COMPLETE |
 | M2_10_CRISIS_MOVES | A2_CRISIS_ESCALATES e conseguenze se il player ritarda | 336 | 218 | PLANNED |
 | M2_11_NETWORK_OUTCOME | registrare esito resolved/partial/ignored/escalated senza reset | 437 | 284 | PLANNED |
 | M2_12_TRIAL_REGISTRATION | eligibility E→D alla Sala Verde, roster legale e preparazione | 437 | 284 | PLANNED |
@@ -247,6 +247,9 @@ Scene `m02-friend-beat-02` (moduleId M02, locationId `borgo_salice`) requires al
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+**Implementation lock (verified 2026-10-05):**
+Scene `m02-rookie-invitational` (moduleId M02, locationId `borgo_salice_sala_verde`) requires five entry conditions: `m1_complete=true`, `m02_unlocked=true`, `m2_active=true`, `competition.rank=E`, `a2_rookie_cup_available=true`. Event binding: `A2_ROOKIE_CUP` fires when `friend_beat_02_complete=true AND (trainerLevel>=4 OR rank=E)`, sets `a2_rookie_cup_available=true`. Navigation in: `m02-borgo-salice#sala_verde` via `check_rookie_cup` (condition: `a2_rookie_cup_available=true AND rookie_cup_complete ne true`). Navigation out: all terminal choices route to `m02-borgo-salice#borough_hub`. Full outcome set: **declined** (register_for_cup not taken → `rookie_cup_result=declined`); **forfeited** (registered but forfeit_r1 → `rookie_cup_result=forfeited`); **withdrew** (withdrew_registration or withdraw_before_r2 → `rookie_cup_result=declined`, `rookie_cup_withdrew=true`); **r1 loss** (fight_r1 loss → `rookie_cup_result=loss`); **r2 loss** (fight_r2 loss → `rookie_cup_result=loss`); **win** (fight_r2 win → `rookie_cup_result=win`). Two opponents: `M2_ROOKIE_CUP_R1` (TomasFerri, Rattata, level 4) and `M2_ROOKIE_CUP_R2` (VeraConti, Slowpoke, level 4). Optional scout: `scout_r1_opponent` sets `rookie_cup_r1_scouted=true`. No Rank E→D promotion — result is narrative/points only. Durable writes: `rookie_cup_complete=true`, `rookie_cup_result`, `rookie_cup_registered`, `rookie_cup_declined`, `rookie_cup_r1_result`, `rookie_cup_r2_result`, optionals. M2_00–M2_08 regressions: zero (17+12+24+28+23+21+19+22+30 pass). Verified by 22 dedicated regressions (all pass). Nodes added: 16. Choices added: 29. Cumulative M02: 144 nodes / 287 choices.
 
 ---
 

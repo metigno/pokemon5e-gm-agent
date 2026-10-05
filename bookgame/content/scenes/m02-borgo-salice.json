@@ -390,6 +390,21 @@
           "goto": "sala_verde_reqs"
         },
         {
+          "id": "check_rookie_cup",
+          "text": "Controllo le iscrizioni al Rookie Invitational.",
+          "conditions": {
+            "all": [
+              { "path": "world.flags.a2_rookie_cup_available", "eq": true },
+              { "path": "world.flags.rookie_cup_complete", "ne": true }
+            ]
+          },
+          "timeCostMinutes": 5,
+          "goto": "m02-rookie-invitational#cup_announcement",
+          "effects": [
+            { "type": "set_location", "locationId": "borgo_salice_sala_verde" }
+          ]
+        },
+        {
           "id": "leave_sala",
           "text": "Prendo nota e torno al borgo.",
           "goto": "borough_hub",
