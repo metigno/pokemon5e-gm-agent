@@ -111,6 +111,144 @@
           ]
         }
       ]
+    },
+    {
+      "id": "A1_WORLD_PRESSURE_NOTICE",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "world.flags.m1_world_pressure_known",
+            "eq": true
+          },
+          {
+            "path": "world.flags.m1_world_pressure_state",
+            "eq": "pressure_unnoticed"
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "noticed_from_evidence",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_state",
+              "value": "pressure_noticed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A1_WORLD_PRESSURE_FARM_PARTIAL",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "world.flags.m1_farm_helped",
+            "eq": true
+          },
+          {
+            "path": "world.flags.m1_world_pressure_state",
+            "in": [
+              "pressure_noticed",
+              "pressure_investigated"
+            ]
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "farm_local_mitigation",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_local_action",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_state",
+              "value": "pressure_partially_resolved"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A1_WORLD_PRESSURE_IGNORED",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "world.day",
+            "gte": 5
+          },
+          {
+            "path": "world.flags.m1_world_pressure_state",
+            "in": [
+              "pressure_unnoticed",
+              "pressure_noticed",
+              "pressure_investigated"
+            ]
+          },
+          {
+            "path": "world.flags.m1_world_pressure_local_action",
+            "ne": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "player_did_not_intervene",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_state",
+              "value": "pressure_ignored"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_ignored",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A1_WORLD_PRESSURE_OFFSCREEN",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "world.day",
+            "gte": 7
+          },
+          {
+            "path": "world.flags.m1_world_pressure_state",
+            "eq": "pressure_ignored"
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "rangers_and_workers_resolve_local_pressure",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_state",
+              "value": "pressure_resolved_offscreen"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_offscreen_response",
+              "value": true
+            }
+          ]
+        }
+      ]
     }
   ]
 }
