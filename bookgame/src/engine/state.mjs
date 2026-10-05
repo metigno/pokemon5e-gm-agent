@@ -29,6 +29,7 @@ export function createNewGameState({
       skills: build.skills,
       starter: build.starter,
       roster: [structuredClone(build.starter)],
+      money: 0,
       inventory: []
     },
     world: {
