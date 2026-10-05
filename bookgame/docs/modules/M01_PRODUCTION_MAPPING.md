@@ -60,7 +60,7 @@ The graph is reconvergent, not linear. The player may move repeatedly between Gi
 | M1_01_FIRST_ROAD | road life, travel teaching, optional trainer/fauna signals | 320 | 200 | IMPLEMENTED |
 | M1_02_HOUNDOUR_GINESTRE | ecological Houndour encounter and callbacks | 360 | 220 | IMPLEMENTED |
 | M1_03_FIRST_REAL_FORK | first real route choice and local exploration | 220 | 150 | IMPLEMENTED |
-| M1_04_VALEDARSENA_FIRST_ARRIVAL | first hub arrival and orientation | 460 | 310 | PARTIAL |
+| M1_04_VALEDARSENA_FIRST_ARRIVAL | first hub arrival and orientation | 460 | 310 | IMPLEMENTED |
 | M1_05_JOB_BOARD | temporal jobs, logistics, Sera Noll | 360 | 260 | PARTIAL |
 | M1_06_FARM_HERD_HANDS | farm recovery quest and ecology | 450 | 310 | PARTIAL |
 | M1_07_WORLD_MOVES | pressure state machine and off-screen consequences | 450 | 290 | ENGINE DEPENDENCY |
@@ -326,6 +326,22 @@ Required for:
 **Must not:** deliver ten tutorials in sequence or force Job Board interaction.
 
 **Callback trigger:** may activate M1_07 through `first_settlement_reached`.
+
+**Implementation lock:**
+
+- every authored route that reaches `m01-valedarsena-first-arrival#approach` writes `first_settlement_reached=true`, `valedarsena_discovered=true` and `world.locationId=valedarsena_city` on arrival;
+- first arrival therefore activates the existing `A1_WORLD_MOVES` trigger immediately, including routes from Release, Ginestre and Fattoria;
+- the arrival node presents Centro Pokémon, Job Board, Arena Civica, Via Allenatori and the option to leave without forcing an ordered tutorial chain;
+- the Job Board can be inspected and ignored without starting any quest;
+- `city_hub` is a reusable free-roam hub with explicit exits back to Ginestre and toward Fattoria del Vento;
+- internal service transitions keep `world.locationId` synchronized with the actual district/building instead of leaving stale location state;
+- Via Allenatori contains a real offline shop using Pokémon 5e 2024 upstream item IDs and prices: Poké Ball ₽250, Potion ₽200, Antidote ₽200;
+- trainer money is persisted as `player.money`; New Game starts at ₽0 because the upstream trainer money model has no implicit campaign grant;
+- `purchase_item` is atomic: insufficient funds cannot buy on credit, successful purchase subtracts the exact cost and adds the canonical item ID to the same persistent inventory consumed by combat/capture;
+- money and inventory survive save/reload exactly;
+- M1_04 does not invent rewards or starting cash: jobs/rewards may feed the same ledger in later blocks.
+
+**Item authority:** Pokémon 5e 2024 SRD / `Auroratide/poke5e` (project `rules/sources.yaml` exact-item lookup policy).
 
 ---
 
