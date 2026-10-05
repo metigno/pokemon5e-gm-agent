@@ -10,7 +10,7 @@
       "stitches": [
         {
           "id": "road_opens",
-          "text": "Oltre il tratto dove hai incontrato Houndour, il sentiero si allarga. Un cartello basso indica Valedarsena da una parte e la Fattoria del Vento dall'altra."
+          "text": "Oltre il tratto della pozzanghera, il sentiero si allarga. Un cartello basso indica Valedarsena da una parte e la Fattoria del Vento dall'altra."
         },
         {
           "id": "world_not_waiting",
@@ -78,6 +78,12 @@
             "failure": {
               "goto": "tracks_failure"
             }
+          },
+          "conditions": {
+            "not": {
+              "path": "world.flags.m1_world_pressure_known",
+              "eq": true
+            }
           }
         },
         {
@@ -101,9 +107,114 @@
           }
         },
         {
+          "id": "review_houndour_calm",
+          "text": "Ripenso a come Houndour si è calmato e confronto quel comportamento con la strada.",
+          "goto": "houndour_calm_context",
+          "conditions": {
+            "path": "world.flags.houndour_ginestre_disposition",
+            "eq": "calm"
+          }
+        },
+        {
+          "id": "review_houndour_avoided",
+          "text": "Ripenso al momento in cui ho evitato l'escalation con Houndour.",
+          "goto": "houndour_avoided_context",
+          "conditions": {
+            "path": "world.flags.houndour_ginestre_escalation",
+            "eq": "avoided"
+          }
+        },
+        {
+          "id": "review_houndour_captured",
+          "text": "Ripenso all'Houndour che ora viaggia con me.",
+          "goto": "houndour_captured_context",
+          "conditions": {
+            "path": "world.flags.houndour_ginestre_disposition",
+            "eq": "captured"
+          }
+        },
+        {
+          "id": "review_houndour_fled",
+          "text": "Ripenso a dove potrebbe essersi spostato Houndour dopo essere fuggito.",
+          "goto": "houndour_fled_context",
+          "conditions": {
+            "path": "world.flags.houndour_ginestre_disposition",
+            "eq": "fled"
+          }
+        },
+        {
+          "id": "review_houndour_battle",
+          "text": "Ripenso allo scontro con Houndour e a come ha cambiato la sua posizione.",
+          "goto": "houndour_battle_context",
+          "conditions": {
+            "path": "world.flags.houndour_ginestre_disposition",
+            "in": [
+              "driven_off_after_battle",
+              "held_ground"
+            ]
+          }
+        },
+        {
+          "id": "review_pressure",
+          "text": "Confronto gli indizi già notati con il traffico e le tracce del bivio.",
+          "goto": "pressure_context",
+          "conditions": {
+            "path": "world.flags.m1_world_pressure_known",
+            "eq": true
+          }
+        },
+        {
+          "id": "watch_morning",
+          "text": "Osservo per un quarto d'ora il traffico del mattino.",
+          "goto": "time_morning",
+          "timeCostMinutes": 15,
+          "conditions": {
+            "path": "world.time",
+            "eq": "morning"
+          }
+        },
+        {
+          "id": "watch_afternoon",
+          "text": "Osservo per un quarto d'ora come cambia il traffico nel pomeriggio.",
+          "goto": "time_afternoon",
+          "timeCostMinutes": 15,
+          "conditions": {
+            "path": "world.time",
+            "eq": "afternoon"
+          }
+        },
+        {
+          "id": "watch_evening",
+          "text": "Osservo per un quarto d'ora la strada mentre arriva la sera.",
+          "goto": "time_evening",
+          "timeCostMinutes": 15,
+          "conditions": {
+            "path": "world.time",
+            "eq": "evening"
+          }
+        },
+        {
+          "id": "watch_night",
+          "text": "Osservo per un quarto d'ora il bivio ormai notturno.",
+          "goto": "time_night",
+          "timeCostMinutes": 15,
+          "conditions": {
+            "path": "world.time",
+            "eq": "night"
+          }
+        },
+        {
           "id": "stay",
           "text": "Resto ancora un po' nella zona delle Ginestre.",
-          "goto": "ginestre_pause"
+          "goto": "ginestre_pause",
+          "timeCostMinutes": 30,
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_first_fork_context",
+              "value": "stayed_in_ginestre"
+            }
+          ]
         }
       ]
     },
@@ -123,13 +234,35 @@
           "id": "city_followup",
           "text": "Vado a Valedarsena e cerco informazioni.",
           "goto": "m01-valedarsena-first-arrival#approach",
-          "timeCostMinutes": 70
+          "timeCostMinutes": 70,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_road"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_first_fork_choice",
+              "value": "valedarsena"
+            }
+          ]
         },
         {
           "id": "farm_followup",
           "text": "Controllo se alla Fattoria hanno visto la stessa cosa.",
           "goto": "m01-farm-first-arrival#approach",
-          "timeCostMinutes": 70
+          "timeCostMinutes": 70,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "asteria_farm_road"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_first_fork_choice",
+              "value": "farm"
+            }
+          ]
         },
         {
           "id": "back",
@@ -150,6 +283,40 @@
           "id": "back",
           "text": "Torno a decidere la strada.",
           "goto": "crossroads"
+        },
+        {
+          "id": "city_anyway",
+          "text": "Non ho conclusioni certe. Vado comunque verso Valedarsena.",
+          "goto": "m01-valedarsena-first-arrival#approach",
+          "timeCostMinutes": 70,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_road"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_first_fork_choice",
+              "value": "valedarsena"
+            }
+          ]
+        },
+        {
+          "id": "farm_anyway",
+          "text": "Non ho conclusioni certe. Vado comunque verso la Fattoria.",
+          "goto": "m01-farm-first-arrival#approach",
+          "timeCostMinutes": 70,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "asteria_farm_road"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_first_fork_choice",
+              "value": "farm"
+            }
+          ]
         }
       ]
     },
@@ -174,6 +341,12 @@
           "id": "back",
           "text": "Riprendo a scegliere la mia strada.",
           "goto": "crossroads"
+        },
+        {
+          "id": "wait_again",
+          "text": "Resto ancora mezz'ora a Ginestre.",
+          "goto": "ginestre_pause",
+          "timeCostMinutes": 30
         }
       ]
     },
@@ -193,18 +366,322 @@
           "id": "city",
           "text": "Lo ringrazio e vado verso Valedarsena.",
           "goto": "m01-valedarsena-first-arrival#approach",
-          "timeCostMinutes": 70
+          "timeCostMinutes": 70,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_road"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_first_fork_choice",
+              "value": "valedarsena"
+            }
+          ]
         },
         {
           "id": "farm",
           "text": "Cambio idea e vado alla Fattoria.",
           "goto": "m01-farm-first-arrival#approach",
-          "timeCostMinutes": 70
+          "timeCostMinutes": 70,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "asteria_farm_road"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_first_fork_choice",
+              "value": "farm"
+            }
+          ]
         },
         {
           "id": "crossroads",
           "text": "Lo lascio andare e resto al bivio.",
           "goto": "crossroads"
+        }
+      ]
+    },
+    "houndour_calm_context": {
+      "stitches": [
+        {
+          "id": "calm_read",
+          "text": "Il ricordo coincide con quello che hai visto: Houndour difendeva distanza e via di fuga, non cercava una preda. È un dettaglio concreto che potrai descrivere a qualcuno che conosce la fauna locale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno al bivio.",
+          "goto": "crossroads",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_first_fork_houndour_context",
+              "value": "calm_behavior"
+            }
+          ]
+        },
+        {
+          "id": "city",
+          "text": "Porto questa osservazione verso Valedarsena.",
+          "goto": "m01-valedarsena-first-arrival#approach",
+          "timeCostMinutes": 70,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_road"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_first_fork_choice",
+              "value": "valedarsena"
+            }
+          ]
+        },
+        {
+          "id": "farm",
+          "text": "Porto questa osservazione verso la Fattoria.",
+          "goto": "m01-farm-first-arrival#approach",
+          "timeCostMinutes": 70,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "asteria_farm_road"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_first_fork_choice",
+              "value": "farm"
+            }
+          ]
+        }
+      ]
+    },
+    "houndour_avoided_context": {
+      "text": "Aver restituito spazio a Houndour ha chiuso l'escalation senza dover decidere chi fosse 'buono' o 'cattivo'. Il fatto utile è che l'animale ha mantenuto la propria via di fuga.",
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno al bivio.",
+          "goto": "crossroads",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_first_fork_houndour_context",
+              "value": "escalation_avoided"
+            }
+          ]
+        }
+      ]
+    },
+    "houndour_captured_context": {
+      "text": "Houndour non è più una presenza irrisolta sulla strada: è nel tuo roster con lo stato reale lasciato dalla cattura. Questo può cambiare la preparazione della tua squadra, ma non decide dove devi andare adesso.",
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno al bivio.",
+          "goto": "crossroads",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_first_fork_houndour_context",
+              "value": "captured_partner"
+            }
+          ]
+        },
+        {
+          "id": "city",
+          "text": "Vado verso Valedarsena con la nuova squadra.",
+          "goto": "m01-valedarsena-first-arrival#approach",
+          "timeCostMinutes": 70,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_road"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_first_fork_choice",
+              "value": "valedarsena"
+            }
+          ]
+        },
+        {
+          "id": "farm",
+          "text": "Vado verso la Fattoria con la nuova squadra.",
+          "goto": "m01-farm-first-arrival#approach",
+          "timeCostMinutes": 70,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "asteria_farm_road"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_first_fork_choice",
+              "value": "farm"
+            }
+          ]
+        }
+      ]
+    },
+    "houndour_fled_context": {
+      "text": "Houndour ha lasciato il tratto della pozzanghera. Non sai dove sia andato, ma sai che la sua posizione nel mondo è cambiata: non è corretto trattarlo come se fosse ancora fermo lì ad aspettarti.",
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno al bivio.",
+          "goto": "crossroads",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_first_fork_houndour_context",
+              "value": "animal_relocated"
+            }
+          ]
+        }
+      ]
+    },
+    "houndour_battle_context": {
+      "text": "Lo scontro ha modificato la situazione concreta: Houndour è stato scacciato oppure ha mantenuto il terreno. Il bivio non trasforma questo fatto in una penalità morale automatica.",
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno al bivio.",
+          "goto": "crossroads",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_first_fork_houndour_context",
+              "value": "battle_position_changed"
+            }
+          ]
+        }
+      ]
+    },
+    "pressure_context": {
+      "stitches": [
+        {
+          "id": "pressure_compare",
+          "text": "Le impronte insolite e i paletti spostati hanno più senso se li guardi insieme: qualcosa sta alterando i passaggi abituali della fauna tra campi e strada."
+        },
+        {
+          "id": "pressure_open",
+          "text": "È ancora un indizio, non una quest obbligatoria. Puoi seguirlo verso la città, confrontarlo con la Fattoria oppure lasciarlo sullo sfondo mentre fai altro."
+        }
+      ],
+      "choices": [
+        {
+          "id": "city",
+          "text": "Cerco informazioni a Valedarsena.",
+          "goto": "m01-valedarsena-first-arrival#approach",
+          "timeCostMinutes": 70,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_road"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_first_fork_choice",
+              "value": "valedarsena"
+            }
+          ]
+        },
+        {
+          "id": "farm",
+          "text": "Confronto gli indizi con ciò che sanno alla Fattoria.",
+          "goto": "m01-farm-first-arrival#approach",
+          "timeCostMinutes": 70,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "asteria_farm_road"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_first_fork_choice",
+              "value": "farm"
+            }
+          ]
+        },
+        {
+          "id": "back",
+          "text": "Per ora torno al bivio.",
+          "goto": "crossroads",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_first_fork_context",
+              "value": "pressure_correlated"
+            }
+          ]
+        }
+      ]
+    },
+    "time_morning": {
+      "text": "Al mattino passano soprattutto rookie, addetti e piccoli mezzi diretti verso città e campi. La strada sta già distribuendo persone e Pokémon in direzioni diverse.",
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno a scegliere la mia strada.",
+          "goto": "crossroads"
+        },
+        {
+          "id": "wait_more",
+          "text": "Resto altri quindici minuti.",
+          "goto": "time_morning",
+          "timeCostMinutes": 15
+        }
+      ]
+    },
+    "time_afternoon": {
+      "text": "Nel pomeriggio il flusso si mescola: allenatori di ritorno, lavoratori della Fattoria e viaggiatori diretti a Valedarsena si incrociano senza aspettare le tue decisioni.",
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno a scegliere la mia strada.",
+          "goto": "crossroads"
+        },
+        {
+          "id": "wait_more",
+          "text": "Resto altri quindici minuti.",
+          "goto": "time_afternoon",
+          "timeCostMinutes": 15
+        }
+      ]
+    },
+    "time_evening": {
+      "text": "Con la sera il traffico cala e cambia destinazione. Alcuni accelerano verso Valedarsena; altri rientrano verso la Fattoria prima che faccia buio.",
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno a scegliere la mia strada.",
+          "goto": "crossroads"
+        },
+        {
+          "id": "wait_more",
+          "text": "Resto altri quindici minuti.",
+          "goto": "time_evening",
+          "timeCostMinutes": 15
+        }
+      ]
+    },
+    "time_night": {
+      "text": "Di notte il bivio non scompare, ma diventa più quieto. Le luci lontane indicano ancora le due direzioni mentre attività e disponibilità del mondo cambiano con l'orario.",
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno a scegliere la mia strada.",
+          "goto": "crossroads"
+        },
+        {
+          "id": "wait_more",
+          "text": "Resto altri quindici minuti.",
+          "goto": "time_night",
+          "timeCostMinutes": 15
         }
       ]
     }
