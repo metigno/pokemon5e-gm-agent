@@ -1284,8 +1284,12 @@
           "text": "Il banco espone prezzi standard Pokémon 5e: Poké Ball ₽250, Potion ₽200, Antidote ₽200. Il negozio non crea credito e non sostituisce gli oggetti che non puoi pagare."
         },
         {
+          "id": "limited_stock",
+          "text": "Lo stock è reale e limitato: quando un articolo finisce non puoi comprarne altri finché il negozio non rifornisce il banco. Il ciclo di rifornimento di Valedarsena scatta ogni tre giorni di gioco."
+        },
+        {
           "id": "rookie_budget",
-          "text": "Puoi comprare soltanto ciò che il tuo saldo reale consente. Gli acquisti entrano nell'inventario persistente e le Poké Ball comprate qui sono le stesse che il combat core può consumare durante una cattura."
+          "text": "Gli acquisti entrano nell'inventario persistente e le Poké Ball comprate qui sono le stesse che il combat core può consumare durante una cattura."
         }
       ],
       "choices": [
@@ -1294,12 +1298,21 @@
           "text": "Compro una Poké Ball — ₽250.",
           "goto": "trainer_shop",
           "conditions": {
-            "path": "player.money",
-            "gte": 250
+            "all": [
+              {
+                "path": "player.money",
+                "gte": 250
+              },
+              {
+                "path": "shops.valedarsena_trainer_shop.stock.poke-ball",
+                "gte": 1
+              }
+            ]
           },
           "effects": [
             {
               "type": "purchase_item",
+              "shopId": "valedarsena_trainer_shop",
               "itemId": "poke-ball",
               "cost": 250,
               "quantity": 1
@@ -1311,12 +1324,21 @@
           "text": "Compro una Potion — ₽200.",
           "goto": "trainer_shop",
           "conditions": {
-            "path": "player.money",
-            "gte": 200
+            "all": [
+              {
+                "path": "player.money",
+                "gte": 200
+              },
+              {
+                "path": "shops.valedarsena_trainer_shop.stock.potion",
+                "gte": 1
+              }
+            ]
           },
           "effects": [
             {
               "type": "purchase_item",
+              "shopId": "valedarsena_trainer_shop",
               "itemId": "potion",
               "cost": 200,
               "quantity": 1
@@ -1328,12 +1350,21 @@
           "text": "Compro un Antidote — ₽200.",
           "goto": "trainer_shop",
           "conditions": {
-            "path": "player.money",
-            "gte": 200
+            "all": [
+              {
+                "path": "player.money",
+                "gte": 200
+              },
+              {
+                "path": "shops.valedarsena_trainer_shop.stock.antidote",
+                "gte": 1
+              }
+            ]
           },
           "effects": [
             {
               "type": "purchase_item",
+              "shopId": "valedarsena_trainer_shop",
               "itemId": "antidote",
               "cost": 200,
               "quantity": 1
@@ -1363,6 +1394,16 @@
           ]
         }
       ]
+    }
+  },
+  "shops": {
+    "valedarsena_trainer_shop": {
+      "refreshEveryDays": 3,
+      "stock": {
+        "poke-ball": 6,
+        "potion": 4,
+        "antidote": 4
+      }
     }
   }
 }
