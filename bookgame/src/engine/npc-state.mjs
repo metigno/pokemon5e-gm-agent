@@ -128,7 +128,12 @@ export function setNpcSchedule(state, {
 export function refreshNpcSchedule(state, npcId) {
   const npc = requireNpc(state, npcId);
   if (!npc.schedule) return null;
-  ensureWorldClock(state.world);
+
+  const hasTimeWindow =
+    npc.schedule.startsAtMinutes !== null ||
+    npc.schedule.endsAtMinutes !== null;
+  if (hasTimeWindow) ensureWorldClock(state.world);
+
   const now = state.world.elapsedMinutes;
   const started = npc.schedule.startsAtMinutes === null || now >= npc.schedule.startsAtMinutes;
   const notEnded = npc.schedule.endsAtMinutes === null || now < npc.schedule.endsAtMinutes;
