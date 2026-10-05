@@ -7,11 +7,26 @@
   "entryNodeId": "trial_gate_call",
   "conditions": {
     "all": [
-      { "path": "world.flags.m1_complete", "eq": true },
-      { "path": "world.flags.m02_unlocked", "eq": true },
-      { "path": "world.flags.m2_active", "eq": true },
-      { "path": "competition.rank", "eq": "E" },
-      { "path": "competition.trials.RANK_E_TO_D.registered", "eq": true }
+      {
+        "path": "world.flags.m1_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m02_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m2_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "E"
+      },
+      {
+        "path": "competition.trials.RANK_E_TO_D.registered",
+        "eq": true
+      }
     ]
   },
   "nodes": {
@@ -19,46 +34,341 @@
       "stitches": [
         {
           "id": "gate_1",
-          "text": "L'ingresso dell'arena porta il simbolo del Circuito Asteria. Il tabellone mostra il tuo nome — la registrazione è confermata. Il Trial E→D è assegnato alla pista laterale, separate dall'arena principale."
+          "text": "L'ingresso della Sala Verde apre sulla pista laterale del Circuito. Il tabellone mostra RANK_E_TO_D, il tuo nome e lo stato REGISTRATO. Il match non è ancora iniziato: finché non dai la conferma finale puoi ancora ritirarti dall'ingresso."
         },
         {
           "id": "gate_2",
-          "text": "Ad attenderti non c'è un avversario della tua stessa fascia. C'è Ines Varga, esaminatrice certificata del Circuito da cinque anni. Il suo roster è fisso, il campo è neutro, il risultato appartiene al combattimento."
+          "text": "L'area pre-battle è divisa tra check-in ufficiale, pannello pubblico dell'esaminatrice e bordo campo. Tutto ciò che puoi osservare qui è informazione legittimamente pubblica o ispezione del terreno; nessuna scelta concede bonus nascosti."
         }
       ],
       "choices": [
         {
-          "id": "approach_ines",
-          "text": "Mi avvicino a Ines per il briefing finale.",
-          "goto": "trial_ines_briefing"
+          "id": "official_check_in",
+          "text": "Procedo al check-in e faccio verificare l'Official Three registrato.",
+          "goto": "trial_check_in"
+        },
+        {
+          "id": "review_public_board",
+          "text": "Prima del check-in consulto il pannello pubblico di Ines.",
+          "goto": "public_roster_board",
+          "timeCostMinutes": 5,
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_e_d_public_roster_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "inspect_field",
+          "text": "Prima del check-in ispeziono il campo neutro.",
+          "goto": "field_inspection",
+          "timeCostMinutes": 5,
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_e_d_field_inspected",
+              "value": true
+            }
+          ]
         },
         {
           "id": "withdraw_before_briefing",
-          "text": "Non sono pronto — torno alla registrazione.",
+          "text": "Non entro ancora — torno alla registrazione con questo tentativo ancora registrato.",
           "goto": "m02-trial-registration#trial_registered"
         }
       ]
     },
-
+    "public_roster_board": {
+      "stitches": [
+        {
+          "id": "public_1",
+          "text": "Il pannello pubblico mostra il roster fisso dell'esaminatrice: Growlithe Lv5 con Intimidate, Roselia Lv5 con Natural Cure, Sableye Lv4 con Keen Eye. È lo stesso roster per ogni candidato nella finestra: nessun livello viene adattato alla tua squadra."
+        }
+      ],
+      "choices": [
+        {
+          "id": "public_to_profile",
+          "text": "Leggo anche il profilo pubblico di Ines.",
+          "goto": "examiner_profile"
+        }
+      ]
+    },
+    "examiner_profile": {
+      "stitches": [
+        {
+          "id": "profile_1",
+          "text": "Ines Varga è staff permanente del gate E→D. Il profilo la descrive come esaminatrice di controllo del campo, status, switching e disciplina. Il dato spiega l'identità della prova, non predice mosse o risultato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "profile_back_gate",
+          "text": "Torno al gate e decido il prossimo passo.",
+          "goto": "trial_gate_call"
+        }
+      ]
+    },
+    "field_inspection": {
+      "stitches": [
+        {
+          "id": "field_1",
+          "text": "La pista è simmetrica, senza terreno speciale dichiarato né ostacoli autoriali che alterino le regole. Le linee di cambio, le aree dei trainer e i limiti sono quelli standard della prova Singles."
+        }
+      ],
+      "choices": [
+        {
+          "id": "inspect_neutrality",
+          "text": "Controllo come viene garantita la neutralità del campo.",
+          "goto": "field_neutrality"
+        },
+        {
+          "id": "field_back_gate",
+          "text": "L'ispezione mi basta — torno al gate.",
+          "goto": "trial_gate_call"
+        }
+      ]
+    },
+    "field_neutrality": {
+      "stitches": [
+        {
+          "id": "neutral_1",
+          "text": "L'arbitro conferma che non esistono modificatori invisibili, scaling o vantaggi concessi dall'ispezione. Qualunque condizione di campo durante lo scontro deve nascere dalle normali regole Pokémon 5e e dalle azioni dei combattenti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "neutral_back_gate",
+          "text": "Torno al gate con il campo chiarito.",
+          "goto": "trial_gate_call"
+        }
+      ]
+    },
+    "trial_check_in": {
+      "stitches": [
+        {
+          "id": "checkin_1",
+          "text": "L'addetto confronta la registrazione con il roster vivo. Non legge «i primi tre di adesso»: verifica le tre identità bloccate quando hai confermato l'Official Three. Se una non fosse risolvibile, l'ingresso verrebbe fermato invece di sostituirla."
+        }
+      ],
+      "choices": [
+        {
+          "id": "verify_official_three",
+          "text": "Confermo il controllo d'identità e passo alle regole d'esame.",
+          "goto": "official_three_verification",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_e_d_identity_verified",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "official_three_verification": {
+      "stitches": [
+        {
+          "id": "verify_1",
+          "text": "Il controllo è valido per questo tentativo. Un riordino del roster non cambia le identità registrate; HP, PP, livello e status restano invece quelli correnti e legittimi del roster vivo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "verification_to_rules",
+          "text": "Passo al briefing sulle regole operative.",
+          "goto": "rules_format"
+        }
+      ]
+    },
+    "rules_format": {
+      "stitches": [
+        {
+          "id": "format_1",
+          "text": "Formato ufficiale: Singles, tre Pokémon registrati per lato, un Pokémon attivo alla volta. Il risultato deve emergere dal combattimento Pokémon 5e; non esiste uno script che assegna la vittoria."
+        }
+      ],
+      "choices": [
+        {
+          "id": "review_switching_rule",
+          "text": "Rivedo soprattutto le regole e il costo tattico dello switching.",
+          "goto": "rules_switching",
+          "timeCostMinutes": 5
+        },
+        {
+          "id": "review_status_rule",
+          "text": "Rivedo soprattutto come gli status entrano nel piano della prova.",
+          "goto": "rules_status",
+          "timeCostMinutes": 5
+        }
+      ]
+    },
+    "rules_switching": {
+      "stitches": [
+        {
+          "id": "switch_1",
+          "text": "Lo switching è legale secondo le normali regole applicate dal motore. La prova lo considera parte della disciplina tattica: cambiare può salvare una posizione o cederne una, ma qui non viene aggiunto alcun costo custom."
+        }
+      ],
+      "choices": [
+        {
+          "id": "switch_to_tactical",
+          "text": "Passo al briefing tattico finale.",
+          "goto": "tactical_briefing"
+        }
+      ]
+    },
+    "rules_status": {
+      "stitches": [
+        {
+          "id": "status_1",
+          "text": "Gli status seguono esclusivamente le regole Pokémon 5e supportate dal combattimento. Il tema della prova è saperli gestire e sfruttare, non ricevere resistenze, cure o bonus inventati dalla scena."
+        }
+      ],
+      "choices": [
+        {
+          "id": "status_to_tactical",
+          "text": "Passo al briefing tattico finale.",
+          "goto": "tactical_briefing"
+        }
+      ]
+    },
+    "tactical_briefing": {
+      "stitches": [
+        {
+          "id": "tactical_1",
+          "text": "Prima di chiamare Ines puoi fissare una priorità mentale. È solo preparazione registrata nel percorso: non modifica statistiche, tiri, HP o iniziativa. Serve a rendere esplicito come intendi affrontare una prova centrata su controllo, status e cambi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "focus_field_control",
+          "text": "Imposto come priorità leggere e contestare il controllo del campo.",
+          "goto": "focus_field_control",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_e_d_preparation_focus",
+              "value": "field_control"
+            }
+          ]
+        },
+        {
+          "id": "focus_status",
+          "text": "Imposto come priorità gestire gli status senza perdere disciplina.",
+          "goto": "focus_status",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_e_d_preparation_focus",
+              "value": "status"
+            }
+          ]
+        },
+        {
+          "id": "focus_switching",
+          "text": "Imposto come priorità pianificare i cambi e proteggere il ritmo.",
+          "goto": "focus_switching",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_e_d_preparation_focus",
+              "value": "switching"
+            }
+          ]
+        },
+        {
+          "id": "skip_focus",
+          "text": "Non fisso una priorità specifica — passo alla conferma finale.",
+          "goto": "final_confirmation"
+        }
+      ]
+    },
+    "focus_field_control": {
+      "stitches": [
+        {
+          "id": "focus_field_1",
+          "text": "Annoti una priorità: non inseguire ogni scambio, ma riconoscere quando Ines sta costruendo posizione. È un promemoria tattico, non un bonus meccanico."
+        }
+      ],
+      "choices": [
+        {
+          "id": "field_focus_to_final",
+          "text": "Passo alla conferma finale.",
+          "goto": "final_confirmation"
+        }
+      ]
+    },
+    "focus_status": {
+      "stitches": [
+        {
+          "id": "focus_status_1",
+          "text": "Annoti una priorità: distinguere lo status che puoi assorbire da quello che cambia davvero il piano di battaglia. Nessuna immunità viene concessa dalla preparazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "status_focus_to_final",
+          "text": "Passo alla conferma finale.",
+          "goto": "final_confirmation"
+        }
+      ]
+    },
+    "focus_switching": {
+      "stitches": [
+        {
+          "id": "focus_switch_1",
+          "text": "Annoti una priorità: cambiare per uno scopo preciso, non solo per reagire alla pressione. Il motore applicherà comunque le normali regole di switching."
+        }
+      ],
+      "choices": [
+        {
+          "id": "switch_focus_to_final",
+          "text": "Passo alla conferma finale.",
+          "goto": "final_confirmation"
+        }
+      ]
+    },
+    "final_confirmation": {
+      "stitches": [
+        {
+          "id": "final_1",
+          "text": "Il gate finale mostra tre verifiche: identità dell'Official Three, formato Singles 3, roster fisso di Ines. Confermare qui non decide il risultato: apre soltanto il briefing faccia a faccia prima del comando di start."
+        }
+      ],
+      "choices": [
+        {
+          "id": "final_to_ines",
+          "text": "Le verifiche sono chiare — chiamo Ines per il briefing finale.",
+          "goto": "trial_ines_briefing"
+        },
+        {
+          "id": "withdraw_before_final",
+          "text": "Mi fermo prima dello start e torno alla registrazione.",
+          "goto": "m02-trial-registration#trial_registered"
+        }
+      ]
+    },
     "trial_ines_briefing": {
       "stitches": [
         {
           "id": "briefing_1",
-          "text": "Ines Varga non sorride. Ti osserva mentre ti avvicini con l'attenzione di chi sta già valutando. «Il tuo Official Three è nel sistema. Io ho il mio roster. Niente di tutto questo cambia tra un tentativo e il successivo.»"
+          "text": "Ines Varga controlla il gate. «Il tuo Official Three è quello registrato per questo tentativo. Il mio roster è fisso per la prova. Se perdi, il tuo tentativo si chiude e una nuova registrazione potrà essere diversa; il mio esame no.»"
         },
         {
           "id": "briefing_2",
-          "text": "«Il formato è Singles. Un Pokémon attivo per volta. Puoi cambiare — ma ogni cambio ha un costo. Non ti sto cercando di sopraffare. Ti sto aspettando sbagliare.» Indica il campo. «Quando sei pronto.»"
+          "text": "«Singles. Un Pokémon attivo per volta. Status, cambi e controllo del ritmo sono parte del test. Non cerco di regalarti una linea; non ne riceverai una dallo script.» Indica il campo. «Quando dai il via, decide il combattimento.»"
         },
         {
           "id": "briefing_roster",
-          "text": "Sul registro compaiono tre Pokémon fissi: Growlithe, Roselia e Sableye. Nessuno cambia livello in base alla tua squadra — il Trial usa un roster autoriale stabile e difficoltà HARD."
+          "text": "Growlithe Lv5, Roselia Lv5 e Sableye Lv4 restano il roster autoriale dell'esaminatrice, difficoltà HARD. Nessuno di loro scala sul tuo livello o sull'Official Three."
         }
       ],
       "choices": [
         {
           "id": "begin_trial",
-          "text": "Confermo il roster e inizio il Promotion Trial E→D.",
+          "text": "Do il via e inizio il Promotion Trial E→D.",
           "combat": {
             "encounterId": "A2_RANK_TRIAL_E_D",
             "opponentTrainerId": "SAL_GATE_E_D_INES_VARGA",
@@ -104,17 +414,16 @@
         },
         {
           "id": "withdraw_before_start",
-          "text": "Non inizio ancora — torno alla registrazione.",
+          "text": "Non do ancora il via — torno alla registrazione mantenendo questo tentativo registrato.",
           "goto": "m02-trial-registration#trial_registered"
         }
       ]
     },
-
     "trial_combat_handoff": {
       "stitches": [
         {
           "id": "handoff_1",
-          "text": "L'arbitro chiude il gate e passa il controllo al risolutore Pokémon 5e. Il tuo Official Three e il roster fisso di Ines vengono usati realmente. Nessun vincitore è deciso dallo script."
+          "text": "L'arbitro chiude il gate e passa l'autorità al combattimento Pokémon 5e. Il motore usa le tre identità registrate nel loro stato vivo corrente e il roster fisso di Ines. Nessun vincitore è deciso dalla scena."
         }
       ],
       "choices": []
