@@ -689,6 +689,10 @@
         {
           "id": "val_pidgey_space",
           "text": "Non è un Pokémon di qualcuno: mantiene distanza dalle persone e può riprendere quota appena la situazione cambia."
+        },
+        {
+          "id": "val_pidgey_mechanical_gate",
+          "text": "Questa specie è valida nel catalogo ecologico, ma il combat pack offline M1 non espone ancora un set meccanico completo per ingaggiarla: l'incontro resta osservativo e non viene trasformato in una cattura fittizia."
         }
       ],
       "choices": [
@@ -696,24 +700,6 @@
           "id": "leave",
           "text": "Lo lascio continuare senza disturbarlo.",
           "goto": "val_peaceful_return"
-        },
-        {
-          "id": "engage",
-          "text": "Porto avanti il mio Pokémon e provo a ingaggiarlo.",
-          "combat": {
-            "encounterId": "M1_VAL_PIDGEY_001",
-            "opponent": {
-              "species": "Pidgey",
-              "level": 1
-            },
-            "opponentRegistered": false,
-            "goto": "wild_combat_handoff",
-            "returnNodes": {
-              "win": "val_wild_win",
-              "lose": "val_wild_loss",
-              "captured": "val_wild_captured"
-            }
-          }
         }
       ]
     },
@@ -726,6 +712,10 @@
         {
           "id": "val_burmy_space",
           "text": "Si muove soltanto quando ti avvicini abbastanza da cambiare il suo equilibrio. Non c'è alcun motivo per cui debba combattere se gli lasci spazio."
+        },
+        {
+          "id": "val_burmy_mechanical_gate",
+          "text": "Questa specie è valida nel catalogo ecologico, ma il combat pack offline M1 non espone ancora un set meccanico completo per ingaggiarla: l'incontro resta osservativo e non viene trasformato in una cattura fittizia."
         }
       ],
       "choices": [
@@ -733,24 +723,6 @@
           "id": "leave",
           "text": "Lo osservo e poi mi allontano.",
           "goto": "val_peaceful_return"
-        },
-        {
-          "id": "engage",
-          "text": "Porto avanti il mio Pokémon e provo a ingaggiarlo.",
-          "combat": {
-            "encounterId": "M1_VAL_BURMY_001",
-            "opponent": {
-              "species": "Burmy",
-              "level": 1
-            },
-            "opponentRegistered": false,
-            "goto": "wild_combat_handoff",
-            "returnNodes": {
-              "win": "val_wild_win",
-              "lose": "val_wild_loss",
-              "captured": "val_wild_captured"
-            }
-          }
         }
       ]
     },
@@ -763,6 +735,10 @@
         {
           "id": "val_tandemaus_space",
           "text": "Restano vicini e cercano una via libera invece di avvicinarsi alle persone. Il loro comportamento è coordinato, non addomesticato."
+        },
+        {
+          "id": "val_tandemaus_mechanical_gate",
+          "text": "Tandemaus, invece, ha uno stat block Pokémon 5e M1 eseguibile nel combat pack locale: se scegli di ingaggiarlo, battaglia e cattura possono essere risolte davvero."
         }
       ],
       "choices": [
@@ -800,6 +776,10 @@
         {
           "id": "val_purrloin_space",
           "text": "Non si avvicina per essere catturato e non difende una proprietà umana: per ora decide soltanto se restare o sparire."
+        },
+        {
+          "id": "val_purrloin_mechanical_gate",
+          "text": "Questa specie è valida nel catalogo ecologico, ma il combat pack offline M1 non espone ancora un set meccanico completo per ingaggiarla: l'incontro resta osservativo e non viene trasformato in una cattura fittizia."
         }
       ],
       "choices": [
@@ -807,24 +787,6 @@
           "id": "leave",
           "text": "Gli lascio il vicolo e torno indietro.",
           "goto": "val_peaceful_return"
-        },
-        {
-          "id": "engage",
-          "text": "Porto avanti il mio Pokémon e provo a ingaggiarlo.",
-          "combat": {
-            "encounterId": "M1_VAL_PURRLOIN_001",
-            "opponent": {
-              "species": "Purrloin",
-              "level": 1
-            },
-            "opponentRegistered": false,
-            "goto": "wild_combat_handoff",
-            "returnNodes": {
-              "win": "val_wild_win",
-              "lose": "val_wild_loss",
-              "captured": "val_wild_captured"
-            }
-          }
         }
       ]
     },
