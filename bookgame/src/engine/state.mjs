@@ -8,6 +8,25 @@ export function proficiencyBonus(level) {
   return 2 + Math.floor((level - 1) / 4);
 }
 
+const FIVE_FRIEND_IDS = ["Luke", "Mattew", "Daniel", "Edward", "Fab"];
+
+function createRookieFriendNpc(name) {
+  const build = getStartingBuild(name);
+  return createPersistentNpc({
+    id: name,
+    name,
+    state: {
+      trainerLevel: 1,
+      rankState: "F",
+      teamStage: "rookie",
+      starterSpecies: build.starter.species,
+      starterForm: build.starter.form,
+      starterLevel: build.starter.level,
+      recentResult: "none"
+    }
+  });
+}
+
 export function createNewGameState({
   protagonist = "Luke",
   slot = "slot1",
@@ -15,6 +34,11 @@ export function createNewGameState({
 } = {}) {
   const build = getStartingBuild(protagonist);
   const timestamp = now();
+  const friendNpcs = Object.fromEntries(
+    FIVE_FRIEND_IDS
+      .filter((name) => name !== protagonist)
+      .map((name) => [name, createRookieFriendNpc(name)])
+  );
 
   return {
     schemaVersion: 1,
@@ -49,10 +73,7 @@ export function createNewGameState({
     ecology: { history: [], lastEncounter: null },
     shops: {},
     npcs: {
-      Mattew: createPersistentNpc({ id: "Mattew", name: "Mattew" }),
-      Daniel: createPersistentNpc({ id: "Daniel", name: "Daniel" }),
-      Edward: createPersistentNpc({ id: "Edward", name: "Edward" }),
-      Fab: createPersistentNpc({ id: "Fab", name: "Fab" }),
+      ...friendNpcs,
       Blue: createPersistentNpc({
         id: "Blue",
         name: "Blue",
