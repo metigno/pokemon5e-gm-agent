@@ -1,0 +1,531 @@
+{
+  "schemaVersion": 1,
+  "id": "m02-borgo-salice",
+  "moduleId": "M02",
+  "title": "M2_03 — Borgo Salice",
+  "locationId": "borgo_salice",
+  "entryNodeId": "borough_hub",
+  "conditions": {
+    "all": [
+      { "path": "world.flags.m1_complete", "eq": true },
+      { "path": "world.flags.m02_unlocked", "eq": true },
+      { "path": "world.flags.m2_active", "eq": true },
+      { "path": "competition.rank", "eq": "E" }
+    ]
+  },
+  "nodes": {
+    "borough_hub": {
+      "stitches": [
+        {
+          "id": "town_arrival",
+          "text": "Borgo Salice è abbastanza piccolo da attraversarsi a piedi in dieci minuti, ma abbastanza organizzato da avere un presidio Ranger, una Sala Verde del Circuito e un negozio per i trainer di passaggio. La nebbia di Bosco Bruma non arriva fino qui: l'aria è più asciutta, le strade in pietra."
+        },
+        {
+          "id": "town_life",
+          "text": "La gente del posto si occupa dei propri affari. Ci sono trainer con zaini da escursione, qualcuno con Pokémon non da combattimento al guinzaglio, e una bacheca con avvisi del Circuito accanto all'ingresso della Sala Verde."
+        },
+        {
+          "id": "town_options",
+          "text": "Il borgo è un punto di sosta reale: puoi dormire, comprare materiali, confrontarti con il presidio o controllare le condizioni della Sala Verde. Il tempo scorre mentre sei qui."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ranger_post",
+          "text": "Vado al presidio Ranger.",
+          "timeCostMinutes": 5,
+          "goto": "ranger_post",
+          "effects": [
+            { "type": "set_location", "locationId": "borgo_salice_ranger" }
+          ]
+        },
+        {
+          "id": "sala_verde",
+          "text": "Controllo la Sala Verde del Circuito.",
+          "timeCostMinutes": 5,
+          "goto": "sala_verde",
+          "effects": [
+            { "type": "set_location", "locationId": "borgo_salice_sala_verde" }
+          ]
+        },
+        {
+          "id": "town_shop",
+          "text": "Entro nel negozio per trainer.",
+          "timeCostMinutes": 5,
+          "goto": "shop",
+          "effects": [
+            { "type": "set_location", "locationId": "borgo_salice_shop" }
+          ]
+        },
+        {
+          "id": "ask_rumors",
+          "text": "Resto in giro per il borgo e ascolto quello che si dice.",
+          "timeCostMinutes": 10,
+          "goto": "town_rumors",
+          "effects": [
+            { "type": "set_location", "locationId": "borgo_salice" }
+          ]
+        },
+        {
+          "id": "back_to_mistwood",
+          "text": "Rientro verso Bosco Bruma.",
+          "timeCostMinutes": 210,
+          "goto": "m02-mistwood-entry#threshold",
+          "effects": [
+            { "type": "set_location", "locationId": "asteria_mistwood" }
+          ]
+        },
+        {
+          "id": "back_to_valedarsena",
+          "text": "Torno a Valedarsena attraverso il bosco.",
+          "timeCostMinutes": 360,
+          "goto": "m01-valedarsena-first-arrival#city_hub",
+          "effects": [
+            { "type": "set_location", "locationId": "valedarsena_city" }
+          ]
+        }
+      ]
+    },
+    "ranger_post": {
+      "stitches": [
+        {
+          "id": "post_exterior",
+          "text": "Il presidio occupa un edificio basso con due finestre e una porta aperta. Sopra l'ingresso c'è il logo del Servizio Ranger di Asteria. Una lavagna aggiornata a mano elenca le aree in monitoraggio attivo."
+        },
+        {
+          "id": "post_atmosphere",
+          "text": "È il tipo di posto che funziona senza fare rumore: non ci sono insegne luminose né manifesti motivazionali. Le informazioni che ti servono ci sono, se sai cosa cercare."
+        }
+      ],
+      "choices": [
+        {
+          "id": "approach_ranger_returning",
+          "text": "Elio è qui — ci siamo già incontrati a Valedarsena.",
+          "conditions": {
+            "path": "npcs.ElioMar.state.role",
+            "eq": "ranger"
+          },
+          "goto": "ranger_returning"
+        },
+        {
+          "id": "approach_ranger_new",
+          "text": "C'è un ranger al banco. Mi presento.",
+          "conditions": {
+            "path": "npcs.ElioMar.state.role",
+            "ne": "ranger"
+          },
+          "goto": "ranger_new_meeting",
+          "effects": [
+            {
+              "type": "npc_register",
+              "npcId": "ElioMar",
+              "name": "Ranger Elio Mar",
+              "relationshipScore": 0,
+              "state": { "role": "ranger" }
+            }
+          ]
+        },
+        {
+          "id": "leave_post",
+          "text": "Non entro.",
+          "goto": "borough_hub",
+          "effects": [
+            { "type": "set_location", "locationId": "borgo_salice" }
+          ]
+        }
+      ]
+    },
+    "ranger_returning": {
+      "stitches": [
+        {
+          "id": "elio_recognizes",
+          "text": "Elio Mar è seduto alla scrivania con una mappa piegata. Ti riconosce senza sorpresa — il Circuito tiene traccia degli spostamenti dei trainer attivi, e il Bosco Bruma fa parte del suo perimetro. «Sei arrivato da Valedarsena o dal bosco?»"
+        },
+        {
+          "id": "elio_context",
+          "text": "La sua posizione a Borgo Salice non è permanente: ruota tra i presidi dell'area, compreso quello di Valedarsena che hai già visto. Sa cosa succede nel bosco meglio di quanto lasci trasparire."
+        }
+      ],
+      "choices": [
+        {
+          "id": "mention_forest_signs_returning",
+          "text": "Racconto quello che ho notato nel bosco durante il tragitto.",
+          "conditions": {
+            "path": "world.flags.capture_signs_noticed",
+            "eq": true
+          },
+          "timeCostMinutes": 10,
+          "goto": "ranger_signs_shared",
+          "effects": [
+            { "type": "set_flag", "key": "capture_ranger_told", "value": true }
+          ]
+        },
+        {
+          "id": "general_talk_returning",
+          "text": "Faccio due chiacchiere sull'area e su cosa aspettarmi nel Rank E.",
+          "timeCostMinutes": 10,
+          "goto": "ranger_general"
+        },
+        {
+          "id": "leave_returning",
+          "text": "Saluto e torno al borgo.",
+          "goto": "borough_hub",
+          "effects": [
+            { "type": "set_location", "locationId": "borgo_salice" }
+          ]
+        }
+      ]
+    },
+    "ranger_new_meeting": {
+      "stitches": [
+        {
+          "id": "elio_intro_borgo",
+          "text": "Il ranger alza lo sguardo dalla scrivania. «Elio Mar, Servizio Ranger del settore Asteria-Centro.» Non è ostile, ma è preciso: ti chiede da dove arrivi, dove stai andando e se hai un roster attivo. Informazioni operative, non conversazione."
+        },
+        {
+          "id": "elio_check",
+          "text": "Verifica la tua licenza Circuito nel terminale portatile, aggiorna lo status di presenza nel settore e ti rimanda un'occhiata diretta. «Bosco Bruma ti ha già fatto notare qualcosa?»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "mention_forest_signs_new",
+          "text": "Rispondo sì e racconto quello che ho notato.",
+          "conditions": {
+            "path": "world.flags.capture_signs_noticed",
+            "eq": true
+          },
+          "timeCostMinutes": 10,
+          "goto": "ranger_signs_shared",
+          "effects": [
+            { "type": "set_flag", "key": "capture_ranger_told", "value": true }
+          ]
+        },
+        {
+          "id": "mention_nothing_new",
+          "text": "Rispondo che non ho notato nulla di insolito.",
+          "timeCostMinutes": 5,
+          "goto": "ranger_general"
+        },
+        {
+          "id": "leave_new",
+          "text": "Rispondo alle domande di rito e saluto.",
+          "goto": "borough_hub",
+          "effects": [
+            { "type": "set_location", "locationId": "borgo_salice" }
+          ]
+        }
+      ]
+    },
+    "ranger_general": {
+      "stitches": [
+        {
+          "id": "elio_general_1",
+          "text": "Elio dà qualche indicazione standard sull'area: zone di Bosco Bruma dove la nebbia è più densa la mattina, le specie più comuni nei punti di osservazione noti e le fasce orarie con attività faunistica più alta."
+        },
+        {
+          "id": "elio_general_2",
+          "text": "Non parla dei problemi in corso — se ce ne sono — perché non è nella prassi del presidio condividere casi aperti con trainer di passaggio. Ti dice quello che è utile sapere per muoverti sicuro, non di più."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_from_general",
+          "text": "Torno al borgo.",
+          "goto": "borough_hub",
+          "effects": [
+            { "type": "set_location", "locationId": "borgo_salice" }
+          ]
+        }
+      ]
+    },
+    "ranger_signs_shared": {
+      "stitches": [
+        {
+          "id": "elio_listens",
+          "text": "Elio ascolta senza interrompere. Non prende appunti mentre parli — lo fa dopo, sistemando le informazioni in modo che non sembrino collegate finché non lo sono. «Hai una posizione approssimativa?»"
+        },
+        {
+          "id": "elio_response",
+          "text": "La sua risposta è contenuta: conferma la ricezione dell'informazione, non offre interpretazioni né ti chiede di fare nulla. Il presidio ha i propri protocolli per verificare segnalazioni come questa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "show_evidence_ranger",
+          "text": "Ho anche qualcosa di fisico che ho raccolto nel bosco.",
+          "conditions": {
+            "path": "world.flags.capture_evidence_held",
+            "eq": true
+          },
+          "timeCostMinutes": 5,
+          "goto": "ranger_evidence_received",
+          "effects": [
+            { "type": "set_flag", "key": "capture_report_given", "value": true }
+          ]
+        },
+        {
+          "id": "verbal_only",
+          "text": "Ho solo la relazione verbale, niente di fisico.",
+          "goto": "ranger_verbal_noted"
+        }
+      ]
+    },
+    "ranger_evidence_received": {
+      "stitches": [
+        {
+          "id": "evidence_handed",
+          "text": "Elio esamina il materiale, lo chiude in una busta con etichetta e lo posiziona in un cassetto separato dal lavoro ordinario. «Questo resta qui. Se serve come riscontro in seguito, sappiamo dove trovarlo.»"
+        },
+        {
+          "id": "evidence_context",
+          "text": "Non ti dice cosa farà con l'informazione né quando. Il presidio tiene le indagini chiuse finché non ha qualcosa da dichiarare. Il tuo ruolo si è esaurito con la consegna."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_from_evidence",
+          "text": "Torno al borgo.",
+          "goto": "borough_hub",
+          "effects": [
+            { "type": "set_location", "locationId": "borgo_salice" }
+          ]
+        }
+      ]
+    },
+    "ranger_verbal_noted": {
+      "stitches": [
+        {
+          "id": "verbal_noted_1",
+          "text": "Elio nota la segnalazione verbale nel registro del presidio con ora, data e descrizione sintetica. Non è un caso formale, ma è registrato."
+        },
+        {
+          "id": "verbal_noted_2",
+          "text": "«Se torni nel bosco e trovi qualcosa di più concreto, vale la pena portarlo qui.» Non è un incarico ufficiale — è solo il modo in cui funziona il flusso di informazioni in un'area senza telecamere."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_from_verbal",
+          "text": "Torno al borgo.",
+          "goto": "borough_hub",
+          "effects": [
+            { "type": "set_location", "locationId": "borgo_salice" }
+          ]
+        }
+      ]
+    },
+    "sala_verde": {
+      "stitches": [
+        {
+          "id": "sala_exterior",
+          "text": "La Sala Verde è l'edificio più visibile del borgo: facciata in pietra locale con la targa del Circuito Asteria, finestre ampie, insegna che indica gli orari degli esaminatori. È aperta per consultazioni; il Trial non è attivo in questo momento."
+        },
+        {
+          "id": "sala_bulletin",
+          "text": "Una bacheca vicino all'ingresso mostra lo stato del Trial di promozione E→D: attivo nella fascia di livello 4–5, formato Singles con tre Pokémon ufficiali. L'esaminatore è presente a orari fissi. La registrazione richiede eligibility verificata dal sistema."
+        }
+      ],
+      "choices": [
+        {
+          "id": "check_trial_requirements",
+          "text": "Chiedo informazioni sui requisiti di accesso.",
+          "timeCostMinutes": 10,
+          "goto": "sala_verde_reqs"
+        },
+        {
+          "id": "leave_sala",
+          "text": "Prendo nota e torno al borgo.",
+          "goto": "borough_hub",
+          "effects": [
+            { "type": "set_location", "locationId": "borgo_salice" }
+          ]
+        }
+      ]
+    },
+    "sala_verde_reqs": {
+      "stitches": [
+        {
+          "id": "reqs_panel",
+          "text": "L'addetto alla Sala Verde spiega i requisiti standard: roster di almeno tre Pokémon con livello idoneo alla fascia, nessuna sospensione del codice trainer, Rank E attivo registrato nel sistema del Circuito. Il Trial usa formato Singles a tre; l'avversario è un esaminatore certificato, non un trainer scelto dal player."
+        },
+        {
+          "id": "reqs_not_now",
+          "text": "La registrazione apre quando il sistema registra l'eligibility automaticamente — non è una scelta manuale. Non c'è nulla da fare qui finché i requisiti non sono soddisfatti nel sistema."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_from_reqs",
+          "text": "Torno al borgo.",
+          "goto": "borough_hub",
+          "effects": [
+            { "type": "set_location", "locationId": "borgo_salice" }
+          ]
+        }
+      ]
+    },
+    "shop": {
+      "stitches": [
+        {
+          "id": "shop_intro",
+          "text": "Il negozio per trainer ha scaffali ordinati con materiali standard. Niente di esotico: questo è un posto di rifornimento per chi si muove nel bosco, non un emporium specializzato."
+        },
+        {
+          "id": "shop_stock",
+          "text": "Il listino è chiaramente esposto. Il gestore non è loquace ma è preciso: sai cosa c'è, sai quanto costa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "buy_pokeball",
+          "text": "Poke Ball — ₽250.",
+          "conditions": {
+            "path": "shops.borgo_salice_shop.stock.poke-ball",
+            "gt": 0
+          },
+          "goto": "shop",
+          "effects": [
+            {
+              "type": "purchase_item",
+              "shopId": "borgo_salice_shop",
+              "itemId": "poke-ball",
+              "cost": 250,
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "id": "buy_potion",
+          "text": "Potion — ₽200.",
+          "conditions": {
+            "path": "shops.borgo_salice_shop.stock.potion",
+            "gt": 0
+          },
+          "goto": "shop",
+          "effects": [
+            {
+              "type": "purchase_item",
+              "shopId": "borgo_salice_shop",
+              "itemId": "potion",
+              "cost": 200,
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "id": "buy_antidote",
+          "text": "Antidote — ₽200.",
+          "conditions": {
+            "path": "shops.borgo_salice_shop.stock.antidote",
+            "gt": 0
+          },
+          "goto": "shop",
+          "effects": [
+            {
+              "type": "purchase_item",
+              "shopId": "borgo_salice_shop",
+              "itemId": "antidote",
+              "cost": 200,
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "id": "leave_shop",
+          "text": "Esco dal negozio.",
+          "goto": "borough_hub",
+          "effects": [
+            { "type": "set_location", "locationId": "borgo_salice" }
+          ]
+        }
+      ]
+    },
+    "town_rumors": {
+      "stitches": [
+        {
+          "id": "rumors_ambient",
+          "text": "Ascoltare in un borgo piccolo è facile: le conversazioni non si abbassano di molto. Tra le voci circola qualcosa di vago sul bosco — Pokémon che normalmente si avvistano in certi punti non ci sono più, qualcuno che comprava e rivendeva specie locali ha smesso di farsi vedere, un commerciante lamenta che alcune creature «si sono alzate di prezzo» senza una ragione ovvia."
+        },
+        {
+          "id": "rumors_uncertain",
+          "text": "Nessuno ha un quadro chiaro. Sono pezzi sparsi che potrebbero significare qualcosa o nulla: cambiamenti stagionali, un percorso di caccia modificato, un trader che si è spostato. In un posto così piccolo è difficile separare le notizie dalle abitudini."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ask_more_rumors",
+          "text": "Faccio qualche domanda diretta a chi sembra sapere qualcosa.",
+          "timeCostMinutes": 10,
+          "goto": "rumors_detail"
+        },
+        {
+          "id": "note_rumors",
+          "text": "Registro quello che ho sentito e lascio perdere.",
+          "goto": "borough_hub"
+        }
+      ]
+    },
+    "rumors_detail": {
+      "stitches": [
+        {
+          "id": "rumor_detail_1",
+          "text": "Un trainer che usa il bosco per allenamenti notturni dice che certi Pokémon notturni hanno cambiato zona nelle ultime settimane — ma non è sicuro se sia stagionale o qualcos'altro. Un abitante menziona un passaggio sul sentiero est al tramonto, «persone con zaini pesanti», ma non ha prestato attenzione."
+        },
+        {
+          "id": "rumor_detail_2",
+          "text": "Nessuno accusa nessuno esplicitamente. Le informazioni rimangono vaghe come erano: frammenti che non si collegano da soli in un quadro completo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "connect_rumors_to_signs",
+          "text": "Alcune di queste informazioni combaciano con quello che ho trovato nel bosco.",
+          "conditions": {
+            "path": "world.flags.capture_signs_noticed",
+            "eq": true
+          },
+          "timeCostMinutes": 5,
+          "goto": "rumors_connected",
+          "effects": [
+            { "type": "set_flag", "key": "capture_rumors_connected", "value": true }
+          ]
+        },
+        {
+          "id": "file_rumors_away",
+          "text": "Troppe interpretazioni possibili. Archivio mentalmente e proseguo.",
+          "goto": "borough_hub"
+        }
+      ]
+    },
+    "rumors_connected": {
+      "stitches": [
+        {
+          "id": "connection_made",
+          "text": "I frammenti di voce del borgo e le tracce che hai trovato nel bosco si sovrappongono: le zone, i tempi, il tipo di attività. Non è una conferma, ma il quadro è meno casuale di quanto sembrasse separatamente."
+        },
+        {
+          "id": "connection_limits",
+          "text": "Stai ancora lavorando con informazioni incomplete. Non sai chi, quanti, né da quanto tempo. Hai abbastanza per tenere gli occhi aperti, non abbastanza per trarre conclusioni."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_from_rumors_connected",
+          "text": "Torno al borgo.",
+          "goto": "borough_hub"
+        }
+      ]
+    }
+  },
+  "shops": {
+    "borgo_salice_shop": {
+      "refreshEveryDays": 4,
+      "stock": {
+        "poke-ball": 5,
+        "potion": 3,
+        "antidote": 4
+      }
+    }
+  }
+}

@@ -556,6 +556,15 @@
           "goto": "signs_entry"
         },
         {
+          "id": "continue_to_salice",
+          "text": "Proseguo verso Borgo Salice.",
+          "timeCostMinutes": 210,
+          "goto": "m02-borgo-salice#borough_hub",
+          "effects": [
+            { "type": "set_location", "locationId": "borgo_salice" }
+          ]
+        },
+        {
           "id": "back_to_entry",
           "text": "Rientro verso l'ingresso del bosco.",
           "goto": "m02-mistwood-entry#threshold",

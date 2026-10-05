@@ -244,6 +244,18 @@
           "goto": "m02-capture-signs#signs_entry"
         },
         {
+          "id": "head_to_salice",
+          "text": "Attraverso il bosco fino a Borgo Salice.",
+          "timeCostMinutes": 210,
+          "goto": "m02-borgo-salice#borough_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
+          ]
+        },
+        {
           "id": "return_city",
           "text": "Per ora torno a Valedarsena.",
           "goto": "m01-valedarsena-first-arrival#city_hub",

@@ -56,7 +56,7 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 | M2_00_RANK_E_HANDOFF | ereditare integralmente M1 e aprire la fascia Rank E | 286 | 186 | COMPLETE |
 | M2_01_MISTWOOD_ENTRY | primo ingresso a Bosco Bruma, viaggio, nebbia e fauna contestuale | 286 | 186 | COMPLETE |
 | M2_02_CAPTURE_SIGNS | indizi di cattura illegale senza rendere il crimine automaticamente evidente | 337 | 218 | COMPLETE |
-| M2_03_BORGO_SALICE | hub locale, Ranger, servizi, voci e Sala Verde | 336 | 218 | PLANNED |
+| M2_03_BORGO_SALICE | hub locale, Ranger, servizi, voci e Sala Verde | 336 | 218 | COMPLETE |
 | M2_04_N_ENTERS | introduzione causale di N e primo contrasto etico | 336 | 218 | PLANNED |
 | M2_05_RANGER_THREAD | collegare conseguenze Ranger/M1 alle nuove anomalie | 336 | 218 | PLANNED |
 | M2_06_MARSH_APPROACH | accesso progressivo verso Palude Mirto e aumento del rischio | 336 | 218 | PLANNED |
@@ -157,6 +157,9 @@ Scene `m02-capture-signs` (moduleId M02, locationId asteria_mistwood) requires a
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+**Implementation lock (verified 2026-10-05):**
+Scene `m02-borgo-salice` (moduleId M02, locationId borgo_salice) requires the four M2 entry conditions at scene level: `m1_complete=true`, `m02_unlocked=true`, `m2_active=true`, `competition.rank=E`. Illegal state throws "Scene conditions are not satisfied". Navigation in: from `m02-mistwood-entry#inner_path` via `head_to_salice` (210 min); from `m02-capture-signs#inner_exit` via `continue_to_salice` (210 min). Navigation out: back to AST-MISTWOOD (210 min) or Valedarsena (360 min). Services: shop `borgo_salice_shop` (poke-ball/potion/antidote); Sala Verde visible but `RANK_E_TO_D` trial NOT registered. Ranger ElioMar: `npc_register` is idempotent; `approach_ranger_new` vs `approach_ranger_returning` branches on `npcs.ElioMar.state.role eq "ranger"`. Investigation callbacks from M2_02: `mention_forest_signs_*` hidden until `capture_signs_noticed=true`; `show_evidence_ranger` hidden until `capture_evidence_held=true`; full report path sets `capture_report_given=true`. Rumors: `connect_rumors_to_signs` hidden until `capture_signs_noticed=true`; sets `capture_rumors_connected=true`. No N introduction, no quest open, no trial registration, no roster heal. M2_01/M2_02 regressions: zero. Verified by 28 dedicated regressions (all pass).
 
 ---
 
