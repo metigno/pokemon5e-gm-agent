@@ -19,6 +19,10 @@
         {
           "id": "arrival_choice",
           "text": "Non ricevi una lista di cose da fare. La città è già in movimento e devi decidere dove entrare per primo."
+        },
+        {
+          "id": "arrival_persistent",
+          "text": "Essere arrivato qui è già parte del tuo stato di viaggio: Valedarsena resta una destinazione conosciuta anche se decidi di voltarti subito."
         }
       ],
       "choices": [
@@ -110,7 +114,23 @@
           "id": "leave_city",
           "text": "Non entro ancora: torno verso le Ginestre.",
           "goto": "m01-ginestre-crossroads#crossroads",
-          "timeCostMinutes": 70
+          "timeCostMinutes": 70,
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "first_settlement_reached",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "valedarsena_discovered",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "asteria_ginestre"
+            }
+          ]
         }
       ]
     },
@@ -134,7 +154,13 @@
         {
           "id": "back_city",
           "text": "Esco e torno sulla strada principale.",
-          "goto": "city_hub"
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
         }
       ]
     },
@@ -149,7 +175,13 @@
         {
           "id": "hub",
           "text": "Torno in città.",
-          "goto": "city_hub"
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
         }
       ]
     },
@@ -217,7 +249,13 @@
         {
           "id": "ignore",
           "text": "Non accetto nulla per ora.",
-          "goto": "city_hub"
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
         }
       ]
     },
@@ -233,12 +271,24 @@
           "id": "go_farm",
           "text": "Parto verso la Fattoria del Vento.",
           "goto": "m01-farm-first-arrival#approach",
-          "timeCostMinutes": 140
+          "timeCostMinutes": 140,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "asteria_farm_road"
+            }
+          ]
         },
         {
           "id": "later",
           "text": "Resto ancora in città.",
-          "goto": "city_hub"
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
         }
       ]
     },
@@ -319,7 +369,13 @@
         {
           "id": "hub",
           "text": "Torno verso il centro della città.",
-          "goto": "city_hub"
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
         }
       ]
     },
@@ -334,7 +390,13 @@
         {
           "id": "hub",
           "text": "Torno verso il centro della città.",
-          "goto": "city_hub"
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
         }
       ]
     },
@@ -497,7 +559,13 @@
         {
           "id": "leave",
           "text": "Torno sulla strada principale.",
-          "goto": "city_hub"
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
         }
       ]
     },
@@ -516,7 +584,13 @@
         {
           "id": "hub",
           "text": "Torno in città.",
-          "goto": "city_hub"
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
         }
       ]
     },
@@ -533,15 +607,38 @@
       ],
       "choices": [
         {
+          "id": "shop_counter",
+          "text": "Entro nel Poké Mart e controllo cosa posso permettermi.",
+          "goto": "trainer_shop",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_trainer_shop"
+            }
+          ]
+        },
+        {
           "id": "hub",
           "text": "Torno verso il centro.",
-          "goto": "city_hub"
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
         },
         {
           "id": "ginestre",
           "text": "Esco dalla città e torno alle Ginestre.",
           "goto": "m01-ginestre-crossroads#crossroads",
-          "timeCostMinutes": 70
+          "timeCostMinutes": 70,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "asteria_ginestre"
+            }
+          ]
         }
       ]
     },
@@ -550,6 +647,10 @@
         {
           "id": "city_hub_state",
           "text": "Ora hai abbastanza punti di riferimento per muoverti senza che qualcuno ti accompagni: Centro Pokémon, Job Board, Arena, Via Allenatori e le strade in uscita."
+        },
+        {
+          "id": "no_forced_tutorial",
+          "text": "Puoi usare un servizio, cambiare quartiere o lasciare la città. Nessuna visita alla bacheca o all'Arena è necessaria per continuare il free-roam."
         }
       ],
       "choices": [
@@ -565,34 +666,70 @@
         {
           "id": "center",
           "text": "Centro Pokémon.",
-          "goto": "center"
+          "goto": "center",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_center"
+            }
+          ]
         },
         {
           "id": "board",
           "text": "Job Board.",
-          "goto": "job_board"
+          "goto": "job_board",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_job_board"
+            }
+          ]
         },
         {
           "id": "arena",
           "text": "Arena Civica.",
-          "goto": "arena_front"
+          "goto": "arena_front",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_arena"
+            }
+          ]
         },
         {
           "id": "street",
           "text": "Via Allenatori.",
-          "goto": "trainer_street"
+          "goto": "trainer_street",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_trainer_street"
+            }
+          ]
         },
         {
           "id": "farm",
           "text": "Parto per la Fattoria del Vento.",
           "goto": "m01-farm-first-arrival#approach",
-          "timeCostMinutes": 140
+          "timeCostMinutes": 140,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "asteria_farm_road"
+            }
+          ]
         },
         {
           "id": "ginestre",
           "text": "Torno alle Ginestre.",
           "goto": "m01-ginestre-crossroads#crossroads",
-          "timeCostMinutes": 70
+          "timeCostMinutes": 70,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "asteria_ginestre"
+            }
+          ]
         }
       ]
     },
@@ -645,12 +782,24 @@
         {
           "id": "postpone",
           "text": "Rimando l'ingresso e torno in città.",
-          "goto": "city_hub"
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
         },
         {
           "id": "free_roam",
           "text": "Continuo il free-roam prima di affrontare il Trial.",
-          "goto": "city_hub"
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
         },
         {
           "id": "review",
@@ -670,7 +819,13 @@
         {
           "id": "back",
           "text": "Torno in città e continuo a prepararmi.",
-          "goto": "city_hub"
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
         }
       ]
     },
@@ -789,7 +944,13 @@
         {
           "id": "stay_one",
           "text": "Resto con un solo Pokémon per ora.",
-          "goto": "city_hub"
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
         }
       ]
     },
@@ -874,7 +1035,13 @@
         {
           "id": "free_roam",
           "text": "Continuo il free-roam e tornerò quando voglio.",
-          "goto": "city_hub"
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
         }
       ]
     },
@@ -978,7 +1145,13 @@
         {
           "id": "city_first",
           "text": "Resto a Valedarsena prima di partire.",
-          "goto": "city_hub"
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
         }
       ]
     },
@@ -1027,7 +1200,13 @@
         {
           "id": "free_roam",
           "text": "Rimando il retry e torno alla carriera libera.",
-          "goto": "city_hub"
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
         }
       ]
     },
@@ -1067,7 +1246,13 @@
         {
           "id": "stay_city",
           "text": "Non parto ancora e torno a Valedarsena.",
-          "goto": "city_hub"
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
         }
       ]
     },
@@ -1082,7 +1267,100 @@
         {
           "id": "return_city",
           "text": "Per ora resto nel mondo di M1.",
-          "goto": "city_hub"
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
+        }
+      ]
+    },
+    "trainer_shop": {
+      "stitches": [
+        {
+          "id": "canonical_prices",
+          "text": "Il banco espone prezzi standard Pokémon 5e: Poké Ball ₽250, Potion ₽200, Antidote ₽200. Il negozio non crea credito e non sostituisce gli oggetti che non puoi pagare."
+        },
+        {
+          "id": "rookie_budget",
+          "text": "Puoi comprare soltanto ciò che il tuo saldo reale consente. Gli acquisti entrano nell'inventario persistente e le Poké Ball comprate qui sono le stesse che il combat core può consumare durante una cattura."
+        }
+      ],
+      "choices": [
+        {
+          "id": "buy_poke_ball",
+          "text": "Compro una Poké Ball — ₽250.",
+          "goto": "trainer_shop",
+          "conditions": {
+            "path": "player.money",
+            "gte": 250
+          },
+          "effects": [
+            {
+              "type": "purchase_item",
+              "itemId": "poke-ball",
+              "cost": 250,
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "id": "buy_potion",
+          "text": "Compro una Potion — ₽200.",
+          "goto": "trainer_shop",
+          "conditions": {
+            "path": "player.money",
+            "gte": 200
+          },
+          "effects": [
+            {
+              "type": "purchase_item",
+              "itemId": "potion",
+              "cost": 200,
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "id": "buy_antidote",
+          "text": "Compro un Antidote — ₽200.",
+          "goto": "trainer_shop",
+          "conditions": {
+            "path": "player.money",
+            "gte": 200
+          },
+          "effects": [
+            {
+              "type": "purchase_item",
+              "itemId": "antidote",
+              "cost": 200,
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "id": "leave_shop",
+          "text": "Esco dal negozio e torno su Via Allenatori.",
+          "goto": "trainer_street",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_trainer_street"
+            }
+          ]
+        },
+        {
+          "id": "hub",
+          "text": "Torno al centro di Valedarsena.",
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
         }
       ]
     }
