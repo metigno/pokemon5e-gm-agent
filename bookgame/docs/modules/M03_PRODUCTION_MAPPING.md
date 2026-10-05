@@ -5,7 +5,7 @@
 **Purpose:** production map for converting M3 into validated offline story content  
 **Locked authored budget:** **6,000 stitches / 3,900 player choices**
 
-**Module implementation status:** **M3_00–M3_09 COMPLETE / MODEL-ALIGNED; M3_10–M3_14 PLANNED**
+**Module implementation status:** **M3_00–M3_14 COMPLETE / MODEL-ALIGNED**
 
 E1–E7 are reusable infrastructure from M1. A block may extend generic data or content, but must not fork those engines into module-specific substitutes.
 
@@ -63,11 +63,11 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 | M3_07_FERROX_RESCUE | soccorso con scelte di rischio, tempo e risorse | 496 | 323 | COMPLETE |
 | M3_08_FRIEND_BEAT_03 | A3_FRIEND_CALL con uno dei Four causalmente disponibile | 496 | 323 | COMPLETE |
 | M3_09_CROSSROADS | A3_CROSSROADS: priorità incompatibili e conseguenze | 342 | 222 | COMPLETE |
-| M3_10_REGIONAL_CUP | competizione opzionale con bracket e risultati emergenti | 496 | 322 | PLANNED |
-| M3_11_RESCUE_OUTCOME | persistenza di vittime, danni, reputazione e responsabilità | 444 | 289 | PLANNED |
-| M3_12_TRIAL_REGISTRATION | eligibility D→C a Ferravia | 444 | 289 | PLANNED |
-| M3_13_PROMOTION_TRIAL_D_C | checkpoint RANK_D_TO_C con roster ufficiale 3 | 496 | 322 | PLANNED |
-| M3_14_TRIAL_RESULT | loss/retry o Rank C e handoff verso M4 | 444 | 289 | PLANNED |
+| M3_10_REGIONAL_CUP | competizione opzionale con bracket e risultati emergenti | 496 | 322 | COMPLETE |
+| M3_11_RESCUE_OUTCOME | persistenza di vittime, danni, reputazione e responsabilità | 444 | 289 | COMPLETE |
+| M3_12_TRIAL_REGISTRATION | eligibility D→C a Ferravia | 444 | 289 | COMPLETE |
+| M3_13_PROMOTION_TRIAL_D_C | checkpoint RANK_D_TO_C con roster ufficiale 3 | 496 | 322 | COMPLETE |
+| M3_14_TRIAL_RESULT | loss/retry o Rank C e handoff verso M4 | 444 | 289 | COMPLETE |
 | **TOTAL** |  | **6,000** | **3,900** | |
 
 Budgets are authored surface capacity. One run sees only the paths made legal by its state.
@@ -89,10 +89,16 @@ The legacy 6,000-stitch / 3,900-choice table above remains the authored-surface 
 - M3_08: **32 nodes / 71 choices**.
 - M3_09: **12 nodes / 32 choices**.
 - Cycle M3_05–M3_09: **90 nodes / 216 choices**.
-- Cumulative M3_00–M3_09: **148 nodes / 329 choices**.
-- Approximate remaining logical budget for M3_10–M3_14: **112 nodes / 243 choices**.
+- M3_10: **42 nodes / 99 choices**.
+- M3_11: **21 nodes / 57 choices**.
+- M3_12: **17 nodes / 54 choices**.
+- M3_13: **7 nodes / 15 choices**.
+- M3_14: **15 nodes / 40 choices**.
+- Cycle M3_10–M3_14: **102 nodes / 265 choices**.
+- **FINAL M3 TOTAL: 250 logical nodes / 594 meaningful choices**.
+- Variance vs logical target: **−10 nodes (−3.8%) / +22 choices (+3.8%)**.
 
-These logical counts are not padding quotas. Content is expanded only when it creates real route, information, time, risk, relationship, resource, state or future-access differences.
+This final variance is within the intended approximate logical budget. It was not corrected with padding: every retained branch changes route, information, time, risk, relationship, competition history, consequence state or future access.
 
 ## 2B. VALIDATION EVIDENCE
 
@@ -117,6 +123,19 @@ M3_05–M3_09 cycle validation was then executed after implementation and repair
 - no M1/M2 regression remained after the final rerun.
 
 The temporary branch trigger was again restored to the canonical workflow after validation.
+
+Final-cycle M3_10–M3_14 validation was executed after the budget-alignment pass:
+
+- syntax checks: PASS;
+- `npm --prefix bookgame run validate:story`: PASS;
+- compiled global graph: **41 scenes / 641 nodes / 959 stitches / 1,474 choices / 28 world events / 9 ecology zones / 343 ecology species**;
+- `npm --prefix bookgame test`: **811 pass / 0 fail / 0 skipped / 0 cancelled**;
+- validation workflow run: **#293**;
+- initial final-cycle compiler errors correctly rejected incomplete registered-opponent combat definitions; those were repaired with executable three-Pokémon opponent rosters and legal combat handoff targets;
+- the final budget expansion produced one stale traversal test, which was updated to follow the newly authored between-round nodes;
+- final rerun is fully green across M1, M2 and M3.
+
+The temporary CI branch trigger was restored after the final green run; canonical workflow configuration remains unchanged.
 
 ## 2C. NODE LIBRARY / PATTERN REUSE AUDIT
 
@@ -332,6 +351,10 @@ Scene `m03-crossroads` contains 12 nodes / 32 choices and consumes canonical `A3
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Implementation lock (verified 2026-10-05):**
+
+Scene `m03-regional-cup` contains **42 nodes / 99 choices**. It consumes canonical `A3_REGIONAL_CUP` as an optional bracket and records every actually fought round through E5 `official_match`. Quarterfinal, semifinal and final each use a legal registered three-Pokémon opponent roster, HARD Singles metadata and independent competition-history records. Public scouting never leaks private moves/resources; between-round checks never heal or reset HP/PP/status. Decline, withdrawal and forfeit are legal results and never promote Rank.
+
 ---
 
 ## M3_11_RESCUE_OUTCOME
@@ -343,6 +366,10 @@ Scene `m03-crossroads` contains 12 nodes / 32 choices and consumes canonical `A3
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+**Implementation lock (verified 2026-10-05):**
+
+Scene `m03-rescue-outcome` contains **21 nodes / 57 choices** and is the consequence layer for the Ferrox rescue. It derives human outcome, structural damage, local access, rail/economic consequences and responsibility from the persisted rescue contribution plus prior warning context. The report uses authored qualitative outcomes rather than fabricated numeric reputation points or a new runtime subsystem. Steven/worker debriefs, counterfactual limits and future inspection state are persistent where chosen. This block never rewrites the already-resolved rescue timer.
 
 ---
 
@@ -356,6 +383,10 @@ Scene `m03-crossroads` contains 12 nodes / 32 choices and consumes canonical `A3
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Implementation lock (verified 2026-10-05):**
+
+Scene `m03-trial-registration` contains **17 nodes / 54 choices**. Ferravia hub access applies the existing E5 `competition_trial_available` effect for `RANK_D_TO_C` with fromRank D, toRank C, requiredRosterSize 3 and retryable true. Registration is visible only when the real roster satisfies the checkpoint. Tactical preparation branches cover coverage, switch discipline, tempo, prior Cup context, post-Ferrox condition review and previous attempts without granting numeric bonuses, healing, extra Pokémon or rank advancement.
+
 ---
 
 ## M3_13_PROMOTION_TRIAL_D_C
@@ -368,6 +399,10 @@ Scene `m03-crossroads` contains 12 nodes / 32 choices and consumes canonical `A3
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Implementation lock (verified 2026-10-05):**
+
+Scene `m03-promotion-trial-d-c` contains **7 nodes / 15 choices** and is a single legal Pokémon 5e/E5 handoff. The checkpoint metadata is `RANK_D_TO_C`, Singles, official roster size 3, HARD, retryable, from D to C. The fixed registered opponent roster uses executable local combat-pack species and no invisible scaling. Pre-combat rule/field/readiness branches may change persistent preparation context but cannot decide the battle result. Only E5 win resolution promotes to Rank C.
+
 ---
 
 ## M3_14_TRIAL_RESULT
@@ -379,6 +414,10 @@ Scene `m03-crossroads` contains 12 nodes / 32 choices and consumes canonical `A3
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+**Implementation lock (verified 2026-10-05):**
+
+Scene `m03-trial-result` contains **15 nodes / 40 choices**. Loss preserves Rank D, reopens the retryable checkpoint through E5 and preserves the entire module state/history. Win reads Rank C from E5 and checks the M3 exit contract, including Steven, FRIEND_BEAT_03, persistent Ferrox state/outcome and any registered-but-unresolved Regional Cup. Successful closure writes only `m3_complete` and `m04_unlocked`; it does not author M4 content. Post-Trial nodes expose continuity for competition history, Ferrox, friends, Steven and Cup without collapsing them into a single score.
 
 
 # 6. STATE OWNERSHIP
