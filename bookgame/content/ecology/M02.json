@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "M02",
+  "zones": [
+    {
+      "id": "AST-MISTWOOD",
+      "sourceZoneId": "AST-MISTWOOD",
+      "habitats": [
+        "forest",
+        "woodland",
+        "grassland",
+        "cave"
+      ],
+      "methods": [
+        "wild_observation",
+        "overland_encounter"
+      ]
+    }
+  ]
+}

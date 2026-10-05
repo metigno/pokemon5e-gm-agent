@@ -1,0 +1,255 @@
+{
+  "schemaVersion": 1,
+  "id": "m02-mistwood-entry",
+  "moduleId": "M02",
+  "title": "M2_01 — Ingresso a Bosco Bruma",
+  "locationId": "asteria_mistwood",
+  "entryNodeId": "departure",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m1_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m02_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m2_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "E"
+      }
+    ]
+  },
+  "nodes": {
+    "departure": {
+      "stitches": [
+        {
+          "id": "road_from_valedarsena",
+          "text": "Dopo centocinquanta minuti di strada da Valedarsena, i rumori della città si spezzano contro una linea di alberi fitta. Il cartello del Circuito identifica l'area come AST-MISTWOOD — Bosco Bruma, accesso Rank E."
+        },
+        {
+          "id": "fog_first",
+          "text": "La nebbia non forma un muro uniforme: si raccoglie nelle depressioni, scivola tra le radici e apre per pochi secondi corridoi più chiari. La visibilità cambia abbastanza da rendere importante dove metti i piedi, ma non ti costringe a seguire un'unica direzione."
+        },
+        {
+          "id": "world_not_waiting",
+          "text": "Il viaggio ha consumato tempo reale. Schedule NPC, quest con scadenza e Living World hanno continuato a muoversi durante il tragitto; entrare nel bosco non congela ciò che hai lasciato a Valedarsena."
+        }
+      ],
+      "choices": [
+        {
+          "id": "enter_wood",
+          "text": "Entro nel Bosco Bruma e prendo un riferimento sul sentiero.",
+          "goto": "threshold",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mistwood_discovered",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "asteria_mistwood"
+            }
+          ]
+        },
+        {
+          "id": "return_valedarsena",
+          "text": "Non entro ancora. Torno a Valedarsena.",
+          "goto": "m01-valedarsena-first-arrival#city_hub",
+          "timeCostMinutes": 150,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
+        }
+      ]
+    },
+    "threshold": {
+      "stitches": [
+        {
+          "id": "mistwood_threshold",
+          "text": "Dentro il bosco il sentiero resta riconoscibile, ma la nebbia cancella la profondità. Foglie smosse, cortecce segnate e richiami brevi mostrano che la zona è abitata prima ancora che un Pokémon si faccia vedere."
+        },
+        {
+          "id": "fauna_is_context",
+          "text": "La fauna non compare come una fila di incontri obbligatori. Puoi fermarti a osservare, continuare sul tracciato o rinunciare e tornare in città; un avvistamento dipende dal catalogo ecologico reale di Bosco Bruma e dall'orario corrente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "observe_forest",
+          "text": "Mi fermo e osservo il sottobosco senza chiudere vie di fuga.",
+          "timeCostMinutes": 20,
+          "ecology": {
+            "requestId": "M2_MISTWOOD_ENTRY_WILDLIFE_01",
+            "zoneId": "AST-MISTWOOD",
+            "habitat": "forest",
+            "method": "wild_observation",
+            "allowedSpecies": [
+              "caterpie",
+              "combee",
+              "shroomish",
+              "skwovet"
+            ],
+            "returnNodes": {
+              "noEncounter": "no_sighting",
+              "caterpie": "caterpie_sighting",
+              "combee": "combee_sighting",
+              "shroomish": "shroomish_sighting",
+              "skwovet": "skwovet_sighting"
+            }
+          },
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "asteria_mistwood"
+            }
+          ]
+        },
+        {
+          "id": "press_deeper",
+          "text": "Continuo lungo il sentiero principale e lascio l'ingresso alle spalle.",
+          "goto": "inner_path",
+          "timeCostMinutes": 25,
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mistwood_entry_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "asteria_mistwood"
+            }
+          ]
+        },
+        {
+          "id": "back_to_city",
+          "text": "Rientro a Valedarsena.",
+          "goto": "m01-valedarsena-first-arrival#city_hub",
+          "timeCostMinutes": 150,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
+        }
+      ]
+    },
+    "no_sighting": {
+      "stitches": [
+        {
+          "id": "mistwood_quiet",
+          "text": "Per qualche minuto il bosco resta fatto soltanto di nebbia, gocce e fronde. Nessun Pokémon si espone abbastanza da diventare un incontro reale; l'assenza di un avvistamento non svuota la zona."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Riprendo il sentiero.",
+          "goto": "threshold"
+        }
+      ]
+    },
+    "caterpie_sighting": {
+      "stitches": [
+        {
+          "id": "caterpie_context",
+          "text": "Un Caterpie selvatico attraversa lentamente una foglia larga e si immobilizza quando la tua ombra cambia il bordo della luce. Non sta cercando uno scontro e ha vegetazione sufficiente per sottrarsi alla vista."
+        }
+      ],
+      "choices": [
+        {
+          "id": "leave",
+          "text": "Lo lascio al sottobosco e continuo.",
+          "goto": "threshold"
+        }
+      ]
+    },
+    "combee_sighting": {
+      "stitches": [
+        {
+          "id": "combee_context",
+          "text": "Un Combee selvatico passa tra due aperture della chioma, basso abbastanza da essere visibile nella nebbia. Cambia traiettoria quando ti nota e continua a cercare fiori invece di avvicinarsi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "leave",
+          "text": "Non lo inseguo e riprendo il sentiero.",
+          "goto": "threshold"
+        }
+      ]
+    },
+    "shroomish_sighting": {
+      "stitches": [
+        {
+          "id": "shroomish_context",
+          "text": "Tra foglie umide e legno scuro compare uno Shroomish selvatico. Resta quasi immobile finché non percepisce il movimento vicino, poi si sposta verso una zona più coperta senza mostrare aggressività."
+        }
+      ],
+      "choices": [
+        {
+          "id": "leave",
+          "text": "Gli lascio spazio e continuo.",
+          "goto": "threshold"
+        }
+      ]
+    },
+    "skwovet_sighting": {
+      "stitches": [
+        {
+          "id": "skwovet_context",
+          "text": "Uno Skwovet selvatico scende lungo un tronco con qualcosa stretto tra le zampe. Ti osserva per un istante, poi sceglie un ramo laterale e conserva una distanza che puoi rispettare facilmente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "leave",
+          "text": "Non gli taglio la strada e proseguo.",
+          "goto": "threshold"
+        }
+      ]
+    },
+    "inner_path": {
+      "stitches": [
+        {
+          "id": "entry_block_complete",
+          "text": "Hai superato il margine di Bosco Bruma: il luogo è ormai una destinazione conosciuta e il primo ingresso è stato compiuto senza attivare automaticamente alcun crimine, Anchor, competizione o incontro obbligatorio."
+        },
+        {
+          "id": "next_pressure_not_forced",
+          "text": "Più avanti il sentiero si divide tra terreno più umido, tracce recenti e vie verso Borgo Salice. Quelle informazioni appartengono ai blocchi successivi: M2_01 si limita a rendere reale il viaggio, la nebbia e l'ecologia d'ingresso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "observe_again",
+          "text": "Resto ancora nella fascia d'ingresso e osservo il bosco.",
+          "goto": "threshold"
+        },
+        {
+          "id": "return_city",
+          "text": "Per ora torno a Valedarsena.",
+          "goto": "m01-valedarsena-first-arrival#city_hub",
+          "timeCostMinutes": 150,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
