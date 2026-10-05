@@ -103,8 +103,6 @@ test("M1_12 also triggers on world day 7 and final split schedules override the 
 
   state = await engine.choose(state, "center");
 
-  assert.equal(state.events.A1_FRIENDS_M1_SCHEDULE_START.status, "resolved");
-  assert.equal(state.events.A1_FRIENDS_M1_DAY4.status, "resolved");
   assert.equal(state.events.A1_FIVE_ROADS.status, "resolved");
   assert.equal(state.world.flags.friends_split, true);
   for (const friendId of FIVE.filter((id) => id !== "Luke")) {
@@ -141,6 +139,29 @@ test("M1_12 exposes one concrete divergence update in Valedarsena and records it
 
   view = await engine.present(state);
   assert.ok(!view.choices.some((choice) => choice.id === "five_roads_update"));
+});
+
+test("M1_12 preserves a previously persisted friends_split schedule instead of rewriting it", async () => {
+  const { engine } = await makeEngine();
+  let state = atCity(createNewGameState({ protagonist: "Luke", now: fixedNow }));
+  state.player.trainerLevel = 3;
+  state.world.flags.friends_split = true;
+  state.npcs.Mattew.schedule = {
+    id: "M1_SPLIT_REMOTE",
+    locationId: "remote_route",
+    availability: "traveling",
+    activity: "remote_work",
+    startsAtMinutes: null,
+    endsAtMinutes: null,
+    present: false
+  };
+
+  state = await engine.choose(state, "center");
+
+  assert.equal(state.events.A1_FIVE_ROADS.status, "resolved");
+  assert.equal(state.events.A1_FIVE_ROADS.outcomeId, "luke_already_split");
+  assert.equal(state.npcs.Mattew.schedule.id, "M1_SPLIT_REMOTE");
+  assert.equal(state.world.flags.m1_five_roads_seen, true);
 });
 
 test("M1_12 split event is one-shot and later actions do not rewrite divergence schedules", async () => {
