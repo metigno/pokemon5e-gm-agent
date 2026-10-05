@@ -7,11 +7,26 @@
   "entryNodeId": "trial_info",
   "conditions": {
     "all": [
-      { "path": "world.flags.m1_complete", "eq": true },
-      { "path": "world.flags.m02_unlocked", "eq": true },
-      { "path": "world.flags.m2_active", "eq": true },
-      { "path": "competition.rank", "eq": "E" },
-      { "path": "world.flags.a2_rank_trial_e_d_available", "eq": true }
+      {
+        "path": "world.flags.m1_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m02_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m2_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "E"
+      },
+      {
+        "path": "world.flags.a2_rank_trial_e_d_available",
+        "eq": true
+      }
     ]
   },
   "nodes": {
@@ -51,32 +66,46 @@
           "id": "postpone_trial",
           "text": "Non sono pronto — torno più tardi.",
           "goto": "trial_postponed"
+        },
+        {
+          "id": "review_registration_rules",
+          "text": "Prima di andare al banco, chiarisco cosa viene davvero bloccato dall'Official Three.",
+          "goto": "official_three_rules"
         }
       ]
     },
-
     "trial_desk": {
       "stitches": [
         {
           "id": "desk_1",
-          "text": "Al banco trovi il modulo di registrazione del Promotion Trial RANK_E_TO_D. Il sistema verifica eligibility in tempo reale: Rank E attivo, roster di almeno tre Pokémon, nessuna sospensione pendente. I tre Pokémon che usi adesso sono il tuo Official Three — non puoi cambiarli dopo la registrazione."
+          "text": "Al banco il sistema verifica Rank E, Trial disponibile e almeno tre Pokémon nel roster. La registrazione non sceglie un team parallelo: quando confermi, vengono bloccate le identità dei Pokémon che occupano le prime tre posizioni del roster vivo in quel momento."
+        },
+        {
+          "id": "desk_2",
+          "text": "Se vuoi un trio diverso devi riorganizzare il roster con gli strumenti normali prima della conferma finale. Il banco non crea un secondo sottosistema di gestione squadra."
         }
       ],
       "choices": [
         {
           "id": "register_now",
-          "text": "Registro il roster per il Promotion Trial E→D.",
+          "text": "Apro la revisione dell'Official Three prima di bloccarlo.",
           "conditions": {
             "all": [
-              { "path": "competition.trials.RANK_E_TO_D.available", "eq": true },
-              { "path": "competition.trials.RANK_E_TO_D.registered", "ne": true },
-              { "path": "player.roster.length", "gte": 3 }
+              {
+                "path": "competition.trials.RANK_E_TO_D.available",
+                "eq": true
+              },
+              {
+                "path": "competition.trials.RANK_E_TO_D.registered",
+                "ne": true
+              },
+              {
+                "path": "player.roster.length",
+                "gte": 3
+              }
             ]
           },
-          "goto": "trial_registered",
-          "effects": [
-            { "type": "competition_trial_register", "checkpointId": "RANK_E_TO_D" }
-          ]
+          "goto": "official_three_review"
         },
         {
           "id": "check_roster_eligibility",
@@ -94,8 +123,14 @@
           "text": "Non ho abbastanza Pokémon — chiedo cosa mi manca.",
           "conditions": {
             "all": [
-              { "path": "competition.trials.RANK_E_TO_D.available", "eq": true },
-              { "path": "player.roster.length", "lt": 3 }
+              {
+                "path": "competition.trials.RANK_E_TO_D.available",
+                "eq": true
+              },
+              {
+                "path": "player.roster.length",
+                "lt": 3
+              }
             ]
           },
           "goto": "trial_roster_missing"
@@ -107,7 +142,6 @@
         }
       ]
     },
-
     "trial_format_info": {
       "stitches": [
         {
@@ -138,7 +172,6 @@
         }
       ]
     },
-
     "trial_opponent_preview": {
       "stitches": [
         {
@@ -169,7 +202,6 @@
         }
       ]
     },
-
     "trial_examiner_detail": {
       "stitches": [
         {
@@ -196,29 +228,34 @@
         }
       ]
     },
-
     "trial_roster_check": {
       "stitches": [
         {
           "id": "roster_check_1",
-          "text": "Il sistema verifica il tuo roster attuale. Per il Promotion Trial E→D sono necessari almeno tre Pokémon registrati nel tuo profilo trainer. I tre che hai adesso diventano il tuo Official Three — non potrai aggiungerne altri dopo la registrazione."
+          "text": "Il sistema verifica il roster vivo. Servono almeno tre Pokémon. Le prime tre posizioni sono la proposta corrente per l'Official Three, ma nessuna identità viene bloccata finché non dai la conferma finale."
         }
       ],
       "choices": [
         {
           "id": "roster_ok_register",
-          "text": "Il roster è sufficiente — procedo con la registrazione.",
+          "text": "Il roster è sufficiente — rivedo le prime tre posizioni prima della conferma.",
           "conditions": {
             "all": [
-              { "path": "competition.trials.RANK_E_TO_D.available", "eq": true },
-              { "path": "competition.trials.RANK_E_TO_D.registered", "ne": true },
-              { "path": "player.roster.length", "gte": 3 }
+              {
+                "path": "competition.trials.RANK_E_TO_D.available",
+                "eq": true
+              },
+              {
+                "path": "competition.trials.RANK_E_TO_D.registered",
+                "ne": true
+              },
+              {
+                "path": "player.roster.length",
+                "gte": 3
+              }
             ]
           },
-          "goto": "trial_registered",
-          "effects": [
-            { "type": "competition_trial_register", "checkpointId": "RANK_E_TO_D" }
-          ]
+          "goto": "official_three_review"
         },
         {
           "id": "roster_insufficient_check",
@@ -236,7 +273,6 @@
         }
       ]
     },
-
     "trial_roster_missing": {
       "stitches": [
         {
@@ -257,12 +293,15 @@
         }
       ]
     },
-
     "trial_registered": {
       "stitches": [
         {
           "id": "registered_1",
-          "text": "Registrazione confermata. Il tuo Official Three è nel sistema — Ines Varga è disponibile in arena. Puoi affrontare il Trial ora o tornare quando sei pronto. La registrazione resta attiva fino all'esito del tentativo."
+          "text": "Registrazione confermata. Le tre identità registrate sono ora l'Official Three di questo tentativo. Riordinare il roster dopo questo momento non sostituisce i Pokémon registrati."
+        },
+        {
+          "id": "registered_2",
+          "text": "Il lock riguarda l'identità, non una fotografia vecchia delle condizioni: HP, PP, EXP, livello e status continuano a seguire il normale stato vivo del gioco fino all'ingresso in battaglia."
         }
       ],
       "choices": [
@@ -271,8 +310,14 @@
           "text": "Sono pronto — entro nel Promotion Trial E→D adesso.",
           "conditions": {
             "all": [
-              { "path": "competition.rank", "eq": "E" },
-              { "path": "competition.trials.RANK_E_TO_D.registered", "eq": true }
+              {
+                "path": "competition.rank",
+                "eq": "E"
+              },
+              {
+                "path": "competition.trials.RANK_E_TO_D.registered",
+                "eq": true
+              }
             ]
           },
           "goto": "m02-promotion-trial-e-d#trial_gate_call"
@@ -293,12 +338,19 @@
           "text": "Torno più tardi — la registrazione è confermata.",
           "goto": "m02-borgo-salice#sala_verde",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice_sala_verde" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice_sala_verde"
+            }
           ]
+        },
+        {
+          "id": "review_locked_three",
+          "text": "Rivedo cosa significa il lock prima di entrare.",
+          "goto": "registered_three_review"
         }
       ]
     },
-
     "trial_prep_review": {
       "stitches": [
         {
@@ -333,12 +385,14 @@
           "text": "Ci vuole più tempo — torno domani.",
           "goto": "m02-borgo-salice#sala_verde",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice_sala_verde" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice_sala_verde"
+            }
           ]
         }
       ]
     },
-
     "trial_strategy_notes": {
       "stitches": [
         {
@@ -366,12 +420,14 @@
           "text": "Mi fermo qui — torno quando sono più sicuro.",
           "goto": "m02-borgo-salice#sala_verde",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice_sala_verde" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice_sala_verde"
+            }
           ]
         }
       ]
     },
-
     "trial_postponed": {
       "stitches": [
         {
@@ -385,7 +441,10 @@
           "text": "Torno alla Sala Verde.",
           "goto": "m02-borgo-salice#sala_verde",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice_sala_verde" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice_sala_verde"
+            }
           ]
         },
         {
@@ -393,17 +452,19 @@
           "text": "Torno al borgo.",
           "goto": "m02-borgo-salice#borough_hub",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
           ]
         }
       ]
     },
-
     "trial_return_registered": {
       "stitches": [
         {
           "id": "return_registered_1",
-          "text": "Sei già registrato al Promotion Trial E→D. Il tuo Official Three è nel sistema. Ines Varga è disponibile in arena. Puoi entrare adesso o continuare a prepararti."
+          "text": "La registrazione è ancora attiva per questo tentativo. Le identità dell'Official Three restano quelle confermate; eventuali cambi di ordine nel roster non le sostituiscono."
         }
       ],
       "choices": [
@@ -412,8 +473,14 @@
           "text": "Entro nel Trial — sono pronto.",
           "conditions": {
             "all": [
-              { "path": "competition.rank", "eq": "E" },
-              { "path": "competition.trials.RANK_E_TO_D.registered", "eq": true }
+              {
+                "path": "competition.rank",
+                "eq": "E"
+              },
+              {
+                "path": "competition.trials.RANK_E_TO_D.registered",
+                "eq": true
+              }
             ]
           },
           "goto": "m02-promotion-trial-e-d#trial_gate_call"
@@ -428,6 +495,208 @@
           "id": "defer_again",
           "text": "Non ancora — torno più tardi.",
           "goto": "trial_postponed"
+        },
+        {
+          "id": "review_locked_on_return",
+          "text": "Rivedo il funzionamento dell'Official Three registrato.",
+          "goto": "registered_three_review"
+        }
+      ]
+    },
+    "official_three_rules": {
+      "stitches": [
+        {
+          "id": "rules_1",
+          "text": "L'Official Three blocca tre identità Pokémon, non tre slot astratti. Alla conferma il sistema salva esattamente i Pokémon nelle prime tre posizioni del roster vivo."
+        },
+        {
+          "id": "rules_2",
+          "text": "Da quel momento il Trial risolve quelle stesse identità dal roster corrente. Non ripristina HP, PP, EXP, livello o status della registrazione. Se uno dei tre non può più essere risolto legalmente, l'ingresso viene rifiutato invece di sostituirlo in silenzio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rules_to_order",
+          "text": "Chiarisco come cambiare il trio prima del lock.",
+          "goto": "roster_order_note"
+        },
+        {
+          "id": "rules_to_retry",
+          "text": "Chiarisco cosa succede dopo una sconfitta.",
+          "goto": "retry_registration_rules"
+        },
+        {
+          "id": "rules_back_desk",
+          "text": "Torno al banco con le regole chiare.",
+          "goto": "trial_desk"
+        }
+      ]
+    },
+    "roster_order_note": {
+      "stitches": [
+        {
+          "id": "order_1",
+          "text": "Prima della conferma puoi ancora cambiare quali Pokémon occupano le prime tre posizioni usando la normale gestione del roster. Il banco non effettua riordini al posto tuo e non crea una selezione separata."
+        }
+      ],
+      "choices": [
+        {
+          "id": "order_review_now",
+          "text": "Rivedo la proposta attuale delle prime tre posizioni.",
+          "goto": "official_three_review"
+        },
+        {
+          "id": "order_leave_manage",
+          "text": "Esco dal banco per sistemare il roster con gli strumenti normali.",
+          "goto": "trial_postponed"
+        }
+      ]
+    },
+    "official_three_review": {
+      "stitches": [
+        {
+          "id": "review_1",
+          "text": "Il pannello evidenzia le prime tre posizioni del roster come proposta corrente. Questa è l'ultima fase di revisione senza lock: procedere alla conferma successiva non registra ancora nulla finché non premi la conferma definitiva."
+        }
+      ],
+      "choices": [
+        {
+          "id": "review_to_confirm",
+          "text": "La proposta va bene — passo alla conferma finale.",
+          "goto": "official_three_confirm"
+        },
+        {
+          "id": "review_opponent_first",
+          "text": "Prima di bloccare il trio, ricontrollo le informazioni pubbliche su Ines.",
+          "goto": "trial_opponent_preview"
+        },
+        {
+          "id": "review_step_away",
+          "text": "Non voglio bloccare queste tre identità adesso.",
+          "goto": "trial_postponed"
+        }
+      ]
+    },
+    "official_three_confirm": {
+      "stitches": [
+        {
+          "id": "confirm_1",
+          "text": "Conferma finale: le prime tre identità del roster saranno registrate per questo tentativo del RANK_E_TO_D. Dopo il lock non potrai sostituirle finché il tentativo non viene risolto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "confirm_official_three",
+          "text": "Confermo definitivamente l'Official Three.",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.trials.RANK_E_TO_D.available",
+                "eq": true
+              },
+              {
+                "path": "competition.trials.RANK_E_TO_D.registered",
+                "ne": true
+              },
+              {
+                "path": "player.roster.length",
+                "gte": 3
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "competition_trial_register",
+              "checkpointId": "RANK_E_TO_D"
+            }
+          ],
+          "goto": "trial_registered"
+        },
+        {
+          "id": "confirm_reconsider",
+          "text": "Riconsidero il trio prima del lock.",
+          "goto": "official_three_review"
+        },
+        {
+          "id": "confirm_leave",
+          "text": "Esco senza registrare e torno più tardi.",
+          "goto": "trial_postponed"
+        }
+      ]
+    },
+    "registered_three_review": {
+      "stitches": [
+        {
+          "id": "locked_1",
+          "text": "Il trio registrato è immutabile per questo tentativo in termini di identità. Il motore lo risolverà dal roster vivo al momento dell'ingresso: un riordino non cambia il trio, mentre le condizioni legittimamente mutate restano quelle correnti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "locked_to_prep",
+          "text": "Rivedo la preparazione tattica con questo trio.",
+          "goto": "trial_prep_review",
+          "timeCostMinutes": 10
+        },
+        {
+          "id": "locked_to_trial",
+          "text": "Il trio è corretto — entro nel Trial.",
+          "goto": "m02-promotion-trial-e-d#trial_gate_call",
+          "conditions": {
+            "path": "competition.trials.RANK_E_TO_D.registered",
+            "eq": true
+          }
+        },
+        {
+          "id": "locked_to_withdrawal",
+          "text": "Chiarisco quando potrò scegliere un trio diverso.",
+          "goto": "registration_withdrawal_note"
+        }
+      ]
+    },
+    "retry_registration_rules": {
+      "stitches": [
+        {
+          "id": "retry_rules_1",
+          "text": "Una sconfitta chiude la registrazione del tentativo. Il Trial resta retryable, ma per riprovare devi tornare al banco e registrare di nuovo un Official Three. Quella nuova registrazione può usare un trio diverso, se il roster legale è cambiato o è stato riordinato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "retry_rules_back_desk",
+          "text": "Torno al banco.",
+          "goto": "trial_desk"
+        },
+        {
+          "id": "retry_rules_postpone",
+          "text": "Torno più tardi senza registrare.",
+          "goto": "trial_postponed"
+        }
+      ]
+    },
+    "registration_withdrawal_note": {
+      "stitches": [
+        {
+          "id": "withdraw_note_1",
+          "text": "Prima dell'inizio puoi ritirarti dall'ingresso in arena mantenendo la registrazione del tentativo. Solo la risoluzione del match chiude quella registrazione; dopo una sconfitta la nuova iscrizione può scegliere un altro trio legale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "withdraw_note_back_locked",
+          "text": "Torno alla revisione del trio registrato.",
+          "goto": "registered_three_review"
+        },
+        {
+          "id": "withdraw_note_later",
+          "text": "Rimando l'ingresso e torno alla Sala Verde.",
+          "goto": "m02-borgo-salice#sala_verde",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice_sala_verde"
+            }
+          ]
         }
       ]
     }
