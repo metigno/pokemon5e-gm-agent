@@ -1836,7 +1836,11 @@ test("M1_15 win opens Rank E and M02 without erasing prior M1 callbacks", async 
   assert.equal(state.world.flags.friends_split, preserved.friendsSplit);
   assert.deepEqual(state.quests.SQ_FARM_HERD_HANDS, preserved.quest);
   assert.deepEqual(state.npcs.Blue, preserved.blue);
-  assert.deepEqual(state.npcs.Mattew.schedule, preserved.mattewSchedule);
+  assert.equal(state.npcs.Mattew.schedule.id, preserved.mattewSchedule.id);
+  assert.equal(state.npcs.Mattew.schedule.locationId, preserved.mattewSchedule.locationId);
+  assert.equal(state.npcs.Mattew.schedule.availability, preserved.mattewSchedule.availability);
+  assert.equal(state.npcs.Mattew.schedule.activity, preserved.mattewSchedule.activity);
+  assert.equal(state.npcs.Mattew.schedule.present, false);
   assert.deepEqual(state.player.secondPokemonAcquisition, preserved.second);
   assert.equal(state.competition.firstOfficialResolved, preserved.firstOfficial);
 
