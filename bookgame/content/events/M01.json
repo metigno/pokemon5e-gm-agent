@@ -3,6 +3,34 @@
   "moduleId": "M01",
   "events": [
     {
+      "id": "A1_FIRST_ROAD",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "world.flags.free_roam",
+            "eq": true
+          },
+          {
+            "path": "world.locationId",
+            "eq": "asteria_ginestre"
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "road_open",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_first_road_seen",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "A1_WORLD_MOVES",
       "once": true,
       "trigger": {
