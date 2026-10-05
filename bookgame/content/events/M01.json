@@ -432,6 +432,1474 @@
           ]
         }
       ]
+    },
+    {
+      "id": "A1_FRIENDS_M1_SCHEDULE_START",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "world.flags.free_roam",
+            "eq": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "luke_protagonist",
+          "when": {
+            "path": "player.name",
+            "eq": "Luke"
+          },
+          "effects": [
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Mattew",
+              "scheduleId": "m1_d1_mattew",
+              "locationId": "valedarsena_arena",
+              "availability": "available",
+              "activity": "technical_training"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "recentResult",
+              "value": "spar_reviewed"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Daniel",
+              "scheduleId": "m1_d1_daniel",
+              "locationId": "valedarsena_city",
+              "availability": "available",
+              "activity": "city_analysis"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "recentResult",
+              "value": "job_observed"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Edward",
+              "scheduleId": "m1_d1_edward",
+              "locationId": "asteria_farm",
+              "availability": "available",
+              "activity": "farm_support"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "recentResult",
+              "value": "herd_helped"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Fab",
+              "scheduleId": "m1_d1_fab",
+              "locationId": "asteria_farm",
+              "availability": "available",
+              "activity": "fauna_help"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "recentResult",
+              "value": "fauna_assisted"
+            },
+            {
+              "type": "set_flag",
+              "key": "friends_m1_schedule_day",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "id": "mattew_protagonist",
+          "when": {
+            "path": "player.name",
+            "eq": "Mattew"
+          },
+          "effects": [
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Luke",
+              "scheduleId": "m1_d1_luke",
+              "locationId": "asteria_ginestre",
+              "availability": "available",
+              "activity": "exploration"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "recentResult",
+              "value": "road_scouted"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Daniel",
+              "scheduleId": "m1_d1_daniel",
+              "locationId": "valedarsena_city",
+              "availability": "available",
+              "activity": "city_analysis"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "recentResult",
+              "value": "job_observed"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Edward",
+              "scheduleId": "m1_d1_edward",
+              "locationId": "asteria_farm",
+              "availability": "available",
+              "activity": "farm_support"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "recentResult",
+              "value": "herd_helped"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Fab",
+              "scheduleId": "m1_d1_fab",
+              "locationId": "asteria_farm",
+              "availability": "available",
+              "activity": "fauna_help"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "recentResult",
+              "value": "fauna_assisted"
+            },
+            {
+              "type": "set_flag",
+              "key": "friends_m1_schedule_day",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "id": "daniel_protagonist",
+          "when": {
+            "path": "player.name",
+            "eq": "Daniel"
+          },
+          "effects": [
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Luke",
+              "scheduleId": "m1_d1_luke",
+              "locationId": "asteria_ginestre",
+              "availability": "available",
+              "activity": "exploration"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "recentResult",
+              "value": "road_scouted"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Mattew",
+              "scheduleId": "m1_d1_mattew",
+              "locationId": "valedarsena_arena",
+              "availability": "available",
+              "activity": "technical_training"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "recentResult",
+              "value": "spar_reviewed"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Edward",
+              "scheduleId": "m1_d1_edward",
+              "locationId": "asteria_farm",
+              "availability": "available",
+              "activity": "farm_support"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "recentResult",
+              "value": "herd_helped"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Fab",
+              "scheduleId": "m1_d1_fab",
+              "locationId": "asteria_farm",
+              "availability": "available",
+              "activity": "fauna_help"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "recentResult",
+              "value": "fauna_assisted"
+            },
+            {
+              "type": "set_flag",
+              "key": "friends_m1_schedule_day",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "id": "edward_protagonist",
+          "when": {
+            "path": "player.name",
+            "eq": "Edward"
+          },
+          "effects": [
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Luke",
+              "scheduleId": "m1_d1_luke",
+              "locationId": "asteria_ginestre",
+              "availability": "available",
+              "activity": "exploration"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "recentResult",
+              "value": "road_scouted"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Mattew",
+              "scheduleId": "m1_d1_mattew",
+              "locationId": "valedarsena_arena",
+              "availability": "available",
+              "activity": "technical_training"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "recentResult",
+              "value": "spar_reviewed"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Daniel",
+              "scheduleId": "m1_d1_daniel",
+              "locationId": "valedarsena_city",
+              "availability": "available",
+              "activity": "city_analysis"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "recentResult",
+              "value": "job_observed"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Fab",
+              "scheduleId": "m1_d1_fab",
+              "locationId": "asteria_farm",
+              "availability": "available",
+              "activity": "fauna_help"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "recentResult",
+              "value": "fauna_assisted"
+            },
+            {
+              "type": "set_flag",
+              "key": "friends_m1_schedule_day",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "id": "fab_protagonist",
+          "when": {
+            "path": "player.name",
+            "eq": "Fab"
+          },
+          "effects": [
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Luke",
+              "scheduleId": "m1_d1_luke",
+              "locationId": "asteria_ginestre",
+              "availability": "available",
+              "activity": "exploration"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "recentResult",
+              "value": "road_scouted"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Mattew",
+              "scheduleId": "m1_d1_mattew",
+              "locationId": "valedarsena_arena",
+              "availability": "available",
+              "activity": "technical_training"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "recentResult",
+              "value": "spar_reviewed"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Daniel",
+              "scheduleId": "m1_d1_daniel",
+              "locationId": "valedarsena_city",
+              "availability": "available",
+              "activity": "city_analysis"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "recentResult",
+              "value": "job_observed"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Edward",
+              "scheduleId": "m1_d1_edward",
+              "locationId": "asteria_farm",
+              "availability": "available",
+              "activity": "farm_support"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "recentResult",
+              "value": "herd_helped"
+            },
+            {
+              "type": "set_flag",
+              "key": "friends_m1_schedule_day",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A1_FRIENDS_M1_DAY2",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "events.A1_FRIENDS_M1_SCHEDULE_START.status",
+            "eq": "resolved"
+          },
+          {
+            "path": "world.day",
+            "gte": 2
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "luke_protagonist",
+          "when": {
+            "path": "player.name",
+            "eq": "Luke"
+          },
+          "effects": [
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Mattew",
+              "scheduleId": "m1_d2_mattew",
+              "locationId": "asteria_ginestre",
+              "availability": "available",
+              "activity": "exploration"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "recentResult",
+              "value": "road_scouted"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Daniel",
+              "scheduleId": "m1_d2_daniel",
+              "locationId": "valedarsena_arena",
+              "availability": "available",
+              "activity": "sparring"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "recentResult",
+              "value": "spar_reviewed"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Edward",
+              "scheduleId": "m1_d2_edward",
+              "locationId": "valedarsena_city",
+              "availability": "available",
+              "activity": "city_training"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "recentResult",
+              "value": "job_observed"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Fab",
+              "scheduleId": "m1_d2_fab",
+              "locationId": "valedarsena_arena",
+              "availability": "available",
+              "activity": "technical_training"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "recentResult",
+              "value": "spar_reviewed"
+            },
+            {
+              "type": "set_flag",
+              "key": "friends_m1_schedule_day",
+              "value": 2
+            }
+          ]
+        },
+        {
+          "id": "mattew_protagonist",
+          "when": {
+            "path": "player.name",
+            "eq": "Mattew"
+          },
+          "effects": [
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Luke",
+              "scheduleId": "m1_d2_luke",
+              "locationId": "asteria_farm",
+              "availability": "available",
+              "activity": "farm_support"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "recentResult",
+              "value": "herd_helped"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Daniel",
+              "scheduleId": "m1_d2_daniel",
+              "locationId": "valedarsena_arena",
+              "availability": "available",
+              "activity": "sparring"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "recentResult",
+              "value": "spar_reviewed"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Edward",
+              "scheduleId": "m1_d2_edward",
+              "locationId": "valedarsena_city",
+              "availability": "available",
+              "activity": "city_training"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "recentResult",
+              "value": "job_observed"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Fab",
+              "scheduleId": "m1_d2_fab",
+              "locationId": "valedarsena_arena",
+              "availability": "available",
+              "activity": "technical_training"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "recentResult",
+              "value": "spar_reviewed"
+            },
+            {
+              "type": "set_flag",
+              "key": "friends_m1_schedule_day",
+              "value": 2
+            }
+          ]
+        },
+        {
+          "id": "daniel_protagonist",
+          "when": {
+            "path": "player.name",
+            "eq": "Daniel"
+          },
+          "effects": [
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Luke",
+              "scheduleId": "m1_d2_luke",
+              "locationId": "asteria_farm",
+              "availability": "available",
+              "activity": "farm_support"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "recentResult",
+              "value": "herd_helped"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Mattew",
+              "scheduleId": "m1_d2_mattew",
+              "locationId": "asteria_ginestre",
+              "availability": "available",
+              "activity": "exploration"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "recentResult",
+              "value": "road_scouted"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Edward",
+              "scheduleId": "m1_d2_edward",
+              "locationId": "valedarsena_city",
+              "availability": "available",
+              "activity": "city_training"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "recentResult",
+              "value": "job_observed"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Fab",
+              "scheduleId": "m1_d2_fab",
+              "locationId": "valedarsena_arena",
+              "availability": "available",
+              "activity": "technical_training"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "recentResult",
+              "value": "spar_reviewed"
+            },
+            {
+              "type": "set_flag",
+              "key": "friends_m1_schedule_day",
+              "value": 2
+            }
+          ]
+        },
+        {
+          "id": "edward_protagonist",
+          "when": {
+            "path": "player.name",
+            "eq": "Edward"
+          },
+          "effects": [
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Luke",
+              "scheduleId": "m1_d2_luke",
+              "locationId": "asteria_farm",
+              "availability": "available",
+              "activity": "farm_support"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "recentResult",
+              "value": "herd_helped"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Mattew",
+              "scheduleId": "m1_d2_mattew",
+              "locationId": "asteria_ginestre",
+              "availability": "available",
+              "activity": "exploration"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "recentResult",
+              "value": "road_scouted"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Daniel",
+              "scheduleId": "m1_d2_daniel",
+              "locationId": "valedarsena_arena",
+              "availability": "available",
+              "activity": "sparring"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "recentResult",
+              "value": "spar_reviewed"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Fab",
+              "scheduleId": "m1_d2_fab",
+              "locationId": "valedarsena_arena",
+              "availability": "available",
+              "activity": "technical_training"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "recentResult",
+              "value": "spar_reviewed"
+            },
+            {
+              "type": "set_flag",
+              "key": "friends_m1_schedule_day",
+              "value": 2
+            }
+          ]
+        },
+        {
+          "id": "fab_protagonist",
+          "when": {
+            "path": "player.name",
+            "eq": "Fab"
+          },
+          "effects": [
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Luke",
+              "scheduleId": "m1_d2_luke",
+              "locationId": "asteria_farm",
+              "availability": "available",
+              "activity": "farm_support"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "recentResult",
+              "value": "herd_helped"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Mattew",
+              "scheduleId": "m1_d2_mattew",
+              "locationId": "asteria_ginestre",
+              "availability": "available",
+              "activity": "exploration"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "recentResult",
+              "value": "road_scouted"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Daniel",
+              "scheduleId": "m1_d2_daniel",
+              "locationId": "valedarsena_arena",
+              "availability": "available",
+              "activity": "sparring"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "recentResult",
+              "value": "spar_reviewed"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Edward",
+              "scheduleId": "m1_d2_edward",
+              "locationId": "valedarsena_city",
+              "availability": "available",
+              "activity": "city_training"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "recentResult",
+              "value": "job_observed"
+            },
+            {
+              "type": "set_flag",
+              "key": "friends_m1_schedule_day",
+              "value": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A1_FRIENDS_M1_DAY3",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "events.A1_FRIENDS_M1_DAY2.status",
+            "eq": "resolved"
+          },
+          {
+            "path": "world.day",
+            "gte": 3
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "luke_protagonist",
+          "when": {
+            "path": "player.name",
+            "eq": "Luke"
+          },
+          "effects": [
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Mattew",
+              "scheduleId": "m1_d3_mattew",
+              "locationId": "asteria_farm",
+              "availability": "available",
+              "activity": "farm_support"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "recentResult",
+              "value": "herd_helped"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Daniel",
+              "scheduleId": "m1_d3_daniel",
+              "locationId": "asteria_ginestre",
+              "availability": "available",
+              "activity": "exploration"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "recentResult",
+              "value": "road_scouted"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Edward",
+              "scheduleId": "m1_d3_edward",
+              "locationId": "valedarsena_arena",
+              "availability": "available",
+              "activity": "sparring"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "recentResult",
+              "value": "spar_reviewed"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Fab",
+              "scheduleId": "m1_d3_fab",
+              "locationId": "asteria_farm",
+              "availability": "available",
+              "activity": "fauna_help"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "recentResult",
+              "value": "fauna_assisted"
+            },
+            {
+              "type": "set_flag",
+              "key": "friends_m1_schedule_day",
+              "value": 3
+            }
+          ]
+        },
+        {
+          "id": "mattew_protagonist",
+          "when": {
+            "path": "player.name",
+            "eq": "Mattew"
+          },
+          "effects": [
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Luke",
+              "scheduleId": "m1_d3_luke",
+              "locationId": "valedarsena_city",
+              "availability": "available",
+              "activity": "city_training"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "recentResult",
+              "value": "job_observed"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Daniel",
+              "scheduleId": "m1_d3_daniel",
+              "locationId": "asteria_ginestre",
+              "availability": "available",
+              "activity": "exploration"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "recentResult",
+              "value": "road_scouted"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Edward",
+              "scheduleId": "m1_d3_edward",
+              "locationId": "valedarsena_arena",
+              "availability": "available",
+              "activity": "sparring"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "recentResult",
+              "value": "spar_reviewed"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Fab",
+              "scheduleId": "m1_d3_fab",
+              "locationId": "asteria_farm",
+              "availability": "available",
+              "activity": "fauna_help"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "recentResult",
+              "value": "fauna_assisted"
+            },
+            {
+              "type": "set_flag",
+              "key": "friends_m1_schedule_day",
+              "value": 3
+            }
+          ]
+        },
+        {
+          "id": "daniel_protagonist",
+          "when": {
+            "path": "player.name",
+            "eq": "Daniel"
+          },
+          "effects": [
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Luke",
+              "scheduleId": "m1_d3_luke",
+              "locationId": "valedarsena_city",
+              "availability": "available",
+              "activity": "city_training"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "recentResult",
+              "value": "job_observed"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Mattew",
+              "scheduleId": "m1_d3_mattew",
+              "locationId": "asteria_farm",
+              "availability": "available",
+              "activity": "farm_support"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "recentResult",
+              "value": "herd_helped"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Edward",
+              "scheduleId": "m1_d3_edward",
+              "locationId": "valedarsena_arena",
+              "availability": "available",
+              "activity": "sparring"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "recentResult",
+              "value": "spar_reviewed"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Fab",
+              "scheduleId": "m1_d3_fab",
+              "locationId": "asteria_farm",
+              "availability": "available",
+              "activity": "fauna_help"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "recentResult",
+              "value": "fauna_assisted"
+            },
+            {
+              "type": "set_flag",
+              "key": "friends_m1_schedule_day",
+              "value": 3
+            }
+          ]
+        },
+        {
+          "id": "edward_protagonist",
+          "when": {
+            "path": "player.name",
+            "eq": "Edward"
+          },
+          "effects": [
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Luke",
+              "scheduleId": "m1_d3_luke",
+              "locationId": "valedarsena_city",
+              "availability": "available",
+              "activity": "city_training"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "recentResult",
+              "value": "job_observed"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Mattew",
+              "scheduleId": "m1_d3_mattew",
+              "locationId": "asteria_farm",
+              "availability": "available",
+              "activity": "farm_support"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "recentResult",
+              "value": "herd_helped"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Daniel",
+              "scheduleId": "m1_d3_daniel",
+              "locationId": "asteria_ginestre",
+              "availability": "available",
+              "activity": "exploration"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "recentResult",
+              "value": "road_scouted"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Fab",
+              "scheduleId": "m1_d3_fab",
+              "locationId": "asteria_farm",
+              "availability": "available",
+              "activity": "fauna_help"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "recentResult",
+              "value": "fauna_assisted"
+            },
+            {
+              "type": "set_flag",
+              "key": "friends_m1_schedule_day",
+              "value": 3
+            }
+          ]
+        },
+        {
+          "id": "fab_protagonist",
+          "when": {
+            "path": "player.name",
+            "eq": "Fab"
+          },
+          "effects": [
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Luke",
+              "scheduleId": "m1_d3_luke",
+              "locationId": "valedarsena_city",
+              "availability": "available",
+              "activity": "city_training"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "recentResult",
+              "value": "job_observed"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Mattew",
+              "scheduleId": "m1_d3_mattew",
+              "locationId": "asteria_farm",
+              "availability": "available",
+              "activity": "farm_support"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "recentResult",
+              "value": "herd_helped"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Daniel",
+              "scheduleId": "m1_d3_daniel",
+              "locationId": "asteria_ginestre",
+              "availability": "available",
+              "activity": "exploration"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "recentResult",
+              "value": "road_scouted"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Edward",
+              "scheduleId": "m1_d3_edward",
+              "locationId": "valedarsena_arena",
+              "availability": "available",
+              "activity": "sparring"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "recentResult",
+              "value": "spar_reviewed"
+            },
+            {
+              "type": "set_flag",
+              "key": "friends_m1_schedule_day",
+              "value": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A1_FRIENDS_M1_DAY4",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "events.A1_FRIENDS_M1_DAY3.status",
+            "eq": "resolved"
+          },
+          {
+            "path": "world.day",
+            "gte": 4
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "luke_protagonist",
+          "when": {
+            "path": "player.name",
+            "eq": "Luke"
+          },
+          "effects": [
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Mattew",
+              "scheduleId": "m1_d4_mattew",
+              "locationId": "valedarsena_city",
+              "availability": "available",
+              "activity": "city_analysis"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "recentResult",
+              "value": "job_observed"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Daniel",
+              "scheduleId": "m1_d4_daniel",
+              "locationId": "asteria_farm",
+              "availability": "available",
+              "activity": "fauna_help"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "recentResult",
+              "value": "fauna_assisted"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Edward",
+              "scheduleId": "m1_d4_edward",
+              "locationId": "asteria_ginestre",
+              "availability": "available",
+              "activity": "exploration"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "recentResult",
+              "value": "road_scouted"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Fab",
+              "scheduleId": "m1_d4_fab",
+              "locationId": "valedarsena_arena",
+              "availability": "available",
+              "activity": "technical_training"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "recentResult",
+              "value": "spar_reviewed"
+            },
+            {
+              "type": "set_flag",
+              "key": "friends_m1_schedule_day",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "id": "mattew_protagonist",
+          "when": {
+            "path": "player.name",
+            "eq": "Mattew"
+          },
+          "effects": [
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Luke",
+              "scheduleId": "m1_d4_luke",
+              "locationId": "valedarsena_arena",
+              "availability": "available",
+              "activity": "sparring"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "recentResult",
+              "value": "spar_reviewed"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Daniel",
+              "scheduleId": "m1_d4_daniel",
+              "locationId": "asteria_farm",
+              "availability": "available",
+              "activity": "fauna_help"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "recentResult",
+              "value": "fauna_assisted"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Edward",
+              "scheduleId": "m1_d4_edward",
+              "locationId": "asteria_ginestre",
+              "availability": "available",
+              "activity": "exploration"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "recentResult",
+              "value": "road_scouted"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Fab",
+              "scheduleId": "m1_d4_fab",
+              "locationId": "valedarsena_arena",
+              "availability": "available",
+              "activity": "technical_training"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "recentResult",
+              "value": "spar_reviewed"
+            },
+            {
+              "type": "set_flag",
+              "key": "friends_m1_schedule_day",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "id": "daniel_protagonist",
+          "when": {
+            "path": "player.name",
+            "eq": "Daniel"
+          },
+          "effects": [
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Luke",
+              "scheduleId": "m1_d4_luke",
+              "locationId": "valedarsena_arena",
+              "availability": "available",
+              "activity": "sparring"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "recentResult",
+              "value": "spar_reviewed"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Mattew",
+              "scheduleId": "m1_d4_mattew",
+              "locationId": "valedarsena_city",
+              "availability": "available",
+              "activity": "city_analysis"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "recentResult",
+              "value": "job_observed"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Edward",
+              "scheduleId": "m1_d4_edward",
+              "locationId": "asteria_ginestre",
+              "availability": "available",
+              "activity": "exploration"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "recentResult",
+              "value": "road_scouted"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Fab",
+              "scheduleId": "m1_d4_fab",
+              "locationId": "valedarsena_arena",
+              "availability": "available",
+              "activity": "technical_training"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "recentResult",
+              "value": "spar_reviewed"
+            },
+            {
+              "type": "set_flag",
+              "key": "friends_m1_schedule_day",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "id": "edward_protagonist",
+          "when": {
+            "path": "player.name",
+            "eq": "Edward"
+          },
+          "effects": [
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Luke",
+              "scheduleId": "m1_d4_luke",
+              "locationId": "valedarsena_arena",
+              "availability": "available",
+              "activity": "sparring"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "recentResult",
+              "value": "spar_reviewed"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Mattew",
+              "scheduleId": "m1_d4_mattew",
+              "locationId": "valedarsena_city",
+              "availability": "available",
+              "activity": "city_analysis"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "recentResult",
+              "value": "job_observed"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Daniel",
+              "scheduleId": "m1_d4_daniel",
+              "locationId": "asteria_farm",
+              "availability": "available",
+              "activity": "fauna_help"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "recentResult",
+              "value": "fauna_assisted"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Fab",
+              "scheduleId": "m1_d4_fab",
+              "locationId": "valedarsena_arena",
+              "availability": "available",
+              "activity": "technical_training"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "recentResult",
+              "value": "spar_reviewed"
+            },
+            {
+              "type": "set_flag",
+              "key": "friends_m1_schedule_day",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "id": "fab_protagonist",
+          "when": {
+            "path": "player.name",
+            "eq": "Fab"
+          },
+          "effects": [
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Luke",
+              "scheduleId": "m1_d4_luke",
+              "locationId": "valedarsena_arena",
+              "availability": "available",
+              "activity": "sparring"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "recentResult",
+              "value": "spar_reviewed"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Mattew",
+              "scheduleId": "m1_d4_mattew",
+              "locationId": "valedarsena_city",
+              "availability": "available",
+              "activity": "city_analysis"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "recentResult",
+              "value": "job_observed"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Daniel",
+              "scheduleId": "m1_d4_daniel",
+              "locationId": "asteria_farm",
+              "availability": "available",
+              "activity": "fauna_help"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "recentResult",
+              "value": "fauna_assisted"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Edward",
+              "scheduleId": "m1_d4_edward",
+              "locationId": "asteria_ginestre",
+              "availability": "available",
+              "activity": "exploration"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "recentResult",
+              "value": "road_scouted"
+            },
+            {
+              "type": "set_flag",
+              "key": "friends_m1_schedule_day",
+              "value": 4
+            }
+          ]
+        }
+      ]
     }
   ]
 }
