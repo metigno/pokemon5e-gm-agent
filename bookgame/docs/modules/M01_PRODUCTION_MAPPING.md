@@ -65,7 +65,7 @@ The graph is reconvergent, not linear. The player may move repeatedly between Gi
 | M1_06_FARM_HERD_HANDS | farm recovery quest and ecology | 450 | 310 | COMPLETE |
 | M1_07_WORLD_MOVES | pressure state machine and off-screen consequences | 450 | 290 | COMPLETE |
 | M1_08_BLUE_ENTERS | Blue causal introduction variants | 380 | 240 | COMPLETE |
-| M1_09_FRIEND_BEAT_01 | one of the other Four selected causally | 390 | 250 | ENGINE DEPENDENCY |
+| M1_09_FRIEND_BEAT_01 | one of the other Four selected causally | 390 | 250 | COMPLETE |
 | M1_10_FIRST_OFFICIAL | first sanctioned non-trial match | 270 | 170 | IMPLEMENTED / E5 WIRED |
 | M1_11_SECOND_POKEMON | legal routes to roster size 2 | 280 | 180 | IMPLEMENTED / E7 WIRED |
 | M1_12_FIVE_ROADS | friends diverge and schedules update | 250 | 150 | ENGINE DEPENDENCY |
@@ -538,6 +538,23 @@ Required for:
 - real result if battle occurred
 
 **Battle rule:** real roster, early-game state, no buff, no scripted winner.
+
+**Implementation lock:**
+
+- New Game now initializes exactly the other four members of the Five as persistent rookie NPCs for every possible protagonist; the selected protagonist is never duplicated inside the NPC table, and Luke is correctly present when another friend is the player;
+- each friend NPC carries only legal rookie state in M1: Trainer Lv1, Rank F, rookie team stage, canonical Lv5 Ace identity and a small recent-result field used by the selector;
+- E6 authors independent M1 schedules for the other Four and rotates those schedules across Ginestre, Fattoria del Vento, Valedarsena and Arena contexts as world days advance; the player does not summon or teleport a friend;
+- friend schedules stop yielding to the M1_09 rotation after `friends_split=true`, so later `FIVE_ROADS` state is never overwritten by an older world event;
+- the generic `friend_beat_select` effect is compiler-validated and offline; it excludes the player and selects only NPCs who are genuinely present at the requested location;
+- deterministic selector priority is: legal schedule/location gate → content/activity compatibility → compatible recent result → current relationship score → canonical Five order as final tie-break;
+- four authored M1 forms are live: Ginestre exploration, Farm/fauna help, Valedarsena city encounter and Arena sparring;
+- the selected friend ID and beat type are written before dispatch, then completion writes `friend_beat_01_complete=true`, `friend_beat_01_friend_id`, `friend_beat_01_type` and a factual result context;
+- non-battle routes include shared activity, information/result comparison and brief overlap; no route turns the friend into a permanent party member;
+- Arena sparring is optional 1v1 and uses the selected friend's canonical rookie Ace at Lv5; the player's current roster is passed to the Pokémon 5e resolver, no buff is added and no winner is scripted;
+- win, loss and declining the spar are all valid persistent outcomes; a battle is never required merely because FRIEND_BEAT_01 is mandatory as a story beat;
+- completed FRIEND_BEAT_01 removes all first-beat hooks and cannot replay as a second “first” encounter;
+- selection, relationship changes, schedule state, beat type and result survive save/reload exactly;
+- regression coverage validates all five possible protagonists, selector priority inputs, independent schedule progression, city/farm/Ginestre/Arena hooks, real sparring, non-battle completion, idempotence and persistence.
 
 ---
 
