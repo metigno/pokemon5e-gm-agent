@@ -7,15 +7,36 @@
   "entryNodeId": "steven_appears",
   "conditions": {
     "all": [
-      { "path": "world.flags.m2_complete", "eq": true },
-      { "path": "world.flags.m03_unlocked", "eq": true },
-      { "path": "world.flags.m3_active", "eq": true },
-      { "path": "world.flags.ferravia_discovered", "eq": true },
-      { "path": "competition.rank", "eq": "D" },
+      {
+        "path": "world.flags.m2_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m03_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m3_active",
+        "eq": true
+      },
+      {
+        "path": "world.flags.ferravia_discovered",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "D"
+      },
       {
         "any": [
-          { "path": "world.flags.old_maps_read", "eq": true },
-          { "path": "world.flags.ferrox_survey_report_read", "eq": true }
+          {
+            "path": "world.flags.old_maps_read",
+            "eq": true
+          },
+          {
+            "path": "world.flags.ferrox_survey_report_read",
+            "eq": true
+          }
         ]
       }
     ]
@@ -54,7 +75,11 @@
                 "role": "technical_observer"
               }
             },
-            { "type": "set_flag", "key": "steven_met", "value": true }
+            {
+              "type": "set_flag",
+              "key": "steven_met",
+              "value": true
+            }
           ]
         },
         {
@@ -68,8 +93,20 @@
           "text": "Chiudo la consultazione e esco dall'archivio senza presentarmi.",
           "goto": "m03-ferravia-arrival#city_hub",
           "effects": [
-            { "type": "set_flag", "key": "steven_declined_contact", "value": true },
-            { "type": "set_location", "locationId": "fer_city" }
+            {
+              "type": "set_flag",
+              "key": "steven_contact_deferred",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "steven_declined_contact",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
           ]
         }
       ]
@@ -224,7 +261,11 @@
           "text": "Lo lascio andare e resto dentro.",
           "goto": "post_steven_hub",
           "effects": [
-            { "type": "set_flag", "key": "steven_observed_silently", "value": true }
+            {
+              "type": "set_flag",
+              "key": "steven_observed_silently",
+              "value": true
+            }
           ]
         }
       ]
@@ -254,7 +295,11 @@
                 "role": "technical_observer"
               }
             },
-            { "type": "set_flag", "key": "steven_met", "value": true }
+            {
+              "type": "set_flag",
+              "key": "steven_met",
+              "value": true
+            }
           ]
         },
         {
@@ -262,8 +307,21 @@
           "text": "Lo lascio andare — non è il momento.",
           "goto": "post_steven_hub",
           "effects": [
-            { "type": "set_flag", "key": "steven_observed_silently", "value": true },
-            { "type": "set_flag", "key": "steven_declined_contact", "value": true }
+            {
+              "type": "set_flag",
+              "key": "steven_contact_deferred",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "steven_observed_silently",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "steven_declined_contact",
+              "value": true
+            }
           ]
         }
       ]
@@ -281,7 +339,65 @@
           "text": "Torno nel centro città.",
           "goto": "m03-ferravia-arrival#city_hub",
           "effects": [
-            { "type": "set_location", "locationId": "fer_city" }
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        }
+      ]
+    },
+    "deferred_contact": {
+      "stitches": [
+        {
+          "id": "deferred_contact_1",
+          "text": "L'archivista conferma che il consulente tecnico è ancora in zona e gli lascia un messaggio. Poco dopo Steven torna al banco con la stessa cartella rigida. Non sembra offeso dal fatto che tu abbia evitato il primo contatto: aveva lavoro da fare anche lui."
+        },
+        {
+          "id": "deferred_contact_2",
+          "text": "La seconda occasione esiste perché la sua traiettoria è indipendente ma ancora causalmente compatibile con la tua. Rimandare una conversazione non può rendere impossibile il contratto di uscita del modulo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "deferred_introduce",
+          "text": "Questa volta mi presento.",
+          "timeCostMinutes": 5,
+          "goto": "introduction_exchange",
+          "effects": [
+            {
+              "type": "npc_register",
+              "npcId": "Steven",
+              "name": "Steven Stone",
+              "relationshipScore": 0,
+              "state": {
+                "introduced": true,
+                "context": "ferravia_archive_deferred",
+                "role": "technical_observer"
+              }
+            },
+            {
+              "type": "set_flag",
+              "key": "steven_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "steven_contact_recovered",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "deferred_wait_again",
+          "text": "Non ancora. Lascio che il contatto resti rimandato.",
+          "goto": "post_steven_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "steven_contact_deferred_again",
+              "value": true
+            }
           ]
         }
       ]
