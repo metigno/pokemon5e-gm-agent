@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "M01",
+  "id": "m01-release",
+  "title": "Il mondo davanti a te",
+  "locationId": "asteria_campus_exit",
+  "entryNodeId": "free_roam",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.intro_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.free_roam",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "free_roam": {
+      "stitches": [
+        {
+          "id": "guided_part_ends",
+          "text": "L'ultima indicazione dell'onboarding finisce al cancello del Campus Licenze. Da qui nessuno ti assegna una strada: il tempo è tuo e il mondo continua a muoversi anche senza aspettarti."
+        },
+        {
+          "id": "three_directions",
+          "text": "I cartelli mostrano tre direzioni immediate. Via delle Ginestre scende tra campi e muretti; Valedarsena è raggiungibile proseguendo verso la costa; una deviazione porta alla Fattoria del Vento."
+        },
+        {
+          "id": "trial_exists_not_order",
+          "text": "Sai che i Promotion Trial servono per salire di Rank, ma non hai ricevuto una missione principale da accettare. Puoi informarti, esplorare, allenarti, lavorare o semplicemente cambiare direzione."
+        },
+        {
+          "id": "persistent_world",
+          "text": "Allenatori, lavoratori, fauna e opportunità hanno i propri tempi. Restare qui, partire subito o ignorare una pista non congela ciò che accade altrove."
+        }
+      ],
+      "choices": [
+        {
+          "id": "to_ginestre",
+          "text": "Prendo Via delle Ginestre.",
+          "goto": "first-road#arrival",
+          "timeCostMinutes": 20,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "asteria_ginestre"
+            }
+          ]
+        },
+        {
+          "id": "to_valedarsena",
+          "text": "Vado direttamente verso Valedarsena.",
+          "goto": "m01-valedarsena-first-arrival#approach",
+          "timeCostMinutes": 90,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_road"
+            }
+          ]
+        },
+        {
+          "id": "to_farm",
+          "text": "Devio subito verso la Fattoria del Vento.",
+          "goto": "m01-farm-first-arrival#approach",
+          "timeCostMinutes": 90,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "asteria_farm_road"
+            }
+          ]
+        },
+        {
+          "id": "stay_and_observe",
+          "text": "Resto qui ancora mezz'ora e osservo chi passa.",
+          "goto": "free_roam",
+          "timeCostMinutes": 30
+        }
+      ]
+    }
+  }
+}
