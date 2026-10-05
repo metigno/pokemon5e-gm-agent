@@ -35,7 +35,13 @@
               "type": "quest_start",
               "questId": "SQ_FARM_HERD_HANDS",
               "title": "Recinti aperti",
-              "objective": "Aiuta la Fattoria del Vento a recuperare i Pokémon dispersi senza spaventarli."
+              "objective": "Aiuta la Fattoria del Vento a recuperare i Pokémon dispersi senza spaventarli.",
+              "deadlineMinutes": 360,
+              "onDeadline": {
+                "status": "completed",
+                "resolution": "resolved_offscreen_after_local_delay",
+                "resolvedBy": "farm_workers"
+              }
             }
           ],
           "conditions": {
@@ -67,14 +73,29 @@
               "goto": "observe_success",
               "effects": [
                 {
+                  "type": "set_location",
+                  "locationId": "asteria_farm"
+                },
+                {
                   "type": "set_flag",
                   "key": "m1_world_pressure_known",
+                  "value": true
+                },
+                {
+                  "type": "set_flag",
+                  "key": "m1_farm_evidence",
                   "value": true
                 }
               ]
             },
             "failure": {
-              "goto": "observe_failure"
+              "goto": "observe_failure",
+              "effects": [
+                {
+                  "type": "set_location",
+                  "locationId": "asteria_farm"
+                }
+              ]
             }
           }
         },
@@ -98,7 +119,13 @@
               "shinx": "m01-ecology-opportunities#farm_shinx",
               "growlithe-hisui": "m01-ecology-opportunities#farm_hisuian_growlithe"
             }
-          }
+          },
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "asteria_farm"
+            }
+          ]
         },
         {
           "id": "leave_city",
@@ -126,7 +153,13 @@
           "id": "leave_crossroads",
           "text": "Torno alle Ginestre.",
           "goto": "m01-ginestre-crossroads#crossroads",
-          "timeCostMinutes": 70
+          "timeCostMinutes": 70,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "asteria_ginestre"
+            }
+          ]
         },
         {
           "id": "job_already_resolved",
@@ -194,6 +227,23 @@
           }
         },
         {
+          "id": "pokemon_support",
+          "text": "Chiedo al mio Pokémon di aiutarmi a chiudere una via di fuga, seguendo le indicazioni dell'addetto.",
+          "goto": "pokemon_support_plan",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_farm_pokemon_support",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "follow_worker",
+          "text": "Evito di improvvisare e seguo direttamente le istruzioni dell'addetto.",
+          "goto": "guided_help"
+        },
+        {
           "id": "decline",
           "text": "Dico che non sono pronto e lascio il lavoro.",
           "goto": "leave_job"
@@ -215,7 +265,25 @@
         {
           "id": "help",
           "text": "Offro il mio aiuto.",
-          "goto": "briefing"
+          "goto": "briefing",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "asteria_farm"
+            },
+            {
+              "type": "quest_start",
+              "questId": "SQ_FARM_HERD_HANDS",
+              "title": "Recinti aperti",
+              "objective": "Aiuta la Fattoria del Vento a recuperare i Pokémon dispersi senza spaventarli.",
+              "deadlineMinutes": 360,
+              "onDeadline": {
+                "status": "completed",
+                "resolution": "resolved_offscreen_after_local_delay",
+                "resolvedBy": "farm_workers"
+              }
+            }
+          ]
         },
         {
           "id": "city",
@@ -243,7 +311,13 @@
           "id": "leave",
           "text": "Torno alle Ginestre.",
           "goto": "m01-ginestre-crossroads#crossroads",
-          "timeCostMinutes": 70
+          "timeCostMinutes": 70,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "asteria_ginestre"
+            }
+          ]
         }
       ]
     },
@@ -258,13 +332,37 @@
         {
           "id": "help",
           "text": "Chiedo comunque come posso aiutare.",
-          "goto": "briefing"
+          "goto": "briefing",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "asteria_farm"
+            },
+            {
+              "type": "quest_start",
+              "questId": "SQ_FARM_HERD_HANDS",
+              "title": "Recinti aperti",
+              "objective": "Aiuta la Fattoria del Vento a recuperare i Pokémon dispersi senza spaventarli.",
+              "deadlineMinutes": 360,
+              "onDeadline": {
+                "status": "completed",
+                "resolution": "resolved_offscreen_after_local_delay",
+                "resolvedBy": "farm_workers"
+              }
+            }
+          ]
         },
         {
           "id": "leave",
           "text": "Per ora me ne vado.",
           "goto": "m01-ginestre-crossroads#crossroads",
-          "timeCostMinutes": 70
+          "timeCostMinutes": 70,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "asteria_ginestre"
+            }
+          ]
         }
       ]
     },
@@ -287,13 +385,28 @@
           "effects": [
             {
               "type": "set_flag",
+              "key": "m1_world_pressure_known",
+              "value": true
+            },
+            {
+              "type": "set_flag",
               "key": "m1_world_pressure_player_involved",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_farm_helped",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_farm_evidence",
               "value": true
             },
             {
               "type": "quest_complete",
               "questId": "SQ_FARM_HERD_HANDS",
-              "resolution": "herd_recovered"
+              "resolution": "herd_recovered_after_investigation"
             }
           ]
         },
@@ -311,13 +424,28 @@
               "effects": [
                 {
                   "type": "set_flag",
+                  "key": "m1_world_pressure_known",
+                  "value": true
+                },
+                {
+                  "type": "set_flag",
                   "key": "m1_world_pressure_player_involved",
+                  "value": true
+                },
+                {
+                  "type": "set_flag",
+                  "key": "m1_farm_helped",
+                  "value": true
+                },
+                {
+                  "type": "set_flag",
+                  "key": "m1_farm_evidence",
                   "value": true
                 },
                 {
                   "type": "quest_complete",
                   "questId": "SQ_FARM_HERD_HANDS",
-                  "resolution": "herd_recovered"
+                  "resolution": "herd_recovered_after_investigation_and_handling"
                 }
               ]
             },
@@ -379,13 +507,28 @@
           "effects": [
             {
               "type": "set_flag",
+              "key": "m1_world_pressure_known",
+              "value": true
+            },
+            {
+              "type": "set_flag",
               "key": "m1_world_pressure_player_involved",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_farm_helped",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_farm_evidence",
               "value": true
             },
             {
               "type": "quest_complete",
               "questId": "SQ_FARM_HERD_HANDS",
-              "resolution": "herd_recovered"
+              "resolution": "herd_recovered_after_handling"
             }
           ]
         }
@@ -430,13 +573,28 @@
           "effects": [
             {
               "type": "set_flag",
+              "key": "m1_world_pressure_known",
+              "value": true
+            },
+            {
+              "type": "set_flag",
               "key": "m1_world_pressure_player_involved",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_farm_helped",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_farm_evidence",
               "value": true
             },
             {
               "type": "quest_complete",
               "questId": "SQ_FARM_HERD_HANDS",
-              "resolution": "herd_recovered"
+              "resolution": "herd_recovered_under_worker_guidance"
             }
           ]
         }
@@ -459,6 +617,11 @@
           "text": "Vado a Valedarsena.",
           "goto": "m01-valedarsena-first-arrival#approach",
           "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_farm_evidence",
+              "value": true
+            },
             {
               "type": "set_flag",
               "key": "m1_world_pressure_known",
@@ -485,7 +648,23 @@
           "id": "ginestre",
           "text": "Torno alle Ginestre.",
           "goto": "m01-ginestre-crossroads#crossroads",
-          "timeCostMinutes": 70
+          "timeCostMinutes": 70,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "asteria_ginestre"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_known",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_farm_evidence",
+              "value": true
+            }
+          ]
         }
       ]
     },
@@ -502,6 +681,11 @@
           "text": "Vado verso Valedarsena.",
           "goto": "m01-valedarsena-first-arrival#approach",
           "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_farm_abandoned",
+              "value": true
+            },
             {
               "type": "quest_fail",
               "questId": "SQ_FARM_HERD_HANDS",
@@ -530,9 +714,18 @@
           "goto": "m01-ginestre-crossroads#crossroads",
           "effects": [
             {
+              "type": "set_flag",
+              "key": "m1_farm_abandoned",
+              "value": true
+            },
+            {
               "type": "quest_fail",
               "questId": "SQ_FARM_HERD_HANDS",
               "resolution": "abandoned"
+            },
+            {
+              "type": "set_location",
+              "locationId": "asteria_ginestre"
             }
           ],
           "timeCostMinutes": 70
@@ -551,7 +744,13 @@
           "id": "back_ginestre",
           "text": "Torno verso le Ginestre.",
           "goto": "m01-ginestre-crossroads#crossroads",
-          "timeCostMinutes": 70
+          "timeCostMinutes": 70,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "asteria_ginestre"
+            }
+          ]
         },
         {
           "id": "to_city",
@@ -574,6 +773,96 @@
               "value": true
             }
           ]
+        }
+      ]
+    },
+    "pokemon_support_plan": {
+      "stitches": [
+        {
+          "id": "pokemon_boundary",
+          "text": "L'addetto indica un passaggio laterale e ti chiede di non inseguire il branco. Il tuo Pokémon prende posizione dove serve, abbastanza visibile da chiudere quella via senza caricare gli animali."
+        },
+        {
+          "id": "cooperation_not_move",
+          "text": "Non serve inventare una mossa speciale: è cooperazione di campo, con te che dai il comando e il personale che decide il piano di sicurezza."
+        }
+      ],
+      "choices": [
+        {
+          "id": "hold_line",
+          "text": "Mantengo il Pokémon in posizione e seguo il recupero fino alla fine.",
+          "goto": "job_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_known",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_player_involved",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_farm_helped",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_farm_evidence",
+              "value": true
+            },
+            {
+              "type": "quest_complete",
+              "questId": "SQ_FARM_HERD_HANDS",
+              "resolution": "herd_recovered_with_pokemon_support"
+            }
+          ]
+        },
+        {
+          "id": "handling",
+          "text": "Uso la posizione del mio Pokémon per avvicinarmi con calma al gruppo. (CT Animal Handling)",
+          "check": {
+            "ability": "WIS",
+            "skill": "Animal Handling",
+            "dc": 11
+          },
+          "outcomes": {
+            "success": {
+              "goto": "job_complete",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "m1_world_pressure_known",
+                  "value": true
+                },
+                {
+                  "type": "set_flag",
+                  "key": "m1_world_pressure_player_involved",
+                  "value": true
+                },
+                {
+                  "type": "set_flag",
+                  "key": "m1_farm_helped",
+                  "value": true
+                },
+                {
+                  "type": "set_flag",
+                  "key": "m1_farm_evidence",
+                  "value": true
+                },
+                {
+                  "type": "quest_complete",
+                  "questId": "SQ_FARM_HERD_HANDS",
+                  "resolution": "herd_recovered_with_pokemon_support"
+                }
+              ]
+            },
+            "failure": {
+              "goto": "handling_failure"
+            }
+          }
         }
       ]
     }
