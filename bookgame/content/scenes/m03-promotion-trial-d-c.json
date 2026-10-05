@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "id": "m03-promotion-trial-d-c",
+  "moduleId": "M03",
+  "title": "M3_13 — Promotion Trial D→C",
+  "locationId": "fer_city_arena",
+  "entryNodeId": "trial_gate_call",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m2_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m03_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m3_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "D"
+      },
+      {
+        "path": "competition.trials.RANK_D_TO_C.registered",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "trial_gate_call": {
+      "stitches": [
+        {
+          "id": "gate_1",
+          "text": "L'Officina Arena chiude l'area laterale e chiama il tuo nome. Questo è un checkpoint, non una cutscene: se perdi, resti Rank D."
+        }
+      ],
+      "choices": [
+        {
+          "id": "briefing",
+          "text": "Ascolto il briefing finale dell'esaminatrice.",
+          "goto": "examiner_briefing"
+        },
+        {
+          "id": "withdraw",
+          "text": "Non inizio ancora. Torno alla registrazione.",
+          "goto": "m03-trial-registration#registered"
+        }
+      ]
+    },
+    "examiner_briefing": {
+      "stitches": [
+        {
+          "id": "brief_1",
+          "text": "«Tre Pokémon. Singles. Voglio vedere se sai usare tempo, resistenze, coperture e switch senza bruciare il piano al primo turno.» Il roster dell'esaminatrice è quello fissato per il checkpoint; nessun scaling segue il tuo livello."
+        }
+      ],
+      "choices": [
+        {
+          "id": "begin_trial",
+          "text": "Confermo il roster e inizio il Trial D→C.",
+          "combat": {
+            "encounterId": "A3_RANK_TRIAL_D_C",
+            "opponentRegistered": true,
+            "competition": {
+              "type": "promotion_trial",
+              "matchId": "A3_RANK_TRIAL_D_C",
+              "checkpointId": "RANK_D_TO_C",
+              "fromRank": "D",
+              "toRank": "C",
+              "format": "Singles",
+              "officialRosterSize": 3,
+              "difficulty": "HARD",
+              "retryable": true,
+              "opponentTrainerId": "FER_GATE_D_C_EXAMINER"
+            },
+            "returnNodes": {
+              "win": "m03-trial-result#trial_win",
+              "lose": "m03-trial-result#trial_loss"
+            }
+          }
+        },
+        {
+          "id": "brief_withdraw",
+          "text": "Non parto ancora. Torno al banco.",
+          "goto": "m03-trial-registration#registered"
+        }
+      ]
+    },
+    "trial_combat_handoff": {
+      "text": "Il combattimento viene risolto dal motore Pokémon 5e.",
+      "choices": []
+    }
+  }
+}
