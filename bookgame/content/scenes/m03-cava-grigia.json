@@ -7,10 +7,22 @@
   "entryNodeId": "approach",
   "conditions": {
     "all": [
-      { "path": "world.flags.m2_complete", "eq": true },
-      { "path": "world.flags.m03_unlocked", "eq": true },
-      { "path": "world.flags.m3_active", "eq": true },
-      { "path": "competition.rank", "eq": "D" }
+      {
+        "path": "world.flags.m2_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m03_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m3_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "D"
+      }
     ]
   },
   "nodes": {
@@ -36,8 +48,15 @@
           "timeCostMinutes": 10,
           "goto": "visitor_perimeter",
           "effects": [
-            { "type": "set_flag", "key": "cava_grigia_discovered", "value": true },
-            { "type": "set_location", "locationId": "ast_quarry_perimeter" }
+            {
+              "type": "set_flag",
+              "key": "cava_grigia_discovered",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "ast_quarry_perimeter"
+            }
           ]
         },
         {
@@ -52,7 +71,10 @@
           "timeCostMinutes": 180,
           "goto": "m01-valedarsena-first-arrival#city_hub",
           "effects": [
-            { "type": "set_location", "locationId": "valedarsena_city" }
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
           ]
         }
       ]
@@ -77,12 +99,20 @@
           "id": "ridge_wis_check",
           "text": "Studio attentamente la disposizione delle terrazze e dei cartelli. (CT Perception)",
           "timeCostMinutes": 10,
-          "check": { "ability": "WIS", "skill": "Perception", "dc": 12 },
+          "check": {
+            "ability": "WIS",
+            "skill": "Perception",
+            "dc": 12
+          },
           "outcomes": {
             "success": {
               "goto": "ridge_insight",
               "effects": [
-                { "type": "set_flag", "key": "cava_layout_read", "value": true }
+                {
+                  "type": "set_flag",
+                  "key": "cava_layout_read",
+                  "value": true
+                }
               ]
             },
             "failure": {
@@ -96,7 +126,10 @@
           "timeCostMinutes": 10,
           "goto": "visitor_perimeter",
           "effects": [
-            { "type": "set_location", "locationId": "ast_quarry_perimeter" }
+            {
+              "type": "set_location",
+              "locationId": "ast_quarry_perimeter"
+            }
           ]
         }
       ]
@@ -119,7 +152,10 @@
           "timeCostMinutes": 10,
           "goto": "visitor_perimeter",
           "effects": [
-            { "type": "set_location", "locationId": "ast_quarry_perimeter" }
+            {
+              "type": "set_location",
+              "locationId": "ast_quarry_perimeter"
+            }
           ]
         }
       ]
@@ -138,7 +174,10 @@
           "timeCostMinutes": 10,
           "goto": "visitor_perimeter",
           "effects": [
-            { "type": "set_location", "locationId": "ast_quarry_perimeter" }
+            {
+              "type": "set_location",
+              "locationId": "ast_quarry_perimeter"
+            }
           ]
         }
       ]
@@ -165,7 +204,10 @@
           "timeCostMinutes": 10,
           "goto": "fauna_viewpoint",
           "effects": [
-            { "type": "set_location", "locationId": "ast_quarry_fauna_point" }
+            {
+              "type": "set_location",
+              "locationId": "ast_quarry_fauna_point"
+            }
           ]
         },
         {
@@ -231,7 +273,10 @@
           "text": "Torno dentro il perimetro.",
           "goto": "visitor_perimeter",
           "effects": [
-            { "type": "set_location", "locationId": "ast_quarry_perimeter" }
+            {
+              "type": "set_location",
+              "locationId": "ast_quarry_perimeter"
+            }
           ]
         }
       ]
@@ -249,7 +294,10 @@
           "text": "Torno dentro il perimetro.",
           "goto": "visitor_perimeter",
           "effects": [
-            { "type": "set_location", "locationId": "ast_quarry_perimeter" }
+            {
+              "type": "set_location",
+              "locationId": "ast_quarry_perimeter"
+            }
           ]
         }
       ]
@@ -267,7 +315,10 @@
           "text": "Lo osservo scendere e torno dentro il perimetro.",
           "goto": "visitor_perimeter",
           "effects": [
-            { "type": "set_location", "locationId": "ast_quarry_perimeter" }
+            {
+              "type": "set_location",
+              "locationId": "ast_quarry_perimeter"
+            }
           ]
         }
       ]
@@ -285,7 +336,10 @@
           "text": "Lo lascio stare e torno dentro il perimetro.",
           "goto": "visitor_perimeter",
           "effects": [
-            { "type": "set_location", "locationId": "ast_quarry_perimeter" }
+            {
+              "type": "set_location",
+              "locationId": "ast_quarry_perimeter"
+            }
           ]
         }
       ]
@@ -303,7 +357,10 @@
           "text": "Non lo disturbo e torno dentro il perimetro.",
           "goto": "visitor_perimeter",
           "effects": [
-            { "type": "set_location", "locationId": "ast_quarry_perimeter" }
+            {
+              "type": "set_location",
+              "locationId": "ast_quarry_perimeter"
+            }
           ]
         }
       ]
@@ -321,7 +378,10 @@
           "text": "Lo lascio al suo giro e torno dentro il perimetro.",
           "goto": "visitor_perimeter",
           "effects": [
-            { "type": "set_location", "locationId": "ast_quarry_perimeter" }
+            {
+              "type": "set_location",
+              "locationId": "ast_quarry_perimeter"
+            }
           ]
         }
       ]
@@ -339,7 +399,10 @@
           "text": "Torno dentro il perimetro.",
           "goto": "visitor_perimeter",
           "effects": [
-            { "type": "set_location", "locationId": "ast_quarry_perimeter" }
+            {
+              "type": "set_location",
+              "locationId": "ast_quarry_perimeter"
+            }
           ]
         }
       ]
@@ -365,7 +428,11 @@
           "text": "Prendo nota mentale della pressione produttiva.",
           "goto": "visitor_perimeter",
           "effects": [
-            { "type": "set_flag", "key": "cava_production_pressure_noticed", "value": true }
+            {
+              "type": "set_flag",
+              "key": "cava_production_pressure_noticed",
+              "value": true
+            }
           ]
         },
         {
@@ -406,6 +473,16 @@
           "goto": "tech_ferravia"
         },
         {
+          "id": "tech_raise_pressure",
+          "text": "Gli chiedo della nota sull'aumento di produzione e di quanto margine resta ai protocolli di sicurezza.",
+          "timeCostMinutes": 10,
+          "conditions": {
+            "path": "world.flags.cava_production_pressure_noticed",
+            "eq": true
+          },
+          "goto": "tech_pressure"
+        },
+        {
           "id": "tech_office_leave",
           "text": "Lo lascio al suo lavoro e torno nel perimetro.",
           "goto": "visitor_perimeter"
@@ -425,7 +502,11 @@
           "text": "Prendo nota mentale e torno in ufficio.",
           "goto": "tech_office",
           "effects": [
-            { "type": "set_flag", "key": "cava_old_maps_mentioned", "value": true }
+            {
+              "type": "set_flag",
+              "key": "cava_old_maps_mentioned",
+              "value": true
+            }
           ]
         }
       ]
@@ -458,7 +539,11 @@
           "text": "Prendo nota del collegamento con Ferravia.",
           "goto": "tech_office",
           "effects": [
-            { "type": "set_flag", "key": "ferravia_mentioned", "value": true }
+            {
+              "type": "set_flag",
+              "key": "ferravia_mentioned",
+              "value": true
+            }
           ]
         }
       ]
@@ -481,7 +566,10 @@
           "timeCostMinutes": 90,
           "goto": "m03-ferravia-arrival#station_approach",
           "effects": [
-            { "type": "set_location", "locationId": "fer_city_station" }
+            {
+              "type": "set_location",
+              "locationId": "fer_city_station"
+            }
           ]
         },
         {
@@ -490,7 +578,10 @@
           "timeCostMinutes": 180,
           "goto": "m01-valedarsena-first-arrival#city_hub",
           "effects": [
-            { "type": "set_location", "locationId": "valedarsena_city" }
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
           ]
         },
         {
@@ -498,8 +589,104 @@
           "text": "Torno al punto di ingresso della fascia Rank D per riorientarmi.",
           "goto": "m03-handoff#access_band_open",
           "effects": [
-            { "type": "set_location", "locationId": "m03_entry_point" }
+            {
+              "type": "set_location",
+              "locationId": "m03_entry_point"
+            }
           ]
+        }
+      ]
+    },
+    "tech_pressure": {
+      "stitches": [
+        {
+          "id": "pressure_answer",
+          "text": "L'ingegnere non si irrigidisce. «La produzione è salita, sì. Il protocollo non è cambiato: se una verifica richiede tempo, quel tempo resta nel turno. Il problema non è una regola scritta male; è quanto bene le persone continuano a rispettarla quando i numeri diventano importanti.»"
+        },
+        {
+          "id": "pressure_choice",
+          "text": "La risposta è prudente ma concreta. Puoi accettarla come quadro operativo oppure provare a capire se esiste già un margine più sottile di quanto il pannello lasci intendere."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pressure_probe_details",
+          "text": "Provo a farmi spiegare dove il margine operativo è più stretto. (CT Persuasion)",
+          "timeCostMinutes": 10,
+          "check": {
+            "ability": "CHA",
+            "skill": "Persuasion",
+            "dc": 12
+          },
+          "outcomes": {
+            "success": {
+              "goto": "tech_pressure_detail",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "cava_pressure_response_heard",
+                  "value": true
+                },
+                {
+                  "type": "set_flag",
+                  "key": "cava_shift_margin_known",
+                  "value": true
+                }
+              ]
+            },
+            "failure": {
+              "goto": "tech_pressure_guarded",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "cava_pressure_response_heard",
+                  "value": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "pressure_accept_answer",
+          "text": "Prendo la risposta per quello che è e torno alle altre domande.",
+          "goto": "tech_office",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "cava_pressure_response_heard",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "tech_pressure_detail": {
+      "stitches": [
+        {
+          "id": "pressure_detail_text",
+          "text": "Dopo un momento indica la mappa dei turni: «Il collo di bottiglia è la terrazza bassa. Non è fuori norma, ma lì ogni ritardo si propaga a Ferravia. È il punto in cui la disciplina conta di più.» È informazione tecnica, non una profezia."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pressure_detail_back",
+          "text": "Lo ringrazio e torno alle altre domande.",
+          "goto": "tech_office"
+        }
+      ]
+    },
+    "tech_pressure_guarded": {
+      "stitches": [
+        {
+          "id": "pressure_guarded_text",
+          "text": "L'ingegnere scuote la testa. «Più dettaglio di così significa parlare di turni e responsabilità individuali. Non con un visitatore.» Il limite è legittimo; hai comunque ottenuto il quadro generale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pressure_guarded_back",
+          "text": "Accetto il limite e torno alle altre domande.",
+          "goto": "tech_office"
         }
       ]
     }
