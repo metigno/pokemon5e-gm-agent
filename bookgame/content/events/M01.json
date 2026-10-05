@@ -259,6 +259,179 @@
           ]
         }
       ]
+    },
+    {
+      "id": "A1_BLUE_CIRCUIT_START",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "events.A1_WORLD_MOVES.status",
+            "eq": "resolved"
+          },
+          {
+            "path": "events.A1_BLUE_CIRCUIT_START.status",
+            "exists": false
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "arena_program",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_blue_circuit_started",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "blue_current_schedule",
+              "value": "arena"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "currentSchedule",
+              "value": "arena"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Blue",
+              "scheduleId": "blue_m1_arena",
+              "locationId": "valedarsena_arena",
+              "availability": "available",
+              "activity": "rookie_circuit_observation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A1_BLUE_CIRCUIT_DAY2",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "events.A1_BLUE_CIRCUIT_START.status",
+            "eq": "resolved"
+          },
+          {
+            "path": "world.day",
+            "gte": 2
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "center_program",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "blue_current_schedule",
+              "value": "center"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "currentSchedule",
+              "value": "center"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Blue",
+              "scheduleId": "blue_m1_center",
+              "locationId": "valedarsena_center",
+              "availability": "available",
+              "activity": "pokemon_recovery_and_planning"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A1_BLUE_CIRCUIT_DAY3",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "events.A1_BLUE_CIRCUIT_DAY2.status",
+            "eq": "resolved"
+          },
+          {
+            "path": "world.day",
+            "gte": 3
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "field_program",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "blue_current_schedule",
+              "value": "field"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "currentSchedule",
+              "value": "field"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Blue",
+              "scheduleId": "blue_m1_field",
+              "locationId": "valedarsena_warehouses",
+              "availability": "available",
+              "activity": "rookie_field_job"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A1_BLUE_CIRCUIT_DAY4",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "events.A1_BLUE_CIRCUIT_DAY3.status",
+            "eq": "resolved"
+          },
+          {
+            "path": "world.day",
+            "gte": 4
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "shop_program",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "blue_current_schedule",
+              "value": "trainer_shop"
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Blue",
+              "key": "currentSchedule",
+              "value": "trainer_shop"
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Blue",
+              "scheduleId": "blue_m1_shop",
+              "locationId": "valedarsena_trainer_shop",
+              "availability": "available",
+              "activity": "rookie_equipment_planning"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
