@@ -843,6 +843,97 @@
       ],
       "choices": [
         {
+          "id": "friend_beat_01_arena",
+          "text": "Uno degli altri Five è davvero all'Arena: posso fermarmi a confrontarmi con lui.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.friend_beat_01_complete",
+                "ne": true
+              },
+              {
+                "any": [
+                  {
+                    "all": [
+                      {
+                        "path": "npcs.Luke.schedule.present",
+                        "eq": true
+                      },
+                      {
+                        "path": "npcs.Luke.schedule.locationId",
+                        "eq": "valedarsena_arena"
+                      }
+                    ]
+                  },
+                  {
+                    "all": [
+                      {
+                        "path": "npcs.Mattew.schedule.present",
+                        "eq": true
+                      },
+                      {
+                        "path": "npcs.Mattew.schedule.locationId",
+                        "eq": "valedarsena_arena"
+                      }
+                    ]
+                  },
+                  {
+                    "all": [
+                      {
+                        "path": "npcs.Daniel.schedule.present",
+                        "eq": true
+                      },
+                      {
+                        "path": "npcs.Daniel.schedule.locationId",
+                        "eq": "valedarsena_arena"
+                      }
+                    ]
+                  },
+                  {
+                    "all": [
+                      {
+                        "path": "npcs.Edward.schedule.present",
+                        "eq": true
+                      },
+                      {
+                        "path": "npcs.Edward.schedule.locationId",
+                        "eq": "valedarsena_arena"
+                      }
+                    ]
+                  },
+                  {
+                    "all": [
+                      {
+                        "path": "npcs.Fab.schedule.present",
+                        "eq": true
+                      },
+                      {
+                        "path": "npcs.Fab.schedule.locationId",
+                        "eq": "valedarsena_arena"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "goto": "m01-friend-beat-01#dispatch_arena",
+          "effects": [
+            {
+              "type": "friend_beat_select",
+              "locationId": "valedarsena_arena",
+              "contentType": "sparring",
+              "compatibleActivities": [
+                "technical_training",
+                "sparring"
+              ],
+              "preferredRecentResults": [
+                "spar_reviewed"
+              ]
+            }
+          ]
+        },
+        {
           "id": "blue_arena_intro",
           "text": "Blue sta osservando il programma rookie. Mi avvicino.",
           "conditions": {
@@ -1105,6 +1196,97 @@
         }
       ],
       "choices": [
+        {
+          "id": "friend_beat_01",
+          "text": "Incrocio uno degli altri Five impegnato nel proprio programma in città.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.friend_beat_01_complete",
+                "ne": true
+              },
+              {
+                "any": [
+                  {
+                    "all": [
+                      {
+                        "path": "npcs.Luke.schedule.present",
+                        "eq": true
+                      },
+                      {
+                        "path": "npcs.Luke.schedule.locationId",
+                        "eq": "valedarsena_city"
+                      }
+                    ]
+                  },
+                  {
+                    "all": [
+                      {
+                        "path": "npcs.Mattew.schedule.present",
+                        "eq": true
+                      },
+                      {
+                        "path": "npcs.Mattew.schedule.locationId",
+                        "eq": "valedarsena_city"
+                      }
+                    ]
+                  },
+                  {
+                    "all": [
+                      {
+                        "path": "npcs.Daniel.schedule.present",
+                        "eq": true
+                      },
+                      {
+                        "path": "npcs.Daniel.schedule.locationId",
+                        "eq": "valedarsena_city"
+                      }
+                    ]
+                  },
+                  {
+                    "all": [
+                      {
+                        "path": "npcs.Edward.schedule.present",
+                        "eq": true
+                      },
+                      {
+                        "path": "npcs.Edward.schedule.locationId",
+                        "eq": "valedarsena_city"
+                      }
+                    ]
+                  },
+                  {
+                    "all": [
+                      {
+                        "path": "npcs.Fab.schedule.present",
+                        "eq": true
+                      },
+                      {
+                        "path": "npcs.Fab.schedule.locationId",
+                        "eq": "valedarsena_city"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "goto": "m01-friend-beat-01#dispatch_city",
+          "effects": [
+            {
+              "type": "friend_beat_select",
+              "locationId": "valedarsena_city",
+              "contentType": "city_encounter",
+              "compatibleActivities": [
+                "city_analysis",
+                "city_training"
+              ],
+              "preferredRecentResults": [
+                "job_observed"
+              ]
+            }
+          ]
+        },
         {
           "id": "rank_e_access",
           "text": "Controllo le nuove destinazioni disponibili al Rank E.",
