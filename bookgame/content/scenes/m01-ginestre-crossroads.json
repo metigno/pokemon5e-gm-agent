@@ -35,6 +35,20 @@
               "type": "set_flag",
               "key": "m1_first_fork_choice",
               "value": "valedarsena"
+            },
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            },
+            {
+              "type": "set_flag",
+              "key": "first_settlement_reached",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "valedarsena_discovered",
+              "value": true
             }
           ],
           "timeCostMinutes": 70
@@ -244,6 +258,20 @@
               "type": "set_flag",
               "key": "m1_first_fork_choice",
               "value": "valedarsena"
+            },
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            },
+            {
+              "type": "set_flag",
+              "key": "first_settlement_reached",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "valedarsena_discovered",
+              "value": true
             }
           ]
         },
@@ -298,6 +326,20 @@
               "type": "set_flag",
               "key": "m1_first_fork_choice",
               "value": "valedarsena"
+            },
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            },
+            {
+              "type": "set_flag",
+              "key": "first_settlement_reached",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "valedarsena_discovered",
+              "value": true
             }
           ]
         },
@@ -376,6 +418,20 @@
               "type": "set_flag",
               "key": "m1_first_fork_choice",
               "value": "valedarsena"
+            },
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            },
+            {
+              "type": "set_flag",
+              "key": "first_settlement_reached",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "valedarsena_discovered",
+              "value": true
             }
           ]
         },
@@ -437,6 +493,20 @@
               "type": "set_flag",
               "key": "m1_first_fork_choice",
               "value": "valedarsena"
+            },
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            },
+            {
+              "type": "set_flag",
+              "key": "first_settlement_reached",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "valedarsena_discovered",
+              "value": true
             }
           ]
         },
@@ -505,6 +575,20 @@
               "type": "set_flag",
               "key": "m1_first_fork_choice",
               "value": "valedarsena"
+            },
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            },
+            {
+              "type": "set_flag",
+              "key": "first_settlement_reached",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "valedarsena_discovered",
+              "value": true
             }
           ]
         },
@@ -587,6 +671,20 @@
               "type": "set_flag",
               "key": "m1_first_fork_choice",
               "value": "valedarsena"
+            },
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            },
+            {
+              "type": "set_flag",
+              "key": "first_settlement_reached",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "valedarsena_discovered",
+              "value": true
             }
           ]
         },
