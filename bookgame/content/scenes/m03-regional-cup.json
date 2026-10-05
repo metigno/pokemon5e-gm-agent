@@ -302,7 +302,29 @@
             "returnNodes": {
               "win": "quarterfinal_win",
               "lose": "quarterfinal_loss"
-            }
+            },
+            "opponentTrainerId": "FER_CUP_MIRA_DOSS",
+            "opponent": {
+              "species": "Growlithe",
+              "level": 7,
+              "abilityId": "intimidate",
+              "trainerId": "FER_CUP_MIRA_DOSS"
+            },
+            "opponentBench": [
+              {
+                "species": "Roselia",
+                "level": 7,
+                "abilityId": "natural-cure",
+                "trainerId": "FER_CUP_MIRA_DOSS"
+              },
+              {
+                "species": "Sableye",
+                "level": 7,
+                "abilityId": "keen-eye",
+                "trainerId": "FER_CUP_MIRA_DOSS"
+              }
+            ],
+            "goto": "quarterfinal_handoff"
           }
         }
       ]
@@ -464,7 +486,29 @@
             "returnNodes": {
               "win": "semifinal_win",
               "lose": "semifinal_loss"
-            }
+            },
+            "opponentTrainerId": "FER_CUP_OREN_PIKE",
+            "opponent": {
+              "species": "Roselia",
+              "level": 7,
+              "abilityId": "natural-cure",
+              "trainerId": "FER_CUP_OREN_PIKE"
+            },
+            "opponentBench": [
+              {
+                "species": "Sableye",
+                "level": 7,
+                "abilityId": "keen-eye",
+                "trainerId": "FER_CUP_OREN_PIKE"
+              },
+              {
+                "species": "Growlithe",
+                "level": 7,
+                "abilityId": "intimidate",
+                "trainerId": "FER_CUP_OREN_PIKE"
+              }
+            ],
+            "goto": "semifinal_handoff"
           }
         }
       ]
@@ -626,7 +670,29 @@
             "returnNodes": {
               "win": "final_win",
               "lose": "final_loss"
-            }
+            },
+            "opponentTrainerId": "FER_CUP_SENA_VOLTA",
+            "opponent": {
+              "species": "Sableye",
+              "level": 8,
+              "abilityId": "keen-eye",
+              "trainerId": "FER_CUP_SENA_VOLTA"
+            },
+            "opponentBench": [
+              {
+                "species": "Growlithe",
+                "level": 8,
+                "abilityId": "intimidate",
+                "trainerId": "FER_CUP_SENA_VOLTA"
+              },
+              {
+                "species": "Roselia",
+                "level": 8,
+                "abilityId": "natural-cure",
+                "trainerId": "FER_CUP_SENA_VOLTA"
+              }
+            ],
+            "goto": "final_handoff"
           }
         }
       ]
