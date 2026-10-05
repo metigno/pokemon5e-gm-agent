@@ -235,20 +235,42 @@
       "id": "A2_NETWORK_OUTCOME",
       "once": true,
       "trigger": {
-        "all": [
-          {"path": "world.flags.local_problem_started", "eq": true},
-          {"any": [
-            {"path": "world.flags.crisis_moves_complete", "eq": true},
-            {"path": "world.flags.poaching_network_state", "eq": "intervened"},
-            {"path": "world.day", "gte": 25}
-          ]}
+        "any": [
+          {
+            "path": "competition.rank",
+            "eq": "D"
+          },
+          {
+            "path": "world.day",
+            "gte": 25
+          },
+          {
+            "path": "world.flags.crisis_moves_complete",
+            "eq": true
+          },
+          {
+            "all": [
+              {
+                "path": "world.flags.local_problem_started",
+                "eq": true
+              },
+              {
+                "path": "world.flags.poaching_network_state",
+                "eq": "intervened"
+              }
+            ]
+          }
         ]
       },
       "outcomes": [
         {
           "id": "network_outcome_window",
           "effects": [
-            {"type": "set_flag", "key": "a2_network_outcome_available", "value": true}
+            {
+              "type": "set_flag",
+              "key": "a2_network_outcome_available",
+              "value": true
+            }
           ]
         }
       ]
@@ -258,15 +280,25 @@
       "once": true,
       "trigger": {
         "all": [
-          { "path": "competition.rank", "eq": "E" },
-          { "path": "player.trainerLevel", "gte": 4 }
+          {
+            "path": "competition.rank",
+            "eq": "E"
+          },
+          {
+            "path": "player.trainerLevel",
+            "gte": 4
+          }
         ]
       },
       "outcomes": [
         {
           "id": "trial_e_d_available",
           "effects": [
-            { "type": "set_flag", "key": "a2_rank_trial_e_d_available", "value": true }
+            {
+              "type": "set_flag",
+              "key": "a2_rank_trial_e_d_available",
+              "value": true
+            }
           ]
         }
       ]

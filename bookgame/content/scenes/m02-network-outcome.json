@@ -7,12 +7,38 @@
   "entryNodeId": "network_outcome_review",
   "conditions": {
     "all": [
-      {"path": "world.flags.m1_complete", "eq": true},
-      {"path": "world.flags.m02_unlocked", "eq": true},
-      {"path": "world.flags.m2_active", "eq": true},
-      {"path": "competition.rank", "eq": "E"},
-      {"path": "world.flags.a2_network_outcome_available", "eq": true},
-      {"path": "world.flags.network_outcome_complete", "ne": true}
+      {
+        "path": "world.flags.m1_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m02_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m2_active",
+        "eq": true
+      },
+      {
+        "any": [
+          {
+            "path": "competition.rank",
+            "eq": "E"
+          },
+          {
+            "path": "competition.rank",
+            "eq": "D"
+          }
+        ]
+      },
+      {
+        "path": "world.flags.a2_network_outcome_available",
+        "eq": true
+      },
+      {
+        "path": "world.flags.network_outcome_complete",
+        "ne": true
+      }
     ]
   },
   "nodes": {
@@ -33,14 +59,27 @@
           "text": "L'operazione è stata effettivamente interrotta — c'è documentazione formale e Elio ha una traccia ufficiale.",
           "conditions": {
             "all": [
-              {"path": "world.flags.poaching_network_state", "eq": "intervened"},
-              {"path": "world.flags.crisis_ranger_alerted", "eq": true},
-              {"path": "world.flags.crisis_ranger_full_report", "eq": true}
+              {
+                "path": "world.flags.poaching_network_state",
+                "eq": "intervened"
+              },
+              {
+                "path": "world.flags.crisis_ranger_alerted",
+                "eq": true
+              },
+              {
+                "path": "world.flags.crisis_ranger_full_report",
+                "eq": true
+              }
             ]
           },
           "goto": "outcome_context_resolved",
           "effects": [
-            {"type": "set_flag", "key": "poaching_network_state", "value": "resolved"}
+            {
+              "type": "set_flag",
+              "key": "poaching_network_state",
+              "value": "resolved"
+            }
           ]
         },
         {
@@ -50,18 +89,51 @@
             "all": [
               {
                 "any": [
-                  {"path": "world.flags.poaching_network_state", "eq": "intervened"},
-                  {"path": "world.flags.poaching_network_state", "eq": "investigating"},
-                  {"path": "world.flags.poaching_network_disrupted", "eq": true},
-                  {"path": "world.flags.crisis_ranger_alerted", "eq": true}
+                  {
+                    "path": "world.flags.poaching_network_state",
+                    "eq": "intervened"
+                  },
+                  {
+                    "path": "world.flags.poaching_network_state",
+                    "eq": "investigating"
+                  },
+                  {
+                    "path": "world.flags.poaching_network_disrupted",
+                    "eq": true
+                  },
+                  {
+                    "path": "world.flags.ranger_thread_opened",
+                    "eq": true
+                  },
+                  {
+                    "path": "world.flags.capture_report_given",
+                    "eq": true
+                  },
+                  {
+                    "path": "world.flags.crisis_ranger_alerted",
+                    "eq": true
+                  },
+                  {
+                    "path": "world.flags.crisis_evidence_gathered",
+                    "eq": true
+                  }
                 ]
               },
               {
                 "not": {
                   "all": [
-                    {"path": "world.flags.poaching_network_state", "eq": "intervened"},
-                    {"path": "world.flags.crisis_ranger_alerted", "eq": true},
-                    {"path": "world.flags.crisis_ranger_full_report", "eq": true}
+                    {
+                      "path": "world.flags.poaching_network_state",
+                      "eq": "intervened"
+                    },
+                    {
+                      "path": "world.flags.crisis_ranger_alerted",
+                      "eq": true
+                    },
+                    {
+                      "path": "world.flags.crisis_ranger_full_report",
+                      "eq": true
+                    }
                   ]
                 }
               }
@@ -69,7 +141,11 @@
           },
           "goto": "outcome_context_partial",
           "effects": [
-            {"type": "set_flag", "key": "poaching_network_state", "value": "partial"}
+            {
+              "type": "set_flag",
+              "key": "poaching_network_state",
+              "value": "partial"
+            }
           ]
         },
         {
@@ -77,14 +153,61 @@
           "text": "Ho scelto di non intervenire direttamente — e il problema ha continuato a muoversi senza risposta.",
           "conditions": {
             "all": [
-              {"path": "world.flags.local_problem_ignored", "eq": true},
+              {
+                "any": [
+                  {
+                    "path": "world.flags.local_problem_ignored",
+                    "eq": true
+                  },
+                  {
+                    "path": "world.flags.crisis_escalation_type",
+                    "eq": "network_unchecked"
+                  },
+                  {
+                    "path": "world.flags.crisis_escalation_type",
+                    "eq": "silent_spread"
+                  },
+                  {
+                    "path": "world.flags.crisis_escalation_type",
+                    "eq": "partial_response"
+                  },
+                  {
+                    "path": "world.flags.crisis_intensified",
+                    "eq": true
+                  }
+                ]
+              },
               {
                 "not": {
                   "any": [
-                    {"path": "world.flags.poaching_network_state", "eq": "intervened"},
-                    {"path": "world.flags.poaching_network_state", "eq": "investigating"},
-                    {"path": "world.flags.poaching_network_disrupted", "eq": true},
-                    {"path": "world.flags.crisis_ranger_alerted", "eq": true}
+                    {
+                      "path": "world.flags.poaching_network_state",
+                      "eq": "intervened"
+                    },
+                    {
+                      "path": "world.flags.poaching_network_state",
+                      "eq": "investigating"
+                    },
+                    {
+                      "path": "world.flags.poaching_network_disrupted",
+                      "eq": true
+                    },
+                    {
+                      "path": "world.flags.ranger_thread_opened",
+                      "eq": true
+                    },
+                    {
+                      "path": "world.flags.capture_report_given",
+                      "eq": true
+                    },
+                    {
+                      "path": "world.flags.crisis_ranger_alerted",
+                      "eq": true
+                    },
+                    {
+                      "path": "world.flags.crisis_evidence_gathered",
+                      "eq": true
+                    }
                   ]
                 }
               }
@@ -92,7 +215,11 @@
           },
           "goto": "outcome_context_escalated",
           "effects": [
-            {"type": "set_flag", "key": "poaching_network_state", "value": "escalated"}
+            {
+              "type": "set_flag",
+              "key": "poaching_network_state",
+              "value": "escalated"
+            }
           ]
         },
         {
@@ -100,14 +227,63 @@
           "text": "Non ho interagito in modo significativo con il problema — è rimasto aperto senza traccia mia nel sistema.",
           "conditions": {
             "all": [
-              {"not": {"path": "world.flags.local_problem_ignored", "eq": true}},
               {
                 "not": {
                   "any": [
-                    {"path": "world.flags.poaching_network_state", "eq": "intervened"},
-                    {"path": "world.flags.poaching_network_state", "eq": "investigating"},
-                    {"path": "world.flags.poaching_network_disrupted", "eq": true},
-                    {"path": "world.flags.crisis_ranger_alerted", "eq": true}
+                    {
+                      "path": "world.flags.poaching_network_state",
+                      "eq": "intervened"
+                    },
+                    {
+                      "path": "world.flags.poaching_network_state",
+                      "eq": "investigating"
+                    },
+                    {
+                      "path": "world.flags.poaching_network_disrupted",
+                      "eq": true
+                    },
+                    {
+                      "path": "world.flags.ranger_thread_opened",
+                      "eq": true
+                    },
+                    {
+                      "path": "world.flags.capture_report_given",
+                      "eq": true
+                    },
+                    {
+                      "path": "world.flags.crisis_ranger_alerted",
+                      "eq": true
+                    },
+                    {
+                      "path": "world.flags.crisis_evidence_gathered",
+                      "eq": true
+                    }
+                  ]
+                }
+              },
+              {
+                "not": {
+                  "any": [
+                    {
+                      "path": "world.flags.local_problem_ignored",
+                      "eq": true
+                    },
+                    {
+                      "path": "world.flags.crisis_escalation_type",
+                      "eq": "network_unchecked"
+                    },
+                    {
+                      "path": "world.flags.crisis_escalation_type",
+                      "eq": "silent_spread"
+                    },
+                    {
+                      "path": "world.flags.crisis_escalation_type",
+                      "eq": "partial_response"
+                    },
+                    {
+                      "path": "world.flags.crisis_intensified",
+                      "eq": true
+                    }
                   ]
                 }
               }
@@ -115,12 +291,15 @@
           },
           "goto": "outcome_context_ignored",
           "effects": [
-            {"type": "set_flag", "key": "poaching_network_state", "value": "ignored"}
+            {
+              "type": "set_flag",
+              "key": "poaching_network_state",
+              "value": "ignored"
+            }
           ]
         }
       ]
     },
-
     "outcome_context_resolved": {
       "stitches": [
         {
@@ -151,7 +330,6 @@
         }
       ]
     },
-
     "outcome_n_impact_resolved": {
       "stitches": [
         {
@@ -178,7 +356,6 @@
         }
       ]
     },
-
     "outcome_ranger_debrief": {
       "stitches": [
         {
@@ -209,7 +386,6 @@
         }
       ]
     },
-
     "outcome_register_resolved": {
       "stitches": [
         {
@@ -225,7 +401,6 @@
         }
       ]
     },
-
     "outcome_context_partial": {
       "stitches": [
         {
@@ -256,7 +431,6 @@
         }
       ]
     },
-
     "outcome_partial_assess": {
       "stitches": [
         {
@@ -288,7 +462,6 @@
         }
       ]
     },
-
     "outcome_register_partial": {
       "stitches": [
         {
@@ -304,16 +477,15 @@
         }
       ]
     },
-
     "outcome_context_escalated": {
       "stitches": [
         {
           "id": "escalated_1",
-          "text": "Hai ignorato il problema — o lo hai lasciato ignorare senza risposta. Nel frattempo, la rete ha continuato a muoversi. I punti di raccolta si sono spostati, i contatti si sono adattati, il pattern ha preso forma più solida. Non è colpa tua nel senso legale. È colpa tua nel senso pratico."
+          "text": "La situazione è peggiorata senza essere contenuta. I punti di raccolta si sono spostati, i contatti si sono adattati e il pattern clandestino ha guadagnato struttura. Questo esito non richiede che tu abbia scelto esplicitamente di ignorarlo: richiede che il mondo mostri una vera escalation e che non risulti un intervento significativo."
         },
         {
           "id": "escalated_2",
-          "text": "Il Circuito non ha traccia del tuo non-intervento. Ma il bosco ha memoria. Le specie che stavi osservando si sono spostate. Le anomalie che avevi notato sono diventate struttura."
+          "text": "Il Circuito non inventa una colpa personale. Registra soltanto che il problema è diventato più difficile da contenere prima che una risposta efficace lo fermasse."
         }
       ],
       "choices": [
@@ -335,7 +507,6 @@
         }
       ]
     },
-
     "outcome_escalated_assess": {
       "stitches": [
         {
@@ -367,7 +538,6 @@
         }
       ]
     },
-
     "outcome_register_escalated": {
       "stitches": [
         {
@@ -383,16 +553,15 @@
         }
       ]
     },
-
     "outcome_context_ignored": {
       "stitches": [
         {
           "id": "ignored_1",
-          "text": "Non hai interagito con il problema in modo significativo. Non hai avviato una traccia ranger, non hai raccolto prove formali, non hai coinvolto nessuno. Non è stata una scelta esplicita di evitare — semplicemente non è entrato nella tua lista di priorità."
+          "text": "Non risulta un intervento significativo da parte tua e non esiste neppure un segnale canonico di escalation. Il problema è rimasto fuori dal tuo percorso operativo: nessuna prova formale, nessuna risposta Ranger sostanziale, nessuna azione che permetta di chiamarlo risolto o parziale."
         },
         {
           "id": "ignored_2",
-          "text": "Il bosco ha continuato. L'operazione ha continuato. Tu hai continuato in un'altra direzione. Non esiste un registro di questo — perché non c'è un registro del non-agire."
+          "text": "Questo viene classificato come ignored, non escalated. Il sistema non fabbrica un peggioramento che lo stato del mondo non ha realmente registrato."
         }
       ],
       "choices": [
@@ -413,7 +582,6 @@
         }
       ]
     },
-
     "outcome_ignored_assess": {
       "stitches": [
         {
@@ -445,7 +613,6 @@
         }
       ]
     },
-
     "outcome_register_ignored": {
       "stitches": [
         {
@@ -461,7 +628,6 @@
         }
       ]
     },
-
     "outcome_network_close": {
       "stitches": [
         {
@@ -475,8 +641,15 @@
           "text": "Torno al borgo.",
           "goto": "m02-borgo-salice#borough_hub",
           "effects": [
-            {"type": "set_flag", "key": "network_outcome_complete", "value": true},
-            {"type": "set_location", "locationId": "borgo_salice"}
+            {
+              "type": "set_flag",
+              "key": "network_outcome_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
           ]
         }
       ]
