@@ -5,7 +5,7 @@
 **Purpose:** production map for converting M2 into validated offline story content  
 **Locked authored budget:** **5,700 stitches / 3,700 player choices**
 
-**Module implementation status:** **MAPPED / NOT YET PRODUCTION-COMPLETE**
+**Module implementation status:** **ALL 14 BLOCKS LOCKED / PRODUCTION-COMPLETE (narrative scaffold)**
 
 E1–E7 are reusable infrastructure from M1. A block may extend generic data or content, but must not fork those engines into module-specific substitutes.
 
@@ -66,8 +66,8 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 | M2_10_CRISIS_MOVES | A2_CRISIS_ESCALATES e conseguenze se il player ritarda | 336 | 218 | COMPLETE |
 | M2_11_NETWORK_OUTCOME | registrare esito resolved/partial/ignored/escalated senza reset | 437 | 284 | LOCKED |
 | M2_12_TRIAL_REGISTRATION | eligibility E→D alla Sala Verde, roster legale e preparazione | 437 | 284 | LOCKED |
-| M2_13_PROMOTION_TRIAL_E_D | checkpoint RANK_E_TO_D, Singles roster ufficiale 3 | 488 | 316 | PLANNED |
-| M2_14_TRIAL_RESULT | loss/retry o Rank D; chiusura M2 senza cancellare il mondo | 437 | 284 | PLANNED |
+| M2_13_PROMOTION_TRIAL_E_D | checkpoint RANK_E_TO_D, Singles roster ufficiale 3 | 488 | 316 | LOCKED |
+| M2_14_TRIAL_RESULT | loss/retry o Rank D; chiusura M2 senza cancellare il mondo | 437 | 284 | LOCKED |
 | **TOTAL** |  | **5,700** | **3,700** | |
 
 Budgets are authored surface capacity. One run sees only the paths made legal by its state.
@@ -325,11 +325,17 @@ Scene `m02-rookie-invitational` (moduleId M02, locationId `borgo_salice_sala_ver
 
 **Purpose:** checkpoint RANK_E_TO_D, Singles roster ufficiale 3.
 
-**Reads:** canonical player/world/NPC/competition state required by the scene; prior-module callbacks only when present.
+**Scene:** `m02-promotion-trial-e-d` (moduleId M02, locationId borgo_salice_arena). Entry conditions: m1_complete, m02_unlocked, m2_active, rank=E, RANK_E_TO_D.registered=true.
 
-**Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
+**Entry:** from `m02-trial-registration` via `proceed_to_trial`, `enter_trial_return`, `ready_after_prep`, `proceed_to_trial_after_strategy`.
 
-**Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+**Combat:** `trial_ines_briefing#begin_trial` → `trial_combat_handoff` (terminal). Opponent: Ines Varga (`SAL_GATE_E_D_INES_VARGA`), Lead Growlithe lv5 (Intimidate), Bench Roselia lv5 (Natural Cure), Bench Sableye lv4 (Keen Eye). Difficulty HARD, officialRosterSize 3, retryable. returnNodes: `{win: "m02-trial-result#trial_win", lose: "m02-trial-result#trial_loss"}`.
+
+**Withdraw paths:** `withdraw_before_briefing` / `withdraw_before_start` → `m02-trial-registration#trial_registered`.
+
+**Tests:** `tests/m02-promotion-trial-e-d.test.mjs` — 20 tests, 20 pass, 0 fail.
+
+**M02 cumulative after M2_13:** **185 nodes / 397 choices** (added: +3 nodes / +4 choices; M2_13 stub replaced with full scene).
 
 ---
 
@@ -337,11 +343,28 @@ Scene `m02-rookie-invitational` (moduleId M02, locationId `borgo_salice_sala_ver
 
 **Purpose:** loss/retry o Rank D; chiusura M2 senza cancellare il mondo.
 
-**Reads:** canonical player/world/NPC/competition state required by the scene; prior-module callbacks only when present.
+**Scene:** `m02-trial-result` (moduleId M02, locationId borgo_salice_arena). Entry conditions: m1_complete, m02_unlocked, m2_active (no rank requirement — accepts both rank D after win and rank E after loss).
 
-**Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
+**Entry:** via `returnNodes.win → trial_win` (rank=D after resolveCombatHandoff win) and `returnNodes.lose → trial_loss` (rank=E after loss).
 
-**Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+**Win path + M2 exit contract:**
+- `complete_m2_exit` (visible: rank=D AND n_met AND friend_beat_02_complete AND network_outcome_complete) → effects: m2_complete=true, m03_unlocked=true → `m2_exit_confirmed`
+- `review_m2_pending` (visible: rank=D AND NOT all exit conditions) → `m2_pending_items`
+- `m2_exit_confirmed#go_to_m03` → `m03-handoff#m03_entry` (conditions: m2_complete=true)
+- `m2_exit_confirmed#stay_rank_d` → `m02-borgo-salice#borough_hub`
+- `m2_pending_items`: conditional choices for missing network_outcome / n_met / friend_beat_02, plus always-visible `back_to_borgo_pending`
+
+**Loss path:**
+- `retry_trial` (visible: rank=E AND available=true AND registered≠true — engine clears registered on loss) → `m02-trial-registration#trial_desk`
+- `rest_before_retry` → `m02-borgo-salice#sala_verde`
+- `back_to_borough_loss` → `m02-borgo-salice#borough_hub`
+- World preservation: HP/PP/statuses from combat not reset; all M2 flags persist
+
+**Durable writes:** `m2_complete=true`, `m03_unlocked=true` (win + all exit conditions met).
+
+**Tests:** `tests/m02-trial-result.test.mjs` — 28 tests, 28 pass, 0 fail.
+
+**M02 cumulative after M2_14:** **192 nodes / 413 choices** (added: +7 nodes / +16 choices; M03 stub scene+module added for cross-scene validation).
 
 
 # 6. STATE OWNERSHIP
