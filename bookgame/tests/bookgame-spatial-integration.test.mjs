@@ -8,9 +8,17 @@ import { createNewGameState } from "../src/engine/state.mjs";
 
 const fixedNow = () => "2026-10-04T11:20:00.000Z";
 
+function firstRoadState() {
+  const state = firstRoadState();
+  state.world.locationId = "asteria_ginestre";
+  state.story.sceneId = "first-road";
+  state.story.nodeId = "arrival";
+  return state;
+}
+
 test("authored combat handoff carries trainer state and spatial coordinates", async () => {
   const book = new BookgameEngine({ now: fixedNow });
-  let state = createNewGameState({ protagonist: "Luke", now: fixedNow });
+  let state = firstRoadState();
   state.player.inventory = ["Great Ball"];
   state.player.trainerLevel = 5;
 
@@ -31,7 +39,7 @@ test("capture outcome returns to authored branch and persists inventory plus ros
     dice: new SequenceDice([15, 5, 20])
   });
 
-  let state = createNewGameState({ protagonist: "Luke", now: fixedNow });
+  let state = firstRoadState();
   state.player.inventory = ["Great Ball"];
   state.player.trainerLevel = 5;
   state = await book.choose(state, "send_starter");
