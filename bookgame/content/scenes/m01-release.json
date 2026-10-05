@@ -59,6 +59,20 @@
             {
               "type": "set_location",
               "locationId": "valedarsena_road"
+            },
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            },
+            {
+              "type": "set_flag",
+              "key": "first_settlement_reached",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "valedarsena_discovered",
+              "value": true
             }
           ]
         },
