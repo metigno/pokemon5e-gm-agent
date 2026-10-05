@@ -100,7 +100,10 @@ test("M1_04 arrival offers services gradually and Job Board can be ignored", asy
   state = await engine.choose(state, "ignore");
   assert.equal(state.story.nodeId, "city_hub");
   assert.equal(state.world.locationId, "valedarsena_city");
-  assert.deepEqual(state.quests, {});
+  assert.equal(state.quests.SQ_FARM_HERD_HANDS.status, "available");
+  assert.equal(state.quests.M1_VALE_LOGISTICS_01.status, "available");
+  assert.equal(state.quests.SQ_FARM_HERD_HANDS.startedAtMinutes, null);
+  assert.equal(state.quests.M1_VALE_LOGISTICS_01.startedAtMinutes, null);
 });
 
 test("M1_04 service navigation keeps world.locationId synchronized with the actual district", async () => {
