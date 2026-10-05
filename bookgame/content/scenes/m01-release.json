@@ -41,7 +41,7 @@
         {
           "id": "to_ginestre",
           "text": "Prendo Via delle Ginestre.",
-          "goto": "first-road#arrival",
+          "goto": "m01-first-road#road_entry",
           "timeCostMinutes": 20,
           "effects": [
             {
