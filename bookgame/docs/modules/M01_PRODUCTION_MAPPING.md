@@ -64,7 +64,7 @@ The graph is reconvergent, not linear. The player may move repeatedly between Gi
 | M1_05_JOB_BOARD | temporal jobs, logistics, Sera Noll | 360 | 260 | COMPLETE |
 | M1_06_FARM_HERD_HANDS | farm recovery quest and ecology | 450 | 310 | COMPLETE |
 | M1_07_WORLD_MOVES | pressure state machine and off-screen consequences | 450 | 290 | COMPLETE |
-| M1_08_BLUE_ENTERS | Blue causal introduction variants | 380 | 240 | ENGINE DEPENDENCY |
+| M1_08_BLUE_ENTERS | Blue causal introduction variants | 380 | 240 | COMPLETE |
 | M1_09_FRIEND_BEAT_01 | one of the other Four selected causally | 390 | 250 | ENGINE DEPENDENCY |
 | M1_10_FIRST_OFFICIAL | first sanctioned non-trial match | 270 | 170 | IMPLEMENTED / E5 WIRED |
 | M1_11_SECOND_POKEMON | legal routes to roster size 2 | 280 | 180 | IMPLEMENTED / E7 WIRED |
@@ -489,6 +489,22 @@ Required for:
 
 **Always allow:** talk, ignore, compete verbally, ask information, leave.  
 **Never require:** beating Blue.
+
+**Implementation lock:**
+
+- Blue is already a persistent E4 NPC at New Game with rookie-only state; M1 does not pre-load future achievements, mature personality, Blastoise/Mega Blastoise or any later-world roster;
+- after `A1_WORLD_MOVES` resolves, E6 starts Blue's own circuit progression independently of the player and advances his authored schedule through Arena Civica, Centro Pokémon, field/logistics work and Trainer Shop as world days advance;
+- Blue's first-meeting hooks appear only when his live E4 schedule says he is present at the same legal location as the player; there is no teleporting rival and no mandatory cutscene;
+- the canonical legal introduction contexts are all wired: Arena, Center, Trainer Shop and warehouse/logistics field overlap;
+- every minimum introduction exposes talk, ignore, verbal competition, information request and leave; ignoring or leaving still records a valid brief first recognition and never blocks M1 progression;
+- first contact writes durable `blue_met`, `blue_relationship_state`, `blue_m1_result_context` and the corresponding persistent Blue NPC state, while relationship adjustments remain contextual rather than forcing friendship or hostility;
+- the higher-presence Arena route may offer an optional rookie spar with Squirtle Lv5; the battle is delegated entirely to the Pokémon 5e resolver, has real win/loss outcomes, is not an official Circuit match and has no scripted winner;
+- neither meeting Blue nor later progression requires defeating him; a loss, win, technical conversation, competitive exchange, brief recognition or ignored encounter are all legal persistent outcomes;
+- Blue is never authored as the cause of the M1 ecological pressure and never replaces Ranger/worker evidence or investigation;
+- once the first meeting is recorded, first-introduction hooks disappear on later overlap instead of replaying the same scene;
+- Blue continues to move off-screen even if the player does not meet him immediately, proving that his career is not frozen around player presence;
+- schedule, meeting state, relationship/result context and optional spar outcome survive save/reload exactly;
+- dedicated regression coverage validates all four legal overlap contexts, all required interaction choices, off-screen schedule progression, optional real combat, non-victory progression, first-meeting idempotence and persistence.
 
 ---
 
