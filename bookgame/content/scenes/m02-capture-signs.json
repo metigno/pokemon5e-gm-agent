@@ -80,6 +80,16 @@
           "goto": "hollow_approach"
         },
         {
+          "id": "track_deeper",
+          "text": "Le tracce portano ancora più in là. Seguo.",
+          "timeCostMinutes": 20,
+          "conditions": {
+            "path": "world.flags.capture_signs_noticed",
+            "eq": true
+          },
+          "goto": "m02-n-enters#zorua_encounter"
+        },
+        {
           "id": "move_through",
           "text": "Non mi fermo a investigare. Continuo verso il bordo del bosco.",
           "timeCostMinutes": 30,

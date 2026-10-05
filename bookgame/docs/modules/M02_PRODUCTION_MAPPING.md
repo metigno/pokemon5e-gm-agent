@@ -57,7 +57,7 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 | M2_01_MISTWOOD_ENTRY | primo ingresso a Bosco Bruma, viaggio, nebbia e fauna contestuale | 286 | 186 | COMPLETE |
 | M2_02_CAPTURE_SIGNS | indizi di cattura illegale senza rendere il crimine automaticamente evidente | 337 | 218 | COMPLETE |
 | M2_03_BORGO_SALICE | hub locale, Ranger, servizi, voci e Sala Verde | 336 | 218 | COMPLETE |
-| M2_04_N_ENTERS | introduzione causale di N e primo contrasto etico | 336 | 218 | PLANNED |
+| M2_04_N_ENTERS | introduzione causale di N e primo contrasto etico | 336 | 218 | COMPLETE |
 | M2_05_RANGER_THREAD | collegare conseguenze Ranger/M1 alle nuove anomalie | 336 | 218 | PLANNED |
 | M2_06_MARSH_APPROACH | accesso progressivo verso Palude Mirto e aumento del rischio | 336 | 218 | PLANNED |
 | M2_07_POACHING_NETWORK | rami investigazione/intervento/evitamento con stato reale | 488 | 317 | PLANNED |
@@ -172,6 +172,9 @@ Scene `m02-borgo-salice` (moduleId M02, locationId borgo_salice) requires the fo
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+**Implementation lock (verified 2026-10-05):**
+Scene `m02-n-enters` (moduleId M02, locationId asteria_mistwood) requires all five entry conditions: `m1_complete=true`, `m02_unlocked=true`, `m2_active=true`, `competition.rank=E`, `mistwood_entry_complete=true`. Illegal state throws "Scene conditions are not satisfied". Navigation in: `m02-capture-signs#signs_entry` via `track_deeper` (condition: `capture_signs_noticed=true`, 20 min); `m02-borgo-salice#borough_hub` via `return_to_forest_n` (condition: `capture_signs_noticed` or `capture_ranger_told`, 210 min). Navigation out: back to capture signs (10 min), to Borgo Salice (210 min), to mistwood threshold (20 min). N introduction: `npc_register N` fires on `introduce_self`, `watch_n_silently`, or `move_toward_voice` choices — all idempotent; `n_met=true` is set only by these three choices. Re-entry branch: `greet_n_again` visible when `n_met=true`, `introduce_self` hidden when `n_met=true`. Ethical choices: agree path → `n_relationship_positive=true` on `accept_invitation`; question path → `n_considers` → `n_shared_concern`; ball rejected → branches to ethical nodes. Combat: `fight_zorua` triggers `M2_N_ENTERS_ZORUA_DEFENSE` (Zorua L5, wild_defense, opponentRegistered=false), returns to `n_combat_win` or `n_combat_lose`; `n_combat_win` sets `n_relationship_tension=true`. No FRIEND_BEAT_02, no poaching_network_state, no trial registration, no roster heal. M2_01/02/03 regressions: zero (12+24+28 pass). Verified by 23 dedicated regressions (all pass).
 
 ---
 

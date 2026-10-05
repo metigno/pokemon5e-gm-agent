@@ -67,6 +67,21 @@
           ]
         },
         {
+          "id": "return_to_forest_n",
+          "text": "Torno nel bosco a investigare ulteriormente.",
+          "timeCostMinutes": 210,
+          "conditions": {
+            "any": [
+              { "path": "world.flags.capture_signs_noticed", "eq": true },
+              { "path": "world.flags.capture_ranger_told", "eq": true }
+            ]
+          },
+          "goto": "m02-n-enters#zorua_encounter",
+          "effects": [
+            { "type": "set_location", "locationId": "asteria_mistwood" }
+          ]
+        },
+        {
           "id": "back_to_mistwood",
           "text": "Rientro verso Bosco Bruma.",
           "timeCostMinutes": 210,

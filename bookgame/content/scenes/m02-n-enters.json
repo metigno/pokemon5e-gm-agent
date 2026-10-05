@@ -1,0 +1,637 @@
+{
+  "schemaVersion": 1,
+  "id": "m02-n-enters",
+  "moduleId": "M02",
+  "title": "M2_04 — N Entra in Scena",
+  "locationId": "asteria_mistwood",
+  "entryNodeId": "zorua_encounter",
+  "conditions": {
+    "all": [
+      { "path": "world.flags.m1_complete", "eq": true },
+      { "path": "world.flags.m02_unlocked", "eq": true },
+      { "path": "world.flags.m2_active", "eq": true },
+      { "path": "competition.rank", "eq": "E" },
+      { "path": "world.flags.mistwood_entry_complete", "eq": true }
+    ]
+  },
+  "nodes": {
+    "zorua_encounter": {
+      "stitches": [
+        {
+          "id": "zorua_intro",
+          "text": "Nella zona più interna del bosco, dove la nebbia si condensa vicino al terreno, qualcosa si muove in modo diverso dagli altri Pokémon. Un Zorua selvatico si è posizionato vicino a quello che resta di un sito che conosci: rifiuta di spostarsi e assume posture che non corrispondono alla caccia né alla fuga."
+        },
+        {
+          "id": "zorua_not_alone",
+          "text": "Il comportamento del Zorua non è isolato: risponde a qualcosa che non puoi vedere, o a qualcuno che non si è ancora mostrato. L'area intorno è più silenziosa del normale — gli altri Pokémon si sono allontanati."
+        },
+        {
+          "id": "zorua_choice_point",
+          "text": "Il Zorua ti ha notato. Non attacca, ma non si sposta. C'è spazio per più di un'interpretazione di quello che sta succedendo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "approach_cautiously",
+          "text": "Mi avvicino lentamente al Zorua, segnalando che non sono una minaccia.",
+          "timeCostMinutes": 5,
+          "goto": "n_first_glimpse"
+        },
+        {
+          "id": "observe_distance",
+          "text": "Mi fermo e osservo da lontano senza intervenire.",
+          "timeCostMinutes": 10,
+          "check": {
+            "ability": "WIS",
+            "skill": "Perception",
+            "dc": 11
+          },
+          "outcomes": {
+            "success": { "goto": "zorua_shield_seen" },
+            "failure": { "goto": "zorua_obscured" }
+          }
+        },
+        {
+          "id": "leave_undisturbed",
+          "text": "Lascio il Zorua dov'è e mi allontano senza interferire.",
+          "timeCostMinutes": 5,
+          "goto": "zorua_left",
+          "effects": [
+            { "type": "set_flag", "key": "n_encounter_avoided", "value": true }
+          ]
+        }
+      ]
+    },
+    "zorua_shield_seen": {
+      "stitches": [
+        {
+          "id": "shield_observation",
+          "text": "Dal tuo punto di osservazione vedi che il Zorua non è solo: si muove intorno a una figura umana accovacciata tra le radici. La figura non indossa uniforme né ha l'attrezzatura standard da trainer. Il Zorua la guarda, non ti guarda."
+        },
+        {
+          "id": "shield_relation",
+          "text": "La figura sembra stia esaminando qualcosa a terra — vicino al perimetro del sito che hai già esplorato. Il Zorua mantiene la posizione tra lei e te senza che gli venga chiesto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "approach_from_observation",
+          "text": "Mi avvicino adesso che so cosa c'è.",
+          "timeCostMinutes": 5,
+          "goto": "n_first_glimpse"
+        },
+        {
+          "id": "call_from_distance",
+          "text": "Chiamo dall'esterno del perimetro senza avvicinarmi.",
+          "goto": "n_voice_response"
+        }
+      ]
+    },
+    "zorua_obscured": {
+      "stitches": [
+        {
+          "id": "observation_failed",
+          "text": "La nebbia e la distanza rendono impossibile capire cosa stia proteggendo il Zorua. Sai solo che non si sposta e che qualcosa là dentro non lo lascia andare."
+        }
+      ],
+      "choices": [
+        {
+          "id": "approach_anyway",
+          "text": "Avanzo comunque.",
+          "goto": "n_first_glimpse"
+        },
+        {
+          "id": "retreat_from_obscured",
+          "text": "Mi ritiro senza disturbare.",
+          "goto": "zorua_left",
+          "effects": [
+            { "type": "set_flag", "key": "n_encounter_avoided", "value": true }
+          ]
+        }
+      ]
+    },
+    "n_voice_response": {
+      "stitches": [
+        {
+          "id": "voice_from_fog",
+          "text": "Una voce risponde dal lato opposto del Zorua — calma, senza caduta difensiva. «Non ti attaccherà se non fai movimenti bruschi. Sta solo cercando di capire se sei pericoloso.» Una pausa. «Anch'io, a dire il vero.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "move_toward_voice",
+          "text": "Mi muovo verso la voce lentamente.",
+          "timeCostMinutes": 3,
+          "goto": "n_first_contact",
+          "effects": [
+            {
+              "type": "npc_register",
+              "npcId": "N",
+              "name": "N",
+              "relationshipScore": 0,
+              "state": { "introduced": true, "zorua_context": "mistwood" }
+            },
+            { "type": "set_flag", "key": "n_met", "value": true }
+          ]
+        },
+        {
+          "id": "stay_put_voice",
+          "text": "Rimango dov'è sono per ora.",
+          "goto": "n_first_glimpse"
+        }
+      ]
+    },
+    "n_first_glimpse": {
+      "stitches": [
+        {
+          "id": "n_visible",
+          "text": "La figura è un ragazzo, probabilmente pochi anni più giovane di quello che ti aspettavi. Non ha zaino da trainer, non ha Pokédex visibile. È seduto sul bordo del sito con il Zorua accanto — non in braccio, non al guinzaglio, solo accanto."
+        },
+        {
+          "id": "n_focus",
+          "text": "Ti guarda con attenzione che non è ostilità. Sta valutando qualcosa — non ti, forse: il modo in cui ti muovi, il tuo rapporto con lo spazio intorno a lui."
+        }
+      ],
+      "choices": [
+        {
+          "id": "introduce_self",
+          "text": "Mi presento. Spiego che sto esplorando il bosco.",
+          "conditions": {
+            "path": "world.flags.n_met",
+            "ne": true
+          },
+          "timeCostMinutes": 5,
+          "goto": "n_first_contact",
+          "effects": [
+            {
+              "type": "npc_register",
+              "npcId": "N",
+              "name": "N",
+              "relationshipScore": 0,
+              "state": { "introduced": true, "zorua_context": "mistwood" }
+            },
+            { "type": "set_flag", "key": "n_met", "value": true }
+          ]
+        },
+        {
+          "id": "greet_n_again",
+          "text": "Lo riconosco. Lo saluto.",
+          "conditions": {
+            "path": "world.flags.n_met",
+            "eq": true
+          },
+          "timeCostMinutes": 3,
+          "goto": "n_reunion"
+        },
+        {
+          "id": "watch_n_silently",
+          "text": "Non mi presento. Osservo.",
+          "timeCostMinutes": 5,
+          "goto": "n_first_contact",
+          "effects": [
+            {
+              "type": "npc_register",
+              "npcId": "N",
+              "name": "N",
+              "relationshipScore": 0,
+              "state": { "introduced": true, "zorua_context": "mistwood" }
+            },
+            { "type": "set_flag", "key": "n_met", "value": true }
+          ]
+        }
+      ]
+    },
+    "n_first_contact": {
+      "stitches": [
+        {
+          "id": "n_speaks",
+          "text": "N parla per primo. «Il Zorua era qui ieri sera. Qualcuno aveva usato quest'area per qualcosa che non avrebbe dovuto; lui non si è spostato da quando la struttura è stata smontata.» Non ti chiede se lo sai già. Forse lo deduce."
+        },
+        {
+          "id": "n_posture",
+          "text": "Non ha l'aria di chi vuole compagnia, ma non ti chiede neanche di andartene. Il Zorua ha abbassato leggermente la postura difensiva — non del tutto, ma abbastanza da indicare che la tua presenza è accettata come dato di fatto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ask_what_happened",
+          "text": "Gli chiedo cosa sa di quello che è successo qui.",
+          "timeCostMinutes": 10,
+          "goto": "n_explains_zorua"
+        },
+        {
+          "id": "offer_help",
+          "text": "Offro di aiutare con il Zorua — ho oggetti di campo con me.",
+          "timeCostMinutes": 5,
+          "goto": "n_offer_refused"
+        },
+        {
+          "id": "challenge_n",
+          "text": "Chiedo se il Zorua è suo e se vuole che ce ne andiamo entrambi.",
+          "timeCostMinutes": 3,
+          "goto": "n_challenge_intro"
+        },
+        {
+          "id": "leave_after_contact",
+          "text": "Non dico altro e mi allontano.",
+          "goto": "zorua_encounter_done"
+        }
+      ]
+    },
+    "n_reunion": {
+      "stitches": [
+        {
+          "id": "reunion_brief",
+          "text": "N annuisce. Il Zorua non reagisce con la stessa cautela di prima — ha già imparato chi sei. Il bosco è cambiato da quando ti sei visti l'ultima volta, ma N non sembra sorpreso che siate tornati nello stesso posto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ask_update_n",
+          "text": "Gli chiedo com'è la situazione adesso.",
+          "goto": "n_explains_zorua"
+        },
+        {
+          "id": "leave_reunion",
+          "text": "Un cenno e proseguo.",
+          "goto": "zorua_encounter_done"
+        }
+      ]
+    },
+    "n_explains_zorua": {
+      "stitches": [
+        {
+          "id": "n_account",
+          "text": "N non teorizza: descrive quello che ha visto. Il sito era usato per stoccare Pokémon in attesa di trasporto. Il Zorua era probabilmente destinato a far parte del carico — il suo mimetismo lo rende utile per certe operazioni. Quando la struttura è sparita, lui è rimasto."
+        },
+        {
+          "id": "n_position",
+          "text": "N non sta pianificando di catturarlo o di portarlo via. «Non è una questione di dove starebbe meglio. È che non mi appartiene.» Lo dice come se la cosa fosse ovvia e non abbastanza discussa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "agree_zorua_free",
+          "text": "Ha ragione — il Zorua deve poter scegliere dove stare.",
+          "timeCostMinutes": 5,
+          "goto": "n_ethical_agree"
+        },
+        {
+          "id": "question_protection",
+          "text": "Ma stare qui a proteggerlo non è anche una forma di decidere per lui?",
+          "timeCostMinutes": 5,
+          "goto": "n_ethical_question"
+        },
+        {
+          "id": "offer_pokeball_here",
+          "text": "Potrei catturarlo io — avrebbe un trainer, sarebbe al sicuro.",
+          "timeCostMinutes": 3,
+          "goto": "n_ball_rejected"
+        }
+      ]
+    },
+    "n_ethical_agree": {
+      "stitches": [
+        {
+          "id": "agree_response",
+          "text": "N accoglie l'accordo senza espanderlo in un principio. «Sì. È quello.» Il Zorua non ha seguito la conversazione — stava facendo qualcos'altro vicino alla radice — ma ora si ferma come se avesse sentito qualcosa di rilevante."
+        },
+        {
+          "id": "agree_complication",
+          "text": "«Il problema è che stare qui e non farlo stare qui sono entrambe scelte che qualcuno fa per lui,» aggiunge N, quasi tra sé. Non è una critica alla tua posizione — è il problema che ha in testa lui."
+        }
+      ],
+      "choices": [
+        {
+          "id": "explore_agree",
+          "text": "Quella tensione non si risolve. Posso solo cercare di non aggravarla.",
+          "timeCostMinutes": 5,
+          "goto": "n_shared_concern"
+        },
+        {
+          "id": "leave_agree",
+          "text": "Non ho altro da aggiungere. Saluto.",
+          "goto": "n_parted_ways"
+        }
+      ]
+    },
+    "n_ethical_question": {
+      "stitches": [
+        {
+          "id": "question_lands",
+          "text": "N si ferma. Non risponde subito. Il Zorua lo guarda come se avesse registrato il cambiamento nel ritmo della conversazione."
+        },
+        {
+          "id": "question_weight",
+          "text": "«Sì.» Una sola parola, e poi silenzio per qualche secondo. «È quello che penso anch'io. Ma non so ancora cosa fare con questa idea, perché l'alternativa che conosco è peggio.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "push_further",
+          "text": "Forse l'alternativa non è solo catturarlo o lasciarlo qui — forse ci sono altre forme di protezione che non richiedono di decidere per lui.",
+          "timeCostMinutes": 5,
+          "goto": "n_considers"
+        },
+        {
+          "id": "drop_question",
+          "text": "Non spingo oltre. È una domanda senza risposta facile.",
+          "goto": "n_parted_ways"
+        }
+      ]
+    },
+    "n_considers": {
+      "stitches": [
+        {
+          "id": "n_thinks",
+          "text": "N non risponde subito. Guarda il Zorua, poi guarda la zona del sito smantellato, poi torna a guardarti. «Proteggere qualcosa senza includere la sua capacità di scegliere non è protezione — è solo un'altra forma di controllo con motivazioni diverse.» Non sembra un'intuizione nuova: sembra qualcosa che stava elaborando da prima che tu arrivassi."
+        },
+        {
+          "id": "n_shift",
+          "text": "Non cambia nulla di pratico nell'immediato. Ma qualcosa si è chiarito, o almeno è diventato più pronunciato. Il Zorua, nel frattempo, si è spostato da solo di qualche metro — la sua scelta, non la tua né quella di N."
+        }
+      ],
+      "choices": [
+        {
+          "id": "acknowledge_n_thought",
+          "text": "«Esatto.» Non c'è altro da dire che non sia già stato detto.",
+          "goto": "n_shared_concern"
+        }
+      ]
+    },
+    "n_shared_concern": {
+      "stitches": [
+        {
+          "id": "shared_moment",
+          "text": "C'è una breve finestra in cui siete entrambi a osservare lo stesso Pokémon fare la stessa cosa senza che nessuno dei due stia cercando di influenzarlo. Non dura. Ma è reale."
+        },
+        {
+          "id": "concern_future",
+          "text": "N dice che tornerà a controllare il sito. Non come sorveglianza — per vedere se il Zorua si è spostato da solo, quando è pronto. «Se ci sei anche tu, puoi guardare.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "accept_invitation",
+          "text": "Accetto.",
+          "goto": "n_parted_ways",
+          "effects": [
+            { "type": "set_flag", "key": "n_relationship_positive", "value": true }
+          ]
+        },
+        {
+          "id": "noncommit",
+          "text": "Non mi impegno, ma non rifiuto.",
+          "goto": "n_parted_ways"
+        }
+      ]
+    },
+    "n_offer_refused": {
+      "stitches": [
+        {
+          "id": "offer_heard",
+          "text": "N ti guarda. Non è ostilità, ma non è neanche gratitudine. «Il Zorua non ha bisogno di essere curato — ha bisogno che nessuno prenda decisioni su di lui per le prossime ore.»"
+        },
+        {
+          "id": "offer_context",
+          "text": "Non sta dicendo che il tuo aiuto è inutile in assoluto. Sta dicendo che questo non è il momento e che la forma che hai proposto non è quella giusta per questo specifico Pokémon in questo specifico momento."
+        }
+      ],
+      "choices": [
+        {
+          "id": "respect_refusal",
+          "text": "Ha senso. Ritiro l'offerta.",
+          "goto": "n_explains_zorua"
+        },
+        {
+          "id": "insist_offer",
+          "text": "Capisco il punto, ma resto convinto che un intervento diretto sarebbe meglio.",
+          "goto": "n_tension"
+        }
+      ]
+    },
+    "n_ball_rejected": {
+      "stitches": [
+        {
+          "id": "ball_no",
+          "text": "N non risponde all'ipotesi con un rifiuto esplicito — la lascia cadere come se non fosse una domanda reale. «Un trainer che considera 'al sicuro' qualcosa equivalente a 'in una Poké Ball' probabilmente non ha ancora risolto alcune cose fondamentali.» Non è un insulto — è una diagnosi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "accept_n_point",
+          "text": "Non replico. Ha detto una cosa su cui pensare.",
+          "goto": "n_ethical_agree"
+        },
+        {
+          "id": "push_back_n",
+          "text": "Non sono d'accordo con questa semplificazione.",
+          "goto": "n_ethical_question"
+        }
+      ]
+    },
+    "n_tension": {
+      "stitches": [
+        {
+          "id": "tension_moment",
+          "text": "N si alza. Il Zorua si sposta tra voi due — non un attacco, ma una posizione inequivocabile. N non ordina nulla al Zorua: è il Zorua che ha scelto di farlo."
+        },
+        {
+          "id": "tension_stakes",
+          "text": "Non è una minaccia formale. Ma c'è una linea che, se attraversata, porta da qualche parte che cambia la relazione tra voi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_down",
+          "text": "Faccio un passo indietro. Non era necessario arrivare qui.",
+          "goto": "n_ethical_agree"
+        },
+        {
+          "id": "let_zorua_decide",
+          "text": "Il Zorua ha scelto di posizionarsi così. Lo rispetto e non avanzo.",
+          "goto": "n_parted_ways"
+        },
+        {
+          "id": "challenge_combat",
+          "text": "Se il Zorua vuole fermarmi, dovrà farlo davvero.",
+          "goto": "n_combat_zorua"
+        }
+      ]
+    },
+    "n_combat_zorua": {
+      "stitches": [
+        {
+          "id": "combat_starts",
+          "text": "Il Zorua non aspetta. Sceglie di combattere, e lo fa senza essere stato comandato da nessuno."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fight_zorua",
+          "text": "Combatto.",
+          "combat": {
+            "encounterId": "M2_N_ENTERS_ZORUA_DEFENSE",
+            "opponent": {
+              "species": "zorua",
+              "form": "Standard",
+              "level": 5,
+              "trainerId": null,
+              "motive": "wild_defense"
+            },
+            "opponentRegistered": false,
+            "goto": "n_combat_zorua",
+            "returnNodes": {
+              "win": "n_combat_win",
+              "lose": "n_combat_lose"
+            }
+          }
+        }
+      ]
+    },
+    "n_combat_win": {
+      "stitches": [
+        {
+          "id": "combat_win_outcome",
+          "text": "Il Zorua si ritira. N non dice nulla. Guarda dove il Zorua è andato, poi guarda te, e non c'è niente nella sua espressione che possa essere interpretato come rispetto o approvazione."
+        },
+        {
+          "id": "combat_win_weight",
+          "text": "Hai vinto un combattimento contro un Pokémon selvatico che non stava attaccando per istinto territoriale. Stava proteggendo qualcosa che aveva scelto di proteggere. Il peso di quella differenza è tuo da gestire."
+        }
+      ],
+      "choices": [
+        {
+          "id": "acknowledge_win",
+          "text": "Saluto N senza aggiungere altro.",
+          "goto": "n_parted_tense",
+          "effects": [
+            { "type": "set_flag", "key": "n_relationship_tension", "value": true }
+          ]
+        }
+      ]
+    },
+    "n_combat_lose": {
+      "stitches": [
+        {
+          "id": "combat_lose_outcome",
+          "text": "Il Zorua non insegue quando ti ritiri. N si avvicina senza trionfalismo — verifica il tuo stato con la stessa attenzione pratica che riserva al bosco. «Stai bene?»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "acknowledge_lose",
+          "text": "Rispondo sì e mi allontano.",
+          "goto": "n_parted_ways"
+        }
+      ]
+    },
+    "n_challenge_intro": {
+      "stitches": [
+        {
+          "id": "challenge_response",
+          "text": "N ti guarda con qualcosa che potrebbe essere curiosità o valutazione — difficile distinguerle. «Non è mio. E se andate entrambi, quella è la sua scelta, non la mia.» Il Zorua non si sposta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "accept_answer",
+          "text": "Capito. Rimango per vedere cosa succede.",
+          "goto": "n_first_contact"
+        },
+        {
+          "id": "press_challenge",
+          "text": "Se il Zorua non è tuo, non sei in posizione di difenderlo.",
+          "goto": "n_tension"
+        }
+      ]
+    },
+    "n_parted_ways": {
+      "stitches": [
+        {
+          "id": "parting_neutral",
+          "text": "Vi separate senza che ci sia molto da aggiungere. N resta vicino alla zona — non come guardia, almeno non nel senso convenzionale. Il Zorua non si è spostato molto."
+        },
+        {
+          "id": "parting_open",
+          "text": "Non sai ancora chi sia N con precisione né cosa stia facendo nel bosco al di là di quello che ha detto. Quello che sai è che è qui, che ha una posizione precisa su cose che interessano anche a te, e che il Zorua lo ha scelto come compagnia senza essere costretto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "to_done_from_parting",
+          "text": "Proseguo.",
+          "goto": "zorua_encounter_done"
+        }
+      ]
+    },
+    "n_parted_tense": {
+      "stitches": [
+        {
+          "id": "parting_tense",
+          "text": "Vi separate. N non dice altro; non c'è nulla di concluso tra voi, solo un dato di fatto su come sono andate le cose. Tornerete ad avere a che fare con queste domande, probabilmente, ma non adesso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "to_done_from_tense",
+          "text": "Mi allontano.",
+          "goto": "zorua_encounter_done"
+        }
+      ]
+    },
+    "zorua_left": {
+      "stitches": [
+        {
+          "id": "left_description",
+          "text": "Il Zorua ti guarda allontanarti. Non ti insegue. La zona rimane silenziosa dietro di te — o almeno, ci sono meno voci che possono raggiungere la tua posizione adesso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "to_done_from_left",
+          "text": "Continuo.",
+          "goto": "zorua_encounter_done"
+        }
+      ]
+    },
+    "zorua_encounter_done": {
+      "stitches": [
+        {
+          "id": "done_state",
+          "text": "La zona intorno al sito non è cambiata strutturalmente. Quello che è cambiato — o non è cambiato — è nella tua lista di dati su quello che sta succedendo in questo bosco e su chi, oltre a te, ci sta facendo caso."
+        },
+        {
+          "id": "done_options",
+          "text": "Il sentiero che porta verso Borgo Salice è ancora aperto. La zona d'ingresso del bosco è a distanza percorribile. Hai ancora tempo, se vuoi usarlo qui."
+        }
+      ],
+      "choices": [
+        {
+          "id": "return_to_investigation",
+          "text": "Torno nella zona interna per continuare a investigare.",
+          "timeCostMinutes": 10,
+          "goto": "m02-capture-signs#signs_entry"
+        },
+        {
+          "id": "head_to_salice_done",
+          "text": "Mi dirigo verso Borgo Salice.",
+          "timeCostMinutes": 210,
+          "goto": "m02-borgo-salice#borough_hub",
+          "effects": [
+            { "type": "set_location", "locationId": "borgo_salice" }
+          ]
+        },
+        {
+          "id": "back_to_threshold",
+          "text": "Rientro verso l'ingresso del bosco.",
+          "timeCostMinutes": 20,
+          "goto": "m02-mistwood-entry#threshold",
+          "effects": [
+            { "type": "set_location", "locationId": "asteria_mistwood" }
+          ]
+        }
+      ]
+    }
+  }
+}
