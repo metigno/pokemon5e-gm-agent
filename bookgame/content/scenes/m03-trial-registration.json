@@ -66,6 +66,15 @@
           "id": "audit_eligibility",
           "text": "Verifico come il gioco determina davvero l'idoneità.",
           "goto": "eligibility_audit"
+        },
+        {
+          "id": "review_attempt_history",
+          "text": "Rivedo eventuali tentativi precedenti.",
+          "conditions": {
+            "path": "competition.trials.RANK_D_TO_C.attempts",
+            "gte": 1
+          },
+          "goto": "attempt_history"
         }
       ]
     },
@@ -579,6 +588,40 @@
             {
               "type": "set_location",
               "locationId": "fer_city"
+            }
+          ]
+        }
+      ]
+    },
+    "attempt_history": {
+      "stitches": [
+        {
+          "id": "attempt_history_1",
+          "text": "Se hai già perso un tentativo, E5 conserva attempts e lastResult. La nuova registrazione non cancella quella storia e non aumenta la difficoltà per punirti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "attempt_history_desk",
+          "text": "Torno al banco con il tentativo precedente in mente.",
+          "goto": "trial_desk",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_d_c_attempt_history_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "attempt_history_strategy",
+          "text": "Uso il tentativo precedente solo come informazione tattica.",
+          "goto": "strategy_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_d_c_attempt_history_reviewed",
+              "value": true
             }
           ]
         }
