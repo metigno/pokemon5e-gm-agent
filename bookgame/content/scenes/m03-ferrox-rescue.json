@@ -1,0 +1,884 @@
+{
+  "schemaVersion": 1,
+  "id": "m03-ferrox-rescue",
+  "moduleId": "M03",
+  "title": "M3_07 — Soccorso Ferrox",
+  "locationId": "ferrox_rescue_perimeter",
+  "entryNodeId": "rescue_perimeter",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m2_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m03_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m3_active",
+        "eq": true
+      },
+      {
+        "path": "world.flags.ferrox_incident_started",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "D"
+      }
+    ]
+  },
+  "nodes": {
+    "rescue_perimeter": {
+      "stitches": [
+        {
+          "id": "perimeter_1",
+          "text": "Il perimetro Ferrox è diventato un posto di lavoro d'emergenza: nastri di sicurezza, lampade portatili, squadre che entrano con nomi e orari registrati. Nessuno ti tratta come il protagonista del soccorso."
+        },
+        {
+          "id": "perimeter_2",
+          "text": "Il tuo contributo può essere utile soltanto se resta dentro il coordinamento del sito. La quest ha un orologio reale: ogni azione lunga può cambiare ciò che è ancora possibile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "enter_live_rescue",
+          "text": "La finestra è aperta. Mi presento al caposquadra.",
+          "conditions": {
+            "path": "quests.M3_FERROX_RESCUE.status",
+            "eq": "active"
+          },
+          "goto": "staging"
+        },
+        {
+          "id": "review_perimeter",
+          "text": "Chiedo un aggiornamento prima di entrare.",
+          "timeCostMinutes": 5,
+          "conditions": {
+            "path": "quests.M3_FERROX_RESCUE.status",
+            "eq": "active"
+          },
+          "goto": "perimeter_update"
+        },
+        {
+          "id": "acknowledge_missed_window",
+          "text": "La finestra è già chiusa. Chiedo cosa è successo senza fingere di poter recuperare il tempo.",
+          "conditions": {
+            "path": "quests.M3_FERROX_RESCUE.status",
+            "eq": "failed"
+          },
+          "goto": "rescue_missed"
+        },
+        {
+          "id": "return_hub_while_active",
+          "text": "Torno a Ferravia per prepararmi meglio; la deadline continuerà a scorrere.",
+          "timeCostMinutes": 15,
+          "conditions": {
+            "path": "quests.M3_FERROX_RESCUE.status",
+            "eq": "active"
+          },
+          "goto": "m03-ferravia-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        }
+      ]
+    },
+    "perimeter_update": {
+      "stitches": [
+        {
+          "id": "perimeter_update_1",
+          "text": "Il caposquadra conferma che il ramo sud è stabile, il nord resta parzialmente ostruito e il ricambio d'aria è sufficiente soltanto per squadre brevi. Non sa ancora se tutti i badge mancanti corrispondano a persone bloccate."
+        }
+      ],
+      "choices": [
+        {
+          "id": "update_to_staging",
+          "text": "Entro nel coordinamento del soccorso.",
+          "goto": "staging"
+        },
+        {
+          "id": "update_back_perimeter",
+          "text": "Torno al limite del perimetro.",
+          "goto": "rescue_perimeter"
+        }
+      ]
+    },
+    "staging": {
+      "stitches": [
+        {
+          "id": "staging_1",
+          "text": "Il caposquadra ti assegna un ruolo compatibile con un trainer esterno: osservare un accesso secondario, aiutare a mantenere libero il passaggio e portare informazioni fra due punti. Se vuoi assumerti più rischio, devi farlo con una ragione leggibile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "use_known_access",
+          "text": "Uso l'accesso sud già indicato dal dispatcher.",
+          "conditions": {
+            "path": "world.flags.ferrox_rescue_access_known",
+            "eq": true
+          },
+          "timeCostMinutes": 10,
+          "goto": "south_entry",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_rescue_route_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "assess_access",
+          "text": "Valuto quale ingresso offre il miglior rapporto fra tempo e sicurezza. (CT Investigation)",
+          "timeCostMinutes": 15,
+          "check": {
+            "ability": "INT",
+            "skill": "Investigation",
+            "dc": 12
+          },
+          "outcomes": {
+            "success": {
+              "goto": "route_clear",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "ferrox_rescue_route_known",
+                  "value": true
+                }
+              ]
+            },
+            "failure": {
+              "goto": "route_confused",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "ferrox_rescue_route_uncertain",
+                  "value": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "coordinate_workers",
+          "text": "Mi coordino con gli operai prima di muovermi. (CT Persuasion)",
+          "timeCostMinutes": 15,
+          "check": {
+            "ability": "CHA",
+            "skill": "Persuasion",
+            "dc": 12
+          },
+          "outcomes": {
+            "success": {
+              "goto": "coord_success",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "ferrox_rescue_coordination",
+                  "value": true
+                }
+              ]
+            },
+            "failure": {
+              "goto": "coord_failure",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "ferrox_rescue_coordination_failed",
+                  "value": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "direct_entry",
+          "text": "Seguo il percorso segnato senza perdere altro tempo.",
+          "timeCostMinutes": 10,
+          "goto": "interior_threshold",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_rescue_direct_entry",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "leave_to_prepare",
+          "text": "Esco dal perimetro per prepararmi meglio. Il soccorso continuerà senza di me.",
+          "timeCostMinutes": 15,
+          "goto": "m03-ferravia-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        },
+        {
+          "id": "decline_rescue",
+          "text": "Decido di non partecipare al soccorso.",
+          "goto": "rescue_declined",
+          "effects": [
+            {
+              "type": "quest_fail",
+              "questId": "M3_FERROX_RESCUE",
+              "resolution": "player_declined"
+            }
+          ]
+        }
+      ]
+    },
+    "route_clear": {
+      "stitches": [
+        {
+          "id": "route_clear_1",
+          "text": "La planimetria operativa e i movimenti delle squadre coincidono: il percorso sud è più lungo di pochi metri ma evita la zona in cui ogni passaggio costringe gli altri a fermarsi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "route_clear_enter",
+          "text": "Prendo il percorso più stabile.",
+          "goto": "south_entry"
+        },
+        {
+          "id": "route_clear_coordinate",
+          "text": "Prima condivido la lettura con il caposquadra.",
+          "goto": "staging"
+        }
+      ]
+    },
+    "route_confused": {
+      "stitches": [
+        {
+          "id": "route_confused_1",
+          "text": "Il quadro cambia troppo in fretta per una lettura affidabile. Due squadre si muovono in direzioni opposte e i cartelli temporanei sono stati spostati dopo l'ultimo controllo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "confused_follow_marked",
+          "text": "Seguo il percorso ufficiale senza improvvisare.",
+          "goto": "interior_threshold"
+        },
+        {
+          "id": "confused_back_staging",
+          "text": "Torno al caposquadra e chiedo coordinamento.",
+          "goto": "staging"
+        }
+      ]
+    },
+    "coord_success": {
+      "stitches": [
+        {
+          "id": "coord_success_1",
+          "text": "Gli operai ti inseriscono nel flusso senza perdere tempo a spiegarti due volte le stesse cose. Uno prende il tuo nome, uno ti mostra il segnale di richiamo, un altro ti indica chi decide se un tratto va abbandonato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "coord_enter",
+          "text": "Entro con il gruppo coordinato.",
+          "goto": "south_entry"
+        },
+        {
+          "id": "coord_review_route",
+          "text": "Ora valuto la rotta con informazioni migliori.",
+          "goto": "staging"
+        }
+      ]
+    },
+    "coord_failure": {
+      "stitches": [
+        {
+          "id": "coord_failure_1",
+          "text": "Il momento è sbagliato: il caposquadra ha due radio aperte e nessuno può dedicarti attenzione. Non è ostilità. Se vuoi aiutare, devi usare il percorso segnato e restare semplice."
+        }
+      ],
+      "choices": [
+        {
+          "id": "coord_fail_enter",
+          "text": "Accetto il limite e seguo il percorso segnato.",
+          "goto": "interior_threshold"
+        },
+        {
+          "id": "coord_fail_wait",
+          "text": "Resto fuori dal flusso e torno al perimetro.",
+          "goto": "rescue_perimeter"
+        }
+      ]
+    },
+    "south_entry": {
+      "stitches": [
+        {
+          "id": "south_entry_1",
+          "text": "L'accesso sud ti porta sotto la prima volta della galleria. L'aria è sporca ma respirabile; il rumore della ventilazione principale arriva regolare. Più avanti il passaggio si divide fra il corridoio di servizio e una rampa verso il ramo ostruito."
+        }
+      ],
+      "choices": [
+        {
+          "id": "south_to_threshold",
+          "text": "Raggiungo il punto in cui il soccorso si divide.",
+          "timeCostMinutes": 10,
+          "goto": "interior_threshold"
+        },
+        {
+          "id": "south_note_air",
+          "text": "Controllo il flusso d'aria prima di avanzare.",
+          "timeCostMinutes": 10,
+          "goto": "air_check",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_airflow_checked",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "air_check": {
+      "stitches": [
+        {
+          "id": "air_check_1",
+          "text": "Il flusso principale è stabile ma una corrente laterale porta polvere più fine dal ramo vecchio. Il dato non ti dice quante persone siano dentro; ti dice quale direzione non va caricata inutilmente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "air_to_threshold",
+          "text": "Porto il dato al punto di decisione.",
+          "goto": "interior_threshold"
+        },
+        {
+          "id": "air_back_staging",
+          "text": "Torno indietro e riferisco prima di proseguire.",
+          "goto": "staging"
+        }
+      ]
+    },
+    "interior_threshold": {
+      "stitches": [
+        {
+          "id": "threshold_1",
+          "text": "Qui le priorità diventano incompatibili: liberare rapidamente il corridoio verso i badge mancanti, rinforzare prima il supporto laterale o usare il ramo di ventilazione per ottenere una lettura migliore. Fare tutto costa tempo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "use_old_map_route",
+          "text": "Uso la geometria delle vecchie mappe per scegliere il corridoio meno esposto.",
+          "timeCostMinutes": 15,
+          "conditions": {
+            "any": [
+              {
+                "path": "world.flags.old_maps_read",
+                "eq": true
+              },
+              {
+                "path": "world.flags.archive_quarry_crosscheck",
+                "eq": true
+              }
+            ]
+          },
+          "goto": "old_map_route",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_rescue_old_map_route",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "use_airflow_route",
+          "text": "Seguo il segnale della ventilazione per evitare il ramo con aria peggiore.",
+          "timeCostMinutes": 20,
+          "conditions": {
+            "any": [
+              {
+                "path": "world.flags.ferrox_airflow_checked",
+                "eq": true
+              },
+              {
+                "path": "world.flags.ferrox_warning_structural_signal",
+                "eq": true
+              }
+            ]
+          },
+          "goto": "ventilation_route",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_rescue_air_route",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "stabilize_supports",
+          "text": "Aiuto prima a mettere in sicurezza il supporto laterale.",
+          "timeCostMinutes": 30,
+          "goto": "support_action",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_rescue_support_work",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "push_direct",
+          "text": "Mi muovo verso il corridoio ostruito e cerco una finestra sicura. (CT Perception)",
+          "timeCostMinutes": 20,
+          "check": {
+            "ability": "WIS",
+            "skill": "Perception",
+            "dc": 13
+          },
+          "outcomes": {
+            "success": {
+              "goto": "direct_success",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "ferrox_rescue_direct_window",
+                  "value": true
+                }
+              ]
+            },
+            "failure": {
+              "goto": "direct_failure",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "ferrox_rescue_complication",
+                  "value": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "threshold_withdraw",
+          "text": "Non entro oltre. Porto indietro quello che so.",
+          "goto": "partial_report"
+        }
+      ]
+    },
+    "old_map_route": {
+      "stitches": [
+        {
+          "id": "old_map_route_1",
+          "text": "La cartografia storica non ti dà una scorciatoia magica, ma evita una diramazione che oggi finisce contro una paratia. Risparmi un errore di percorso e arrivi al punto operativo con una lettura più pulita."
+        }
+      ],
+      "choices": [
+        {
+          "id": "old_map_to_priority",
+          "text": "Raggiungo il punto di priorità.",
+          "goto": "priority_choice"
+        }
+      ]
+    },
+    "ventilation_route": {
+      "stitches": [
+        {
+          "id": "ventilation_route_1",
+          "text": "Seguendo il flusso più stabile eviti il ramo in cui la polvere resta sospesa. Un soccorritore conferma che la lettura è utile e la passa via radio alla squadra interna."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ventilation_to_priority",
+          "text": "Raggiungo il punto di priorità.",
+          "goto": "priority_choice"
+        }
+      ]
+    },
+    "support_action": {
+      "stitches": [
+        {
+          "id": "support_action_1",
+          "text": "Il lavoro è lento e poco spettacolare: liberare spazio, portare un puntello, aspettare la verifica del tecnico. Quando il supporto è dichiarato stabile, il corridoio può sostenere più passaggi contemporaneamente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "support_to_priority",
+          "text": "Con il supporto verificato, passo alla priorità successiva.",
+          "goto": "priority_choice"
+        },
+        {
+          "id": "support_to_checkpoint",
+          "text": "Fermo qui il mio contributo e verifico il tempo rimasto.",
+          "goto": "rescue_checkpoint"
+        }
+      ]
+    },
+    "direct_success": {
+      "stitches": [
+        {
+          "id": "direct_success_1",
+          "text": "Aspetti il momento in cui la polvere cala e vedi una fascia di pavimento libera dietro i detriti. Il segnale permette alla squadra di avanzare senza spostare materiale alla cieca."
+        }
+      ],
+      "choices": [
+        {
+          "id": "direct_success_priority",
+          "text": "Passo la lettura alla squadra e scelgo la priorità.",
+          "goto": "priority_choice"
+        }
+      ]
+    },
+    "direct_failure": {
+      "stitches": [
+        {
+          "id": "direct_failure_1",
+          "text": "Il corridoio sembra aprirsi ma un nuovo distacco di polvere chiude la visuale. Ti ritiri prima di trasformare in problema una lettura sbagliata. Hai perso tempo, non HP inventati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "direct_fail_priority",
+          "text": "Rientro nel coordinamento e scelgo una priorità più prudente.",
+          "goto": "priority_choice"
+        },
+        {
+          "id": "direct_fail_checkpoint",
+          "text": "Verifico subito quanto tempo resta.",
+          "goto": "rescue_checkpoint"
+        }
+      ]
+    },
+    "priority_choice": {
+      "stitches": [
+        {
+          "id": "priority_1",
+          "text": "La squadra può ancora concentrare il contributo su una sola priorità principale. Le conseguenze finali verranno registrate più avanti da M3_11; qui decidi che cosa tentare mentre la deadline è viva."
+        }
+      ],
+      "choices": [
+        {
+          "id": "priority_evacuate",
+          "text": "Priorità alle persone: apro spazio verso i badge mancanti.",
+          "timeCostMinutes": 30,
+          "goto": "rescue_checkpoint",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_rescue_priority",
+              "value": "evacuation"
+            }
+          ]
+        },
+        {
+          "id": "priority_stabilize",
+          "text": "Priorità alla struttura: completo il rinforzo prima di aumentare i passaggi.",
+          "timeCostMinutes": 45,
+          "goto": "rescue_checkpoint",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_rescue_priority",
+              "value": "stabilization"
+            }
+          ]
+        },
+        {
+          "id": "priority_split",
+          "text": "Divido il lavoro fra evacuazione e stabilizzazione.",
+          "timeCostMinutes": 40,
+          "conditions": {
+            "path": "world.flags.ferrox_rescue_coordination",
+            "eq": true
+          },
+          "goto": "rescue_checkpoint",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_rescue_priority",
+              "value": "balanced"
+            }
+          ]
+        },
+        {
+          "id": "priority_report_only",
+          "text": "Non aumento il rischio: porto fuori informazioni e lascio l'intervento alle squadre.",
+          "timeCostMinutes": 15,
+          "goto": "rescue_checkpoint",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_rescue_priority",
+              "value": "support_only"
+            }
+          ]
+        }
+      ]
+    },
+    "partial_report": {
+      "stitches": [
+        {
+          "id": "partial_report_1",
+          "text": "Tornare indietro non cancella quello che hai visto. Il tuo contributo può restare informativo invece di diventare operativo; la scelta costa meno rischio ma lascia più lavoro alle squadre interne."
+        }
+      ],
+      "choices": [
+        {
+          "id": "partial_report_checkpoint",
+          "text": "Consegno il rapporto e verifico lo stato della quest.",
+          "timeCostMinutes": 10,
+          "goto": "rescue_checkpoint",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_rescue_priority",
+              "value": "support_only"
+            }
+          ]
+        },
+        {
+          "id": "partial_report_resume",
+          "text": "Cambio idea e torno al punto di decisione.",
+          "goto": "interior_threshold"
+        }
+      ]
+    },
+    "rescue_checkpoint": {
+      "stitches": [
+        {
+          "id": "checkpoint_1",
+          "text": "Prima di dichiarare un esito, il motore ricontrolla la quest. Se una delle azioni ha consumato gli ultimi minuti disponibili, non puoi completare il soccorso come se la deadline non fosse esistita."
+        }
+      ],
+      "choices": [
+        {
+          "id": "checkpoint_expired",
+          "text": "La finestra si è chiusa durante le operazioni.",
+          "conditions": {
+            "path": "quests.M3_FERROX_RESCUE.status",
+            "eq": "failed"
+          },
+          "goto": "rescue_missed"
+        },
+        {
+          "id": "finalize_evacuated",
+          "text": "La finestra è ancora aperta: chiudo il mio contributo con priorità evacuazione.",
+          "conditions": {
+            "all": [
+              {
+                "path": "quests.M3_FERROX_RESCUE.status",
+                "eq": "active"
+              },
+              {
+                "path": "world.flags.ferrox_rescue_priority",
+                "eq": "evacuation"
+              }
+            ]
+          },
+          "goto": "rescue_success",
+          "effects": [
+            {
+              "type": "quest_complete",
+              "questId": "M3_FERROX_RESCUE",
+              "resolution": "evacuation_supported"
+            },
+            {
+              "type": "set_flag",
+              "key": "ferrox_rescue_state",
+              "value": "evacuation_supported"
+            },
+            {
+              "type": "set_flag",
+              "key": "ferrox_rescue_outcome_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "finalize_stabilized",
+          "text": "La finestra è ancora aperta: chiudo il mio contributo con priorità stabilizzazione.",
+          "conditions": {
+            "all": [
+              {
+                "path": "quests.M3_FERROX_RESCUE.status",
+                "eq": "active"
+              },
+              {
+                "path": "world.flags.ferrox_rescue_priority",
+                "eq": "stabilization"
+              }
+            ]
+          },
+          "goto": "rescue_success",
+          "effects": [
+            {
+              "type": "quest_complete",
+              "questId": "M3_FERROX_RESCUE",
+              "resolution": "stabilization_supported"
+            },
+            {
+              "type": "set_flag",
+              "key": "ferrox_rescue_state",
+              "value": "stabilization_supported"
+            },
+            {
+              "type": "set_flag",
+              "key": "ferrox_rescue_outcome_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "finalize_balanced",
+          "text": "La finestra è ancora aperta: chiudo il contributo coordinato su entrambe le priorità.",
+          "conditions": {
+            "all": [
+              {
+                "path": "quests.M3_FERROX_RESCUE.status",
+                "eq": "active"
+              },
+              {
+                "path": "world.flags.ferrox_rescue_priority",
+                "eq": "balanced"
+              }
+            ]
+          },
+          "goto": "rescue_success",
+          "effects": [
+            {
+              "type": "quest_complete",
+              "questId": "M3_FERROX_RESCUE",
+              "resolution": "balanced_support"
+            },
+            {
+              "type": "set_flag",
+              "key": "ferrox_rescue_state",
+              "value": "balanced_support"
+            },
+            {
+              "type": "set_flag",
+              "key": "ferrox_rescue_outcome_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "finalize_support_only",
+          "text": "La finestra è ancora aperta: chiudo con un contributo informativo e logistico.",
+          "conditions": {
+            "all": [
+              {
+                "path": "quests.M3_FERROX_RESCUE.status",
+                "eq": "active"
+              },
+              {
+                "path": "world.flags.ferrox_rescue_priority",
+                "eq": "support_only"
+              }
+            ]
+          },
+          "goto": "rescue_success",
+          "effects": [
+            {
+              "type": "quest_complete",
+              "questId": "M3_FERROX_RESCUE",
+              "resolution": "support_only"
+            },
+            {
+              "type": "set_flag",
+              "key": "ferrox_rescue_state",
+              "value": "support_only"
+            },
+            {
+              "type": "set_flag",
+              "key": "ferrox_rescue_outcome_available",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "rescue_success": {
+      "stitches": [
+        {
+          "id": "rescue_success_1",
+          "text": "Il caposquadra chiude il tuo nome nel registro operativo e continua a lavorare. Il tuo stato di soccorso è persistente, ma M3_11 determinerà il bilancio complessivo di persone, danni e responsabilità usando ciò che è realmente accaduto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "success_to_close",
+          "text": "Esco dal perimetro.",
+          "goto": "rescue_close"
+        }
+      ]
+    },
+    "rescue_declined": {
+      "stitches": [
+        {
+          "id": "rescue_declined_1",
+          "text": "Comunichi che non parteciperai. La quest viene chiusa come scelta del player; il mondo continua e le squadre Ferrox lavorano senza il tuo contributo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "declined_close",
+          "text": "Torno a Ferravia.",
+          "goto": "rescue_close"
+        }
+      ]
+    },
+    "rescue_missed": {
+      "stitches": [
+        {
+          "id": "rescue_missed_1",
+          "text": "La finestra operativa è finita. Non puoi riavvolgere il tempo: quello che è stato salvato, danneggiato o perso verrà registrato dal successivo blocco di outcome. Qui puoi solo accettare il fatto del ritardo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "missed_close",
+          "text": "Torno a Ferravia e aspetto il bilancio.",
+          "goto": "rescue_close"
+        }
+      ]
+    },
+    "rescue_close": {
+      "stitches": [
+        {
+          "id": "rescue_close_1",
+          "text": "Ferravia torna a essere il punto di raccolta. Il soccorso non è un minigioco isolato: ciò che hai fatto resta disponibile a relazioni, Friend Beat, Crossroads e outcome successivi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_to_hub",
+          "text": "Torno al centro di Ferravia.",
+          "goto": "m03-ferravia-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ferrox_rescue_phase_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
