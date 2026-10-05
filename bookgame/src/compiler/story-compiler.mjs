@@ -33,6 +33,41 @@ function isObject(value) {
   return value !== null && typeof value === "object" && !Array.isArray(value);
 }
 
+function validateSceneShops(shops, at, errors) {
+  if (shops === undefined) return;
+  if (!isObject(shops)) {
+    errors.push(diag("INVALID_SHOPS", "shops must be an object keyed by shop id", at));
+    return;
+  }
+
+  for (const [shopId, definition] of Object.entries(shops)) {
+    const shopAt = at + "." + shopId;
+    if (!ID_RE.test(shopId)) {
+      errors.push(diag("INVALID_SHOP_ID", "Shop id must be stable", shopAt));
+      continue;
+    }
+    if (!isObject(definition)) {
+      errors.push(diag("INVALID_SHOP", "Shop definition must be an object", shopAt));
+      continue;
+    }
+    if (!Number.isInteger(definition.refreshEveryDays) || definition.refreshEveryDays < 1) {
+      errors.push(diag("INVALID_SHOP_REFRESH", "refreshEveryDays must be a positive integer", shopAt + ".refreshEveryDays"));
+    }
+    if (!isObject(definition.stock) || Object.keys(definition.stock).length === 0) {
+      errors.push(diag("INVALID_SHOP_STOCK", "stock must contain at least one item", shopAt + ".stock"));
+      continue;
+    }
+    for (const [itemId, quantity] of Object.entries(definition.stock)) {
+      if (!ID_RE.test(itemId)) {
+        errors.push(diag("INVALID_SHOP_ITEM_ID", "Shop stock item id must be stable", shopAt + ".stock." + itemId));
+      }
+      if (!Number.isInteger(quantity) || quantity < 0) {
+        errors.push(diag("INVALID_SHOP_STOCK_QUANTITY", "Shop stock quantity must be a non-negative integer", shopAt + ".stock." + itemId));
+      }
+    }
+  }
+}
+
 function parseTarget(target, currentSceneId) {
   if (typeof target !== "string" || !TARGET_RE.test(target)) return null;
   if (!target.includes("#")) return { sceneId: currentSceneId, nodeId: target };
@@ -69,6 +104,9 @@ function validateEffects(effects, at, errors) {
       }
       if (effect.quantity !== undefined && (!Number.isInteger(effect.quantity) || effect.quantity < 1)) {
         errors.push(diag("INVALID_PURCHASE_QUANTITY", "purchase_item quantity must be a positive integer", effectAt + ".quantity"));
+      }
+      if (effect.shopId !== undefined && (typeof effect.shopId !== "string" || !ID_RE.test(effect.shopId))) {
+        errors.push(diag("INVALID_PURCHASE_SHOP_ID", "purchase_item shopId must be a stable shop id", effectAt + ".shopId"));
       }
     }
     if (["quest_offer", "quest_start", "quest_complete", "quest_fail"].includes(effect.type)) {
@@ -168,6 +206,7 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
   if (typeof scene.locationId !== "string" || scene.locationId.trim().length === 0) {
     errors.push(diag("INVALID_LOCATION", "Scene locationId must be non-empty", sourceFile));
   }
+  validateSceneShops(scene.shops, sourceFile + ".shops", errors);
   if (!isObject(scene.nodes) || Object.keys(scene.nodes).length === 0) {
     errors.push(diag("INVALID_NODES", "Scene must contain at least one node", sourceFile));
     return {
