@@ -347,7 +347,37 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
       if (combat.opponent && (!Number.isInteger(combat.opponent.level) || combat.opponent.level < 1)) {
         errors.push(diag("INVALID_COMBAT_LEVEL", "combat.opponent.level must be a positive integer", choiceAt + ".combat"));
       }
+
+      if (combat.opponentBench !== undefined && !Array.isArray(combat.opponentBench)) {
+        errors.push(diag(
+          "INVALID_OPPONENT_BENCH",
+          "combat.opponentBench must be an array when present",
+          choiceAt + ".combat.opponentBench"
+        ));
+      } else {
+        for (const [index, descriptor] of (combat.opponentBench ?? []).entries()) {
+          const at = choiceAt + ".combat.opponentBench[" + index + "]";
+          if (!isObject(descriptor) || typeof descriptor.species !== "string" || descriptor.species.length === 0) {
+            errors.push(diag("INVALID_COMBAT_OPPONENT", "Opponent bench entries require species", at));
+          }
+          if (!Number.isInteger(descriptor?.level) || descriptor.level < 1) {
+            errors.push(diag("INVALID_COMBAT_LEVEL", "Opponent bench level must be a positive integer", at + ".level"));
+          }
+        }
+      }
+
       errors.push(...validateCompetitionCombat(combat.competition, choiceAt + ".combat.competition"));
+
+      if (combat.competition) {
+        const opponentRosterSize = 1 + (Array.isArray(combat.opponentBench) ? combat.opponentBench.length : 0);
+        if (opponentRosterSize !== combat.competition.officialRosterSize) {
+          errors.push(diag(
+            "COMPETITION_OPPONENT_ROSTER_SIZE_MISMATCH",
+            "Official competition opponent roster must match officialRosterSize",
+            choiceAt + ".combat.opponentBench"
+          ));
+        }
+      }
 
       if (combat.competition && combat.opponentRegistered === false) {
         errors.push(diag(
