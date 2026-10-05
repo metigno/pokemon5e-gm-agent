@@ -79,7 +79,29 @@
             "returnNodes": {
               "win": "m03-trial-result#trial_win",
               "lose": "m03-trial-result#trial_loss"
-            }
+            },
+            "opponentTrainerId": "FER_GATE_D_C_EXAMINER",
+            "opponent": {
+              "species": "Sableye",
+              "level": 8,
+              "abilityId": "keen-eye",
+              "trainerId": "FER_GATE_D_C_EXAMINER"
+            },
+            "opponentBench": [
+              {
+                "species": "Roselia",
+                "level": 8,
+                "abilityId": "natural-cure",
+                "trainerId": "FER_GATE_D_C_EXAMINER"
+              },
+              {
+                "species": "Growlithe",
+                "level": 8,
+                "abilityId": "intimidate",
+                "trainerId": "FER_GATE_D_C_EXAMINER"
+              }
+            ],
+            "goto": "examiner_briefing"
           }
         },
         {
