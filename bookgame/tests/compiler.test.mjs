@@ -18,6 +18,7 @@ test("current authored scenes compile into an offline deterministic bundle", asy
   assert.equal(first.format, "p5e-librogame-story-bundle");
   assert.equal(first.offline, true);
   assert.ok(first.index.sceneIds.includes("first-road"));
+  assert.ok(first.index.sceneIds.includes("m01-release"));
   assert.ok(first.index.nodeCount >= 1);
   assert.deepEqual(second, first);
 });
@@ -34,8 +35,8 @@ test("compiled bundle can drive the existing BookgameEngine without network serv
     const state = createNewGameState({ protagonist: "Luke" });
     const view = await engine.present(state);
 
-    assert.equal(view.sceneId, "first-road");
-    assert.equal(view.nodeId, "arrival");
+    assert.equal(view.sceneId, "m01-release");
+    assert.equal(view.nodeId, "free_roam");
     assert.ok(view.choices.length > 0);
   } finally {
     await rm(dir, { recursive: true, force: true });
