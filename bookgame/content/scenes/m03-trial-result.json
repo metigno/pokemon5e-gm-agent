@@ -299,6 +299,15 @@
               "locationId": "fer_city"
             }
           ]
+        },
+        {
+          "id": "review_module_continuity",
+          "text": "Rivedo cosa M3 porta realmente nel modulo successivo.",
+          "conditions": {
+            "path": "world.flags.m3_continuity_reviewed",
+            "ne": true
+          },
+          "goto": "module_continuity"
         }
       ]
     },
@@ -616,6 +625,39 @@
           "id": "retry_ready_analysis",
           "text": "Analizzo ancora il tentativo.",
           "goto": "retry_analysis"
+        }
+      ]
+    },
+    "module_continuity": {
+      "stitches": [
+        {
+          "id": "continuity_1",
+          "text": "Prima dell'uscita, M3 conserva quattro linee indipendenti: progressione competitiva, bilancio Ferrox, relazioni/Steven e risultato Cup se disputata. Nessuna viene compressa in un unico punteggio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continuity_exit",
+          "text": "Il quadro è coerente: torno alla chiusura.",
+          "goto": "m3_exit_confirmed",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m3_continuity_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "continuity_hub",
+          "text": "Resto ancora a Ferravia.",
+          "goto": "m03-ferravia-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
         }
       ]
     }
