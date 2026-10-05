@@ -24,6 +24,20 @@ function applyEffects(state, effects = []) {
       state.world.locationId = effect.locationId;
       continue;
     }
+    if (effect.type === "purchase_item") {
+      const quantity = effect.quantity ?? 1;
+      state.player.money ??= 0;
+      state.player.inventory ??= [];
+      const totalCost = effect.cost * quantity;
+      if (state.player.money < totalCost) {
+        throw new Error(`Insufficient funds for ${effect.itemId}: need ₽${totalCost}, have ₽${state.player.money}`);
+      }
+      state.player.money -= totalCost;
+      for (let index = 0; index < quantity; index += 1) {
+        state.player.inventory.push(effect.itemId);
+      }
+      continue;
+    }
     if (["quest_offer", "quest_start", "quest_complete", "quest_fail"].includes(effect.type)) {
       applyQuestEffect(state, effect);
       continue;
