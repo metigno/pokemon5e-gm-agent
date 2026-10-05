@@ -189,30 +189,22 @@
       "stitches": [
         {
           "id": "board_noise",
-          "text": "La bacheca non è una lista congelata di missioni. Alcuni fogli hanno già il timbro PRESO; altri mostrano una finestra oraria o un contatto."
+          "text": "La bacheca non è una lista congelata di missioni. I cartellini hanno orari, contatti e timbri: DISPONIBILE, PRESO, CHIUSO. Se lasci passare il tempo, qualcun altro può muoversi prima di te."
         },
         {
-          "id": "farm_job",
-          "text": "Uno spicca per vicinanza: «Fattoria del Vento — recinti aperti. Supporto per recupero Pokémon dispersi. Priorità: evitare panico e ferite.»"
+          "id": "sera_board",
+          "text": "Sera Noll coordina il pannello senza fare reclutamento. Aggiorna una riga, stacca un foglio e ne sostituisce un altro mentre gli allenatori passano."
         },
         {
-          "id": "logistics_job",
-          "text": "Un secondo lavoro riguarda una consegna ai magazzini fluviali. Paga minore, rischio basso, disponibilità immediata."
+          "id": "board_jobs",
+          "text": "Tra gli incarichi da rookie riconosci il supporto alla Fattoria del Vento e una consegna ai magazzini fluviali. Un riquadro separato raccoglie avvisi su manutenzione, percorsi e fauna."
         }
       ],
       "choices": [
         {
           "id": "farm_job",
-          "text": "Prendo nota del lavoro alla Fattoria.",
+          "text": "Accetto «Recinti aperti» alla Fattoria del Vento.",
           "goto": "job_farm_taken",
-          "effects": [
-            {
-              "type": "quest_start",
-              "questId": "SQ_FARM_HERD_HANDS",
-              "title": "Recinti aperti",
-              "objective": "Aiuta la Fattoria del Vento a recuperare i Pokémon dispersi senza spaventarli."
-            }
-          ],
           "conditions": {
             "any": [
               {
@@ -221,36 +213,364 @@
               },
               {
                 "path": "quests.SQ_FARM_HERD_HANDS.status",
+                "eq": "available"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "quest_offer",
+              "questId": "SQ_FARM_HERD_HANDS",
+              "title": "Recinti aperti",
+              "objective": "Aiuta la Fattoria del Vento a recuperare i Pokémon dispersi senza spaventarli.",
+              "expiresInMinutes": 360,
+              "onExpire": {
+                "status": "completed",
+                "resolution": "taken_by_npc",
+                "resolvedBy": "npc_trainer"
+              }
+            },
+            {
+              "type": "quest_offer",
+              "questId": "M1_VALE_LOGISTICS_01",
+              "title": "Consegna ai magazzini",
+              "objective": "Consegna il pacco ai magazzini fluviali di Valedarsena entro la finestra indicata.",
+              "expiresInMinutes": 180,
+              "onExpire": {
+                "status": "expired",
+                "resolution": "posting_expired",
+                "resolvedBy": "world"
+              }
+            },
+            {
+              "type": "quest_start",
+              "questId": "SQ_FARM_HERD_HANDS",
+              "title": "Recinti aperti",
+              "objective": "Aiuta la Fattoria del Vento a recuperare i Pokémon dispersi senza spaventarli.",
+              "deadlineMinutes": 480,
+              "onDeadline": {
+                "status": "completed",
+                "resolution": "resolved_offscreen_after_player_delay",
+                "resolvedBy": "farm_workers"
+              }
+            }
+          ]
+        },
+        {
+          "id": "farm_active",
+          "text": "Controllo l'incarico «Recinti aperti» che ho già accettato.",
+          "goto": "job_farm_taken",
+          "conditions": {
+            "path": "quests.SQ_FARM_HERD_HANDS.status",
+            "eq": "active"
+          },
+          "effects": [
+            {
+              "type": "quest_offer",
+              "questId": "SQ_FARM_HERD_HANDS",
+              "title": "Recinti aperti",
+              "objective": "Aiuta la Fattoria del Vento a recuperare i Pokémon dispersi senza spaventarli.",
+              "expiresInMinutes": 360,
+              "onExpire": {
+                "status": "completed",
+                "resolution": "taken_by_npc",
+                "resolvedBy": "npc_trainer"
+              }
+            },
+            {
+              "type": "quest_offer",
+              "questId": "M1_VALE_LOGISTICS_01",
+              "title": "Consegna ai magazzini",
+              "objective": "Consegna il pacco ai magazzini fluviali di Valedarsena entro la finestra indicata.",
+              "expiresInMinutes": 180,
+              "onExpire": {
+                "status": "expired",
+                "resolution": "posting_expired",
+                "resolvedBy": "world"
+              }
+            }
+          ]
+        },
+        {
+          "id": "farm_taken_by_npc",
+          "text": "Controllo chi ha preso «Recinti aperti» mentre ero via.",
+          "goto": "job_board_farm_taken_npc",
+          "conditions": {
+            "all": [
+              {
+                "path": "quests.SQ_FARM_HERD_HANDS.status",
+                "eq": "completed"
+              },
+              {
+                "path": "quests.SQ_FARM_HERD_HANDS.resolution",
                 "in": [
-                  "available",
-                  "active"
+                  "taken_by_npc",
+                  "resolved_offscreen_after_player_delay"
                 ]
               }
             ]
-          }
+          },
+          "effects": [
+            {
+              "type": "quest_offer",
+              "questId": "SQ_FARM_HERD_HANDS",
+              "title": "Recinti aperti",
+              "objective": "Aiuta la Fattoria del Vento a recuperare i Pokémon dispersi senza spaventarli.",
+              "expiresInMinutes": 360,
+              "onExpire": {
+                "status": "completed",
+                "resolution": "taken_by_npc",
+                "resolvedBy": "npc_trainer"
+              }
+            },
+            {
+              "type": "quest_offer",
+              "questId": "M1_VALE_LOGISTICS_01",
+              "title": "Consegna ai magazzini",
+              "objective": "Consegna il pacco ai magazzini fluviali di Valedarsena entro la finestra indicata.",
+              "expiresInMinutes": 180,
+              "onExpire": {
+                "status": "expired",
+                "resolution": "posting_expired",
+                "resolvedBy": "world"
+              }
+            }
+          ]
         },
         {
           "id": "logistics",
-          "text": "Prendo il lavoro di consegna urbana.",
+          "text": "Accetto la consegna ai magazzini fluviali.",
           "goto": "job_logistics",
+          "conditions": {
+            "any": [
+              {
+                "path": "quests.M1_VALE_LOGISTICS_01.status",
+                "exists": false
+              },
+              {
+                "path": "quests.M1_VALE_LOGISTICS_01.status",
+                "eq": "available"
+              }
+            ]
+          },
           "effects": [
+            {
+              "type": "quest_offer",
+              "questId": "SQ_FARM_HERD_HANDS",
+              "title": "Recinti aperti",
+              "objective": "Aiuta la Fattoria del Vento a recuperare i Pokémon dispersi senza spaventarli.",
+              "expiresInMinutes": 360,
+              "onExpire": {
+                "status": "completed",
+                "resolution": "taken_by_npc",
+                "resolvedBy": "npc_trainer"
+              }
+            },
+            {
+              "type": "quest_offer",
+              "questId": "M1_VALE_LOGISTICS_01",
+              "title": "Consegna ai magazzini",
+              "objective": "Consegna il pacco ai magazzini fluviali di Valedarsena entro la finestra indicata.",
+              "expiresInMinutes": 180,
+              "onExpire": {
+                "status": "expired",
+                "resolution": "posting_expired",
+                "resolvedBy": "world"
+              }
+            },
             {
               "type": "quest_start",
               "questId": "M1_VALE_LOGISTICS_01",
               "title": "Consegna ai magazzini",
-              "objective": "Consegna il pacco ai magazzini fluviali di Valedarsena."
+              "objective": "Consegna il pacco ai magazzini fluviali di Valedarsena entro la finestra indicata.",
+              "deadlineMinutes": 240,
+              "onDeadline": {
+                "status": "failed",
+                "resolution": "delivery_window_missed",
+                "resolvedBy": "world"
+              }
             }
-          ],
+          ]
+        },
+        {
+          "id": "logistics_active",
+          "text": "Riprendo la consegna ai magazzini che ho già accettato.",
+          "goto": "job_logistics",
           "conditions": {
             "path": "quests.M1_VALE_LOGISTICS_01.status",
-            "exists": false
-          }
+            "eq": "active"
+          },
+          "effects": [
+            {
+              "type": "quest_offer",
+              "questId": "SQ_FARM_HERD_HANDS",
+              "title": "Recinti aperti",
+              "objective": "Aiuta la Fattoria del Vento a recuperare i Pokémon dispersi senza spaventarli.",
+              "expiresInMinutes": 360,
+              "onExpire": {
+                "status": "completed",
+                "resolution": "taken_by_npc",
+                "resolvedBy": "npc_trainer"
+              }
+            },
+            {
+              "type": "quest_offer",
+              "questId": "M1_VALE_LOGISTICS_01",
+              "title": "Consegna ai magazzini",
+              "objective": "Consegna il pacco ai magazzini fluviali di Valedarsena entro la finestra indicata.",
+              "expiresInMinutes": 180,
+              "onExpire": {
+                "status": "expired",
+                "resolution": "posting_expired",
+                "resolvedBy": "world"
+              }
+            }
+          ]
+        },
+        {
+          "id": "logistics_repost",
+          "text": "Accetto l'incarico ripubblicato: ora la consegna è stata divisa in un tratto più corto.",
+          "goto": "job_logistics_repost",
+          "conditions": {
+            "path": "quests.M1_VALE_LOGISTICS_02.status",
+            "eq": "available"
+          },
+          "effects": [
+            {
+              "type": "quest_offer",
+              "questId": "SQ_FARM_HERD_HANDS",
+              "title": "Recinti aperti",
+              "objective": "Aiuta la Fattoria del Vento a recuperare i Pokémon dispersi senza spaventarli.",
+              "expiresInMinutes": 360,
+              "onExpire": {
+                "status": "completed",
+                "resolution": "taken_by_npc",
+                "resolvedBy": "npc_trainer"
+              }
+            },
+            {
+              "type": "quest_start",
+              "questId": "M1_VALE_LOGISTICS_02",
+              "title": "Consegna ai magazzini — ripubblicata",
+              "objective": "Porta il collo dal deposito intermedio ai magazzini fluviali.",
+              "deadlineMinutes": 240,
+              "onDeadline": {
+                "status": "failed",
+                "resolution": "repost_window_missed",
+                "resolvedBy": "world"
+              }
+            }
+          ]
+        },
+        {
+          "id": "read_notices_new",
+          "text": "Leggo gli avvisi su percorsi, manutenzione e fauna.",
+          "goto": "job_board_notice_new",
+          "conditions": {
+            "path": "world.flags.m1_world_pressure_known",
+            "ne": true
+          },
+          "effects": [
+            {
+              "type": "quest_offer",
+              "questId": "SQ_FARM_HERD_HANDS",
+              "title": "Recinti aperti",
+              "objective": "Aiuta la Fattoria del Vento a recuperare i Pokémon dispersi senza spaventarli.",
+              "expiresInMinutes": 360,
+              "onExpire": {
+                "status": "completed",
+                "resolution": "taken_by_npc",
+                "resolvedBy": "npc_trainer"
+              }
+            },
+            {
+              "type": "quest_offer",
+              "questId": "M1_VALE_LOGISTICS_01",
+              "title": "Consegna ai magazzini",
+              "objective": "Consegna il pacco ai magazzini fluviali di Valedarsena entro la finestra indicata.",
+              "expiresInMinutes": 180,
+              "onExpire": {
+                "status": "expired",
+                "resolution": "posting_expired",
+                "resolvedBy": "world"
+              }
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_known",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_state",
+              "value": "pressure_noticed"
+            }
+          ]
+        },
+        {
+          "id": "read_notices_known",
+          "text": "Rileggo gli aggiornamenti sugli spostamenti della fauna.",
+          "goto": "job_board_notice_known",
+          "conditions": {
+            "path": "world.flags.m1_world_pressure_known",
+            "eq": true
+          },
+          "effects": [
+            {
+              "type": "quest_offer",
+              "questId": "SQ_FARM_HERD_HANDS",
+              "title": "Recinti aperti",
+              "objective": "Aiuta la Fattoria del Vento a recuperare i Pokémon dispersi senza spaventarli.",
+              "expiresInMinutes": 360,
+              "onExpire": {
+                "status": "completed",
+                "resolution": "taken_by_npc",
+                "resolvedBy": "npc_trainer"
+              }
+            },
+            {
+              "type": "quest_offer",
+              "questId": "M1_VALE_LOGISTICS_01",
+              "title": "Consegna ai magazzini",
+              "objective": "Consegna il pacco ai magazzini fluviali di Valedarsena entro la finestra indicata.",
+              "expiresInMinutes": 180,
+              "onExpire": {
+                "status": "expired",
+                "resolution": "posting_expired",
+                "resolvedBy": "world"
+              }
+            }
+          ]
         },
         {
           "id": "ignore",
           "text": "Non accetto nulla per ora.",
           "goto": "city_hub",
           "effects": [
+            {
+              "type": "quest_offer",
+              "questId": "SQ_FARM_HERD_HANDS",
+              "title": "Recinti aperti",
+              "objective": "Aiuta la Fattoria del Vento a recuperare i Pokémon dispersi senza spaventarli.",
+              "expiresInMinutes": 360,
+              "onExpire": {
+                "status": "completed",
+                "resolution": "taken_by_npc",
+                "resolvedBy": "npc_trainer"
+              }
+            },
+            {
+              "type": "quest_offer",
+              "questId": "M1_VALE_LOGISTICS_01",
+              "title": "Consegna ai magazzini",
+              "objective": "Consegna il pacco ai magazzini fluviali di Valedarsena entro la finestra indicata.",
+              "expiresInMinutes": 180,
+              "onExpire": {
+                "status": "expired",
+                "resolution": "posting_expired",
+                "resolvedBy": "world"
+              }
+            },
             {
               "type": "set_location",
               "locationId": "valedarsena_city"
@@ -263,7 +583,11 @@
       "stitches": [
         {
           "id": "sera_note",
-          "text": "La coordinatrice, Sera Noll, registra il tuo nome senza cerimonie. «Se arrivi tardi, potrebbero aver già risolto o la situazione potrebbe essere cambiata. È un lavoro, non una quest che ti aspetta.»"
+          "text": "Sera Noll registra il tuo nome e l'orario. «La Fattoria non resta sospesa ad aspettarti. Se ritardi troppo, gli addetti continueranno e chiameranno qualcun altro.»"
+        },
+        {
+          "id": "farm_window",
+          "text": "Hai una finestra reale per intervenire; partire subito è una scelta, non un ordine."
         }
       ],
       "choices": [
@@ -296,11 +620,11 @@
       "stitches": [
         {
           "id": "logistics_hook",
-          "text": "Il pacco è piccolo, ma il percorso verso i magazzini passa vicino alle banchine dove sono stati segnalati movimenti insoliti di Pokémon selvatici."
+          "text": "Il pacco è piccolo e la consegna è breve, ma la finestra è reale. Il percorso verso i magazzini passa vicino alle banchine dove sono stati segnalati movimenti insoliti di Pokémon selvatici."
         },
         {
           "id": "not_main_quest",
-          "text": "Puoi consegnarlo senza trasformare ogni rumore in un'indagine, oppure usare il tragitto per osservare."
+          "text": "Puoi limitarti al lavoro oppure usare il tragitto per osservare. Se perdi la finestra, l'incarico non aspetta un reset narrativo."
         }
       ],
       "choices": [
@@ -1390,6 +1714,159 @@
             {
               "type": "set_location",
               "locationId": "valedarsena_city"
+            }
+          ]
+        }
+      ]
+    },
+    "job_board_farm_taken_npc": {
+      "stitches": [
+        {
+          "id": "farm_stamp_changed",
+          "text": "Il foglio della Fattoria non è più DISPONIBILE. Sera indica il nuovo timbro: un altro trainer ha preso il lavoro, oppure gli addetti hanno chiuso il recupero mentre eri impegnato altrove."
+        },
+        {
+          "id": "no_frozen_job",
+          "text": "Non ricevi credito né ricompense per un problema risolto senza di te. Resta soltanto l'informazione che il mondo ha continuato a muoversi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "board",
+          "text": "Torno alla bacheca.",
+          "goto": "job_board"
+        },
+        {
+          "id": "hub",
+          "text": "Torno in città.",
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
+        }
+      ]
+    },
+    "job_board_notice_new": {
+      "stitches": [
+        {
+          "id": "notice_pattern",
+          "text": "Gli avvisi non descrivono un singolo incidente: piccoli cambi di percorso, recinzioni temporanee, rumore ai moli e segnalazioni di Pokémon selvatici in corridoi insoliti compaiono in zone diverse."
+        },
+        {
+          "id": "sera_context",
+          "text": "Sera non offre una spiegazione pronta. «Sono dati operativi. Se ti interessa capire il perché, parla con chi lavora sul campo.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "board",
+          "text": "Torno agli incarichi.",
+          "goto": "job_board"
+        },
+        {
+          "id": "hub",
+          "text": "Esco dalla bacheca.",
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
+        }
+      ]
+    },
+    "job_board_notice_known": {
+      "stitches": [
+        {
+          "id": "notice_update",
+          "text": "Gli aggiornamenti confermano che il fenomeno non è fermo: alcuni percorsi sono tornati normali, altri hanno nuove segnalazioni. La board registra cambiamenti, non una verità definitiva."
+        }
+      ],
+      "choices": [
+        {
+          "id": "board",
+          "text": "Torno agli incarichi.",
+          "goto": "job_board"
+        },
+        {
+          "id": "hub",
+          "text": "Esco dalla bacheca.",
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
+        }
+      ]
+    },
+    "job_logistics_repost": {
+      "stitches": [
+        {
+          "id": "repost_changed",
+          "text": "Il vecchio foglio è sparito. Quello nuovo copre soltanto l'ultimo tratto della consegna: qualcun altro ha già portato il collo al deposito intermedio."
+        },
+        {
+          "id": "repost_world_moved",
+          "text": "Il lavoro è cambiato perché il primo annuncio è scaduto, non per adattarsi a te."
+        }
+      ],
+      "choices": [
+        {
+          "id": "observe",
+          "text": "Consegno e osservo le banchine. (CT Investigation)",
+          "check": {
+            "ability": "INT",
+            "skill": "Investigation",
+            "dc": 12
+          },
+          "outcomes": {
+            "success": {
+              "goto": "logistics_clue",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "m1_world_pressure_known",
+                  "value": true
+                },
+                {
+                  "type": "set_flag",
+                  "key": "m1_world_pressure_state",
+                  "value": "pressure_noticed"
+                },
+                {
+                  "type": "quest_complete",
+                  "questId": "M1_VALE_LOGISTICS_02",
+                  "resolution": "repost_completed_with_clue"
+                }
+              ]
+            },
+            "failure": {
+              "goto": "logistics_done",
+              "effects": [
+                {
+                  "type": "quest_complete",
+                  "questId": "M1_VALE_LOGISTICS_02",
+                  "resolution": "repost_completed_delivery"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "just_deliver",
+          "text": "Faccio soltanto il tratto di consegna.",
+          "goto": "logistics_done",
+          "effects": [
+            {
+              "type": "quest_complete",
+              "questId": "M1_VALE_LOGISTICS_02",
+              "resolution": "repost_completed_delivery"
             }
           ]
         }
