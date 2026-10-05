@@ -138,6 +138,15 @@
           ]
         },
         {
+          "id": "hub_archive",
+          "text": "Vado all'Archivio Tecnico — voglio leggere le vecchie mappe.",
+          "timeCostMinutes": 10,
+          "goto": "m03-old-maps#archive_entry",
+          "effects": [
+            { "type": "set_location", "locationId": "fer_city_archive" }
+          ]
+        },
+        {
           "id": "hub_leave_to_cava",
           "text": "Torno verso Cava Grigia.",
           "timeCostMinutes": 90,

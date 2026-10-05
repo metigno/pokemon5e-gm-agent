@@ -1,0 +1,237 @@
+{
+  "schemaVersion": 1,
+  "id": "m03-old-maps",
+  "moduleId": "M03",
+  "title": "M3_03 — Vecchie Mappe",
+  "locationId": "fer_city_archive",
+  "entryNodeId": "archive_entry",
+  "conditions": {
+    "all": [
+      { "path": "world.flags.m2_complete", "eq": true },
+      { "path": "world.flags.m03_unlocked", "eq": true },
+      { "path": "world.flags.m3_active", "eq": true },
+      { "path": "world.flags.ferravia_discovered", "eq": true },
+      { "path": "competition.rank", "eq": "D" }
+    ]
+  },
+  "nodes": {
+    "archive_entry": {
+      "stitches": [
+        {
+          "id": "entry_1",
+          "text": "L'Archivio Tecnico di Ferravia è ospitato in un edificio basso dietro la stazione, con l'insegna sbiadita e un orario breve esposto sulla porta. Non è un posto turistico: è il deposito ordinato di tutta la cartografia operativa della regione industriale. Carte vecchie, carte recenti, verbali di sopralluogo, rapporti geologici."
+        },
+        {
+          "id": "entry_2",
+          "text": "L'archivista è una donna sui cinquant'anni, grembiule grigio, mani polverose. Alza lo sguardo da un registro, legge la tessera Rank D con calma, e torna al suo lavoro — ma non ti caccia. «Consultazione libera per il Rank D. Non si fotografa, non si piega, non si esce con i documenti. Se hai una domanda precisa, me la fai; se stai esplorando, lo scaffale aperto è a sinistra.»"
+        },
+        {
+          "id": "entry_3",
+          "text": "L'ambiente non è decorato per l'intrigo. È un archivio tecnico onesto: segnali di cantiere, piante di cava con stratigrafia aggiornata, mappe storiche delle Gallerie Ferrox che non coincidono del tutto con quelle attuali. La differenza non è nascosta — è semplicemente registrata."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ask_archivist_quarry",
+          "text": "Chiedo all'archivista di darmi un contesto sulla cava.",
+          "timeCostMinutes": 15,
+          "goto": "archivist_quarry"
+        },
+        {
+          "id": "ask_archivist_tunnels",
+          "text": "Chiedo all'archivista delle Gallerie Ferrox.",
+          "timeCostMinutes": 15,
+          "goto": "archivist_tunnels"
+        },
+        {
+          "id": "browse_open_shelf",
+          "text": "Vado allo scaffale aperto e leggo da solo.",
+          "timeCostMinutes": 20,
+          "goto": "open_shelf"
+        },
+        {
+          "id": "archive_leave",
+          "text": "Non adesso — esco dall'archivio.",
+          "goto": "m03-ferravia-arrival#city_hub",
+          "effects": [
+            { "type": "set_location", "locationId": "fer_city" }
+          ]
+        }
+      ]
+    },
+    "archivist_quarry": {
+      "stitches": [
+        {
+          "id": "quarry_arch_1",
+          "text": "«Cava Grigia ha due generazioni di cartografia. La prima è pre-Circuito, era un deposito di cava artigianale; la seconda è l'escavazione attuale, con tutte le verifiche moderne. I margini della prima non sono stati scartati — li teniamo sovrapposti alla seconda come promemoria: dove si è lavorato prima, la roccia ricorda.»"
+        },
+        {
+          "id": "quarry_arch_2",
+          "text": "Mentre parla srotola una pianta trasparente sopra una più antica. Le linee delle cavità naturali, segnate in blu, non coincidono con il perimetro di sicurezza moderno — in due o tre punti si avvicinano, in uno la cavità entra nel margine ufficiale di scavo recente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "quarry_note_overlap",
+          "text": "Prendo nota mentale della sovrapposizione.",
+          "goto": "archive_entry",
+          "effects": [
+            { "type": "set_flag", "key": "quarry_old_maps_read", "value": true }
+          ]
+        }
+      ]
+    },
+    "archivist_tunnels": {
+      "stitches": [
+        {
+          "id": "tunnels_arch_1",
+          "text": "«Le Gallerie Ferrox sono un sistema tecnico più delicato. La cartografia ufficiale è aggiornata ai lavori recenti, ma lo storico — quello non si butta via. Alcune diramazioni antiche sono state chiuse decenni fa; non significa che non ci siano, significa che non le usiamo. Se qualcuno le riapre per fretta, succedono problemi.»"
+        },
+        {
+          "id": "tunnels_arch_2",
+          "text": "Indica una mappa storica piegata male in un cassetto. «Questa è l'edizione 1987. Non la usiamo per il lavoro operativo, ma la teniamo per riferimento. Se un ingegnere nuovo arrivasse qui chiedendo di vederla, saprei perché. Non è un documento classificato — è un documento che dice la verità su un periodo diverso.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "tunnels_ask_old",
+          "text": "Chiedo di vedere la mappa storica delle Gallerie.",
+          "timeCostMinutes": 15,
+          "goto": "historical_map_review"
+        },
+        {
+          "id": "tunnels_back_to_entry",
+          "text": "Mi fermo qui per adesso.",
+          "goto": "archive_entry",
+          "effects": [
+            { "type": "set_flag", "key": "tunnels_history_mentioned", "value": true }
+          ]
+        }
+      ]
+    },
+    "historical_map_review": {
+      "stitches": [
+        {
+          "id": "hist_map_1",
+          "text": "La mappa 1987 è ingiallita ma leggibile. Mostra le Gallerie Ferrox come un reticolo più fitto di quello attuale: tre diramazioni oggi chiuse, due stazioni di servizio dismesse, un paio di collegamenti con settori di cava che oggi sono considerati zone separate. L'archivista non commenta — ti lascia leggere."
+        },
+        {
+          "id": "hist_map_2",
+          "text": "L'archivista ti guarda con la stessa calma di prima quando riponi la mappa. «Non è segretezza — è manutenzione. Il presente dei lavori non ha bisogno delle gallerie vecchie; chi lavora sulla sicurezza, invece, dovrebbe conoscerle. Se qualcuno sta studiando la stessa mappa che hai in mano adesso, probabilmente sta facendo il suo mestiere.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "hist_map_investigate",
+          "text": "Studio attentamente le incongruenze tra storia e stato attuale. (CT Investigation)",
+          "timeCostMinutes": 20,
+          "check": { "ability": "INT", "skill": "Investigation", "dc": 13 },
+          "outcomes": {
+            "success": {
+              "goto": "hist_map_insight",
+              "effects": [
+                { "type": "set_flag", "key": "old_maps_read", "value": true },
+                { "type": "set_flag", "key": "tunnels_history_mentioned", "value": true }
+              ]
+            },
+            "failure": {
+              "goto": "hist_map_partial",
+              "effects": [
+                { "type": "set_flag", "key": "tunnels_history_mentioned", "value": true }
+              ]
+            }
+          }
+        },
+        {
+          "id": "hist_map_close",
+          "text": "Rimetto la mappa a posto senza approfondire.",
+          "goto": "archive_entry",
+          "effects": [
+            { "type": "set_flag", "key": "tunnels_history_mentioned", "value": true }
+          ]
+        }
+      ]
+    },
+    "hist_map_insight": {
+      "stitches": [
+        {
+          "id": "insight_1",
+          "text": "La lettura è chiara: tre diramazioni chiuse non sono state demolite, sono state solo murate con pareti leggere. Due di queste si avvicinano a settori di cava recenti. Se la produzione di cava accelera e qualcuno modifica un settore senza aggiornare la cartografia, una parete leggera può diventare un rischio reale."
+        },
+        {
+          "id": "insight_2",
+          "text": "Non è una scoperta drammatica. È il tipo di dettaglio tecnico che un ingegnere esperto nota al primo passaggio. Il tuo motore di gioco registra: hai ora letto davvero le vecchie mappe — questa informazione sarà disponibile come conoscenza persistente nei blocchi successivi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "insight_back",
+          "text": "Chiudo l'approfondimento e torno al banco dell'archivista.",
+          "goto": "archive_entry"
+        }
+      ]
+    },
+    "hist_map_partial": {
+      "stitches": [
+        {
+          "id": "partial_1",
+          "text": "Capisci che la mappa storica contiene informazioni rilevanti ma non riesci a comporle in una lettura unitaria. Rimane la sensazione che le vecchie gallerie non siano scomparse — solo tolte dall'uso quotidiano."
+        }
+      ],
+      "choices": [
+        {
+          "id": "partial_back",
+          "text": "Chiudo la consultazione.",
+          "goto": "archive_entry"
+        }
+      ]
+    },
+    "open_shelf": {
+      "stitches": [
+        {
+          "id": "shelf_1",
+          "text": "Lo scaffale aperto è ordinato per tipologia: carte di cava, piante di stazione, pianificazioni di manutenzione, rapporti geologici. Puoi leggere, non puoi uscire con niente. Nulla è classificato: è materiale operativo pubblico per chi ha un Rank adeguato."
+        },
+        {
+          "id": "shelf_2",
+          "text": "Un rapporto recente attira l'occhio: una revisione della cartografia di Cava Grigia richiesta tre mesi fa dall'ufficio tecnico, con una nota a margine firmata da un ingegnere di sopralluogo. La firma non è di un volto locale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "shelf_read_report",
+          "text": "Leggo il rapporto di sopralluogo.",
+          "timeCostMinutes": 15,
+          "goto": "survey_report"
+        },
+        {
+          "id": "shelf_back",
+          "text": "Rimetto a posto e torno al banco.",
+          "goto": "archive_entry"
+        }
+      ]
+    },
+    "survey_report": {
+      "stitches": [
+        {
+          "id": "report_1",
+          "text": "Il rapporto è tecnico, asciutto. Richiede un aggiornamento della cartografia della cava includendo le cavità naturali storiche. Raccomanda controlli settimanali sulle pareti leggere di separazione nelle Gallerie Ferrox. Firma: un cognome che non ti dice niente ora, ma che è registrato in archivio."
+        },
+        {
+          "id": "report_2",
+          "text": "La nota a margine è scritta a mano con un segno diverso: «D'accordo tecnicamente. Priorità reale dipende dalla finestra produttiva — valuteremo a trimestre.» Non è un rifiuto, non è un sì. È la frizione normale tra sicurezza e produttività che il mondo ha e il tuo motore di gioco non maschera."
+        }
+      ],
+      "choices": [
+        {
+          "id": "report_back",
+          "text": "Chiudo il rapporto e torno al banco.",
+          "goto": "open_shelf",
+          "effects": [
+            { "type": "set_flag", "key": "ferrox_survey_report_read", "value": true }
+          ]
+        }
+      ]
+    }
+  }
+}
