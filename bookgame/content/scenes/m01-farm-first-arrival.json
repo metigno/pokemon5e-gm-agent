@@ -104,7 +104,23 @@
           "id": "leave_city",
           "text": "Non mi fermo e continuo verso Valedarsena.",
           "goto": "m01-valedarsena-first-arrival#approach",
-          "timeCostMinutes": 140
+          "timeCostMinutes": 140,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            },
+            {
+              "type": "set_flag",
+              "key": "first_settlement_reached",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "valedarsena_discovered",
+              "value": true
+            }
+          ]
         },
         {
           "id": "leave_crossroads",
@@ -205,7 +221,23 @@
           "id": "city",
           "text": "Vado a Valedarsena per chiedere informazioni.",
           "goto": "m01-valedarsena-first-arrival#approach",
-          "timeCostMinutes": 140
+          "timeCostMinutes": 140,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            },
+            {
+              "type": "set_flag",
+              "key": "first_settlement_reached",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "valedarsena_discovered",
+              "value": true
+            }
+          ]
         },
         {
           "id": "leave",
@@ -431,6 +463,20 @@
               "type": "set_flag",
               "key": "m1_world_pressure_known",
               "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            },
+            {
+              "type": "set_flag",
+              "key": "first_settlement_reached",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "valedarsena_discovered",
+              "value": true
             }
           ],
           "timeCostMinutes": 140
@@ -460,6 +506,20 @@
               "type": "quest_fail",
               "questId": "SQ_FARM_HERD_HANDS",
               "resolution": "abandoned"
+            },
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            },
+            {
+              "type": "set_flag",
+              "key": "first_settlement_reached",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "valedarsena_discovered",
+              "value": true
             }
           ],
           "timeCostMinutes": 140
@@ -497,7 +557,23 @@
           "id": "to_city",
           "text": "Vado a Valedarsena.",
           "goto": "m01-valedarsena-first-arrival#approach",
-          "timeCostMinutes": 140
+          "timeCostMinutes": 140,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            },
+            {
+              "type": "set_flag",
+              "key": "first_settlement_reached",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "valedarsena_discovered",
+              "value": true
+            }
+          ]
         }
       ]
     }
