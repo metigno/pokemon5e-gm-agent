@@ -23,6 +23,7 @@ export function createCompetitionState() {
     rankOrder: 0,
     circuitPoints: 0,
     firstOfficialResolved: false,
+    firstOfficialResult: null,
     activeMatch: null,
     history: [],
     trials: {}
@@ -35,6 +36,7 @@ export function ensureCompetition(state) {
   state.competition.rankOrder = rankOrder(state.competition.rank);
   state.competition.circuitPoints ??= 0;
   state.competition.firstOfficialResolved ??= false;
+  state.competition.firstOfficialResult ??= null;
   state.competition.activeMatch ??= null;
   state.competition.history ??= [];
   state.competition.trials ??= {};
@@ -198,6 +200,12 @@ export function resolveCompetitionMatch(state, meta, outcome) {
 
   if (meta.type === "official_match" && meta.firstOfficial === true) {
     competition.firstOfficialResolved = true;
+    competition.firstOfficialResult = outcome;
+    state.world.flags ??= {};
+    state.world.flags.first_official_resolved = true;
+    state.world.flags.first_official_result = outcome;
+    state.world.flags.first_official_match_id = meta.matchId;
+    state.world.flags.official_match_opportunity = false;
   }
 
   if (meta.type === "promotion_trial") {
