@@ -323,6 +323,15 @@ export class BookgameEngine {
     const sourceSceneId = next.pending.sceneId;
     const competitionMeta = clone(next.pending.competition);
 
+    if (outcome === "captured") {
+      if (next.pending.opponentRegistered) {
+        throw new Error("Registered Trainer Pokémon cannot be captured");
+      }
+      if (!resolvedBattle?.opponent) {
+        throw new Error("Captured outcome requires resolved Pokémon 5e opponent state");
+      }
+    }
+
     if (resolvedBattle?.trainer?.inventory) {
       next.player.inventory = clone(resolvedBattle.trainer.inventory);
     }
