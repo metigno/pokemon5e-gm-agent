@@ -317,3 +317,46 @@ test("M3_03 state survives save/reload identically", async () => {
     if (tmpDir) await rm(tmpDir, { recursive: true, force: true });
   }
 });
+
+
+// ─── MODEL ALIGNMENT PASS ────────────────────────────────────────────────────
+
+test("M3_03 quarry cross-check success creates a durable evidence link", async () => {
+  const { engine } = await makeEngine(new SequenceDice([20]));
+  let state = enterArchive(legalM3State());
+  state.world.flags.cava_old_maps_mentioned = true;
+  const view = await engine.present(state);
+  assert.ok(view.choices.find((c) => c.id === "compare_quarry_material"));
+  state = await engine.choose(state, "compare_quarry_material");
+  state = await engine.choose(state, "quarry_crosscheck_investigate");
+  assert.equal(state.story.nodeId, "quarry_crosscheck_clear");
+  assert.equal(state.world.flags.archive_quarry_crosscheck, true);
+});
+
+test("M3_03 workshop safety knowledge unlocks a real archive cross-check", async () => {
+  const { engine } = await makeEngine();
+  let state = enterArchive(legalM3State());
+  state.world.flags.ferravia_safety_principle_noted = true;
+  state = await engine.choose(state, "browse_open_shelf");
+  const view = await engine.present(state);
+  assert.ok(view.choices.find((c) => c.id === "shelf_crosscheck_safety"));
+  state = await engine.choose(state, "shelf_crosscheck_safety");
+  state = await engine.choose(state, "record_safety_gap");
+  assert.equal(state.world.flags.ferrox_safety_gap_noted, true);
+});
+
+test("M3_03 re-entry preserves investigation evidence and does not duplicate it", async () => {
+  const { engine } = await makeEngine(new SequenceDice([20]));
+  let state = enterArchive(legalM3State());
+  state = await engine.choose(state, "ask_archivist_tunnels");
+  state = await engine.choose(state, "tunnels_ask_old");
+  state = await engine.choose(state, "hist_map_investigate");
+  assert.equal(state.world.flags.old_maps_read, true);
+  state.story.sceneId = "m03-old-maps";
+  state.story.nodeId = "archive_entry";
+  state.world.locationId = "fer_city_archive";
+  const view = await engine.present(state);
+  assert.equal(view.nodeId, "archive_entry");
+  assert.equal(state.world.flags.old_maps_read, true);
+  assert.equal(state.world.flags.tunnels_history_mentioned, true);
+});
