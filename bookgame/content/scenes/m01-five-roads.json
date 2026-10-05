@@ -1,0 +1,323 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "M01",
+  "id": "m01-five-roads",
+  "title": "Cinque strade",
+  "locationId": "valedarsena_city",
+  "entryNodeId": "dispatch",
+  "conditions": {
+    "path": "events.A1_FIVE_ROADS.status",
+    "eq": "resolved"
+  },
+  "nodes": {
+    "dispatch": {
+      "stitches": [
+        {
+          "id": "roads_split",
+          "text": "Le prime giornate insieme non si trasformano in una squadra fissa. Messaggi, turni, allenamenti e partenze mostrano che i Five hanno iniziato a costruire calendari diversi."
+        },
+        {
+          "id": "offscreen_is_real",
+          "text": "Gli altri non restano congelati fuori campo: ciascuno mantiene una schedule propria. Qui controlli un aggiornamento concreto; gli altri movimenti restano nello stato persistente del mondo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "focus_luke",
+          "text": "Leggo l'aggiornamento su Luke.",
+          "conditions": {
+            "path": "world.flags.m1_five_roads_focus_friend_id",
+            "eq": "Luke"
+          },
+          "goto": "luke"
+        },
+        {
+          "id": "focus_mattew",
+          "text": "Leggo l'aggiornamento su Mattew.",
+          "conditions": {
+            "path": "world.flags.m1_five_roads_focus_friend_id",
+            "eq": "Mattew"
+          },
+          "goto": "mattew"
+        },
+        {
+          "id": "focus_daniel",
+          "text": "Leggo l'aggiornamento su Daniel.",
+          "conditions": {
+            "path": "world.flags.m1_five_roads_focus_friend_id",
+            "eq": "Daniel"
+          },
+          "goto": "daniel"
+        },
+        {
+          "id": "focus_edward",
+          "text": "Leggo l'aggiornamento su Edward.",
+          "conditions": {
+            "path": "world.flags.m1_five_roads_focus_friend_id",
+            "eq": "Edward"
+          },
+          "goto": "edward"
+        },
+        {
+          "id": "focus_fab",
+          "text": "Leggo l'aggiornamento su Fab.",
+          "conditions": {
+            "path": "world.flags.m1_five_roads_focus_friend_id",
+            "eq": "Fab"
+          },
+          "goto": "fab"
+        }
+      ]
+    },
+    "luke": {
+      "stitches": [
+        {
+          "id": "luke_diverges",
+          "text": "Luke non resta nel circuito corto tra Ginestre e Valedarsena. Ha messo in fila tappe più lunghe verso est e parte con un programma di esplorazione che lo terrà fuori zona per un po'."
+        },
+        {
+          "id": "luke_persistence",
+          "text": "Non è un'attesa scenica: la sua schedule è già passata a viaggio e continuerà a produrre risultati anche mentre tu fai altro."
+        },
+        {
+          "id": "luke_others_move",
+          "text": "Anche gli altri amici hanno aggiornato il proprio programma. Il mondo conserva quelle destinazioni e quei risultati senza attribuirli al tuo personaggio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "acknowledge",
+          "text": "Segno l'aggiornamento e torno al mio percorso.",
+          "goto": "m01-valedarsena-first-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_five_roads_seen",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
+        },
+        {
+          "id": "keep_moving",
+          "text": "Non inseguo nessuno: continuo per conto mio.",
+          "goto": "m01-valedarsena-first-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_five_roads_seen",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
+        }
+      ]
+    },
+    "mattew": {
+      "stitches": [
+        {
+          "id": "mattew_diverges",
+          "text": "Mattew ha prenotato una fascia stabile all'Arena Civica e ha spostato il proprio programma sulla preparazione del Promotion Trial. Non segue più il giro quotidiano che avevate condiviso nei primi giorni."
+        },
+        {
+          "id": "mattew_persistence",
+          "text": "Puoi ancora incrociarlo in Arena, ma la sua schedule ora appartiene al suo percorso competitivo, non al tuo."
+        },
+        {
+          "id": "mattew_others_move",
+          "text": "Anche gli altri amici hanno aggiornato il proprio programma. Il mondo conserva quelle destinazioni e quei risultati senza attribuirli al tuo personaggio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "acknowledge",
+          "text": "Segno l'aggiornamento e torno al mio percorso.",
+          "goto": "m01-valedarsena-first-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_five_roads_seen",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
+        },
+        {
+          "id": "keep_moving",
+          "text": "Non inseguo nessuno: continuo per conto mio.",
+          "goto": "m01-valedarsena-first-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_five_roads_seen",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
+        }
+      ]
+    },
+    "daniel": {
+      "stitches": [
+        {
+          "id": "daniel_diverges",
+          "text": "Daniel ha accettato un incarico logistico ai magazzini fluviali. È lavoro vero, con orari e responsabilità proprie, e gli cambia il percorso rispetto alle tappe dei primi giorni."
+        },
+        {
+          "id": "daniel_persistence",
+          "text": "Il contratto viene registrato come suo risultato off-screen: non ti assegna denaro, merito o avanzamento per qualcosa che ha fatto lui."
+        },
+        {
+          "id": "daniel_others_move",
+          "text": "Anche gli altri amici hanno aggiornato il proprio programma. Il mondo conserva quelle destinazioni e quei risultati senza attribuirli al tuo personaggio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "acknowledge",
+          "text": "Segno l'aggiornamento e torno al mio percorso.",
+          "goto": "m01-valedarsena-first-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_five_roads_seen",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
+        },
+        {
+          "id": "keep_moving",
+          "text": "Non inseguo nessuno: continuo per conto mio.",
+          "goto": "m01-valedarsena-first-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_five_roads_seen",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
+        }
+      ]
+    },
+    "edward": {
+      "stitches": [
+        {
+          "id": "edward_diverges",
+          "text": "Edward ha trasformato le giornate alla Fattoria del Vento in un ciclo di allenamento sul campo. Non è più una deviazione occasionale: per ora quella zona è diventata il centro del suo programma."
+        },
+        {
+          "id": "edward_persistence",
+          "text": "Il suo progresso continua nella sua scheda NPC anche se non lo raggiungi."
+        },
+        {
+          "id": "edward_others_move",
+          "text": "Anche gli altri amici hanno aggiornato il proprio programma. Il mondo conserva quelle destinazioni e quei risultati senza attribuirli al tuo personaggio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "acknowledge",
+          "text": "Segno l'aggiornamento e torno al mio percorso.",
+          "goto": "m01-valedarsena-first-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_five_roads_seen",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
+        },
+        {
+          "id": "keep_moving",
+          "text": "Non inseguo nessuno: continuo per conto mio.",
+          "goto": "m01-valedarsena-first-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_five_roads_seen",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
+        }
+      ]
+    },
+    "fab": {
+      "stitches": [
+        {
+          "id": "fab_diverges",
+          "text": "Fab si è aggregato a una rotta di campo lungo l'alto fiume, fuori dal triangolo Ginestre-Valedarsena-Fattoria. Per alcuni giorni sarà in viaggio con un programma legato alla fauna."
+        },
+        {
+          "id": "fab_persistence",
+          "text": "La partenza è materiale: la sua schedule risulta traveling e non viene teletrasportato indietro soltanto perché tu cambi zona."
+        },
+        {
+          "id": "fab_others_move",
+          "text": "Anche gli altri amici hanno aggiornato il proprio programma. Il mondo conserva quelle destinazioni e quei risultati senza attribuirli al tuo personaggio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "acknowledge",
+          "text": "Segno l'aggiornamento e torno al mio percorso.",
+          "goto": "m01-valedarsena-first-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_five_roads_seen",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
+        },
+        {
+          "id": "keep_moving",
+          "text": "Non inseguo nessuno: continuo per conto mio.",
+          "goto": "m01-valedarsena-first-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_five_roads_seen",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
