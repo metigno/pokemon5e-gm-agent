@@ -413,10 +413,31 @@ export class Pokemon5eCombatEngine {
     }
 
     const maxHp = scaledHp(species, level);
+    const persistedHp = descriptor.hp && Number.isFinite(descriptor.hp.current)
+      ? Math.max(0, Math.min(maxHp, Math.floor(descriptor.hp.current)))
+      : maxHp;
+    const statuses = createStatusState();
+    if (descriptor.statuses && typeof descriptor.statuses === "object") {
+      statuses.nonVolatile = descriptor.statuses.nonVolatile ?? null;
+      statuses.remainingRounds = descriptor.statuses.remainingRounds ?? null;
+      statuses.flinchedTurns = descriptor.statuses.flinchedTurns ?? 0;
+    }
+    const moveIds = moves.map((move) => move.id);
+    const pp = Object.fromEntries(moves.map((move) => {
+      const persisted = descriptor.pp?.[move.id];
+      return [
+        move.id,
+        Number.isFinite(persisted)
+          ? Math.max(0, Math.min(move.pp, Math.floor(persisted)))
+          : move.pp
+      ];
+    }));
+
     const combatant = {
       speciesId: species.id,
       name: species.name,
       level,
+      rosterIndex: Number.isInteger(descriptor.rosterIndex) ? descriptor.rosterIndex : null,
       sr: species.sr,
       size: species.size,
       types: species.type,
@@ -424,7 +445,7 @@ export class Pokemon5eCombatEngine {
       reach: reachForSize(species.size),
       position: defaultPosition(positionValue ?? descriptor.position, { x: 0, y: 0 }),
       ac: species.ac,
-      hp: { current: maxHp, max: maxHp },
+      hp: { current: persistedHp, max: maxHp },
       attributes: species.attributes,
       savingThrows: species.savingThrows,
       abilityId,
@@ -435,7 +456,7 @@ export class Pokemon5eCombatEngine {
       reactionAvailable: true,
       switchedInRound: null,
       concentration: null,
-      statuses: createStatusState(),
+      statuses,
       effects: {
         attackModifierSources: [],
         incomingAttackBonusSources: []
@@ -447,8 +468,8 @@ export class Pokemon5eCombatEngine {
         disengaged: false,
         movementRemaining: 0
       },
-      moveIds: moves.map((move) => move.id),
-      pp: Object.fromEntries(moves.map((move) => [move.id, move.pp]))
+      moveIds,
+      pp
     };
 
     combatant.turn.movementRemaining = movementSpeed(combatant).value;
