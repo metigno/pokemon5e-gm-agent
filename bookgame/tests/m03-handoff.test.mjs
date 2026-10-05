@@ -183,20 +183,21 @@ test("M3_00 repeated entry uses already_active_m3 and does not duplicate m3_acti
 
 // ─── NO PREMATURE M3 CONTENT ──────────────────────────────────────────────────
 
-test("M3_00 entry does not auto-trigger Steven, Ferrox, FRIEND_BEAT_03, Regional Cup or D→C trial", async () => {
+test("M3_00 entry does not auto-complete Steven/Ferrox/FRIEND_BEAT_03/Cup/Trial content when canonical A3 call becomes available", async () => {
   const { engine } = await makeEngine();
   let state = enterHandoff(legalM02ExitState());
   state = await engine.choose(state, "confirm_rank_d_active");
   assert.equal(state.world.flags.steven_met, undefined);
   assert.equal(state.world.flags.friend_beat_03_complete, undefined);
-  assert.equal(state.world.flags.friend_beat_03_friend_id, undefined);
+  assert.ok(state.world.flags.friend_beat_03_friend_id, "canonical A3_FRIEND_CALL selects a non-player friend at Rank D");
   assert.equal(state.world.flags.ferrox_incident_started, undefined);
   assert.equal(state.world.flags.ferrox_rescue_state, undefined);
   assert.equal(state.world.flags.regional_cup_registered, undefined);
   assert.equal(state.world.flags.m3_complete, undefined);
   assert.equal(state.competition.rank, "D", "rank must remain D — no auto-promotion");
   assert.equal(state.competition.trials.RANK_D_TO_C, undefined, "D→C trial must not be registered");
-  assert.equal(state.events.A3_FRIEND_CALL, undefined);
+  assert.equal(state.events.A3_FRIEND_CALL?.status, "resolved");
+  assert.equal(state.world.flags.a3_friend_call_available, true);
   assert.equal(state.events.A3_CROSSROADS, undefined);
   assert.equal(state.events.A3_REGIONAL_CUP, undefined);
   assert.equal(state.events.A3_RANK_TRIAL_D_C, undefined);
