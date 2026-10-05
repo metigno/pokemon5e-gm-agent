@@ -129,6 +129,11 @@
             ]
           },
           "goto": "pending_items"
+        },
+        {
+          "id": "review_win_debrief",
+          "text": "Prima di chiudere, rileggo cosa cambia davvero con Rank C.",
+          "goto": "win_debrief"
         }
       ]
     },
@@ -233,6 +238,42 @@
               "locationId": "fer_city"
             }
           ]
+        },
+        {
+          "id": "pending_review_steven",
+          "text": "Rileggo il callback di Steven prima dell'uscita.",
+          "conditions": {
+            "path": "world.flags.steven_met",
+            "eq": true
+          },
+          "goto": "steven_callback"
+        },
+        {
+          "id": "pending_review_friend",
+          "text": "Rileggo la continuità con il Friend Beat 03.",
+          "conditions": {
+            "path": "world.flags.friend_beat_03_complete",
+            "eq": true
+          },
+          "goto": "friend_callback"
+        },
+        {
+          "id": "pending_review_ferrox",
+          "text": "Rileggo il bilancio Ferrox che porterò avanti.",
+          "conditions": {
+            "path": "world.flags.ferrox_rescue_outcome_complete",
+            "eq": true
+          },
+          "goto": "ferrox_callback"
+        },
+        {
+          "id": "pending_review_cup",
+          "text": "Rileggo il risultato della Regional Cup.",
+          "conditions": {
+            "path": "world.flags.regional_cup_result",
+            "exists": true
+          },
+          "goto": "cup_callback"
         }
       ]
     },
@@ -305,6 +346,11 @@
           "id": "review_attempt",
           "text": "Controllo il risultato dell'ultimo tentativo.",
           "goto": "loss_review"
+        },
+        {
+          "id": "analyze_retry",
+          "text": "Analizzo il tentativo prima di registrarmi di nuovo.",
+          "goto": "retry_analysis"
         }
       ]
     },
@@ -331,6 +377,245 @@
               "locationId": "fer_city"
             }
           ]
+        },
+        {
+          "id": "review_retry_readiness",
+          "text": "Controllo cosa richiede davvero un nuovo tentativo.",
+          "goto": "retry_readiness"
+        }
+      ]
+    },
+    "win_debrief": {
+      "stitches": [
+        {
+          "id": "win_debrief_1",
+          "text": "La vittoria ha aperto Rank C, ma il valore del risultato sta anche nel modo in cui il modulo arriva qui: Ferravia, Ferrox, Steven, i Five e l'eventuale Cup restano parte dello stesso stato persistente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "win_rank_access",
+          "text": "Controllo cosa significa davvero Rank C.",
+          "goto": "rank_c_access"
+        },
+        {
+          "id": "win_history",
+          "text": "Controllo il record del Trial nella competition history.",
+          "goto": "trial_history"
+        },
+        {
+          "id": "win_back",
+          "text": "Torno alla schermata di chiusura M3.",
+          "goto": "trial_win"
+        }
+      ]
+    },
+    "rank_c_access": {
+      "stitches": [
+        {
+          "id": "rank_access_1",
+          "text": "Rank C apre la fascia avanzata prevista da RANK_CHECKPOINTS. Non completa automaticamente missioni arretrate e non assegna punti come sostituto del gate appena vinto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rank_access_back",
+          "text": "Torno alla chiusura M3.",
+          "goto": "trial_win",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "rank_c_access_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "rank_access_pending",
+          "text": "Controllo prima se ho thread M3 ancora aperti.",
+          "goto": "pending_items"
+        }
+      ]
+    },
+    "trial_history": {
+      "stitches": [
+        {
+          "id": "trial_history_1",
+          "text": "La competition history conserva matchId, outcome, formato, roster ufficiale, difficoltà e avversario. Il record non viene sostituito da un riassunto narrativo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "history_back_win",
+          "text": "Torno alla chiusura M3.",
+          "conditions": {
+            "path": "competition.rank",
+            "eq": "C"
+          },
+          "goto": "trial_win",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_d_c_history_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "history_back_loss",
+          "text": "Torno all'analisi della sconfitta.",
+          "conditions": {
+            "path": "competition.rank",
+            "eq": "D"
+          },
+          "goto": "loss_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_d_c_history_reviewed",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "steven_callback": {
+      "stitches": [
+        {
+          "id": "steven_callback_1",
+          "text": "Steven non trasforma la promozione in una cerimonia personale. Se lo hai incontrato, riconosce che hai attraversato lo stesso sistema tecnico che avevi osservato fuori dall'Arena."
+        }
+      ],
+      "choices": [
+        {
+          "id": "steven_callback_note",
+          "text": "Chiudo il confronto con Steven.",
+          "goto": "pending_items",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Steven",
+              "key": "rankCCallbackSeen",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "friend_callback": {
+      "stitches": [
+        {
+          "id": "friend_callback_1",
+          "text": "Il Friend Beat completato resta distinto dal Trial: la relazione non è una ricompensa per la vittoria. Puoi soltanto riconoscere che le vostre strade continuano da stati diversi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "friend_callback_note",
+          "text": "Registro la continuità con gli altri Five.",
+          "goto": "pending_items",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m3_friend_continuity_reviewed",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "ferrox_callback": {
+      "stitches": [
+        {
+          "id": "ferrox_callback_1",
+          "text": "Il bilancio Ferrox non scompare perché hai vinto un match. Danni, responsabilità e riconoscimento locale restano esattamente nello stato registrato da M3_11."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ferrox_callback_note",
+          "text": "Mantengo il bilancio Ferrox nel passaggio a Rank C.",
+          "goto": "pending_items",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m3_ferrox_continuity_reviewed",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "cup_callback": {
+      "stitches": [
+        {
+          "id": "cup_callback_1",
+          "text": "Se hai disputato la Regional Cup, il suo risultato resta un record parallelo. Vincere la Cup non era promozione; vincere il Trial non riscrive la Cup."
+        }
+      ],
+      "choices": [
+        {
+          "id": "cup_callback_note",
+          "text": "Registro i due risultati separatamente.",
+          "goto": "pending_items",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m3_cup_continuity_reviewed",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "retry_analysis": {
+      "stitches": [
+        {
+          "id": "retry_analysis_1",
+          "text": "La sconfitta dice qualcosa sul tentativo, non sull'intero modulo. Puoi guardare il focus che avevi scelto, lo stato del roster e il numero di attempts senza ricevere un vantaggio gratis."
+        }
+      ],
+      "choices": [
+        {
+          "id": "retry_history",
+          "text": "Controllo il record ufficiale del tentativo.",
+          "goto": "trial_history"
+        },
+        {
+          "id": "retry_registration",
+          "text": "Torno direttamente alla registrazione.",
+          "goto": "m03-trial-registration#trial_desk"
+        },
+        {
+          "id": "retry_hub",
+          "text": "Torno a Ferravia e cambio priorità prima del retry.",
+          "goto": "m03-ferravia-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        }
+      ]
+    },
+    "retry_readiness": {
+      "stitches": [
+        {
+          "id": "retry_ready_1",
+          "text": "Il checkpoint è retryable, ma la nuova registrazione deve avvenire di nuovo tramite E5. Il tentativo precedente resta nella history e non viene cancellato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "retry_ready_desk",
+          "text": "Torno al banco per registrarmi di nuovo.",
+          "goto": "m03-trial-registration#trial_desk"
+        },
+        {
+          "id": "retry_ready_analysis",
+          "text": "Analizzo ancora il tentativo.",
+          "goto": "retry_analysis"
         }
       ]
     }
