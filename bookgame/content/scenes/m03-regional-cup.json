@@ -84,6 +84,11 @@
             "eq": true
           },
           "goto": "quarterfinal_announce"
+        },
+        {
+          "id": "cup_bracket",
+          "text": "Studio il tabellone pubblico e la struttura del torneo.",
+          "goto": "bracket_overview"
         }
       ]
     },
@@ -247,6 +252,11 @@
           "id": "qf_forfeit",
           "text": "Non mi presento: forfait e torneo finito.",
           "goto": "cup_forfeit"
+        },
+        {
+          "id": "qf_plan_choice",
+          "text": "Fisso una priorità tattica prima di entrare.",
+          "goto": "qf_plan"
         }
       ]
     },
@@ -340,7 +350,7 @@
         {
           "id": "qf_win_continue",
           "text": "Proseguo verso la semifinale.",
-          "goto": "semifinal_announce",
+          "goto": "qf_post_win",
           "effects": [
             {
               "type": "set_flag",
@@ -431,6 +441,11 @@
               "value": true
             }
           ]
+        },
+        {
+          "id": "sf_plan_choice",
+          "text": "Definisco una priorità tattica per la semifinale.",
+          "goto": "sf_plan"
         }
       ]
     },
@@ -524,7 +539,7 @@
         {
           "id": "sf_win_continue",
           "text": "Vado in finale.",
-          "goto": "final_announce",
+          "goto": "sf_post_win",
           "effects": [
             {
               "type": "set_flag",
@@ -615,6 +630,11 @@
               "value": true
             }
           ]
+        },
+        {
+          "id": "final_plan_choice",
+          "text": "Fisso la priorità tattica della finale.",
+          "goto": "final_plan"
         }
       ]
     },
@@ -1004,6 +1024,455 @@
             {
               "type": "set_location",
               "locationId": "fer_city"
+            }
+          ]
+        },
+        {
+          "id": "cup_legacy_review",
+          "text": "Prima di tornare in città, registro cosa significa questo risultato.",
+          "goto": "cup_legacy",
+          "conditions": {
+            "path": "world.flags.regional_cup_legacy_noted",
+            "ne": true
+          }
+        }
+      ]
+    },
+    "bracket_overview": {
+      "stitches": [
+        {
+          "id": "bracket_overview_1",
+          "text": "Il tabellone pubblico mostra otto partecipanti e tre round. Puoi leggere soltanto risultati, rank e nomi: nessun set nascosto o informazione privata entra nello scouting."
+        }
+      ],
+      "choices": [
+        {
+          "id": "bracket_qf_path",
+          "text": "Controllo il percorso potenziale fino alla finale.",
+          "goto": "bracket_path"
+        },
+        {
+          "id": "bracket_timing",
+          "text": "Controllo quanto tempo separa i round.",
+          "goto": "bracket_timing"
+        },
+        {
+          "id": "bracket_back",
+          "text": "Torno alla bacheca.",
+          "goto": "cup_board"
+        }
+      ]
+    },
+    "bracket_path": {
+      "stitches": [
+        {
+          "id": "bracket_path_1",
+          "text": "La tua metà del tabellone incrocia Mira ai quarti e il vincitore dell'altro quarto in semifinale. La finale dipenderà dall'altra metà: non viene predeterminata per favorirti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "path_register",
+          "text": "Mi iscrivo con il quadro chiaro.",
+          "conditions": {
+            "path": "world.flags.regional_cup_registered",
+            "ne": true
+          },
+          "goto": "cup_registration",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_registered",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "regional_cup_bracket_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "path_back",
+          "text": "Torno alla bacheca.",
+          "goto": "cup_board",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_bracket_reviewed",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "bracket_timing": {
+      "stitches": [
+        {
+          "id": "bracket_timing_1",
+          "text": "I round sono ravvicinati. Il torneo non applica guarigioni narrative gratuite: HP, PP, condizioni e recupero restano proprietà dei sistemi Pokémon 5e e dei servizi realmente usati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "timing_note",
+          "text": "Registro il costo di endurance del bracket.",
+          "goto": "cup_board",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_endurance_noted",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "timing_decline",
+          "text": "Decido che oggi il costo è troppo alto.",
+          "goto": "cup_declined"
+        }
+      ]
+    },
+    "qf_plan": {
+      "stitches": [
+        {
+          "id": "qf_plan_1",
+          "text": "Prima dei quarti puoi fissare una priorità tattica generale. Non cambia i dadi né rivela il set avversario; registra quale principio vuoi applicare al match."
+        }
+      ],
+      "choices": [
+        {
+          "id": "qf_plan_resist",
+          "text": "Proteggo le resistenze utili e non le espongo presto.",
+          "goto": "quarterfinal_handoff",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_qf_plan",
+              "value": "preserve_resistances"
+            }
+          ]
+        },
+        {
+          "id": "qf_plan_switch",
+          "text": "Tengo un pivot disponibile per non farmi bloccare dal primo matchup.",
+          "goto": "quarterfinal_handoff",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_qf_plan",
+              "value": "switch_flexibility"
+            }
+          ]
+        },
+        {
+          "id": "qf_plan_direct",
+          "text": "Entro senza fissare un piano aggiuntivo.",
+          "goto": "quarterfinal_handoff",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_qf_plan",
+              "value": "adaptive"
+            }
+          ]
+        }
+      ]
+    },
+    "qf_post_win": {
+      "stitches": [
+        {
+          "id": "qf_post_1",
+          "text": "Hai vinto, ma il torneo continua. Puoi usare il breve intervallo per leggere il bracket, verificare le condizioni reali della squadra o andare direttamente alla semifinale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "qf_post_team",
+          "text": "Controllo lo stato reale dei miei Pokémon senza guarirli automaticamente.",
+          "goto": "qf_team_check",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_team_checked_after_qf",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "qf_post_bracket",
+          "text": "Guardo chi ha vinto l'altro quarto.",
+          "goto": "qf_other_result"
+        },
+        {
+          "id": "qf_post_continue",
+          "text": "Non spendo altro tempo: vado alla semifinale.",
+          "goto": "semifinal_announce"
+        }
+      ]
+    },
+    "qf_team_check": {
+      "stitches": [
+        {
+          "id": "qf_team_1",
+          "text": "La scheda squadra mostra ciò che il resolver ha realmente lasciato: nessun HP, PP o status viene riscritto da questa scena."
+        }
+      ],
+      "choices": [
+        {
+          "id": "qf_team_continue",
+          "text": "Accetto lo stato reale e proseguo.",
+          "goto": "semifinal_announce"
+        },
+        {
+          "id": "qf_team_withdraw",
+          "text": "Decido che non voglio rischiare un altro round.",
+          "goto": "cup_eliminated",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_withdrew",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "qf_other_result": {
+      "stitches": [
+        {
+          "id": "qf_other_1",
+          "text": "Oren Pike ha vinto l'altro quarto della tua metà. È un risultato del bracket, non un avversario generato in risposta al tuo team."
+        }
+      ],
+      "choices": [
+        {
+          "id": "qf_other_scout",
+          "text": "Uso solo il profilo pubblico già disponibile.",
+          "goto": "semifinal_scout"
+        },
+        {
+          "id": "qf_other_continue",
+          "text": "Vado direttamente all'annuncio della semifinale.",
+          "goto": "semifinal_announce"
+        }
+      ]
+    },
+    "sf_plan": {
+      "stitches": [
+        {
+          "id": "sf_plan_1",
+          "text": "Oren gioca a ritmo alto. Puoi decidere se contestare il tempo, conservare risorse o mantenere un piano adattivo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sf_plan_tempo",
+          "text": "Contesto il ritmo senza sprecare cambi.",
+          "goto": "semifinal_handoff",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_sf_plan",
+              "value": "tempo_control"
+            }
+          ]
+        },
+        {
+          "id": "sf_plan_resources",
+          "text": "Conservo le risorse che potrebbero servire in finale.",
+          "goto": "semifinal_handoff",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_sf_plan",
+              "value": "resource_conservation"
+            }
+          ]
+        },
+        {
+          "id": "sf_plan_adapt",
+          "text": "Non forzo un piano: mi adatto al campo.",
+          "goto": "semifinal_handoff",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_sf_plan",
+              "value": "adaptive"
+            }
+          ]
+        }
+      ]
+    },
+    "sf_post_win": {
+      "stitches": [
+        {
+          "id": "sf_post_1",
+          "text": "La finale è vicina. Il bracket ti concede solo il tempo previsto: puoi controllare il team, leggere l'altro finalista o andare subito al campo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sf_post_team",
+          "text": "Controllo le condizioni reali della squadra.",
+          "goto": "sf_team_check",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_team_checked_after_sf",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "sf_post_finalist",
+          "text": "Leggo il risultato dell'altra semifinale.",
+          "goto": "sf_other_result"
+        },
+        {
+          "id": "sf_post_continue",
+          "text": "Vado direttamente alla finale.",
+          "goto": "final_announce"
+        }
+      ]
+    },
+    "sf_team_check": {
+      "stitches": [
+        {
+          "id": "sf_team_1",
+          "text": "Ancora una volta la scena legge lo stato reale e non offre un reset gratuito fra round."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sf_team_continue",
+          "text": "Proseguo con ciò che ho.",
+          "goto": "final_announce"
+        },
+        {
+          "id": "sf_team_withdraw",
+          "text": "Mi ritiro prima della finale.",
+          "goto": "cup_eliminated",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_withdrew",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "sf_other_result": {
+      "stitches": [
+        {
+          "id": "sf_other_1",
+          "text": "Sena Volta ha vinto l'altra semifinale. Il suo accesso alla finale deriva dal bracket, non da uno script che ignora gli altri match."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sf_other_scout",
+          "text": "Leggo il suo profilo pubblico.",
+          "goto": "final_scout"
+        },
+        {
+          "id": "sf_other_continue",
+          "text": "Vado all'annuncio della finale.",
+          "goto": "final_announce"
+        }
+      ]
+    },
+    "final_plan": {
+      "stitches": [
+        {
+          "id": "final_plan_1",
+          "text": "La finale non richiede una scelta eroica: richiede decidere quanto rischio accettare con le risorse realmente rimaste."
+        }
+      ],
+      "choices": [
+        {
+          "id": "final_plan_endurance",
+          "text": "Gioco per endurance e mantengo linee sicure.",
+          "goto": "final_handoff",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_final_plan",
+              "value": "endurance"
+            }
+          ]
+        },
+        {
+          "id": "final_plan_pressure",
+          "text": "Accetto più rischio per prendere iniziativa.",
+          "goto": "final_handoff",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_final_plan",
+              "value": "pressure"
+            }
+          ]
+        },
+        {
+          "id": "final_plan_adapt",
+          "text": "Resto adattivo fino al primo turno.",
+          "goto": "final_handoff",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_final_plan",
+              "value": "adaptive"
+            }
+          ]
+        }
+      ]
+    },
+    "cup_legacy": {
+      "stitches": [
+        {
+          "id": "cup_legacy_1",
+          "text": "Il risultato della Cup può influenzare reputazione e inviti futuri, ma non modifica il Rank. La promotion resta un sistema separato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "legacy_record",
+          "text": "Registro il torneo come parte della mia storia competitiva.",
+          "goto": "cup_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_legacy_noted",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "legacy_review_history",
+          "text": "Controllo quanti match ufficiali ho realmente disputato.",
+          "goto": "cup_history"
+        }
+      ]
+    },
+    "cup_history": {
+      "stitches": [
+        {
+          "id": "cup_history_1",
+          "text": "La competition history contiene soltanto i match iniziati e risolti. Ritiri e forfait prima del campo non generano record di battaglie mai avvenute."
+        }
+      ],
+      "choices": [
+        {
+          "id": "history_close",
+          "text": "Chiudo il torneo.",
+          "goto": "cup_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "regional_cup_legacy_noted",
+              "value": true
             }
           ]
         }
