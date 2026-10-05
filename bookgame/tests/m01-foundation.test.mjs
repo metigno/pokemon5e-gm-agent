@@ -1483,3 +1483,130 @@ test("M1_13 registration never promotes Rank or starts a Trial attempt by itself
   assert.equal(state.competition.trials.RANK_F_TO_E.attempts, 0);
   assert.equal(state.competition.trials.RANK_F_TO_E.completed, false);
 });
+
+
+test("M1_14 authored gate uses the real two-Pokemon official rosters", async () => {
+  const bundle = await compileStory({ scenesDir, modulesDir, ecologyOptions });
+  const repository = {
+    async load(sceneId) {
+      return structuredClone(bundle.scenes[sceneId]);
+    },
+    async loadWorldEvents() {
+      return structuredClone(bundle.worldEvents);
+    },
+    async loadEcology() {
+      return structuredClone(bundle.ecology);
+    }
+  };
+
+  const engine = new BookgameEngine({ scenes: repository });
+  let state = createNewGameState({ protagonist: "Luke" });
+  state.player.trainerLevel = 2;
+  state.player.roster.push({
+    speciesId: "shinx",
+    name: "Shinx",
+    level: 2
+  });
+  state.story.sceneId = "m01-valedarsena-first-arrival";
+  state.story.nodeId = "arena_front";
+
+  state = await engine.choose(state, "note_trial");
+  state = await engine.choose(state, "register");
+  state = await engine.choose(state, "enter_trial");
+  assert.equal(state.story.nodeId, "trial_gate_call");
+
+  state = await engine.choose(state, "begin_trial");
+  assert.equal(state.pending.encounterId, "A1_FIRST_GATE");
+  assert.equal(state.pending.playerPokemon.species, "Growlithe");
+  assert.equal(state.pending.playerBench.length, 1);
+  assert.equal(state.pending.playerBench[0].speciesId, "shinx");
+  assert.equal(state.pending.opponent.species, "Eevee");
+  assert.equal(state.pending.opponent.level, 4);
+  assert.equal(state.pending.opponentBench.length, 1);
+  assert.equal(state.pending.opponentBench[0].species, "Shinx");
+  assert.equal(state.pending.opponentBench[0].level, 4);
+  assert.equal(state.pending.opponentBench[0].abilityId, "intimidate");
+  assert.equal(state.pending.competition.type, "promotion_trial");
+  assert.equal(state.pending.competition.officialRosterSize, 2);
+  assert.equal(state.pending.competition.difficulty, "HARD");
+  assert.equal(state.pending.competition.opponentTrainerId, "VAL_GATE_F_E_NARA_VOSS");
+  assert.equal(state.competition.trials.RANK_F_TO_E.attempts, 1);
+});
+
+test("M1_14 opponent first KO forces the fixed bench Pokemon in instead of ending the Trial", async () => {
+  const combat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 15, 4, 4, 4, 4, 4, 4, 4])
+  });
+
+  let battle = await combat.createBattle({
+    encounterId: "A1_FIRST_GATE_TEST",
+    playerPokemon: { species: "Growlithe", form: "Hisuian", level: 5, abilityId: "intimidate" },
+    playerBench: [{ speciesId: "shinx", level: 2, abilityId: "intimidate" }],
+    opponent: { species: "Eevee", level: 4, abilityId: "run-away" },
+    opponentBench: [{ species: "Shinx", level: 4, abilityId: "intimidate" }],
+    opponentRegistered: true,
+    trainer: {
+      name: "Luke",
+      level: 2,
+      abilities: { STR: 8, DEX: 14, CON: 10, INT: 12, WIS: 15, CHA: 13 },
+      skills: ["Animal Handling", "Insight", "Survival"],
+      inventory: []
+    }
+  });
+
+  assert.equal(battle.playerBench.length, 1);
+  assert.equal(battle.opponentBench.length, 1);
+  assert.equal(battle.opponent.speciesId, "eevee");
+
+  battle.opponent.hp.current = 1;
+  battle = await combat.usePlayerMove(battle, "tackle");
+
+  assert.equal(battle.outcome, null);
+  assert.equal(battle.opponent.speciesId, "shinx");
+  assert.equal(battle.opponentBench.some((pokemon) => pokemon.speciesId === "eevee"), true);
+  assert.equal(
+    battle.log.some((entry) =>
+      entry.type === "switch" &&
+      entry.actor === "opponent" &&
+      entry.forced === true &&
+      entry.in === "shinx"
+    ),
+    true
+  );
+});
+
+test("M1_14 loss records the persistent gate staff and leaves the same Trial retryable", async () => {
+  const bundle = await compileStory({ scenesDir, modulesDir, ecologyOptions });
+  const repository = {
+    async load(sceneId) {
+      return structuredClone(bundle.scenes[sceneId]);
+    },
+    async loadWorldEvents() {
+      return structuredClone(bundle.worldEvents);
+    },
+    async loadEcology() {
+      return structuredClone(bundle.ecology);
+    }
+  };
+
+  const engine = new BookgameEngine({ scenes: repository });
+  let state = createNewGameState({ protagonist: "Luke" });
+  state.player.trainerLevel = 2;
+  state.player.roster.push({ speciesId: "shinx", name: "Shinx", level: 2 });
+  state.story.sceneId = "m01-valedarsena-first-arrival";
+  state.story.nodeId = "arena_front";
+
+  state = await engine.choose(state, "note_trial");
+  state = await engine.choose(state, "register");
+  state = await engine.choose(state, "enter_trial");
+  state = await engine.choose(state, "begin_trial");
+  state = engine.resolveCombatHandoff(state, "lose");
+
+  assert.equal(state.story.nodeId, "trial_result_loss");
+  assert.equal(state.competition.rank, "F");
+  assert.equal(state.competition.trials.RANK_F_TO_E.attempts, 1);
+  assert.equal(state.competition.trials.RANK_F_TO_E.lastResult, "lose");
+  assert.equal(state.competition.trials.RANK_F_TO_E.available, true);
+  assert.equal(state.competition.trials.RANK_F_TO_E.registered, false);
+  assert.equal(state.competition.history.at(-1).opponentTrainerId, "VAL_GATE_F_E_NARA_VOSS");
+});
