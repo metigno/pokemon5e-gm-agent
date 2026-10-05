@@ -554,6 +554,15 @@
       ],
       "choices": [
         {
+          "id": "rank_e_access",
+          "text": "Controllo le nuove destinazioni disponibili al Rank E.",
+          "conditions": {
+            "path": "competition.rank",
+            "eq": "E"
+          },
+          "goto": "rank_e_access"
+        },
+        {
           "id": "center",
           "text": "Centro Pokémon.",
           "goto": "center"
@@ -944,30 +953,136 @@
     "trial_result_win": {
       "stitches": [
         {
-          "id": "trial_win_pending",
-          "text": "Il combattimento termina con una vittoria registrata dal sistema ufficiale. Il risultato meccanico ha superato il gate F→E; le conseguenze di promozione vengono applicate allo stato carriera."
+          "id": "trial_win_recorded",
+          "text": "Il risultato viene registrato come vittoria del checkpoint RANK_F_TO_E. La licenza passa realmente al Rank E: non è un titolo narrativo né un flag parallelo."
+        },
+        {
+          "id": "trial_win_persistence",
+          "text": "La promozione apre la fascia successiva senza ripulire ciò che hai lasciato dietro di te. Rapporti, lavori, fauna, cronologia competitiva, secondo Pokémon e conseguenze del mondo restano persistenti."
+        },
+        {
+          "id": "trial_win_next_road",
+          "text": "Sul terminale compare una nuova fascia di incarichi e trasferte. Tra le destinazioni accessibili c'è Bosco Bruma, primo ingresso del percorso che conduce a Sotto la Nebbia."
         }
       ],
       "choices": [
         {
-          "id": "continue",
-          "text": "Lascio il campo e torno all'Arena.",
-          "goto": "arena_front"
+          "id": "rank_e_access",
+          "text": "Controllo l'accesso appena aperto dal Rank E.",
+          "conditions": {
+            "path": "competition.rank",
+            "eq": "E"
+          },
+          "goto": "rank_e_access"
+        },
+        {
+          "id": "city_first",
+          "text": "Resto a Valedarsena prima di partire.",
+          "goto": "city_hub"
         }
       ]
     },
     "trial_result_loss": {
       "stitches": [
         {
-          "id": "trial_loss_pending",
-          "text": "Il combattimento termina con una sconfitta registrata. Il Rank resta F e il gate non viene riscritto: Nara, il suo roster e la prova restano gli stessi per un eventuale nuovo tentativo."
+          "id": "trial_loss_recorded",
+          "text": "Il tabellone registra la sconfitta senza cancellare il tentativo. Resti Rank F; il Promotion Trial F→E torna disponibile perché il checkpoint è retryable."
+        },
+        {
+          "id": "trial_loss_condition",
+          "text": "La squadra non viene ripristinata dalla scena. HP, PP e condizioni restano quelli prodotti dal combattimento finché non usi servizi o regole che li modificano davvero."
+        },
+        {
+          "id": "trial_loss_world",
+          "text": "Fuori dal campo il mondo non torna indietro: lavori, relazioni, schedule, fauna e risultati precedenti conservano lo stato raggiunto."
         }
       ],
       "choices": [
         {
-          "id": "continue",
-          "text": "Lascio il campo e torno all'Arena.",
-          "goto": "arena_front"
+          "id": "retry_desk",
+          "text": "Torno al banco per preparare un nuovo tentativo.",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.rank",
+                "eq": "F"
+              },
+              {
+                "path": "competition.trials.RANK_F_TO_E.available",
+                "eq": true
+              },
+              {
+                "path": "competition.trials.RANK_F_TO_E.registered",
+                "ne": true
+              }
+            ]
+          },
+          "goto": "trial_registration_desk"
+        },
+        {
+          "id": "heal",
+          "text": "Vado al Centro Pokémon prima di decidere.",
+          "goto": "center"
+        },
+        {
+          "id": "free_roam",
+          "text": "Rimando il retry e torno alla carriera libera.",
+          "goto": "city_hub"
+        }
+      ]
+    },
+    "rank_e_access": {
+      "stitches": [
+        {
+          "id": "rank_e_confirmed",
+          "text": "La licenza mostra Rank E. I contenuti della fascia precedente non vengono cancellati: puoi ancora muoverti nel mondo, ma ora la strada di progressione successiva è legalmente aperta."
+        },
+        {
+          "id": "m02_route",
+          "text": "La tratta verso Bosco Bruma è indicata come nuovo itinerario disponibile. È il punto di passaggio verso il Modulo 2 — Sotto la Nebbia; il modulo successivo non viene simulato dentro M1."
+        }
+      ],
+      "choices": [
+        {
+          "id": "unlock_m02",
+          "text": "Segno Bosco Bruma come prossima destinazione e chiudo M1.",
+          "conditions": {
+            "path": "competition.rank",
+            "eq": "E"
+          },
+          "goto": "m02_handoff",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m1_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m02_unlocked",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "stay_city",
+          "text": "Non parto ancora e torno a Valedarsena.",
+          "goto": "city_hub"
+        }
+      ]
+    },
+    "m02_handoff": {
+      "stitches": [
+        {
+          "id": "m02_handoff_text",
+          "text": "M1 è formalmente chiuso con Rank E. Bosco Bruma è sbloccato come prossimo percorso; quando M02 viene caricato, deve ricevere lo stato carriera esistente senza reset."
+        }
+      ],
+      "choices": [
+        {
+          "id": "return_city",
+          "text": "Per ora resto nel mondo di M1.",
+          "goto": "city_hub"
         }
       ]
     }
