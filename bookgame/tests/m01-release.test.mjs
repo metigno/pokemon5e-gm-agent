@@ -46,7 +46,7 @@ test("M1_00 normal release starts in real free-roam with three non-mandatory dir
   assert.match(view.text, /Promotion Trial/i);
 
   const routes = [
-    ["to_ginestre", "first-road", "arrival", "asteria_ginestre", 20],
+    ["to_ginestre", "m01-first-road", "road_entry", "asteria_ginestre", 20],
     ["to_valedarsena", "m01-valedarsena-first-arrival", "approach", "valedarsena_road", 90],
     ["to_farm", "m01-farm-first-arrival", "approach", "asteria_farm_road", 90]
   ];
