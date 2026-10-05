@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - pokemon5e-digital-bookgame
-      - m2-final-repair
     paths:
       - "bookgame/**"
       - "src/bridge/**"
