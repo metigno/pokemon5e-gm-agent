@@ -1359,6 +1359,36 @@
           ]
         },
         {
+          "id": "observe_city_wildlife",
+          "text": "Esploro i margini verdi e i vicoli tranquilli di Valedarsena per osservare la fauna urbana.",
+          "timeCostMinutes": 20,
+          "ecology": {
+            "requestId": "M1_VAL_CITY_URBAN_01",
+            "zoneId": "VAL-CITY",
+            "habitat": "city",
+            "method": "wild_observation",
+            "allowedSpecies": [
+              "pidgey",
+              "burmy",
+              "tandemaus",
+              "purrloin"
+            ],
+            "returnNodes": {
+              "noEncounter": "m01-ecology-opportunities#val_no_sighting",
+              "pidgey": "m01-ecology-opportunities#val_pidgey",
+              "burmy": "m01-ecology-opportunities#val_burmy",
+              "tandemaus": "m01-ecology-opportunities#val_tandemaus",
+              "purrloin": "m01-ecology-opportunities#val_purrloin"
+            }
+          },
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
+        },
+        {
           "id": "arena",
           "text": "Arena Civica.",
           "goto": "arena_front",
@@ -1600,7 +1630,11 @@
         },
         {
           "id": "roster_routes",
-          "text": "Le Ginestre e i pascoli della Fattoria del Vento hanno fauna selvatica ordinaria. Se incontri un Pokémon e la cattura riesce secondo le regole Pokémon 5e, entrerà davvero nel tuo roster."
+          "text": "Puoi tornare a Ginestre, esplorare i pascoli della Fattoria del Vento oppure osservare la fauna urbana autorizzata di Valedarsena. In ogni caso un incontro non equivale a una cattura."
+        },
+        {
+          "id": "roster_capture",
+          "text": "Il secondo Pokémon entra nel roster solo se il resolver Pokémon 5e produce davvero un esito di cattura valido con specie, livello, HP, condizioni e risorse persistenti."
         },
         {
           "id": "roster_choice",
@@ -1619,6 +1653,17 @@
           "text": "Vado verso la Fattoria del Vento.",
           "goto": "m01-farm-first-arrival#approach",
           "timeCostMinutes": 140
+        },
+        {
+          "id": "seek_city",
+          "text": "Cerco fauna urbana ordinaria nei margini di Valedarsena.",
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
         },
         {
           "id": "stay_one",
