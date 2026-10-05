@@ -62,7 +62,7 @@ The graph is reconvergent, not linear. The player may move repeatedly between Gi
 | M1_03_FIRST_REAL_FORK | first real route choice and local exploration | 220 | 150 | IMPLEMENTED |
 | M1_04_VALEDARSENA_FIRST_ARRIVAL | first hub arrival and orientation | 460 | 310 | COMPLETE |
 | M1_05_JOB_BOARD | temporal jobs, logistics, Sera Noll | 360 | 260 | COMPLETE |
-| M1_06_FARM_HERD_HANDS | farm recovery quest and ecology | 450 | 310 | PARTIAL |
+| M1_06_FARM_HERD_HANDS | farm recovery quest and ecology | 450 | 310 | COMPLETE |
 | M1_07_WORLD_MOVES | pressure state machine and off-screen consequences | 450 | 290 | ENGINE DEPENDENCY |
 | M1_08_BLUE_ENTERS | Blue causal introduction variants | 380 | 240 | ENGINE DEPENDENCY |
 | M1_09_FRIEND_BEAT_01 | one of the other Four selected causally | 390 | 250 | ENGINE DEPENDENCY |
@@ -402,6 +402,20 @@ Required for:
 - battle only if situation mechanically becomes dangerous.
 
 **Optional integration:** FRIEND_BEAT_01 when selector makes it causal.
+
+**Implementation lock:**
+
+- arriving directly at the farm can start `SQ_FARM_HERD_HANDS` with a real local deadline; an already-active Job Board deadline remains authoritative and is not overwritten;
+- observing the farm before volunteering now starts the same structured quest correctly, closing the prior runtime hole where completion could occur without an active quest;
+- required approaches are authored: observation, Investigation, Animal Handling, cooperation with the player's own Pokémon, direct worker guidance, seeking help after a failed read, and leaving/abandoning;
+- own-Pokémon cooperation is field positioning under worker safety instructions, not an invented move or automatic combat action;
+- failed Investigation/Animal Handling never traps progress; the player can change method, seek worker guidance or leave;
+- M1_06 contains no authored forced battle: combat is reserved for a future state where a real mechanically dangerous encounter exists;
+- successful routes persist factual callbacks through `m1_world_pressure_known`, `m1_world_pressure_player_involved`, `m1_farm_helped` and `m1_farm_evidence`, while the structured quest resolution records how the herd was recovered;
+- abandonment records `SQ_FARM_HERD_HANDS=failed/abandoned` and `m1_farm_abandoned=true` without granting player credit;
+- all farm/city/Ginestre transitions keep `world.locationId` synchronized with the actual destination;
+- ecology observation remains optional and uses the existing E7 AST-FARM pool;
+- the complete, failure-recovery, own-Pokémon, guidance, abandonment and navigation paths are covered by dedicated regression tests.
 
 ---
 
