@@ -5,7 +5,7 @@
 **Purpose:** production map for converting M3 into validated offline story content  
 **Locked authored budget:** **6,000 stitches / 3,900 player choices**
 
-**Module implementation status:** **MAPPED / NOT YET PRODUCTION-COMPLETE**
+**Module implementation status:** **M3_00–M3_04 COMPLETE / MODEL-ALIGNED; M3_05–M3_14 PLANNED**
 
 E1–E7 are reusable infrastructure from M1. A block may extend generic data or content, but must not fork those engines into module-specific substitutes.
 
@@ -53,11 +53,11 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 
 | Block | Function | Stitches | Choices | Current state |
 |---|---|---:|---:|---|
-| M3_00_RANK_D_HANDOFF | portare avanti mondo, roster, relazioni e conseguenze M2 | 290 | 189 | PLANNED |
-| M3_01_CAVA_GRIGIA | aprire paesaggio industriale, lavoro e fauna di cava | 342 | 222 | PLANNED |
-| M3_02_FERRAVIA_ARRIVAL | hub ferroviario/officina, servizi e Arena | 342 | 222 | PLANNED |
-| M3_03_OLD_MAPS | rendere leggibili segnali tecnici e mappe incomplete | 342 | 222 | PLANNED |
-| M3_04_STEVEN_ENTERS | introduzione di Steven come osservatore tecnico, non boss | 342 | 222 | PLANNED |
+| M3_00_RANK_D_HANDOFF | portare avanti mondo, roster, relazioni e conseguenze M2 | 290 | 189 | COMPLETE |
+| M3_01_CAVA_GRIGIA | aprire paesaggio industriale, lavoro e fauna di cava | 342 | 222 | COMPLETE |
+| M3_02_FERRAVIA_ARRIVAL | hub ferroviario/officina, servizi e Arena | 342 | 222 | COMPLETE |
+| M3_03_OLD_MAPS | rendere leggibili segnali tecnici e mappe incomplete | 342 | 222 | COMPLETE |
+| M3_04_STEVEN_ENTERS | introduzione di Steven come osservatore tecnico, non boss | 342 | 222 | COMPLETE |
 | M3_05_TUNNEL_WARNINGS | accumulare segnali di rischio senza imporre una sola interpretazione | 342 | 222 | PLANNED |
 | M3_06_FERROX_INCIDENT | attivare l'incidente e i suoi timer reali | 342 | 222 | PLANNED |
 | M3_07_FERROX_RESCUE | soccorso con scelte di rischio, tempo e risorse | 496 | 323 | PLANNED |
@@ -71,6 +71,21 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 | **TOTAL** |  | **6,000** | **3,900** | |
 
 Budgets are authored surface capacity. One run sees only the paths made legal by its state.
+
+## 2A. RUNTIME LOGICAL PRODUCTION TRACKING
+
+The legacy 6,000-stitch / 3,900-choice table above remains the authored-surface planning budget used by the module design documents. Runtime production is also tracked against the newer logical graph budget used for M1/M2-style implementation review:
+
+- M3 logical target: approximately **260 logical nodes / 572 meaningful choices**.
+- M3_00: **3 nodes / 7 choices**.
+- M3_01: **21 nodes / 36 choices**.
+- M3_02: **13 nodes / 31 choices**.
+- M3_03: **12 nodes / 23 choices**.
+- M3_04: **9 nodes / 16 choices**.
+- Cycle M3_00–M3_04: **58 nodes / 113 choices**.
+- Approximate remaining logical budget for M3_05–M3_14: **202 nodes / 459 choices**.
+
+These logical counts are not padding quotas. Content is expanded only when it creates real route, information, time, risk, relationship, resource, state or future-access differences.
 
 ---
 
@@ -111,6 +126,10 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Implementation lock (verified 2026-10-05):**
+
+Scene `m03-handoff` requires `m2_complete=true`, `m03_unlocked=true` and structured Rank D. Activation writes only `m3_active=true`; M1/M2 roster, resources, callbacks, NPC state, world time and competition history remain intact. Re-entry is idempotent, illegal direct entry is rejected, and no Steven/Ferrox/Friend Beat/Regional Cup/D→C content is triggered.
+
 ---
 
 ## M3_01_CAVA_GRIGIA
@@ -122,6 +141,10 @@ A content gap is not permission to implement a second engine.
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+**Implementation lock (verified 2026-10-05):**
+
+Scene `m03-cava-grigia` is a real open industrial/ecology block (21 nodes / 36 choices). It reuses E7 for AST-QUARRY wildlife, E1 for Rank/module gates and check outcomes, and E2 for time. The model-alignment pass adds a state-aware production-pressure follow-up unlocked only after the player notices the production signal; a Persuasion check can reveal the tighter terrace margin without manufacturing an incident. Re-entry preserves observations and never resets prior modules.
 
 ---
 
@@ -135,6 +158,10 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Implementation lock (verified 2026-10-05):**
+
+Scene `m03-ferravia-arrival` is the reusable Rank D hub (13 nodes / 31 choices). Ferravia's shop now reuses the same persistent money/inventory/finite-stock `purchase_item` engine as M1/M2, with a three-day refresh. The Sala Verde no longer narrates unsupported healing: rest and medical consultation advance time / write factual visit flags while leaving HP, PP and status untouched. A deferred Steven contact exposes a recoverable hub route, preventing a module-exit softlock.
+
 ---
 
 ## M3_03_OLD_MAPS
@@ -147,6 +174,10 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Implementation lock (verified 2026-10-05):**
+
+Scene `m03-old-maps` now contains 12 nodes / 23 choices and preserves the original Investigation DC13 full/partial read. Additional state-aware archive work can cross-check Cava Grigia observations and Ferravia safety knowledge; successful reads create durable evidence flags, failed/declined reads remain non-blocking, and no future incident is auto-triggered. Re-entry is idempotent and save/reload preserves evidence.
+
 ---
 
 ## M3_04_STEVEN_ENTERS
@@ -158,6 +189,10 @@ A content gap is not permission to implement a second engine.
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+**Implementation lock (verified 2026-10-05):**
+
+Scene `m03-steven-enters` now contains 9 nodes / 16 choices. Steven remains a causal technical observer with persistent E4 relationship state. Refusing the first conversation records a historical deferral but is no longer terminal: Ferravia can surface `hub_recontact_steven` while `steven_met` is false, and `deferred_contact` can satisfy the mandatory exit-contract flag later. Repeated deferral preserves agency without making M3 impossible to finish.
 
 ---
 
