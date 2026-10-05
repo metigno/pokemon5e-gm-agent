@@ -12,6 +12,7 @@ const ABILITIES = new Set(["STR", "DEX", "CON", "INT", "WIS", "CHA"]);
 const EFFECT_TYPES = new Set([
   "set_flag",
   "set_location",
+  "purchase_item",
   "quest_offer",
   "quest_start",
   "quest_complete",
@@ -58,6 +59,17 @@ function validateEffects(effects, at, errors) {
     }
     if (effect.type === "set_location" && (typeof effect.locationId !== "string" || effect.locationId.length === 0)) {
       errors.push(diag("INVALID_SET_LOCATION", "set_location requires locationId", effectAt));
+    }
+    if (effect.type === "purchase_item") {
+      if (typeof effect.itemId !== "string" || !ID_RE.test(effect.itemId)) {
+        errors.push(diag("INVALID_PURCHASE_ITEM_ID", "purchase_item requires a stable itemId", effectAt + ".itemId"));
+      }
+      if (!Number.isInteger(effect.cost) || effect.cost < 0) {
+        errors.push(diag("INVALID_PURCHASE_COST", "purchase_item cost must be a non-negative integer", effectAt + ".cost"));
+      }
+      if (effect.quantity !== undefined && (!Number.isInteger(effect.quantity) || effect.quantity < 1)) {
+        errors.push(diag("INVALID_PURCHASE_QUANTITY", "purchase_item quantity must be a positive integer", effectAt + ".quantity"));
+      }
     }
     if (["quest_offer", "quest_start", "quest_complete", "quest_fail"].includes(effect.type)) {
       errors.push(...validateQuestEffect(effect, effectAt));
