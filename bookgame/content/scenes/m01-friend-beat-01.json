@@ -1,0 +1,3750 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "M01",
+  "id": "m01-friend-beat-01",
+  "title": "FRIEND_BEAT_01 — Strade che si incrociano",
+  "locationId": "asteria_rookie_ring",
+  "entryNodeId": "dispatch_city",
+  "nodes": {
+    "dispatch_exploration": {
+      "stitches": [
+        {
+          "id": "dispatch_exploration_arrival",
+          "text": "L'incrocio nasce dal programma reale di uno degli altri Five, non da una convocazione. Siete nello stesso tratto delle Ginestre per motivi indipendenti."
+        },
+        {
+          "id": "dispatch_exploration_selector",
+          "text": "Il motore ha già scelto chi è davvero presente qui in base a schedule, posizione, compatibilità dell'attività, risultato recente e relazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "meet_luke",
+          "text": "Raggiungo Luke.",
+          "conditions": {
+            "path": "world.flags.friend_beat_01_friend_id",
+            "eq": "Luke"
+          },
+          "goto": "dispatch_exploration_luke"
+        },
+        {
+          "id": "meet_mattew",
+          "text": "Raggiungo Mattew.",
+          "conditions": {
+            "path": "world.flags.friend_beat_01_friend_id",
+            "eq": "Mattew"
+          },
+          "goto": "dispatch_exploration_mattew"
+        },
+        {
+          "id": "meet_daniel",
+          "text": "Raggiungo Daniel.",
+          "conditions": {
+            "path": "world.flags.friend_beat_01_friend_id",
+            "eq": "Daniel"
+          },
+          "goto": "dispatch_exploration_daniel"
+        },
+        {
+          "id": "meet_edward",
+          "text": "Raggiungo Edward.",
+          "conditions": {
+            "path": "world.flags.friend_beat_01_friend_id",
+            "eq": "Edward"
+          },
+          "goto": "dispatch_exploration_edward"
+        },
+        {
+          "id": "meet_fab",
+          "text": "Raggiungo Fab.",
+          "conditions": {
+            "path": "world.flags.friend_beat_01_friend_id",
+            "eq": "Fab"
+          },
+          "goto": "dispatch_exploration_fab"
+        }
+      ]
+    },
+    "dispatch_farm": {
+      "stitches": [
+        {
+          "id": "dispatch_farm_arrival",
+          "text": "L'incrocio nasce dal programma reale di uno degli altri Five, non da una convocazione. Siete alla Fattoria del Vento mentre il lavoro continua attorno a voi."
+        },
+        {
+          "id": "dispatch_farm_selector",
+          "text": "Il motore ha già scelto chi è davvero presente qui in base a schedule, posizione, compatibilità dell'attività, risultato recente e relazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "meet_luke",
+          "text": "Raggiungo Luke.",
+          "conditions": {
+            "path": "world.flags.friend_beat_01_friend_id",
+            "eq": "Luke"
+          },
+          "goto": "dispatch_farm_luke"
+        },
+        {
+          "id": "meet_mattew",
+          "text": "Raggiungo Mattew.",
+          "conditions": {
+            "path": "world.flags.friend_beat_01_friend_id",
+            "eq": "Mattew"
+          },
+          "goto": "dispatch_farm_mattew"
+        },
+        {
+          "id": "meet_daniel",
+          "text": "Raggiungo Daniel.",
+          "conditions": {
+            "path": "world.flags.friend_beat_01_friend_id",
+            "eq": "Daniel"
+          },
+          "goto": "dispatch_farm_daniel"
+        },
+        {
+          "id": "meet_edward",
+          "text": "Raggiungo Edward.",
+          "conditions": {
+            "path": "world.flags.friend_beat_01_friend_id",
+            "eq": "Edward"
+          },
+          "goto": "dispatch_farm_edward"
+        },
+        {
+          "id": "meet_fab",
+          "text": "Raggiungo Fab.",
+          "conditions": {
+            "path": "world.flags.friend_beat_01_friend_id",
+            "eq": "Fab"
+          },
+          "goto": "dispatch_farm_fab"
+        }
+      ]
+    },
+    "dispatch_city": {
+      "stitches": [
+        {
+          "id": "dispatch_city_arrival",
+          "text": "L'incrocio nasce dal programma reale di uno degli altri Five, non da una convocazione. Vi incrociate a Valedarsena durante due giornate che non erano state organizzate insieme."
+        },
+        {
+          "id": "dispatch_city_selector",
+          "text": "Il motore ha già scelto chi è davvero presente qui in base a schedule, posizione, compatibilità dell'attività, risultato recente e relazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "meet_luke",
+          "text": "Raggiungo Luke.",
+          "conditions": {
+            "path": "world.flags.friend_beat_01_friend_id",
+            "eq": "Luke"
+          },
+          "goto": "dispatch_city_luke"
+        },
+        {
+          "id": "meet_mattew",
+          "text": "Raggiungo Mattew.",
+          "conditions": {
+            "path": "world.flags.friend_beat_01_friend_id",
+            "eq": "Mattew"
+          },
+          "goto": "dispatch_city_mattew"
+        },
+        {
+          "id": "meet_daniel",
+          "text": "Raggiungo Daniel.",
+          "conditions": {
+            "path": "world.flags.friend_beat_01_friend_id",
+            "eq": "Daniel"
+          },
+          "goto": "dispatch_city_daniel"
+        },
+        {
+          "id": "meet_edward",
+          "text": "Raggiungo Edward.",
+          "conditions": {
+            "path": "world.flags.friend_beat_01_friend_id",
+            "eq": "Edward"
+          },
+          "goto": "dispatch_city_edward"
+        },
+        {
+          "id": "meet_fab",
+          "text": "Raggiungo Fab.",
+          "conditions": {
+            "path": "world.flags.friend_beat_01_friend_id",
+            "eq": "Fab"
+          },
+          "goto": "dispatch_city_fab"
+        }
+      ]
+    },
+    "dispatch_arena": {
+      "stitches": [
+        {
+          "id": "dispatch_arena_arrival",
+          "text": "L'incrocio nasce dal programma reale di uno degli altri Five, non da una convocazione. Siete entrambi all'Arena Civica e il confronto può restare tecnico oppure diventare uno sparring."
+        },
+        {
+          "id": "dispatch_arena_selector",
+          "text": "Il motore ha già scelto chi è davvero presente qui in base a schedule, posizione, compatibilità dell'attività, risultato recente e relazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "meet_luke",
+          "text": "Raggiungo Luke.",
+          "conditions": {
+            "path": "world.flags.friend_beat_01_friend_id",
+            "eq": "Luke"
+          },
+          "goto": "dispatch_arena_luke"
+        },
+        {
+          "id": "meet_mattew",
+          "text": "Raggiungo Mattew.",
+          "conditions": {
+            "path": "world.flags.friend_beat_01_friend_id",
+            "eq": "Mattew"
+          },
+          "goto": "dispatch_arena_mattew"
+        },
+        {
+          "id": "meet_daniel",
+          "text": "Raggiungo Daniel.",
+          "conditions": {
+            "path": "world.flags.friend_beat_01_friend_id",
+            "eq": "Daniel"
+          },
+          "goto": "dispatch_arena_daniel"
+        },
+        {
+          "id": "meet_edward",
+          "text": "Raggiungo Edward.",
+          "conditions": {
+            "path": "world.flags.friend_beat_01_friend_id",
+            "eq": "Edward"
+          },
+          "goto": "dispatch_arena_edward"
+        },
+        {
+          "id": "meet_fab",
+          "text": "Raggiungo Fab.",
+          "conditions": {
+            "path": "world.flags.friend_beat_01_friend_id",
+            "eq": "Fab"
+          },
+          "goto": "dispatch_arena_fab"
+        }
+      ]
+    },
+    "dispatch_exploration_luke": {
+      "stitches": [
+        {
+          "id": "exp_luke_voice",
+          "text": "Luke si muove d'istinto e guarda prima la strada che il programma: vuole capire cosa cambia davvero quando si passa dalla teoria al campo."
+        },
+        {
+          "id": "exp_luke_context",
+          "text": "Luke sta seguendo il tratto di strada per conto proprio. Potete confrontare osservazioni, percorrere insieme un segmento oppure separarvi subito: nessuna opzione crea un party permanente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "explore_together",
+          "text": "Percorriamo insieme un tratto e confrontiamo ciò che notiamo.",
+          "goto": "exploration_complete",
+          "timeCostMinutes": 30,
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Luke"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "exploration"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "shared_exploration"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 5
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "friendBeat01Result",
+              "value": "shared_exploration"
+            }
+          ]
+        },
+        {
+          "id": "compare_notes",
+          "text": "Ci scambiamo solo informazioni utili e poi ripartiamo.",
+          "goto": "exploration_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Luke"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "exploration"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "information_exchange"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 3
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "friendBeat01Result",
+              "value": "information_exchange"
+            }
+          ]
+        },
+        {
+          "id": "separate",
+          "text": "Ci salutiamo e continuiamo su strade separate.",
+          "goto": "exploration_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Luke"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "exploration"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "brief_overlap"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 1
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "friendBeat01Result",
+              "value": "brief_overlap"
+            }
+          ]
+        }
+      ]
+    },
+    "dispatch_farm_luke": {
+      "stitches": [
+        {
+          "id": "farm_luke_voice",
+          "text": "Luke si muove d'istinto e guarda prima la strada che il programma: vuole capire cosa cambia davvero quando si passa dalla teoria al campo."
+        },
+        {
+          "id": "farm_luke_context",
+          "text": "Luke è qui per un'attività propria. Lavoratori e Pokémon non smettono di muoversi perché vi conoscete: se collaborate, dovete inserirvi nel lavoro reale senza prenderne il controllo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "help_together",
+          "text": "Collaboriamo per un breve tratto seguendo le indicazioni degli addetti.",
+          "goto": "farm_complete",
+          "timeCostMinutes": 30,
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Luke"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "farm_help"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "shared_farm_help"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 5
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "friendBeat01Result",
+              "value": "shared_farm_help"
+            }
+          ]
+        },
+        {
+          "id": "fauna_compare",
+          "text": "Confrontiamo ciò che abbiamo notato sul comportamento dei Pokémon.",
+          "goto": "farm_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Luke"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "farm_help"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "fauna_exchange"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 4
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "friendBeat01Result",
+              "value": "fauna_exchange"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "leave_friend_working",
+          "text": "Lo lascio al suo incarico e continuo il mio.",
+          "goto": "farm_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Luke"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "farm_help"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "brief_overlap"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 1
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "friendBeat01Result",
+              "value": "brief_overlap"
+            }
+          ]
+        }
+      ]
+    },
+    "dispatch_city_luke": {
+      "stitches": [
+        {
+          "id": "city_luke_voice",
+          "text": "Luke si muove d'istinto e guarda prima la strada che il programma: vuole capire cosa cambia davvero quando si passa dalla teoria al campo."
+        },
+        {
+          "id": "city_luke_context",
+          "text": "Luke ha già un proprio programma a Valedarsena. Il fatto che vi siate incontrati non significa che debba seguirti al prossimo nodo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "talk_progress",
+          "text": "Parliamo di come stanno andando questi primi giorni.",
+          "goto": "city_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Luke"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "city_encounter"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "progress_talk"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 4
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "friendBeat01Result",
+              "value": "progress_talk"
+            }
+          ]
+        },
+        {
+          "id": "compare_results",
+          "text": "Confrontiamo risultati e prossime priorità senza trasformarlo in una gara.",
+          "goto": "city_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Luke"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "city_encounter"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "result_comparison"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 3
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "friendBeat01Result",
+              "value": "result_comparison"
+            }
+          ]
+        },
+        {
+          "id": "keep_moving",
+          "text": "Ci salutiamo: entrambi abbiamo altro da fare.",
+          "goto": "city_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Luke"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "city_encounter"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "brief_overlap"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 1
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "friendBeat01Result",
+              "value": "brief_overlap"
+            }
+          ]
+        }
+      ]
+    },
+    "dispatch_arena_luke": {
+      "stitches": [
+        {
+          "id": "arena_luke_voice",
+          "text": "Luke si muove d'istinto e guarda prima la strada che il programma: vuole capire cosa cambia davvero quando si passa dalla teoria al campo."
+        },
+        {
+          "id": "arena_luke_context",
+          "text": "Luke è all'Arena con Growlithe. Potete parlare di tecnica oppure fare uno sparring 1v1. Se combattete, nessun risultato è deciso dalla scena."
+        }
+      ],
+      "choices": [
+        {
+          "id": "technical_talk",
+          "text": "Restiamo sul confronto tecnico.",
+          "goto": "arena_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Luke"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "sparring"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "technical_exchange"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 4
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "friendBeat01Result",
+              "value": "technical_exchange"
+            }
+          ]
+        },
+        {
+          "id": "spar",
+          "text": "Facciamo uno sparring 1v1 contro Growlithe.",
+          "combat": {
+            "encounterId": "M1_FRIEND_BEAT_LUKE_SPAR",
+            "opponent": {
+              "species": "Growlithe",
+              "form": "Hisuian",
+              "level": 5,
+              "trainerId": "Luke",
+              "motive": "friend_sparring"
+            },
+            "opponentRegistered": true,
+            "goto": "spar_luke_handoff",
+            "returnNodes": {
+              "win": "spar_luke_win",
+              "lose": "spar_luke_loss"
+            }
+          }
+        },
+        {
+          "id": "decline",
+          "text": "Non combattiamo. Ci salutiamo e torniamo ai nostri programmi.",
+          "goto": "arena_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Luke"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "sparring"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "spar_declined"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 1
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "friendBeat01Result",
+              "value": "spar_declined"
+            }
+          ]
+        }
+      ]
+    },
+    "spar_luke_handoff": {
+      "stitches": [
+        {
+          "id": "spar_luke_pending",
+          "text": "Lo sparring con Luke passa al resolver Pokémon 5e. Vengono usati il tuo roster reale e il suo Ace rookie canonico, senza buff o risultato scritto in anticipo."
+        }
+      ],
+      "choices": []
+    },
+    "spar_luke_win": {
+      "stitches": [
+        {
+          "id": "spar_luke_win_text",
+          "text": "Lo sparring contro Luke finisce a tuo favore. Il risultato resta quello prodotto dal combattimento, non una prova di superiorità permanente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record",
+          "text": "Registriamo il risultato e torniamo all'Arena.",
+          "goto": "arena_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Luke"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "sparring"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "win"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 5
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "friendBeat01Result",
+              "value": "win"
+            }
+          ]
+        }
+      ]
+    },
+    "spar_luke_loss": {
+      "stitches": [
+        {
+          "id": "spar_luke_loss_text",
+          "text": "Lo sparring contro Luke finisce a suo favore. La sconfitta non blocca il modulo e non cambia retroattivamente il vostro rapporto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record",
+          "text": "Accetto il risultato e torniamo all'Arena.",
+          "goto": "arena_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Luke"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "sparring"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "loss"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 4
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "friendBeat01Result",
+              "value": "loss"
+            }
+          ]
+        }
+      ]
+    },
+    "dispatch_exploration_mattew": {
+      "stitches": [
+        {
+          "id": "exp_mattew_voice",
+          "text": "Mattew prende nota dei dettagli e confronta tempi e sequenze. Non gli interessa sembrare preparato: vuole ridurre gli errori evitabili."
+        },
+        {
+          "id": "exp_mattew_context",
+          "text": "Mattew sta seguendo il tratto di strada per conto proprio. Potete confrontare osservazioni, percorrere insieme un segmento oppure separarvi subito: nessuna opzione crea un party permanente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "explore_together",
+          "text": "Percorriamo insieme un tratto e confrontiamo ciò che notiamo.",
+          "goto": "exploration_complete",
+          "timeCostMinutes": 30,
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Mattew"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "exploration"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "shared_exploration"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 5
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "friendBeat01Result",
+              "value": "shared_exploration"
+            }
+          ]
+        },
+        {
+          "id": "compare_notes",
+          "text": "Ci scambiamo solo informazioni utili e poi ripartiamo.",
+          "goto": "exploration_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Mattew"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "exploration"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "information_exchange"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 3
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "friendBeat01Result",
+              "value": "information_exchange"
+            }
+          ]
+        },
+        {
+          "id": "separate",
+          "text": "Ci salutiamo e continuiamo su strade separate.",
+          "goto": "exploration_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Mattew"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "exploration"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "brief_overlap"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 1
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "friendBeat01Result",
+              "value": "brief_overlap"
+            }
+          ]
+        }
+      ]
+    },
+    "dispatch_farm_mattew": {
+      "stitches": [
+        {
+          "id": "farm_mattew_voice",
+          "text": "Mattew prende nota dei dettagli e confronta tempi e sequenze. Non gli interessa sembrare preparato: vuole ridurre gli errori evitabili."
+        },
+        {
+          "id": "farm_mattew_context",
+          "text": "Mattew è qui per un'attività propria. Lavoratori e Pokémon non smettono di muoversi perché vi conoscete: se collaborate, dovete inserirvi nel lavoro reale senza prenderne il controllo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "help_together",
+          "text": "Collaboriamo per un breve tratto seguendo le indicazioni degli addetti.",
+          "goto": "farm_complete",
+          "timeCostMinutes": 30,
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Mattew"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "farm_help"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "shared_farm_help"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 5
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "friendBeat01Result",
+              "value": "shared_farm_help"
+            }
+          ]
+        },
+        {
+          "id": "fauna_compare",
+          "text": "Confrontiamo ciò che abbiamo notato sul comportamento dei Pokémon.",
+          "goto": "farm_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Mattew"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "farm_help"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "fauna_exchange"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 4
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "friendBeat01Result",
+              "value": "fauna_exchange"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "leave_friend_working",
+          "text": "Lo lascio al suo incarico e continuo il mio.",
+          "goto": "farm_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Mattew"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "farm_help"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "brief_overlap"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 1
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "friendBeat01Result",
+              "value": "brief_overlap"
+            }
+          ]
+        }
+      ]
+    },
+    "dispatch_city_mattew": {
+      "stitches": [
+        {
+          "id": "city_mattew_voice",
+          "text": "Mattew prende nota dei dettagli e confronta tempi e sequenze. Non gli interessa sembrare preparato: vuole ridurre gli errori evitabili."
+        },
+        {
+          "id": "city_mattew_context",
+          "text": "Mattew ha già un proprio programma a Valedarsena. Il fatto che vi siate incontrati non significa che debba seguirti al prossimo nodo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "talk_progress",
+          "text": "Parliamo di come stanno andando questi primi giorni.",
+          "goto": "city_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Mattew"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "city_encounter"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "progress_talk"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 4
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "friendBeat01Result",
+              "value": "progress_talk"
+            }
+          ]
+        },
+        {
+          "id": "compare_results",
+          "text": "Confrontiamo risultati e prossime priorità senza trasformarlo in una gara.",
+          "goto": "city_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Mattew"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "city_encounter"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "result_comparison"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 3
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "friendBeat01Result",
+              "value": "result_comparison"
+            }
+          ]
+        },
+        {
+          "id": "keep_moving",
+          "text": "Ci salutiamo: entrambi abbiamo altro da fare.",
+          "goto": "city_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Mattew"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "city_encounter"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "brief_overlap"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 1
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "friendBeat01Result",
+              "value": "brief_overlap"
+            }
+          ]
+        }
+      ]
+    },
+    "dispatch_arena_mattew": {
+      "stitches": [
+        {
+          "id": "arena_mattew_voice",
+          "text": "Mattew prende nota dei dettagli e confronta tempi e sequenze. Non gli interessa sembrare preparato: vuole ridurre gli errori evitabili."
+        },
+        {
+          "id": "arena_mattew_context",
+          "text": "Mattew è all'Arena con Eevee. Potete parlare di tecnica oppure fare uno sparring 1v1. Se combattete, nessun risultato è deciso dalla scena."
+        }
+      ],
+      "choices": [
+        {
+          "id": "technical_talk",
+          "text": "Restiamo sul confronto tecnico.",
+          "goto": "arena_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Mattew"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "sparring"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "technical_exchange"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 4
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "friendBeat01Result",
+              "value": "technical_exchange"
+            }
+          ]
+        },
+        {
+          "id": "spar",
+          "text": "Facciamo uno sparring 1v1 contro Eevee.",
+          "combat": {
+            "encounterId": "M1_FRIEND_BEAT_MATTEW_SPAR",
+            "opponent": {
+              "species": "Eevee",
+              "form": "Standard",
+              "level": 5,
+              "trainerId": "Mattew",
+              "motive": "friend_sparring"
+            },
+            "opponentRegistered": true,
+            "goto": "spar_mattew_handoff",
+            "returnNodes": {
+              "win": "spar_mattew_win",
+              "lose": "spar_mattew_loss"
+            }
+          }
+        },
+        {
+          "id": "decline",
+          "text": "Non combattiamo. Ci salutiamo e torniamo ai nostri programmi.",
+          "goto": "arena_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Mattew"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "sparring"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "spar_declined"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 1
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "friendBeat01Result",
+              "value": "spar_declined"
+            }
+          ]
+        }
+      ]
+    },
+    "spar_mattew_handoff": {
+      "stitches": [
+        {
+          "id": "spar_mattew_pending",
+          "text": "Lo sparring con Mattew passa al resolver Pokémon 5e. Vengono usati il tuo roster reale e il suo Ace rookie canonico, senza buff o risultato scritto in anticipo."
+        }
+      ],
+      "choices": []
+    },
+    "spar_mattew_win": {
+      "stitches": [
+        {
+          "id": "spar_mattew_win_text",
+          "text": "Lo sparring contro Mattew finisce a tuo favore. Il risultato resta quello prodotto dal combattimento, non una prova di superiorità permanente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record",
+          "text": "Registriamo il risultato e torniamo all'Arena.",
+          "goto": "arena_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Mattew"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "sparring"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "win"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 5
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "friendBeat01Result",
+              "value": "win"
+            }
+          ]
+        }
+      ]
+    },
+    "spar_mattew_loss": {
+      "stitches": [
+        {
+          "id": "spar_mattew_loss_text",
+          "text": "Lo sparring contro Mattew finisce a suo favore. La sconfitta non blocca il modulo e non cambia retroattivamente il vostro rapporto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record",
+          "text": "Accetto il risultato e torniamo all'Arena.",
+          "goto": "arena_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Mattew"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "sparring"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "loss"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 4
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "friendBeat01Result",
+              "value": "loss"
+            }
+          ]
+        }
+      ]
+    },
+    "dispatch_exploration_daniel": {
+      "stitches": [
+        {
+          "id": "exp_daniel_voice",
+          "text": "Daniel osserva più a lungo di quanto parli. Cerca collegamenti, intenzioni e possibilità alternative prima di scegliere una linea."
+        },
+        {
+          "id": "exp_daniel_context",
+          "text": "Daniel sta seguendo il tratto di strada per conto proprio. Potete confrontare osservazioni, percorrere insieme un segmento oppure separarvi subito: nessuna opzione crea un party permanente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "explore_together",
+          "text": "Percorriamo insieme un tratto e confrontiamo ciò che notiamo.",
+          "goto": "exploration_complete",
+          "timeCostMinutes": 30,
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Daniel"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "exploration"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "shared_exploration"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 5
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "friendBeat01Result",
+              "value": "shared_exploration"
+            }
+          ]
+        },
+        {
+          "id": "compare_notes",
+          "text": "Ci scambiamo solo informazioni utili e poi ripartiamo.",
+          "goto": "exploration_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Daniel"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "exploration"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "information_exchange"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 3
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "friendBeat01Result",
+              "value": "information_exchange"
+            }
+          ]
+        },
+        {
+          "id": "separate",
+          "text": "Ci salutiamo e continuiamo su strade separate.",
+          "goto": "exploration_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Daniel"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "exploration"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "brief_overlap"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 1
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "friendBeat01Result",
+              "value": "brief_overlap"
+            }
+          ]
+        }
+      ]
+    },
+    "dispatch_farm_daniel": {
+      "stitches": [
+        {
+          "id": "farm_daniel_voice",
+          "text": "Daniel osserva più a lungo di quanto parli. Cerca collegamenti, intenzioni e possibilità alternative prima di scegliere una linea."
+        },
+        {
+          "id": "farm_daniel_context",
+          "text": "Daniel è qui per un'attività propria. Lavoratori e Pokémon non smettono di muoversi perché vi conoscete: se collaborate, dovete inserirvi nel lavoro reale senza prenderne il controllo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "help_together",
+          "text": "Collaboriamo per un breve tratto seguendo le indicazioni degli addetti.",
+          "goto": "farm_complete",
+          "timeCostMinutes": 30,
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Daniel"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "farm_help"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "shared_farm_help"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 5
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "friendBeat01Result",
+              "value": "shared_farm_help"
+            }
+          ]
+        },
+        {
+          "id": "fauna_compare",
+          "text": "Confrontiamo ciò che abbiamo notato sul comportamento dei Pokémon.",
+          "goto": "farm_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Daniel"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "farm_help"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "fauna_exchange"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 4
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "friendBeat01Result",
+              "value": "fauna_exchange"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "leave_friend_working",
+          "text": "Lo lascio al suo incarico e continuo il mio.",
+          "goto": "farm_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Daniel"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "farm_help"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "brief_overlap"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 1
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "friendBeat01Result",
+              "value": "brief_overlap"
+            }
+          ]
+        }
+      ]
+    },
+    "dispatch_city_daniel": {
+      "stitches": [
+        {
+          "id": "city_daniel_voice",
+          "text": "Daniel osserva più a lungo di quanto parli. Cerca collegamenti, intenzioni e possibilità alternative prima di scegliere una linea."
+        },
+        {
+          "id": "city_daniel_context",
+          "text": "Daniel ha già un proprio programma a Valedarsena. Il fatto che vi siate incontrati non significa che debba seguirti al prossimo nodo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "talk_progress",
+          "text": "Parliamo di come stanno andando questi primi giorni.",
+          "goto": "city_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Daniel"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "city_encounter"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "progress_talk"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 4
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "friendBeat01Result",
+              "value": "progress_talk"
+            }
+          ]
+        },
+        {
+          "id": "compare_results",
+          "text": "Confrontiamo risultati e prossime priorità senza trasformarlo in una gara.",
+          "goto": "city_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Daniel"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "city_encounter"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "result_comparison"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 3
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "friendBeat01Result",
+              "value": "result_comparison"
+            }
+          ]
+        },
+        {
+          "id": "keep_moving",
+          "text": "Ci salutiamo: entrambi abbiamo altro da fare.",
+          "goto": "city_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Daniel"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "city_encounter"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "brief_overlap"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 1
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "friendBeat01Result",
+              "value": "brief_overlap"
+            }
+          ]
+        }
+      ]
+    },
+    "dispatch_arena_daniel": {
+      "stitches": [
+        {
+          "id": "arena_daniel_voice",
+          "text": "Daniel osserva più a lungo di quanto parli. Cerca collegamenti, intenzioni e possibilità alternative prima di scegliere una linea."
+        },
+        {
+          "id": "arena_daniel_context",
+          "text": "Daniel è all'Arena con Gastly. Potete parlare di tecnica oppure fare uno sparring 1v1. Se combattete, nessun risultato è deciso dalla scena."
+        }
+      ],
+      "choices": [
+        {
+          "id": "technical_talk",
+          "text": "Restiamo sul confronto tecnico.",
+          "goto": "arena_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Daniel"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "sparring"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "technical_exchange"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 4
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "friendBeat01Result",
+              "value": "technical_exchange"
+            }
+          ]
+        },
+        {
+          "id": "spar",
+          "text": "Facciamo uno sparring 1v1 contro Gastly.",
+          "combat": {
+            "encounterId": "M1_FRIEND_BEAT_DANIEL_SPAR",
+            "opponent": {
+              "species": "Gastly",
+              "form": "Standard",
+              "level": 5,
+              "trainerId": "Daniel",
+              "motive": "friend_sparring"
+            },
+            "opponentRegistered": true,
+            "goto": "spar_daniel_handoff",
+            "returnNodes": {
+              "win": "spar_daniel_win",
+              "lose": "spar_daniel_loss"
+            }
+          }
+        },
+        {
+          "id": "decline",
+          "text": "Non combattiamo. Ci salutiamo e torniamo ai nostri programmi.",
+          "goto": "arena_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Daniel"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "sparring"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "spar_declined"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 1
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "friendBeat01Result",
+              "value": "spar_declined"
+            }
+          ]
+        }
+      ]
+    },
+    "spar_daniel_handoff": {
+      "stitches": [
+        {
+          "id": "spar_daniel_pending",
+          "text": "Lo sparring con Daniel passa al resolver Pokémon 5e. Vengono usati il tuo roster reale e il suo Ace rookie canonico, senza buff o risultato scritto in anticipo."
+        }
+      ],
+      "choices": []
+    },
+    "spar_daniel_win": {
+      "stitches": [
+        {
+          "id": "spar_daniel_win_text",
+          "text": "Lo sparring contro Daniel finisce a tuo favore. Il risultato resta quello prodotto dal combattimento, non una prova di superiorità permanente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record",
+          "text": "Registriamo il risultato e torniamo all'Arena.",
+          "goto": "arena_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Daniel"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "sparring"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "win"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 5
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "friendBeat01Result",
+              "value": "win"
+            }
+          ]
+        }
+      ]
+    },
+    "spar_daniel_loss": {
+      "stitches": [
+        {
+          "id": "spar_daniel_loss_text",
+          "text": "Lo sparring contro Daniel finisce a suo favore. La sconfitta non blocca il modulo e non cambia retroattivamente il vostro rapporto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record",
+          "text": "Accetto il risultato e torniamo all'Arena.",
+          "goto": "arena_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Daniel"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "sparring"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "loss"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 4
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "friendBeat01Result",
+              "value": "loss"
+            }
+          ]
+        }
+      ]
+    },
+    "dispatch_exploration_edward": {
+      "stitches": [
+        {
+          "id": "exp_edward_voice",
+          "text": "Edward preferisce fare esperienza direttamente. Se c'è qualcosa da provare sul campo, tende a smettere presto di discuterne in astratto."
+        },
+        {
+          "id": "exp_edward_context",
+          "text": "Edward sta seguendo il tratto di strada per conto proprio. Potete confrontare osservazioni, percorrere insieme un segmento oppure separarvi subito: nessuna opzione crea un party permanente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "explore_together",
+          "text": "Percorriamo insieme un tratto e confrontiamo ciò che notiamo.",
+          "goto": "exploration_complete",
+          "timeCostMinutes": 30,
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Edward"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "exploration"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "shared_exploration"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 5
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "friendBeat01Result",
+              "value": "shared_exploration"
+            }
+          ]
+        },
+        {
+          "id": "compare_notes",
+          "text": "Ci scambiamo solo informazioni utili e poi ripartiamo.",
+          "goto": "exploration_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Edward"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "exploration"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "information_exchange"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 3
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "friendBeat01Result",
+              "value": "information_exchange"
+            }
+          ]
+        },
+        {
+          "id": "separate",
+          "text": "Ci salutiamo e continuiamo su strade separate.",
+          "goto": "exploration_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Edward"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "exploration"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "brief_overlap"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 1
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "friendBeat01Result",
+              "value": "brief_overlap"
+            }
+          ]
+        }
+      ]
+    },
+    "dispatch_farm_edward": {
+      "stitches": [
+        {
+          "id": "farm_edward_voice",
+          "text": "Edward preferisce fare esperienza direttamente. Se c'è qualcosa da provare sul campo, tende a smettere presto di discuterne in astratto."
+        },
+        {
+          "id": "farm_edward_context",
+          "text": "Edward è qui per un'attività propria. Lavoratori e Pokémon non smettono di muoversi perché vi conoscete: se collaborate, dovete inserirvi nel lavoro reale senza prenderne il controllo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "help_together",
+          "text": "Collaboriamo per un breve tratto seguendo le indicazioni degli addetti.",
+          "goto": "farm_complete",
+          "timeCostMinutes": 30,
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Edward"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "farm_help"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "shared_farm_help"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 5
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "friendBeat01Result",
+              "value": "shared_farm_help"
+            }
+          ]
+        },
+        {
+          "id": "fauna_compare",
+          "text": "Confrontiamo ciò che abbiamo notato sul comportamento dei Pokémon.",
+          "goto": "farm_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Edward"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "farm_help"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "fauna_exchange"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 4
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "friendBeat01Result",
+              "value": "fauna_exchange"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "leave_friend_working",
+          "text": "Lo lascio al suo incarico e continuo il mio.",
+          "goto": "farm_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Edward"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "farm_help"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "brief_overlap"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 1
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "friendBeat01Result",
+              "value": "brief_overlap"
+            }
+          ]
+        }
+      ]
+    },
+    "dispatch_city_edward": {
+      "stitches": [
+        {
+          "id": "city_edward_voice",
+          "text": "Edward preferisce fare esperienza direttamente. Se c'è qualcosa da provare sul campo, tende a smettere presto di discuterne in astratto."
+        },
+        {
+          "id": "city_edward_context",
+          "text": "Edward ha già un proprio programma a Valedarsena. Il fatto che vi siate incontrati non significa che debba seguirti al prossimo nodo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "talk_progress",
+          "text": "Parliamo di come stanno andando questi primi giorni.",
+          "goto": "city_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Edward"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "city_encounter"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "progress_talk"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 4
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "friendBeat01Result",
+              "value": "progress_talk"
+            }
+          ]
+        },
+        {
+          "id": "compare_results",
+          "text": "Confrontiamo risultati e prossime priorità senza trasformarlo in una gara.",
+          "goto": "city_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Edward"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "city_encounter"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "result_comparison"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 3
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "friendBeat01Result",
+              "value": "result_comparison"
+            }
+          ]
+        },
+        {
+          "id": "keep_moving",
+          "text": "Ci salutiamo: entrambi abbiamo altro da fare.",
+          "goto": "city_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Edward"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "city_encounter"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "brief_overlap"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 1
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "friendBeat01Result",
+              "value": "brief_overlap"
+            }
+          ]
+        }
+      ]
+    },
+    "dispatch_arena_edward": {
+      "stitches": [
+        {
+          "id": "arena_edward_voice",
+          "text": "Edward preferisce fare esperienza direttamente. Se c'è qualcosa da provare sul campo, tende a smettere presto di discuterne in astratto."
+        },
+        {
+          "id": "arena_edward_context",
+          "text": "Edward è all'Arena con Totodile. Potete parlare di tecnica oppure fare uno sparring 1v1. Se combattete, nessun risultato è deciso dalla scena."
+        }
+      ],
+      "choices": [
+        {
+          "id": "technical_talk",
+          "text": "Restiamo sul confronto tecnico.",
+          "goto": "arena_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Edward"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "sparring"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "technical_exchange"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 4
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "friendBeat01Result",
+              "value": "technical_exchange"
+            }
+          ]
+        },
+        {
+          "id": "spar",
+          "text": "Facciamo uno sparring 1v1 contro Totodile.",
+          "combat": {
+            "encounterId": "M1_FRIEND_BEAT_EDWARD_SPAR",
+            "opponent": {
+              "species": "Totodile",
+              "form": "Standard",
+              "level": 5,
+              "trainerId": "Edward",
+              "motive": "friend_sparring"
+            },
+            "opponentRegistered": true,
+            "goto": "spar_edward_handoff",
+            "returnNodes": {
+              "win": "spar_edward_win",
+              "lose": "spar_edward_loss"
+            }
+          }
+        },
+        {
+          "id": "decline",
+          "text": "Non combattiamo. Ci salutiamo e torniamo ai nostri programmi.",
+          "goto": "arena_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Edward"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "sparring"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "spar_declined"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 1
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "friendBeat01Result",
+              "value": "spar_declined"
+            }
+          ]
+        }
+      ]
+    },
+    "spar_edward_handoff": {
+      "stitches": [
+        {
+          "id": "spar_edward_pending",
+          "text": "Lo sparring con Edward passa al resolver Pokémon 5e. Vengono usati il tuo roster reale e il suo Ace rookie canonico, senza buff o risultato scritto in anticipo."
+        }
+      ],
+      "choices": []
+    },
+    "spar_edward_win": {
+      "stitches": [
+        {
+          "id": "spar_edward_win_text",
+          "text": "Lo sparring contro Edward finisce a tuo favore. Il risultato resta quello prodotto dal combattimento, non una prova di superiorità permanente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record",
+          "text": "Registriamo il risultato e torniamo all'Arena.",
+          "goto": "arena_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Edward"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "sparring"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "win"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 5
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "friendBeat01Result",
+              "value": "win"
+            }
+          ]
+        }
+      ]
+    },
+    "spar_edward_loss": {
+      "stitches": [
+        {
+          "id": "spar_edward_loss_text",
+          "text": "Lo sparring contro Edward finisce a suo favore. La sconfitta non blocca il modulo e non cambia retroattivamente il vostro rapporto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record",
+          "text": "Accetto il risultato e torniamo all'Arena.",
+          "goto": "arena_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Edward"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "sparring"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "loss"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 4
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "friendBeat01Result",
+              "value": "loss"
+            }
+          ]
+        }
+      ]
+    },
+    "dispatch_exploration_fab": {
+      "stitches": [
+        {
+          "id": "exp_fab_voice",
+          "text": "Fab resta paziente e vicino al proprio Pokémon. Non ha fretta di forzare una situazione se può capirla e gestirla un passo alla volta."
+        },
+        {
+          "id": "exp_fab_context",
+          "text": "Fab sta seguendo il tratto di strada per conto proprio. Potete confrontare osservazioni, percorrere insieme un segmento oppure separarvi subito: nessuna opzione crea un party permanente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "explore_together",
+          "text": "Percorriamo insieme un tratto e confrontiamo ciò che notiamo.",
+          "goto": "exploration_complete",
+          "timeCostMinutes": 30,
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Fab"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "exploration"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "shared_exploration"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 5
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "friendBeat01Result",
+              "value": "shared_exploration"
+            }
+          ]
+        },
+        {
+          "id": "compare_notes",
+          "text": "Ci scambiamo solo informazioni utili e poi ripartiamo.",
+          "goto": "exploration_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Fab"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "exploration"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "information_exchange"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 3
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "friendBeat01Result",
+              "value": "information_exchange"
+            }
+          ]
+        },
+        {
+          "id": "separate",
+          "text": "Ci salutiamo e continuiamo su strade separate.",
+          "goto": "exploration_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Fab"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "exploration"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "brief_overlap"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 1
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "friendBeat01Result",
+              "value": "brief_overlap"
+            }
+          ]
+        }
+      ]
+    },
+    "dispatch_farm_fab": {
+      "stitches": [
+        {
+          "id": "farm_fab_voice",
+          "text": "Fab resta paziente e vicino al proprio Pokémon. Non ha fretta di forzare una situazione se può capirla e gestirla un passo alla volta."
+        },
+        {
+          "id": "farm_fab_context",
+          "text": "Fab è qui per un'attività propria. Lavoratori e Pokémon non smettono di muoversi perché vi conoscete: se collaborate, dovete inserirvi nel lavoro reale senza prenderne il controllo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "help_together",
+          "text": "Collaboriamo per un breve tratto seguendo le indicazioni degli addetti.",
+          "goto": "farm_complete",
+          "timeCostMinutes": 30,
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Fab"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "farm_help"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "shared_farm_help"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 5
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "friendBeat01Result",
+              "value": "shared_farm_help"
+            }
+          ]
+        },
+        {
+          "id": "fauna_compare",
+          "text": "Confrontiamo ciò che abbiamo notato sul comportamento dei Pokémon.",
+          "goto": "farm_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Fab"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "farm_help"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "fauna_exchange"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 4
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "friendBeat01Result",
+              "value": "fauna_exchange"
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_world_pressure_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "leave_friend_working",
+          "text": "Lo lascio al suo incarico e continuo il mio.",
+          "goto": "farm_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Fab"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "farm_help"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "brief_overlap"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 1
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "friendBeat01Result",
+              "value": "brief_overlap"
+            }
+          ]
+        }
+      ]
+    },
+    "dispatch_city_fab": {
+      "stitches": [
+        {
+          "id": "city_fab_voice",
+          "text": "Fab resta paziente e vicino al proprio Pokémon. Non ha fretta di forzare una situazione se può capirla e gestirla un passo alla volta."
+        },
+        {
+          "id": "city_fab_context",
+          "text": "Fab ha già un proprio programma a Valedarsena. Il fatto che vi siate incontrati non significa che debba seguirti al prossimo nodo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "talk_progress",
+          "text": "Parliamo di come stanno andando questi primi giorni.",
+          "goto": "city_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Fab"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "city_encounter"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "progress_talk"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 4
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "friendBeat01Result",
+              "value": "progress_talk"
+            }
+          ]
+        },
+        {
+          "id": "compare_results",
+          "text": "Confrontiamo risultati e prossime priorità senza trasformarlo in una gara.",
+          "goto": "city_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Fab"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "city_encounter"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "result_comparison"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 3
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "friendBeat01Result",
+              "value": "result_comparison"
+            }
+          ]
+        },
+        {
+          "id": "keep_moving",
+          "text": "Ci salutiamo: entrambi abbiamo altro da fare.",
+          "goto": "city_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Fab"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "city_encounter"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "brief_overlap"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 1
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "friendBeat01Result",
+              "value": "brief_overlap"
+            }
+          ]
+        }
+      ]
+    },
+    "dispatch_arena_fab": {
+      "stitches": [
+        {
+          "id": "arena_fab_voice",
+          "text": "Fab resta paziente e vicino al proprio Pokémon. Non ha fretta di forzare una situazione se può capirla e gestirla un passo alla volta."
+        },
+        {
+          "id": "arena_fab_context",
+          "text": "Fab è all'Arena con Koffing. Potete parlare di tecnica oppure fare uno sparring 1v1. Se combattete, nessun risultato è deciso dalla scena."
+        }
+      ],
+      "choices": [
+        {
+          "id": "technical_talk",
+          "text": "Restiamo sul confronto tecnico.",
+          "goto": "arena_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Fab"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "sparring"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "technical_exchange"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 4
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "friendBeat01Result",
+              "value": "technical_exchange"
+            }
+          ]
+        },
+        {
+          "id": "spar",
+          "text": "Facciamo uno sparring 1v1 contro Koffing.",
+          "combat": {
+            "encounterId": "M1_FRIEND_BEAT_FAB_SPAR",
+            "opponent": {
+              "species": "Koffing",
+              "form": "Standard",
+              "level": 5,
+              "trainerId": "Fab",
+              "motive": "friend_sparring"
+            },
+            "opponentRegistered": true,
+            "goto": "spar_fab_handoff",
+            "returnNodes": {
+              "win": "spar_fab_win",
+              "lose": "spar_fab_loss"
+            }
+          }
+        },
+        {
+          "id": "decline",
+          "text": "Non combattiamo. Ci salutiamo e torniamo ai nostri programmi.",
+          "goto": "arena_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Fab"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "sparring"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "spar_declined"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 1
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "friendBeat01Result",
+              "value": "spar_declined"
+            }
+          ]
+        }
+      ]
+    },
+    "spar_fab_handoff": {
+      "stitches": [
+        {
+          "id": "spar_fab_pending",
+          "text": "Lo sparring con Fab passa al resolver Pokémon 5e. Vengono usati il tuo roster reale e il suo Ace rookie canonico, senza buff o risultato scritto in anticipo."
+        }
+      ],
+      "choices": []
+    },
+    "spar_fab_win": {
+      "stitches": [
+        {
+          "id": "spar_fab_win_text",
+          "text": "Lo sparring contro Fab finisce a tuo favore. Il risultato resta quello prodotto dal combattimento, non una prova di superiorità permanente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record",
+          "text": "Registriamo il risultato e torniamo all'Arena.",
+          "goto": "arena_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Fab"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "sparring"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "win"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 5
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "friendBeat01Result",
+              "value": "win"
+            }
+          ]
+        }
+      ]
+    },
+    "spar_fab_loss": {
+      "stitches": [
+        {
+          "id": "spar_fab_loss_text",
+          "text": "Lo sparring contro Fab finisce a suo favore. La sconfitta non blocca il modulo e non cambia retroattivamente il vostro rapporto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record",
+          "text": "Accetto il risultato e torniamo all'Arena.",
+          "goto": "arena_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_friend_id",
+              "value": "Fab"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_type",
+              "value": "sparring"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_01_result",
+              "value": "loss"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 4
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "friendBeat01Complete",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "friendBeat01Result",
+              "value": "loss"
+            }
+          ]
+        }
+      ]
+    },
+    "exploration_complete": {
+      "stitches": [
+        {
+          "id": "exploration_done",
+          "text": "L'incontro si chiude senza incollare le vostre strade. L'altro trainer riprende il proprio programma e tu resti libero di scegliere il prossimo passo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno al bivio delle Ginestre.",
+          "goto": "m01-ginestre-crossroads#crossroads",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "asteria_ginestre"
+            }
+          ]
+        }
+      ]
+    },
+    "farm_complete": {
+      "stitches": [
+        {
+          "id": "farm_done",
+          "text": "Il breve tratto condiviso finisce dentro una giornata di lavoro più grande di voi due. Nessuno diventa automaticamente il compagno fisso dell'altro."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno all'area della Fattoria.",
+          "goto": "m01-farm-first-arrival#approach",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "asteria_farm"
+            }
+          ]
+        }
+      ]
+    },
+    "city_complete": {
+      "stitches": [
+        {
+          "id": "city_done",
+          "text": "Dopo l'incrocio, i vostri programmi tornano a separarsi. Il rapporto conserva ciò che è successo senza congelare nessuno dei due."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno al centro di Valedarsena.",
+          "goto": "m01-valedarsena-first-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
+        }
+      ]
+    },
+    "arena_complete": {
+      "stitches": [
+        {
+          "id": "arena_done",
+          "text": "Il confronto termina e l'Arena continua a girare. Match o conversazione, l'altro trainer resta una carriera indipendente dalla tua."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back",
+          "text": "Torno alle attività dell'Arena.",
+          "goto": "m01-valedarsena-first-arrival#arena_front",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_arena"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
