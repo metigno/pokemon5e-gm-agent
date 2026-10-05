@@ -71,6 +71,46 @@
           ]
         }
       ]
+    },
+    {
+      "id": "A1_JOB_BOARD_LOGISTICS_REPOST",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "quests.M1_VALE_LOGISTICS_01.status",
+            "eq": "expired"
+          },
+          {
+            "path": "quests.M1_VALE_LOGISTICS_02.status",
+            "exists": false
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "reposted_shorter_route",
+          "effects": [
+            {
+              "type": "quest_offer",
+              "questId": "M1_VALE_LOGISTICS_02",
+              "title": "Consegna ai magazzini — ripubblicata",
+              "objective": "Porta il collo dal deposito intermedio ai magazzini fluviali.",
+              "expiresInMinutes": 360,
+              "onExpire": {
+                "status": "expired",
+                "resolution": "repost_expired",
+                "resolvedBy": "world"
+              }
+            },
+            {
+              "type": "set_flag",
+              "key": "m1_logistics_reposted",
+              "value": true
+            }
+          ]
+        }
+      ]
     }
   ]
 }
