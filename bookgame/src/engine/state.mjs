@@ -36,8 +36,11 @@ export function createNewGameState({
       elapsedMinutes: DEFAULT_START_MINUTE,
       minuteOfDay: DEFAULT_START_MINUTE,
       time: daypartForMinute(DEFAULT_START_MINUTE),
-      locationId: "asteria_ginestre",
-      flags: {}
+      locationId: "asteria_campus_exit",
+      flags: {
+        intro_complete: true,
+        free_roam: true
+      }
     },
     quests: {},
     events: {},
@@ -60,8 +63,8 @@ export function createNewGameState({
       })
     },
     story: {
-      sceneId: "first-road",
-      nodeId: "arrival",
+      sceneId: "m01-release",
+      nodeId: "free_roam",
       history: []
     },
     pending: null,
