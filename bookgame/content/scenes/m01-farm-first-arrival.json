@@ -23,6 +23,98 @@
       ],
       "choices": [
         {
+          "id": "friend_beat_01",
+          "text": "Uno degli altri Five è qui per un'attività propria: posso incrociare il suo lavoro.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.friend_beat_01_complete",
+                "ne": true
+              },
+              {
+                "any": [
+                  {
+                    "all": [
+                      {
+                        "path": "npcs.Luke.schedule.present",
+                        "eq": true
+                      },
+                      {
+                        "path": "npcs.Luke.schedule.locationId",
+                        "eq": "asteria_farm"
+                      }
+                    ]
+                  },
+                  {
+                    "all": [
+                      {
+                        "path": "npcs.Mattew.schedule.present",
+                        "eq": true
+                      },
+                      {
+                        "path": "npcs.Mattew.schedule.locationId",
+                        "eq": "asteria_farm"
+                      }
+                    ]
+                  },
+                  {
+                    "all": [
+                      {
+                        "path": "npcs.Daniel.schedule.present",
+                        "eq": true
+                      },
+                      {
+                        "path": "npcs.Daniel.schedule.locationId",
+                        "eq": "asteria_farm"
+                      }
+                    ]
+                  },
+                  {
+                    "all": [
+                      {
+                        "path": "npcs.Edward.schedule.present",
+                        "eq": true
+                      },
+                      {
+                        "path": "npcs.Edward.schedule.locationId",
+                        "eq": "asteria_farm"
+                      }
+                    ]
+                  },
+                  {
+                    "all": [
+                      {
+                        "path": "npcs.Fab.schedule.present",
+                        "eq": true
+                      },
+                      {
+                        "path": "npcs.Fab.schedule.locationId",
+                        "eq": "asteria_farm"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "goto": "m01-friend-beat-01#dispatch_farm",
+          "effects": [
+            {
+              "type": "friend_beat_select",
+              "locationId": "asteria_farm",
+              "contentType": "farm_help",
+              "compatibleActivities": [
+                "farm_support",
+                "fauna_help"
+              ],
+              "preferredRecentResults": [
+                "herd_helped",
+                "fauna_assisted"
+              ]
+            }
+          ]
+        },
+        {
           "id": "job",
           "text": "Dico che posso aiutare con i Pokémon dispersi.",
           "goto": "briefing",
