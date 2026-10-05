@@ -650,6 +650,11 @@
                   "value": true
                 },
                 {
+                  "type": "set_flag",
+                  "key": "m1_logistics_evidence",
+                  "value": true
+                },
+                {
                   "type": "quest_complete",
                   "questId": "M1_VALE_LOGISTICS_01",
                   "resolution": "completed_with_clue"
@@ -713,6 +718,26 @@
         }
       ],
       "choices": [
+        {
+          "id": "ranger",
+          "text": "Porto direttamente queste osservazioni al presidio Ranger.",
+          "goto": "m01-world-moves#ranger_post",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_ranger_post"
+            },
+            {
+              "type": "npc_register",
+              "npcId": "ElioMar",
+              "name": "Ranger Elio Mar",
+              "relationshipScore": 0,
+              "state": {
+                "role": "ranger"
+              }
+            }
+          ]
+        },
         {
           "id": "hub",
           "text": "Torno verso il centro della città.",
@@ -1029,6 +1054,38 @@
             {
               "type": "set_location",
               "locationId": "valedarsena_job_board"
+            }
+          ]
+        },
+        {
+          "id": "ranger_post",
+          "text": "Presidio Ranger — confronto le segnalazioni con Elio Mar.",
+          "conditions": {
+            "any": [
+              {
+                "path": "world.flags.m1_world_pressure_known",
+                "eq": true
+              },
+              {
+                "path": "world.flags.m1_world_pressure_state",
+                "exists": true
+              }
+            ]
+          },
+          "goto": "m01-world-moves#ranger_post",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_ranger_post"
+            },
+            {
+              "type": "npc_register",
+              "npcId": "ElioMar",
+              "name": "Ranger Elio Mar",
+              "relationshipScore": 0,
+              "state": {
+                "role": "ranger"
+              }
             }
           ]
         },
@@ -1865,6 +1922,11 @@
                   "type": "set_flag",
                   "key": "m1_world_pressure_state",
                   "value": "pressure_noticed"
+                },
+                {
+                  "type": "set_flag",
+                  "key": "m1_logistics_evidence",
+                  "value": true
                 },
                 {
                   "type": "quest_complete",
