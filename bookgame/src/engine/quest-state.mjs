@@ -45,7 +45,7 @@ export function offerQuest(state, {
   const current = quests[questId];
   if (current && !TERMINAL_STATUSES.has(current.status)) return current;
   if (current && TERMINAL_STATUSES.has(current.status)) {
-    throw new Error("Cannot re-offer terminal quest without repeatable quest support: " + questId);
+    return current;
   }
 
   const offeredAtMinutes = nowMinutes(state);
