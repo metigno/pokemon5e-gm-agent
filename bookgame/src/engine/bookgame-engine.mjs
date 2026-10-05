@@ -223,6 +223,12 @@ export class BookgameEngine {
       if (choice.combat.competition) {
         beginCompetitionMatch(next, choice.combat.competition);
       }
+
+      const officialRosterSize = choice.combat.competition?.officialRosterSize ?? null;
+      const playerRoster = officialRosterSize
+        ? (next.player.roster ?? [next.player.starter]).slice(0, officialRosterSize)
+        : null;
+
       next.pending = {
         type: "pokemon5e_combat",
         authority: "pokemon5e_rules",
@@ -231,8 +237,9 @@ export class BookgameEngine {
         sceneId: scene.id,
         sourceNodeId: next.story.nodeId,
         opponent: clone(choice.combat.opponent),
-        playerPokemon: clone(next.player.starter),
-        playerBench: clone(choice.combat.playerBench ?? []),
+        opponentBench: clone(choice.combat.opponentBench ?? []),
+        playerPokemon: clone(playerRoster?.[0] ?? next.player.starter),
+        playerBench: clone(playerRoster ? playerRoster.slice(1) : (choice.combat.playerBench ?? [])),
         trainer: {
           name: next.player.name,
           level: next.player.trainerLevel,
