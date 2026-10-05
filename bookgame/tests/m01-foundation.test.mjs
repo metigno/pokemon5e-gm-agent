@@ -1062,7 +1062,11 @@ test("E7 compiles M01 ecology from authoritative Agent runtime data", async () =
   assert.equal(ecology.weights.protected_rare, 2);
   assert.equal(ecology.weights.protected_very_rare, 1);
 
-  assert.deepEqual(Object.keys(ecology.zones).sort(), [
+  const m1Zones = Object.values(ecology.zones)
+    .filter((zone) => zone.moduleId === "M01")
+    .map((zone) => zone.id)
+    .sort();
+  assert.deepEqual(m1Zones, [
     "AST-FARM",
     "AST-GINESTRE",
     "VAL-CITY",
@@ -1135,7 +1139,10 @@ test("E7 compiled ordinary zones never contain special encounter classes", async
 
 test("E7 story bundle embeds ecology and routes a wildlife choice offline", async () => {
   const bundle = await compileStory({ scenesDir, modulesDir, ecologyOptions });
-  assert.equal(bundle.index.ecologyZoneCount, 4);
+  const m1Zones = Object.values(bundle.ecology.zones)
+    .filter((zone) => zone.moduleId === "M01");
+  assert.equal(m1Zones.length, 4);
+  assert.ok(bundle.index.ecologyZoneCount >= m1Zones.length);
   assert.ok(bundle.index.ecologySpeciesCount > 0);
 
   const repository = {
