@@ -144,11 +144,52 @@ function clearTransientEffects(combatant) {
   combatant.concentration = null;
 }
 
-function healthyBenchIndices(battle) {
-  return battle.playerBench
+function benchForSide(battle, side) {
+  return side === "player" ? (battle.playerBench ?? []) : (battle.opponentBench ?? []);
+}
+
+function healthyBenchIndices(battle, side = "player") {
+  return benchForSide(battle, side)
     .map((combatant, index) => ({ combatant, index }))
     .filter(({ combatant }) => combatant.hp.current > 0)
     .map(({ index }) => index);
+}
+
+function forceOpponentReplacement(battle) {
+  const benchIndex = healthyBenchIndices(battle, "opponent")[0];
+  if (benchIndex === undefined) return false;
+
+  const outgoing = battle.opponent;
+  const incoming = battle.opponentBench[benchIndex];
+  const releasePosition = clone(outgoing.position ?? { x: 5, y: 0 });
+
+  clearTransientEffects(outgoing);
+  outgoing.position = null;
+  outgoing.turn.started = false;
+  outgoing.turn.movementRemaining = 0;
+
+  battle.opponentBench[benchIndex] = outgoing;
+  incoming.position = releasePosition;
+  incoming.switchedInRound = battle.round;
+  incoming.reactionAvailable = false;
+  incoming.turn.started = true;
+  incoming.turn.actionAvailable = false;
+  incoming.turn.bonusActionAvailable = false;
+  incoming.turn.disengaged = false;
+  incoming.turn.movementRemaining = 0;
+  battle.opponent = incoming;
+
+  battle.log.push({
+    type: "switch",
+    round: battle.round,
+    actor: "opponent",
+    forced: true,
+    out: outgoing.speciesId,
+    in: incoming.speciesId,
+    releasePosition,
+    provokesOpportunity: false
+  });
+  return true;
 }
 
 function endConcentrationState(battle, side, reason) {
@@ -201,7 +242,7 @@ function markDowned(battle, downedSide, reason) {
     reason
   });
 
-  if (downedSide === "player" && healthyBenchIndices(battle).length > 0) {
+  if (downedSide === "player" && healthyBenchIndices(battle, "player").length > 0) {
     battle.awaitingSwitch = "player";
     battle.log.push({
       type: "switch_required",
@@ -209,6 +250,10 @@ function markDowned(battle, downedSide, reason) {
       actor: "player",
       reason: "active_fainted"
     });
+    return;
+  }
+
+  if (downedSide === "opponent" && forceOpponentReplacement(battle)) {
     return;
   }
 
