@@ -77,7 +77,24 @@
         {
           "id": "leave",
           "text": "Gli lascio spazio e continuo lungo la strada.",
-          "goto": "road_continue"
+          "goto": "road_continue",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "houndour_ginestre_disposition",
+              "value": "left_alone"
+            },
+            {
+              "type": "set_flag",
+              "key": "houndour_ginestre_escalation",
+              "value": "none"
+            },
+            {
+              "type": "set_flag",
+              "key": "houndour_ginestre_available",
+              "value": false
+            }
+          ]
         }
       ]
     },
@@ -149,7 +166,24 @@
         {
           "id": "leave",
           "text": "Non lo disturbo oltre.",
-          "goto": "road_continue"
+          "goto": "road_continue",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "houndour_ginestre_disposition",
+              "value": "observed_left_alone"
+            },
+            {
+              "type": "set_flag",
+              "key": "houndour_ginestre_escalation",
+              "value": "none"
+            },
+            {
+              "type": "set_flag",
+              "key": "houndour_ginestre_available",
+              "value": false
+            }
+          ]
         }
       ]
     },
@@ -159,7 +193,24 @@
         {
           "id": "continue",
           "text": "Riprendo il cammino.",
-          "goto": "road_continue"
+          "goto": "road_continue",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "houndour_ginestre_disposition",
+              "value": "calm"
+            },
+            {
+              "type": "set_flag",
+              "key": "houndour_ginestre_escalation",
+              "value": "deescalated"
+            },
+            {
+              "type": "set_flag",
+              "key": "houndour_ginestre_available",
+              "value": false
+            }
+          ]
         }
       ]
     },
@@ -173,8 +224,18 @@
           "effects": [
             {
               "type": "set_flag",
+              "key": "houndour_ginestre_disposition",
+              "value": "defensive"
+            },
+            {
+              "type": "set_flag",
               "key": "houndour_ginestre_escalation",
               "value": "avoided"
+            },
+            {
+              "type": "set_flag",
+              "key": "houndour_ginestre_available",
+              "value": false
             }
           ]
         },
@@ -221,7 +282,24 @@
         {
           "id": "continue",
           "text": "Continuo verso l'interno.",
-          "goto": "road_continue"
+          "goto": "road_continue",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "houndour_ginestre_disposition",
+              "value": "driven_off_after_battle"
+            },
+            {
+              "type": "set_flag",
+              "key": "houndour_ginestre_escalation",
+              "value": "battle"
+            },
+            {
+              "type": "set_flag",
+              "key": "houndour_ginestre_available",
+              "value": false
+            }
+          ]
         }
       ]
     },
@@ -231,7 +309,24 @@
         {
           "id": "retreat",
           "text": "Mi allontano e riprendo fiato.",
-          "goto": "road_continue"
+          "goto": "road_continue",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "houndour_ginestre_disposition",
+              "value": "held_ground"
+            },
+            {
+              "type": "set_flag",
+              "key": "houndour_ginestre_escalation",
+              "value": "battle"
+            },
+            {
+              "type": "set_flag",
+              "key": "houndour_ginestre_available",
+              "value": false
+            }
+          ]
         }
       ]
     },
@@ -241,12 +336,29 @@
         {
           "id": "continue",
           "text": "Riprendo il cammino.",
-          "goto": "road_continue"
+          "goto": "road_continue",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "houndour_ginestre_disposition",
+              "value": "fled"
+            },
+            {
+              "type": "set_flag",
+              "key": "houndour_ginestre_escalation",
+              "value": "battle_flight"
+            },
+            {
+              "type": "set_flag",
+              "key": "houndour_ginestre_available",
+              "value": false
+            }
+          ]
         }
       ]
     },
     "road_continue": {
-      "text": "Lasci alle spalle la pozzanghera e continui lungo il sentiero. Il vertical slice termina qui, ma lo stato della scena è già parte del salvataggio.",
+      "text": "Il tratto della pozzanghera resta alle spalle. Qualunque cosa sia successa con Houndour, la strada continua e il mondo conserva quell'esito invece di ricreare l'incontro.",
       "choices": [
         {
           "id": "reach_first_fork",
@@ -256,15 +368,33 @@
       ]
     },
     "houndour_captured": {
-      "text": "La Pokéball si richiude e resta immobile sull'erba. Houndour è stato catturato: il motore conserva livello, HP, condizioni e stato al momento della cattura prima di restituirti alla storia.",
+      "text": "La Pokéball si richiude e resta immobile sull'erba. La cattura è stata risolta dal motore Pokémon 5e: livello, HP, condizioni e risorse consumate sono già nello stato persistente quando la storia riprende.",
       "choices": [
         {
           "id": "continue",
           "text": "Riprendo il cammino.",
-          "goto": "road_continue"
+          "goto": "road_continue",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "houndour_ginestre_disposition",
+              "value": "captured"
+            },
+            {
+              "type": "set_flag",
+              "key": "houndour_ginestre_escalation",
+              "value": "capture"
+            },
+            {
+              "type": "set_flag",
+              "key": "houndour_ginestre_available",
+              "value": false
+            }
+          ]
         }
       ]
     }
   },
-  "moduleId": "M01"
+  "moduleId": "M01",
+  "entryNodeId": "arrival"
 }
