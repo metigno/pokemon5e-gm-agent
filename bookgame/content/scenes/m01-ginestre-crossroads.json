@@ -23,6 +23,96 @@
       ],
       "choices": [
         {
+          "id": "friend_beat_01",
+          "text": "Incrocio uno degli altri Five che sta seguendo davvero questa strada.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.friend_beat_01_complete",
+                "ne": true
+              },
+              {
+                "any": [
+                  {
+                    "all": [
+                      {
+                        "path": "npcs.Luke.schedule.present",
+                        "eq": true
+                      },
+                      {
+                        "path": "npcs.Luke.schedule.locationId",
+                        "eq": "asteria_ginestre"
+                      }
+                    ]
+                  },
+                  {
+                    "all": [
+                      {
+                        "path": "npcs.Mattew.schedule.present",
+                        "eq": true
+                      },
+                      {
+                        "path": "npcs.Mattew.schedule.locationId",
+                        "eq": "asteria_ginestre"
+                      }
+                    ]
+                  },
+                  {
+                    "all": [
+                      {
+                        "path": "npcs.Daniel.schedule.present",
+                        "eq": true
+                      },
+                      {
+                        "path": "npcs.Daniel.schedule.locationId",
+                        "eq": "asteria_ginestre"
+                      }
+                    ]
+                  },
+                  {
+                    "all": [
+                      {
+                        "path": "npcs.Edward.schedule.present",
+                        "eq": true
+                      },
+                      {
+                        "path": "npcs.Edward.schedule.locationId",
+                        "eq": "asteria_ginestre"
+                      }
+                    ]
+                  },
+                  {
+                    "all": [
+                      {
+                        "path": "npcs.Fab.schedule.present",
+                        "eq": true
+                      },
+                      {
+                        "path": "npcs.Fab.schedule.locationId",
+                        "eq": "asteria_ginestre"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "goto": "m01-friend-beat-01#dispatch_exploration",
+          "effects": [
+            {
+              "type": "friend_beat_select",
+              "locationId": "asteria_ginestre",
+              "contentType": "exploration",
+              "compatibleActivities": [
+                "exploration"
+              ],
+              "preferredRecentResults": [
+                "road_scouted"
+              ]
+            }
+          ]
+        },
+        {
           "id": "to_valedarsena",
           "text": "Prendo la strada per Valedarsena.",
           "goto": "m01-valedarsena-first-arrival#approach",
