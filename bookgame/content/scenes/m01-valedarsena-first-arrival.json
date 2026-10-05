@@ -499,11 +499,6 @@
               "type": "set_flag",
               "key": "m1_world_pressure_known",
               "value": true
-            },
-            {
-              "type": "set_flag",
-              "key": "m1_world_pressure_state",
-              "value": "pressure_noticed"
             }
           ]
         },
@@ -1917,11 +1912,6 @@
                   "type": "set_flag",
                   "key": "m1_world_pressure_known",
                   "value": true
-                },
-                {
-                  "type": "set_flag",
-                  "key": "m1_world_pressure_state",
-                  "value": "pressure_noticed"
                 },
                 {
                   "type": "set_flag",
