@@ -47,6 +47,11 @@
           "id": "withdraw",
           "text": "Non inizio ancora. Torno alla registrazione.",
           "goto": "m03-trial-registration#registered"
+        },
+        {
+          "id": "confirm_rules",
+          "text": "Prima del briefing controllo le regole ufficiali.",
+          "goto": "rules_confirmation"
         }
       ]
     },
@@ -108,12 +113,123 @@
           "id": "brief_withdraw",
           "text": "Non parto ancora. Torno al banco.",
           "goto": "m03-trial-registration#registered"
+        },
+        {
+          "id": "review_gate_identity",
+          "text": "Rileggo cosa questo checkpoint sta davvero valutando.",
+          "goto": "identity_review"
+        },
+        {
+          "id": "check_readiness",
+          "text": "Controllo se voglio iniziare con lo stato reale attuale.",
+          "goto": "readiness_check"
         }
       ]
     },
     "trial_combat_handoff": {
       "text": "Il combattimento viene risolto dal motore Pokémon 5e.",
       "choices": []
+    },
+    "rules_confirmation": {
+      "stitches": [
+        {
+          "id": "rules_1",
+          "text": "Il giudice conferma: Singles, tre Pokémon registrati, un solo incontro, vittoria necessaria. Pokémon dell'esaminatrice registrati e quindi non catturabili."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rules_field",
+          "text": "Controllo il campo prima di confermare.",
+          "goto": "field_read"
+        },
+        {
+          "id": "rules_ready",
+          "text": "Le regole sono chiare: torno al briefing.",
+          "goto": "examiner_briefing"
+        }
+      ]
+    },
+    "field_read": {
+      "stitches": [
+        {
+          "id": "field_1",
+          "text": "L'Officina Arena ha spazio sufficiente per cambi e range senza elementi scenici che alterino arbitrariamente le regole. La geometria verrà gestita dal combattimento reale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "field_plan",
+          "text": "Tengo conto dello spazio senza inventare bonus.",
+          "goto": "readiness_check",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_d_c_field_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "field_back",
+          "text": "Torno al briefing.",
+          "goto": "examiner_briefing"
+        }
+      ]
+    },
+    "readiness_check": {
+      "stitches": [
+        {
+          "id": "ready_1",
+          "text": "Prima di partire puoi soltanto decidere se accettare lo stato reale della squadra o rinviare. Non esiste un reset pre-Trial."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ready_accept",
+          "text": "Accetto lo stato reale e torno al briefing.",
+          "goto": "examiner_briefing",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_d_c_readiness_confirmed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "ready_withdraw",
+          "text": "Non parto in queste condizioni: torno alla registrazione.",
+          "goto": "m03-trial-registration#registered"
+        }
+      ]
+    },
+    "identity_review": {
+      "stitches": [
+        {
+          "id": "identity_1",
+          "text": "L'identità del gate è tecnica: tempo, resistenze, coperture e switch. L'esaminatrice non cambia roster per inseguire la tua build."
+        }
+      ],
+      "choices": [
+        {
+          "id": "identity_focus",
+          "text": "Confermo il mio focus di preparazione.",
+          "goto": "examiner_briefing",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_d_c_identity_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "identity_rules",
+          "text": "Riascolto le regole ufficiali.",
+          "goto": "rules_confirmation"
+        }
+      ]
     }
   }
 }
