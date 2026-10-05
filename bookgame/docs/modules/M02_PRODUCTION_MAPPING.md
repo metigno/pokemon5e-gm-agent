@@ -54,7 +54,7 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 | Block | Function | Stitches | Choices | Current state |
 |---|---|---:|---:|---|
 | M2_00_RANK_E_HANDOFF | ereditare integralmente M1 e aprire la fascia Rank E | 286 | 186 | COMPLETE |
-| M2_01_MISTWOOD_ENTRY | primo ingresso a Bosco Bruma, viaggio, nebbia e fauna contestuale | 286 | 186 | PLANNED |
+| M2_01_MISTWOOD_ENTRY | primo ingresso a Bosco Bruma, viaggio, nebbia e fauna contestuale | 286 | 186 | COMPLETE |
 | M2_02_CAPTURE_SIGNS | indizi di cattura illegale senza rendere il crimine automaticamente evidente | 337 | 218 | PLANNED |
 | M2_03_BORGO_SALICE | hub locale, Ranger, servizi, voci e Sala Verde | 336 | 218 | PLANNED |
 | M2_04_N_ENTERS | introduzione causale di N e primo contrasto etico | 336 | 218 | PLANNED |
@@ -126,6 +126,10 @@ Scene `m02-rank-e-handoff` (moduleId M02) requires all three canonical entry con
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+
+**Implementation lock (verified 2026-10-05):**
+M2_01 is entered from `m01-valedarsena-first-arrival#city_hub` only when `m02_unlocked=true`, `m2_active=true` and `competition.rank=E`. The canonical `REGION_MAP.json` edge `VAL-CITY → AST-MISTWOOD` is used verbatim at **150 minutes**; travel advances E2/Living World rather than teleporting. Scene `m02-mistwood-entry` repeats the full module-boundary gate at scene level (`m1_complete=true`, `m02_unlocked=true`, `m2_active=true`, Rank E), so illegal direct entry is rejected by both `present()` and `choose()`. Durable writes are limited to location/discovery state (`mistwood_discovered`, `mistwood_entry_complete`); roster, HP/PP/status, resources, M1 callbacks, NPC schedules and competition state are preserved. E7 is extended through `content/ecology/M02.json` using authoritative source zone `AST-MISTWOOD`; the entry observation is resolved offline through the existing ecology selector and records real encounter history. No N introduction, poaching-network quest, FRIEND_BEAT_02, Rookie Invitational or E→D Trial is started by this block.
 
 ---
 
