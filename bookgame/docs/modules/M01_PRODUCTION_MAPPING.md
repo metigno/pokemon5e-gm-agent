@@ -61,7 +61,7 @@ The graph is reconvergent, not linear. The player may move repeatedly between Gi
 | M1_02_HOUNDOUR_GINESTRE | ecological Houndour encounter and callbacks | 360 | 220 | IMPLEMENTED |
 | M1_03_FIRST_REAL_FORK | first real route choice and local exploration | 220 | 150 | IMPLEMENTED |
 | M1_04_VALEDARSENA_FIRST_ARRIVAL | first hub arrival and orientation | 460 | 310 | COMPLETE |
-| M1_05_JOB_BOARD | temporal jobs, logistics, Sera Noll | 360 | 260 | PARTIAL |
+| M1_05_JOB_BOARD | temporal jobs, logistics, Sera Noll | 360 | 260 | COMPLETE |
 | M1_06_FARM_HERD_HANDS | farm recovery quest and ecology | 450 | 310 | PARTIAL |
 | M1_07_WORLD_MOVES | pressure state machine and off-screen consequences | 450 | 290 | ENGINE DEPENDENCY |
 | M1_08_BLUE_ENTERS | Blue causal introduction variants | 380 | 240 | ENGINE DEPENDENCY |
@@ -367,6 +367,18 @@ Required for:
 - expired;
 - reposted/changed;
 - completed off-screen where authored.
+
+**Implementation lock:**
+
+- simply reading/ignoring the board creates durable `available` quest offers instead of freezing unseen jobs outside world time;
+- `SQ_FARM_HERD_HANDS` offer expires after 360 in-game minutes and resolves as `taken_by_npc` if the player does not accept it;
+- accepting `SQ_FARM_HERD_HANDS` creates an active 480-minute intervention window; if the player delays beyond it, farm workers finish the situation off-screen with no player credit;
+- `M1_VALE_LOGISTICS_01` offer expires after 180 minutes; an accepted delivery gets a 240-minute active window and can be postponed rather than being forced immediately;
+- an ignored/expired first logistics posting triggers `A1_JOB_BOARD_LOGISTICS_REPOST`, which authors a changed shorter-route job as `M1_VALE_LOGISTICS_02` instead of resurrecting the old quest;
+- terminal jobs are idempotent on future board refreshes: returning to the Job Board never reopens or rewrites a completed/failed/expired quest;
+- Sera Noll is visible as the board coordinator and the board itself can reveal the existing M1 fauna/world-pressure pattern without inventing a single culprit;
+- warehouse work keeps `world.locationId` synchronized with `valedarsena_warehouses`;
+- offer, active, expiry, NPC resolution, repost and save/reload paths are covered by dedicated regression tests.
 
 ---
 
