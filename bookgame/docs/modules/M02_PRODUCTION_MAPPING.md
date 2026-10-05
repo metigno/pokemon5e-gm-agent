@@ -60,7 +60,7 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 | M2_04_N_ENTERS | introduzione causale di N e primo contrasto etico | 336 | 218 | COMPLETE |
 | M2_05_RANGER_THREAD | collegare conseguenze Ranger/M1 alle nuove anomalie | 336 | 218 | COMPLETE |
 | M2_06_MARSH_APPROACH | accesso progressivo verso Palude Mirto e aumento del rischio | 336 | 218 | COMPLETE |
-| M2_07_POACHING_NETWORK | rami investigazione/intervento/evitamento con stato reale | 488 | 317 | PLANNED |
+| M2_07_POACHING_NETWORK | rami investigazione/intervento/evitamento con stato reale | 488 | 317 | COMPLETE |
 | M2_08_FRIEND_BEAT_02 | interazione concreta con uno dei Four selezionato da schedule e stato | 488 | 317 | PLANNED |
 | M2_09_ROOKIE_INVITATIONAL | Rookie Invitational opzionale e deadline reale | 336 | 218 | PLANNED |
 | M2_10_CRISIS_MOVES | A2_CRISIS_ESCALATES e conseguenze se il player ritarda | 336 | 218 | PLANNED |
@@ -217,6 +217,9 @@ Scene `m02-marsh-approach` (moduleId M02, locationId mir_marsh_approach) require
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+**Implementation lock (verified 2026-10-05):**
+Scene `m02-poaching-network` (moduleId M02, locationId asteria_mistwood) requires all five entry conditions: `m1_complete=true`, `m02_unlocked=true`, `m2_active=true`, `competition.rank=E`, `mistwood_entry_complete=true`. Illegal state throws "Scene conditions are not satisfied". Navigation in: `m02-capture-signs#inner_exit` via `follow_network_trail` (condition: `capture_signs_investigated=true`, 15 min); `m02-marsh-approach#marsh_threshold_done` via `investigate_marsh_network` (condition: `marsh_boundary_anomaly_noticed=true`, 30 min). Navigation out: `network_report_ready#go_to_ranger_post` (210 min → m02-borgo-salice); `network_exit` hub (capture-signs 10 min, threshold 20 min, borgo-salice 210 min). Three main branches: **investigate** (observe_check_int INT DC 12 → evidence_strong/partial → document/intervene paths); **confront** (confront_directly → combat handoff M2_POACHING_NETWORK_01 level 4 trainer → win/lose, or blockade/demand non-combat); **avoid** (withdraw_silently → `poaching_network_state="avoided"`). Intermediate state: `poaching_network_state` is set to `"investigating"` (document/report/lose paths), `"intervened"` (blockade/win paths), or `"avoided"` (withdraw path). Note: `poaching_network_state` is an intermediate write; final outcome resolution (resolved/partial/ignored/escalated) is owned by M2_11. N interaction: `n_witness_present` choice visible only when `n_met=true AND n_relationship_positive=true`; sets `poaching_n_witness=true`. A2_LOCAL_PROBLEM event: `local_problem_started=true` was set by M2_05; this scene does not re-set it but the world-events engine uses it to track A2_CRISIS_ESCALATES eligibility. No FRIEND_BEAT_02, no trial, no Rank change. M2_01–M2_06 regressions: zero (12+24+28+23+21+19 pass). Verified by 22 dedicated regressions (all pass).
 
 ---
 

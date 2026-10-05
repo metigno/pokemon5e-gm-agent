@@ -259,6 +259,19 @@
       ],
       "choices": [
         {
+          "id": "investigate_marsh_network",
+          "text": "Le tracce portano verso il bosco — seguo per trovare l'operazione attiva.",
+          "timeCostMinutes": 30,
+          "conditions": {
+            "path": "world.flags.marsh_boundary_anomaly_noticed",
+            "eq": true
+          },
+          "goto": "m02-poaching-network#network_encounter",
+          "effects": [
+            { "type": "set_location", "locationId": "asteria_mistwood" }
+          ]
+        },
+        {
           "id": "head_back_from_done",
           "text": "Torno a Borgo Salice.",
           "timeCostMinutes": 180,

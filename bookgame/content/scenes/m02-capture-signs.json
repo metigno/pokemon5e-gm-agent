@@ -560,6 +560,19 @@
       ],
       "choices": [
         {
+          "id": "follow_network_trail",
+          "text": "Seguo le tracce verso la fonte — qualcuno opera qui attivamente.",
+          "timeCostMinutes": 15,
+          "conditions": {
+            "path": "world.flags.capture_signs_investigated",
+            "eq": true
+          },
+          "goto": "m02-poaching-network#network_encounter",
+          "effects": [
+            { "type": "set_location", "locationId": "asteria_mistwood" }
+          ]
+        },
+        {
           "id": "return_to_signs",
           "text": "Torno nella zona interna del bosco.",
           "timeCostMinutes": 20,

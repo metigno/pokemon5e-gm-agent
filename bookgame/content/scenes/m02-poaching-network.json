@@ -1,0 +1,572 @@
+{
+  "schemaVersion": 1,
+  "id": "m02-poaching-network",
+  "moduleId": "M02",
+  "title": "M2_07 — La Rete di Cattura",
+  "locationId": "asteria_mistwood",
+  "entryNodeId": "network_encounter",
+  "conditions": {
+    "all": [
+      { "path": "world.flags.m1_complete", "eq": true },
+      { "path": "world.flags.m02_unlocked", "eq": true },
+      { "path": "world.flags.m2_active", "eq": true },
+      { "path": "competition.rank", "eq": "E" },
+      { "path": "world.flags.mistwood_entry_complete", "eq": true }
+    ]
+  },
+  "nodes": {
+    "network_encounter": {
+      "stitches": [
+        {
+          "id": "encounter_opening",
+          "text": "Le tracce ti portano in una zona del bosco dove la nebbia è più alta e il terreno più compresso. Senti prima ancora di vedere: voci basse, il suono metallico di qualcosa che si chiude, uno stridio di un Pokémon che non corrisponde alla fauna libera della zona."
+        },
+        {
+          "id": "encounter_scene",
+          "text": "Oltre la linea di arbusti: due persone in abiti scuri che lavorano velocemente, contenitori impilati con logo non identificabile, una gabbia con dentro un Pokémon acquatico che si muove in modo irregolare. Non stanno passando — stanno lavorando. Hanno attrezzatura, hanno un metodo."
+        },
+        {
+          "id": "encounter_decision",
+          "text": "Non ti hanno visto. Hai un momento prima che la situazione cambi — o per tua scelta o perché qualcosa ti mette allo scoperto. Il modo in cui reagisci ora stabilisce che tipo di coinvolgimento hai con questa rete."
+        }
+      ],
+      "choices": [
+        {
+          "id": "n_witness_present",
+          "text": "Riconosco N vicino al limite degli arbusti — anche lui sta osservando.",
+          "conditions": {
+            "all": [
+              { "path": "world.flags.n_met", "eq": true },
+              { "path": "world.flags.n_relationship_positive", "eq": true }
+            ]
+          },
+          "goto": "n_and_player_witness"
+        },
+        {
+          "id": "investigate_from_cover",
+          "text": "Resto nascosto e osservo sistematicamente.",
+          "timeCostMinutes": 10,
+          "goto": "network_observe"
+        },
+        {
+          "id": "confront_directly",
+          "text": "Esco allo scoperto e affronto direttamente gli operativi.",
+          "timeCostMinutes": 5,
+          "goto": "network_confront_approach"
+        },
+        {
+          "id": "withdraw_silently",
+          "text": "Mi ritiro senza farmi vedere.",
+          "timeCostMinutes": 5,
+          "goto": "network_withdraw",
+          "effects": [
+            { "type": "set_flag", "key": "poaching_network_state", "value": "avoided" }
+          ]
+        }
+      ]
+    },
+    "n_and_player_witness": {
+      "stitches": [
+        {
+          "id": "n_witness_1",
+          "text": "N è fermo, il Zorua accanto a lui silenzioso. Non si muove, non attacca — guarda. La sua espressione non è quella di qualcuno che ha scoperto qualcosa per la prima volta: è quella di qualcuno che lo sa già da un po'."
+        },
+        {
+          "id": "n_witness_2",
+          "text": "Ti riconosce senza sorpresa. Parla sottovoce: «Sono qui da ieri. Hanno almeno tre punti di raccolta nel bosco.» Non ti sta chiedendo di fare niente. Ti sta dando un'informazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "coordinate_with_n",
+          "text": "Coordinati con N per documentare la rete prima di agire.",
+          "timeCostMinutes": 15,
+          "goto": "network_n_coordinate",
+          "effects": [
+            { "type": "set_flag", "key": "poaching_n_witness", "value": true },
+            { "type": "set_flag", "key": "poaching_network_evidence", "value": true },
+            { "type": "set_flag", "key": "poaching_network_state", "value": "investigating" }
+          ]
+        },
+        {
+          "id": "act_now_with_n",
+          "text": "Chiedi a N di coprire il lato est mentre affronti direttamente.",
+          "timeCostMinutes": 5,
+          "goto": "network_confront_approach",
+          "effects": [
+            { "type": "set_flag", "key": "poaching_n_witness", "value": true }
+          ]
+        },
+        {
+          "id": "leave_n_to_it",
+          "text": "Lascia a N la situazione e ritirati per andare al presidio.",
+          "timeCostMinutes": 5,
+          "goto": "network_defer_to_ranger",
+          "effects": [
+            { "type": "set_flag", "key": "poaching_n_witness", "value": true },
+            { "type": "set_flag", "key": "poaching_network_state", "value": "investigating" }
+          ]
+        }
+      ]
+    },
+    "network_n_coordinate": {
+      "stitches": [
+        {
+          "id": "n_coord_1",
+          "text": "N ti mostra una mappa mentale dell'area: dove i contenitori sono stati spostati, il percorso che i due operativi hanno usato, i tempi che ha osservato. Non è informazione casuale — è documentazione."
+        },
+        {
+          "id": "n_coord_2",
+          "text": "Assieme avete un quadro abbastanza chiaro per riportarlo al presidio. Non sapete ancora quanti sono o dove si trovano gli altri punti, ma avete quello che basta per aprire un'indagine reale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "document_with_n_and_report",
+          "text": "Documentiamo tutto e lo riportiamo a Elio.",
+          "goto": "network_report_ready",
+          "effects": [
+            { "type": "set_flag", "key": "poaching_network_documented", "value": true }
+          ]
+        },
+        {
+          "id": "n_coord_then_confront",
+          "text": "Con questo quadro, possiamo anche fermare l'operazione ora.",
+          "goto": "network_confront_approach"
+        }
+      ]
+    },
+    "network_observe": {
+      "stitches": [
+        {
+          "id": "observe_1",
+          "text": "Dall'interno degli arbusti puoi leggere i movimenti: uno degli operativi lavora ai contenitori, l'altro gestisce il perimetro. Hanno un metodo. La gabbia contiene un Wooper — vivo, stressato, ma integro."
+        }
+      ],
+      "choices": [
+        {
+          "id": "observe_check_int",
+          "text": "Documenta metodicamente quello che vedi.",
+          "check": {
+            "ability": "INT",
+            "skill": "Investigation",
+            "dc": 12
+          },
+          "outcomes": {
+            "success": {
+              "goto": "network_evidence_strong",
+              "effects": [
+                { "type": "set_flag", "key": "poaching_network_evidence", "value": true }
+              ]
+            },
+            "failure": {
+              "goto": "network_evidence_partial"
+            }
+          }
+        }
+      ]
+    },
+    "network_evidence_strong": {
+      "stitches": [
+        {
+          "id": "evidence_strong_1",
+          "text": "Hai documentato abbastanza: la posizione, i contenitori, i metodi di cattura, i Pokémon coinvolti, la coordinazione tra gli operativi. Non è una scena unica — c'è una struttura. Qualcuno ha organizzato questo."
+        },
+        {
+          "id": "evidence_strong_2",
+          "text": "Questo supera la soglia che Elio aveva descritto: prove fisiche di attività sistematica, non solo tracce ambientali. Puoi portarlo al presidio. O puoi fermare l'operazione direttamente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "document_and_report_ranger",
+          "text": "Documento e mi avvio al presidio con l'informazione.",
+          "conditions": {
+            "path": "world.flags.ranger_thread_opened",
+            "eq": true
+          },
+          "goto": "network_report_ready",
+          "effects": [
+            { "type": "set_flag", "key": "poaching_network_state", "value": "investigating" },
+            { "type": "set_flag", "key": "poaching_network_documented", "value": true }
+          ]
+        },
+        {
+          "id": "document_and_hold",
+          "text": "Documento la posizione e aspetto per capire di più.",
+          "timeCostMinutes": 10,
+          "goto": "network_watch_more",
+          "effects": [
+            { "type": "set_flag", "key": "poaching_network_state", "value": "investigating" },
+            { "type": "set_flag", "key": "poaching_network_documented", "value": true }
+          ]
+        },
+        {
+          "id": "intervene_after_evidence",
+          "text": "Ho abbastanza — è il momento di intervenire.",
+          "goto": "network_confront_approach"
+        }
+      ]
+    },
+    "network_evidence_partial": {
+      "stitches": [
+        {
+          "id": "partial_1",
+          "text": "Hai visto abbastanza da sapere che l'operazione è reale, non abbastanza da poterla descrivere in modo da giustificare un'azione formale. Una posizione, una gabbia, due persone: è un quadro, non una prova."
+        }
+      ],
+      "choices": [
+        {
+          "id": "try_closer_look",
+          "text": "Mi avvicino di più per raccogliere più informazioni.",
+          "timeCostMinutes": 5,
+          "goto": "network_observe"
+        },
+        {
+          "id": "partial_document_and_report",
+          "text": "Documento quello che ho e lo porto al presidio.",
+          "goto": "network_report_ready",
+          "effects": [
+            { "type": "set_flag", "key": "poaching_network_state", "value": "investigating" }
+          ]
+        },
+        {
+          "id": "partial_confront",
+          "text": "Non ho bisogno di altro — intervengo.",
+          "goto": "network_confront_approach"
+        }
+      ]
+    },
+    "network_watch_more": {
+      "stitches": [
+        {
+          "id": "watch_more_1",
+          "text": "Aspetti. I due operativi caricano i contenitori su un trasporto non marcato. Prima di andarsene, uno controlla un dispositivo portatile — probabilmente coordinate. Non riesci a leggere il display. Escono dal bosco sul lato sud."
+        },
+        {
+          "id": "watch_more_2",
+          "text": "L'operazione di oggi è finita. Non hai fermato nulla, ma sai dove era e sai che torneranno — il metodo era troppo strutturato per essere occasionale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "follow_trail_out",
+          "text": "Seguo la direzione di uscita per capire il percorso.",
+          "timeCostMinutes": 10,
+          "goto": "network_trail_followed",
+          "effects": [
+            { "type": "set_flag", "key": "poaching_network_exit_tracked", "value": true }
+          ]
+        },
+        {
+          "id": "go_report_now",
+          "text": "Vado al presidio a riferire tutto.",
+          "goto": "network_report_ready"
+        }
+      ]
+    },
+    "network_trail_followed": {
+      "stitches": [
+        {
+          "id": "trail_1",
+          "text": "Il percorso esce dal bosco verso il confine meridionale — non verso Borgo Salice, verso la zona di confine con Palude Mirto. Hanno accesso o conoscenza di entrambi gli ambienti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_to_report_with_trail",
+          "text": "Con questa informazione torno al presidio.",
+          "goto": "network_report_ready"
+        }
+      ]
+    },
+    "network_confront_approach": {
+      "stitches": [
+        {
+          "id": "confront_1",
+          "text": "Esci allo scoperto. I due operativi si immobilizzano — ti hanno visto. Il più vicino si sposta per mettere il corpo tra te e i contenitori. L'altro mette la mano sulla Poké Ball alla cintura."
+        },
+        {
+          "id": "confront_2",
+          "text": "Non ci sono scuse valide per quello che stanno facendo. Lo sanno. La domanda è se risponderanno con parole o con un combattimento."
+        }
+      ],
+      "choices": [
+        {
+          "id": "challenge_trainer_combat",
+          "text": "Se vogliono difendere questa operazione, devono prima passare da me.",
+          "goto": "network_combat_handoff"
+        },
+        {
+          "id": "block_without_combat",
+          "text": "Mi metto tra loro e l'uscita. Non combatto — li blocco.",
+          "timeCostMinutes": 5,
+          "goto": "network_blockade"
+        },
+        {
+          "id": "demand_explanation",
+          "text": "Chiedo una spiegazione — forse si intimidiscono senza combattimento.",
+          "timeCostMinutes": 5,
+          "goto": "network_demand"
+        }
+      ]
+    },
+    "network_combat_handoff": {
+      "stitches": [
+        {
+          "id": "combat_setup",
+          "text": "L'operativo lancia un Pokémon senza presentarsi. Non è un incontro — è un tentativo di farti indietreggiare."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fight_poacher",
+          "text": "Combatto.",
+          "combat": {
+            "encounterId": "M2_POACHING_NETWORK_01",
+            "opponent": {
+              "species": "trainer",
+              "level": 4,
+              "trainerId": "PoacherCampo01",
+              "motive": "protect_operation"
+            },
+            "opponentRegistered": false,
+            "goto": "network_combat_handoff",
+            "returnNodes": {
+              "win": "network_combat_win",
+              "lose": "network_combat_lose"
+            }
+          }
+        }
+      ]
+    },
+    "network_combat_win": {
+      "stitches": [
+        {
+          "id": "win_1",
+          "text": "Dopo il combattimento, gli operativi si ritirano di fretta — abbandonando i contenitori. Quello che rimane sul terreno è il quadro completo della loro operazione: attrezzi, gabbie, registri parziali. Non si tratta di cacciatori di passaggio."
+        },
+        {
+          "id": "win_2",
+          "text": "Hai fermato questa operazione specifica. Non sai quanti altri punti esistono o chi coordina la rete. Quello che hai visto oggi è un nodo, non il centro."
+        }
+      ],
+      "choices": [
+        {
+          "id": "secure_evidence_win",
+          "text": "Documenta le prove lasciate sul campo e organizzati per riportarle.",
+          "goto": "network_report_ready",
+          "effects": [
+            { "type": "set_flag", "key": "poaching_network_state", "value": "intervened" },
+            { "type": "set_flag", "key": "poaching_network_disrupted", "value": true },
+            { "type": "set_flag", "key": "poaching_network_evidence", "value": true }
+          ]
+        },
+        {
+          "id": "leave_scene_win",
+          "text": "Ti allontani senza raccogliere prove fisiche.",
+          "goto": "network_exit",
+          "effects": [
+            { "type": "set_flag", "key": "poaching_network_state", "value": "intervened" },
+            { "type": "set_flag", "key": "poaching_network_disrupted", "value": true }
+          ]
+        }
+      ]
+    },
+    "network_combat_lose": {
+      "stitches": [
+        {
+          "id": "lose_1",
+          "text": "Il combattimento si chiude in modo sfavorevole: sei costretto ad arretrare. Gli operativi recuperano i loro materiali e si ritirano dal bosco in direzione opposta alla tua. Non ti hanno inseguito."
+        },
+        {
+          "id": "lose_2",
+          "text": "Hai visto abbastanza. Non sei riuscito a fermarli oggi, ma sai dove operano, come operano, e cosa trasportano. Questa informazione ha valore."
+        }
+      ],
+      "choices": [
+        {
+          "id": "regroup_after_loss",
+          "text": "Mi ricompongo e valuto le opzioni.",
+          "goto": "network_report_ready",
+          "effects": [
+            { "type": "set_flag", "key": "poaching_network_state", "value": "investigating" }
+          ]
+        }
+      ]
+    },
+    "network_blockade": {
+      "stitches": [
+        {
+          "id": "blockade_1",
+          "text": "Ti metti in posizione: corpo tra loro e l'uscita, Pokémon visibile, presenza chiara. Non dici niente di minaccioso — non ne hai bisogno. La situazione è già tesa."
+        },
+        {
+          "id": "blockade_2",
+          "text": "Gli operativi si guardano. Non è la prima volta che qualcuno gli si mette di fronte — ma di solito non è un trainer con un Pokémon in campo. Uno lascia cadere il contenitore. L'altro si ritira dal perimetro verso ovest."
+        },
+        {
+          "id": "blockade_3",
+          "text": "Non hanno combattuto, ma non hanno lasciato tutto. Il blocco ha funzionato abbastanza da disturbare l'operazione — non abbastanza da smontarla."
+        }
+      ],
+      "choices": [
+        {
+          "id": "hold_and_document",
+          "text": "Resto in posizione finché se ne vanno e documento l'area.",
+          "timeCostMinutes": 10,
+          "goto": "network_report_ready",
+          "effects": [
+            { "type": "set_flag", "key": "poaching_network_state", "value": "intervened" },
+            { "type": "set_flag", "key": "poaching_network_evidence", "value": true }
+          ]
+        },
+        {
+          "id": "block_then_pursue",
+          "text": "Li seguo a distanza sicura per vedere dove vanno.",
+          "timeCostMinutes": 15,
+          "goto": "network_trail_followed",
+          "effects": [
+            { "type": "set_flag", "key": "poaching_network_state", "value": "intervened" }
+          ]
+        }
+      ]
+    },
+    "network_demand": {
+      "stitches": [
+        {
+          "id": "demand_1",
+          "text": "La risposta è il silenzio. Uno degli operativi ti guarda senza muoversi; l'altro si è già spostato verso il perimetro. Non ti rispondono — il che è già una risposta."
+        },
+        {
+          "id": "demand_2",
+          "text": "Non c'è apertura per un dialogo qui. Sanno che sai, e tu sai che non ti diranno niente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "escalate_to_combat",
+          "text": "Allora si risolve in modo diverso.",
+          "goto": "network_confront_approach"
+        },
+        {
+          "id": "demand_then_document",
+          "text": "Non ottengo risposta, ma documento la situazione.",
+          "goto": "network_report_ready",
+          "effects": [
+            { "type": "set_flag", "key": "poaching_network_state", "value": "investigating" }
+          ]
+        }
+      ]
+    },
+    "network_defer_to_ranger": {
+      "stitches": [
+        {
+          "id": "defer_1",
+          "text": "La situazione è fuori dalla tua portata immediata: un'operazione strutturata con più operativi è lavoro per il presidio, non per un trainer Rank E che ha sentito i rumori sbagliati. La cosa giusta è portare le informazioni a chi può agire."
+        }
+      ],
+      "choices": [
+        {
+          "id": "head_to_ranger_deferred",
+          "text": "Mi avvio a Borgo Salice.",
+          "goto": "network_report_ready"
+        }
+      ]
+    },
+    "network_report_ready": {
+      "stitches": [
+        {
+          "id": "report_1",
+          "text": "Hai quello che ti serve per chiudere il ciclo informativo con il presidio. Quello che è successo oggi — che tu abbia documentato, combattuto, bloccato o osservato — si traduce in informazione concreta che Elio può usare."
+        },
+        {
+          "id": "report_2",
+          "text": "Il problema non è risolto. Hai interagito con un nodo di una rete, non con la rete intera. La risposta finale richiede più tempo e più risorse di quelle che hai tu in questo momento."
+        }
+      ],
+      "choices": [
+        {
+          "id": "go_to_ranger_post",
+          "text": "Vado al presidio di Borgo Salice.",
+          "timeCostMinutes": 210,
+          "goto": "m02-borgo-salice#borough_hub",
+          "effects": [
+            { "type": "set_location", "locationId": "borgo_salice" }
+          ]
+        },
+        {
+          "id": "stay_in_forest_first",
+          "text": "Prima resto nel bosco.",
+          "goto": "network_exit"
+        }
+      ]
+    },
+    "network_withdraw": {
+      "stitches": [
+        {
+          "id": "withdraw_1",
+          "text": "Ti ritiri nell'ombra del bosco senza farti vedere. L'operazione continua senza che nessuno sappia che eri lì. Potresti non essere pronto, potrebbe non essere il momento, potrebbe non essere una tua responsabilità — tutte ragioni che reggono."
+        },
+        {
+          "id": "withdraw_2",
+          "text": "Quello che hai visto, però, non scompare. Lo sai adesso. Come gestire questa informazione — portarla al presidio, tornarci più preparato, ignorarla — rimane una scelta aperta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "withdraw_to_ranger",
+          "text": "Vado a Borgo Salice a riferire quello che ho visto.",
+          "timeCostMinutes": 210,
+          "goto": "m02-borgo-salice#borough_hub",
+          "effects": [
+            { "type": "set_location", "locationId": "borgo_salice" },
+            { "type": "set_flag", "key": "poaching_network_state", "value": "investigating" }
+          ]
+        },
+        {
+          "id": "withdraw_to_forest",
+          "text": "Resto nel bosco per ora.",
+          "goto": "network_exit"
+        }
+      ]
+    },
+    "network_exit": {
+      "stitches": [
+        {
+          "id": "exit_1",
+          "text": "Il bosco è quieto intorno a te. Quello che è successo qui non scompare con il tuo allontanamento: la rete è attiva, la palude è coinvolta, il presidio ha un file aperto. Il quadro è più completo di quanto fosse stamattina."
+        }
+      ],
+      "choices": [
+        {
+          "id": "exit_to_capture_signs",
+          "text": "Torno alla zona dei segni di cattura.",
+          "timeCostMinutes": 10,
+          "goto": "m02-capture-signs#signs_entry",
+          "effects": [
+            { "type": "set_location", "locationId": "asteria_mistwood" }
+          ]
+        },
+        {
+          "id": "exit_to_threshold",
+          "text": "Torno all'ingresso del bosco.",
+          "timeCostMinutes": 20,
+          "goto": "m02-mistwood-entry#threshold",
+          "effects": [
+            { "type": "set_location", "locationId": "asteria_mistwood" }
+          ]
+        },
+        {
+          "id": "exit_to_borgo_long",
+          "text": "Mi incammino verso Borgo Salice.",
+          "timeCostMinutes": 210,
+          "goto": "m02-borgo-salice#borough_hub",
+          "effects": [
+            { "type": "set_location", "locationId": "borgo_salice" }
+          ]
+        }
+      ]
+    }
+  }
+}
