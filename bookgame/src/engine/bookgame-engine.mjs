@@ -33,7 +33,7 @@ function applyEffects(state, effects = []) {
       applyQuestEffect(state, effect);
       continue;
     }
-    if (["npc_register", "npc_relationship_adjust", "npc_state_set", "npc_schedule_set"].includes(effect.type)) {
+    if (["npc_register", "npc_relationship_adjust", "npc_state_set", "npc_schedule_set", "friend_beat_select"].includes(effect.type)) {
       applyNpcEffect(state, effect);
       continue;
     }
