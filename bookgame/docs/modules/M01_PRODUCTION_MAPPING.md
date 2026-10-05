@@ -56,7 +56,7 @@ The graph is reconvergent, not linear. The player may move repeatedly between Gi
 
 | Block | Function | Stitches | Choices | Current state |
 |---|---|---:|---:|---|
-| M1_00_RELEASE | release from guided intro into free-roam | 150 | 90 | PARTIAL |
+| M1_00_RELEASE | release from guided intro into free-roam | 150 | 90 | IMPLEMENTED |
 | M1_01_FIRST_ROAD | road life, travel teaching, optional trainer/fauna signals | 320 | 200 | PARTIAL |
 | M1_02_HOUNDOUR_GINESTRE | ecological Houndour encounter and callbacks | 360 | 220 | PARTIAL / CANONICAL ASSET EXISTS |
 | M1_03_FIRST_REAL_FORK | first real route choice and local exploration | 220 | 150 | PARTIAL |
@@ -193,6 +193,15 @@ Required for:
 **Primary exits:** M1_01, local interaction, later return to Campus edge if allowed by world map.
 
 **Acceptance test:** player can leave intro without accepting a quest and still progress.
+
+**Implementation lock:**
+
+- the post-onboarding state enters `m01-release#free_roam`;
+- `intro_complete=true` and `free_roam=true` are already durable at the release point;
+- no quest is auto-started;
+- Ginestre, Valedarsena and Fattoria are peer directions, not a forced main path;
+- waiting in place consumes normal world time, refreshes NPC schedules and permits world events to resolve;
+- save/reload preserves both the untouched release point and any chosen branch exactly.
 
 ---
 
