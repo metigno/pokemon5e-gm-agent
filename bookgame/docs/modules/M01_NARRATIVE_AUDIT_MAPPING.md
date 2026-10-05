@@ -1,7 +1,7 @@
 # M01 — NARRATIVE AUDIT & SCREENPLAY MAPPING
 
 **Module:** M01 — Le Prime Strade  
-**Narrative status:** SYSTEM COMPLETE / NARRATIVE PASS REQUIRED  
+**Narrative status:** SYSTEM COMPLETE / NARRATIVE PASS IN PROGRESS\n\n**Integrated:** M1_00_RELEASE — first screenplay pass complete  
 **Mechanical status:** LOCKED by `M01_PRODUCTION_MAPPING.md`  
 **Narrative authority:** `NARRATIVE_BIBLE.md` + `NPC_VOICE_BIBLE.md`
 
@@ -87,7 +87,7 @@ Player-facing text exposes engine/design language or reads primarily like accept
 
 | Block | Primary implementation | Narrative status | Main task |
 |---|---|---:|---|
-| M1_00_RELEASE | `m01-release.json` | N3 | turn “free-roam proof” into a real release scene |
+| M1_00_RELEASE | `m01-release.json` | **N0 — PASS 1 COMPLETE** | diegetic release scene integrated; final continuity QA remains |
 | M1_01_FIRST_ROAD | `m01-first-road.json` | N2/N3 | remove “corridor/clock/world frozen” meta explanations |
 | M1_02_HOUNDOUR | `first-road.json` | N1/N2 | retain ecological encounter; strengthen fiction-mechanics-fiction |
 | M1_03_FIRST_REAL_FORK | `m01-ginestre-crossroads.json` | N2 | remove selector-facing friend option and explanatory trial prose |
