@@ -1083,8 +1083,16 @@
           "conditions": {
             "all": [
               {
-                "path": "player.trainerLevel",
-                "gte": 2
+                "any": [
+                  {
+                    "path": "player.trainerLevel",
+                    "gte": 2
+                  },
+                  {
+                    "path": "world.flags.official_match_opportunity",
+                    "eq": true
+                  }
+                ]
               },
               {
                 "path": "competition.rank",
@@ -1498,11 +1506,15 @@
       "stitches": [
         {
           "id": "official_desk",
-          "text": "Al banco incontri ti propongono un match sanzionato per rookie: Singles, un Pokémon registrato per parte. È un incontro ufficiale, ma non è il Promotion Trial F→E."
+          "text": "Al banco incontri c'è uno slot sanzionato per rookie: Singles, un solo Pokémon registrato per parte. Anche se possiedi altri Pokémon, questo match usa soltanto lo slot ufficiale registrato."
+        },
+        {
+          "id": "official_not_trial",
+          "text": "L'addetto lo distingue subito dal Promotion Trial F→E: questo match entra nello storico ufficiale, ma non cambia il Rank e non soddisfa il gate del Trial."
         },
         {
           "id": "official_opponent",
-          "text": "Dall'altra parte del campo c'è un altro allenatore di Rank F con uno Shinx registrato. Nessun risultato è concordato: vince chi vince davvero sul campo."
+          "text": "L'avversario assegnato è il rookie registrato VALE_ROOKIE_001 con uno Shinx. Il pairing è STANDARD e il risultato non è scritto: il resolver Pokémon 5e decide vittoria o sconfitta."
         }
       ],
       "choices": [
@@ -1514,7 +1526,8 @@
             "opponent": {
               "species": "Shinx",
               "level": 2,
-              "motive": "sanctioned_competition"
+              "motive": "sanctioned_competition",
+              "trainerId": "VALE_ROOKIE_001"
             },
             "opponentRegistered": true,
             "goto": "first_official_handoff",
@@ -1528,7 +1541,8 @@
               "format": "Singles",
               "officialRosterSize": 1,
               "difficulty": "STANDARD",
-              "firstOfficial": true
+              "firstOfficial": true,
+              "opponentTrainerId": "VALE_ROOKIE_001"
             }
           }
         },
@@ -1552,7 +1566,7 @@
       "stitches": [
         {
           "id": "official_win",
-          "text": "Il tabellone registra la vittoria come risultato ufficiale. Hai completato un vero match sanzionato, ma il tuo Rank resta F: il Promotion Trial è una prova diversa."
+          "text": "Il tabellone registra la vittoria nello storico ufficiale. Hai completato A1_FIRST_OFFICIAL, ma resti Rank F: il Promotion Trial è una prova separata con requisiti propri."
         }
       ],
       "choices": [
@@ -1567,7 +1581,7 @@
       "stitches": [
         {
           "id": "official_loss",
-          "text": "Il tabellone registra la sconfitta senza chiuderti nessuna strada. È un risultato ufficiale, non un fallimento di carriera: resti Rank F e puoi continuare a prepararti."
+          "text": "Il tabellone registra la sconfitta nello storico ufficiale. A1_FIRST_OFFICIAL è comunque risolto: resti Rank F, non perdi accesso alle attività e puoi continuare a prepararti per il Promotion Trial."
         }
       ],
       "choices": [
