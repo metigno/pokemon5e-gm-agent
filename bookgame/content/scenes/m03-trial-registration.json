@@ -61,6 +61,11 @@
           "id": "postpone",
           "text": "Non sono pronto. Torno più tardi.",
           "goto": "postponed"
+        },
+        {
+          "id": "audit_eligibility",
+          "text": "Verifico come il gioco determina davvero l'idoneità.",
+          "goto": "eligibility_audit"
         }
       ]
     },
@@ -239,6 +244,39 @@
           "id": "strategy_postpone",
           "text": "Torno più tardi.",
           "goto": "postponed"
+        },
+        {
+          "id": "plan_coverage",
+          "text": "Ragiono sulla copertura dei tre slot ufficiali.",
+          "goto": "coverage_plan"
+        },
+        {
+          "id": "plan_switch",
+          "text": "Ragiono sulla disciplina degli switch.",
+          "goto": "switch_plan"
+        },
+        {
+          "id": "plan_tempo",
+          "text": "Ragiono sulla gestione del tempo.",
+          "goto": "tempo_plan"
+        },
+        {
+          "id": "use_cup_context",
+          "text": "Uso l'esperienza della Regional Cup come riferimento.",
+          "conditions": {
+            "path": "world.flags.regional_cup_result",
+            "exists": true
+          },
+          "goto": "cup_context"
+        },
+        {
+          "id": "check_post_rescue_condition",
+          "text": "Controllo lo stato reale della squadra dopo Ferrox.",
+          "conditions": {
+            "path": "world.flags.ferrox_rescue_state",
+            "exists": true
+          },
+          "goto": "rescue_condition_check"
         }
       ]
     },
@@ -282,6 +320,11 @@
               "locationId": "fer_city"
             }
           ]
+        },
+        {
+          "id": "audit_registration",
+          "text": "Controllo i dati della registrazione E5.",
+          "goto": "registration_audit"
         }
       ]
     },
@@ -343,6 +386,201 @@
           "id": "postpone_desk",
           "text": "Cambio idea e torno al banco.",
           "goto": "trial_desk"
+        }
+      ]
+    },
+    "eligibility_audit": {
+      "stitches": [
+        {
+          "id": "elig_1",
+          "text": "L'idoneità non è un flag narrativo: Rank D, checkpoint disponibile e roster reale da almeno tre sono letti direttamente dallo stato E5 e dal roster."
+        }
+      ],
+      "choices": [
+        {
+          "id": "elig_to_roster",
+          "text": "Controllo il roster reale.",
+          "goto": "roster_review"
+        },
+        {
+          "id": "elig_to_desk",
+          "text": "Vado al banco con i requisiti chiari.",
+          "goto": "trial_desk"
+        },
+        {
+          "id": "elig_back",
+          "text": "Torno alle informazioni.",
+          "goto": "trial_info"
+        }
+      ]
+    },
+    "coverage_plan": {
+      "stitches": [
+        {
+          "id": "coverage_1",
+          "text": "La copertura non significa indovinare l'avversario. Significa evitare che tutti e tre i membri ufficiali dipendano dallo stesso tipo di risposta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "coverage_note",
+          "text": "Registro una priorità di copertura equilibrata.",
+          "goto": "strategy_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_d_c_prep_focus",
+              "value": "coverage"
+            }
+          ]
+        },
+        {
+          "id": "coverage_switch",
+          "text": "Preferisco costruire il piano attorno agli switch.",
+          "goto": "switch_plan"
+        }
+      ]
+    },
+    "switch_plan": {
+      "stitches": [
+        {
+          "id": "switch_1",
+          "text": "Il checkpoint valuta gli switch perché ogni cambio costa tempo e posizione. L'obiettivo è avere un motivo per cambiare, non cambiare per inerzia."
+        }
+      ],
+      "choices": [
+        {
+          "id": "switch_note",
+          "text": "Registro la disciplina sugli switch come focus.",
+          "goto": "strategy_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_d_c_prep_focus",
+              "value": "switch_discipline"
+            }
+          ]
+        },
+        {
+          "id": "switch_tempo",
+          "text": "Collego gli switch alla gestione del tempo.",
+          "goto": "tempo_plan"
+        }
+      ]
+    },
+    "tempo_plan": {
+      "stitches": [
+        {
+          "id": "tempo_1",
+          "text": "Il tempo è una risorsa del match: turni, finestre di pressione e capacità di non cedere iniziativa. La scena non assegna bonus; registra soltanto il tuo piano."
+        }
+      ],
+      "choices": [
+        {
+          "id": "tempo_note",
+          "text": "Registro la gestione del tempo come focus.",
+          "goto": "strategy_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_d_c_prep_focus",
+              "value": "tempo"
+            }
+          ]
+        },
+        {
+          "id": "tempo_back",
+          "text": "Torno alla strategia generale.",
+          "goto": "strategy_review"
+        }
+      ]
+    },
+    "cup_context": {
+      "stitches": [
+        {
+          "id": "cup_context_1",
+          "text": "Se hai disputato la Regional Cup, puoi usare quei match come esperienza reale. Il Trial non importa vittorie o sconfitte come bonus automatici."
+        }
+      ],
+      "choices": [
+        {
+          "id": "cup_context_record",
+          "text": "Uso la Cup come riferimento tattico, non come vantaggio numerico.",
+          "goto": "strategy_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_d_c_cup_context_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "cup_context_back",
+          "text": "Torno alla preparazione senza usarla.",
+          "goto": "strategy_review"
+        }
+      ]
+    },
+    "rescue_condition_check": {
+      "stitches": [
+        {
+          "id": "rescue_condition_1",
+          "text": "Ferrox può aver consumato tempo o lasciato la squadra in uno stato specifico. La registrazione non guarisce HP, PP o condizioni: controlli ciò che il motore conserva davvero."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rescue_condition_note",
+          "text": "Accetto lo stato reale e pianifico attorno ad esso.",
+          "goto": "strategy_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_d_c_condition_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "rescue_condition_hub",
+          "text": "Preferisco tornare a Ferravia prima di registrarmi.",
+          "goto": "postponed"
+        }
+      ]
+    },
+    "registration_audit": {
+      "stitches": [
+        {
+          "id": "audit_1",
+          "text": "La registrazione confermata mostra checkpoint, rank di partenza, rank obiettivo, roster richiesto e retryability. Non memorizza una copia alternativa della squadra."
+        }
+      ],
+      "choices": [
+        {
+          "id": "audit_enter",
+          "text": "I dati sono corretti: entro nel Trial.",
+          "conditions": {
+            "path": "competition.trials.RANK_D_TO_C.registered",
+            "eq": true
+          },
+          "goto": "m03-promotion-trial-d-c#trial_gate_call"
+        },
+        {
+          "id": "audit_prep",
+          "text": "Rivedo ancora il piano.",
+          "goto": "registered_prep"
+        },
+        {
+          "id": "audit_hub",
+          "text": "Torno in città mantenendo la registrazione.",
+          "goto": "m03-ferravia-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
         }
       ]
     }
