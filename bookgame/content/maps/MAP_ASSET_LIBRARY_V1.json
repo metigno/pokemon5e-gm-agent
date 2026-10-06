@@ -1,0 +1,577 @@
+{
+  "schemaVersion": 1,
+  "id": "MAP_ASSET_LIBRARY_V1",
+  "status": "LOCKED_PENDING_BINARY_IMPORT",
+  "scope": "bookgame-only",
+  "branch": "bookgame-p5e-runtime-full",
+  "auditedAt": "2026-10-06",
+  "authority": [
+    "bookgame/docs/P5E_LIBROGAME_ENGINE_SOURCE_OF_TRUTH.md",
+    "bookgame/docs/P5E_LIBROGAME_12_MODULES_MASTER.md",
+    "bookgame/content/modules/M01.json..M12.json"
+  ],
+  "policy": {
+    "reuseFirst": true,
+    "createParallelMapArchitecture": false,
+    "rawAssetsImmutable": true,
+    "pixelFiltering": "nearest-neighbor",
+    "offlineFirst": true,
+    "distributionRule": "Do not infer redistribution rights for user-supplied assets whose license is not verified."
+  },
+  "sources": [
+    {
+      "id": "nature_base",
+      "filename": "RPG Nature Tileset.png",
+      "sha256": "7a5090550f15a81167baff43264b42ecb92f95a8bb700c3772acd5d5bddb90cf",
+      "dimensions": {
+        "width": 1536,
+        "height": 690
+      },
+      "format": "PNG/RGB",
+      "mapEligible": true,
+      "roles": [
+        "temperate-nature",
+        "grass",
+        "dirt",
+        "water",
+        "rock",
+        "stone",
+        "forest"
+      ],
+      "license": {
+        "status": "user-supplied-unverified",
+        "note": "No license metadata was found in the supplied raster."
+      }
+    },
+    {
+      "id": "nature_autumn",
+      "filename": "RPG Nature Tileset Autumn.png",
+      "sha256": "7e86bcc2f5404a062d6109f9c6c2252e40d1167e20249385e6a6f3e63f05ff3d",
+      "dimensions": {
+        "width": 1536,
+        "height": 922
+      },
+      "format": "PNG/RGB",
+      "mapEligible": true,
+      "roles": [
+        "autumn-nature",
+        "dry-forest",
+        "barren-trees",
+        "grass",
+        "dirt",
+        "water",
+        "stone"
+      ],
+      "license": {
+        "status": "user-supplied-unverified",
+        "note": "No license metadata was found in the supplied raster."
+      }
+    },
+    {
+      "id": "ice_tileset",
+      "filename": "IceTileset.png",
+      "sha256": "9af698162a4157724d514d5859d2dcc238e2201578343390de8c9a25ea467953",
+      "dimensions": {
+        "width": 1536,
+        "height": 691
+      },
+      "format": "PNG/RGB",
+      "mapEligible": true,
+      "roles": [
+        "snow",
+        "ice",
+        "frozen-water",
+        "mountain",
+        "stone",
+        "cold-cave"
+      ],
+      "license": {
+        "status": "user-supplied-unverified",
+        "note": "No license metadata was found in the supplied raster."
+      }
+    },
+    {
+      "id": "openrtp_2022",
+      "filename": "openRPG_Tilesets_5.24.22.zip",
+      "sha256": "2bbd8d0481da6cee763164d13a3f41aa1383016ce7c6211c436072bbf5040b77",
+      "format": "ZIP",
+      "mapEligible": true,
+      "tilebase": "16x16",
+      "license": {
+        "status": "verified-from-supplied-readme",
+        "spdxLike": "CC0-1.0",
+        "note": "Supplied ReadMe states public-domain/CC0 use with no restrictions or credit requirement."
+      },
+      "entries": [
+        {
+          "filename": "dungeon.png",
+          "dimensions": {
+            "width": 480,
+            "height": 256
+          },
+          "roles": [
+            "cave",
+            "mine",
+            "lava",
+            "ice",
+            "dungeon",
+            "industrial-props"
+          ]
+        },
+        {
+          "filename": "exterior.png",
+          "dimensions": {
+            "width": 480,
+            "height": 256
+          },
+          "roles": [
+            "town",
+            "village",
+            "castle",
+            "roads",
+            "roofs",
+            "foliage",
+            "water",
+            "snow"
+          ]
+        },
+        {
+          "filename": "interior.png",
+          "dimensions": {
+            "width": 480,
+            "height": 256
+          },
+          "roles": [
+            "homes",
+            "shops",
+            "institutional-interior",
+            "furniture",
+            "floors",
+            "walls"
+          ]
+        },
+        {
+          "filename": "ship.png",
+          "dimensions": {
+            "width": 480,
+            "height": 256
+          },
+          "roles": [
+            "ship-deck",
+            "ship-interior",
+            "maritime",
+            "port-props"
+          ]
+        },
+        {
+          "filename": "world.png",
+          "dimensions": {
+            "width": 480,
+            "height": 256
+          },
+          "roles": [
+            "macro-map",
+            "terrain",
+            "mountains",
+            "town-icons",
+            "castle-icons",
+            "water"
+          ]
+        },
+        {
+          "filename": "ReadMe.txt",
+          "roles": [
+            "license",
+            "pack-documentation"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mighty_pack_2023",
+      "filename": "Mighty Pack 2023.rar",
+      "sha256": "135e563e67c72161f278e09834092ae203b7aa0665d6095203f5b681739c872d",
+      "format": "RAR4",
+      "mapEligible": false,
+      "license": {
+        "status": "not-verified",
+        "note": "Archive contains Terms of Use.txt, but the current audit could list the RAR manifest only; terms were not extracted."
+      },
+      "manifestSummary": [
+        "MV/Characters/Monsters.png",
+        "MV/sv_actors/Hero1_battler.png",
+        "MV/sv_actors/Hero2_battler.png",
+        "MV/sv_actors/Hero3_battler.png",
+        "MV/sv_actors/Hero4_battler.png",
+        "MV/sv_enemies/Giant Rat.png",
+        "Base.png",
+        "Banner.png",
+        "Terms of Use.txt"
+      ],
+      "exclusionReason": "The supplied archive is character/battler-oriented and does not provide a map/tileset surface relevant to the Map Asset Library."
+    }
+  ],
+  "environmentClasses": {
+    "temperate_nature": {
+      "primary": [
+        "nature_base",
+        "openrtp_2022:exterior.png",
+        "openrtp_2022:world.png"
+      ],
+      "coverage": "strong"
+    },
+    "autumn_barren": {
+      "primary": [
+        "nature_autumn"
+      ],
+      "coverage": "strong"
+    },
+    "snow_ice_highlands": {
+      "primary": [
+        "ice_tileset",
+        "openrtp_2022:dungeon.png",
+        "openrtp_2022:world.png"
+      ],
+      "coverage": "strong"
+    },
+    "water_river_coast": {
+      "primary": [
+        "nature_base",
+        "openrtp_2022:exterior.png",
+        "openrtp_2022:ship.png",
+        "openrtp_2022:world.png"
+      ],
+      "coverage": "strong"
+    },
+    "town_village_exterior": {
+      "primary": [
+        "openrtp_2022:exterior.png"
+      ],
+      "coverage": "strong"
+    },
+    "building_interior": {
+      "primary": [
+        "openrtp_2022:interior.png"
+      ],
+      "coverage": "strong"
+    },
+    "cave_mine_industrial": {
+      "primary": [
+        "openrtp_2022:dungeon.png"
+      ],
+      "coverage": "strong"
+    },
+    "ship_port": {
+      "primary": [
+        "openrtp_2022:ship.png",
+        "openrtp_2022:exterior.png"
+      ],
+      "coverage": "strong"
+    },
+    "ruins_stone": {
+      "primary": [
+        "nature_base",
+        "nature_autumn",
+        "openrtp_2022:dungeon.png",
+        "openrtp_2022:exterior.png"
+      ],
+      "coverage": "strong"
+    },
+    "macro_world": {
+      "primary": [
+        "openrtp_2022:world.png"
+      ],
+      "coverage": "strong"
+    },
+    "tournament_venue": {
+      "primary": [
+        "openrtp_2022:exterior.png",
+        "openrtp_2022:interior.png",
+        "openrtp_2022:dungeon.png"
+      ],
+      "coverage": "partial",
+      "note": "Can be composed, but the pack has no dedicated modern stadium language."
+    },
+    "institutional_modern": {
+      "primary": [
+        "openrtp_2022:interior.png",
+        "openrtp_2022:exterior.png"
+      ],
+      "coverage": "partial",
+      "note": "Useful base geometry; modern media/medical/sponsor identity needs composition or overlays."
+    }
+  },
+  "moduleCoverage": [
+    {
+      "module": "M01",
+      "locations": [
+        "Campus Licenze",
+        "Ginestre",
+        "Valedarsena",
+        "Fattoria del Vento"
+      ],
+      "environments": [
+        "town_village_exterior",
+        "building_interior",
+        "temperate_nature",
+        "water_river_coast"
+      ],
+      "coverage": "strong",
+      "gaps": [
+        "wind-farm-specific props"
+      ]
+    },
+    {
+      "module": "M02",
+      "locations": [
+        "Bosco Bruma",
+        "Borgo Salice",
+        "Palude Mirto"
+      ],
+      "environments": [
+        "temperate_nature",
+        "autumn_barren",
+        "town_village_exterior",
+        "building_interior",
+        "water_river_coast"
+      ],
+      "coverage": "strong",
+      "gaps": [
+        "dedicated marsh/reed props"
+      ]
+    },
+    {
+      "module": "M03",
+      "locations": [
+        "Cava Grigia",
+        "Ferravia",
+        "Gallerie Ferrox"
+      ],
+      "environments": [
+        "cave_mine_industrial",
+        "town_village_exterior",
+        "building_interior"
+      ],
+      "coverage": "strong",
+      "gaps": [
+        "rail/station-specific props may need composition"
+      ]
+    },
+    {
+      "module": "M04",
+      "locations": [
+        "Mareasale",
+        "Costa di Sale",
+        "Barriera Azzurra"
+      ],
+      "environments": [
+        "town_village_exterior",
+        "building_interior",
+        "ship_port",
+        "water_river_coast"
+      ],
+      "coverage": "strong",
+      "gaps": [
+        "underwater/reef-specific map art only if a scene requires underwater traversal"
+      ]
+    },
+    {
+      "module": "M05",
+      "locations": [
+        "Monti Ferrox",
+        "Altacima",
+        "Altopiano Fulgore"
+      ],
+      "environments": [
+        "snow_ice_highlands",
+        "cave_mine_industrial",
+        "town_village_exterior",
+        "ruins_stone"
+      ],
+      "coverage": "strong",
+      "gaps": []
+    },
+    {
+      "module": "M06",
+      "locations": [
+        "Solaria",
+        "Luminara",
+        "Masters Circuit",
+        "Continental Cup",
+        "Primo Faro"
+      ],
+      "environments": [
+        "town_village_exterior",
+        "building_interior",
+        "tournament_venue",
+        "ruins_stone",
+        "water_river_coast"
+      ],
+      "coverage": "medium",
+      "gaps": [
+        "lighthouse-specific prop",
+        "modern tournament architecture"
+      ]
+    },
+    {
+      "module": "M07",
+      "locations": [
+        "Meridiana",
+        "Grand Hall",
+        "media/sponsor spaces",
+        "arena",
+        "station",
+        "medicine sportiva"
+      ],
+      "environments": [
+        "town_village_exterior",
+        "building_interior",
+        "tournament_venue",
+        "institutional_modern"
+      ],
+      "coverage": "partial",
+      "gaps": [
+        "modern metropolis language",
+        "large stadium",
+        "media/sponsor set dressing",
+        "medical-sports set dressing",
+        "international station set dressing"
+      ]
+    },
+    {
+      "module": "M08",
+      "locations": [
+        "World venue",
+        "accreditation",
+        "medical control",
+        "World Village",
+        "Training Hall",
+        "Media Day",
+        "Opening Ceremony",
+        "Draw"
+      ],
+      "environments": [
+        "building_interior",
+        "tournament_venue",
+        "institutional_modern"
+      ],
+      "coverage": "partial",
+      "gaps": [
+        "World stadium/village modern identity"
+      ]
+    },
+    {
+      "module": "M09",
+      "locations": [
+        "World Group Stage venue",
+        "interday spaces"
+      ],
+      "environments": [
+        "tournament_venue",
+        "institutional_modern"
+      ],
+      "coverage": "partial",
+      "gaps": [
+        "reuse M08 World venue compositions"
+      ]
+    },
+    {
+      "module": "M10",
+      "locations": [
+        "World R16/QF venue",
+        "prep/aftermath spaces"
+      ],
+      "environments": [
+        "tournament_venue",
+        "institutional_modern"
+      ],
+      "coverage": "partial",
+      "gaps": [
+        "reuse M08 World venue compositions"
+      ]
+    },
+    {
+      "module": "M11",
+      "locations": [
+        "World SF/Final venue",
+        "prep/aftermath spaces"
+      ],
+      "environments": [
+        "tournament_venue",
+        "institutional_modern"
+      ],
+      "coverage": "partial",
+      "gaps": [
+        "reuse M08 World venue compositions"
+      ]
+    },
+    {
+      "module": "M12",
+      "locations": [
+        "Asteria callbacks",
+        "Valedarsena",
+        "Bruma/Salice/Mirto",
+        "Ferrox",
+        "Coast",
+        "Highlands",
+        "Interregional",
+        "Meridiana"
+      ],
+      "environments": [
+        "reuse-all-prior"
+      ],
+      "coverage": "strong-by-reuse",
+      "gaps": [
+        "No new environment class required; M12 must reuse prior location assets and state variants."
+      ]
+    }
+  ],
+  "knownGaps": [
+    {
+      "id": "GAP_MODERN_WORLD_VENUE",
+      "priority": "high",
+      "affects": [
+        "M07",
+        "M08",
+        "M09",
+        "M10",
+        "M11"
+      ],
+      "rule": "Solve by composition/overlays first; do not add a second map architecture."
+    },
+    {
+      "id": "GAP_WIND_FARM_PROPS",
+      "priority": "low",
+      "affects": [
+        "M01"
+      ]
+    },
+    {
+      "id": "GAP_MARSH_PROPS",
+      "priority": "low",
+      "affects": [
+        "M02"
+      ]
+    },
+    {
+      "id": "GAP_RAILWAY_PROPS",
+      "priority": "medium",
+      "affects": [
+        "M03"
+      ]
+    },
+    {
+      "id": "GAP_LIGHTHOUSE_PROP",
+      "priority": "medium",
+      "affects": [
+        "M06"
+      ]
+    }
+  ],
+  "importRules": [
+    "Do not auto-slice the three 1536px source sheets until tile boundaries and intended transparency/keying are explicitly defined.",
+    "OpenRTP is a verified 16x16 tilebase and may be normalized into the existing Bookgame content pipeline.",
+    "Keep raw sources immutable; generate derived atlases/maps separately.",
+    "M12 introduces no new map family: it reuses stateful variants of prior locations."
+  ]
+}
