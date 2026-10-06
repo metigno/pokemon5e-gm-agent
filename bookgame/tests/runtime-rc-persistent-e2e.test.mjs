@@ -103,21 +103,73 @@ class MaxHeap {
 }
 
 function signature(state) {
-  const copy = structuredClone(state);
-  delete copy.createdAt;
-  delete copy.updatedAt;
-  delete copy.revision;
-  delete copy.lastRoll;
-  if (copy.story) copy.story.history = [];
-  if (copy.world) {
-    if (Number.isFinite(copy.world.elapsedMinutes)) {
-      copy.world.elapsedMinutes = Math.min(copy.world.elapsedMinutes, 30 * 1440);
+  const flags = Object.fromEntries(
+    Object.entries(state.world?.flags ?? {})
+      .filter(([, value]) =>
+        value === null ||
+        ["string", "number", "boolean"].includes(typeof value)
+      )
+      .sort(([a], [b]) => a.localeCompare(b))
+  );
+  const trials = Object.fromEntries(
+    Object.entries(state.competition?.trials ?? {})
+      .map(([id, trial]) => [id, {
+        registered: Boolean(trial?.registered),
+        completed: Boolean(trial?.completed),
+        passed: trial?.passed ?? null
+      }])
+      .sort(([a], [b]) => a.localeCompare(b))
+  );
+  const quests = Object.fromEntries(
+    Object.entries(state.quests ?? {})
+      .map(([id, quest]) => [id, {
+        status: quest?.status ?? null,
+        resolution: quest?.resolution ?? null
+      }])
+      .sort(([a], [b]) => a.localeCompare(b))
+  );
+  const events = Object.fromEntries(
+    Object.entries(state.events ?? {})
+      .map(([id, event]) => [id, {
+        status: event?.status ?? null,
+        outcomeId: event?.outcomeId ?? null
+      }])
+      .sort(([a], [b]) => a.localeCompare(b))
+  );
+  const worldCompetition = state.competition?.world ?? {};
+  return JSON.stringify({
+    sceneId: state.story?.sceneId ?? null,
+    nodeId: state.story?.nodeId ?? null,
+    pending: state.pending
+      ? {
+          type: state.pending.type,
+          encounterId: state.pending.encounterId,
+          returnNodes: state.pending.returnNodes,
+          competition: state.pending.competition
+        }
+      : null,
+    locationId: state.world?.locationId ?? null,
+    day: Math.min(Number(state.world?.day ?? 0), 30),
+    time: state.world?.time ?? null,
+    flags,
+    rank: state.competition?.rank ?? null,
+    rankOrder: state.competition?.rankOrder ?? null,
+    trials,
+    quests,
+    events,
+    trainerLevel: state.player?.trainerLevel ?? null,
+    rosterSize: state.player?.roster?.length ?? 0,
+    money: state.player?.money ?? null,
+    worldCompetition: {
+      drawComplete: worldCompetition.drawComplete ?? false,
+      fieldLocked: worldCompetition.fieldLocked ?? false,
+      groupStage: worldCompetition.groupStage ?? null,
+      top16Locked: worldCompetition.top16Locked ?? false,
+      top4Locked: worldCompetition.top4Locked ?? false,
+      currentWorldChampion: worldCompetition.currentWorldChampion ?? null,
+      knockout: worldCompetition.knockout ?? null
     }
-    if (Number.isFinite(copy.world.day)) {
-      copy.world.day = Math.min(copy.world.day, 30);
-    }
-  }
-  return JSON.stringify(copy);
+  });
 }
 
 function completedModuleCount(state) {
@@ -174,6 +226,18 @@ function combatOutcomes(state, policy) {
   return [...new Set(ordered.filter((key) => legal.includes(key)))];
 }
 
+async function replayActions(engine, start, actions) {
+  let state = structuredClone(start);
+  for (const action of actions) {
+    if (action.kind === "combat") {
+      state = engine.resolveCombatHandoff(state, action.outcome);
+    } else {
+      state = await engine.choose(state, action.choiceId);
+    }
+  }
+  return state;
+}
+
 async function searchTo({
   engine,
   start,
@@ -181,16 +245,19 @@ async function searchTo({
   label,
   route = "champion",
   combatPolicy = "win",
-  maxExpansions = 30000
+  maxExpansions = 12000
 }) {
   if (goal(start)) return start;
 
+  const simulatedStart = structuredClone(start);
+  simulatedStart.story.history = [];
+
   const heap = new MaxHeap();
   heap.push({
-    state: structuredClone(start),
+    state: simulatedStart,
     depth: 0,
-    priority: progressionScore(start, route, 0),
-    trace: []
+    priority: progressionScore(simulatedStart, route, 0),
+    actions: []
   });
   const seen = new Set();
   let expansions = 0;
@@ -204,20 +271,28 @@ async function searchTo({
     expansions += 1;
     last = current;
 
-    if (goal(current.state)) return current.state;
+    if (goal(current.state)) {
+      const replayed = await replayActions(engine, start, current.actions);
+      assert.equal(goal(replayed), true, `${label} replay must reach the searched goal`);
+      return replayed;
+    }
 
     if (current.state.pending?.type === "pokemon5e_combat") {
       for (const outcome of combatOutcomes(current.state, combatPolicy)) {
         try {
           const next = engine.resolveCombatHandoff(current.state, outcome);
-          const trace = current.trace.slice(-20);
-          trace.push(`combat:${current.state.pending.encounterId}:${outcome}`);
-          if (goal(next)) return next;
+          next.story.history = [];
+          const actions = [...current.actions, { kind: "combat", outcome }];
+          if (goal(next)) {
+            const replayed = await replayActions(engine, start, actions);
+            assert.equal(goal(replayed), true, `${label} combat replay must reach goal`);
+            return replayed;
+          }
           heap.push({
             state: next,
             depth: current.depth + 1,
             priority: progressionScore(next, route, current.depth + 1),
-            trace
+            actions
           });
         } catch {
           // Illegal outcome for this subsystem state is simply not an edge.
@@ -236,9 +311,13 @@ async function searchTo({
     for (const choice of preferredChoices(view.choices)) {
       try {
         const next = await engine.choose(current.state, choice.id);
-        const trace = current.trace.slice(-20);
-        trace.push(`${view.sceneId}#${view.nodeId}:${choice.id}`);
-        if (goal(next)) return next;
+        next.story.history = [];
+        const actions = [...current.actions, { kind: "choice", choiceId: choice.id }];
+        if (goal(next)) {
+          const replayed = await replayActions(engine, start, actions);
+          assert.equal(goal(replayed), true, `${label} choice replay must reach goal`);
+          return replayed;
+        }
         const bias =
           (/commit|complete|confirm|activate|continue|advance|register|resolve|record|audit|lock/i.test(choice.id) ? 200 : 0) -
           (/review|back|stay|repeat|defer|wait|existing|free_roam/i.test(choice.id) ? 100 : 0);
@@ -246,7 +325,7 @@ async function searchTo({
           state: next,
           depth: current.depth + 1,
           priority: progressionScore(next, route, current.depth + 1) + bias,
-          trace
+          actions
         });
       } catch {
         // Choices can still fail on subsystem-specific legality (money, roster, etc.).
@@ -255,7 +334,9 @@ async function searchTo({
   }
 
   const where = last
-    ? `${last.state.story?.sceneId}#${last.state.story?.nodeId} trace=${last.trace.join(" -> ")}`
+    ? `${last.state.story?.sceneId}#${last.state.story?.nodeId} actions=${last.actions.slice(-20).map((action) =>
+        action.kind === "combat" ? `combat:${action.outcome}` : action.choiceId
+      ).join(" -> ")}`
     : "no state expanded";
   throw new Error(
     `Persistent E2E search failed at ${label} after ${expansions} expansions; last=${where}`
@@ -368,7 +449,7 @@ test("RC persistent E2E traverses real authored M1→M12 and all three World out
       label: "M7 Worlds Missed route",
       route: "missed",
       combatPolicy: "branch",
-      maxExpansions: 50000
+      maxExpansions: 20000
     });
     missed = await persistReload(store, missed, missed.slot, "M7 Worlds Missed");
     missed = await searchTo({
@@ -378,7 +459,7 @@ test("RC persistent E2E traverses real authored M1→M12 and all three World out
       label: "M12 Worlds Missed epilogue",
       route: "missed",
       combatPolicy: "branch",
-      maxExpansions: 50000
+      maxExpansions: 20000
     });
     missed = await persistReload(store, missed, missed.slot, "M12 Worlds Missed");
     assert.equal(missed.world.flags.worlds_missed, true);
@@ -396,7 +477,7 @@ test("RC persistent E2E traverses real authored M1→M12 and all three World out
       label: "World Eliminated route",
       route: "eliminated",
       combatPolicy: "branch",
-      maxExpansions: 60000
+      maxExpansions: 25000
     });
     eliminated = await persistReload(store, eliminated, eliminated.slot, "World Eliminated");
     eliminated = await searchTo({
@@ -406,7 +487,7 @@ test("RC persistent E2E traverses real authored M1→M12 and all three World out
       label: "M12 World Eliminated epilogue",
       route: "eliminated",
       combatPolicy: "branch",
-      maxExpansions: 50000
+      maxExpansions: 20000
     });
     eliminated = await persistReload(store, eliminated, eliminated.slot, "M12 eliminated");
     assert.equal(eliminated.world.flags.world_eliminated, true);
