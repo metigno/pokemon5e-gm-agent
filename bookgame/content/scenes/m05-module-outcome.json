@@ -1,0 +1,415 @@
+{
+  "schemaVersion": 1,
+  "id": "m05-module-outcome",
+  "moduleId": "M05",
+  "title": "M5_14 — Module Outcome",
+  "locationId": "alt_town",
+  "entryNodeId": "outcome_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m4_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m05_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m5_active",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m5_module_outcome_available",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "A"
+      },
+      {
+        "path": "world.flags.lance_met",
+        "eq": true
+      },
+      {
+        "path": "world.flags.friend_beat_05_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.interregional_license",
+        "eq": true
+      },
+      {
+        "path": "world.flags.ancient_mystery_layer_1",
+        "exists": true
+      },
+      {
+        "any": [
+          {
+            "path": "world.flags.a5_masters_entry_available",
+            "eq": true
+          },
+          {
+            "path": "world.flags.masters_entry_complete",
+            "eq": true
+          }
+        ]
+      }
+    ]
+  },
+  "nodes": {
+    "outcome_entry": {
+      "stitches": [
+        {
+          "id": "oe1",
+          "text": "M5 non si chiude con una singola premiazione. Il riepilogo legge il Rank A reale, Lance, Five, licenza interregionale, Ancient Trace e lo stato Masters già disponibile o risolto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_contract",
+          "text": "Verifico l'exit contract completo.",
+          "goto": "contract_audit"
+        },
+        {
+          "id": "entry_rank",
+          "text": "Rivedo ciò che Rank A ha davvero sbloccato.",
+          "goto": "rank_review"
+        },
+        {
+          "id": "entry_people",
+          "text": "Rivedo Lance e FRIEND_BEAT_05.",
+          "goto": "lance_review"
+        },
+        {
+          "id": "entry_threads",
+          "text": "Rivedo Trace, licenza e Masters.",
+          "goto": "trace_review"
+        }
+      ]
+    },
+    "contract_audit": {
+      "stitches": [
+        {
+          "id": "ca1",
+          "text": "Tutti i requisiti necessari sono presenti nello stato persistente. Il modulo può chiudersi senza riscrivere nessun risultato e senza forzare il Masters se la sua finestra è soltanto disponibile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "audit_complete",
+          "text": "Chiudo formalmente M5 e sblocco M6.",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.rank",
+                "eq": "A"
+              },
+              {
+                "path": "world.flags.lance_met",
+                "eq": true
+              },
+              {
+                "path": "world.flags.friend_beat_05_complete",
+                "eq": true
+              },
+              {
+                "path": "world.flags.interregional_license",
+                "eq": true
+              },
+              {
+                "path": "world.flags.ancient_mystery_layer_1",
+                "exists": true
+              },
+              {
+                "any": [
+                  {
+                    "path": "world.flags.a5_masters_entry_available",
+                    "eq": true
+                  },
+                  {
+                    "path": "world.flags.masters_entry_complete",
+                    "eq": true
+                  }
+                ]
+              }
+            ]
+          },
+          "goto": "module_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m06_unlocked",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m5_outcome_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "audit_continuity",
+          "text": "Prima controllo cosa resta persistente entrando in M6.",
+          "goto": "continuity_review"
+        },
+        {
+          "id": "audit_preview",
+          "text": "Prima controllo cosa apre M6.",
+          "goto": "m6_preview"
+        }
+      ]
+    },
+    "rank_review": {
+      "stitches": [
+        {
+          "id": "rr1",
+          "text": "Rank A è arrivato soltanto dalla vittoria reale a `RANK_B_TO_A`. La licenza, l'evento d'alta quota e il Masters Entry non hanno sostituito il checkpoint."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rank_contract",
+          "text": "Torno all'audit finale.",
+          "goto": "contract_audit"
+        },
+        {
+          "id": "rank_masters",
+          "text": "Confronto Rank A e Masters seeding.",
+          "goto": "masters_review"
+        }
+      ]
+    },
+    "lance_review": {
+      "stitches": [
+        {
+          "id": "lr1",
+          "text": "Lance resta un Anchor con stato, relazione e carriera propri. Il suo tema sul margine può tornare più avanti, ma non è stato convertito in bonus o chiave per vincere il Trial."
+        }
+      ],
+      "choices": [
+        {
+          "id": "lance_friend",
+          "text": "Rivedo il momento personale dei Five.",
+          "goto": "friend_review"
+        },
+        {
+          "id": "lance_contract",
+          "text": "Torno all'audit.",
+          "goto": "contract_audit"
+        }
+      ]
+    },
+    "friend_review": {
+      "stitches": [
+        {
+          "id": "fr1",
+          "text": "FRIEND_BEAT_05 conserva amico selezionato, modalità fisica/remota e risultato. La reunion non ha sincronizzato artificialmente le carriere dei Five."
+        }
+      ],
+      "choices": [
+        {
+          "id": "friend_contract",
+          "text": "Torno all'audit finale.",
+          "goto": "contract_audit"
+        },
+        {
+          "id": "friend_continuity",
+          "text": "Controllo come questi callback passano a M6.",
+          "goto": "continuity_review"
+        }
+      ]
+    },
+    "trace_review": {
+      "stitches": [
+        {
+          "id": "tr1",
+          "text": "`ancient_mystery_layer_1` è ancora un layer incompleto: osservato, parziale o convergente a seconda della run. M5 non gli assegna retroattivamente una causa o una cattura."
+        }
+      ],
+      "choices": [
+        {
+          "id": "trace_license",
+          "text": "Rivedo la licenza interregionale.",
+          "goto": "license_review"
+        },
+        {
+          "id": "trace_masters",
+          "text": "Rivedo lo stato Masters.",
+          "goto": "masters_review"
+        }
+      ]
+    },
+    "license_review": {
+      "stitches": [
+        {
+          "id": "li1",
+          "text": "La licenza interregionale resta un diritto di rete compatibile con il Rank, non un Rank aggiuntivo. Le destinazioni future continuano a rispettare access band, calendario e geografia."
+        }
+      ],
+      "choices": [
+        {
+          "id": "license_altitude",
+          "text": "Rivedo anche l'evento d'alta quota.",
+          "goto": "high_altitude_review"
+        },
+        {
+          "id": "license_contract",
+          "text": "Torno all'audit finale.",
+          "goto": "contract_audit"
+        }
+      ]
+    },
+    "masters_review": {
+      "stitches": [
+        {
+          "id": "mr1",
+          "text": "Per l'exit contract basta che A5_MASTERS_ENTRY sia realmente disponibile oppure già risolto. Se hai giocato il match, il seed deriva dal risultato; se hai rimandato, nessun seed viene inventato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "masters_contract",
+          "text": "Torno all'audit finale.",
+          "goto": "contract_audit"
+        },
+        {
+          "id": "masters_preview",
+          "text": "Controllo come questo stato può influire sul prossimo arco competitivo.",
+          "goto": "m6_preview"
+        }
+      ]
+    },
+    "high_altitude_review": {
+      "stitches": [
+        {
+          "id": "ha1",
+          "text": "Il soccorso d'alta quota resta registrato secondo ciò che hai davvero fatto: intervento diretto o supporto alla risposta. Non produce merito immaginario né modifica il Rank."
+        }
+      ],
+      "choices": [
+        {
+          "id": "altitude_contract",
+          "text": "Torno all'audit.",
+          "goto": "contract_audit"
+        },
+        {
+          "id": "altitude_continuity",
+          "text": "Conservo il callback per il Living World.",
+          "goto": "continuity_review"
+        }
+      ]
+    },
+    "continuity_review": {
+      "stitches": [
+        {
+          "id": "cr1",
+          "text": "Roster, HP, PP, status, inventario, denaro, livelli, risultati ufficiali, relazioni, schedule, ecology e history non vengono resettati al confine M5→M6."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continuity_audit",
+          "text": "Torno all'audit e chiudo quando voglio.",
+          "goto": "contract_audit"
+        },
+        {
+          "id": "continuity_preview",
+          "text": "Controllo il prossimo accesso senza teletrasportarmi.",
+          "goto": "m6_preview"
+        }
+      ]
+    },
+    "m6_preview": {
+      "stitches": [
+        {
+          "id": "m61",
+          "text": "M6 verrà aperto da `m06_unlocked=true`. Il passaggio non assegna Rank S, non risolve il futuro Trial A→S e non altera il Masters seeding esistente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "preview_audit",
+          "text": "Torno all'audit finale.",
+          "goto": "contract_audit"
+        },
+        {
+          "id": "preview_rank",
+          "text": "Rileggo il punto competitivo da cui ripartirò.",
+          "goto": "rank_review"
+        }
+      ]
+    },
+    "final_audit": {
+      "stitches": [
+        {
+          "id": "fa1",
+          "text": "Il salvataggio contiene tutti gli elementi richiesti per lasciare M5: Rank A, Lance, FRIEND_BEAT_05, licenza, Ancient Trace e Masters disponibile o risolto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "final_complete",
+          "text": "Confermo la chiusura già validata.",
+          "conditions": {
+            "path": "world.flags.m5_complete",
+            "eq": true
+          },
+          "goto": "module_complete"
+        },
+        {
+          "id": "final_review",
+          "text": "Rileggo il riepilogo prima di partire.",
+          "goto": "outcome_entry"
+        }
+      ]
+    },
+    "module_complete": {
+      "stitches": [
+        {
+          "id": "mc1",
+          "text": "M5 — Sopra le Nuvole è formalmente completo. `m06_unlocked=true` prepara il prossimo modulo conservando tutto lo stato plurimodulo senza reset."
+        }
+      ],
+      "choices": [
+        {
+          "id": "complete_handoff",
+          "text": "Registro il punto di handoff verso M6.",
+          "goto": "handoff"
+        },
+        {
+          "id": "complete_review",
+          "text": "Rileggo il riepilogo M5.",
+          "goto": "final_audit"
+        }
+      ]
+    },
+    "handoff": {
+      "stitches": [
+        {
+          "id": "ho1",
+          "text": "L'handoff non teletrasporta il personaggio in contenuto non ancora consumato. Resti ad Altacima con M6 sbloccato e con il mondo ancora attivo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "handoff_hub",
+          "text": "Resto ad Altacima con M6 sbloccato.",
+          "goto": "m05-altacima#town_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
