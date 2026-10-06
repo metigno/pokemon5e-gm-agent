@@ -271,6 +271,13 @@ export function resolveSavingThrow({
   };
 }
 
+function gutsMeleeBonus(combatant, move) {
+  const afflicted = ["Burned", "Poisoned", "BadlyPoisoned", "Paralysis", "Frozen", "Asleep"]
+    .includes(combatant.statuses?.nonVolatile);
+  const melee = move.attack?.scope === "melee" || move.range?.type === "melee";
+  return combatant.abilityId === "guts" && afflicted && melee ? 2 : 0;
+}
+
 export function resolveAttack({
   attacker,
   defender,
@@ -287,7 +294,8 @@ export function resolveAttack({
   const attackRoll = rollD20(dice, {
     disadvantage: forceDisadvantage || attackHasDisadvantage(attacker)
   });
-  const attackModifier = stats.toHit + extraAttackModifier;
+  const gutsBonus = gutsMeleeBonus(attacker, move);
+  const attackModifier = stats.toHit + extraAttackModifier + gutsBonus;
   const attackTotal = attackRoll.natural + attackModifier;
   const critical = attackRoll.natural === 20;
   const criticalDamage =
@@ -307,6 +315,7 @@ export function resolveAttack({
       hit: false,
       critical: false,
       criticalDamage: false,
+      gutsBonus,
       damage: 0,
       typeMultiplier: 1,
       immunityAbility: null,
@@ -320,7 +329,8 @@ export function resolveAttack({
     advantage: damageRollHasAdvantage(attacker, move),
     disadvantage: damageHasDisadvantage(attacker)
   });
-  const rawDamage = Math.max(0, damageRoll.selected.total + stats.damageModifier);
+  const effectiveDamageModifier = stats.damageModifier + gutsBonus;
+  const rawDamage = Math.max(0, damageRoll.selected.total + effectiveDamageModifier);
   const {
     multiplier,
     immunityAbility,
@@ -342,7 +352,8 @@ export function resolveAttack({
     critical,
     criticalDamage,
     damageRoll,
-    damageModifier: stats.damageModifier,
+    damageModifier: effectiveDamageModifier,
+    gutsBonus,
     rawDamage,
     damage,
     damageType: move.type,
