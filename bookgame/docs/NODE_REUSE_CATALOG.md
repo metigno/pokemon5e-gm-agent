@@ -1448,3 +1448,32 @@ FASTER MODULE PRODUCTION
 ```
 
 If a later module proves a genuinely reusable missing topology, add it only after implementation and regression evidence.
+
+
+---
+
+# 19. M12 FINAL AUDIT — NO NEW Rxx REQUIRED
+
+M12 — *Dopo il Mondo* completed at **228 logical nodes / 502 meaningful choices** and closes the twelve-module campaign without expanding the reusable topology beyond R01→R38.
+
+Proven final reuse/composition:
+
+- WORLD_EXIT classification → R20 + R21 + R33 + R38;
+- return travel / time passage → R01 + R22 + R32 + R33;
+- M1→M7 world callbacks → R29 + R30/R31 + R33 + R38;
+- FRIEND_BEAT_12 → R23 + R26 + R27 + R28 + R33;
+- postgame residual content → R11 + R21 + R29 + R33;
+- MAIN_STORY_COMPLETE → R20 + R21 + R33 + R38.
+
+The final campaign proves that:
+
+- multi-module history callbacks do not require a new narrative engine;
+- mixed physical/remote friend closure is a composition of existing presence and Friend Beat patterns;
+- persistent postgame is a module-exit/save-state policy, not a new topology;
+- keeping free roam alive after main-story completion requires no R39.
+
+Final validated corpus:
+
+**M01→M12 = 2,462 logical nodes / 5,555 meaningful choices.**
+
+**NODE LIBRARY V2 remains R01→R38.**
