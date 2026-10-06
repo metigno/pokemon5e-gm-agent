@@ -5,7 +5,7 @@
 **Purpose:** production map for converting M5 into validated offline story content  
 **Locked authored budget:** **5,700 stitches / 3,600 player choices**
 
-**Module implementation status:** **M5_00–M5_09 COMPLETE / LIBRARY-V2 ALIGNED; M5_10–M5_14 IMPLEMENTED / VALIDATION PENDING**
+**Module implementation status:** **M5_00–M5_14 COMPLETE / LIBRARY-V2 ALIGNED**
 
 E1–E7 are reusable infrastructure from M1. A block may extend generic data or content, but must not fork those engines into module-specific substitutes.
 
@@ -63,11 +63,11 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 | M5_07_INTERREGIONAL_LICENSE | A5_INTERREGIONAL e apertura di tratte più ampie | 362 | 229 | COMPLETE |
 | M5_08_FIVE_CROSS_AGAIN | A5_FIVE_CROSS: reunion causale dei Five | 362 | 228 | COMPLETE |
 | M5_09_FRIEND_BEAT_05 | beat personale obbligatorio dentro la reunion | 525 | 331 | COMPLETE |
-| M5_10_HIGH_ALTITUDE_EVENT | soccorso/competizione/lavoro ad alta quota con stato reale | 362 | 228 | IMPLEMENTED / VALIDATION PENDING |
-| M5_11_TRIAL_REGISTRATION | eligibility B→A ad Altacima | 470 | 297 | IMPLEMENTED / VALIDATION PENDING |
-| M5_12_PROMOTION_TRIAL_B_A | checkpoint RANK_B_TO_A, roster ufficiale 5 | 525 | 331 | IMPLEMENTED / VALIDATION PENDING |
-| M5_13_MASTERS_ENTRY | A5_MASTERS_ENTRY dopo Rank A, senza sostituire il gate | 307 | 194 | IMPLEMENTED / VALIDATION PENDING |
-| M5_14_MODULE_OUTCOME | Rank A, licenza interregionale e handoff M6 | 307 | 194 | IMPLEMENTED / VALIDATION PENDING |
+| M5_10_HIGH_ALTITUDE_EVENT | soccorso/competizione/lavoro ad alta quota con stato reale | 362 | 228 | COMPLETE |
+| M5_11_TRIAL_REGISTRATION | eligibility B→A ad Altacima | 470 | 297 | COMPLETE |
+| M5_12_PROMOTION_TRIAL_B_A | checkpoint RANK_B_TO_A, roster ufficiale 5 | 525 | 331 | COMPLETE |
+| M5_13_MASTERS_ENTRY | A5_MASTERS_ENTRY dopo Rank A, senza sostituire il gate | 307 | 194 | COMPLETE |
+| M5_14_MODULE_OUTCOME | Rank A, licenza interregionale e handoff M6 | 307 | 194 | COMPLETE |
 | **TOTAL** |  | **5,700** | **3,600** | |
 
 Budgets are authored surface capacity. One run sees only the paths made legal by its state.
@@ -93,13 +93,13 @@ The first production cycle is allocated proportionally from the fixed M5 budget 
 | M5_09_FRIEND_BEAT_05 | 22 | 48 | COMPLETE |
 | **Cycle M5_05–M5_09** | **82** | **183** | **COMPLETE** |
 | **Cumulative M5_00–M5_09** | **157** | **347** | **COMPLETE** |
-| M5_10_HIGH_ALTITUDE_EVENT | 15 | 32 | IMPLEMENTED / VALIDATION PENDING |
-| M5_11_TRIAL_REGISTRATION | 14 | 31 | IMPLEMENTED / VALIDATION PENDING |
-| M5_12_PROMOTION_TRIAL_B_A | 22 | 48 | IMPLEMENTED / VALIDATION PENDING |
-| M5_13_MASTERS_ENTRY | 18 | 40 | IMPLEMENTED / VALIDATION PENDING |
-| M5_14_MODULE_OUTCOME | 14 | 30 | IMPLEMENTED / VALIDATION PENDING |
-| **Cycle M5_10–M5_14** | **83** | **181** | **IMPLEMENTED / VALIDATION PENDING** |
-| **M5 TOTAL** | **240** | **528** | **IMPLEMENTED / VALIDATION PENDING** |
+| M5_10_HIGH_ALTITUDE_EVENT | 15 | 32 | COMPLETE |
+| M5_11_TRIAL_REGISTRATION | 14 | 31 | COMPLETE |
+| M5_12_PROMOTION_TRIAL_B_A | 22 | 48 | COMPLETE |
+| M5_13_MASTERS_ENTRY | 18 | 40 | COMPLETE |
+| M5_14_MODULE_OUTCOME | 14 | 30 | COMPLETE |
+| **Cycle M5_10–M5_14** | **83** | **181** | **COMPLETE** |
+| **M5 TOTAL** | **240** | **528** | **COMPLETE** |
 
 No nodes were added merely to hit a number. Cycle 2 consumes **82 nodes / 183 choices**, exactly the proportional share implied by the locked M5 budget: 15/34 for Fulgore, Trace and License; 15/33 for Five Cross; 22/48 for the deliberately broader FRIEND_BEAT_05. The final five blocks consume the remaining **83 nodes / 181 choices** exactly, bringing M5 to the locked logical target of **240 nodes / 528 meaningful choices** with no padding.
 
@@ -161,6 +161,23 @@ Validation executed on GitHub Actions from branch `m5-00-04-work` after the five
 - **M5_14:** R38 composite outcome audit + R20 module exit contract + R21 module handoff + R33 callbacks. M6 unlock is written only after the full M5 exit contract is already true.
 
 **No R39 candidate is required.** Library V2 R01→R38 remains sufficient for the complete M5 implementation.
+
+## 2G. CYCLE M5_10–M5_14 / FULL M5 VALIDATION EVIDENCE
+
+Final-cycle validation executed on GitHub Actions from branch `m5-00-04-work` after M5_10–M5_14 scenes, final A5 event bindings, runtime regressions, exact budget locks and Library V2 declarations were present:
+
+- syntax checks: **PASS**;
+- `npm --prefix bookgame run validate:story`: **PASS**;
+- compiled global graph: **71 scenes / 1,134 nodes / 1,489 stitches / 2,655 choices / 44 world events / 14 ecology zones / 479 ecology species**;
+- compiled M05 authored surface currently implemented: **248 stitches / 528 choices**;
+- logical M05 production target: **240 logical nodes / 528 meaningful choices — EXACT**;
+- `npm --prefix bookgame test`: **1,062 pass / 0 fail / 0 skipped / 0 cancelled**;
+- final-cycle logical allocation: **83 nodes / 181 choices**;
+- the first final-cycle test run exposed three obsolete assertions that treated canonical Trial availability as if it were Trial registration/progression; the tests were corrected to enforce the proper distinction `available=true`, `registered=false`, Rank B unchanged. No gameplay rule, event trigger or validator was weakened;
+- final workflow run: **#37437155596**;
+- M1–M4 plus all earlier M5 cycles remain green.
+
+M5 is therefore complete at its locked logical runtime budget while retaining the separate authored-surface capacity budget of **5,700 stitches / 3,600 choices** for source planning/reporting purposes.
 
 ---
 
