@@ -232,6 +232,8 @@ const IMMEDIATE_HEALING_MOVES = new Set([
   "jungle-healing",
   "life-dew",
   "milk-drink",
+  "moonlight",
+  "morning-sun",
   "recover",
   "shore-up",
   "soft-boiled",
@@ -240,6 +242,14 @@ const IMMEDIATE_HEALING_MOVES = new Set([
 
 function isImmediateHealingMove(move) {
   return move.dice?.type === "healing" && IMMEDIATE_HEALING_MOVES.has(move.id);
+}
+
+const DELAYED_HEALING_MOVES = new Set([
+  "rest"
+]);
+
+function isDelayedHealingMove(move) {
+  return move.dice?.type === "healing" && DELAYED_HEALING_MOVES.has(move.id);
 }
 
 const OHKO_MOVES = new Set([
@@ -347,6 +357,7 @@ export function isMoveResolvable(move) {
   if (move.save && damage) return true;
   if (isAutomaticDamageMove(move)) return true;
   if (isImmediateHealingMove(move)) return true;
+  if (isDelayedHealingMove(move)) return true;
   if (isOhkoMove(move)) return true;
   if (isSaveHpEffectMove(move)) return true;
   if (isStatusCureMove(move)) return true;
@@ -543,6 +554,49 @@ function endTurnInternal(battle, side, dice) {
     markDowned(next, side, "status_damage");
     return next;
   }
+
+  const pending = next.pendingEffects ?? [];
+  const remainingPending = [];
+  for (const effect of pending) {
+    const due =
+      effect.phase === "end_turn" &&
+      effect.sourceSide === side &&
+      next.round >= effect.triggerRound;
+    if (!due) {
+      remainingPending.push(effect);
+      continue;
+    }
+
+    if (effect.kind === "rest") {
+      const sleepResult = applyStatus(combatant, "Asleep", {
+        sourceProficiencyBonus: proficiencyBonus(combatant.level)
+      });
+      let healing = 0;
+      let healingRoll = null;
+      if (sleepResult.applied || isSleepingTarget(combatant)) {
+        healingRoll = rollExpression(effect.healingDice, dice);
+        const rawHealing = Math.max(0, healingRoll.total + effect.healingModifier);
+        const before = combatant.hp.current;
+        combatant.hp.current = Math.min(combatant.hp.max, before + rawHealing);
+        healing = combatant.hp.current - before;
+      }
+      next.log.push({
+        type: "delayed_healing",
+        round: next.round,
+        actor: side,
+        moveId: effect.moveId,
+        effect: "rest",
+        sleepResult,
+        healingRoll,
+        healing,
+        hpAfter: combatant.hp.current
+      });
+      continue;
+    }
+
+    remainingPending.push(effect);
+  }
+  next.pendingEffects = remainingPending;
 
   combatant.turn.started = false;
   combatant.turn.actionAvailable = true;
@@ -927,6 +981,8 @@ export class Pokemon5eCombatEngine {
       opponentRegistered: Boolean(handoff.opponentRegistered),
       awaitingSwitch: null,
       zones: [],
+      pendingEffects: [],
+      environment: clone(handoff.environment ?? {}),
       outcome: null,
       log: [{
         type: "initiative",
@@ -1419,8 +1475,15 @@ export class Pokemon5eCombatEngine {
     const stats = calculateMoveStats(user, move);
     const healingRoll = rollExpression(stats.damageDice, this.dice);
     const rawHealing = Math.max(0, healingRoll.total + stats.damageModifier);
+    const timeOfDay = String(next.environment?.timeOfDay ?? "").toLowerCase();
+    const environmentalMultiplier =
+      (move.id === "moonlight" && timeOfDay === "day") ||
+      (move.id === "morning-sun" && timeOfDay === "night")
+        ? 0.5
+        : 1;
+    const adjustedHealing = Math.floor(rawHealing * environmentalMultiplier);
     const before = target.hp.current;
-    target.hp.current = Math.min(target.hp.max, target.hp.current + rawHealing);
+    target.hp.current = Math.min(target.hp.max, target.hp.current + adjustedHealing);
 
     const curedStatuses = [];
     if (move.id === "jungle-healing") {
@@ -1438,6 +1501,7 @@ export class Pokemon5eCombatEngine {
       moveName: move.name,
       healingRoll,
       healingModifier: stats.damageModifier,
+      environmentalMultiplier,
       healing: target.hp.current - before,
       hpBefore: before,
       hpAfter: target.hp.current,
@@ -1511,6 +1575,34 @@ export class Pokemon5eCombatEngine {
       concentration: Boolean(move.duration?.concentration)
     });
     return next;
+  }
+
+  async resolveDelayedHealingMove(next, side, move) {
+    const user = next[side];
+    const stats = calculateMoveStats(user, move);
+
+    if (move.id === "rest") {
+      next.pendingEffects ??= [];
+      next.pendingEffects.push({
+        kind: "rest",
+        phase: "end_turn",
+        sourceSide: side,
+        triggerRound: next.round,
+        moveId: move.id,
+        healingDice: stats.damageDice,
+        healingModifier: stats.damageModifier
+      });
+      next.log.push({
+        type: "delayed_healing_scheduled",
+        round: next.round,
+        actor: side,
+        moveId: move.id,
+        triggerRound: next.round
+      });
+      return next;
+    }
+
+    throw new Error(`No delayed healing handler for ${move.id}`);
   }
 
   async resolveAutomaticDamageMove(next, side, move) {
@@ -1671,12 +1763,15 @@ export class Pokemon5eCombatEngine {
     const healTargetSide = isImmediateHealingMove(move)
       ? healingTargetSide(move, side, requestedTargetSide)
       : null;
+    const delayedHealTargetSide = isDelayedHealingMove(move) ? side : null;
     const cureTargetSide = isStatusCureMove(move)
       ? (move.id === "purify" ? otherSide(side) : side)
       : null;
     const rangeTarget = healTargetSide
       ? next[healTargetSide]
-      : cureTargetSide
+      : delayedHealTargetSide
+        ? next[delayedHealTargetSide]
+        : cureTargetSide
         ? next[cureTargetSide]
         : defender;
     const range = areaTarget
@@ -1758,6 +1853,8 @@ export class Pokemon5eCombatEngine {
       next = await this.resolveAutomaticDamageMove(next, side, move);
     } else if (isImmediateHealingMove(move)) {
       next = await this.resolveHealingMove(next, side, healTargetSide, move);
+    } else if (isDelayedHealingMove(move)) {
+      next = await this.resolveDelayedHealingMove(next, side, move);
     } else if (isOhkoMove(move)) {
       next = await this.resolveOhkoMove(next, side, move);
     } else if (isSaveHpEffectMove(move)) {

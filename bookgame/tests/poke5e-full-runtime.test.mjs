@@ -101,7 +101,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
   const moves = await data.listMoves();
   const unresolved = moves.filter((move) => !isMoveResolvable(move)).map((move) => move.id);
 
-  assert.ok(unresolved.length <= 214, `unresolved move rules regressed to ${unresolved.length}`);
+  assert.ok(unresolved.length <= 211, `unresolved move rules regressed to ${unresolved.length}`);
   assert.ok(unresolved.includes("acupressure"));
   for (const id of [
     "agility",
@@ -119,6 +119,9 @@ test("move execution coverage has an explicit non-regression gate", async () => 
     "metal-sound",
     "screech",
     "tearful-look",
+    "moonlight",
+    "morning-sun",
+    "rest",
     "heal-pulse",
     "recover"
   ]) {
@@ -288,6 +291,47 @@ test("healing moves respect real target rules instead of always healing the user
   assert.ok(pulseBattle.opponent.hp.current > targetBefore);
   assert.equal(pulseBattle.log.at(-1).type, "healing_move");
   assert.equal(pulseBattle.log.at(-1).target, "opponent");
+});
+
+
+test("Moonlight, Morning Sun and Rest execute environmental and delayed healing rules", async () => {
+  const moonCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 4, 4, 4])
+  });
+  let moonBattle = await moonCombat.createBattle({
+    encounterId: "FULL_RUNTIME_MOONLIGHT_DAY",
+    environment: { timeOfDay: "day" },
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["moonlight"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+  moonBattle.player.hp.current = Math.max(1, moonBattle.player.hp.max - 30);
+  moonBattle = await moonCombat.usePlayerMove(moonBattle, "moonlight");
+  const moonLog = moonBattle.log.find((event) => event.type === "healing_move");
+  assert.equal(moonLog.environmentalMultiplier, 0.5);
+  assert.ok(moonLog.healing > 0);
+
+  const restCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 1, 1, 1, 1, 1, 1])
+  });
+  let restBattle = await restCombat.createBattle({
+    encounterId: "FULL_RUNTIME_REST",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["rest"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+  restBattle.player.hp.current = Math.max(1, restBattle.player.hp.max - 20);
+  const hpBefore = restBattle.player.hp.current;
+  restBattle = await restCombat.usePlayerMove(restBattle, "rest");
+  assert.equal(restBattle.player.statuses.nonVolatile, null);
+  assert.equal(restBattle.pendingEffects.at(-1).kind, "rest");
+
+  restBattle = await restCombat.endPlayerTurn(restBattle);
+  assert.equal(restBattle.player.statuses.nonVolatile, "Asleep");
+  assert.ok(restBattle.player.hp.current > hpBefore);
+  assert.equal(restBattle.pendingEffects.length, 0);
 });
 
 test("canonical OHKO moves execute their d20, level and immunity rules", async () => {
