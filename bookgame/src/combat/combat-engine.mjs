@@ -143,6 +143,20 @@ function hasActiveSource(sources = [], round) {
   );
 }
 
+function activeTypeImmunitySource(combatant, type, round) {
+  return (combatant.effects?.typeImmunitySources ?? []).find(
+    (source) =>
+      source.type === type &&
+      (source.startsRound == null || round >= source.startsRound) &&
+      (source.expiresRound == null || round < source.expiresRound)
+  )?.source ?? null;
+}
+
+function hasMoveTypeImmunity(combatant, type, round) {
+  if (type === "ground" && combatant.abilityId === "levitate") return true;
+  return activeTypeImmunitySource(combatant, type, round) != null;
+}
+
 function consumeAttackAdvantageUse(combatant, round) {
   for (const source of combatant.effects?.attackAdvantageSources ?? []) {
     if (source.usesRemaining == null || source.usesRemaining <= 0) continue;
@@ -167,6 +181,7 @@ function removeEffectSource(combatant, source, round = null) {
     "saveAdvantageSources",
     "attackAdvantageSources",
     "damageResistanceSources",
+    "typeImmunitySources",
     "stabMultiplierSources",
     "criticalRangeBonusSources",
     "switchLockSources",
@@ -211,6 +226,7 @@ function modifierRuleFor(move, level) {
       ac: 6,
       resistance: { type: null, steps: 1 }
     },
+    "magnet-rise": { typeImmunity: "ground" },
     "meditate": { attack: tier, save: tier },
     "minimize": { ac: 2 },
     "no-retreat": {
@@ -382,6 +398,7 @@ const SIMPLE_MODIFIER_MOVES = new Set([
   "geomancy",
   "hone-claws",
   "iron-defense",
+  "magnet-rise",
   "meditate",
   "minimize",
   "no-retreat",
@@ -522,6 +539,7 @@ function clearTransientEffects(combatant) {
     saveAdvantageSources: [],
     attackAdvantageSources: [],
     damageResistanceSources: [],
+    typeImmunitySources: [],
     stabMultiplierSources: [],
     criticalRangeBonusSources: [],
     switchLockSources: [],
@@ -1152,6 +1170,7 @@ export class Pokemon5eCombatEngine {
         saveAdvantageSources: [],
         attackAdvantageSources: [],
         damageResistanceSources: [],
+        typeImmunitySources: [],
         stabMultiplierSources: [],
         criticalRangeBonusSources: [],
         switchLockSources: [],
@@ -2141,6 +2160,14 @@ export class Pokemon5eCombatEngine {
       });
       applied.resistance = clone(rule.resistance);
     }
+    if (rule.typeImmunity) {
+      combatant.effects.typeImmunitySources.push({
+        source: move.id,
+        type: rule.typeImmunity,
+        expiresRound
+      });
+      applied.typeImmunity = rule.typeImmunity;
+    }
     if (rule.stabMultiplier) {
       combatant.effects.stabMultiplierSources.push({
         source: move.id,
@@ -2665,7 +2692,7 @@ export class Pokemon5eCombatEngine {
     } else if (move.save && move.dice?.type === "damage") {
       next = await this.resolveSaveDamageMove(next, side, move);
     } else if (SAVE_EFFECT_MOVES.has(move.id)) {
-      if (defender.abilityId === "levitate" && move.type === "ground") {
+      if (hasMoveTypeImmunity(defender, move.type, next.round)) {
         next.log.push({
           type: "save_move",
           round: next.round,
@@ -2674,7 +2701,8 @@ export class Pokemon5eCombatEngine {
           moveId: move.id,
           moveName: move.name,
           immune: true,
-          immunityAbility: "levitate"
+          immunityAbility: defender.abilityId === "levitate" ? "levitate" : null,
+          immunityEffect: activeTypeImmunitySource(defender, move.type, next.round)
         });
       } else {
         const result = resolveSaveMove({
@@ -2700,7 +2728,7 @@ export class Pokemon5eCombatEngine {
         forceDisadvantage: intimidateUsed
       });
     } else if (move.save && statusFromText(move.description)) {
-      if (defender.abilityId === "levitate" && move.type === "ground") {
+      if (hasMoveTypeImmunity(defender, move.type, next.round)) {
         next.log.push({
           type: "save_move",
           round: next.round,
@@ -2709,7 +2737,8 @@ export class Pokemon5eCombatEngine {
           moveId: move.id,
           moveName: move.name,
           immune: true,
-          immunityAbility: "levitate"
+          immunityAbility: defender.abilityId === "levitate" ? "levitate" : null,
+          immunityEffect: activeTypeImmunitySource(defender, move.type, next.round)
         });
       } else {
         const result = resolveSaveMove({
