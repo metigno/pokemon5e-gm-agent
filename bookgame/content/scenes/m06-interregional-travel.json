@@ -369,8 +369,8 @@
         },
         {
           "id": "close_route",
-          "text": "Torno alla selezione delle tratte.",
-          "goto": "m06-route-selection#route_entry"
+          "text": "Gestisco un eventuale ritorno o una nuova partenza.",
+          "goto": "return_board"
         }
       ]
     },
