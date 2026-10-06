@@ -618,6 +618,7 @@ test("Disable, Imprison and Taunt enforce move locks through legalMoves and dire
   const tauntLegal = await tauntCombat.legalMoves(tauntBattle, "opponent");
   assert.equal(tauntLegal.some((move) => move.id === "harden"), false);
   assert.equal(tauntLegal.some((move) => move.id === "tackle"), true);
+  tauntBattle = await tauntCombat.endPlayerTurn(tauntBattle);
   await assert.rejects(
     () => tauntCombat.useMove(tauntBattle, "opponent", "harden"),
     /locked by taunt/
