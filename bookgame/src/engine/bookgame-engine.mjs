@@ -426,25 +426,19 @@ export class BookgameEngine {
           speciesId: combatant.speciesId,
           name: combatant.name,
           level: combatant.level,
-          xp: combatant.xp ?? existing.xp,
           hp: clone(combatant.hp),
-          ac: combatant.ac,
-          attributes: clone(combatant.attributes),
-          savingThrows: clone(combatant.savingThrows),
-          proficiencies: clone(combatant.proficiencies),
-          hitDice: clone(combatant.hitDice),
-          bond: clone(combatant.bond),
-          gender: combatant.gender ?? existing.gender,
-          nature: combatant.nature ?? existing.nature,
           statuses: clone(combatant.statuses),
           abilityId: combatant.abilityId,
           moveIds: clone(combatant.moveIds),
-          pp: clone(combatant.pp),
-          evolutionHistory: clone(combatant.evolutionHistory),
-          pendingMoveLearning: clone(combatant.pendingMoveLearning),
-          pendingMoveChoices: clone(combatant.pendingMoveChoices),
-          pendingAsiChoices: clone(combatant.pendingAsiChoices)
+          pp: clone(combatant.pp)
         };
+        for (const field of [
+          "xp", "ac", "attributes", "savingThrows", "proficiencies", "hitDice", "bond",
+          "gender", "nature", "evolutionHistory", "pendingMoveLearning",
+          "pendingMoveChoices", "pendingAsiChoices", "pendingLevelUp", "declinedEvolutionAtLevel"
+        ]) {
+          if (combatant[field] !== undefined) persisted[field] = clone(combatant[field]);
+        }
         next.player.roster[combatant.rosterIndex] = persisted;
 
         if (combatant.rosterIndex === 0) {
@@ -463,30 +457,26 @@ export class BookgameEngine {
         speciesId: resolvedBattle.opponent.speciesId,
         name: resolvedBattle.opponent.name,
         level: resolvedBattle.opponent.level,
-        xp: resolvedBattle.opponent.xp,
         hp: clone(resolvedBattle.opponent.hp),
-        ac: resolvedBattle.opponent.ac,
-        attributes: clone(resolvedBattle.opponent.attributes),
-        savingThrows: clone(resolvedBattle.opponent.savingThrows),
-        proficiencies: clone(resolvedBattle.opponent.proficiencies),
-        hitDice: clone(resolvedBattle.opponent.hitDice),
-        bond: clone(resolvedBattle.opponent.bond),
-        gender: resolvedBattle.opponent.gender,
-        nature: resolvedBattle.opponent.nature,
         statuses: clone(resolvedBattle.opponent.statuses),
         abilityId: resolvedBattle.opponent.abilityId,
         moveIds: clone(resolvedBattle.opponent.moveIds),
         pp: clone(resolvedBattle.opponent.pp),
-        evolutionHistory: clone(resolvedBattle.opponent.evolutionHistory),
-        pendingMoveLearning: clone(resolvedBattle.opponent.pendingMoveLearning),
-        pendingMoveChoices: clone(resolvedBattle.opponent.pendingMoveChoices),
-        pendingAsiChoices: clone(resolvedBattle.opponent.pendingAsiChoices),
         capturedAt: {
           day: next.world.day,
           locationId: next.world.locationId,
           encounterId
         }
       };
+      for (const field of [
+        "xp", "ac", "attributes", "savingThrows", "proficiencies", "hitDice", "bond",
+        "gender", "nature", "evolutionHistory", "pendingMoveLearning",
+        "pendingMoveChoices", "pendingAsiChoices", "pendingLevelUp", "declinedEvolutionAtLevel"
+      ]) {
+        if (resolvedBattle.opponent[field] !== undefined) {
+          capturedPokemon[field] = clone(resolvedBattle.opponent[field]);
+        }
+      }
       next.player.roster.push(capturedPokemon);
 
       if (rosterSizeBeforeCapture === 1 && !next.player.secondPokemonAcquisition) {
