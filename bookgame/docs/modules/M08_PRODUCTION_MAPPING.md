@@ -5,7 +5,7 @@
 **Purpose:** production map for converting M8 into validated offline story content  
 **Locked authored budget:** **4,400 stitches / 2,500 player choices**
 
-**Module implementation status:** **M8_00–M8_11 IMPLEMENTED / EXACT 190×418 / RUNTIME VALIDATION PENDING**
+**Module implementation status:** **COMPLETE — M8_00–M8_11 / EXACT 190×418 / LIBRARY-V2 ALIGNED / E5 WORLD_DRAW / RUNTIME PASS**
 
 E1–E7 are reusable infrastructure from M1. A block may extend generic data or content, but must not fork those engines into module-specific substitutes.
 
@@ -83,9 +83,9 @@ The authored-surface budget above remains locked at **4,400 stitches / 2,500 cho
 | M8_08_MEDIA_DAY | 15 | 32 | IMPLEMENTED |
 | M8_09_OPENING_CEREMONY | 12 | 26 | IMPLEMENTED |
 | **Cycle M8_05–M8_09** | **76** | **166** | **COMPLETE / RUNTIME PASS** |
-| M8_10_WORLD_DRAW | 18 | 40 | IMPLEMENTED |
-| M8_11_GROUP_REVEAL | 14 | 31 | IMPLEMENTED |
-| **Cycle M8_10–M8_11** | **32** | **71** | **IMPLEMENTED / STATIC PASS** |
+| M8_10_WORLD_DRAW | 18 | 40 | COMPLETE |
+| M8_11_GROUP_REVEAL | 14 | 31 | COMPLETE |
+| **Cycle M8_10–M8_11** | **32** | **71** | **COMPLETE / RUNTIME PASS** |
 | **M8 TOTAL TARGET** | **190** | **418** | |
 
 Cycle 1 used **82 / 181**, Cycle 2 added **76 / 166**, and Cycle 3 adds the exact remaining **32 / 71**. M8 therefore closes at exactly **190 logical nodes / 418 meaningful choices** with no padding.
@@ -170,7 +170,28 @@ The final M8 cycle adds a generic Competition capability, not a new node archety
 - final M8 runtime surface: **190 nodes / 418 meaningful choices exactly**;
 - all 32 Cycle-3 nodes are reachable and have non-zero incoming routes;
 - dedicated regressions cover exact 32-player field, 8×4 groups, explicit NPC qualification inclusion/exclusion, non-forced friends, pre-World Anchor guarantees, idempotence, edition seed variation, rendered opponent names, M9 unlock and save/reload;
-- runtime GitHub Actions evidence is required before M8 is marked COMPLETE.
+- GitHub Actions final runtime evidence: **PASS** on commit `c09fa2838d5101d9c7011527513e0bf94f1c353d`, Bookgame Tests run `37458789483` (#355) — **1,200 passed / 0 failed**.
+
+## FINAL M8 CLOSURE
+
+M8 is production-closed at the agreed runtime target:
+
+- **190 logical nodes / 418 meaningful choices** exactly;
+- **4,400 stitches / 2,500 authored-surface choices** manifest unchanged;
+- all 12 blocks M8_00→M8_11 implemented;
+- all authored M8 nodes reachable; no budget-padding islands;
+- Library V2 R01→R38 reused throughout; no R39 requirement;
+- E5 now owns structured World state under `competition.world`;
+- canonical 2060 candidate roster remains stable while field/groups may vary per career/edition;
+- explicit NPC qualification state overrides simulation;
+- unresolved off-screen qualification is deterministic and persisted;
+- friends are never forced into the World field;
+- pre-World Anchor qualification guarantees end at the draw boundary; no result protection exists afterward;
+- field = 32, groups = 8×4, player opponents = exactly 3;
+- draw is idempotent for the same career/edition;
+- M8 exit unlocks M9 without changing the locked draw;
+- save/reload preserves the complete World draw state;
+- final CI run #355: **1,200 passed / 0 failed**.
 
 # 3. CANONICAL EVENT BINDINGS
 
