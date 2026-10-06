@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 1,
+  "id": "M05",
+  "title": "Sopra le Nuvole",
+  "targets": {
+    "stitches": 5700,
+    "choices": 3600
+  },
+  "progressionRole": "rank-b-band",
+  "designDocument": "docs/modules/M05_SOPRA_LE_NUVOLE_MODULE_DESIGN.md",
+  "mappingDocument": "docs/modules/M05_PRODUCTION_MAPPING.md",
+  "requiredBeats": [
+    "M5_00_RANK_B_HANDOFF",
+    "M5_01_MOUNTAIN_APPROACH",
+    "M5_02_ALTACIMA",
+    "M5_03_LANCE_ENTERS",
+    "M5_04_WEATHER_DECISIONS",
+    "M5_05_FULGORE_ASCENT",
+    "M5_06_ANCIENT_TRACE",
+    "M5_07_INTERREGIONAL_LICENSE",
+    "M5_08_FIVE_CROSS_AGAIN",
+    "M5_09_FRIEND_BEAT_05",
+    "M5_10_HIGH_ALTITUDE_EVENT",
+    "M5_11_TRIAL_REGISTRATION",
+    "M5_12_PROMOTION_TRIAL_B_A",
+    "M5_13_MASTERS_ENTRY",
+    "M5_14_MODULE_OUTCOME"
+  ],
+  "blocks": [
+    {
+      "id": "M5_00_RANK_B_HANDOFF",
+      "title": "Rank B Handoff",
+      "targets": {
+        "stitches": 308,
+        "choices": 194
+      }
+    },
+    {
+      "id": "M5_01_MOUNTAIN_APPROACH",
+      "title": "Mountain Approach",
+      "targets": {
+        "stitches": 362,
+        "choices": 229
+      }
+    },
+    {
+      "id": "M5_02_ALTACIMA",
+      "title": "Altacima",
+      "targets": {
+        "stitches": 362,
+        "choices": 229
+      }
+    },
+    {
+      "id": "M5_03_LANCE_ENTERS",
+      "title": "Lance Enters",
+      "targets": {
+        "stitches": 362,
+        "choices": 229
+      }
+    },
+    {
+      "id": "M5_04_WEATHER_DECISIONS",
+      "title": "Weather Decisions",
+      "targets": {
+        "stitches": 362,
+        "choices": 229
+      }
+    },
+    {
+      "id": "M5_05_FULGORE_ASCENT",
+      "title": "Fulgore Ascent",
+      "targets": {
+        "stitches": 362,
+        "choices": 229
+      }
+    },
+    {
+      "id": "M5_06_ANCIENT_TRACE",
+      "title": "Ancient Trace",
+      "targets": {
+        "stitches": 362,
+        "choices": 229
+      }
+    },
+    {
+      "id": "M5_07_INTERREGIONAL_LICENSE",
+      "title": "Interregional License",
+      "targets": {
+        "stitches": 362,
+        "choices": 229
+      }
+    },
+    {
+      "id": "M5_08_FIVE_CROSS_AGAIN",
+      "title": "Five Cross Again",
+      "targets": {
+        "stitches": 362,
+        "choices": 228
+      }
+    },
+    {
+      "id": "M5_09_FRIEND_BEAT_05",
+      "title": "Friend Beat 05",
+      "targets": {
+        "stitches": 525,
+        "choices": 331
+      }
+    },
+    {
+      "id": "M5_10_HIGH_ALTITUDE_EVENT",
+      "title": "High Altitude Event",
+      "targets": {
+        "stitches": 362,
+        "choices": 228
+      }
+    },
+    {
+      "id": "M5_11_TRIAL_REGISTRATION",
+      "title": "Trial Registration",
+      "targets": {
+        "stitches": 470,
+        "choices": 297
+      }
+    },
+    {
+      "id": "M5_12_PROMOTION_TRIAL_B_A",
+      "title": "Promotion Trial B→A",
+      "targets": {
+        "stitches": 525,
+        "choices": 331
+      }
+    },
+    {
+      "id": "M5_13_MASTERS_ENTRY",
+      "title": "Masters Entry",
+      "targets": {
+        "stitches": 307,
+        "choices": 194
+      }
+    },
+    {
+      "id": "M5_14_MODULE_OUTCOME",
+      "title": "Module Outcome",
+      "targets": {
+        "stitches": 307,
+        "choices": 194
+      }
+    }
+  ]
+}
