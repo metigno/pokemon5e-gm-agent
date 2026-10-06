@@ -69,6 +69,19 @@ const AREA_MOVES = new Set([
   "poison-gas"
 ]);
 
+const WEATHER_ZONE_MOVES = new Set([
+  "hail",
+  "sandstorm"
+]);
+
+function isWeatherZoneMove(move) {
+  return WEATHER_ZONE_MOVES.has(move.id);
+}
+
+function isPointAreaMove(move) {
+  return AREA_MOVES.has(move.id) || isWeatherZoneMove(move);
+}
+
 const ENVIRONMENT_MOVES = new Set([
   "rain-dance",
   "sunny-day"
@@ -183,8 +196,16 @@ function weatherKind(environment, round = null) {
     .replace(/^-|-$/g, "");
 }
 
-function weatherBallProfile(environment, round = null) {
-  const kind = weatherKind(environment, round);
+function weatherBallProfile(environment, round = null, zones = [], position = null) {
+  const zoneWeather =
+    position == null
+      ? null
+      : [...zones].reverse().find(
+          (zone) =>
+            ["hail", "sandstorm"].includes(zone.effect) &&
+            zoneContains(zone, position)
+        )?.effect ?? null;
+  const kind = zoneWeather ?? weatherKind(environment, round);
   const profiles = {
     "harsh-sunlight": { type: "fire", multiplier: 2 },
     "sun": { type: "fire", multiplier: 2 },
@@ -675,6 +696,7 @@ export function isMoveResolvable(move) {
   if (isEnvironmentMove(move)) return true;
   if (isFieldUtilityMove(move)) return true;
   if (isProtectionMove(move)) return true;
+  if (isWeatherZoneMove(move)) return true;
   if (SAVE_EFFECT_MOVES.has(move.id) || AREA_MOVES.has(move.id)) return true;
   if ((move.attack || move.save) && statusFromText(move.description)) return true;
   if (move.id === "struggle") return true;
@@ -1488,12 +1510,116 @@ function rangeCheckForMove(attacker, defender, move) {
 }
 
 function zoneDamage(zone, target, dice, saveSucceeded = false, round = null) {
-  const rolled = rollExpression(zone.damageDice, dice);
-  const raw = Math.max(0, rolled.total + zone.damageModifier);
-  const multiplier = damageProfile({ type: zone.damageType }, target, round).multiplier;
+  const immuneByType =
+    Array.isArray(zone.immuneTypes) &&
+    zone.immuneTypes.some((type) => target.types?.includes(type));
+  const rolled =
+    zone.flatDamage == null && zone.damageDice
+      ? rollExpression(zone.damageDice, dice)
+      : null;
+  const raw = immuneByType
+    ? 0
+    : Math.max(
+        0,
+        zone.flatDamage != null
+          ? Number(zone.flatDamage)
+          : Number(rolled?.total ?? 0) + Number(zone.damageModifier ?? 0)
+      );
+  const multiplier = raw > 0
+    ? damageProfile({ type: zone.damageType }, target, round).multiplier
+    : 1;
   let damage = multiplier === 0.5 ? Math.floor(raw / 2) : raw * multiplier;
   if (saveSucceeded && zone.effect === "smog") damage = Math.floor(damage / 2);
-  return { rolled, raw, multiplier, damage };
+  return { rolled, raw, multiplier, damage, immuneByType };
+}
+
+function applyZoneExposure(battle, side, zone, dice, trigger = "turn_start") {
+  const combatant = battle[side];
+  combatant.turn.zoneExposureIds ??= [];
+  if (combatant.turn.zoneExposureIds.includes(zone.id)) {
+    return { applied: false, reason: "already_exposed_this_turn" };
+  }
+  combatant.turn.zoneExposureIds.push(zone.id);
+
+  const save =
+    !zone.noSave && zone.saveAttribute && Number.isFinite(zone.saveDc)
+      ? resolveSavingThrow({
+          defender: combatant,
+          attribute: zone.saveAttribute,
+          dc: zone.saveDc,
+          dice,
+          round: battle.round
+        })
+      : null;
+
+  const damageInfo = zoneDamage(
+    zone,
+    combatant,
+    dice,
+    save?.success ?? false,
+    battle.round
+  );
+  const reducedZoneDamage = applyDamageReduction(
+    combatant,
+    damageInfo.damage,
+    dice,
+    battle.round
+  );
+  damageInfo.damageBeforeReduction = reducedZoneDamage.damageBeforeReduction;
+  damageInfo.damageReduction = reducedZoneDamage.damageReduction;
+  damageInfo.reductions = reducedZoneDamage.reductions;
+  damageInfo.damage = reducedZoneDamage.damage;
+  combatant.hp.current = Math.max(
+    0,
+    combatant.hp.current - hpDamageAfterTemporaryHp(combatant, damageInfo.damage)
+  );
+
+  let statusResult = null;
+  if (zone.effect === "poison-gas" && save && !save.success) {
+    statusResult = applyMoveStatus(
+      battle[zone.sourceSide],
+      combatant,
+      "Poisoned",
+      battle.round
+    );
+  } else if (
+    zone.effect === "smog" &&
+    save &&
+    !save.success &&
+    save.total <= zone.saveDc - 5
+  ) {
+    statusResult = applyMoveStatus(
+      battle[zone.sourceSide],
+      combatant,
+      "Poisoned",
+      battle.round
+    );
+  }
+
+  battle.log.push({
+    type: "zone_tick",
+    trigger,
+    round: battle.round,
+    actor: side,
+    zoneId: zone.id,
+    moveId: zone.moveId,
+    save,
+    damageRoll: damageInfo.rolled,
+    rawDamage: damageInfo.raw,
+    typeMultiplier: damageInfo.multiplier,
+    damage: damageInfo.damage,
+    immuneByType: damageInfo.immuneByType,
+    hpAfter: combatant.hp.current,
+    statusResult
+  });
+
+  checkConcentrationAfterDamage(battle, side, damageInfo.damage, dice);
+
+  if (combatant.hp.current <= 0) {
+    markDowned(battle, side, "zone_damage");
+    return { applied: true, downed: true, damage: damageInfo.damage };
+  }
+  return { applied: true, downed: false, damage: damageInfo.damage };
 }
 
 function explicitMoveIds(descriptor) {
@@ -1787,6 +1913,7 @@ export class Pokemon5eCombatEngine {
     combatant.turn.actionAvailable = true;
     combatant.turn.bonusActionAvailable = true;
     combatant.turn.disengaged = false;
+    combatant.turn.zoneExposureIds = [];
     combatant.turn.movementRemaining = movementSpeed(combatant, next.round).value;
     combatant.reactionAvailable = !reactionsDisabled(combatant);
 
@@ -1841,61 +1968,8 @@ export class Pokemon5eCombatEngine {
 
     for (const zone of next.zones) {
       if (!zoneContains(zone, combatant.position)) continue;
-
-      const save = resolveSavingThrow({
-        defender: combatant,
-        attribute: zone.saveAttribute,
-        dc: zone.saveDc,
-        dice: this.dice,
-        round: next.round
-      });
-      const damageInfo = zoneDamage(
-        zone,
-        combatant,
-        this.dice,
-        save.success,
-        next.round
-      );
-      const reducedZoneDamage = applyDamageReduction(
-        combatant,
-        damageInfo.damage,
-        this.dice,
-        next.round
-      );
-      damageInfo.damageBeforeReduction = reducedZoneDamage.damageBeforeReduction;
-      damageInfo.damageReduction = reducedZoneDamage.damageReduction;
-      damageInfo.reductions = reducedZoneDamage.reductions;
-      damageInfo.damage = reducedZoneDamage.damage;
-      combatant.hp.current = Math.max(0, combatant.hp.current - hpDamageAfterTemporaryHp(combatant, damageInfo.damage));
-
-      let statusResult = null;
-      if (zone.effect === "poison-gas" && !save.success) {
-        statusResult = applyMoveStatus(next[zone.sourceSide], combatant, "Poisoned", next.round);
-      } else if (zone.effect === "smog" && !save.success && save.total <= zone.saveDc - 5) {
-        statusResult = applyMoveStatus(next[zone.sourceSide], combatant, "Poisoned", next.round);
-      }
-
-      next.log.push({
-        type: "zone_tick",
-        round: next.round,
-        actor: side,
-        zoneId: zone.id,
-        moveId: zone.moveId,
-        save,
-        damageRoll: damageInfo.rolled,
-        rawDamage: damageInfo.raw,
-        typeMultiplier: damageInfo.multiplier,
-        damage: damageInfo.damage,
-        hpAfter: combatant.hp.current,
-        statusResult
-      });
-
-      checkConcentrationAfterDamage(next, side, damageInfo.damage, this.dice);
-
-      if (combatant.hp.current <= 0) {
-        markDowned(next, side, "zone_damage");
-        return next;
-      }
+      const exposure = applyZoneExposure(next, side, zone, this.dice, "turn_start");
+      if (exposure.downed) return next;
     }
 
     if (combatant.switchedInRound === next.round) {
@@ -2015,7 +2089,12 @@ export class Pokemon5eCombatEngine {
     const defender = next[targetSide];
     const weatherProfile =
       move.id === "weather-ball"
-        ? weatherBallProfile(next.environment, next.round)
+        ? weatherBallProfile(
+            next.environment,
+            next.round,
+            next.zones,
+            attacker.position
+          )
         : { type: move.type, multiplier: 1 };
     const effectiveMove =
       move.id === "weather-ball"
@@ -2459,6 +2538,50 @@ export class Pokemon5eCombatEngine {
       hpBefore: before,
       hpAfter: target.hp.current,
       curedStatuses
+    });
+    return next;
+  }
+
+  async resolveWeatherZoneMove(next, side, move, center) {
+    const attacker = next[side];
+    const zoneId = `${next.encounterId}:${move.id}:${next.round}:${next.log.length}`;
+    const damageType = move.id === "hail" ? "ice" : "rock";
+    const immuneTypes =
+      move.id === "hail"
+        ? ["ice"]
+        : ["rock", "steel", "ground"];
+
+    endConcentrationState(next, side, "new_concentration");
+    const zone = createCircleZone({
+      id: zoneId,
+      moveId: move.id,
+      sourceSide: side,
+      center,
+      radius: 50,
+      createdRound: next.round,
+      expiresRound: effectExpiryRound(move, next.round),
+      concentration: true,
+      saveDc: null,
+      saveAttribute: null,
+      damageDice: null,
+      damageModifier: 0,
+      damageType,
+      effect: move.id,
+      flatDamage: Math.ceil(attacker.level / 2),
+      immuneTypes,
+      noSave: true
+    });
+    next.zones.push(zone);
+    attacker.concentration = {
+      zoneId,
+      moveId: move.id,
+      expiresRound: zone.expiresRound
+    };
+    next.log.push({
+      type: "zone_created",
+      round: next.round,
+      actor: side,
+      zone: clone(zone)
     });
     return next;
   }
@@ -3560,7 +3683,7 @@ export class Pokemon5eCombatEngine {
     const slot = moveSlot(move);
     if (!slot || !attacker.turn[slot]) throw new Error(`No ${move.time?.unit ?? "turn"} slot available for ${moveId}`);
 
-    const areaTarget = AREA_MOVES.has(move.id) && targetPoint
+    const areaTarget = isPointAreaMove(move) && targetPoint
       ? point(targetPoint.x, targetPoint.y)
       : null;
     const healTargetSide = isImmediateHealingMove(move)
@@ -3630,7 +3753,7 @@ export class Pokemon5eCombatEngine {
     if (!isStruggle) {
       const pressureApplies =
         defender.abilityId === "pressure" &&
-        !AREA_MOVES.has(move.id) &&
+        !isPointAreaMove(move) &&
         move.range?.type !== "self" &&
         rangeTarget === defender;
       const ppCost = pressureApplies ? 2 : 1;
@@ -3704,6 +3827,9 @@ export class Pokemon5eCombatEngine {
       next = await this.resolveFieldUtilityMove(next, side, move);
     } else if (isProtectionMove(move)) {
       next = await this.resolveProtectionMove(next, side, protectionTargetSide, move);
+    } else if (isWeatherZoneMove(move)) {
+      const center = areaTarget ?? clone(defender.position);
+      next = await this.resolveWeatherZoneMove(next, side, move, center);
     } else if (AREA_MOVES.has(move.id)) {
       const stats = calculateMoveStats(attacker, move, next.round);
       const center = areaTarget ?? clone(defender.position);
@@ -3924,6 +4050,13 @@ export class Pokemon5eCombatEngine {
       provokedOpportunity: provokes,
       opportunityTaken: Boolean(provokes && opportunityMoveId)
     });
+
+    for (const zone of next.zones) {
+      if (zoneContains(zone, from) || !zoneContains(zone, target)) continue;
+      const exposure = applyZoneExposure(next, side, zone, this.dice, "enter");
+      if (exposure.downed || next.outcome || next.awaitingSwitch) return next;
+    }
+
     return next;
   }
 
