@@ -69,6 +69,15 @@ const AREA_MOVES = new Set([
   "poison-gas"
 ]);
 
+const ENVIRONMENT_MOVES = new Set([
+  "rain-dance",
+  "sunny-day"
+]);
+
+function isEnvironmentMove(move) {
+  return ENVIRONMENT_MOVES.has(move.id);
+}
+
 function clone(value) {
   return structuredClone(value);
 }
@@ -136,6 +145,41 @@ function effectExpiryRound(move, round) {
   if (move.duration?.unit === "round") return round + Number(move.duration.value ?? 0);
   if (move.duration?.unit === "minute") return round + (Number(move.duration.value ?? 0) * 10);
   return null;
+}
+
+function weatherKind(environment, round = null) {
+  const raw = environment?.weather;
+  if (!raw) return null;
+  if (
+    raw &&
+    typeof raw === "object" &&
+    raw.expiresRound != null &&
+    round != null &&
+    round >= raw.expiresRound
+  ) return null;
+  const value = typeof raw === "string" ? raw : raw.kind;
+  return String(value ?? "")
+    .toLowerCase()
+    .replace(/[^a-z]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+function weatherBallProfile(environment, round = null) {
+  const kind = weatherKind(environment, round);
+  const profiles = {
+    "harsh-sunlight": { type: "fire", multiplier: 2 },
+    "sun": { type: "fire", multiplier: 2 },
+    "sunny": { type: "fire", multiplier: 2 },
+    "rain": { type: "water", multiplier: 2 },
+    "rainfall": { type: "water", multiplier: 2 },
+    "sandstorm": { type: "rock", multiplier: 2 },
+    "hail": { type: "ice", multiplier: 2 },
+    "snow": { type: "ice", multiplier: 2 },
+    "snowstorm": { type: "ice", multiplier: 2 },
+    "foggy": { type: "normal", multiplier: 2 },
+    "cloudy": { type: "normal", multiplier: 2 }
+  };
+  return profiles[kind] ?? { type: "normal", multiplier: 1 };
 }
 
 function effectiveAc(combatant, round, incomingMove = null) {
@@ -607,6 +651,7 @@ export function isMoveResolvable(move) {
   if (isSpecialTargetMove(move)) return true;
   if (isTypeCopyMove(move)) return true;
   if (isStockpileMove(move)) return true;
+  if (isEnvironmentMove(move)) return true;
   if (SAVE_EFFECT_MOVES.has(move.id) || AREA_MOVES.has(move.id)) return true;
   if ((move.attack || move.save) && statusFromText(move.description)) return true;
   if (move.id === "struggle") return true;
@@ -1653,6 +1698,21 @@ export class Pokemon5eCombatEngine {
       endConcentrationState(next, side, "duration");
     }
     if (
+      next.environment?.weather &&
+      typeof next.environment.weather === "object" &&
+      next.environment.weather.expiresRound != null &&
+      next.round >= next.environment.weather.expiresRound
+    ) {
+      const expiredWeather = clone(next.environment.weather);
+      next.environment.weather = null;
+      next.log.push({
+        type: "weather_end",
+        round: next.round,
+        weather: expiredWeather.kind,
+        source: expiredWeather.source
+      });
+    }
+    if (
       combatant.effects?.temporaryHpSource?.expiresRound != null &&
       next.round >= combatant.effects.temporaryHpSource.expiresRound
     ) {
@@ -1881,6 +1941,14 @@ export class Pokemon5eCombatEngine {
     const attacker = next[side];
     const targetSide = otherSide(side);
     const defender = next[targetSide];
+    const weatherProfile =
+      move.id === "weather-ball"
+        ? weatherBallProfile(next.environment, next.round)
+        : { type: move.type, multiplier: 1 };
+    const effectiveMove =
+      move.id === "weather-ball"
+        ? { ...move, type: weatherProfile.type }
+        : move;
 
     const attackBonus =
       activeModifier(attacker.effects.attackModifierSources, next.round) +
@@ -1888,18 +1956,18 @@ export class Pokemon5eCombatEngine {
     const damageBonus = activeModifier(attacker.effects.damageModifierSources, next.round);
     const defenderForResolution = {
       ...defender,
-      ac: effectiveAc(defender, next.round, move)
+      ac: effectiveAc(defender, next.round, effectiveMove)
     };
 
     const flashFireWasCharged =
       attacker.abilityId === "flash-fire" &&
       attacker.abilityState.flashFireCharged &&
-      move.type === "fire";
+      effectiveMove.type === "fire";
 
     const stockpileMultiplier =
-      move.id === "spit-up"
+      (move.id === "spit-up"
         ? Math.max(1, attacker.effects?.stockpileCount ?? 0)
-        : 1;
+        : 1) * weatherProfile.multiplier;
     const forcedHitConsumed = consumeOneShotAttackSource(
       attacker,
       "forcedHitSources",
@@ -1915,7 +1983,7 @@ export class Pokemon5eCombatEngine {
     const result = resolveAttack({
       attacker,
       defender: defenderForResolution,
-      move,
+      move: effectiveMove,
       dice: this.dice,
       extraAttackModifier: attackBonus,
       extraDamageModifier: damageBonus,
@@ -1968,9 +2036,9 @@ export class Pokemon5eCombatEngine {
     }
 
     let statusResult = null;
-    const thawed = result.hit ? endFrozenOnFireDamage(defender, move, result.damage) : false;
+    const thawed = result.hit ? endFrozenOnFireDamage(defender, effectiveMove, result.damage) : false;
     const secondary = result.hit && result.typeMultiplier > 0
-      ? secondaryStatusFor(move, result.natural)
+      ? secondaryStatusFor(effectiveMove, result.natural)
       : null;
     if (secondary) statusResult = applyMoveStatus(attacker, defender, secondary);
 
@@ -1983,6 +2051,7 @@ export class Pokemon5eCombatEngine {
       attackAdvantageConsumed,
       forcedHitConsumed,
       forcedCriticalConsumed,
+      weather: move.id === "weather-ball" ? weatherKind(next.environment, next.round) : null,
       secondaryStatus: secondary,
       statusResult,
       thawed,
@@ -2318,6 +2387,33 @@ export class Pokemon5eCombatEngine {
       hpBefore: before,
       hpAfter: target.hp.current,
       curedStatuses
+    });
+    return next;
+  }
+
+  async resolveEnvironmentMove(next, side, move) {
+    const kindByMove = {
+      "rain-dance": "rain",
+      "sunny-day": "harsh-sunlight"
+    };
+    const kind = kindByMove[move.id];
+    if (!kind) throw new Error(`No environment handler for ${move.id}`);
+    const previous = clone(next.environment?.weather ?? null);
+    next.environment ??= {};
+    next.environment.weather = {
+      kind,
+      source: move.id,
+      sourceSide: side,
+      startedRound: next.round,
+      expiresRound: effectExpiryRound(move, next.round)
+    };
+    next.log.push({
+      type: "weather_change",
+      round: next.round,
+      actor: side,
+      moveId: move.id,
+      previous,
+      weather: clone(next.environment.weather)
     });
     return next;
   }
@@ -3391,6 +3487,8 @@ export class Pokemon5eCombatEngine {
       next = await this.resolveTypeCopyMove(next, side, move);
     } else if (isStockpileMove(move)) {
       next = await this.resolveStockpileMove(next, side, move);
+    } else if (isEnvironmentMove(move)) {
+      next = await this.resolveEnvironmentMove(next, side, move);
     } else if (AREA_MOVES.has(move.id)) {
       const stats = calculateMoveStats(attacker, move, next.round);
       const center = areaTarget ?? clone(defender.position);
