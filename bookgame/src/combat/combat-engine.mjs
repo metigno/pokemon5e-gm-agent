@@ -194,6 +194,15 @@ function isSaveHpEffectMove(move) {
   return SAVE_HP_EFFECT_MOVES.has(move.id);
 }
 
+const STATUS_CURE_MOVES = new Set([
+  "purify",
+  "refresh"
+]);
+
+function isStatusCureMove(move) {
+  return STATUS_CURE_MOVES.has(move.id);
+}
+
 function healingTargetSide(move, userSide, requestedTargetSide = null) {
   if (move.range?.type === "self") return userSide;
 
@@ -246,6 +255,7 @@ export function isMoveResolvable(move) {
   if (isImmediateHealingMove(move)) return true;
   if (isOhkoMove(move)) return true;
   if (isSaveHpEffectMove(move)) return true;
+  if (isStatusCureMove(move)) return true;
   if (SAVE_EFFECT_MOVES.has(move.id) || AREA_MOVES.has(move.id)) return true;
   if ((move.attack || move.save) && statusFromText(move.description)) return true;
   if (move.id === "struggle") return true;
@@ -1096,6 +1106,42 @@ export class Pokemon5eCombatEngine {
     return next;
   }
 
+  async resolveStatusCureMove(next, side, move) {
+    const user = next[side];
+    const targetSide = move.id === "purify" ? otherSide(side) : side;
+    const target = next[targetSide];
+    const curedStatuses = [];
+
+    if (move.id === "refresh") {
+      for (const status of ["Poisoned", "BadlyPoisoned", "Paralysis", "Burned"]) {
+        if (clearStatus(target, status)) curedStatuses.push(status);
+      }
+    } else if (move.id === "purify") {
+      for (const status of STATUS_IDS) {
+        if (clearStatus(target, status)) curedStatuses.push(status);
+      }
+    }
+
+    const hpBefore = user.hp.current;
+    if (move.id === "purify" && curedStatuses.length > 0) {
+      user.hp.current = Math.min(user.hp.max, user.hp.current + (user.level * 2));
+    }
+
+    next.log.push({
+      type: "status_cure_move",
+      round: next.round,
+      actor: side,
+      target: targetSide,
+      moveId: move.id,
+      moveName: move.name,
+      curedStatuses,
+      healing: user.hp.current - hpBefore,
+      actorHpBefore: hpBefore,
+      actorHpAfter: user.hp.current
+    });
+    return next;
+  }
+
   async resolveSaveHpEffectMove(next, side, move) {
     const attacker = next[side];
     const targetSide = otherSide(side);
@@ -1377,7 +1423,14 @@ export class Pokemon5eCombatEngine {
     const healTargetSide = isImmediateHealingMove(move)
       ? healingTargetSide(move, side, requestedTargetSide)
       : null;
-    const rangeTarget = healTargetSide ? next[healTargetSide] : defender;
+    const cureTargetSide = isStatusCureMove(move) && move.id === "purify"
+      ? otherSide(side)
+      : null;
+    const rangeTarget = healTargetSide
+      ? next[healTargetSide]
+      : cureTargetSide
+        ? next[cureTargetSide]
+        : defender;
     const range = areaTarget
       ? {
           legal: distance(attacker.position, areaTarget) <= move.range.value + 1e-9,
@@ -1443,6 +1496,8 @@ export class Pokemon5eCombatEngine {
       next = await this.resolveOhkoMove(next, side, move);
     } else if (isSaveHpEffectMove(move)) {
       next = await this.resolveSaveHpEffectMove(next, side, move);
+    } else if (isStatusCureMove(move)) {
+      next = await this.resolveStatusCureMove(next, side, move);
     } else if (AREA_MOVES.has(move.id)) {
       const stats = calculateMoveStats(attacker, move);
       const center = areaTarget ?? clone(defender.position);
