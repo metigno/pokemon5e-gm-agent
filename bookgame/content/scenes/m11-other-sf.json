@@ -347,9 +347,9 @@
       ],
       "choices": [
         {
-          "id": "complete_next",
-          "text": "Proseguo verso Review.",
-          "goto": "review"
+          "id": "complete_friend",
+          "text": "Passo a FRIEND_BEAT_11 senza cambiare il bracket.",
+          "goto": "m11-friend-beat-11#friend_entry"
         },
         {
           "id": "complete_alt",
