@@ -422,6 +422,170 @@
           ]
         }
       ]
+    },
+    {
+      "id": "M5_HIGH_ALTITUDE_WINDOW",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "world.flags.fulgore_visited",
+            "eq": true
+          },
+          {
+            "path": "world.flags.friend_beat_05_complete",
+            "eq": true
+          },
+          {
+            "path": "world.flags.m5_high_altitude_event_complete",
+            "ne": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "high_altitude_window",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_high_altitude_event_available",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A5_RANK_TRIAL_B_A",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "competition.rank",
+            "eq": "B"
+          },
+          {
+            "any": [
+              {
+                "path": "player.trainerLevel",
+                "gte": 11
+              },
+              {
+                "path": "world.flags.rank_trial_B_A_available",
+                "eq": true
+              }
+            ]
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "trial_window",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a5_rank_trial_b_a_available",
+              "value": true
+            },
+            {
+              "type": "competition_trial_available",
+              "checkpointId": "RANK_B_TO_A",
+              "fromRank": "B",
+              "toRank": "A",
+              "requiredRosterSize": 5,
+              "retryable": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A5_MASTERS_ENTRY",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "competition.rankOrder",
+            "gte": 5
+          },
+          {
+            "any": [
+              {
+                "path": "player.trainerLevel",
+                "gte": 14
+              },
+              {
+                "path": "world.flags.masters_invitation",
+                "eq": true
+              }
+            ]
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "masters_entry_window",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a5_masters_entry_available",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M5_MODULE_OUTCOME_WINDOW",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "competition.rank",
+            "eq": "A"
+          },
+          {
+            "path": "world.flags.lance_met",
+            "eq": true
+          },
+          {
+            "path": "world.flags.friend_beat_05_complete",
+            "eq": true
+          },
+          {
+            "path": "world.flags.interregional_license",
+            "eq": true
+          },
+          {
+            "path": "world.flags.ancient_mystery_layer_1",
+            "exists": true
+          },
+          {
+            "any": [
+              {
+                "path": "world.flags.a5_masters_entry_available",
+                "eq": true
+              },
+              {
+                "path": "world.flags.masters_entry_complete",
+                "eq": true
+              }
+            ]
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "module_outcome_window",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_module_outcome_available",
+              "value": true
+            }
+          ]
+        }
+      ]
     }
   ]
 }
