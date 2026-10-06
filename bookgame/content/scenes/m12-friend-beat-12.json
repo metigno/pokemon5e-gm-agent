@@ -1,0 +1,654 @@
+{
+  "schemaVersion": 1,
+  "id": "m12-friend-beat-12",
+  "moduleId": "M12",
+  "title": "M12_09 — Friend Beat 12",
+  "locationId": "meridiana_city",
+  "entryNodeId": "friend_entry",
+  "conditions": {
+    "path": "world.flags.m12_meridiana_callbacks_complete",
+    "eq": true
+  },
+  "nodes": {
+    "friend_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Dopo aver attraversato i grandi callback di Asteria, FRIEND_BEAT_12 chiude il filo relazionale senza fingere che tutti siano nello stesso posto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "start_selector",
+          "text": "Apro il contatto finale con gli amici dal loro stato reale.",
+          "goto": "selector"
+        },
+        {
+          "id": "review_history",
+          "text": "Rileggo prima cosa significa chiudere senza riunire artificialmente tutti.",
+          "goto": "relationship_history"
+        },
+        {
+          "id": "review_world",
+          "text": "Rileggo i risultati indipendenti degli amici.",
+          "goto": "world_results"
+        }
+      ]
+    },
+    "selector": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "E4 seleziona un contatto primario tra gli amici reali, ruotando rispetto a FRIEND_BEAT_11 e rispettando lo stato World e gli schedule correnti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "select_primary",
+          "text": "E4 seleziona il contatto primario garantito.",
+          "goto": "primary_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_12_available",
+            "ne": true
+          },
+          "effects": [
+            {
+              "type": "friend_beat_world_select",
+              "previousFriendFlag": "friend_beat_11_friend_id",
+              "outputPrefix": "friend_beat_12",
+              "stage": "final_four"
+            }
+          ]
+        },
+        {
+          "id": "select_existing",
+          "text": "Uso il contatto primario già persistente.",
+          "goto": "primary_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_12_available",
+            "eq": true
+          }
+        }
+      ]
+    },
+    "primary_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il contatto primario garantisce che il beat abbia sempre almeno una persona causalmente raggiungibile, fisicamente o da remoto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "primary_physical",
+          "text": "Il contatto primario è fisico: rispetto lo schedule e continuo.",
+          "goto": "primary_physical",
+          "conditions": {
+            "path": "world.flags.friend_beat_12_contact_mode",
+            "eq": "physical"
+          }
+        },
+        {
+          "id": "primary_remote",
+          "text": "Il contatto primario è remoto: rispetto la distanza e continuo.",
+          "goto": "primary_remote",
+          "conditions": {
+            "path": "world.flags.friend_beat_12_contact_mode",
+            "eq": "remote"
+          }
+        }
+      ]
+    },
+    "group_invite": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Da quel contatto nasce un invito di gruppo: chi è davvero disponibile può essere presente; gli altri partecipano a distanza oppure non vengono descritti come fisicamente presenti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo.",
+          "goto": "mixed_presence"
+        },
+        {
+          "id": "review",
+          "text": "Confronto questo punto con un altro aspetto della chiusura.",
+          "goto": "world_results"
+        }
+      ]
+    },
+    "mixed_presence": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La scena non è una foto di gruppo obbligatoria. Presenza fisica, messaggi, chiamate e partenze possono convivere nello stesso beat."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo.",
+          "goto": "world_results"
+        },
+        {
+          "id": "review",
+          "text": "Confronto questo punto con un altro aspetto della chiusura.",
+          "goto": "no_plot_armor"
+        }
+      ]
+    },
+    "world_results": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Ognuno porta con sé il proprio vero risultato: campione, eliminato, non qualificato o percorso esterno al Mondiale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo.",
+          "goto": "no_plot_armor"
+        },
+        {
+          "id": "review",
+          "text": "Confronto questo punto con un altro aspetto della chiusura.",
+          "goto": "relationship_history"
+        }
+      ]
+    },
+    "no_plot_armor": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Nessun amico riceve un risultato diverso perché la storia sta finendo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo.",
+          "goto": "relationship_history"
+        },
+        {
+          "id": "review",
+          "text": "Confronto questo punto con un altro aspetto della chiusura.",
+          "goto": "celebration"
+        }
+      ]
+    },
+    "relationship_history": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "FRIEND_BEAT_01→11 resta storia persistente: il dodicesimo beat non cancella tensioni, distanze o rapporti costruiti prima."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo.",
+          "goto": "celebration"
+        },
+        {
+          "id": "review",
+          "text": "Confronto questo punto con un altro aspetto della chiusura.",
+          "goto": "tension"
+        }
+      ]
+    },
+    "celebration": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Congratulazioni o festa sono possibili senza imporre al player come debba sentirsi rispetto al proprio risultato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo.",
+          "goto": "tension"
+        },
+        {
+          "id": "review",
+          "text": "Confronto questo punto con un altro aspetto della chiusura.",
+          "goto": "future_plans"
+        }
+      ]
+    },
+    "tension": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Una relazione meno semplice può chiudersi con tensione o confronto senza trasformarsi automaticamente in riconciliazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo.",
+          "goto": "future_plans"
+        },
+        {
+          "id": "review",
+          "text": "Confronto questo punto con un altro aspetto della chiusura.",
+          "goto": "separation"
+        }
+      ]
+    },
+    "future_plans": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Gli amici possono parlare di ciò che viene dopo: viaggi, circuito, allenamento o separazioni, senza fissare un futuro obbligatorio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo.",
+          "goto": "separation"
+        },
+        {
+          "id": "review",
+          "text": "Confronto questo punto con un altro aspetto della chiusura.",
+          "goto": "rematch_policy"
+        }
+      ]
+    },
+    "separation": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La chiusura può anche essere una nuova partenza: restare amici non significa restare nello stesso luogo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo.",
+          "goto": "rematch_policy"
+        },
+        {
+          "id": "review",
+          "text": "Confronto questo punto con un altro aspetto della chiusura.",
+          "goto": "team_state"
+        }
+      ]
+    },
+    "rematch_policy": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un eventuale rematch resta opzionale, usa roster e condizioni reali e non sostituisce WORLD_FINAL come final boss."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo.",
+          "goto": "team_state"
+        },
+        {
+          "id": "review",
+          "text": "Confronto questo punto con un altro aspetto della chiusura.",
+          "goto": "primary_physical"
+        }
+      ]
+    },
+    "team_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Friend Beat non cura, ricostruisce o normalizza la squadra del player."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo.",
+          "goto": "primary_physical"
+        },
+        {
+          "id": "review",
+          "text": "Confronto questo punto con un altro aspetto della chiusura.",
+          "goto": "primary_remote"
+        }
+      ]
+    },
+    "primary_physical": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se il contatto primario è fisico, E4 deve aver verificato una presenza reale nella stessa location."
+        }
+      ],
+      "choices": [
+        {
+          "id": "open_group",
+          "text": "Dal contatto reale apro l'invito al resto del gruppo.",
+          "goto": "group_invite",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_12_primary_mode",
+              "value": "physical"
+            }
+          ]
+        },
+        {
+          "id": "review_schedule",
+          "text": "Rileggo il vincolo di presenza.",
+          "goto": "mixed_presence"
+        }
+      ]
+    },
+    "primary_remote": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se il contatto primario è remoto, la distanza viene rispettata invece di teletrasportare l'amico."
+        }
+      ],
+      "choices": [
+        {
+          "id": "open_group",
+          "text": "Dal contatto remoto apro l'invito al resto del gruppo.",
+          "goto": "group_invite",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_12_primary_mode",
+              "value": "remote"
+            }
+          ]
+        },
+        {
+          "id": "review_distance",
+          "text": "Rileggo perché nessuno viene teletrasportato.",
+          "goto": "mixed_presence"
+        }
+      ]
+    },
+    "group_record": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il record finale deve conservare l'elenco degli amici coinvolti nel contatto di gruppo, oltre al primary contact scelto da E4."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record_luke",
+          "text": "Registro tutti gli altri Four come contatti plausibili del beat.",
+          "goto": "route_meaning",
+          "conditions": {
+            "path": "player.name",
+            "eq": "Luke"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_12_friend_ids",
+              "value": [
+                "Mattew",
+                "Daniel",
+                "Edward",
+                "Fab"
+              ]
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_12_type",
+              "value": "mixed_group_closure"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_12_result",
+              "value": "future_open"
+            }
+          ]
+        },
+        {
+          "id": "record_mattew",
+          "text": "Registro tutti gli altri Four come contatti plausibili del beat.",
+          "goto": "route_meaning",
+          "conditions": {
+            "path": "player.name",
+            "eq": "Mattew"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_12_friend_ids",
+              "value": [
+                "Luke",
+                "Daniel",
+                "Edward",
+                "Fab"
+              ]
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_12_type",
+              "value": "mixed_group_closure"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_12_result",
+              "value": "future_open"
+            }
+          ]
+        },
+        {
+          "id": "record_daniel",
+          "text": "Registro tutti gli altri Four come contatti plausibili del beat.",
+          "goto": "route_meaning",
+          "conditions": {
+            "path": "player.name",
+            "eq": "Daniel"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_12_friend_ids",
+              "value": [
+                "Luke",
+                "Mattew",
+                "Edward",
+                "Fab"
+              ]
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_12_type",
+              "value": "mixed_group_closure"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_12_result",
+              "value": "future_open"
+            }
+          ]
+        },
+        {
+          "id": "record_edward",
+          "text": "Registro tutti gli altri Four come contatti plausibili del beat.",
+          "goto": "route_meaning",
+          "conditions": {
+            "path": "player.name",
+            "eq": "Edward"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_12_friend_ids",
+              "value": [
+                "Luke",
+                "Mattew",
+                "Daniel",
+                "Fab"
+              ]
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_12_type",
+              "value": "mixed_group_closure"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_12_result",
+              "value": "future_open"
+            }
+          ]
+        },
+        {
+          "id": "record_fab",
+          "text": "Registro tutti gli altri Four come contatti plausibili del beat.",
+          "goto": "route_meaning",
+          "conditions": {
+            "path": "player.name",
+            "eq": "Fab"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_12_friend_ids",
+              "value": [
+                "Luke",
+                "Mattew",
+                "Daniel",
+                "Edward"
+              ]
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_12_type",
+              "value": "mixed_group_closure"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_12_result",
+              "value": "future_open"
+            }
+          ]
+        }
+      ]
+    },
+    "route_meaning": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il significato del beat cambia con WORLD_EXIT, ma campione, eliminato e Worlds Missed restano percorsi egualmente validi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo.",
+          "goto": "commitment"
+        },
+        {
+          "id": "review",
+          "text": "Confronto questo punto con un altro aspetto della chiusura.",
+          "goto": "complete"
+        }
+      ]
+    },
+    "commitment": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "FRIEND_BEAT_12 si chiude soltanto quando primary contact, friend_ids, tipo e risultato sono persistenti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "commit_friend_beat",
+          "text": "Chiudo FRIEND_BEAT_12 mantenendo aperto il futuro.",
+          "goto": "complete",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.friend_beat_12_friend_id",
+                "exists": true
+              },
+              {
+                "path": "world.flags.friend_beat_12_friend_ids",
+                "exists": true
+              },
+              {
+                "path": "world.flags.friend_beat_12_type",
+                "exists": true
+              },
+              {
+                "path": "world.flags.friend_beat_12_result",
+                "exists": true
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_12_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_friend_beat_12_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "commit_review",
+          "text": "Rileggo il record del gruppo prima di chiudere.",
+          "goto": "group_record"
+        }
+      ]
+    },
+    "complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La chiusura relazionale è registrata. Gli amici continuano a esistere nel mondo dopo la main story."
+        }
+      ],
+      "choices": [
+        {
+          "id": "to_postgame",
+          "text": "Passo agli hook del postgame.",
+          "goto": "m12-postgame-hooks#postgame_entry"
+        },
+        {
+          "id": "review_friend_beat",
+          "text": "Rileggo il significato della chiusura relazionale.",
+          "goto": "route_meaning"
+        }
+      ]
+    },
+    "handoff": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il prossimo passo non è un altro boss: sono gli hook del postgame e le possibilità rimaste aperte nel save."
+        }
+      ],
+      "choices": [
+        {
+          "id": "to_postgame",
+          "text": "Apro gli hook rimasti nel save.",
+          "goto": "m12-postgame-hooks#postgame_entry"
+        },
+        {
+          "id": "review_open_future",
+          "text": "Rileggo perché il futuro resta aperto.",
+          "goto": "future_plans"
+        }
+      ]
+    }
+  }
+}
