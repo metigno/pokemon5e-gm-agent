@@ -3,7 +3,7 @@
 **Module:** M12 — Dopo il Mondo  
 **Authority:** subordinate to `P5E_LIBROGAME_ENGINE_SOURCE_OF_TRUTH.md`, `P5E_LIBROGAME_12_MODULES_MASTER.md` and `M12_DOPO_IL_MONDO_MODULE_DESIGN.md`  
 **Locked authored budget:** **4,753 stitches / 1,884 player choices**  
-**Module implementation status:** **FINAL CYCLE IMPLEMENTED / VALIDATION PENDING**
+**Module implementation status:** **COMPLETE / RUNTIME-VALIDATED**
 
 E1–E7 are shared infrastructure from M1. No module-specific replacement engine is allowed.
 
@@ -54,9 +54,9 @@ The spine is production ordering, not forced linear play. Actual legal branches 
 | M12_06_HIGHLANDS_CALLBACKS | M5 Fulgore, Altacima e mistero antico | 442 | 175 | CYCLE 2 VALIDATED |
 | M12_07_INTERREGIONAL_CALLBACKS | M6 carriera, Red, Masters e cutoff | 442 | 175 | CYCLE 2 VALIDATED |
 | M12_08_MERIDIANA_CALLBACKS | M7 media, Cynthia, Qualifier e status professionale | 442 | 175 | CYCLE 2 VALIDATED |
-| M12_09_FRIEND_BEAT_12 | chiusura con tutti gli amici plausibili, almeno uno garantito | 441 | 175 | FINAL CYCLE IMPLEMENTED |
-| M12_10_POSTGAME_HOOKS | side quest, Legendary arcs, Primo Faro, mistero antico e future stagioni | 304 | 121 | FINAL CYCLE IMPLEMENTED |
-| M12_11_MAIN_STORY_COMPLETE | flag finale senza chiudere free-roam o cancellare stato | 259 | 103 | FINAL CYCLE IMPLEMENTED |
+| M12_09_FRIEND_BEAT_12 | chiusura con tutti gli amici plausibili, almeno uno garantito | 441 | 175 | VALIDATED |
+| M12_10_POSTGAME_HOOKS | side quest, Legendary arcs, Primo Faro, mistero antico e future stagioni | 304 | 121 | VALIDATED |
+| M12_11_MAIN_STORY_COMPLETE | flag finale senza chiudere free-roam o cancellare stato | 259 | 103 | VALIDATED |
 | **TOTAL** |  | **4,753** | **1,884** | |
 
 ---
@@ -538,3 +538,47 @@ The final production cycle closes the relational arc and the main story while ke
 **Implementation lock:** scene `m12-main-story-complete` contains **13 nodes / 27 meaningful choices**.
 
 **Library decision:** final M12 is fully expressible through Library V2 **R01→R38**. **No R39 candidate is required.**
+
+
+---
+
+# 12. FINAL RUNTIME VALIDATION EVIDENCE — 2026-10-06
+
+M12 — *Dopo il Mondo* is now **COMPLETE**.
+
+Final runtime surface:
+
+- M12_00→M12_04: **95 nodes / 209 meaningful choices**;
+- M12_05→M12_08: **84 nodes / 188 meaningful choices**;
+- M12_09→M12_11: **49 nodes / 105 meaningful choices**;
+- exact M12 total: **228 logical nodes / 502 meaningful choices**;
+- authored-surface manifest preserved: **4,753 stitches / 1,884 choices**.
+
+Final behavior validated:
+
+- all **228/228 M12 nodes** are reachable from WORLD_EXIT with no zero-incoming padding;
+- World Champion, World eliminated and Worlds Missed routes all close legally;
+- FRIEND_BEAT_12 guarantees one causal E4-selected primary contact and records the Four without teleporting unavailable friends;
+- physical friend contact requires actual Meridiana schedule overlap; otherwise contact remains remote;
+- FRIEND_BEAT_12 selection is persistent/idempotent;
+- postgame hooks preserve only existing quest/lore/Legendary/Primo Faro/future-season state;
+- no postgame hook grants a Legendary, heals the roster or creates a second save model;
+- final commit preserves E5 competition truth, World Champion, roster, quests and NPC state;
+- `main_story_complete=true`, `postgame_free_roam=true`, `free_roam=true`, `m12_complete=true`;
+- postgame free roam remains interactive after completion;
+- complete M12 state survives save/reload, including `friend_beat_12_friend_ids`;
+- Library V2 **R01→R38** remains sufficient across the complete twelve-module campaign;
+- **no R39 candidate is justified**.
+
+Final validation:
+
+- branch: `m12-00-04-work`;
+- PR **#14**;
+- validated runtime HEAD: `4323e799fc3344e56e9cb6d72c40aa94ab90249a`;
+- GitHub Actions **Bookgame Tests #428: SUCCESS**;
+- syntax: **PASS**;
+- `validate:story`: **PASS**;
+- compiler: **154 scenes / 2,462 nodes / 2,817 stitches / 5,577 compiled choices / 60 world events / 14 ecology zones / 479 ecology species**;
+- tests: **1,333 passed / 0 failed / 0 skipped**.
+
+The main campaign production surface M01→M12 is now runtime-complete.
