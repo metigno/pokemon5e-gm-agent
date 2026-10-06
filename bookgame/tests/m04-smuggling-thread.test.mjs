@@ -1,0 +1,36 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { mkdtemp, rm } from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { BookgameEngine } from "../src/engine/bookgame-engine.mjs";
+import { compileStory } from "../src/compiler/story-compiler.mjs";
+import { SaveStore } from "../src/engine/save-store.mjs";
+import { createNewGameState } from "../src/engine/state.mjs";
+import { SequenceDice } from "../src/engine/dice.mjs";
+const scenesDir=fileURLToPath(new URL("../content/scenes/",import.meta.url));
+const modulesDir=fileURLToPath(new URL("../content/modules/",import.meta.url));
+const eventsDir=fileURLToPath(new URL("../content/events/",import.meta.url));
+const ecologyProfilesDir=fileURLToPath(new URL("../content/ecology/",import.meta.url));
+const zonePoolsFile=fileURLToPath(new URL("../../campaign/world/ecology/ZONE_POOLS.json",import.meta.url));
+const distributionFile=fileURLToPath(new URL("../../campaign/world/ecology/SPECIES_DISTRIBUTION.json",import.meta.url));
+const faunaIndexFile=fileURLToPath(new URL("../../campaign/world/fauna/ASTERIA_FAUNA_INDEX.json",import.meta.url));
+const ecologyOptions={profilesDir:ecologyProfilesDir,zonePoolsFile,distributionFile,faunaIndexFile};
+const fixedNow=()=> "2026-10-06T07:00:00.000Z";
+async function makeEngine(dice=new SequenceDice([1])){const bundle=await compileStory({scenesDir,modulesDir,eventsDir,ecologyOptions});const scenes={async load(id){return structuredClone(bundle.scenes[id]);},async loadWorldEvents(){return structuredClone(bundle.worldEvents??[]);},async loadEcology(){return structuredClone(bundle.ecology);}};return {engine:new BookgameEngine({scenes,dice,now:fixedNow}),bundle};}
+function base(){const s=createNewGameState({protagonist:"Luke",now:fixedNow});s.competition.rank="C";s.competition.rankOrder=3;s.player.trainerLevel=8;Object.assign(s.world.flags,{m1_complete:true,m2_complete:true,m3_complete:true,m04_unlocked:true,m4_active:true,mareasale_discovered:true});s.world.locationId="mar_city";return s;}
+function setClock(s,h,m=0){s.world.elapsedMinutes=h*60+m;s.world.day=1;s.world.minuteOfDay=h*60+m;s.world.time=h<6?"night":h<12?"morning":h<18?"afternoon":"evening";return s;}
+
+function hubState(){const s=base();s.story.sceneId="m04-mareasale-arrival";s.story.nodeId="city_hub";s.world.locationId="mar_city";s.world.flags.port_pressure_complete=true;s.world.flags.smuggling_signal_quality="strong";return s;}
+function threadState(signal="strong"){const s=base();Object.assign(s.world.flags,{smuggling_thread_available:true,smuggling_signal_quality:signal});s.quests.M4_SMUGGLING_THREAD={id:"M4_SMUGGLING_THREAD",title:"Movimenti fuori registro",objective:"test",status:"active",offeredAtMinutes:null,startedAtMinutes:s.world.elapsedMinutes,deadlineAtMinutes:s.world.elapsedMinutes+1440,resolvedAtMinutes:null,resolution:null,resolvedBy:null,onDeadline:{status:"failed",resolution:"network_shifted_without_player",resolvedBy:"world"}};s.events.M4_SMUGGLING_WINDOW={status:"resolved",outcomeId:"test",firedAtMinutes:s.world.elapsedMinutes};s.story.sceneId="m04-smuggling-thread";s.story.nodeId="thread_entry";return s;}
+test("M4_07 Living World starts a real one-day smuggling quest",async()=>{const {engine}=await makeEngine();let s=hubState();s=await engine.choose(s,"hub_overlook");const q=s.quests.M4_SMUGGLING_THREAD;assert.equal(q.status,"active");assert.equal(q.deadlineAtMinutes-q.startedAtMinutes,1440);assert.equal(s.world.flags.smuggling_thread_available,true);});
+test("M4_07 deadline can resolve the network without the player",async()=>{const {engine}=await makeEngine();let s=hubState();s=await engine.choose(s,"hub_overlook");s=await engine.choose(s,"overlook_note");const q=s.quests.M4_SMUGGLING_THREAD;s.world.elapsedMinutes=q.deadlineAtMinutes-10;s.world.minuteOfDay=s.world.elapsedMinutes%1440;s.world.day=Math.floor(s.world.elapsedMinutes/1440)+1;s.world.time="morning";s=await engine.choose(s,"hub_quay_walk");assert.equal(s.quests.M4_SMUGGLING_THREAD.status,"failed");assert.equal(s.world.flags.smuggling_state,"resolved_without_player");assert.equal(s.world.flags.smuggling_thread_resolved,true);});
+test("M4_07 explicit ignore is a persistent valid outcome",async()=>{const {engine}=await makeEngine();let s=threadState();s=await engine.choose(s,"ignore_thread");assert.equal(s.quests.M4_SMUGGLING_THREAD.status,"failed");assert.equal(s.world.flags.smuggling_state,"ignored");assert.equal(s.world.flags.smuggling_thread_resolved,true);});
+test("M4_07 strong formal report produces targeted customs intercept",async()=>{const {engine}=await makeEngine();let s=threadState("strong");s=await engine.choose(s,"formal_report");s=await engine.choose(s,"report_strong");assert.equal(s.quests.M4_SMUGGLING_THREAD.status,"completed");assert.equal(s.world.flags.smuggling_state,"customs_intercept");assert.equal(s.story.nodeId,"customs_intercept");});
+test("M4_07 partial report produces monitoring not fabricated seizure",async()=>{const {engine}=await makeEngine();let s=threadState("partial");s=await engine.choose(s,"formal_report");s=await engine.choose(s,"report_partial");assert.equal(s.world.flags.smuggling_state,"customs_monitoring");assert.equal(s.story.nodeId,"customs_monitoring");});
+test("M4_07 low signal can close as insufficient evidence",async()=>{const {engine}=await makeEngine();let s=threadState("low");s=await engine.choose(s,"formal_report");s=await engine.choose(s,"report_low");assert.equal(s.world.flags.smuggling_state,"insufficient_evidence");assert.equal(s.story.nodeId,"insufficient_evidence");});
+test("M4_07 documented transfer can resolve as route_documented",async()=>{const {engine}=await makeEngine(new SequenceDice([20]));let s=threadState("partial");s=await engine.choose(s,"shadow_transfer");s=await engine.choose(s,"setup_quay");s=await engine.choose(s,"watch_perception");assert.equal(s.world.flags.smuggling_transfer_documented,true);s=await engine.choose(s,"documented_customs");assert.equal(s.world.flags.smuggling_state,"route_documented");assert.equal(s.quests.M4_SMUGGLING_THREAD.status,"completed");});
+test("M4_07 coordinated intervention is hidden without strong signal",async()=>{const {engine}=await makeEngine();let s=threadState("partial");s.world.flags.coast_secondary_landing_known=true;s.story.nodeId="route_chain";const v=await engine.present(s);assert.equal(v.choices.some(c=>c.id==="chain_intervene"),false);});
+test("M4_07 never changes Rank or creates competition history",async()=>{const {engine}=await makeEngine();let s=threadState("strong");const h=s.competition.history.length;s=await engine.choose(s,"formal_report");s=await engine.choose(s,"report_strong");assert.equal(s.competition.rank,"C");assert.equal(s.competition.history.length,h);});
+test("M4_07 survives save/reload",async()=>{let dir;try{dir=await mkdtemp(path.join(os.tmpdir(),"m407-"));const store=new SaveStore(dir);const {engine}=await makeEngine();let s=threadState("partial");s=await engine.choose(s,"review_signal");s=await engine.choose(s,"review_partial");s.slot="slot1";await store.save(s);const l=await store.load("slot1");assert.deepEqual(l,s);}finally{if(dir)await rm(dir,{recursive:true,force:true});}});
