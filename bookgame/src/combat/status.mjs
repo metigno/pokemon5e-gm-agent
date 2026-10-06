@@ -124,21 +124,24 @@ export function hasStatus(combatant, status) {
 }
 
 export function attackHasDisadvantage(combatant) {
-  return (
-    ["Poisoned", "BadlyPoisoned"].includes(combatant.statuses?.nonVolatile) ||
-    (combatant.statuses?.flinchedTurns ?? 0) > 0
-  );
+  const poisoned =
+    ["Poisoned", "BadlyPoisoned"].includes(combatant.statuses?.nonVolatile) &&
+    combatant.abilityId !== "guts";
+  return poisoned || (combatant.statuses?.flinchedTurns ?? 0) > 0;
 }
 
 export function abilityCheckHasDisadvantage(combatant) {
-  return (
-    ["Poisoned", "BadlyPoisoned"].includes(combatant.statuses?.nonVolatile) ||
-    (combatant.statuses?.flinchedTurns ?? 0) > 0
-  );
+  const poisoned =
+    ["Poisoned", "BadlyPoisoned"].includes(combatant.statuses?.nonVolatile) &&
+    combatant.abilityId !== "guts";
+  return poisoned || (combatant.statuses?.flinchedTurns ?? 0) > 0;
 }
 
 export function damageHasDisadvantage(combatant) {
-  return combatant.statuses?.nonVolatile === "Burned";
+  return (
+    combatant.statuses?.nonVolatile === "Burned" &&
+    combatant.abilityId !== "guts"
+  );
 }
 
 export function saveHasDisadvantage(combatant, attribute) {
