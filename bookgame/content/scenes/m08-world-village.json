@@ -1,0 +1,532 @@
+{
+  "schemaVersion": 1,
+  "id": "m08-world-village",
+  "moduleId": "M08",
+  "title": "M8_04 — World Village",
+  "locationId": "world_village",
+  "entryNodeId": "village_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m7_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m08_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.world_qualified",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m7_before_lights_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_active",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_world_arrived",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_world_registration_complete",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "village_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il World Village concentra trainer qualificati, staff e servizi. La vicinanza fisica non rende automaticamente disponibile nessun NPC specifico."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_register",
+          "text": "Registro l'ingresso fisico nel Village.",
+          "goto": "village_hub",
+          "conditions": {
+            "path": "world.flags.m8_world_village_arrived",
+            "ne": true
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m8_world_village_arrived",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "world_village_discovered",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "world_village"
+            }
+          ]
+        },
+        {
+          "id": "entry_return",
+          "text": "Sono già nel Village: torno all'hub.",
+          "goto": "village_hub",
+          "conditions": {
+            "path": "world.flags.m8_world_village_arrived",
+            "eq": true
+          }
+        },
+        {
+          "id": "entry_observe",
+          "text": "Osservo il flusso dei partecipanti prima di muovermi.",
+          "goto": "observation_deck"
+        }
+      ]
+    },
+    "village_hub": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Alloggi, mensa, aree comuni, recovery e collegamenti al venue competono per il tempo dei partecipanti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "hub_lodging",
+          "text": "Controllo l'area alloggi.",
+          "goto": "lodging"
+        },
+        {
+          "id": "hub_common",
+          "text": "Vado nelle aree comuni.",
+          "goto": "common_room"
+        },
+        {
+          "id": "hub_services",
+          "text": "Rivedo i servizi del Village.",
+          "goto": "services"
+        }
+      ]
+    },
+    "lodging": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Gli alloggi danno privacy e riposo, ma il recupero meccanico dipende ancora da tempo e sistemi reali."
+        }
+      ],
+      "choices": [
+        {
+          "id": "lodging_quiet",
+          "text": "Cerco una zona tranquilla.",
+          "goto": "quiet_walk"
+        },
+        {
+          "id": "lodging_hub",
+          "text": "Torno all'hub.",
+          "goto": "village_hub"
+        }
+      ]
+    },
+    "dining": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La mensa rende evidente la scala internazionale del field: atleti con abitudini e schedule diverse condividono lo stesso spazio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "dining_social",
+          "text": "Osservo le dinamiche sociali.",
+          "goto": "social_crossroads"
+        },
+        {
+          "id": "dining_hub",
+          "text": "Torno all'hub.",
+          "goto": "village_hub"
+        }
+      ]
+    },
+    "common_room": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Le aree comuni sono ottime per incontri casuali, ma nessun amico o Anchor viene teletrasportato qui per servire la scena."
+        }
+      ],
+      "choices": [
+        {
+          "id": "common_social",
+          "text": "Controllo chi è plausibilmente presente.",
+          "goto": "social_crossroads"
+        },
+        {
+          "id": "common_dining",
+          "text": "Passo alla mensa.",
+          "goto": "dining"
+        }
+      ]
+    },
+    "athlete_quarter": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il quartiere atleti collega alloggi, recovery e accesso training. Le scelte di agenda possono influenzare chi incontri e quando."
+        }
+      ],
+      "choices": [
+        {
+          "id": "athlete_recovery",
+          "text": "Vado verso l'area recovery.",
+          "goto": "recovery_zone"
+        },
+        {
+          "id": "athlete_training",
+          "text": "Controllo gli avvisi della Training Hall.",
+          "goto": "training_notice"
+        },
+        {
+          "id": "athlete_transit",
+          "text": "Controllo i collegamenti al venue.",
+          "goto": "transit"
+        }
+      ]
+    },
+    "recovery_zone": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'area recovery offre servizi e spazi tranquilli, senza cancellare automaticamente condizioni o infortuni."
+        }
+      ],
+      "choices": [
+        {
+          "id": "recovery_quiet",
+          "text": "Mi sposto nella zona tranquilla.",
+          "goto": "quiet_walk"
+        },
+        {
+          "id": "recovery_athlete",
+          "text": "Torno al quartiere atleti.",
+          "goto": "athlete_quarter"
+        }
+      ]
+    },
+    "training_notice": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La Training Hall pubblica finestre e regole di utilizzo. Allenarsi resta una scelta futura, non un bonus ottenuto leggendo la bacheca."
+        }
+      ],
+      "choices": [
+        {
+          "id": "training_board",
+          "text": "Controllo la schedule board.",
+          "goto": "schedule_board"
+        },
+        {
+          "id": "training_athlete",
+          "text": "Torno al quartiere atleti.",
+          "goto": "athlete_quarter"
+        }
+      ]
+    },
+    "transit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Navette e corridoi collegano Village, arena, media e medical center. Ogni spostamento continua a consumare tempo reale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "transit_services",
+          "text": "Rivedo i servizi collegati.",
+          "goto": "services"
+        },
+        {
+          "id": "transit_athlete",
+          "text": "Torno al quartiere atleti.",
+          "goto": "athlete_quarter"
+        }
+      ]
+    },
+    "services": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "I servizi del Village sostengono la permanenza, ma non aggirano registrazione, salute o regole di competizione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "services_sponsor",
+          "text": "Passo alla sponsor row.",
+          "goto": "sponsor_row"
+        },
+        {
+          "id": "services_athlete",
+          "text": "Passo al quartiere atleti.",
+          "goto": "athlete_quarter"
+        }
+      ]
+    },
+    "sponsor_row": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Sponsor e media hanno presenza visibile anche nel Village. Gli obblighi precedenti restano callback, non modificatori occulti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sponsor_callbacks",
+          "text": "Rivedo come il passato viene letto qui.",
+          "goto": "callback_wall"
+        },
+        {
+          "id": "sponsor_services",
+          "text": "Torno ai servizi.",
+          "goto": "services"
+        }
+      ]
+    },
+    "quiet_walk": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Una passeggiata lontano dalle aree affollate protegge tempo e concentrazione, ma può ridurre le occasioni di incontro."
+        }
+      ],
+      "choices": [
+        {
+          "id": "quiet_observe",
+          "text": "Salgo al punto di osservazione.",
+          "goto": "observation_deck"
+        },
+        {
+          "id": "quiet_lodging",
+          "text": "Torno agli alloggi.",
+          "goto": "lodging"
+        }
+      ]
+    },
+    "observation_deck": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Da qui vedi quanto il torneo è grande senza conoscere ancora il tuo gruppo. Il field esiste come insieme di qualificati, non come draw già deciso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "observe_schedule",
+          "text": "Controllo la bacheca schedule.",
+          "goto": "schedule_board"
+        },
+        {
+          "id": "observe_hub",
+          "text": "Scendo verso l'hub.",
+          "goto": "village_hub"
+        }
+      ]
+    },
+    "schedule_board": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La bacheca mostra finestre di training, media e cerimonia. Il WORLD_DRAW resta un evento successivo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "schedule_social",
+          "text": "Uso la schedule per capire quali incontri sono plausibili.",
+          "goto": "social_crossroads"
+        },
+        {
+          "id": "schedule_training",
+          "text": "Torno agli avvisi training.",
+          "goto": "training_notice"
+        }
+      ]
+    },
+    "callback_wall": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Risultati, sponsor, Anchor e Friend Beat precedenti possono cambiare come vieni riconosciuto nel Village, senza attribuire risultati mai ottenuti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "callback_social",
+          "text": "Porto questi callback nelle interazioni sociali.",
+          "goto": "social_crossroads"
+        },
+        {
+          "id": "callback_sponsor",
+          "text": "Torno alla sponsor row.",
+          "goto": "sponsor_row"
+        }
+      ]
+    },
+    "social_crossroads": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Qui puoi cercare contatti plausibili, seguire la schedule o restare per conto tuo. Presenza e posizione reali restano decisive."
+        }
+      ],
+      "choices": [
+        {
+          "id": "social_friend",
+          "text": "Controllo se uno dei Four potrebbe essere presente.",
+          "goto": "friend_presence_hint"
+        },
+        {
+          "id": "social_anchor",
+          "text": "Controllo se l'Anchor del modulo può essere presente.",
+          "goto": "anchor_presence_hint"
+        },
+        {
+          "id": "social_wait",
+          "text": "Aspetto e lascio cambiare i flussi.",
+          "goto": "wait_window"
+        }
+      ]
+    },
+    "friend_presence_hint": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "FRIEND_BEAT_08 userà disponibilità, schedule, posizione e uso recente. Un contatto remoto sarà valido solo se l'incontro fisico non è plausibile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "friend_social",
+          "text": "Torno alle interazioni sociali.",
+          "goto": "social_crossroads"
+        },
+        {
+          "id": "friend_commit",
+          "text": "Registro il criterio di causalità.",
+          "goto": "village_commit",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m8_friend_presence_rule_known",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "anchor_presence_hint": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Astrid Vahl è una partecipante con traiettoria propria. Il Village può renderne plausibile l'incontro, ma non la teletrasporta né la protegge dai risultati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "anchor_social",
+          "text": "Torno alle interazioni sociali.",
+          "goto": "social_crossroads"
+        },
+        {
+          "id": "anchor_commit",
+          "text": "Registro il criterio di presenza dell'Anchor.",
+          "goto": "village_commit",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m8_astrid_presence_rule_known",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "wait_window": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Aspettare cambia schedule e disponibilità. Il mondo continua anche dentro il Village."
+        }
+      ],
+      "choices": [
+        {
+          "id": "wait_hour",
+          "text": "Aspetto un'ora e torno alle interazioni.",
+          "goto": "social_crossroads",
+          "timeCostMinutes": 60
+        },
+        {
+          "id": "wait_commit",
+          "text": "Chiudo l'orientamento senza altra attesa.",
+          "goto": "village_commit"
+        }
+      ]
+    },
+    "village_commit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'orientamento può chiudersi quando hai compreso servizi, schedule e causalità degli incontri. Nessun NPC specifico è stato forzato in scena."
+        }
+      ],
+      "choices": [
+        {
+          "id": "commit_now",
+          "text": "Registro l'orientamento al Village.",
+          "goto": "village_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m8_world_village_orientation_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "world_village"
+            }
+          ]
+        },
+        {
+          "id": "commit_social",
+          "text": "Torno alle aree comuni.",
+          "goto": "social_crossroads"
+        }
+      ]
+    },
+    "village_complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "M8_04 termina con il Village disponibile come hub e con i criteri per gli incontri futuri. Astrid e FRIEND_BEAT_08 restano blocchi successivi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "complete_hub",
+          "text": "Resto libero nel World Village.",
+          "goto": "village_hub"
+        },
+        {
+          "id": "complete_schedule",
+          "text": "Rivedo la schedule prima del prossimo blocco.",
+          "goto": "schedule_board"
+        }
+      ]
+    }
+  }
+}
