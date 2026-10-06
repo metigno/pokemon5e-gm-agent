@@ -396,7 +396,9 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
       }
 
       const combat = choice.combat;
-      const dynamicWorldOpponent = Number.isInteger(combat.competition?.worldOpponentIndex);
+      const dynamicWorldOpponent =
+        Number.isInteger(combat.competition?.worldOpponentIndex) ||
+        ["R16", "QF"].includes(combat.competition?.worldKnockoutRound);
       if (typeof combat.encounterId !== "string" || combat.encounterId.length === 0) {
         errors.push(diag("INVALID_ENCOUNTER_ID", "combat.encounterId is required", choiceAt + ".combat"));
       }
@@ -407,7 +409,7 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
         errors.push(diag("INVALID_COMBAT_LEVEL", "combat.opponent.level must be a positive integer", choiceAt + ".combat"));
       }
       if (dynamicWorldOpponent && (combat.opponent !== undefined || combat.opponentBench !== undefined)) {
-        errors.push(diag("DYNAMIC_WORLD_OPPONENT_MUST_NOT_BE_STATIC", "World group combat resolves opponent roster from the locked E5 draw", choiceAt + ".combat"));
+        errors.push(diag("DYNAMIC_WORLD_OPPONENT_MUST_NOT_BE_STATIC", "World competition combat resolves opponent roster from structured E5 state", choiceAt + ".combat"));
       }
 
       if (!dynamicWorldOpponent && combat.opponentBench !== undefined && !Array.isArray(combat.opponentBench)) {
