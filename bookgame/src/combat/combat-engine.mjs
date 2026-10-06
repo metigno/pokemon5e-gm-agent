@@ -153,10 +153,37 @@ function attackHitStatus(move, natural) {
   return null;
 }
 
+const STATEFUL_AUTO_DAMAGE_MOVES = new Set([
+  "diamond-storm",
+  "focus-punch",
+  "outrage",
+  "powder",
+  "vital-throw"
+]);
+
+function isAutomaticDamageMove(move) {
+  if (move.dice?.type !== "damage" || move.attack || move.save) return false;
+  if (STATEFUL_AUTO_DAMAGE_MOVES.has(move.id)) return false;
+  return /guaranteed to hit|automatically hits?|automatically deals?|instantly inflict|each hit for/i.test(
+    move.description ?? ""
+  );
+}
+
+function automaticDamageHitCount(move) {
+  if (move.id === "hyperspace-fury") return 3;
+  if (["swift", "tachyon-cutter"].includes(move.id)) return 2;
+  return 1;
+}
+
+function requiresSleepingTarget(move) {
+  return ["dream-eater", "nightmare"].includes(move.id);
+}
+
 function isMoveResolvable(move) {
   const damage = move.dice?.type === "damage";
   if (move.attack && damage) return true;
   if (move.save && damage) return true;
+  if (isAutomaticDamageMove(move)) return true;
   if (SAVE_EFFECT_MOVES.has(move.id) || AREA_MOVES.has(move.id)) return true;
   if ((move.attack || move.save) && statusFromText(move.description)) return true;
   if (move.id === "struggle") return true;
@@ -791,6 +818,7 @@ export class Pokemon5eCombatEngine {
       const slot = moveSlot(move);
       if (!slot || !combatant.turn[slot]) continue;
       if (!isMoveResolvable(move)) continue;
+      if (requiresSleepingTarget(move) && defender.statuses?.nonVolatile !== "Asleep") continue;
       if (!rangeCheckForMove(combatant, defender, move).legal) continue;
       result.push(move);
     }
@@ -955,6 +983,58 @@ export class Pokemon5eCombatEngine {
     return next;
   }
 
+  async resolveAutomaticDamageMove(next, side, move) {
+    const attacker = next[side];
+    const targetSide = otherSide(side);
+    const defender = next[targetSide];
+
+    if (requiresSleepingTarget(move) && defender.statuses?.nonVolatile !== "Asleep") {
+      throw new Error(`${move.name} requires a sleeping target`);
+    }
+
+    const stats = calculateMoveStats(attacker, move);
+    const multiplier = damageMultiplierFor(move.type, defender);
+    const hits = [];
+    let totalDamage = 0;
+
+    for (let index = 0; index < automaticDamageHitCount(move); index += 1) {
+      const damageRoll = rollSaveMoveDamage(attacker, stats.damageDice, this.dice);
+      const rawDamage = Math.max(0, damageRoll.selected.total + stats.damageModifier);
+      const damage = multiplier === 0.5 ? Math.floor(rawDamage / 2) : rawDamage * multiplier;
+      totalDamage += damage;
+      hits.push({ index: index + 1, damageRoll, rawDamage, damage });
+    }
+
+    defender.hp.current = Math.max(0, defender.hp.current - totalDamage);
+    checkConcentrationAfterDamage(next, targetSide, totalDamage, this.dice);
+    const thawed = endFrozenOnFireDamage(defender, move, totalDamage);
+
+    let healing = 0;
+    if (move.id === "dream-eater" && totalDamage > 0) {
+      healing = Math.floor(totalDamage / 2);
+      attacker.hp.current = Math.min(attacker.hp.max, attacker.hp.current + healing);
+    }
+
+    next.log.push({
+      type: "automatic_damage",
+      round: next.round,
+      actor: side,
+      target: targetSide,
+      moveId: move.id,
+      moveName: move.name,
+      hits,
+      typeMultiplier: multiplier,
+      damage: totalDamage,
+      healing,
+      thawed,
+      targetHpAfter: defender.hp.current,
+      actorHpAfter: attacker.hp.current
+    });
+
+    if (defender.hp.current <= 0) markDowned(next, targetSide, "move_damage");
+    return next;
+  }
+
   async resolveSaveDamageMove(next, side, move) {
     const attacker = next[side];
     const targetSide = otherSide(side);
@@ -1095,6 +1175,8 @@ export class Pokemon5eCombatEngine {
       next = await this.resolveAttackMove(next, side, move, {
         forceDisadvantage: intimidateUsed
       });
+    } else if (isAutomaticDamageMove(move)) {
+      next = await this.resolveAutomaticDamageMove(next, side, move);
     } else if (AREA_MOVES.has(move.id)) {
       const stats = calculateMoveStats(attacker, move);
       const center = areaTarget ?? clone(defender.position);
