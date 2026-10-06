@@ -1,0 +1,529 @@
+{
+  "schemaVersion": 1,
+  "id": "m04-weather-window",
+  "moduleId": "M04",
+  "title": "M4_02 — Finestra Meteo",
+  "locationId": "mar_city_weather",
+  "entryNodeId": "weather_board",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m3_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m04_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m4_active",
+        "eq": true
+      },
+      {
+        "path": "world.flags.mareasale_discovered",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "C"
+      }
+    ]
+  },
+  "nodes": {
+    "weather_board": {
+      "stitches": [
+        {
+          "id": "weather_board_1",
+          "text": "L'ufficio meteo aggiorna il pannello quattro volte al giorno. Non esiste un 'permesso Rank C' che annulli vento e visibilità: le partenze vengono autorizzate sulla finestra reale del momento."
+        },
+        {
+          "id": "weather_board_2",
+          "text": "Il tuo orologio di gioco è parte della scelta. Se aspetti, il mondo avanza: eventi, schedule, stock e altre finestre possono cambiare mentre il meteo viene riletto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "read_morning",
+          "text": "Leggo la finestra del mattino.",
+          "conditions": {
+            "path": "world.time",
+            "eq": "morning"
+          },
+          "goto": "morning_window",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mareasale_weather_read",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "mareasale_weather_state",
+              "value": "favorable_morning"
+            }
+          ]
+        },
+        {
+          "id": "read_afternoon",
+          "text": "Leggo la finestra del pomeriggio.",
+          "conditions": {
+            "path": "world.time",
+            "eq": "afternoon"
+          },
+          "goto": "afternoon_window",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mareasale_weather_read",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "mareasale_weather_state",
+              "value": "crosswind_afternoon"
+            }
+          ]
+        },
+        {
+          "id": "read_evening",
+          "text": "Leggo la finestra della sera.",
+          "conditions": {
+            "path": "world.time",
+            "eq": "evening"
+          },
+          "goto": "evening_window",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mareasale_weather_read",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "mareasale_weather_state",
+              "value": "rising_evening"
+            }
+          ]
+        },
+        {
+          "id": "read_night",
+          "text": "Leggo la situazione notturna.",
+          "conditions": {
+            "path": "world.time",
+            "eq": "night"
+          },
+          "goto": "night_window",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mareasale_weather_read",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "mareasale_weather_state",
+              "value": "night_closed"
+            }
+          ]
+        },
+        {
+          "id": "weather_tide_board",
+          "text": "Controllo anche il pannello di marea e visibilità.",
+          "goto": "tide_board"
+        },
+        {
+          "id": "weather_back_hub",
+          "text": "Torno nel porto senza prendere decisioni.",
+          "goto": "m04-mareasale-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        }
+      ]
+    },
+    "morning_window": {
+      "stitches": [
+        {
+          "id": "morning_1",
+          "text": "Vento moderato da terra, visibilità buona, onda entro il margine dei piccoli mezzi costieri. Le partenze per la costa sono operative; le autorizzazioni verso la barriera restano comunque separate."
+        }
+      ],
+      "choices": [
+        {
+          "id": "morning_departures",
+          "text": "Controllo quali partenze stanno usando questa finestra.",
+          "goto": "departure_board",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mareasale_departure_window_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "morning_forecast",
+          "text": "Chiedo quanto è stabile la finestra.",
+          "goto": "forecast_detail"
+        },
+        {
+          "id": "morning_harbor_master",
+          "text": "Parlo con il responsabile operativo del turno.",
+          "goto": "harbor_master"
+        },
+        {
+          "id": "morning_back",
+          "text": "Torno al pannello.",
+          "goto": "weather_board"
+        }
+      ]
+    },
+    "afternoon_window": {
+      "stitches": [
+        {
+          "id": "afternoon_1",
+          "text": "Il vento gira trasversale rispetto all'imboccatura del porto. I servizi costieri continuano con margine ridotto; le imbarcazioni leggere vengono valutate partenza per partenza."
+        }
+      ],
+      "choices": [
+        {
+          "id": "afternoon_departures",
+          "text": "Controllo quali servizi stanno ancora partendo.",
+          "goto": "departure_board",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mareasale_departure_window_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "afternoon_forecast",
+          "text": "Chiedo se il vento tenderà a salire.",
+          "goto": "forecast_detail"
+        },
+        {
+          "id": "afternoon_wait",
+          "text": "Aspetto due ore e ricontrollo. Il mondo continua a muoversi.",
+          "timeCostMinutes": 120,
+          "goto": "weather_board",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mareasale_weather_waited",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "afternoon_back",
+          "text": "Torno al pannello.",
+          "goto": "weather_board"
+        }
+      ]
+    },
+    "evening_window": {
+      "stitches": [
+        {
+          "id": "evening_1",
+          "text": "Il vento aumenta e la luce cala. Le partenze ordinarie verso la costa vengono ridotte; l'ufficio sconsiglia di contare su una rotta lunga senza una nuova verifica."
+        }
+      ],
+      "choices": [
+        {
+          "id": "evening_forecast",
+          "text": "Chiedo il quadro per le prossime ore.",
+          "goto": "forecast_detail"
+        },
+        {
+          "id": "evening_wait",
+          "text": "Aspetto due ore e ricontrollo la situazione.",
+          "timeCostMinutes": 120,
+          "goto": "weather_board",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mareasale_weather_waited",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "evening_hub",
+          "text": "Non aspetto: torno a Mareasale.",
+          "goto": "m04-mareasale-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        }
+      ]
+    },
+    "night_window": {
+      "stitches": [
+        {
+          "id": "night_1",
+          "text": "Le partenze non essenziali verso costa e barriera sono chiuse. Restano attivi solo mezzi di servizio e sicurezza. Il Rank non crea un'eccezione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "night_wait",
+          "text": "Aspetto due ore e lascio avanzare il mondo.",
+          "timeCostMinutes": 120,
+          "goto": "weather_board",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mareasale_weather_waited",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "night_forecast",
+          "text": "Chiedo quando verrà rivalutata la finestra.",
+          "goto": "forecast_detail"
+        },
+        {
+          "id": "night_hub",
+          "text": "Torno in città e faccio altro.",
+          "goto": "m04-mareasale-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        }
+      ]
+    },
+    "tide_board": {
+      "stitches": [
+        {
+          "id": "tide_1",
+          "text": "Il pannello di marea non concede accesso da solo: serve a spiegare perché certe rotte di reef hanno finestre più strette del semplice traffico costiero. Visibilità, onda e marea devono restare dentro margini compatibili."
+        }
+      ],
+      "choices": [
+        {
+          "id": "tide_note",
+          "text": "Registro che la barriera richiederà condizioni multiple, non solo Rank C.",
+          "goto": "weather_board",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mareasale_reef_conditions_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "tide_departures",
+          "text": "Confronto il pannello con le partenze annunciate.",
+          "goto": "departure_board",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mareasale_reef_conditions_known",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "forecast_detail": {
+      "stitches": [
+        {
+          "id": "forecast_1",
+          "text": "Il meteorologo evita promesse: «La costa reagisce in fretta. Possiamo dirti il margine adesso e una tendenza, non venderti certezza per le prossime sei ore.»"
+        },
+        {
+          "id": "forecast_2",
+          "text": "Aggiunge che un trainer marittimo di passaggio ha fatto domande molto simili sul rapporto fra corrente, vento e libertà di navigazione. Non ti dà il nome perché non glielo hai chiesto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "forecast_note",
+          "text": "Registro la necessità di ricontrollare il meteo prima delle rotte lunghe.",
+          "goto": "weather_board",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mareasale_forecast_principle_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "forecast_ask_trainer",
+          "text": "Chiedo chi è il trainer che sta studiando il mare.",
+          "conditions": {
+            "path": "world.flags.archie_met",
+            "ne": true
+          },
+          "goto": "m04-archie-enters#weather_office_intro",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "archie_rumor_heard",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "forecast_hub",
+          "text": "Torno nel porto con la tendenza in mente.",
+          "goto": "m04-mareasale-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mareasale_forecast_principle_known",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        }
+      ]
+    },
+    "departure_board": {
+      "stitches": [
+        {
+          "id": "departure_1",
+          "text": "Il quadro partenze usa tre stati semplici: confermata, in attesa di verifica, sospesa. La stessa rotta può cambiare stato quando passa abbastanza tempo o quando il vento supera il margine operativo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "departure_record",
+          "text": "Registro che la partenza è uno stato dinamico, non un flag permanente.",
+          "goto": "weather_board",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mareasale_departure_logic_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "departure_harbor_master",
+          "text": "Chiedo al responsabile come decide una sospensione.",
+          "goto": "harbor_master"
+        },
+        {
+          "id": "departure_plan",
+          "text": "Traduco il quadro in un principio di viaggio.",
+          "goto": "travel_plan"
+        }
+      ]
+    },
+    "harbor_master": {
+      "stitches": [
+        {
+          "id": "harbor_master_1",
+          "text": "«Il nostro lavoro non è far partire tutti. È sapere quando una partenza smette di valere il rischio.» Il responsabile controlla la stessa tabella che hai visto, poi una radio diversa per i mezzi già in acqua."
+        }
+      ],
+      "choices": [
+        {
+          "id": "harbor_ask_pressure",
+          "text": "Chiedo se i ritardi stanno creando problemi ai carichi.",
+          "goto": "harbor_pressure"
+        },
+        {
+          "id": "harbor_ask_archie",
+          "text": "Chiedo del trainer che continua a discutere di mare e rotte.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.archie_met",
+                "ne": true
+              },
+              {
+                "path": "world.flags.archie_rumor_heard",
+                "eq": true
+              }
+            ]
+          },
+          "goto": "m04-archie-enters#harbor_master_intro"
+        },
+        {
+          "id": "harbor_back",
+          "text": "Torno al pannello meteo.",
+          "goto": "weather_board"
+        }
+      ]
+    },
+    "harbor_pressure": {
+      "stitches": [
+        {
+          "id": "pressure_1",
+          "text": "«Ogni ritardo sposta camion, turni e priorità. Il porto assorbe molto, ma quando le finestre saltano per giorni la pressione finisce sui documenti, sui magazzini e sulle persone.» Non accusa nessuno."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pressure_note",
+          "text": "Registro il legame fra meteo e pressione logistica.",
+          "goto": "harbor_master",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mareasale_weather_pressure_linked",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "pressure_follow",
+          "text": "Voglio vedere come questa pressione appare nella zona merci.",
+          "goto": "m04-port-pressure#pressure_board",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mareasale_weather_pressure_linked",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "mar_city_cargo"
+            }
+          ]
+        }
+      ]
+    },
+    "travel_plan": {
+      "stitches": [
+        {
+          "id": "travel_plan_1",
+          "text": "Un piano costiero valido deve distinguere destinazione, mezzo e finestra. M4 userà questi tre elementi quando aprirà Costa di Sale e Barriera Azzurra; non basta un singolo flag di 'meteo buono'."
+        }
+      ],
+      "choices": [
+        {
+          "id": "plan_record",
+          "text": "Registro questo principio di viaggio.",
+          "goto": "weather_board",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mareasale_travel_window_principle",
+              "value": true
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
