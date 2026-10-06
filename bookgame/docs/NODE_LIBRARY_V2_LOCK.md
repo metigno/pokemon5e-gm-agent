@@ -1,8 +1,8 @@
 # P5E LIBROGAME — NODE LIBRARY V2 LOCK
 
 **Status:** LOCKED BASELINE FOR M05→M12 AUTHORING  
-**Production branch reviewed:** `m4-00-04-work`  
-**Validated corpus:** M01 + M02 + M03 + M04  
+**Production branch reviewed:** `m5-00-04-work`  
+**Validated corpus:** M01 + M02 + M03 + M04 + M05  
 **Catalog:** `bookgame/docs/NODE_REUSE_CATALOG.md`
 
 ---
@@ -15,18 +15,19 @@
 | M02 | 189 | 409 |
 | M03 | 250 | 594 |
 | M04 | 253 | 639 |
-| **TOTAL** | **894** | **2,105** |
+| M05 | 240 | 528 |
+| **TOTAL** | **1,134** | **2,633** |
 
-Latest final M4 compiler validation reported:
+Latest final M5 compiler validation reported:
 
-- 56 scenes;
-- 894 nodes;
-- 1,241 stitches;
-- 2,127 compiled choices;
-- 36 world events;
-- 12 ecology zones;
-- 416 ecology species;
-- 976 tests passed / 0 failed.
+- 71 scenes;
+- 1,134 nodes;
+- 1,489 stitches;
+- 2,655 compiled choices;
+- 44 world events;
+- 14 ecology zones;
+- 479 ecology species;
+- 1,062 tests passed / 0 failed.
 
 The production-review choice count and compiler choice count are different metrics; both are retained intentionally.
 
@@ -38,7 +39,7 @@ The reusable structural vocabulary remains:
 
 **R01→R38**
 
-M03 and M04 were audited after implementation and did not prove a missing reusable topology that justifies R39+.
+M03, M04 and M05 were audited after implementation and did not prove a missing reusable topology that justifies R39+.
 
 This is intentional. New story content is expected to reuse or compose existing structures.
 
@@ -152,4 +153,4 @@ This order is now canonical for production.
 
 Current lock:
 
-**R01→R38 / 894 validated logical nodes of empirical evidence / four complete modules.**
+**R01→R38 / 1,134 validated logical nodes of empirical evidence / five complete modules.**
