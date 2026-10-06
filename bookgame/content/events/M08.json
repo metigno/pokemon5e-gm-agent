@@ -1,0 +1,460 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "M08",
+  "events": [
+    {
+      "id": "M8_ASTRID_ARRIVAL",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "world.flags.m8_world_village_orientation_complete",
+            "eq": true
+          },
+          {
+            "path": "world.flags.m8_astrid_available",
+            "ne": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "astrid_world_village",
+          "effects": [
+            {
+              "type": "npc_register",
+              "npcId": "AstridVahl",
+              "name": "Astrid Vahl",
+              "relationshipScore": 0,
+              "state": {
+                "role": "reigning_world_champion_anchor",
+                "introduced": false,
+                "competitiveProtection": false,
+                "module": "M08"
+              }
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "AstridVahl",
+              "scheduleId": "m8_world_village_anchor",
+              "locationId": "world_village",
+              "availability": "available",
+              "activity": "world_preparation"
+            },
+            {
+              "type": "set_flag",
+              "key": "m8_astrid_available",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M8_FRIEND_BEAT_SELECT",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "world.flags.astrid_met",
+            "eq": true
+          },
+          {
+            "path": "world.flags.m8_world_village_orientation_complete",
+            "eq": true
+          },
+          {
+            "path": "world.flags.friend_beat_08_available",
+            "ne": true
+          },
+          {
+            "path": "world.flags.friend_beat_08_complete",
+            "ne": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "luke_physical",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Luke"
+              },
+              {
+                "path": "world.flags.friend_beat_07_friend_id",
+                "ne": "Luke"
+              },
+              {
+                "path": "npcs.Luke.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Luke.schedule.locationId",
+                "eq": "world_village"
+              },
+              {
+                "path": "world.locationId",
+                "eq": "world_village"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_friend_id",
+              "value": "Luke"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "mattew_physical",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Mattew"
+              },
+              {
+                "path": "world.flags.friend_beat_07_friend_id",
+                "ne": "Mattew"
+              },
+              {
+                "path": "npcs.Mattew.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Mattew.schedule.locationId",
+                "eq": "world_village"
+              },
+              {
+                "path": "world.locationId",
+                "eq": "world_village"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_friend_id",
+              "value": "Mattew"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "daniel_physical",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Daniel"
+              },
+              {
+                "path": "world.flags.friend_beat_07_friend_id",
+                "ne": "Daniel"
+              },
+              {
+                "path": "npcs.Daniel.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Daniel.schedule.locationId",
+                "eq": "world_village"
+              },
+              {
+                "path": "world.locationId",
+                "eq": "world_village"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_friend_id",
+              "value": "Daniel"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "edward_physical",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Edward"
+              },
+              {
+                "path": "world.flags.friend_beat_07_friend_id",
+                "ne": "Edward"
+              },
+              {
+                "path": "npcs.Edward.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Edward.schedule.locationId",
+                "eq": "world_village"
+              },
+              {
+                "path": "world.locationId",
+                "eq": "world_village"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_friend_id",
+              "value": "Edward"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "fab_physical",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Fab"
+              },
+              {
+                "path": "world.flags.friend_beat_07_friend_id",
+                "ne": "Fab"
+              },
+              {
+                "path": "npcs.Fab.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Fab.schedule.locationId",
+                "eq": "world_village"
+              },
+              {
+                "path": "world.locationId",
+                "eq": "world_village"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_friend_id",
+              "value": "Fab"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "luke_remote",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Luke"
+              },
+              {
+                "path": "world.flags.friend_beat_07_friend_id",
+                "ne": "Luke"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_friend_id",
+              "value": "Luke"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "mattew_remote",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Mattew"
+              },
+              {
+                "path": "world.flags.friend_beat_07_friend_id",
+                "ne": "Mattew"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_friend_id",
+              "value": "Mattew"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "daniel_remote",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Daniel"
+              },
+              {
+                "path": "world.flags.friend_beat_07_friend_id",
+                "ne": "Daniel"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_friend_id",
+              "value": "Daniel"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "edward_remote",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Edward"
+              },
+              {
+                "path": "world.flags.friend_beat_07_friend_id",
+                "ne": "Edward"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_friend_id",
+              "value": "Edward"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "fab_remote",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Fab"
+              },
+              {
+                "path": "world.flags.friend_beat_07_friend_id",
+                "ne": "Fab"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_friend_id",
+              "value": "Fab"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_available",
+              "value": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
