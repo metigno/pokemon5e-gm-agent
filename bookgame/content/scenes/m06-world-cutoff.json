@@ -367,11 +367,6 @@
               "type": "set_flag",
               "key": "m6_world_cutoff_review_complete",
               "value": true
-            },
-            {
-              "type": "set_flag",
-              "key": "m6_module_outcome_available",
-              "value": true
             }
           ]
         },
