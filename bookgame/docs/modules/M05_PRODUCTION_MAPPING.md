@@ -132,6 +132,20 @@ The compiler still reports the pre-existing terminal/local-reachability warnings
 
 **No R39 candidate is required.** The second cycle is fully expressible with Library V2 R01→R38.
 
+## 2E. CYCLE M5_05–M5_09 VALIDATION EVIDENCE
+
+Validation executed on GitHub Actions from branch `m5-00-04-work` after the five cycle-two scenes, A5 event catalog, M5 ecology profile, budget locks and Library V2 declarations were present:
+
+- syntax checks: **PASS**;
+- `npm --prefix bookgame run validate:story`: **PASS**;
+- compiled global graph: **66 scenes / 1,051 nodes / 1,405 stitches / 2,474 choices / 40 world events / 14 ecology zones / 479 ecology species**;
+- compiled M05 authored surface currently present: **164 stitches / 347 choices** across M5_00–M5_09;
+- logical M5 production surface: **157 nodes / 347 meaningful choices**, leaving **83 / 181** for M5_10–M5_14;
+- `npm --prefix bookgame test`: **1,045 pass / 0 fail / 0 skipped / 0 cancelled**;
+- first validation exposed exactly two strict-source issues: an invalid mixed E1 trigger shape and a Fulgore fauna candidate rejected by the compiled habitat filter; both were repaired at the source without broadening rules or weakening validation;
+- final workflow run: **#37434959153**;
+- M1–M4 and M5_00–M5_04 regressions remain green.
+
 ---
 
 # 3. CANONICAL EVENT BINDINGS
