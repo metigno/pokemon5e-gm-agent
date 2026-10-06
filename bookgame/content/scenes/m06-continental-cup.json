@@ -91,7 +91,7 @@
         {
           "id": "bracket_review",
           "text": "Controllo come verrà registrato un piazzamento.",
-          "goto": "cup_review"
+          "goto": "field_notes"
         },
         {
           "id": "bracket_rules",
@@ -778,18 +778,18 @@
         }
       ]
     },
-    "skipped": {
+    "field_notes": {
       "stitches": [
         {
           "id": "s1",
-          "text": "Se la Cup è stata saltata, non esistono bracket, punti o piazzamenti immaginari."
+          "text": "Anche prima del primo match il field continua a muoversi: gli altri trainer hanno schedule e risultati propri. Osservarli non modifica il bracket."
         }
       ],
       "choices": [
         {
-          "id": "skipped_ancient",
-          "text": "Proseguo al secondo layer del mistero.",
-          "goto": "m06-ancient-layer-two#layer_entry"
+          "id": "field_review",
+          "text": "Torno alla lettura del bracket.",
+          "goto": "cup_review"
         }
       ]
     }
