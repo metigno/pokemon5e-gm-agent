@@ -1,0 +1,634 @@
+{
+  "schemaVersion": 1,
+  "id": "m10-friend-beat-10",
+  "moduleId": "M10",
+  "title": "M10_05 — Friend Beat 10",
+  "locationId": "world_knockout_hall",
+  "entryNodeId": "friend_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m10_r16_aftermath_complete",
+        "eq": true
+      },
+      {
+        "path": "competition.world.knockout.r16Resolved",
+        "eq": true
+      },
+      {
+        "path": "competition.world.top8Locked",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "friend_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Dopo gli ottavi, la corsa degli amici deve essere letta dal torneo reale: qualcuno può essere nel Top8, eliminato o perfino nel tuo stesso quarto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_select",
+          "text": "Seleziono il Friend Beat dalla situazione World reale.",
+          "goto": "selector"
+        },
+        {
+          "id": "entry_world",
+          "text": "Prima controllo cosa significa essere ancora in corsa.",
+          "goto": "friend_world_state"
+        },
+        {
+          "id": "entry_previous",
+          "text": "Rileggo l'ultimo contatto prima di scegliere.",
+          "goto": "previous_callback"
+        }
+      ]
+    },
+    "selector": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "E4 sceglie tra Mattew, Daniel, Edward e Fab usando stato World, Top8, possibile QF contro il player, schedule, relazione e rotazione del Friend Beat precedente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "select_now",
+          "text": "Locko il Friend Beat 10.",
+          "goto": "selected",
+          "conditions": {
+            "path": "world.flags.friend_beat_10_available",
+            "ne": true
+          },
+          "effects": [
+            {
+              "type": "friend_beat_world_select",
+              "previousFriendFlag": "friend_beat_09_friend_id",
+              "outputPrefix": "friend_beat_10",
+              "stage": "knockout"
+            }
+          ]
+        },
+        {
+          "id": "select_existing",
+          "text": "Il Friend Beat è già lockato: uso la selezione persistente.",
+          "goto": "selected",
+          "conditions": {
+            "path": "world.flags.friend_beat_10_available",
+            "eq": true
+          }
+        }
+      ]
+    },
+    "selected": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Amico selezionato: {{world.flags.friend_beat_10_friend_id}}. Il contesto {{world.flags.friend_beat_10_context}} viene da E4/E5, non da una scelta narrativa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "selected_physical",
+          "text": "Il contatto è fisicamente disponibile: lo raggiungo.",
+          "goto": "schedule_gate",
+          "conditions": {
+            "path": "world.flags.friend_beat_10_contact_mode",
+            "eq": "physical"
+          }
+        },
+        {
+          "id": "selected_remote",
+          "text": "Non siamo nello stesso posto: uso il contatto remoto.",
+          "goto": "remote_contact",
+          "conditions": {
+            "path": "world.flags.friend_beat_10_contact_mode",
+            "eq": "remote"
+          }
+        }
+      ]
+    },
+    "context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Friend Beat può leggere se l'amico è il tuo QF opponent, in un altro quarto, eliminato agli ottavi o già fuori dal World. Non modifica nessuno di questi stati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "context_top8",
+          "text": "Controllo il caso dell'amico ancora nel Top8.",
+          "goto": "top8_context"
+        },
+        {
+          "id": "context_elim",
+          "text": "Controllo il caso dell'amico eliminato.",
+          "goto": "eliminated_context"
+        }
+      ]
+    },
+    "top8_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se l'amico è nel Top8, la sua corsa continua per merito dei risultati reali. Nessun Friend Beat lo protegge dal suo prossimo match."
+        }
+      ],
+      "choices": [
+        {
+          "id": "top8_qf",
+          "text": "Verifico il caso in cui sia proprio il mio prossimo avversario.",
+          "goto": "qf_opponent_context"
+        },
+        {
+          "id": "top8_pressure",
+          "text": "Parlo della pressione del knockout.",
+          "goto": "pressure"
+        }
+      ]
+    },
+    "eliminated_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se l'amico è già fuori, il contatto diventa uno sguardo dall'esterno sul torneo. Non viene reinserito nel bracket."
+        }
+      ],
+      "choices": [
+        {
+          "id": "elim_result",
+          "text": "Rileggo la regola di indipendenza dei risultati.",
+          "goto": "result_independence"
+        },
+        {
+          "id": "elim_contact",
+          "text": "Passo al tipo di contatto disponibile.",
+          "goto": "schedule_gate"
+        }
+      ]
+    },
+    "qf_opponent_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Player vs Friend esiste soltanto se il QF bracket contiene davvero entrambi nello stesso match. In quel caso il Friend Beat non cambia il pairing."
+        }
+      ],
+      "choices": [
+        {
+          "id": "qf_pressure",
+          "text": "Affronto il peso di un quarto contro un amico.",
+          "goto": "pressure"
+        },
+        {
+          "id": "qf_independence",
+          "text": "Confermo che il risultato resterà indipendente.",
+          "goto": "result_independence"
+        }
+      ]
+    },
+    "schedule_gate": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La modalità di contatto è già stata calcolata da E4 al momento della selezione. Un incontro fisico non può essere inventato se gli schedule non coincidevano."
+        }
+      ],
+      "choices": [
+        {
+          "id": "schedule_physical",
+          "text": "Siamo nello stesso venue: apro il contatto reale.",
+          "goto": "physical_contact",
+          "conditions": {
+            "path": "world.flags.friend_beat_10_contact_mode",
+            "eq": "physical"
+          }
+        },
+        {
+          "id": "schedule_remote",
+          "text": "Il contatto è remoto: non teletrasporto nessuno.",
+          "goto": "remote_contact",
+          "conditions": {
+            "path": "world.flags.friend_beat_10_contact_mode",
+            "eq": "remote"
+          }
+        }
+      ]
+    },
+    "physical_contact": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il confronto avviene nel venue. La risposta dipende dall'amico realmente selezionato e aggiorna soltanto la relazione, mai il bracket."
+        }
+      ],
+      "choices": [
+        {
+          "id": "physical_mattew",
+          "text": "Parlo con Mattew.",
+          "goto": "contact_after",
+          "conditions": {
+            "path": "world.flags.friend_beat_10_friend_id",
+            "eq": "Mattew"
+          },
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_10_type",
+              "value": "physical_knockout_contact"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_10_result",
+              "value": "supportive_exchange"
+            }
+          ]
+        },
+        {
+          "id": "physical_daniel",
+          "text": "Parlo con Daniel.",
+          "goto": "contact_after",
+          "conditions": {
+            "path": "world.flags.friend_beat_10_friend_id",
+            "eq": "Daniel"
+          },
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_10_type",
+              "value": "physical_knockout_contact"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_10_result",
+              "value": "supportive_exchange"
+            }
+          ]
+        },
+        {
+          "id": "physical_edward",
+          "text": "Parlo con Edward.",
+          "goto": "contact_after",
+          "conditions": {
+            "path": "world.flags.friend_beat_10_friend_id",
+            "eq": "Edward"
+          },
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_10_type",
+              "value": "physical_knockout_contact"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_10_result",
+              "value": "supportive_exchange"
+            }
+          ]
+        },
+        {
+          "id": "physical_fab",
+          "text": "Parlo con Fab.",
+          "goto": "contact_after",
+          "conditions": {
+            "path": "world.flags.friend_beat_10_friend_id",
+            "eq": "Fab"
+          },
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_10_type",
+              "value": "physical_knockout_contact"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_10_result",
+              "value": "supportive_exchange"
+            }
+          ]
+        }
+      ]
+    },
+    "remote_contact": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il contatto remoto mantiene la causalità: l'amico non compare fisicamente nel venue, ma la relazione può continuare a esistere a distanza."
+        }
+      ],
+      "choices": [
+        {
+          "id": "remote_accept",
+          "text": "Accetto il contatto remoto e proseguo.",
+          "goto": "contact_after",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_10_type",
+              "value": "remote_knockout_contact"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_10_result",
+              "value": "remote_support"
+            }
+          ]
+        },
+        {
+          "id": "remote_context",
+          "text": "Prima rileggo il contesto competitivo dell'amico.",
+          "goto": "context"
+        }
+      ]
+    },
+    "contact_after": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il contatto è avvenuto senza alterare bracket, risultati o risorse del team. Il Friend Beat può ora reagire allo stato reale del player."
+        }
+      ],
+      "choices": [
+        {
+          "id": "after_team",
+          "text": "Parlo di cosa mi resta nella squadra.",
+          "goto": "team_state"
+        },
+        {
+          "id": "after_route",
+          "text": "Parlo di cosa significa restare o uscire dal World.",
+          "goto": "route_meaning"
+        }
+      ]
+    },
+    "previous_callback": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Friend Beat precedente influenza la rotazione, ma non garantisce né esclude per sempre nessun amico: la situazione competitiva attuale ha priorità."
+        }
+      ],
+      "choices": [
+        {
+          "id": "previous_select",
+          "text": "Torno alla selezione del contatto attuale.",
+          "goto": "selector"
+        },
+        {
+          "id": "previous_relationship",
+          "text": "Rileggo il valore della relazione persistente.",
+          "goto": "relationship"
+        }
+      ]
+    },
+    "relationship": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La relazione accumulata cambia il tono del contatto. Non concede informazioni segrete, bonus di battaglia o protezione dagli esiti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "relationship_contact",
+          "text": "Torno al contatto reale.",
+          "goto": "selected"
+        },
+        {
+          "id": "relationship_independence",
+          "text": "Controllo ancora la separazione dai risultati.",
+          "goto": "result_independence"
+        }
+      ]
+    },
+    "team_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Friend Beat legge la tua squadra così com'è uscita dagli ottavi. Non ripristina HP, PP, status, infortuni o inventario."
+        }
+      ],
+      "choices": [
+        {
+          "id": "team_pressure",
+          "text": "Ragiono sulla pressione delle risorse residue.",
+          "goto": "pressure"
+        },
+        {
+          "id": "team_commit",
+          "text": "Porto il contatto alla chiusura.",
+          "goto": "commitment"
+        }
+      ]
+    },
+    "friend_world_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Gli amici continuano carriere indipendenti. Top8, eliminazione e pairing vengono da E5; E4 decide soltanto quale contatto è plausibile e utile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "world_context",
+          "text": "Apro la classificazione del contesto.",
+          "goto": "context"
+        },
+        {
+          "id": "world_select",
+          "text": "Passo alla selezione E4.",
+          "goto": "selector"
+        }
+      ]
+    },
+    "pressure": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Nel knockout un amico può diventare avversario senza diventare antagonista. La relazione e il risultato competitivo restano due stati distinti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pressure_independence",
+          "text": "Rileggo l'indipendenza del risultato.",
+          "goto": "result_independence"
+        },
+        {
+          "id": "pressure_commit",
+          "text": "Chiudo il confronto.",
+          "goto": "commitment"
+        }
+      ]
+    },
+    "result_independence": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "FRIEND_BEAT_10 non scrive outcome di R16 o QF. Un eventuale Player vs Friend verrà deciso solo dal combat ufficiale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "independence_route",
+          "text": "Passo alla conseguenza reale del mio R16.",
+          "goto": "route_meaning"
+        },
+        {
+          "id": "independence_commit",
+          "text": "Procedo verso la chiusura.",
+          "goto": "commitment"
+        }
+      ]
+    },
+    "route_meaning": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se hai perso il R16, questo è il contatto prima dell'uscita dal World. Se hai vinto, è il contatto prima della preparazione QF."
+        }
+      ],
+      "choices": [
+        {
+          "id": "route_team",
+          "text": "Rileggo le risorse con cui proseguo o esco.",
+          "goto": "team_state"
+        },
+        {
+          "id": "route_commit",
+          "text": "Porto il Friend Beat al commit.",
+          "goto": "commitment"
+        }
+      ]
+    },
+    "commitment": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Friend Beat è completo soltanto quando amico, modalità, contesto, tipo e risultato sono persistenti. Il bracket resta intatto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "commit_now",
+          "text": "Chiudo FRIEND_BEAT_10.",
+          "goto": "branch_gate",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_10_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m10_friend_beat_10_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "commit_audit",
+          "text": "Prima controllo lo stato scritto.",
+          "goto": "audit"
+        }
+      ]
+    },
+    "branch_gate": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La rotta successiva dipende esclusivamente dal risultato R16 già registrato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "branch_qf",
+          "text": "Sono nel Top8: passo alla QF Prep.",
+          "goto": "m10-qf-prep#prep_entry",
+          "conditions": {
+            "path": "world.flags.world_r16_won",
+            "eq": true
+          }
+        },
+        {
+          "id": "branch_exit",
+          "text": "Sono eliminato: passo direttamente al Module Outcome.",
+          "goto": "m10-module-outcome#outcome_entry",
+          "conditions": {
+            "path": "world.flags.world_eliminated",
+            "eq": true
+          }
+        },
+        {
+          "id": "branch_audit",
+          "text": "Rileggo il Friend Beat prima di uscire.",
+          "goto": "audit"
+        }
+      ]
+    },
+    "complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "FRIEND_BEAT_10 è persistente. L'amico selezionato non viene ricalcolato al reload e nessun risultato competitivo è stato modificato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "complete_branch",
+          "text": "Applico la rotta competitiva reale.",
+          "goto": "branch_gate"
+        },
+        {
+          "id": "complete_world",
+          "text": "Rivedo lo stato World dell'amico.",
+          "goto": "friend_world_state"
+        }
+      ]
+    },
+    "audit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'audit richiede friend_id, contact_mode, context, type, result e complete. Nessun campo sostituisce competition.world.knockout."
+        }
+      ],
+      "choices": [
+        {
+          "id": "audit_complete",
+          "text": "Torno alla chiusura del Friend Beat.",
+          "goto": "complete"
+        },
+        {
+          "id": "audit_context",
+          "text": "Rivedo il contesto selezionato.",
+          "goto": "context"
+        }
+      ]
+    }
+  }
+}
