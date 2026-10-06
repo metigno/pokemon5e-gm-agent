@@ -94,11 +94,6 @@
           "goto": "field_notes"
         },
         {
-          "id": "bracket_rules",
-          "text": "Rileggo il formato.",
-          "goto": "rules"
-        },
-        {
           "id": "bracket_leave",
           "text": "Esco dal tabellone senza inventare un risultato.",
           "goto": "m06-continental-entry#registered"
@@ -755,6 +750,11 @@
               "value": true
             }
           ]
+        },
+        {
+          "id": "review_back",
+          "text": "Torno al bracket senza cambiare alcun risultato.",
+          "goto": "bracket"
         }
       ]
     },
