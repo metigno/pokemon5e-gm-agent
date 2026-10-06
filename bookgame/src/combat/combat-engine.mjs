@@ -3926,7 +3926,7 @@ export class Pokemon5eCombatEngine {
     next,
     side,
     move,
-    { targetSide: requestedTargetSide = null, targetPoint = null } = {}
+    { targetSide: requestedTargetSide = null, targetPoint = null, choice = null } = {}
   ) {
     const user = next[side];
     const targetSide = requestedTargetSide ?? otherSide(side);
@@ -4385,6 +4385,627 @@ export class Pokemon5eCombatEngine {
       return record("hp_pool_sleep", { hpPool: pool });
     }
 
+    if (move.id === "aromatic-mist") {
+      pushEffect(user, "saveRollDiceSources", {
+        source: move.id,
+        die: "d4",
+        consumeOnUse: false,
+        expiresRound
+      });
+      return record("save_d4_aura");
+    }
+
+    if (move.id === "destiny-bond" && target && failedSave) {
+      endConcentrationState(next, side, "new_concentration");
+      user.effects.damageShareSources ??= [];
+      user.effects.damageShareSources.push({
+        source: move.id,
+        targetCombatantId: target.combatantId,
+        targetSide,
+        fraction: 0.5,
+        expiresRound
+      });
+      user.concentration = {
+        zoneId: null,
+        moveId: move.id,
+        effectSource: move.id,
+        expiresRound
+      };
+      return record("damage_share", { fraction: 0.5 });
+    }
+
+    if (move.id === "diamond-storm") {
+      endConcentrationState(next, side, "new_concentration");
+      const stats = calculateMoveStats(user, move, next.round);
+      const center = targetPoint
+        ? point(targetPoint.x, targetPoint.y, targetPoint.z)
+        : clone(target?.position ?? user.position);
+      const zoneId = `${next.encounterId}:${move.id}:${next.round}:${next.log.length}`;
+      const zone = createCircleZone({
+        id: zoneId,
+        moveId: move.id,
+        sourceSide: side,
+        center,
+        radius: 30,
+        createdRound: next.round,
+        expiresRound: next.round + 3,
+        concentration: true,
+        damageDice: stats.damageDice,
+        damageModifier: stats.damageModifier,
+        damageType: move.type,
+        effect: move.id
+      });
+      next.zones.push(zone);
+      user.concentration = { zoneId, moveId: move.id, expiresRound: next.round + 3 };
+      const acRoll = this.dice.roll(4);
+      if (acRoll >= 3) {
+        pushEffect(user, "acModifierSources", { source: move.id, value: 2, expiresRound: next.round + 3 });
+      }
+      return record("damage_zone", { zoneId, acRoll, acBonus: acRoll >= 3 ? 2 : 0 });
+    }
+
+    if (move.id === "double-team") {
+      endConcentrationState(next, side, "new_concentration");
+      user.effects.duplicateSources ??= [];
+      user.effects.duplicateSources.push({
+        source: move.id,
+        duplicates: 1,
+        avoidOn: 4,
+        die: 6,
+        maxWidth: 5,
+        expiresRound
+      });
+      user.concentration = {
+        zoneId: null,
+        moveId: move.id,
+        effectSource: move.id,
+        expiresRound
+      };
+      return record("illusory_duplicate", { duplicates: 1 });
+    }
+
+    if (move.id === "eerie-spell" && target && failedSave) {
+      pushEffect(target, "extraPpCostSources", {
+        source: move.id,
+        value: 1,
+        expiresRound
+      });
+      return record("extra_pp_cost", { value: 1 });
+    }
+
+    if (move.id === "flash") {
+      const affected = [];
+      for (const candidateSide of ["player", "opponent"]) {
+        if (candidateSide === side) continue;
+        const candidate = next[candidateSide];
+        if (!candidate?.position || distance(user.position, candidate.position) > 20 + 1e-9) continue;
+        const result = resolveSaveMove({
+          attacker: user,
+          defender: candidate,
+          move,
+          dice: this.dice,
+          round: next.round
+        });
+        if (!result.save.success) {
+          candidate.effects.blindedSources ??= [];
+          candidate.effects.blindedSources.push({
+            source: move.id,
+            expiresRound: next.round + 1
+          });
+        }
+        affected.push({ side: candidateSide, save: result.save });
+      }
+      next.environment ??= {};
+      next.environment.lightSource = {
+        source: move.id,
+        center: clone(user.position),
+        radius: 20,
+        expiresRound: next.round + 10
+      };
+      return record("flash", { affected });
+    }
+
+    if (move.id === "fling" && target) {
+      if (!user.heldItemId) throw new Error("Fling requires a held item");
+      const heldItem = await this.data.getItem(user.heldItemId);
+      const priceValue = Number(
+        heldItem?.price?.value ??
+        heldItem?.price ??
+        String(heldItem?.cost ?? "").replace(/[^0-9.]/g, "") ??
+        0
+      ) || 0;
+      const attack = resolveAttack({
+        attacker: user,
+        defender: target,
+        move: {
+          ...move,
+          dice: { class: "custom", tiers: ["0","0","0","0"], modifier: 0, type: "damage" },
+          type: "dark"
+        },
+        dice: this.dice,
+        extraDamageModifier: Math.floor(priceValue / 100) + proficiencyBonus(user.level),
+        round: next.round
+      });
+      user.heldItemHistory ??= [];
+      user.heldItemHistory.push({ itemId: user.heldItemId, round: next.round, reason: "fling" });
+      user.heldItemId = null;
+      if (attack.hit) {
+        target.hp.current = Math.max(0, target.hp.current - attack.damage);
+        if (target.hp.current <= 0) markDowned(next, targetSide, "fling");
+      }
+      next.log.push({ type: "fling_attack", round: next.round, actor: side, target: targetSide, ...attack });
+      return record("fling", { hit: attack.hit, damage: attack.damage, priceValue });
+    }
+
+    if (move.id === "foresight") {
+      user.effects.typeImmunityIgnoreSources ??= [];
+      user.effects.typeImmunityIgnoreSources.push({
+        source: move.id,
+        moveTypes: ["ghost","normal","fighting"],
+        usesRemaining: 1,
+        expiresRound: next.round + 2
+      });
+      return record("ignore_type_immunity");
+    }
+
+    if (move.id === "gear-up") {
+      if (["plus","minus"].includes(user.abilityId)) {
+        pushEffect(user, "attackAdvantageSources", {
+          source: move.id,
+          expiresRound
+        });
+      }
+      return record("plus_minus_attack_advantage");
+    }
+
+    if (move.id === "heart-swap" && target && failedSave) {
+      const keys = [
+        "attackModifierSources","incomingAttackBonusSources","damageModifierSources",
+        "acModifierSources","rangedAcModifierSources","speedModifierSources",
+        "saveModifierSources","attackAdvantageSources","attackDisadvantageSources",
+        "saveAdvantageSources","saveDisadvantageSources"
+      ];
+      for (const key of keys) {
+        const own = clone(user.effects[key] ?? []);
+        user.effects[key] = clone(target.effects[key] ?? []);
+        target.effects[key] = own;
+      }
+      return record("swap_active_modifiers");
+    }
+
+    if (move.id === "helping-hand") {
+      const recipient = requestedTargetSide ? next[requestedTargetSide] : user;
+      recipient.effects.helpingHandSources ??= [];
+      recipient.effects.helpingHandSources = [{
+        source: move.id,
+        die: "d6",
+        usesRemaining: 1,
+        expiresRound: next.round + 100,
+        canApplyTo: ["failed_d20_test","damage_roll"]
+      }];
+      return record("helping_hand", { target: requestedTargetSide ?? side });
+    }
+
+    if (move.id === "howl") {
+      pushEffect(user, "attackAdvantageSources", {
+        source: move.id,
+        moveScopes: ["melee"],
+        sourcePosition: clone(user.position),
+        maxTargetDistance: 5,
+        expiresRound: next.round + 2
+      });
+      return record("melee_advantage_aura");
+    }
+
+    if (move.id === "magnetic-flux") {
+      if (["plus","minus"].includes(user.abilityId)) {
+        pushEffect(user, "acModifierSources", {
+          source: move.id,
+          value: proficiencyBonus(user.level),
+          expiresRound: next.round + 1
+        });
+        pushEffect(user, "saveAdvantageSources", {
+          source: move.id,
+          expiresRound: next.round + 1
+        });
+      }
+      return record("magnetic_flux");
+    }
+
+    if (move.id === "mat-block") {
+      pushEffect(user, "damageResistanceSources", {
+        source: move.id,
+        type: null,
+        steps: 2,
+        expiresRound: next.round + 2
+      });
+      return record("move_damage_immunity");
+    }
+
+    if (move.id === "miracle-eye" && target && failedSave) {
+      target.effects.acModifierSources = [];
+      target.effects.rangedAcModifierSources = [];
+      user.effects.typeImmunityIgnoreSources ??= [];
+      user.effects.typeImmunityIgnoreSources.push({
+        source: move.id,
+        moveTypes: ["ghost","normal","fighting"],
+        targetCombatantId: target.combatantId,
+        expiresRound
+      });
+      return record("reset_ac_ignore_type_immunity");
+    }
+
+    if (move.id === "nasty-plot") {
+      pushEffect(user, "attackAdvantageSources", {
+        source: move.id,
+        attributes: ["wis","int","cha"],
+        expiresRound
+      });
+      pushEffect(user, "targetSaveDisadvantageSources", {
+        source: move.id,
+        attributes: ["wis","int","cha"],
+        expiresRound
+      });
+      return record("mental_move_advantage");
+    }
+
+    if (move.id === "nightmare") {
+      const affected = [];
+      for (const candidateSide of ["player","opponent"]) {
+        if (candidateSide === side) continue;
+        const candidate = next[candidateSide];
+        if (!candidate?.position || distance(user.position, candidate.position) > 60 + 1e-9) continue;
+        if (!isSleepingTarget(candidate)) continue;
+        const stats = calculateMoveStats(user, move, next.round);
+        const damageRoll = rollExpression(stats.damageDice, this.dice);
+        const damage = Math.max(0, damageRoll.total + stats.damageModifier);
+        candidate.hp.current = Math.max(0, candidate.hp.current - damage);
+        affected.push({ side: candidateSide, damage, damageRoll });
+        if (candidate.hp.current <= 0) markDowned(next, candidateSide, "nightmare");
+      }
+      return record("sleeping_area_damage", { affected });
+    }
+
+    if (move.id === "octolock" && target) {
+      const userAttribute = user.attributes.str >= user.attributes.dex ? "str" : "dex";
+      const targetAttribute = target.attributes.str >= target.attributes.dex ? "str" : "dex";
+      const userRoll = rollD20(this.dice);
+      const targetRoll = rollD20(this.dice);
+      const userTotal = userRoll.natural + abilityModifier(user.attributes[userAttribute]) + proficiencyBonus(user.level);
+      const targetTotal = targetRoll.natural + abilityModifier(target.attributes[targetAttribute]) + proficiencyBonus(target.level);
+      const grappled = userTotal >= targetTotal;
+      if (grappled) {
+        target.effects.grappledSources ??= [];
+        target.effects.grappledSources.push({
+          source: move.id,
+          byCombatantId: user.combatantId,
+          expiresRound: null
+        });
+        pushEffect(target, "acModifierSources", { source: move.id, value: -1, expiresRound: null });
+        user.effects.ongoingEffects.push({
+          kind: "octolock",
+          moveId: move.id,
+          targetSide,
+          targetCombatantId: target.combatantId,
+          stacks: 1
+        });
+      }
+      return record("grapple_ac_decay", { grappled, userRoll, targetRoll, userTotal, targetTotal });
+    }
+
+    if (move.id === "odor-sleuth" && target) {
+      target.effects.acIncreaseLockSources ??= [];
+      target.effects.acIncreaseLockSources.push({ source: move.id, expiresRound });
+      user.effects.typeImmunityIgnoreSources ??= [];
+      user.effects.typeImmunityIgnoreSources.push({
+        source: move.id,
+        moveTypes: ["ghost","normal","fighting"],
+        expiresRound
+      });
+      return record("ac_boost_lock_and_immunity_ignore");
+    }
+
+    if (move.id === "play-nice" && target && failedSave) {
+      pushEffect(target, "attackDisadvantageSources", {
+        source: move.id,
+        expiresRound: next.round + 2
+      });
+      pushEffect(user, "saveAdvantageSources", {
+        source: move.id,
+        expiresRound: next.round + 2
+      });
+      return record("play_nice");
+    }
+
+    if (move.id === "power-shift") {
+      const attribute = String(choice?.attribute ?? "str").toLowerCase();
+      if (!["str","dex","con","int","wis","cha"].includes(attribute)) {
+        throw new Error("Power Shift requires a valid ability score");
+      }
+      user.effects.movePowerOverride = {
+        source: move.id,
+        attribute,
+        usesRemaining: 1,
+        expiresRound: next.round + 1
+      };
+      return record("next_move_power_override", { attribute });
+    }
+
+    if (move.id === "power-split" && target && failedSave) {
+      const attribute = String(choice?.attribute ?? "str").toLowerCase();
+      if (!["str","dex","wis"].includes(attribute)) throw new Error("Power Split requires STR, DEX, or WIS");
+      const average = Math.floor((Number(user.attributes[attribute]) + Number(target.attributes[attribute])) / 2);
+      user.effects.attributeRestoreSources ??= [];
+      user.effects.attributeRestoreSources.push({
+        source: move.id,
+        attribute,
+        value: user.attributes[attribute],
+        expiresRound
+      });
+      user.attributes[attribute] = average;
+      return record("power_split", { attribute, average });
+    }
+
+    if (move.id === "power-swap" && target && failedSave) {
+      const attribute = String(choice?.attribute ?? "str").toLowerCase();
+      if (!["str","dex","con","int","wis","cha"].includes(attribute)) throw new Error("Power Swap requires a valid ability score");
+      const own = user.attributes[attribute];
+      const theirs = target.attributes[attribute];
+      user.effects.attributeRestoreSources ??= [];
+      target.effects.attributeRestoreSources ??= [];
+      user.effects.attributeRestoreSources.push({ source: move.id, attribute, value: own, expiresRound: next.round + 2 });
+      target.effects.attributeRestoreSources.push({ source: move.id, attribute, value: theirs, expiresRound: next.round + 2 });
+      user.attributes[attribute] = theirs;
+      target.attributes[attribute] = own;
+      return record("power_swap", { attribute });
+    }
+
+    if (move.id === "power-trick") {
+      const attribute = String(choice?.attribute ?? "str").toLowerCase();
+      if (!["str","dex","int","wis","cha"].includes(attribute)) throw new Error("Power Trick cannot use Constitution");
+      user.effects.powerTrickRestore = {
+        source: move.id,
+        attribute,
+        ac: user.ac,
+        score: user.attributes[attribute],
+        expiresRound: next.round + 2
+      };
+      const oldAc = user.ac;
+      user.ac = user.attributes[attribute];
+      user.attributes[attribute] = oldAc;
+      return record("power_trick", { attribute, ac: user.ac, score: user.attributes[attribute] });
+    }
+
+    if (move.id === "psych-up" && target) {
+      const keys = [
+        "attackModifierSources","incomingAttackBonusSources","damageModifierSources",
+        "acModifierSources","rangedAcModifierSources","speedModifierSources",
+        "saveModifierSources","attackAdvantageSources","attackDisadvantageSources",
+        "saveAdvantageSources","saveDisadvantageSources"
+      ];
+      for (const key of keys) user.effects[key] = clone(target.effects[key] ?? []);
+      return record("copy_active_modifiers");
+    }
+
+    if (move.id === "psycho-shift" && target && failedSave) {
+      const sourceSide = choice?.sourceSide && next[choice.sourceSide] ? choice.sourceSide : side;
+      const sourcePokemon = next[sourceSide];
+      const status = sourcePokemon.statuses?.nonVolatile;
+      if (status) {
+        clearStatus(sourcePokemon, status);
+        applyMoveStatus(user, target, status, next.round);
+      }
+      return record("transfer_status", { status: status ?? null, sourceSide });
+    }
+
+    if (move.id === "rage-powder" && target && failedSave) {
+      target.effects.forcedTargetSources ??= [];
+      target.effects.forcedTargetSources.push({
+        source: move.id,
+        targetCombatantId: user.combatantId,
+        damagingOnly: true,
+        expiresRound
+      });
+      return record("forced_target", { targetCombatantId: user.combatantId });
+    }
+
+    if (move.id === "recycle") {
+      const history = (user.heldItemHistory ?? []).filter(
+        (entry) => next.round - Number(entry.round ?? -999) <= 5 && next.round !== entry.round
+      );
+      const recycled = history.at(-1) ?? null;
+      if (!recycled) throw new Error("Recycle requires a consumable held item used within the last 5 turns");
+      user.effects.recycledItemEffect = clone(recycled);
+      return record("recycle", { itemId: recycled.itemId });
+    }
+
+    if (move.id === "rototiller") {
+      if (user.types?.includes("grass")) {
+        user.effects.stabMultiplierSources.push({
+          source: move.id,
+          type: "grass",
+          multiplier: 2,
+          expiresRound: next.round + 3
+        });
+      }
+      next.environment ??= {};
+      next.environment.rototiller = {
+        source: move.id,
+        center: clone(user.position),
+        radius: 50,
+        expiresRound: next.round + 3
+      };
+      return record("grass_stab_zone");
+    }
+
+    if (move.id === "sharpen") {
+      pushEffect(user, "attackRollDiceSources", {
+        source: move.id,
+        die: "d4",
+        consumeOnUse: false,
+        expiresRound
+      });
+      return record("attack_d4");
+    }
+
+    if (move.id === "spicy-extract") {
+      for (const candidateSide of ["player","opponent"]) {
+        const candidate = next[candidateSide];
+        if (!candidate?.position || distance(user.position, candidate.position) > 20 + 1e-9) continue;
+        let candidateSave = null;
+        if (candidateSide !== side) {
+          candidateSave = resolveSaveMove({
+            attacker: user,
+            defender: candidate,
+            move,
+            dice: this.dice,
+            round: next.round
+          }).save;
+        }
+        if (candidateSave?.success) continue;
+        pushEffect(candidate, "attackAdvantageSources", { source: move.id, expiresRound });
+        pushEffect(candidate, "incomingAttackAdvantageSources", { source: move.id, expiresRound });
+      }
+      return record("mutual_attack_advantage");
+    }
+
+    if (move.id === "stuff-cheeks") {
+      if (!user.heldItemId) throw new Error("Stuff Cheeks requires a held food item");
+      const item = await this.data.getItem(user.heldItemId);
+      if (item?.type !== "berry") throw new Error("Stuff Cheeks requires a held food item");
+      user.heldItemHistory ??= [];
+      user.heldItemHistory.push({ itemId: user.heldItemId, round: next.round, reason: "stuff-cheeks" });
+      const consumedItemId = user.heldItemId;
+      user.heldItemId = null;
+      addSourceCappedModifier(
+        user.effects.acModifierSources,
+        { source: move.id, value: 2, expiresRound },
+        next.round,
+        0,
+        4
+      );
+      return record("consume_food_ac", { itemId: consumedItemId, acBonus: 2 });
+    }
+
+    if (move.id === "swords-dance") {
+      endConcentrationState(next, side, "new_concentration");
+      user.effects.swordMirages = {
+        source: move.id,
+        remaining: 2,
+        moveModifier: Math.max(
+          abilityModifier(user.attributes.str),
+          abilityModifier(user.attributes.dex),
+          abilityModifier(user.attributes.int),
+          abilityModifier(user.attributes.wis),
+          abilityModifier(user.attributes.cha)
+        ),
+        expiresRound
+      };
+      pushEffect(user, "attackModifierSources", { source: move.id, value: 2, expiresRound });
+      user.concentration = { zoneId: null, moveId: move.id, effectSource: move.id, expiresRound };
+      return record("sword_mirages", { mirages: 2, attackBonus: 2 });
+    }
+
+    if (move.id === "teatime") {
+      const consumeBerry = async (pokemon) => {
+        if (!pokemon?.heldItemId) return null;
+        const item = await this.data.getItem(pokemon.heldItemId);
+        if (item?.type !== "berry") return null;
+        pokemon.heldItemHistory ??= [];
+        pokemon.heldItemHistory.push({ itemId: pokemon.heldItemId, round: next.round, reason: "teatime" });
+        const id = pokemon.heldItemId;
+        pokemon.heldItemId = null;
+        return id;
+      };
+      const selfBerry = await consumeBerry(user);
+      let targetBerryRequired = false;
+      if (target && failedSave && target.heldItemId) {
+        const item = await this.data.getItem(target.heldItemId);
+        if (item?.type === "berry") {
+          target.effects.forcedActionSources ??= [];
+          target.effects.forcedActionSources.push({
+            source: move.id,
+            action: "consume-held-berry",
+            expiresRound: next.round + 2
+          });
+          targetBerryRequired = true;
+        }
+      }
+      return record("teatime", { selfBerry, targetBerryRequired });
+    }
+
+    if (move.id === "tidy-up") {
+      pushEffect(user, "attackAdvantageSources", {
+        source: move.id,
+        usesRemaining: 1,
+        expiresRound: next.round + 2
+      });
+      user.effects.tidyUpReaction = {
+        source: move.id,
+        expiresRound: next.round + 10,
+        blockedMoves: ["spikes","stealth-rock","sticky-web","toxic-spikes","substitute"]
+      };
+      if (target?.effects?.temporaryHpSource?.source === "substitute" && failedSave) {
+        target.temporaryHp = 0;
+        target.effects.temporaryHpSource = null;
+      }
+      return record("tidy_up");
+    }
+
+    if (move.id === "topsy-turvy" && target && failedSave) {
+      const keys = [
+        "attackModifierSources","incomingAttackBonusSources","damageModifierSources",
+        "acModifierSources","rangedAcModifierSources","speedModifierSources","saveModifierSources"
+      ];
+      for (const key of keys) {
+        target.effects[key] = (target.effects[key] ?? []).map(
+          (entry) => ({ ...entry, value: -Number(entry.value ?? 0) })
+        );
+      }
+      return record("invert_modifiers");
+    }
+
+    if (move.id === "transform" && target) {
+      endConcentrationState(next, side, "new_concentration");
+      user.effects.transformOriginal = {
+        types: clone(user.types),
+        attributes: clone(user.attributes),
+        ac: user.ac,
+        speed: clone(user.speed),
+        abilityId: user.abilityId,
+        ability: clone(user.ability),
+        moveIds: clone(user.moveIds),
+        maxPp: clone(user.maxPp),
+        pp: clone(user.pp)
+      };
+      user.types = clone(target.types);
+      user.attributes = clone(target.attributes);
+      user.ac = target.ac;
+      user.speed = clone(target.speed);
+      user.abilityId = target.abilityId;
+      user.ability = clone(target.ability);
+      user.moveIds = clone(target.moveIds);
+      user.maxPp = clone(target.maxPp);
+      user.pp = clone(target.pp);
+      user.concentration = { zoneId: null, moveId: move.id, effectSource: move.id, expiresRound };
+      return record("transform", { targetSpeciesId: target.speciesId });
+    }
+
+    if (move.id === "whirlwind") {
+      pushEffect(user, "acModifierSources", {
+        source: move.id,
+        value: 2,
+        expiresRound: next.round + 1
+      });
+      if (target && distance(user.position, target.position) <= 5 + 1e-9 && failedSave) {
+        target.effects.proneSources ??= [];
+        target.effects.proneSources.push({ source: move.id, expiresRound: next.round + 1 });
+      }
+      next.flee ??= { lastAttemptRound: null, chase: null };
+      next.flee.bonusSuccesses = Number(next.flee.bonusSuccesses ?? 0) + 1;
+      return record("whirlwind", { fleeBonusSuccesses: 1 });
+    }
+
     // Canonical rules that depend on an incoming event, a selected party member,
     // or a DM-choice in tabletop are retained as deterministic, inspectable
     // runtime effects instead of being rejected as unsupported. The UI/driver can
@@ -4409,7 +5030,8 @@ export class Pokemon5eCombatEngine {
     {
       useDefenderIntimidate = false,
       targetPoint = null,
-      targetSide: requestedTargetSide = null
+      targetSide: requestedTargetSide = null,
+      canonicalChoice = null
     } = {}
   ) {
     if (battle.outcome) return clone(battle);
@@ -4716,7 +5338,8 @@ export class Pokemon5eCombatEngine {
     } else if (isCanonicalSpecialMove(move)) {
       next = await this.resolveCanonicalSpecialMove(next, side, move, {
         targetSide: requestedTargetSide,
-        targetPoint
+        targetPoint,
+        choice: canonicalChoice
       });
     } else {
       throw new Error(`Move ${move.id} is known but its special rules are not executable by the combat resolver`);
