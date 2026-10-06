@@ -62,6 +62,17 @@ export function createWorldKnockoutState() {
     playerAdvancedToSf: null,
     playerSfMatchId: null,
     playerSfOpponent: null,
+    sfOpened: false,
+    reiInTop4: false,
+    reiIsPlayerOpponent: false,
+    sfResults: [],
+    sfResolved: false,
+    finalistsLocked: false,
+    finalists: [],
+    finalMatch: null,
+    playerAdvancedToFinal: null,
+    playerFinalMatchId: null,
+    playerFinalOpponent: null,
     opponentRosters: {}
   };
 }
@@ -171,6 +182,17 @@ export function ensureCompetition(state) {
   knockout.playerAdvancedToSf ??= null;
   knockout.playerSfMatchId ??= null;
   knockout.playerSfOpponent ??= null;
+  knockout.sfOpened ??= false;
+  knockout.reiInTop4 ??= false;
+  knockout.reiIsPlayerOpponent ??= false;
+  knockout.sfResults ??= [];
+  knockout.sfResolved ??= false;
+  knockout.finalistsLocked ??= false;
+  knockout.finalists ??= [];
+  knockout.finalMatch ??= null;
+  knockout.playerAdvancedToFinal ??= null;
+  knockout.playerFinalMatchId ??= null;
+  knockout.playerFinalOpponent ??= null;
   knockout.opponentRosters ??= {};
   return state.competition;
 }
@@ -263,8 +285,8 @@ function validateMetaRuntime(meta) {
       (!Number.isInteger(meta.worldMatchday) || meta.worldMatchday < 1 || meta.worldMatchday > 3)) {
     throw new RangeError("worldMatchday must be an integer from 1 to 3");
   }
-  if (meta.worldKnockoutRound !== undefined && !["R16", "QF"].includes(meta.worldKnockoutRound)) {
-    throw new Error("worldKnockoutRound must be R16 or QF");
+  if (meta.worldKnockoutRound !== undefined && !["R16", "QF", "SF"].includes(meta.worldKnockoutRound)) {
+    throw new Error("worldKnockoutRound must be R16, QF or SF");
   }
   if (meta.worldKnockoutRound !== undefined && meta.type !== "official_match") {
     throw new Error("World knockout matches must be official_match");
@@ -1149,6 +1171,12 @@ export function prepareWorldKnockoutMatch(state, meta) {
     }
     bracket = knockout.qfBracket;
     playerMatchId = knockout.playerQfMatchId;
+  } else if (meta.worldKnockoutRound === "SF") {
+    if (!knockout.qfResolved || !knockout.top4Locked || knockout.playerAdvancedToSf !== true || knockout.sfOpened !== true) {
+      throw new Error("WORLD_SF requires a resolved QF, locked Top4 and active player semifinal");
+    }
+    bracket = knockout.sfBracket;
+    playerMatchId = knockout.playerSfMatchId;
   } else {
     throw new Error("Unsupported World knockout handoff round: " + String(meta.worldKnockoutRound));
   }
@@ -1201,6 +1229,9 @@ function recordWorldKnockoutOutcome(state, meta, outcome, resolvedAtMinutes, bat
   } else if (meta.worldKnockoutRound === "QF") {
     bracket = knockout.qfBracket;
     playerMatchId = knockout.playerQfMatchId;
+  } else if (meta.worldKnockoutRound === "SF") {
+    bracket = knockout.sfBracket;
+    playerMatchId = knockout.playerSfMatchId;
   } else {
     throw new Error("Unsupported World knockout round: " + String(meta.worldKnockoutRound));
   }
@@ -1228,11 +1259,16 @@ function recordWorldKnockoutOutcome(state, meta, outcome, resolvedAtMinutes, bat
     state.world.flags.world_r16_resolved = true;
     state.world.flags.world_r16_result = outcome;
     state.world.flags.world_r16_won = outcome === "win";
-  } else {
+  } else if (meta.worldKnockoutRound === "QF") {
     knockout.playerAdvancedToSf = outcome === "win";
     state.world.flags.world_qf_resolved = true;
     state.world.flags.world_qf_result = outcome;
     state.world.flags.world_qf_won = outcome === "win";
+  } else {
+    knockout.playerAdvancedToFinal = outcome === "win";
+    state.world.flags.world_sf_resolved = true;
+    state.world.flags.world_sf_result = outcome;
+    state.world.flags.world_sf_won = outcome === "win";
   }
   return match;
 }
@@ -1404,6 +1440,102 @@ export function resolveWorldQfRound(state, { eventId = "WORLD_QF_RESOLVE" } = {}
   return knockout;
 }
 
+export function openWorldSfRound(state, { eventId = "WORLD_SF" } = {}) {
+  requireId(eventId, "world sf eventId");
+  const { world, knockout } = worldKnockoutOrThrow(state);
+  if (!knockout.qfResolved || !knockout.top4Locked || !world.top4Locked || knockout.sfBracket.length !== 2) {
+    throw new Error("WORLD_SF requires the locked Top4/SF bracket from WORLD_QF");
+  }
+  if (knockout.playerAdvancedToSf !== true) {
+    throw new Error("WORLD_SF requires player advancement from the quarterfinal");
+  }
+  if (knockout.sfOpened) return knockout;
+
+  const playerSf = knockout.sfBracket.find((match) =>
+    match.home.name === state.player?.name || match.away.name === state.player?.name
+  ) ?? null;
+  if (!playerSf) throw new Error("WORLD_SF bracket does not contain the player");
+  const opponent = playerSf.home.name === state.player?.name ? playerSf.away : playerSf.home;
+
+  knockout.playerSfMatchId = playerSf.matchId;
+  knockout.playerSfOpponent = structuredClone(opponent);
+  knockout.reiInTop4 = knockout.top4.some((entry) => entry.name === "Rei");
+  knockout.reiIsPlayerOpponent = opponent.name === "Rei";
+  knockout.sfOpened = true;
+
+  state.world.flags ??= {};
+  state.world.flags.world_sf_opened = true;
+  state.world.flags.world_sf_event_id = eventId;
+  state.world.flags.world_sf_opponent = opponent.name;
+  state.world.flags.world_sf_opponent_id = opponent.id;
+  state.world.flags.world_sf_rei_in_top4 = knockout.reiInTop4;
+  state.world.flags.world_sf_rei_is_player_opponent = knockout.reiIsPlayerOpponent;
+  return knockout;
+}
+
+export function resolveWorldSfRound(state, { eventId = "WORLD_SF_RESOLVE" } = {}) {
+  requireId(eventId, "world sf resolution eventId");
+  const { knockout } = worldKnockoutOrThrow(state);
+  if (!knockout.sfOpened || !knockout.top4Locked || knockout.sfBracket.length !== 2) {
+    throw new Error("WORLD_SF resolution requires the opened Top4/SF bracket");
+  }
+  if (knockout.sfResolved) return knockout;
+
+  const playerMatch = knockout.sfBracket.find((entry) => entry.matchId === knockout.playerSfMatchId);
+  if (!playerMatch || !playerMatch.playerOutcome) {
+    throw new Error("WORLD_SF resolution requires the player's official semifinal result");
+  }
+
+  for (const match of knockout.sfBracket) simulateWorldKnockoutMatch(state, match);
+  if (knockout.sfBracket.some((match) => !match.winnerId)) {
+    throw new Error("WORLD_SF failed to resolve both semifinals");
+  }
+
+  knockout.sfResults = structuredClone(knockout.sfBracket);
+  const finalists = knockout.sfBracket.map((match) => {
+    const participant = participantByIdFromMatch(match, match.winnerId);
+    return {
+      id: participant.id,
+      name: participant.name,
+      fromMatchId: match.matchId
+    };
+  });
+  if (finalists.length !== 2 || new Set(finalists.map((entry) => entry.id)).size !== 2) {
+    throw new Error("WORLD_SF must lock exactly two unique finalists");
+  }
+
+  knockout.finalistsLocked = true;
+  knockout.finalists = structuredClone(finalists);
+  knockout.finalMatch = {
+    round: "FINAL",
+    matchId: "WORLD_FINAL_1",
+    home: structuredClone(finalists[0]),
+    away: structuredClone(finalists[1]),
+    outcome: null,
+    playerOutcome: null,
+    winnerId: null,
+    loserId: null,
+    resolvedAtMinutes: null,
+    source: null
+  };
+
+  const playerFinalist = finalists.some((entry) => entry.name === state.player?.name);
+  knockout.playerFinalMatchId = playerFinalist ? knockout.finalMatch.matchId : null;
+  knockout.playerFinalOpponent = playerFinalist
+    ? structuredClone(knockout.finalMatch.home.name === state.player?.name ? knockout.finalMatch.away : knockout.finalMatch.home)
+    : null;
+  knockout.sfResolved = true;
+
+  state.world.flags ??= {};
+  state.world.flags.world_sf_round_resolved = true;
+  state.world.flags.world_finalists_locked = true;
+  state.world.flags.world_sf_event_resolution_id = eventId;
+  state.world.flags.world_finalist = playerFinalist;
+  state.world.flags.world_final_opponent = knockout.playerFinalOpponent?.name ?? null;
+  state.world.flags.world_final_opponent_id = knockout.playerFinalOpponent?.id ?? null;
+  return knockout;
+}
+
 export function applyCompetitionEffect(state, effect) {
   switch (effect.type) {
     case "competition_trial_available": return setTrialAvailable(state, effect);
@@ -1414,6 +1546,8 @@ export function applyCompetitionEffect(state, effect) {
     case "competition_world_r16_open": return openWorldR16Bracket(state, effect);
     case "competition_world_r16_resolve": return resolveWorldR16Round(state, effect);
     case "competition_world_qf_resolve": return resolveWorldQfRound(state, effect);
+    case "competition_world_sf_open": return openWorldSfRound(state, effect);
+    case "competition_world_sf_resolve": return resolveWorldSfRound(state, effect);
     default: throw new Error("Unsupported competition effect type: " + effect.type);
   }
 }
@@ -1457,7 +1591,7 @@ export function validateCompetitionEffect(effect, at = "effect") {
     return errors;
   }
 
-  if (["competition_world_r16_open", "competition_world_r16_resolve", "competition_world_qf_resolve"].includes(effect.type)) {
+  if (["competition_world_r16_open", "competition_world_r16_resolve", "competition_world_qf_resolve", "competition_world_sf_open", "competition_world_sf_resolve"].includes(effect.type)) {
     if (effect.eventId !== undefined && (typeof effect.eventId !== "string" || !ID_RE.test(effect.eventId))) {
       push("INVALID_WORLD_KNOCKOUT_EVENT_ID", "eventId must be a stable identifier", at + ".eventId");
     }
@@ -1550,8 +1684,8 @@ export function validateCompetitionCombat(meta, at = "combat.competition") {
   if (meta.worldOpponentIndex !== undefined && meta.type !== "official_match") {
     push("INVALID_WORLD_GROUP_MATCH_TYPE", "World group matches must be official_match", at + ".type");
   }
-  if (meta.worldKnockoutRound !== undefined && !["R16", "QF"].includes(meta.worldKnockoutRound)) {
-    push("INVALID_WORLD_KNOCKOUT_ROUND", "worldKnockoutRound must be R16 or QF", at + ".worldKnockoutRound");
+  if (meta.worldKnockoutRound !== undefined && !["R16", "QF", "SF"].includes(meta.worldKnockoutRound)) {
+    push("INVALID_WORLD_KNOCKOUT_ROUND", "worldKnockoutRound must be R16, QF or SF", at + ".worldKnockoutRound");
   }
   if (meta.worldKnockoutRound !== undefined && meta.type !== "official_match") {
     push("INVALID_WORLD_KNOCKOUT_MATCH_TYPE", "World knockout matches must be official_match", at + ".type");
