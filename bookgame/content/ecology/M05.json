@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "M05",
+  "zones": [
+    {
+      "id": "ALT-TOWN",
+      "sourceZoneId": "ALT-TOWN",
+      "habitats": [
+        "mountain",
+        "city",
+        "cold"
+      ],
+      "methods": [
+        "wild_observation",
+        "overland_encounter"
+      ]
+    },
+    {
+      "id": "FUL-PLATEAU",
+      "sourceZoneId": "FUL-PLATEAU",
+      "habitats": [
+        "mountain",
+        "grassland",
+        "storm"
+      ],
+      "methods": [
+        "wild_observation",
+        "overland_encounter"
+      ]
+    }
+  ]
+}
