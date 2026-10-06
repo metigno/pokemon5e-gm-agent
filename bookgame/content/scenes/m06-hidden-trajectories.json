@@ -1,0 +1,375 @@
+{
+  "schemaVersion": 1,
+  "id": "m06-hidden-trajectories",
+  "moduleId": "M06",
+  "title": "M6_05 — Hidden Trajectories",
+  "locationId": "interregional_circuit",
+  "entryNodeId": "trajectory_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m5_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m06_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m6_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "A"
+      },
+      {
+        "path": "world.flags.a6_hidden_trajectories_available",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "trajectory_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il circuito rende visibile un fatto che la carriera ha già prodotto: mentre tu viaggiavi, anche gli altri Four hanno continuato a muoversi. M6 mostra un payoff reale senza rivelare catture o obiettivi futuri ancora nascosti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "trajectory_board",
+          "text": "Controllo il nome emerso dai risultati.",
+          "goto": "trajectory_board"
+        },
+        {
+          "id": "trajectory_guard",
+          "text": "Rivedo cosa può essere mostrato senza spoilerare traiettorie future.",
+          "goto": "visibility_guard"
+        },
+        {
+          "id": "trajectory_defer",
+          "text": "Rimando l'aggiornamento personale.",
+          "goto": "defer"
+        }
+      ]
+    },
+    "trajectory_board": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il sistema seleziona un amico diverso dal player e, quando possibile, diverso dal Friend Beat precedente. Il nome deriva dallo stato persistente, non da una comparsa forzata."
+        }
+      ],
+      "choices": [
+        {
+          "id": "board_luke",
+          "text": "Luke è il nome che riaffiora nel circuito.",
+          "goto": "friend_signal",
+          "conditions": {
+            "path": "world.flags.m6_trajectory_friend_id",
+            "eq": "Luke"
+          }
+        },
+        {
+          "id": "board_mattew",
+          "text": "Mattew è il nome che riaffiora nel circuito.",
+          "goto": "friend_signal",
+          "conditions": {
+            "path": "world.flags.m6_trajectory_friend_id",
+            "eq": "Mattew"
+          }
+        },
+        {
+          "id": "board_daniel",
+          "text": "Daniel è il nome che riaffiora nel circuito.",
+          "goto": "friend_signal",
+          "conditions": {
+            "path": "world.flags.m6_trajectory_friend_id",
+            "eq": "Daniel"
+          }
+        },
+        {
+          "id": "board_edward",
+          "text": "Edward è il nome che riaffiora nel circuito.",
+          "goto": "friend_signal",
+          "conditions": {
+            "path": "world.flags.m6_trajectory_friend_id",
+            "eq": "Edward"
+          }
+        },
+        {
+          "id": "board_fab",
+          "text": "Fab è il nome che riaffiora nel circuito.",
+          "goto": "friend_signal",
+          "conditions": {
+            "path": "world.flags.m6_trajectory_friend_id",
+            "eq": "Fab"
+          }
+        }
+      ]
+    },
+    "public_result": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il dato pubblico può essere un piazzamento, una nuova presenza in un circuito o un cambio di fascia. Se il dettaglio non esiste nello stato dell'NPC, la scena non lo inventa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "public_schedule",
+          "text": "Controllo se il suo schedule rende plausibile un contatto.",
+          "goto": "schedule_shift"
+        },
+        {
+          "id": "public_record",
+          "text": "Registro che il risultato pubblico è stato visto.",
+          "goto": "record",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_hidden_public_result_seen",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "schedule_shift": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Una traiettoria può diventare visibile anche perché cambia il luogo in cui un amico compete o si allena. Il cambio resta quello del suo schedule reale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "schedule_physical",
+          "text": "Verifico se può esistere un incontro fisico.",
+          "goto": "physical_update"
+        },
+        {
+          "id": "schedule_remote",
+          "text": "Se è altrove, preparo un contatto remoto.",
+          "goto": "remote_update"
+        }
+      ]
+    },
+    "career_change": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il payoff non deve essere per forza una nuova evoluzione. Può essere una scelta di carriera, un nuovo evento o un risultato che modifica la direzione dell'amico."
+        }
+      ],
+      "choices": [
+        {
+          "id": "career_keep",
+          "text": "Conservo il cambiamento come contesto del Friend Beat.",
+          "goto": "record",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_hidden_career_change_visible",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "career_compare",
+          "text": "Lo confronto con la mia posizione nel circuito.",
+          "goto": "red_context"
+        }
+      ]
+    },
+    "friend_signal": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il nome selezionato non viene trasformato in un premio narrativo. Vedi abbastanza da capire che la sua carriera sta avanzando, non abbastanza da conoscere target futuri o Legendary chain."
+        }
+      ],
+      "choices": [
+        {
+          "id": "signal_public",
+          "text": "Guardo ciò che è davvero pubblico.",
+          "goto": "public_result"
+        },
+        {
+          "id": "signal_career",
+          "text": "Cerco il cambiamento di carriera, non i dettagli nascosti.",
+          "goto": "career_change"
+        }
+      ]
+    },
+    "red_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Red offre un contrasto utile solo se lo hai già incontrato: lui tende a leggere i cambiamenti di traiettoria come adattamenti, non come deviazioni da un percorso ideale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "red_known",
+          "text": "Uso il confronto con Red come interpretazione, non come bonus.",
+          "goto": "record",
+          "conditions": {
+            "path": "world.flags.red_met",
+            "eq": true
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_hidden_red_context_used",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "red_skip",
+          "text": "Non ho bisogno di Red per riconoscere il cambiamento.",
+          "goto": "record"
+        }
+      ]
+    },
+    "visibility_guard": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Sono vietati spoiler automatici su catture future, Legendary target o roster finali. La scena può mostrare solo ciò che il world state rende già visibile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "guard_board",
+          "text": "Accetto il limite e torno al nome selezionato.",
+          "goto": "trajectory_board"
+        },
+        {
+          "id": "guard_defer",
+          "text": "Preferisco lasciare l'informazione non approfondita.",
+          "goto": "defer"
+        }
+      ]
+    },
+    "remote_update": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se l'amico è lontano, distanza e tempi restano reali. Una chiamata può dare un payoff personale senza fingere presenza fisica."
+        }
+      ],
+      "choices": [
+        {
+          "id": "remote_prepare",
+          "text": "Preparo il contatto remoto per il Friend Beat.",
+          "goto": "record",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_trajectory_contact_hint",
+              "value": "remote"
+            }
+          ]
+        },
+        {
+          "id": "remote_career",
+          "text": "Prima rileggo il cambiamento di carriera.",
+          "goto": "career_change"
+        }
+      ]
+    },
+    "physical_update": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un incontro fisico sarà possibile solo se schedule e posizione coincidono davvero al momento del Friend Beat. Questa scena non teletrasporta nessuno."
+        }
+      ],
+      "choices": [
+        {
+          "id": "physical_prepare",
+          "text": "Lascio che il selector verifichi la presenza reale.",
+          "goto": "record",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_trajectory_contact_hint",
+              "value": "physical_if_present"
+            }
+          ]
+        },
+        {
+          "id": "physical_public",
+          "text": "Torno al dato pubblico.",
+          "goto": "public_result"
+        }
+      ]
+    },
+    "record": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il payoff è stato reso visibile senza modificare artificialmente roster, livelli o risultati dell'amico. Ora il Friend Beat può consumare questo contesto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record_complete",
+          "text": "Chiudo Hidden Trajectories e apro il Friend Beat causale.",
+          "goto": "close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_hidden_trajectories_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "record_review",
+          "text": "Rivedo il segnale prima di chiudere.",
+          "goto": "friend_signal"
+        }
+      ]
+    },
+    "defer": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Rimandare non cancella la traiettoria dell'amico. Il mondo continua e l'evento resta un fatto già avvenuto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "defer_masters",
+          "text": "Torno al Masters Circuit.",
+          "goto": "m06-masters-circuit#circuit_hub"
+        },
+        {
+          "id": "defer_return",
+          "text": "Torno all'aggiornamento.",
+          "goto": "trajectory_entry"
+        }
+      ]
+    },
+    "close": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La traiettoria è ora un callback persistente. Il prossimo blocco decide se l'interazione sarà fisica o remota usando posizione e schedule reali."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_friend",
+          "text": "Passo a FRIEND_BEAT_06.",
+          "goto": "m06-friend-beat-06#friend_call"
+        }
+      ]
+    }
+  }
+}
