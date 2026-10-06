@@ -342,29 +342,29 @@ test("Moonlight, Morning Sun and Rest execute environmental and delayed healing 
 
 test("Ingrain, Lunar Blessing and Wish execute persistent healing state", async () => {
   const ingrainCombat = new Pokemon5eCombatEngine({
-    dice: new SequenceDice([20, 1, 4])
+    dice: new SequenceDice([20, 1, 4, 20])
   });
   let ingrainBattle = await ingrainCombat.createBattle({
     encounterId: "FULL_RUNTIME_INGRAIN",
     playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["ingrain"] },
     playerBench: [{ speciesId: "pikachu", level: 5, moveIds: ["tackle"] }],
-    opponent: { speciesId: "caterpie", level: 1, moveIds: ["tackle"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["growl"] },
     playerPosition: { x: 0, y: 0 },
     opponentPosition: { x: 5, y: 0 }
   });
   ingrainBattle.player.hp.current = Math.max(1, ingrainBattle.player.hp.max - 20);
   const ingrainHp = ingrainBattle.player.hp.current;
   ingrainBattle = await ingrainCombat.usePlayerMove(ingrainBattle, "ingrain");
-  assert.equal(ingrainBattle.player.turn.movementRemaining, 0);
-  await assert.rejects(
-    () => ingrainCombat.switchPlayer(ingrainBattle, 0),
-    /Ingrain prevents voluntary switching/
-  );
-  ingrainBattle = await ingrainCombat.endPlayerTurn(ingrainBattle);
   assert.ok(ingrainBattle.player.hp.current > ingrainHp);
   assert.equal(
     ingrainBattle.player.effects.ongoingEffects.find((effect) => effect.kind === "ingrain").remainingEndTurns,
     2
+  );
+  ingrainBattle = await ingrainCombat.advanceToPlayerOrEnd(ingrainBattle);
+  assert.equal(ingrainBattle.player.turn.movementRemaining, 0);
+  await assert.rejects(
+    () => ingrainCombat.switchPlayer(ingrainBattle, 0),
+    /Ingrain prevents voluntary switching/
   );
 
   const lunarCombat = new Pokemon5eCombatEngine({
