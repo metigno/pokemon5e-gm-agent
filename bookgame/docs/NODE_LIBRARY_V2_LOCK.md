@@ -1,9 +1,9 @@
 # P5E LIBROGAME — NODE LIBRARY V2 LOCK
 
 **Status:** LOCKED BASELINE FOR M05→M12 AUTHORING  
-**Production branch reviewed:** `m6-00-04-work`  
-**Runtime-validated corpus:** M01 + M02 + M03 + M04 + M05  
-**Static-reviewed extension:** M06 — 220 nodes / 484 meaningful choices, runtime CI pending  
+**Production branch reviewed:** `m7-00-04-work`  
+**Runtime-validated corpus:** M01 + M02 + M03 + M04 + M05 + M06 + M07  
+**Latest runtime evidence:** M06 — 220 / 484; M07 — 210 / 462; M7 final CI 1,158 passed / 0 failed  
 **Catalog:** `bookgame/docs/NODE_REUSE_CATALOG.md`
 
 ---
@@ -17,7 +17,9 @@
 | M03 | 250 | 594 |
 | M04 | 253 | 639 |
 | M05 | 240 | 528 |
-| **TOTAL** | **1,134** | **2,633** |
+| M06 | 220 | 484 |
+| M07 | 210 | 462 |
+| **TOTAL** | **1,564** | **3,579** |
 
 Latest final M5 compiler validation reported:
 
@@ -40,27 +42,34 @@ The reusable structural vocabulary remains:
 
 **R01→R38**
 
-M03, M04, M05 and the complete static implementation of M06 were audited and did not prove a missing reusable topology that justifies R39+.
+M03, M04, M05, M06 and the complete runtime implementation of M07 were audited and did not prove a missing reusable topology that justifies R39+.
 
 This is intentional. New story content is expected to reuse or compose existing structures.
 
 ---
 
-# 2A. M06 STATIC EXTENSION EVIDENCE
+# 2A. M06–M07 RUNTIME EXTENSION EVIDENCE
 
-M06 — *Oltre i Confini* is fully authored at **220 logical nodes / 484 meaningful choices**.
+M06 — *Oltre i Confini* is runtime-validated at **220 logical nodes / 484 meaningful choices**.
 
-Static evidence:
+M07 — *Sotto i Riflettori* is runtime-validated at **210 logical nodes / 462 meaningful choices**.
 
-- all 15 M06 blocks implemented;
-- exact module budget preserved;
-- all 220 nodes reachable from the real M6 entry;
-- no zero-incoming padding islands;
-- ACT_6 event bindings and E5 A→S Gate are wired;
-- dedicated cycle 1/2/3 and budget regressions are authored;
-- no structural job required a new R39 candidate.
+Combined evidence:
 
-M06 is therefore evidence that **R01→R38 scales into the Rank A→S / international / cutoff phase**. It is not added to the runtime-validated numerical corpus until executable test evidence is available.
+- M6 and M7 both preserve exact logical production budgets;
+- M7 contains all 14 required blocks M7_00→M7_13;
+- all **210/210 M7 nodes** are reachable from the real module entry;
+- no zero-incoming padding islands or broken M7-local targets remain;
+- World Qualifier and Last Chance use real E5 official-match handoffs;
+- Rank S remains distinct from `world_qualified`;
+- the Last Chance route is finite and cannot loop until victory;
+- FRIEND_BEAT_07 and Before the Lights respect real NPC schedule/location state;
+- the final exit contract unlocks **M8 only for world-qualified runs** and **M12 only for Worlds Missed**;
+- complete M7 Library V2 declarations use R01→R38 only; no R39 candidate is justified;
+- Bookgame Tests run `37451515216` on content commit `4fc8541d10d24774b92cd78718d643c2d756da6b`: **1,158 passed / 0 failed**.
+
+M06 and M07 therefore extend the runtime-validated Library V2 corpus through the Rank S / World Qualifier phase.
+
 
 ---
 
@@ -172,4 +181,4 @@ This order is now canonical for production.
 
 Current lock:
 
-**R01→R38 / 1,134 runtime-validated logical nodes across five complete modules + 220 additional M06 static-reviewed nodes with no R39 requirement.**
+**R01→R38 / 1,564 runtime-validated logical nodes and 3,579 meaningful choices across M01→M07, with no R39 requirement.**

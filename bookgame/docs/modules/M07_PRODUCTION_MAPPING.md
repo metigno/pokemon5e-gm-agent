@@ -5,7 +5,7 @@
 **Purpose:** production map for converting M7 into validated offline story content  
 **Locked authored budget:** **5,200 stitches / 3,200 player choices**
 
-**Module implementation status:** **M7_00–M7_13 IMPLEMENTED / LIBRARY-V2 ALIGNED / STATIC-PASS — FINAL RUNTIME CI PENDING**
+**Module implementation status:** **M7_00–M7_13 COMPLETE / LIBRARY-V2 ALIGNED / RUNTIME PASS**
 
 E1–E7 are reusable infrastructure from M1. A block may extend generic data or content, but must not fork those engines into module-specific substitutes.
 
@@ -164,7 +164,7 @@ Final **COMPLETE** remains reserved for executable runtime evidence.
 - Worlds Missed: complete non-World route, preserving Rank S and career state;
 - exit routing: **M8 iff world_qualified**, **M12 iff worlds_missed**;
 - dedicated regressions: `m07-cycle3.test.mjs` plus final budget/reachability locks;
-- final GitHub Actions runtime evidence: **PENDING**.
+- final GitHub Actions runtime evidence: **PASS** on content commit `4fc8541d10d24774b92cd78718d643c2d756da6b`, Bookgame Tests run `37451515216` — **1,158 passed / 0 failed**.
 
 # 3. CANONICAL EVENT BINDINGS
 
