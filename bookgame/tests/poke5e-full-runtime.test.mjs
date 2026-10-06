@@ -103,9 +103,12 @@ test("move execution coverage has an explicit non-regression gate", async () => 
   const moves = await data.listMoves();
   const unresolved = moves.filter((move) => !isMoveResolvable(move)).map((move) => move.id);
 
-  assert.ok(unresolved.length <= 171, `unresolved move rules regressed to ${unresolved.length}`);
+  assert.ok(unresolved.length <= 168, `unresolved move rules regressed to ${unresolved.length}`);
   for (const id of [
     "acupressure",
+    "feather-dance",
+    "lock-on",
+    "mean-look",
     "agility",
     "autotomize",
     "barrier",
@@ -194,6 +197,73 @@ test("Acupressure follows its d6 table and temporary HP absorbs incoming damage"
     battle.player.temporaryHp,
     Math.max(0, 10 - attack.damage)
   );
+});
+
+test("Feather Dance, Mean Look and Lock-On execute their target rules", async () => {
+  const featherCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 1, 20, 1, 1])
+  });
+  let featherBattle = await featherCombat.createBattle({
+    encounterId: "FULL_RUNTIME_FEATHER_DANCE",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["feather-dance"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+  featherBattle = await featherCombat.usePlayerMove(featherBattle, "feather-dance");
+  const featherSource = featherBattle.opponent.effects.attackModifierSources
+    .find((source) => source.source === "feather-dance");
+  assert.equal(featherSource?.value, -2);
+  assert.equal(featherBattle.player.concentration?.effectTargetSide, "opponent");
+
+  featherBattle = await featherCombat.endPlayerTurn(featherBattle);
+  featherBattle = await featherCombat.useOpponentTurn(featherBattle);
+  assert.equal(featherBattle.player.concentration, null);
+  assert.equal(
+    featherBattle.opponent.effects.attackModifierSources
+      .some((source) => source.source === "feather-dance"),
+    false
+  );
+
+  const meanLookCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 1])
+  });
+  let meanLookBattle = await meanLookCombat.createBattle({
+    encounterId: "FULL_RUNTIME_MEAN_LOOK",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["mean-look"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["harden"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+  meanLookBattle = await meanLookCombat.usePlayerMove(meanLookBattle, "mean-look");
+  assert.equal(meanLookBattle.opponent.effects.switchLockSources.at(-1)?.source, "mean-look");
+  assert.equal(meanLookBattle.opponent.effects.escapeLockSources.at(-1)?.source, "mean-look");
+  assert.equal(meanLookBattle.opponent.effects.switchLockSources.at(-1)?.expiresRound, 4);
+
+  const lockOnCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 1, 1, 1, 1])
+  });
+  let lockOnBattle = await lockOnCombat.createBattle({
+    encounterId: "FULL_RUNTIME_LOCK_ON",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["lock-on", "tackle"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["harden"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+  lockOnBattle = await lockOnCombat.usePlayerMove(lockOnBattle, "lock-on");
+  assert.equal(lockOnBattle.player.effects.forcedHitSources.at(-1)?.usesRemaining, 1);
+  assert.equal(
+    lockOnBattle.player.effects.forcedHitSources.at(-1)?.targetCombatantId,
+    lockOnBattle.opponent.combatantId
+  );
+
+  lockOnBattle = await lockOnCombat.endPlayerTurn(lockOnBattle);
+  lockOnBattle = await lockOnCombat.useOpponentTurn(lockOnBattle);
+  lockOnBattle = await lockOnCombat.usePlayerMove(lockOnBattle, "tackle");
+  const lockedAttack = [...lockOnBattle.log].reverse().find((event) => event.type === "attack");
+  assert.equal(lockedAttack?.roll?.natural, 1);
+  assert.equal(lockedAttack?.hit, true);
+  assert.equal(lockedAttack?.forcedHitSource, "lock-on");
 });
 
 test("common self-buff moves execute level scaling, AC, damage, speed and concentration rules", async () => {
