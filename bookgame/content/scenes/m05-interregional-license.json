@@ -1,0 +1,500 @@
+{
+  "schemaVersion": 1,
+  "id": "m05-interregional-license",
+  "moduleId": "M05",
+  "title": "M5_07 — Interregional License",
+  "locationId": "alt_town_crest",
+  "entryNodeId": "license_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m4_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m05_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m5_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "B"
+      },
+      {
+        "path": "world.flags.a5_interregional_available",
+        "eq": true
+      },
+      {
+        "path": "world.flags.interregional_license",
+        "ne": true
+      }
+    ]
+  },
+  "nodes": {
+    "license_entry": {
+      "stitches": [
+        {
+          "id": "e1",
+          "text": "La Sala della Cresta apre lo sportello interregionale ai Rank B. La licenza non promuove di Rank: certifica accesso a tratte e servizi competitivi che attraversano più aree del circuito."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_eligibility",
+          "text": "Verifico i requisiti.",
+          "goto": "eligibility"
+        },
+        {
+          "id": "entry_routes",
+          "text": "Chiedo quali servizi apre davvero la licenza.",
+          "goto": "route_services"
+        },
+        {
+          "id": "entry_rules",
+          "text": "Leggo le regole dell'assessment ufficiale.",
+          "goto": "rules"
+        },
+        {
+          "id": "entry_defer",
+          "text": "Rimando la pratica.",
+          "goto": "defer"
+        }
+      ]
+    },
+    "eligibility": {
+      "stitches": [
+        {
+          "id": "el1",
+          "text": "Il requisito principale è il Rank B reale. L'ufficio legge lo stato strutturato e non accetta reputazione, titoli opzionali o amicizie come sostituti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "eligible_register",
+          "text": "Sono Rank B: apro la pratica.",
+          "goto": "registration"
+        },
+        {
+          "id": "eligible_roster",
+          "text": "Chiedo come verrà usato il roster nell'assessment.",
+          "goto": "rules"
+        },
+        {
+          "id": "eligible_routes",
+          "text": "Prima voglio capire il valore della licenza.",
+          "goto": "route_services"
+        }
+      ]
+    },
+    "route_services": {
+      "stitches": [
+        {
+          "id": "rs1",
+          "text": "La licenza abilita prenotazioni e servizi interregionali del Circuito dove la geografia e il calendario li permettono. Non sblocca aree Rank A o S e non teletrasporta il player."
+        }
+      ],
+      "choices": [
+        {
+          "id": "routes_record",
+          "text": "Registro la distinzione fra licenza e Rank.",
+          "goto": "registration",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_interregional_rules_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "routes_fulgore",
+          "text": "Chiedo se Fulgore conta già come tratta interregionale.",
+          "goto": "travel_rights"
+        },
+        {
+          "id": "routes_defer",
+          "text": "Non apro ancora la pratica.",
+          "goto": "defer"
+        }
+      ]
+    },
+    "rules": {
+      "stitches": [
+        {
+          "id": "r1",
+          "text": "L'assessment è un match ufficiale di calibrazione: serve a registrare il profilo competitivo per la rete interregionale, non a decidere il Rank. Il risultato resta persistente in entrambi i casi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rules_prepare",
+          "text": "Accetto il formato e preparo il roster.",
+          "goto": "prep"
+        },
+        {
+          "id": "rules_back",
+          "text": "Torno alla verifica dei requisiti.",
+          "goto": "eligibility"
+        }
+      ]
+    },
+    "registration": {
+      "stitches": [
+        {
+          "id": "reg1",
+          "text": "L'addetta crea una pratica separata dal Promotion Trial B→A. Nessun checkpoint di Rank viene toccato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "register_now",
+          "text": "Registro l'assessment interregionale.",
+          "goto": "prep",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "interregional_registration_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "register_rules",
+          "text": "Rileggo il formato prima di confermare.",
+          "goto": "rules"
+        },
+        {
+          "id": "register_defer",
+          "text": "Lascio la pratica aperta e torno più tardi.",
+          "goto": "defer",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "interregional_registration_started",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "prep": {
+      "stitches": [
+        {
+          "id": "p1",
+          "text": "La preparazione usa il roster reale e non aggiunge Pokémon, cure o livelli. L'avversaria dell'ufficio usa una formazione fissa per questa fascia, senza scaling invisibile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "prep_assess",
+          "text": "Sono pronto per l'assessment.",
+          "goto": "assessment_offer"
+        },
+        {
+          "id": "prep_routes",
+          "text": "Controllo ancora cosa sbloccherà la licenza.",
+          "goto": "travel_rights"
+        },
+        {
+          "id": "prep_defer",
+          "text": "Rinvio il match senza perdere Rank B.",
+          "goto": "defer"
+        }
+      ]
+    },
+    "assessment_offer": {
+      "stitches": [
+        {
+          "id": "ao1",
+          "text": "Mira, ufficiale del Circuito, conferma un Singles di calibrazione. Vincere o perdere cambia il risultato registrato; completare il match chiude l'assessment."
+        }
+      ],
+      "choices": [
+        {
+          "id": "assessment_begin",
+          "text": "Inizio il match ufficiale.",
+          "goto": "assessment_handoff"
+        },
+        {
+          "id": "assessment_wait",
+          "text": "Non sono pronto: torno alla preparazione.",
+          "goto": "prep"
+        }
+      ]
+    },
+    "assessment_handoff": {
+      "stitches": [
+        {
+          "id": "ah1",
+          "text": "Il risultato passa al resolver Pokémon 5e/E5. La scena non decide chi vince."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fight_assessment",
+          "text": "Combatto l'assessment interregionale.",
+          "combat": {
+            "encounterId": "M5_INTERREGIONAL_ASSESSMENT",
+            "opponentRegistered": true,
+            "competition": {
+              "type": "official_match",
+              "matchId": "A5_INTERREGIONAL_ASSESSMENT",
+              "format": "Singles",
+              "officialRosterSize": 3,
+              "difficulty": "HARD",
+              "opponentTrainerId": "ALT_LICENSE_MIRA"
+            },
+            "returnNodes": {
+              "win": "assessment_win",
+              "lose": "assessment_loss"
+            },
+            "opponentTrainerId": "ALT_LICENSE_MIRA",
+            "opponent": {
+              "species": "Luxio",
+              "level": 11,
+              "abilityId": "intimidate",
+              "trainerId": "ALT_LICENSE_MIRA"
+            },
+            "opponentBench": [
+              {
+                "species": "Noctowl",
+                "level": 11,
+                "abilityId": "keen-eye",
+                "trainerId": "ALT_LICENSE_MIRA"
+              },
+              {
+                "species": "Roselia",
+                "level": 11,
+                "abilityId": "natural-cure",
+                "trainerId": "ALT_LICENSE_MIRA"
+              }
+            ],
+            "goto": "assessment_handoff"
+          }
+        }
+      ]
+    },
+    "assessment_win": {
+      "stitches": [
+        {
+          "id": "aw1",
+          "text": "Il resolver registra una vittoria. È un dato utile per il profilo interregionale, non una promozione automatica."
+        }
+      ],
+      "choices": [
+        {
+          "id": "win_record",
+          "text": "Registro la vittoria e chiudo l'assessment.",
+          "goto": "result_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "interregional_assessment_result",
+              "value": "win"
+            },
+            {
+              "type": "set_flag",
+              "key": "interregional_assessment_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "win_review",
+          "text": "Rivedo cosa significa prima della licenza.",
+          "goto": "result_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "interregional_assessment_result",
+              "value": "win"
+            },
+            {
+              "type": "set_flag",
+              "key": "interregional_assessment_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "assessment_loss": {
+      "stitches": [
+        {
+          "id": "al1",
+          "text": "Il resolver registra una sconfitta. Il match ha comunque prodotto il profilo richiesto; non viene riscritto come vittoria e non abbassa il Rank."
+        }
+      ],
+      "choices": [
+        {
+          "id": "loss_record",
+          "text": "Registro la sconfitta reale e chiudo l'assessment.",
+          "goto": "result_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "interregional_assessment_result",
+              "value": "loss"
+            },
+            {
+              "type": "set_flag",
+              "key": "interregional_assessment_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "loss_review",
+          "text": "Rivedo perché il risultato non blocca il Rank.",
+          "goto": "result_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "interregional_assessment_result",
+              "value": "loss"
+            },
+            {
+              "type": "set_flag",
+              "key": "interregional_assessment_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "result_review": {
+      "stitches": [
+        {
+          "id": "rr1",
+          "text": "Il profilo interregionale conserva il risultato senza confonderlo con RANK_B_TO_A. L'assessment misura e registra; il Promotion Trial promuove."
+        }
+      ],
+      "choices": [
+        {
+          "id": "result_issue",
+          "text": "L'assessment è completo: richiedo la licenza.",
+          "conditions": {
+            "path": "world.flags.interregional_assessment_complete",
+            "eq": true
+          },
+          "goto": "license_issue"
+        },
+        {
+          "id": "result_routes",
+          "text": "Rileggo i diritti di viaggio associati.",
+          "goto": "travel_rights"
+        },
+        {
+          "id": "result_prep",
+          "text": "Se il match non è stato ancora risolto, torno alla preparazione.",
+          "conditions": {
+            "path": "world.flags.interregional_assessment_complete",
+            "ne": true
+          },
+          "goto": "prep"
+        }
+      ]
+    },
+    "license_issue": {
+      "stitches": [
+        {
+          "id": "li1",
+          "text": "L'ufficio emette la licenza sullo stato persistente. Non cambia Rank, non apre le aree A/S e non crea risultati di competizioni future."
+        }
+      ],
+      "choices": [
+        {
+          "id": "issue_license",
+          "text": "Registro la licenza interregionale.",
+          "goto": "license_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "interregional_license",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m5_interregional_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "issue_review",
+          "text": "Prima rileggo i limiti della licenza.",
+          "goto": "travel_rights"
+        }
+      ]
+    },
+    "travel_rights": {
+      "stitches": [
+        {
+          "id": "tr1",
+          "text": "La licenza permette di usare servizi interregionali disponibili al tuo Rank e nel calendario corrente. Le singole destinazioni restano soggette a Rank, tempo, trasporti e world state."
+        }
+      ],
+      "choices": [
+        {
+          "id": "travel_understood",
+          "text": "Tengo separati accesso di rete e access band.",
+          "goto": "license_issue",
+          "conditions": {
+            "path": "world.flags.interregional_assessment_complete",
+            "eq": true
+          }
+        },
+        {
+          "id": "travel_back",
+          "text": "Torno alla pratica.",
+          "goto": "registration"
+        }
+      ]
+    },
+    "defer": {
+      "stitches": [
+        {
+          "id": "d1",
+          "text": "Rinviare è legale. La finestra resta nel mondo finché non viene risolta o finché una futura regola di calendario non la chiude."
+        }
+      ],
+      "choices": [
+        {
+          "id": "defer_hub",
+          "text": "Torno ad Altacima.",
+          "goto": "m05-altacima#town_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        }
+      ]
+    },
+    "license_close": {
+      "stitches": [
+        {
+          "id": "lc1",
+          "text": "La licenza è attiva con il risultato reale dell'assessment. M5 può ora usare tratte interregionali senza alterare Rank B o anticipare il Masters Circuit."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_hub",
+          "text": "Torno alla piazza di Altacima.",
+          "goto": "m05-altacima#town_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
