@@ -1,0 +1,503 @@
+{
+  "schemaVersion": 1,
+  "id": "m11-championship-outcome",
+  "moduleId": "M11",
+  "title": "M11_08 — Championship Outcome",
+  "locationId": "world_knockout_hall",
+  "entryNodeId": "outcome_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m11_friend_beat_11_complete",
+        "eq": true
+      },
+      {
+        "any": [
+          {
+            "path": "competition.world.knockout.finalResolved",
+            "eq": true
+          },
+          {
+            "path": "world.flags.world_eliminated",
+            "eq": true
+          }
+        ]
+      }
+    ]
+  },
+  "nodes": {
+    "outcome_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "M11 si chiude classificando soltanto ciò che il bracket reale ha prodotto: campione, runner-up oppure eliminato in semifinale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_resolve",
+          "text": "Controllo la risoluzione della finale.",
+          "goto": "final_resolution"
+        },
+        {
+          "id": "entry_champion",
+          "text": "Audito il ramo campione.",
+          "goto": "champion_audit"
+        },
+        {
+          "id": "entry_exit",
+          "text": "Audito WORLD_EXIT.",
+          "goto": "world_exit_rules"
+        }
+      ]
+    },
+    "final_resolution": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se il player è uscito in semifinale, E5 deve comunque risolvere WORLD_FINAL off-screen prima del WORLD_EXIT."
+        }
+      ],
+      "choices": [
+        {
+          "id": "resolve_offscreen",
+          "text": "E5 risolve la finale senza il player.",
+          "goto": "sf_eliminated_audit",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.world.knockout.playerAdvancedToFinal",
+                "ne": true
+              },
+              {
+                "path": "competition.world.knockout.finalResolved",
+                "ne": true
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "competition_world_final_resolve",
+              "eventId": "WORLD_FINAL_RESOLVE"
+            }
+          ]
+        },
+        {
+          "id": "resolve_existing",
+          "text": "La finale è già risolta.",
+          "goto": "history",
+          "conditions": {
+            "path": "competition.world.knockout.finalResolved",
+            "eq": true
+          }
+        }
+      ]
+    },
+    "champion_audit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il player è campione solo se playerWonFinal=true e currentWorldChampion coincide col player."
+        }
+      ],
+      "choices": [
+        {
+          "id": "champion_audit_next",
+          "text": "Proseguo.",
+          "goto": "runnerup_audit"
+        },
+        {
+          "id": "champion_audit_alt",
+          "text": "Approfondisco.",
+          "goto": "sf_eliminated_audit"
+        }
+      ]
+    },
+    "runnerup_audit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il player è runner-up solo se ha giocato e perso WORLD_FINAL."
+        }
+      ],
+      "choices": [
+        {
+          "id": "runnerup_audit_next",
+          "text": "Proseguo.",
+          "goto": "sf_eliminated_audit"
+        },
+        {
+          "id": "runnerup_audit_alt",
+          "text": "Approfondisco.",
+          "goto": "history"
+        }
+      ]
+    },
+    "sf_eliminated_audit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Una sconfitta in semifinale resta tale; la finale continua senza reinserire il player."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sf_eliminated_audit_next",
+          "text": "Proseguo.",
+          "goto": "history"
+        },
+        {
+          "id": "sf_eliminated_audit_alt",
+          "text": "Approfondisco.",
+          "goto": "friend_closure"
+        }
+      ]
+    },
+    "history": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "competition.history conserva i match giocati dal player; la finale off-screen non inventa una sua partecipazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "history_next",
+          "text": "Proseguo.",
+          "goto": "friend_closure"
+        },
+        {
+          "id": "history_alt",
+          "text": "Approfondisco.",
+          "goto": "resource_state"
+        }
+      ]
+    },
+    "friend_closure": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "FRIEND_BEAT_11 deve essere completo su tutti i rami prima del World Exit."
+        }
+      ],
+      "choices": [
+        {
+          "id": "friend_closure_next",
+          "text": "Proseguo.",
+          "goto": "resource_state"
+        },
+        {
+          "id": "friend_closure_alt",
+          "text": "Approfondisco.",
+          "goto": "world_exit_rules"
+        }
+      ]
+    },
+    "resource_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Nessun esito di campionato ripristina automaticamente la squadra."
+        }
+      ],
+      "choices": [
+        {
+          "id": "resource_state_next",
+          "text": "Proseguo.",
+          "goto": "world_exit_rules"
+        },
+        {
+          "id": "resource_state_alt",
+          "text": "Approfondisco.",
+          "goto": "champion_route"
+        }
+      ]
+    },
+    "world_exit_rules": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "WORLD_EXIT diventa disponibile solo dopo che esiste un campione reale dell'edizione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "world_exit_rules_next",
+          "text": "Proseguo.",
+          "goto": "champion_route"
+        },
+        {
+          "id": "world_exit_rules_alt",
+          "text": "Approfondisco.",
+          "goto": "runnerup_route"
+        }
+      ]
+    },
+    "champion_route": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il ramo Champion registra il titolo senza duplicare il risultato del combat."
+        }
+      ],
+      "choices": [
+        {
+          "id": "champion_route_next",
+          "text": "Proseguo.",
+          "goto": "runnerup_route"
+        },
+        {
+          "id": "champion_route_alt",
+          "text": "Approfondisco.",
+          "goto": "sf_eliminated_route"
+        }
+      ]
+    },
+    "runnerup_route": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il ramo Runner-up conserva il campione avversario effettivo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "runnerup_route_next",
+          "text": "Proseguo.",
+          "goto": "sf_eliminated_route"
+        },
+        {
+          "id": "runnerup_route_alt",
+          "text": "Approfondisco.",
+          "goto": "commit_guard"
+        }
+      ]
+    },
+    "sf_eliminated_route": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il ramo SF eliminated conserva il campione deciso dalla finale off-screen."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sf_eliminated_route_next",
+          "text": "Proseguo.",
+          "goto": "commit_guard"
+        },
+        {
+          "id": "sf_eliminated_route_alt",
+          "text": "Approfondisco.",
+          "goto": "committed"
+        }
+      ]
+    },
+    "commit_guard": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il commit apre soltanto M12/WORLD_EXIT e non modifica il bracket."
+        }
+      ],
+      "choices": [
+        {
+          "id": "commit_champion",
+          "text": "Chiudo M11 come World Champion.",
+          "goto": "committed",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.world.knockout.finalResolved",
+                "eq": true
+              },
+              {
+                "path": "competition.world.knockout.playerWonFinal",
+                "eq": true
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m11_outcome_route",
+              "value": "world_champion"
+            },
+            {
+              "type": "set_flag",
+              "key": "m11_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m11_championship_outcome_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "world_exit_available",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_unlocked",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "commit_runnerup",
+          "text": "Chiudo M11 come World runner-up.",
+          "goto": "committed",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.world.knockout.finalResolved",
+                "eq": true
+              },
+              {
+                "path": "competition.world.knockout.playerAdvancedToFinal",
+                "eq": true
+              },
+              {
+                "path": "competition.world.knockout.playerWonFinal",
+                "eq": false
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m11_outcome_route",
+              "value": "world_runner_up"
+            },
+            {
+              "type": "set_flag",
+              "key": "m11_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m11_championship_outcome_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "world_exit_available",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_unlocked",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "commit_sf_elim",
+          "text": "Chiudo M11 dopo l'eliminazione in semifinale.",
+          "goto": "committed",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.world.knockout.finalResolved",
+                "eq": true
+              },
+              {
+                "path": "competition.world.knockout.playerAdvancedToFinal",
+                "ne": true
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m11_outcome_route",
+              "value": "sf_eliminated"
+            },
+            {
+              "type": "set_flag",
+              "key": "m11_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m11_championship_outcome_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "world_exit_available",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_unlocked",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "committed": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "M11 è completo e il campione corrente è già nello stato E5."
+        }
+      ],
+      "choices": [
+        {
+          "id": "committed_next",
+          "text": "Proseguo.",
+          "goto": "handoff"
+        },
+        {
+          "id": "committed_alt",
+          "text": "Approfondisco.",
+          "goto": "complete"
+        }
+      ]
+    },
+    "handoff": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La carriera può entrare in Dopo il Mondo con tutta la history persistente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "handoff_m12",
+          "text": "Entro in M12 / WORLD_EXIT.",
+          "goto": "complete"
+        },
+        {
+          "id": "handoff_history",
+          "text": "Rileggo la history.",
+          "goto": "history"
+        }
+      ]
+    },
+    "complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Per Diventare Campione è concluso: il titolo appartiene a chi ha realmente vinto WORLD_FINAL."
+        }
+      ],
+      "choices": [
+        {
+          "id": "complete_next",
+          "text": "Proseguo.",
+          "goto": "outcome_entry"
+        },
+        {
+          "id": "complete_alt",
+          "text": "Approfondisco.",
+          "goto": "final_resolution"
+        }
+      ]
+    }
+  }
+}
