@@ -5,7 +5,7 @@
 **Purpose:** production map for converting M5 into validated offline story content  
 **Locked authored budget:** **5,700 stitches / 3,600 player choices**
 
-**Module implementation status:** **M5_00–M5_04 COMPLETE / LIBRARY-V2 ALIGNED; M5_05–M5_14 PLANNED**
+**Module implementation status:** **M5_00–M5_09 COMPLETE / LIBRARY-V2 ALIGNED; M5_10–M5_14 PLANNED**
 
 E1–E7 are reusable infrastructure from M1. A block may extend generic data or content, but must not fork those engines into module-specific substitutes.
 
@@ -58,11 +58,11 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 | M5_02_ALTACIMA | hub di quota, medicina, logistica e Sala della Cresta | 362 | 229 | COMPLETE |
 | M5_03_LANCE_ENTERS | introduzione di Lance tramite carriera reale | 362 | 229 | COMPLETE |
 | M5_04_WEATHER_DECISIONS | finestre meteo, rinvio, deviazione e rischio | 362 | 229 | COMPLETE |
-| M5_05_FULGORE_ASCENT | accesso all'Altopiano Fulgore e pressione ambientale | 362 | 229 | PLANNED |
-| M5_06_ANCIENT_TRACE | A5_TRACE: anomalia antica/meteorologica senza soluzione prematura | 362 | 229 | PLANNED |
-| M5_07_INTERREGIONAL_LICENSE | A5_INTERREGIONAL e apertura di tratte più ampie | 362 | 229 | PLANNED |
-| M5_08_FIVE_CROSS_AGAIN | A5_FIVE_CROSS: reunion causale dei Five | 362 | 228 | PLANNED |
-| M5_09_FRIEND_BEAT_05 | beat personale obbligatorio dentro la reunion | 525 | 331 | PLANNED |
+| M5_05_FULGORE_ASCENT | accesso all'Altopiano Fulgore e pressione ambientale | 362 | 229 | COMPLETE |
+| M5_06_ANCIENT_TRACE | A5_TRACE: anomalia antica/meteorologica senza soluzione prematura | 362 | 229 | COMPLETE |
+| M5_07_INTERREGIONAL_LICENSE | A5_INTERREGIONAL e apertura di tratte più ampie | 362 | 229 | COMPLETE |
+| M5_08_FIVE_CROSS_AGAIN | A5_FIVE_CROSS: reunion causale dei Five | 362 | 228 | COMPLETE |
+| M5_09_FRIEND_BEAT_05 | beat personale obbligatorio dentro la reunion | 525 | 331 | COMPLETE |
 | M5_10_HIGH_ALTITUDE_EVENT | soccorso/competizione/lavoro ad alta quota con stato reale | 362 | 228 | PLANNED |
 | M5_11_TRIAL_REGISTRATION | eligibility B→A ad Altacima | 470 | 297 | PLANNED |
 | M5_12_PROMOTION_TRIAL_B_A | checkpoint RANK_B_TO_A, roster ufficiale 5 | 525 | 331 | PLANNED |
@@ -86,9 +86,16 @@ The first production cycle is allocated proportionally from the fixed M5 budget 
 | M5_03_LANCE_ENTERS | 15 | 34 | COMPLETE |
 | M5_04_WEATHER_DECISIONS | 15 | 34 | COMPLETE |
 | **Cycle M5_00–M5_04** | **75** | **164** | **COMPLETE** |
-| **Remaining M5_05–M5_14 capacity** | **~165** | **~364** | PLANNED |
+| M5_05_FULGORE_ASCENT | 15 | 34 | COMPLETE |
+| M5_06_ANCIENT_TRACE | 15 | 34 | COMPLETE |
+| M5_07_INTERREGIONAL_LICENSE | 15 | 34 | COMPLETE |
+| M5_08_FIVE_CROSS_AGAIN | 15 | 33 | COMPLETE |
+| M5_09_FRIEND_BEAT_05 | 22 | 48 | COMPLETE |
+| **Cycle M5_05–M5_09** | **82** | **183** | **COMPLETE** |
+| **Cumulative M5_00–M5_09** | **157** | **347** | **COMPLETE** |
+| **Remaining M5_10–M5_14 capacity** | **83** | **181** | PLANNED |
 
-No nodes were added merely to hit a number. The 75/164 cycle preserves the full branch density required by the five engine jobs while leaving the remaining capacity for Fulgore, Ancient Trace, interregional licensing, Five reunion, Friend Beat, high-altitude event, B→A Trial, Masters entry and exit synthesis.
+No nodes were added merely to hit a number. Cycle 2 consumes **82 nodes / 183 choices**, exactly the proportional share implied by the locked M5 budget: 15/34 for Fulgore, Trace and License; 15/33 for Five Cross; 22/48 for the deliberately broader FRIEND_BEAT_05. The final five blocks retain **83 nodes / 181 choices**.
 
 ## 2B. LIBRARY V2 ROUTING FOR CYCLE 1
 
@@ -114,6 +121,16 @@ Validation executed on GitHub Actions from branch `m5-00-04-work` after the five
 - all M1–M4 regressions remain green.
 
 The compiler still reports the pre-existing terminal/local-reachability warnings from older authored scene patterns; the M5 multi-context Lance entry also intentionally has alternate entry nodes that are reached cross-scene and therefore appear as local-reachability warnings, not validation errors.
+
+## 2D. LIBRARY V2 ROUTING FOR CYCLE 2
+
+- **M5_05:** R34 access boundary + R22/R32 time and waiting + R03 checks + R07 ordinary ecology observation; Fulgore exposure remains local content.
+- **M5_06:** R30 evidence aggregation + R04 information flags + R38 composite interpretation discipline; the revelation stays intentionally incomplete.
+- **M5_07:** R16 eligibility + R15 official match lifecycle + R06 combat handoff + R33 continuity; the assessment records a real win/loss without becoming a Rank checkpoint.
+- **M5_08:** R23 schedule gate + R28 friend divergence/update + R33 callbacks; the reunion includes only causally available Five and keeps remote participants remote.
+- **M5_09:** R26 friend selector + R27 Friend Beat content + R23 schedule causality + R33 callbacks; physical and remote paths remain distinct and persistent.
+
+**No R39 candidate is required.** The second cycle is fully expressible with Library V2 R01→R38.
 
 ---
 
@@ -278,6 +295,19 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R34_ACCESS_BOUNDARY_RECONNAISSANCE_GATE
+- R22_TIME_OF_DAY_VARIANT
+- R32_WAIT_LET_TIME_PASS
+- R03_SIMPLE_SKILL_CHECK
+- R07_WILD_OBSERVATION_REQUEST
+
+**Unique layer:** exposed-ridge ascent, mid-course deviation, retreat logic and Fulgore ecology.
+
+**Implementation lock:** Scene `m05-fulgore-ascent` contains **15 nodes / 34 meaningful choices**. It requires the real M5_04 departure plan, consumes E2 time, supports retreat/deviation, observes only canonical FUL-PLATEAU fauna, and writes `fulgore_visited` only after actual arrival.
+
 ---
 
 ## M5_06_ANCIENT_TRACE
@@ -289,6 +319,18 @@ A content gap is not permission to implement a second engine.
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R30_INVESTIGATION_EVIDENCE_AGGREGATION
+- R04_CHECK_INFORMATION_FLAG
+- R38_COMPOSITE_OUTCOME_CLASSIFIER
+- R33_CROSS_MODULE_CALLBACK
+
+**Unique layer:** the first ancient/weather anomaly layer and its deliberate uncertainty.
+
+**Implementation lock:** Scene `m05-ancient-trace` contains **15 nodes / 34 meaningful choices**. Multiple independent signals may converge, remain partial or be left largely uninvestigated. Every legal completion writes a persistent `ancient_mystery_layer_1` without identifying a legendary/mythical, granting a capture or fabricating evidence.
 
 ---
 
@@ -302,6 +344,18 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R16_ROSTER_PREPARATION_ELIGIBILITY_INFO
+- R15_FIRST_OFFICIAL_MATCH_LIFECYCLE
+- R06_COMBAT_HANDOFF
+- R33_CROSS_MODULE_CALLBACK
+
+**Unique layer:** a Rank-B interregional calibration assessment whose result informs the license but does not act as promotion.
+
+**Implementation lock:** Scene `m05-interregional-license` contains **15 nodes / 34 meaningful choices**. The official assessment uses E5/Pokémon 5e with a fixed level-11 three-Pokémon roster and records actual win/loss. Either result can complete licensing; neither changes Rank or registers `RANK_B_TO_A`.
+
 ---
 
 ## M5_08_FIVE_CROSS_AGAIN
@@ -314,6 +368,17 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R23_NPC_PRESENCE_SCHEDULE_GATE
+- R28_FRIEND_DIVERGENCE_UPDATE
+- R33_CROSS_MODULE_CALLBACK
+
+**Unique layer:** the first major Five reunion after prolonged independent careers.
+
+**Implementation lock:** Scene `m05-five-cross-again` contains **15 nodes / 33 meaningful choices**. Physical friend branches require actual schedule presence at Altacima/Fulgore; all other participation remains remote/contextual. Completion writes `five_cross_complete` and hands off to the schedule-aware FRIEND_BEAT_05 selector without teleporting anyone.
+
 ---
 
 ## M5_09_FRIEND_BEAT_05
@@ -325,6 +390,18 @@ A content gap is not permission to implement a second engine.
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R26_FRIEND_BEAT_SELECTOR
+- R27_FRIEND_BEAT_CONTENT
+- R23_NPC_PRESENCE_SCHEDULE_GATE
+- R33_CROSS_MODULE_CALLBACK
+
+**Unique layer:** DIFFICILE personal follow-up to the Five reunion, with friend-specific career themes and deeper cross-state callbacks.
+
+**Implementation lock:** Scene `m05-friend-beat-05` contains **22 nodes / 48 meaningful choices**. The selected friend is persisted by the M5 selector; physical/remote paths remain distinct; relationship/result/context writes survive save/reload; no friend is forced into a fight or relocated solely to satisfy the beat.
 
 ---
 
