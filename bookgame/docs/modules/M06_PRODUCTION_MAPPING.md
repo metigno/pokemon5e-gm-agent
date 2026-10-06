@@ -5,7 +5,7 @@
 **Purpose:** production map for converting M6 into validated offline story content  
 **Locked authored budget:** **5,500 stitches / 3,400 player choices**
 
-**Module implementation status:** **M6_00–M6_04 IMPLEMENTED / LIBRARY-V2 ALIGNED / STATIC-PASS — RUNTIME CI EVIDENCE PENDING**
+**Module implementation status:** **M6_00–M6_09 IMPLEMENTED / LIBRARY-V2 ALIGNED / STATIC-PASS — RUNTIME CI EVIDENCE PENDING**
 
 E1–E7 are reusable infrastructure from M1. A block may extend generic data or content, but must not fork those engines into module-specific substitutes.
 
@@ -58,11 +58,11 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 | M6_02_INTERREGIONAL_TRAVEL | Solaria/Luminara o altra tratta legale con tempi reali | 330 | 204 | IMPLEMENTED |
 | M6_03_RED_ENTERS | introduzione di Red come competitor osservatore | 330 | 204 | IMPLEMENTED |
 | M6_04_MASTERS_CIRCUIT | eventi Masters e ranking senza geographic bypass | 330 | 204 | IMPLEMENTED |
-| M6_05_HIDDEN_TRAJECTORIES | A6_HIDDEN_TRAJECTORIES e payoff visibile di un amico | 330 | 204 | PLANNED |
-| M6_06_FRIEND_BEAT_06 | evoluzione/cambio carriera/incontro reale di uno dei Four | 479 | 296 | PLANNED |
-| M6_07_CONTINENTAL_ENTRY | eligibility e preparazione alla Continental Cup | 281 | 174 | PLANNED |
-| M6_08_CONTINENTAL_CUP | A6_CONTINENTAL con bracket reale | 479 | 296 | PLANNED |
-| M6_09_ANCIENT_LAYER_TWO | secondo strato del mistero, ancora non una ricompensa leggendaria gratuita | 330 | 204 | PLANNED |
+| M6_05_HIDDEN_TRAJECTORIES | A6_HIDDEN_TRAJECTORIES e payoff visibile di un amico | 330 | 204 | IMPLEMENTED |
+| M6_06_FRIEND_BEAT_06 | evoluzione/cambio carriera/incontro reale di uno dei Four | 479 | 296 | IMPLEMENTED |
+| M6_07_CONTINENTAL_ENTRY | eligibility e preparazione alla Continental Cup | 281 | 174 | IMPLEMENTED |
+| M6_08_CONTINENTAL_CUP | A6_CONTINENTAL con bracket reale | 479 | 296 | IMPLEMENTED |
+| M6_09_ANCIENT_LAYER_TWO | secondo strato del mistero, ancora non una ricompensa leggendaria gratuita | 330 | 204 | IMPLEMENTED |
 | M6_10_FIRST_LIGHTHOUSE_RETURN | ritorno alle Rovine del Primo Faro e gate context | 330 | 204 | PLANNED |
 | M6_11_TRIAL_REGISTRATION | eligibility A→S separata dai punti Masters | 430 | 266 | PLANNED |
 | M6_12_PROMOTION_TRIAL_A_S | checkpoint RANK_A_TO_S, roster ufficiale 6 | 479 | 296 | PLANNED |
@@ -86,7 +86,14 @@ The first production cycle is allocated proportionally from the fixed M6 budget:
 | M6_03_RED_ENTERS | 13 | 29 | COMPLETE |
 | M6_04_MASTERS_CIRCUIT | 14 | 29 | COMPLETE |
 | **Cycle M6_00–M6_04** | **64** | **141** | **IMPLEMENTED / STATIC PASS** |
-| **Remaining M6 target** | **156** | **343** | PLANNED |
+| M6_05_HIDDEN_TRAJECTORIES | 13 | 29 | IMPLEMENTED |
+| M6_06_FRIEND_BEAT_06 | 19 | 42 | IMPLEMENTED |
+| M6_07_CONTINENTAL_ENTRY | 12 | 25 | IMPLEMENTED |
+| M6_08_CONTINENTAL_CUP | 19 | 42 | IMPLEMENTED |
+| M6_09_ANCIENT_LAYER_TWO | 13 | 29 | IMPLEMENTED |
+| **Cycle M6_05–M6_09** | **76** | **167** | **IMPLEMENTED / STATIC PASS** |
+| **Cumulative M6_00–M6_09** | **140** | **308** | **IMPLEMENTED / STATIC PASS** |
+| **Remaining M6 target** | **80** | **176** | PLANNED |
 
 This is the proportional share implied by the locked authored budget. No node is added merely to hit a number.
 
@@ -110,6 +117,31 @@ This is the proportional share implied by the locked authored budget. No node is
 - GitHub Actions runtime evidence: **PENDING** because no workflow/check was emitted for the current PR head during this production pass.
 
 Per the production rule, final **COMPLETE** status is reserved for runtime evidence.
+
+
+## 2C. LIBRARY V2 ROUTING FOR CYCLE 2
+
+- **M6_05:** R28 friend divergence/update + R29 living-world off-screen progression + R23 schedule causality + R33 callbacks. The visible payoff shows only state already earned by the friend and explicitly forbids future roster/Legendary leakage.
+- **M6_06:** R26 friend selector + R27 Friend Beat content + R23 schedule/location gate + R33 continuity. Physical contact requires shared real location; otherwise the same selected friend remains remote.
+- **M6_07:** R16 eligibility information + R37 tournament registration shell + R32 legal deferral. Continental registration remains separate from RANK_A_TO_S.
+- **M6_08:** R37 multi-round tournament lifecycle + R06 combat handoff + R15 official match lifecycle. QF→SF→Final advancement depends only on actual prior win state; loss ends the run honestly.
+- **M6_09:** R30 evidence aggregation + R04 information flags + R38 composite interpretation + R33 prior-layer callback. The second ancient layer remains an unresolved cross-region pattern, never a free Legendary reward.
+
+**No R39 candidate is required.** Library V2 R01→R38 remains sufficient through M6_09.
+
+### Cycle 2 validation status
+
+- authored files: present;
+- exact logical budget: **76 nodes / 167 choices**;
+- cumulative M6 runtime surface: **140 nodes / 308 choices**;
+- remaining exact M6 target: **80 nodes / 176 choices**;
+- static condition/effect/target audit: **PASS for M6_00–M6_09**;
+- authored-node reachability: **PASS, 0 zero-incoming M6 nodes**;
+- ACT_6 bindings present: `A6_HIDDEN_TRAJECTORIES`, `A6_CONTINENTAL`, `A6_RANK_TRIAL_A_S`, `A6_CUTOFF`, plus deterministic `M6_FRIEND_BEAT_SELECT`;
+- dedicated regressions: `m06-cycle2.test.mjs` plus expanded `m06-cycle-budget.test.mjs`;
+- GitHub Actions runtime evidence: **PENDING** because the repository still emits no workflow/check for the current PR head.
+
+Final **COMPLETE** remains reserved for runtime evidence.
 
 ---
 
@@ -270,6 +302,18 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R28_FRIEND_DIVERGENCE_UPDATE
+- R29_LIVING_WORLD_OFF_SCREEN_RESOLUTION
+- R23_NPC_PRESENCE_SCHEDULE_GATE
+- R33_CROSS_MODULE_CALLBACK
+
+**Unique layer:** a visible late-career payoff for one of the Four without revealing future captures, final rosters or Legendary targets.
+
+**Implementation lock (cycle 2):** Scene `m06-hidden-trajectories` contains **13 nodes / 29 meaningful choices**. A deterministic world event selects a non-player friend and rotates away from FRIEND_BEAT_05 when possible; the scene exposes only public trajectory change and never rewrites that NPC's roster/level state.
+
 ---
 
 ## M6_06_FRIEND_BEAT_06
@@ -281,6 +325,18 @@ A content gap is not permission to implement a second engine.
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R26_FRIEND_BEAT_SELECTOR
+- R27_FRIEND_BEAT_CONTENT
+- R23_NPC_PRESENCE_SCHEDULE_GATE
+- R33_CROSS_MODULE_CALLBACK
+
+**Unique layer:** international-career conversation around a visible trajectory shift, with physical versus remote mode derived from real shared location.
+
+**Implementation lock (cycle 2):** Scene `m06-friend-beat-06` contains **19 nodes / 42 meaningful choices**. The selected friend remains fixed; physical contact is emitted only when schedule and player location coincide, otherwise remote contact preserves distance. Relationship/type/result persist and no sparring is fabricated without a legal event/bracket.
 
 ---
 
@@ -294,6 +350,17 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R16_ROSTER_PREPARATION_ELIGIBILITY_INFO
+- R37_MULTI_ROUND_TOURNAMENT_LIFECYCLE
+- R32_WAIT_LET_TIME_PASS
+
+**Unique layer:** Continental Cup eligibility/registration driven by ACT_6 conditions while remaining fully separate from the A→S Promotion Trial.
+
+**Implementation lock (cycle 2):** Scene `m06-continental-entry` contains **12 nodes / 25 meaningful choices**. Registration, deferral and explicit skip are persistent distinct outcomes; entering the event never changes Rank A or registers RANK_A_TO_S.
+
 ---
 
 ## M6_08_CONTINENTAL_CUP
@@ -306,6 +373,17 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R37_MULTI_ROUND_TOURNAMENT_LIFECYCLE
+- R06_COMBAT_HANDOFF
+- R15_FIRST_OFFICIAL_MATCH_LIFECYCLE
+
+**Unique layer:** elite Continental QF→SF→Final bracket with fixed Official Five opponents and international ranking stakes.
+
+**Implementation lock (cycle 2):** Scene `m06-continental-cup` contains **19 nodes / 42 meaningful choices**. Every round uses Pokémon 5e/E5; advancing requires the actual prior win, a loss produces the achieved placement, and even winning the Cup leaves Rank A unchanged.
+
 ---
 
 ## M6_09_ANCIENT_LAYER_TWO
@@ -317,6 +395,18 @@ A content gap is not permission to implement a second engine.
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R30_INVESTIGATION_EVIDENCE_AGGREGATION
+- R04_CHECK_INFORMATION_FLAG
+- R38_COMPOSITE_OUTCOME_CLASSIFIER
+- R33_CROSS_MODULE_CALLBACK
+
+**Unique layer:** a cross-region second ancient signal that can become a coherent pattern or remain unresolved without identifying a Legendary or granting access/reward.
+
+**Implementation lock (cycle 2):** Scene `m06-ancient-layer-two` contains **13 nodes / 29 meaningful choices**. A real WIS/Perception check can succeed or fail; both outcomes remain valid, and all closure paths persist `ancient_mystery_layer_2` while leaving roster, Rank and Legendary state untouched.
 
 ---
 
