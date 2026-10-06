@@ -5,7 +5,7 @@
 **Purpose:** production map for converting M8 into validated offline story content  
 **Locked authored budget:** **4,400 stitches / 2,500 player choices**
 
-**Module implementation status:** **M8_00–M8_09 COMPLETE / LIBRARY-V2 ALIGNED / RUNTIME PASS**
+**Module implementation status:** **M8_00–M8_11 IMPLEMENTED / EXACT 190×418 / RUNTIME VALIDATION PENDING**
 
 E1–E7 are reusable infrastructure from M1. A block may extend generic data or content, but must not fork those engines into module-specific substitutes.
 
@@ -83,11 +83,12 @@ The authored-surface budget above remains locked at **4,400 stitches / 2,500 cho
 | M8_08_MEDIA_DAY | 15 | 32 | IMPLEMENTED |
 | M8_09_OPENING_CEREMONY | 12 | 26 | IMPLEMENTED |
 | **Cycle M8_05–M8_09** | **76** | **166** | **COMPLETE / RUNTIME PASS** |
-| M8_10_WORLD_DRAW | TBD | TBD | PLANNED |
-| M8_11_GROUP_REVEAL | TBD | TBD | PLANNED |
+| M8_10_WORLD_DRAW | 18 | 40 | IMPLEMENTED |
+| M8_11_GROUP_REVEAL | 14 | 31 | IMPLEMENTED |
+| **Cycle M8_10–M8_11** | **32** | **71** | **IMPLEMENTED / STATIC PASS** |
 | **M8 TOTAL TARGET** | **190** | **418** | |
 
-The first cycle used **82 / 181**. Cycle 2 adds **76 / 166**, bringing M8_00–M8_09 to **158 nodes / 347 meaningful choices**. Exactly **32 nodes / 71 choices** remain for M8_10–M8_11. No node is added merely to hit the target.
+Cycle 1 used **82 / 181**, Cycle 2 added **76 / 166**, and Cycle 3 adds the exact remaining **32 / 71**. M8 therefore closes at exactly **190 logical nodes / 418 meaningful choices** with no padding.
 
 # 2B. LIBRARY V2 ROUTING FOR CYCLE 1
 
@@ -137,6 +138,39 @@ The first cycle used **82 / 181**. Cycle 2 adds **76 / 166**, bringing M8_00–M
 - Opening Ceremony never sets `world_draw_complete`, `world_field_32_locked` or `player_group`;
 - dedicated regressions: `m08-cycle2.test.mjs` plus expanded `m08-cycle-budget.test.mjs`;
 - GitHub Actions runtime evidence: **PASS** on content/test commit `466811b9f7e8cf0c5e5fef19c7f81a9eea2d3d66`, Bookgame Tests run `37456416179` (#344) — **1,187 passed / 0 failed**.
+
+
+# 2D. LIBRARY V2 ROUTING FOR CYCLE 3
+
+- **M8_10:** UNIQUE World set-piece assembled from R16 eligibility/information, R32 wait/time, R33 callbacks and the existing E5 ownership contract. E5 is extended generically with structured `competition.world` state rather than introducing narrative bracket flags as authority.
+- **M8_11:** R20 module exit contract + R33 cross-module callbacks + R34 boundary discipline. Group identity, opponent identity and schedule come only from the already locked E5 draw.
+
+### E5 WORLD_DRAW extension
+
+The final M8 cycle adds a generic Competition capability, not a new node archetype:
+
+- canonical candidate pool = the 35-character 2060 roster;
+- explicit NPC `worldQualified=true/false` is authoritative;
+- unresolved off-screen qualification is resolved deterministically per career/edition;
+- pre-World Anchor guarantees are permitted only where the campaign macrotrajectory requires payoff;
+- field locks at exactly 32;
+- draw seed is deterministic per career and World edition, so waiting/reload does not reroll it;
+- eight groups of four are stored in `competition.world.groups`;
+- `competition.world.playerGroup` and exactly three `playerOpponents` are persistent;
+- legacy exit flags are projections of structured E5 state, not a second source of truth;
+- the same career/edition draw is idempotent;
+- structured draw text can be rendered into authored narration without hardcoding opponent combinations.
+
+**No R39 candidate is required.** The new work is E5 competition-state infrastructure plus UNIQUE M8 content built from existing Library V2 primitives.
+
+### Cycle 3 validation status
+
+- M8_10 authored surface: **18 nodes / 40 meaningful choices**;
+- M8_11 authored surface: **14 nodes / 31 meaningful choices**;
+- final M8 runtime surface: **190 nodes / 418 meaningful choices exactly**;
+- all 32 Cycle-3 nodes are reachable and have non-zero incoming routes;
+- dedicated regressions cover exact 32-player field, 8×4 groups, explicit NPC qualification inclusion/exclusion, non-forced friends, pre-World Anchor guarantees, idempotence, edition seed variation, rendered opponent names, M9 unlock and save/reload;
+- runtime GitHub Actions evidence is required before M8 is marked COMPLETE.
 
 # 3. CANONICAL EVENT BINDINGS
 
@@ -421,6 +455,20 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+
+**Reuse class:** UNIQUE
+
+**Reusable primitives:**
+- R16_ROSTER_PREPARATION_ELIGIBILITY_INFO
+- R32_WAIT_LET_TIME_PASS
+- R33_CROSS_MODULE_CALLBACK
+
+**Engine authority:** E5 Competition, extended with structured World Championship draw state.
+
+**Unique layer:** canonical 35-candidate pool → actual/structured qualification state → deterministic off-screen resolution only where still unknown → exact field 32 → eight groups of four.
+
+**Implementation lock (cycle 3):** scene `m08-world-draw` contains **18 nodes / 40 meaningful choices**. The draw is idempotent per career/edition, friends are not forced into the field, and `competition.world` is the authority for field, groups and player opponents.
+
 ---
 
 ## M8_11_GROUP_REVEAL
@@ -446,6 +494,18 @@ Primary state families:
 - next-module unlock state.
 
 Structured Pokémon/team/player state remains owned by the engine.
+
+
+**Reuse class:** REUSE / ADAPT
+
+**Source archetypes:**
+- R20_MODULE_EXIT_CONTRACT
+- R33_CROSS_MODULE_CALLBACK
+- R34_ACCESS_BOUNDARY_RECONNAISSANCE_GATE
+
+**Unique layer:** reveal the exact E5-generated player group and three opponents, then lock the M8→M9 handoff without rerolling or replacing anyone.
+
+**Implementation lock (cycle 3):** scene `m08-group-reveal` contains **14 nodes / 31 meaningful choices**. It renders the actual structured group/opponents, enforces the complete M8 exit contract and unlocks M9 while leaving the draw unchanged.
 
 ---
 
