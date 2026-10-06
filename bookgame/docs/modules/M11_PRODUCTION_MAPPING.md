@@ -3,7 +3,7 @@
 **Module:** M11 — Per Diventare Campione  
 **Authority:** subordinate to `P5E_LIBROGAME_ENGINE_SOURCE_OF_TRUTH.md`, `P5E_LIBROGAME_12_MODULES_MASTER.md` and `M11_PER_DIVENTARE_CAMPIONE_MODULE_DESIGN.md`  
 **Locked authored budget:** **3,500 stitches / 1,600 player choices**  
-**Module implementation status:** **MAPPED / NOT YET PRODUCTION-COMPLETE**
+**Module implementation status:** **CYCLE 1 IMPLEMENTED / VALIDATION PENDING**
 
 E1–E7 are shared infrastructure from M1. No module-specific replacement engine is allowed.
 
@@ -39,11 +39,11 @@ The spine is production ordering, not forced linear play. Actual legal branches 
 
 | Block | Function | Stitches | Choices | Current state |
 |---|---|---:|---:|---|
-| M11_00_FINAL_FOUR_LOCK | lock dei quattro semifinalisti reali e del bracket | 305 | 140 | PLANNED |
-| M11_01_REI_THREAD | Rei come competitor reale, mai finalista garantito | 359 | 164 | PLANNED |
-| M11_02_SF_PREP | preparazione con stato squadra persistente | 305 | 140 | PLANNED |
-| M11_03_WORLD_SF | semifinale reale, single elimination | 521 | 238 | PLANNED |
-| M11_04_OTHER_SF | risoluzione dell'altra semifinale senza plot armor | 359 | 164 | PLANNED |
+| M11_00_FINAL_FOUR_LOCK | lock dei quattro semifinalisti reali e del bracket | 305 | 140 | IMPLEMENTED / VALIDATION PENDING |
+| M11_01_REI_THREAD | Rei come competitor reale, mai finalista garantito | 359 | 164 | IMPLEMENTED / VALIDATION PENDING |
+| M11_02_SF_PREP | preparazione con stato squadra persistente | 305 | 140 | IMPLEMENTED / VALIDATION PENDING |
+| M11_03_WORLD_SF | semifinale reale, single elimination | 521 | 238 | IMPLEMENTED / VALIDATION PENDING |
+| M11_04_OTHER_SF | risoluzione dell'altra semifinale senza plot armor | 359 | 164 | IMPLEMENTED / VALIDATION PENDING |
 | M11_05_FRIEND_BEAT_11 | amico nel Final Four o ultimo contatto plausibile | 521 | 238 | PLANNED |
 | M11_06_FINAL_PREP | preparazione finale senza reset gratuito | 305 | 139 | PLANNED |
 | M11_07_WORLD_FINAL | finale reale: Champion is whoever actually wins | 520 | 238 | PLANNED |
@@ -180,6 +180,85 @@ Competition results must come from E5/actual bracket state. Content cannot rewri
 **Writes:** only durable state produced here; never duplicate structured combat, roster, rank or bracket data.
 
 **Completion gate:** compiled legal routes, canonical event handoff where applicable, save/reload persistence, idempotence, and no forced hidden choice.
+
+
+
+# 5A. CYCLE 1 IMPLEMENTATION LOCK — M11_00–M11_04
+
+Cycle 1 converts the Final Four / semifinal half of M11 into runtime content while preserving the locked authored-surface manifest (**3,500 stitches / 1,600 choices**) and the module-wide logical trajectory (**150 nodes / 330 meaningful choices**).
+
+**Cycle 1 logical surface:** **79 nodes / 175 meaningful choices** exactly.  
+**Residual M11 budget after Cycle 1:** **71 nodes / 155 meaningful choices** for M11_05→M11_08.
+
+## M11_00_FINAL_FOUR_LOCK
+
+**Reuse class:** ADAPT / E5 EXTENSION
+
+**Source archetypes:**
+- R37 — MULTI-ROUND TOURNAMENT LIFECYCLE
+- R33 — CROSS-MODULE CALLBACK
+- R21 — MODULE HANDOFF
+- R38 — COMPOSITE OUTCOME CLASSIFIER
+
+**Unique layer:** consumes the immutable Top4 and semifinal pairings produced by M10. E5 opens WORLD_SF idempotently without re-seeding, replacing opponents or granting plot armor.
+
+**Implementation lock:** scene `m11-final-four-lock` contains **13 nodes / 29 meaningful choices**.
+
+## M11_01_REI_THREAD
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R23 — NPC PRESENCE / SCHEDULE GATE
+- R24 — PERSISTENT NPC FIRST MEETING
+- R25 — MULTI-CONTEXT ANCHOR INTRO
+- R33 — CROSS-MODULE CALLBACK
+
+**Unique layer:** Rei is read from the actual Top4 state. Physical contact requires real venue overlap; presence in the story never guarantees presence in the semifinal or final.
+
+**Implementation lock:** scene `m11-rei-thread` contains **15 nodes / 34 meaningful choices**.
+
+## M11_02_SF_PREP
+
+**Reuse class:** REUSE / ADAPT
+
+**Source archetypes:**
+- R16 — ROSTER PREPARATION / ELIGIBILITY INFO
+- R13 — MEDICAL / POKÉMON CENTER SERVICE
+- R22 — TIME-OF-DAY VARIANT
+- R32 — WAIT / LET TIME PASS
+
+**Unique layer:** preparation preserves the post-QF team exactly; time can advance but no scene effect heals, rebuilds or normalizes the roster.
+
+**Implementation lock:** scene `m11-sf-prep` contains **13 nodes / 29 meaningful choices**.
+
+## M11_03_WORLD_SF
+
+**Reuse class:** ADAPT / E5 EXTENSION
+
+**Source archetypes:**
+- R06 — COMBAT HANDOFF
+- R15 — FIRST/OFFICIAL MATCH LIFECYCLE
+- R37 — MULTI-ROUND TOURNAMENT LIFECYCLE
+
+**Unique layer:** WORLD_SF uses the real E5 player semifinal match, opponent and persistent regulated roster. Win/loss comes only from Pokémon 5e combat.
+
+**Implementation lock:** scene `m11-world-sf` contains **22 nodes / 49 meaningful choices**.
+
+## M11_04_OTHER_SF
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R29 — LIVING WORLD OFF-SCREEN RESOLUTION
+- R37 — MULTI-ROUND TOURNAMENT LIFECYCLE
+- R38 — COMPOSITE OUTCOME CLASSIFIER
+
+**Unique layer:** the second semifinal resolves deterministically from persistent World state; the two actual winners become the only finalists and produce WORLD_FINAL_1. Rei/friends/rivals receive no result protection.
+
+**Implementation lock:** scene `m11-other-sf` contains **16 nodes / 34 meaningful choices**.
+
+**Library decision:** R01→R38 fully expresses Cycle 1. **No R39 candidate is required.**
 
 
 # 6. STATE OWNERSHIP
