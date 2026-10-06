@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 1,
+  "id": "M06",
+  "title": "Oltre i Confini",
+  "targets": {
+    "stitches": 5500,
+    "choices": 3400
+  },
+  "progressionRole": "rank-a-to-s-band",
+  "designDocument": "docs/modules/M06_OLTRE_I_CONFINI_MODULE_DESIGN.md",
+  "mappingDocument": "docs/modules/M06_PRODUCTION_MAPPING.md",
+  "requiredBeats": [
+    "M6_00_RANK_A_HANDOFF",
+    "M6_01_ROUTE_SELECTION",
+    "M6_02_INTERREGIONAL_TRAVEL",
+    "M6_03_RED_ENTERS",
+    "M6_04_MASTERS_CIRCUIT",
+    "M6_05_HIDDEN_TRAJECTORIES",
+    "M6_06_FRIEND_BEAT_06",
+    "M6_07_CONTINENTAL_ENTRY",
+    "M6_08_CONTINENTAL_CUP",
+    "M6_09_ANCIENT_LAYER_TWO",
+    "M6_10_FIRST_LIGHTHOUSE_RETURN",
+    "M6_11_TRIAL_REGISTRATION",
+    "M6_12_PROMOTION_TRIAL_A_S",
+    "M6_13_WORLD_CUTOFF",
+    "M6_14_MODULE_OUTCOME"
+  ],
+  "blocks": [
+    {
+      "id": "M6_00_RANK_A_HANDOFF",
+      "title": "Rank A Handoff",
+      "targets": {
+        "stitches": 281,
+        "choices": 174
+      }
+    },
+    {
+      "id": "M6_01_ROUTE_SELECTION",
+      "title": "Route Selection",
+      "targets": {
+        "stitches": 331,
+        "choices": 204
+      }
+    },
+    {
+      "id": "M6_02_INTERREGIONAL_TRAVEL",
+      "title": "Interregional Travel",
+      "targets": {
+        "stitches": 330,
+        "choices": 204
+      }
+    },
+    {
+      "id": "M6_03_RED_ENTERS",
+      "title": "Red Enters",
+      "targets": {
+        "stitches": 330,
+        "choices": 204
+      }
+    },
+    {
+      "id": "M6_04_MASTERS_CIRCUIT",
+      "title": "Masters Circuit",
+      "targets": {
+        "stitches": 330,
+        "choices": 204
+      }
+    },
+    {
+      "id": "M6_05_HIDDEN_TRAJECTORIES",
+      "title": "Hidden Trajectories",
+      "targets": {
+        "stitches": 330,
+        "choices": 204
+      }
+    },
+    {
+      "id": "M6_06_FRIEND_BEAT_06",
+      "title": "Friend Beat 06",
+      "targets": {
+        "stitches": 479,
+        "choices": 296
+      }
+    },
+    {
+      "id": "M6_07_CONTINENTAL_ENTRY",
+      "title": "Continental Entry",
+      "targets": {
+        "stitches": 281,
+        "choices": 174
+      }
+    },
+    {
+      "id": "M6_08_CONTINENTAL_CUP",
+      "title": "Continental Cup",
+      "targets": {
+        "stitches": 479,
+        "choices": 296
+      }
+    },
+    {
+      "id": "M6_09_ANCIENT_LAYER_TWO",
+      "title": "Ancient Layer Two",
+      "targets": {
+        "stitches": 330,
+        "choices": 204
+      }
+    },
+    {
+      "id": "M6_10_FIRST_LIGHTHOUSE_RETURN",
+      "title": "First Lighthouse Return",
+      "targets": {
+        "stitches": 330,
+        "choices": 204
+      }
+    },
+    {
+      "id": "M6_11_TRIAL_REGISTRATION",
+      "title": "Trial Registration",
+      "targets": {
+        "stitches": 430,
+        "choices": 266
+      }
+    },
+    {
+      "id": "M6_12_PROMOTION_TRIAL_A_S",
+      "title": "Promotion Trial A→S",
+      "targets": {
+        "stitches": 479,
+        "choices": 296
+      }
+    },
+    {
+      "id": "M6_13_WORLD_CUTOFF",
+      "title": "World Cutoff",
+      "targets": {
+        "stitches": 479,
+        "choices": 296
+      }
+    },
+    {
+      "id": "M6_14_MODULE_OUTCOME",
+      "title": "Module Outcome",
+      "targets": {
+        "stitches": 281,
+        "choices": 174
+      }
+    }
+  ]
+}
