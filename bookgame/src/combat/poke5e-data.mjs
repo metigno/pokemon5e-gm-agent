@@ -7,6 +7,7 @@ const FILES = {
   abilities: new URL("abilities.json", DATA_ROOT),
   items: new URL("items.json", DATA_ROOT),
   evolutions: new URL("evolutions.json", DATA_ROOT),
+  tms: new URL("tms.json", DATA_ROOT),
   conditions: new URL("conditions.json", DATA_ROOT),
   manifest: new URL("manifest.json", DATA_ROOT)
 };
@@ -63,6 +64,7 @@ function evolutionValues(document) {
 function validatePack(pack) {
   const missingMoves = new Set();
   const missingAbilities = new Set();
+  const missingTms = new Set();
 
   for (const species of Object.values(pack.species)) {
     for (const ability of species.abilities ?? []) {
@@ -72,8 +74,10 @@ function validatePack(pack) {
     for (const [poolName, pool] of Object.entries(species.moves ?? {})) {
       if (!Array.isArray(pool)) continue;
       for (const moveId of pool) {
-        // TM pools are numeric references to the TM catalog, not move ids.
-        if (typeof moveId !== "string") continue;
+        if (typeof moveId === "number") {
+          if (!pack.tms[String(moveId)]) missingTms.add(`${species.id}:tm:${moveId}`);
+          continue;
+        }
         if (!pack.moves[moveId]) missingMoves.add(`${species.id}:${poolName}:${moveId}`);
       }
     }
@@ -89,6 +93,16 @@ function validatePack(pack) {
       `Incomplete Pokémon 5e offline ability dataset: ${[...missingAbilities].slice(0, 20).join(", ")}`
     );
   }
+  if (missingTms.size > 0) {
+    throw new Error(
+      `Incomplete Pokémon 5e offline TM dataset: ${[...missingTms].slice(0, 20).join(", ")}`
+    );
+  }
+  for (const tm of Object.values(pack.tms)) {
+    if (!pack.moves[tm.move]) {
+      throw new Error(`TM ${tm.id} references missing offline move: ${tm.move}`);
+    }
+  }
 
   const expected = pack.manifest.counts ?? {};
   const actual = {
@@ -97,6 +111,7 @@ function validatePack(pack) {
     abilities: Object.keys(pack.abilities).length,
     items: Object.keys(pack.items).length,
     evolutions: pack.evolutions.length,
+    tms: Object.keys(pack.tms).length,
     conditions: Object.keys(pack.conditions).length
   };
 
@@ -120,6 +135,7 @@ async function loadPack() {
     abilitiesDocument,
     itemsDocument,
     evolutionsDocument,
+    tmsDocument,
     conditionsDocument,
     manifest
   ] = await Promise.all([
@@ -128,6 +144,7 @@ async function loadPack() {
     loadJson(FILES.abilities),
     loadJson(FILES.items),
     loadJson(FILES.evolutions),
+    loadJson(FILES.tms),
     loadJson(FILES.conditions),
     loadJson(FILES.manifest)
   ]);
@@ -136,6 +153,10 @@ async function loadPack() {
   const moves = recordById(movesDocument.values, "move");
   const abilities = recordById(abilitiesDocument.values, "ability");
   const items = recordById(itemsDocument.values, "item");
+  const tms = recordById(
+    (tmsDocument.values ?? []).map((entry) => ({ ...entry, id: String(entry.id) })),
+    "TM"
+  );
   const conditions = conditionRecord(conditionsDocument);
   const evolutions = evolutionValues(evolutionsDocument);
 
@@ -145,6 +166,7 @@ async function loadPack() {
     moves,
     abilities,
     items,
+    tms,
     conditions,
     evolutions,
     manifest,
@@ -242,6 +264,13 @@ export class Poke5eDataRepository {
     return structuredClone(item);
   }
 
+  async getTm(id) {
+    const pack = await loadPack();
+    const tm = pack.tms[String(id)];
+    if (!tm) throw new Error(`TM not in complete offline Pokémon 5e pack: ${id}`);
+    return structuredClone(tm);
+  }
+
   async getCondition(id) {
     const pack = await loadPack();
     const direct = pack.conditions[id] ?? pack.conditions[slug(id)];
@@ -289,6 +318,11 @@ export class Poke5eDataRepository {
   async listItems() {
     const pack = await loadPack();
     return Object.values(pack.items).map((entry) => structuredClone(entry));
+  }
+
+  async listTms() {
+    const pack = await loadPack();
+    return Object.values(pack.tms).map((entry) => structuredClone(entry));
   }
 
   async listConditions() {
