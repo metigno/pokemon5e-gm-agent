@@ -376,9 +376,14 @@ export function resolveAttack({
     throw new Error(`Move ${move.id} is not a supported damaging attack-roll move`);
   }
 
-  const effectAdvantage = hasActiveEffect(
-    attacker.effects?.attackAdvantageSources ?? [],
-    round
+  const effectAdvantage = (attacker.effects?.attackAdvantageSources ?? []).some(
+    (source) =>
+      (source.usesRemaining == null || source.usesRemaining > 0) &&
+      (round == null ||
+       ((source.startsRound == null || round >= source.startsRound) &&
+        (source.expiresRound == null || round < source.expiresRound))) &&
+      (source.targetCombatantId == null ||
+       source.targetCombatantId === defender.combatantId)
   );
   const attackerRestrained = hasActiveEffect(
     attacker.effects?.restrainedSources ?? [],

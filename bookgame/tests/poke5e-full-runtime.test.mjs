@@ -103,7 +103,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
   const moves = await data.listMoves();
   const unresolved = moves.filter((move) => !isMoveResolvable(move)).map((move) => move.id);
 
-  assert.ok(unresolved.length <= 184, `unresolved move rules regressed to ${unresolved.length}`);
+  assert.ok(unresolved.length <= 183, `unresolved move rules regressed to ${unresolved.length}`);
   assert.ok(unresolved.includes("acupressure"));
   for (const id of [
     "agility",
@@ -142,6 +142,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
     "fake-tears",
     "metal-sound",
     "screech",
+    "sweet-scent",
     "tearful-look",
     "moonlight",
     "morning-sun",
@@ -630,6 +631,48 @@ test("Cotton Spore creates a real Restrained combat effect when its speed reduct
   assert.equal(dexSave.restrainedDex, true);
   assert.equal(dexSave.mode, "disadvantage");
   assert.equal(dexSave.natural, 5);
+});
+
+
+test("Sweet Scent grants exactly two attack advantages tied to the failed-save target", async () => {
+  const combat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 1])
+  });
+  let battle = await combat.createBattle({
+    encounterId: "FULL_RUNTIME_SWEET_SCENT",
+    playerPokemon: { speciesId: "pikachu", level: 5, moveIds: ["sweet-scent", "tackle"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["growl"] },
+    opponentBench: [{ speciesId: "weedle", level: 1, moveIds: ["tackle"] }],
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 20, y: 0 }
+  });
+
+  battle = await combat.usePlayerMove(battle, "sweet-scent");
+  const source = battle.player.effects.attackAdvantageSources.find(
+    (entry) => entry.source === "sweet-scent"
+  );
+  assert.equal(source.usesRemaining, 2);
+  assert.equal(source.targetCombatantId, battle.opponent.combatantId);
+
+  const tackle = await new Poke5eDataRepository().getMove("tackle");
+  const vsTarget = resolveAttack({
+    attacker: battle.player,
+    defender: battle.opponent,
+    move: tackle,
+    dice: new SequenceDice([4, 17, 3]),
+    round: battle.round
+  });
+  assert.equal(vsTarget.attackRoll.mode, "advantage");
+
+  const reserve = battle.opponentBench[0];
+  const vsReserve = resolveAttack({
+    attacker: battle.player,
+    defender: reserve,
+    move: tackle,
+    dice: new SequenceDice([17]),
+    round: battle.round
+  });
+  assert.equal(vsReserve.attackRoll.mode, "normal");
 });
 
 test("save debuffs and allied status cures execute their 2024 effects", async () => {

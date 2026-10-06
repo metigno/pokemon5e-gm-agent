@@ -54,6 +54,7 @@ const SAVE_EFFECT_MOVES = new Set([
   "fake-tears",
   "metal-sound",
   "screech",
+  "sweet-scent",
   "tearful-look"
 ]);
 
@@ -158,11 +159,21 @@ function hasMoveTypeImmunity(combatant, type, round) {
   return activeTypeImmunitySource(combatant, type, round) != null;
 }
 
-function consumeAttackAdvantageUse(combatant, round) {
+function hasAttackAdvantageAgainst(combatant, target, round) {
+  return (combatant.effects?.attackAdvantageSources ?? []).some((source) => {
+    if (source.usesRemaining != null && source.usesRemaining <= 0) return false;
+    if (source.startsRound != null && round < source.startsRound) return false;
+    if (source.expiresRound != null && round >= source.expiresRound) return false;
+    return source.targetCombatantId == null || source.targetCombatantId === target.combatantId;
+  });
+}
+
+function consumeAttackAdvantageUse(combatant, target, round) {
   for (const source of combatant.effects?.attackAdvantageSources ?? []) {
     if (source.usesRemaining == null || source.usesRemaining <= 0) continue;
     if (source.startsRound != null && round < source.startsRound) continue;
     if (source.expiresRound != null && round >= source.expiresRound) continue;
+    if (source.targetCombatantId != null && source.targetCombatantId !== target.combatantId) continue;
     source.usesRemaining -= 1;
     return source.source;
   }
@@ -1047,6 +1058,27 @@ function applySaveEffect(battle, side, move, saveResult) {
     return { effect: "incoming_attack_bonus", value };
   }
 
+  if (move.id === "sweet-scent") {
+    const attacker = battle[side];
+    attacker.effects.attackAdvantageSources =
+      (attacker.effects.attackAdvantageSources ?? []).filter(
+        (entry) =>
+          entry.source !== "sweet-scent" ||
+          entry.targetCombatantId !== target.combatantId
+      );
+    attacker.effects.attackAdvantageSources.push({
+      source: "sweet-scent",
+      targetCombatantId: target.combatantId,
+      usesRemaining: 2,
+      expiresRound: null
+    });
+    return {
+      effect: "attack_advantage",
+      targetCombatantId: target.combatantId,
+      usesRemaining: 2
+    };
+  }
+
   if (move.id === "tearful-look") {
     const value = addSourceCappedModifier(
       target.effects.attackModifierSources,
@@ -1203,6 +1235,7 @@ export class Pokemon5eCombatEngine {
     }));
 
     const combatant = {
+      combatantId: descriptor.combatantId ?? null,
       speciesId: species.id,
       name: species.name,
       level,
@@ -1273,17 +1306,22 @@ export class Pokemon5eCombatEngine {
       handoff.opponent,
       handoff.opponentPosition ?? { x: 5, y: 0 }
     );
+    player.combatantId ??= `${handoff.encounterId}:player:0`;
+    opponent.combatantId ??= `${handoff.encounterId}:opponent:0`;
+
     const playerBench = [];
-    for (const descriptor of handoff.playerBench ?? []) {
+    for (const [index, descriptor] of (handoff.playerBench ?? []).entries()) {
       const reserve = await this.createCombatant(descriptor, { x: 0, y: 0 });
+      reserve.combatantId ??= `${handoff.encounterId}:player:${index + 1}`;
       reserve.position = null;
       reserve.turn.movementRemaining = 0;
       playerBench.push(reserve);
     }
 
     const opponentBench = [];
-    for (const descriptor of handoff.opponentBench ?? []) {
+    for (const [index, descriptor] of (handoff.opponentBench ?? []).entries()) {
       const reserve = await this.createCombatant(descriptor, { x: 5, y: 0 });
+      reserve.combatantId ??= `${handoff.encounterId}:opponent:${index + 1}`;
       reserve.position = null;
       reserve.turn.movementRemaining = 0;
       opponentBench.push(reserve);
@@ -1601,7 +1639,11 @@ export class Pokemon5eCombatEngine {
       forceDisadvantage,
       round: next.round
     });
-    const attackAdvantageConsumed = consumeAttackAdvantageUse(attacker, next.round);
+    const attackAdvantageConsumed = consumeAttackAdvantageUse(
+      attacker,
+      defender,
+      next.round
+    );
 
     defender.hp.current = Math.max(0, defender.hp.current - result.damage);
     checkConcentrationAfterDamage(next, targetSide, result.damage, this.dice);
@@ -1674,7 +1716,7 @@ export class Pokemon5eCombatEngine {
       ? { rolls: [], natural: null, mode: "automatic" }
       : rollD20(this.dice, {
           advantage:
-            hasActiveSource(attacker.effects?.attackAdvantageSources ?? [], next.round) ||
+            hasAttackAdvantageAgainst(attacker, defender, next.round) ||
             hasActiveSource(defender.effects?.restrainedSources ?? [], next.round),
           disadvantage:
             attackHasDisadvantage(attacker) ||
@@ -1683,7 +1725,7 @@ export class Pokemon5eCombatEngine {
     const attackTotal = automaticHit ? null : roll.natural + pb + moveModifier;
     const attackAdvantageConsumed = automaticHit
       ? null
-      : consumeAttackAdvantageUse(attacker, next.round);
+      : consumeAttackAdvantageUse(attacker, defender, next.round);
     const defenderAc = effectiveAc(defender, next.round);
     const hit = automaticHit || roll.natural === 20 ||
       (roll.natural !== 1 && attackTotal >= defenderAc);
@@ -1727,7 +1769,7 @@ export class Pokemon5eCombatEngine {
       activeModifier(defender.effects.incomingAttackBonusSources, next.round);
     const roll = rollD20(this.dice, {
       advantage:
-        hasActiveSource(attacker.effects?.attackAdvantageSources ?? [], next.round) ||
+        hasAttackAdvantageAgainst(attacker, defender, next.round) ||
         hasActiveSource(defender.effects?.restrainedSources ?? [], next.round),
       disadvantage:
         forceDisadvantage ||
@@ -1736,7 +1778,11 @@ export class Pokemon5eCombatEngine {
     });
     const attackModifier = stats.toHit + attackBonus;
     const attackTotal = roll.natural + attackModifier;
-    const attackAdvantageConsumed = consumeAttackAdvantageUse(attacker, next.round);
+    const attackAdvantageConsumed = consumeAttackAdvantageUse(
+      attacker,
+      defender,
+      next.round
+    );
     const defenderAc = effectiveAc(defender, next.round);
     const hit = roll.natural === 20 ||
       (roll.natural !== 1 && attackTotal >= defenderAc);
