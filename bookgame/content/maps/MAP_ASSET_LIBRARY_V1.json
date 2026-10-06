@@ -386,6 +386,173 @@
         }
       ],
       "usageRule": "Use selectively for modern/futuristic venue dressing. Do not make Asteria or the World Championship read as a space/sci-fi setting by default."
+    },
+    {
+      "id": "soccer_tilemap",
+      "filename": "SoccerTileMap.zip",
+      "sha256": "b3f1bffb7a596f1611794ba3fa19e671d820432bbcbd83ba176cf6b50e03e430",
+      "format": "ZIP",
+      "mapEligible": true,
+      "supportOnly": true,
+      "license": {
+        "status": "user-supplied-unverified",
+        "note": "No license/readme/terms file is present in the supplied ZIP; do not infer redistribution rights."
+      },
+      "entries": [
+        {
+          "filename": "SOCCER TILEMAP 1.png",
+          "dimensions": {
+            "width": 700,
+            "height": 400
+          },
+          "format": "PNG/RGB",
+          "roles": [
+            "sports-field",
+            "pitch-lines"
+          ]
+        },
+        {
+          "filename": "SOCCER TILEMAP 2.png",
+          "dimensions": {
+            "width": 700,
+            "height": 400
+          },
+          "format": "PNG/RGB",
+          "roles": [
+            "sports-field",
+            "pitch-lines",
+            "goals"
+          ]
+        },
+        {
+          "filename": "SOCCER TILEMAP 3.png",
+          "dimensions": {
+            "width": 700,
+            "height": 400
+          },
+          "format": "PNG/RGB",
+          "roles": [
+            "sports-field",
+            "pitch-lines"
+          ]
+        },
+        {
+          "filename": "SOCCER TILEMAP 4.png",
+          "dimensions": {
+            "width": 700,
+            "height": 400
+          },
+          "format": "PNG/RGB",
+          "roles": [
+            "sports-field",
+            "pitch-lines",
+            "goals"
+          ]
+        },
+        {
+          "filename": "SOCCER TILEMAP 5.png",
+          "dimensions": {
+            "width": 700,
+            "height": 400
+          },
+          "format": "PNG/RGB",
+          "roles": [
+            "sports-field",
+            "arena-floor",
+            "dark-perimeter"
+          ]
+        },
+        {
+          "filename": "SOCCER TILEMAP 6.png",
+          "dimensions": {
+            "width": 700,
+            "height": 400
+          },
+          "format": "PNG/RGB",
+          "roles": [
+            "sports-field",
+            "arena-floor",
+            "stadium-frame"
+          ]
+        },
+        {
+          "filename": "SOCCER TILEMAP 7.png",
+          "dimensions": {
+            "width": 700,
+            "height": 400
+          },
+          "format": "PNG/RGB",
+          "roles": [
+            "sports-field",
+            "arena-floor",
+            "stadium-frame"
+          ]
+        }
+      ],
+      "usageRule": "Useful as a structural reference/base for a large rectangular competition floor or arena framing, but football-specific lines/goals must not appear in the canonical Pokémon World arena unless an authored scene explicitly calls for football."
+    },
+    {
+      "id": "urban_skyline_pack",
+      "filename": "Urban Skyline Pack.zip",
+      "sha256": "fe36cdecb473aae939b9de3f3a9bc98ecc78b57a1974dc5b73d5acfc19d3dc78",
+      "format": "ZIP",
+      "mapEligible": true,
+      "backdropAsset": true,
+      "license": {
+        "status": "user-supplied-unverified",
+        "note": "No license/readme/terms file is present in the supplied ZIP; do not infer redistribution rights."
+      },
+      "variants": [
+        {
+          "time": "day",
+          "composite": "Urban Skyline Pack/Day/Original/Day.png",
+          "dimensions": {
+            "width": 512,
+            "height": 288
+          },
+          "upscaledComposite": "Urban Skyline Pack/Day/4X/Day4X.png",
+          "upscaledDimensions": {
+            "width": 2048,
+            "height": 1152
+          },
+          "layers": 8
+        },
+        {
+          "time": "dusk",
+          "composite": "Urban Skyline Pack/Dusk/Original/Dusk.png",
+          "dimensions": {
+            "width": 512,
+            "height": 288
+          },
+          "upscaledComposite": "Urban Skyline Pack/Dusk/4X/Dusk4X.png",
+          "upscaledDimensions": {
+            "width": 2048,
+            "height": 1152
+          },
+          "layers": 8
+        },
+        {
+          "time": "night",
+          "composite": "Urban Skyline Pack/Night/Original/Night.png",
+          "dimensions": {
+            "width": 512,
+            "height": 288
+          },
+          "upscaledComposite": "Urban Skyline Pack/Night/4X/Night4X.png",
+          "upscaledDimensions": {
+            "width": 2048,
+            "height": 1152
+          },
+          "layers": 8
+        }
+      ],
+      "roles": [
+        "modern-skyline",
+        "metropolis-backdrop",
+        "day-dusk-night-parallax",
+        "meridiana-identity"
+      ],
+      "usageRule": "Primary visual backdrop family for Meridiana. Use layered PNGs for parallax/time-of-day scenes; it is a backdrop set rather than a walkable ground tileset."
     }
   ],
   "environmentClasses": {
@@ -465,18 +632,22 @@
         "openrtp_2022:exterior.png",
         "openrtp_2022:interior.png",
         "openrtp_2022:dungeon.png",
-        "kauzz_spacepack"
+        "kauzz_spacepack",
+        "soccer_tilemap",
+        "urban_skyline_pack"
       ],
-      "coverage": "partial",
-      "note": "OpenRPG provides base geometry; Kauzz SpacePack can add selective modern doors/floors/modules/vehicles. Large-stadium language is still missing."
+      "coverage": "partial-improved",
+      "note": "OpenRPG + Kauzz provide base geometry/modern props; SoccerTileMap provides arena-floor/frame reference. Canonical Pokémon arena still needs non-football markings plus grandstand/crowd architecture."
     },
     "institutional_modern": {
       "primary": [
         "openrtp_2022:interior.png",
         "openrtp_2022:exterior.png",
-        "kauzz_spacepack"
+        "kauzz_spacepack",
+        "soccer_tilemap",
+        "urban_skyline_pack"
       ],
-      "coverage": "partial",
+      "coverage": "partial-improved",
       "note": "OpenRPG provides base geometry; Kauzz SpacePack materially improves doors, floors, modular facility forms and service-vehicle dressing, but sports/media/medical identity still needs composition."
     },
     "futuristic_facility_support": {
@@ -493,6 +664,25 @@
       ],
       "coverage": "support-only",
       "note": "Modern/futuristic dressing for M07-M11 interiors and World Village support areas; not a base tileset or a license to shift the setting into science fiction."
+    },
+    "modern_metropolis_backdrop": {
+      "primary": [
+        "urban_skyline_pack:Day/Original/Day.png",
+        "urban_skyline_pack:Dusk/Original/Dusk.png",
+        "urban_skyline_pack:Night/Original/Night.png"
+      ],
+      "coverage": "strong-backdrop",
+      "note": "Directly solves the Meridiana skyline/time-of-day backdrop requirement; layered 4X variants can support higher-resolution rendering and parallax."
+    },
+    "stadium_arena_support": {
+      "primary": [
+        "soccer_tilemap:SOCCER TILEMAP 5.png",
+        "soccer_tilemap:SOCCER TILEMAP 6.png",
+        "soccer_tilemap:SOCCER TILEMAP 7.png",
+        "kauzz_spacepack"
+      ],
+      "coverage": "partial",
+      "note": "Provides a strong rectangular competition-floor/frame reference plus modern support props. Football-specific markings must be removed/replaced for canonical Pokémon arena use; grandstands/crowd architecture remain unresolved."
     }
   },
   "moduleCoverage": [
@@ -623,16 +813,17 @@
         "tournament_venue",
         "institutional_modern"
       ],
-      "coverage": "partial-improved",
+      "coverage": "medium-strong",
       "gaps": [
-        "modern metropolis exterior language",
-        "large stadium",
+        "large Pokémon-specific arena bowl/grandstands/crowd architecture",
         "sports-specific media/sponsor branding",
         "sports-medicine-specific dressing",
         "international station identity"
       ],
       "supportingSources": [
-        "kauzz_spacepack"
+        "kauzz_spacepack",
+        "urban_skyline_pack",
+        "soccer_tilemap"
       ]
     },
     {
@@ -652,12 +843,14 @@
         "tournament_venue",
         "institutional_modern"
       ],
-      "coverage": "partial-improved",
+      "coverage": "medium-strong-by-reuse",
       "gaps": [
-        "World stadium exterior/arena bowl and event-specific branding; World Village/support interiors now have stronger prop coverage"
+        "Pokémon-specific arena bowl/grandstands/crowd architecture and event branding; floor/frame reference and city backdrop are now covered"
       ],
       "supportingSources": [
-        "kauzz_spacepack"
+        "kauzz_spacepack",
+        "soccer_tilemap",
+        "urban_skyline_pack"
       ]
     },
     {
@@ -670,12 +863,14 @@
         "tournament_venue",
         "institutional_modern"
       ],
-      "coverage": "partial-improved-by-reuse",
+      "coverage": "medium-strong-by-reuse",
       "gaps": [
-        "reuse M08 World venue compositions"
+        "Pokémon-specific arena bowl/grandstands/crowd architecture and event branding; floor/frame reference and city backdrop are now covered"
       ],
       "supportingSources": [
-        "kauzz_spacepack"
+        "kauzz_spacepack",
+        "soccer_tilemap",
+        "urban_skyline_pack"
       ]
     },
     {
@@ -688,12 +883,14 @@
         "tournament_venue",
         "institutional_modern"
       ],
-      "coverage": "partial-improved-by-reuse",
+      "coverage": "medium-strong-by-reuse",
       "gaps": [
-        "reuse M08 World venue compositions"
+        "Pokémon-specific arena bowl/grandstands/crowd architecture and event branding; floor/frame reference and city backdrop are now covered"
       ],
       "supportingSources": [
-        "kauzz_spacepack"
+        "kauzz_spacepack",
+        "soccer_tilemap",
+        "urban_skyline_pack"
       ]
     },
     {
@@ -706,12 +903,14 @@
         "tournament_venue",
         "institutional_modern"
       ],
-      "coverage": "partial-improved-by-reuse",
+      "coverage": "medium-strong-by-reuse",
       "gaps": [
-        "reuse M08 World venue compositions"
+        "Pokémon-specific arena bowl/grandstands/crowd architecture and event branding; floor/frame reference and city backdrop are now covered"
       ],
       "supportingSources": [
-        "kauzz_spacepack"
+        "kauzz_spacepack",
+        "soccer_tilemap",
+        "urban_skyline_pack"
       ]
     },
     {
@@ -732,13 +931,16 @@
       "coverage": "strong-by-reuse",
       "gaps": [
         "No new environment class required; M12 must reuse prior location assets and state variants."
+      ],
+      "supportingSources": [
+        "urban_skyline_pack"
       ]
     }
   ],
   "knownGaps": [
     {
-      "id": "GAP_MODERN_WORLD_VENUE",
-      "priority": "high",
+      "id": "GAP_STADIUM_GRANDSTANDS",
+      "priority": "medium",
       "affects": [
         "M07",
         "M08",
@@ -746,8 +948,20 @@
         "M10",
         "M11"
       ],
-      "rule": "Use OpenRPG as base geometry and Kauzz SpacePack only as selective overlays/props; still source or build a coherent stadium/metropolis family. Do not add a second map architecture.",
-      "scopeAfterKauzz": "Kauzz SpacePack reduces the interior/prop gap (doors, floors, modular pods, service vehicles) but does not solve the large stadium or modern-metropolis exterior family."
+      "rule": "Need a coherent Pokémon competition arena bowl/grandstand/crowd family. SoccerTileMap solves field/frame reference only, not the stands."
+    },
+    {
+      "id": "GAP_MODERN_WORLD_VENUE",
+      "priority": "medium",
+      "affects": [
+        "M07",
+        "M08",
+        "M09",
+        "M10",
+        "M11"
+      ],
+      "rule": "Use Urban Skyline Pack for Meridiana backdrop/parallax, OpenRPG/Kauzz for support spaces, and SoccerTileMap only as a geometry/frame reference with football markings removed. Do not add a second map architecture.",
+      "scopeAfterKauzz": "Superseded by current audit: Urban Skyline Pack now solves the Meridiana skyline/backdrop family; SoccerTileMap supplies arena-floor/frame reference. Remaining gap is specifically Pokémon-style grandstands/crowd/arena bowl plus event branding."
     },
     {
       "id": "GAP_WIND_FARM_PROPS",
@@ -783,6 +997,8 @@
     "OpenRTP is a verified 16x16 tilebase and may be normalized into the existing Bookgame content pipeline.",
     "Keep raw sources immutable; generate derived atlases/maps separately.",
     "M12 introduces no new map family: it reuses stateful variants of prior locations.",
-    "Kauzz SpacePack is a support/overlay library only: prefer doors, floors, modular pods and service vehicles; robots/rocket are excluded by default unless a scene explicitly justifies them."
+    "Kauzz SpacePack is a support/overlay library only: prefer doors, floors, modular pods and service vehicles; robots/rocket are excluded by default unless a scene explicitly justifies them.",
+    "Urban Skyline Pack is a backdrop/parallax family: use Day/Dusk/Night composites or 8 separated layers; do not treat it as a walkable tilemap.",
+    "SoccerTileMap is geometry/reference support for competition floors; football lines and goals must be removed/replaced for Pokémon arena compositions."
   ]
 }
