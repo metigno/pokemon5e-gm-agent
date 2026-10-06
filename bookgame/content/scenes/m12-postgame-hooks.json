@@ -1,0 +1,371 @@
+{
+  "schemaVersion": 1,
+  "id": "m12-postgame-hooks",
+  "moduleId": "M12",
+  "title": "M12_10 — Postgame Hooks",
+  "locationId": "meridiana_city",
+  "entryNodeId": "postgame_entry",
+  "conditions": {
+    "path": "world.flags.friend_beat_12_complete",
+    "eq": true
+  },
+  "nodes": {
+    "postgame_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il postgame non è un secondo gioco: usa lo stesso save e gli stessi E1–E7 per tutto ciò che è rimasto aperto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "inspect_residue",
+          "text": "Controllo ciò che resta giocabile.",
+          "goto": "side_quests"
+        },
+        {
+          "id": "inspect_lore",
+          "text": "Controllo mistero, Primo Faro e Legendary arcs.",
+          "goto": "legendary_policy"
+        },
+        {
+          "id": "inspect_future",
+          "text": "Controllo free roam e future stagioni.",
+          "goto": "future_season"
+        },
+        {
+          "id": "detail_1",
+          "text": "Approfondisco questo dettaglio prima di chiudere.",
+          "goto": "relationships"
+        }
+      ]
+    },
+    "side_quests": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Le side quest residue restano nel loro vero stato. Complete, fallite e ignorate non vengono resuscitate; quelle ancora legali restano giocabili."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo.",
+          "goto": "exploration"
+        },
+        {
+          "id": "review",
+          "text": "Confronto questo punto con un altro aspetto della chiusura.",
+          "goto": "relationships"
+        }
+      ]
+    },
+    "exploration": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il free roam continua a usare accessi, tempo, condizioni e geografia già esistenti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo.",
+          "goto": "relationships"
+        },
+        {
+          "id": "review",
+          "text": "Confronto questo punto con un altro aspetto della chiusura.",
+          "goto": "training_capture"
+        }
+      ]
+    },
+    "relationships": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Relazioni e schedule NPC restano vive dopo MAIN_STORY_COMPLETE."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo.",
+          "goto": "training_capture"
+        },
+        {
+          "id": "review",
+          "text": "Confronto questo punto con un altro aspetto della chiusura.",
+          "goto": "legendary_policy"
+        }
+      ]
+    },
+    "training_capture": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Allenamento e catture continuano secondo il motore Pokémon 5e e l'ecologia E7, senza modalità postgame separata."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo.",
+          "goto": "legendary_policy"
+        },
+        {
+          "id": "review",
+          "text": "Confronto questo punto con un altro aspetto della chiusura.",
+          "goto": "ancient_mystery"
+        }
+      ]
+    },
+    "legendary_policy": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Eventuali Legendary arcs vengono preservate solo se il save le aveva davvero aperte; M12 non concede un Leggendario come ricompensa finale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo.",
+          "goto": "ancient_mystery"
+        },
+        {
+          "id": "review",
+          "text": "Confronto questo punto con un altro aspetto della chiusura.",
+          "goto": "lighthouse"
+        }
+      ]
+    },
+    "ancient_mystery": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il mistero antico resta aperto esattamente al layer realmente conosciuto dal player."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo.",
+          "goto": "lighthouse"
+        },
+        {
+          "id": "review",
+          "text": "Confronto questo punto con un altro aspetto della chiusura.",
+          "goto": "future_season"
+        }
+      ]
+    },
+    "lighthouse": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Primo Faro resta un hook esplorabile soltanto se il suo filo era stato realmente aperto o raggiunto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo.",
+          "goto": "future_season"
+        },
+        {
+          "id": "review",
+          "text": "Confronto questo punto con un altro aspetto della chiusura.",
+          "goto": "champion_integrity"
+        }
+      ]
+    },
+    "future_season": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Una futura stagione può usare questo stesso stato persistente, senza reset di livello, roster, relazioni o storia."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo.",
+          "goto": "champion_integrity"
+        },
+        {
+          "id": "review",
+          "text": "Confronto questo punto con un altro aspetto della chiusura.",
+          "goto": "free_roam_policy"
+        }
+      ]
+    },
+    "champion_integrity": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il postgame non può cambiare retroattivamente il vero World Champion dell'edizione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo.",
+          "goto": "free_roam_policy"
+        },
+        {
+          "id": "review",
+          "text": "Confronto questo punto con un altro aspetto della chiusura.",
+          "goto": "hook_synthesis"
+        }
+      ]
+    },
+    "free_roam_policy": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il save finale deve restare scrivibile, esplorabile e capace di far avanzare il mondo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo.",
+          "goto": "hook_synthesis"
+        },
+        {
+          "id": "review",
+          "text": "Confronto questo punto con un altro aspetto della chiusura.",
+          "goto": "single_save_model"
+        }
+      ]
+    },
+    "hook_synthesis": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "M12 registra una policy unica: preservare gli hook esistenti senza crearne di falsi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "register_policy",
+          "text": "Registro che il postgame preserva solo hook realmente esistenti.",
+          "goto": "single_save_model",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "postgame_side_quest_policy",
+              "value": "preserve_existing"
+            },
+            {
+              "type": "set_flag",
+              "key": "postgame_legendary_policy",
+              "value": "preserve_existing_only"
+            },
+            {
+              "type": "set_flag",
+              "key": "postgame_ancient_mystery_policy",
+              "value": "preserve_known_layers"
+            },
+            {
+              "type": "set_flag",
+              "key": "postgame_lighthouse_policy",
+              "value": "preserve_existing"
+            },
+            {
+              "type": "set_flag",
+              "key": "postgame_future_season_policy",
+              "value": "same_save_state"
+            }
+          ]
+        },
+        {
+          "id": "review_integrity",
+          "text": "Rileggo il vincolo sul campione e sul mondo persistente.",
+          "goto": "champion_integrity"
+        }
+      ]
+    },
+    "single_save_model": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Non nasce un secondo save model: postgame e main story condividono lo stesso stato persistente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo.",
+          "goto": "commit"
+        },
+        {
+          "id": "review",
+          "text": "Confronto questo punto con un altro aspetto della chiusura.",
+          "goto": "complete"
+        }
+      ]
+    },
+    "commit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Gli hook possono essere registrati una sola volta senza chiudere alcun contenuto ancora legale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "commit_hooks",
+          "text": "Registro gli hook del postgame.",
+          "goto": "complete",
+          "conditions": {
+            "path": "world.flags.m12_postgame_hooks_complete",
+            "ne": true
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_postgame_hooks_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "postgame_hooks_registered",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "commit_existing",
+          "text": "Gli hook sono già registrati; non li duplico.",
+          "goto": "complete",
+          "conditions": {
+            "path": "world.flags.m12_postgame_hooks_complete",
+            "eq": true
+          }
+        }
+      ]
+    },
+    "complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Gli hook del postgame sono registrati. Resta soltanto dichiarare conclusa la main story senza spegnere il mondo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "to_main_complete",
+          "text": "Passo alla chiusura della main story.",
+          "goto": "m12-main-story-complete#final_entry"
+        },
+        {
+          "id": "review_postgame",
+          "text": "Rileggo cosa resterà giocabile.",
+          "goto": "free_roam_policy"
+        }
+      ]
+    }
+  }
+}
