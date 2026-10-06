@@ -1,0 +1,588 @@
+{
+  "schemaVersion": 1,
+  "id": "m05-five-cross-again",
+  "moduleId": "M05",
+  "title": "M5_08 — Five Roads Cross Again",
+  "locationId": "alt_town",
+  "entryNodeId": "reunion_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m4_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m05_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m5_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "B"
+      },
+      {
+        "path": "world.flags.a5_five_cross_available",
+        "eq": true
+      },
+      {
+        "path": "world.flags.five_cross_complete",
+        "ne": true
+      }
+    ]
+  },
+  "nodes": {
+    "reunion_entry": {
+      "stitches": [
+        {
+          "id": "e1",
+          "text": "Per la prima volta da molte tappe, le traiettorie dei Five tornano abbastanza vicine da creare una reunion. Non significa che tutti siano fisicamente ad Altacima: partecipano soltanto quelli che schedule e distanza rendono plausibili."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_presence",
+          "text": "Controllo chi è realmente presente.",
+          "goto": "presence_board"
+        },
+        {
+          "id": "entry_shared",
+          "text": "Apro il canale comune per chi è lontano.",
+          "goto": "shared_table"
+        },
+        {
+          "id": "entry_schedule",
+          "text": "Prima confronto le nostre traiettorie attuali.",
+          "goto": "schedule_split"
+        }
+      ]
+    },
+    "presence_board": {
+      "stitches": [
+        {
+          "id": "p1",
+          "text": "La piazza e la rete del Circuito mostrano presenze reali. Un amico può essere qui, in viaggio o raggiungibile soltanto da remoto; nessuno viene spostato per riempire la scena."
+        }
+      ],
+      "choices": [
+        {
+          "id": "presence_luke",
+          "text": "Luke è fisicamente in zona.",
+          "conditions": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Luke"
+              },
+              {
+                "path": "npcs.Luke.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Luke.schedule.locationId",
+                "in": [
+                  "alt_town",
+                  "ful_plateau"
+                ]
+              }
+            ]
+          },
+          "goto": "luke_update"
+        },
+        {
+          "id": "presence_mattew",
+          "text": "Mattew è fisicamente in zona.",
+          "conditions": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Mattew"
+              },
+              {
+                "path": "npcs.Mattew.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Mattew.schedule.locationId",
+                "in": [
+                  "alt_town",
+                  "ful_plateau"
+                ]
+              }
+            ]
+          },
+          "goto": "mattew_update"
+        },
+        {
+          "id": "presence_daniel",
+          "text": "Daniel è fisicamente in zona.",
+          "conditions": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Daniel"
+              },
+              {
+                "path": "npcs.Daniel.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Daniel.schedule.locationId",
+                "in": [
+                  "alt_town",
+                  "ful_plateau"
+                ]
+              }
+            ]
+          },
+          "goto": "daniel_update"
+        },
+        {
+          "id": "presence_edward",
+          "text": "Edward è fisicamente in zona.",
+          "conditions": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Edward"
+              },
+              {
+                "path": "npcs.Edward.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Edward.schedule.locationId",
+                "in": [
+                  "alt_town",
+                  "ful_plateau"
+                ]
+              }
+            ]
+          },
+          "goto": "edward_update"
+        },
+        {
+          "id": "presence_fab",
+          "text": "Fab è fisicamente in zona.",
+          "conditions": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Fab"
+              },
+              {
+                "path": "npcs.Fab.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Fab.schedule.locationId",
+                "in": [
+                  "alt_town",
+                  "ful_plateau"
+                ]
+              }
+            ]
+          },
+          "goto": "fab_update"
+        },
+        {
+          "id": "presence_remote",
+          "text": "Per chi è lontano uso il canale comune invece di forzare un incontro.",
+          "goto": "shared_table"
+        }
+      ]
+    },
+    "luke_update": {
+      "stitches": [
+        {
+          "id": "l1",
+          "text": "Luke arriva con un programma più ampio del semplice evento del giorno. Parla di adattamento, pressione e di quanto una carriera lunga renda costoso innamorarsi di un solo piano."
+        }
+      ],
+      "choices": [
+        {
+          "id": "luke_compare",
+          "text": "Confronto con Luke come stiamo gestendo Rank B.",
+          "goto": "career_compare",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "fiveCross05Seen",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "luke_shared",
+          "text": "Lo porto nella conversazione comune.",
+          "goto": "shared_table",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "fiveCross05Seen",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "mattew_update": {
+      "stitches": [
+        {
+          "id": "m1",
+          "text": "Mattew arriva con appunti di match e una tabella di preparazione piena di correzioni. La sua traiettoria resta metodica, ma le finestre più ampie lo costringono a gestire più variabili."
+        }
+      ],
+      "choices": [
+        {
+          "id": "mattew_compare",
+          "text": "Confronto con Mattew i nostri metodi di preparazione.",
+          "goto": "career_compare",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "fiveCross05Seen",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "mattew_shared",
+          "text": "Lo porto nella conversazione comune.",
+          "goto": "shared_table",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "fiveCross05Seen",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "daniel_update": {
+      "stitches": [
+        {
+          "id": "d1",
+          "text": "Daniel racconta un percorso meno lineare: lavoro, match e tappe tecniche si sono sovrapposti. Non lo presenta come svantaggio; è il modo in cui ha imparato a leggere pressione e opportunità."
+        }
+      ],
+      "choices": [
+        {
+          "id": "daniel_compare",
+          "text": "Confrontiamo il costo delle nostre scelte.",
+          "goto": "career_compare",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "fiveCross05Seen",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "daniel_shared",
+          "text": "Lo porto nella conversazione comune.",
+          "goto": "shared_table",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "fiveCross05Seen",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "edward_update": {
+      "stitches": [
+        {
+          "id": "ed1",
+          "text": "Edward arriva parlando soprattutto di continuità: allenare, recuperare, ripetere. La sua crescita non dipende da un singolo evento spettacolare ma dalla somma di settimane reali."
+        }
+      ],
+      "choices": [
+        {
+          "id": "edward_compare",
+          "text": "Confrontiamo come gestiamo continuità e fatica.",
+          "goto": "career_compare",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "fiveCross05Seen",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "edward_shared",
+          "text": "Lo porto nella conversazione comune.",
+          "goto": "shared_table",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "fiveCross05Seen",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "fab_update": {
+      "stitches": [
+        {
+          "id": "f1",
+          "text": "Fab porta storie di fauna, percorsi e deviazioni. Anche lui ha risultati propri, alcuni ottenuti senza che tu fossi presente, e il gioco li conserva come suoi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fab_compare",
+          "text": "Confrontiamo cosa abbiamo imparato fuori dalle arene.",
+          "goto": "career_compare",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "fiveCross05Seen",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "fab_shared",
+          "text": "Lo porto nella conversazione comune.",
+          "goto": "shared_table",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "fiveCross05Seen",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "shared_table": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La reunion non cancella le distanze: chi è presente parla di persona, chi è altrove lascia messaggi o entra per qualche minuto. Per una volta, però, le cinque traiettorie sono visibili nello stesso quadro."
+        }
+      ],
+      "choices": [
+        {
+          "id": "shared_career",
+          "text": "Confrontiamo dove ci sta portando il circuito.",
+          "goto": "career_compare"
+        },
+        {
+          "id": "shared_lance",
+          "text": "Parlo del modo in cui Lance legge rischio e margine.",
+          "conditions": {
+            "path": "world.flags.lance_met",
+            "eq": true
+          },
+          "goto": "lance_overlap"
+        },
+        {
+          "id": "shared_trace",
+          "text": "Accenno alla traccia anomala di Fulgore senza inventare risposte.",
+          "conditions": {
+            "path": "world.flags.ancient_mystery_layer_1",
+            "exists": true
+          },
+          "goto": "ancient_context"
+        }
+      ]
+    },
+    "career_compare": {
+      "stitches": [
+        {
+          "id": "c1",
+          "text": "Nessuno dei Five ha una traiettoria identica. Rank, risultati, lavoro, catture e sconfitte non vengono normalizzati per rendere la reunion simmetrica."
+        }
+      ],
+      "choices": [
+        {
+          "id": "career_license",
+          "text": "Confrontiamo cosa cambia con la rete interregionale.",
+          "conditions": {
+            "path": "world.flags.interregional_license",
+            "eq": true
+          },
+          "goto": "license_context"
+        },
+        {
+          "id": "career_schedule",
+          "text": "Guardiamo dove ci porteranno le prossime schedule.",
+          "goto": "schedule_split"
+        }
+      ]
+    },
+    "lance_overlap": {
+      "stitches": [
+        {
+          "id": "lo1",
+          "text": "Il tema di Lance produce reazioni diverse: c'è chi privilegia preparazione, chi adattamento, chi continuità. La scena non decide quale filosofia sia corretta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "lance_keep",
+          "text": "Tengo la discussione sul rischio concreto.",
+          "goto": "schedule_split",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "five_cross_lance_context",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "lance_back",
+          "text": "Torno al quadro generale.",
+          "goto": "shared_table"
+        }
+      ]
+    },
+    "ancient_context": {
+      "stitches": [
+        {
+          "id": "a1",
+          "text": "La traccia antica suscita curiosità, ma nessuno dei Five possiede una risposta magica. Il gruppo distingue ciò che hai visto da ciò che state soltanto ipotizzando."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ancient_record",
+          "text": "Registro che gli amici conoscono il layer, non la sua soluzione.",
+          "goto": "schedule_split",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "five_cross_trace_shared",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "ancient_back",
+          "text": "Non insisto sul mistero e torno alla reunion.",
+          "goto": "shared_table"
+        }
+      ]
+    },
+    "license_context": {
+      "stitches": [
+        {
+          "id": "li1",
+          "text": "La licenza interregionale rende più probabile incrociarsi in eventi lontani, ma non sincronizza automaticamente calendari o Rank."
+        }
+      ],
+      "choices": [
+        {
+          "id": "license_record",
+          "text": "Registriamo la possibilità di futuri incroci.",
+          "goto": "schedule_split",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "five_cross_interregional_context",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "license_back",
+          "text": "Torniamo alle traiettorie attuali.",
+          "goto": "career_compare"
+        }
+      ]
+    },
+    "schedule_split": {
+      "stitches": [
+        {
+          "id": "ss1",
+          "text": "Quando confrontate gli impegni, emerge la stessa realtà di sempre: dopo questa finestra tornerete a separarvi. Proprio per questo c'è spazio per un confronto personale con uno solo degli altri Five."
+        }
+      ],
+      "choices": [
+        {
+          "id": "schedule_personal",
+          "text": "Chiudo la reunion comune e lascio spazio al FRIEND_BEAT_05.",
+          "goto": "friend_beat_gate",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "five_cross_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "five_cross_reunion_result",
+              "value": "causal_reunion"
+            }
+          ]
+        }
+      ]
+    },
+    "friend_beat_gate": {
+      "stitches": [
+        {
+          "id": "fg1",
+          "text": "Il mondo seleziona il contatto personale usando presenza, schedule e fallback remoto. Non scegli un NPC impossibile soltanto perché sarebbe narrativamente comodo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "friend_gate_continue",
+          "text": "Apro il contatto personale selezionato.",
+          "conditions": {
+            "path": "world.flags.friend_beat_05_available",
+            "eq": true
+          },
+          "goto": "m05-friend-beat-05#friend_call"
+        }
+      ]
+    },
+    "reunion_close": {
+      "stitches": [
+        {
+          "id": "rc1",
+          "text": "La reunion comune è chiusa. Chi era presente riparte secondo la propria schedule; chi era remoto non viene materializzato ad Altacima."
+        }
+      ],
+      "choices": [
+        {
+          "id": "reunion_hub",
+          "text": "Torno alla piazza.",
+          "goto": "m05-altacima#town_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "five_cross_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
