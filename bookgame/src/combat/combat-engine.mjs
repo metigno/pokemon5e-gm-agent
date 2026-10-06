@@ -216,7 +216,7 @@ function requiresSleepingTarget(move) {
   return ["dream-eater", "nightmare"].includes(move.id);
 }
 
-function isMoveResolvable(move) {
+export function isMoveResolvable(move) {
   const damage = move.dice?.type === "damage";
   if (move.attack && damage) return true;
   if (move.save && damage) return true;
