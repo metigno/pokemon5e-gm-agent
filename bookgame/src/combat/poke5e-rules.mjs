@@ -64,7 +64,7 @@ export function damageDiceForLevel(move, level) {
   return tiers[tier];
 }
 
-function stabFor(combatant, move, pb) {
+function stabFor(combatant, move, pb, round = null) {
   if (!combatant.types.includes(move.type)) return 0;
   let stab = pb;
 
@@ -90,14 +90,20 @@ function stabFor(combatant, move, pb) {
     stab *= 2;
   }
 
+  for (const source of combatant.effects?.stabMultiplierSources ?? []) {
+    if (round != null && source.expiresRound != null && round >= source.expiresRound) continue;
+    if (round != null && source.startsRound != null && round < source.startsRound) continue;
+    stab *= Number(source.multiplier ?? 1);
+  }
+
   return stab;
 }
 
-export function calculateMoveStats(combatant, move) {
+export function calculateMoveStats(combatant, move, round = null) {
   const attribute = bestMoveAttribute(move, combatant.attributes);
   const moveMod = attribute ? abilityModifier(combatant.attributes[attribute]) : 0;
   const pb = proficiencyBonus(combatant.level);
-  const stab = move.dice?.type === "damage" ? stabFor(combatant, move, pb) : 0;
+  const stab = move.dice?.type === "damage" ? stabFor(combatant, move, pb, round) : 0;
 
   let damageModifier = stab;
   const code = move.dice?.modifier;
@@ -202,7 +208,14 @@ function addVulnerability(multiplier) {
   return 2;
 }
 
-export function damageProfile(move, defender) {
+function addResistanceStep(multiplier) {
+  if (multiplier === 0) return 0;
+  if (multiplier <= 0.5) return 0;
+  if (multiplier >= 2) return 1;
+  return 0.5;
+}
+
+export function damageProfile(move, defender, round = null) {
   const moveType = move.type;
   if (defender.abilityId === "levitate" && moveType === "ground") {
     return { multiplier: 0, immunityAbility: "levitate", modifierAbility: null };
@@ -237,6 +250,18 @@ export function damageProfile(move, defender) {
     } else if (melee) {
       multiplier = addResistance(multiplier);
       modifierAbility = "fluffy";
+    }
+  }
+
+  const resistanceSources = (defender.effects?.damageResistanceSources ?? [])
+    .filter((source) =>
+      (round == null || source.expiresRound == null || round < source.expiresRound) &&
+      (round == null || source.startsRound == null || round >= source.startsRound) &&
+      (source.type == null || source.type === moveType)
+    );
+  for (const source of resistanceSources) {
+    for (let step = 0; step < Number(source.steps ?? 1); step += 1) {
+      multiplier = addResistanceStep(multiplier);
     }
   }
 
@@ -320,7 +345,7 @@ export function resolveAttack({
   forceDisadvantage = false,
   round = null
 }) {
-  const stats = calculateMoveStats(attacker, move);
+  const stats = calculateMoveStats(attacker, move, round);
   if (stats.toHit == null || stats.damageDice == null) {
     throw new Error(`Move ${move.id} is not a supported damaging attack-roll move`);
   }
@@ -376,7 +401,7 @@ export function resolveAttack({
     multiplier,
     immunityAbility,
     modifierAbility
-  } = damageProfile(move, defender);
+  } = damageProfile(move, defender, round);
   const damage = multiplier === 0.5
     ? Math.floor(rawDamage / 2)
     : rawDamage * multiplier;
@@ -408,7 +433,7 @@ export function resolveAttack({
 }
 
 export function resolveSaveMove({ attacker, defender, move, dice, round = null }) {
-  const stats = calculateMoveStats(attacker, move);
+  const stats = calculateMoveStats(attacker, move, round);
   if (stats.saveDc == null || stats.saveAttribute == null) {
     throw new Error(`Move ${move.id} is not a save move`);
   }

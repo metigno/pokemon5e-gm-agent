@@ -149,6 +149,8 @@ function removeEffectSource(combatant, source, round = null) {
     "saveModifierSources",
     "saveAdvantageSources",
     "attackAdvantageSources",
+    "damageResistanceSources",
+    "stabMultiplierSources",
     "switchLockSources",
     "escapeLockSources",
     "movementLockSources",
@@ -173,13 +175,23 @@ function modifierRuleFor(move, level) {
     "autotomize": { speed: 10, stackCaps: { speed: 30 } },
     "barrier": { ac: 2 },
     "bulk-up": { ac: tier, damage: tier },
+    "calm-mind": { stabMultiplier: 2 },
     "coil": { attack: 1, damage: 1, ac: 1 },
     "cosmic-power": { saveAdvantage: true },
     "cotton-guard": { ac: 2 },
     "defend-order": { ac: tier },
+    "defense-curl": {
+      ac: 4,
+      durationRounds: 1,
+      resistance: { type: "normal", steps: 1 }
+    },
     "dragon-dance": { attack: proficiencyBonus(level) },
     "geomancy": { speed: 10, attackAdvantage: true, saveAdvantage: true },
     "hone-claws": { attack: 1, damage: 1, stackCap: 3 },
+    "iron-defense": {
+      ac: 6,
+      resistance: { type: null, steps: 1 }
+    },
     "meditate": { attack: tier, save: tier },
     "minimize": { ac: 2 },
     "no-retreat": {
@@ -192,6 +204,7 @@ function modifierRuleFor(move, level) {
     "rock-polish": { ac: 2, speed: 20 },
     "shell-smash": { ac: -1, damage: proficiencyBonus(level) },
     "shift-gear": { attack: 1, damage: 1, speed: 10 },
+    "tail-glow": { stabMultiplier: 2 },
     "victory-dance": {
       ac: level >= 10 ? 2 : 1,
       attack: level >= 10 ? 2 : 1,
@@ -338,13 +351,16 @@ const SIMPLE_MODIFIER_MOVES = new Set([
   "autotomize",
   "barrier",
   "bulk-up",
+  "calm-mind",
   "coil",
   "cosmic-power",
   "cotton-guard",
   "defend-order",
+  "defense-curl",
   "dragon-dance",
   "geomancy",
   "hone-claws",
+  "iron-defense",
   "meditate",
   "minimize",
   "no-retreat",
@@ -352,6 +368,7 @@ const SIMPLE_MODIFIER_MOVES = new Set([
   "rock-polish",
   "shell-smash",
   "shift-gear",
+  "tail-glow",
   "victory-dance"
 ]);
 
@@ -481,6 +498,8 @@ function clearTransientEffects(combatant) {
     saveModifierSources: [],
     saveAdvantageSources: [],
     attackAdvantageSources: [],
+    damageResistanceSources: [],
+    stabMultiplierSources: [],
     switchLockSources: [],
     escapeLockSources: [],
     movementLockSources: [],
@@ -776,8 +795,8 @@ function secondaryStatusFor(move, natural) {
   return attackHitStatus(move, natural);
 }
 
-function damageMultiplierFor(move, defender) {
-  return damageProfile(move, defender).multiplier;
+function damageMultiplierFor(move, defender, round = null) {
+  return damageProfile(move, defender, round).multiplier;
 }
 
 function saveAllowsHalfDamage(move) {
@@ -951,10 +970,10 @@ function rangeCheckForMove(attacker, defender, move) {
   return result;
 }
 
-function zoneDamage(zone, target, dice, saveSucceeded = false) {
+function zoneDamage(zone, target, dice, saveSucceeded = false, round = null) {
   const rolled = rollExpression(zone.damageDice, dice);
   const raw = Math.max(0, rolled.total + zone.damageModifier);
-  const multiplier = damageProfile({ type: zone.damageType }, target).multiplier;
+  const multiplier = damageProfile({ type: zone.damageType }, target, round).multiplier;
   let damage = multiplier === 0.5 ? Math.floor(raw / 2) : raw * multiplier;
   if (saveSucceeded && zone.effect === "smog") damage = Math.floor(damage / 2);
   return { rolled, raw, multiplier, damage };
@@ -1084,6 +1103,8 @@ export class Pokemon5eCombatEngine {
         saveModifierSources: [],
         saveAdvantageSources: [],
         attackAdvantageSources: [],
+        damageResistanceSources: [],
+        stabMultiplierSources: [],
         switchLockSources: [],
         escapeLockSources: [],
         movementLockSources: [],
@@ -1264,7 +1285,13 @@ export class Pokemon5eCombatEngine {
         dice: this.dice,
         round: next.round
       });
-      const damageInfo = zoneDamage(zone, combatant, this.dice, save.success);
+      const damageInfo = zoneDamage(
+        zone,
+        combatant,
+        this.dice,
+        save.success,
+        next.round
+      );
       combatant.hp.current = Math.max(0, combatant.hp.current - damageInfo.damage);
 
       let statusResult = null;
@@ -1888,7 +1915,9 @@ export class Pokemon5eCombatEngine {
       endConcentrationState(next, side, "new_concentration");
     }
 
-    const expiresRound = effectExpiryRound(move, next.round);
+    const expiresRound = rule.durationRounds != null
+      ? next.round + Number(rule.durationRounds)
+      : effectExpiryRound(move, next.round);
     const speedBefore = activeModifier(combatant.effects.speedModifierSources, next.round);
     const stackable = Boolean(rule.stackCap || rule.stackCaps);
     if (!stackable) removeEffectSource(combatant, move.id, next.round);
@@ -1948,6 +1977,23 @@ export class Pokemon5eCombatEngine {
         expiresRound
       });
       applied.escapeLock = true;
+    }
+    if (rule.resistance) {
+      combatant.effects.damageResistanceSources.push({
+        source: move.id,
+        type: rule.resistance.type ?? null,
+        steps: Number(rule.resistance.steps ?? 1),
+        expiresRound
+      });
+      applied.resistance = clone(rule.resistance);
+    }
+    if (rule.stabMultiplier) {
+      combatant.effects.stabMultiplierSources.push({
+        source: move.id,
+        multiplier: Number(rule.stabMultiplier),
+        expiresRound
+      });
+      applied.stabMultiplier = Number(rule.stabMultiplier);
     }
 
     const speedAfter = activeModifier(combatant.effects.speedModifierSources, next.round);
@@ -2114,9 +2160,9 @@ export class Pokemon5eCombatEngine {
       throw new Error(`${move.name} requires a sleeping target`);
     }
 
-    const stats = calculateMoveStats(attacker, move);
+    const stats = calculateMoveStats(attacker, move, next.round);
     const damageBonus = activeModifier(attacker.effects.damageModifierSources, next.round);
-    const multiplier = damageMultiplierFor(move, defender);
+    const multiplier = damageMultiplierFor(move, defender, next.round);
     const hits = [];
     let totalDamage = 0;
 
@@ -2165,7 +2211,7 @@ export class Pokemon5eCombatEngine {
     const attacker = next[side];
     const targetSide = otherSide(side);
     const defender = next[targetSide];
-    const stats = calculateMoveStats(attacker, move);
+    const stats = calculateMoveStats(attacker, move, next.round);
     const save = resolveSavingThrow({
       defender,
       attribute: stats.saveAttribute,
@@ -2183,7 +2229,7 @@ export class Pokemon5eCombatEngine {
       0,
       damageRoll.selected.total + stats.damageModifier + damageBonus
     );
-    const multiplier = damageMultiplierFor(move, defender);
+    const multiplier = damageMultiplierFor(move, defender, next.round);
     let damage = multiplier === 0.5 ? Math.floor(rawDamage / 2) : rawDamage * multiplier;
     if (save.success) damage = saveAllowsHalfDamage(move) ? Math.floor(damage / 2) : 0;
 
@@ -2388,7 +2434,7 @@ export class Pokemon5eCombatEngine {
     } else if (isStockpileMove(move)) {
       next = await this.resolveStockpileMove(next, side, move);
     } else if (AREA_MOVES.has(move.id)) {
-      const stats = calculateMoveStats(attacker, move);
+      const stats = calculateMoveStats(attacker, move, next.round);
       const center = areaTarget ?? clone(defender.position);
       const radius = move.id === "smog" ? 10 : 15;
       const zoneId = `${next.encounterId}:${move.id}:${next.round}:${next.log.length}`;

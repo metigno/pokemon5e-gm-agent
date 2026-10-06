@@ -102,21 +102,24 @@ test("move execution coverage has an explicit non-regression gate", async () => 
   const moves = await data.listMoves();
   const unresolved = moves.filter((move) => !isMoveResolvable(move)).map((move) => move.id);
 
-  assert.ok(unresolved.length <= 194, `unresolved move rules regressed to ${unresolved.length}`);
+  assert.ok(unresolved.length <= 190, `unresolved move rules regressed to ${unresolved.length}`);
   assert.ok(unresolved.includes("acupressure"));
   for (const id of [
     "agility",
     "autotomize",
     "barrier",
     "bulk-up",
+    "calm-mind",
     "coil",
     "clangorous-soul",
     "cosmic-power",
     "cotton-guard",
     "defend-order",
+    "defense-curl",
     "dragon-dance",
     "geomancy",
     "hone-claws",
+    "iron-defense",
     "meditate",
     "minimize",
     "no-retreat",
@@ -124,6 +127,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
     "rock-polish",
     "shell-smash",
     "shift-gear",
+    "tail-glow",
     "victory-dance",
     "aromatherapy",
     "heal-bell",
@@ -358,6 +362,81 @@ test("Clangorous Soul pays typeless HP and grants encounter-long capped combat b
   assert.equal(battle.player.effects.acModifierSources.at(-1).value, 1);
   assert.equal(battle.player.effects.damageModifierSources.at(-1).value, 1);
   assert.equal(battle.player.effects.attackModifierSources.at(-1).expiresRound, null);
+});
+
+
+test("Iron Defense, Defense Curl, Calm Mind and Tail Glow use generic resistance and STAB effects", async () => {
+  const defenseCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1])
+  });
+  let defenseBattle = await defenseCombat.createBattle({
+    encounterId: "FULL_RUNTIME_IRON_DEFENSE",
+    playerPokemon: { speciesId: "bulbasaur", level: 5, moveIds: ["iron-defense"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 30, y: 0 }
+  });
+  defenseBattle = await defenseCombat.usePlayerMove(defenseBattle, "iron-defense");
+  assert.equal(defenseBattle.player.effects.acModifierSources.at(-1).value, 6);
+  assert.equal(
+    damageProfile({ type: "fire", attack: { scope: "ranged" } }, defenseBattle.player, defenseBattle.round).multiplier,
+    1
+  );
+  assert.equal(
+    damageProfile({ type: "normal", attack: { scope: "ranged" } }, defenseBattle.player, defenseBattle.round).multiplier,
+    0.5
+  );
+
+  const curlCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1])
+  });
+  let curlBattle = await curlCombat.createBattle({
+    encounterId: "FULL_RUNTIME_DEFENSE_CURL",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["defense-curl"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 30, y: 0 }
+  });
+  curlBattle = await curlCombat.usePlayerMove(curlBattle, "defense-curl");
+  assert.equal(curlBattle.player.effects.acModifierSources.at(-1).value, 4);
+  assert.equal(
+    damageProfile({ type: "normal", attack: { scope: "ranged" } }, curlBattle.player, curlBattle.round).multiplier,
+    0.5
+  );
+  assert.equal(
+    damageProfile({ type: "fire", attack: { scope: "ranged" } }, curlBattle.player, curlBattle.round).multiplier,
+    1
+  );
+
+  const data = new Poke5eDataRepository();
+  const tackle = await data.getMove("tackle");
+
+  const stabCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1])
+  });
+  let stabBattle = await stabCombat.createBattle({
+    encounterId: "FULL_RUNTIME_TAIL_GLOW",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["tail-glow", "tackle"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 30, y: 0 }
+  });
+  stabBattle = await stabCombat.usePlayerMove(stabBattle, "tail-glow");
+  assert.equal(calculateMoveStats(stabBattle.player, tackle, stabBattle.round).stab, 6);
+  assert.equal(stabBattle.player.concentration?.moveId, "tail-glow");
+
+  const calmCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1])
+  });
+  let calmBattle = await calmCombat.createBattle({
+    encounterId: "FULL_RUNTIME_CALM_MIND",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["calm-mind", "tackle"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 30, y: 0 }
+  });
+  calmBattle = await calmCombat.usePlayerMove(calmBattle, "calm-mind");
+  assert.equal(calculateMoveStats(calmBattle.player, tackle, calmBattle.round).stab, 6);
 });
 
 test("save debuffs and allied status cures execute their 2024 effects", async () => {
