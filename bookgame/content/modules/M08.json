@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "id": "M08",
+  "title": "Il Mondo nello Stesso Posto",
+  "targets": {
+    "stitches": 4400,
+    "choices": 2500
+  },
+  "progressionRole": "pre-world-venue-registration-draw",
+  "designDocument": "docs/modules/M08_IL_MONDO_NELLO_STESSO_POSTO_MODULE_DESIGN.md",
+  "mappingDocument": "docs/modules/M08_PRODUCTION_MAPPING.md",
+  "requiredBeats": [
+    "M8_00_WORLD_ARRIVAL",
+    "M8_01_ACCREDITATION",
+    "M8_02_MEDICAL_CONTROL",
+    "M8_03_REGISTRATION",
+    "M8_04_WORLD_VILLAGE",
+    "M8_05_ASTRID_ENTERS",
+    "M8_06_FRIEND_BEAT_08",
+    "M8_07_TRAINING_HALL",
+    "M8_08_MEDIA_DAY",
+    "M8_09_OPENING_CEREMONY",
+    "M8_10_WORLD_DRAW",
+    "M8_11_GROUP_REVEAL"
+  ],
+  "blocks": [
+    {
+      "id": "M8_00_WORLD_ARRIVAL",
+      "title": "World Arrival",
+      "targets": {
+        "stitches": 478,
+        "choices": 272
+      }
+    },
+    {
+      "id": "M8_01_ACCREDITATION",
+      "title": "Accreditation",
+      "targets": {
+        "stitches": 330,
+        "choices": 187
+      }
+    },
+    {
+      "id": "M8_02_MEDICAL_CONTROL",
+      "title": "Medical Control",
+      "targets": {
+        "stitches": 330,
+        "choices": 187
+      }
+    },
+    {
+      "id": "M8_03_REGISTRATION",
+      "title": "World Registration",
+      "targets": {
+        "stitches": 280,
+        "choices": 159
+      }
+    },
+    {
+      "id": "M8_04_WORLD_VILLAGE",
+      "title": "World Village",
+      "targets": {
+        "stitches": 478,
+        "choices": 272
+      }
+    },
+    {
+      "id": "M8_05_ASTRID_ENTERS",
+      "title": "Astrid Enters",
+      "targets": {
+        "stitches": 330,
+        "choices": 187
+      }
+    },
+    {
+      "id": "M8_06_FRIEND_BEAT_08",
+      "title": "Friend Beat 08",
+      "targets": {
+        "stitches": 478,
+        "choices": 272
+      }
+    },
+    {
+      "id": "M8_07_TRAINING_HALL",
+      "title": "Training Hall",
+      "targets": {
+        "stitches": 329,
+        "choices": 187
+      }
+    },
+    {
+      "id": "M8_08_MEDIA_DAY",
+      "title": "Media Day",
+      "targets": {
+        "stitches": 329,
+        "choices": 187
+      }
+    },
+    {
+      "id": "M8_09_OPENING_CEREMONY",
+      "title": "Opening Ceremony",
+      "targets": {
+        "stitches": 280,
+        "choices": 159
+      }
+    },
+    {
+      "id": "M8_10_WORLD_DRAW",
+      "title": "World Draw",
+      "targets": {
+        "stitches": 478,
+        "choices": 272
+      }
+    },
+    {
+      "id": "M8_11_GROUP_REVEAL",
+      "title": "Group Reveal",
+      "targets": {
+        "stitches": 280,
+        "choices": 159
+      }
+    }
+  ]
+}
