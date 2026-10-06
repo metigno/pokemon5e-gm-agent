@@ -5,7 +5,7 @@
 **Purpose:** production map for converting M8 into validated offline story content  
 **Locked authored budget:** **4,400 stitches / 2,500 player choices**
 
-**Module implementation status:** **M8_00–M8_04 IMPLEMENTED / LIBRARY-V2 ALIGNED / RUNTIME VALIDATION PENDING**
+**Module implementation status:** **M8_00–M8_04 COMPLETE / LIBRARY-V2 ALIGNED / RUNTIME PASS**
 
 E1–E7 are reusable infrastructure from M1. A block may extend generic data or content, but must not fork those engines into module-specific substitutes.
 
@@ -76,7 +76,7 @@ The authored-surface budget above remains locked at **4,400 stitches / 2,500 cho
 | M8_02_MEDICAL_CONTROL | 14 | 31 | IMPLEMENTED |
 | M8_03_REGISTRATION | 12 | 27 | IMPLEMENTED |
 | M8_04_WORLD_VILLAGE | 21 | 46 | IMPLEMENTED |
-| **Cycle M8_00–M8_04** | **82** | **181** | **IMPLEMENTED / STATIC PASS** |
+| **Cycle M8_00–M8_04** | **82** | **181** | **COMPLETE / RUNTIME PASS** |
 | M8_05_ASTRID_ENTERS | TBD | TBD | PLANNED |
 | M8_06_FRIEND_BEAT_08 | TBD | TBD | PLANNED |
 | M8_07_TRAINING_HALL | TBD | TBD | PLANNED |
@@ -110,7 +110,7 @@ The first cycle therefore leaves exactly **108 nodes / 237 meaningful choices** 
 - registration reads the actual roster and never sets World field/group/draw state;
 - World Village preserves schedule-causal NPC encounters;
 - dedicated regressions: `m08-cycle1.test.mjs` and `m08-cycle-budget.test.mjs`;
-- runtime GitHub Actions evidence is required before marking this cycle COMPLETE.
+- GitHub Actions runtime evidence: **PASS** on content commit `2541e060424e5d2cc4a48451c3344dcf839d846b`, Bookgame Tests run `37454771937` (#336) — **1,174 passed / 0 failed**.
 
 # 3. CANONICAL EVENT BINDINGS
 
