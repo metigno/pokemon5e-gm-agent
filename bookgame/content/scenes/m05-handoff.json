@@ -1,0 +1,383 @@
+{
+  "schemaVersion": 1,
+  "id": "m05-handoff",
+  "moduleId": "M05",
+  "title": "M5_00 — Rank B Handoff",
+  "locationId": "mar_city",
+  "entryNodeId": "m05_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m4_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m05_unlocked",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "B"
+      }
+    ]
+  },
+  "nodes": {
+    "m05_entry": {
+      "stitches": [
+        {
+          "id": "entry_1",
+          "text": "Il Circuito registra Rank B come stato già ottenuto, non come premio di M5. Mareasale, Ferrox, risultati competitivi, relazioni e stato dei Pokémon restano intatti mentre si apre la fascia alta regionale."
+        },
+        {
+          "id": "entry_2",
+          "text": "M5 sposta la pressione verso Monti Ferrox, Altacima e Altopiano Fulgore. Nessuna partenza, incontro con Lance, licenza interregionale o Promotion Trial viene completato in automatico."
+        }
+      ],
+      "choices": [
+        {
+          "id": "activate_m5",
+          "text": "Attivo M5 mantenendo tutto lo stato precedente.",
+          "conditions": {
+            "path": "world.flags.m5_active",
+            "ne": true
+          },
+          "goto": "rank_b_band",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_active",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "review_active_m5",
+          "text": "M5 è già attivo: rivedo la fascia Rank B.",
+          "conditions": {
+            "path": "world.flags.m5_active",
+            "eq": true
+          },
+          "goto": "rank_b_band"
+        }
+      ]
+    },
+    "rank_b_band": {
+      "stitches": [
+        {
+          "id": "band_1",
+          "text": "Rank B rende legalmente accessibili Altacima e l'Altopiano Fulgore, ma la geografia continua a contare: la salita passa dai Monti Ferrox e le finestre meteo possono cambiare ciò che è prudente o possibile."
+        },
+        {
+          "id": "band_2",
+          "text": "La licenza interregionale e il Trial B→A restano sistemi distinti. Essere Rank B apre opportunità; non fabbrica registrazioni, vittorie o autorizzazioni non ancora ottenute."
+        }
+      ],
+      "choices": [
+        {
+          "id": "band_depart_mountains",
+          "text": "Preparo la salita verso i Monti Ferrox.",
+          "goto": "departure_check"
+        },
+        {
+          "id": "band_review_carryover",
+          "text": "Controllo cosa M4 porta davvero con sé.",
+          "goto": "carryover"
+        },
+        {
+          "id": "band_review_access",
+          "text": "Rivedo i limiti reali della nuova fascia.",
+          "goto": "access_notes"
+        },
+        {
+          "id": "band_stay_mareasale",
+          "text": "Resto a Mareasale e torno ai servizi costieri.",
+          "goto": "m04-mareasale-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        }
+      ]
+    },
+    "carryover": {
+      "stitches": [
+        {
+          "id": "carry_1",
+          "text": "Il riepilogo conserva l'esito dell'Upper Regional, la pista logistica, il rapporto con Archie, FRIEND_BEAT_04 e ogni risultato E5. Le parti opzionali non viste restano non viste."
+        },
+        {
+          "id": "carry_2",
+          "text": "Roster, HP, PP, condizioni, denaro, inventario, EXP e progressione non vengono normalizzati per la montagna."
+        }
+      ],
+      "choices": [
+        {
+          "id": "carry_back",
+          "text": "Torno alla fascia Rank B.",
+          "goto": "rank_b_band"
+        },
+        {
+          "id": "carry_callbacks",
+          "text": "Controllo quali callback costieri possono ancora contare.",
+          "goto": "callbacks_coast"
+        }
+      ]
+    },
+    "access_notes": {
+      "stitches": [
+        {
+          "id": "access_1",
+          "text": "FER-MOUNTAINS resta un'area reale di alta montagna; ALT-TOWN richiede Rank B; FUL-PLATEAU è Rank B ma dipende da percorso, meteo e accesso locale. Il Rank non annulla freddo, vento o orari."
+        }
+      ],
+      "choices": [
+        {
+          "id": "access_rules",
+          "text": "Rileggo le regole che il Rank non può bypassare.",
+          "goto": "rank_b_rules"
+        },
+        {
+          "id": "access_back",
+          "text": "Torno alla fascia Rank B.",
+          "goto": "rank_b_band"
+        }
+      ]
+    },
+    "interregional_preview": {
+      "stitches": [
+        {
+          "id": "inter_1",
+          "text": "La rete interregionale compare ora nei materiali del Circuito, ma l'attivazione effettiva avverrà soltanto quando l'evento canonico A5_INTERREGIONAL e le sue condizioni saranno soddisfatti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "inter_back",
+          "text": "Non anticipo la licenza: torno alla preparazione.",
+          "goto": "rank_b_band"
+        },
+        {
+          "id": "inter_depart",
+          "text": "Parto per la montagna senza confondere viaggio e licenza.",
+          "goto": "start_route"
+        }
+      ]
+    },
+    "mountain_route_options": {
+      "stitches": [
+        {
+          "id": "route_1",
+          "text": "La direttrice per Altacima offre una strada di servizio più lunga, un sentiero alto più rapido e la possibilità di aspettare una finestra migliore prima di lasciare la costa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "route_cautious",
+          "text": "Scelgo la strada di servizio e una salita prudente.",
+          "goto": "start_route",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_approach_plan",
+              "value": "service_road"
+            }
+          ]
+        },
+        {
+          "id": "route_fast",
+          "text": "Tengo aperta l'opzione del sentiero alto, senza impegnarmi ancora.",
+          "goto": "start_route",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_approach_plan",
+              "value": "high_trail"
+            }
+          ]
+        },
+        {
+          "id": "route_wait",
+          "text": "Rimando la partenza e lascio passare un po' di tempo.",
+          "timeCostMinutes": 60,
+          "goto": "wait_notice"
+        }
+      ]
+    },
+    "callbacks_coast": {
+      "stitches": [
+        {
+          "id": "cb_1",
+          "text": "Gli esiti di Mareasale possono cambiare reputazione, informazioni e tono dei contatti futuri, ma M5 non li riscrive. Archie, il circuito e gli amici continuano dalle loro condizioni persistenti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "cb_upper",
+          "text": "Registro che il risultato Upper Regional resta separato dal Rank B.",
+          "goto": "m5_state_guard",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_upper_callback_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "cb_archie",
+          "text": "Registro che il rapporto con Archie resta disponibile solo dove causalmente rilevante.",
+          "goto": "m5_state_guard",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_archie_callback_reviewed",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "rank_b_rules": {
+      "stitches": [
+        {
+          "id": "rules_1",
+          "text": "Nessun contenuto di M5 può cambiare Rank con un flag narrativo. La futura promozione B→A dovrà passare dal checkpoint E5 RANK_B_TO_A e da un combattimento realmente risolto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rules_interregional",
+          "text": "Controllo anche la distinzione con la licenza interregionale.",
+          "goto": "interregional_preview"
+        },
+        {
+          "id": "rules_back",
+          "text": "Torno alle opzioni di partenza.",
+          "goto": "rank_b_band"
+        }
+      ]
+    },
+    "m5_state_guard": {
+      "stitches": [
+        {
+          "id": "guard_1",
+          "text": "Il passaggio di modulo non assegna livelli, cure, denaro, Pokémon o risultati. Conserva soltanto ciò che esiste e apre nuove possibilità coerenti con Rank B."
+        }
+      ],
+      "choices": [
+        {
+          "id": "guard_back",
+          "text": "Torno alla preparazione.",
+          "goto": "rank_b_band"
+        }
+      ]
+    },
+    "departure_check": {
+      "stitches": [
+        {
+          "id": "depart_1",
+          "text": "Prima della salita controlli equipaggiamento, orario e ultime informazioni di percorso. È preparazione narrativa: non guarisce né modifica automaticamente la squadra."
+        }
+      ],
+      "choices": [
+        {
+          "id": "depart_route",
+          "text": "Confronto le due direttrici disponibili.",
+          "goto": "mountain_route_options"
+        },
+        {
+          "id": "depart_start",
+          "text": "Parto con il piano già scelto.",
+          "conditions": {
+            "path": "world.flags.m5_approach_plan",
+            "exists": true
+          },
+          "goto": "start_route"
+        },
+        {
+          "id": "depart_wait",
+          "text": "Aspetto un'ora prima di decidere.",
+          "timeCostMinutes": 60,
+          "goto": "wait_notice"
+        }
+      ]
+    },
+    "wait_notice": {
+      "stitches": [
+        {
+          "id": "wait_1",
+          "text": "Un'ora passa davvero. Orari, schedule e world events possono avanzare; il rinvio non congela la regione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "wait_back",
+          "text": "Rivaluto ora la partenza.",
+          "goto": "departure_check"
+        },
+        {
+          "id": "wait_coast",
+          "text": "Decido di restare ancora a Mareasale.",
+          "goto": "m04-mareasale-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        }
+      ]
+    },
+    "start_route": {
+      "stitches": [
+        {
+          "id": "start_1",
+          "text": "La costa resta alle spalle. Il percorso piega verso l'interno, guadagna quota e riporta la carriera nell'ombra dei Monti Ferrox."
+        }
+      ],
+      "choices": [
+        {
+          "id": "start_mountains",
+          "text": "Entro nella direttrice montana.",
+          "timeCostMinutes": 180,
+          "goto": "m05-mountain-approach#mountain_departure",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "fer_mountains"
+            }
+          ]
+        },
+        {
+          "id": "start_last_review",
+          "text": "Faccio un ultimo controllo prima di lasciare la costa.",
+          "goto": "handoff_close"
+        }
+      ]
+    },
+    "handoff_close": {
+      "stitches": [
+        {
+          "id": "close_1",
+          "text": "Il passaggio è pronto: M5 è attivo, Rank B resta strutturato e nessun contenuto successivo è stato anticipato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_depart",
+          "text": "Parto verso i Monti Ferrox.",
+          "timeCostMinutes": 180,
+          "goto": "m05-mountain-approach#mountain_departure",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "fer_mountains"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
