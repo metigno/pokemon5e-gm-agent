@@ -5072,21 +5072,9 @@ export class Pokemon5eCombatEngine {
       return record("whirlwind", { fleeBonusSuccesses: 1 });
     }
 
-    // Canonical rules that depend on an incoming event, a selected party member,
-    // or a DM-choice in tabletop are retained as deterministic, inspectable
-    // runtime effects instead of being rejected as unsupported. The UI/driver can
-    // satisfy pendingChoices without network access.
-    if (rule.requiresChoice) {
-      next.canonicalRuntime.pendingChoices.push({
-        kind: "canonical_move_choice",
-        moveId: move.id,
-        actor: side,
-        target: targetSide,
-        family: rule.family,
-        description: move.description
-      });
-    }
-    return record("canonical_effect");
+    throw new Error(
+      `Canonical special move ${move.id} reached the incomplete-handler guard`
+    );
   }
 
   async useMove(
