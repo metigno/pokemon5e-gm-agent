@@ -221,3 +221,36 @@ This order is now canonical for production.
 Current lock:
 
 **R01→R38 / complete-module baseline M01→M08 = 1,754 runtime-validated logical nodes and 3,997 meaningful choices; no R39 requirement.**
+
+---
+
+## M09 CYCLE 1 VALIDATION EVIDENCE — 2026-10-06
+
+M09 is **not module-complete yet**, so the completed Library V2 baseline remains **M01→M08**.
+
+Validated M09 Cycle 1 extension:
+
+- blocks: `M9_00_GROUPS_OPEN` → `M9_04_MATCHDAY_TWO`;
+- runtime logical surface: **77 nodes / 170 meaningful choices** exactly;
+- module trajectory preserved: **~170 nodes / ~374 meaningful choices**;
+- authored-surface manifest preserved: **4,300 stitches / 2,300 choices**;
+- Library V2 routing uses only **R01→R38**;
+- **no R39 candidate required**;
+- E5 was extended for persistent `WORLD_GROUPS` state rather than duplicated in narrative flags;
+- M8 draw is immutable and supplies Matchday opponents by persistent index;
+- Matchday 1 consumes opponent index 0; Matchday 2 consumes opponent index 1;
+- off-screen group matches and provisional standings are derived from E5 structured results;
+- Interday 1 does not heal or rebuild the roster;
+- Kaia Solari uses E4/Living World schedule gating and receives no plot protection;
+- all 77 Cycle-1 nodes are reachable with no zero-incoming padding;
+- save/reload preserves draw, group schedule, results, standings and Kaia schedule.
+
+Validation evidence:
+
+- GitHub Actions **Bookgame Tests**, PR #10, run **#358**;
+- syntax check: PASS;
+- `validate:story`: PASS;
+- full test suite: **1,216 passed / 0 failed / 0 skipped**.
+
+Do **not** advance the completed Library V2 baseline to M01→M09 until the remaining M09 production blocks are implemented and validated.
+

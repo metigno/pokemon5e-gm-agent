@@ -318,6 +318,8 @@ Cycle 1 converts the first five production blocks into runtime content while pre
 
 **No R39 candidate is required.** The only new work is an E5 World-group state extension plus UNIQUE M9 content composed from Library V2 R01→R38 primitives.
 
+**Cycle 1 CI evidence:** GitHub Actions PR #10 run #358 — syntax PASS, `validate:story` PASS, **1,216 tests passed / 0 failed / 0 skipped**.
+
 
 # 6. STATE OWNERSHIP
 
