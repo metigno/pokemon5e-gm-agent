@@ -730,6 +730,8 @@ function clearTransientEffects(combatant) {
     switchLockSources: [],
     escapeLockSources: [],
     movementLockSources: [],
+    statusImmunitySources: [],
+    statDropImmunitySources: [],
     ongoingEffects: [],
     stockpileCount: 0,
     temporaryHpSource: null
@@ -1969,7 +1971,10 @@ export class Pokemon5eCombatEngine {
         : null;
       const ongoingHealTargetSide = isOngoingHealingMove(move) ? side : null;
       const modifierTargetSide = isSimpleModifierMove(move) ? side : null;
+      const fieldUtilityTargetSide = isFieldUtilityMove(move) ? side : null;
+      const protectionTargetSide = isProtectionMove(move) ? side : null;
       const specialSelfTargetSide = isSpecialSelfMove(move) ? side : null;
+      const specialTargetSide = isSpecialTargetMove(move) ? otherSide(side) : null;
       const rangeTarget = healTargetSide
         ? battle[healTargetSide]
         : delayedHealTargetSide
@@ -1978,9 +1983,15 @@ export class Pokemon5eCombatEngine {
             ? battle[ongoingHealTargetSide]
             : modifierTargetSide
               ? battle[modifierTargetSide]
-              : specialSelfTargetSide
-                ? battle[specialSelfTargetSide]
-                : defender;
+              : fieldUtilityTargetSide
+                ? battle[fieldUtilityTargetSide]
+                : protectionTargetSide
+                  ? battle[protectionTargetSide]
+                  : specialSelfTargetSide
+                    ? battle[specialSelfTargetSide]
+                    : specialTargetSide
+                      ? battle[specialTargetSide]
+                      : defender;
       if (!rangeCheckForMove(combatant, rangeTarget, move).legal) continue;
       result.push(move);
     }
@@ -3562,6 +3573,9 @@ export class Pokemon5eCombatEngine {
     const modifierTargetSide = isSimpleModifierMove(move) ? side : null;
     const specialSelfTargetSide = isSpecialSelfMove(move) ? side : null;
     const fieldUtilityTargetSide = isFieldUtilityMove(move) ? side : null;
+    const protectionTargetSide = isProtectionMove(move)
+      ? (move.id === "safeguard" ? side : (requestedTargetSide ?? side))
+      : null;
     const specialTargetSide = isSpecialTargetMove(move) ? targetSide : null;
     const cureTargetSide = isStatusCureMove(move)
       ? (move.id === "purify" ? otherSide(side) : side)
@@ -3576,7 +3590,9 @@ export class Pokemon5eCombatEngine {
             ? next[modifierTargetSide]
             : fieldUtilityTargetSide
               ? next[fieldUtilityTargetSide]
-              : specialSelfTargetSide
+              : protectionTargetSide
+                ? next[protectionTargetSide]
+                : specialSelfTargetSide
               ? next[specialSelfTargetSide]
               : specialTargetSide
                 ? next[specialTargetSide]
@@ -3686,6 +3702,8 @@ export class Pokemon5eCombatEngine {
       next = await this.resolveEnvironmentMove(next, side, move);
     } else if (isFieldUtilityMove(move)) {
       next = await this.resolveFieldUtilityMove(next, side, move);
+    } else if (isProtectionMove(move)) {
+      next = await this.resolveProtectionMove(next, side, protectionTargetSide, move);
     } else if (AREA_MOVES.has(move.id)) {
       const stats = calculateMoveStats(attacker, move, next.round);
       const center = areaTarget ?? clone(defender.position);
