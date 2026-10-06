@@ -1,0 +1,945 @@
+{
+  "schemaVersion": 1,
+  "id": "m04-port-pressure",
+  "moduleId": "M04",
+  "title": "M4_04 — Pressione sul Porto",
+  "locationId": "mar_city_cargo",
+  "entryNodeId": "pressure_board",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m3_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m04_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m4_active",
+        "eq": true
+      },
+      {
+        "path": "world.flags.mareasale_discovered",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "C"
+      }
+    ]
+  },
+  "nodes": {
+    "pressure_board": {
+      "stitches": [
+        {
+          "id": "pressure_1",
+          "text": "La zona merci pubblica ti permette di vedere il sistema senza entrare nelle aree doganali. I ritardi meteo hanno compresso finestre, camion e spazi di magazzino; molti container vengono spostati più volte prima di partire."
+        },
+        {
+          "id": "pressure_2",
+          "text": "Il problema non è trovare 'il container sospetto'. È capire se documenti, sigilli, turni e deviazioni raccontano la stessa storia oppure no."
+        }
+      ],
+      "choices": [
+        {
+          "id": "check_manifests",
+          "text": "Controllo il registro pubblico delle movimentazioni. (CT Investigation)",
+          "timeCostMinutes": 15,
+          "check": {
+            "ability": "INT",
+            "skill": "Investigation",
+            "dc": 13
+          },
+          "outcomes": {
+            "success": {
+              "goto": "manifest_clear",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "port_manifest_mismatch",
+                  "value": true
+                }
+              ]
+            },
+            "failure": {
+              "goto": "manifest_partial",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "port_manifest_partial",
+                  "value": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "watch_seals",
+          "text": "Osservo sigilli, etichette e passaggi di banchina. (CT Perception)",
+          "timeCostMinutes": 15,
+          "check": {
+            "ability": "WIS",
+            "skill": "Perception",
+            "dc": 13
+          },
+          "outcomes": {
+            "success": {
+              "goto": "seal_specific",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "port_seal_mismatch",
+                  "value": true
+                }
+              ]
+            },
+            "failure": {
+              "goto": "seal_unclear",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "port_seal_checked",
+                  "value": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "ask_workers",
+          "text": "Parlo con i lavoratori in coda fra un carico e l'altro.",
+          "timeCostMinutes": 10,
+          "goto": "worker_queue"
+        },
+        {
+          "id": "study_schedule",
+          "text": "Confronto ritardi, cambi banchina e slot persi.",
+          "timeCostMinutes": 15,
+          "goto": "schedule_matrix"
+        },
+        {
+          "id": "read_customs_notice",
+          "text": "Leggo gli avvisi sui controlli documentali intensificati.",
+          "conditions": {
+            "path": "world.flags.mareasale_cargo_controls_noted",
+            "eq": true
+          },
+          "goto": "customs_notice"
+        },
+        {
+          "id": "observe_night_transfer",
+          "text": "Osservo le movimentazioni fuori dalla finestra ordinaria.",
+          "conditions": {
+            "path": "world.time",
+            "in": [
+              "evening",
+              "night"
+            ]
+          },
+          "timeCostMinutes": 20,
+          "goto": "night_transfer"
+        },
+        {
+          "id": "ask_archie_pressure",
+          "text": "Confronto i segnali con Archie.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.archie_met",
+                "eq": true
+              },
+              {
+                "path": "npcs.Archie.state.sharedPortPressureContext",
+                "eq": true
+              }
+            ]
+          },
+          "goto": "archie_pressure"
+        },
+        {
+          "id": "synthesize_pressure",
+          "text": "Metto insieme ciò che ho davvero verificato.",
+          "goto": "pressure_synthesis"
+        },
+        {
+          "id": "pressure_back_hub",
+          "text": "Torno nel porto senza chiudere ancora la lettura.",
+          "goto": "m04-mareasale-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        }
+      ]
+    },
+    "manifest_clear": {
+      "stitches": [
+        {
+          "id": "manifest_clear_1",
+          "text": "Trovi una discrepanza concreta: due container risultano scaricati su una banchina, poi registrati come trasferiti altrove senza un orario di passaggio coerente. Può essere errore amministrativo; non è ancora prova di contrabbando."
+        }
+      ],
+      "choices": [
+        {
+          "id": "manifest_trace",
+          "text": "Cerco se la stessa anomalia ricorre in altre giornate.",
+          "goto": "reroute_pattern"
+        },
+        {
+          "id": "manifest_back",
+          "text": "Torno alle altre fonti.",
+          "goto": "pressure_board"
+        },
+        {
+          "id": "manifest_synthesis",
+          "text": "Uso la discrepanza nella sintesi.",
+          "goto": "pressure_synthesis"
+        }
+      ]
+    },
+    "manifest_partial": {
+      "stitches": [
+        {
+          "id": "manifest_partial_1",
+          "text": "I registri sono troppo compressi per separare errori, correzioni legittime e movimenti anomali. Hai imparato dove cercare, non cosa concludere."
+        }
+      ],
+      "choices": [
+        {
+          "id": "manifest_partial_worker",
+          "text": "Chiedo a chi lavora sul molo come vengono gestite le correzioni.",
+          "goto": "worker_queue"
+        },
+        {
+          "id": "manifest_partial_back",
+          "text": "Torno alle altre fonti.",
+          "goto": "pressure_board"
+        }
+      ]
+    },
+    "seal_specific": {
+      "stitches": [
+        {
+          "id": "seal_specific_1",
+          "text": "Un sigillo porta un codice corretto ma una marcatura di controllo precedente alla registrazione di arrivo del container. Non sai se il problema è il sigillo, l'orario o il documento: sai che i tre dati non coincidono."
+        }
+      ],
+      "choices": [
+        {
+          "id": "seal_compare_manifest",
+          "text": "Confronto il codice con il registro delle movimentazioni.",
+          "goto": "documentation_gap"
+        },
+        {
+          "id": "seal_back",
+          "text": "Torno alle altre fonti.",
+          "goto": "pressure_board"
+        },
+        {
+          "id": "seal_synthesis",
+          "text": "Porto la discrepanza alla sintesi.",
+          "goto": "pressure_synthesis"
+        }
+      ]
+    },
+    "seal_unclear": {
+      "stitches": [
+        {
+          "id": "seal_unclear_1",
+          "text": "Da distanza pubblica non riesci a distinguere abbastanza dettagli. Alcuni sigilli sembrano diversi perché appartengono a compagnie diverse; forzare una conclusione sarebbe inventare informazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "seal_unclear_manifest",
+          "text": "Passo ai documenti pubblici.",
+          "goto": "pressure_board"
+        },
+        {
+          "id": "seal_unclear_worker",
+          "text": "Chiedo ai lavoratori quali differenze sono normali.",
+          "goto": "worker_queue"
+        }
+      ]
+    },
+    "worker_queue": {
+      "stitches": [
+        {
+          "id": "worker_1",
+          "text": "I lavoratori sono stanchi più che sospettosi. Uno dice che da quando il vento ha ridotto alcune partenze ogni turno eredita parte del carico del precedente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "worker_persuade",
+          "text": "Chiedo un esempio concreto di cosa cambia quando la pressione sale. (CT Persuasion)",
+          "timeCostMinutes": 10,
+          "check": {
+            "ability": "CHA",
+            "skill": "Persuasion",
+            "dc": 12
+          },
+          "outcomes": {
+            "success": {
+              "goto": "worker_open",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "port_worker_specific",
+                  "value": true
+                }
+              ]
+            },
+            "failure": {
+              "goto": "worker_guarded",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "port_worker_guarded",
+                  "value": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "worker_general",
+          "text": "Mi basta sapere se i cambi di banchina sono più frequenti del normale.",
+          "goto": "worker_general",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "port_worker_general",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "worker_back",
+          "text": "Non insisto.",
+          "goto": "pressure_board"
+        }
+      ]
+    },
+    "worker_open": {
+      "stitches": [
+        {
+          "id": "worker_open_1",
+          "text": "«Quando perdi una finestra, sposti quello che puoi. Ma ultimamente alcuni carichi 'urgenti' arrivano già con la nuova banchina decisa, prima che il sistema mostri il cambio. Magari qualcuno sa le cose prima. Magari qualcuno salta un passaggio.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "worker_open_trace",
+          "text": "Chiedo se ricorda quali carichi seguono questo schema.",
+          "goto": "delay_chain",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "port_predecided_moves_noted",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "worker_open_back",
+          "text": "Lo ringrazio e torno alle altre fonti.",
+          "goto": "pressure_board"
+        },
+        {
+          "id": "worker_open_synthesis",
+          "text": "Uso questo dato nella sintesi.",
+          "goto": "pressure_synthesis"
+        }
+      ]
+    },
+    "worker_guarded": {
+      "stitches": [
+        {
+          "id": "worker_guarded_1",
+          "text": "Il lavoratore chiude il discorso: «Non faccio accuse sui turni dei colleghi.» È un limite legittimo. La pressione esiste, ma non hai ottenuto una pista personale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "guarded_schedule",
+          "text": "Allora torno ai dati di orario.",
+          "goto": "schedule_matrix"
+        },
+        {
+          "id": "guarded_back",
+          "text": "Torno alle altre fonti.",
+          "goto": "pressure_board"
+        }
+      ]
+    },
+    "worker_general": {
+      "stitches": [
+        {
+          "id": "worker_general_1",
+          "text": "«Sì. Più rinvii, più cambi. Il problema è che ogni cambio crea carta nuova e ogni carta nuova è un punto in cui puoi sbagliare.» È un segnale di vulnerabilità del sistema, non di reato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "general_note",
+          "text": "Registro la vulnerabilità documentale.",
+          "goto": "pressure_board",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "port_document_pressure_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "general_synthesis",
+          "text": "Porto il dato alla sintesi.",
+          "goto": "pressure_synthesis"
+        }
+      ]
+    },
+    "schedule_matrix": {
+      "stitches": [
+        {
+          "id": "schedule_1",
+          "text": "Confrontando gli slot persi con i cambi di banchina noti, emerge un pattern: alcuni container vengono deviati più spesso degli altri e quasi sempre vicino alla chiusura della finestra operativa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "schedule_trace",
+          "text": "Cerco se il pattern coincide con i container già anomali.",
+          "goto": "reroute_pattern",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "port_schedule_pattern_seen",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "schedule_weather",
+          "text": "Confronto il pattern con i ritardi meteo.",
+          "conditions": {
+            "path": "world.flags.mareasale_weather_pressure_linked",
+            "eq": true
+          },
+          "goto": "delay_chain"
+        },
+        {
+          "id": "schedule_back",
+          "text": "Torno alle altre fonti.",
+          "goto": "pressure_board"
+        }
+      ]
+    },
+    "reroute_pattern": {
+      "stitches": [
+        {
+          "id": "reroute_1",
+          "text": "Il pattern non individua un singolo carico, ma una famiglia di movimenti: deviazioni ravvicinate, passaggi tardi e documenti corretti dopo il fatto. È abbastanza per parlare di anomalia ricorrente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "reroute_record",
+          "text": "Registro il pattern ricorrente.",
+          "goto": "pressure_board",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "port_reroute_pattern_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "reroute_synthesis",
+          "text": "Uso il pattern nella sintesi.",
+          "goto": "pressure_synthesis",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "port_reroute_pattern_known",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "documentation_gap": {
+      "stitches": [
+        {
+          "id": "docgap_1",
+          "text": "Il sigillo e il registro non coincidono nello stesso punto temporale. La discrepanza può essere una correzione tardiva, ma conferma che il porto ha un gap fra movimento fisico e aggiornamento documentale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "docgap_record",
+          "text": "Registro il gap come vulnerabilità verificata.",
+          "goto": "pressure_board",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "port_documentation_gap_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "docgap_pattern",
+          "text": "Cerco se il gap ricorre nei rerouting.",
+          "goto": "reroute_pattern"
+        }
+      ]
+    },
+    "delay_chain": {
+      "stitches": [
+        {
+          "id": "delay_1",
+          "text": "La catena è leggibile: meteo → finestra persa → banchina cambiata → documento corretto → turno successivo eredita il carico. Qualunque abuso futuro potrebbe nascondersi dentro una sequenza che, presa a pezzi, sembra normale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "delay_record",
+          "text": "Registro la catena di vulnerabilità.",
+          "goto": "pressure_board",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "port_delay_chain_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "delay_synthesis",
+          "text": "Porto la catena alla sintesi.",
+          "goto": "pressure_synthesis",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "port_delay_chain_known",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "customs_notice": {
+      "stitches": [
+        {
+          "id": "customs_1",
+          "text": "L'avviso doganale non parla di sequestri. Dice soltanto che, dopo una serie di incongruenze minori, i controlli su alcuni carichi notturni sono stati aumentati. È un segnale istituzionale, non una sentenza."
+        }
+      ],
+      "choices": [
+        {
+          "id": "customs_record",
+          "text": "Registro che l'anomalia è abbastanza concreta da aver cambiato i controlli.",
+          "goto": "pressure_board",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "port_customs_concern_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "customs_night",
+          "text": "Osservo se i movimenti serali mostrano qualcosa di più.",
+          "conditions": {
+            "path": "world.time",
+            "in": [
+              "evening",
+              "night"
+            ]
+          },
+          "goto": "night_transfer"
+        }
+      ]
+    },
+    "night_transfer": {
+      "stitches": [
+        {
+          "id": "night_1",
+          "text": "Fuori dalla finestra ordinaria il porto non è fermo. Un piccolo gruppo sposta due container fra aree autorizzate, ma uno dei movimenti avviene prima che il pannello pubblico mostri il cambio di banchina."
+        }
+      ],
+      "choices": [
+        {
+          "id": "night_record",
+          "text": "Registro il trasferimento anticipato come anomalia temporale.",
+          "goto": "pressure_board",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "port_night_transfer_noted",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "night_follow_docs",
+          "text": "Torno ai documenti per vedere se il cambio compare dopo.",
+          "goto": "documentation_gap",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "port_night_transfer_noted",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "night_leave",
+          "text": "Non inseguo il carico oltre le aree pubbliche.",
+          "goto": "pressure_board",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "port_night_transfer_noted",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "archie_pressure": {
+      "stitches": [
+        {
+          "id": "archie_pressure_1",
+          "text": "Archie non ti dice quale container seguire. «Se qualcuno vuole nascondersi, userà la parte del sistema che tutti considerano normale. Cerca dove il movimento fisico arriva prima della giustificazione.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "archie_docs",
+          "text": "Applico il criterio ai documenti e ai tempi.",
+          "goto": "documentation_gap",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "archie_pressure_callback_used",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "archie_back",
+          "text": "Tengo il criterio e continuo da solo.",
+          "goto": "pressure_board",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "archie_pressure_callback_used",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "pressure_synthesis": {
+      "stitches": [
+        {
+          "id": "synthesis_1",
+          "text": "Hai abbastanza per classificare ciò che sai. Il risultato deve descrivere la qualità del segnale, non dichiarare colpevoli che non hai ancora identificato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "synthesis_strong",
+          "text": "Più fonti indipendenti convergono: registro una pista logistica forte.",
+          "conditions": {
+            "any": [
+              {
+                "all": [
+                  {
+                    "path": "world.flags.port_manifest_mismatch",
+                    "eq": true
+                  },
+                  {
+                    "path": "world.flags.port_seal_mismatch",
+                    "eq": true
+                  }
+                ]
+              },
+              {
+                "all": [
+                  {
+                    "path": "world.flags.port_night_transfer_noted",
+                    "eq": true
+                  },
+                  {
+                    "path": "world.flags.port_reroute_pattern_known",
+                    "eq": true
+                  }
+                ]
+              },
+              {
+                "all": [
+                  {
+                    "path": "world.flags.port_manifest_mismatch",
+                    "eq": true
+                  },
+                  {
+                    "path": "world.flags.port_worker_specific",
+                    "eq": true
+                  },
+                  {
+                    "path": "world.flags.port_reroute_pattern_known",
+                    "eq": true
+                  }
+                ]
+              }
+            ]
+          },
+          "goto": "pressure_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "smuggling_signal_quality",
+              "value": "strong"
+            },
+            {
+              "type": "set_flag",
+              "key": "port_pressure_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "synthesis_partial",
+          "text": "Esistono anomalie vere, ma non abbastanza per una conclusione forte.",
+          "conditions": {
+            "all": [
+              {
+                "any": [
+                  {
+                    "path": "world.flags.port_manifest_mismatch",
+                    "eq": true
+                  },
+                  {
+                    "path": "world.flags.port_manifest_partial",
+                    "eq": true
+                  },
+                  {
+                    "path": "world.flags.port_seal_mismatch",
+                    "eq": true
+                  },
+                  {
+                    "path": "world.flags.port_worker_specific",
+                    "eq": true
+                  },
+                  {
+                    "path": "world.flags.port_worker_general",
+                    "eq": true
+                  },
+                  {
+                    "path": "world.flags.port_reroute_pattern_known",
+                    "eq": true
+                  },
+                  {
+                    "path": "world.flags.port_night_transfer_noted",
+                    "eq": true
+                  },
+                  {
+                    "path": "world.flags.mareasale_cargo_controls_noted",
+                    "eq": true
+                  },
+                  {
+                    "path": "world.flags.mareasale_weather_pressure_linked",
+                    "eq": true
+                  }
+                ]
+              },
+              {
+                "not": {
+                  "any": [
+                    {
+                      "all": [
+                        {
+                          "path": "world.flags.port_manifest_mismatch",
+                          "eq": true
+                        },
+                        {
+                          "path": "world.flags.port_seal_mismatch",
+                          "eq": true
+                        }
+                      ]
+                    },
+                    {
+                      "all": [
+                        {
+                          "path": "world.flags.port_night_transfer_noted",
+                          "eq": true
+                        },
+                        {
+                          "path": "world.flags.port_reroute_pattern_known",
+                          "eq": true
+                        }
+                      ]
+                    },
+                    {
+                      "all": [
+                        {
+                          "path": "world.flags.port_manifest_mismatch",
+                          "eq": true
+                        },
+                        {
+                          "path": "world.flags.port_worker_specific",
+                          "eq": true
+                        },
+                        {
+                          "path": "world.flags.port_reroute_pattern_known",
+                          "eq": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "goto": "pressure_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "smuggling_signal_quality",
+              "value": "partial"
+            },
+            {
+              "type": "set_flag",
+              "key": "port_pressure_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "synthesis_low",
+          "text": "Ho visto soprattutto pressione e vulnerabilità, non una pista concreta.",
+          "conditions": {
+            "not": {
+              "any": [
+                {
+                  "path": "world.flags.port_manifest_mismatch",
+                  "eq": true
+                },
+                {
+                  "path": "world.flags.port_manifest_partial",
+                  "eq": true
+                },
+                {
+                  "path": "world.flags.port_seal_mismatch",
+                  "eq": true
+                },
+                {
+                  "path": "world.flags.port_worker_specific",
+                  "eq": true
+                },
+                {
+                  "path": "world.flags.port_worker_general",
+                  "eq": true
+                },
+                {
+                  "path": "world.flags.port_reroute_pattern_known",
+                  "eq": true
+                },
+                {
+                  "path": "world.flags.port_night_transfer_noted",
+                  "eq": true
+                },
+                {
+                  "path": "world.flags.mareasale_cargo_controls_noted",
+                  "eq": true
+                },
+                {
+                  "path": "world.flags.mareasale_weather_pressure_linked",
+                  "eq": true
+                }
+              ]
+            }
+          },
+          "goto": "pressure_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "smuggling_signal_quality",
+              "value": "low"
+            },
+            {
+              "type": "set_flag",
+              "key": "port_pressure_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "synthesis_continue",
+          "text": "Non chiudo ancora la lettura. Torno alle fonti.",
+          "goto": "pressure_board"
+        }
+      ]
+    },
+    "pressure_close": {
+      "stitches": [
+        {
+          "id": "close_1",
+          "text": "Il porto resta operativo. Hai trasformato osservazioni sparse in uno stato persistente — forte, parziale o basso — senza ancora aprire una trama criminale o accusare un NPC."
+        },
+        {
+          "id": "close_2",
+          "text": "M4_07 potrà usare questo stato più avanti. Per ora il mondo continua: i carichi si muovono, il meteo cambia e gli altri trainer seguono il proprio calendario."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_hub",
+          "text": "Torno a Mareasale.",
+          "goto": "m04-mareasale-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        },
+        {
+          "id": "close_weather",
+          "text": "Torno a controllare la finestra meteo.",
+          "goto": "m04-weather-window#weather_board",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city_weather"
+            }
+          ]
+        },
+        {
+          "id": "close_archie",
+          "text": "Confronto la sintesi con Archie.",
+          "conditions": {
+            "path": "world.flags.archie_met",
+            "eq": true
+          },
+          "goto": "m04-archie-enters#port_argument",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city_weather"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
