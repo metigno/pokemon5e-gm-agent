@@ -271,8 +271,8 @@
         },
         {
           "id": "confirm_change",
-          "text": "Cambio piano prima di partire.",
-          "goto": "route_board"
+          "text": "Riapro il controllo del piano prima di cambiare rotta.",
+          "goto": "back_link"
         }
       ]
     },
