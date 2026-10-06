@@ -19,9 +19,9 @@
       ],
       "choices": [
         {
-          "id": "entry_altitude",
-          "text": "Rileggo prima l'evento d'alta quota.",
-          "goto": "altitude_history"
+          "id": "entry_altacima",
+          "text": "Parto da Altacima, dal meteo e dal rischio d'alta quota.",
+          "goto": "altacima_now"
         },
         {
           "id": "entry_mystery",
