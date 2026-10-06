@@ -1,0 +1,515 @@
+{
+  "schemaVersion": 1,
+  "id": "m10-world-r16",
+  "moduleId": "M10",
+  "title": "M10_03 — World R16",
+  "locationId": "world_knockout_hall",
+  "entryNodeId": "r16_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m10_r16_prep_complete",
+        "eq": true
+      },
+      {
+        "path": "competition.world.knockout.opened",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "r16_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'ottavo è single elimination. Il bridge userà il match del player già presente nel bracket e non un encounter narrativo separato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_opponent",
+          "text": "Apro la scheda dell'avversario reale.",
+          "goto": "opponent_card"
+        },
+        {
+          "id": "entry_rules",
+          "text": "Rileggo le regole ufficiali.",
+          "goto": "rules"
+        },
+        {
+          "id": "entry_pressure",
+          "text": "Guardo il contesto degli altri ottavi.",
+          "goto": "world_pressure"
+        }
+      ]
+    },
+    "opponent_card": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Avversario R16: {{competition.world.knockout.playerR16Opponent.name}}. La scena conosce il nome perché E5 ha già lockato il pairing."
+        }
+      ],
+      "choices": [
+        {
+          "id": "opponent_callback",
+          "text": "Controllo i precedenti leciti.",
+          "goto": "opponent_callback"
+        },
+        {
+          "id": "opponent_roster",
+          "text": "Controllo il mio roster prima del bridge.",
+          "goto": "roster_state"
+        },
+        {
+          "id": "opponent_ready",
+          "text": "Passo alla readiness.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "opponent_callback": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un precedente può cambiare il tono e la preparazione mentale. Non cambia il roster regolamentato generato per il match né il risultato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "callback_pressure",
+          "text": "Ragiono sulla pressione del duello.",
+          "goto": "pressure"
+        },
+        {
+          "id": "callback_ready",
+          "text": "Chiudo il callback e continuo.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "rules": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Formato ufficiale: Singles, sei Pokémon, nessun replay dopo il risultato. La vittoria porta verso i quarti, la sconfitta elimina dal Mondiale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rules_roster",
+          "text": "Controllo la squadra registrata.",
+          "goto": "roster_state"
+        },
+        {
+          "id": "rules_integrity",
+          "text": "Controllo l'idempotenza del match.",
+          "goto": "match_integrity"
+        },
+        {
+          "id": "rules_ready",
+          "text": "Passo alla readiness.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "roster_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il battle bridge usa i primi sei membri reali del roster come negli altri match ufficiali. Nessun membro viene guarito dalla transizione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "roster_resources",
+          "text": "Controllo HP/PP persistenti.",
+          "goto": "resources_before"
+        },
+        {
+          "id": "roster_ready",
+          "text": "Procedo verso la readiness.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "resources_before": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Le risorse sono quelle lasciate dai gironi e dalla preparazione. Il modulo non applica un recupero nascosto prima dell'ottavo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "resources_risk",
+          "text": "Valuto il rischio di entrare così.",
+          "goto": "pressure"
+        },
+        {
+          "id": "resources_ready",
+          "text": "Accetto lo stato e procedo.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "pressure": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un singolo errore può chiudere il torneo. Questa pressione non modifica tiri, AC o danni: resta una conseguenza competitiva reale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pressure_world",
+          "text": "Guardo cosa succede negli altri ottavi.",
+          "goto": "world_pressure"
+        },
+        {
+          "id": "pressure_ready",
+          "text": "Passo alla readiness.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "world_pressure": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Gli altri sette ottavi esistono indipendentemente dal player. Saranno risolti deterministicamente da E5 dopo il tuo risultato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "world_integrity",
+          "text": "Controllo come evitare doppi risultati.",
+          "goto": "match_integrity"
+        },
+        {
+          "id": "world_ready",
+          "text": "Torno al mio match.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "match_integrity": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "E5 rifiuta un secondo avvio se il match del player ha già un outcome. History e bracket devono contenere una sola risoluzione ufficiale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "integrity_rules",
+          "text": "Rivedo le regole.",
+          "goto": "rules"
+        },
+        {
+          "id": "integrity_handoff",
+          "text": "Passo al bridge.",
+          "goto": "match_handoff"
+        }
+      ]
+    },
+    "readiness": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La readiness finale verifica bracket aperto, match irrisolto e roster sufficiente. Poi il controllo passa al motore Pokémon 5e."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ready_handoff",
+          "text": "Avvio la procedura ufficiale.",
+          "goto": "match_handoff"
+        },
+        {
+          "id": "ready_back",
+          "text": "Torno alla scheda dell'avversario.",
+          "goto": "opponent_card"
+        },
+        {
+          "id": "ready_pressure",
+          "text": "Rileggo il rischio del single elimination.",
+          "goto": "pressure"
+        }
+      ]
+    },
+    "match_handoff": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il bridge risolve dinamicamente matchId, trainerId e roster dell'avversario dal bracket E5."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fight_r16",
+          "text": "Combatto l'ottavo di finale.",
+          "combat": {
+            "encounterId": "WORLD_R16_PLAYER",
+            "opponentRegistered": true,
+            "competition": {
+              "type": "official_match",
+              "matchId": "WORLD_R16_PLAYER",
+              "format": "Singles",
+              "officialRosterSize": 6,
+              "difficulty": "ELITE",
+              "worldKnockoutRound": "R16"
+            },
+            "returnNodes": {
+              "win": "win_return",
+              "lose": "loss_return"
+            },
+            "goto": "match_handoff"
+          },
+          "conditions": {
+            "path": "world.flags.world_r16_resolved",
+            "ne": true
+          }
+        },
+        {
+          "id": "handoff_back",
+          "text": "Non entro ancora: torno alla readiness.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "win_return": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La vittoria è stata registrata da E5 sul match reale del bracket. Prima dei quarti vanno risolti gli altri ottavi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "win_record",
+          "text": "Registro la chiusura narrativa del mio ottavo.",
+          "goto": "result_record",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m10_world_r16_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "win_resources",
+          "text": "Controllo cosa il match ha lasciato al team.",
+          "goto": "resources_after",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m10_world_r16_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "loss_return": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La sconfitta è eliminazione reale. Il torneo continua senza cancellare il match, ma FRIEND_BEAT_10 dovrà ancora chiudere il percorso umano del modulo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "loss_record",
+          "text": "Registro la chiusura narrativa del mio ottavo.",
+          "goto": "result_record",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m10_world_r16_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "loss_resources",
+          "text": "Controllo lo stato del team dopo l'eliminazione.",
+          "goto": "resources_after",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m10_world_r16_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "result_record": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "competition.history contiene ora il matchId reale WORLD_R16_n e il bracket E5 possiede il playerOutcome. Nessun secondo record è ammesso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record_outcome",
+          "text": "Leggo la conseguenza competitiva.",
+          "goto": "outcome_meaning"
+        },
+        {
+          "id": "record_resources",
+          "text": "Controllo le risorse persistenti.",
+          "goto": "resources_after"
+        },
+        {
+          "id": "record_world",
+          "text": "Guardo gli altri ottavi ancora da chiudere.",
+          "goto": "other_r16"
+        }
+      ]
+    },
+    "outcome_meaning": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Vincere significa restare candidato Top8; perdere significa world_eliminated=true. Il testo non può ribaltare nessuno dei due stati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "outcome_other",
+          "text": "Passo agli altri risultati R16.",
+          "goto": "other_r16"
+        },
+        {
+          "id": "outcome_history",
+          "text": "Rileggo l'audit del record.",
+          "goto": "history_audit"
+        }
+      ]
+    },
+    "resources_after": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "HP, PP e status emersi dal combat sono già stati riportati nel roster persistente dal battle bridge."
+        }
+      ],
+      "choices": [
+        {
+          "id": "resources_history",
+          "text": "Controllo che il match sia stato registrato una sola volta.",
+          "goto": "history_audit"
+        },
+        {
+          "id": "resources_next",
+          "text": "Passo alla chiusura dell'ottavo.",
+          "goto": "aftermath_gate"
+        }
+      ]
+    },
+    "other_r16": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Gli altri match non vengono scelti dal player e non proteggono amici o Anchor. M10_04 chiederà a E5 di risolverli con il seed della carriera."
+        }
+      ],
+      "choices": [
+        {
+          "id": "other_silas",
+          "text": "Controllo il caso di Silas senza proteggerlo.",
+          "goto": "silas_result_context"
+        },
+        {
+          "id": "other_gate",
+          "text": "Vado al gate dell'aftermath.",
+          "goto": "aftermath_gate"
+        }
+      ]
+    },
+    "silas_result_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se Silas era nel Top16, il suo ottavo è uno degli otto match strutturati. Può vincere o perdere come chiunque altro."
+        }
+      ],
+      "choices": [
+        {
+          "id": "silas_world",
+          "text": "Torno al quadro degli altri ottavi.",
+          "goto": "other_r16"
+        },
+        {
+          "id": "silas_gate",
+          "text": "Procedo al gate dell'aftermath.",
+          "goto": "aftermath_gate"
+        }
+      ]
+    },
+    "history_audit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'audit richiede un solo record ufficiale per il match del player e nessun reset di competition.history dopo l'uscita dall'arena."
+        }
+      ],
+      "choices": [
+        {
+          "id": "history_integrity",
+          "text": "Rileggo l'idempotenza.",
+          "goto": "match_integrity"
+        },
+        {
+          "id": "history_gate",
+          "text": "Passo al gate di chiusura.",
+          "goto": "aftermath_gate"
+        }
+      ]
+    },
+    "aftermath_gate": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "M10_04 può aprirsi solo dopo il risultato reale del player. Visitare la scena R16 senza combattere non basta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "gate_aftermath",
+          "text": "Apro l'aftermath R16.",
+          "goto": "m10-r16-aftermath#aftermath_entry"
+        },
+        {
+          "id": "gate_review",
+          "text": "Rivedo il record prima di uscire.",
+          "goto": "result_record"
+        }
+      ]
+    },
+    "r16_complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il tuo ottavo è concluso. Da qui il World state deve chiudere tutti gli altri R16 prima di definire Top8 e quarti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "complete_gate",
+          "text": "Procedo all'aftermath.",
+          "goto": "aftermath_gate"
+        },
+        {
+          "id": "complete_history",
+          "text": "Rileggo l'history ufficiale.",
+          "goto": "history_audit"
+        }
+      ]
+    }
+  }
+}
