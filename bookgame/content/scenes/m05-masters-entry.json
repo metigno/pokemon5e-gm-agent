@@ -1,0 +1,601 @@
+{
+  "schemaVersion": 1,
+  "id": "m05-masters-entry",
+  "moduleId": "M05",
+  "title": "M5_13 — Masters Circuit Entry",
+  "locationId": "alt_town_crest",
+  "entryNodeId": "masters_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m4_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m05_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m5_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rankOrder",
+        "gte": 5
+      },
+      {
+        "path": "world.flags.a5_masters_entry_available",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "masters_entry": {
+      "stitches": [
+        {
+          "id": "me1",
+          "text": "Con Rank A attivo, la Sala della Cresta apre la finestra Masters. Questo evento non promuove di Rank: registra ingresso, risultato e seeding per il circuito successivo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_rules",
+          "text": "Leggo cosa conta e cosa non conta il Masters Entry.",
+          "goto": "entry_rules"
+        },
+        {
+          "id": "entry_eligibility",
+          "text": "Verifico perché la finestra è aperta.",
+          "goto": "eligibility_review"
+        },
+        {
+          "id": "entry_register",
+          "text": "Vado al banco di ingresso.",
+          "goto": "registration_desk"
+        },
+        {
+          "id": "entry_defer",
+          "text": "Non entro ancora nel Masters Circuit.",
+          "goto": "deferred"
+        }
+      ]
+    },
+    "entry_rules": {
+      "stitches": [
+        {
+          "id": "er1",
+          "text": "Il Masters Entry è un match ufficiale di seeding. Vittoria e sconfitta restano reali e influenzano la fascia iniziale; nessun esito apre aree geografiche o sostituisce il futuro Trial A→S."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rules_seeding",
+          "text": "Approfondisco come viene usato il risultato.",
+          "goto": "seeding_explainer"
+        },
+        {
+          "id": "rules_opponent",
+          "text": "Leggo il profilo pubblico dell'avversaria.",
+          "goto": "opponent_preview"
+        },
+        {
+          "id": "rules_register",
+          "text": "Procedo con l'ingresso.",
+          "goto": "registration_desk"
+        }
+      ]
+    },
+    "eligibility_review": {
+      "stitches": [
+        {
+          "id": "el1",
+          "text": "L'accesso deriva dal Rank A più la condizione Masters reale: livello previsto o invito persistente. Il match non viene aperto soltanto perché M5 deve finire."
+        }
+      ],
+      "choices": [
+        {
+          "id": "eligibility_desk",
+          "text": "La finestra è valida: vado al banco.",
+          "goto": "registration_desk"
+        },
+        {
+          "id": "eligibility_rules",
+          "text": "Rileggo la separazione fra Masters e Rank.",
+          "goto": "entry_rules"
+        }
+      ]
+    },
+    "registration_desk": {
+      "stitches": [
+        {
+          "id": "rd1",
+          "text": "Il banco registra la partecipazione alla finestra corrente. Non modifica il roster e non crea punti prima che esista un risultato ufficiale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "register_masters",
+          "text": "Confermo l'ingresso al match di seeding.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.masters_entry_registration_complete",
+                "ne": true
+              },
+              {
+                "path": "world.flags.masters_entry_result",
+                "exists": false
+              }
+            ]
+          },
+          "goto": "registered",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "masters_entry_registration_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "registration_preview",
+          "text": "Prima rivedo l'avversaria.",
+          "goto": "opponent_preview"
+        },
+        {
+          "id": "registration_defer",
+          "text": "Rimando senza consumare la finestra.",
+          "goto": "deferred"
+        }
+      ]
+    },
+    "registered": {
+      "stitches": [
+        {
+          "id": "rg1",
+          "text": "L'ingresso è registrato. Il prossimo risultato verrà dal resolver E5 e determinerà soltanto il seeding Masters di questa run."
+        }
+      ],
+      "choices": [
+        {
+          "id": "registered_prep",
+          "text": "Scelgo un focus di preparazione senza bonus invisibili.",
+          "goto": "prep_focus"
+        },
+        {
+          "id": "registered_opponent",
+          "text": "Rileggo il roster pubblico.",
+          "goto": "opponent_preview"
+        },
+        {
+          "id": "registered_match",
+          "text": "Passo alla conferma del match.",
+          "goto": "match_confirm"
+        }
+      ]
+    },
+    "seeding_explainer": {
+      "stitches": [
+        {
+          "id": "se1",
+          "text": "Una vittoria assegna una fascia di ingresso più favorevole; una sconfitta lascia una fascia aperta più bassa. Entrambe permettono alla carriera di proseguire e nessuna cambia Rank A."
+        }
+      ],
+      "choices": [
+        {
+          "id": "seeding_register",
+          "text": "Accetto il sistema e mi registro.",
+          "goto": "registration_desk"
+        },
+        {
+          "id": "seeding_rules",
+          "text": "Torno alle regole generali.",
+          "goto": "entry_rules"
+        }
+      ]
+    },
+    "opponent_preview": {
+      "stitches": [
+        {
+          "id": "op1",
+          "text": "Mara Venn usa un Official Five fisso per il seeding: Mareanie, Mimikyu, Carvanha, Staryu e Growlithe. Il roster è pubblico; ordine e decisioni restano coperti dal fog of war."
+        }
+      ],
+      "choices": [
+        {
+          "id": "opponent_prep",
+          "text": "Costruisco un focus contro un roster così vario.",
+          "goto": "prep_focus"
+        },
+        {
+          "id": "opponent_register",
+          "text": "Torno al banco.",
+          "goto": "registration_desk"
+        }
+      ]
+    },
+    "prep_focus": {
+      "stitches": [
+        {
+          "id": "pf1",
+          "text": "Puoi decidere cosa osservare nel match, ma la scelta non assegna EV, cure, livelli o modificatori nascosti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "prep_status",
+          "text": "Focus: gestire status e pressione residua.",
+          "goto": "match_confirm",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "masters_entry_prep_focus",
+              "value": "status_pressure"
+            }
+          ]
+        },
+        {
+          "id": "prep_switch",
+          "text": "Focus: preservare opzioni di switch e coperture.",
+          "goto": "match_confirm",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "masters_entry_prep_focus",
+              "value": "switch_depth"
+            }
+          ]
+        },
+        {
+          "id": "prep_information",
+          "text": "Focus: usare solo informazioni pubbliche e reagire al resto.",
+          "goto": "match_confirm",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "masters_entry_prep_focus",
+              "value": "information"
+            }
+          ]
+        }
+      ]
+    },
+    "match_confirm": {
+      "stitches": [
+        {
+          "id": "mc1",
+          "text": "Il match è ufficiale. Nessuna scelta successiva può assegnare manualmente l'esito: il resolver E5 registrerà win o lose nella history competitiva."
+        }
+      ],
+      "choices": [
+        {
+          "id": "match_start",
+          "text": "Inizio il Masters seeding match.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.masters_entry_registration_complete",
+                "eq": true
+              },
+              {
+                "path": "world.flags.masters_entry_result",
+                "exists": false
+              },
+              {
+                "path": "player.roster.length",
+                "gte": 5
+              }
+            ]
+          },
+          "goto": "match_handoff"
+        },
+        {
+          "id": "match_back",
+          "text": "Non parto ancora.",
+          "goto": "registered"
+        }
+      ]
+    },
+    "match_handoff": {
+      "stitches": [
+        {
+          "id": "mh1",
+          "text": "Il controllo passa al combattimento Pokémon 5e/E5. Il Rank A resta separato dal risultato di seeding."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fight_masters_entry",
+          "text": "Combatto il Masters Entry match.",
+          "combat": {
+            "encounterId": "A5_MASTERS_ENTRY_MATCH",
+            "opponentRegistered": true,
+            "competition": {
+              "type": "official_match",
+              "matchId": "A5_MASTERS_ENTRY_MATCH",
+              "format": "Singles",
+              "officialRosterSize": 5,
+              "difficulty": "ELITE",
+              "opponentTrainerId": "ALT_MASTERS_MARA_VENN"
+            },
+            "returnNodes": {
+              "win": "match_win",
+              "lose": "match_loss"
+            },
+            "opponentTrainerId": "ALT_MASTERS_MARA_VENN",
+            "opponent": {
+              "species": "Mareanie",
+              "level": 14,
+              "abilityId": "merciless",
+              "trainerId": "ALT_MASTERS_MARA_VENN"
+            },
+            "opponentBench": [
+              {
+                "species": "Mimikyu",
+                "level": 14,
+                "abilityId": "disguise",
+                "trainerId": "ALT_MASTERS_MARA_VENN"
+              },
+              {
+                "species": "Carvanha",
+                "level": 14,
+                "abilityId": "rough-skin",
+                "trainerId": "ALT_MASTERS_MARA_VENN"
+              },
+              {
+                "species": "Staryu",
+                "level": 14,
+                "abilityId": "natural-cure",
+                "trainerId": "ALT_MASTERS_MARA_VENN"
+              },
+              {
+                "species": "Growlithe",
+                "level": 14,
+                "abilityId": "intimidate",
+                "trainerId": "ALT_MASTERS_MARA_VENN"
+              }
+            ],
+            "goto": "match_handoff"
+          }
+        }
+      ]
+    },
+    "match_win": {
+      "stitches": [
+        {
+          "id": "mw1",
+          "text": "E5 registra una vittoria ufficiale. Non cambia Rank A; il risultato viene tradotto nel seeding Masters favorevole previsto per questa finestra."
+        }
+      ],
+      "choices": [
+        {
+          "id": "win_seed",
+          "text": "Registro il seeding derivato dalla vittoria.",
+          "goto": "seeding_high",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "masters_entry_result",
+              "value": "win"
+            },
+            {
+              "type": "set_flag",
+              "key": "masters_entry_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "win_review",
+          "text": "Rivedo prima cosa significa il risultato.",
+          "goto": "result_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "masters_entry_result",
+              "value": "win"
+            },
+            {
+              "type": "set_flag",
+              "key": "masters_entry_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "match_loss": {
+      "stitches": [
+        {
+          "id": "ml1",
+          "text": "E5 registra una sconfitta ufficiale. Non perdi Rank A e non vieni espulso dalla progressione: il risultato produce semplicemente una fascia Masters meno favorevole."
+        }
+      ],
+      "choices": [
+        {
+          "id": "loss_seed",
+          "text": "Registro il seeding derivato dalla sconfitta.",
+          "goto": "seeding_open",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "masters_entry_result",
+              "value": "loss"
+            },
+            {
+              "type": "set_flag",
+              "key": "masters_entry_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "loss_review",
+          "text": "Rivedo il risultato senza riscriverlo.",
+          "goto": "result_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "masters_entry_result",
+              "value": "loss"
+            },
+            {
+              "type": "set_flag",
+              "key": "masters_entry_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "seeding_high": {
+      "stitches": [
+        {
+          "id": "sh1",
+          "text": "La vittoria assegna una fascia Masters alta per il prossimo evento pertinente. È un vantaggio di seeding registrato, non un unlock geografico."
+        }
+      ],
+      "choices": [
+        {
+          "id": "high_record",
+          "text": "Registro la fascia alta.",
+          "goto": "masters_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "masters_seed_band",
+              "value": "high_entry"
+            }
+          ]
+        },
+        {
+          "id": "high_review",
+          "text": "Rileggo il rapporto fra seed e Rank.",
+          "goto": "result_review"
+        }
+      ]
+    },
+    "seeding_open": {
+      "stitches": [
+        {
+          "id": "so1",
+          "text": "La sconfitta assegna una fascia Masters aperta. La carriera prosegue con un percorso meno favorevole ma reale; nessun rematch automatico viene inventato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "open_record",
+          "text": "Registro la fascia aperta.",
+          "goto": "masters_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "masters_seed_band",
+              "value": "open_entry"
+            }
+          ]
+        },
+        {
+          "id": "open_review",
+          "text": "Rileggo il rapporto fra seed e Rank.",
+          "goto": "result_review"
+        }
+      ]
+    },
+    "result_review": {
+      "stitches": [
+        {
+          "id": "rv1",
+          "text": "Il Masters Entry misura il punto da cui entrerai nel circuito successivo. Il futuro A→S resta dietro il suo checkpoint e non viene toccato da questo match."
+        }
+      ],
+      "choices": [
+        {
+          "id": "review_win",
+          "text": "Il risultato è una vittoria: applico il seed corrispondente.",
+          "conditions": {
+            "path": "world.flags.masters_entry_result",
+            "eq": "win"
+          },
+          "goto": "seeding_high"
+        },
+        {
+          "id": "review_loss",
+          "text": "Il risultato è una sconfitta: applico il seed corrispondente.",
+          "conditions": {
+            "path": "world.flags.masters_entry_result",
+            "eq": "loss"
+          },
+          "goto": "seeding_open"
+        }
+      ]
+    },
+    "deferred": {
+      "stitches": [
+        {
+          "id": "df1",
+          "text": "Rimandare il Masters Entry è legale. La finestra resta disponibile e il modulo può riconoscere che l'accesso esiste anche se scegli di non disputare subito il match."
+        }
+      ],
+      "choices": [
+        {
+          "id": "defer_hub",
+          "text": "Torno ad Altacima.",
+          "goto": "m05-altacima#town_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        },
+        {
+          "id": "defer_return",
+          "text": "Cambio idea e torno all'ingresso Masters.",
+          "goto": "masters_entry"
+        }
+      ]
+    },
+    "masters_close": {
+      "stitches": [
+        {
+          "id": "cl1",
+          "text": "Ingresso e seeding sono ora persistenti. Rank A, Trace, Five, Lance e licenza restano separati e invariati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_outcome",
+          "text": "Passo al riepilogo finale di M5.",
+          "goto": "module_outcome_link"
+        },
+        {
+          "id": "close_hub",
+          "text": "Torno ad Altacima prima del riepilogo.",
+          "goto": "m05-altacima#town_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        }
+      ]
+    },
+    "module_outcome_link": {
+      "stitches": [
+        {
+          "id": "mo1",
+          "text": "Se l'exit contract è soddisfatto, il riepilogo M5 può ora chiudere il modulo. Se manca altro stato, il gate resterà chiuso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "outcome_enter",
+          "text": "Verifico l'exit contract di M5.",
+          "goto": "m05-module-outcome#outcome_entry"
+        }
+      ]
+    }
+  }
+}
