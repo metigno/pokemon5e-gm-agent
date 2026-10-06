@@ -535,9 +535,9 @@
       ],
       "choices": [
         {
-          "id": "hold_cycle1",
-          "text": "Chiudo qui il Cycle 1 senza inventare M12_05.",
-          "goto": "cycle1_complete"
+          "id": "to_coast",
+          "text": "Proseguo verso Mareasale e la Costa di Sale.",
+          "goto": "m12-coast-callbacks#callback_entry"
         },
         {
           "id": "review_ferrox",
