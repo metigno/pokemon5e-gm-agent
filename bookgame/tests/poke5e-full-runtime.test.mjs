@@ -103,7 +103,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
   const moves = await data.listMoves();
   const unresolved = moves.filter((move) => !isMoveResolvable(move)).map((move) => move.id);
 
-  assert.ok(unresolved.length <= 163, `unresolved move rules regressed to ${unresolved.length}`);
+  assert.ok(unresolved.length <= 160, `unresolved move rules regressed to ${unresolved.length}`);
   for (const id of [
     "acupressure",
     "feather-dance",
@@ -130,6 +130,9 @@ test("move execution coverage has an explicit non-regression gate", async () => 
     "spore",
     "stun-spore",
     "toxic-spikes",
+    "disable",
+    "imprison",
+    "taunt",
     "agility",
     "autotomize",
     "barrier",
@@ -564,6 +567,61 @@ test("Reaction moves use a dedicated trigger-aware execution path", async () => 
   );
   assert.equal(reactionStatus?.status, "Paralysis");
   assert.equal(statusBattle.opponent.statuses.nonVolatile, "Paralysis");
+});
+
+test("Disable, Imprison and Taunt enforce move locks through legalMoves and direct use", async () => {
+  const disableCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 1, ...Array(40).fill(1)])
+  });
+  let disableBattle = await disableCombat.createBattle({
+    encounterId: "FULL_RUNTIME_DISABLE",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["disable"] },
+    opponent: { speciesId: "caterpie", level: 5, moveIds: ["harden", "tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 20, y: 0 }
+  });
+  disableBattle.opponent.lastMoveId = "harden";
+  disableBattle = await disableCombat.usePlayerMove(disableBattle, "disable");
+  assert.equal(disableBattle.player.concentration?.effectTargetSide, "opponent");
+  assert.deepEqual(disableBattle.opponent.effects.moveLockSources.at(-1)?.moveIds, ["harden"]);
+  const disableLegal = await disableCombat.legalMoves(disableBattle, "opponent");
+  assert.equal(disableLegal.some((move) => move.id === "harden"), false);
+  assert.equal(disableLegal.some((move) => move.id === "tackle"), true);
+
+  const imprisonCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 1, ...Array(40).fill(1)])
+  });
+  let imprisonBattle = await imprisonCombat.createBattle({
+    encounterId: "FULL_RUNTIME_IMPRISON",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["imprison", "tackle"] },
+    opponent: { speciesId: "caterpie", level: 5, moveIds: ["tackle", "harden"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 20, y: 0 }
+  });
+  imprisonBattle = await imprisonCombat.usePlayerMove(imprisonBattle, "imprison");
+  assert.deepEqual(imprisonBattle.opponent.effects.moveLockSources.at(-1)?.moveIds, ["tackle"]);
+  const imprisonLegal = await imprisonCombat.legalMoves(imprisonBattle, "opponent");
+  assert.equal(imprisonLegal.some((move) => move.id === "tackle"), false);
+  assert.equal(imprisonLegal.some((move) => move.id === "harden"), true);
+
+  const tauntCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 1, ...Array(40).fill(1)])
+  });
+  let tauntBattle = await tauntCombat.createBattle({
+    encounterId: "FULL_RUNTIME_TAUNT",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["taunt"] },
+    opponent: { speciesId: "caterpie", level: 5, moveIds: ["harden", "tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 20, y: 0 }
+  });
+  tauntBattle = await tauntCombat.usePlayerMove(tauntBattle, "taunt");
+  const tauntLegal = await tauntCombat.legalMoves(tauntBattle, "opponent");
+  assert.equal(tauntLegal.some((move) => move.id === "harden"), false);
+  assert.equal(tauntLegal.some((move) => move.id === "tackle"), true);
+  await assert.rejects(
+    () => tauntCombat.useMove(tauntBattle, "opponent", "harden"),
+    /locked by taunt/
+  );
 });
 
 test("common self-buff moves execute level scaling, AC, damage, speed and concentration rules", async () => {
