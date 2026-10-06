@@ -49,7 +49,7 @@ test("M5_02 clinic information never heals or rewrites roster state",async()=>{
 });
 
 test("M5_02 Trial information does not register RANK_B_TO_A",async()=>{
-  const {engine}=await makeEngine();let s=legal();s=await engine.choose(s,"entry_register");s=await engine.choose(s,"hub_crest");s=await engine.choose(s,"crest_rules");s=await engine.choose(s,"rules_note");assert.equal(s.world.flags.altacima_trial_rules_known,true);assert.equal(s.competition.trials.RANK_B_TO_A,undefined);assert.equal(s.competition.rank,"B");
+  const {engine}=await makeEngine();let s=legal();s=await engine.choose(s,"entry_register");s=await engine.choose(s,"hub_crest");s=await engine.choose(s,"crest_rules");s=await engine.choose(s,"rules_note");assert.equal(s.world.flags.altacima_trial_rules_known,true);assert.equal(s.competition.trials.RANK_B_TO_A.available,true);assert.equal(s.competition.trials.RANK_B_TO_A.registered,false);assert.equal(s.competition.trials.RANK_B_TO_A.completed,false);assert.equal(s.competition.rank,"B");
 });
 
 test("M5_02 Lance rumor unlocks causal contact without marking Lance met",async()=>{
