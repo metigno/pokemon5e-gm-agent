@@ -163,7 +163,12 @@ test("M7_05-M7_09 authored nodes have no zero-incoming padding",async()=>{
   };
   for(const [sceneId,scene] of Object.entries(scenes)){
     for(const node of Object.values(scene.nodes)){
-      for(const choice of node.choices??[]) add(choice.goto,sceneId);
+      for(const choice of node.choices??[]){
+        add(choice.goto,sceneId);
+        if(choice.check){add(choice.outcomes?.success?.goto,sceneId);add(choice.outcomes?.failure?.goto,sceneId);}
+        if(choice.combat){add(choice.combat.goto,sceneId);for(const target of Object.values(choice.combat.returnNodes??{})) add(target,sceneId);}
+        if(choice.ecology){for(const target of Object.values(choice.ecology.returnNodes??{})) add(target,sceneId);}
+      }
     }
   }
   assert.deepEqual(Object.entries(incoming).filter(([,n])=>n===0).map(([k])=>k),[]);
