@@ -454,7 +454,8 @@ function failedSaveStatus(move, save) {
   }
 
   if (
-    /(?:on|upon) (?:a )?(?:failed save|failure)|must (?:make|succeed on).*\bor become|fail(?:s|ed)? .*become/i.test(text) ||
+    /(?:on|upon) (?:a )?(?:fail|failed save|failure)|must (?:make|succeed on).*\bor become|fail(?:s|ed)? .*become/i.test(text) ||
+    /becom(?:e|es|ing)[^.]{0,160}\bon (?:a )?fail/i.test(text) ||
     /fail(?:s|ed)? (?:the )?save by 5 or more/i.test(text)
   ) {
     return status;
