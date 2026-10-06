@@ -219,11 +219,15 @@ function consumeAttackAdvantageUse(combatant, target, round) {
   return null;
 }
 
-function consumeOneShotAttackSource(combatant, key, round) {
+function consumeOneShotAttackSource(combatant, key, round, target = null) {
   for (const source of combatant.effects?.[key] ?? []) {
     if (source.usesRemaining == null || source.usesRemaining <= 0) continue;
     if (source.startsRound != null && round < source.startsRound) continue;
     if (source.expiresRound != null && round >= source.expiresRound) continue;
+    if (
+      source.targetCombatantId != null &&
+      target?.combatantId !== source.targetCombatantId
+    ) continue;
     source.usesRemaining -= 1;
     return source.source;
   }
@@ -1899,12 +1903,14 @@ export class Pokemon5eCombatEngine {
     const forcedHitConsumed = consumeOneShotAttackSource(
       attacker,
       "forcedHitSources",
-      next.round
+      next.round,
+      defender
     );
     const forcedCriticalConsumed = consumeOneShotAttackSource(
       attacker,
       "forcedCriticalSources",
-      next.round
+      next.round,
+      defender
     );
     const result = resolveAttack({
       attacker,
@@ -2080,12 +2086,14 @@ export class Pokemon5eCombatEngine {
     const forcedHitConsumed = consumeOneShotAttackSource(
       attacker,
       "forcedHitSources",
-      next.round
+      next.round,
+      defender
     );
     const forcedCriticalConsumed = consumeOneShotAttackSource(
       attacker,
       "forcedCriticalSources",
-      next.round
+      next.round,
+      defender
     );
     const roll = rollD20(this.dice, {
       advantage:
