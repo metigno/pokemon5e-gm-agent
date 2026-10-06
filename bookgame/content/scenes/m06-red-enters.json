@@ -1,0 +1,441 @@
+{
+  "schemaVersion": 1,
+  "id": "m06-red-enters",
+  "moduleId": "M06",
+  "title": "M6_03 — Red Enters",
+  "locationId": "interregional_circuit",
+  "entryNodeId": "red_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m5_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m06_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m6_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "A"
+      },
+      {
+        "path": "world.flags.m6_interregional_travel_complete",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "red_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Red non appare come boss. Lo incontri dove la sua carriera lo rende plausibile: vicino al circuito, mentre osserva un tabellone o si prepara a una finestra Masters."
+        }
+      ],
+      "choices": [
+        {
+          "id": "red_introduce",
+          "text": "Mi presento.",
+          "goto": "first_exchange",
+          "conditions": {
+            "path": "world.flags.red_met",
+            "ne": true
+          },
+          "effects": [
+            {
+              "type": "npc_register",
+              "npcId": "Red",
+              "name": "Red",
+              "relationshipScore": 0,
+              "state": {
+                "introduced": true,
+                "context": "interregional_circuit",
+                "role": "interregional_anchor"
+              }
+            },
+            {
+              "type": "set_flag",
+              "key": "red_met",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "red_observe",
+          "text": "Lo osservo prima di interromperlo.",
+          "goto": "observe",
+          "conditions": {
+            "path": "world.flags.red_met",
+            "ne": true
+          }
+        },
+        {
+          "id": "red_reengage",
+          "text": "Red mi conosce già: riprendo il contatto.",
+          "goto": "reengage",
+          "conditions": {
+            "path": "world.flags.red_met",
+            "eq": true
+          }
+        }
+      ]
+    },
+    "encounter_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il contesto può cambiare con la prima destinazione, ma Red non viene teletrasportato per obbligo di trama. Il suo valore qui è mostrare come un trainer forte legge ambienti diversi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "context_solaria",
+          "text": "Il primo contesto è Solaria.",
+          "goto": "style_read",
+          "conditions": {
+            "path": "world.flags.m6_first_destination",
+            "eq": "solaria"
+          }
+        },
+        {
+          "id": "context_luminara",
+          "text": "Il primo contesto è Luminara.",
+          "goto": "style_read",
+          "conditions": {
+            "path": "world.flags.m6_first_destination",
+            "eq": "luminara"
+          }
+        },
+        {
+          "id": "context_rumor",
+          "text": "Ricollego l'incontro al rumor pubblico.",
+          "goto": "silent_read",
+          "conditions": {
+            "path": "world.flags.red_rumor_heard",
+            "eq": true
+          }
+        },
+        {
+          "id": "context_back",
+          "text": "Torno all'incontro.",
+          "goto": "red_entry"
+        }
+      ]
+    },
+    "observe": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Red parla poco anche con gli altri. Quello che noti è il metodo: guarda chi cambia piano dopo una sconfitta, non solo chi accumula vittorie."
+        }
+      ],
+      "choices": [
+        {
+          "id": "observe_intro",
+          "text": "Ora mi presento.",
+          "goto": "first_exchange",
+          "effects": [
+            {
+              "type": "npc_register",
+              "npcId": "Red",
+              "name": "Red",
+              "relationshipScore": 0,
+              "state": {
+                "introduced": true,
+                "context": "observed_first",
+                "role": "interregional_anchor"
+              }
+            },
+            {
+              "type": "set_flag",
+              "key": "red_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "red_observed_before_intro",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "observe_defer",
+          "text": "Me ne vado senza forzare l'incontro.",
+          "goto": "defer",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "red_contact_deferred",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "first_exchange": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Red risponde con frasi corte e domande precise. Non ti misura dal Rank; vuole capire cosa hai cambiato quando il tuo vecchio piano non funzionava."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ask_style",
+          "text": "Gli chiedo come legge un avversario nuovo.",
+          "goto": "style_read"
+        },
+        {
+          "id": "ask_career",
+          "text": "Gli chiedo come affronta una carriera fuori regione.",
+          "goto": "career_read"
+        }
+      ]
+    },
+    "reengage": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un secondo incontro non ripete la presentazione. Red riconosce ciò che avete già discusso e passa direttamente allo stato attuale del circuito."
+        }
+      ],
+      "choices": [
+        {
+          "id": "reengage_style",
+          "text": "Riprendo il discorso sull'adattamento.",
+          "goto": "style_read"
+        },
+        {
+          "id": "reengage_route",
+          "text": "Parlo della mia prima tratta interregionale.",
+          "goto": "route_comment"
+        }
+      ]
+    },
+    "style_read": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Per Red adattarsi non significa cambiare tutto a caso: significa capire quale parte del piano era essenziale e quale era solo abitudine."
+        }
+      ],
+      "choices": [
+        {
+          "id": "style_agree",
+          "text": "Condivido il principio.",
+          "goto": "relationship",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Red",
+              "amount": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "red_adaptation_common_ground",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "style_question",
+          "text": "Gli chiedo dove traccia il limite.",
+          "goto": "silent_read"
+        }
+      ]
+    },
+    "career_read": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Red descrive la propria linea Charmander→Charmeleon→Charizard come una carriera guadagnata nel tempo. La scena non assegna evoluzioni, forme o roster."
+        }
+      ],
+      "choices": [
+        {
+          "id": "career_record",
+          "text": "Registro solo il principio stage-aware.",
+          "goto": "relationship",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "red_stage_aware_principle_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "career_back",
+          "text": "Torno al primo scambio.",
+          "goto": "first_exchange"
+        }
+      ]
+    },
+    "relationship": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il rapporto resta leggero ma persistente. Un punto di stima non equivale a bonus meccanico, accesso gratuito o protezione nei futuri bracket."
+        }
+      ],
+      "choices": [
+        {
+          "id": "relationship_route",
+          "text": "Parlo del circuito interregionale.",
+          "goto": "route_comment"
+        },
+        {
+          "id": "relationship_close",
+          "text": "Chiudo l'incontro.",
+          "goto": "red_close"
+        }
+      ]
+    },
+    "silent_read": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Red non riempie il silenzio. Lascia che siano i risultati, i tempi e le scelte precedenti a parlare prima di offrire un'opinione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "silent_context",
+          "text": "Ricollego il discorso al contesto reale.",
+          "goto": "encounter_context"
+        },
+        {
+          "id": "silent_close",
+          "text": "Lascio il discorso incompleto.",
+          "goto": "red_close"
+        }
+      ]
+    },
+    "route_comment": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Solaria e Luminara richiedono letture diverse. Red non dichiara una città migliore: nota soltanto che un trainer fuori regione perde prima quando finge che tutti giochino allo stesso modo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "route_note",
+          "text": "Registro il principio senza ottenere vantaggi.",
+          "goto": "red_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "red_interregional_principle_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "route_style",
+          "text": "Torno al tema dell'adattamento.",
+          "goto": "style_read"
+        }
+      ]
+    },
+    "red_close": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'incontro lascia Red persistente nel mondo e M6 può ora proseguire verso il Masters Circuit. Rank, denaro, roster e punti restano invariati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_masters",
+          "text": "Passo al Masters Circuit.",
+          "goto": "m06-masters-circuit#masters_entry"
+        },
+        {
+          "id": "close_travel",
+          "text": "Torno al riepilogo del viaggio.",
+          "goto": "m06-interregional-travel#arrival_close"
+        }
+      ]
+    },
+    "defer": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Rimandare l'incontro non crea un clone di Red altrove. Potrai recuperare il contatto quando schedule e contesto lo renderanno di nuovo plausibile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "defer_return",
+          "text": "Torno al contesto di arrivo.",
+          "goto": "m06-interregional-travel#arrival_close"
+        },
+        {
+          "id": "defer_recover",
+          "text": "Il contesto è ancora valido: provo a presentarmi.",
+          "goto": "first_exchange",
+          "conditions": {
+            "path": "world.flags.red_met",
+            "ne": true
+          },
+          "effects": [
+            {
+              "type": "npc_register",
+              "npcId": "Red",
+              "name": "Red",
+              "relationshipScore": 0,
+              "state": {
+                "introduced": true,
+                "context": "deferred_recovery",
+                "role": "interregional_anchor"
+              }
+            },
+            {
+              "type": "set_flag",
+              "key": "red_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "red_contact_recovered",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "callback": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il rapporto con Lance e gli altri Anchor può cambiare il tono del confronto, ma Red non eredita automaticamente amicizie, rivalità o risultati altrui."
+        }
+      ],
+      "choices": [
+        {
+          "id": "callback_record",
+          "text": "Registro il callback senza trasferire reputazione.",
+          "goto": "red_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_red_anchor_callback_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "callback_back",
+          "text": "Torno al contesto.",
+          "goto": "encounter_context"
+        }
+      ]
+    }
+  }
+}
