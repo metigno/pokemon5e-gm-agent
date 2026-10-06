@@ -23,7 +23,9 @@ const FIXED_PATHS = new Set([
   "competition.world.field.length",
   "competition.world.seedOrder.length",
   "competition.world.playerGroup",
-  "competition.world.playerOpponents.length"
+  "competition.world.playerOpponents.length",
+  "competition.world.top16Locked",
+  "competition.world.top16.length"
 ]);
 
 const COMPARATORS = new Set(["eq", "ne", "gt", "gte", "lt", "lte", "in", "exists"]);
@@ -64,7 +66,13 @@ export function isAllowedConditionPath(path) {
       segments[0] === "competition" &&
       segments[1] === "world" &&
       segments[2] === "groupStage" &&
-      ["opened", "playerGroup", "playerPosition", "playerPoints", "kaiaInPlayerGroup", "resolved"].includes(segments[3])) return true;
+      ["opened", "playerGroup", "playerPosition", "playerPoints", "kaiaInPlayerGroup", "finalPosition", "advanced", "resolved"].includes(segments[3])) return true;
+  if (segments.length === 5 &&
+      segments[0] === "competition" &&
+      segments[1] === "world" &&
+      segments[2] === "playerOpponents" &&
+      /^[0-2]$/.test(segments[3]) &&
+      ["id", "name"].includes(segments[4])) return true;
   if (segments.length === 5 &&
       segments[0] === "competition" &&
       segments[1] === "world" &&

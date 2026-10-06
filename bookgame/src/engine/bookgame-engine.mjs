@@ -33,11 +33,11 @@ function applyEffects(state, effects = []) {
       applyQuestEffect(state, effect);
       continue;
     }
-    if (["npc_register", "npc_relationship_adjust", "npc_state_set", "npc_schedule_set", "friend_beat_select"].includes(effect.type)) {
+    if (["npc_register", "npc_relationship_adjust", "npc_state_set", "npc_schedule_set", "friend_beat_select", "friend_beat_world_select"].includes(effect.type)) {
       applyNpcEffect(state, effect);
       continue;
     }
-    if (["competition_trial_available", "competition_trial_register", "competition_world_draw", "competition_world_groups_open"].includes(effect.type)) {
+    if (["competition_trial_available", "competition_trial_register", "competition_world_draw", "competition_world_groups_open", "competition_world_groups_resolve"].includes(effect.type)) {
       applyCompetitionEffect(state, effect);
       continue;
     }

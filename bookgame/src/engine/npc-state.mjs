@@ -151,6 +151,78 @@ export function refreshNpcSchedules(state) {
   return state.npcs;
 }
 
+function worldParticipantForFriend(state, friendId) {
+  return (state.competition?.world?.field ?? []).find((participant) => participant.name === friendId) ?? null;
+}
+
+function worldQualificationForFriend(state, friendId) {
+  const participant = worldParticipantForFriend(state, friendId);
+  if (!participant) return false;
+  return state.competition?.world?.qualifications?.[participant.id]?.qualified === true;
+}
+
+function friendWorldContext(state, friendId) {
+  const opponents = state.competition?.world?.playerOpponents ?? [];
+  const index = opponents.findIndex((participant) => participant.name === friendId);
+  if (index === 2) return { priority: 0, context: "same_group_next_match", opponentIndex: 2 };
+  if (index >= 0 && index <= 1) return { priority: 1, context: "same_group_match_resolved", opponentIndex: index };
+  if (worldQualificationForFriend(state, friendId)) return { priority: 2, context: "qualified_other_group", opponentIndex: null };
+  return { priority: 3, context: "external_contact", opponentIndex: null };
+}
+
+export function selectWorldFriendBeatCandidate(state, {
+  previousFriendFlag = "friend_beat_08_friend_id"
+} = {}) {
+  refreshNpcSchedules(state);
+  const previous = state.world?.flags?.[previousFriendFlag] ?? null;
+  const order = new Map(FIVE_FRIEND_IDS.map((id, index) => [id, index]));
+  const candidates = FIVE_FRIEND_IDS
+    .filter((id) => id !== state.player?.name && state.npcs?.[id])
+    .map((id) => {
+      const context = friendWorldContext(state, id);
+      const npc = state.npcs[id];
+      const physical = Boolean(
+        npc.schedule?.present &&
+        npc.schedule?.locationId === state.world.locationId
+      );
+      return {
+        id,
+        ...context,
+        physical,
+        previous: id === previous,
+        relationship: npc.relationship?.score ?? 0,
+        order: order.get(id) ?? 99
+      };
+    })
+    .sort((a, b) =>
+      a.priority - b.priority ||
+      Number(a.previous) - Number(b.previous) ||
+      Number(b.physical) - Number(a.physical) ||
+      b.relationship - a.relationship ||
+      a.order - b.order
+    );
+  return candidates[0] ?? null;
+}
+
+export function applyWorldFriendBeatSelection(state, effect = {}) {
+  const selected = selectWorldFriendBeatCandidate(state, effect);
+  if (!selected) throw new Error("No eligible World FRIEND_BEAT candidate");
+
+  state.world.flags ??= {};
+  state.world.flags.friend_beat_09_available = true;
+  state.world.flags.friend_beat_09_friend_id = selected.id;
+  state.world.flags.friend_beat_09_contact_mode = selected.physical ? "physical" : "remote";
+  state.world.flags.friend_beat_09_context = selected.context;
+  if (selected.opponentIndex !== null) {
+    state.world.flags.friend_beat_09_opponent_index = selected.opponentIndex;
+  }
+
+  const npc = state.npcs[selected.id];
+  npc.state.friendBeat09Selected = true;
+  npc.state.friendBeat09Context = selected.context;
+  return selected;
+}
+
 export function applyNpcEffect(state, effect) {
   switch (effect.type) {
     case "npc_register": return registerNpc(state, effect);
@@ -158,6 +230,7 @@ export function applyNpcEffect(state, effect) {
     case "npc_state_set": return setNpcState(state, effect);
     case "npc_schedule_set": return setNpcSchedule(state, effect);
     case "friend_beat_select": return applyFriendBeatSelection(state, effect);
+    case "friend_beat_world_select": return applyWorldFriendBeatSelection(state, effect);
     default: throw new Error("Unsupported NPC effect type: " + effect.type);
   }
 }
@@ -245,11 +318,11 @@ export function validateNpcEffect(effect, at = "effect") {
     push("INVALID_NPC_EFFECT", "NPC effect must be an object");
     return errors;
   }
-  if (!["npc_register", "npc_relationship_adjust", "npc_state_set", "npc_schedule_set", "friend_beat_select"].includes(effect.type)) {
+  if (!["npc_register", "npc_relationship_adjust", "npc_state_set", "npc_schedule_set", "friend_beat_select", "friend_beat_world_select"].includes(effect.type)) {
     push("INVALID_NPC_EFFECT", "Unsupported NPC effect type");
     return errors;
   }
-  if (effect.type !== "friend_beat_select" &&
+  if (!["friend_beat_select", "friend_beat_world_select"].includes(effect.type) &&
       (typeof effect.npcId !== "string" || !ID_RE.test(effect.npcId))) {
     push("INVALID_NPC_ID", "npcId must be a stable identifier", at + ".npcId");
   }
@@ -294,6 +367,13 @@ export function validateNpcEffect(effect, at = "effect") {
         effect.endsAtMinutes <= effect.startsAtMinutes) {
       push("INVALID_NPC_SCHEDULE_WINDOW", "endsAtMinutes must be greater than startsAtMinutes", at);
     }
+  }
+  if (effect.type === "friend_beat_world_select") {
+    if (effect.previousFriendFlag !== undefined &&
+        (typeof effect.previousFriendFlag !== "string" || !ID_RE.test(effect.previousFriendFlag))) {
+      push("INVALID_FRIEND_BEAT_PREVIOUS_FLAG", "previousFriendFlag must be a stable identifier", at + ".previousFriendFlag");
+    }
+    return errors;
   }
   if (effect.type === "friend_beat_select") {
     if (typeof effect.contentType !== "string" || !ID_RE.test(effect.contentType)) {

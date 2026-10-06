@@ -29,6 +29,8 @@ export function createWorldGroupStageState() {
     playerPosition: null,
     playerPoints: 0,
     kaiaInPlayerGroup: false,
+    allGroupMatches: {},
+    allGroupStandings: {},
     finalPosition: null,
     advanced: null,
     resolved: false
@@ -47,6 +49,8 @@ export function createWorldCompetitionState() {
     playerOpponents: [],
     qualifications: {},
     drawSeed: null,
+    top16Locked: false,
+    top16: [],
     groupStage: createWorldGroupStageState()
   };
 }
@@ -86,6 +90,8 @@ export function ensureCompetition(state) {
   state.competition.world.playerOpponents ??= [];
   state.competition.world.qualifications ??= {};
   state.competition.world.drawSeed ??= null;
+  state.competition.world.top16Locked ??= false;
+  state.competition.world.top16 ??= [];
   state.competition.world.groupStage ??= createWorldGroupStageState();
   state.competition.world.groupStage.opened ??= false;
   state.competition.world.groupStage.playerGroup ??= null;
@@ -97,6 +103,8 @@ export function ensureCompetition(state) {
   state.competition.world.groupStage.playerPosition ??= null;
   state.competition.world.groupStage.playerPoints ??= 0;
   state.competition.world.groupStage.kaiaInPlayerGroup ??= false;
+  state.competition.world.groupStage.allGroupMatches ??= {};
+  state.competition.world.groupStage.allGroupStandings ??= {};
   state.competition.world.groupStage.finalPosition ??= null;
   state.competition.world.groupStage.advanced ??= null;
   state.competition.world.groupStage.resolved ??= false;
@@ -791,12 +799,173 @@ function recordWorldGroupStageOutcome(state, meta, outcome, resolvedAtMinutes, b
   return match;
 }
 
+
+function winnerIdForMatch(match) {
+  return match.outcome === "win" ? match.homeId : match.awayId;
+}
+
+function buildGroupStandings(world, participants, matches) {
+  const table = Object.fromEntries(participants.map((participant) => [
+    participant.id,
+    {
+      participantId: participant.id,
+      name: participant.name,
+      played: 0,
+      wins: 0,
+      losses: 0,
+      points: 0,
+      headToHeadPoints: 0,
+      seedIndex: participantSeedIndex(world, participant.id)
+    }
+  ]));
+
+  for (const match of matches) {
+    if (!["win", "lose"].includes(match.outcome)) continue;
+    const winnerId = winnerIdForMatch(match);
+    const loserId = winnerId === match.homeId ? match.awayId : match.homeId;
+    if (!table[winnerId] || !table[loserId]) continue;
+    table[winnerId].played += 1;
+    table[winnerId].wins += 1;
+    table[winnerId].points += 3;
+    table[loserId].played += 1;
+    table[loserId].losses += 1;
+  }
+
+  const byPoints = new Map();
+  for (const row of Object.values(table)) {
+    const bucket = byPoints.get(row.points) ?? [];
+    bucket.push(row.participantId);
+    byPoints.set(row.points, bucket);
+  }
+  for (const tiedIds of byPoints.values()) {
+    if (tiedIds.length < 2) continue;
+    const tied = new Set(tiedIds);
+    for (const match of matches) {
+      if (!["win", "lose"].includes(match.outcome)) continue;
+      if (!tied.has(match.homeId) || !tied.has(match.awayId)) continue;
+      const winnerId = winnerIdForMatch(match);
+      table[winnerId].headToHeadPoints += 3;
+    }
+  }
+
+  return Object.values(table).sort((a, b) =>
+    b.points - a.points ||
+    b.headToHeadPoints - a.headToHeadPoints ||
+    a.seedIndex - b.seedIndex ||
+    a.name.localeCompare(b.name)
+  );
+}
+
+function simulateCompleteGroup(state, groupLabel, participants) {
+  const { world } = worldGroupStageOrThrow(state);
+  const matches = [];
+  for (let i = 0; i < participants.length; i += 1) {
+    for (let j = i + 1; j < participants.length; j += 1) {
+      const home = participants[i];
+      const away = participants[j];
+      const seed = [
+        world.drawSeed ?? "world-draw",
+        "group-resolution",
+        groupLabel,
+        home.id,
+        away.id
+      ].join("|");
+      const homeWins = (hashString(seed) & 1) === 0;
+      matches.push({
+        group: groupLabel,
+        matchId: "WORLD_GROUP_" + groupLabel + "_" + String(i + 1) + "_" + String(j + 1),
+        homeId: home.id,
+        homeName: home.name,
+        awayId: away.id,
+        awayName: away.name,
+        outcome: homeWins ? "win" : "lose",
+        source: "deterministic_offscreen_world_resolution"
+      });
+    }
+  }
+  return matches;
+}
+
+export function resolveWorldGroupStage(state, { eventId = "WORLD_GROUPS_RESOLVE" } = {}) {
+  requireId(eventId, "world groups resolution eventId");
+  const { world, groupStage } = worldGroupStageOrThrow(state);
+  if (groupStage.resolved) return groupStage;
+
+  if (groupStage.playerMatches.length !== 3 ||
+      groupStage.playerMatches.some((match) => !["win", "lose"].includes(match.outcome))) {
+    throw new Error("WORLD_GROUPS resolution requires all three player matches");
+  }
+  if (groupStage.offscreenMatches.length !== 3 ||
+      groupStage.offscreenMatches.some((match) => !["win", "lose"].includes(match.outcome))) {
+    throw new Error("WORLD_GROUPS resolution requires all three player-group off-screen matches");
+  }
+
+  const allMatches = {};
+  const allStandings = {};
+  const top16 = [];
+  for (const [groupLabel, participants] of Object.entries(world.groups)) {
+    if (!Array.isArray(participants) || participants.length !== 4) {
+      throw new Error("WORLD_GROUPS resolution requires four participants in group " + groupLabel);
+    }
+    let matches;
+    if (groupLabel === world.playerGroup) {
+      matches = [
+        ...structuredClone(groupStage.playerMatches),
+        ...structuredClone(groupStage.offscreenMatches)
+      ];
+    } else {
+      matches = simulateCompleteGroup(state, groupLabel, participants);
+    }
+    if (matches.length !== 6) {
+      throw new Error("WORLD_GROUPS group " + groupLabel + " must resolve exactly six matches");
+    }
+    const standings = buildGroupStandings(world, participants, matches);
+    allMatches[groupLabel] = matches;
+    allStandings[groupLabel] = standings;
+    for (let index = 0; index < 2; index += 1) {
+      const row = standings[index];
+      top16.push({
+        participantId: row.participantId,
+        name: row.name,
+        group: groupLabel,
+        groupPosition: index + 1,
+        points: row.points
+      });
+    }
+  }
+
+  if (top16.length !== 16) throw new Error("WORLD_GROUPS must lock exactly 16 advancing participants");
+
+  groupStage.allGroupMatches = allMatches;
+  groupStage.allGroupStandings = allStandings;
+  groupStage.standings = structuredClone(allStandings[world.playerGroup]);
+  const playerIndex = groupStage.standings.findIndex((row) => row.name === state.player?.name);
+  if (playerIndex < 0) throw new Error("WORLD_GROUPS final standings lost the player");
+  groupStage.finalPosition = playerIndex + 1;
+  groupStage.playerPosition = groupStage.finalPosition;
+  groupStage.playerPoints = groupStage.standings[playerIndex].points;
+  groupStage.advanced = groupStage.finalPosition <= 2;
+  groupStage.resolved = true;
+
+  world.top16Locked = true;
+  world.top16 = top16;
+
+  state.world.flags ??= {};
+  state.world.flags.world_group_final_position = groupStage.finalPosition;
+  state.world.flags.world_group_advanced = groupStage.advanced;
+  state.world.flags.world_eliminated = !groupStage.advanced;
+  state.world.flags.world_top16_locked = true;
+  state.world.flags.world_group_stage_resolved = true;
+  return groupStage;
+}
+
 export function applyCompetitionEffect(state, effect) {
   switch (effect.type) {
     case "competition_trial_available": return setTrialAvailable(state, effect);
     case "competition_trial_register": return registerTrial(state, effect);
     case "competition_world_draw": return resolveWorldDraw(state, effect);
     case "competition_world_groups_open": return openWorldGroupStage(state, effect);
+    case "competition_world_groups_resolve": return resolveWorldGroupStage(state, effect);
     default: throw new Error("Unsupported competition effect type: " + effect.type);
   }
 }
@@ -833,7 +1002,7 @@ export function validateCompetitionEffect(effect, at = "effect") {
     return errors;
   }
 
-  if (effect.type === "competition_world_groups_open") {
+  if (["competition_world_groups_open", "competition_world_groups_resolve"].includes(effect.type)) {
     if (effect.eventId !== undefined && (typeof effect.eventId !== "string" || !ID_RE.test(effect.eventId))) {
       push("INVALID_WORLD_GROUPS_EVENT_ID", "eventId must be a stable identifier", at + ".eventId");
     }
