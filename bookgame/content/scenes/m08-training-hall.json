@@ -1,0 +1,412 @@
+{
+  "schemaVersion": 1,
+  "id": "m08-training-hall",
+  "moduleId": "M08",
+  "title": "M8_07 — Training Hall",
+  "locationId": "world_training_hall",
+  "entryNodeId": "training_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m7_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m08_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.world_qualified",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_active",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_world_registration_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_world_village_arrived",
+        "eq": true
+      },
+      {
+        "path": "world.flags.friend_beat_08_complete",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "training_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La Training Hall permette preparazione tecnica e uno sparring 1v1 opzionale. Ogni combattimento usa lo stato reale del Pokémon scelto dal roster corrente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_hub",
+          "text": "Entro nella Hall e controllo le opzioni.",
+          "goto": "training_hub"
+        },
+        {
+          "id": "entry_roster",
+          "text": "Prima rivedo il roster reale.",
+          "goto": "roster_review"
+        },
+        {
+          "id": "entry_schedule",
+          "text": "Controllo quanto tempo ho a disposizione.",
+          "goto": "schedule"
+        }
+      ]
+    },
+    "training_hub": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Puoi lavorare su lettura tecnica, readiness, schedule o accettare uno sparring. Nessuna scelta concede statistiche gratis."
+        }
+      ],
+      "choices": [
+        {
+          "id": "hub_roster",
+          "text": "Controllo la squadra disponibile.",
+          "goto": "roster_review"
+        },
+        {
+          "id": "hub_drill",
+          "text": "Faccio una sessione tecnica controllata.",
+          "goto": "technical_drill"
+        },
+        {
+          "id": "hub_spar",
+          "text": "Valuto lo sparring 1v1.",
+          "goto": "spar_offer"
+        },
+        {
+          "id": "hub_medical",
+          "text": "Rivedo la readiness prima di allenarmi.",
+          "goto": "medical_readiness"
+        }
+      ]
+    },
+    "roster_review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La Hall legge il roster strutturato. Il primo Pokémon reale è quello che entra nello sparring 1v1 se accetti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "roster_ready",
+          "text": "Con almeno un Pokémon posso usare la Hall.",
+          "goto": "training_audit",
+          "conditions": {
+            "path": "player.roster.length",
+            "gte": 1
+          }
+        },
+        {
+          "id": "roster_medical",
+          "text": "Controllo prima la readiness.",
+          "goto": "medical_readiness"
+        },
+        {
+          "id": "roster_hub",
+          "text": "Torno alle opzioni.",
+          "goto": "training_hub"
+        }
+      ]
+    },
+    "medical_readiness": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "HP, PP, status e infortuni non vengono ripristinati entrando in sala. Allenarsi con una squadra provata resta una decisione del player."
+        }
+      ],
+      "choices": [
+        {
+          "id": "medical_schedule",
+          "text": "Controllo il costo temporale.",
+          "goto": "schedule"
+        },
+        {
+          "id": "medical_hub",
+          "text": "Torno alle opzioni.",
+          "goto": "training_hub"
+        }
+      ]
+    },
+    "technical_drill": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La sessione tecnica occupa un'ora e registra soltanto la priorità scelta. Qualunque progresso meccanico deve passare dai sistemi Pokémon 5e competenti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "drill_hour",
+          "text": "Dedico un'ora alla rifinitura.",
+          "goto": "training_audit",
+          "timeCostMinutes": 60,
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m8_training_focus",
+              "value": "technical_refinement"
+            }
+          ]
+        },
+        {
+          "id": "drill_hub",
+          "text": "Rinuncio alla sessione e torno all'hub.",
+          "goto": "training_hub"
+        }
+      ]
+    },
+    "spar_offer": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Lo sparring è contro uno staff trainer con Lucario Lv18 dichiarato in anticipo. Non è un match World e non entra nella competition history."
+        }
+      ],
+      "choices": [
+        {
+          "id": "spar_accept",
+          "text": "Accetto lo sparring 1v1.",
+          "goto": "spar_handoff",
+          "combat": {
+            "encounterId": "M8_TRAINING_HALL_LUCARIO_SPAR",
+            "opponent": {
+              "species": "Lucario",
+              "form": "Standard",
+              "level": 18,
+              "trainerId": "WorldHallStaff",
+              "motive": "controlled_world_sparring"
+            },
+            "opponentRegistered": true,
+            "goto": "spar_handoff",
+            "returnNodes": {
+              "win": "spar_win",
+              "lose": "spar_loss"
+            }
+          }
+        },
+        {
+          "id": "spar_decline",
+          "text": "Non combatto: proteggo risorse e tempo.",
+          "goto": "training_audit",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m8_training_spar_result",
+              "value": "declined"
+            }
+          ]
+        },
+        {
+          "id": "spar_info",
+          "text": "Controllo prima perché lo sparring non è ufficiale.",
+          "goto": "opponent_info"
+        }
+      ]
+    },
+    "spar_handoff": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il combattimento passa al resolver Pokémon 5e. Il risultato non è scritto dalla scena e il danno reale può persistere."
+        }
+      ],
+      "choices": []
+    },
+    "spar_win": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il resolver ha chiuso lo sparring a tuo favore. Questo non cambia seed, Rank o stato del World Championship."
+        }
+      ],
+      "choices": [
+        {
+          "id": "win_record",
+          "text": "Registro il risultato reale.",
+          "goto": "training_audit",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m8_training_spar_result",
+              "value": "win"
+            }
+          ]
+        },
+        {
+          "id": "win_friend",
+          "text": "Ricollego il momento al Friend Beat appena vissuto.",
+          "goto": "friend_callback"
+        }
+      ]
+    },
+    "spar_loss": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il resolver ha chiuso lo sparring a favore dello staff trainer. La sconfitta non blocca il modulo e non viene cancellata dalla narrazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "loss_record",
+          "text": "Registro la sconfitta reale.",
+          "goto": "training_audit",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m8_training_spar_result",
+              "value": "loss"
+            }
+          ]
+        },
+        {
+          "id": "loss_medical",
+          "text": "Rivedo la readiness dopo il combattimento.",
+          "goto": "medical_readiness"
+        }
+      ]
+    },
+    "schedule": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Ogni sessione compete con media, cerimonia e recupero. Il tempo speso qui fa avanzare il mondo normalmente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "schedule_hub",
+          "text": "Torno alle opzioni della Hall.",
+          "goto": "training_hub"
+        },
+        {
+          "id": "schedule_audit",
+          "text": "Passo all'audit di preparazione.",
+          "goto": "training_audit"
+        }
+      ]
+    },
+    "opponent_info": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Lucario dello staff è un avversario di sparring dichiarato, non un partecipante nascosto del tuo gruppo e non una simulazione del draw."
+        }
+      ],
+      "choices": [
+        {
+          "id": "opponent_spar",
+          "text": "Ora decido se accettare lo sparring.",
+          "goto": "spar_offer"
+        },
+        {
+          "id": "opponent_hub",
+          "text": "Torno alle opzioni.",
+          "goto": "training_hub"
+        }
+      ]
+    },
+    "astrid_callback": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Astrid può essere un benchmark di preparazione, ma il suo rapporto non modifica il risultato dello sparring o le statistiche del team."
+        }
+      ],
+      "choices": [
+        {
+          "id": "astrid_audit",
+          "text": "Porto il principio nell'audit.",
+          "goto": "training_audit"
+        },
+        {
+          "id": "astrid_hub",
+          "text": "Torno alle opzioni.",
+          "goto": "training_hub"
+        }
+      ]
+    },
+    "friend_callback": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "FRIEND_BEAT_08 resta un momento relazionale. Non trasforma lo sparring in una sfida obbligatoria fra amici."
+        }
+      ],
+      "choices": [
+        {
+          "id": "friend_audit",
+          "text": "Torno all'audit.",
+          "goto": "training_audit"
+        },
+        {
+          "id": "friend_hub",
+          "text": "Torno alle opzioni.",
+          "goto": "training_hub"
+        }
+      ]
+    },
+    "training_audit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'audit controlla che preparazione, eventuale sparring e stato medico restino separati da WORLD_DRAW e match ufficiali."
+        }
+      ],
+      "choices": [
+        {
+          "id": "audit_astrid",
+          "text": "Ricollego il principio al confronto con Astrid.",
+          "goto": "astrid_callback"
+        },
+        {
+          "id": "audit_close",
+          "text": "Chiudo il blocco Training Hall.",
+          "goto": "training_close"
+        }
+      ]
+    },
+    "training_close": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La preparazione pre-draw è registrata senza alterare il torneo. Il prossimo obbligo pubblico è il Media Day."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_media",
+          "text": "Passo al Media Day.",
+          "goto": "m08-media-day#media_entry",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m8_training_hall_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "close_hub",
+          "text": "Resto nella Training Hall.",
+          "goto": "training_hub"
+        }
+      ]
+    }
+  }
+}
