@@ -178,7 +178,7 @@ test("M8_11 exit guard exposes commit only for the complete structured World sta
   s.story.nodeId="exit_guard";
   let view=await engine.present(s);
   assert.ok(view.choices.some(c=>c.id==="exit_commit"));
-  s.competition.world.playerOpponents=s.competition.world.playerOpponents.slice(0,2);
+  s.competition.world.playerGroup=null;
   view=await engine.present(s);
   assert.equal(view.choices.some(c=>c.id==="exit_commit"),false);
 });
