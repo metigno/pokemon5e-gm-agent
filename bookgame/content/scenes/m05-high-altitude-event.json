@@ -1,0 +1,535 @@
+{
+  "schemaVersion": 1,
+  "id": "m05-high-altitude-event",
+  "moduleId": "M05",
+  "title": "M5_10 — High Altitude Event",
+  "locationId": "ful_plateau",
+  "entryNodeId": "event_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m4_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m05_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m5_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rankOrder",
+        "gte": 4
+      },
+      {
+        "path": "world.flags.fulgore_visited",
+        "eq": true
+      },
+      {
+        "path": "world.flags.friend_beat_05_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m5_high_altitude_event_available",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m5_high_altitude_event_complete",
+        "ne": true
+      }
+    ]
+  },
+  "nodes": {
+    "event_entry": {
+      "stitches": [
+        {
+          "id": "e1",
+          "text": "Un ripetitore di quota segnala un guasto mentre due tecnici sono ancora oltre una cengia esposta. Il problema è reale ma non costruito per obbligarti a essere l'eroe: puoi intervenire, stabilizzare l'accesso, chiamare i soccorsi o aspettare una finestra migliore."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_signal",
+          "text": "Controllo cosa dice davvero il segnale.",
+          "goto": "signal_check"
+        },
+        {
+          "id": "entry_route",
+          "text": "Leggo la via verso la cengia.",
+          "goto": "route_read"
+        },
+        {
+          "id": "entry_report",
+          "text": "Contatto subito la squadra di risposta.",
+          "goto": "responder_contact"
+        },
+        {
+          "id": "entry_wait",
+          "text": "Non mi muovo alla cieca: aspetto un aggiornamento meteo.",
+          "timeCostMinutes": 30,
+          "goto": "wait_window"
+        }
+      ]
+    },
+    "signal_check": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il segnale intermittente conferma che almeno una radio dei tecnici è ancora attiva. Non sai ancora se siano feriti o semplicemente bloccati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "signal_investigate",
+          "text": "Ricostruisco posizione e intervalli del segnale. (CT Investigation)",
+          "check": {
+            "ability": "INT",
+            "skill": "Investigation",
+            "dc": 14
+          },
+          "outcomes": {
+            "success": {
+              "goto": "field_review",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "m5_altitude_signal_quality",
+                  "value": "located"
+                }
+              ]
+            },
+            "failure": {
+              "goto": "responder_contact",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "m5_altitude_signal_quality",
+                  "value": "uncertain"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "signal_report",
+          "text": "Invio subito il dato grezzo ai soccorritori.",
+          "goto": "responder_contact"
+        }
+      ]
+    },
+    "route_read": {
+      "stitches": [
+        {
+          "id": "r1",
+          "text": "La via più corta attraversa roccia esposta; una seconda linea passa dietro il ripetitore e può diventare un corridoio più sicuro se il tratto iniziale viene messo in sicurezza."
+        }
+      ],
+      "choices": [
+        {
+          "id": "route_survival",
+          "text": "Valuto vento, appigli e via di ritirata. (CT Survival)",
+          "check": {
+            "ability": "WIS",
+            "skill": "Survival",
+            "dc": 14
+          },
+          "outcomes": {
+            "success": {
+              "goto": "field_review",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "m5_altitude_route_read",
+                  "value": "clear"
+                }
+              ]
+            },
+            "failure": {
+              "goto": "wait_window",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "m5_altitude_route_read",
+                  "value": "uncertain"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "route_stabilize",
+          "text": "Lavoro sul corridoio riparato invece di tentare la cengia.",
+          "goto": "stabilize_route"
+        },
+        {
+          "id": "route_report",
+          "text": "Passo la lettura ai soccorritori.",
+          "goto": "responder_contact"
+        }
+      ]
+    },
+    "responder_contact": {
+      "stitches": [
+        {
+          "id": "rc1",
+          "text": "La squadra di Altacima conferma di essere in movimento. Puoi fornire osservazioni, preparare il corridoio o lasciarle operare senza attribuirti il loro lavoro."
+        }
+      ],
+      "choices": [
+        {
+          "id": "responder_support",
+          "text": "Preparo un accesso più sicuro per il loro arrivo.",
+          "goto": "stabilize_route"
+        },
+        {
+          "id": "responder_only",
+          "text": "Consegno le informazioni e lascio l'intervento alla squadra.",
+          "goto": "report_only"
+        }
+      ]
+    },
+    "lance_coaction": {
+      "stitches": [
+        {
+          "id": "l1",
+          "text": "Lance è realmente presente nella stessa finestra operativa. Non prende il controllo della scena: propone di dividere i ruoli, uno legge il margine e l'altro prepara il corridoio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "lance_coordinate",
+          "text": "Coordiniamo ruoli distinti.",
+          "goto": "stabilize_route",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Lance",
+              "key": "highAltitudeCoaction",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "lance_direct",
+          "text": "Gli chiedo copertura mentre provo a raggiungere la cengia.",
+          "goto": "direct_rescue",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Lance",
+              "key": "highAltitudeCoaction",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "direct_rescue": {
+      "stitches": [
+        {
+          "id": "dr1",
+          "text": "La cengia non premia il coraggio astratto: serve movimento controllato e una via d'uscita. Un tentativo fallito non viene trasformato automaticamente in ferita o successo parziale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "direct_check",
+          "text": "Attraverso il tratto esposto. (CT Athletics)",
+          "check": {
+            "ability": "STR",
+            "skill": "Athletics",
+            "dc": 15
+          },
+          "outcomes": {
+            "success": {
+              "goto": "direct_success"
+            },
+            "failure": {
+              "goto": "direct_failure"
+            }
+          }
+        },
+        {
+          "id": "direct_abort",
+          "text": "Il margine non basta: interrompo il tentativo.",
+          "goto": "responder_contact"
+        }
+      ]
+    },
+    "direct_success": {
+      "stitches": [
+        {
+          "id": "ds1",
+          "text": "Raggiungi i tecnici e confermi che sono coscienti ma bloccati dal tratto instabile. Con un percorso di ritorno controllato li accompagni verso il corridoio sicuro."
+        }
+      ],
+      "choices": [
+        {
+          "id": "success_rescue",
+          "text": "Completo l'evacuazione con la squadra in arrivo.",
+          "goto": "outcome_rescued",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_altitude_player_reached_crew",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "success_handoff",
+          "text": "Li stabilizzo e consegno il rientro ai soccorritori.",
+          "goto": "outcome_supported",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_altitude_player_reached_crew",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "direct_failure": {
+      "stitches": [
+        {
+          "id": "df1",
+          "text": "La raffica ti costringe a interrompere prima della parte più esposta. Il fallimento cambia la tattica, non inventa una caduta: ora sai che la linea diretta non è affidabile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "failure_support",
+          "text": "Passo alla preparazione del corridoio sicuro.",
+          "goto": "stabilize_route",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_altitude_direct_attempt",
+              "value": "aborted"
+            }
+          ]
+        },
+        {
+          "id": "failure_report",
+          "text": "Comunico il limite e lascio intervenire la squadra.",
+          "goto": "report_only",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_altitude_direct_attempt",
+              "value": "aborted"
+            }
+          ]
+        }
+      ]
+    },
+    "stabilize_route": {
+      "stitches": [
+        {
+          "id": "sr1",
+          "text": "Il lavoro sul corridoio significa fissare segnali, sgombrare il passaggio e indicare dove il vento supera il margine. Non è una 'rescue win', ma riduce il rischio per chi deve entrare."
+        }
+      ],
+      "choices": [
+        {
+          "id": "stabilize_finish",
+          "text": "Porto il corridoio a uno stato utilizzabile.",
+          "timeCostMinutes": 40,
+          "goto": "outcome_supported",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_altitude_route_support",
+              "value": "prepared"
+            }
+          ]
+        },
+        {
+          "id": "stabilize_lance",
+          "text": "Se Lance è davvero presente, coordino il lavoro con lui.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.lance_met",
+                "eq": true
+              },
+              {
+                "path": "npcs.Lance.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Lance.schedule.locationId",
+                "eq": "ful_plateau"
+              }
+            ]
+          },
+          "goto": "lance_coaction"
+        }
+      ]
+    },
+    "report_only": {
+      "stitches": [
+        {
+          "id": "ro1",
+          "text": "La squadra prende in carico l'evento. Tu resti una fonte e un testimone, non il protagonista di un soccorso che non hai eseguito."
+        }
+      ],
+      "choices": [
+        {
+          "id": "report_resolve",
+          "text": "Resto disponibile finché arriva la conferma di rientro.",
+          "timeCostMinutes": 45,
+          "goto": "outcome_supported",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_altitude_reported",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "report_leave",
+          "text": "Lascio l'area dopo aver consegnato tutte le informazioni.",
+          "goto": "outcome_supported",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_altitude_reported",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "wait_window": {
+      "stitches": [
+        {
+          "id": "ww1",
+          "text": "Il tempo passa e il Living World continua. La squadra di risposta si avvicina mentre il vento cambia; aspettare può migliorare la lettura, ma non congela il problema."
+        }
+      ],
+      "choices": [
+        {
+          "id": "wait_recheck",
+          "text": "Rileggo la via dopo la finestra.",
+          "timeCostMinutes": 30,
+          "goto": "route_read"
+        },
+        {
+          "id": "wait_report",
+          "text": "Smetto di aspettare e coordino i soccorsi.",
+          "goto": "responder_contact"
+        }
+      ]
+    },
+    "field_review": {
+      "stitches": [
+        {
+          "id": "fr1",
+          "text": "Con una lettura migliore puoi scegliere consapevolmente fra raggiungere la cengia, preparare il corridoio o passare dati precisi alla squadra. Nessuna opzione riceve un bonus invisibile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "review_direct",
+          "text": "Tento la linea diretta con una via di ritirata definita.",
+          "goto": "direct_rescue"
+        },
+        {
+          "id": "review_support",
+          "text": "Scelgo la soluzione a minor esposizione.",
+          "goto": "stabilize_route"
+        }
+      ]
+    },
+    "outcome_rescued": {
+      "stitches": [
+        {
+          "id": "or1",
+          "text": "I due tecnici rientrano con te e con la squadra di risposta. Il risultato registra che sei entrato fisicamente nella parte esposta e hai completato l'evacuazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rescued_record",
+          "text": "Registro l'esito reale del soccorso.",
+          "goto": "event_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_high_altitude_event_result",
+              "value": "player_rescue"
+            },
+            {
+              "type": "set_flag",
+              "key": "m5_high_altitude_event_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "rescued_review",
+          "text": "Rivedo cosa ha reso utile il rischio preso.",
+          "goto": "field_review"
+        }
+      ]
+    },
+    "outcome_supported": {
+      "stitches": [
+        {
+          "id": "os1",
+          "text": "I tecnici rientrano attraverso l'intervento della squadra, aiutata dalle informazioni o dal corridoio che hai preparato. Il merito resta distinto: supporto reale, non un soccorso inventato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "supported_record",
+          "text": "Registro l'esito come supporto alla risposta.",
+          "goto": "event_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_high_altitude_event_result",
+              "value": "supported_response"
+            },
+            {
+              "type": "set_flag",
+              "key": "m5_high_altitude_event_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "supported_detail",
+          "text": "Registro anche quale contributo ho dato.",
+          "goto": "field_review"
+        }
+      ]
+    },
+    "event_close": {
+      "stitches": [
+        {
+          "id": "ec1",
+          "text": "L'evento d'alta quota è chiuso senza modificare Rank, roster, HP o risultati competitivi. La Sala della Cresta resta il prossimo snodo per il Trial B→A."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_trial",
+          "text": "Torno ad Altacima e controllo il Promotion Trial.",
+          "goto": "m05-trial-registration#trial_info",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town_crest"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
