@@ -1,0 +1,550 @@
+{
+  "schemaVersion": 1,
+  "id": "m12-ferrox-callbacks",
+  "moduleId": "M12",
+  "title": "M12_04 — Ferrox Callbacks",
+  "locationId": "fer_city",
+  "entryNodeId": "callback_entry",
+  "conditions": {
+    "path": "world.flags.m12_bruma_callbacks_complete",
+    "eq": true
+  },
+  "nodes": {
+    "callback_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Ferrox è il luogo in cui lavoro, infrastrutture e rescue di M3 diventano conseguenze visibili, non una scena ripetuta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "city_now"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "city_now"
+        },
+        {
+          "id": "context_1",
+          "text": "Confronto questo dettaglio con un altro pezzo del percorso.",
+          "goto": "rescue_state"
+        }
+      ]
+    },
+    "city_now": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La città industriale mostra il tempo trascorso attraverso traffico ferroviario, turni e aree ancora segnate dall'incidente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "rescue_state"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "callback_entry"
+        },
+        {
+          "id": "context_2",
+          "text": "Confronto questo dettaglio con un altro pezzo del percorso.",
+          "goto": "people_first"
+        }
+      ]
+    },
+    "rescue_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "M12 legge ferrox_outcome_class e gli altri indicatori prodotti dall'esito reale del rescue."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "best_contained"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "city_now"
+        },
+        {
+          "id": "context_3",
+          "text": "Confronto questo dettaglio con un altro pezzo del percorso.",
+          "goto": "support_limited"
+        }
+      ]
+    },
+    "best_contained": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un esito best_contained permette un callback di fiducia, ma non cancella il fatto che l'incidente sia avvenuto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "people_first"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "rescue_state"
+        }
+      ]
+    },
+    "people_first": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un esito people_first valorizza vite salvate e costi infrastrutturali realmente registrati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "structure_first"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "best_contained"
+        }
+      ]
+    },
+    "structure_first": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un esito structure_first conserva il compromesso fra stabilizzazione e conseguenze umane."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "support_limited"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "people_first"
+        }
+      ]
+    },
+    "support_limited": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un supporto limitato resta tale; il callback non lo trasforma retroattivamente in intervento pieno."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "window_missed"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "structure_first"
+        }
+      ]
+    },
+    "window_missed": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Una finestra mancata produce memoria, responsabilità e infrastrutture coerenti con il ritardo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "player_declined"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "support_limited"
+        }
+      ]
+    },
+    "player_declined": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se il player rifiutò l'intervento, la città può essere cambiata comunque senza attribuirgli meriti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "people_report"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "window_missed"
+        }
+      ]
+    },
+    "people_report": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "I report sulle persone restano distinti dal danno materiale e possono essere verificati separatamente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "damage_state"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "player_declined"
+        }
+      ]
+    },
+    "damage_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Chiusure, deviazioni e riparazioni derivano dal vero damage_state, non da un finale standard."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "rail_state"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "people_report"
+        }
+      ]
+    },
+    "rail_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La ferrovia riflette service diversions e ripristini compatibili con il tempo trascorso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "economy"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "damage_state"
+        }
+      ]
+    },
+    "economy": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'economia locale può aver rallentato o recuperato attraverso E6, senza un reset di modulo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "workers"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "rail_state"
+        }
+      ]
+    },
+    "workers": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "I lavoratori ricordano l'esito e la responsabilità in modo coerente con reputazione e debrief registrati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "archive"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "economy"
+        }
+      ]
+    },
+    "archive": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Mappe, segnali e report precedenti restano parte della catena causale quando erano stati realmente scoperti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "steven"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "workers"
+        }
+      ]
+    },
+    "steven": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Steven può essere richiamato solo se la sua traiettoria e lo stato NPC lo permettono; non è un premio di chiusura."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "responsibility"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "archive"
+        }
+      ]
+    },
+    "responsibility": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il callback conserva responsabilità sistemica, pressioni produttive e manutenzione come assi distinti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "future_inspection"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "steven"
+        }
+      ]
+    },
+    "future_inspection": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se erano richieste ispezioni future, il postgame può mostrarne l'esito invece di cancellare il flag."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "access_now"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "responsibility"
+        }
+      ]
+    },
+    "access_now": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Le restrizioni residue a Ferrox restano accessi reali del mondo persistente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "callback_synthesis"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "future_inspection"
+        }
+      ]
+    },
+    "callback_synthesis": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "M12 sintetizza il callback Ferrox dal vero outcome class e registra soltanto ciò che può essere dedotto dal save."
+        }
+      ],
+      "choices": [
+        {
+          "id": "class_contained",
+          "text": "Registro un esito contenuto coerente con M3.",
+          "goto": "cycle1_complete",
+          "conditions": {
+            "path": "world.flags.ferrox_outcome_class",
+            "in": [
+              "best_contained",
+              "people_first",
+              "structure_first"
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_ferrox_callback_state",
+              "value": "contained_history"
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_ferrox_callbacks_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_cycle1_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "class_limited",
+          "text": "Registro un esito di supporto limitato senza gonfiarlo.",
+          "goto": "cycle1_complete",
+          "conditions": {
+            "path": "world.flags.ferrox_outcome_class",
+            "eq": "support_limited"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_ferrox_callback_state",
+              "value": "limited_history"
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_ferrox_callbacks_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_cycle1_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "class_late",
+          "text": "Registro il ritardo o il rifiuto e le sue conseguenze reali.",
+          "goto": "cycle1_complete",
+          "conditions": {
+            "path": "world.flags.ferrox_outcome_class",
+            "in": [
+              "window_missed",
+              "player_declined"
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_ferrox_callback_state",
+              "value": "late_or_declined_history"
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_ferrox_callbacks_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_cycle1_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "class_offscreen",
+          "text": "Non esiste un outcome class M3 utilizzabile: registro soltanto il mondo persistente disponibile.",
+          "goto": "cycle1_complete",
+          "conditions": {
+            "path": "world.flags.ferrox_outcome_class",
+            "exists": false
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_ferrox_callback_state",
+              "value": "offscreen_only"
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_ferrox_callbacks_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_cycle1_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "cycle1_complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "I primi cinque blocchi di M12 sono completi: WORLD_EXIT, ritorno ad Asteria e callback di Valedarsena, Bruma e Ferrox sono ora parte del runtime."
+        }
+      ],
+      "choices": [
+        {
+          "id": "hold_cycle1",
+          "text": "Chiudo qui il Cycle 1 senza inventare M12_05.",
+          "goto": "cycle1_complete"
+        },
+        {
+          "id": "review_ferrox",
+          "text": "Rileggo la sintesi Ferrox.",
+          "goto": "callback_synthesis"
+        }
+      ]
+    }
+  }
+}
