@@ -1,0 +1,294 @@
+{
+  "schemaVersion": 1,
+  "id": "m10-qf-prep",
+  "moduleId": "M10",
+  "title": "M10_06 — QF Prep",
+  "locationId": "world_knockout_hall",
+  "entryNodeId": "prep_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m10_friend_beat_10_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.world_r16_won",
+        "eq": true
+      },
+      {
+        "path": "competition.world.top8Locked",
+        "eq": true
+      },
+      {
+        "path": "competition.world.knockout.playerAdvancedToQf",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "prep_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il quarto esiste perché hai vinto l'ottavo. La preparazione usa il Top8 già lockato e non crea un nuovo pairing."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_roster",
+          "text": "Controllo la squadra reale.",
+          "goto": "roster_state"
+        },
+        {
+          "id": "entry_time",
+          "text": "Valuto quanto tempo spendere.",
+          "goto": "time_budget"
+        },
+        {
+          "id": "entry_opponent",
+          "text": "Rivedo il QF opponent derivato.",
+          "goto": "opponent_read"
+        }
+      ]
+    },
+    "roster_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il roster è quello persistente dopo R16 e Friend Beat. Nessun reset gratuito precede il quarto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "roster_medical",
+          "text": "Distinguo valutazione da cura reale.",
+          "goto": "medical_boundary"
+        },
+        {
+          "id": "roster_plan",
+          "text": "Costruisco il piano sulle risorse esistenti.",
+          "goto": "tactical_plan"
+        }
+      ]
+    },
+    "medical_boundary": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Informazione medica e recupero sono cose diverse: questa scena può leggere HP/PP/status, non cambiarli."
+        }
+      ],
+      "choices": [
+        {
+          "id": "medical_time",
+          "text": "Valuto se spendere tempo.",
+          "goto": "time_budget"
+        },
+        {
+          "id": "medical_ready",
+          "text": "Accetto lo stato reale e continuo.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "time_budget": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il tempo continua a muovere schedule e mondo, mentre il pairing QF resta immutabile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "time_short",
+          "text": "Dedico 15 minuti alla revisione tattica.",
+          "goto": "tactical_plan",
+          "timeCostMinutes": 15
+        },
+        {
+          "id": "time_long",
+          "text": "Dedico 30 minuti al controllo roster.",
+          "goto": "roster_state",
+          "timeCostMinutes": 30
+        },
+        {
+          "id": "time_now",
+          "text": "Entro subito nella readiness.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "opponent_read": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il prossimo avversario è {{competition.world.knockout.playerQfOpponent.name}}. Arriva dal bracket, non dal copione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "opponent_callbacks",
+          "text": "Controllo i precedenti leciti.",
+          "goto": "callbacks"
+        },
+        {
+          "id": "opponent_plan",
+          "text": "Adatto il piano a ciò che so davvero.",
+          "goto": "tactical_plan"
+        }
+      ]
+    },
+    "callbacks": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Friend Beat, rivalità e incontri passati possono cambiare il contesto. Non rivelano un moveset sconosciuto e non cambiano stats."
+        }
+      ],
+      "choices": [
+        {
+          "id": "callbacks_plan",
+          "text": "Traduco il contesto in piano.",
+          "goto": "tactical_plan"
+        },
+        {
+          "id": "callbacks_ready",
+          "text": "Passo alla readiness.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "tactical_plan": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Pressione, controllo, aggressione e conservazione delle risorse restano decisioni di gioco, non bonus custom."
+        }
+      ],
+      "choices": [
+        {
+          "id": "plan_risk",
+          "text": "Valuto il rischio del Top8.",
+          "goto": "risk"
+        },
+        {
+          "id": "plan_ready",
+          "text": "Porto il piano alla readiness.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "risk": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Nel QF una sconfitta chiude il World; una vittoria ti porta nel Final Four. Nessuna probabilità viene alterata dal testo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "risk_rules",
+          "text": "Rileggo il regolamento ufficiale.",
+          "goto": "match_rules"
+        },
+        {
+          "id": "risk_ready",
+          "text": "Accetto il rischio e continuo.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "match_rules": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Formato Singles, sei Pokémon, risultato dal battle bridge Pokémon 5e. Nessun retry narrativo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rules_roster",
+          "text": "Rivedo il roster.",
+          "goto": "roster_state"
+        },
+        {
+          "id": "rules_ready",
+          "text": "Procedo alla readiness.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "readiness": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La verifica finale richiede Top8 reale, player QF match irrisolto e roster sufficiente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ready_commit",
+          "text": "Chiudo la QF Prep.",
+          "goto": "commit"
+        },
+        {
+          "id": "ready_opponent",
+          "text": "Ultima lettura dell'avversario.",
+          "goto": "opponent_read"
+        },
+        {
+          "id": "ready_rules",
+          "text": "Ultimo controllo regole.",
+          "goto": "match_rules"
+        }
+      ]
+    },
+    "commit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Chiudere la prep non modifica bracket o squadra: abilita soltanto il passaggio al match ufficiale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "commit_now",
+          "text": "Confermo la preparazione.",
+          "goto": "handoff",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m10_qf_prep_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "commit_review",
+          "text": "Rivedo la readiness.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "handoff": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il QF è pronto. Il battle bridge userà il matchId e l'avversario E5 già lockati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "handoff_match",
+          "text": "Entro nel World QF.",
+          "goto": "m10-world-qf#qf_entry"
+        },
+        {
+          "id": "handoff_rules",
+          "text": "Rivedo le regole.",
+          "goto": "match_rules"
+        }
+      ]
+    }
+  }
+}
