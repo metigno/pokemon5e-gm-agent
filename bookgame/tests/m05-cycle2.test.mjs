@@ -106,7 +106,9 @@ test("M5_07 registration is separate from the B to A Promotion Trial",async()=>{
   s=await engine.choose(s,"entry_eligibility");s=await engine.choose(s,"eligible_register");s=await engine.choose(s,"register_now");
   assert.equal(s.world.flags.interregional_registration_complete,true);
   assert.equal(s.competition.rank,"B");
-  assert.equal(s.competition.trials.RANK_B_TO_A,undefined);
+  assert.equal(s.competition.trials.RANK_B_TO_A.available,true);
+  assert.equal(s.competition.trials.RANK_B_TO_A.registered,false);
+  assert.equal(s.competition.trials.RANK_B_TO_A.completed,false);
 });
 
 test("M5_07 official assessment uses a fixed E5 roster",async()=>{
