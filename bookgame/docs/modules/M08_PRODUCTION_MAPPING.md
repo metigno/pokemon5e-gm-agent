@@ -5,7 +5,7 @@
 **Purpose:** production map for converting M8 into validated offline story content  
 **Locked authored budget:** **4,400 stitches / 2,500 player choices**
 
-**Module implementation status:** **MAPPED / NOT YET PRODUCTION-COMPLETE**
+**Module implementation status:** **M8_00–M8_04 IMPLEMENTED / LIBRARY-V2 ALIGNED / RUNTIME VALIDATION PENDING**
 
 E1–E7 are reusable infrastructure from M1. A block may extend generic data or content, but must not fork those engines into module-specific substitutes.
 
@@ -65,6 +65,53 @@ Budgets are authored surface capacity. One run sees only the paths made legal by
 
 ---
 
+# 2A. RUNTIME LOGICAL PRODUCTION TRACKING
+
+The authored-surface budget above remains locked at **4,400 stitches / 2,500 choices**. Runtime production follows the agreed M8 target of **190 logical nodes / 418 meaningful choices**.
+
+| Block | Logical nodes | Meaningful choices | Status |
+|---|---:|---:|---|
+| M8_00_WORLD_ARRIVAL | 21 | 46 | IMPLEMENTED |
+| M8_01_ACCREDITATION | 14 | 31 | IMPLEMENTED |
+| M8_02_MEDICAL_CONTROL | 14 | 31 | IMPLEMENTED |
+| M8_03_REGISTRATION | 12 | 27 | IMPLEMENTED |
+| M8_04_WORLD_VILLAGE | 21 | 46 | IMPLEMENTED |
+| **Cycle M8_00–M8_04** | **82** | **181** | **IMPLEMENTED / STATIC PASS** |
+| M8_05_ASTRID_ENTERS | TBD | TBD | PLANNED |
+| M8_06_FRIEND_BEAT_08 | TBD | TBD | PLANNED |
+| M8_07_TRAINING_HALL | TBD | TBD | PLANNED |
+| M8_08_MEDIA_DAY | TBD | TBD | PLANNED |
+| M8_09_OPENING_CEREMONY | TBD | TBD | PLANNED |
+| M8_10_WORLD_DRAW | TBD | TBD | PLANNED |
+| M8_11_GROUP_REVEAL | TBD | TBD | PLANNED |
+| **M8 TOTAL TARGET** | **190** | **418** | |
+
+The first cycle therefore leaves exactly **108 nodes / 237 meaningful choices** for M8_05–M8_11. No node is added merely to hit the target.
+
+# 2B. LIBRARY V2 ROUTING FOR CYCLE 1
+
+- **M8_00:** R21 module handoff + R01 location entry/return + R33 cross-module callbacks + R32 wait/time. The World-qualified result is read from M7 and never rewritten.
+- **M8_01:** R16 eligibility/information + R34 access boundary + R02 hub/navigation + R32 wait/time. Accreditation controls access and timeline only.
+- **M8_02:** R13 medical/service shell + R16 eligibility information + R32 time cost + R33 continuity. The scene never heals or rewrites structured Pokémon state.
+- **M8_03:** R17 registration shell adapted to World participation + R16 roster/eligibility info + R34 gate boundary + R33 continuity. Registration never performs WORLD_DRAW or fabricates a group.
+- **M8_04:** R02 hub/navigation + R23 NPC presence/schedule causality + R32 wait/time + R33 callbacks. Friend/Anchor meetings remain causal; no NPC teleport is introduced.
+
+**No R39 candidate is required.** Library V2 R01→R38 is sufficient for the complete first M8 cycle.
+
+### Cycle 1 validation status
+
+- authored files: present;
+- exact logical budget: **82 nodes / 181 meaningful choices**;
+- authored-surface manifest: **4,400 stitches / 2,500 choices**;
+- all 82 authored nodes have an incoming route and are reachable from their scene entries;
+- World entry requires the real M7 qualified route;
+- accreditation does not alter Rank, roster or draw;
+- medical control never heals or rewrites Pokémon state;
+- registration reads the actual roster and never sets World field/group/draw state;
+- World Village preserves schedule-causal NPC encounters;
+- dedicated regressions: `m08-cycle1.test.mjs` and `m08-cycle-budget.test.mjs`;
+- runtime GitHub Actions evidence is required before marking this cycle COMPLETE.
+
 # 3. CANONICAL EVENT BINDINGS
 
 - `WORLD_DRAW`
@@ -99,6 +146,19 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+
+**Reuse class:** REUSE
+
+**Source archetypes:**
+- R21_MODULE_HANDOFF
+- R01_LOCATION_ENTRY_RETURN
+- R33_CROSS_MODULE_CALLBACK
+- R32_WAIT_LET_TIME_PASS
+
+**Unique layer:** first physical arrival at the World Championship venue after a real M7 qualification, with no state reset and no premature draw.
+
+**Implementation lock (cycle 1):** scene `m08-world-arrival` contains **21 nodes / 46 meaningful choices**. It requires the qualified M7 exit, keeps Rank/qualification intact, preserves roster/medical state and records only the physical arrival.
+
 ---
 
 ## M8_01_ACCREDITATION
@@ -110,6 +170,19 @@ A content gap is not permission to implement a second engine.
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R16_ROSTER_PREPARATION_ELIGIBILITY_INFO
+- R34_ACCESS_BOUNDARY
+- R02_HUB_NAVIGATION
+- R32_WAIT_LET_TIME_PASS
+
+**Unique layer:** World participant credentials and venue access/timeline without treating accreditation as competitive progress.
+
+**Implementation lock (cycle 1):** scene `m08-accreditation` contains **14 nodes / 31 meaningful choices**. Identity, access zones and timeline are persistent; no Rank, roster or WORLD_DRAW state is changed.
 
 ---
 
@@ -123,6 +196,19 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+
+**Reuse class:** REUSE
+
+**Source archetypes:**
+- R13_MEDICAL_POKEMON_CENTER_SERVICE
+- R16_ROSTER_PREPARATION_ELIGIBILITY_INFO
+- R32_WAIT_LET_TIME_PASS
+- R33_CROSS_MODULE_CALLBACK
+
+**Unique layer:** mandatory World medical review that observes real persistent Pokémon state without healing by narration.
+
+**Implementation lock (cycle 1):** scene `m08-medical-control` contains **14 nodes / 31 meaningful choices**. It may consume time and record completion, but never changes HP, PP, status, injury or roster contents.
+
 ---
 
 ## M8_03_REGISTRATION
@@ -135,6 +221,19 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R17_QUALIFIER_REGISTRATION_SHELL
+- R16_ROSTER_PREPARATION_ELIGIBILITY_INFO
+- R34_ACCESS_BOUNDARY
+- R33_CROSS_MODULE_CALLBACK
+
+**Unique layer:** World Championship participation registration after qualification, medical control and a real six-Pokémon roster, without generating field or group state.
+
+**Implementation lock (cycle 1):** scene `m08-registration` contains **12 nodes / 27 meaningful choices**. The commit is guarded by `world_qualified`, medical completion and `player.roster.length >= 6`; WORLD_DRAW remains untouched.
+
 ---
 
 ## M8_04_WORLD_VILLAGE
@@ -146,6 +245,19 @@ A content gap is not permission to implement a second engine.
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R02_HUB_NAVIGATION
+- R23_NPC_PRESENCE_SCHEDULE_GATE
+- R32_WAIT_LET_TIME_PASS
+- R33_CROSS_MODULE_CALLBACK
+
+**Unique layer:** World Village as a persistent pre-tournament social hub where friend/Anchor encounters depend on real schedule and position.
+
+**Implementation lock (cycle 1):** scene `m08-world-village` contains **21 nodes / 46 meaningful choices**. It establishes the Village and its services, allows time to pass, and explicitly avoids forcing Astrid or FRIEND_BEAT_08 into existence.
 
 ---
 
