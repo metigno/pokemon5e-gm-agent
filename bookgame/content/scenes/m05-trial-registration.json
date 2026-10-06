@@ -1,0 +1,416 @@
+{
+  "schemaVersion": 1,
+  "id": "m05-trial-registration",
+  "moduleId": "M05",
+  "title": "M5_11 — Trial Registration B→A",
+  "locationId": "alt_town_crest",
+  "entryNodeId": "trial_info",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m4_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m05_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m5_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "B"
+      },
+      {
+        "path": "world.flags.a5_rank_trial_b_a_available",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "trial_info": {
+      "stitches": [
+        {
+          "id": "ti1",
+          "text": "La Sala della Cresta gestisce il Promotion Trial B→A come checkpoint E5 separato da licenza interregionale, Masters e altri risultati. Il formato canonico è Singles con Official Five e un solo esaminatore."
+        }
+      ],
+      "choices": [
+        {
+          "id": "info_audit",
+          "text": "Verifico eligibility e stato E5.",
+          "goto": "eligibility_audit"
+        },
+        {
+          "id": "info_examiner",
+          "text": "Leggo il profilo pubblico dell'esaminatore.",
+          "goto": "examiner_review"
+        },
+        {
+          "id": "info_identity",
+          "text": "Rivedo cosa valuta questo gate.",
+          "goto": "endurance_identity"
+        },
+        {
+          "id": "info_hub",
+          "text": "Rimando e torno ad Altacima.",
+          "goto": "postponed"
+        }
+      ]
+    },
+    "eligibility_audit": {
+      "stitches": [
+        {
+          "id": "ea1",
+          "text": "L'idoneità deve esistere nel subsystem competitivo: Rank B reale, checkpoint disponibile, cinque Pokémon nel roster al momento della registrazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "audit_sync",
+          "text": "Sincronizzo il checkpoint B→A con E5.",
+          "conditions": {
+            "path": "competition.trials.RANK_B_TO_A.available",
+            "ne": true
+          },
+          "goto": "trial_desk",
+          "effects": [
+            {
+              "type": "competition_trial_available",
+              "checkpointId": "RANK_B_TO_A",
+              "fromRank": "B",
+              "toRank": "A",
+              "requiredRosterSize": 5,
+              "retryable": true
+            }
+          ]
+        },
+        {
+          "id": "audit_ready",
+          "text": "Il checkpoint E5 è già disponibile.",
+          "conditions": {
+            "path": "competition.trials.RANK_B_TO_A.available",
+            "eq": true
+          },
+          "goto": "trial_desk"
+        },
+        {
+          "id": "audit_rank",
+          "text": "Rivedo perché nessun risultato opzionale può sostituire il checkpoint.",
+          "goto": "rank_gate_review"
+        }
+      ]
+    },
+    "trial_desk": {
+      "stitches": [
+        {
+          "id": "td1",
+          "text": "Il banco legge lo stato E5 e il roster reale. Non clona un Official Five narrativo, non cura la squadra e non considera punti o reputazione come bypass."
+        }
+      ],
+      "choices": [
+        {
+          "id": "desk_register",
+          "text": "Registro il roster per il Trial B→A.",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.trials.RANK_B_TO_A.available",
+                "eq": true
+              },
+              {
+                "path": "competition.trials.RANK_B_TO_A.registered",
+                "ne": true
+              },
+              {
+                "path": "player.roster.length",
+                "gte": 5
+              }
+            ]
+          },
+          "goto": "registered",
+          "effects": [
+            {
+              "type": "competition_trial_register",
+              "checkpointId": "RANK_B_TO_A"
+            }
+          ]
+        },
+        {
+          "id": "desk_roster",
+          "text": "Controllo il requisito dei cinque Pokémon.",
+          "goto": "roster_review"
+        },
+        {
+          "id": "desk_examiner",
+          "text": "Rivedo l'esaminatore fisso del checkpoint.",
+          "goto": "examiner_review"
+        },
+        {
+          "id": "desk_strategy",
+          "text": "Rivedo il tema endurance e team depth.",
+          "goto": "endurance_identity"
+        }
+      ]
+    },
+    "roster_review": {
+      "stitches": [
+        {
+          "id": "rr1",
+          "text": "Il Trial richiede almeno cinque Pokémon nel roster. Questa schermata non riordina, cura o modifica alcun membro: verifica soltanto la capacità minima richiesta da E5."
+        }
+      ],
+      "choices": [
+        {
+          "id": "roster_register",
+          "text": "Ho almeno cinque Pokémon: registro.",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.trials.RANK_B_TO_A.available",
+                "eq": true
+              },
+              {
+                "path": "competition.trials.RANK_B_TO_A.registered",
+                "ne": true
+              },
+              {
+                "path": "player.roster.length",
+                "gte": 5
+              }
+            ]
+          },
+          "goto": "registered",
+          "effects": [
+            {
+              "type": "competition_trial_register",
+              "checkpointId": "RANK_B_TO_A"
+            }
+          ]
+        },
+        {
+          "id": "roster_short",
+          "text": "Non ho ancora cinque Pokémon: devo tornare a prepararmi.",
+          "conditions": {
+            "path": "player.roster.length",
+            "lt": 5
+          },
+          "goto": "postponed"
+        },
+        {
+          "id": "roster_back",
+          "text": "Torno al banco senza cambiare il roster.",
+          "goto": "trial_desk"
+        }
+      ]
+    },
+    "examiner_review": {
+      "stitches": [
+        {
+          "id": "er1",
+          "text": "L'esaminatore della Cresta usa un roster fisso per questa fascia. La composizione pubblica mette pressione su resistenze, continuità e capacità di usare il quinto slot; non si adatta al tuo team."
+        }
+      ],
+      "choices": [
+        {
+          "id": "examiner_identity",
+          "text": "Collego il profilo al tema del checkpoint.",
+          "goto": "endurance_identity"
+        },
+        {
+          "id": "examiner_desk",
+          "text": "Torno al banco.",
+          "goto": "trial_desk"
+        }
+      ]
+    },
+    "endurance_identity": {
+      "stitches": [
+        {
+          "id": "ei1",
+          "text": "B→A non chiede una singola lettura brillante: valuta se sai mantenere qualità decisionale abbastanza a lungo da usare davvero la profondità del team. Nessun bonus viene assegnato per aver letto questa descrizione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "identity_resource",
+          "text": "Controllo lo stato reale delle risorse prima di firmare.",
+          "goto": "resource_state"
+        },
+        {
+          "id": "identity_attempts",
+          "text": "Controllo come funzionano sconfitta e retry.",
+          "goto": "attempt_history"
+        }
+      ]
+    },
+    "attempt_history": {
+      "stitches": [
+        {
+          "id": "ah1",
+          "text": "Il Trial è retryable. Ogni tentativo viene contato da E5; una sconfitta rimuove la registrazione ma lascia disponibile il checkpoint. Nessun altro stato M5 viene resettato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "attempt_back",
+          "text": "Torno al banco sapendo che il retry non riscrive il modulo.",
+          "goto": "trial_desk"
+        }
+      ]
+    },
+    "resource_state": {
+      "stitches": [
+        {
+          "id": "rs1",
+          "text": "HP, PP, status, roster e inventario restano quelli reali. Registrarsi non ripristina risorse e non genera una squadra di prova."
+        }
+      ],
+      "choices": [
+        {
+          "id": "resource_back",
+          "text": "Torno alla registrazione senza cambiare stato.",
+          "goto": "trial_desk"
+        }
+      ]
+    },
+    "lance_context": {
+      "stitches": [
+        {
+          "id": "lc1",
+          "text": "Se Lance è stato incontrato, il suo criterio sul margine offre un modo di leggere l'esame, non un vantaggio meccanico: sapere quando una risorsa sta comprando posizione e quando sta solo bruciando opzioni."
+        }
+      ],
+      "choices": [
+        {
+          "id": "lance_ready",
+          "text": "Tengo il callback come prospettiva e torno al Trial.",
+          "goto": "registered_status",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_trial_lance_context",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "lance_identity",
+          "text": "Rileggo il tema endurance senza attribuirgli bonus.",
+          "goto": "endurance_identity"
+        }
+      ]
+    },
+    "registered": {
+      "stitches": [
+        {
+          "id": "reg1",
+          "text": "La registrazione E5 è attiva. Il Trial può iniziare subito o più tardi; uscire dalla Sala non annulla automaticamente la pratica."
+        }
+      ],
+      "choices": [
+        {
+          "id": "registered_status",
+          "text": "Controllo cosa è stato registrato.",
+          "goto": "registered_status"
+        },
+        {
+          "id": "registered_lance",
+          "text": "Rileggo il gate attraverso il criterio di rischio di Lance.",
+          "conditions": {
+            "path": "world.flags.lance_met",
+            "eq": true
+          },
+          "goto": "lance_context"
+        },
+        {
+          "id": "registered_enter",
+          "text": "Entro nel Promotion Trial B→A.",
+          "conditions": {
+            "path": "competition.trials.RANK_B_TO_A.registered",
+            "eq": true
+          },
+          "goto": "trial_ready"
+        }
+      ]
+    },
+    "registered_status": {
+      "stitches": [
+        {
+          "id": "rgs1",
+          "text": "Checkpoint `RANK_B_TO_A`, Rank B attuale, Official Five richiesto, retry attivo. Nessun Masters result e nessun Rank A esistono ancora."
+        }
+      ],
+      "choices": [
+        {
+          "id": "status_enter",
+          "text": "Lo stato è corretto: vado al gate.",
+          "goto": "trial_ready"
+        },
+        {
+          "id": "status_back",
+          "text": "Resto al banco.",
+          "goto": "registered"
+        }
+      ]
+    },
+    "postponed": {
+      "stitches": [
+        {
+          "id": "p1",
+          "text": "Rimandare non consuma il checkpoint. Fulgore, Trace, Five, Lance, licenza e risorse continuano a vivere nel loro stato corrente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "postponed_hub",
+          "text": "Torno ad Altacima.",
+          "goto": "m05-altacima#town_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        },
+        {
+          "id": "postponed_return",
+          "text": "Cambio idea e torno alle informazioni del Trial.",
+          "goto": "trial_info"
+        }
+      ]
+    },
+    "rank_gate_review": {
+      "stitches": [
+        {
+          "id": "rg1",
+          "text": "Punti, licenza interregionale, soccorso d'alta quota e Masters non possono promuoverti. Rank A esiste soltanto dopo una vittoria reale a `RANK_B_TO_A`."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rank_back",
+          "text": "Torno all'audit E5.",
+          "goto": "eligibility_audit"
+        }
+      ]
+    },
+    "trial_ready": {
+      "stitches": [
+        {
+          "id": "tr1",
+          "text": "La registrazione è pronta per essere consumata dal match system. Da qui il controllo passa al blocco M5_12 senza anticipare alcun risultato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ready_enter",
+          "text": "Entro nella Sala della Cresta per il Trial.",
+          "goto": "m05-promotion-trial-b-a#trial_gate_call"
+        }
+      ]
+    }
+  }
+}
