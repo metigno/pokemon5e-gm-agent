@@ -278,7 +278,7 @@
         {
           "id": "handoff_review",
           "text": "Rivedo il piano tattico.",
-          "goto": "tactical_plan"
+          "goto": "complete"
         }
       ]
     },
