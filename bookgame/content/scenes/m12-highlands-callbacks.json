@@ -1,0 +1,591 @@
+{
+  "schemaVersion": 1,
+  "id": "m12-highlands-callbacks",
+  "moduleId": "M12",
+  "title": "M12_06 — Highlands Callbacks",
+  "locationId": "alt_town",
+  "entryNodeId": "callback_entry",
+  "conditions": {
+    "path": "world.flags.m12_coast_callbacks_complete",
+    "eq": true
+  },
+  "nodes": {
+    "callback_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Altacima e Fulgore riportano insieme rischio d'alta quota, meteo, Lance e il primo strato del mistero antico. Nessuno di questi fili viene uniformato dal postgame."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_altitude",
+          "text": "Rileggo prima l'evento d'alta quota.",
+          "goto": "altitude_history"
+        },
+        {
+          "id": "entry_mystery",
+          "text": "Rileggo prima il mistero antico.",
+          "goto": "ancient_trace"
+        },
+        {
+          "id": "entry_lance",
+          "text": "Rileggo il contesto di Lance e del meteo.",
+          "goto": "lance"
+        }
+      ]
+    },
+    "altacima_now": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Altacima è ancora un hub vivo, con servizi e accessi coerenti con la carriera e il tempo trascorso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "weather_history"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "altitude_history"
+        }
+      ]
+    },
+    "weather_history": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Le decisioni meteo di M5 restano il contesto di come affrontasti Fulgore, non un bonus permanente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "altitude_history"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "player_rescue"
+        }
+      ]
+    },
+    "altitude_history": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'evento d'alta quota conserva il vero risultato: rescue diretto, risposta supportata oppure un filo non completato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "player_rescue"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "supported_response"
+        }
+      ]
+    },
+    "player_rescue": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un player_rescue può produrre fiducia e memoria locale, senza cancellare rischio, costi o aiuti ricevuti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "supported_response"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "route_support"
+        }
+      ]
+    },
+    "supported_response": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Una supported_response riconosce il ruolo di supporto senza trasformarlo in salvataggio solitario."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "route_support"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "lance"
+        }
+      ]
+    },
+    "route_support": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Preparazione, segnalazioni e route support restano contributi distinti dal risultato finale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "lance"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "fulgore"
+        }
+      ]
+    },
+    "lance": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Lance può ricomparire soltanto se E4 lo colloca davvero qui o permette un contatto plausibile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "fulgore"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "ancient_trace"
+        }
+      ]
+    },
+    "fulgore": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Fulgore resta esplorabile secondo accessi e condizioni reali; il postgame non bypassa il meteo o i gate."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "ancient_trace"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "trace_strong"
+        }
+      ]
+    },
+    "ancient_trace": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il mistero antico usa ancient_mystery_layer_1 come memoria persistente di ciò che fu davvero scoperto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "trace_strong"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "trace_partial"
+        }
+      ]
+    },
+    "trace_strong": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Una convergent_ancient_trace mantiene un indizio forte ma non equivale automaticamente a soluzione del mistero."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "trace_partial"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "trace_noticed"
+        }
+      ]
+    },
+    "trace_partial": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Una partial_unresolved_trace resta parziale e può alimentare il postgame senza essere promossa a certezza."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "trace_noticed"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "trace_absent"
+        }
+      ]
+    },
+    "trace_noticed": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "noticed_not_investigated conserva proprio il fatto che il segnale fu visto ma non approfondito."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "trace_absent"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "false_positive"
+        }
+      ]
+    },
+    "trace_absent": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se il filo non fu aperto, M12 non finge che il player conosca il mistero."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "false_positive"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "living_world"
+        }
+      ]
+    },
+    "false_positive": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Aver considerato falsi positivi resta parte della qualità dell'indagine e non viene scartato dall'epilogo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "living_world"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "ecology"
+        }
+      ]
+    },
+    "living_world": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "E6 può aver fatto progredire sicurezza, viabilità o testimonianze, non la conoscenza privata del player senza una fonte causale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "ecology"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "postgame_access"
+        }
+      ]
+    },
+    "ecology": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'ecologia d'alta quota resta E7-owned anche dopo la storia principale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "postgame_access"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "mystery_synthesis"
+        }
+      ]
+    },
+    "postgame_access": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il ritorno può aprire nuove opportunità solo se i sistemi esistenti le rendono legali."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "mystery_synthesis"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "event_synthesis"
+        }
+      ]
+    },
+    "mystery_synthesis": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "M12 registra quanto del mistero antico il player possiede davvero prima di proseguire."
+        }
+      ],
+      "choices": [
+        {
+          "id": "mystery_strong",
+          "text": "Registro l'indizio convergente senza dichiarare il mistero risolto.",
+          "goto": "event_synthesis",
+          "conditions": {
+            "path": "world.flags.ancient_mystery_layer_1",
+            "eq": "convergent_ancient_trace"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_highlands_mystery_context",
+              "value": "convergent_ancient_trace"
+            }
+          ]
+        },
+        {
+          "id": "mystery_partial",
+          "text": "Registro il mistero come parziale e ancora aperto.",
+          "goto": "event_synthesis",
+          "conditions": {
+            "path": "world.flags.ancient_mystery_layer_1",
+            "eq": "partial_unresolved_trace"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_highlands_mystery_context",
+              "value": "partial_unresolved_trace"
+            }
+          ]
+        },
+        {
+          "id": "mystery_noticed",
+          "text": "Registro che il segnale fu notato ma non investigato.",
+          "goto": "event_synthesis",
+          "conditions": {
+            "path": "world.flags.ancient_mystery_layer_1",
+            "eq": "noticed_not_investigated"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_highlands_mystery_context",
+              "value": "noticed_not_investigated"
+            }
+          ]
+        },
+        {
+          "id": "mystery_absent",
+          "text": "Registro che il player non possiede ancora un layer canonico del mistero.",
+          "goto": "event_synthesis",
+          "conditions": {
+            "path": "world.flags.ancient_mystery_layer_1",
+            "exists": false
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_highlands_mystery_context",
+              "value": "not_opened"
+            }
+          ]
+        }
+      ]
+    },
+    "event_synthesis": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La seconda sintesi registra il vero esito dell'evento d'alta quota e chiude il callback Highlands."
+        }
+      ],
+      "choices": [
+        {
+          "id": "event_rescue",
+          "text": "Registro il player_rescue realmente ottenuto.",
+          "goto": "complete",
+          "conditions": {
+            "path": "world.flags.m5_high_altitude_event_result",
+            "eq": "player_rescue"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_highlands_callback_state",
+              "value": "player_rescue"
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_highlands_callbacks_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "interregional_circuit"
+            }
+          ]
+        },
+        {
+          "id": "event_supported",
+          "text": "Registro la supported_response senza gonfiarne il ruolo.",
+          "goto": "complete",
+          "conditions": {
+            "path": "world.flags.m5_high_altitude_event_result",
+            "eq": "supported_response"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_highlands_callback_state",
+              "value": "supported_response"
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_highlands_callbacks_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "interregional_circuit"
+            }
+          ]
+        },
+        {
+          "id": "event_complete_unclassified",
+          "text": "L'evento risulta completo ma senza un risultato classificabile: non invento dettagli.",
+          "goto": "complete",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.m5_high_altitude_event_complete",
+                "eq": true
+              },
+              {
+                "path": "world.flags.m5_high_altitude_event_result",
+                "exists": false
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_highlands_callback_state",
+              "value": "complete_unclassified"
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_highlands_callbacks_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "interregional_circuit"
+            }
+          ]
+        },
+        {
+          "id": "event_not_complete",
+          "text": "Registro che il filo d'alta quota non fu chiuso dal player.",
+          "goto": "complete",
+          "conditions": {
+            "path": "world.flags.m5_high_altitude_event_complete",
+            "ne": true
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_highlands_callback_state",
+              "value": "not_completed"
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_highlands_callbacks_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "interregional_circuit"
+            }
+          ]
+        }
+      ]
+    },
+    "complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Altacima e Fulgore sono registrate nel postgame. Il viaggio continua verso il circuito interregionale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "to_interregional",
+          "text": "Proseguo verso il circuito interregionale.",
+          "goto": "m12-interregional-callbacks#callback_entry"
+        },
+        {
+          "id": "review_highlands",
+          "text": "Rileggo mistero ed evento.",
+          "goto": "mystery_synthesis"
+        }
+      ]
+    }
+  }
+}
