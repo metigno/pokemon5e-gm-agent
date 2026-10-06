@@ -220,17 +220,53 @@ function preferredChoices(choices) {
 
 function combatOutcomes(state, policy) {
   const keys = Object.keys(state.pending?.returnNodes ?? {});
-  const legal = keys.filter((key) => key !== "captured");
+  const canCapture =
+    keys.includes("captured") &&
+    state.pending?.opponentRegistered !== true &&
+    (state.player?.roster?.length ?? 0) < 2;
+  const legal = keys.filter((key) => key !== "captured" || canCapture);
+  if (canCapture) {
+    const rest = legal.filter((key) => key !== "captured");
+    return ["captured", ...rest];
+  }
   if (policy === "win" && legal.includes("win")) return ["win"];
   const ordered = ["win", "lose", "fled", "escape", ...legal];
   return [...new Set(ordered.filter((key) => legal.includes(key)))];
+}
+
+function resolvedCaptureOpponent(state) {
+  const opponent = structuredClone(state.pending?.opponent ?? {});
+  const speciesId = opponent.speciesId ?? opponent.id ?? "unknown";
+  return {
+    ...opponent,
+    speciesId,
+    name: opponent.name ?? speciesId,
+    level: Number.isInteger(opponent.level) ? opponent.level : 1,
+    hp: opponent.hp ?? { current: 1, max: 8 },
+    statuses: opponent.statuses ?? { nonVolatile: null, volatile: [] },
+    abilityId: opponent.abilityId ?? null,
+    moveIds: Array.isArray(opponent.moveIds) ? opponent.moveIds : [],
+    pp: opponent.pp ?? {}
+  };
+}
+
+function resolveAutoplayCombat(engine, state, outcome) {
+  let next = state;
+  if (outcome === "captured") {
+    next = engine.setCombatState(next, {
+      encounterId: next.pending.encounterId,
+      outcome: "captured",
+      opponent: resolvedCaptureOpponent(next)
+    });
+  }
+  return engine.resolveCombatHandoff(next, outcome);
 }
 
 async function replayActions(engine, start, actions) {
   let state = structuredClone(start);
   for (const action of actions) {
     if (action.kind === "combat") {
-      state = engine.resolveCombatHandoff(state, action.outcome);
+      state = resolveAutoplayCombat(engine, state, action.outcome);
     } else {
       state = await engine.choose(state, action.choiceId);
     }
@@ -280,7 +316,7 @@ async function searchTo({
     if (current.state.pending?.type === "pokemon5e_combat") {
       for (const outcome of combatOutcomes(current.state, combatPolicy)) {
         try {
-          const next = engine.resolveCombatHandoff(current.state, outcome);
+          const next = resolveAutoplayCombat(engine, current.state, outcome);
           next.story.history = [];
           const actions = [...current.actions, { kind: "combat", outcome }];
           if (goal(next)) {
