@@ -247,6 +247,29 @@
           ]
         },
         {
+          "id": "hub_smuggling_thread",
+          "text": "Decido cosa fare delle anomalie logistiche prima che la finestra si chiuda.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.smuggling_thread_available",
+                "eq": true
+              },
+              {
+                "path": "world.flags.smuggling_state",
+                "exists": false
+              }
+            ]
+          },
+          "goto": "m04-smuggling-thread#thread_entry",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        },
+        {
           "id": "hub_recontact_archie",
           "text": "Cerco il trainer marittimo di cui parlano ufficio meteo e porto.",
           "timeCostMinutes": 10,
