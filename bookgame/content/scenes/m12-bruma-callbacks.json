@@ -1,0 +1,542 @@
+{
+  "schemaVersion": 1,
+  "id": "m12-bruma-callbacks",
+  "moduleId": "M12",
+  "title": "M12_03 — Bruma Callbacks",
+  "locationId": "borgo_salice",
+  "entryNodeId": "callback_entry",
+  "conditions": {
+    "path": "world.flags.m12_valedarsena_callbacks_complete",
+    "eq": true
+  },
+  "nodes": {
+    "callback_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Bruma e Borgo Salice riportano in superficie la rete di cattura, il lavoro Ranger e la fauna di M2, tutti letti dallo stato realmente salvato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "mistwood_now"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "mistwood_now"
+        },
+        {
+          "id": "context_1",
+          "text": "Confronto questo dettaglio con un altro pezzo del percorso.",
+          "goto": "network_state"
+        }
+      ]
+    },
+    "mistwood_now": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La nebbia non congela il passato: percorsi, pressioni e accessi sono cambiati mentre la carriera continuava altrove."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "network_state"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "callback_entry"
+        },
+        {
+          "id": "context_2",
+          "text": "Confronto questo dettaglio con un altro pezzo del percorso.",
+          "goto": "network_partial"
+        }
+      ]
+    },
+    "network_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il callback parte da poaching_network_state e dagli esiti già classificati in M2."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "network_resolved"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "mistwood_now"
+        }
+      ]
+    },
+    "network_resolved": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Una rete risolta resta risolta; M12 può mostrare conseguenze, non riaprire lo stesso conflitto per nostalgia."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "network_partial"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "network_state"
+        }
+      ]
+    },
+    "network_partial": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un esito partial conserva ciò che era stato ottenuto e ciò che restava irrisolto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "network_escalated"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "network_resolved"
+        }
+      ]
+    },
+    "network_escalated": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un'escalation può aver costretto Ranger e comunità a reagire in tua assenza."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "network_ignored"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "network_partial"
+        }
+      ]
+    },
+    "network_ignored": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un conflitto ignorato non resta fermo ad aspettare il player: E6 determina il seguito plausibile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "ranger_thread"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "network_escalated"
+        }
+      ]
+    },
+    "ranger_thread": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il rapporto con i Ranger usa prove, report e contatti realmente creati in M2."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "m1_m2_link"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "network_ignored"
+        }
+      ]
+    },
+    "m1_m2_link": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se il filo Ranger collegava M1 e M2, il callback può ricordare quella continuità senza inventarla quando assente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "borgo_salice"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "ranger_thread"
+        }
+      ]
+    },
+    "borgo_salice": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Borgo Salice mostra il costo o il beneficio locale degli esiti passati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "marsh"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "m1_m2_link"
+        }
+      ]
+    },
+    "marsh": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Palude Mirto resta soggetta a E7 e agli accessi reali; il postgame non teletrasporta il player oltre i gate."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "fauna"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "borgo_salice"
+        }
+      ]
+    },
+    "fauna": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Fauna e tracce possono cambiare col tempo, ma la distribuzione resta engine-owned."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "n_thread"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "marsh"
+        }
+      ]
+    },
+    "n_thread": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "N compare soltanto se la sua traiettoria, schedule e relazione lo consentono. Nessuna reunion obbligatoria."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "evidence"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "fauna"
+        }
+      ]
+    },
+    "evidence": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Le prove raccolte restano distinte dalla semplice interruzione del conflitto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "authority"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "n_thread"
+        }
+      ]
+    },
+    "authority": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Aver avvisato un'autorità e aver risolto materialmente un problema restano assi separati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "crisis_memory"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "evidence"
+        }
+      ]
+    },
+    "crisis_memory": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Gli effetti della crisi M2 vengono riletti senza trasformare un esito parziale in vittoria completa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "living_world"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "authority"
+        }
+      ]
+    },
+    "living_world": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Living World può aver prodotto nuovi equilibri, pattuglie o rischi sulla base dell'esito registrato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "access_now"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "crisis_memory"
+        }
+      ]
+    },
+    "access_now": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il postgame permette di tornare dove è legalmente possibile, senza creare una seconda mappa o un secondo quest engine."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "relationship_now"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "living_world"
+        }
+      ]
+    },
+    "relationship_now": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Le relazioni locali conservano punteggio e qualità reali; il callback può solo reagire a quei valori."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "callback_synthesis"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "access_now"
+        }
+      ]
+    },
+    "callback_synthesis": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "M12 classifica la memoria di Bruma usando l'esito M2 persistente e registra soltanto il callback postgame."
+        }
+      ],
+      "choices": [
+        {
+          "id": "class_resolved",
+          "text": "Registro la rete come risolta nel mio storico M2.",
+          "goto": "complete",
+          "conditions": {
+            "path": "world.flags.poaching_network_state",
+            "eq": "resolved"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_bruma_callback_state",
+              "value": "resolved"
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_bruma_callbacks_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        },
+        {
+          "id": "class_partial",
+          "text": "Registro un esito ancora parziale.",
+          "goto": "complete",
+          "conditions": {
+            "path": "world.flags.poaching_network_state",
+            "eq": "partial"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_bruma_callback_state",
+              "value": "partial"
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_bruma_callbacks_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        },
+        {
+          "id": "class_escalated",
+          "text": "Registro l'escalation e ciò che il mondo ha dovuto fare dopo.",
+          "goto": "complete",
+          "conditions": {
+            "path": "world.flags.poaching_network_state",
+            "eq": "escalated"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_bruma_callback_state",
+              "value": "escalated"
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_bruma_callbacks_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        },
+        {
+          "id": "class_ignored",
+          "text": "Registro l'esito ignorato senza attribuirmi interventi mai avvenuti.",
+          "goto": "complete",
+          "conditions": {
+            "any": [
+              {
+                "path": "world.flags.poaching_network_state",
+                "eq": "ignored"
+              },
+              {
+                "path": "world.flags.poaching_network_state",
+                "exists": false
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_bruma_callback_state",
+              "value": "ignored_or_offscreen"
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_bruma_callbacks_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        }
+      ]
+    },
+    "complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il callback di Bruma è registrato. Ferrox è il prossimo grande luogo in cui il passato può essere verificato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "to_ferrox",
+          "text": "Proseguo verso Ferrox.",
+          "goto": "m12-ferrox-callbacks#callback_entry"
+        },
+        {
+          "id": "review_bruma",
+          "text": "Rileggo la sintesi di Bruma.",
+          "goto": "callback_synthesis"
+        }
+      ]
+    }
+  }
+}
