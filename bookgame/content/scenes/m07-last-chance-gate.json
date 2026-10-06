@@ -1,0 +1,406 @@
+{
+  "schemaVersion": 1,
+  "id": "m07-last-chance-gate",
+  "moduleId": "M07",
+  "title": "M7_09 — Last Chance Gate",
+  "locationId": "meridiana_grand_hall",
+  "entryNodeId": "gate_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m6_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m07_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m7_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "S"
+      },
+      {
+        "path": "world.flags.m7_qualifier_result_resolved",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "gate_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il gate distingue due casi: una run già qualificata bypassa il Last Chance; una run eliminata può aprirlo solo se l'eligibility canonica è presente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_qualified",
+          "text": "Sono già qualificato: verifico il bypass.",
+          "goto": "qualified_bypass",
+          "conditions": {
+            "path": "world.flags.world_qualified",
+            "eq": true
+          }
+        },
+        {
+          "id": "entry_eligibility",
+          "text": "Non sono qualificato: controllo l'eligibility.",
+          "goto": "eligibility",
+          "conditions": {
+            "path": "world.flags.world_qualified",
+            "ne": true
+          }
+        },
+        {
+          "id": "entry_history",
+          "text": "Rivedo il risultato del Qualifier.",
+          "goto": "qualifier_history"
+        }
+      ]
+    },
+    "qualified_bypass": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Una run qualificata non può consumare un Last Chance. Il gate viene chiuso come bypass."
+        }
+      ],
+      "choices": [
+        {
+          "id": "qualified_record",
+          "text": "Registro il bypass.",
+          "goto": "close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_last_chance_gate_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m7_last_chance_route_ready",
+              "value": false
+            }
+          ]
+        },
+        {
+          "id": "qualified_history",
+          "text": "Rivedo la history.",
+          "goto": "qualifier_history"
+        }
+      ]
+    },
+    "eligibility": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'accesso richiede sia last_chance_eligible sia l'apertura A7_LAST_CHANCE prodotta dal Living World."
+        }
+      ],
+      "choices": [
+        {
+          "id": "eligibility_open",
+          "text": "Il Last Chance è disponibile.",
+          "goto": "available",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.last_chance_eligible",
+                "eq": true
+              },
+              {
+                "path": "world.flags.a7_last_chance_available",
+                "eq": true
+              }
+            ]
+          }
+        },
+        {
+          "id": "eligibility_closed",
+          "text": "Non esiste una route legale disponibile.",
+          "goto": "unavailable",
+          "conditions": {
+            "any": [
+              {
+                "path": "world.flags.last_chance_eligible",
+                "ne": true
+              },
+              {
+                "path": "world.flags.a7_last_chance_available",
+                "ne": true
+              }
+            ]
+          }
+        },
+        {
+          "id": "eligibility_rule",
+          "text": "Rileggo perché il retry non è infinito.",
+          "goto": "finite_rule"
+        }
+      ]
+    },
+    "available": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La route è finita: una sola istanza Last Chance, con risultati propri. Non riapre il bracket principale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "available_rule",
+          "text": "Rivedo la regola di unicità.",
+          "goto": "finite_rule"
+        },
+        {
+          "id": "available_context",
+          "text": "Controllo amici e Cynthia prima di decidere.",
+          "goto": "friend_context"
+        },
+        {
+          "id": "available_open",
+          "text": "Apro formalmente la route Last Chance.",
+          "goto": "gate_open"
+        }
+      ]
+    },
+    "unavailable": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Senza eligibility reale il gioco non crea un torneo sostitutivo. La carriera dovrà seguire l'uscita prevista dal suo stato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "unavailable_close",
+          "text": "Chiudo il gate come non disponibile.",
+          "goto": "gate_closed"
+        },
+        {
+          "id": "unavailable_history",
+          "text": "Rivedo il Qualifier.",
+          "goto": "qualifier_history"
+        }
+      ]
+    },
+    "finite_rule": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "A7_LAST_CHANCE è once=true: una volta consumato non può diventare una catena di retry fino alla vittoria."
+        }
+      ],
+      "choices": [
+        {
+          "id": "finite_available",
+          "text": "Torno allo stato dell'accesso.",
+          "goto": "eligibility"
+        },
+        {
+          "id": "finite_history",
+          "text": "Rivedo il motivo per cui sono qui.",
+          "goto": "qualifier_history"
+        }
+      ]
+    },
+    "qualifier_history": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La sconfitta del Qualifier resta in history anche quando il Last Chance apre una nuova possibilità. La qualificazione già ottenuta, invece, chiude questa route."
+        }
+      ],
+      "choices": [
+        {
+          "id": "history_eligibility",
+          "text": "Torno al controllo eligibility.",
+          "goto": "eligibility",
+          "conditions": {
+            "path": "world.flags.world_qualified",
+            "ne": true
+          }
+        },
+        {
+          "id": "history_qualified",
+          "text": "Torno al bypass qualificato.",
+          "goto": "qualified_bypass",
+          "conditions": {
+            "path": "world.flags.world_qualified",
+            "eq": true
+          }
+        }
+      ]
+    },
+    "friend_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "FRIEND_BEAT_07 non concede accesso, ma può cambiare il significato personale di un'ultima possibilità."
+        }
+      ],
+      "choices": [
+        {
+          "id": "friend_cynthia",
+          "text": "Rileggo anche il benchmark di Cynthia.",
+          "goto": "cynthia_context"
+        },
+        {
+          "id": "friend_open",
+          "text": "Torno all'apertura della route.",
+          "goto": "available"
+        }
+      ]
+    },
+    "cynthia_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il principio di Cynthia resta coerente: Last Chance non è una scusa per ignorare risorse, recupero e rischio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "cynthia_schedule",
+          "text": "Controllo se conviene entrare subito o proteggere il tempo.",
+          "goto": "schedule"
+        },
+        {
+          "id": "cynthia_available",
+          "text": "Torno al gate aperto.",
+          "goto": "available"
+        }
+      ]
+    },
+    "schedule": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il calendario continua a scorrere. Aspettare è legale soltanto finché la finestra resta realmente disponibile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "schedule_wait",
+          "text": "Aspetto un'ora e ricontrollo.",
+          "goto": "defer",
+          "timeCostMinutes": 60
+        },
+        {
+          "id": "schedule_open",
+          "text": "Entro nella route senza altra attesa.",
+          "goto": "gate_open"
+        }
+      ]
+    },
+    "defer": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La sosta non resetta il Qualifier e non crea una seconda eligibility. Al ritorno il gate rilegge lo stato attuale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "defer_check",
+          "text": "Ricontrollo l'eligibility.",
+          "goto": "eligibility"
+        },
+        {
+          "id": "defer_hub",
+          "text": "Torno temporaneamente alla piazza.",
+          "goto": "m07-meridiana-arrival#city_hub"
+        }
+      ]
+    },
+    "gate_open": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Last Chance è autorizzato ma non ancora combattuto. Il blocco M7_10 consumerà questa route una sola volta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "open_record",
+          "text": "Registro la route pronta.",
+          "goto": "close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_last_chance_route_ready",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m7_last_chance_gate_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "open_back",
+          "text": "Rivedo il gate prima di confermare.",
+          "goto": "available"
+        }
+      ]
+    },
+    "gate_closed": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il gate resta chiuso. Non viene fabbricata una qualificazione alternativa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "closed_record",
+          "text": "Registro il gate chiuso.",
+          "goto": "close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_last_chance_route_ready",
+              "value": false
+            },
+            {
+              "type": "set_flag",
+              "key": "m7_last_chance_gate_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "closed_history",
+          "text": "Rivedo la history.",
+          "goto": "qualifier_history"
+        }
+      ]
+    },
+    "close": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il routing è persistente: qualificato, Last Chance pronto oppure nessuna route. Nessun risultato viene modificato qui."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_hub",
+          "text": "Torno a Meridiana in attesa del blocco successivo.",
+          "goto": "m07-meridiana-arrival#city_hub"
+        },
+        {
+          "id": "close_review",
+          "text": "Rivedo lo stato del gate.",
+          "goto": "gate_entry"
+        }
+      ]
+    }
+  }
+}

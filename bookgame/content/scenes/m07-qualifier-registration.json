@@ -1,0 +1,459 @@
+{
+  "schemaVersion": 1,
+  "id": "m07-qualifier-registration",
+  "moduleId": "M07",
+  "title": "M7_06 — Qualifier Registration",
+  "locationId": "meridiana_grand_hall",
+  "entryNodeId": "registration_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m6_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m07_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m7_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "S"
+      },
+      {
+        "path": "world.flags.friend_beat_07_complete",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "registration_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La registrazione WORLD_QUALIFIER è un gate amministrativo separato dal match: Rank S consente l'accesso, ma servono finestra aperta e Official Six reale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_eligibility",
+          "text": "Controllo l'eligibility corrente.",
+          "goto": "eligibility"
+        },
+        {
+          "id": "entry_rules",
+          "text": "Rileggo formato e vincoli.",
+          "goto": "rules"
+        },
+        {
+          "id": "entry_defer",
+          "text": "Non mi registro ancora.",
+          "goto": "defer"
+        }
+      ]
+    },
+    "eligibility": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Tre condizioni sono distinte: Rank S, finestra A7 aperta e roster sufficiente. Nessuna può essere sostituita da reputazione o sponsor."
+        }
+      ],
+      "choices": [
+        {
+          "id": "eligibility_rank",
+          "text": "Verifico il Rank.",
+          "goto": "rank_guard"
+        },
+        {
+          "id": "eligibility_roster",
+          "text": "Verifico l'Official Six.",
+          "goto": "roster_review"
+        },
+        {
+          "id": "eligibility_window",
+          "text": "Verifico la finestra del Qualifier.",
+          "goto": "schedule_window"
+        }
+      ]
+    },
+    "rank_guard": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Rank S è necessario e già posseduto per entrare in questa scena; resta però soltanto l'accesso al percorso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rank_roster",
+          "text": "Passo al roster.",
+          "goto": "roster_review"
+        },
+        {
+          "id": "rank_rules",
+          "text": "Torno alle regole.",
+          "goto": "rules"
+        }
+      ]
+    },
+    "roster_review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il desk legge il roster strutturato del player. Non crea un sesto Pokémon e non sostituisce indisponibilità reali con un flag narrativo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "roster_ready",
+          "text": "Ho almeno sei Pokémon: passo alla verifica finale.",
+          "goto": "six_ready",
+          "conditions": {
+            "path": "player.roster.length",
+            "gte": 6
+          }
+        },
+        {
+          "id": "roster_missing",
+          "text": "Non ho ancora sei Pokémon: non posso registrarmi.",
+          "goto": "six_not_ready",
+          "conditions": {
+            "path": "player.roster.length",
+            "lt": 6
+          }
+        },
+        {
+          "id": "roster_back",
+          "text": "Torno all'eligibility.",
+          "goto": "eligibility"
+        }
+      ]
+    },
+    "six_ready": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Sei membri reali rendono possibile la registrazione; il match userà comunque lo stato effettivo della squadra quando inizierà."
+        }
+      ],
+      "choices": [
+        {
+          "id": "six_desk",
+          "text": "Vado al desk di registrazione.",
+          "goto": "registration_desk"
+        },
+        {
+          "id": "six_constraints",
+          "text": "Prima controllo agenda e obblighi.",
+          "goto": "media_constraints"
+        }
+      ]
+    },
+    "six_not_ready": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il gate non viene aggirato. Puoi tornare alla preparazione o restare a Meridiana finché il roster reale non soddisfa il formato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "missing_prep",
+          "text": "Torno alla preparazione professionale.",
+          "goto": "m07-pro-preparation#prep_hub"
+        },
+        {
+          "id": "missing_hub",
+          "text": "Torno alla piazza di Meridiana.",
+          "goto": "m07-meridiana-arrival#city_hub"
+        }
+      ]
+    },
+    "schedule_window": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "A7_WORLD_QUALIFIER apre una finestra di partecipazione; non assegna un posto nel Mondiale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "window_open",
+          "text": "La finestra è aperta: continuo.",
+          "goto": "registration_desk",
+          "conditions": {
+            "path": "world.flags.a7_world_qualifier_available",
+            "eq": true
+          }
+        },
+        {
+          "id": "window_defer",
+          "text": "Non forzo una finestra non disponibile.",
+          "goto": "defer"
+        }
+      ]
+    },
+    "rules": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Formato: Singles, Official Six, field ELITE. Il Qualifier è una competizione distinta dal Rank S e non usa il Promotion Trial A→S."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rules_history",
+          "text": "Controllo come verrà conservata la history.",
+          "goto": "history_guard"
+        },
+        {
+          "id": "rules_eligibility",
+          "text": "Torno all'eligibility.",
+          "goto": "eligibility"
+        }
+      ]
+    },
+    "registration_desk": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il desk può registrare soltanto questa istanza del Qualifier. Registrarsi non produce né vittoria né world_qualified."
+        }
+      ],
+      "choices": [
+        {
+          "id": "desk_confirm",
+          "text": "Procedo alla conferma.",
+          "goto": "confirmation",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.a7_world_qualifier_available",
+                "eq": true
+              },
+              {
+                "path": "player.roster.length",
+                "gte": 6
+              }
+            ]
+          }
+        },
+        {
+          "id": "desk_friend",
+          "text": "Rivedo il Friend Beat prima di firmare.",
+          "goto": "friend_callback"
+        },
+        {
+          "id": "desk_defer",
+          "text": "Rimando la firma.",
+          "goto": "defer"
+        }
+      ]
+    },
+    "confirmation": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La firma blocca l'intenzione di partecipare alla finestra corrente; il roster effettivo resta letto dal motore al momento dei match."
+        }
+      ],
+      "choices": [
+        {
+          "id": "confirm_register",
+          "text": "Confermo la registrazione.",
+          "goto": "registered",
+          "conditions": {
+            "path": "world.flags.m7_qualifier_registered",
+            "ne": true
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_qualifier_registered",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m7_qualifier_registration_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "confirm_back",
+          "text": "Non firmo ancora.",
+          "goto": "registration_desk"
+        }
+      ]
+    },
+    "registered": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La registrazione è persistente. Il bracket successivo resta irrisolto finché i combattimenti E5 non producono risultati reali."
+        }
+      ],
+      "choices": [
+        {
+          "id": "registered_bracket",
+          "text": "Passo al World Qualifier.",
+          "goto": "ready_to_bracket"
+        },
+        {
+          "id": "registered_cynthia",
+          "text": "Rileggo il benchmark di Cynthia.",
+          "goto": "cynthia_callback"
+        },
+        {
+          "id": "registered_rules",
+          "text": "Rileggo i vincoli del formato.",
+          "goto": "rules"
+        }
+      ]
+    },
+    "defer": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Rimandare non crea un risultato e lascia scorrere il mondo. La finestra può essere sensibile al calendario."
+        }
+      ],
+      "choices": [
+        {
+          "id": "defer_hour",
+          "text": "Aspetto un'ora e ricontrollo.",
+          "goto": "registration_entry",
+          "timeCostMinutes": 60
+        },
+        {
+          "id": "defer_hub",
+          "text": "Torno alla piazza di Meridiana.",
+          "goto": "m07-meridiana-arrival#city_hub"
+        }
+      ]
+    },
+    "friend_callback": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "FRIEND_BEAT_07 può cambiare il tono della registrazione, non l'eligibility. Un amico non presta Rank, roster o seed."
+        }
+      ],
+      "choices": [
+        {
+          "id": "friend_desk",
+          "text": "Torno al desk.",
+          "goto": "registration_desk"
+        },
+        {
+          "id": "friend_history",
+          "text": "Rivedo la separazione fra relazioni e history competitiva.",
+          "goto": "history_guard"
+        }
+      ]
+    },
+    "cynthia_callback": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Cynthia resta un benchmark di gestione. Il rapporto con lei non altera il field o il requisito Official Six."
+        }
+      ],
+      "choices": [
+        {
+          "id": "cynthia_bracket",
+          "text": "Passo alla preparazione del bracket.",
+          "goto": "ready_to_bracket"
+        },
+        {
+          "id": "cynthia_desk",
+          "text": "Torno al desk.",
+          "goto": "registration_desk"
+        }
+      ]
+    },
+    "media_constraints": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Sponsor e media possono occupare tempo, ma non possono comprare una registrazione illegale o modificare il roster richiesto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "media_desk",
+          "text": "Accetto i vincoli e torno al desk.",
+          "goto": "registration_desk"
+        },
+        {
+          "id": "media_hub",
+          "text": "Rivedo il distretto media.",
+          "goto": "m07-media-sponsor#media_hub"
+        }
+      ]
+    },
+    "history_guard": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La history del Qualifier deve provenire dai match ufficiali. Flag narrativi possono classificare il percorso, non sostituire E5."
+        }
+      ],
+      "choices": [
+        {
+          "id": "history_rules",
+          "text": "Torno alle regole.",
+          "goto": "rules"
+        },
+        {
+          "id": "history_desk",
+          "text": "Torno al desk.",
+          "goto": "registration_desk"
+        }
+      ]
+    },
+    "ready_to_bracket": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Tutto ciò che è stato fatto fin qui è preparazione. Solo il bracket successivo può produrre il risultato che porterà o meno al Mondiale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ready_start",
+          "text": "Entro nel World Qualifier.",
+          "goto": "m07-world-qualifier#qualifier_entry",
+          "conditions": {
+            "path": "world.flags.m7_qualifier_registered",
+            "eq": true
+          }
+        },
+        {
+          "id": "ready_review",
+          "text": "Rivedo la registrazione.",
+          "goto": "registered"
+        }
+      ]
+    },
+    "close": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La registrazione resta salvata senza inventare alcun esito."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_registered",
+          "text": "Torno allo stato registrato.",
+          "goto": "registered"
+        }
+      ]
+    }
+  }
+}

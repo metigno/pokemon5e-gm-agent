@@ -1,0 +1,728 @@
+{
+  "schemaVersion": 1,
+  "id": "m07-world-qualifier",
+  "moduleId": "M07",
+  "title": "M7_07 — World Qualifier",
+  "locationId": "meridiana_grand_arena",
+  "entryNodeId": "qualifier_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m6_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m07_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m7_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "S"
+      },
+      {
+        "path": "world.flags.m7_qualifier_registered",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "qualifier_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il World Qualifier usa una lane a due match in questa istanza: vincere il primo apre il match di qualificazione; perdere chiude il percorso principale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_bracket",
+          "text": "Apro la mia lane del bracket.",
+          "goto": "bracket"
+        },
+        {
+          "id": "entry_rules",
+          "text": "Rileggo il formato ufficiale.",
+          "goto": "rules"
+        },
+        {
+          "id": "entry_defer",
+          "text": "Non inizio ancora il primo match.",
+          "goto": "m07-qualifier-registration#registered"
+        }
+      ]
+    },
+    "rules": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Entrambi i match sono Singles Official Six ELITE. Non esistono retry interni: una sconfitta passa al risultato e, se previsto, al Last Chance."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rules_bracket",
+          "text": "Torno al bracket.",
+          "goto": "bracket"
+        },
+        {
+          "id": "rules_field",
+          "text": "Controllo cosa è pubblico del field.",
+          "goto": "field"
+        }
+      ]
+    },
+    "bracket": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La lane mostra Round 1 e Qualifying Match. Il secondo nodo è accessibile solo dopo una vittoria reale nel primo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "bracket_round1",
+          "text": "Preparo il Round 1.",
+          "goto": "round1_preview"
+        },
+        {
+          "id": "bracket_field",
+          "text": "Rivedo il field pubblico.",
+          "goto": "field"
+        },
+        {
+          "id": "bracket_review",
+          "text": "Controllo come verranno registrati gli esiti.",
+          "goto": "bracket_review"
+        }
+      ]
+    },
+    "field": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il roster avversario pubblico è noto, ma ordine, tattiche e decisioni restano coperte. Nessun matchup viene riscritto per favorire la trama."
+        }
+      ],
+      "choices": [
+        {
+          "id": "field_round1",
+          "text": "Torno alla preparazione del Round 1.",
+          "goto": "round1_preview"
+        },
+        {
+          "id": "field_rules",
+          "text": "Rileggo il formato.",
+          "goto": "rules"
+        }
+      ]
+    },
+    "round1_preview": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il primo avversario è registrato nel field reale della lane. Il player deve presentarsi con almeno sei Pokémon nel roster corrente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "round1_roster",
+          "text": "Rileggo l'Official Six richiesto.",
+          "goto": "round1_confirm"
+        },
+        {
+          "id": "round1_ready",
+          "text": "Sono pronto alla conferma.",
+          "goto": "round1_confirm"
+        },
+        {
+          "id": "round1_back",
+          "text": "Torno al bracket.",
+          "goto": "bracket"
+        }
+      ]
+    },
+    "round1_confirm": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il match parte soltanto se la registrazione è valida, il roster contiene almeno sei Pokémon e non esiste già un risultato Round 1."
+        }
+      ],
+      "choices": [
+        {
+          "id": "round1_start",
+          "text": "Avvio il Round 1.",
+          "goto": "round1_handoff",
+          "conditions": {
+            "all": [
+              {
+                "path": "player.roster.length",
+                "gte": 6
+              },
+              {
+                "path": "world.flags.m7_qualifier_round1_result",
+                "exists": false
+              }
+            ]
+          }
+        },
+        {
+          "id": "round1_back",
+          "text": "Non parto ancora.",
+          "goto": "round1_preview"
+        }
+      ]
+    },
+    "round1_handoff": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il controllo passa a Pokémon 5e/E5. Soltanto il resolver decide se la lane continua."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fight_world_qualifier_round1",
+          "text": "Combatto il Round 1.",
+          "combat": {
+            "encounterId": "A7_WORLD_QUALIFIER_R1",
+            "opponentRegistered": true,
+            "competition": {
+              "type": "official_match",
+              "matchId": "A7_WORLD_QUALIFIER_R1",
+              "format": "Singles",
+              "officialRosterSize": 6,
+              "difficulty": "ELITE",
+              "opponentTrainerId": "WQ_R1_MIRA_VOSS"
+            },
+            "returnNodes": {
+              "win": "round1_win",
+              "lose": "round1_loss"
+            },
+            "opponentTrainerId": "WQ_R1_MIRA_VOSS",
+            "opponent": {
+              "species": "Gengar",
+              "level": 18,
+              "abilityId": "cursed-body",
+              "trainerId": "WQ_R1_MIRA_VOSS"
+            },
+            "opponentBench": [
+              {
+                "species": "Gyarados",
+                "level": 18,
+                "abilityId": "intimidate",
+                "trainerId": "WQ_R1_MIRA_VOSS"
+              },
+              {
+                "species": "Venusaur",
+                "level": 18,
+                "abilityId": "overgrow",
+                "trainerId": "WQ_R1_MIRA_VOSS"
+              },
+              {
+                "species": "Arcanine",
+                "level": 18,
+                "abilityId": "intimidate",
+                "trainerId": "WQ_R1_MIRA_VOSS"
+              },
+              {
+                "species": "Alakazam",
+                "level": 18,
+                "abilityId": "synchronize",
+                "trainerId": "WQ_R1_MIRA_VOSS"
+              },
+              {
+                "species": "Lapras",
+                "level": 18,
+                "abilityId": "water-absorb",
+                "trainerId": "WQ_R1_MIRA_VOSS"
+              }
+            ],
+            "goto": "round1_handoff"
+          }
+        }
+      ]
+    },
+    "round1_win": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La vittoria E5 apre il Qualifying Match. Non assegna ancora world_qualified."
+        }
+      ],
+      "choices": [
+        {
+          "id": "round1_win_continue",
+          "text": "Registro la vittoria e passo all'intervallo.",
+          "goto": "between_rounds",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_qualifier_round1_result",
+              "value": "win"
+            }
+          ]
+        },
+        {
+          "id": "round1_win_review",
+          "text": "Registro la vittoria e rivedo il bracket.",
+          "goto": "bracket_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_qualifier_round1_result",
+              "value": "win"
+            }
+          ]
+        }
+      ]
+    },
+    "round1_loss": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La sconfitta E5 chiude la lane principale. Il risultato resta eliminazione Round 1; nessun retry viene creato qui."
+        }
+      ],
+      "choices": [
+        {
+          "id": "round1_loss_result",
+          "text": "Registro l'eliminazione e passo al risultato.",
+          "goto": "m07-qualifier-result#result_entry",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_qualifier_round1_result",
+              "value": "loss"
+            },
+            {
+              "type": "set_flag",
+              "key": "m7_qualifier_bracket_result",
+              "value": "eliminated_round1"
+            },
+            {
+              "type": "set_flag",
+              "key": "m7_qualifier_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "round1_loss_review",
+          "text": "Registro la sconfitta e rivedo la history.",
+          "goto": "exit_loss",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_qualifier_round1_result",
+              "value": "loss"
+            },
+            {
+              "type": "set_flag",
+              "key": "m7_qualifier_bracket_result",
+              "value": "eliminated_round1"
+            },
+            {
+              "type": "set_flag",
+              "key": "m7_qualifier_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "between_rounds": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Fra i due match non c'è reset narrativo della squadra. HP, PP, condizioni e risorse seguono il ciclo reale applicabile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "between_next",
+          "text": "Passo alla preview del Qualifying Match.",
+          "goto": "qual_preview"
+        },
+        {
+          "id": "between_history",
+          "text": "Controllo la vittoria già registrata.",
+          "goto": "history_guard"
+        },
+        {
+          "id": "between_bracket",
+          "text": "Rivedo la lane.",
+          "goto": "bracket_review"
+        }
+      ]
+    },
+    "qual_preview": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Qualifying Match è l'ultimo incontro della lane. Solo una vittoria reale qui può produrre una route classificabile come qualificata."
+        }
+      ],
+      "choices": [
+        {
+          "id": "qual_roster",
+          "text": "Rivedo il roster avversario pubblico.",
+          "goto": "qual_confirm",
+          "conditions": {
+            "path": "world.flags.m7_qualifier_round1_result",
+            "eq": "win"
+          }
+        },
+        {
+          "id": "qual_ready",
+          "text": "Passo alla conferma del match.",
+          "goto": "qual_confirm",
+          "conditions": {
+            "path": "world.flags.m7_qualifier_round1_result",
+            "eq": "win"
+          }
+        },
+        {
+          "id": "qual_review",
+          "text": "Rivedo la lane prima di entrare.",
+          "goto": "bracket_review"
+        }
+      ]
+    },
+    "qual_confirm": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il secondo match richiede ancora Official Six reale. La vittoria Round 1 non protegge da una sconfitta qui."
+        }
+      ],
+      "choices": [
+        {
+          "id": "qual_start",
+          "text": "Avvio il Qualifying Match.",
+          "goto": "qual_handoff",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.m7_qualifier_round1_result",
+                "eq": "win"
+              },
+              {
+                "path": "player.roster.length",
+                "gte": 6
+              },
+              {
+                "path": "world.flags.m7_qualifier_final_result",
+                "exists": false
+              }
+            ]
+          }
+        },
+        {
+          "id": "qual_back",
+          "text": "Non parto ancora.",
+          "goto": "qual_preview"
+        }
+      ]
+    },
+    "qual_handoff": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "E5 prende in carico il match decisivo. La narrativa riceverà soltanto win o lose dal resolver."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fight_world_qualifier_final",
+          "text": "Combatto il Qualifying Match.",
+          "combat": {
+            "encounterId": "A7_WORLD_QUALIFIER_FINAL",
+            "opponentRegistered": true,
+            "competition": {
+              "type": "official_match",
+              "matchId": "A7_WORLD_QUALIFIER_FINAL",
+              "format": "Singles",
+              "officialRosterSize": 6,
+              "difficulty": "ELITE",
+              "opponentTrainerId": "WQ_FINAL_TARO_VENN"
+            },
+            "returnNodes": {
+              "win": "qual_win",
+              "lose": "qual_loss"
+            },
+            "opponentTrainerId": "WQ_FINAL_TARO_VENN",
+            "opponent": {
+              "species": "Dragonite",
+              "level": 19,
+              "abilityId": "inner-focus",
+              "trainerId": "WQ_FINAL_TARO_VENN"
+            },
+            "opponentBench": [
+              {
+                "species": "Scizor",
+                "level": 19,
+                "abilityId": "technician",
+                "trainerId": "WQ_FINAL_TARO_VENN"
+              },
+              {
+                "species": "Milotic",
+                "level": 19,
+                "abilityId": "marvel-scale",
+                "trainerId": "WQ_FINAL_TARO_VENN"
+              },
+              {
+                "species": "Houndoom",
+                "level": 19,
+                "abilityId": "flash-fire",
+                "trainerId": "WQ_FINAL_TARO_VENN"
+              },
+              {
+                "species": "Jolteon",
+                "level": 19,
+                "abilityId": "volt-absorb",
+                "trainerId": "WQ_FINAL_TARO_VENN"
+              },
+              {
+                "species": "Snorlax",
+                "level": 19,
+                "abilityId": "thick-fat",
+                "trainerId": "WQ_FINAL_TARO_VENN"
+              }
+            ],
+            "goto": "qual_handoff"
+          }
+        }
+      ]
+    },
+    "qual_win": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Hai vinto realmente il match decisivo. Il bracket può ora essere classificato come qualificato, ma il flag mondiale viene scritto nel blocco risultato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "qual_win_result",
+          "text": "Registro la lane vinta e passo alla classificazione.",
+          "goto": "m07-qualifier-result#result_entry",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_qualifier_final_result",
+              "value": "win"
+            },
+            {
+              "type": "set_flag",
+              "key": "m7_qualifier_bracket_result",
+              "value": "qualified"
+            },
+            {
+              "type": "set_flag",
+              "key": "m7_qualifier_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "qual_win_review",
+          "text": "Registro la vittoria e rivedo il bracket.",
+          "goto": "exit_win",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_qualifier_final_result",
+              "value": "win"
+            },
+            {
+              "type": "set_flag",
+              "key": "m7_qualifier_bracket_result",
+              "value": "qualified"
+            },
+            {
+              "type": "set_flag",
+              "key": "m7_qualifier_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "qual_loss": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La sconfitta nel match decisivo è una vera eliminazione dalla lane principale. Il Last Chance, se disponibile, resta un evento separato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "qual_loss_result",
+          "text": "Registro l'eliminazione e passo alla classificazione.",
+          "goto": "m07-qualifier-result#result_entry",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_qualifier_final_result",
+              "value": "loss"
+            },
+            {
+              "type": "set_flag",
+              "key": "m7_qualifier_bracket_result",
+              "value": "eliminated_qualifying_match"
+            },
+            {
+              "type": "set_flag",
+              "key": "m7_qualifier_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "qual_loss_review",
+          "text": "Registro la sconfitta e rivedo il bracket.",
+          "goto": "exit_loss",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_qualifier_final_result",
+              "value": "loss"
+            },
+            {
+              "type": "set_flag",
+              "key": "m7_qualifier_bracket_result",
+              "value": "eliminated_qualifying_match"
+            },
+            {
+              "type": "set_flag",
+              "key": "m7_qualifier_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "bracket_review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il bracket è una lettura della history: non può trasformare una loss in win o saltare un match."
+        }
+      ],
+      "choices": [
+        {
+          "id": "review_round1",
+          "text": "Rivedo il Round 1.",
+          "goto": "round1_preview",
+          "conditions": {
+            "path": "world.flags.m7_qualifier_round1_result",
+            "exists": false
+          }
+        },
+        {
+          "id": "review_between",
+          "text": "Rivedo lo stato dopo la vittoria Round 1.",
+          "goto": "between_rounds",
+          "conditions": {
+            "path": "world.flags.m7_qualifier_round1_result",
+            "eq": "win"
+          }
+        },
+        {
+          "id": "review_exit",
+          "text": "Se la lane è chiusa, passo all'uscita.",
+          "goto": "close",
+          "conditions": {
+            "path": "world.flags.m7_qualifier_complete",
+            "eq": true
+          }
+        }
+      ]
+    },
+    "history_guard": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Ogni match ufficiale viene conservato in competition.history da E5. I flag M7 servono solo a ricostruire il ramo narrativo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "history_next",
+          "text": "Torno al match decisivo.",
+          "goto": "qual_preview"
+        },
+        {
+          "id": "history_review",
+          "text": "Torno al bracket review.",
+          "goto": "bracket_review"
+        }
+      ]
+    },
+    "exit_win": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La lane è stata vinta. Il passaggio successivo classifica il risultato e aggiorna la qualificazione persistente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "exit_win_result",
+          "text": "Passo al risultato ufficiale.",
+          "goto": "m07-qualifier-result#result_entry"
+        },
+        {
+          "id": "exit_win_review",
+          "text": "Rivedo la history prima di uscire.",
+          "goto": "history_guard"
+        }
+      ]
+    },
+    "exit_loss": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La lane è terminata con una sconfitta reale. Il sistema non crea un replay interno."
+        }
+      ],
+      "choices": [
+        {
+          "id": "exit_loss_result",
+          "text": "Passo al risultato ufficiale.",
+          "goto": "m07-qualifier-result#result_entry"
+        },
+        {
+          "id": "exit_loss_review",
+          "text": "Rivedo il bracket chiuso.",
+          "goto": "bracket_review"
+        }
+      ]
+    },
+    "close": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La lane è chiusa e il suo risultato è persistente. La classificazione successiva decide World Qualified o Last Chance eligibility."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_result",
+          "text": "Passo al blocco risultato.",
+          "goto": "m07-qualifier-result#result_entry"
+        },
+        {
+          "id": "close_history",
+          "text": "Rivedo la history.",
+          "goto": "history_guard"
+        }
+      ]
+    }
+  }
+}

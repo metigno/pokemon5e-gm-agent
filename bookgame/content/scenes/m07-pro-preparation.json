@@ -351,8 +351,8 @@
       "choices": [
         {
           "id": "close_hub",
-          "text": "Torno libero a Meridiana.",
-          "goto": "m07-meridiana-arrival#city_hub"
+          "text": "Passo al Friend Beat 07 quando il selector ha trovato un contatto reale.",
+          "goto": "m07-friend-beat-07#friend_entry"
         },
         {
           "id": "close_media",

@@ -1,0 +1,672 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "M07",
+  "events": [
+    {
+      "id": "A7_WORLD_QUALIFIER",
+      "once": false,
+      "trigger": {
+        "all": [
+          {
+            "path": "world.flags.m7_active",
+            "eq": true
+          },
+          {
+            "path": "competition.rank",
+            "eq": "S"
+          },
+          {
+            "path": "world.flags.m7_pro_preparation_complete",
+            "eq": true
+          },
+          {
+            "path": "world.flags.world_qualified",
+            "ne": true
+          },
+          {
+            "path": "world.flags.m7_qualifier_result_resolved",
+            "ne": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "qualifier_window_open",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a7_world_qualifier_available",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M7_FRIEND_BEAT_SELECT",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "world.flags.m7_pro_preparation_complete",
+            "eq": true
+          },
+          {
+            "path": "world.flags.friend_beat_07_complete",
+            "ne": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "luke_physical",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Luke"
+              },
+              {
+                "path": "world.flags.friend_beat_06_friend_id",
+                "ne": "Luke"
+              },
+              {
+                "path": "npcs.Luke.schedule.present",
+                "eq": true
+              },
+              {
+                "any": [
+                  {
+                    "all": [
+                      {
+                        "path": "world.locationId",
+                        "eq": "meridiana_city"
+                      },
+                      {
+                        "path": "npcs.Luke.schedule.locationId",
+                        "eq": "meridiana_city"
+                      }
+                    ]
+                  },
+                  {
+                    "all": [
+                      {
+                        "path": "world.locationId",
+                        "eq": "meridiana_grand_hall"
+                      },
+                      {
+                        "path": "npcs.Luke.schedule.locationId",
+                        "eq": "meridiana_grand_hall"
+                      }
+                    ]
+                  },
+                  {
+                    "all": [
+                      {
+                        "path": "world.locationId",
+                        "eq": "meridiana_grand_arena"
+                      },
+                      {
+                        "path": "npcs.Luke.schedule.locationId",
+                        "eq": "meridiana_grand_arena"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_friend_id",
+              "value": "Luke"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "mattew_physical",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Mattew"
+              },
+              {
+                "path": "world.flags.friend_beat_06_friend_id",
+                "ne": "Mattew"
+              },
+              {
+                "path": "npcs.Mattew.schedule.present",
+                "eq": true
+              },
+              {
+                "any": [
+                  {
+                    "all": [
+                      {
+                        "path": "world.locationId",
+                        "eq": "meridiana_city"
+                      },
+                      {
+                        "path": "npcs.Mattew.schedule.locationId",
+                        "eq": "meridiana_city"
+                      }
+                    ]
+                  },
+                  {
+                    "all": [
+                      {
+                        "path": "world.locationId",
+                        "eq": "meridiana_grand_hall"
+                      },
+                      {
+                        "path": "npcs.Mattew.schedule.locationId",
+                        "eq": "meridiana_grand_hall"
+                      }
+                    ]
+                  },
+                  {
+                    "all": [
+                      {
+                        "path": "world.locationId",
+                        "eq": "meridiana_grand_arena"
+                      },
+                      {
+                        "path": "npcs.Mattew.schedule.locationId",
+                        "eq": "meridiana_grand_arena"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_friend_id",
+              "value": "Mattew"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "daniel_physical",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Daniel"
+              },
+              {
+                "path": "world.flags.friend_beat_06_friend_id",
+                "ne": "Daniel"
+              },
+              {
+                "path": "npcs.Daniel.schedule.present",
+                "eq": true
+              },
+              {
+                "any": [
+                  {
+                    "all": [
+                      {
+                        "path": "world.locationId",
+                        "eq": "meridiana_city"
+                      },
+                      {
+                        "path": "npcs.Daniel.schedule.locationId",
+                        "eq": "meridiana_city"
+                      }
+                    ]
+                  },
+                  {
+                    "all": [
+                      {
+                        "path": "world.locationId",
+                        "eq": "meridiana_grand_hall"
+                      },
+                      {
+                        "path": "npcs.Daniel.schedule.locationId",
+                        "eq": "meridiana_grand_hall"
+                      }
+                    ]
+                  },
+                  {
+                    "all": [
+                      {
+                        "path": "world.locationId",
+                        "eq": "meridiana_grand_arena"
+                      },
+                      {
+                        "path": "npcs.Daniel.schedule.locationId",
+                        "eq": "meridiana_grand_arena"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_friend_id",
+              "value": "Daniel"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "edward_physical",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Edward"
+              },
+              {
+                "path": "world.flags.friend_beat_06_friend_id",
+                "ne": "Edward"
+              },
+              {
+                "path": "npcs.Edward.schedule.present",
+                "eq": true
+              },
+              {
+                "any": [
+                  {
+                    "all": [
+                      {
+                        "path": "world.locationId",
+                        "eq": "meridiana_city"
+                      },
+                      {
+                        "path": "npcs.Edward.schedule.locationId",
+                        "eq": "meridiana_city"
+                      }
+                    ]
+                  },
+                  {
+                    "all": [
+                      {
+                        "path": "world.locationId",
+                        "eq": "meridiana_grand_hall"
+                      },
+                      {
+                        "path": "npcs.Edward.schedule.locationId",
+                        "eq": "meridiana_grand_hall"
+                      }
+                    ]
+                  },
+                  {
+                    "all": [
+                      {
+                        "path": "world.locationId",
+                        "eq": "meridiana_grand_arena"
+                      },
+                      {
+                        "path": "npcs.Edward.schedule.locationId",
+                        "eq": "meridiana_grand_arena"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_friend_id",
+              "value": "Edward"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "fab_physical",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Fab"
+              },
+              {
+                "path": "world.flags.friend_beat_06_friend_id",
+                "ne": "Fab"
+              },
+              {
+                "path": "npcs.Fab.schedule.present",
+                "eq": true
+              },
+              {
+                "any": [
+                  {
+                    "all": [
+                      {
+                        "path": "world.locationId",
+                        "eq": "meridiana_city"
+                      },
+                      {
+                        "path": "npcs.Fab.schedule.locationId",
+                        "eq": "meridiana_city"
+                      }
+                    ]
+                  },
+                  {
+                    "all": [
+                      {
+                        "path": "world.locationId",
+                        "eq": "meridiana_grand_hall"
+                      },
+                      {
+                        "path": "npcs.Fab.schedule.locationId",
+                        "eq": "meridiana_grand_hall"
+                      }
+                    ]
+                  },
+                  {
+                    "all": [
+                      {
+                        "path": "world.locationId",
+                        "eq": "meridiana_grand_arena"
+                      },
+                      {
+                        "path": "npcs.Fab.schedule.locationId",
+                        "eq": "meridiana_grand_arena"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_friend_id",
+              "value": "Fab"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "luke_remote",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Luke"
+              },
+              {
+                "path": "world.flags.friend_beat_06_friend_id",
+                "ne": "Luke"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_friend_id",
+              "value": "Luke"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "mattew_remote",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Mattew"
+              },
+              {
+                "path": "world.flags.friend_beat_06_friend_id",
+                "ne": "Mattew"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_friend_id",
+              "value": "Mattew"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "daniel_remote",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Daniel"
+              },
+              {
+                "path": "world.flags.friend_beat_06_friend_id",
+                "ne": "Daniel"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_friend_id",
+              "value": "Daniel"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "edward_remote",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Edward"
+              },
+              {
+                "path": "world.flags.friend_beat_06_friend_id",
+                "ne": "Edward"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_friend_id",
+              "value": "Edward"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "fab_remote",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Fab"
+              },
+              {
+                "path": "world.flags.friend_beat_06_friend_id",
+                "ne": "Fab"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_friend_id",
+              "value": "Fab"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_available",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A7_LAST_CHANCE",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "world.flags.m7_qualifier_result_resolved",
+            "eq": true
+          },
+          {
+            "path": "world.flags.world_qualified",
+            "ne": true
+          },
+          {
+            "path": "world.flags.last_chance_eligible",
+            "eq": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "last_chance_window",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a7_last_chance_available",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A7_BEFORE_LIGHTS",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "world.flags.world_qualified",
+            "eq": true
+          },
+          {
+            "any": [
+              {
+                "path": "player.trainerLevel",
+                "gte": 18
+              },
+              {
+                "path": "world.flags.worlds_departure_imminent",
+                "eq": true
+              }
+            ]
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "before_lights_window",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a7_before_lights_available",
+              "value": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

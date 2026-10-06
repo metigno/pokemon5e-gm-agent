@@ -1,0 +1,487 @@
+{
+  "schemaVersion": 1,
+  "id": "m07-qualifier-result",
+  "moduleId": "M07",
+  "title": "M7_08 — Qualifier Result",
+  "locationId": "meridiana_grand_hall",
+  "entryNodeId": "result_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m6_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m07_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m7_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "S"
+      },
+      {
+        "path": "world.flags.m7_qualifier_complete",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "result_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il risultato del Qualifier viene classificato soltanto a partire dalla lane realmente risolta. Qui non si combatte e non si corregge il bracket."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_classify",
+          "text": "Classifico il risultato reale.",
+          "goto": "classify"
+        },
+        {
+          "id": "entry_history",
+          "text": "Rivedo prima la history E5.",
+          "goto": "history"
+        },
+        {
+          "id": "entry_guard",
+          "text": "Controllo il guardrail world_qualified.",
+          "goto": "world_guard"
+        }
+      ]
+    },
+    "classify": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La lane ammette tre esiti narrativi: qualificato, eliminato al Round 1, eliminato nel Qualifying Match."
+        }
+      ],
+      "choices": [
+        {
+          "id": "classify_qualified",
+          "text": "La lane è stata vinta.",
+          "goto": "qualified_summary",
+          "conditions": {
+            "path": "world.flags.m7_qualifier_bracket_result",
+            "eq": "qualified"
+          }
+        },
+        {
+          "id": "classify_r1",
+          "text": "Sono uscito al Round 1.",
+          "goto": "eliminated_r1",
+          "conditions": {
+            "path": "world.flags.m7_qualifier_bracket_result",
+            "eq": "eliminated_round1"
+          }
+        },
+        {
+          "id": "classify_final",
+          "text": "Sono uscito nel Qualifying Match.",
+          "goto": "eliminated_final",
+          "conditions": {
+            "path": "world.flags.m7_qualifier_bracket_result",
+            "eq": "eliminated_qualifying_match"
+          }
+        }
+      ]
+    },
+    "qualified_summary": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Due vittorie ufficiali nella lane soddisfano la condizione di qualificazione di questa istanza. Non sono sponsor, Rank o reputazione a produrre l'esito."
+        }
+      ],
+      "choices": [
+        {
+          "id": "qualified_guard",
+          "text": "Verifico il guardrail prima di scrivere world_qualified.",
+          "goto": "world_guard"
+        },
+        {
+          "id": "qualified_record",
+          "text": "Registro la qualificazione persistente.",
+          "goto": "qualified_record"
+        },
+        {
+          "id": "qualified_history",
+          "text": "Rivedo le due vittorie in history.",
+          "goto": "history"
+        }
+      ]
+    },
+    "eliminated_r1": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La sconfitta nel primo match chiude il percorso principale. La classificazione conserva il punto esatto di eliminazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "r1_record",
+          "text": "Registro eliminazione Round 1.",
+          "goto": "eliminated_record",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_qualifier_result",
+              "value": "eliminated_round1"
+            }
+          ]
+        },
+        {
+          "id": "r1_history",
+          "text": "Rivedo la history del primo match.",
+          "goto": "history"
+        }
+      ]
+    },
+    "eliminated_final": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Hai superato il primo match ma perso quello decisivo. La qualificazione non viene concessa per essere arrivato vicino."
+        }
+      ],
+      "choices": [
+        {
+          "id": "final_record",
+          "text": "Registro eliminazione nel Qualifying Match.",
+          "goto": "eliminated_record",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_qualifier_result",
+              "value": "eliminated_qualifying_match"
+            }
+          ]
+        },
+        {
+          "id": "final_history",
+          "text": "Rivedo entrambi i match.",
+          "goto": "history"
+        }
+      ]
+    },
+    "history": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "competition.history resta la fonte del risultato dei combattimenti. I flag di modulo classificano soltanto quale ramo è ormai legale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "history_classify",
+          "text": "Torno alla classificazione.",
+          "goto": "classify"
+        },
+        {
+          "id": "history_cynthia",
+          "text": "Rileggo il risultato attraverso il benchmark di Cynthia.",
+          "goto": "cynthia_callback"
+        },
+        {
+          "id": "history_friend",
+          "text": "Controllo il callback del Friend Beat 07.",
+          "goto": "friend_callback"
+        }
+      ]
+    },
+    "world_guard": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "world_qualified può diventare true soltanto dopo una lane realmente vinta. Rank S e registrazione, da soli, non soddisfano il gate."
+        }
+      ],
+      "choices": [
+        {
+          "id": "guard_qualified",
+          "text": "La lane è qualificata: posso registrarla.",
+          "goto": "qualified_record",
+          "conditions": {
+            "path": "world.flags.m7_qualifier_bracket_result",
+            "eq": "qualified"
+          }
+        },
+        {
+          "id": "guard_classify",
+          "text": "Torno alla classificazione.",
+          "goto": "classify"
+        }
+      ]
+    },
+    "cynthia_callback": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Cynthia non protegge il risultato. Il suo metodo può cambiare la lettura del percorso, non il bracket."
+        }
+      ],
+      "choices": [
+        {
+          "id": "cynthia_pressure",
+          "text": "Rifletto su come gestire il risultato pubblico.",
+          "goto": "pressure_response"
+        },
+        {
+          "id": "cynthia_classify",
+          "text": "Torno alla classificazione.",
+          "goto": "classify"
+        }
+      ]
+    },
+    "friend_callback": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'amico del Friend Beat può essere avanti, indietro o fuori. Il tuo risultato non viene sincronizzato al suo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "friend_pressure",
+          "text": "Rifletto sulla divergenza fra carriere.",
+          "goto": "pressure_response"
+        },
+        {
+          "id": "friend_history",
+          "text": "Torno alla history.",
+          "goto": "history"
+        }
+      ]
+    },
+    "media_callback": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Media e sponsor reagiscono al risultato reale. Nessun contratto modifica il fatto che il bracket sia stato vinto o perso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "media_pressure",
+          "text": "Gestisco la conseguenza pubblica.",
+          "goto": "pressure_response"
+        },
+        {
+          "id": "media_classify",
+          "text": "Torno alla classificazione.",
+          "goto": "classify"
+        }
+      ]
+    },
+    "qualified_record": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La registrazione finale trasforma il risultato reale in stato mondiale persistente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "qualified_commit",
+          "text": "Segno world_qualified=true.",
+          "goto": "qualified_close",
+          "conditions": {
+            "path": "world.flags.m7_qualifier_bracket_result",
+            "eq": "qualified"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "world_qualified",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m7_qualifier_result",
+              "value": "qualified"
+            },
+            {
+              "type": "set_flag",
+              "key": "last_chance_eligible",
+              "value": false
+            },
+            {
+              "type": "set_flag",
+              "key": "m7_qualifier_result_resolved",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "qualified_back",
+          "text": "Rivedo la classificazione prima di confermare.",
+          "goto": "classify"
+        }
+      ]
+    },
+    "eliminated_record": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'eliminazione principale non viene cancellata. Può soltanto aprire, se previsto, la route finita del Last Chance."
+        }
+      ],
+      "choices": [
+        {
+          "id": "elimination_confirm",
+          "text": "Registro l'eliminazione e l'eligibility Last Chance.",
+          "goto": "last_chance_explain",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "world_qualified",
+              "value": false
+            },
+            {
+              "type": "set_flag",
+              "key": "last_chance_eligible",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m7_qualifier_result_resolved",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "elimination_back",
+          "text": "Rivedo la history prima di confermare.",
+          "goto": "history"
+        }
+      ]
+    },
+    "last_chance_explain": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Last Chance è un evento separato, una sola volta. Non è un replay del World Qualifier e non cancella la sconfitta precedente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "lastchance_gate",
+          "text": "Passo al gate Last Chance.",
+          "goto": "eliminated_close"
+        },
+        {
+          "id": "lastchance_media",
+          "text": "Prima affronto la conseguenza pubblica.",
+          "goto": "media_callback"
+        }
+      ]
+    },
+    "pressure_response": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Vittoria o sconfitta diventano pubbliche senza modificatori nascosti. Il player sceglie come reagire, non quale risultato ricordare."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pressure_media",
+          "text": "Ricollego media e sponsor al risultato.",
+          "goto": "media_callback"
+        },
+        {
+          "id": "pressure_save",
+          "text": "Controllo che lo stato sia ormai persistente.",
+          "goto": "save_guard"
+        }
+      ]
+    },
+    "save_guard": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Una volta risolto, il risultato non deve duplicare ricompense né riaprire il bracket sulla stessa run."
+        }
+      ],
+      "choices": [
+        {
+          "id": "save_classify",
+          "text": "Rivedo la classificazione.",
+          "goto": "classify"
+        },
+        {
+          "id": "save_close",
+          "text": "Chiudo il riepilogo corrente.",
+          "goto": "result_close"
+        }
+      ]
+    },
+    "qualified_close": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La qualificazione è reale e persistente. Il Last Chance non è disponibile per una run già qualificata."
+        }
+      ],
+      "choices": [
+        {
+          "id": "qualified_gate",
+          "text": "Passo comunque al gate di instradamento.",
+          "goto": "m07-last-chance-gate#gate_entry"
+        },
+        {
+          "id": "qualified_pressure",
+          "text": "Gestisco prima l'attenzione pubblica.",
+          "goto": "pressure_response"
+        }
+      ]
+    },
+    "eliminated_close": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La corsa principale è chiusa. Se A7_LAST_CHANCE è disponibile, il prossimo gate potrà aprire quella sola route."
+        }
+      ],
+      "choices": [
+        {
+          "id": "eliminated_gate",
+          "text": "Passo al gate Last Chance.",
+          "goto": "m07-last-chance-gate#gate_entry"
+        },
+        {
+          "id": "eliminated_history",
+          "text": "Rivedo il percorso prima di uscire.",
+          "goto": "history"
+        }
+      ]
+    },
+    "result_close": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il risultato resta quello già registrato. Da qui si procede soltanto verso una route legalmente disponibile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_gate",
+          "text": "Passo al gate di instradamento.",
+          "goto": "m07-last-chance-gate#gate_entry"
+        },
+        {
+          "id": "close_history",
+          "text": "Rileggo la history.",
+          "goto": "history"
+        }
+      ]
+    }
+  }
+}

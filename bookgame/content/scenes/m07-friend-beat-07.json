@@ -1,0 +1,638 @@
+{
+  "schemaVersion": 1,
+  "id": "m07-friend-beat-07",
+  "moduleId": "M07",
+  "title": "M7_05 — Friend Beat 07",
+  "locationId": "meridiana_city",
+  "entryNodeId": "friend_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m6_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m07_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m7_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "S"
+      },
+      {
+        "path": "world.flags.m7_pro_preparation_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.friend_beat_07_available",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "friend_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Uno dei Four interseca la corsa al Mondiale secondo stato, posizione e rotazione reali. Il blocco non teletrasporta nessuno e non forza un match fra amici."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_status",
+          "text": "Controllo chi è stato selezionato e perché.",
+          "goto": "selector_status"
+        },
+        {
+          "id": "entry_contact",
+          "text": "Apro il contatto disponibile.",
+          "goto": "dispatch"
+        }
+      ]
+    },
+    "selector_status": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il selector evita il protagonista e, quando possibile, il Friend Beat precedente. Un incontro fisico esiste solo se player e amico condividono davvero la stessa posizione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "status_dispatch",
+          "text": "Passo al contatto selezionato.",
+          "goto": "dispatch"
+        },
+        {
+          "id": "status_callback",
+          "text": "Rivedo come i Friend Beat precedenti pesano sulla rotazione.",
+          "goto": "callback"
+        },
+        {
+          "id": "status_wait",
+          "text": "Se il contatto è remoto, posso comunque scegliere quando rispondere.",
+          "goto": "wait_contact"
+        }
+      ]
+    },
+    "dispatch": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il sistema mantiene l'identità dell'amico selezionato. Ogni ramo usa la relazione persistente di quella persona e non sostituisce il suo stato competitivo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "dispatch_luke",
+          "text": "Rispondo a Luke.",
+          "goto": "luke_contact",
+          "conditions": {
+            "path": "world.flags.friend_beat_07_friend_id",
+            "eq": "Luke"
+          }
+        },
+        {
+          "id": "dispatch_mattew",
+          "text": "Rispondo a Mattew.",
+          "goto": "mattew_contact",
+          "conditions": {
+            "path": "world.flags.friend_beat_07_friend_id",
+            "eq": "Mattew"
+          }
+        },
+        {
+          "id": "dispatch_daniel",
+          "text": "Rispondo a Daniel.",
+          "goto": "daniel_contact",
+          "conditions": {
+            "path": "world.flags.friend_beat_07_friend_id",
+            "eq": "Daniel"
+          }
+        },
+        {
+          "id": "dispatch_edward",
+          "text": "Rispondo a Edward.",
+          "goto": "edward_contact",
+          "conditions": {
+            "path": "world.flags.friend_beat_07_friend_id",
+            "eq": "Edward"
+          }
+        },
+        {
+          "id": "dispatch_fab",
+          "text": "Rispondo a Fab.",
+          "goto": "fab_contact",
+          "conditions": {
+            "path": "world.flags.friend_beat_07_friend_id",
+            "eq": "Fab"
+          }
+        }
+      ]
+    },
+    "luke_contact": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Luke tratta la pressione come un problema di adattamento: non vuole arrivare al Qualifier con una sola linea di gioco."
+        }
+      ],
+      "choices": [
+        {
+          "id": "luke_physical",
+          "text": "Parliamo di persona.",
+          "goto": "physical_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_07_contact_mode",
+            "eq": "physical"
+          },
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 1
+            }
+          ]
+        },
+        {
+          "id": "luke_remote",
+          "text": "Parliamo a distanza.",
+          "goto": "remote_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_07_contact_mode",
+            "eq": "remote"
+          },
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 1
+            }
+          ]
+        }
+      ]
+    },
+    "mattew_contact": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Mattew misura il momento rispetto al proprio percorso, non al tuo: il suo ranking e la sua preparazione restano indipendenti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "mattew_physical",
+          "text": "Parliamo di persona.",
+          "goto": "physical_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_07_contact_mode",
+            "eq": "physical"
+          },
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 1
+            }
+          ]
+        },
+        {
+          "id": "mattew_remote",
+          "text": "Parliamo a distanza.",
+          "goto": "remote_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_07_contact_mode",
+            "eq": "remote"
+          },
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 1
+            }
+          ]
+        }
+      ]
+    },
+    "daniel_contact": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Daniel legge il field come un problema di informazioni incomplete. Non rivela roster futuri che non ha realmente scoperto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "daniel_physical",
+          "text": "Parliamo di persona.",
+          "goto": "physical_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_07_contact_mode",
+            "eq": "physical"
+          },
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 1
+            }
+          ]
+        },
+        {
+          "id": "daniel_remote",
+          "text": "Parliamo a distanza.",
+          "goto": "remote_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_07_contact_mode",
+            "eq": "remote"
+          },
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 1
+            }
+          ]
+        }
+      ]
+    },
+    "edward_contact": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Edward mette al centro continuità e tenuta: arrivare al Qualifier significa anche accettare che un risultato possa chiudere la corsa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "edward_physical",
+          "text": "Parliamo di persona.",
+          "goto": "physical_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_07_contact_mode",
+            "eq": "physical"
+          },
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 1
+            }
+          ]
+        },
+        {
+          "id": "edward_remote",
+          "text": "Parliamo a distanza.",
+          "goto": "remote_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_07_contact_mode",
+            "eq": "remote"
+          },
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 1
+            }
+          ]
+        }
+      ]
+    },
+    "fab_contact": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Fab affronta la pressione con pragmatismo: recupero, risorse e margine d'errore contano quanto il prestigio del tabellone."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fab_physical",
+          "text": "Parliamo di persona.",
+          "goto": "physical_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_07_contact_mode",
+            "eq": "physical"
+          },
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 1
+            }
+          ]
+        },
+        {
+          "id": "fab_remote",
+          "text": "Parliamo a distanza.",
+          "goto": "remote_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_07_contact_mode",
+            "eq": "remote"
+          },
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 1
+            }
+          ]
+        }
+      ]
+    },
+    "physical_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Siete nello stesso luogo. Questo permette un confronto reale ma non autorizza uno sparring automatico: Player vs Friend avviene solo se un bracket o una scena legale lo produce."
+        }
+      ],
+      "choices": [
+        {
+          "id": "physical_qualifier",
+          "text": "Parliamo del Qualifier senza simulare un match.",
+          "goto": "qualifier_talk",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_type",
+              "value": "physical"
+            }
+          ]
+        },
+        {
+          "id": "physical_pressure",
+          "text": "Parliamo della pressione di Meridiana.",
+          "goto": "shared_pressure",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_type",
+              "value": "physical"
+            }
+          ]
+        },
+        {
+          "id": "physical_state",
+          "text": "Confrontiamo soltanto lo stato reale delle nostre carriere.",
+          "goto": "uncertain_friend",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_type",
+              "value": "physical"
+            }
+          ]
+        }
+      ]
+    },
+    "remote_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il contatto resta remoto: l'amico non viene spostato a Meridiana. La distanza stessa può essere una conseguenza della sua carriera."
+        }
+      ],
+      "choices": [
+        {
+          "id": "remote_qualifier",
+          "text": "Parliamo del Qualifier a distanza.",
+          "goto": "qualifier_talk",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_type",
+              "value": "remote"
+            }
+          ]
+        },
+        {
+          "id": "remote_pressure",
+          "text": "Parliamo di cosa significa non condividere la stessa finestra.",
+          "goto": "shared_pressure",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_type",
+              "value": "remote"
+            }
+          ]
+        },
+        {
+          "id": "remote_state",
+          "text": "Mi limito a chiedere come sta andando davvero.",
+          "goto": "uncertain_friend",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_type",
+              "value": "remote"
+            }
+          ]
+        }
+      ]
+    },
+    "qualifier_talk": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Nessuno dei due può garantire l'esito. Se l'amico è già qualificato, eliminato o ancora in corsa, quel fatto deve provenire dal suo stato reale e non da questo dialogo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "qualifier_qualified",
+          "text": "Ragioniamo sul caso in cui uno dei due sia già avanti.",
+          "goto": "qualified_friend"
+        },
+        {
+          "id": "qualifier_eliminated",
+          "text": "Ragioniamo sul peso di una possibile eliminazione.",
+          "goto": "eliminated_friend"
+        }
+      ]
+    },
+    "eliminated_friend": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Una sconfitta non viene riscritta in una lezione obbligatoria. Può cambiare tono, relazione e prossime decisioni, ma resta una sconfitta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "elim_pressure",
+          "text": "Parliamo di come gestire il giorno dopo.",
+          "goto": "shared_pressure"
+        },
+        {
+          "id": "elim_record",
+          "text": "Chiudo il confronto rispettando il risultato reale.",
+          "goto": "relationship"
+        }
+      ]
+    },
+    "qualified_friend": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Essere avanti non significa poter trascinare l'altro con sé. La qualificazione resta individuale e il bracket non viene piegato per creare una sfida fra amici."
+        }
+      ],
+      "choices": [
+        {
+          "id": "qualified_pressure",
+          "text": "Parliamo di cosa cambia quando l'attenzione aumenta.",
+          "goto": "shared_pressure"
+        },
+        {
+          "id": "qualified_record",
+          "text": "Chiudo il confronto senza trasferire vantaggi.",
+          "goto": "relationship"
+        }
+      ]
+    },
+    "uncertain_friend": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Quando il suo stato non è pubblico o non è ancora risolto, la scena mantiene l'incertezza invece di anticipare informazioni future."
+        }
+      ],
+      "choices": [
+        {
+          "id": "uncertain_qualifier",
+          "text": "Torniamo al tema del Qualifier.",
+          "goto": "qualifier_talk"
+        },
+        {
+          "id": "uncertain_pressure",
+          "text": "Parliamo della pressione comune.",
+          "goto": "shared_pressure"
+        }
+      ]
+    },
+    "shared_pressure": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La parte più difficile è convivere con l'idea che una singola giornata possa cambiare mesi di lavoro. Nessun bonus nascosto compensa questa pressione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pressure_relationship",
+          "text": "Rispondo sul piano personale.",
+          "goto": "relationship"
+        },
+        {
+          "id": "pressure_callback",
+          "text": "Ricollego questo momento ai Friend Beat precedenti.",
+          "goto": "callback"
+        }
+      ]
+    },
+    "relationship": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il rapporto cambia perché vi siete confrontati davvero, non perché il gioco deve premiarvi prima del Qualifier."
+        }
+      ],
+      "choices": [
+        {
+          "id": "relationship_record",
+          "text": "Registro il momento condiviso.",
+          "goto": "result_record"
+        },
+        {
+          "id": "relationship_more",
+          "text": "Resto ancora sul tema della pressione.",
+          "goto": "shared_pressure"
+        }
+      ]
+    },
+    "callback": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "I Friend Beat precedenti restano parte della relazione e della rotazione. M7 non cancella né duplica quei momenti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "callback_contact",
+          "text": "Torno al contatto corrente.",
+          "goto": "dispatch"
+        },
+        {
+          "id": "callback_record",
+          "text": "Chiudo il callback e registro il beat.",
+          "goto": "result_record"
+        }
+      ]
+    },
+    "wait_contact": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Aspettare un'ora può cambiare schedule e disponibilità, ma non teletrasporta l'amico selezionato e non modifica il suo risultato competitivo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "wait_hour",
+          "text": "Aspetto un'ora e ricontrollo.",
+          "goto": "selector_status",
+          "timeCostMinutes": 60
+        },
+        {
+          "id": "wait_dispatch",
+          "text": "Rispondo senza altra attesa.",
+          "goto": "dispatch"
+        }
+      ]
+    },
+    "result_record": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il beat conserva amico, modalità e relazione. Non produce punti, ranking o qualificazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record_complete",
+          "text": "Segno FRIEND_BEAT_07 come completato.",
+          "goto": "friend_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_07_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "friend_close": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La corsa al Mondiale torna al centro. Il prossimo passo è la registrazione ufficiale, separata dal risultato del Qualifier."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_registration",
+          "text": "Passo alla registrazione del World Qualifier.",
+          "goto": "m07-qualifier-registration#registration_entry"
+        }
+      ]
+    }
+  }
+}

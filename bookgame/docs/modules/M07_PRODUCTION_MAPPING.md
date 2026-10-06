@@ -5,7 +5,7 @@
 **Purpose:** production map for converting M7 into validated offline story content  
 **Locked authored budget:** **5,200 stitches / 3,200 player choices**
 
-**Module implementation status:** **M7_00–M7_04 IMPLEMENTED / LIBRARY-V2 ALIGNED / STATIC-PASS — RUNTIME CI EVIDENCE PENDING**
+**Module implementation status:** **M7_00–M7_09 IMPLEMENTED / LIBRARY-V2 ALIGNED / STATIC-PASS — RUNTIME CI EVIDENCE PENDING**
 
 E1–E7 are reusable infrastructure from M1. A block may extend generic data or content, but must not fork those engines into module-specific substitutes.
 
@@ -56,11 +56,11 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 | M7_02_CYNTHIA_ENTERS | introduzione di Cynthia come peer/benchmark, non boss | 346 | 213 | PLANNED |
 | M7_03_MEDIA_SPONSOR | pressione pubblica e contratti senza bonus meccanici illegali | 346 | 213 | PLANNED |
 | M7_04_PRO_PREPARATION | training, scouting e gestione squadra con regole reali | 294 | 181 | PLANNED |
-| M7_05_FRIEND_BEAT_07 | uno dei Four nella corsa al Mondiale in stato reale | 501 | 308 | PLANNED |
-| M7_06_QUALIFIER_REGISTRATION | eligibility WORLD_QUALIFIER e roster ufficiale 6 | 449 | 276 | PLANNED |
-| M7_07_WORLD_QUALIFIER | bracket reale; solo risultato effettivo può qualificare | 501 | 308 | PLANNED |
-| M7_08_QUALIFIER_RESULT | qualificato o eliminato, history e conseguenze | 449 | 276 | PLANNED |
-| M7_09_LAST_CHANCE_GATE | accesso solo se last_chance_eligible | 345 | 213 | PLANNED |
+| M7_05_FRIEND_BEAT_07 | uno dei Four nella corsa al Mondiale in stato reale | 501 | 308 | IMPLEMENTED |
+| M7_06_QUALIFIER_REGISTRATION | eligibility WORLD_QUALIFIER e roster ufficiale 6 | 449 | 276 | IMPLEMENTED |
+| M7_07_WORLD_QUALIFIER | bracket reale; solo risultato effettivo può qualificare | 501 | 308 | IMPLEMENTED |
+| M7_08_QUALIFIER_RESULT | qualificato o eliminato, history e conseguenze | 449 | 276 | IMPLEMENTED |
+| M7_09_LAST_CHANCE_GATE | accesso solo se last_chance_eligible | 345 | 213 | IMPLEMENTED |
 | M7_10_LAST_CHANCE | route finita, nessun retry infinito | 345 | 213 | PLANNED |
 | M7_11_BEFORE_THE_LIGHTS | A7_BEFORE_LIGHTS per qualificati e amici disponibili | 345 | 212 | PLANNED |
 | M7_12_WORLDS_MISSED | ramo completo per chi non si qualifica | 345 | 212 | PLANNED |
@@ -121,6 +121,30 @@ The first cycle therefore leaves exactly **144 nodes / 317 meaningful choices** 
 - GitHub Actions runtime evidence: **PENDING**.
 
 Final **COMPLETE** remains reserved for executable runtime evidence.
+
+## 2C. LIBRARY V2 ROUTING FOR CYCLE 2
+
+- **M7_05:** R26 Friend Beat selector + R27 Friend Beat content + R23 schedule/location causality + R33 continuity. Physical contact requires the same real Meridiana location; otherwise the selected friend remains remote.
+- **M7_06:** R16 eligibility information + R17 qualifier registration shell + R32 legal deferral + R33 callbacks. WORLD_QUALIFIER registration requires Rank S, the open A7 window and a real Official Six.
+- **M7_07:** R37 multi-round tournament lifecycle + R06 combat handoff + R15 official match lifecycle. The main lane is two Official Six ELITE matches; a loss closes the lane and no internal retry is created.
+- **M7_08:** R38 composite outcome classifier + R29 living-world consequence + R33 Anchor/Friend/media callbacks. `world_qualified` is written only after a bracket result produced by real E5 matches.
+- **M7_09:** R34 access boundary + R16 eligibility information + R32 time/deferral + R38 routing classifier. A qualified run bypasses Last Chance; an eliminated run opens it only when `last_chance_eligible` and `A7_LAST_CHANCE` are both real.
+
+**No R39 candidate is required.** Library V2 R01→R38 remains sufficient through M7_09.
+
+### Cycle 2 validation status
+
+- authored files: present;
+- exact cycle budget: **90 nodes / 199 meaningful choices**;
+- cumulative M7 runtime surface: **156 nodes / 344 choices**;
+- exact remaining M7 target: **54 nodes / 118 choices**;
+- canonical bindings authored: `A7_WORLD_QUALIFIER`, `A7_LAST_CHANCE`, `A7_BEFORE_LIGHTS`, plus deterministic `M7_FRIEND_BEAT_SELECT`;
+- World Qualifier format: **Official Six / Singles / ELITE**, two-match lane in this instance;
+- Rank S remains separate from qualification;
+- no Promotion Trial misuse for WORLD_QUALIFIER (there is no post-S rank);
+- Last Chance remains finite and separate from the main qualifier;
+- dedicated regressions: `m07-cycle2.test.mjs` plus expanded `m07-cycle-budget.test.mjs`;
+- GitHub Actions runtime evidence: **PENDING**.
 
 # 3. CANONICAL EVENT BINDINGS
 
@@ -288,6 +312,20 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R26_FRIEND_BEAT_SELECTOR
+- R27_FRIEND_BEAT_CONTENT
+- R23_NPC_PRESENCE_SCHEDULE_GATE
+- R33_CROSS_MODULE_CALLBACK
+
+**Unique layer:** a late-career Four interaction under World-qualification pressure, with no forced Player-vs-Friend fight and no teleporting.
+
+**Implementation lock (cycle 2):** Scene `m07-friend-beat-07` contains **20 nodes / 44 meaningful choices**. The selector rotates away from the protagonist and M6 friend when possible, physical mode requires a real shared Meridiana location, remote mode preserves the friend's schedule, and completion never grants ranking or qualification.
+
 ---
 
 ## M7_06_QUALIFIER_REGISTRATION
@@ -299,6 +337,20 @@ A content gap is not permission to implement a second engine.
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R16_ROSTER_PREPARATION_ELIGIBILITY_INFO
+- R17_PROMOTION_QUALIFIER_REGISTRATION
+- R32_WAIT_LET_TIME_PASS
+- R33_CROSS_MODULE_CALLBACK
+
+**Unique layer:** WORLD_QUALIFIER registration is an administrative Rank S gate with Official Six, not a Promotion Trial and not a qualification result.
+
+**Implementation lock (cycle 2):** Scene `m07-qualifier-registration` contains **18 nodes / 40 meaningful choices**. It checks Rank S, `A7_WORLD_QUALIFIER` availability and the actual six-member roster, persists registration, and leaves `world_qualified` untouched.
 
 ---
 
@@ -312,6 +364,20 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R37_MULTI_ROUND_TOURNAMENT_LIFECYCLE
+- R06_COMBAT_HANDOFF
+- R15_FIRST_OFFICIAL_MATCH_LIFECYCLE
+- R16_ROSTER_PREPARATION_ELIGIBILITY_INFO
+
+**Unique layer:** the final World-qualification lane uses two Official Six ELITE matches in this instance; every advancement is driven by real E5 outcomes.
+
+**Implementation lock (cycle 2):** Scene `m07-world-qualifier` contains **20 nodes / 44 meaningful choices**. Round 1 loss ends the main lane, Round 1 win opens the Qualifying Match, and the decisive result is recorded without directly setting `world_qualified`.
+
 ---
 
 ## M7_08_QUALIFIER_RESULT
@@ -324,6 +390,19 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R38_COMPOSITE_OUTCOME_CLASSIFIER
+- R29_LIVING_WORLD_OFF_SCREEN_RESOLUTION
+- R33_CROSS_MODULE_CALLBACK
+
+**Unique layer:** qualification is classified from the already-resolved E5 lane, with public/friend/Cynthia consequences and finite Last Chance eligibility on elimination.
+
+**Implementation lock (cycle 2):** Scene `m07-qualifier-result` contains **18 nodes / 40 meaningful choices**. Only a real qualified bracket result can set `world_qualified=true`; elimination remains persistent and opens `A7_LAST_CHANCE` only through explicit eligibility.
+
 ---
 
 ## M7_09_LAST_CHANCE_GATE
@@ -335,6 +414,20 @@ A content gap is not permission to implement a second engine.
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R34_ACCESS_BOUNDARY_RECONNAISSANCE_GATE
+- R16_ROSTER_PREPARATION_ELIGIBILITY_INFO
+- R32_WAIT_LET_TIME_PASS
+- R38_COMPOSITE_OUTCOME_CLASSIFIER
+
+**Unique layer:** a finite routing gate distinguishes already-qualified runs from legally eligible Last Chance runs without replaying the main Qualifier.
+
+**Implementation lock (cycle 2):** Scene `m07-last-chance-gate` contains **14 nodes / 31 meaningful choices**. Qualified runs bypass the route, eliminated runs require both `last_chance_eligible` and `a7_last_chance_available`, and the block records only routing state for M7_10.
 
 ---
 

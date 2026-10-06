@@ -11,6 +11,14 @@ const expected=[
   ["m07-pro-preparation",12,26]
 ];
 
+const cycle2=[
+  ["m07-friend-beat-07",20,44],
+  ["m07-qualifier-registration",18,40],
+  ["m07-world-qualifier",20,44],
+  ["m07-qualifier-result",18,40],
+  ["m07-last-chance-gate",14,31]
+];
+
 test("M7_00-M7_04 logical production budget is locked at 66 nodes / 145 meaningful choices",async()=>{
   let nodes=0,choices=0;
   for(const [rel,n,c] of expected){
@@ -88,6 +96,58 @@ test("M7_00-M7_04 authored nodes are all reachable from their cycle entry graph"
 test("M7 cycle1 has no zero-incoming padding nodes",async()=>{
   const scenes={};
   for(const [rel] of expected){
+    scenes[rel]=JSON.parse(await readFile(fileURLToPath(new URL("../content/scenes/"+rel+".json",import.meta.url)),"utf8"));
+  }
+  const incoming={};
+  for(const [sceneId,scene] of Object.entries(scenes)){
+    for(const nodeId of Object.keys(scene.nodes)) incoming[sceneId+"#"+nodeId]=0;
+    incoming[sceneId+"#"+scene.entryNodeId]+=1;
+  }
+  const add=(raw,currentScene)=>{
+    if(typeof raw!=="string") return;
+    const parts=raw.includes("#")?raw.split("#"):[currentScene,raw];
+    const target=parts[0]+"#"+parts[1];
+    if(Object.hasOwn(incoming,target)) incoming[target]+=1;
+  };
+  for(const [sceneId,scene] of Object.entries(scenes)){
+    for(const node of Object.values(scene.nodes)){
+      for(const choice of node.choices??[]) add(choice.goto,sceneId);
+    }
+  }
+  assert.deepEqual(Object.entries(incoming).filter(([,n])=>n===0).map(([k])=>k),[]);
+});
+
+
+test("M7_05-M7_09 logical production budget is locked at 90 nodes / 199 meaningful choices",async()=>{
+  let nodes=0,choices=0;
+  for(const [rel,n,c] of cycle2){
+    const scene=JSON.parse(await readFile(fileURLToPath(new URL("../content/scenes/"+rel+".json",import.meta.url)),"utf8"));
+    const actualNodes=Object.keys(scene.nodes).length;
+    const actualChoices=Object.values(scene.nodes).reduce((sum,node)=>sum+(node.choices?.length??0),0);
+    assert.equal(actualNodes,n,rel+" node budget");
+    assert.equal(actualChoices,c,rel+" choice budget");
+    nodes+=actualNodes;choices+=actualChoices;
+  }
+  assert.equal(nodes,90);
+  assert.equal(choices,199);
+});
+
+test("M7 first ten blocks consume exactly 156 nodes / 344 choices",async()=>{
+  const all=[...expected,...cycle2];
+  let nodes=0,choices=0;
+  for(const [rel] of all){
+    const scene=JSON.parse(await readFile(fileURLToPath(new URL("../content/scenes/"+rel+".json",import.meta.url)),"utf8"));
+    nodes+=Object.keys(scene.nodes).length;
+    choices+=Object.values(scene.nodes).reduce((sum,node)=>sum+(node.choices?.length??0),0);
+  }
+  assert.equal(nodes,156);
+  assert.equal(choices,344);
+  assert.deepEqual({nodes:210-nodes,choices:462-choices},{nodes:54,choices:118});
+});
+
+test("M7_05-M7_09 authored nodes have no zero-incoming padding",async()=>{
+  const scenes={};
+  for(const [rel] of cycle2){
     scenes[rel]=JSON.parse(await readFile(fileURLToPath(new URL("../content/scenes/"+rel+".json",import.meta.url)),"utf8"));
   }
   const incoming={};
