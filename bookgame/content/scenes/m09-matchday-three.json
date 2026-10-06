@@ -1,0 +1,485 @@
+{
+  "schemaVersion": 1,
+  "id": "m09-matchday-three",
+  "moduleId": "M09",
+  "title": "M9_07 — Matchday Three",
+  "locationId": "world_group_arena",
+  "entryNodeId": "matchday_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m9_interday_two_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.world_group_md1_resolved",
+        "eq": true
+      },
+      {
+        "path": "world.flags.world_group_md2_resolved",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "matchday_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il terzo Matchday consuma l'indice 2 del draw lockato. Oggi giochi contro {{competition.world.playerOpponents.2.name}} e nessun risultato precedente viene cancellato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_opponent",
+          "text": "Apro la scheda dell'ultimo avversario.",
+          "goto": "opponent_card"
+        },
+        {
+          "id": "entry_rules",
+          "text": "Rileggo formato e vincoli.",
+          "goto": "rules"
+        },
+        {
+          "id": "entry_table",
+          "text": "Guardo la classifica prima dell'ultima partita.",
+          "goto": "standings_before"
+        }
+      ]
+    },
+    "opponent_card": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "{{competition.world.playerOpponents.2.name}} è il terzo e ultimo pairing del round robin. Se è l'amico del Friend Beat, questo è l'unico fight ufficiale valido."
+        }
+      ],
+      "choices": [
+        {
+          "id": "card_roster",
+          "text": "Controllo il mio Official Six.",
+          "goto": "roster_state"
+        },
+        {
+          "id": "card_callback",
+          "text": "Rivedo eventuali precedenti senza cambiare il pairing.",
+          "goto": "opponent_callback"
+        }
+      ]
+    },
+    "rules": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Formato Singles, sei Pokémon registrati, risultato dal motore Pokémon 5e. Dopo questo match E5 avrà tre risultati player reali."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rules_schedule",
+          "text": "Controllo il lock del terzo Matchday.",
+          "goto": "schedule_lock"
+        },
+        {
+          "id": "rules_roster",
+          "text": "Controllo la squadra.",
+          "goto": "roster_state"
+        },
+        {
+          "id": "rules_ready",
+          "text": "Passo alla readiness finale.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "schedule_lock": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "WORLD_GROUP_MD3 è legato al terzo avversario del draw. Se è già risolto, il sistema rifiuta un secondo avvio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "schedule_table",
+          "text": "Torno alla classifica pre-match.",
+          "goto": "standings_before"
+        },
+        {
+          "id": "schedule_ready",
+          "text": "Procedo verso la conferma.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "standings_before": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "I punti mostrati prima del match derivano dalle prime due giornate. Nessuna posizione qui è ancora il verdetto finale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "table_world",
+          "text": "Controllo l'altro match decisivo del gruppo.",
+          "goto": "world_pressure"
+        },
+        {
+          "id": "table_ready",
+          "text": "Passo alla readiness.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "roster_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La squadra entra con tutto il costo accumulato nei primi due Matchday e negli Interday. Non viene ricostruita per il climax."
+        }
+      ],
+      "choices": [
+        {
+          "id": "roster_medical",
+          "text": "Controllo il rischio residuo.",
+          "goto": "medical_state"
+        },
+        {
+          "id": "roster_ready",
+          "text": "Passo alla conferma.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "medical_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Eventuali cure devono essere già state eseguite legalmente. Il match non concede un reset automatico."
+        }
+      ],
+      "choices": [
+        {
+          "id": "medical_roster",
+          "text": "Torno al roster.",
+          "goto": "roster_state"
+        },
+        {
+          "id": "medical_ready",
+          "text": "Accetto lo stato e continuo.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "readiness": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La conferma richiede che il terzo risultato sia ancora assente. Da qui il battle bridge risolve l'avversario E5 con indice 2."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ready_handoff",
+          "text": "Avvio la procedura ufficiale.",
+          "goto": "match_handoff"
+        },
+        {
+          "id": "ready_back",
+          "text": "Non entro ancora: torno alle regole.",
+          "goto": "rules"
+        }
+      ]
+    },
+    "match_handoff": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il bridge usa il terzo avversario persistente del draw e il suo roster regolamentato. Nessuna scena può sostituirlo per dramma."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fight_matchday_three",
+          "text": "Combatto il Matchday 3.",
+          "conditions": {
+            "path": "world.flags.world_group_md3_resolved",
+            "ne": true
+          },
+          "combat": {
+            "encounterId": "WORLD_GROUP_MD3",
+            "opponentRegistered": true,
+            "competition": {
+              "type": "official_match",
+              "matchId": "WORLD_GROUP_MD3",
+              "format": "Singles",
+              "officialRosterSize": 6,
+              "difficulty": "ELITE",
+              "worldOpponentIndex": 2,
+              "worldMatchday": 3
+            },
+            "returnNodes": {
+              "win": "win_return",
+              "lose": "loss_return"
+            },
+            "goto": "match_handoff"
+          }
+        }
+      ]
+    },
+    "win_return": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La terza vittoria è entrata nella history E5. Il gruppo non è ancora formalmente chiuso finché non viene risolto anche il quadro completo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "win_record",
+          "text": "Registro la chiusura narrativa del Matchday.",
+          "goto": "result_record",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m9_matchday_three_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "win_table",
+          "text": "Guardo la classifica provvisoria completa.",
+          "goto": "standings_after",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m9_matchday_three_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "loss_return": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La terza sconfitta è definitiva come risultato, ma qualificazione ed eliminazione appartengono ancora alla risoluzione E5 del gruppo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "loss_record",
+          "text": "Registro la chiusura narrativa del Matchday.",
+          "goto": "result_record",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m9_matchday_three_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "loss_resources",
+          "text": "Controllo lo stato finale della squadra.",
+          "goto": "resources_after",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m9_matchday_three_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "result_record": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "E5 conserva ora tre match player e tre match off-screen del tuo gruppo. Mancano soltanto tiebreak e risoluzione globale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record_offscreen",
+          "text": "Controllo l'altro match della terza giornata.",
+          "goto": "offscreen_result"
+        },
+        {
+          "id": "record_table",
+          "text": "Apro la classifica provvisoria.",
+          "goto": "standings_after"
+        },
+        {
+          "id": "record_resources",
+          "text": "Controllo cosa il girone ha lasciato alla squadra.",
+          "goto": "resources_after"
+        }
+      ]
+    },
+    "offscreen_result": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'altro incontro del Matchday 3 è stato risolto una sola volta. Il suo esito può cambiare il tuo piazzamento senza essere scritto per favorirti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "offscreen_table",
+          "text": "Vedo la classifica prima dei tiebreak.",
+          "goto": "standings_after"
+        },
+        {
+          "id": "offscreen_world",
+          "text": "Guardo il Mondiale oltre il mio gruppo.",
+          "goto": "world_pressure"
+        }
+      ]
+    },
+    "standings_after": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Tutte e sei le partite del tuo gruppo hanno ora un esito. La tabella visibile è completa nei punti, ma E5 deve ancora applicare il tiebreak finale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "after_resources",
+          "text": "Controllo lo stato della squadra.",
+          "goto": "resources_after"
+        },
+        {
+          "id": "after_resolution",
+          "text": "Passo verso la risoluzione ufficiale.",
+          "goto": "final_window"
+        },
+        {
+          "id": "after_offscreen",
+          "text": "Rivedo l'altro risultato.",
+          "goto": "offscreen_result"
+        }
+      ]
+    },
+    "resources_after": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "HP, PP, status e infortuni restano quelli reali dopo tre partite. La fine del girone non li azzera."
+        }
+      ],
+      "choices": [
+        {
+          "id": "resources_medical",
+          "text": "Rileggo il principio di persistenza.",
+          "goto": "medical_state"
+        },
+        {
+          "id": "resources_final",
+          "text": "Passo verso il verdetto del gruppo.",
+          "goto": "final_window"
+        }
+      ]
+    },
+    "opponent_callback": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se l'ultimo avversario è un amico o un Anchor, quella relazione cambia il contesto, non il risultato appena giocato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "callback_card",
+          "text": "Torno alla scheda dell'avversario.",
+          "goto": "opponent_card"
+        },
+        {
+          "id": "callback_ready",
+          "text": "Chiudo il callback e preparo il match.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "world_pressure": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Negli altri gruppi il torneo continua. La risoluzione globale userà gli stessi principi deterministici, senza plot armor."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pressure_table",
+          "text": "Torno alla mia classifica.",
+          "goto": "standings_after"
+        },
+        {
+          "id": "pressure_final",
+          "text": "Passo verso la risoluzione ufficiale.",
+          "goto": "final_window"
+        }
+      ]
+    },
+    "final_window": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il combat è finito; il prossimo blocco non giocherà altre partite. Calcolerà soltanto classifiche e Top16 dal risultato esistente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "window_gate",
+          "text": "Controllo il gate di risoluzione.",
+          "goto": "resolution_gate"
+        },
+        {
+          "id": "window_table",
+          "text": "Prima rileggo la classifica.",
+          "goto": "standings_after"
+        }
+      ]
+    },
+    "resolution_gate": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "M9_08 può partire soltanto quando il terzo risultato e il terzo match off-screen esistono davvero."
+        }
+      ],
+      "choices": [
+        {
+          "id": "gate_complete",
+          "text": "Chiudo formalmente il Matchday 3.",
+          "goto": "matchday_complete"
+        },
+        {
+          "id": "gate_review",
+          "text": "Rivedo il record della giornata.",
+          "goto": "result_record"
+        }
+      ]
+    },
+    "matchday_complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Tre partite sono state giocate. Nessuna quarta partita verrà aggiunta: ora E5 deve chiudere il gruppo e il Top16."
+        }
+      ],
+      "choices": [
+        {
+          "id": "complete_resolution",
+          "text": "Passo alla Group Resolution.",
+          "goto": "m09-group-resolution#resolution_entry"
+        }
+      ]
+    }
+  }
+}

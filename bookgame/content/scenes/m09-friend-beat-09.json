@@ -1,0 +1,608 @@
+{
+  "schemaVersion": 1,
+  "id": "m09-friend-beat-09",
+  "moduleId": "M09",
+  "title": "M9_05 — Friend Beat 09",
+  "locationId": "world_village",
+  "entryNodeId": "friend_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m9_matchday_two_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.friend_beat_09_available",
+        "eq": true
+      },
+      {
+        "path": "world.flags.friend_beat_09_complete",
+        "ne": true
+      }
+    ]
+  },
+  "nodes": {
+    "friend_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "FRIEND_BEAT_09 non sceglie un amico per fanservice: legge il draw, lo stato di qualificazione, lo schedule, la relazione e il Friend Beat precedente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_contact",
+          "text": "Apro il contatto selezionato.",
+          "goto": "dispatch"
+        },
+        {
+          "id": "entry_callback",
+          "text": "Rivedo perché questo amico è stato scelto.",
+          "goto": "callback"
+        },
+        {
+          "id": "entry_wait",
+          "text": "Posso ritardare il contatto senza congelare il torneo.",
+          "goto": "wait_contact"
+        }
+      ]
+    },
+    "dispatch": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il selector ha già fissato identità, modalità e contesto. Se l'amico è nel tuo gruppo, il solo match valido è quello previsto dal calendario E5."
+        }
+      ],
+      "choices": [
+        {
+          "id": "dispatch_luke",
+          "text": "Contatto Luke.",
+          "goto": "luke_contact",
+          "conditions": {
+            "path": "world.flags.friend_beat_09_friend_id",
+            "eq": "Luke"
+          }
+        },
+        {
+          "id": "dispatch_mattew",
+          "text": "Contatto Mattew.",
+          "goto": "mattew_contact",
+          "conditions": {
+            "path": "world.flags.friend_beat_09_friend_id",
+            "eq": "Mattew"
+          }
+        },
+        {
+          "id": "dispatch_daniel",
+          "text": "Contatto Daniel.",
+          "goto": "daniel_contact",
+          "conditions": {
+            "path": "world.flags.friend_beat_09_friend_id",
+            "eq": "Daniel"
+          }
+        },
+        {
+          "id": "dispatch_edward",
+          "text": "Contatto Edward.",
+          "goto": "edward_contact",
+          "conditions": {
+            "path": "world.flags.friend_beat_09_friend_id",
+            "eq": "Edward"
+          }
+        },
+        {
+          "id": "dispatch_fab",
+          "text": "Contatto Fab.",
+          "goto": "fab_contact",
+          "conditions": {
+            "path": "world.flags.friend_beat_09_friend_id",
+            "eq": "Fab"
+          }
+        }
+      ]
+    },
+    "luke_contact": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Luke parla in termini di adattamento: conoscere un amico non rende leggibile la prossima scelta. Nel Mondiale il rapporto non sostituisce il match."
+        }
+      ],
+      "choices": [
+        {
+          "id": "luke_context",
+          "text": "Porto la conversazione nel contesto reale del bracket.",
+          "goto": "context_dispatch",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 1
+            }
+          ]
+        }
+      ]
+    },
+    "mattew_contact": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Mattew tratta il girone come un problema tecnico: punti, risorse e informazioni reali prima di ogni altra cosa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "mattew_context",
+          "text": "Porto la conversazione nel contesto reale del bracket.",
+          "goto": "context_dispatch",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 1
+            }
+          ]
+        }
+      ]
+    },
+    "daniel_contact": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Daniel ragiona sui pattern ma non finge onniscienza. Essere amici significa avere più storia, non più dati nascosti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "daniel_context",
+          "text": "Porto la conversazione nel contesto reale del bracket.",
+          "goto": "context_dispatch",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 1
+            }
+          ]
+        }
+      ]
+    },
+    "edward_contact": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Edward guarda alla tenuta: due partite hanno già consumato qualcosa, indipendentemente dal punteggio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "edward_context",
+          "text": "Porto la conversazione nel contesto reale del bracket.",
+          "goto": "context_dispatch",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 1
+            }
+          ]
+        }
+      ]
+    },
+    "fab_contact": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Fab misura il Mondiale nel modo più concreto: chip, risorse e pressione si accumulano anche quando il pubblico guarda soltanto il risultato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fab_context",
+          "text": "Porto la conversazione nel contesto reale del bracket.",
+          "goto": "context_dispatch",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 1
+            }
+          ]
+        }
+      ]
+    },
+    "context_dispatch": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il bracket decide il tipo di Friend Beat. Nessuna scelta qui può creare una quarta partita o sostituire un avversario sorteggiato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "context_next",
+          "text": "Siamo nello stesso gruppo e il nostro match è ancora davanti.",
+          "goto": "same_group_next",
+          "conditions": {
+            "path": "world.flags.friend_beat_09_context",
+            "eq": "same_group_next_match"
+          }
+        },
+        {
+          "id": "context_played",
+          "text": "Siamo nello stesso gruppo e il match ufficiale è già stato giocato.",
+          "goto": "same_group_played",
+          "conditions": {
+            "path": "world.flags.friend_beat_09_context",
+            "eq": "same_group_match_resolved"
+          }
+        },
+        {
+          "id": "context_other",
+          "text": "Siamo entrambi qualificati ma in gruppi diversi.",
+          "goto": "other_group",
+          "conditions": {
+            "path": "world.flags.friend_beat_09_context",
+            "eq": "qualified_other_group"
+          }
+        },
+        {
+          "id": "context_external",
+          "text": "L'amico non è nel field: il contatto resta esterno alla competizione.",
+          "goto": "external",
+          "conditions": {
+            "path": "world.flags.friend_beat_09_context",
+            "eq": "external_contact"
+          }
+        }
+      ]
+    },
+    "same_group_next": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se questo amico è il terzo avversario, il fight ufficiale avverrà soltanto in M9_07. Un secondo combat qui falsificherebbe il calendario."
+        }
+      ],
+      "choices": [
+        {
+          "id": "next_physical",
+          "text": "Parliamo di persona prima del match.",
+          "goto": "physical_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_09_contact_mode",
+            "eq": "physical"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_09_type",
+              "value": "same_group_pre_match_physical"
+            }
+          ]
+        },
+        {
+          "id": "next_remote",
+          "text": "Parliamo a distanza prima del match.",
+          "goto": "remote_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_09_contact_mode",
+            "eq": "remote"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_09_type",
+              "value": "same_group_pre_match_remote"
+            }
+          ]
+        },
+        {
+          "id": "next_pressure",
+          "text": "Restiamo sul fatto che domani uno dei due dovrà togliere punti all'altro.",
+          "goto": "pressure"
+        }
+      ]
+    },
+    "same_group_played": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se vi siete già affrontati al Matchday 1 o 2, il risultato E5 esiste già. Il Friend Beat può elaborarlo, non rifarlo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "played_physical",
+          "text": "Parliamo di persona dopo il match.",
+          "goto": "physical_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_09_contact_mode",
+            "eq": "physical"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_09_type",
+              "value": "same_group_post_match_physical"
+            }
+          ]
+        },
+        {
+          "id": "played_remote",
+          "text": "Parliamo a distanza dopo il match.",
+          "goto": "remote_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_09_contact_mode",
+            "eq": "remote"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_09_type",
+              "value": "same_group_post_match_remote"
+            }
+          ]
+        },
+        {
+          "id": "played_pressure",
+          "text": "Parliamo di cosa significa continuare dopo esserci già tolti punti.",
+          "goto": "pressure"
+        }
+      ]
+    },
+    "other_group": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Siete nello stesso Mondiale ma non nello stesso gruppo. Il bracket non autorizza un match extra: potete soltanto incrociarvi o sentirvi tra le giornate."
+        }
+      ],
+      "choices": [
+        {
+          "id": "other_physical",
+          "text": "Ci incontriamo davvero nel Village.",
+          "goto": "physical_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_09_contact_mode",
+            "eq": "physical"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_09_type",
+              "value": "other_group_physical"
+            }
+          ]
+        },
+        {
+          "id": "other_remote",
+          "text": "Ci sentiamo senza spostare nessuno.",
+          "goto": "remote_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_09_contact_mode",
+            "eq": "remote"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_09_type",
+              "value": "other_group_remote"
+            }
+          ]
+        }
+      ]
+    },
+    "external": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'amico non è nel field. Il torneo continua senza riscriverne la qualificazione: il contatto può essere supporto, frustrazione o semplice presenza."
+        }
+      ],
+      "choices": [
+        {
+          "id": "external_physical",
+          "text": "È davvero qui come presenza esterna: parliamo di persona.",
+          "goto": "physical_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_09_contact_mode",
+            "eq": "physical"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_09_type",
+              "value": "external_physical"
+            }
+          ]
+        },
+        {
+          "id": "external_remote",
+          "text": "Restiamo in contatto a distanza.",
+          "goto": "remote_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_09_contact_mode",
+            "eq": "remote"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_09_type",
+              "value": "external_remote"
+            }
+          ]
+        }
+      ]
+    },
+    "physical_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La presenza fisica è valida solo perché gli schedule coincidono davvero. Non significa che condividiate gruppo, risultato o futuro bracket."
+        }
+      ],
+      "choices": [
+        {
+          "id": "physical_pressure",
+          "text": "Parliamo della pressione della terza giornata.",
+          "goto": "pressure"
+        },
+        {
+          "id": "physical_relationship",
+          "text": "Parliamo di cosa il Mondiale sta facendo al rapporto.",
+          "goto": "relationship"
+        },
+        {
+          "id": "physical_callback",
+          "text": "Ricollego il momento ai Friend Beat precedenti.",
+          "goto": "callback"
+        }
+      ]
+    },
+    "remote_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il contatto remoto conserva la distanza reale. Nessun NPC viene teletrasportato nel Village per rendere la scena più comoda."
+        }
+      ],
+      "choices": [
+        {
+          "id": "remote_pressure",
+          "text": "Parliamo della pressione della terza giornata.",
+          "goto": "pressure"
+        },
+        {
+          "id": "remote_relationship",
+          "text": "Parliamo di come restare amici con carriere separate.",
+          "goto": "relationship"
+        },
+        {
+          "id": "remote_callback",
+          "text": "Ricollego il momento ai Friend Beat precedenti.",
+          "goto": "callback"
+        }
+      ]
+    },
+    "pressure": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il terzo Matchday può valere qualificazione o eliminazione, ma nessuno dei due riceve un bonus perché la scena è emotivamente importante."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pressure_relationship",
+          "text": "Rispondo sul piano personale.",
+          "goto": "relationship"
+        },
+        {
+          "id": "pressure_record",
+          "text": "Tengo il confronto breve e lo registro.",
+          "goto": "result_record"
+        }
+      ]
+    },
+    "relationship": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La relazione cambia perché vi siete cercati in un momento difficile. Non cambia punti, roster, HP o pairing."
+        }
+      ],
+      "choices": [
+        {
+          "id": "relationship_callback",
+          "text": "Rileggo il percorso condiviso.",
+          "goto": "callback"
+        },
+        {
+          "id": "relationship_record",
+          "text": "Chiudo il momento e lo registro.",
+          "goto": "result_record"
+        }
+      ]
+    },
+    "callback": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il selector prova a non riciclare automaticamente l'amico di FRIEND_BEAT_08 quando esiste un'alternativa equivalente. Il draw e la qualificazione hanno però priorità sulla rotazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "callback_contact",
+          "text": "Torno al contatto corrente.",
+          "goto": "dispatch"
+        },
+        {
+          "id": "callback_record",
+          "text": "Chiudo il callback e registro il beat.",
+          "goto": "result_record"
+        }
+      ]
+    },
+    "wait_contact": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Aspettare un'ora può cambiare schedule e Living World. Non cambia l'amico già selezionato né il calendario del gruppo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "wait_hour",
+          "text": "Aspetto un'ora.",
+          "goto": "dispatch",
+          "timeCostMinutes": 60
+        },
+        {
+          "id": "wait_now",
+          "text": "Non aspetto oltre.",
+          "goto": "dispatch"
+        }
+      ]
+    },
+    "result_record": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il beat conserva amico, modalità, contesto e tipo di interazione. Non crea un risultato competitivo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record_complete",
+          "text": "Segno FRIEND_BEAT_09 come completato.",
+          "goto": "friend_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_09_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "friend_close": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il rapporto torna sullo sfondo. Restano gestione delle risorse e il terzo Matchday."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_interday",
+          "text": "Passo all'Interday 2.",
+          "goto": "m09-interday-two#interday_entry"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,340 @@
+{
+  "schemaVersion": 1,
+  "id": "m09-group-resolution",
+  "moduleId": "M09",
+  "title": "M9_08 — Group Resolution",
+  "locationId": "world_group_arena",
+  "entryNodeId": "resolution_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m9_matchday_three_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.world_group_md3_resolved",
+        "eq": true
+      },
+      {
+        "path": "world.flags.friend_beat_09_complete",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "resolution_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La fase gruppi non si chiude con una frase. E5 deve verificare sei risultati nel tuo gruppo, risolvere gli altri sette gruppi e costruire sedici qualificati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_complete",
+          "text": "Controllo che il mio gruppo sia completo.",
+          "goto": "completeness"
+        },
+        {
+          "id": "entry_tiebreak",
+          "text": "Rileggo il criterio di tiebreak del sistema.",
+          "goto": "tiebreak_policy"
+        },
+        {
+          "id": "entry_commit",
+          "text": "Passo al commit strutturato.",
+          "goto": "resolve_commit"
+        }
+      ]
+    },
+    "completeness": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Tre match player più tre match off-screen formano il round robin completo. Se ne manca uno, la risoluzione E5 viene rifiutata."
+        }
+      ],
+      "choices": [
+        {
+          "id": "complete_tiebreak",
+          "text": "Controllo come verranno ordinate le parità.",
+          "goto": "tiebreak_policy"
+        },
+        {
+          "id": "complete_commit",
+          "text": "Passo alla risoluzione.",
+          "goto": "resolve_commit"
+        }
+      ]
+    },
+    "tiebreak_policy": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "E5 ordina per punti, poi risultati diretti fra i pari merito; se la parità resta irrisolta usa l'ordine del draw come ultimo criterio stabile. Il layer narrativo non decide nulla."
+        }
+      ],
+      "choices": [
+        {
+          "id": "tiebreak_commit",
+          "text": "Applico il criterio soltanto dentro E5.",
+          "goto": "resolve_commit"
+        },
+        {
+          "id": "tiebreak_complete",
+          "text": "Torno al controllo dei risultati presenti.",
+          "goto": "completeness"
+        }
+      ]
+    },
+    "resolve_commit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il commit è idempotente: simula una sola volta i gruppi NPC, calcola tutte le classifiche e locka esattamente due qualificati per gruppo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "resolve_now",
+          "text": "Risolvo ufficialmente WORLD_GROUPS.",
+          "goto": "resolved_summary",
+          "conditions": {
+            "path": "competition.world.groupStage.resolved",
+            "ne": true
+          },
+          "effects": [
+            {
+              "type": "competition_world_groups_resolve",
+              "eventId": "WORLD_GROUPS_RESOLVE"
+            },
+            {
+              "type": "set_flag",
+              "key": "m9_group_resolution_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "resolve_existing",
+          "text": "La fase è già risolta: apro il risultato persistente.",
+          "goto": "resolved_summary",
+          "conditions": {
+            "path": "competition.world.groupStage.resolved",
+            "eq": true
+          }
+        },
+        {
+          "id": "resolve_review",
+          "text": "Prima rileggo il tiebreak.",
+          "goto": "tiebreak_policy"
+        }
+      ]
+    },
+    "resolved_summary": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "WORLD_GROUPS è chiuso. La posizione finale del player e il Top16 ora vivono nello stato competitivo e sopravvivono a save/reload."
+        }
+      ],
+      "choices": [
+        {
+          "id": "summary_standings",
+          "text": "Leggo la classifica finale del mio gruppo.",
+          "goto": "final_standings"
+        },
+        {
+          "id": "summary_top16",
+          "text": "Controllo il lock dei sedici qualificati.",
+          "goto": "top16_lock"
+        },
+        {
+          "id": "summary_outcome",
+          "text": "Controllo il mio esito personale.",
+          "goto": "player_outcome"
+        }
+      ]
+    },
+    "final_standings": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La posizione finale è {{competition.world.groupStage.finalPosition}}. Non è un flag scelto dalla scena: deriva dai sei match e dal tiebreak E5."
+        }
+      ],
+      "choices": [
+        {
+          "id": "standings_top16",
+          "text": "Passo ai qualificati reali.",
+          "goto": "top16_lock"
+        },
+        {
+          "id": "standings_outcome",
+          "text": "Controllo se la posizione basta per avanzare.",
+          "goto": "player_outcome"
+        },
+        {
+          "id": "standings_friends",
+          "text": "Guardo cosa questo significa per amici e Anchor.",
+          "goto": "friend_anchor_state"
+        }
+      ]
+    },
+    "top16_lock": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Top16 contiene esattamente i primi due di ciascuno degli otto gruppi. Nessun nome viene aggiunto per fanservice o storia."
+        }
+      ],
+      "choices": [
+        {
+          "id": "top16_outcome",
+          "text": "Controllo se io sono dentro.",
+          "goto": "player_outcome"
+        },
+        {
+          "id": "top16_friends",
+          "text": "Guardo amici e Anchor senza proteggerli.",
+          "goto": "friend_anchor_state"
+        },
+        {
+          "id": "top16_route",
+          "text": "Passo alla route determinata dal risultato.",
+          "goto": "route"
+        }
+      ]
+    },
+    "player_outcome": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "E5 ha fissato world_group_advanced. Le scene successive possono soltanto separare il percorso Top16 dal WORLD_EXIT."
+        }
+      ],
+      "choices": [
+        {
+          "id": "outcome_route",
+          "text": "Seguo la route reale.",
+          "goto": "route"
+        },
+        {
+          "id": "outcome_standings",
+          "text": "Rileggo la posizione finale.",
+          "goto": "final_standings"
+        },
+        {
+          "id": "outcome_top16",
+          "text": "Rileggo il Top16 lockato.",
+          "goto": "top16_lock"
+        }
+      ]
+    },
+    "friend_anchor_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Amici e Anchor possono essere dentro o fuori dal Top16 in base ai risultati del loro gruppo. Il loro nome non li protegge."
+        }
+      ],
+      "choices": [
+        {
+          "id": "friends_top16",
+          "text": "Torno al Top16.",
+          "goto": "top16_lock"
+        },
+        {
+          "id": "friends_route",
+          "text": "Passo alla mia route.",
+          "goto": "route"
+        }
+      ]
+    },
+    "route": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La biforcazione è meccanica: posizione 1–2 avanza; posizione 3–4 è eliminata. Non esiste una scelta del player per cambiare verdetto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "route_eliminated",
+          "text": "Sono fuori dal Top16: passo alla route di eliminazione.",
+          "goto": "eliminated_gate",
+          "conditions": {
+            "path": "competition.world.groupStage.advanced",
+            "eq": false
+          }
+        },
+        {
+          "id": "route_advanced",
+          "text": "Sono nel Top16: preparo la route di avanzamento.",
+          "goto": "advanced_gate",
+          "conditions": {
+            "path": "competition.world.groupStage.advanced",
+            "eq": true
+          }
+        }
+      ]
+    },
+    "eliminated_gate": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'eliminazione è già nello stato E5. M9_09 gestirà soltanto le conseguenze e l'handoff verso WORLD_EXIT."
+        }
+      ],
+      "choices": [
+        {
+          "id": "eliminated_next",
+          "text": "Entro nella Eliminated Route.",
+          "goto": "m09-eliminated-route#eliminated_entry"
+        }
+      ]
+    },
+    "advanced_gate": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La qualificazione è già nello stato E5. M9_10 userà il Top16 reale per preparare il bracket degli ottavi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "advanced_ready",
+          "text": "Segno disponibile la route di avanzamento.",
+          "goto": "resolution_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m9_advance_route_available",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "resolution_complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La risoluzione del gruppo è completa e immutabile. Il prossimo blocco dipende soltanto da advanced=true/false."
+        }
+      ],
+      "choices": [
+        {
+          "id": "complete_route",
+          "text": "Riapro la biforcazione reale.",
+          "goto": "route"
+        },
+        {
+          "id": "complete_summary",
+          "text": "Rileggo il riepilogo strutturato.",
+          "goto": "resolved_summary"
+        }
+      ]
+    }
+  }
+}

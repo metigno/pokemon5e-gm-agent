@@ -1,0 +1,326 @@
+{
+  "schemaVersion": 1,
+  "id": "m09-interday-two",
+  "moduleId": "M09",
+  "title": "M9_06 — Interday Two",
+  "locationId": "world_village",
+  "entryNodeId": "interday_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.friend_beat_09_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.world_group_md2_resolved",
+        "eq": true
+      },
+      {
+        "path": "world.flags.world_group_md3_resolved",
+        "ne": true
+      }
+    ]
+  },
+  "nodes": {
+    "interday_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Due giornate sono finite. L'ultima finestra non può predire il risultato: può soltanto leggere punti, risorse e tempo reali."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_table",
+          "text": "Leggo la classifica prima del Matchday 3.",
+          "goto": "standings"
+        },
+        {
+          "id": "entry_resources",
+          "text": "Controllo ciò che resta alla squadra.",
+          "goto": "resources"
+        },
+        {
+          "id": "entry_world",
+          "text": "Guardo come continua il resto del Mondiale.",
+          "goto": "other_groups"
+        }
+      ]
+    },
+    "standings": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Dopo due match puoi avere 0, 3 o 6 punti. La posizione resta provvisoria finché non vengono giocate le ultime due partite del gruppo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "standings_six",
+          "text": "Sono a 6 punti: valuto senza dichiararmi già qualificato.",
+          "goto": "six_points",
+          "conditions": {
+            "path": "competition.world.groupStage.playerPoints",
+            "eq": 6
+          }
+        },
+        {
+          "id": "standings_three",
+          "text": "Sono a 3 punti: la terza partita può cambiare tutto.",
+          "goto": "three_points",
+          "conditions": {
+            "path": "competition.world.groupStage.playerPoints",
+            "eq": 3
+          }
+        },
+        {
+          "id": "standings_zero",
+          "text": "Sono a 0 punti: verifico cosa resta matematicamente possibile.",
+          "goto": "zero_points",
+          "conditions": {
+            "path": "competition.world.groupStage.playerPoints",
+            "eq": 0
+          }
+        }
+      ]
+    },
+    "six_points": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Due vittorie danno margine, non un pass scritto dal narratore. L'altro match e i tiebreak devono ancora essere risolti da E5."
+        }
+      ],
+      "choices": [
+        {
+          "id": "six_resources",
+          "text": "Proteggo le risorse per chiudere il lavoro.",
+          "goto": "resources"
+        },
+        {
+          "id": "six_guard",
+          "text": "Passo agli scenari senza convertirli in esiti.",
+          "goto": "scenario_guard"
+        }
+      ]
+    },
+    "three_points": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Una vittoria e una sconfitta lasciano il gruppo aperto. Il valore del terzo match dipende anche dall'altro incontro della giornata."
+        }
+      ],
+      "choices": [
+        {
+          "id": "three_resources",
+          "text": "Controllo la squadra prima di ragionare sui punti.",
+          "goto": "resources"
+        },
+        {
+          "id": "three_guard",
+          "text": "Valuto gli scenari senza predire l'esito.",
+          "goto": "scenario_guard"
+        }
+      ]
+    },
+    "zero_points": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Due sconfitte rendono il margine minimo, ma il sistema competitivo deve ancora chiudere il gruppo. La scena non dichiara eliminazione prima di E5."
+        }
+      ],
+      "choices": [
+        {
+          "id": "zero_resources",
+          "text": "Controllo se la squadra può ancora sostenere un match.",
+          "goto": "resources"
+        },
+        {
+          "id": "zero_guard",
+          "text": "Valuto gli scenari senza scrivere il verdetto.",
+          "goto": "scenario_guard"
+        }
+      ]
+    },
+    "resources": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "HP, PP, status e infortuni sono quelli lasciati dalle prime due giornate. Nessun reset speciale precede il match decisivo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "resources_medical",
+          "text": "Valuto i servizi reali disponibili.",
+          "goto": "medical"
+        },
+        {
+          "id": "resources_time",
+          "text": "Valuto quanto tempo posso spendere.",
+          "goto": "time_window"
+        },
+        {
+          "id": "resources_match",
+          "text": "Quando sono pronto, torno al quadro del terzo match.",
+          "goto": "scenario_guard"
+        }
+      ]
+    },
+    "medical": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La scena può indirizzarti ai servizi, ma non applica una cura. Il costo e le conseguenze devono passare dai sistemi esistenti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "medical_resources",
+          "text": "Torno al controllo delle risorse.",
+          "goto": "resources"
+        },
+        {
+          "id": "medical_time",
+          "text": "Controllo la finestra temporale.",
+          "goto": "time_window"
+        }
+      ]
+    },
+    "time_window": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Ogni ora lasciata passare aggiorna schedule, eventi e Living World. Il Matchday 3 resta lo stesso pairing."
+        }
+      ],
+      "choices": [
+        {
+          "id": "time_hour",
+          "text": "Lascio passare un'ora di preparazione.",
+          "goto": "living_world",
+          "timeCostMinutes": 60
+        },
+        {
+          "id": "time_stop",
+          "text": "Non spendo altro tempo.",
+          "goto": "scenario_guard"
+        }
+      ]
+    },
+    "other_groups": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Negli altri sette gruppi i risultati continuano a formarsi. M9_08 li chiuderà attraverso E5, non attraverso una lista scritta a mano."
+        }
+      ],
+      "choices": [
+        {
+          "id": "groups_living",
+          "text": "Guardo il movimento del Living World.",
+          "goto": "living_world"
+        },
+        {
+          "id": "groups_table",
+          "text": "Torno alla mia classifica.",
+          "goto": "standings"
+        },
+        {
+          "id": "groups_guard",
+          "text": "Mi concentro sul mio ultimo pairing.",
+          "goto": "scenario_guard"
+        }
+      ]
+    },
+    "scenario_guard": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Gli scenari possono dirti cosa rischi, non chi passerà. Il tiebreak appartiene a E5 e verrà applicato solo dopo tutti i match."
+        }
+      ],
+      "choices": [
+        {
+          "id": "guard_world",
+          "text": "Controllo ancora il resto del torneo.",
+          "goto": "other_groups"
+        },
+        {
+          "id": "guard_commit",
+          "text": "Chiudo la finestra di preparazione.",
+          "goto": "interday_commit"
+        }
+      ]
+    },
+    "living_world": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Mentre prepari l'ultima partita, amici, Anchor e altri qualificati continuano le loro carriere. Nessuno è protetto dal nome."
+        }
+      ],
+      "choices": [
+        {
+          "id": "world_resources",
+          "text": "Torno alle risorse.",
+          "goto": "resources"
+        },
+        {
+          "id": "world_commit",
+          "text": "Passo alla chiusura dell'interday.",
+          "goto": "interday_commit"
+        }
+      ]
+    },
+    "interday_commit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La chiusura registra soltanto che hai terminato la gestione tra seconda e terza giornata. Non assegna punti futuri."
+        }
+      ],
+      "choices": [
+        {
+          "id": "commit_now",
+          "text": "Chiudo l'Interday 2.",
+          "goto": "interday_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m9_interday_two_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "commit_review",
+          "text": "Prima rileggo gli scenari.",
+          "goto": "scenario_guard"
+        }
+      ]
+    },
+    "interday_complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'ultima finestra è chiusa. Il terzo avversario resta quello sorteggiato in M8: {{competition.world.playerOpponents.2.name}}."
+        }
+      ],
+      "choices": [
+        {
+          "id": "complete_match",
+          "text": "Vado al Matchday 3.",
+          "goto": "m09-matchday-three#matchday_entry"
+        },
+        {
+          "id": "complete_table",
+          "text": "Rileggo un'ultima volta i punti attuali.",
+          "goto": "standings"
+        }
+      ]
+    }
+  }
+}

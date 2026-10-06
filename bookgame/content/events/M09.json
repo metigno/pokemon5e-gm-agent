@@ -54,6 +54,37 @@
           ]
         }
       ]
+    },
+    {
+      "id": "M9_FRIEND_BEAT_09_SELECT",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "world.flags.m9_matchday_two_complete",
+            "eq": true
+          },
+          {
+            "path": "world.flags.friend_beat_09_available",
+            "ne": true
+          },
+          {
+            "path": "world.flags.friend_beat_09_complete",
+            "ne": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "select_world_friend",
+          "effects": [
+            {
+              "type": "friend_beat_world_select",
+              "previousFriendFlag": "friend_beat_08_friend_id"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

@@ -1,0 +1,322 @@
+{
+  "schemaVersion": 1,
+  "id": "m09-eliminated-route",
+  "moduleId": "M09",
+  "title": "M9_09 — Eliminated Route",
+  "locationId": "world_village",
+  "entryNodeId": "eliminated_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m9_group_resolution_complete",
+        "eq": true
+      },
+      {
+        "path": "competition.world.groupStage.resolved",
+        "eq": true
+      },
+      {
+        "path": "competition.world.groupStage.advanced",
+        "eq": false
+      },
+      {
+        "path": "world.flags.friend_beat_09_complete",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "eliminated_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Mondiale competitivo del player finisce qui perché E5 ha fissato una posizione fuori dalla Top 2. M9_09 non offre un rematch per cancellarla."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_result",
+          "text": "Guardo il risultato senza riscriverlo.",
+          "goto": "result"
+        },
+        {
+          "id": "entry_team",
+          "text": "Controllo cosa resta alla squadra.",
+          "goto": "team_state"
+        },
+        {
+          "id": "entry_exit",
+          "text": "Capisco cosa si apre dopo l'eliminazione.",
+          "goto": "exit_policy"
+        }
+      ]
+    },
+    "result": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La posizione finale del gruppo resta {{competition.world.groupStage.finalPosition}}. Il save conserva partite, punti, tiebreak e Top16."
+        }
+      ],
+      "choices": [
+        {
+          "id": "result_emotion",
+          "text": "Lascio spazio alla reazione personale.",
+          "goto": "emotion"
+        },
+        {
+          "id": "result_media",
+          "text": "Affronto il lato pubblico dell'eliminazione.",
+          "goto": "media"
+        }
+      ]
+    },
+    "emotion": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La sconfitta può pesare in modo diverso a seconda del percorso fatto. Non cambia retroattivamente la classifica."
+        }
+      ],
+      "choices": [
+        {
+          "id": "emotion_friends",
+          "text": "Penso agli amici ancora dentro o fuori.",
+          "goto": "friends"
+        },
+        {
+          "id": "emotion_exit",
+          "text": "Torno a ciò che viene dopo.",
+          "goto": "exit_policy"
+        }
+      ]
+    },
+    "media": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Media e pubblico possono raccontare il risultato, ma nessuna intervista trasforma una posizione 3–4 in qualificazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "media_team",
+          "text": "Proteggo prima lo stato della squadra.",
+          "goto": "team_state"
+        },
+        {
+          "id": "media_friends",
+          "text": "Ricollego il risultato alle relazioni.",
+          "goto": "friends"
+        },
+        {
+          "id": "media_exit",
+          "text": "Chiudo il rumore e penso al ritorno.",
+          "goto": "exit_policy"
+        }
+      ]
+    },
+    "team_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Tre match del Mondiale possono aver lasciato danni, status o risorse consumate. WORLD_EXIT non è un heal narrativo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "team_kaia",
+          "text": "Rileggo il filo con Kaia senza trasformarla in colpevole.",
+          "goto": "kaia"
+        },
+        {
+          "id": "team_exit",
+          "text": "Passo alla policy di uscita.",
+          "goto": "exit_policy"
+        }
+      ]
+    },
+    "friends": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "FRIEND_BEAT_09 resta valido anche se le vostre corse hanno preso direzioni diverse. Gli amici nel Top16 continuano senza aspettarti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "friends_kaia",
+          "text": "Penso anche al percorso di Kaia.",
+          "goto": "kaia"
+        },
+        {
+          "id": "friends_exit",
+          "text": "Passo a ciò che la mia eliminazione sblocca.",
+          "goto": "exit_policy"
+        }
+      ]
+    },
+    "kaia": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Kaia può essere ancora dentro o già fuori: il suo stato dipende dal suo gruppo, non dal fatto di essere l'Anchor di M9."
+        }
+      ],
+      "choices": [
+        {
+          "id": "kaia_friends",
+          "text": "Torno al filo degli amici.",
+          "goto": "friends"
+        },
+        {
+          "id": "kaia_exit",
+          "text": "Passo alla route post-World.",
+          "goto": "exit_policy"
+        }
+      ]
+    },
+    "exit_policy": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La main story non finisce con l'eliminazione. La route competitiva salta M10–M11 e prepara WORLD_EXIT/M12, mantenendo il save giocabile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "exit_handoff",
+          "text": "Preparo l'handoff post-World.",
+          "goto": "m12_handoff"
+        },
+        {
+          "id": "exit_review",
+          "text": "Prima rileggo il risultato finale.",
+          "goto": "result"
+        }
+      ]
+    },
+    "m12_handoff": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "M12 non è ancora implementato in questo ciclo, ma il contratto può essere sbloccato senza inventare una scena inesistente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "handoff_commit",
+          "text": "Registro l'handoff verso M12.",
+          "goto": "commit"
+        },
+        {
+          "id": "handoff_team",
+          "text": "Controllo ancora la squadra prima di chiudere M9.",
+          "goto": "team_state"
+        }
+      ]
+    },
+    "commit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il commit finale della route eliminata non cambia l'esito E5: sblocca M12 e chiude M9 per questa run."
+        }
+      ],
+      "choices": [
+        {
+          "id": "commit_now",
+          "text": "Chiudo M9 come eliminato.",
+          "goto": "eliminated_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_unlocked",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m9_eliminated_route_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m9_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "commit_review",
+          "text": "Prima rileggo la policy di uscita.",
+          "goto": "exit_policy"
+        },
+        {
+          "id": "commit_friends",
+          "text": "Prima chiudo il filo relazionale.",
+          "goto": "friends"
+        }
+      ]
+    },
+    "eliminated_complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "M9 è completo per questa run: WORLD_GROUPS è risolto, il Top16 è lockato e il player passa al WORLD_EXIT invece degli ottavi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "complete_review",
+          "text": "Rileggo il riepilogo prima di lasciare il torneo.",
+          "goto": "review"
+        },
+        {
+          "id": "complete_hold",
+          "text": "Resto nel Village senza modificare il risultato.",
+          "goto": "hold"
+        }
+      ]
+    },
+    "review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il record resta consultabile: tre match, posizione finale, relazioni e stato squadra persistono verso il postgame."
+        }
+      ],
+      "choices": [
+        {
+          "id": "review_result",
+          "text": "Rivedo la posizione finale.",
+          "goto": "result"
+        },
+        {
+          "id": "review_hold",
+          "text": "Chiudo il riepilogo.",
+          "goto": "hold"
+        }
+      ]
+    },
+    "hold": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Non esiste un quarto match di consolazione obbligatorio. Il salvataggio è pronto per la futura implementazione di M12."
+        }
+      ],
+      "choices": [
+        {
+          "id": "hold_review",
+          "text": "Riapro il riepilogo se voglio controllare lo stato.",
+          "goto": "review"
+        },
+        {
+          "id": "hold_team",
+          "text": "Controllo ancora la squadra persistente.",
+          "goto": "team_state"
+        }
+      ]
+    }
+  }
+}
