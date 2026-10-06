@@ -2100,6 +2100,27 @@
       ],
       "choices": [
         {
+          "id": "enter_m02",
+          "text": "Entro nella nuova fascia Rank E e avvio M2.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.m1_complete",
+                "eq": true
+              },
+              {
+                "path": "world.flags.m02_unlocked",
+                "eq": true
+              },
+              {
+                "path": "competition.rank",
+                "eq": "E"
+              }
+            ]
+          },
+          "goto": "m02-rank-e-handoff#rank_e_world"
+        },
+        {
           "id": "return_city",
           "text": "Per ora resto nel mondo di M1.",
           "goto": "city_hub",
