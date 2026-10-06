@@ -161,8 +161,28 @@ function worldQualificationForFriend(state, friendId) {
   return state.competition?.world?.qualifications?.[participant.id]?.qualified === true;
 }
 
-function friendWorldContext(state, friendId) {
-  const opponents = state.competition?.world?.playerOpponents ?? [];
+function friendWorldContext(state, friendId, stage = "groups") {
+  const world = state.competition?.world ?? {};
+  if (stage === "knockout") {
+    const knockout = world.knockout ?? {};
+    const qfMatch = (knockout.qfBracket ?? []).find((match) =>
+      (match.home?.name === state.player?.name && match.away?.name === friendId) ||
+      (match.away?.name === state.player?.name && match.home?.name === friendId)
+    );
+    if (qfMatch) return { priority: 0, context: "qf_opponent", opponentIndex: null };
+    if ((world.top8 ?? []).some((participant) => participant.name === friendId)) {
+      return { priority: 1, context: "top8_other_match", opponentIndex: null };
+    }
+    if ((world.top16 ?? []).some((participant) => participant.name === friendId)) {
+      return { priority: 2, context: "r16_eliminated", opponentIndex: null };
+    }
+    if (worldQualificationForFriend(state, friendId)) {
+      return { priority: 3, context: "world_eliminated", opponentIndex: null };
+    }
+    return { priority: 4, context: "external_contact", opponentIndex: null };
+  }
+
+  const opponents = world.playerOpponents ?? [];
   const index = opponents.findIndex((participant) => participant.name === friendId);
   if (index === 2) return { priority: 0, context: "same_group_next_match", opponentIndex: 2 };
   if (index >= 0 && index <= 1) return { priority: 1, context: "same_group_match_resolved", opponentIndex: index };
@@ -171,7 +191,8 @@ function friendWorldContext(state, friendId) {
 }
 
 export function selectWorldFriendBeatCandidate(state, {
-  previousFriendFlag = "friend_beat_08_friend_id"
+  previousFriendFlag = "friend_beat_08_friend_id",
+  stage = "groups"
 } = {}) {
   refreshNpcSchedules(state);
   const previous = state.world?.flags?.[previousFriendFlag] ?? null;
@@ -179,7 +200,7 @@ export function selectWorldFriendBeatCandidate(state, {
   const candidates = FIVE_FRIEND_IDS
     .filter((id) => id !== state.player?.name && state.npcs?.[id])
     .map((id) => {
-      const context = friendWorldContext(state, id);
+      const context = friendWorldContext(state, id, stage);
       const npc = state.npcs[id];
       const physical = Boolean(
         npc.schedule?.present &&
@@ -208,18 +229,25 @@ export function applyWorldFriendBeatSelection(state, effect = {}) {
   const selected = selectWorldFriendBeatCandidate(state, effect);
   if (!selected) throw new Error("No eligible World FRIEND_BEAT candidate");
 
+  const outputPrefix = effect.outputPrefix ?? "friend_beat_09";
+  requireId(outputPrefix, "World FRIEND_BEAT outputPrefix");
+  const stateSuffix = outputPrefix
+    .split("_")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join("");
+
   state.world.flags ??= {};
-  state.world.flags.friend_beat_09_available = true;
-  state.world.flags.friend_beat_09_friend_id = selected.id;
-  state.world.flags.friend_beat_09_contact_mode = selected.physical ? "physical" : "remote";
-  state.world.flags.friend_beat_09_context = selected.context;
+  state.world.flags[outputPrefix + "_available"] = true;
+  state.world.flags[outputPrefix + "_friend_id"] = selected.id;
+  state.world.flags[outputPrefix + "_contact_mode"] = selected.physical ? "physical" : "remote";
+  state.world.flags[outputPrefix + "_context"] = selected.context;
   if (selected.opponentIndex !== null) {
-    state.world.flags.friend_beat_09_opponent_index = selected.opponentIndex;
+    state.world.flags[outputPrefix + "_opponent_index"] = selected.opponentIndex;
   }
 
   const npc = state.npcs[selected.id];
-  npc.state.friendBeat09Selected = true;
-  npc.state.friendBeat09Context = selected.context;
+  npc.state[stateSuffix + "Selected"] = true;
+  npc.state[stateSuffix + "Context"] = selected.context;
   return selected;
 }
 
@@ -372,6 +400,13 @@ export function validateNpcEffect(effect, at = "effect") {
     if (effect.previousFriendFlag !== undefined &&
         (typeof effect.previousFriendFlag !== "string" || !ID_RE.test(effect.previousFriendFlag))) {
       push("INVALID_FRIEND_BEAT_PREVIOUS_FLAG", "previousFriendFlag must be a stable identifier", at + ".previousFriendFlag");
+    }
+    if (effect.outputPrefix !== undefined &&
+        (typeof effect.outputPrefix !== "string" || !ID_RE.test(effect.outputPrefix))) {
+      push("INVALID_FRIEND_BEAT_OUTPUT_PREFIX", "outputPrefix must be a stable identifier", at + ".outputPrefix");
+    }
+    if (effect.stage !== undefined && !["groups", "knockout"].includes(effect.stage)) {
+      push("INVALID_FRIEND_BEAT_STAGE", "stage must be groups or knockout", at + ".stage");
     }
     return errors;
   }
