@@ -1,9 +1,9 @@
 # P5E LIBROGAME — NODE LIBRARY V2 LOCK
 
 **Status:** LOCKED BASELINE FOR M05→M12 AUTHORING  
-**Production branch reviewed:** `m10-00-04-work`  
-**Runtime-validated corpus:** M01 + M02 + M03 + M04 + M05 + M06 + M07 + M08 + M09 + M10  
-**Latest runtime evidence:** M10 COMPLETE — 160 / 352; Bookgame Tests #389: 1,269 passed / 0 failed / 0 skipped. Complete-module baseline is M01→M10.  
+**Production branch reviewed:** `m12-00-04-work`  
+**Runtime-validated corpus:** M01→M11 complete + M12 Cycle 1 extension  
+**Latest runtime evidence:** M12 Cycle 1 — 95 / 209; Bookgame Tests #413: 1,311 passed / 0 failed / 0 skipped. Complete-module baseline remains M01→M11.  
 **Catalog:** `bookgame/docs/NODE_REUSE_CATALOG.md`
 
 ---
@@ -493,3 +493,44 @@ The completed Library V2 corpus is now:
 
 **M01→M11 = 2,234 runtime-validated logical nodes / 5,053 meaningful choices.**
 
+
+
+---
+
+## M12 CYCLE 1 RUNTIME EXTENSION EVIDENCE — 2026-10-06
+
+M12 — *Dopo il Mondo* is **not module-complete yet**, so the completed Library V2 baseline remains **M01→M11 = 2,234 logical nodes / 5,053 meaningful choices**.
+
+Validated M12 Cycle 1 extension:
+
+- blocks: `M12_00_WORLD_EXIT_BRANCH` → `M12_04_FERROX_CALLBACKS`;
+- runtime logical surface: **95 nodes / 209 meaningful choices** exactly;
+- full M12 trajectory: **228 nodes / 502 meaningful choices**;
+- exact residual for M12_05→M12_11: **133 nodes / 293 meaningful choices**;
+- authored-surface manifest remains **4,753 stitches / 1,884 choices**;
+- all five blocks declare Library V2 reuse/adaptation from **R01→R38**;
+- **no R39 candidate is required**;
+- WORLD_EXIT consumes three legal persisted entry classes: World Champion, World eliminated and Worlds Missed;
+- M12 never rewrites E5 World results, champion identity, opponents or official competition history;
+- M12_01 uses real E2 time passage and does not heal, rebuild or normalize the Pokémon roster;
+- M12_02 reads M1 Valedarsena/world-pressure history and preserves the original flags;
+- M12_03 reads the real M2 poaching-network/Ranger outcome and preserves the original outcome;
+- M12_04 reads the real M3 Ferrox rescue/infrastructure outcome and preserves the original outcome;
+- all **95/95 Cycle-1 nodes** are reachable with no zero-incoming padding;
+- save/reload preserves competition, roster and callback flags;
+- Cycle 1 closes with `m12_cycle1_complete=true` only; it does **not** set `m12_complete` or `main_story_complete`.
+
+Validation evidence:
+
+- branch: `m12-00-04-work`;
+- PR **#14**;
+- validated implementation HEAD: `1b985e226e8fcf667c46de1bb5ae12b7f6eac6c7`;
+- GitHub Actions **Bookgame Tests #413: SUCCESS**;
+- syntax: **PASS**;
+- `validate:story`: **PASS**;
+- compiler: **147 scenes / 2,329 nodes / 2,684 stitches / 5,284 compiled choices**;
+- full test suite: **1,311 passed / 0 failed / 0 skipped**.
+
+The current Library decision therefore remains:
+
+**R01→R38 / complete-module baseline M01→M11, with M12 runtime-validated through M12_04; no R39 requirement.**
