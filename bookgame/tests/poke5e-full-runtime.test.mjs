@@ -2073,3 +2073,17 @@ test("all 256 TM references resolve to real offline moves", async () => {
     assert.equal(move.id, tm.move);
   }
 });
+
+
+test("TEMP runtime completion diagnostic", async () => {
+  const data = new Poke5eDataRepository();
+  const moves = await data.listMoves();
+  const abilities = await data.listAbilities();
+  const items = await data.listItems();
+  const unresolvedMoves = moves.filter((move) => !isMoveResolvable(move)).map((move) => ({ id: move.id, name: move.name, time: move.time, range: move.range, attack: move.attack, save: move.save, dice: move.dice, duration: move.duration, description: move.description }));
+  const unsupportedItems = items.filter((item) => !compileItemRule(item).supported).map((item) => ({ id: item.id, name: item.name, type: item.type, description: item.description }));
+  console.log("P5E_DIAG_MOVES=" + JSON.stringify(unresolvedMoves));
+  console.log("P5E_DIAG_ITEMS=" + JSON.stringify(unsupportedItems));
+  console.log("P5E_DIAG_ABILITIES=" + JSON.stringify(abilities.map((ability) => ({ id: ability.id, name: ability.name, description: ability.description }))));
+  assert.ok(true);
+});
