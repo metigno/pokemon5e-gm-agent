@@ -103,7 +103,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
   const moves = await data.listMoves();
   const unresolved = moves.filter((move) => !isMoveResolvable(move)).map((move) => move.id);
 
-  assert.ok(unresolved.length <= 178, `unresolved move rules regressed to ${unresolved.length}`);
+  assert.ok(unresolved.length <= 172, `unresolved move rules regressed to ${unresolved.length}`);
   assert.ok(unresolved.includes("acupressure"));
   for (const id of [
     "agility",
@@ -125,6 +125,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
     "harden",
     "hone-claws",
     "iron-defense",
+    "kinesis",
     "laser-focus",
     "magnet-rise",
     "mind-reader",
@@ -779,6 +780,62 @@ test("Harden reduces status and move damage through the same temporary reduction
   assert.ok(attackEvent.damageBeforeReduction >= attackEvent.damage);
   assert.ok(attackEvent.damageReduction >= 0);
   assert.equal(hpBeforeAttack - attackBattle.player.hp.current, attackEvent.damage);
+});
+
+
+test("Kinesis boosts eligible movement modes and grants AC only against ranged attacks", async () => {
+  const rangedCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 1])
+  });
+  let rangedBattle = await rangedCombat.createBattle({
+    encounterId: "FULL_RUNTIME_KINESIS_RANGED",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["kinesis"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["ember"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 20, y: 0 }
+  });
+  const baseSpeed = rangedBattle.player.turn.movementRemaining;
+  const baseAc = rangedBattle.player.ac;
+  rangedBattle = await rangedCombat.usePlayerMove(rangedBattle, "kinesis");
+  assert.equal(rangedBattle.player.turn.movementRemaining, baseSpeed + 20);
+  assert.equal(rangedBattle.player.effects.rangedAcModifierSources.at(-1).value, 2);
+  rangedBattle = await rangedCombat.endPlayerTurn(rangedBattle);
+  rangedBattle = await rangedCombat.useMove(rangedBattle, "opponent", "ember");
+  const rangedAttack = [...rangedBattle.log].reverse().find((event) => event.type === "attack");
+  assert.equal(rangedAttack.defenderAc, baseAc + 2);
+
+  const meleeCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 1])
+  });
+  let meleeBattle = await meleeCombat.createBattle({
+    encounterId: "FULL_RUNTIME_KINESIS_MELEE",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["kinesis"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+  const meleeBaseAc = meleeBattle.player.ac;
+  meleeBattle = await meleeCombat.usePlayerMove(meleeBattle, "kinesis");
+  meleeBattle = await meleeCombat.endPlayerTurn(meleeBattle);
+  meleeBattle = await meleeCombat.useMove(meleeBattle, "opponent", "tackle");
+  const meleeAttack = [...meleeBattle.log].reverse().find((event) => event.type === "attack");
+  assert.equal(meleeAttack.defenderAc, meleeBaseAc);
+
+  const burrowOnly = {
+    speed: [{ type: "burrowing", value: 30 }],
+    statuses: { nonVolatile: null },
+    effects: {
+      speedModifierSources: [{
+        source: "kinesis",
+        value: 20,
+        types: ["walking", "flying", "swimming"],
+        expiresRound: 10
+      }],
+      movementLockSources: [],
+      restrainedSources: []
+    }
+  };
+  assert.equal(movementSpeed(burrowOnly, 1).value, 30);
 });
 
 test("Healing Wish and Lunar Dance resolve on the next forced switch", async () => {

@@ -31,6 +31,7 @@ export function movementSpeed(combatant, round = null) {
     (combatant.effects?.restrainedSources ?? []).some(isActive);
   const speedModifier = (combatant.effects?.speedModifierSources ?? [])
     .filter(isActive)
+    .filter((source) => !Array.isArray(source.types) || source.types.includes(base.type))
     .reduce((sum, source) => sum + source.value, 0);
   const modified = movementLocked ? 0 : Math.max(0, base.value + speedModifier);
   const value = combatant.statuses?.nonVolatile === "Paralysis"

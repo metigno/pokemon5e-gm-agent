@@ -136,8 +136,13 @@ function effectExpiryRound(move, round) {
   return null;
 }
 
-function effectiveAc(combatant, round) {
-  return combatant.ac + activeModifier(combatant.effects?.acModifierSources ?? [], round);
+function effectiveAc(combatant, round, incomingMove = null) {
+  const baseModifier = activeModifier(combatant.effects?.acModifierSources ?? [], round);
+  const rangedModifier =
+    incomingMove?.attack?.scope === "ranged"
+      ? activeModifier(combatant.effects?.rangedAcModifierSources ?? [], round)
+      : 0;
+  return combatant.ac + baseModifier + rangedModifier;
 }
 
 function clearTypeOverride(combatant) {
@@ -231,6 +236,7 @@ function removeEffectSource(combatant, source, round = null) {
     "incomingAttackBonusSources",
     "damageModifierSources",
     "acModifierSources",
+    "rangedAcModifierSources",
     "speedModifierSources",
     "saveModifierSources",
     "saveAdvantageSources",
@@ -288,6 +294,11 @@ function modifierRuleFor(move, level) {
     "iron-defense": {
       ac: 6,
       resistance: { type: null, steps: 1 }
+    },
+    "kinesis": {
+      speed: 20,
+      speedTypes: ["walking", "flying", "swimming"],
+      rangedAc: 2
     },
     "magnet-rise": { typeImmunity: "ground" },
     "meditate": { attack: tier, save: tier },
@@ -462,6 +473,7 @@ const SIMPLE_MODIFIER_MOVES = new Set([
   "harden",
   "hone-claws",
   "iron-defense",
+  "kinesis",
   "magnet-rise",
   "meditate",
   "minimize",
@@ -612,6 +624,7 @@ function clearTransientEffects(combatant) {
     incomingAttackBonusSources: [],
     damageModifierSources: [],
     acModifierSources: [],
+    rangedAcModifierSources: [],
     speedModifierSources: [],
     saveModifierSources: [],
     saveAdvantageSources: [],
@@ -1420,6 +1433,7 @@ export class Pokemon5eCombatEngine {
         incomingAttackBonusSources: [],
         damageModifierSources: [],
         acModifierSources: [],
+        rangedAcModifierSources: [],
         speedModifierSources: [],
         saveModifierSources: [],
         saveAdvantageSources: [],
@@ -1784,7 +1798,7 @@ export class Pokemon5eCombatEngine {
     const damageBonus = activeModifier(attacker.effects.damageModifierSources, next.round);
     const defenderForResolution = {
       ...defender,
-      ac: effectiveAc(defender, next.round)
+      ac: effectiveAc(defender, next.round, move)
     };
 
     const flashFireWasCharged =
@@ -1926,7 +1940,7 @@ export class Pokemon5eCombatEngine {
     const attackAdvantageConsumed = automaticHit
       ? null
       : consumeAttackAdvantageUse(attacker, defender, next.round);
-    const defenderAc = effectiveAc(defender, next.round);
+    const defenderAc = effectiveAc(defender, next.round, move);
     const hit = automaticHit || roll.natural === 20 ||
       (roll.natural !== 1 && attackTotal >= defenderAc);
     const baseDamage = hit ? Math.max(0, 2 + moveModifier) : 0;
@@ -2003,7 +2017,7 @@ export class Pokemon5eCombatEngine {
       defender,
       next.round
     );
-    const defenderAc = effectiveAc(defender, next.round);
+    const defenderAc = effectiveAc(defender, next.round, move);
     const critical = Boolean(forcedCriticalConsumed) || roll.natural === 20;
     const hit = Boolean(forcedHitConsumed) || critical ||
       (roll.natural !== 1 && attackTotal >= defenderAc);
@@ -2606,9 +2620,22 @@ export class Pokemon5eCombatEngine {
           stackCap
         );
       } else {
-        combatant.effects[key].push({ source: move.id, value, expiresRound });
+        const source = { source: move.id, value, expiresRound };
+        if (name === "speed" && Array.isArray(rule.speedTypes)) {
+          source.types = clone(rule.speedTypes);
+        }
+        combatant.effects[key].push(source);
         applied[name] = value;
       }
+    }
+
+    if (rule.rangedAc) {
+      combatant.effects.rangedAcModifierSources.push({
+        source: move.id,
+        value: Number(rule.rangedAc),
+        expiresRound
+      });
+      applied.rangedAc = Number(rule.rangedAc);
     }
 
     if (rule.saveAdvantage) {
