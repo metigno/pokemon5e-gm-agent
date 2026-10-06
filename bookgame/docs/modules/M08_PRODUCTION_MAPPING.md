@@ -5,7 +5,7 @@
 **Purpose:** production map for converting M8 into validated offline story content  
 **Locked authored budget:** **4,400 stitches / 2,500 player choices**
 
-**Module implementation status:** **M8_00–M8_04 COMPLETE / LIBRARY-V2 ALIGNED / RUNTIME PASS**
+**Module implementation status:** **M8_00–M8_09 IMPLEMENTED / LIBRARY-V2 ALIGNED / RUNTIME VALIDATION PENDING**
 
 E1–E7 are reusable infrastructure from M1. A block may extend generic data or content, but must not fork those engines into module-specific substitutes.
 
@@ -77,16 +77,17 @@ The authored-surface budget above remains locked at **4,400 stitches / 2,500 cho
 | M8_03_REGISTRATION | 12 | 27 | IMPLEMENTED |
 | M8_04_WORLD_VILLAGE | 21 | 46 | IMPLEMENTED |
 | **Cycle M8_00–M8_04** | **82** | **181** | **COMPLETE / RUNTIME PASS** |
-| M8_05_ASTRID_ENTERS | TBD | TBD | PLANNED |
-| M8_06_FRIEND_BEAT_08 | TBD | TBD | PLANNED |
-| M8_07_TRAINING_HALL | TBD | TBD | PLANNED |
-| M8_08_MEDIA_DAY | TBD | TBD | PLANNED |
-| M8_09_OPENING_CEREMONY | TBD | TBD | PLANNED |
+| M8_05_ASTRID_ENTERS | 14 | 31 | IMPLEMENTED |
+| M8_06_FRIEND_BEAT_08 | 20 | 44 | IMPLEMENTED |
+| M8_07_TRAINING_HALL | 15 | 33 | IMPLEMENTED |
+| M8_08_MEDIA_DAY | 15 | 32 | IMPLEMENTED |
+| M8_09_OPENING_CEREMONY | 12 | 26 | IMPLEMENTED |
+| **Cycle M8_05–M8_09** | **76** | **166** | **IMPLEMENTED / STATIC PASS** |
 | M8_10_WORLD_DRAW | TBD | TBD | PLANNED |
 | M8_11_GROUP_REVEAL | TBD | TBD | PLANNED |
 | **M8 TOTAL TARGET** | **190** | **418** | |
 
-The first cycle therefore leaves exactly **108 nodes / 237 meaningful choices** for M8_05–M8_11. No node is added merely to hit the target.
+The first cycle used **82 / 181**. Cycle 2 adds **76 / 166**, bringing M8_00–M8_09 to **158 nodes / 347 meaningful choices**. Exactly **32 nodes / 71 choices** remain for M8_10–M8_11. No node is added merely to hit the target.
 
 # 2B. LIBRARY V2 ROUTING FOR CYCLE 1
 
@@ -111,6 +112,31 @@ The first cycle therefore leaves exactly **108 nodes / 237 meaningful choices** 
 - World Village preserves schedule-causal NPC encounters;
 - dedicated regressions: `m08-cycle1.test.mjs` and `m08-cycle-budget.test.mjs`;
 - GitHub Actions runtime evidence: **PASS** on content commit `2541e060424e5d2cc4a48451c3344dcf839d846b`, Bookgame Tests run `37454771937` (#336) — **1,174 passed / 0 failed**.
+
+
+# 2C. LIBRARY V2 ROUTING FOR CYCLE 2
+
+- **M8_05:** R24 persistent NPC first meeting + R25 multi-context Anchor intro + R23 schedule causality + R33 callbacks. Astrid Vahl is registered by a living-world event with a real World Village schedule before the scene becomes available.
+- **M8_06:** R26 Friend Beat selector + R27 Friend Beat content + R23 schedule/location causality + R33 continuity. Physical contact is selected only for a real World Village overlap; otherwise the contact is remote and no qualification is invented.
+- **M8_07:** R05 optional sparring + R06 Pokémon 5e combat handoff + R13 medical/readiness shell + R32 time allocation. The declared Lucario Lv18 staff spar is non-official and never enters World competition history.
+- **M8_08:** R11 persistent posture/commitment state + R32 time cost + R33 callbacks. Media posture remains player-chosen and cannot modify Trainer/Pokémon statistics, seed or draw.
+- **M8_09:** R23 real-presence continuity + R32 time + R33 callbacks + R34 boundary discipline. The opening ceremony presents the World stage but explicitly stops before WORLD_DRAW.
+
+**No R39 candidate is required.** Library V2 R01→R38 remains sufficient through the complete pre-draw ceremony.
+
+### Cycle 2 validation status
+
+- authored files: present;
+- exact cycle budget: **76 nodes / 166 meaningful choices**;
+- cumulative M8 runtime surface: **158 nodes / 347 choices**;
+- exact remaining M8 target: **32 nodes / 71 choices** for WORLD_DRAW + GROUP_REVEAL;
+- Astrid exists as a persistent NPC with a real schedule and no final-boss protection;
+- FRIEND_BEAT_08 uses physical overlap only when schedule/location make it causal, otherwise remote contact;
+- Training Hall sparring uses Pokémon 5e combat handoff and is explicitly non-official;
+- Media Day preserves player voice and never grants stat bonuses;
+- Opening Ceremony never sets `world_draw_complete`, `world_field_32_locked` or `player_group`;
+- dedicated regressions: `m08-cycle2.test.mjs` plus expanded `m08-cycle-budget.test.mjs`;
+- runtime GitHub Actions evidence is required before marking this cycle COMPLETE.
 
 # 3. CANONICAL EVENT BINDINGS
 
@@ -271,6 +297,19 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R24_PERSISTENT_NPC_FIRST_MEETING
+- R25_MULTI_CONTEXT_ANCHOR_INTRO
+- R23_NPC_PRESENCE_SCHEDULE_GATE
+- R33_CROSS_MODULE_CALLBACK
+
+**Unique layer:** Astrid Vahl is the reigning champion but remains an ordinary competitive actor for future results; title prestige never becomes plot armor.
+
+**Implementation lock (cycle 2):** scene `m08-astrid-enters` contains **14 nodes / 31 meaningful choices**. `M8_ASTRID_ARRIVAL` registers Astrid and her World Village schedule before contact; first meeting is persistent/idempotent and never assigns draw state.
+
 ---
 
 ## M8_06_FRIEND_BEAT_08
@@ -282,6 +321,19 @@ A content gap is not permission to implement a second engine.
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R26_FRIEND_BEAT_SELECTOR
+- R27_FRIEND_BEAT_CONTENT
+- R23_NPC_PRESENCE_SCHEDULE_GATE
+- R33_CROSS_MODULE_CALLBACK
+
+**Unique layer:** one of the Four intersects the World phase physically only if actually present in the Village; otherwise the beat is a remote contact that preserves uncertainty about the friend's competitive state.
+
+**Implementation lock (cycle 2):** scene `m08-friend-beat-08` contains **20 nodes / 44 meaningful choices**. The selector avoids the protagonist and prior Friend Beat where possible, records friend/mode/type, and never creates qualification, seed or group state.
 
 ---
 
@@ -295,6 +347,19 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R05_OPTIONAL_SPARRING
+- R06_COMBAT_HANDOFF
+- R13_MEDICAL_POKEMON_CENTER_SERVICE
+- R32_WAIT_LET_TIME_PASS
+
+**Unique layer:** pre-draw World preparation with an optional declared 1v1 staff spar against Lucario Lv18; real battle state persists but the spar is not an official World match.
+
+**Implementation lock (cycle 2):** scene `m08-training-hall` contains **15 nodes / 33 meaningful choices**. Technical preparation consumes real time without free stat gains, while optional sparring hands authority to Pokémon 5e and never touches E5 World history.
+
 ---
 
 ## M8_08_MEDIA_DAY
@@ -307,6 +372,18 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R11_QUEST_LIFECYCLE
+- R32_WAIT_LET_TIME_PASS
+- R33_CROSS_MODULE_CALLBACK
+
+**Unique layer:** player-selected public posture at the World venue, including Astrid/Four/sponsor callbacks, without assigning a mandatory personality or mechanical buff.
+
+**Implementation lock (cycle 2):** scene `m08-media-day` contains **15 nodes / 32 meaningful choices**. Open, guarded and competitive postures are persistent narrative state only; Trainer/Pokémon stats and draw state remain untouched.
+
 ---
 
 ## M8_09_OPENING_CEREMONY
@@ -318,6 +395,19 @@ A content gap is not permission to implement a second engine.
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R23_NPC_PRESENCE_SCHEDULE_GATE
+- R32_WAIT_LET_TIME_PASS
+- R33_CROSS_MODULE_CALLBACK
+- R34_ACCESS_BOUNDARY_RECONNAISSANCE_GATE
+
+**Unique layer:** collective World opening that makes the field feel real while preserving a hard boundary before the canonical WORLD_DRAW.
+
+**Implementation lock (cycle 2):** scene `m08-opening-ceremony` contains **12 nodes / 26 meaningful choices**. It records ceremony completion only and deliberately leaves field lock, player group and three opponents unresolved.
 
 ---
 
