@@ -143,7 +143,7 @@ Validation executed on GitHub Actions from branch `m5-00-04-work` after the five
 - logical M5 production surface: **157 nodes / 347 meaningful choices**, leaving **83 / 181** for M5_10–M5_14;
 - `npm --prefix bookgame test`: **1,045 pass / 0 fail / 0 skipped / 0 cancelled**;
 - first validation exposed exactly two strict-source issues: an invalid mixed E1 trigger shape and a Fulgore fauna candidate rejected by the compiled habitat filter; both were repaired at the source without broadening rules or weakening validation;
-- final workflow run: **#37434959153**;
+- final workflow run: **#37435071829**;
 - M1–M4 and M5_00–M5_04 regressions remain green.
 
 ---
