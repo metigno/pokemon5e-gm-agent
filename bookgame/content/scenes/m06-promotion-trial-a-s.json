@@ -1,0 +1,548 @@
+{
+  "schemaVersion": 1,
+  "id": "m06-promotion-trial-a-s",
+  "moduleId": "M06",
+  "title": "M6_12 — Promotion Trial A→S",
+  "locationId": "far_ruins_gate",
+  "entryNodeId": "trial_gate_call",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m5_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m06_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m6_active",
+        "eq": true
+      },
+      {
+        "path": "competition.trials.RANK_A_TO_S.available",
+        "exists": true
+      }
+    ]
+  },
+  "nodes": {
+    "trial_gate_call": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Gate del Faro chiama il tuo checkpoint. È un Singles con Official Six; la vittoria promuove a Rank S, la sconfitta lascia Rank A e riapre il retry."
+        }
+      ],
+      "choices": [
+        {
+          "id": "gate_briefing",
+          "text": "Ascolto il briefing dell'esaminatore.",
+          "goto": "examiner_briefing"
+        },
+        {
+          "id": "gate_roster",
+          "text": "Rivedo l'Official Six pubblico del Gate.",
+          "goto": "roster_public"
+        },
+        {
+          "id": "gate_readiness",
+          "text": "Controllo se lo stato reale è pronto.",
+          "goto": "readiness_check"
+        }
+      ]
+    },
+    "examiner_briefing": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'esaminatore usa sempre lo stesso Official Six di fascia. Il test non cambia composizione in base al tuo team."
+        }
+      ],
+      "choices": [
+        {
+          "id": "brief_identity",
+          "text": "Rileggo cosa significa esame Master completo.",
+          "goto": "identity_review"
+        },
+        {
+          "id": "brief_public",
+          "text": "Studio ciò che è pubblico del roster.",
+          "goto": "roster_public"
+        },
+        {
+          "id": "brief_confirm",
+          "text": "Passo alla conferma finale.",
+          "goto": "final_confirm"
+        }
+      ]
+    },
+    "roster_public": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Metagross, Gyarados, Arcanine, Venusaur, Jolteon e Snorlax coprono ritmi e risorse differenti. L'ordine decisionale resta sotto fog of war."
+        }
+      ],
+      "choices": [
+        {
+          "id": "roster_six",
+          "text": "Penso a come distribuire risposte su sei slot.",
+          "goto": "six_plan"
+        },
+        {
+          "id": "roster_confirm",
+          "text": "Ho abbastanza informazioni: torno alla conferma.",
+          "goto": "final_confirm"
+        }
+      ]
+    },
+    "identity_review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Gate verifica se il tuo piano resta coerente quando deve attraversare un intero Official Six senza una singola scorciatoia dominante."
+        }
+      ],
+      "choices": [
+        {
+          "id": "identity_six",
+          "text": "Costruisco un piano sulla profondità.",
+          "goto": "six_plan"
+        },
+        {
+          "id": "identity_pace",
+          "text": "Costruisco un piano sul ritmo.",
+          "goto": "pace_plan"
+        }
+      ]
+    },
+    "readiness_check": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "E5 controllerà registrazione attiva e almeno sei Pokémon. La scena non cura HP/PP, non rimuove status e non crea sostituti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ready_resources",
+          "text": "Rivedo le risorse reali.",
+          "goto": "resource_review"
+        },
+        {
+          "id": "ready_confirm",
+          "text": "Accetto lo stato attuale e vado alla conferma.",
+          "goto": "final_confirm"
+        }
+      ]
+    },
+    "resource_review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Le risorse correnti fanno parte del tentativo. Puoi entrare ora oppure tornare alla registrazione senza perdere il modulo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "resources_plan",
+          "text": "Adatto il piano allo stato che ho.",
+          "goto": "pace_plan"
+        },
+        {
+          "id": "resources_leave",
+          "text": "Non entro ancora: torno alla registrazione.",
+          "goto": "m06-trial-registration#registered"
+        }
+      ]
+    },
+    "six_plan": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Gestire sei slot significa decidere quali risposte non puoi spendere troppo presto e quali matchup puoi assorbire senza inseguire il KO immediato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "six_preserve",
+          "text": "Priorità: preservare almeno due risposte per il finale.",
+          "goto": "final_confirm",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_a_s_match_focus",
+              "value": "preserve_depth"
+            }
+          ]
+        },
+        {
+          "id": "six_rotate",
+          "text": "Priorità: distribuire pressione e switch.",
+          "goto": "final_confirm",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_a_s_match_focus",
+              "value": "rotation"
+            }
+          ]
+        },
+        {
+          "id": "six_back",
+          "text": "Rileggo il roster pubblico.",
+          "goto": "roster_public"
+        }
+      ]
+    },
+    "pace_plan": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il ritmo del Gate cambia quando il match entra nel quarto, quinto e sesto slot. Preparazione non significa sapere in anticipo le scelte dell'esaminatore."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pace_control",
+          "text": "Priorità: controllare il ritmo senza sovraestendere.",
+          "goto": "final_confirm",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_a_s_match_focus",
+              "value": "pace_control"
+            }
+          ]
+        },
+        {
+          "id": "pace_adapt",
+          "text": "Priorità: conservare flessibilità negli switch.",
+          "goto": "final_confirm",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_a_s_match_focus",
+              "value": "adaptation"
+            }
+          ]
+        },
+        {
+          "id": "pace_back",
+          "text": "Torno al briefing.",
+          "goto": "examiner_briefing"
+        }
+      ]
+    },
+    "red_callback": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Red può offrire una cornice sull'adattamento, ma il Gate resta interamente nelle mani del player e del resolver."
+        }
+      ],
+      "choices": [
+        {
+          "id": "red_confirm",
+          "text": "Tengo il principio e torno alla conferma.",
+          "goto": "final_confirm",
+          "conditions": {
+            "path": "world.flags.red_met",
+            "eq": true
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_trial_red_callback_used",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "red_roster",
+          "text": "Torno al roster pubblico.",
+          "goto": "roster_public"
+        }
+      ]
+    },
+    "cutoff_callback": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il cutoff non cambia chi devi battere. Può cambiare il contesto stagionale del risultato, non il risultato stesso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "cutoff_confirm",
+          "text": "Torno alla conferma sapendo che il tempo resta reale.",
+          "goto": "final_confirm"
+        },
+        {
+          "id": "cutoff_leave",
+          "text": "Rimando il tentativo e torno al desk.",
+          "goto": "m06-trial-registration#registered"
+        }
+      ]
+    },
+    "final_confirm": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La prossima scelta consegna il controllo a Pokémon 5e/E5. Nessun nodo successivo può assegnare manualmente la vittoria."
+        }
+      ],
+      "choices": [
+        {
+          "id": "confirm_fight",
+          "text": "Inizio il Promotion Trial A→S.",
+          "goto": "battle_handoff",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.trials.RANK_A_TO_S.registered",
+                "eq": true
+              },
+              {
+                "path": "player.roster.length",
+                "gte": 6
+              },
+              {
+                "path": "competition.rank",
+                "eq": "A"
+              }
+            ]
+          }
+        },
+        {
+          "id": "confirm_red",
+          "text": "Rileggo un'ultima volta il principio di Red.",
+          "goto": "red_callback",
+          "conditions": {
+            "path": "world.flags.red_met",
+            "eq": true
+          }
+        },
+        {
+          "id": "confirm_cutoff",
+          "text": "Rivedo il rapporto con il cutoff.",
+          "goto": "cutoff_callback"
+        }
+      ]
+    },
+    "battle_handoff": {
+      "stitches": [
+        {
+          "id": "bh1",
+          "text": "Il controllo passa al combattimento Pokémon 5e/E5. Solo win/lose del resolver possono modificare il checkpoint."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fight_trial_a_s",
+          "text": "Combatto il Gate del Faro.",
+          "combat": {
+            "encounterId": "A6_RANK_TRIAL_A_S",
+            "opponentRegistered": true,
+            "competition": {
+              "type": "promotion_trial",
+              "matchId": "A6_RANK_TRIAL_A_S",
+              "checkpointId": "RANK_A_TO_S",
+              "fromRank": "A",
+              "toRank": "S",
+              "format": "Singles",
+              "officialRosterSize": 6,
+              "difficulty": "ELITE",
+              "retryable": true,
+              "opponentTrainerId": "FAR_GATE_MASTER_IRIS_KELL"
+            },
+            "returnNodes": {
+              "win": "trial_win",
+              "lose": "trial_loss"
+            },
+            "opponentTrainerId": "FAR_GATE_MASTER_IRIS_KELL",
+            "opponent": {
+              "species": "Metagross",
+              "level": 17,
+              "abilityId": "clear-body",
+              "trainerId": "FAR_GATE_MASTER_IRIS_KELL"
+            },
+            "opponentBench": [
+              {
+                "species": "Gyarados",
+                "level": 17,
+                "abilityId": "intimidate",
+                "trainerId": "FAR_GATE_MASTER_IRIS_KELL"
+              },
+              {
+                "species": "Arcanine",
+                "level": 17,
+                "abilityId": "intimidate",
+                "trainerId": "FAR_GATE_MASTER_IRIS_KELL"
+              },
+              {
+                "species": "Venusaur",
+                "level": 17,
+                "abilityId": "overgrow",
+                "trainerId": "FAR_GATE_MASTER_IRIS_KELL"
+              },
+              {
+                "species": "Jolteon",
+                "level": 17,
+                "abilityId": "volt-absorb",
+                "trainerId": "FAR_GATE_MASTER_IRIS_KELL"
+              },
+              {
+                "species": "Snorlax",
+                "level": 17,
+                "abilityId": "thick-fat",
+                "trainerId": "FAR_GATE_MASTER_IRIS_KELL"
+              }
+            ],
+            "goto": "battle_handoff"
+          }
+        }
+      ]
+    },
+    "trial_win": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "E5 ha registrato la vittoria e promosso realmente il trainer a Rank S. La scena può solo leggere questo stato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "win_review",
+          "text": "Rivedo cosa ha effettivamente cambiato la vittoria.",
+          "goto": "promotion_review"
+        },
+        {
+          "id": "win_cutoff",
+          "text": "Passo al contesto del World Ranking Cutoff.",
+          "goto": "post_win"
+        }
+      ]
+    },
+    "trial_loss": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "E5 ha registrato la sconfitta. Rank A resta invariato e il checkpoint torna disponibile secondo la regola retryable."
+        }
+      ],
+      "choices": [
+        {
+          "id": "loss_retry",
+          "text": "Rivedo come preparare un nuovo tentativo.",
+          "goto": "retry_review"
+        },
+        {
+          "id": "loss_leave",
+          "text": "Esco dal Gate e torno alla registrazione.",
+          "goto": "m06-trial-registration#trial_info"
+        }
+      ]
+    },
+    "retry_review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Ogni retry conserva history, risorse persistenti e conseguenze temporali. Non esiste reset del modulo dopo una sconfitta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "retry_registration",
+          "text": "Torno al desk per una nuova registrazione.",
+          "goto": "m06-trial-registration#eligibility_audit"
+        },
+        {
+          "id": "retry_cutoff",
+          "text": "Valuto il costo temporale rispetto al cutoff.",
+          "goto": "cutoff_callback"
+        }
+      ]
+    },
+    "promotion_review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La vittoria cambia esclusivamente il checkpoint canonico: Rank S e access band successiva. Non qualifica automaticamente al Mondiale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "promotion_result",
+          "text": "Registro il passaggio come stato letto da E5.",
+          "goto": "s_result"
+        },
+        {
+          "id": "promotion_cutoff",
+          "text": "Passo al cutoff senza inventare World qualification.",
+          "goto": "post_win"
+        }
+      ]
+    },
+    "s_result": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Rank S significa Candidato Mondiale. Il World Qualifier appartiene a M7 e resta un evento separato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "s_cutoff",
+          "text": "Passo al World Ranking Cutoff.",
+          "goto": "post_win"
+        },
+        {
+          "id": "s_lighthouse",
+          "text": "Resto un momento al Faro prima di proseguire.",
+          "goto": "return_link"
+        }
+      ]
+    },
+    "post_win": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Gate è superato. Il prossimo blocco congela il contesto stagionale reale senza riscrivere risultati Masters o Continental."
+        }
+      ],
+      "choices": [
+        {
+          "id": "post_cutoff",
+          "text": "Apro il World Ranking Cutoff.",
+          "goto": "m06-world-cutoff#cutoff_entry"
+        },
+        {
+          "id": "post_review",
+          "text": "Rileggo il nuovo Rank prima di partire.",
+          "goto": "s_result"
+        }
+      ]
+    },
+    "return_link": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Faro resta visitabile dopo il Gate e conserva anche il thread antico ancora irrisolto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "return_cutoff",
+          "text": "Torno al cutoff quando sono pronto.",
+          "goto": "m06-world-cutoff#cutoff_entry"
+        },
+        {
+          "id": "return_ruins",
+          "text": "Torno al perimetro delle Rovine.",
+          "goto": "m06-first-lighthouse-return#ruins_boundary"
+        }
+      ]
+    }
+  }
+}
