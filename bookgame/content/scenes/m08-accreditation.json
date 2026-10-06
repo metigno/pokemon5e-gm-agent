@@ -1,0 +1,358 @@
+{
+  "schemaVersion": 1,
+  "id": "m08-accreditation",
+  "moduleId": "M08",
+  "title": "M8_01 — Accreditation",
+  "locationId": "world_accreditation_center",
+  "entryNodeId": "accreditation_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m7_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m08_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.world_qualified",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m7_before_lights_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_active",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_world_arrived",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "accreditation_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il centro accrediti verifica che il partecipante qualificato sia quello registrato e spiega accessi e timeline. Non modifica Rank, roster o draw."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_start",
+          "text": "Inizio l'accredito.",
+          "goto": "accredit_hub",
+          "conditions": {
+            "path": "world.flags.m8_accreditation_complete",
+            "ne": true
+          }
+        },
+        {
+          "id": "entry_review",
+          "text": "L'accredito è già completo: rivedo credenziali e accessi.",
+          "goto": "accredit_hub",
+          "conditions": {
+            "path": "world.flags.m8_accreditation_complete",
+            "eq": true
+          }
+        },
+        {
+          "id": "entry_timeline",
+          "text": "Controllo subito la timeline del torneo.",
+          "goto": "timeline"
+        }
+      ]
+    },
+    "accredit_hub": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Tre aspetti vengono trattati separatamente: identità del partecipante, aree accessibili e calendario operativo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "hub_identity",
+          "text": "Verifico l'identità competitiva.",
+          "goto": "identity"
+        },
+        {
+          "id": "hub_access",
+          "text": "Controllo le zone accessibili.",
+          "goto": "access"
+        },
+        {
+          "id": "hub_timeline",
+          "text": "Controllo la timeline.",
+          "goto": "timeline"
+        }
+      ]
+    },
+    "identity": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'identità competitiva deriva dalla run qualificata e dalla competition history. Il desk non può sostituire o duplicare quell'autorità."
+        }
+      ],
+      "choices": [
+        {
+          "id": "identity_callbacks",
+          "text": "Controllo i callback della carriera.",
+          "goto": "callbacks"
+        },
+        {
+          "id": "identity_hub",
+          "text": "Torno al desk principale.",
+          "goto": "accredit_hub"
+        }
+      ]
+    },
+    "access": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Le credenziali distinguono Village, training, medicina, media e aree gara. Ogni servizio mantiene i propri gate."
+        }
+      ],
+      "choices": [
+        {
+          "id": "access_zones",
+          "text": "Esamino la mappa delle zone.",
+          "goto": "zones"
+        },
+        {
+          "id": "access_security",
+          "text": "Rivedo il protocollo di sicurezza.",
+          "goto": "security_protocol"
+        }
+      ]
+    },
+    "timeline": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La timeline separa controllo medico, registrazione, media, cerimonia e WORLD_DRAW. Nessun passaggio anticipa il successivo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "timeline_medical",
+          "text": "Controllo l'accesso medico.",
+          "goto": "medical_access"
+        },
+        {
+          "id": "timeline_training",
+          "text": "Controllo l'accesso training.",
+          "goto": "training_access"
+        },
+        {
+          "id": "timeline_wait",
+          "text": "Valuto cosa succede se rimando.",
+          "goto": "wait_window"
+        }
+      ]
+    },
+    "zones": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Le aree del venue sono fisicamente vicine ma amministrativamente separate. La comodità geografica non elimina prerequisiti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "zones_media",
+          "text": "Controllo la zona media.",
+          "goto": "media_rules"
+        },
+        {
+          "id": "zones_hub",
+          "text": "Torno al desk accrediti.",
+          "goto": "accredit_hub"
+        }
+      ]
+    },
+    "media_rules": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "I media possono chiedere tempo e dichiarazioni, ma non possono cambiare seed, match o statistiche."
+        }
+      ],
+      "choices": [
+        {
+          "id": "media_timeline",
+          "text": "Torno alla timeline.",
+          "goto": "timeline"
+        },
+        {
+          "id": "media_zones",
+          "text": "Torno alla mappa delle zone.",
+          "goto": "zones"
+        }
+      ]
+    },
+    "training_access": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La Training Hall sarà disponibile come spazio di preparazione. Qualunque effetto meccanico resta nei sistemi Pokémon 5e reali."
+        }
+      ],
+      "choices": [
+        {
+          "id": "training_timeline",
+          "text": "Torno alla timeline.",
+          "goto": "timeline"
+        },
+        {
+          "id": "training_access_back",
+          "text": "Torno alle regole di accesso.",
+          "goto": "access"
+        }
+      ]
+    },
+    "medical_access": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il controllo medico è obbligatorio come verifica di stato; non è una cura gratuita né un reset tra moduli."
+        }
+      ],
+      "choices": [
+        {
+          "id": "medical_commit",
+          "text": "Segno il controllo medico come prossimo gate.",
+          "goto": "commit"
+        },
+        {
+          "id": "medical_timeline",
+          "text": "Torno alla timeline.",
+          "goto": "timeline"
+        }
+      ]
+    },
+    "security_protocol": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Le credenziali vengono usate per accesso, non come ricompensa. Un'area non autorizzata resta chiusa finché il relativo gate non è soddisfatto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "security_access",
+          "text": "Torno agli accessi.",
+          "goto": "access"
+        },
+        {
+          "id": "security_callbacks",
+          "text": "Rivedo i callback di reputazione senza bypass.",
+          "goto": "callbacks"
+        }
+      ]
+    },
+    "callbacks": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Prestigio, sponsor, Anchor e risultati precedenti possono cambiare tono e attenzione ricevuta, non l'identità del partecipante o i requisiti ufficiali."
+        }
+      ],
+      "choices": [
+        {
+          "id": "callbacks_commit",
+          "text": "Porto il contesto al commit di accredito.",
+          "goto": "commit"
+        },
+        {
+          "id": "callbacks_hub",
+          "text": "Torno al desk.",
+          "goto": "accredit_hub"
+        }
+      ]
+    },
+    "wait_window": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Rimandare consuma tempo e lascia avanzare schedule e attività del venue. Non completa automaticamente alcun gate."
+        }
+      ],
+      "choices": [
+        {
+          "id": "wait_hour",
+          "text": "Aspetto un'ora e torno alla timeline.",
+          "goto": "timeline",
+          "timeCostMinutes": 60
+        },
+        {
+          "id": "wait_hub",
+          "text": "Torno subito al desk.",
+          "goto": "accredit_hub"
+        }
+      ]
+    },
+    "commit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'accredito può essere chiuso quando identità e regole di accesso sono chiare. Il commit non registra roster o draw."
+        }
+      ],
+      "choices": [
+        {
+          "id": "commit_now",
+          "text": "Confermo le credenziali del partecipante.",
+          "goto": "complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m8_accreditation_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m8_access_timeline_known",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "world_accreditation_center"
+            }
+          ]
+        },
+        {
+          "id": "commit_review",
+          "text": "Rivedo ancora il desk.",
+          "goto": "accredit_hub"
+        }
+      ]
+    },
+    "complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Le credenziali sono persistenti. Il prossimo gate è il controllo medico sullo stato reale della squadra."
+        }
+      ],
+      "choices": [
+        {
+          "id": "complete_medical",
+          "text": "Passo al controllo medico.",
+          "goto": "m08-medical-control#medical_entry"
+        },
+        {
+          "id": "complete_review",
+          "text": "Resto al centro accrediti.",
+          "goto": "accredit_hub"
+        }
+      ]
+    }
+  }
+}
