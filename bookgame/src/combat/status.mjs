@@ -209,13 +209,20 @@ export function startTurnStatus(combatant, dice) {
 
 function activeSaveModifier(combatant, round = null) {
   return (combatant.effects?.saveModifierSources ?? [])
-    .filter((source) => round == null || source.expiresRound == null || round < source.expiresRound)
+    .filter((source) =>
+      round == null ||
+      ((source.startsRound == null || round >= source.startsRound) &&
+       (source.expiresRound == null || round < source.expiresRound))
+    )
     .reduce((sum, source) => sum + Number(source.value ?? 0), 0);
 }
 
 function hasSaveAdvantage(combatant, round = null) {
   return (combatant.effects?.saveAdvantageSources ?? []).some(
-    (source) => round == null || source.expiresRound == null || round < source.expiresRound
+    (source) =>
+      round == null ||
+      ((source.startsRound == null || round >= source.startsRound) &&
+       (source.expiresRound == null || round < source.expiresRound))
   );
 }
 

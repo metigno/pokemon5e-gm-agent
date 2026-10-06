@@ -102,7 +102,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
   const moves = await data.listMoves();
   const unresolved = moves.filter((move) => !isMoveResolvable(move)).map((move) => move.id);
 
-  assert.ok(unresolved.length <= 188, `unresolved move rules regressed to ${unresolved.length}`);
+  assert.ok(unresolved.length <= 187, `unresolved move rules regressed to ${unresolved.length}`);
   assert.ok(unresolved.includes("acupressure"));
   for (const id of [
     "agility",
@@ -110,6 +110,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
     "barrier",
     "bulk-up",
     "calm-mind",
+    "charge",
     "coil",
     "clangorous-soul",
     "cosmic-power",
@@ -479,6 +480,43 @@ test("Focus Energy expands critical range and Aqua Ring heals at each end turn u
   assert.ok(
     aquaBattle.player.effects.ongoingEffects.some((effect) => effect.kind === "aqua-ring")
   );
+});
+
+
+test("Charge keeps AC until the next turn and activates doubled STAB only on that turn", async () => {
+  const combat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 20, 18, 4])
+  });
+  let battle = await combat.createBattle({
+    encounterId: "FULL_RUNTIME_CHARGE",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["charge", "tackle"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["growl"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+
+  const data = new Poke5eDataRepository();
+  const tackle = await data.getMove("tackle");
+
+  battle = await combat.usePlayerMove(battle, "charge");
+  assert.equal(battle.player.effects.acModifierSources.at(-1).value, 2);
+  assert.equal(calculateMoveStats(battle.player, tackle, battle.round).stab, 3);
+  assert.equal(battle.player.concentration?.moveId, "charge");
+
+  battle = await combat.endPlayerTurn(battle);
+  battle = await combat.advanceToPlayerOrEnd(battle);
+  assert.equal(battle.round, 2);
+  assert.equal(calculateMoveStats(battle.player, tackle, battle.round).stab, 6);
+  assert.equal(
+    battle.player.effects.acModifierSources.some(
+      (source) => source.source === "charge-ac" && battle.round < source.expiresRound
+    ),
+    false
+  );
+
+  battle = await combat.usePlayerMove(battle, "tackle");
+  const attack = [...battle.log].reverse().find((event) => event.type === "attack");
+  assert.equal(attack.stab, 6);
 });
 
 test("save debuffs and allied status cures execute their 2024 effects", async () => {

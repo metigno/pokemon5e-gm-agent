@@ -91,7 +91,10 @@ function otherSide(side) {
 
 function activeModifier(sources, round) {
   return sources
-    .filter((source) => source.expiresRound == null || round < source.expiresRound)
+    .filter((source) =>
+      (source.startsRound == null || round >= source.startsRound) &&
+      (source.expiresRound == null || round < source.expiresRound)
+    )
     .reduce((sum, source) => sum + source.value, 0);
 }
 
@@ -133,7 +136,9 @@ function effectiveAc(combatant, round) {
 
 function hasActiveSource(sources = [], round) {
   return sources.some(
-    (source) => source.expiresRound == null || round < source.expiresRound
+    (source) =>
+      (source.startsRound == null || round >= source.startsRound) &&
+      (source.expiresRound == null || round < source.expiresRound)
   );
 }
 
@@ -381,6 +386,7 @@ function isSimpleModifierMove(move) {
 }
 
 const SPECIAL_SELF_MOVES = new Set([
+  "charge",
   "clangorous-soul"
 ]);
 
@@ -570,8 +576,12 @@ function endConcentrationState(battle, side, reason) {
   if (concentration.zoneId) {
     battle.zones = removeZone(battle.zones, concentration.zoneId);
   }
-  if (concentration.effectSource) {
-    removeEffectSource(combatant, concentration.effectSource, battle.round);
+  const effectSources = [
+    ...(Array.isArray(concentration.effectSources) ? concentration.effectSources : []),
+    ...(concentration.effectSource ? [concentration.effectSource] : [])
+  ];
+  for (const source of new Set(effectSources)) {
+    removeEffectSource(combatant, source, battle.round);
   }
   combatant.concentration = null;
   battle.log.push({
@@ -1863,6 +1873,46 @@ export class Pokemon5eCombatEngine {
 
   async resolveSpecialSelfMove(next, side, move) {
     const combatant = next[side];
+
+    if (move.id === "charge") {
+      endConcentrationState(next, side, "new_concentration");
+      removeEffectSource(combatant, "charge-ac", next.round);
+      removeEffectSource(combatant, "charge-stab", next.round);
+
+      combatant.effects.acModifierSources.push({
+        source: "charge-ac",
+        value: 2,
+        expiresRound: next.round + 1
+      });
+      combatant.effects.stabMultiplierSources.push({
+        source: "charge-stab",
+        multiplier: 2,
+        startsRound: next.round + 1,
+        expiresRound: next.round + 2
+      });
+      combatant.concentration = {
+        zoneId: null,
+        moveId: move.id,
+        effectSources: ["charge-ac", "charge-stab"],
+        expiresRound: next.round + 2
+      };
+
+      next.log.push({
+        type: "special_self_move",
+        round: next.round,
+        actor: side,
+        moveId: move.id,
+        applied: {
+          ac: 2,
+          acExpiresRound: next.round + 1,
+          stabMultiplier: 2,
+          stabStartsRound: next.round + 1,
+          stabExpiresRound: next.round + 2
+        },
+        concentration: true
+      });
+      return next;
+    }
 
     if (move.id === "clangorous-soul") {
       const damageRoll = rollExpression("3d6", this.dice);

@@ -270,13 +270,20 @@ export function damageProfile(move, defender, round = null) {
 
 function activeEffectModifier(sources = [], round = null) {
   return sources
-    .filter((source) => round == null || source.expiresRound == null || round < source.expiresRound)
+    .filter((source) =>
+      round == null ||
+      ((source.startsRound == null || round >= source.startsRound) &&
+       (source.expiresRound == null || round < source.expiresRound))
+    )
     .reduce((sum, source) => sum + Number(source.value ?? 0), 0);
 }
 
 function hasActiveEffect(sources = [], round = null) {
   return sources.some(
-    (source) => round == null || source.expiresRound == null || round < source.expiresRound
+    (source) =>
+      round == null ||
+      ((source.startsRound == null || round >= source.startsRound) &&
+       (source.expiresRound == null || round < source.expiresRound))
   );
 }
 
