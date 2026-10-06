@@ -299,8 +299,8 @@ function validateMetaRuntime(meta) {
       (!Number.isInteger(meta.worldMatchday) || meta.worldMatchday < 1 || meta.worldMatchday > 3)) {
     throw new RangeError("worldMatchday must be an integer from 1 to 3");
   }
-  if (meta.worldKnockoutRound !== undefined && !["R16", "QF", "SF"].includes(meta.worldKnockoutRound)) {
-    throw new Error("worldKnockoutRound must be R16, QF or SF");
+  if (meta.worldKnockoutRound !== undefined && !["R16", "QF", "SF", "FINAL"].includes(meta.worldKnockoutRound)) {
+    throw new Error("worldKnockoutRound must be R16, QF, SF or FINAL");
   }
   if (meta.worldKnockoutRound !== undefined && meta.type !== "official_match") {
     throw new Error("World knockout matches must be official_match");
@@ -1191,6 +1191,12 @@ export function prepareWorldKnockoutMatch(state, meta) {
     }
     bracket = knockout.sfBracket;
     playerMatchId = knockout.playerSfMatchId;
+  } else if (meta.worldKnockoutRound === "FINAL") {
+    if (!knockout.sfResolved || !knockout.finalistsLocked || knockout.playerAdvancedToFinal !== true || !knockout.finalMatch) {
+      throw new Error("WORLD_FINAL requires resolved semifinals and player finalist state");
+    }
+    bracket = [knockout.finalMatch];
+    playerMatchId = knockout.playerFinalMatchId;
   } else {
     throw new Error("Unsupported World knockout handoff round: " + String(meta.worldKnockoutRound));
   }
@@ -1246,6 +1252,9 @@ function recordWorldKnockoutOutcome(state, meta, outcome, resolvedAtMinutes, bat
   } else if (meta.worldKnockoutRound === "SF") {
     bracket = knockout.sfBracket;
     playerMatchId = knockout.playerSfMatchId;
+  } else if (meta.worldKnockoutRound === "FINAL") {
+    bracket = knockout.finalMatch ? [knockout.finalMatch] : [];
+    playerMatchId = knockout.playerFinalMatchId;
   } else {
     throw new Error("Unsupported World knockout round: " + String(meta.worldKnockoutRound));
   }
@@ -1698,8 +1707,8 @@ export function validateCompetitionCombat(meta, at = "combat.competition") {
   if (meta.worldOpponentIndex !== undefined && meta.type !== "official_match") {
     push("INVALID_WORLD_GROUP_MATCH_TYPE", "World group matches must be official_match", at + ".type");
   }
-  if (meta.worldKnockoutRound !== undefined && !["R16", "QF", "SF"].includes(meta.worldKnockoutRound)) {
-    push("INVALID_WORLD_KNOCKOUT_ROUND", "worldKnockoutRound must be R16, QF or SF", at + ".worldKnockoutRound");
+  if (meta.worldKnockoutRound !== undefined && !["R16", "QF", "SF", "FINAL"].includes(meta.worldKnockoutRound)) {
+    push("INVALID_WORLD_KNOCKOUT_ROUND", "worldKnockoutRound must be R16, QF, SF or FINAL", at + ".worldKnockoutRound");
   }
   if (meta.worldKnockoutRound !== undefined && meta.type !== "official_match") {
     push("INVALID_WORLD_KNOCKOUT_MATCH_TYPE", "World knockout matches must be official_match", at + ".type");
