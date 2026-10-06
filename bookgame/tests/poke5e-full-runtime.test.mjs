@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 
-import { Pokemon5eCombatEngine } from "../src/combat/combat-engine.mjs";
+import { Pokemon5eCombatEngine, isMoveResolvable } from "../src/combat/combat-engine.mjs";
 import { applyItemToPokemon, compileItemRule } from "../src/combat/item-rules.mjs";
 import { Poke5eDataRepository } from "../src/combat/poke5e-data.mjs";
 import {
@@ -88,6 +88,17 @@ test("every species exposed by canonical zone pools exists in the offline runtim
 
   assert.ok(poolSpecies.size > 900);
   assert.deepEqual(missing, []);
+});
+
+test("move execution coverage has an explicit non-regression gate", async () => {
+  const data = new Poke5eDataRepository();
+  const moves = await data.listMoves();
+  const unresolved = moves.filter((move) => !isMoveResolvable(move)).map((move) => move.id);
+
+  assert.ok(unresolved.length <= 239, `unresolved move rules regressed to ${unresolved.length}`);
+  assert.ok(unresolved.includes("acupressure"));
+  assert.ok(!unresolved.includes("heal-pulse"));
+  assert.ok(!unresolved.includes("recover"));
 });
 
 test("regional-form lookup resolves real upstream species ids", async () => {
