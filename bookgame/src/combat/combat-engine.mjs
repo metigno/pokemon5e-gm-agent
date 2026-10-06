@@ -588,7 +588,14 @@ async function selectKnownMoves(data, species, level, descriptor) {
   // save/reload never rerolls a moveset. Persisted/player-owned Pokémon should
   // carry explicit moveIds once their moveset has been chosen.
   const available = await data.getSupportedMoves(species, level);
-  return available.slice(0, 4);
+  const executable = available.filter((move) => isMoveResolvable(move));
+
+  // A complete upstream learnset can contain more than four legal moves at the
+  // same level. For fresh wild/default combatants, prefer the four most recent
+  // moves the current runtime can actually execute. Persisted/player-owned
+  // Pokémon still carry explicit moveIds, so their chosen moveset never shifts.
+  if (executable.length > 0) return executable.slice(-4);
+  return available.slice(-4);
 }
 
 export class Pokemon5eCombatEngine {
