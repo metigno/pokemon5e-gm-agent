@@ -120,7 +120,7 @@ This is the proportional share implied by the locked authored budget. No node is
 - static schema/condition/effect/target audit: **PASS**;
 - authored-node reachability: **PASS, 0 unreachable nodes**;
 - dedicated budget/runtime/save tests: authored in `m06-cycle-budget.test.mjs` and `m06-cycle1.test.mjs`;
-- GitHub Actions runtime evidence at this historical checkpoint: **PENDING**. **Superseded** by the later cumulative M12 validation: Bookgame Tests #430 SUCCESS, 1,333 passed / 0 failed / 0 skipped.
+- Historical branch-local CI note: no workflow/check was emitted at that checkpoint. **Superseded** by cumulative M12 validation: Bookgame Tests #430 SUCCESS, 1,333 passed / 0 failed / 0 skipped.
 
 Per the production rule, final **COMPLETE** status is reserved for runtime evidence.
 
@@ -145,7 +145,7 @@ Per the production rule, final **COMPLETE** status is reserved for runtime evide
 - authored-node reachability: **PASS, 0 zero-incoming M6 nodes**;
 - ACT_6 bindings present: `A6_HIDDEN_TRAJECTORIES`, `A6_CONTINENTAL`, `A6_RANK_TRIAL_A_S`, `A6_CUTOFF`, plus deterministic `M6_FRIEND_BEAT_SELECT`;
 - dedicated regressions: `m06-cycle2.test.mjs` plus expanded `m06-cycle-budget.test.mjs`;
-- GitHub Actions runtime evidence at this historical checkpoint: **PENDING**. **Superseded** by the later cumulative M12 validation: Bookgame Tests #430 SUCCESS, 1,333 passed / 0 failed / 0 skipped.
+- Historical branch-local CI note: no workflow/check was emitted at that checkpoint. **Superseded** by cumulative M12 validation: Bookgame Tests #430 SUCCESS, 1,333 passed / 0 failed / 0 skipped.
 
 Final **COMPLETE** remains reserved for runtime evidence.
 
@@ -172,7 +172,7 @@ Final **COMPLETE** remains reserved for runtime evidence.
 - strict exit contract: Rank S + Red + FRIEND_BEAT_06 + Ancient Layer Two + cutoff review + Faro return;
 - next unlock: `m07_unlocked=true`, while `world_qualified` remains untouched;
 - dedicated regressions: `m06-cycle3.test.mjs` plus final `m06-cycle-budget.test.mjs` locks;
-- GitHub Actions runtime evidence at this historical checkpoint: **PENDING**. **Superseded** by the later cumulative M12 validation: Bookgame Tests #430 SUCCESS, 1,333 passed / 0 failed / 0 skipped.
+- Historical branch-local CI note: no workflow/check was emitted at that checkpoint. **Superseded** by cumulative M12 validation: Bookgame Tests #430 SUCCESS, 1,333 passed / 0 failed / 0 skipped.
 
 M6 is fully authored and runtime-validated. The earlier branch-local CI gap is historical only and is superseded by the successful cumulative M12/RC0 validation surface.
 
