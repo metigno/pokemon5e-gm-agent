@@ -174,7 +174,7 @@ Final-cycle validation executed on GitHub Actions from branch `m5-00-04-work` af
 - `npm --prefix bookgame test`: **1,062 pass / 0 fail / 0 skipped / 0 cancelled**;
 - final-cycle logical allocation: **83 nodes / 181 choices**;
 - the first final-cycle test run exposed three obsolete assertions that treated canonical Trial availability as if it were Trial registration/progression; the tests were corrected to enforce the proper distinction `available=true`, `registered=false`, Rank B unchanged. No gameplay rule, event trigger or validator was weakened;
-- final workflow run: **#37437155596**;
+- final workflow run: **#37437324354**;
 - M1–M4 plus all earlier M5 cycles remain green.
 
 M5 is therefore complete at its locked logical runtime budget while retaining the separate authored-surface capacity budget of **5,700 stitches / 3,600 choices** for source planning/reporting purposes.
