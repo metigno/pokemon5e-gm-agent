@@ -5,7 +5,7 @@
 **Purpose:** production map for converting M7 into validated offline story content  
 **Locked authored budget:** **5,200 stitches / 3,200 player choices**
 
-**Module implementation status:** **M7_00–M7_09 IMPLEMENTED / LIBRARY-V2 ALIGNED / RUNTIME PASS**
+**Module implementation status:** **M7_00–M7_13 IMPLEMENTED / LIBRARY-V2 ALIGNED / STATIC-PASS — FINAL RUNTIME CI PENDING**
 
 E1–E7 are reusable infrastructure from M1. A block may extend generic data or content, but must not fork those engines into module-specific substitutes.
 
@@ -61,10 +61,10 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 | M7_07_WORLD_QUALIFIER | bracket reale; solo risultato effettivo può qualificare | 501 | 308 | IMPLEMENTED |
 | M7_08_QUALIFIER_RESULT | qualificato o eliminato, history e conseguenze | 449 | 276 | IMPLEMENTED |
 | M7_09_LAST_CHANCE_GATE | accesso solo se last_chance_eligible | 345 | 213 | IMPLEMENTED |
-| M7_10_LAST_CHANCE | route finita, nessun retry infinito | 345 | 213 | PLANNED |
-| M7_11_BEFORE_THE_LIGHTS | A7_BEFORE_LIGHTS per qualificati e amici disponibili | 345 | 212 | PLANNED |
-| M7_12_WORLDS_MISSED | ramo completo per chi non si qualifica | 345 | 212 | PLANNED |
-| M7_13_MODULE_OUTCOME | handoff M8 o WORLD_EXIT/M12 senza falsificare esiti | 294 | 181 | PLANNED |
+| M7_10_LAST_CHANCE | route finita, nessun retry infinito | 345 | 213 | IMPLEMENTED |
+| M7_11_BEFORE_THE_LIGHTS | A7_BEFORE_LIGHTS per qualificati e amici disponibili | 345 | 212 | IMPLEMENTED |
+| M7_12_WORLDS_MISSED | ramo completo per chi non si qualifica | 345 | 212 | IMPLEMENTED |
+| M7_13_MODULE_OUTCOME | handoff M8 o WORLD_EXIT/M12 senza falsificare esiti | 294 | 181 | IMPLEMENTED |
 | **TOTAL** |  | **5,200** | **3,200** | |
 
 Budgets are authored surface capacity. One run sees only the paths made legal by its state.
@@ -145,6 +145,26 @@ Final **COMPLETE** remains reserved for executable runtime evidence.
 - Last Chance remains finite and separate from the main qualifier;
 - dedicated regressions: `m07-cycle2.test.mjs` plus expanded `m07-cycle-budget.test.mjs`;
 - GitHub Actions runtime evidence: **PASS** on commit `0b0cf92fc00c22adb7126dfce9dc1372dd2889a7` (Bookgame Tests run `37450063293`).
+
+## 2D. LIBRARY V2 ROUTING FOR FINAL CYCLE
+
+- **M7_10:** R37 multi-round/tournament lifecycle reduced to one finite decisive bracket node + R06 combat handoff + R15 official match lifecycle + R38 outcome classifier. A7_LAST_CHANCE is consumed once; there is exactly one E5 match and no retry loop.
+- **M7_11:** R23 NPC presence/schedule gate + R27 friend content + R33 callback continuity + R21 module handoff. Only friends whose current schedules are present can be selected; physical dialogue requires the actual Grand Hall location.
+- **M7_12:** R38 composite outcome classifier + R29 living-world off-screen resolution + R33 callbacks + R20 module exit contract. Worlds Missed is legal only after the main qualifier is resolved and no unconsumed Last Chance route remains.
+- **M7_13:** R20 module exit contract + R21 module handoff + R38 route classifier + R33 continuity review. Qualified runs unlock M8 only; worlds-missed runs unlock M12 only.
+
+**No R39 candidate is required.** R01→R38 covers the complete M7 topology.
+
+### Final-cycle validation status
+
+- exact cycle budget: **54 nodes / 118 meaningful choices**;
+- complete M7 runtime surface: **210 nodes / 462 meaningful choices**;
+- Last Chance: **one Official Six / Singles / ELITE E5 match**, finite, no replay loop;
+- Before the Lights: schedule-causal friend availability, no NPC teleport;
+- Worlds Missed: complete non-World route, preserving Rank S and career state;
+- exit routing: **M8 iff world_qualified**, **M12 iff worlds_missed**;
+- dedicated regressions: `m07-cycle3.test.mjs` plus final budget/reachability locks;
+- final GitHub Actions runtime evidence: **PENDING**.
 
 # 3. CANONICAL EVENT BINDINGS
 
@@ -441,6 +461,20 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R37_MULTI_ROUND_TOURNAMENT_LIFECYCLE
+- R06_COMBAT_HANDOFF
+- R15_FIRST_OFFICIAL_MATCH_LIFECYCLE
+- R38_COMPOSITE_OUTCOME_CLASSIFIER
+
+**Unique layer:** a single finite Last Chance match that can qualify only through a real E5 win and cannot be retried.
+
+**Implementation lock (final cycle):** Scene `m07-last-chance` contains **14 nodes / 31 meaningful choices**. It has exactly one Official Six ELITE combat handoff; win and loss consume the route permanently, and only the post-E5 win record can set `world_qualified=true`.
+
 ---
 
 ## M7_11_BEFORE_THE_LIGHTS
@@ -453,6 +487,20 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R23_NPC_PRESENCE_SCHEDULE_GATE
+- R27_FRIEND_BEAT_CONTENT
+- R33_CROSS_MODULE_CALLBACK
+- R21_MODULE_HANDOFF
+
+**Unique layer:** the pre-World departure scene uses only actually present Four contacts and preserves the full no-reset state into M8.
+
+**Implementation lock (final cycle):** Scene `m07-before-the-lights` contains **14 nodes / 31 meaningful choices**. Friend choices require current schedule presence, physical contact requires `meridiana_grand_hall`, and completion never creates draw, roster lock or future results.
+
 ---
 
 ## M7_12_WORLDS_MISSED
@@ -464,6 +512,20 @@ A content gap is not permission to implement a second engine.
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R38_COMPOSITE_OUTCOME_CLASSIFIER
+- R29_LIVING_WORLD_OFF_SCREEN_RESOLUTION
+- R33_CROSS_MODULE_CALLBACK
+- R20_MODULE_EXIT_CONTRACT
+
+**Unique layer:** a complete season branch for a player who misses Worlds, distinguishing no legal Last Chance from a played-and-lost Last Chance without resetting Rank S or career state.
+
+**Implementation lock (final cycle):** Scene `m07-worlds-missed` contains **14 nodes / 30 meaningful choices**. It cannot open while an unused Last Chance route remains; completion writes `worlds_missed=true` and preserves the continuing Living World.
 
 ---
 
@@ -490,6 +552,20 @@ Primary state families:
 - next-module unlock state.
 
 Structured Pokémon/team/player state remains owned by the engine.
+
+
+
+**Reuse class:** REUSE
+
+**Source archetypes:**
+- R20_MODULE_EXIT_CONTRACT
+- R21_MODULE_HANDOFF
+- R38_COMPOSITE_OUTCOME_CLASSIFIER
+- R33_CROSS_MODULE_CALLBACK
+
+**Unique layer:** M7's two-way canonical exit: World participant to M8, non-qualified player directly to WORLD_EXIT/M12.
+
+**Implementation lock (final cycle):** Scene `m07-module-outcome` contains **12 nodes / 26 meaningful choices**. Qualified runs set `m08_unlocked=true` and never unlock M12; worlds-missed runs set `m12_unlocked=true` and never unlock M8. Both set `m7_complete=true` without resetting persistent state.
 
 ---
 

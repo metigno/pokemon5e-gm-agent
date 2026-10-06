@@ -1,0 +1,518 @@
+{
+  "schemaVersion": 1,
+  "id": "m07-before-the-lights",
+  "moduleId": "M07",
+  "title": "M7_11 — Before the Lights",
+  "locationId": "meridiana_grand_hall",
+  "entryNodeId": "before_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m6_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m07_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m7_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "S"
+      },
+      {
+        "path": "world.flags.cynthia_met",
+        "eq": true
+      },
+      {
+        "path": "world.flags.friend_beat_07_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.world_qualified",
+        "eq": true
+      },
+      {
+        "path": "world.flags.a7_before_lights_available",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "before_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La qualificazione cambia il rumore intorno al player: il Mondiale è ora concreto. Before the Lights usa soltanto amici e Anchor realmente disponibili."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_event",
+          "text": "Controllo perché A7_BEFORE_LIGHTS è aperto.",
+          "goto": "event_guard"
+        },
+        {
+          "id": "entry_friends",
+          "text": "Cerco chi dei Four è davvero disponibile.",
+          "goto": "friend_dispatch"
+        },
+        {
+          "id": "entry_team",
+          "text": "Controllo ciò che porto con me, senza reset.",
+          "goto": "team_state"
+        }
+      ]
+    },
+    "event_guard": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'evento si apre dopo world_qualified e con partenza imminente o livello sufficiente. Non è un premio narrativo separato dalla qualificazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "event_friends",
+          "text": "Passo agli amici disponibili.",
+          "goto": "friend_dispatch"
+        },
+        {
+          "id": "event_departure",
+          "text": "Rivedo il momento della partenza.",
+          "goto": "departure"
+        }
+      ]
+    },
+    "friend_dispatch": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Ogni contatto compare solo se quell'amico è presente nel proprio schedule. Nessuno viene spostato a Meridiana per produrre la scena."
+        }
+      ],
+      "choices": [
+        {
+          "id": "friend_luke",
+          "text": "Parlo con Luke.",
+          "goto": "luke",
+          "conditions": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Luke"
+              },
+              {
+                "path": "npcs.Luke.schedule.present",
+                "eq": true
+              }
+            ]
+          }
+        },
+        {
+          "id": "friend_mattew",
+          "text": "Parlo con Mattew.",
+          "goto": "mattew",
+          "conditions": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Mattew"
+              },
+              {
+                "path": "npcs.Mattew.schedule.present",
+                "eq": true
+              }
+            ]
+          }
+        },
+        {
+          "id": "friend_daniel",
+          "text": "Parlo con Daniel.",
+          "goto": "daniel",
+          "conditions": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Daniel"
+              },
+              {
+                "path": "npcs.Daniel.schedule.present",
+                "eq": true
+              }
+            ]
+          }
+        },
+        {
+          "id": "friend_edward",
+          "text": "Parlo con Edward.",
+          "goto": "edward",
+          "conditions": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Edward"
+              },
+              {
+                "path": "npcs.Edward.schedule.present",
+                "eq": true
+              }
+            ]
+          }
+        },
+        {
+          "id": "friend_fab",
+          "text": "Parlo con Fab.",
+          "goto": "fab",
+          "conditions": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Fab"
+              },
+              {
+                "path": "npcs.Fab.schedule.present",
+                "eq": true
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "luke": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Luke non tratta il Mondiale come un finale già scritto: parla di adattamento e di quanto sarà diverso il prossimo field."
+        }
+      ],
+      "choices": [
+        {
+          "id": "luke_physical",
+          "text": "Siamo entrambi al Grand Hall: parliamo di persona.",
+          "goto": "callback",
+          "conditions": {
+            "path": "npcs.Luke.schedule.locationId",
+            "eq": "meridiana_grand_hall"
+          },
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 1
+            }
+          ]
+        },
+        {
+          "id": "luke_remote",
+          "text": "Luke è altrove: restiamo sul contatto a distanza.",
+          "goto": "callback",
+          "conditions": {
+            "path": "npcs.Luke.schedule.locationId",
+            "ne": "meridiana_grand_hall"
+          },
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 1
+            }
+          ]
+        }
+      ]
+    },
+    "mattew": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Mattew separa il tuo posto al Mondiale dal proprio percorso. Il rapporto non sincronizza risultati o seed."
+        }
+      ],
+      "choices": [
+        {
+          "id": "mattew_physical",
+          "text": "Siamo entrambi al Grand Hall: parliamo di persona.",
+          "goto": "callback",
+          "conditions": {
+            "path": "npcs.Mattew.schedule.locationId",
+            "eq": "meridiana_grand_hall"
+          },
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 1
+            }
+          ]
+        },
+        {
+          "id": "mattew_remote",
+          "text": "Mattew è altrove: restiamo sul contatto a distanza.",
+          "goto": "callback",
+          "conditions": {
+            "path": "npcs.Mattew.schedule.locationId",
+            "ne": "meridiana_grand_hall"
+          },
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 1
+            }
+          ]
+        }
+      ]
+    },
+    "daniel": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Daniel prova a leggere il Mondiale senza fingere di conoscere già sorteggio e avversari."
+        }
+      ],
+      "choices": [
+        {
+          "id": "daniel_physical",
+          "text": "Siamo entrambi al Grand Hall: parliamo di persona.",
+          "goto": "callback",
+          "conditions": {
+            "path": "npcs.Daniel.schedule.locationId",
+            "eq": "meridiana_grand_hall"
+          },
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 1
+            }
+          ]
+        },
+        {
+          "id": "daniel_remote",
+          "text": "Daniel è altrove: restiamo sul contatto a distanza.",
+          "goto": "callback",
+          "conditions": {
+            "path": "npcs.Daniel.schedule.locationId",
+            "ne": "meridiana_grand_hall"
+          },
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 1
+            }
+          ]
+        }
+      ]
+    },
+    "edward": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Edward insiste sulla continuità: il viaggio non cancella fatica, infortuni o ciò che il team ha speso per arrivare fin qui."
+        }
+      ],
+      "choices": [
+        {
+          "id": "edward_physical",
+          "text": "Siamo entrambi al Grand Hall: parliamo di persona.",
+          "goto": "callback",
+          "conditions": {
+            "path": "npcs.Edward.schedule.locationId",
+            "eq": "meridiana_grand_hall"
+          },
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 1
+            }
+          ]
+        },
+        {
+          "id": "edward_remote",
+          "text": "Edward è altrove: restiamo sul contatto a distanza.",
+          "goto": "callback",
+          "conditions": {
+            "path": "npcs.Edward.schedule.locationId",
+            "ne": "meridiana_grand_hall"
+          },
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 1
+            }
+          ]
+        }
+      ]
+    },
+    "fab": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Fab ricorda che essere qualificati non rende improvvisamente gratuite medicine, oggetti o preparazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fab_physical",
+          "text": "Siamo entrambi al Grand Hall: parliamo di persona.",
+          "goto": "callback",
+          "conditions": {
+            "path": "npcs.Fab.schedule.locationId",
+            "eq": "meridiana_grand_hall"
+          },
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 1
+            }
+          ]
+        },
+        {
+          "id": "fab_remote",
+          "text": "Fab è altrove: restiamo sul contatto a distanza.",
+          "goto": "callback",
+          "conditions": {
+            "path": "npcs.Fab.schedule.locationId",
+            "ne": "meridiana_grand_hall"
+          },
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 1
+            }
+          ]
+        }
+      ]
+    },
+    "cynthia": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Cynthia osserva la partenza come un cambio di scala, non come la fine della carriera. Il suo rapporto resta disponibile per futuri callback."
+        }
+      ],
+      "choices": [
+        {
+          "id": "cynthia_team",
+          "text": "Rileggo con lei la continuità del team.",
+          "goto": "team_state"
+        },
+        {
+          "id": "cynthia_departure",
+          "text": "Parliamo del salto verso il Mondiale.",
+          "goto": "departure"
+        }
+      ]
+    },
+    "media": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Sponsor e media possono leggere la qualificazione, ma non decidono roster World, draw o risultati futuri."
+        }
+      ],
+      "choices": [
+        {
+          "id": "media_departure",
+          "text": "Chiudo il rumore pubblico e torno alla partenza.",
+          "goto": "departure"
+        },
+        {
+          "id": "media_team",
+          "text": "Controllo cosa resta realmente mio.",
+          "goto": "team_state"
+        }
+      ]
+    },
+    "team_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Roster, HP, PP, condizioni, inventario, denaro, livelli, EXP e infortuni proseguono esattamente nello stato corrente. M8 non è un reset."
+        }
+      ],
+      "choices": [
+        {
+          "id": "team_cynthia",
+          "text": "Rileggo questo punto con Cynthia.",
+          "goto": "cynthia"
+        },
+        {
+          "id": "team_departure",
+          "text": "Sono pronto a guardare la partenza.",
+          "goto": "departure"
+        }
+      ]
+    },
+    "departure": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La prossima tappa sarà il venue mondiale, ma questo blocco non teletrasporta ancora il player né genera il draw."
+        }
+      ],
+      "choices": [
+        {
+          "id": "departure_media",
+          "text": "Gestisco l'ultima pressione pubblica.",
+          "goto": "media"
+        },
+        {
+          "id": "departure_close",
+          "text": "Registro Before the Lights come completo.",
+          "goto": "close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_before_lights_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "callback": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il saluto non assegna bonus. Registra soltanto una relazione e un momento coerente con schedule e posizione reali."
+        }
+      ],
+      "choices": [
+        {
+          "id": "callback_friends",
+          "text": "Posso vedere se è disponibile anche qualcun altro.",
+          "goto": "friend_dispatch"
+        },
+        {
+          "id": "callback_departure",
+          "text": "Torno alla partenza.",
+          "goto": "departure"
+        }
+      ]
+    },
+    "close": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Before the Lights è completo: il Mondiale è imminente, ma M7 deve ancora eseguire il proprio exit contract."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_outcome",
+          "text": "Passo all'outcome di M7.",
+          "goto": "m07-module-outcome#outcome_entry"
+        }
+      ]
+    }
+  }
+}

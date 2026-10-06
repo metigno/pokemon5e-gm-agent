@@ -1,0 +1,380 @@
+{
+  "schemaVersion": 1,
+  "id": "m07-worlds-missed",
+  "moduleId": "M07",
+  "title": "M7_12 — Worlds Missed",
+  "locationId": "meridiana_city",
+  "entryNodeId": "missed_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m6_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m07_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m7_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "S"
+      },
+      {
+        "path": "world.flags.cynthia_met",
+        "eq": true
+      },
+      {
+        "path": "world.flags.friend_beat_07_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m7_qualifier_result_resolved",
+        "eq": true
+      },
+      {
+        "path": "world.flags.world_qualified",
+        "ne": true
+      },
+      {
+        "path": "world.flags.m7_last_chance_gate_complete",
+        "eq": true
+      },
+      {
+        "any": [
+          {
+            "path": "world.flags.m7_last_chance_route_ready",
+            "eq": false
+          },
+          {
+            "all": [
+              {
+                "path": "world.flags.m7_last_chance_complete",
+                "eq": true
+              },
+              {
+                "path": "world.flags.m7_last_chance_result",
+                "eq": "lost"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "nodes": {
+    "missed_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Mondiale è stato mancato in questa stagione. Il gioco conserva esattamente il punto in cui la corsa si è chiusa e non lo trasforma in una vittoria morale obbligatoria."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_cause",
+          "text": "Rivedo la causa competitiva reale.",
+          "goto": "cause"
+        },
+        {
+          "id": "entry_world",
+          "text": "Guardo cosa continua a succedere nel mondo.",
+          "goto": "world_exit"
+        },
+        {
+          "id": "entry_record",
+          "text": "Sono pronto a registrare Worlds Missed.",
+          "goto": "record"
+        }
+      ]
+    },
+    "cause": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La route distingue chi non aveva un Last Chance legale da chi lo ha giocato e perso. Entrambe restano conseguenze del proprio stato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "cause_no_chance",
+          "text": "Non avevo una route Last Chance disponibile.",
+          "goto": "no_last_chance",
+          "conditions": {
+            "path": "world.flags.m7_last_chance_route_ready",
+            "eq": false
+          }
+        },
+        {
+          "id": "cause_lost",
+          "text": "Ho giocato e perso il Last Chance.",
+          "goto": "lost_last_chance",
+          "conditions": {
+            "path": "world.flags.m7_last_chance_result",
+            "eq": "lost"
+          }
+        }
+      ]
+    },
+    "no_last_chance": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Nessun torneo sostitutivo viene creato dopo la chiusura del gate. La mancata qualificazione resta completa e persistente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "no_chance_public",
+          "text": "Affronto la reazione pubblica.",
+          "goto": "public_result"
+        },
+        {
+          "id": "no_chance_continuity",
+          "text": "Guardo cosa della carriera continua.",
+          "goto": "career_continuity"
+        }
+      ]
+    },
+    "lost_last_chance": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Last Chance perso resta l'ultimo risultato della corsa mondiale di questa stagione. Non esiste un retry ulteriore."
+        }
+      ],
+      "choices": [
+        {
+          "id": "lost_public",
+          "text": "Affronto la reazione pubblica.",
+          "goto": "public_result"
+        },
+        {
+          "id": "lost_continuity",
+          "text": "Guardo cosa della carriera continua.",
+          "goto": "career_continuity"
+        }
+      ]
+    },
+    "public_result": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Media e sponsor reagiscono a una mancata qualificazione reale. Non possono riscrivere il bracket né sottrarre Rank S."
+        }
+      ],
+      "choices": [
+        {
+          "id": "public_friend",
+          "text": "Controllo il callback personale.",
+          "goto": "friend_callback"
+        },
+        {
+          "id": "public_cynthia",
+          "text": "Rileggo il momento con Cynthia.",
+          "goto": "cynthia_callback"
+        }
+      ]
+    },
+    "friend_callback": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "FRIEND_BEAT_07 resta valido anche se le carriere divergono. Un amico può essere avanti, indietro o fuori senza sincronizzarsi al player."
+        }
+      ],
+      "choices": [
+        {
+          "id": "friend_continuity",
+          "text": "Torno a ciò che resta della carriera.",
+          "goto": "career_continuity"
+        },
+        {
+          "id": "friend_public",
+          "text": "Rileggo il risultato pubblico.",
+          "goto": "public_result"
+        }
+      ]
+    },
+    "cynthia_callback": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Cynthia non offre una scorciatoia retroattiva. Il rapporto e il suo insegnamento restano disponibili oltre questa stagione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "cynthia_continuity",
+          "text": "Guardo cosa resta aperto.",
+          "goto": "career_continuity"
+        },
+        {
+          "id": "cynthia_world",
+          "text": "Guardo il mondo che continua senza il player al torneo.",
+          "goto": "world_exit"
+        }
+      ]
+    },
+    "career_continuity": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Rank S, roster, livelli, EXP, relazioni, infortuni, denaro, quest e risultati restano. Mancare il Mondiale non resetta la carriera."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continuity_world",
+          "text": "Guardo il Living World.",
+          "goto": "world_exit"
+        },
+        {
+          "id": "continuity_m12",
+          "text": "Controllo cosa significa il ramo post-World.",
+          "goto": "m12_preview"
+        },
+        {
+          "id": "continuity_accept",
+          "text": "Registro il fatto senza cancellare ciò che ho costruito.",
+          "goto": "acceptance"
+        }
+      ]
+    },
+    "world_exit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il torneo mondiale procede comunque con i qualificati effettivi. Gli NPC continuano a vivere e competere anche senza il player nel field."
+        }
+      ],
+      "choices": [
+        {
+          "id": "world_m12",
+          "text": "Vedo come il gioco prosegue per me.",
+          "goto": "m12_preview"
+        },
+        {
+          "id": "world_free",
+          "text": "Ricordo che il free-roam non viene chiuso.",
+          "goto": "free_roam"
+        },
+        {
+          "id": "world_record",
+          "text": "Sono pronto a registrare Worlds Missed.",
+          "goto": "record"
+        }
+      ]
+    },
+    "m12_preview": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La route successiva è M12 — Dopo il Mondo: callback, ritorno ad Asteria e postgame senza fingere che il player abbia partecipato al torneo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "m12_accept",
+          "text": "Accetto il ramo coerente con il mio risultato.",
+          "goto": "acceptance"
+        },
+        {
+          "id": "m12_world",
+          "text": "Torno a guardare il mondo che continua.",
+          "goto": "world_exit"
+        }
+      ]
+    },
+    "acceptance": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Accettare il risultato significa conservarlo, non approvarlo o minimizzarlo. La run potrà continuare dal proprio stato reale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "accept_record",
+          "text": "Registro Worlds Missed.",
+          "goto": "record"
+        },
+        {
+          "id": "accept_friend",
+          "text": "Torno al callback personale.",
+          "goto": "friend_callback"
+        }
+      ]
+    },
+    "free_roam": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il fallimento della qualificazione non chiude esplorazione, side quest, catture o future stagioni. Cambia soltanto la route narrativa immediata."
+        }
+      ],
+      "choices": [
+        {
+          "id": "free_record",
+          "text": "Registro il ramo senza chiudere il mondo.",
+          "goto": "record"
+        },
+        {
+          "id": "free_continuity",
+          "text": "Rivedo la continuità della carriera.",
+          "goto": "career_continuity"
+        }
+      ]
+    },
+    "record": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il flag worlds_missed descrive la realtà competitiva di questa stagione e abilita l'exit contract corretto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record_commit",
+          "text": "Segno worlds_missed=true.",
+          "goto": "close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "worlds_missed",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m7_worlds_missed_resolved",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "record_review",
+          "text": "Rivedo la causa prima di confermare.",
+          "goto": "cause"
+        }
+      ]
+    },
+    "close": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Worlds Missed è registrato. Il passo successivo è soltanto l'outcome di M7, che potrà sbloccare M12."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_outcome",
+          "text": "Passo all'outcome di M7.",
+          "goto": "m07-module-outcome#outcome_entry"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,547 @@
+{
+  "schemaVersion": 1,
+  "id": "m07-last-chance",
+  "moduleId": "M07",
+  "title": "M7_10 — Last Chance",
+  "locationId": "meridiana_grand_arena",
+  "entryNodeId": "last_chance_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m6_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m07_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m7_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "S"
+      },
+      {
+        "path": "world.flags.cynthia_met",
+        "eq": true
+      },
+      {
+        "path": "world.flags.friend_beat_07_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.world_qualified",
+        "ne": true
+      },
+      {
+        "path": "world.flags.m7_last_chance_gate_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m7_last_chance_route_ready",
+        "eq": true
+      },
+      {
+        "path": "world.flags.a7_last_chance_available",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m7_last_chance_complete",
+        "ne": true
+      }
+    ]
+  },
+  "nodes": {
+    "last_chance_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Last Chance è una sola occasione separata dal World Qualifier principale. Non cancella la sconfitta precedente e non può essere ripetuto finché arriva una vittoria."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_rules",
+          "text": "Rileggo la regola finita.",
+          "goto": "rules"
+        },
+        {
+          "id": "entry_eligibility",
+          "text": "Controllo che la route sia ancora legale.",
+          "goto": "eligibility_guard"
+        },
+        {
+          "id": "entry_prepare",
+          "text": "Preparo l'Official Six.",
+          "goto": "preparation"
+        }
+      ]
+    },
+    "rules": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Formato: Singles, Official Six, ELITE, un solo incontro decisivo per questa route. A7_LAST_CHANCE è once=true."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rules_prepare",
+          "text": "Passo alla preparazione.",
+          "goto": "preparation"
+        },
+        {
+          "id": "rules_history",
+          "text": "Rivedo perché il Qualifier principale resta nella history.",
+          "goto": "history"
+        }
+      ]
+    },
+    "eligibility_guard": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La route esiste solo perché il Qualifier è già risolto, il player non è qualificato e il gate ha consumato una eligibility reale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "eligibility_roster",
+          "text": "Verifico il roster corrente.",
+          "goto": "roster_guard"
+        },
+        {
+          "id": "eligibility_history",
+          "text": "Rivedo la storia competitiva prima dell'ultimo tentativo.",
+          "goto": "history"
+        }
+      ]
+    },
+    "preparation": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Non esiste reset gratuito prima dell'incontro. Recupero, condizioni, inventario e squadra restano quelli prodotti dai sistemi reali."
+        }
+      ],
+      "choices": [
+        {
+          "id": "prepare_roster",
+          "text": "Controllo l'Official Six.",
+          "goto": "roster_guard"
+        },
+        {
+          "id": "prepare_opponent",
+          "text": "Rileggo ciò che è pubblico dell'avversario.",
+          "goto": "opponent_public"
+        },
+        {
+          "id": "prepare_cynthia",
+          "text": "Rileggo il principio di Cynthia sul preservare margine.",
+          "goto": "cynthia_callback"
+        }
+      ]
+    },
+    "roster_guard": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Last Chance non crea membri mancanti: servono almeno sei Pokémon nel roster strutturato quando il match parte."
+        }
+      ],
+      "choices": [
+        {
+          "id": "roster_ready",
+          "text": "Ho sei Pokémon: passo alla conferma.",
+          "goto": "opponent_public",
+          "conditions": {
+            "path": "player.roster.length",
+            "gte": 6
+          }
+        },
+        {
+          "id": "roster_missing",
+          "text": "Non ho l'Official Six: torno alla preparazione.",
+          "goto": "preparation",
+          "conditions": {
+            "path": "player.roster.length",
+            "lt": 6
+          }
+        },
+        {
+          "id": "roster_history",
+          "text": "Rivedo perché non esistono scorciatoie.",
+          "goto": "history"
+        }
+      ]
+    },
+    "opponent_public": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il roster registrato dell'avversaria è pubblico; ordine, mosse e linee decisionali restano coperti dal fog of war."
+        }
+      ],
+      "choices": [
+        {
+          "id": "opponent_start",
+          "text": "Confermo l'incontro decisivo.",
+          "goto": "handoff",
+          "conditions": {
+            "all": [
+              {
+                "path": "player.roster.length",
+                "gte": 6
+              },
+              {
+                "path": "world.flags.m7_last_chance_match_result",
+                "exists": false
+              }
+            ]
+          }
+        },
+        {
+          "id": "opponent_prepare",
+          "text": "Non entro ancora: torno alla preparazione.",
+          "goto": "preparation"
+        }
+      ]
+    },
+    "handoff": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il controllo passa a Pokémon 5e/E5. Soltanto l'esito reale di questo match può aprire la qualificazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fight_last_chance",
+          "text": "Combatto il Last Chance.",
+          "combat": {
+            "encounterId": "A7_LAST_CHANCE_FINAL",
+            "opponentRegistered": true,
+            "competition": {
+              "type": "official_match",
+              "matchId": "A7_LAST_CHANCE_FINAL",
+              "format": "Singles",
+              "officialRosterSize": 6,
+              "difficulty": "ELITE",
+              "opponentTrainerId": "LC_FINAL_IRIS_KADE"
+            },
+            "returnNodes": {
+              "win": "win",
+              "lose": "loss"
+            },
+            "opponentTrainerId": "LC_FINAL_IRIS_KADE",
+            "opponent": {
+              "species": "Metagross",
+              "level": 19,
+              "abilityId": "clear-body",
+              "trainerId": "LC_FINAL_IRIS_KADE"
+            },
+            "opponentBench": [
+              {
+                "species": "Rotom-Wash",
+                "level": 19,
+                "abilityId": "levitate",
+                "trainerId": "LC_FINAL_IRIS_KADE"
+              },
+              {
+                "species": "Tyranitar",
+                "level": 19,
+                "abilityId": "sand-stream",
+                "trainerId": "LC_FINAL_IRIS_KADE"
+              },
+              {
+                "species": "Togekiss",
+                "level": 19,
+                "abilityId": "serene-grace",
+                "trainerId": "LC_FINAL_IRIS_KADE"
+              },
+              {
+                "species": "Excadrill",
+                "level": 19,
+                "abilityId": "mold-breaker",
+                "trainerId": "LC_FINAL_IRIS_KADE"
+              },
+              {
+                "species": "Infernape",
+                "level": 19,
+                "abilityId": "blaze",
+                "trainerId": "LC_FINAL_IRIS_KADE"
+              }
+            ],
+            "goto": "handoff"
+          }
+        }
+      ]
+    },
+    "win": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La vittoria proviene dal resolver E5. La route può ora essere classificata come qualificante; il risultato principale del Qualifier resta comunque nella history."
+        }
+      ],
+      "choices": [
+        {
+          "id": "win_record",
+          "text": "Registro la vittoria Last Chance.",
+          "goto": "win_record",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_last_chance_match_result",
+              "value": "win"
+            },
+            {
+              "type": "set_flag",
+              "key": "m7_last_chance_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "win_history",
+          "text": "Registro la vittoria e rivedo prima la history.",
+          "goto": "history",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_last_chance_match_result",
+              "value": "win"
+            },
+            {
+              "type": "set_flag",
+              "key": "m7_last_chance_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "loss": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La sconfitta E5 consuma definitivamente la route. Non viene creato un altro Last Chance."
+        }
+      ],
+      "choices": [
+        {
+          "id": "loss_record",
+          "text": "Registro la sconfitta definitiva.",
+          "goto": "loss_record",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_last_chance_match_result",
+              "value": "loss"
+            },
+            {
+              "type": "set_flag",
+              "key": "m7_last_chance_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "loss_history",
+          "text": "Registro la sconfitta e rivedo la history.",
+          "goto": "history",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_last_chance_match_result",
+              "value": "loss"
+            },
+            {
+              "type": "set_flag",
+              "key": "m7_last_chance_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "win_record": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Una vittoria reale nel Last Chance soddisfa l'ultima route di qualificazione disponibile per M7."
+        }
+      ],
+      "choices": [
+        {
+          "id": "win_commit",
+          "text": "Registro world_qualified dal risultato E5.",
+          "goto": "close",
+          "conditions": {
+            "path": "world.flags.m7_last_chance_match_result",
+            "eq": "win"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "world_qualified",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "last_chance_eligible",
+              "value": false
+            },
+            {
+              "type": "set_flag",
+              "key": "m7_last_chance_result",
+              "value": "qualified"
+            },
+            {
+              "type": "set_flag",
+              "key": "worlds_departure_imminent",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "win_review",
+          "text": "Rileggo la vittoria prima di chiudere.",
+          "goto": "history"
+        }
+      ]
+    },
+    "loss_record": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La route è consumata e il player resta non qualificato. Worlds Missed potrà ora essere classificato senza falsificare la sconfitta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "loss_commit",
+          "text": "Registro il Last Chance perso.",
+          "goto": "close",
+          "conditions": {
+            "path": "world.flags.m7_last_chance_match_result",
+            "eq": "loss"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "world_qualified",
+              "value": false
+            },
+            {
+              "type": "set_flag",
+              "key": "last_chance_eligible",
+              "value": false
+            },
+            {
+              "type": "set_flag",
+              "key": "m7_last_chance_result",
+              "value": "lost"
+            }
+          ]
+        },
+        {
+          "id": "loss_review",
+          "text": "Rileggo la sconfitta prima di uscire.",
+          "goto": "history"
+        }
+      ]
+    },
+    "history": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "competition.history conserva sia la corsa principale sia questo incontro. I flag M7 descrivono il ramo, non sostituiscono i record E5."
+        }
+      ],
+      "choices": [
+        {
+          "id": "history_prepare",
+          "text": "Torno alla preparazione se il match non è ancora consumato.",
+          "goto": "preparation",
+          "conditions": {
+            "path": "world.flags.m7_last_chance_complete",
+            "ne": true
+          }
+        },
+        {
+          "id": "history_result",
+          "text": "Torno al risultato ormai registrato.",
+          "goto": "close",
+          "conditions": {
+            "path": "world.flags.m7_last_chance_complete",
+            "eq": true
+          }
+        }
+      ]
+    },
+    "cynthia_callback": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Cynthia non trasforma l'ultima possibilità in una garanzia: il suo insegnamento riguarda gestione di risorse e rischio, non plot armor."
+        }
+      ],
+      "choices": [
+        {
+          "id": "cynthia_prepare",
+          "text": "Torno alla preparazione.",
+          "goto": "preparation"
+        },
+        {
+          "id": "cynthia_rules",
+          "text": "Rileggo la regola finita.",
+          "goto": "rules"
+        }
+      ]
+    },
+    "close": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Last Chance è ormai risolto una volta sola. Da qui esistono soltanto Before the Lights se qualificato, oppure Worlds Missed dopo una sconfitta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_lights",
+          "text": "Sono qualificato: passo a Before the Lights.",
+          "goto": "m07-before-the-lights#before_entry",
+          "conditions": {
+            "path": "world.flags.world_qualified",
+            "eq": true
+          }
+        },
+        {
+          "id": "close_missed",
+          "text": "Non sono qualificato: affronto Worlds Missed.",
+          "goto": "m07-worlds-missed#missed_entry",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.world_qualified",
+                "ne": true
+              },
+              {
+                "path": "world.flags.m7_last_chance_result",
+                "eq": "lost"
+              }
+            ]
+          }
+        },
+        {
+          "id": "close_history",
+          "text": "Rivedo un'ultima volta la history.",
+          "goto": "history"
+        }
+      ]
+    }
+  }
+}
