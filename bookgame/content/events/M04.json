@@ -89,6 +89,14 @@
               "type": "set_flag",
               "key": "a4_rank_trial_c_b_available",
               "value": true
+            },
+            {
+              "type": "competition_trial_available",
+              "checkpointId": "RANK_C_TO_B",
+              "fromRank": "C",
+              "toRank": "B",
+              "requiredRosterSize": 4,
+              "retryable": true
             }
           ]
         }
