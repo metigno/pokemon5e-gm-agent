@@ -1,0 +1,1072 @@
+{
+  "schemaVersion": 1,
+  "id": "m05-friend-beat-05",
+  "moduleId": "M05",
+  "title": "M5_09 — Friend Beat 05",
+  "locationId": "alt_town",
+  "entryNodeId": "friend_call",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m4_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m05_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m5_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "B"
+      },
+      {
+        "path": "world.flags.five_cross_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.friend_beat_05_available",
+        "eq": true
+      },
+      {
+        "path": "world.flags.friend_beat_05_complete",
+        "ne": true
+      }
+    ]
+  },
+  "nodes": {
+    "friend_call": {
+      "stitches": [
+        {
+          "id": "call_1",
+          "text": "La reunion comune lascia spazio a un solo confronto personale. Il selector ha già scelto l'amico compatibile con presenza, schedule e continuità: se è lontano, il beat resta remoto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "dispatch_luke",
+          "text": "Apro il contatto con Luke.",
+          "conditions": {
+            "path": "world.flags.friend_beat_05_friend_id",
+            "eq": "Luke"
+          },
+          "goto": "luke_contact"
+        },
+        {
+          "id": "dispatch_mattew",
+          "text": "Apro il contatto con Mattew.",
+          "conditions": {
+            "path": "world.flags.friend_beat_05_friend_id",
+            "eq": "Mattew"
+          },
+          "goto": "mattew_contact"
+        },
+        {
+          "id": "dispatch_daniel",
+          "text": "Apro il contatto con Daniel.",
+          "conditions": {
+            "path": "world.flags.friend_beat_05_friend_id",
+            "eq": "Daniel"
+          },
+          "goto": "daniel_contact"
+        },
+        {
+          "id": "dispatch_edward",
+          "text": "Apro il contatto con Edward.",
+          "conditions": {
+            "path": "world.flags.friend_beat_05_friend_id",
+            "eq": "Edward"
+          },
+          "goto": "edward_contact"
+        },
+        {
+          "id": "dispatch_fab",
+          "text": "Apro il contatto con Fab.",
+          "conditions": {
+            "path": "world.flags.friend_beat_05_friend_id",
+            "eq": "Fab"
+          },
+          "goto": "fab_contact"
+        }
+      ]
+    },
+    "friend_beat_close": {
+      "stitches": [
+        {
+          "id": "close_1",
+          "text": "Il quinto Friend Beat si chiude conservando chi, come e con quale esito hai condiviso questo momento. Nessuna carriera viene sincronizzata artificialmente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_friend_beat_05",
+          "text": "Torno ad Altacima.",
+          "goto": "m05-altacima#town_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        }
+      ]
+    },
+    "luke_contact": {
+      "stitches": [
+        {
+          "id": "luke_c1",
+          "text": "Luke è il contatto selezionato. Il tema che emerge è adattamento sotto pressione; modalità e profondità dipendono da ciò che è realmente possibile in questo momento."
+        }
+      ],
+      "choices": [
+        {
+          "id": "luke_physical",
+          "text": "Incontro Luke di persona.",
+          "conditions": {
+            "path": "world.flags.friend_beat_05_contact_mode",
+            "eq": "physical"
+          },
+          "goto": "luke_physical_node",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_type",
+              "value": "physical"
+            }
+          ]
+        },
+        {
+          "id": "luke_remote",
+          "text": "Resto sul contatto remoto con Luke.",
+          "conditions": {
+            "path": "world.flags.friend_beat_05_contact_mode",
+            "eq": "remote"
+          },
+          "goto": "luke_remote_node",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_type",
+              "value": "remote"
+            }
+          ]
+        },
+        {
+          "id": "luke_context",
+          "text": "Porto nel confronto ciò che M5 ha già reso concreto.",
+          "conditions": {
+            "any": [
+              {
+                "path": "world.flags.ancient_mystery_layer_1",
+                "exists": true
+              },
+              {
+                "path": "world.flags.interregional_license",
+                "eq": true
+              },
+              {
+                "path": "world.flags.lance_met",
+                "eq": true
+              }
+            ]
+          },
+          "goto": "luke_deep"
+        }
+      ]
+    },
+    "luke_physical_node": {
+      "stitches": [
+        {
+          "id": "luke_p1",
+          "text": "L'incontro fisico con Luke ha il peso delle pause, dello stato visibile della giornata e del fatto che entrambi dovete ripartire. Non diventa automaticamente uno sparring."
+        }
+      ],
+      "choices": [
+        {
+          "id": "luke_physical_deep",
+          "text": "Tengo il confronto aperto e personale.",
+          "goto": "luke_deep",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 4
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_result",
+              "value": "luke_deep_physical"
+            }
+          ]
+        },
+        {
+          "id": "luke_physical_brief",
+          "text": "Resto breve ma concreto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_result",
+              "value": "luke_brief_physical"
+            }
+          ]
+        }
+      ]
+    },
+    "luke_remote_node": {
+      "stitches": [
+        {
+          "id": "luke_r1",
+          "text": "La distanza con Luke resta reale. La chiamata permette di condividere decisioni e risultati, ma non finge che siate nello stesso luogo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "luke_remote_deep",
+          "text": "Resto sulla chiamata abbastanza da andare oltre l'aggiornamento rapido.",
+          "timeCostMinutes": 15,
+          "goto": "luke_deep",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 3
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_result",
+              "value": "luke_deep_remote"
+            }
+          ]
+        },
+        {
+          "id": "luke_remote_brief",
+          "text": "Ci lasciamo un aggiornamento essenziale.",
+          "timeCostMinutes": 5,
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_result",
+              "value": "luke_brief_remote"
+            }
+          ]
+        }
+      ]
+    },
+    "luke_deep": {
+      "stitches": [
+        {
+          "id": "luke_d1",
+          "text": "Con Luke il discorso arriva al punto in cui adattarsi smette di essere improvvisazione e diventa preparazione a più uscite possibili."
+        }
+      ],
+      "choices": [
+        {
+          "id": "luke_deep_close",
+          "text": "Conservo questo momento come callback futuro.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "friendBeat05SharedContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_result",
+              "value": "adaptive_pressure"
+            }
+          ]
+        },
+        {
+          "id": "luke_deep_lance",
+          "text": "Collego il discorso al criterio di rischio di Lance.",
+          "conditions": {
+            "path": "world.flags.lance_met",
+            "eq": true
+          },
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "knowsLanceRiskContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_result",
+              "value": "luke_lance_risk_exchange"
+            }
+          ]
+        }
+      ]
+    },
+    "mattew_contact": {
+      "stitches": [
+        {
+          "id": "mattew_c1",
+          "text": "Mattew è il contatto selezionato. Il tema che emerge è preparazione e precisione; modalità e profondità dipendono da ciò che è realmente possibile in questo momento."
+        }
+      ],
+      "choices": [
+        {
+          "id": "mattew_physical",
+          "text": "Incontro Mattew di persona.",
+          "conditions": {
+            "path": "world.flags.friend_beat_05_contact_mode",
+            "eq": "physical"
+          },
+          "goto": "mattew_physical_node",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_type",
+              "value": "physical"
+            }
+          ]
+        },
+        {
+          "id": "mattew_remote",
+          "text": "Resto sul contatto remoto con Mattew.",
+          "conditions": {
+            "path": "world.flags.friend_beat_05_contact_mode",
+            "eq": "remote"
+          },
+          "goto": "mattew_remote_node",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_type",
+              "value": "remote"
+            }
+          ]
+        },
+        {
+          "id": "mattew_context",
+          "text": "Porto nel confronto ciò che M5 ha già reso concreto.",
+          "conditions": {
+            "any": [
+              {
+                "path": "world.flags.ancient_mystery_layer_1",
+                "exists": true
+              },
+              {
+                "path": "world.flags.interregional_license",
+                "eq": true
+              },
+              {
+                "path": "world.flags.lance_met",
+                "eq": true
+              }
+            ]
+          },
+          "goto": "mattew_deep"
+        }
+      ]
+    },
+    "mattew_physical_node": {
+      "stitches": [
+        {
+          "id": "mattew_p1",
+          "text": "L'incontro fisico con Mattew ha il peso delle pause, dello stato visibile della giornata e del fatto che entrambi dovete ripartire. Non diventa automaticamente uno sparring."
+        }
+      ],
+      "choices": [
+        {
+          "id": "mattew_physical_deep",
+          "text": "Tengo il confronto aperto e personale.",
+          "goto": "mattew_deep",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 4
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_result",
+              "value": "mattew_deep_physical"
+            }
+          ]
+        },
+        {
+          "id": "mattew_physical_brief",
+          "text": "Resto breve ma concreto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_result",
+              "value": "mattew_brief_physical"
+            }
+          ]
+        }
+      ]
+    },
+    "mattew_remote_node": {
+      "stitches": [
+        {
+          "id": "mattew_r1",
+          "text": "La distanza con Mattew resta reale. La chiamata permette di condividere decisioni e risultati, ma non finge che siate nello stesso luogo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "mattew_remote_deep",
+          "text": "Resto sulla chiamata abbastanza da andare oltre l'aggiornamento rapido.",
+          "timeCostMinutes": 15,
+          "goto": "mattew_deep",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 3
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_result",
+              "value": "mattew_deep_remote"
+            }
+          ]
+        },
+        {
+          "id": "mattew_remote_brief",
+          "text": "Ci lasciamo un aggiornamento essenziale.",
+          "timeCostMinutes": 5,
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_result",
+              "value": "mattew_brief_remote"
+            }
+          ]
+        }
+      ]
+    },
+    "mattew_deep": {
+      "stitches": [
+        {
+          "id": "mattew_d1",
+          "text": "Con Mattew il confronto diventa quasi una revisione tecnica: quali decisioni vale la pena fissare prima e quali devono restare aperte."
+        }
+      ],
+      "choices": [
+        {
+          "id": "mattew_deep_close",
+          "text": "Conservo questo momento come callback futuro.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "friendBeat05SharedContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_result",
+              "value": "method_under_uncertainty"
+            }
+          ]
+        },
+        {
+          "id": "mattew_deep_license",
+          "text": "Confrontiamo come la licenza interregionale cambia la preparazione.",
+          "conditions": {
+            "path": "world.flags.interregional_license",
+            "eq": true
+          },
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "knowsInterregionalContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_result",
+              "value": "mattew_interregional_method"
+            }
+          ]
+        }
+      ]
+    },
+    "daniel_contact": {
+      "stitches": [
+        {
+          "id": "daniel_c1",
+          "text": "Daniel è il contatto selezionato. Il tema che emerge è costo delle scelte; modalità e profondità dipendono da ciò che è realmente possibile in questo momento."
+        }
+      ],
+      "choices": [
+        {
+          "id": "daniel_physical",
+          "text": "Incontro Daniel di persona.",
+          "conditions": {
+            "path": "world.flags.friend_beat_05_contact_mode",
+            "eq": "physical"
+          },
+          "goto": "daniel_physical_node",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_type",
+              "value": "physical"
+            }
+          ]
+        },
+        {
+          "id": "daniel_remote",
+          "text": "Resto sul contatto remoto con Daniel.",
+          "conditions": {
+            "path": "world.flags.friend_beat_05_contact_mode",
+            "eq": "remote"
+          },
+          "goto": "daniel_remote_node",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_type",
+              "value": "remote"
+            }
+          ]
+        },
+        {
+          "id": "daniel_context",
+          "text": "Porto nel confronto ciò che M5 ha già reso concreto.",
+          "conditions": {
+            "any": [
+              {
+                "path": "world.flags.ancient_mystery_layer_1",
+                "exists": true
+              },
+              {
+                "path": "world.flags.interregional_license",
+                "eq": true
+              },
+              {
+                "path": "world.flags.lance_met",
+                "eq": true
+              }
+            ]
+          },
+          "goto": "daniel_deep"
+        }
+      ]
+    },
+    "daniel_physical_node": {
+      "stitches": [
+        {
+          "id": "daniel_p1",
+          "text": "L'incontro fisico con Daniel ha il peso delle pause, dello stato visibile della giornata e del fatto che entrambi dovete ripartire. Non diventa automaticamente uno sparring."
+        }
+      ],
+      "choices": [
+        {
+          "id": "daniel_physical_deep",
+          "text": "Tengo il confronto aperto e personale.",
+          "goto": "daniel_deep",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 4
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_result",
+              "value": "daniel_deep_physical"
+            }
+          ]
+        },
+        {
+          "id": "daniel_physical_brief",
+          "text": "Resto breve ma concreto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_result",
+              "value": "daniel_brief_physical"
+            }
+          ]
+        }
+      ]
+    },
+    "daniel_remote_node": {
+      "stitches": [
+        {
+          "id": "daniel_r1",
+          "text": "La distanza con Daniel resta reale. La chiamata permette di condividere decisioni e risultati, ma non finge che siate nello stesso luogo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "daniel_remote_deep",
+          "text": "Resto sulla chiamata abbastanza da andare oltre l'aggiornamento rapido.",
+          "timeCostMinutes": 15,
+          "goto": "daniel_deep",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 3
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_result",
+              "value": "daniel_deep_remote"
+            }
+          ]
+        },
+        {
+          "id": "daniel_remote_brief",
+          "text": "Ci lasciamo un aggiornamento essenziale.",
+          "timeCostMinutes": 5,
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_result",
+              "value": "daniel_brief_remote"
+            }
+          ]
+        }
+      ]
+    },
+    "daniel_deep": {
+      "stitches": [
+        {
+          "id": "daniel_d1",
+          "text": "Daniel riporta tutto al costo reale: tempo, fatica, opportunità perse e valore di quello che ottieni in cambio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "daniel_deep_close",
+          "text": "Conservo questo momento come callback futuro.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "friendBeat05SharedContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_result",
+              "value": "cost_of_choice"
+            }
+          ]
+        }
+      ]
+    },
+    "edward_contact": {
+      "stitches": [
+        {
+          "id": "edward_c1",
+          "text": "Edward è il contatto selezionato. Il tema che emerge è continuità e recupero; modalità e profondità dipendono da ciò che è realmente possibile in questo momento."
+        }
+      ],
+      "choices": [
+        {
+          "id": "edward_physical",
+          "text": "Incontro Edward di persona.",
+          "conditions": {
+            "path": "world.flags.friend_beat_05_contact_mode",
+            "eq": "physical"
+          },
+          "goto": "edward_physical_node",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_type",
+              "value": "physical"
+            }
+          ]
+        },
+        {
+          "id": "edward_remote",
+          "text": "Resto sul contatto remoto con Edward.",
+          "conditions": {
+            "path": "world.flags.friend_beat_05_contact_mode",
+            "eq": "remote"
+          },
+          "goto": "edward_remote_node",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_type",
+              "value": "remote"
+            }
+          ]
+        },
+        {
+          "id": "edward_context",
+          "text": "Porto nel confronto ciò che M5 ha già reso concreto.",
+          "conditions": {
+            "any": [
+              {
+                "path": "world.flags.ancient_mystery_layer_1",
+                "exists": true
+              },
+              {
+                "path": "world.flags.interregional_license",
+                "eq": true
+              },
+              {
+                "path": "world.flags.lance_met",
+                "eq": true
+              }
+            ]
+          },
+          "goto": "edward_deep"
+        }
+      ]
+    },
+    "edward_physical_node": {
+      "stitches": [
+        {
+          "id": "edward_p1",
+          "text": "L'incontro fisico con Edward ha il peso delle pause, dello stato visibile della giornata e del fatto che entrambi dovete ripartire. Non diventa automaticamente uno sparring."
+        }
+      ],
+      "choices": [
+        {
+          "id": "edward_physical_deep",
+          "text": "Tengo il confronto aperto e personale.",
+          "goto": "edward_deep",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 4
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_result",
+              "value": "edward_deep_physical"
+            }
+          ]
+        },
+        {
+          "id": "edward_physical_brief",
+          "text": "Resto breve ma concreto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_result",
+              "value": "edward_brief_physical"
+            }
+          ]
+        }
+      ]
+    },
+    "edward_remote_node": {
+      "stitches": [
+        {
+          "id": "edward_r1",
+          "text": "La distanza con Edward resta reale. La chiamata permette di condividere decisioni e risultati, ma non finge che siate nello stesso luogo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "edward_remote_deep",
+          "text": "Resto sulla chiamata abbastanza da andare oltre l'aggiornamento rapido.",
+          "timeCostMinutes": 15,
+          "goto": "edward_deep",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 3
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_result",
+              "value": "edward_deep_remote"
+            }
+          ]
+        },
+        {
+          "id": "edward_remote_brief",
+          "text": "Ci lasciamo un aggiornamento essenziale.",
+          "timeCostMinutes": 5,
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_result",
+              "value": "edward_brief_remote"
+            }
+          ]
+        }
+      ]
+    },
+    "edward_deep": {
+      "stitches": [
+        {
+          "id": "edward_d1",
+          "text": "Edward insiste sulla parte meno spettacolare della crescita: reggere settimane di lavoro senza bruciarsi in una sola finestra."
+        }
+      ],
+      "choices": [
+        {
+          "id": "edward_deep_close",
+          "text": "Conservo questo momento come callback futuro.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "friendBeat05SharedContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_result",
+              "value": "continuity_and_recovery"
+            }
+          ]
+        }
+      ]
+    },
+    "fab_contact": {
+      "stitches": [
+        {
+          "id": "fab_c1",
+          "text": "Fab è il contatto selezionato. Il tema che emerge è lettura del mondo fuori arena; modalità e profondità dipendono da ciò che è realmente possibile in questo momento."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fab_physical",
+          "text": "Incontro Fab di persona.",
+          "conditions": {
+            "path": "world.flags.friend_beat_05_contact_mode",
+            "eq": "physical"
+          },
+          "goto": "fab_physical_node",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_type",
+              "value": "physical"
+            }
+          ]
+        },
+        {
+          "id": "fab_remote",
+          "text": "Resto sul contatto remoto con Fab.",
+          "conditions": {
+            "path": "world.flags.friend_beat_05_contact_mode",
+            "eq": "remote"
+          },
+          "goto": "fab_remote_node",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_type",
+              "value": "remote"
+            }
+          ]
+        },
+        {
+          "id": "fab_context",
+          "text": "Porto nel confronto ciò che M5 ha già reso concreto.",
+          "conditions": {
+            "any": [
+              {
+                "path": "world.flags.ancient_mystery_layer_1",
+                "exists": true
+              },
+              {
+                "path": "world.flags.interregional_license",
+                "eq": true
+              },
+              {
+                "path": "world.flags.lance_met",
+                "eq": true
+              }
+            ]
+          },
+          "goto": "fab_deep"
+        }
+      ]
+    },
+    "fab_physical_node": {
+      "stitches": [
+        {
+          "id": "fab_p1",
+          "text": "L'incontro fisico con Fab ha il peso delle pause, dello stato visibile della giornata e del fatto che entrambi dovete ripartire. Non diventa automaticamente uno sparring."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fab_physical_deep",
+          "text": "Tengo il confronto aperto e personale.",
+          "goto": "fab_deep",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 4
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_result",
+              "value": "fab_deep_physical"
+            }
+          ]
+        },
+        {
+          "id": "fab_physical_brief",
+          "text": "Resto breve ma concreto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_result",
+              "value": "fab_brief_physical"
+            }
+          ]
+        }
+      ]
+    },
+    "fab_remote_node": {
+      "stitches": [
+        {
+          "id": "fab_r1",
+          "text": "La distanza con Fab resta reale. La chiamata permette di condividere decisioni e risultati, ma non finge che siate nello stesso luogo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fab_remote_deep",
+          "text": "Resto sulla chiamata abbastanza da andare oltre l'aggiornamento rapido.",
+          "timeCostMinutes": 15,
+          "goto": "fab_deep",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 3
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_result",
+              "value": "fab_deep_remote"
+            }
+          ]
+        },
+        {
+          "id": "fab_remote_brief",
+          "text": "Ci lasciamo un aggiornamento essenziale.",
+          "timeCostMinutes": 5,
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_result",
+              "value": "fab_brief_remote"
+            }
+          ]
+        }
+      ]
+    },
+    "fab_deep": {
+      "stitches": [
+        {
+          "id": "fab_d1",
+          "text": "Fab confronta ciò che il circuito misura con ciò che impari quando l'ambiente non è costruito per essere una gara."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fab_deep_close",
+          "text": "Conservo questo momento come callback futuro.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "friendBeat05SharedContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_result",
+              "value": "world_reading"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
