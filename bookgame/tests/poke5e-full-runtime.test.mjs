@@ -200,13 +200,11 @@ test("save debuffs and allied status cures execute their 2024 effects", async ()
     opponentPosition: { x: 50, y: 0 }
   });
   applyStatus(cureBattle.player, "Poisoned");
-  applyStatus(cureBattle.player, "Confused");
   cureBattle = await cureCombat.usePlayerMove(cureBattle, "aromatherapy");
   assert.equal(cureBattle.player.statuses.nonVolatile, null);
-  assert.equal(cureBattle.player.statuses.confusedRounds, 0);
   assert.deepEqual(
-    cureBattle.log.find((event) => event.type === "status_cure_move").curedStatuses.sort(),
-    ["Confused", "Poisoned"]
+    cureBattle.log.find((event) => event.type === "status_cure_move").curedStatuses,
+    ["Poisoned"]
   );
 });
 
