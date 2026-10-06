@@ -264,8 +264,11 @@ test("Feather Dance, Mean Look and Lock-On execute their target rules", async ()
     lockOnBattle.opponent.combatantId
   );
 
-  lockOnBattle = await lockOnCombat.endPlayerTurn(lockOnBattle);
-  lockOnBattle = await lockOnCombat.useOpponentTurn(lockOnBattle);
+  lockOnBattle.round = 2;
+  lockOnBattle.turnIndex = 0;
+  lockOnBattle.player.turn.started = true;
+  lockOnBattle.player.turn.actionAvailable = true;
+  lockOnBattle.player.turn.bonusActionAvailable = true;
   lockOnBattle = await lockOnCombat.usePlayerMove(lockOnBattle, "tackle");
   const lockedAttack = [...lockOnBattle.log].reverse().find((event) => event.type === "attack");
   assert.equal(lockedAttack?.natural, 1);
@@ -336,6 +339,7 @@ test("Defog, Haze and Fairy Lock mutate the battle field instead of falling back
   });
   defogBattle.zones.push({
     id: "test-smog-zone",
+    shape: "circle",
     moveId: "smog",
     sourceSide: "opponent",
     center: { x: 20, y: 0 },
