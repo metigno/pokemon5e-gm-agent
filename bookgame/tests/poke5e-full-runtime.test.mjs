@@ -189,7 +189,7 @@ test("canonical OHKO moves execute their d20, level and immunity rules", async (
   });
   let hornBattle = await hornCombat.createBattle({
     encounterId: "FULL_RUNTIME_HORN_DRILL",
-    playerPokemon: { speciesId: "rhydon", level: 5, moveIds: ["horn-drill"] },
+    playerPokemon: { speciesId: "rhydon", level: 10, moveIds: ["horn-drill"] },
     opponent: { speciesId: "caterpie", level: 1, moveIds: ["tackle"] },
     playerPosition: { x: 0, y: 0 },
     opponentPosition: { x: 5, y: 0 }
