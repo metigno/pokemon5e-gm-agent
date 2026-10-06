@@ -508,7 +508,7 @@ test("Hail and Sandstorm use persistent no-save hazard zones with first-entry ex
 
 test("Reaction moves use a dedicated trigger-aware execution path", async () => {
   const counterCombat = new Pokemon5eCombatEngine({
-    dice: new SequenceDice([1, 20, 20, 1, 20, ...Array(40).fill(1)])
+    dice: new SequenceDice([1, 20, 19, 1, 19, ...Array(40).fill(1)])
   });
   let counterBattle = await counterCombat.createBattle({
     encounterId: "FULL_RUNTIME_REACTION_COUNTER",
