@@ -369,6 +369,8 @@ export function resolveAttack({
   extraDamageModifier = 0,
   damageDiceMultiplier = 1,
   forceDisadvantage = false,
+  forceHit = false,
+  forceCritical = false,
   round = null
 }) {
   const stats = calculateMoveStats(attacker, move, round);
@@ -408,11 +410,12 @@ export function resolveAttack({
     round
   );
   const criticalThreshold = Math.max(2, 20 - criticalRangeBonus);
-  const critical = attackRoll.natural >= criticalThreshold;
+  const critical = forceCritical || attackRoll.natural >= criticalThreshold;
   const criticalDamage =
     critical &&
     !["battle-armor", "shell-armor"].includes(defender.abilityId);
-  const hit = critical || (attackRoll.natural !== 1 && attackTotal >= defender.ac);
+  const hit = forceHit || critical ||
+    (attackRoll.natural !== 1 && attackTotal >= defender.ac);
 
   if (!hit) {
     return {
@@ -426,6 +429,8 @@ export function resolveAttack({
       hit: false,
       critical: false,
       criticalDamage: false,
+      forcedHit: forceHit,
+      forcedCritical: forceCritical,
       criticalRangeBonus,
       criticalThreshold,
       effectAdvantage,
@@ -468,6 +473,8 @@ export function resolveAttack({
     hit: true,
     critical,
     criticalDamage,
+    forcedHit: forceHit,
+    forcedCritical: forceCritical,
     criticalRangeBonus,
     criticalThreshold,
     effectAdvantage,
