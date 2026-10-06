@@ -32,7 +32,11 @@ export function statusImmunity(combatant, status) {
   return null;
 }
 
-export function applyStatus(combatant, status, { sourceProficiencyBonus = null } = {}) {
+export function applyStatus(
+  combatant,
+  status,
+  { sourceProficiencyBonus = null, ignoreTypeImmunity = false } = {}
+) {
   combatant.statuses ??= createStatusState();
 
   if (status === "Flinched") {
@@ -48,7 +52,7 @@ export function applyStatus(combatant, status, { sourceProficiencyBonus = null }
   if (!NON_VOLATILE.has(status)) throw new Error(`Unsupported status: ${status}`);
 
   const immunity = statusImmunity(combatant, status);
-  if (immunity) return { applied: false, status, reason: immunity };
+  if (immunity && !ignoreTypeImmunity) return { applied: false, status, reason: immunity };
 
   if (combatant.statuses.nonVolatile && combatant.statuses.nonVolatile !== status) {
     return { applied: false, status, reason: "non_volatile_already_present" };
