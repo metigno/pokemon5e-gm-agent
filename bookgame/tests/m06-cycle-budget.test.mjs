@@ -222,3 +222,52 @@ test("M6_10-M6_14 authored nodes have no zero-incoming padding",async()=>{
   }
   assert.deepEqual(Object.entries(incoming).filter(([,count])=>count===0).map(([key])=>key),[]);
 });
+
+test("M6 complete graph is reachable from the real M6 entry with no padding islands",async()=>{
+  const all=[...expected,...cycle2,...cycle3];
+  const scenes={};
+  for(const [rel] of all){
+    scenes[rel]=JSON.parse(await readFile(fileURLToPath(new URL("../content/scenes/"+rel+".json",import.meta.url)),"utf8"));
+  }
+  const keys=new Set();
+  for(const [sceneId,scene] of Object.entries(scenes)){
+    for(const nodeId of Object.keys(scene.nodes)) keys.add(sceneId+"#"+nodeId);
+  }
+  const edges=new Map([...keys].map(key=>[key,[]]));
+  const add=(raw,currentScene,from)=>{
+    if(typeof raw!=="string") return;
+    const parts=raw.includes("#")?raw.split("#"):[currentScene,raw];
+    const target=parts[0]+"#"+parts[1];
+    if(keys.has(target)) edges.get(from).push(target);
+  };
+  for(const [sceneId,scene] of Object.entries(scenes)){
+    for(const [nodeId,node] of Object.entries(scene.nodes)){
+      const from=sceneId+"#"+nodeId;
+      for(const choice of node.choices??[]){
+        add(choice.goto,sceneId,from);
+        if(choice.check){
+          add(choice.outcomes?.success?.goto,sceneId,from);
+          add(choice.outcomes?.failure?.goto,sceneId,from);
+        }
+        if(choice.combat){
+          add(choice.combat.goto,sceneId,from);
+          for(const target of Object.values(choice.combat.returnNodes??{})) add(target,sceneId,from);
+        }
+        if(choice.ecology){
+          for(const target of Object.values(choice.ecology.returnNodes??{})) add(target,sceneId,from);
+        }
+      }
+    }
+  }
+  const start="m06-handoff#m06_entry";
+  const queue=[start];
+  const visited=new Set(queue);
+  while(queue.length){
+    const current=queue.shift();
+    for(const target of edges.get(current)??[]){
+      if(!visited.has(target)){visited.add(target);queue.push(target);}
+    }
+  }
+  assert.equal(visited.size,220);
+  assert.deepEqual([...keys].filter(key=>!visited.has(key)),[]);
+});
