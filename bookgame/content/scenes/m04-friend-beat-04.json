@@ -1,0 +1,2314 @@
+{
+  "schemaVersion": 1,
+  "id": "m04-friend-beat-04",
+  "moduleId": "M04",
+  "title": "M4_08 — Friend on the Tide",
+  "locationId": "mar_city",
+  "entryNodeId": "friend_call",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m3_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m04_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m4_active",
+        "eq": true
+      },
+      {
+        "path": "world.flags.friend_beat_04_available",
+        "eq": true
+      },
+      {
+        "path": "world.flags.friend_beat_04_complete",
+        "ne": true
+      },
+      {
+        "path": "competition.rankOrder",
+        "gte": 3
+      }
+    ]
+  },
+  "nodes": {
+    "friend_call": {
+      "stitches": [
+        {
+          "id": "friend_call_1",
+          "text": "Uno degli altri Five entra nella tua giornata senza fermare il resto del mondo. Il selector M4 ha già scelto chi è causalmente disponibile: se la schedule permette un incontro fisico lo vedrai; altrimenti il contatto resta remoto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "dispatch_luke",
+          "text": "Rispondo a Luke.",
+          "conditions": {
+            "path": "world.flags.friend_beat_04_friend_id",
+            "eq": "Luke"
+          },
+          "goto": "luke_contact"
+        },
+        {
+          "id": "dispatch_mattew",
+          "text": "Rispondo a Mattew.",
+          "conditions": {
+            "path": "world.flags.friend_beat_04_friend_id",
+            "eq": "Mattew"
+          },
+          "goto": "mattew_contact"
+        },
+        {
+          "id": "dispatch_daniel",
+          "text": "Rispondo a Daniel.",
+          "conditions": {
+            "path": "world.flags.friend_beat_04_friend_id",
+            "eq": "Daniel"
+          },
+          "goto": "daniel_contact"
+        },
+        {
+          "id": "dispatch_edward",
+          "text": "Rispondo a Edward.",
+          "conditions": {
+            "path": "world.flags.friend_beat_04_friend_id",
+            "eq": "Edward"
+          },
+          "goto": "edward_contact"
+        },
+        {
+          "id": "dispatch_fab",
+          "text": "Rispondo a Fab.",
+          "conditions": {
+            "path": "world.flags.friend_beat_04_friend_id",
+            "eq": "Fab"
+          },
+          "goto": "fab_contact"
+        }
+      ]
+    },
+    "friend_beat_close": {
+      "stitches": [
+        {
+          "id": "close_1",
+          "text": "Il contatto si chiude senza congelare la carriera di nessuno dei due. Tipo, amico e risultato restano persistenti per i callback futuri."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_friend_beat_04",
+          "text": "Torno a ciò che stavo facendo a Mareasale.",
+          "goto": "m04-mareasale-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        }
+      ]
+    },
+    "luke_contact": {
+      "stitches": [
+        {
+          "id": "luke_contact_1",
+          "text": "Luke è il contatto selezionato per questo beat. La scena può usare soltanto modalità compatibili con il suo stato reale e con ciò che hai vissuto in M4."
+        }
+      ],
+      "choices": [
+        {
+          "id": "luke_meet_harbor",
+          "text": "Incontro Luke di persona a Mareasale.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.friend_beat_04_contact_mode",
+                "eq": "physical"
+              },
+              {
+                "path": "npcs.Luke.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Luke.schedule.locationId",
+                "eq": "mar_city"
+              }
+            ]
+          },
+          "goto": "luke_harbor",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_type",
+              "value": "physical_harbor"
+            }
+          ]
+        },
+        {
+          "id": "luke_meet_coast",
+          "text": "Raggiungo Luke sulla Costa di Sale.",
+          "timeCostMinutes": 90,
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.friend_beat_04_contact_mode",
+                "eq": "physical"
+              },
+              {
+                "path": "npcs.Luke.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Luke.schedule.locationId",
+                "in": [
+                  "sal_coast",
+                  "sal_coast_jetty"
+                ]
+              }
+            ]
+          },
+          "goto": "luke_coast",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_type",
+              "value": "physical_coast"
+            },
+            {
+              "type": "set_location",
+              "locationId": "sal_coast"
+            }
+          ]
+        },
+        {
+          "id": "luke_remote",
+          "text": "Resto in contatto remoto con Luke.",
+          "conditions": {
+            "path": "world.flags.friend_beat_04_contact_mode",
+            "eq": "remote"
+          },
+          "goto": "luke_remote_node",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_type",
+              "value": "remote_call"
+            }
+          ]
+        },
+        {
+          "id": "luke_smuggling",
+          "text": "Condivido ciò che posso dire della pista logistica.",
+          "conditions": {
+            "path": "world.flags.smuggling_state",
+            "exists": true
+          },
+          "goto": "luke_smuggling_node",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_type",
+              "value": "smuggling_debrief"
+            }
+          ]
+        },
+        {
+          "id": "luke_reef",
+          "text": "Parliamo della Barriera Azzurra e di cosa ho imparato sul margine.",
+          "conditions": {
+            "path": "world.flags.reef_visited",
+            "eq": true
+          },
+          "goto": "luke_reef_node",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_type",
+              "value": "tide_exchange"
+            }
+          ]
+        },
+        {
+          "id": "luke_league",
+          "text": "Confrontiamo come stiamo leggendo il prossimo livello competitivo.",
+          "conditions": {
+            "path": "world.flags.a4_league_reg_available",
+            "eq": true
+          },
+          "goto": "luke_league_node",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_type",
+              "value": "competition_exchange"
+            }
+          ]
+        }
+      ]
+    },
+    "luke_harbor": {
+      "stitches": [
+        {
+          "id": "luke_harbor_1",
+          "text": "Luke guarda il traffico del porto come guarderebbe un match che cambia forma turno dopo turno. «Qui se ti innamori del piano iniziale, perdi il momento in cui dovevi adattarti.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "luke_harbor_deep",
+          "text": "Approfondisco con Luke il tema di adattamento e gestione del rischio.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 4
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "friendBeat04SharedContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "deep_harbor_exchange"
+            }
+          ]
+        },
+        {
+          "id": "luke_harbor_brief",
+          "text": "Tengo l'incontro breve e concreto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "brief_physical"
+            }
+          ]
+        }
+      ]
+    },
+    "luke_coast": {
+      "stitches": [
+        {
+          "id": "luke_coast_1",
+          "text": "Luke cammina lungo la costa tenendo d'occhio vento e sentiero. La conversazione finisce presto sul modo in cui un piano buono deve sopravvivere a informazioni nuove."
+        }
+      ],
+      "choices": [
+        {
+          "id": "luke_coast_share",
+          "text": "Confrontiamo come leggiamo rischio e margine sulla costa.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 3
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "knowsM4CoastContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "coast_context_shared"
+            }
+          ]
+        },
+        {
+          "id": "luke_coast_walk",
+          "text": "Facciamo solo un tratto insieme, poi ognuno riprende la propria schedule.",
+          "timeCostMinutes": 20,
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 2
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "coast_walk"
+            }
+          ]
+        }
+      ]
+    },
+    "luke_remote_node": {
+      "stitches": [
+        {
+          "id": "luke_remote_1",
+          "text": "Luke risponde da una tratta diversa del circuito. Non può raggiungerti senza spezzare la propria schedule, quindi il contatto resta remoto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "luke_remote_deep",
+          "text": "Approfondisco il confronto su adattamento e gestione del rischio.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 3
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "friendBeat04SharedContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "remote_exchange"
+            }
+          ]
+        },
+        {
+          "id": "luke_remote_brief",
+          "text": "Ci aggiorniamo rapidamente e chiudiamo.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "remote_brief"
+            }
+          ]
+        }
+      ]
+    },
+    "luke_smuggling_node": {
+      "stitches": [
+        {
+          "id": "luke_smug_1",
+          "text": "Luke ascolta la differenza fra qualità del segnale ed esito finale. Non trasforma il tuo racconto in informazioni che non possiede."
+        }
+      ],
+      "choices": [
+        {
+          "id": "luke_smug_honest",
+          "text": "Condivido anche i limiti di ciò che ho verificato.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 4
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "knowsM4SmugglingContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "honest_smuggling_debrief"
+            }
+          ]
+        },
+        {
+          "id": "luke_smug_result",
+          "text": "Parlo soltanto dell'esito persistente raggiunto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 2
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "smuggling_result_shared"
+            }
+          ]
+        }
+      ]
+    },
+    "luke_reef_node": {
+      "stitches": [
+        {
+          "id": "luke_reef_1",
+          "text": "Il reef diventa un modo concreto per parlare con Luke di adattamento e gestione del rischio: margine, correzione e costo delle decisioni quando il sistema cambia."
+        }
+      ],
+      "choices": [
+        {
+          "id": "luke_reef_compare",
+          "text": "Confrontiamo le nostre letture senza cercare una risposta unica.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 3
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "knowsM4ReefContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "reef_exchange"
+            }
+          ]
+        },
+        {
+          "id": "luke_reef_brief",
+          "text": "Condivido il punto principale e chiudo il contatto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "reef_brief"
+            }
+          ]
+        }
+      ]
+    },
+    "luke_league_node": {
+      "stitches": [
+        {
+          "id": "luke_league_1",
+          "text": "Luke parla del circuito come di un problema reale, non di una cutscene. Il suo stato competitivo resta indipendente dal tuo e nessuno dei due riceve plot armor."
+        }
+      ],
+      "choices": [
+        {
+          "id": "luke_league_compare",
+          "text": "Confrontiamo approcci e priorità senza scambiarci set nascosti.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 3
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "knowsM4LeagueContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "competition_notes_shared"
+            }
+          ]
+        },
+        {
+          "id": "luke_league_close",
+          "text": "Ci limitiamo a riconoscere che il prossimo step sarà più duro.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "competition_acknowledged"
+            }
+          ]
+        }
+      ]
+    },
+    "mattew_contact": {
+      "stitches": [
+        {
+          "id": "mattew_contact_1",
+          "text": "Mattew è il contatto selezionato per questo beat. La scena può usare soltanto modalità compatibili con il suo stato reale e con ciò che hai vissuto in M4."
+        }
+      ],
+      "choices": [
+        {
+          "id": "mattew_meet_harbor",
+          "text": "Incontro Mattew di persona a Mareasale.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.friend_beat_04_contact_mode",
+                "eq": "physical"
+              },
+              {
+                "path": "npcs.Mattew.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Mattew.schedule.locationId",
+                "eq": "mar_city"
+              }
+            ]
+          },
+          "goto": "mattew_harbor",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_type",
+              "value": "physical_harbor"
+            }
+          ]
+        },
+        {
+          "id": "mattew_meet_coast",
+          "text": "Raggiungo Mattew sulla Costa di Sale.",
+          "timeCostMinutes": 90,
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.friend_beat_04_contact_mode",
+                "eq": "physical"
+              },
+              {
+                "path": "npcs.Mattew.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Mattew.schedule.locationId",
+                "in": [
+                  "sal_coast",
+                  "sal_coast_jetty"
+                ]
+              }
+            ]
+          },
+          "goto": "mattew_coast",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_type",
+              "value": "physical_coast"
+            },
+            {
+              "type": "set_location",
+              "locationId": "sal_coast"
+            }
+          ]
+        },
+        {
+          "id": "mattew_remote",
+          "text": "Resto in contatto remoto con Mattew.",
+          "conditions": {
+            "path": "world.flags.friend_beat_04_contact_mode",
+            "eq": "remote"
+          },
+          "goto": "mattew_remote_node",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_type",
+              "value": "remote_call"
+            }
+          ]
+        },
+        {
+          "id": "mattew_smuggling",
+          "text": "Condivido ciò che posso dire della pista logistica.",
+          "conditions": {
+            "path": "world.flags.smuggling_state",
+            "exists": true
+          },
+          "goto": "mattew_smuggling_node",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_type",
+              "value": "smuggling_debrief"
+            }
+          ]
+        },
+        {
+          "id": "mattew_reef",
+          "text": "Parliamo della Barriera Azzurra e di cosa ho imparato sul margine.",
+          "conditions": {
+            "path": "world.flags.reef_visited",
+            "eq": true
+          },
+          "goto": "mattew_reef_node",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_type",
+              "value": "tide_exchange"
+            }
+          ]
+        },
+        {
+          "id": "mattew_league",
+          "text": "Confrontiamo come stiamo leggendo il prossimo livello competitivo.",
+          "conditions": {
+            "path": "world.flags.a4_league_reg_available",
+            "eq": true
+          },
+          "goto": "mattew_league_node",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_type",
+              "value": "competition_exchange"
+            }
+          ]
+        }
+      ]
+    },
+    "mattew_harbor": {
+      "stitches": [
+        {
+          "id": "mattew_harbor_1",
+          "text": "Mattew arriva con l'energia di chi vorrebbe trasformare anche una coincidenza portuale in una partenza. «Il problema dei ritardi? Che se aspetti troppo perdi il ritmo. Ma se forzi il ritmo sbagliato, perdi tutto il resto.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "mattew_harbor_deep",
+          "text": "Approfondisco con Mattew il tema di tempo e iniziativa.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 4
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "friendBeat04SharedContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "deep_harbor_exchange"
+            }
+          ]
+        },
+        {
+          "id": "mattew_harbor_brief",
+          "text": "Tengo l'incontro breve e concreto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "brief_physical"
+            }
+          ]
+        }
+      ]
+    },
+    "mattew_coast": {
+      "stitches": [
+        {
+          "id": "mattew_coast_1",
+          "text": "Mattew prende il sentiero alto e commenta quanto la costa punisca i cambi di ritmo fatti senza motivo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "mattew_coast_share",
+          "text": "Confrontiamo come leggiamo rischio e margine sulla costa.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 3
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "knowsM4CoastContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "coast_context_shared"
+            }
+          ]
+        },
+        {
+          "id": "mattew_coast_walk",
+          "text": "Facciamo solo un tratto insieme, poi ognuno riprende la propria schedule.",
+          "timeCostMinutes": 20,
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 2
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "coast_walk"
+            }
+          ]
+        }
+      ]
+    },
+    "mattew_remote_node": {
+      "stitches": [
+        {
+          "id": "mattew_remote_1",
+          "text": "Mattew è già su un'altra tratta. La chiamata è rapida e diretta, coerente con una schedule che non può essere piegata solo per creare una scena."
+        }
+      ],
+      "choices": [
+        {
+          "id": "mattew_remote_deep",
+          "text": "Approfondisco il confronto su tempo e iniziativa.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 3
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "friendBeat04SharedContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "remote_exchange"
+            }
+          ]
+        },
+        {
+          "id": "mattew_remote_brief",
+          "text": "Ci aggiorniamo rapidamente e chiudiamo.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "remote_brief"
+            }
+          ]
+        }
+      ]
+    },
+    "mattew_smuggling_node": {
+      "stitches": [
+        {
+          "id": "mattew_smug_1",
+          "text": "Mattew ascolta la differenza fra qualità del segnale ed esito finale. Non trasforma il tuo racconto in informazioni che non possiede."
+        }
+      ],
+      "choices": [
+        {
+          "id": "mattew_smug_honest",
+          "text": "Condivido anche i limiti di ciò che ho verificato.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 4
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "knowsM4SmugglingContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "honest_smuggling_debrief"
+            }
+          ]
+        },
+        {
+          "id": "mattew_smug_result",
+          "text": "Parlo soltanto dell'esito persistente raggiunto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 2
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "smuggling_result_shared"
+            }
+          ]
+        }
+      ]
+    },
+    "mattew_reef_node": {
+      "stitches": [
+        {
+          "id": "mattew_reef_1",
+          "text": "Il reef diventa un modo concreto per parlare con Mattew di tempo e iniziativa: margine, correzione e costo delle decisioni quando il sistema cambia."
+        }
+      ],
+      "choices": [
+        {
+          "id": "mattew_reef_compare",
+          "text": "Confrontiamo le nostre letture senza cercare una risposta unica.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 3
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "knowsM4ReefContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "reef_exchange"
+            }
+          ]
+        },
+        {
+          "id": "mattew_reef_brief",
+          "text": "Condivido il punto principale e chiudo il contatto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "reef_brief"
+            }
+          ]
+        }
+      ]
+    },
+    "mattew_league_node": {
+      "stitches": [
+        {
+          "id": "mattew_league_1",
+          "text": "Mattew parla del circuito come di un problema reale, non di una cutscene. Il suo stato competitivo resta indipendente dal tuo e nessuno dei due riceve plot armor."
+        }
+      ],
+      "choices": [
+        {
+          "id": "mattew_league_compare",
+          "text": "Confrontiamo approcci e priorità senza scambiarci set nascosti.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 3
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "knowsM4LeagueContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "competition_notes_shared"
+            }
+          ]
+        },
+        {
+          "id": "mattew_league_close",
+          "text": "Ci limitiamo a riconoscere che il prossimo step sarà più duro.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "competition_acknowledged"
+            }
+          ]
+        }
+      ]
+    },
+    "daniel_contact": {
+      "stitches": [
+        {
+          "id": "daniel_contact_1",
+          "text": "Daniel è il contatto selezionato per questo beat. La scena può usare soltanto modalità compatibili con il suo stato reale e con ciò che hai vissuto in M4."
+        }
+      ],
+      "choices": [
+        {
+          "id": "daniel_meet_harbor",
+          "text": "Incontro Daniel di persona a Mareasale.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.friend_beat_04_contact_mode",
+                "eq": "physical"
+              },
+              {
+                "path": "npcs.Daniel.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Daniel.schedule.locationId",
+                "eq": "mar_city"
+              }
+            ]
+          },
+          "goto": "daniel_harbor",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_type",
+              "value": "physical_harbor"
+            }
+          ]
+        },
+        {
+          "id": "daniel_meet_coast",
+          "text": "Raggiungo Daniel sulla Costa di Sale.",
+          "timeCostMinutes": 90,
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.friend_beat_04_contact_mode",
+                "eq": "physical"
+              },
+              {
+                "path": "npcs.Daniel.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Daniel.schedule.locationId",
+                "in": [
+                  "sal_coast",
+                  "sal_coast_jetty"
+                ]
+              }
+            ]
+          },
+          "goto": "daniel_coast",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_type",
+              "value": "physical_coast"
+            },
+            {
+              "type": "set_location",
+              "locationId": "sal_coast"
+            }
+          ]
+        },
+        {
+          "id": "daniel_remote",
+          "text": "Resto in contatto remoto con Daniel.",
+          "conditions": {
+            "path": "world.flags.friend_beat_04_contact_mode",
+            "eq": "remote"
+          },
+          "goto": "daniel_remote_node",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_type",
+              "value": "remote_call"
+            }
+          ]
+        },
+        {
+          "id": "daniel_smuggling",
+          "text": "Condivido ciò che posso dire della pista logistica.",
+          "conditions": {
+            "path": "world.flags.smuggling_state",
+            "exists": true
+          },
+          "goto": "daniel_smuggling_node",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_type",
+              "value": "smuggling_debrief"
+            }
+          ]
+        },
+        {
+          "id": "daniel_reef",
+          "text": "Parliamo della Barriera Azzurra e di cosa ho imparato sul margine.",
+          "conditions": {
+            "path": "world.flags.reef_visited",
+            "eq": true
+          },
+          "goto": "daniel_reef_node",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_type",
+              "value": "tide_exchange"
+            }
+          ]
+        },
+        {
+          "id": "daniel_league",
+          "text": "Confrontiamo come stiamo leggendo il prossimo livello competitivo.",
+          "conditions": {
+            "path": "world.flags.a4_league_reg_available",
+            "eq": true
+          },
+          "goto": "daniel_league_node",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_type",
+              "value": "competition_exchange"
+            }
+          ]
+        }
+      ]
+    },
+    "daniel_harbor": {
+      "stitches": [
+        {
+          "id": "daniel_harbor_1",
+          "text": "Daniel osserva più i passaggi fra un'operazione e l'altra che le gru. «Le cose interessanti succedono spesso nei punti che tutti considerano solo transizione.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "daniel_harbor_deep",
+          "text": "Approfondisco con Daniel il tema di informazioni e punti ciechi.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 4
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "friendBeat04SharedContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "deep_harbor_exchange"
+            }
+          ]
+        },
+        {
+          "id": "daniel_harbor_brief",
+          "text": "Tengo l'incontro breve e concreto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "brief_physical"
+            }
+          ]
+        }
+      ]
+    },
+    "daniel_coast": {
+      "stitches": [
+        {
+          "id": "daniel_coast_1",
+          "text": "Daniel si ferma più volte a confrontare approdi, sentieri e linee di vista. La costa gli interessa come rete di passaggi, non come panorama."
+        }
+      ],
+      "choices": [
+        {
+          "id": "daniel_coast_share",
+          "text": "Confrontiamo come leggiamo rischio e margine sulla costa.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 3
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "knowsM4CoastContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "coast_context_shared"
+            }
+          ]
+        },
+        {
+          "id": "daniel_coast_walk",
+          "text": "Facciamo solo un tratto insieme, poi ognuno riprende la propria schedule.",
+          "timeCostMinutes": 20,
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 2
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "coast_walk"
+            }
+          ]
+        }
+      ]
+    },
+    "daniel_remote_node": {
+      "stitches": [
+        {
+          "id": "daniel_remote_1",
+          "text": "Daniel risponde da fuori Mareasale e usa il contatto per confrontare informazioni senza fingere una presenza fisica impossibile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "daniel_remote_deep",
+          "text": "Approfondisco il confronto su informazioni e punti ciechi.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 3
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "friendBeat04SharedContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "remote_exchange"
+            }
+          ]
+        },
+        {
+          "id": "daniel_remote_brief",
+          "text": "Ci aggiorniamo rapidamente e chiudiamo.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "remote_brief"
+            }
+          ]
+        }
+      ]
+    },
+    "daniel_smuggling_node": {
+      "stitches": [
+        {
+          "id": "daniel_smug_1",
+          "text": "Daniel ascolta la differenza fra qualità del segnale ed esito finale. Non trasforma il tuo racconto in informazioni che non possiede."
+        }
+      ],
+      "choices": [
+        {
+          "id": "daniel_smug_honest",
+          "text": "Condivido anche i limiti di ciò che ho verificato.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 4
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "knowsM4SmugglingContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "honest_smuggling_debrief"
+            }
+          ]
+        },
+        {
+          "id": "daniel_smug_result",
+          "text": "Parlo soltanto dell'esito persistente raggiunto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 2
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "smuggling_result_shared"
+            }
+          ]
+        }
+      ]
+    },
+    "daniel_reef_node": {
+      "stitches": [
+        {
+          "id": "daniel_reef_1",
+          "text": "Il reef diventa un modo concreto per parlare con Daniel di informazioni e punti ciechi: margine, correzione e costo delle decisioni quando il sistema cambia."
+        }
+      ],
+      "choices": [
+        {
+          "id": "daniel_reef_compare",
+          "text": "Confrontiamo le nostre letture senza cercare una risposta unica.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 3
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "knowsM4ReefContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "reef_exchange"
+            }
+          ]
+        },
+        {
+          "id": "daniel_reef_brief",
+          "text": "Condivido il punto principale e chiudo il contatto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "reef_brief"
+            }
+          ]
+        }
+      ]
+    },
+    "daniel_league_node": {
+      "stitches": [
+        {
+          "id": "daniel_league_1",
+          "text": "Daniel parla del circuito come di un problema reale, non di una cutscene. Il suo stato competitivo resta indipendente dal tuo e nessuno dei due riceve plot armor."
+        }
+      ],
+      "choices": [
+        {
+          "id": "daniel_league_compare",
+          "text": "Confrontiamo approcci e priorità senza scambiarci set nascosti.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 3
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "knowsM4LeagueContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "competition_notes_shared"
+            }
+          ]
+        },
+        {
+          "id": "daniel_league_close",
+          "text": "Ci limitiamo a riconoscere che il prossimo step sarà più duro.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "competition_acknowledged"
+            }
+          ]
+        }
+      ]
+    },
+    "edward_contact": {
+      "stitches": [
+        {
+          "id": "edward_contact_1",
+          "text": "Edward è il contatto selezionato per questo beat. La scena può usare soltanto modalità compatibili con il suo stato reale e con ciò che hai vissuto in M4."
+        }
+      ],
+      "choices": [
+        {
+          "id": "edward_meet_harbor",
+          "text": "Incontro Edward di persona a Mareasale.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.friend_beat_04_contact_mode",
+                "eq": "physical"
+              },
+              {
+                "path": "npcs.Edward.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Edward.schedule.locationId",
+                "eq": "mar_city"
+              }
+            ]
+          },
+          "goto": "edward_harbor",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_type",
+              "value": "physical_harbor"
+            }
+          ]
+        },
+        {
+          "id": "edward_meet_coast",
+          "text": "Raggiungo Edward sulla Costa di Sale.",
+          "timeCostMinutes": 90,
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.friend_beat_04_contact_mode",
+                "eq": "physical"
+              },
+              {
+                "path": "npcs.Edward.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Edward.schedule.locationId",
+                "in": [
+                  "sal_coast",
+                  "sal_coast_jetty"
+                ]
+              }
+            ]
+          },
+          "goto": "edward_coast",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_type",
+              "value": "physical_coast"
+            },
+            {
+              "type": "set_location",
+              "locationId": "sal_coast"
+            }
+          ]
+        },
+        {
+          "id": "edward_remote",
+          "text": "Resto in contatto remoto con Edward.",
+          "conditions": {
+            "path": "world.flags.friend_beat_04_contact_mode",
+            "eq": "remote"
+          },
+          "goto": "edward_remote_node",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_type",
+              "value": "remote_call"
+            }
+          ]
+        },
+        {
+          "id": "edward_smuggling",
+          "text": "Condivido ciò che posso dire della pista logistica.",
+          "conditions": {
+            "path": "world.flags.smuggling_state",
+            "exists": true
+          },
+          "goto": "edward_smuggling_node",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_type",
+              "value": "smuggling_debrief"
+            }
+          ]
+        },
+        {
+          "id": "edward_reef",
+          "text": "Parliamo della Barriera Azzurra e di cosa ho imparato sul margine.",
+          "conditions": {
+            "path": "world.flags.reef_visited",
+            "eq": true
+          },
+          "goto": "edward_reef_node",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_type",
+              "value": "tide_exchange"
+            }
+          ]
+        },
+        {
+          "id": "edward_league",
+          "text": "Confrontiamo come stiamo leggendo il prossimo livello competitivo.",
+          "conditions": {
+            "path": "world.flags.a4_league_reg_available",
+            "eq": true
+          },
+          "goto": "edward_league_node",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_type",
+              "value": "competition_exchange"
+            }
+          ]
+        }
+      ]
+    },
+    "edward_harbor": {
+      "stitches": [
+        {
+          "id": "edward_harbor_1",
+          "text": "Edward ascolta il rumore del porto e poi indica le squadre che si danno il cambio. «La parte difficile non è un turno pesante. È reggere quando il turno pesante diventa tre di fila.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "edward_harbor_deep",
+          "text": "Approfondisco con Edward il tema di endurance e profondità.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 4
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "friendBeat04SharedContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "deep_harbor_exchange"
+            }
+          ]
+        },
+        {
+          "id": "edward_harbor_brief",
+          "text": "Tengo l'incontro breve e concreto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "brief_physical"
+            }
+          ]
+        }
+      ]
+    },
+    "edward_coast": {
+      "stitches": [
+        {
+          "id": "edward_coast_1",
+          "text": "Edward legge la costa in termini di endurance: quanto margine resta dopo un errore, quanto costa tornare indietro, quando fermarsi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "edward_coast_share",
+          "text": "Confrontiamo come leggiamo rischio e margine sulla costa.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 3
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "knowsM4CoastContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "coast_context_shared"
+            }
+          ]
+        },
+        {
+          "id": "edward_coast_walk",
+          "text": "Facciamo solo un tratto insieme, poi ognuno riprende la propria schedule.",
+          "timeCostMinutes": 20,
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 2
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "coast_walk"
+            }
+          ]
+        }
+      ]
+    },
+    "edward_remote_node": {
+      "stitches": [
+        {
+          "id": "edward_remote_1",
+          "text": "Edward è lontano dalla costa e non può comparire qui per convenienza narrativa. Il contatto resta una chiamata breve ma sostanziale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "edward_remote_deep",
+          "text": "Approfondisco il confronto su endurance e profondità.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 3
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "friendBeat04SharedContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "remote_exchange"
+            }
+          ]
+        },
+        {
+          "id": "edward_remote_brief",
+          "text": "Ci aggiorniamo rapidamente e chiudiamo.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "remote_brief"
+            }
+          ]
+        }
+      ]
+    },
+    "edward_smuggling_node": {
+      "stitches": [
+        {
+          "id": "edward_smug_1",
+          "text": "Edward ascolta la differenza fra qualità del segnale ed esito finale. Non trasforma il tuo racconto in informazioni che non possiede."
+        }
+      ],
+      "choices": [
+        {
+          "id": "edward_smug_honest",
+          "text": "Condivido anche i limiti di ciò che ho verificato.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 4
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "knowsM4SmugglingContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "honest_smuggling_debrief"
+            }
+          ]
+        },
+        {
+          "id": "edward_smug_result",
+          "text": "Parlo soltanto dell'esito persistente raggiunto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 2
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "smuggling_result_shared"
+            }
+          ]
+        }
+      ]
+    },
+    "edward_reef_node": {
+      "stitches": [
+        {
+          "id": "edward_reef_1",
+          "text": "Il reef diventa un modo concreto per parlare con Edward di endurance e profondità: margine, correzione e costo delle decisioni quando il sistema cambia."
+        }
+      ],
+      "choices": [
+        {
+          "id": "edward_reef_compare",
+          "text": "Confrontiamo le nostre letture senza cercare una risposta unica.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 3
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "knowsM4ReefContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "reef_exchange"
+            }
+          ]
+        },
+        {
+          "id": "edward_reef_brief",
+          "text": "Condivido il punto principale e chiudo il contatto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "reef_brief"
+            }
+          ]
+        }
+      ]
+    },
+    "edward_league_node": {
+      "stitches": [
+        {
+          "id": "edward_league_1",
+          "text": "Edward parla del circuito come di un problema reale, non di una cutscene. Il suo stato competitivo resta indipendente dal tuo e nessuno dei due riceve plot armor."
+        }
+      ],
+      "choices": [
+        {
+          "id": "edward_league_compare",
+          "text": "Confrontiamo approcci e priorità senza scambiarci set nascosti.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 3
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "knowsM4LeagueContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "competition_notes_shared"
+            }
+          ]
+        },
+        {
+          "id": "edward_league_close",
+          "text": "Ci limitiamo a riconoscere che il prossimo step sarà più duro.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "competition_acknowledged"
+            }
+          ]
+        }
+      ]
+    },
+    "fab_contact": {
+      "stitches": [
+        {
+          "id": "fab_contact_1",
+          "text": "Fab è il contatto selezionato per questo beat. La scena può usare soltanto modalità compatibili con il suo stato reale e con ciò che hai vissuto in M4."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fab_meet_harbor",
+          "text": "Incontro Fab di persona a Mareasale.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.friend_beat_04_contact_mode",
+                "eq": "physical"
+              },
+              {
+                "path": "npcs.Fab.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Fab.schedule.locationId",
+                "eq": "mar_city"
+              }
+            ]
+          },
+          "goto": "fab_harbor",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_type",
+              "value": "physical_harbor"
+            }
+          ]
+        },
+        {
+          "id": "fab_meet_coast",
+          "text": "Raggiungo Fab sulla Costa di Sale.",
+          "timeCostMinutes": 90,
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.friend_beat_04_contact_mode",
+                "eq": "physical"
+              },
+              {
+                "path": "npcs.Fab.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Fab.schedule.locationId",
+                "in": [
+                  "sal_coast",
+                  "sal_coast_jetty"
+                ]
+              }
+            ]
+          },
+          "goto": "fab_coast",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_type",
+              "value": "physical_coast"
+            },
+            {
+              "type": "set_location",
+              "locationId": "sal_coast"
+            }
+          ]
+        },
+        {
+          "id": "fab_remote",
+          "text": "Resto in contatto remoto con Fab.",
+          "conditions": {
+            "path": "world.flags.friend_beat_04_contact_mode",
+            "eq": "remote"
+          },
+          "goto": "fab_remote_node",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_type",
+              "value": "remote_call"
+            }
+          ]
+        },
+        {
+          "id": "fab_smuggling",
+          "text": "Condivido ciò che posso dire della pista logistica.",
+          "conditions": {
+            "path": "world.flags.smuggling_state",
+            "exists": true
+          },
+          "goto": "fab_smuggling_node",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_type",
+              "value": "smuggling_debrief"
+            }
+          ]
+        },
+        {
+          "id": "fab_reef",
+          "text": "Parliamo della Barriera Azzurra e di cosa ho imparato sul margine.",
+          "conditions": {
+            "path": "world.flags.reef_visited",
+            "eq": true
+          },
+          "goto": "fab_reef_node",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_type",
+              "value": "tide_exchange"
+            }
+          ]
+        },
+        {
+          "id": "fab_league",
+          "text": "Confrontiamo come stiamo leggendo il prossimo livello competitivo.",
+          "conditions": {
+            "path": "world.flags.a4_league_reg_available",
+            "eq": true
+          },
+          "goto": "fab_league_node",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_type",
+              "value": "competition_exchange"
+            }
+          ]
+        }
+      ]
+    },
+    "fab_harbor": {
+      "stitches": [
+        {
+          "id": "fab_harbor_1",
+          "text": "Fab rimane qualche secondo a guardare un container che cambia corsia due volte. «Quasi tutto il controllo vero sembra noioso finché non scopri cosa succede quando manca.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "fab_harbor_deep",
+          "text": "Approfondisco con Fab il tema di pazienza e controllo.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 4
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "friendBeat04SharedContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "deep_harbor_exchange"
+            }
+          ]
+        },
+        {
+          "id": "fab_harbor_brief",
+          "text": "Tengo l'incontro breve e concreto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "brief_physical"
+            }
+          ]
+        }
+      ]
+    },
+    "fab_coast": {
+      "stitches": [
+        {
+          "id": "fab_coast_1",
+          "text": "Fab si muove senza fretta e nota prima di te quali punti della battigia vengono coperti dalla marea. La sua lettura privilegia pazienza e controllo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fab_coast_share",
+          "text": "Confrontiamo come leggiamo rischio e margine sulla costa.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 3
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "knowsM4CoastContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "coast_context_shared"
+            }
+          ]
+        },
+        {
+          "id": "fab_coast_walk",
+          "text": "Facciamo solo un tratto insieme, poi ognuno riprende la propria schedule.",
+          "timeCostMinutes": 20,
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 2
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "coast_walk"
+            }
+          ]
+        }
+      ]
+    },
+    "fab_remote_node": {
+      "stitches": [
+        {
+          "id": "fab_remote_1",
+          "text": "Fab è impegnato altrove; il contatto avviene a distanza e mantiene quella stessa pazienza con cui affronta informazioni incomplete."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fab_remote_deep",
+          "text": "Approfondisco il confronto su pazienza e controllo.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 3
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "friendBeat04SharedContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "remote_exchange"
+            }
+          ]
+        },
+        {
+          "id": "fab_remote_brief",
+          "text": "Ci aggiorniamo rapidamente e chiudiamo.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "remote_brief"
+            }
+          ]
+        }
+      ]
+    },
+    "fab_smuggling_node": {
+      "stitches": [
+        {
+          "id": "fab_smug_1",
+          "text": "Fab ascolta la differenza fra qualità del segnale ed esito finale. Non trasforma il tuo racconto in informazioni che non possiede."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fab_smug_honest",
+          "text": "Condivido anche i limiti di ciò che ho verificato.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 4
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "knowsM4SmugglingContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "honest_smuggling_debrief"
+            }
+          ]
+        },
+        {
+          "id": "fab_smug_result",
+          "text": "Parlo soltanto dell'esito persistente raggiunto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 2
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "smuggling_result_shared"
+            }
+          ]
+        }
+      ]
+    },
+    "fab_reef_node": {
+      "stitches": [
+        {
+          "id": "fab_reef_1",
+          "text": "Il reef diventa un modo concreto per parlare con Fab di pazienza e controllo: margine, correzione e costo delle decisioni quando il sistema cambia."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fab_reef_compare",
+          "text": "Confrontiamo le nostre letture senza cercare una risposta unica.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 3
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "knowsM4ReefContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "reef_exchange"
+            }
+          ]
+        },
+        {
+          "id": "fab_reef_brief",
+          "text": "Condivido il punto principale e chiudo il contatto.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "reef_brief"
+            }
+          ]
+        }
+      ]
+    },
+    "fab_league_node": {
+      "stitches": [
+        {
+          "id": "fab_league_1",
+          "text": "Fab parla del circuito come di un problema reale, non di una cutscene. Il suo stato competitivo resta indipendente dal tuo e nessuno dei due riceve plot armor."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fab_league_compare",
+          "text": "Confrontiamo approcci e priorità senza scambiarci set nascosti.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 3
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "knowsM4LeagueContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "competition_notes_shared"
+            }
+          ]
+        },
+        {
+          "id": "fab_league_close",
+          "text": "Ci limitiamo a riconoscere che il prossimo step sarà più duro.",
+          "goto": "friend_beat_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_result",
+              "value": "competition_acknowledged"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
