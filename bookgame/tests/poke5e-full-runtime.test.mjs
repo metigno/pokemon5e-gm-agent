@@ -261,9 +261,9 @@ test("Feather Dance, Mean Look and Lock-On execute their target rules", async ()
   lockOnBattle = await lockOnCombat.useOpponentTurn(lockOnBattle);
   lockOnBattle = await lockOnCombat.usePlayerMove(lockOnBattle, "tackle");
   const lockedAttack = [...lockOnBattle.log].reverse().find((event) => event.type === "attack");
-  assert.equal(lockedAttack?.roll?.natural, 1);
+  assert.equal(lockedAttack?.natural, 1);
   assert.equal(lockedAttack?.hit, true);
-  assert.equal(lockedAttack?.forcedHitSource, "lock-on");
+  assert.equal(lockedAttack?.forcedHitConsumed, "lock-on");
 });
 
 test("common self-buff moves execute level scaling, AC, damage, speed and concentration rules", async () => {
