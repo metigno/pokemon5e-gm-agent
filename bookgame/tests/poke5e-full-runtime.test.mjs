@@ -103,9 +103,9 @@ test("move execution coverage has an explicit non-regression gate", async () => 
   const moves = await data.listMoves();
   const unresolved = moves.filter((move) => !isMoveResolvable(move)).map((move) => move.id);
 
-  assert.ok(unresolved.length <= 172, `unresolved move rules regressed to ${unresolved.length}`);
-  assert.ok(unresolved.includes("acupressure"));
+  assert.ok(unresolved.length <= 171, `unresolved move rules regressed to ${unresolved.length}`);
   for (const id of [
+    "acupressure",
     "agility",
     "autotomize",
     "barrier",
@@ -163,6 +163,37 @@ test("move execution coverage has an explicit non-regression gate", async () => 
   ]) {
     assert.ok(!unresolved.includes(id), `${id} should be executable`);
   }
+});
+
+test("Acupressure follows its d6 table and temporary HP absorbs incoming damage", async () => {
+  const combat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 3, 19, 1, 1, 1, 1, 1, 1, 1, 1])
+  });
+  let battle = await combat.createBattle({
+    encounterId: "FULL_RUNTIME_ACUPRESSURE",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["acupressure"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+
+  const hpBefore = battle.player.hp.current;
+  battle = await combat.usePlayerMove(battle, "acupressure");
+  assert.equal(battle.player.temporaryHp, 10);
+  assert.equal(battle.player.effects.temporaryHpSource.source, "acupressure");
+
+  battle = await combat.endPlayerTurn(battle);
+  battle = await combat.useMove(battle, "opponent", "tackle");
+  const attack = [...battle.log].reverse().find((event) => event.type === "attack");
+  assert.ok(attack?.hit);
+  assert.equal(
+    hpBefore - battle.player.hp.current,
+    Math.max(0, attack.damage - 10)
+  );
+  assert.equal(
+    battle.player.temporaryHp,
+    Math.max(0, 10 - attack.damage)
+  );
 });
 
 test("common self-buff moves execute level scaling, AC, damage, speed and concentration rules", async () => {
