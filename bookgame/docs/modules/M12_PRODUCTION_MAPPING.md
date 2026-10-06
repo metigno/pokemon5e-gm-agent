@@ -3,7 +3,7 @@
 **Module:** M12 — Dopo il Mondo  
 **Authority:** subordinate to `P5E_LIBROGAME_ENGINE_SOURCE_OF_TRUTH.md`, `P5E_LIBROGAME_12_MODULES_MASTER.md` and `M12_DOPO_IL_MONDO_MODULE_DESIGN.md`  
 **Locked authored budget:** **4,753 stitches / 1,884 player choices**  
-**Module implementation status:** **CYCLE 1 IMPLEMENTED / VALIDATION PENDING**
+**Module implementation status:** **CYCLE 1 RUNTIME-VALIDATED**
 
 E1–E7 are shared infrastructure from M1. No module-specific replacement engine is allowed.
 
@@ -45,11 +45,11 @@ The spine is production ordering, not forced linear play. Actual legal branches 
 
 | Block | Function | Stitches | Choices | Current state |
 |---|---|---:|---:|---|
-| M12_00_WORLD_EXIT_BRANCH | distinguere champion/eliminated/worlds_missed senza gerarchie finte | 396 | 157 | CYCLE 1 IMPLEMENTED |
-| M12_01_RETURN_ASTERIA | viaggio di ritorno e reputazione globale | 259 | 103 | CYCLE 1 IMPLEMENTED |
-| M12_02_VALEDARSENA_CALLBACKS | M1 callbacks e stato attuale della città | 442 | 175 | CYCLE 1 IMPLEMENTED |
-| M12_03_BRUMA_CALLBACKS | M2 rete di cattura, Ranger e fauna dopo il tempo trascorso | 442 | 175 | CYCLE 1 IMPLEMENTED |
-| M12_04_FERROX_CALLBACKS | M3 lavoro, rescue e infrastrutture | 442 | 175 | CYCLE 1 IMPLEMENTED |
+| M12_00_WORLD_EXIT_BRANCH | distinguere champion/eliminated/worlds_missed senza gerarchie finte | 396 | 157 | CYCLE 1 VALIDATED |
+| M12_01_RETURN_ASTERIA | viaggio di ritorno e reputazione globale | 259 | 103 | CYCLE 1 VALIDATED |
+| M12_02_VALEDARSENA_CALLBACKS | M1 callbacks e stato attuale della città | 442 | 175 | CYCLE 1 VALIDATED |
+| M12_03_BRUMA_CALLBACKS | M2 rete di cattura, Ranger e fauna dopo il tempo trascorso | 442 | 175 | CYCLE 1 VALIDATED |
+| M12_04_FERROX_CALLBACKS | M3 lavoro, rescue e infrastrutture | 442 | 175 | CYCLE 1 VALIDATED |
 | M12_05_COAST_CALLBACKS | M4 porto, contrabbando e mare | 442 | 175 | PLANNED |
 | M12_06_HIGHLANDS_CALLBACKS | M5 Fulgore, Altacima e mistero antico | 442 | 175 | PLANNED |
 | M12_07_INTERREGIONAL_CALLBACKS | M6 carriera, Red, Masters e cutoff | 442 | 175 | PLANNED |
@@ -342,3 +342,38 @@ Cycle 1 converts the WORLD_EXIT / return / first three Asteria callback blocks i
 **Implementation lock:** scene `m12-ferrox-callbacks` contains **21 nodes / 47 meaningful choices**.
 
 **Library decision:** R01→R38 is sufficient for all five blocks. **No R39 candidate is required.**
+
+
+---
+
+# 10. CYCLE 1 RUNTIME VALIDATION EVIDENCE — 2026-10-06
+
+Validated scope: **M12_00_WORLD_EXIT_BRANCH → M12_04_FERROX_CALLBACKS**.
+
+- exact Cycle 1 runtime surface: **95 logical nodes / 209 meaningful choices**;
+- full M12 trajectory remains **228 / 502**, leaving **133 / 293** for M12_05→M12_11;
+- authored-surface manifest remains **4,753 stitches / 1,884 choices**;
+- all **95/95** authored Cycle-1 nodes are reachable from the real M12 entry;
+- no zero-incoming padding islands or broken M12-local targets remain;
+- WORLD_EXIT accepts the real **World Champion**, **World eliminated** and **Worlds Missed** entry states;
+- WORLD_EXIT never rewrites E5 competition state, actual results, opponent identity, roster or resources;
+- Return Asteria advances real E2 calendar time and performs no narrative heal/reset;
+- Valedarsena reads M1 history without fabricating player intervention;
+- Bruma reads the persisted M2 poaching/Ranger outcome without changing it;
+- Ferrox reads the persisted M3 rescue/infrastructure outcome without changing it;
+- M12_04 sets only the Cycle-1 closure and never sets `m12_complete` or `main_story_complete`;
+- save/reload preserves the prior campaign state and all Cycle-1 callback state;
+- Library V2 **R01→R38** remains sufficient; **no R39 candidate is required**.
+
+Validation:
+
+- branch: `m12-00-04-work`;
+- PR **#14**;
+- validated implementation HEAD: `1b985e226e8fcf667c46de1bb5ae12b7f6eac6c7`;
+- GitHub Actions **Bookgame Tests #413: SUCCESS**;
+- syntax: **PASS**;
+- `validate:story`: **PASS**;
+- compiler: **147 scenes / 2,329 nodes / 2,684 stitches / 5,284 compiled choices**;
+- tests: **1,311 passed / 0 failed / 0 skipped**.
+
+M12 is **not module-complete yet**. The next production surface starts at M12_05.
