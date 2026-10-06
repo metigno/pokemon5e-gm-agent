@@ -166,7 +166,7 @@ Final **COMPLETE** remains reserved for runtime evidence.
 - exact cycle budget: **80 nodes / 176 choices**;
 - complete M6 runtime surface: **220 nodes / 484 meaningful choices**;
 - static condition/effect/target audit: **PASS**;
-- authored-node reachability: **PASS, 0 zero-incoming M6 nodes**;
+- authored-node reachability: **PASS — all 220 M6 nodes reachable from `m06-handoff#m06_entry`, with no padding islands**;
 - A→S Gate metadata: **Official Six / ELITE / fixed level 17 / retryable**;
 - cutoff classification: persistent `rank_s_at_cutoff` or `rank_a_at_cutoff`;
 - strict exit contract: Rank S + Red + FRIEND_BEAT_06 + Ancient Layer Two + cutoff review + Faro return;
@@ -180,10 +180,17 @@ M6 is therefore fully authored and statically validated. Final **COMPLETE** labe
 
 # 3. CANONICAL EVENT BINDINGS
 
+Campaign-authoritative ACT_6 bindings:
+
 - `A6_HIDDEN_TRAJECTORIES`
 - `A6_CONTINENTAL`
 - `A6_RANK_TRIAL_A_S`
 - `A6_CUTOFF`
+
+Bookgame orchestration bindings layered on the same E4/E6 state:
+
+- `M6_FRIEND_BEAT_SELECT`
+- `M6_MODULE_OUTCOME_WINDOW`
 
 Bindings must call the existing event/competition state. Do not create look-alike quest flags for Rank, brackets, qualification or World results.
 
