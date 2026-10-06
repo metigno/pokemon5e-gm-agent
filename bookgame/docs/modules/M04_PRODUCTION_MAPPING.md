@@ -5,7 +5,7 @@
 **Purpose:** production map for converting M4 into validated offline story content  
 **Locked authored budget:** **5,900 stitches / 3,800 player choices**
 
-**Module implementation status:** **M4_00–M4_04 COMPLETE / MODEL-ALIGNED; M4_05–M4_14 PLANNED**
+**Module implementation status:** **M4_00–M4_09 COMPLETE / MODEL-ALIGNED; M4_10–M4_14 PLANNED**
 
 E1–E7 are reusable infrastructure from M1. A block may extend generic data or content, but must not fork those engines into module-specific substitutes.
 
@@ -58,11 +58,11 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 | M4_02_WEATHER_WINDOW | meteo e partenze come vincoli reali di viaggio | 361 | 233 | COMPLETE |
 | M4_03_ARCHIE_ENTERS | introduzione causale di Archie e filosofia ocean-first | 361 | 233 | COMPLETE |
 | M4_04_PORT_PRESSURE | lavoro, merci, ritardi e primi segnali di contrabbando | 361 | 232 | COMPLETE |
-| M4_05_COAST_ROUTE | Costa di Sale come spazio esplorabile, non corridoio | 361 | 232 | PLANNED |
-| M4_06_REEF_ACCESS | Barriera Azzurra, rischi marini e accesso contestuale | 361 | 232 | PLANNED |
-| M4_07_SMUGGLING_THREAD | indagine/intervento/ignorare senza replica di M2 | 361 | 232 | PLANNED |
-| M4_08_FRIEND_BEAT_04 | Friend on the Tide tramite schedule reale | 523 | 337 | PLANNED |
-| M4_09_LEAGUE_REGISTRATION | A4_LEAGUE_REG e vincoli di calendario | 306 | 198 | PLANNED |
+| M4_05_COAST_ROUTE | Costa di Sale come spazio esplorabile, non corridoio | 361 | 232 | COMPLETE |
+| M4_06_REEF_ACCESS | Barriera Azzurra, rischi marini e accesso contestuale | 361 | 232 | COMPLETE |
+| M4_07_SMUGGLING_THREAD | indagine/intervento/ignorare senza replica di M2 | 361 | 232 | COMPLETE |
+| M4_08_FRIEND_BEAT_04 | Friend on the Tide tramite schedule reale | 523 | 337 | COMPLETE |
+| M4_09_LEAGUE_REGISTRATION | A4_LEAGUE_REG e vincoli di calendario | 306 | 198 | COMPLETE |
 | M4_10_MAJOR_NAME | A4_MAJOR_NAME e apertura al wider world | 361 | 232 | PLANNED |
 | M4_11_UPPER_REGIONAL | A4_REGIONAL_LEAGUE con risultati emergenti | 523 | 337 | PLANNED |
 | M4_12_TRIAL_REGISTRATION | eligibility C→B all'Arena del Molo | 469 | 302 | PLANNED |
@@ -83,9 +83,16 @@ The legacy 5,900-stitch / 3,800-choice table above remains the authored-surface 
 - M4_03: **11 nodes / 28 choices**.
 - M4_04: **18 nodes / 52 choices**.
 - Cycle M4_00–M4_04: **60 nodes / 166 choices**.
-- Approximate remaining logical budget for M4_05–M4_14: **190 nodes / ~384 choices**.
+- M4_05: **28 nodes / 52 choices**.
+- M4_06: **25 nodes / 50 choices**.
+- M4_07: **24 nodes / 65 choices**.
+- M4_08: **37 nodes / 96 choices**.
+- M4_09: **12 nodes / 34 choices**.
+- Cycle M4_05–M4_09: **126 nodes / 297 choices**.
+- Cumulative M4_00–M4_09: **186 nodes / 463 choices**.
+- Approximate remaining logical budget for M4_10–M4_14: **64 nodes / ~87 choices**.
 
-These are not padding quotas. Every retained choice changes route, information, time, risk, relationship, resource, state or future access.
+The remaining figures are directional, not hard caps. M4_10–M4_14 must retain all meaningful competition, Trial, Anchor and exit-contract branches even if the final choice total lands moderately above the approximate target. Padding remains forbidden.
 
 ## 2B. VALIDATION EVIDENCE
 
@@ -101,6 +108,21 @@ M4_00–M4_04 validation was executed on GitHub Actions from branch `m4-00-04-wo
 
 The temporary CI branch trigger used for validation was restored immediately afterward; canonical workflow configuration is unchanged.
 
+
+
+M4_05–M4_09 cycle validation was executed after implementation and repair:
+
+- syntax checks: PASS;
+- `npm --prefix bookgame run validate:story`: PASS;
+- compiled global graph: **51 scenes / 827 nodes / 1,171 stitches / 1,944 choices / 36 world events / 12 ecology zones / 416 ecology species**;
+- `npm --prefix bookgame test`: **940 pass / 0 fail / 0 skipped / 0 cancelled**;
+- validation workflow run: **#304**;
+- the first compiler pass rejected a naïve standalone `MAR-REEF` source pool because authoritative species distribution did not list that location. The repair did **not** broaden global species distribution: logical `MAR-REEF` now compiles from authoritative `SAL-COAST` fauna with canonical biome/method filters;
+- the final two FRIEND_BEAT failures came from incomplete Rank-C test fixtures that let old M1–M3 Living World schedule events fire. The fixtures were corrected to represent a true post-M3 state; runtime schedule-aware selection was not weakened;
+- M1, M2, M3 and M4_00–M4_04 remain green.
+
+The temporary CI branch trigger was restored after the final green run; canonical workflow configuration remains unchanged.
+
 ## 2C. NODE LIBRARY / PATTERN REUSE AUDIT
 
 The repository still uses the validated M1–M3 scene families and engine contracts as the concrete production pattern library rather than a separate standalone `NODE_LIBRARY` asset.
@@ -113,6 +135,16 @@ Cycle M4_00–M4_04 reuses:
 - Steven/N-style causal Anchor registration, relationship persistence and recoverable deferred contact → M4_03 Archie;
 - M2/M3 multi-source investigation/synthesis pattern → M4_04, but applied to logistics/document gaps rather than repeating the poaching plot;
 - existing E1–E7 effects only; **no new runtime effect type or duplicate subsystem was introduced**.
+
+
+M4_05–M4_09 reuses:
+
+- M1/M3 open-location exploration plus E7 weighted ordinary encounters → M4_05 Costa di Sale;
+- E2 live time windows + E7 source-zone reuse → M4_06 Barriera Azzurra;
+- M3 Ferrox-style real E3 deadline/off-screen outcome, adapted to logistics rather than rescue → M4_07;
+- M3_08 persistent Five dispatch, upgraded with actual M4 coastal schedule checks and remote fallback → M4_08;
+- M2/M3 registration-state separation from real E5 match resolution → M4_09;
+- canonical A4 event triggers only; no fake bracket win, Rank promotion or World result is authored by narrative flags.
 
 ---
 
@@ -234,6 +266,10 @@ Scene `m04-port-pressure` contains **18 nodes / 52 choices**. Manifest records, 
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Implementation lock (verified 2026-10-06):**
+
+Scene `m04-coast-route` contains **28 nodes / 52 choices**. Costa di Sale is an explorable Rank C location with high path, shore, cove and jetty routes rather than a corridor. E1 checks create real tide/investigation outcomes; E7 ordinary encounters are selected from authoritative `SAL-COAST` fauna and remain capturable. Secondary-landfall evidence can support later smuggling logic but never writes `smuggling_state` by itself. Coast travel and Mareasale return consume real E2 time.
+
 ---
 
 ## M4_06_REEF_ACCESS
@@ -245,6 +281,10 @@ Scene `m04-port-pressure` contains **18 nodes / 52 choices**. Manifest records, 
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+**Implementation lock (verified 2026-10-06):**
+
+Scene `m04-reef-access` contains **25 nodes / 50 choices**. Reef departure requires a currently favorable morning window, not a stale permanent weather flag. Waiting and return travel advance E2. Logical ecology zone `MAR-REEF` deliberately sources its fauna from authoritative `SAL-COAST`, filtered through canonical reef/ocean/beach biomes and legal encounter methods; global species distribution was not widened. Navigation checks produce information/role differences without turning an authorized service into arbitrary lethal risk. `reef_visited` never becomes permanent weather authorization.
 
 ---
 
@@ -258,6 +298,10 @@ Scene `m04-port-pressure` contains **18 nodes / 52 choices**. Manifest records, 
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Implementation lock (verified 2026-10-06):**
+
+Scene `m04-smuggling-thread` contains **24 nodes / 65 choices**. Completing Port Pressure starts real E3 quest `M4_SMUGGLING_THREAD` with a 1,440-minute deadline. If ignored long enough, E3/E6 resolve the route without the player as `resolved_without_player`; explicit refusal persists as `ignored`. Strong/partial/low evidence supports distinct customs, surveillance and documentation outcomes. Direct intervention is coordinated through authorities rather than repeating M2 poaching combat. Final `smuggling_state` is separate from initial signal quality and never changes Rank or competition history.
+
 ---
 
 ## M4_08_FRIEND_BEAT_04
@@ -270,6 +314,10 @@ Scene `m04-port-pressure` contains **18 nodes / 52 choices**. Manifest records, 
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Implementation lock (verified 2026-10-06):**
+
+Scene `m04-friend-beat-04` contains **37 nodes / 96 choices** and supports Luke, Mattew, Daniel, Edward and Fab while always excluding the protagonist through the M4 Living World selector. A physical beat is selected only when a non-player Five member is actually present on a compatible Mareasale/coast schedule; otherwise protagonist-specific remote fallback is used. Harbor, coast, reef, smuggling and competition contexts write relationship/context state without changing structured competition. Closure persists the required `friend_beat_04_complete`, friend ID, type and result.
+
 ---
 
 ## M4_09_LEAGUE_REGISTRATION
@@ -281,6 +329,10 @@ Scene `m04-port-pressure` contains **18 nodes / 52 choices**. Manifest records, 
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+**Implementation lock (verified 2026-10-06):**
+
+Scene `m04-league-registration` contains **12 nodes / 34 choices** and consumes canonical `A4_LEAGUE_REG`. Registration is available only through daytime office windows and writes the exact canonical `upper_regional_registration_complete` state; this activates `A4_REGIONAL_LEAGUE` through the Living World but creates no match, result or Rank change. Deferral is non-terminal. Permanent decline records `upper_regional_result=skipped`, allowing the optional circuit to resolve honestly without imaginary competition history.
 
 ---
 
