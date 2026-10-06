@@ -103,7 +103,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
   const moves = await data.listMoves();
   const unresolved = moves.filter((move) => !isMoveResolvable(move)).map((move) => move.id);
 
-  assert.ok(unresolved.length <= 183, `unresolved move rules regressed to ${unresolved.length}`);
+  assert.ok(unresolved.length <= 181, `unresolved move rules regressed to ${unresolved.length}`);
   assert.ok(unresolved.includes("acupressure"));
   for (const id of [
     "agility",
@@ -137,6 +137,8 @@ test("move execution coverage has an explicit non-regression gate", async () => 
     "aqua-ring",
     "aromatherapy",
     "heal-bell",
+    "healing-wish",
+    "lunar-dance",
     "charm",
     "cotton-spore",
     "fake-tears",
@@ -673,6 +675,59 @@ test("Sweet Scent grants exactly two attack advantages tied to the failed-save t
     round: battle.round
   });
   assert.equal(vsReserve.attackRoll.mode, "normal");
+});
+
+test("Healing Wish and Lunar Dance resolve on the next forced switch", async () => {
+  const wishCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1])
+  });
+  let wishBattle = await wishCombat.createBattle({
+    encounterId: "FULL_RUNTIME_HEALING_WISH",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["healing-wish"] },
+    playerBench: [{ speciesId: "pikachu", level: 5, moveIds: ["tackle"] }],
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 30, y: 0 }
+  });
+
+  wishBattle.player.hp.current = 5;
+  wishBattle.playerBench[0].hp.current = Math.max(1, wishBattle.playerBench[0].hp.max - 20);
+  applyStatus(wishBattle.playerBench[0], "Poisoned");
+  const wishBenchHpBefore = wishBattle.playerBench[0].hp.current;
+
+  wishBattle = await wishCombat.usePlayerMove(wishBattle, "healing-wish");
+  assert.equal(wishBattle.awaitingSwitch, "player");
+  assert.equal(wishBattle.pendingSwitchEffects.player.healing, 5);
+  wishBattle = await wishCombat.switchPlayer(wishBattle, 0);
+
+  assert.equal(wishBattle.player.statuses.nonVolatile, null);
+  assert.equal(
+    wishBattle.player.hp.current,
+    Math.min(wishBattle.player.hp.max, wishBenchHpBefore + 5)
+  );
+  assert.equal(wishBattle.pendingSwitchEffects.player, null);
+
+  const lunarCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1])
+  });
+  let lunarBattle = await lunarCombat.createBattle({
+    encounterId: "FULL_RUNTIME_LUNAR_DANCE",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["lunar-dance"] },
+    playerBench: [{ speciesId: "pikachu", level: 5, moveIds: ["tackle"] }],
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 30, y: 0 }
+  });
+
+  lunarBattle.playerBench[0].hp.current = 1;
+  applyStatus(lunarBattle.playerBench[0], "Burned");
+  lunarBattle = await lunarCombat.usePlayerMove(lunarBattle, "lunar-dance");
+  assert.equal(lunarBattle.awaitingSwitch, "player");
+  lunarBattle = await lunarCombat.switchPlayer(lunarBattle, 0);
+
+  assert.equal(lunarBattle.player.hp.current, lunarBattle.player.hp.max);
+  assert.equal(lunarBattle.player.statuses.nonVolatile, null);
+  assert.equal(lunarBattle.pendingSwitchEffects.player, null);
 });
 
 test("save debuffs and allied status cures execute their 2024 effects", async () => {
