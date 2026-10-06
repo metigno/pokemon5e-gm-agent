@@ -1,0 +1,460 @@
+{
+  "schemaVersion": 1,
+  "id": "m06-masters-circuit",
+  "moduleId": "M06",
+  "title": "M6_04 — Masters Circuit",
+  "locationId": "interregional_masters_hall",
+  "entryNodeId": "masters_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m5_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m06_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m6_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "A"
+      }
+    ]
+  },
+  "nodes": {
+    "masters_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Masters Circuit tratta Rank A come requisito d'accesso, non come prova di superiorità. Ogni evento ha avversari registrati, risultato reale e conseguenze sul profilo competitivo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "masters_hub",
+          "text": "Entro nell'area Masters.",
+          "goto": "circuit_hub"
+        },
+        {
+          "id": "masters_points",
+          "text": "Rivedo cosa viene registrato dal circuito.",
+          "goto": "points_info"
+        },
+        {
+          "id": "masters_defer",
+          "text": "Rimando l'evento e torno al viaggio.",
+          "goto": "route_link"
+        }
+      ]
+    },
+    "circuit_hub": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Bacheche, desk di registrazione e profili pubblici sono separati dal resolver. Puoi prepararti, leggere l'avversario, registrarti o lasciare la finestra aperta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "hub_event",
+          "text": "Scelgo la finestra Masters disponibile.",
+          "goto": "event_select"
+        },
+        {
+          "id": "hub_opponent",
+          "text": "Leggo il profilo pubblico dell'avversario.",
+          "goto": "opponent"
+        },
+        {
+          "id": "hub_prep",
+          "text": "Definisco un focus di preparazione.",
+          "goto": "prep"
+        },
+        {
+          "id": "hub_leave",
+          "text": "Esco senza consumare il match.",
+          "goto": "route_link"
+        }
+      ]
+    },
+    "points_info": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il layer narrativo non assegna manualmente punti Masters. E5 registra il match; M6 può soltanto leggere il risultato e conservarne il contesto per ranking e cutoff futuri."
+        }
+      ],
+      "choices": [
+        {
+          "id": "points_event",
+          "text": "Passo alla finestra disponibile.",
+          "goto": "event_select"
+        },
+        {
+          "id": "points_back",
+          "text": "Torno all'area Masters.",
+          "goto": "circuit_hub"
+        }
+      ]
+    },
+    "event_select": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La finestra corrente è un match ufficiale di circuito. Vittoria e sconfitta sono entrambe stati validi; nessuna delle due cambia direttamente Rank A."
+        }
+      ],
+      "choices": [
+        {
+          "id": "event_register",
+          "text": "Vado al desk di registrazione.",
+          "goto": "register"
+        },
+        {
+          "id": "event_opponent",
+          "text": "Controllo prima il roster pubblico.",
+          "goto": "opponent"
+        }
+      ]
+    },
+    "prep": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il focus serve alla decisione del giocatore, non concede EV, livelli, cure o modificatori invisibili."
+        }
+      ],
+      "choices": [
+        {
+          "id": "prep_pressure",
+          "text": "Focus: pressione e gestione dello stato.",
+          "goto": "match_confirm",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_masters_prep_focus",
+              "value": "pressure"
+            }
+          ]
+        },
+        {
+          "id": "prep_switch",
+          "text": "Focus: profondità degli switch e coperture.",
+          "goto": "match_confirm",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_masters_prep_focus",
+              "value": "switch_depth"
+            }
+          ]
+        }
+      ]
+    },
+    "opponent": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Kira Novak registra un Official Five bilanciato: Pidgeot, Raichu, Gyarados, Arcanine e Venusaur. Il roster è pubblico; decisioni e ordine restano coperti dal fog of war."
+        }
+      ],
+      "choices": [
+        {
+          "id": "opponent_register",
+          "text": "Procedo alla registrazione.",
+          "goto": "register"
+        },
+        {
+          "id": "opponent_prep",
+          "text": "Torno alla preparazione.",
+          "goto": "prep"
+        }
+      ]
+    },
+    "register": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il desk registra solo la partecipazione alla finestra corrente. Nessun risultato viene creato prima del combattimento."
+        }
+      ],
+      "choices": [
+        {
+          "id": "register_match",
+          "text": "Confermo la registrazione.",
+          "goto": "match_confirm",
+          "conditions": {
+            "path": "world.flags.m6_masters_registered",
+            "ne": true
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_masters_registered",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "register_back",
+          "text": "Torno all'area Masters.",
+          "goto": "circuit_hub"
+        }
+      ]
+    },
+    "match_confirm": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il match può iniziare solo con una registrazione reale e un roster sufficiente. Il Rank A resta invariato prima e dopo il resolver."
+        }
+      ],
+      "choices": [
+        {
+          "id": "confirm_fight",
+          "text": "Passo al combattimento.",
+          "goto": "match_handoff",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.m6_masters_registered",
+                "eq": true
+              },
+              {
+                "path": "player.roster.length",
+                "gte": 5
+              },
+              {
+                "path": "world.flags.m6_masters_result",
+                "exists": false
+              }
+            ]
+          }
+        },
+        {
+          "id": "confirm_back",
+          "text": "Non combatto ancora.",
+          "goto": "circuit_hub"
+        }
+      ]
+    },
+    "match_handoff": {
+      "stitches": [
+        {
+          "id": "mh1",
+          "text": "Il controllo passa al combattimento Pokémon 5e/E5. Il risultato verrà scritto dal resolver e rientrerà in uno dei due nodi di esito."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fight_masters_round",
+          "text": "Combatto il Masters Circuit match.",
+          "combat": {
+            "encounterId": "M6_MASTERS_CIRCUIT_MATCH_01",
+            "opponentRegistered": true,
+            "competition": {
+              "type": "official_match",
+              "matchId": "M6_MASTERS_CIRCUIT_MATCH_01",
+              "format": "Singles",
+              "officialRosterSize": 5,
+              "difficulty": "ELITE",
+              "opponentTrainerId": "INT_MASTERS_KIRA_NOVAK"
+            },
+            "returnNodes": {
+              "win": "match_win",
+              "lose": "match_loss"
+            },
+            "opponentTrainerId": "INT_MASTERS_KIRA_NOVAK",
+            "opponent": {
+              "species": "Pidgeot",
+              "level": 15,
+              "abilityId": "keen-eye",
+              "trainerId": "INT_MASTERS_KIRA_NOVAK"
+            },
+            "opponentBench": [
+              {
+                "species": "Raichu",
+                "level": 15,
+                "abilityId": "static",
+                "trainerId": "INT_MASTERS_KIRA_NOVAK"
+              },
+              {
+                "species": "Gyarados",
+                "level": 15,
+                "abilityId": "intimidate",
+                "trainerId": "INT_MASTERS_KIRA_NOVAK"
+              },
+              {
+                "species": "Arcanine",
+                "level": 15,
+                "abilityId": "intimidate",
+                "trainerId": "INT_MASTERS_KIRA_NOVAK"
+              },
+              {
+                "species": "Venusaur",
+                "level": 15,
+                "abilityId": "overgrow",
+                "trainerId": "INT_MASTERS_KIRA_NOVAK"
+              }
+            ],
+            "goto": "match_handoff"
+          }
+        }
+      ]
+    },
+    "match_win": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "E5 registra una vittoria ufficiale. M6 conserva il fatto senza fabbricare punti, Rank o seed ulteriori nel layer narrativo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "win_record",
+          "text": "Registro il contesto della vittoria.",
+          "goto": "result_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_masters_result",
+              "value": "win"
+            },
+            {
+              "type": "set_flag",
+              "key": "m6_masters_event_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "win_close",
+          "text": "Chiudo subito la finestra con il risultato reale.",
+          "goto": "circuit_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_masters_result",
+              "value": "win"
+            },
+            {
+              "type": "set_flag",
+              "key": "m6_masters_event_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "match_loss": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "E5 registra una sconfitta ufficiale. Il circuito continua: nessuna riscrittura in vittoria e nessuna retrocessione narrativa del Rank."
+        }
+      ],
+      "choices": [
+        {
+          "id": "loss_record",
+          "text": "Registro il contesto della sconfitta.",
+          "goto": "result_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_masters_result",
+              "value": "loss"
+            },
+            {
+              "type": "set_flag",
+              "key": "m6_masters_event_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "loss_close",
+          "text": "Chiudo la finestra con il risultato reale.",
+          "goto": "circuit_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_masters_result",
+              "value": "loss"
+            },
+            {
+              "type": "set_flag",
+              "key": "m6_masters_event_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "result_review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il risultato verrà letto dai futuri sistemi di ranking/cutoff attraverso lo stato competitivo. M6 registra soltanto che questa finestra è stata affrontata."
+        }
+      ],
+      "choices": [
+        {
+          "id": "result_close",
+          "text": "Chiudo l'evento Masters.",
+          "goto": "circuit_close"
+        },
+        {
+          "id": "result_points",
+          "text": "Rileggo la separazione dai punti narrativi.",
+          "goto": "points_info"
+        }
+      ]
+    },
+    "circuit_close": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La prima finestra Masters di M6 è conclusa o rimandata senza alterare Rank A. La carriera può proseguire verso traiettorie degli amici e Continental Cup."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_record",
+          "text": "Registro che il blocco Masters è stato visitato.",
+          "goto": "route_link",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_masters_circuit_visited",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "close_hub",
+          "text": "Resto nell'area Masters.",
+          "goto": "circuit_hub"
+        }
+      ]
+    },
+    "route_link": {
+      "stitches": [
+        {
+          "id": "rl1",
+          "text": "Da qui puoi tornare al circuito interregionale. Nessuna uscita assegna automaticamente Friend Beat, Continental Cup o Trial A→S."
+        }
+      ],
+      "choices": [
+        {
+          "id": "route_return",
+          "text": "Torno al riepilogo del viaggio.",
+          "goto": "m06-interregional-travel#arrival_close"
+        }
+      ]
+    }
+  }
+}
