@@ -24,7 +24,8 @@ const EFFECT_TYPES = new Set([
   "friend_beat_select",
   "competition_trial_available",
   "competition_trial_register",
-  "competition_world_draw"
+  "competition_world_draw",
+  "competition_world_groups_open"
 ]);
 
 function diag(code, message, at) {
@@ -117,7 +118,7 @@ function validateEffects(effects, at, errors) {
     if (["npc_register", "npc_relationship_adjust", "npc_state_set", "npc_schedule_set", "friend_beat_select"].includes(effect.type)) {
       errors.push(...validateNpcEffect(effect, effectAt));
     }
-    if (["competition_trial_available", "competition_trial_register", "competition_world_draw"].includes(effect.type)) {
+    if (["competition_trial_available", "competition_trial_register", "competition_world_draw", "competition_world_groups_open"].includes(effect.type)) {
       errors.push(...validateCompetitionEffect(effect, effectAt));
     }
   }
@@ -391,17 +392,21 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
       }
 
       const combat = choice.combat;
+      const dynamicWorldOpponent = Number.isInteger(combat.competition?.worldOpponentIndex);
       if (typeof combat.encounterId !== "string" || combat.encounterId.length === 0) {
         errors.push(diag("INVALID_ENCOUNTER_ID", "combat.encounterId is required", choiceAt + ".combat"));
       }
-      if (!isObject(combat.opponent) || typeof combat.opponent.species !== "string" || combat.opponent.species.length === 0) {
+      if (!dynamicWorldOpponent && (!isObject(combat.opponent) || typeof combat.opponent.species !== "string" || combat.opponent.species.length === 0)) {
         errors.push(diag("INVALID_COMBAT_OPPONENT", "combat.opponent.species is required", choiceAt + ".combat"));
       }
-      if (combat.opponent && (!Number.isInteger(combat.opponent.level) || combat.opponent.level < 1)) {
+      if (!dynamicWorldOpponent && combat.opponent && (!Number.isInteger(combat.opponent.level) || combat.opponent.level < 1)) {
         errors.push(diag("INVALID_COMBAT_LEVEL", "combat.opponent.level must be a positive integer", choiceAt + ".combat"));
       }
+      if (dynamicWorldOpponent && (combat.opponent !== undefined || combat.opponentBench !== undefined)) {
+        errors.push(diag("DYNAMIC_WORLD_OPPONENT_MUST_NOT_BE_STATIC", "World group combat resolves opponent roster from the locked E5 draw", choiceAt + ".combat"));
+      }
 
-      if (combat.opponentBench !== undefined && !Array.isArray(combat.opponentBench)) {
+      if (!dynamicWorldOpponent && combat.opponentBench !== undefined && !Array.isArray(combat.opponentBench)) {
         errors.push(diag(
           "INVALID_OPPONENT_BENCH",
           "combat.opponentBench must be an array when present",
@@ -421,7 +426,7 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
 
       errors.push(...validateCompetitionCombat(combat.competition, choiceAt + ".combat.competition"));
 
-      if (combat.competition) {
+      if (combat.competition && !dynamicWorldOpponent) {
         const opponentRosterSize = 1 + (Array.isArray(combat.opponentBench) ? combat.opponentBench.length : 0);
         if (opponentRosterSize !== combat.competition.officialRosterSize) {
           errors.push(diag(

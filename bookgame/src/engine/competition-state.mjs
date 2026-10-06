@@ -17,6 +17,24 @@ function rankOrder(rank) {
   return index;
 }
 
+export function createWorldGroupStageState() {
+  return {
+    opened: false,
+    playerGroup: null,
+    participants: [],
+    playerMatches: [],
+    offscreenMatches: [],
+    opponentRosters: {},
+    standings: [],
+    playerPosition: null,
+    playerPoints: 0,
+    kaiaInPlayerGroup: false,
+    finalPosition: null,
+    advanced: null,
+    resolved: false
+  };
+}
+
 export function createWorldCompetitionState() {
   return {
     edition: 1,
@@ -28,7 +46,8 @@ export function createWorldCompetitionState() {
     playerGroup: null,
     playerOpponents: [],
     qualifications: {},
-    drawSeed: null
+    drawSeed: null,
+    groupStage: createWorldGroupStageState()
   };
 }
 
@@ -67,6 +86,20 @@ export function ensureCompetition(state) {
   state.competition.world.playerOpponents ??= [];
   state.competition.world.qualifications ??= {};
   state.competition.world.drawSeed ??= null;
+  state.competition.world.groupStage ??= createWorldGroupStageState();
+  state.competition.world.groupStage.opened ??= false;
+  state.competition.world.groupStage.playerGroup ??= null;
+  state.competition.world.groupStage.participants ??= [];
+  state.competition.world.groupStage.playerMatches ??= [];
+  state.competition.world.groupStage.offscreenMatches ??= [];
+  state.competition.world.groupStage.opponentRosters ??= {};
+  state.competition.world.groupStage.standings ??= [];
+  state.competition.world.groupStage.playerPosition ??= null;
+  state.competition.world.groupStage.playerPoints ??= 0;
+  state.competition.world.groupStage.kaiaInPlayerGroup ??= false;
+  state.competition.world.groupStage.finalPosition ??= null;
+  state.competition.world.groupStage.advanced ??= null;
+  state.competition.world.groupStage.resolved ??= false;
   return state.competition;
 }
 
@@ -150,6 +183,14 @@ function validateMetaRuntime(meta) {
   if (meta.opponentTrainerId !== undefined) {
     requireId(meta.opponentTrainerId, "opponentTrainerId");
   }
+  if (meta.worldOpponentIndex !== undefined &&
+      (!Number.isInteger(meta.worldOpponentIndex) || meta.worldOpponentIndex < 0 || meta.worldOpponentIndex > 2)) {
+    throw new RangeError("worldOpponentIndex must be an integer from 0 to 2");
+  }
+  if (meta.worldMatchday !== undefined &&
+      (!Number.isInteger(meta.worldMatchday) || meta.worldMatchday < 1 || meta.worldMatchday > 3)) {
+    throw new RangeError("worldMatchday must be an integer from 1 to 3");
+  }
   if (meta.type === "promotion_trial") {
     requireId(meta.checkpointId, "checkpointId");
     rankOrder(meta.fromRank);
@@ -224,6 +265,10 @@ export function resolveCompetitionMatch(state, meta, outcome) {
     resolvedAtMinutes: state.world.elapsedMinutes
   };
   competition.history.push(record);
+
+  if (Number.isInteger(meta.worldOpponentIndex)) {
+    recordWorldGroupStageOutcome(state, meta, outcome, record.resolvedAtMinutes, arguments[3] ?? null);
+  }
 
   if (meta.type === "official_match" && meta.firstOfficial === true) {
     competition.firstOfficialResolved = true;
@@ -474,11 +519,284 @@ export function resolveWorldDraw(state, {
   return world;
 }
 
+
+const WORLD_GROUP_RUNTIME_POOL = [
+  { species: "Growlithe", form: "Hisuian" },
+  { species: "Eevee" },
+  { species: "Gastly" },
+  { species: "Totodile" },
+  { species: "Koffing" },
+  { species: "Houndour" },
+  { species: "Wooloo" },
+  { species: "Shinx" },
+  { species: "Tandemaus" }
+];
+
+const WORLD_GROUP_SIGNATURE_PROXY = {
+  Luke: { species: "Growlithe", form: "Hisuian" },
+  Mattew: { species: "Shinx" },
+  Daniel: { species: "Gastly" },
+  Edward: { species: "Totodile" },
+  Fab: { species: "Koffing" },
+  "Kaia Solari": { species: "Houndour" },
+  "Astrid Vahl": { species: "Tandemaus" },
+  Red: { species: "Growlithe", form: "Hisuian" },
+  Cynthia: { species: "Shinx" },
+  "Steven Stone": { species: "Koffing" },
+  N: { species: "Eevee" },
+  Lance: { species: "Totodile" }
+};
+
+function worldGroupStageOrThrow(state) {
+  const competition = ensureCompetition(state);
+  const world = competition.world;
+  if (!world.drawComplete || !world.fieldLocked || world.playerOpponents.length !== 3) {
+    throw new Error("WORLD_GROUPS requires the locked M8 World draw");
+  }
+  return { competition, world, groupStage: world.groupStage };
+}
+
+function participantSeedIndex(world, participantId) {
+  const index = world.seedOrder.findIndex((participant) => participant.id === participantId);
+  return index < 0 ? Number.MAX_SAFE_INTEGER : index;
+}
+
+function regulatedWorldRoster(state, participant) {
+  const { groupStage } = worldGroupStageOrThrow(state);
+  if (groupStage.opponentRosters[participant.id]) {
+    return structuredClone(groupStage.opponentRosters[participant.id]);
+  }
+
+  const signature = WORLD_GROUP_SIGNATURE_PROXY[participant.name] ?? null;
+  const seed = "world-groups|" + String(participant.id) + "|" + String(state.competition.world.edition);
+  let ordered = stableOrder(WORLD_GROUP_RUNTIME_POOL, seed);
+  if (signature) {
+    ordered = [
+      signature,
+      ...ordered.filter((entry) =>
+        entry.species !== signature.species ||
+        String(entry.form ?? "") !== String(signature.form ?? "")
+      )
+    ];
+  }
+
+  const roster = ordered.slice(0, 6).map((entry, index) => ({
+    ...entry,
+    level: 20,
+    trainerId: participant.id,
+    rosterIndex: index,
+    regulation: "WORLD_GROUPS_L20",
+    source: "persistent_regulated_world_roster"
+  }));
+  groupStage.opponentRosters[participant.id] = structuredClone(roster);
+  return roster;
+}
+
+function recalculateWorldGroupStandings(state) {
+  const { world, groupStage } = worldGroupStageOrThrow(state);
+  const base = Object.fromEntries(groupStage.participants.map((participant) => [
+    participant.id,
+    {
+      participantId: participant.id,
+      name: participant.name,
+      played: 0,
+      wins: 0,
+      losses: 0,
+      points: 0,
+      seedIndex: participantSeedIndex(world, participant.id)
+    }
+  ]));
+
+  const records = [
+    ...groupStage.playerMatches.filter((match) => match.outcome),
+    ...groupStage.offscreenMatches.filter((match) => match.outcome)
+  ];
+  for (const match of records) {
+    const winnerId = match.outcome === "win"
+      ? match.homeId
+      : match.awayId;
+    const loserId = match.outcome === "win"
+      ? match.awayId
+      : match.homeId;
+    if (!base[winnerId] || !base[loserId]) continue;
+    base[winnerId].played += 1;
+    base[winnerId].wins += 1;
+    base[winnerId].points += 3;
+    base[loserId].played += 1;
+    base[loserId].losses += 1;
+  }
+
+  groupStage.standings = Object.values(base).sort((a, b) =>
+    b.points - a.points ||
+    b.wins - a.wins ||
+    a.seedIndex - b.seedIndex ||
+    a.name.localeCompare(b.name)
+  );
+  const playerEntry = groupStage.standings.find((entry) => entry.name === state.player?.name);
+  groupStage.playerPosition = playerEntry
+    ? groupStage.standings.findIndex((entry) => entry.participantId === playerEntry.participantId) + 1
+    : null;
+  groupStage.playerPoints = playerEntry?.points ?? 0;
+
+  state.world.flags ??= {};
+  state.world.flags.world_group_player_points = groupStage.playerPoints;
+  state.world.flags.world_group_player_position = groupStage.playerPosition;
+  return groupStage.standings;
+}
+
+export function openWorldGroupStage(state, { eventId = "WORLD_GROUPS" } = {}) {
+  requireId(eventId, "world groups eventId");
+  const { world, groupStage } = worldGroupStageOrThrow(state);
+  if (groupStage.opened) return groupStage;
+
+  const group = world.groups[world.playerGroup];
+  if (!Array.isArray(group) || group.length !== 4) {
+    throw new Error("WORLD_GROUPS requires a four-participant player group");
+  }
+  const playerParticipant = group.find((participant) => participant.name === state.player?.name);
+  if (!playerParticipant) throw new Error("WORLD_GROUPS player is missing from the locked group");
+
+  const opponentIds = new Set(world.playerOpponents.map((participant) => participant.id));
+  if (opponentIds.size !== 3) throw new Error("WORLD_GROUPS requires three distinct player opponents");
+
+  groupStage.opened = true;
+  groupStage.playerGroup = world.playerGroup;
+  groupStage.participants = structuredClone(group);
+  groupStage.playerMatches = world.playerOpponents.map((opponent, index) => ({
+    matchday: index + 1,
+    matchId: "WORLD_GROUP_MD" + String(index + 1),
+    homeId: playerParticipant.id,
+    homeName: playerParticipant.name,
+    awayId: opponent.id,
+    awayName: opponent.name,
+    opponentId: opponent.id,
+    opponentName: opponent.name,
+    outcome: null,
+    resolvedAtMinutes: null
+  }));
+  groupStage.offscreenMatches = [];
+  groupStage.kaiaInPlayerGroup = group.some((participant) => participant.name === "Kaia Solari");
+  recalculateWorldGroupStandings(state);
+
+  state.world.flags ??= {};
+  state.world.flags.world_group_stage_open = true;
+  state.world.flags.world_group_stage_event_id = eventId;
+  state.world.flags.world_group_kaia_in_group = groupStage.kaiaInPlayerGroup;
+  return groupStage;
+}
+
+export function prepareWorldGroupMatch(state, meta) {
+  validateMetaRuntime(meta);
+  if (!Number.isInteger(meta.worldOpponentIndex) || meta.worldOpponentIndex < 0 || meta.worldOpponentIndex > 2) {
+    throw new Error("World group match requires worldOpponentIndex 0..2");
+  }
+  const { world, groupStage } = worldGroupStageOrThrow(state);
+  if (!groupStage.opened) throw new Error("WORLD_GROUPS has not been opened");
+
+  const index = meta.worldOpponentIndex;
+  const match = groupStage.playerMatches[index];
+  const participant = world.playerOpponents[index];
+  if (!match || !participant || match.opponentId !== participant.id) {
+    throw new Error("WORLD_GROUPS opponent schedule does not match the locked draw");
+  }
+  if (match.outcome) {
+    throw new Error("WORLD_GROUPS matchday " + String(index + 1) + " is already resolved");
+  }
+  if (meta.worldMatchday !== undefined && meta.worldMatchday !== index + 1) {
+    throw new Error("WORLD_GROUPS worldMatchday does not match worldOpponentIndex");
+  }
+
+  const roster = regulatedWorldRoster(state, participant);
+  const resolvedMeta = {
+    ...meta,
+    matchId: match.matchId,
+    opponentTrainerId: participant.id,
+    worldMatchday: index + 1
+  };
+  return {
+    participant: structuredClone(participant),
+    roster: structuredClone(roster),
+    meta: resolvedMeta
+  };
+}
+
+function persistWorldGroupOpponentRoster(groupStage, opponentId, battle) {
+  if (!battle || !opponentId) return;
+  const combatants = [battle.opponent, ...(battle.opponentBench ?? [])].filter(Boolean);
+  if (combatants.length === 0) return;
+  groupStage.opponentRosters[opponentId] = combatants.map((combatant, index) => ({
+    speciesId: combatant.speciesId,
+    name: combatant.name,
+    level: combatant.level,
+    hp: structuredClone(combatant.hp),
+    statuses: structuredClone(combatant.statuses),
+    abilityId: combatant.abilityId,
+    moveIds: structuredClone(combatant.moveIds),
+    pp: structuredClone(combatant.pp),
+    trainerId: opponentId,
+    rosterIndex: index,
+    regulation: "WORLD_GROUPS_L20",
+    source: "persistent_regulated_world_roster"
+  }));
+}
+
+function resolveOffscreenGroupMatch(state, matchday) {
+  const { world, groupStage } = worldGroupStageOrThrow(state);
+  const existing = groupStage.offscreenMatches.find((match) => match.matchday === matchday);
+  if (existing) return existing;
+
+  const playerMatch = groupStage.playerMatches[matchday - 1];
+  const others = world.playerOpponents.filter((participant) => participant.id !== playerMatch.opponentId);
+  if (others.length !== 2) throw new Error("WORLD_GROUPS off-screen pairing requires two remaining opponents");
+
+  const seed = [
+    world.drawSeed ?? "world-draw",
+    "groups",
+    String(matchday),
+    others[0].id,
+    others[1].id
+  ].join("|");
+  const firstWins = (hashString(seed) & 1) === 0;
+  const record = {
+    matchday,
+    matchId: "WORLD_GROUP_OFFSCREEN_MD" + String(matchday),
+    homeId: others[0].id,
+    homeName: others[0].name,
+    awayId: others[1].id,
+    awayName: others[1].name,
+    outcome: firstWins ? "win" : "lose",
+    source: "deterministic_offscreen_world_resolution"
+  };
+  groupStage.offscreenMatches.push(record);
+  return record;
+}
+
+function recordWorldGroupStageOutcome(state, meta, outcome, resolvedAtMinutes, battle = null) {
+  const { groupStage } = worldGroupStageOrThrow(state);
+  if (!groupStage.opened) throw new Error("WORLD_GROUPS has not been opened");
+  const index = meta.worldOpponentIndex;
+  const match = groupStage.playerMatches[index];
+  if (!match) throw new Error("Missing WORLD_GROUPS player match for index " + String(index));
+  if (match.outcome) throw new Error("WORLD_GROUPS matchday already has a result");
+
+  match.outcome = outcome;
+  match.resolvedAtMinutes = resolvedAtMinutes;
+  persistWorldGroupOpponentRoster(groupStage, match.opponentId, battle);
+  resolveOffscreenGroupMatch(state, index + 1);
+  recalculateWorldGroupStandings(state);
+
+  state.world.flags ??= {};
+  state.world.flags["world_group_md" + String(index + 1) + "_resolved"] = true;
+  state.world.flags["world_group_md" + String(index + 1) + "_result"] = outcome;
+  return match;
+}
+
 export function applyCompetitionEffect(state, effect) {
   switch (effect.type) {
     case "competition_trial_available": return setTrialAvailable(state, effect);
     case "competition_trial_register": return registerTrial(state, effect);
     case "competition_world_draw": return resolveWorldDraw(state, effect);
+    case "competition_world_groups_open": return openWorldGroupStage(state, effect);
     default: throw new Error("Unsupported competition effect type: " + effect.type);
   }
 }
@@ -511,6 +829,13 @@ export function validateCompetitionEffect(effect, at = "effect") {
   if (effect.type === "competition_trial_register") {
     if (typeof effect.checkpointId !== "string" || !ID_RE.test(effect.checkpointId)) {
       push("INVALID_CHECKPOINT_ID", "competition_trial_register requires checkpointId", at + ".checkpointId");
+    }
+    return errors;
+  }
+
+  if (effect.type === "competition_world_groups_open") {
+    if (effect.eventId !== undefined && (typeof effect.eventId !== "string" || !ID_RE.test(effect.eventId))) {
+      push("INVALID_WORLD_GROUPS_EVENT_ID", "eventId must be a stable identifier", at + ".eventId");
     }
     return errors;
   }
@@ -589,6 +914,17 @@ export function validateCompetitionCombat(meta, at = "combat.competition") {
   }
   if (meta.opponentTrainerId !== undefined && (typeof meta.opponentTrainerId !== "string" || !ID_RE.test(meta.opponentTrainerId))) {
     push("INVALID_OPPONENT_TRAINER_ID", "opponentTrainerId must be a stable identifier", at + ".opponentTrainerId");
+  }
+  if (meta.worldOpponentIndex !== undefined &&
+      (!Number.isInteger(meta.worldOpponentIndex) || meta.worldOpponentIndex < 0 || meta.worldOpponentIndex > 2)) {
+    push("INVALID_WORLD_OPPONENT_INDEX", "worldOpponentIndex must be 0..2", at + ".worldOpponentIndex");
+  }
+  if (meta.worldMatchday !== undefined &&
+      (!Number.isInteger(meta.worldMatchday) || meta.worldMatchday < 1 || meta.worldMatchday > 3)) {
+    push("INVALID_WORLD_MATCHDAY", "worldMatchday must be 1..3", at + ".worldMatchday");
+  }
+  if (meta.worldOpponentIndex !== undefined && meta.type !== "official_match") {
+    push("INVALID_WORLD_GROUP_MATCH_TYPE", "World group matches must be official_match", at + ".type");
   }
   if (meta.type === "promotion_trial") {
     if (typeof meta.checkpointId !== "string" || !ID_RE.test(meta.checkpointId)) {

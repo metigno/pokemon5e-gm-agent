@@ -7,7 +7,7 @@ import { advanceWorldTime, getWorldTimeView } from "./time.mjs";
 import { applyQuestEffect, getQuestJournal, processQuestDeadlines } from "./quest-state.mjs";
 import { applyNpcEffect, refreshNpcSchedules } from "./npc-state.mjs";
 import { processWorldEvents } from "./world-events.mjs";
-import { applyCompetitionEffect, beginCompetitionMatch, resolveCompetitionMatch } from "./competition-state.mjs";
+import { applyCompetitionEffect, beginCompetitionMatch, prepareWorldGroupMatch, resolveCompetitionMatch } from "./competition-state.mjs";
 import { recordWildEncounter, selectOrdinaryEncounter } from "./ecology.mjs";
 import { applyPurchaseItem, ensureSceneShops } from "./shop-state.mjs";
 
@@ -37,7 +37,7 @@ function applyEffects(state, effects = []) {
       applyNpcEffect(state, effect);
       continue;
     }
-    if (["competition_trial_available", "competition_trial_register", "competition_world_draw"].includes(effect.type)) {
+    if (["competition_trial_available", "competition_trial_register", "competition_world_draw", "competition_world_groups_open"].includes(effect.type)) {
       applyCompetitionEffect(state, effect);
       continue;
     }
@@ -260,11 +260,18 @@ export class BookgameEngine {
       historyEntry.toSceneId = target.sceneId;
       historyEntry.toNodeId = target.nodeId;
     } else if (choice.combat) {
-      if (choice.combat.competition) {
-        beginCompetitionMatch(next, choice.combat.competition);
+      let competitionMeta = choice.combat.competition ? clone(choice.combat.competition) : null;
+      let dynamicWorldOpponent = null;
+      if (competitionMeta?.worldOpponentIndex !== undefined) {
+        const prepared = prepareWorldGroupMatch(next, competitionMeta);
+        competitionMeta = prepared.meta;
+        dynamicWorldOpponent = prepared.roster;
+      }
+      if (competitionMeta) {
+        beginCompetitionMatch(next, competitionMeta);
       }
 
-      const officialRosterSize = choice.combat.competition?.officialRosterSize ?? null;
+      const officialRosterSize = competitionMeta?.officialRosterSize ?? null;
       const stateRoster = (next.player.roster ?? [next.player.starter]).map((pokemon, rosterIndex) => ({
         ...clone(pokemon),
         rosterIndex
@@ -280,8 +287,8 @@ export class BookgameEngine {
         encounterId: choice.combat.encounterId,
         sceneId: scene.id,
         sourceNodeId: next.story.nodeId,
-        opponent: clone(choice.combat.opponent),
-        opponentBench: clone(choice.combat.opponentBench ?? []),
+        opponent: clone(dynamicWorldOpponent?.[0] ?? choice.combat.opponent),
+        opponentBench: clone(dynamicWorldOpponent ? dynamicWorldOpponent.slice(1) : (choice.combat.opponentBench ?? [])),
         playerPokemon: clone(playerRoster?.[0] ?? stateRoster[0] ?? next.player.starter),
         playerBench: clone(playerRoster ? playerRoster.slice(1) : (choice.combat.playerBench ?? [])),
         trainer: {
@@ -296,7 +303,7 @@ export class BookgameEngine {
         opponentPosition: clone(choice.combat.opponentPosition ?? { x: 5, y: 0 }),
         opponentRegistered: Boolean(choice.combat.opponentRegistered || choice.combat.competition),
         returnNodes: clone(choice.combat.returnNodes),
-        competition: clone(choice.combat.competition ?? null),
+        competition: clone(competitionMeta),
         battle: null
       };
       const target = applyTarget(next, choice.combat.goto, scene.id);
@@ -433,7 +440,7 @@ export class BookgameEngine {
     }
 
     if (competitionMeta) {
-      resolveCompetitionMatch(next, competitionMeta, outcome);
+      resolveCompetitionMatch(next, competitionMeta, outcome, resolvedBattle);
     }
 
     next.pending = null;
