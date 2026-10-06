@@ -64,6 +64,7 @@ test("complete offline Pokémon 5e pack is pinned and count-locked", async () =>
     abilities: 340,
     items: 305,
     evolutions: 538,
+    tms: 256,
     conditions: 8
   });
 });
@@ -222,4 +223,15 @@ test("persisted known moves are capped at four and survive as the exact combat m
     }),
     /at most 4 known moves/
   );
+});
+
+test("all 256 TM references resolve to real offline moves", async () => {
+  const data = new Poke5eDataRepository();
+  const tms = await data.listTms();
+  assert.equal(tms.length, 256);
+
+  for (const tm of tms) {
+    const move = await data.getMove(tm.move);
+    assert.equal(move.id, tm.move);
+  }
 });
