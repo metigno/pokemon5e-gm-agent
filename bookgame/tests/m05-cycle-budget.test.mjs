@@ -79,3 +79,41 @@ test("M5 first ten blocks remain on the 240/528 logical trajectory",async()=>{
   assert.equal(240-nodes,83);
   assert.equal(528-choices,181);
 });
+
+
+test("M5_10-M5_14 logical production budget is locked per block",async()=>{
+  const expected=[
+    ["m05-high-altitude-event",15,32],
+    ["m05-trial-registration",14,31],
+    ["m05-promotion-trial-b-a",22,48],
+    ["m05-masters-entry",18,40],
+    ["m05-module-outcome",14,30]
+  ];
+  let totalNodes=0,totalChoices=0;
+  for(const [rel,nodes,choices] of expected){
+    const scene=JSON.parse(await readFile(fileURLToPath(new URL("../content/scenes/"+rel+".json",import.meta.url)),"utf8"));
+    const actualNodes=Object.keys(scene.nodes).length;
+    const actualChoices=Object.values(scene.nodes).reduce((sum,node)=>sum+(node.choices?.length??0),0);
+    assert.equal(actualNodes,nodes,rel+" node budget");
+    assert.equal(actualChoices,choices,rel+" choice budget");
+    totalNodes+=actualNodes;totalChoices+=actualChoices;
+  }
+  assert.equal(totalNodes,83);
+  assert.equal(totalChoices,181);
+});
+
+test("M5 complete logical production target is exactly 240 nodes / 528 choices",async()=>{
+  const rels=[
+    "m05-handoff","m05-mountain-approach","m05-altacima","m05-lance-enters","m05-weather-decisions",
+    "m05-fulgore-ascent","m05-ancient-trace","m05-interregional-license","m05-five-cross-again","m05-friend-beat-05",
+    "m05-high-altitude-event","m05-trial-registration","m05-promotion-trial-b-a","m05-masters-entry","m05-module-outcome"
+  ];
+  let nodes=0,choices=0;
+  for(const rel of rels){
+    const scene=JSON.parse(await readFile(fileURLToPath(new URL("../content/scenes/"+rel+".json",import.meta.url)),"utf8"));
+    nodes+=Object.keys(scene.nodes).length;
+    choices+=Object.values(scene.nodes).reduce((sum,node)=>sum+(node.choices?.length??0),0);
+  }
+  assert.equal(nodes,240);
+  assert.equal(choices,528);
+});
