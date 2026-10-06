@@ -76,7 +76,7 @@ function readStoryTemplatePath(state, path) {
   let current = state;
   for (const segment of segments) {
     if (current === null || current === undefined) return undefined;
-    if (Array.isArray(current) && /^\\d+$/.test(segment)) {
+    if (Array.isArray(current) && /^\d+$/.test(segment)) {
       current = current[Number(segment)];
       continue;
     }
@@ -88,7 +88,7 @@ function readStoryTemplatePath(state, path) {
 
 function interpolateStoryText(text, state) {
   if (typeof text !== "string") return text;
-  return text.replace(/\\{\\{([A-Za-z0-9_.]+)\\}\\}/g, (_match, path) => {
+  return text.replace(/\{\{([A-Za-z0-9_.]+)\}\}/g, (_match, path) => {
     const value = readStoryTemplatePath(state, path);
     return value === undefined || value === null ? "?" : String(value);
   });
