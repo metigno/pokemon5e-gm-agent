@@ -361,7 +361,12 @@ export function resolveAttack({
   const gutsBonus = gutsMeleeBonus(attacker, move);
   const attackModifier = stats.toHit + extraAttackModifier + gutsBonus;
   const attackTotal = attackRoll.natural + attackModifier;
-  const critical = attackRoll.natural === 20;
+  const criticalRangeBonus = activeEffectModifier(
+    attacker.effects?.criticalRangeBonusSources ?? [],
+    round
+  );
+  const criticalThreshold = Math.max(2, 20 - criticalRangeBonus);
+  const critical = attackRoll.natural >= criticalThreshold;
   const criticalDamage =
     critical &&
     !["battle-armor", "shell-armor"].includes(defender.abilityId);
@@ -379,6 +384,8 @@ export function resolveAttack({
       hit: false,
       critical: false,
       criticalDamage: false,
+      criticalRangeBonus,
+      criticalThreshold,
       effectAdvantage,
       gutsBonus,
       damage: 0,
@@ -417,6 +424,8 @@ export function resolveAttack({
     hit: true,
     critical,
     criticalDamage,
+    criticalRangeBonus,
+    criticalThreshold,
     effectAdvantage,
     damageRoll,
     damageDiceMultiplier,

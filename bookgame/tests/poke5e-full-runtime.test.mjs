@@ -102,7 +102,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
   const moves = await data.listMoves();
   const unresolved = moves.filter((move) => !isMoveResolvable(move)).map((move) => move.id);
 
-  assert.ok(unresolved.length <= 190, `unresolved move rules regressed to ${unresolved.length}`);
+  assert.ok(unresolved.length <= 188, `unresolved move rules regressed to ${unresolved.length}`);
   assert.ok(unresolved.includes("acupressure"));
   for (const id of [
     "agility",
@@ -117,6 +117,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
     "defend-order",
     "defense-curl",
     "dragon-dance",
+    "focus-energy",
     "geomancy",
     "hone-claws",
     "iron-defense",
@@ -129,6 +130,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
     "shift-gear",
     "tail-glow",
     "victory-dance",
+    "aqua-ring",
     "aromatherapy",
     "heal-bell",
     "charm",
@@ -437,6 +439,46 @@ test("Iron Defense, Defense Curl, Calm Mind and Tail Glow use generic resistance
   });
   calmBattle = await calmCombat.usePlayerMove(calmBattle, "calm-mind");
   assert.equal(calculateMoveStats(calmBattle.player, tackle, calmBattle.round).stab, 6);
+});
+
+
+test("Focus Energy expands critical range and Aqua Ring heals at each end turn under concentration", async () => {
+  const focusCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 18, 3, 4])
+  });
+  let focusBattle = await focusCombat.createBattle({
+    encounterId: "FULL_RUNTIME_FOCUS_ENERGY",
+    playerPokemon: { speciesId: "pikachu", level: 5, moveIds: ["focus-energy", "tackle"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+  focusBattle = await focusCombat.usePlayerMove(focusBattle, "focus-energy");
+  focusBattle = await focusCombat.usePlayerMove(focusBattle, "tackle");
+  const focusAttack = [...focusBattle.log].reverse().find((event) => event.type === "attack");
+  assert.equal(focusAttack.criticalThreshold, 18);
+  assert.equal(focusAttack.critical, true);
+  assert.equal(focusAttack.attackRoll.natural, 18);
+
+  const aquaCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1])
+  });
+  let aquaBattle = await aquaCombat.createBattle({
+    encounterId: "FULL_RUNTIME_AQUA_RING",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["aqua-ring"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 30, y: 0 }
+  });
+  aquaBattle.player.hp.current = Math.max(1, aquaBattle.player.hp.max - 10);
+  const before = aquaBattle.player.hp.current;
+  aquaBattle = await aquaCombat.usePlayerMove(aquaBattle, "aqua-ring");
+  assert.equal(aquaBattle.player.concentration?.moveId, "aqua-ring");
+  aquaBattle = await aquaCombat.endPlayerTurn(aquaBattle);
+  assert.equal(aquaBattle.player.hp.current, before + 3);
+  assert.ok(
+    aquaBattle.player.effects.ongoingEffects.some((effect) => effect.kind === "aqua-ring")
+  );
 });
 
 test("save debuffs and allied status cures execute their 2024 effects", async () => {

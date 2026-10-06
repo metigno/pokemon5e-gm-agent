@@ -151,6 +151,7 @@ function removeEffectSource(combatant, source, round = null) {
     "attackAdvantageSources",
     "damageResistanceSources",
     "stabMultiplierSources",
+    "criticalRangeBonusSources",
     "switchLockSources",
     "escapeLockSources",
     "movementLockSources",
@@ -186,6 +187,7 @@ function modifierRuleFor(move, level) {
       resistance: { type: "normal", steps: 1 }
     },
     "dragon-dance": { attack: proficiencyBonus(level) },
+    "focus-energy": { criticalRangeBonus: 2 },
     "geomancy": { speed: 10, attackAdvantage: true, saveAdvantage: true },
     "hone-claws": { attack: 1, damage: 1, stackCap: 3 },
     "iron-defense": {
@@ -300,6 +302,7 @@ function isDelayedHealingMove(move) {
 }
 
 const ONGOING_HEALING_MOVES = new Set([
+  "aqua-ring",
   "ingrain",
   "lunar-blessing"
 ]);
@@ -358,6 +361,7 @@ const SIMPLE_MODIFIER_MOVES = new Set([
   "defend-order",
   "defense-curl",
   "dragon-dance",
+  "focus-energy",
   "geomancy",
   "hone-claws",
   "iron-defense",
@@ -500,6 +504,7 @@ function clearTransientEffects(combatant) {
     attackAdvantageSources: [],
     damageResistanceSources: [],
     stabMultiplierSources: [],
+    criticalRangeBonusSources: [],
     switchLockSources: [],
     escapeLockSources: [],
     movementLockSources: [],
@@ -744,6 +749,26 @@ function endTurnInternal(battle, side, dice) {
   const ongoingEffects = combatant.effects?.ongoingEffects ?? [];
   const remainingOngoing = [];
   for (const effect of ongoingEffects) {
+    if (effect.kind === "aqua-ring") {
+      if (effect.expiresRound != null && next.round >= effect.expiresRound) continue;
+      const before = combatant.hp.current;
+      combatant.hp.current = Math.min(
+        combatant.hp.max,
+        before + proficiencyBonus(combatant.level)
+      );
+      next.log.push({
+        type: "ongoing_healing",
+        round: next.round,
+        actor: side,
+        moveId: effect.moveId,
+        effect: "aqua-ring",
+        healing: combatant.hp.current - before,
+        hpAfter: combatant.hp.current
+      });
+      remainingOngoing.push(effect);
+      continue;
+    }
+
     if (effect.kind !== "ingrain") {
       remainingOngoing.push(effect);
       continue;
@@ -1105,6 +1130,7 @@ export class Pokemon5eCombatEngine {
         attackAdvantageSources: [],
         damageResistanceSources: [],
         stabMultiplierSources: [],
+        criticalRangeBonusSources: [],
         switchLockSources: [],
         escapeLockSources: [],
         movementLockSources: [],
@@ -1995,6 +2021,14 @@ export class Pokemon5eCombatEngine {
       });
       applied.stabMultiplier = Number(rule.stabMultiplier);
     }
+    if (rule.criticalRangeBonus) {
+      combatant.effects.criticalRangeBonusSources.push({
+        source: move.id,
+        value: Number(rule.criticalRangeBonus),
+        expiresRound
+      });
+      applied.criticalRangeBonus = Number(rule.criticalRangeBonus);
+    }
 
     const speedAfter = activeModifier(combatant.effects.speedModifierSources, next.round);
     if (combatant.turn.started && speedAfter !== speedBefore) {
@@ -2083,6 +2117,34 @@ export class Pokemon5eCombatEngine {
     const stats = calculateMoveStats(combatant, move);
     combatant.effects.ongoingEffects ??= [];
     combatant.effects.movementLockSources ??= [];
+
+    if (move.id === "aqua-ring") {
+      endConcentrationState(next, side, "new_concentration");
+      const expiresRound = effectExpiryRound(move, next.round);
+      removeEffectSource(combatant, "aqua-ring", next.round);
+      combatant.effects.ongoingEffects.push({
+        kind: "aqua-ring",
+        source: "aqua-ring",
+        moveId: move.id,
+        expiresRound
+      });
+      combatant.concentration = {
+        zoneId: null,
+        moveId: move.id,
+        effectSource: "aqua-ring",
+        expiresRound
+      };
+      next.log.push({
+        type: "ongoing_healing_started",
+        round: next.round,
+        actor: side,
+        moveId: move.id,
+        effect: "aqua-ring",
+        expiresRound,
+        concentration: true
+      });
+      return next;
+    }
 
     if (move.id === "ingrain") {
       removeEffectSource(combatant, "ingrain", next.round);
