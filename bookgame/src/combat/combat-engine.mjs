@@ -591,11 +591,23 @@ async function selectKnownMoves(data, species, level, descriptor) {
   const executable = available.filter((move) => isMoveResolvable(move));
 
   // A complete upstream learnset can contain more than four legal moves at the
-  // same level. For fresh wild/default combatants, prefer the four most recent
-  // moves the current runtime can actually execute. Persisted/player-owned
+  // same level. Keep the legacy/default battle feel by taking the earliest
+  // executable action moves, while reserving one slot for the most recently
+  // learned bonus-action/reaction move when one exists. Persisted/player-owned
   // Pokémon still carry explicit moveIds, so their chosen moveset never shifts.
-  if (executable.length > 0) return executable.slice(-4);
-  return available.slice(-4);
+  if (executable.length > 0) {
+    const actions = executable.filter((move) => move.time?.unit === "action");
+    const supplemental = executable.filter((move) => move.time?.unit !== "action");
+    const selected = actions.slice(0, supplemental.length > 0 ? 3 : 4);
+
+    if (supplemental.length > 0) selected.push(supplemental.at(-1));
+    for (const move of executable) {
+      if (selected.length >= 4) break;
+      if (!selected.some((entry) => entry.id === move.id)) selected.push(move);
+    }
+    return selected.slice(0, 4);
+  }
+  return available.slice(0, 4);
 }
 
 export class Pokemon5eCombatEngine {
