@@ -247,6 +247,13 @@ function requiresSleepingTarget(move) {
   return ["dream-eater", "nightmare"].includes(move.id);
 }
 
+function isSleepingTarget(combatant) {
+  return (
+    combatant.statuses?.nonVolatile === "Asleep" ||
+    combatant.abilityId === "comatose"
+  );
+}
+
 export function isMoveResolvable(move) {
   const damage = move.dice?.type === "damage";
   if (move.attack && damage) return true;
@@ -937,7 +944,7 @@ export class Pokemon5eCombatEngine {
       if (!slot || !combatant.turn[slot]) continue;
       if (!isMoveResolvable(move)) continue;
       if (move.id === "endeavor" && battle.round === 1) continue;
-      if (requiresSleepingTarget(move) && defender.statuses?.nonVolatile !== "Asleep") continue;
+      if (requiresSleepingTarget(move) && !isSleepingTarget(defender)) continue;
       const healTargetSide = isImmediateHealingMove(move)
         ? healingTargetSide(move, side)
         : null;
@@ -1278,7 +1285,7 @@ export class Pokemon5eCombatEngine {
     const targetSide = otherSide(side);
     const defender = next[targetSide];
 
-    if (requiresSleepingTarget(move) && defender.statuses?.nonVolatile !== "Asleep") {
+    if (requiresSleepingTarget(move) && !isSleepingTarget(defender)) {
       throw new Error(`${move.name} requires a sleeping target`);
     }
 
@@ -1459,7 +1466,25 @@ export class Pokemon5eCombatEngine {
       });
     }
 
-    if (!isStruggle) attacker.pp[move.id] -= 1;
+    if (!isStruggle) {
+      const pressureApplies =
+        defender.abilityId === "pressure" &&
+        !AREA_MOVES.has(move.id) &&
+        move.range?.type !== "self" &&
+        rangeTarget === defender;
+      const ppCost = pressureApplies ? 2 : 1;
+      attacker.pp[move.id] = Math.max(0, attacker.pp[move.id] - ppCost);
+      if (pressureApplies) {
+        next.log.push({
+          type: "ability_trigger",
+          round: next.round,
+          actor: targetSide,
+          abilityId: "pressure",
+          trigger: move.id,
+          ppCost
+        });
+      }
+    }
     attacker.turn[slot] = false;
 
     let intimidateUsed = false;
