@@ -32,7 +32,7 @@ test("bookgame-rc0 locks the complete M01-M12 authored surface", () => {
 
 test("bookgame-rc0 Node Library V2 lock records the final runtime baseline", () => {
   const lock = fs.readFileSync(path.join(root, "docs", "NODE_LIBRARY_V2_LOCK.md"), "utf8");
-  assert.match(lock, /M12 — .* is now \*\*COMPLETE\*\*/);
+  assert.match(lock, /M12 — .* is \*\*COMPLETE\*\*/);
   assert.match(lock, /2,462 runtime-validated logical nodes \/ 5,555 meaningful choices/);
   assert.match(lock, /R01→R38/);
   assert.match(lock, /no R39/i);
