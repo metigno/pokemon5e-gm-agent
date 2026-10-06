@@ -254,3 +254,33 @@ Validation evidence:
 
 Do **not** advance the completed Library V2 baseline to M01→M09 until the remaining M09 production blocks are implemented and validated.
 
+---
+
+## M09 CYCLE 2 VALIDATION EVIDENCE — 2026-10-06
+
+M09 is still **not module-complete** because M9_10 remains. The completed Library V2 baseline therefore remains **M01→M08**, while M09 is validated through M9_09.
+
+Validated M09 Cycle 2 extension:
+
+- blocks: `M9_05_FRIEND_BEAT_09` → `M9_09_ELIMINATED_ROUTE`;
+- Cycle-2 logical surface: **79 nodes / 174 meaningful choices** exactly;
+- cumulative M09 logical surface through M9_09: **156 nodes / 344 meaningful choices**;
+- exact residual for M9_10: **14 nodes / 30 meaningful choices**;
+- Library V2 routing still uses only **R01→R38**;
+- **no R39 candidate required**;
+- E4 now has a reusable World-stage Friend Beat selector driven by real qualification/group/schedule state;
+- E5 resolves all eight World groups, six matches per group, and locks exactly 16 advancing participants;
+- player final position and advanced/eliminated state come from structured E5 results only;
+- eliminated route unlocks M12/WORLD_EXIT and never M10;
+- all Cycle-2 nodes are reachable with no zero-incoming padding;
+- save/reload preserves Top16, final standings, tiebreak result and eliminated handoff.
+
+Validation evidence:
+
+- GitHub Actions PR #10;
+- syntax check: PASS;
+- `validate:story`: PASS;
+- full test suite: **1,230 passed / 0 failed / 0 skipped**.
+
+Do **not** advance the completed Library V2 baseline to M01→M09 until M9_10 is implemented and the full M09 exit contract is validated.
+

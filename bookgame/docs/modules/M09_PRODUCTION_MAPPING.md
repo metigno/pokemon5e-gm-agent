@@ -45,16 +45,16 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 
 | Block | Function | Stitches | Choices | Current state |
 |---|---|---:|---:|---|
-| M9_00_GROUPS_OPEN | presentazione gruppo e calendario immutabile | 289 | 154 | PLANNED |
-| M9_01_MATCHDAY_ONE | primo match programmato con avversario reale | 493 | 264 | PLANNED |
-| M9_02_INTERDAY_ONE | recovery, media e altri gruppi che continuano | 340 | 182 | PLANNED |
-| M9_03_KAIA_THREAD | presenza di Kaia solo secondo draw/schedule reale | 340 | 182 | PLANNED |
-| M9_04_MATCHDAY_TWO | secondo match e aggiornamento classifica | 493 | 264 | PLANNED |
-| M9_05_FRIEND_BEAT_09 | match o interazione tra giornate secondo bracket reale | 493 | 263 | PLANNED |
-| M9_06_INTERDAY_TWO | pressione classifica, condizioni e scenari senza outcome scripting | 340 | 182 | PLANNED |
-| M9_07_MATCHDAY_THREE | terzo match programmato | 492 | 263 | PLANNED |
-| M9_08_GROUP_RESOLUTION | tiebreak ufficiale, posizione finale e Top16 | 340 | 182 | PLANNED |
-| M9_09_ELIMINATED_ROUTE | uscita coerente se non qualificato agli ottavi | 340 | 182 | PLANNED |
+| M9_00_GROUPS_OPEN | presentazione gruppo e calendario immutabile | 289 | 154 | COMPLETE |
+| M9_01_MATCHDAY_ONE | primo match programmato con avversario reale | 493 | 264 | COMPLETE |
+| M9_02_INTERDAY_ONE | recovery, media e altri gruppi che continuano | 340 | 182 | COMPLETE |
+| M9_03_KAIA_THREAD | presenza di Kaia solo secondo draw/schedule reale | 340 | 182 | COMPLETE |
+| M9_04_MATCHDAY_TWO | secondo match e aggiornamento classifica | 493 | 264 | COMPLETE |
+| M9_05_FRIEND_BEAT_09 | match o interazione tra giornate secondo bracket reale | 493 | 263 | COMPLETE |
+| M9_06_INTERDAY_TWO | pressione classifica, condizioni e scenari senza outcome scripting | 340 | 182 | COMPLETE |
+| M9_07_MATCHDAY_THREE | terzo match programmato | 492 | 263 | COMPLETE |
+| M9_08_GROUP_RESOLUTION | tiebreak ufficiale, posizione finale e Top16 | 340 | 182 | COMPLETE |
+| M9_09_ELIMINATED_ROUTE | uscita coerente se non qualificato agli ottavi | 340 | 182 | COMPLETE |
 | M9_10_ADVANCE_ROUTE | handoff al bracket R16 se Top2 | 340 | 182 | PLANNED |
 | **TOTAL** |  | **4,300** | **2,300** | |
 
@@ -417,6 +417,8 @@ Cycle 2 adds **79 nodes / 174 meaningful choices**, bringing M09 to **156 nodes 
 - save/reload preserves Top16, final standings and route state.
 
 **No R39 candidate is required for Cycle 2.** Library V2 R01→R38 remains sufficient; the only engine work is a reusable E4 World Friend Beat selector and the missing E5 group-resolution lifecycle.
+
+**Cycle 2 CI evidence:** GitHub Actions PR #10 — syntax PASS, `validate:story` PASS, **1,230 tests passed / 0 failed / 0 skipped**.
 
 
 # 6. STATE OWNERSHIP
