@@ -209,6 +209,183 @@
         "Terms of Use.txt"
       ],
       "exclusionReason": "The supplied archive is character/battler-oriented and does not provide a map/tileset surface relevant to the Map Asset Library."
+    },
+    {
+      "id": "kauzz_spacepack",
+      "filename": "Kauzz SpacePack.zip",
+      "sha256": "7619d15d6ff3e1ed44ac38855e34c4199baeca0f38cc194317fc09806b9486fe",
+      "format": "ZIP",
+      "mapEligible": true,
+      "supportOnly": true,
+      "roles": [
+        "futuristic-doors",
+        "modular-facility-pods",
+        "sci-fi-floors",
+        "service-vehicles",
+        "robot-props",
+        "modern-world-venue-overlays"
+      ],
+      "license": {
+        "status": "user-supplied-unverified",
+        "note": "No license/readme/terms file is present in the supplied ZIP; do not infer redistribution rights."
+      },
+      "entries": [
+        {
+          "filename": "SpacePack/$Door1.png",
+          "dimensions": {
+            "width": 168,
+            "height": 185
+          },
+          "roles": [
+            "industrial-door",
+            "facility-door"
+          ]
+        },
+        {
+          "filename": "SpacePack/$Door2.png",
+          "dimensions": {
+            "width": 240,
+            "height": 290
+          },
+          "roles": [
+            "arched-door",
+            "facility-door"
+          ]
+        },
+        {
+          "filename": "SpacePack/$Robot1.png",
+          "dimensions": {
+            "width": 141,
+            "height": 184
+          },
+          "roles": [
+            "robot-prop",
+            "optional-service-unit"
+          ]
+        },
+        {
+          "filename": "SpacePack/$RobotCircuit.png",
+          "dimensions": {
+            "width": 141,
+            "height": 184
+          },
+          "roles": [
+            "robot-prop",
+            "electrical-service-unit"
+          ]
+        },
+        {
+          "filename": "SpacePack/$Robot_Suit.png",
+          "dimensions": {
+            "width": 186,
+            "height": 332
+          },
+          "roles": [
+            "robot-prop",
+            "suit-prop"
+          ]
+        },
+        {
+          "filename": "SpacePack/Spacepack 1.png",
+          "dimensions": {
+            "width": 512,
+            "height": 512
+          },
+          "roles": [
+            "modular-pod",
+            "facility-module"
+          ]
+        },
+        {
+          "filename": "SpacePack/Spacepack 2.png",
+          "dimensions": {
+            "width": 512,
+            "height": 512
+          },
+          "roles": [
+            "modular-pod",
+            "facility-module"
+          ]
+        },
+        {
+          "filename": "SpacePack/Spacepack 3.png",
+          "dimensions": {
+            "width": 512,
+            "height": 512
+          },
+          "roles": [
+            "colored-modular-pods",
+            "facility-module"
+          ]
+        },
+        {
+          "filename": "SpacePack/Spacepack 4.png",
+          "dimensions": {
+            "width": 512,
+            "height": 512
+          },
+          "roles": [
+            "service-vehicle",
+            "transport-prop"
+          ]
+        },
+        {
+          "filename": "SpacePack/Spacepack 5.png",
+          "dimensions": {
+            "width": 512,
+            "height": 512
+          },
+          "roles": [
+            "shuttle-prop",
+            "transport-prop"
+          ]
+        },
+        {
+          "filename": "SpacePack/Spacepack 6.png",
+          "dimensions": {
+            "width": 512,
+            "height": 512
+          },
+          "roles": [
+            "facility-module",
+            "solar-panel-prop"
+          ]
+        },
+        {
+          "filename": "SpacePack/Spacepack 7.png",
+          "dimensions": {
+            "width": 512,
+            "height": 512
+          },
+          "roles": [
+            "rocket-prop",
+            "excluded-by-default"
+          ]
+        },
+        {
+          "filename": "SpacePack/Spacepack Floor 1.png",
+          "dimensions": {
+            "width": 256,
+            "height": 512
+          },
+          "roles": [
+            "floor-texture",
+            "light-dark-floor"
+          ]
+        },
+        {
+          "filename": "SpacePack/Spacepack Floor 2.png",
+          "dimensions": {
+            "width": 256,
+            "height": 512
+          },
+          "roles": [
+            "floor-texture",
+            "earth-metal-floor"
+          ]
+        }
+      ],
+      "usageRule": "Use selectively for modern/futuristic venue dressing. Do not make Asteria or the World Championship read as a space/sci-fi setting by default."
     }
   ],
   "environmentClasses": {
@@ -287,18 +464,35 @@
       "primary": [
         "openrtp_2022:exterior.png",
         "openrtp_2022:interior.png",
-        "openrtp_2022:dungeon.png"
+        "openrtp_2022:dungeon.png",
+        "kauzz_spacepack"
       ],
       "coverage": "partial",
-      "note": "Can be composed, but the pack has no dedicated modern stadium language."
+      "note": "OpenRPG provides base geometry; Kauzz SpacePack can add selective modern doors/floors/modules/vehicles. Large-stadium language is still missing."
     },
     "institutional_modern": {
       "primary": [
         "openrtp_2022:interior.png",
-        "openrtp_2022:exterior.png"
+        "openrtp_2022:exterior.png",
+        "kauzz_spacepack"
       ],
       "coverage": "partial",
-      "note": "Useful base geometry; modern media/medical/sponsor identity needs composition or overlays."
+      "note": "OpenRPG provides base geometry; Kauzz SpacePack materially improves doors, floors, modular facility forms and service-vehicle dressing, but sports/media/medical identity still needs composition."
+    },
+    "futuristic_facility_support": {
+      "primary": [
+        "kauzz_spacepack:Spacepack Floor 1.png",
+        "kauzz_spacepack:Spacepack Floor 2.png",
+        "kauzz_spacepack:$Door1.png",
+        "kauzz_spacepack:$Door2.png",
+        "kauzz_spacepack:Spacepack 1.png",
+        "kauzz_spacepack:Spacepack 2.png",
+        "kauzz_spacepack:Spacepack 3.png",
+        "kauzz_spacepack:Spacepack 4.png",
+        "kauzz_spacepack:Spacepack 6.png"
+      ],
+      "coverage": "support-only",
+      "note": "Modern/futuristic dressing for M07-M11 interiors and World Village support areas; not a base tileset or a license to shift the setting into science fiction."
     }
   },
   "moduleCoverage": [
@@ -429,13 +623,16 @@
         "tournament_venue",
         "institutional_modern"
       ],
-      "coverage": "partial",
+      "coverage": "partial-improved",
       "gaps": [
-        "modern metropolis language",
+        "modern metropolis exterior language",
         "large stadium",
-        "media/sponsor set dressing",
-        "medical-sports set dressing",
-        "international station set dressing"
+        "sports-specific media/sponsor branding",
+        "sports-medicine-specific dressing",
+        "international station identity"
+      ],
+      "supportingSources": [
+        "kauzz_spacepack"
       ]
     },
     {
@@ -455,9 +652,12 @@
         "tournament_venue",
         "institutional_modern"
       ],
-      "coverage": "partial",
+      "coverage": "partial-improved",
       "gaps": [
-        "World stadium/village modern identity"
+        "World stadium exterior/arena bowl and event-specific branding; World Village/support interiors now have stronger prop coverage"
+      ],
+      "supportingSources": [
+        "kauzz_spacepack"
       ]
     },
     {
@@ -470,9 +670,12 @@
         "tournament_venue",
         "institutional_modern"
       ],
-      "coverage": "partial",
+      "coverage": "partial-improved-by-reuse",
       "gaps": [
         "reuse M08 World venue compositions"
+      ],
+      "supportingSources": [
+        "kauzz_spacepack"
       ]
     },
     {
@@ -485,9 +688,12 @@
         "tournament_venue",
         "institutional_modern"
       ],
-      "coverage": "partial",
+      "coverage": "partial-improved-by-reuse",
       "gaps": [
         "reuse M08 World venue compositions"
+      ],
+      "supportingSources": [
+        "kauzz_spacepack"
       ]
     },
     {
@@ -500,9 +706,12 @@
         "tournament_venue",
         "institutional_modern"
       ],
-      "coverage": "partial",
+      "coverage": "partial-improved-by-reuse",
       "gaps": [
         "reuse M08 World venue compositions"
+      ],
+      "supportingSources": [
+        "kauzz_spacepack"
       ]
     },
     {
@@ -537,7 +746,8 @@
         "M10",
         "M11"
       ],
-      "rule": "Solve by composition/overlays first; do not add a second map architecture."
+      "rule": "Use OpenRPG as base geometry and Kauzz SpacePack only as selective overlays/props; still source or build a coherent stadium/metropolis family. Do not add a second map architecture.",
+      "scopeAfterKauzz": "Kauzz SpacePack reduces the interior/prop gap (doors, floors, modular pods, service vehicles) but does not solve the large stadium or modern-metropolis exterior family."
     },
     {
       "id": "GAP_WIND_FARM_PROPS",
@@ -572,6 +782,7 @@
     "Do not auto-slice the three 1536px source sheets until tile boundaries and intended transparency/keying are explicitly defined.",
     "OpenRTP is a verified 16x16 tilebase and may be normalized into the existing Bookgame content pipeline.",
     "Keep raw sources immutable; generate derived atlases/maps separately.",
-    "M12 introduces no new map family: it reuses stateful variants of prior locations."
+    "M12 introduces no new map family: it reuses stateful variants of prior locations.",
+    "Kauzz SpacePack is a support/overlay library only: prefer doors, floors, modular pods and service vehicles; robots/rocket are excluded by default unless a scene explicitly justifies them."
   ]
 }
