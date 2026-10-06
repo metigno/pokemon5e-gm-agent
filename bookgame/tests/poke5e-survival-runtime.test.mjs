@@ -193,3 +193,38 @@ test("forced replacement recalls a fainted Pokemon and pauses its death saves", 
   const recovery = combat.advancePokeballRecovery(switched, 10);
   assert.equal(recovery.battle.playerBench[0].death.stable, true);
 });
+
+
+test("wild Pokemon can target the Trainer and Trainer death ends the career", async () => {
+  const combat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([1, 20, 20, 6, 6, 1, 9])
+  });
+  const battle = await combat.createBattle({
+    encounterId: "TRAINER_TARGET",
+    sanctioned: false,
+    trainer: {
+      hp: { current: 1, max: 8 },
+      ac: 10,
+      abilities: { STR: 10, DEX: 10, CON: 10, INT: 10, WIS: 10, CHA: 10 },
+      savingThrows: ["CHA"]
+    },
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["tackle"] },
+    opponent: { speciesId: "machamp", level: 10, moveIds: ["tackle"] },
+    opponentPosition: { x: 5, y: 0 },
+    trainerPosition: { x: 0, y: 0 }
+  });
+  assert.equal(combat.actor(battle), "opponent");
+
+  const hit = await combat.useOpponentMoveAgainstTrainer(battle, "tackle");
+  assert.equal(hit.trainer.hp.current, 0);
+  assert.equal(hit.trainer.death.state, "dying");
+  assert.notEqual(hit.outcome, "career_ended");
+
+  const first = combat.resolveTrainerDeathSave(hit);
+  assert.equal(first.result.natural, 1);
+  assert.equal(first.result.failures, 2);
+  const second = combat.resolveTrainerDeathSave(first.battle);
+  assert.equal(second.result.failures, 3);
+  assert.equal(second.result.dead, true);
+  assert.equal(second.battle.outcome, "career_ended");
+});
