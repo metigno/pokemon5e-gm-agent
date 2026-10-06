@@ -1,0 +1,594 @@
+{
+  "schemaVersion": 1,
+  "id": "m12-interregional-callbacks",
+  "moduleId": "M12",
+  "title": "M12_07 — Interregional Callbacks",
+  "locationId": "interregional_circuit",
+  "entryNodeId": "callback_entry",
+  "conditions": {
+    "path": "world.flags.m12_highlands_callbacks_complete",
+    "eq": true
+  },
+  "nodes": {
+    "callback_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il circuito interregionale concentra Masters, Continental Cup, Red, cutoff mondiale e Primo Faro. M12 li rilegge come carriera persistente, non come un unico trofeo finale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_continental",
+          "text": "Parto dal risultato della Continental Cup.",
+          "goto": "continental_history"
+        },
+        {
+          "id": "entry_masters",
+          "text": "Parto dal Masters Circuit.",
+          "goto": "masters_history"
+        },
+        {
+          "id": "entry_lighthouse",
+          "text": "Parto da Red, traiettorie e Primo Faro.",
+          "goto": "red"
+        }
+      ]
+    },
+    "circuit_now": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il circuito continua anche dopo il Mondiale: calendari e carriere NPC non si fermano alla conclusione della main story."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "continental_history"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "continental_winner"
+        }
+      ]
+    },
+    "continental_history": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "continental_result conserva il vero piazzamento alla Continental Cup e non viene sostituito dalla fama mondiale successiva."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "continental_winner"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "continental_finalist"
+        }
+      ]
+    },
+    "continental_winner": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Una vittoria continentale resta un risultato proprio, distinto dal Mondiale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "continental_finalist"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "continental_quarterfinal"
+        }
+      ]
+    },
+    "continental_finalist": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Essere finalista o semifinalista conserva valore e storia senza essere convertito in vittoria morale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "continental_quarterfinal"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "masters_history"
+        }
+      ]
+    },
+    "continental_quarterfinal": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un quarto di finale resta esattamente quello, con gli avversari e gli esiti già registrati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "masters_history"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "masters_win"
+        }
+      ]
+    },
+    "masters_history": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "m6_masters_result conserva il match reale del Masters Circuit e le sue conseguenze."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "masters_win"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "masters_loss"
+        }
+      ]
+    },
+    "masters_win": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Una vittoria al Masters resta parte della progressione che portò al cutoff mondiale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "masters_loss"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "red"
+        }
+      ]
+    },
+    "masters_loss": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Una sconfitta al Masters resta nel record senza essere cancellata dai risultati successivi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "red"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "hidden_trajectories"
+        }
+      ]
+    },
+    "red": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Red può riapparire solo se la sua traiettoria e la schedule lo rendono plausibile; nessun Anchor è convocato per l'epilogo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "hidden_trajectories"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "cutoff"
+        }
+      ]
+    },
+    "hidden_trajectories": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Le traiettorie nascoste viste in M6 ricordano che gli altri trainer continuarono carriere autonome."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "cutoff"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "lighthouse"
+        }
+      ]
+    },
+    "cutoff": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il world cutoff è un checkpoint di carriera già consumato: M12 può ricordarlo, non rigiocarlo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "lighthouse"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "travel_history"
+        }
+      ]
+    },
+    "lighthouse": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Primo Faro resta un hook postgame se il suo filo è davvero aperto o visitato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "travel_history"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "rank_state"
+        }
+      ]
+    },
+    "travel_history": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Rotte interregionali e viaggi restano accessi reali del mondo, non menu epilogo separati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "rank_state"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "living_world"
+        }
+      ]
+    },
+    "rank_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Rank e circuit points restano engine-owned e non vengono rimappati in base al finale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "living_world"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "future_season"
+        }
+      ]
+    },
+    "living_world": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "E6 continua a risolvere eventi e carriere NPC anche dopo la fine della main story."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "future_season"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "continental_synthesis"
+        }
+      ]
+    },
+    "future_season": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Una futura stagione può partire dallo stesso stato senza reset, perché M12 non crea un secondo modello di carriera."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "continental_synthesis"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "masters_synthesis"
+        }
+      ]
+    },
+    "continental_synthesis": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La prima sintesi registra il piazzamento continentale realmente disponibile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continental_winner",
+          "text": "Registro il titolo continentale realmente vinto.",
+          "goto": "masters_synthesis",
+          "conditions": {
+            "path": "world.flags.continental_result",
+            "eq": "winner"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_interregional_continental_context",
+              "value": "winner"
+            }
+          ]
+        },
+        {
+          "id": "continental_finalist",
+          "text": "Registro la finale continentale senza convertirla in titolo.",
+          "goto": "masters_synthesis",
+          "conditions": {
+            "path": "world.flags.continental_result",
+            "eq": "finalist"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_interregional_continental_context",
+              "value": "finalist"
+            }
+          ]
+        },
+        {
+          "id": "continental_other",
+          "text": "Registro il piazzamento intermedio realmente ottenuto.",
+          "goto": "masters_synthesis",
+          "conditions": {
+            "path": "world.flags.continental_result",
+            "in": [
+              "semifinal",
+              "quarterfinal"
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_interregional_continental_context",
+              "value": "knockout_placement"
+            }
+          ]
+        },
+        {
+          "id": "continental_absent",
+          "text": "Non esiste un risultato continentale canonico: non ne invento uno.",
+          "goto": "masters_synthesis",
+          "conditions": {
+            "path": "world.flags.continental_result",
+            "exists": false
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_interregional_continental_context",
+              "value": "not_recorded"
+            }
+          ]
+        }
+      ]
+    },
+    "masters_synthesis": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La seconda sintesi registra il vero esito Masters senza modificarlo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "masters_win",
+          "text": "Registro la vittoria Masters già ottenuta.",
+          "goto": "callback_review",
+          "conditions": {
+            "path": "world.flags.m6_masters_result",
+            "eq": "win"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_interregional_callback_state",
+              "value": "masters_win"
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_interregional_callbacks_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "meridiana_city"
+            }
+          ]
+        },
+        {
+          "id": "masters_loss",
+          "text": "Registro la sconfitta Masters senza cancellarla.",
+          "goto": "callback_review",
+          "conditions": {
+            "path": "world.flags.m6_masters_result",
+            "eq": "loss"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_interregional_callback_state",
+              "value": "masters_loss"
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_interregional_callbacks_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "meridiana_city"
+            }
+          ]
+        },
+        {
+          "id": "masters_visited_unclassified",
+          "text": "Il Masters fu visitato ma non ha un risultato classificabile: conservo il limite.",
+          "goto": "callback_review",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.m6_masters_circuit_visited",
+                "eq": true
+              },
+              {
+                "path": "world.flags.m6_masters_result",
+                "exists": false
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_interregional_callback_state",
+              "value": "masters_unclassified"
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_interregional_callbacks_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "meridiana_city"
+            }
+          ]
+        },
+        {
+          "id": "masters_absent",
+          "text": "Non esiste un risultato Masters canonico: il callback resta neutro.",
+          "goto": "callback_review",
+          "conditions": {
+            "path": "world.flags.m6_masters_circuit_visited",
+            "ne": true
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_interregional_callback_state",
+              "value": "masters_not_recorded"
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_interregional_callbacks_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "meridiana_city"
+            }
+          ]
+        }
+      ]
+    },
+    "callback_review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Red, Primo Faro e cutoff restano hook separati dalle classificazioni competitive."
+        }
+      ],
+      "choices": [
+        {
+          "id": "to_meridiana",
+          "text": "Proseguo verso Meridiana.",
+          "goto": "m12-meridiana-callbacks#callback_entry"
+        },
+        {
+          "id": "review_interregional",
+          "text": "Rileggo i due risultati competitivi.",
+          "goto": "continental_synthesis"
+        }
+      ]
+    },
+    "complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il callback interregionale è registrato. Il viaggio torna a Meridiana, dove qualificazione, media e status professionale possono essere riletti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "callback_entry"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "circuit_now"
+        }
+      ]
+    }
+  }
+}
