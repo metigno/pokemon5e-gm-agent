@@ -122,8 +122,8 @@
         },
         {
           "id": "context_back",
-          "text": "Torno all'incontro.",
-          "goto": "red_entry"
+          "text": "Controllo come i rapporti con gli Anchor precedenti entrano nel contesto.",
+          "goto": "callback"
         }
       ]
     },
