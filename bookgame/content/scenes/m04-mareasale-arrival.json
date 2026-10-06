@@ -359,6 +359,29 @@
           "goto": "m04-friend-beat-04#friend_call"
         },
         {
+          "id": "hub_league_registration",
+          "text": "Controllo la finestra di registrazione Upper Regional.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.a4_league_reg_available",
+                "eq": true
+              },
+              {
+                "path": "world.flags.upper_regional_result",
+                "exists": false
+              }
+            ]
+          },
+          "goto": "m04-league-registration#registration_hall",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city_arena"
+            }
+          ]
+        },
+        {
           "id": "hub_back_ferravia",
           "text": "Torno a Ferravia.",
           "timeCostMinutes": 240,
@@ -500,6 +523,23 @@
           "id": "arena_upper",
           "text": "Chiedo come funzionerà l'upper-regional quando la finestra sarà aperta.",
           "goto": "arena_upper"
+        },
+        {
+          "id": "arena_league_registration",
+          "text": "Vado allo sportello Upper Regional Circuit.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.a4_league_reg_available",
+                "eq": true
+              },
+              {
+                "path": "world.flags.upper_regional_result",
+                "exists": false
+              }
+            ]
+          },
+          "goto": "m04-league-registration#registration_hall"
         },
         {
           "id": "arena_back",
