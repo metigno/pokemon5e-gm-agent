@@ -232,6 +232,67 @@ test("canonical OHKO moves execute their d20, level and immunity rules", async (
   assert.equal(fissureBattle.opponent.hp.current, fissureHp);
 });
 
+test("save-based HP moves execute Endeavor, Nature's Madness, Pain Split and Ruination", async () => {
+  const makeBattle = async (moveId) => {
+    const combat = new Pokemon5eCombatEngine({
+      dice: new SequenceDice([20, 1, 1])
+    });
+    const battle = await combat.createBattle({
+      encounterId: `FULL_RUNTIME_HP_${moveId}`,
+      playerPokemon: { speciesId: "eevee", level: 5, moveIds: [moveId] },
+      opponent: { speciesId: "eevee", level: 5, moveIds: ["tackle"] },
+      playerPosition: { x: 0, y: 0 },
+      opponentPosition: { x: 5, y: 0 }
+    });
+    return { combat, battle };
+  };
+
+  {
+    const { combat, battle } = await makeBattle("endeavor");
+    battle.player.hp.current = 4;
+    battle.opponent.hp.current = 20;
+
+    const roundOneMoves = await combat.availablePlayerMoves(battle);
+    assert.equal(roundOneMoves.some((move) => move.id === "endeavor"), false);
+    await assert.rejects(
+      () => combat.usePlayerMove(battle, "endeavor"),
+      /cannot be used in the first round/
+    );
+
+    battle.round = 2;
+    const next = await combat.usePlayerMove(battle, "endeavor");
+    assert.equal(next.opponent.hp.current, 4);
+    assert.equal(next.log.find((event) => event.type === "save_hp_effect").hpLoss, 16);
+  }
+
+  {
+    const { combat, battle } = await makeBattle("natures-madness");
+    battle.opponent.hp.current = 19;
+    const next = await combat.usePlayerMove(battle, "natures-madness");
+    assert.equal(next.opponent.hp.current, 10);
+    assert.equal(next.log.find((event) => event.type === "save_hp_effect").hpLoss, 9);
+  }
+
+  {
+    const { combat, battle } = await makeBattle("pain-split");
+    battle.player.hp.current = 6;
+    battle.opponent.hp.current = 20;
+    const next = await combat.usePlayerMove(battle, "pain-split");
+    assert.equal(next.player.hp.current, 13);
+    assert.equal(next.opponent.hp.current, 13);
+  }
+
+  {
+    const { combat, battle } = await makeBattle("ruination");
+    battle.opponent.hp.current = 20;
+    const maxBefore = battle.opponent.hp.max;
+    const next = await combat.usePlayerMove(battle, "ruination");
+    assert.equal(next.opponent.hp.current, 10);
+    assert.equal(next.opponent.hp.max, maxBefore - 10);
+    assert.equal(next.log.find((event) => event.type === "save_hp_effect").hpLoss, 10);
+  }
+});
+
 test("2024 status core supports Frozen, Badly Poisoned and Confused", () => {
   const frozen = dummyPokemon({ types: ["water"] });
   assert.equal(applyStatus(frozen, "Frozen", { sourceProficiencyBonus: 3 }).applied, true);
