@@ -206,7 +206,7 @@ test("Acupressure follows its d6 table and temporary HP absorbs incoming damage"
 
 test("Feather Dance, Mean Look and Lock-On execute their target rules", async () => {
   const featherCombat = new Pokemon5eCombatEngine({
-    dice: new SequenceDice([20, 1, 1, 20, 1, 1])
+    dice: new SequenceDice([20, 1, 1, 20, ...Array(40).fill(1)])
   });
   let featherBattle = await featherCombat.createBattle({
     encounterId: "FULL_RUNTIME_FEATHER_DANCE",
@@ -246,7 +246,7 @@ test("Feather Dance, Mean Look and Lock-On execute their target rules", async ()
   assert.equal(meanLookBattle.opponent.effects.switchLockSources.at(-1)?.expiresRound, 4);
 
   const lockOnCombat = new Pokemon5eCombatEngine({
-    dice: new SequenceDice([20, 1, 1, 1, 1, 1])
+    dice: new SequenceDice([20, 1, ...Array(40).fill(1)])
   });
   let lockOnBattle = await lockOnCombat.createBattle({
     encounterId: "FULL_RUNTIME_LOCK_ON",
@@ -302,7 +302,7 @@ test("weather moves persist offline battle state and Weather Ball consumes that 
   assert.equal(sunBattle.environment.weather.expiresRound, 6);
 
   const ballCombat = new Pokemon5eCombatEngine({
-    dice: new SequenceDice([20, 1, 20, 1, 1, 1, 1, 1])
+    dice: new SequenceDice([20, 1, 20, ...Array(40).fill(1)])
   });
   let ballBattle = await ballCombat.createBattle({
     encounterId: "FULL_RUNTIME_WEATHER_BALL",
