@@ -68,9 +68,15 @@ function stabFor(combatant, move, pb) {
   if (!combatant.types.includes(move.type)) return 0;
   let stab = pb;
 
+  const lowHpStabTypes = {
+    blaze: "fire",
+    overgrow: "grass",
+    swarm: "bug",
+    torrent: "water"
+  };
+  const boostedType = lowHpStabTypes[combatant.abilityId];
   if (
-    combatant.abilityId === "torrent" &&
-    move.type === "water" &&
+    boostedType === move.type &&
     combatant.hp.current <= Math.floor(combatant.hp.max * 0.25)
   ) {
     stab *= 2;
@@ -215,6 +221,9 @@ export function resolveAttack({
   const attackModifier = stats.toHit + extraAttackModifier;
   const attackTotal = attackRoll.natural + attackModifier;
   const critical = attackRoll.natural === 20;
+  const criticalDamage =
+    critical &&
+    !["battle-armor", "shell-armor"].includes(defender.abilityId);
   const hit = critical || (attackRoll.natural !== 1 && attackTotal >= defender.ac);
 
   if (!hit) {
@@ -228,6 +237,7 @@ export function resolveAttack({
       defenderAc: defender.ac,
       hit: false,
       critical: false,
+      criticalDamage: false,
       damage: 0,
       typeMultiplier: 1,
       stab: stats.stab
@@ -235,7 +245,7 @@ export function resolveAttack({
   }
 
   const damageRoll = rollDamage(stats.damageDice, dice, {
-    critical,
+    critical: criticalDamage,
     disadvantage: damageHasDisadvantage(attacker)
   });
   const rawDamage = Math.max(0, damageRoll.selected.total + stats.damageModifier);
@@ -255,6 +265,7 @@ export function resolveAttack({
     defenderAc: defender.ac,
     hit: true,
     critical,
+    criticalDamage,
     damageRoll,
     damageModifier: stats.damageModifier,
     rawDamage,
