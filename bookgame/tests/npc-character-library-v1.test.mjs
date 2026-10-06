@@ -51,10 +51,15 @@ test("NPC Character Library runtime IDs are unique and M12 remains callback-only
 
   assert.equal(new Set(ids).size, ids.length, "runtime character IDs must be unique");
   assert.equal(registry.productionCoverage.M11, "complete_runtime_validated");
-  assert.equal(registry.productionCoverage.M12, "mapped_not_production_complete");
+  assert.equal(registry.productionCoverage.M12, "complete_runtime_validated");
   assert.equal(registry.m12Policy.anchor, "cast completo / WORLD_EXIT");
   assert.equal(registry.m12Policy.noTeleportForGroupScene, true);
-  assert.equal(registry.deltaAudit.required, true);
+  assert.equal(registry.deltaAudit.required, false);
+  assert.equal(registry.deltaAudit.completed, true);
+  assert.equal(registry.deltaAudit.result, "PASS");
+  assert.equal(registry.deltaAudit.evidence.m12NpcRegisterMentions, 0);
+  assert.equal(registry.deltaAudit.evidence.m12StructuredNpcIds, 0);
+  assert.equal(registry.deltaAudit.evidence.newM12Anchor, false);
 });
 
 test("NPC library lock documents the evidence-based persistence rule", () => {
@@ -63,6 +68,8 @@ test("NPC library lock documents the evidence-based persistence rule", () => {
   assert.match(lock, /Ranger Elio Mar/);
   assert.match(lock, /Maxie/);
   assert.match(lock, /Sera Noll/);
-  assert.match(lock, /Delta audit after M12/);
+  assert.match(lock, /Delta audit after M12 — PASS/);
+  assert.match(lock, /0.*npc_register/);
+  assert.match(lock, /release-candidate complete/);
   assert.match(lock, /reuse first, add only when genuinely new/i);
 });
