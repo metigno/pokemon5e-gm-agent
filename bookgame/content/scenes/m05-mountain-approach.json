@@ -1,0 +1,529 @@
+{
+  "schemaVersion": 1,
+  "id": "m05-mountain-approach",
+  "moduleId": "M05",
+  "title": "M5_01 — Mountain Approach",
+  "locationId": "fer_mountains",
+  "entryNodeId": "mountain_departure",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m4_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m05_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m5_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "B"
+      }
+    ]
+  },
+  "nodes": {
+    "mountain_departure": {
+      "stitches": [
+        {
+          "id": "dep_1",
+          "text": "La salita nei Monti Ferrox comincia sotto il limite degli alberi, dove vecchie piste minerarie e sentieri del Circuito condividono ancora gli stessi tornanti."
+        },
+        {
+          "id": "dep_2",
+          "text": "Il Rank B ti autorizza a proseguire verso Altacima, ma non rende la montagna sicura. Vento, freddo e visibilità possono cambiare mentre sei in cammino."
+        }
+      ],
+      "choices": [
+        {
+          "id": "dep_board",
+          "text": "Controllo il pannello sentieri prima di salire.",
+          "goto": "trail_board"
+        },
+        {
+          "id": "dep_weather",
+          "text": "Leggo subito i segnali del tempo sulla cresta.",
+          "goto": "weather_signs"
+        },
+        {
+          "id": "dep_pack",
+          "text": "Rivedo la preparazione senza modificare artificialmente la squadra.",
+          "goto": "pack_check"
+        },
+        {
+          "id": "dep_retreat",
+          "text": "Rinuncio per ora e torno a Mareasale.",
+          "timeCostMinutes": 180,
+          "goto": "retreat",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        }
+      ]
+    },
+    "trail_board": {
+      "stitches": [
+        {
+          "id": "board_1",
+          "text": "Il pannello separa una strada di servizio esposta ma larga da un sentiero alto più corto. Entrambi convergono verso i tornanti finali sotto Altacima."
+        }
+      ],
+      "choices": [
+        {
+          "id": "board_service",
+          "text": "Prendo la strada di servizio.",
+          "timeCostMinutes": 120,
+          "goto": "lower_trail",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_mountain_route",
+              "value": "service_road"
+            }
+          ]
+        },
+        {
+          "id": "board_high",
+          "text": "Prendo il sentiero alto.",
+          "timeCostMinutes": 90,
+          "goto": "upper_trail",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_mountain_route",
+              "value": "high_trail"
+            }
+          ]
+        },
+        {
+          "id": "board_signs",
+          "text": "Prima confronto i segnali meteo con il percorso.",
+          "goto": "weather_signs"
+        }
+      ]
+    },
+    "weather_signs": {
+      "stitches": [
+        {
+          "id": "weather_1",
+          "text": "Nubi sottili corrono da ovest mentre raffiche discontinue scendono dai canaloni. Non è ancora una chiusura, ma il margine cambia in fretta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "weather_read",
+          "text": "Valuto se il vento sta aumentando. (CT Survival)",
+          "check": {
+            "ability": "WIS",
+            "skill": "Survival",
+            "dc": 13
+          },
+          "outcomes": {
+            "success": {
+              "goto": "ridge_choice",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "m5_mountain_weather_read",
+                  "value": "rising_wind"
+                }
+              ]
+            },
+            "failure": {
+              "goto": "ridge_choice",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "m5_mountain_weather_read",
+                  "value": "uncertain"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "weather_shelter",
+          "text": "Non mi fido della lettura: raggiungo il primo riparo e aspetto.",
+          "timeCostMinutes": 60,
+          "goto": "shelter"
+        }
+      ]
+    },
+    "pack_check": {
+      "stitches": [
+        {
+          "id": "pack_1",
+          "text": "Il controllo è logistico: ciò che possiedi resta ciò che possiedi. Nessun oggetto compare perché il percorso è difficile e nessun HP o PP viene ripristinato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pack_done",
+          "text": "Chiudo il controllo e scelgo il sentiero.",
+          "goto": "trail_board",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_pack_checked",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "lower_trail": {
+      "stitches": [
+        {
+          "id": "low_1",
+          "text": "La strada di servizio sale a tornanti larghi fra pareti tagliate e vecchi parapetti. È più lenta, ma offre punti di riparo e visuale sulle deviazioni."
+        }
+      ],
+      "choices": [
+        {
+          "id": "low_observe",
+          "text": "Cerco segni di cedimenti o deviazioni recenti. (CT Perception)",
+          "check": {
+            "ability": "WIS",
+            "skill": "Perception",
+            "dc": 12
+          },
+          "outcomes": {
+            "success": {
+              "goto": "callback_rescue",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "m5_service_hazard_known",
+                  "value": true
+                }
+              ]
+            },
+            "failure": {
+              "goto": "ridge_choice",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "m5_service_scan_done",
+                  "value": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "low_continue",
+          "text": "Continuo verso i tornanti alti.",
+          "timeCostMinutes": 60,
+          "goto": "ridge_choice"
+        }
+      ]
+    },
+    "upper_trail": {
+      "stitches": [
+        {
+          "id": "high_1",
+          "text": "Il sentiero alto taglia sul fianco della montagna. Guadagni tempo, ma il vento laterale e la distanza dai ripari rendono ogni decisione più sensibile alla finestra meteo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "high_commit",
+          "text": "Mantengo il passo e raggiungo la cresta.",
+          "timeCostMinutes": 45,
+          "goto": "ridge_choice",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_high_trail_committed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "high_drop",
+          "text": "Scendo verso un riparo prima che il vento peggiori.",
+          "timeCostMinutes": 30,
+          "goto": "shelter"
+        }
+      ]
+    },
+    "ridge_choice": {
+      "stitches": [
+        {
+          "id": "ridge_1",
+          "text": "Alla cresta la visibilità si apre per pochi minuti. Altacima è ancora sopra di te; una raffica forte basta a ricordare che la quota non è un semplice fondale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ridge_push",
+          "text": "Proseguo subito verso il passaggio finale.",
+          "check": {
+            "ability": "CON",
+            "dc": 12
+          },
+          "outcomes": {
+            "success": {
+              "goto": "ridge_success",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "m5_ridge_crossing",
+                  "value": "steady"
+                }
+              ]
+            },
+            "failure": {
+              "goto": "ridge_failure",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "m5_ridge_crossing",
+                  "value": "taxing"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "ridge_shelter",
+          "text": "Aspetto in un riparo e lascio passare la raffica.",
+          "timeCostMinutes": 60,
+          "goto": "shelter"
+        },
+        {
+          "id": "ridge_backtrack",
+          "text": "Torno al percorso di servizio.",
+          "timeCostMinutes": 45,
+          "goto": "lower_trail"
+        }
+      ]
+    },
+    "ridge_success": {
+      "stitches": [
+        {
+          "id": "rs_1",
+          "text": "Superi il tratto esposto senza dover accelerare oltre il necessario. Il vantaggio è soprattutto di tempo e informazione: il rischio non scompare."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rs_view",
+          "text": "Cerco il profilo di Altacima.",
+          "goto": "altacima_view"
+        },
+        {
+          "id": "rs_signs",
+          "text": "Controllo le tracce di fauna e passaggi recenti lungo la cresta.",
+          "goto": "wild_signs"
+        }
+      ]
+    },
+    "ridge_failure": {
+      "stitches": [
+        {
+          "id": "rf_1",
+          "text": "Il passaggio ti costa più del previsto e ti obbliga a rallentare. La scena registra il rischio e il tempo, senza inventare danni o condizioni che spettano ai sistemi competenti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rf_shelter",
+          "text": "Mi fermo nel primo riparo.",
+          "timeCostMinutes": 45,
+          "goto": "shelter"
+        },
+        {
+          "id": "rf_continue",
+          "text": "Continuo con prudenza verso Altacima.",
+          "timeCostMinutes": 60,
+          "goto": "altacima_view"
+        }
+      ]
+    },
+    "shelter": {
+      "stitches": [
+        {
+          "id": "sh_1",
+          "text": "Il ricovero di quota è spartano: panche, radio di servizio e un pannello che ricorda di non confondere attesa con fallimento. Il mondo continua mentre aspetti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sh_wait",
+          "text": "Aspetto un'ora e rivaluto.",
+          "timeCostMinutes": 60,
+          "goto": "ridge_choice"
+        },
+        {
+          "id": "sh_notes",
+          "text": "Leggo i rapporti recenti sulla montagna.",
+          "goto": "callback_rescue"
+        }
+      ]
+    },
+    "callback_rescue": {
+      "stitches": [
+        {
+          "id": "cb_1",
+          "text": "I rapporti citano ancora vecchi interventi nelle Gallerie Ferrox. Se hai partecipato agli eventi di M3, quelle conseguenze restano parte della reputazione locale; altrimenti il testo non ti attribuisce meriti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "cb_known",
+          "text": "Riconosco i riferimenti al mio intervento precedente.",
+          "conditions": {
+            "path": "world.flags.ferrox_rescue_state",
+            "exists": true
+          },
+          "goto": "ridge_choice",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_ferrox_callback_seen",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "cb_neutral",
+          "text": "Tratto il rapporto come contesto locale, senza appropriarmi di eventi non vissuti.",
+          "goto": "ridge_choice"
+        }
+      ]
+    },
+    "wild_signs": {
+      "stitches": [
+        {
+          "id": "wild_1",
+          "text": "Impronte, piume e pietre smosse mostrano che la montagna è habitat prima che percorso. Non trasformi ogni segno in un incontro o in un combattimento."
+        }
+      ],
+      "choices": [
+        {
+          "id": "wild_record",
+          "text": "Registro il corridoio faunistico e proseguo.",
+          "goto": "altacima_view",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_mountain_fauna_corridor_noted",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "wild_leave",
+          "text": "Lascio la fauna indisturbata e continuo.",
+          "goto": "altacima_view"
+        }
+      ]
+    },
+    "altacima_view": {
+      "stitches": [
+        {
+          "id": "view_1",
+          "text": "Altacima appare incastonata sopra l'ultima serie di tornanti: tetti bassi, funi di sicurezza, antenne meteo e la Sala della Cresta sul lato più protetto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "view_gate",
+          "text": "Raggiungo il controllo d'accesso della città.",
+          "timeCostMinutes": 45,
+          "goto": "arrival_gate"
+        },
+        {
+          "id": "view_weather",
+          "text": "Prima osservo come il vento colpisce l'ultimo tratto.",
+          "goto": "weather_signs"
+        }
+      ]
+    },
+    "arrival_gate": {
+      "stitches": [
+        {
+          "id": "gate_1",
+          "text": "Il controllo verifica il Rank reale e le condizioni della tratta. Rank B è sufficiente per Altacima; nessuno ti promuove e nessuna licenza successiva viene assegnata qui."
+        }
+      ],
+      "choices": [
+        {
+          "id": "gate_enter",
+          "text": "Entro ad Altacima.",
+          "timeCostMinutes": 10,
+          "goto": "approach_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "altacima_access_confirmed",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        },
+        {
+          "id": "gate_review",
+          "text": "Rivedo cosa ho imparato sulla salita prima di entrare.",
+          "goto": "trail_board"
+        }
+      ]
+    },
+    "retreat": {
+      "stitches": [
+        {
+          "id": "ret_1",
+          "text": "Tornare indietro è una scelta valida. M5 resta attivo e la montagna non viene marcata come completata."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ret_hub",
+          "text": "Rientro nel hub di Mareasale.",
+          "goto": "m04-mareasale-arrival#city_hub"
+        }
+      ]
+    },
+    "approach_close": {
+      "stitches": [
+        {
+          "id": "close_1",
+          "text": "La salita termina all'ingresso di Altacima. Il percorso scelto, il tempo speso e le informazioni raccolte restano persistenti; nessun rischio è stato convertito in una scorciatoia."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_altacima",
+          "text": "Entro nel centro di Altacima.",
+          "goto": "m05-altacima#town_entry",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_mountain_approach_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        },
+        {
+          "id": "close_backtrail",
+          "text": "Prima torno al controllo della tratta.",
+          "goto": "arrival_gate"
+        }
+      ]
+    }
+  }
+}
