@@ -233,7 +233,7 @@
             {
               "type": "npc_relationship_adjust",
               "npcId": "Red",
-              "amount": 1
+              "delta": 1
             },
             {
               "type": "set_flag",
