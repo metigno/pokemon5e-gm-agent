@@ -5,7 +5,7 @@
 **Purpose:** production map for converting M6 into validated offline story content  
 **Locked authored budget:** **5,500 stitches / 3,400 player choices**
 
-**Module implementation status:** **MAPPED / NOT YET PRODUCTION-COMPLETE**
+**Module implementation status:** **M6_00–M6_04 COMPLETE / LIBRARY-V2 ALIGNED — M6 PARTIAL**
 
 E1–E7 are reusable infrastructure from M1. A block may extend generic data or content, but must not fork those engines into module-specific substitutes.
 
@@ -53,11 +53,11 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 
 | Block | Function | Stitches | Choices | Current state |
 |---|---|---:|---:|---|
-| M6_00_RANK_A_HANDOFF | ereditare Masters entry e licenza interregionale | 281 | 174 | PLANNED |
-| M6_01_ROUTE_SELECTION | scelta reale tra tratte disponibili senza obbligo di visitarle tutte | 331 | 204 | PLANNED |
-| M6_02_INTERREGIONAL_TRAVEL | Solaria/Luminara o altra tratta legale con tempi reali | 330 | 204 | PLANNED |
-| M6_03_RED_ENTERS | introduzione di Red come competitor osservatore | 330 | 204 | PLANNED |
-| M6_04_MASTERS_CIRCUIT | eventi Masters e ranking senza geographic bypass | 330 | 204 | PLANNED |
+| M6_00_RANK_A_HANDOFF | ereditare Masters entry e licenza interregionale | 281 | 174 | COMPLETE |
+| M6_01_ROUTE_SELECTION | scelta reale tra tratte disponibili senza obbligo di visitarle tutte | 331 | 204 | COMPLETE |
+| M6_02_INTERREGIONAL_TRAVEL | Solaria/Luminara o altra tratta legale con tempi reali | 330 | 204 | COMPLETE |
+| M6_03_RED_ENTERS | introduzione di Red come competitor osservatore | 330 | 204 | COMPLETE |
+| M6_04_MASTERS_CIRCUIT | eventi Masters e ranking senza geographic bypass | 330 | 204 | COMPLETE |
 | M6_05_HIDDEN_TRAJECTORIES | A6_HIDDEN_TRAJECTORIES e payoff visibile di un amico | 330 | 204 | PLANNED |
 | M6_06_FRIEND_BEAT_06 | evoluzione/cambio carriera/incontro reale di uno dei Four | 479 | 296 | PLANNED |
 | M6_07_CONTINENTAL_ENTRY | eligibility e preparazione alla Continental Cup | 281 | 174 | PLANNED |
@@ -71,6 +71,34 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 | **TOTAL** |  | **5,500** | **3,400** | |
 
 Budgets are authored surface capacity. One run sees only the paths made legal by its state.
+
+## 2A. RUNTIME LOGICAL PRODUCTION TRACKING
+
+The authored-surface budget above remains locked at **5,500 stitches / 3,400 choices**. Runtime production follows the canonical M6 target of approximately **220 logical nodes / 484 meaningful choices**.
+
+The first production cycle is allocated proportionally from the fixed M6 budget:
+
+| Block | Logical nodes | Meaningful choices | Status |
+|---|---:|---:|---|
+| M6_00_RANK_A_HANDOFF | 11 | 25 | COMPLETE |
+| M6_01_ROUTE_SELECTION | 13 | 29 | COMPLETE |
+| M6_02_INTERREGIONAL_TRAVEL | 13 | 29 | COMPLETE |
+| M6_03_RED_ENTERS | 13 | 29 | COMPLETE |
+| M6_04_MASTERS_CIRCUIT | 14 | 29 | COMPLETE |
+| **Cycle M6_00–M6_04** | **64** | **141** | **COMPLETE** |
+| **Remaining M6 target** | **156** | **343** | PLANNED |
+
+This is the proportional share implied by the locked authored budget. No node is added merely to hit a number.
+
+## 2B. LIBRARY V2 ROUTING FOR CYCLE 1
+
+- **M6_00:** R21 module handoff + R33 cross-module callback + R16 eligibility information + R32 wait/time.
+- **M6_01:** R34 access boundary + R01 location/return + R32 wait/time + R33 callbacks.
+- **M6_02:** R01 location entry/return + R22 temporal variation + R32 waiting + R33 continuity; travel time remains E2-owned.
+- **M6_03:** R24 persistent first meeting + R25 multi-context Anchor intro + R23 schedule causality + R33 callbacks; Red's adaptive silence is the unique layer.
+- **M6_04:** R15 official match lifecycle + R06 combat handoff + R16 eligibility + R33 continuity; ranking consequences remain E5-owned.
+
+**No R39 candidate is required.** Library V2 R01→R38 is sufficient for the complete first M6 cycle.
 
 ---
 
@@ -111,6 +139,18 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Reuse class:** REUSE
+
+**Source archetypes:**
+- R21_MODULE_HANDOFF
+- R33_CROSS_MODULE_CALLBACK
+- R16_ROSTER_PREPARATION_ELIGIBILITY_INFO
+- R32_WAIT_LET_TIME_PASS
+
+**Unique layer:** Rank A continuity into the international phase without granting Red, Masters results, World cutoff or A→S progress.
+
+**Implementation lock (cycle 1):** Scene `m06-handoff` contains **11 nodes / 25 meaningful choices**. It activates only M6, preserves all M5 state, distinguishes interregional license from route choice, and never changes Rank A or later M6 outcomes.
+
 ---
 
 ## M6_01_ROUTE_SELECTION
@@ -122,6 +162,18 @@ A content gap is not permission to implement a second engine.
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R34_ACCESS_BOUNDARY_RECONNAISSANCE_GATE
+- R01_LOCATION_ENTRY_RETURN
+- R32_WAIT_LET_TIME_PASS
+- R33_CROSS_MODULE_CALLBACK
+
+**Unique layer:** real route choice between interregional destinations without checklist travel or geographic bypass.
+
+**Implementation lock (cycle 1):** Scene `m06-route-selection` contains **13 nodes / 29 meaningful choices**. Solaria and Luminara are alternative first routes; waiting advances E2; route selection persists before departure; neither destination is auto-visited.
 
 ---
 
@@ -135,6 +187,18 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R01_LOCATION_ENTRY_RETURN
+- R22_TIME_OF_DAY_VARIANT
+- R32_WAIT_LET_TIME_PASS
+- R33_CROSS_MODULE_CALLBACK
+
+**Unique layer:** interregional transit with persistent travel time, delay and destination-specific arrival.
+
+**Implementation lock (cycle 1):** Scene `m06-interregional-travel` contains **13 nodes / 29 meaningful choices**. Solaria consumes 240 minutes, Luminara 300 minutes, delays consume additional real time, and arrival writes geography without changing Rank or fabricating competitive results.
+
 ---
 
 ## M6_03_RED_ENTERS
@@ -147,6 +211,18 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R24_PERSISTENT_NPC_FIRST_MEETING
+- R25_MULTI_CONTEXT_ANCHOR_INTRO
+- R23_NPC_PRESENCE_SCHEDULE_GATE
+- R33_CROSS_MODULE_CALLBACK
+
+**Unique layer:** Red's sparse, observational style and adaptation philosophy inside an international career context.
+
+**Implementation lock (cycle 1):** Scene `m06-red-enters` contains **13 nodes / 29 meaningful choices**. First meeting is persistent/idempotent, observation may defer contact, relationship changes carry no hidden bonus, and Charmander→Charmeleon→Charizard remains career history rather than scene-granted state.
+
 ---
 
 ## M6_04_MASTERS_CIRCUIT
@@ -158,6 +234,18 @@ A content gap is not permission to implement a second engine.
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R15_FIRST_OFFICIAL_MATCH_LIFECYCLE
+- R06_COMBAT_HANDOFF
+- R16_ROSTER_PREPARATION_ELIGIBILITY_INFO
+- R33_CROSS_MODULE_CALLBACK
+
+**Unique layer:** first M6 Masters window as an international Rank A performance test whose result feeds later ranking/cutoff without becoming the A→S gate.
+
+**Implementation lock (cycle 1):** Scene `m06-masters-circuit` contains **14 nodes / 29 meaningful choices**. Registration is separate from result; Official Five eligibility is enforced; the battle uses the Pokémon 5e/E5 combat handoff; win/loss are both persistent legal outcomes; Rank A is never changed by this block.
 
 ---
 
