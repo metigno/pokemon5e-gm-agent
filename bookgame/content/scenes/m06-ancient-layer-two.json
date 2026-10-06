@@ -1,0 +1,405 @@
+{
+  "schemaVersion": 1,
+  "id": "m06-ancient-layer-two",
+  "moduleId": "M06",
+  "title": "M6_09 — Ancient Layer Two",
+  "locationId": "interregional_archive",
+  "entryNodeId": "layer_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m5_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m06_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m6_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "A"
+      },
+      {
+        "path": "world.flags.friend_beat_06_complete",
+        "eq": true
+      },
+      {
+        "any": [
+          {
+            "path": "world.flags.continental_complete",
+            "eq": true
+          },
+          {
+            "path": "world.flags.continental_result",
+            "eq": "skipped"
+          }
+        ]
+      }
+    ]
+  },
+  "nodes": {
+    "layer_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il secondo layer del mistero non consegna una risposta finale. Mette in relazione il segnale di Fulgore con dati interregionali abbastanza simili da rendere il caso più grande di una singola anomalia locale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "layer_prior",
+          "text": "Rileggo ciò che M5 aveva realmente lasciato.",
+          "goto": "layer_one"
+        },
+        {
+          "id": "layer_archive",
+          "text": "Cerco un confronto in un archivio interregionale.",
+          "goto": "evidence_board"
+        },
+        {
+          "id": "layer_defer",
+          "text": "Non approfondisco ora, ma registro che il secondo segnale esiste.",
+          "goto": "defer"
+        }
+      ]
+    },
+    "layer_one": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se hai approfondito Fulgore, il primo layer offre un confronto più preciso. Se lo avevi solo notato, il nuovo materiale non riscrive retroattivamente ciò che non avevi scoperto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "layer_compare",
+          "text": "Metto il vecchio segnale accanto al nuovo.",
+          "goto": "evidence_board"
+        },
+        {
+          "id": "layer_continental",
+          "text": "Controllo se la Cup ha cambiato il contesto, non l'evidenza.",
+          "goto": "continental_callback"
+        }
+      ]
+    },
+    "continental_callback": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Vincere, perdere o saltare la Continental Cup cambia la tua carriera, non la natura delle tracce. Il mistero non premia un piazzamento con informazioni impossibili."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continental_red",
+          "text": "Uso Red come confronto metodologico se lo conosco.",
+          "goto": "red_callback"
+        },
+        {
+          "id": "continental_evidence",
+          "text": "Torno alle evidenze disponibili.",
+          "goto": "evidence_board"
+        }
+      ]
+    },
+    "red_callback": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Red evita conclusioni premature: due segnali simili non dimostrano ancora una causa unica. Il suo contributo resta interpretativo, non una rivelazione automatica."
+        }
+      ],
+      "choices": [
+        {
+          "id": "red_record",
+          "text": "Registro la cautela metodologica.",
+          "goto": "evidence_board",
+          "conditions": {
+            "path": "world.flags.red_met",
+            "eq": true
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_ancient_red_method_used",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "red_without",
+          "text": "Continuo senza usare Red come autorità.",
+          "goto": "evidence_board"
+        }
+      ]
+    },
+    "evidence_board": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'archivio contiene tre tipi di confronto utili: geografia, periodicità e materiale delle rilevazioni. Nessuno, isolatamente, identifica una creatura o una ricompensa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "evidence_geo",
+          "text": "Confronto la geografia dei segnali.",
+          "goto": "geography_check"
+        },
+        {
+          "id": "evidence_prior",
+          "text": "Ricollego il dato alla traccia di Fulgore.",
+          "goto": "layer_one"
+        },
+        {
+          "id": "evidence_interpret",
+          "text": "Passo all'interpretazione con ciò che ho.",
+          "goto": "interpretation"
+        }
+      ]
+    },
+    "geography_check": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La disposizione dei segnali suggerisce un asse che attraversa più zone, ma la correlazione può essere letta male. Serve un controllo reale, con fallimento valido."
+        }
+      ],
+      "choices": [
+        {
+          "id": "geo_check",
+          "text": "Studio mappe e distanze con attenzione.",
+          "check": {
+            "ability": "WIS",
+            "skill": "Perception",
+            "dc": 15
+          },
+          "outcomes": {
+            "success": {
+              "goto": "success",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "m6_ancient_geo_evidence",
+                  "value": "coherent_axis"
+                }
+              ]
+            },
+            "failure": {
+              "goto": "failure",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "m6_ancient_geo_evidence",
+                  "value": "uncertain_axis"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "geo_skip",
+          "text": "Non forzo una lettura delle mappe.",
+          "goto": "failure",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_ancient_geo_evidence",
+              "value": "not_tested"
+            }
+          ]
+        }
+      ]
+    },
+    "success": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il confronto regge abbastanza da suggerire un pattern geografico coerente. Non dimostra ancora origine, intenzione o presenza di un Legendary."
+        }
+      ],
+      "choices": [
+        {
+          "id": "success_interpret",
+          "text": "Aggiungo il dato all'interpretazione.",
+          "goto": "interpretation"
+        },
+        {
+          "id": "success_record",
+          "text": "Registro che l'asse geografico è il dato più forte.",
+          "goto": "strong_layer"
+        }
+      ]
+    },
+    "failure": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il materiale resta ambiguo. Un fallimento non diventa segretamente successo: il secondo layer può restare irrisolto e comunque persistente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "failure_interpret",
+          "text": "Interpreto soltanto ciò che resta affidabile.",
+          "goto": "interpretation"
+        },
+        {
+          "id": "failure_defer",
+          "text": "Conservo l'incertezza come risultato.",
+          "goto": "weak_layer"
+        }
+      ]
+    },
+    "interpretation": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il quadro ora può sostenere due letture oneste: un pattern interregionale ancora senza causa, oppure un secondo segnale troppo debole per essere collegato con sicurezza."
+        }
+      ],
+      "choices": [
+        {
+          "id": "interpret_strong",
+          "text": "Il dato geografico è coerente: registro un pattern cross-region.",
+          "goto": "strong_layer",
+          "conditions": {
+            "path": "world.flags.m6_ancient_geo_evidence",
+            "eq": "coherent_axis"
+          }
+        },
+        {
+          "id": "interpret_weak",
+          "text": "L'evidenza non basta: registro un secondo layer irrisolto.",
+          "goto": "weak_layer"
+        },
+        {
+          "id": "interpret_review",
+          "text": "Rivedo l'evidenza prima di scegliere.",
+          "goto": "evidence_board"
+        }
+      ]
+    },
+    "weak_layer": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il secondo layer viene conservato come informazione incompleta. Questo è progresso narrativo, non fallimento tecnico."
+        }
+      ],
+      "choices": [
+        {
+          "id": "weak_record",
+          "text": "Registro `second_layer_unresolved`.",
+          "goto": "close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ancient_mystery_layer_2",
+              "value": "second_layer_unresolved"
+            },
+            {
+              "type": "set_flag",
+              "key": "m6_ancient_layer_two_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "weak_review",
+          "text": "Rileggo perché non posso concludere di più.",
+          "goto": "evidence_board"
+        }
+      ]
+    },
+    "strong_layer": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il pattern cross-region è abbastanza coerente da diventare un callback futuro, ma non concede catture, incontri Legendary o accessi segreti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "strong_record",
+          "text": "Registro `cross_region_pattern`.",
+          "goto": "close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ancient_mystery_layer_2",
+              "value": "cross_region_pattern"
+            },
+            {
+              "type": "set_flag",
+              "key": "m6_ancient_layer_two_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "strong_review",
+          "text": "Rivedo il dato prima di chiudere.",
+          "goto": "evidence_board"
+        }
+      ]
+    },
+    "defer": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Ignorare l'approfondimento non congela il mistero. Il mondo conserva l'esistenza del secondo segnale e può farlo riemergere più avanti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "defer_record",
+          "text": "Registro il layer come notato ma non investigato.",
+          "goto": "close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ancient_mystery_layer_2",
+              "value": "noticed_not_investigated"
+            },
+            {
+              "type": "set_flag",
+              "key": "m6_ancient_layer_two_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "defer_return",
+          "text": "Cambio idea e apro l'archivio.",
+          "goto": "evidence_board"
+        }
+      ]
+    },
+    "close": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "M6 possiede ora un secondo layer persistente del mistero. La prossima tappa può riportare il player verso le Rovine del Primo Faro senza trasformare la pista in una soluzione gratuita."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_lighthouse",
+          "text": "Passo al ritorno verso il Primo Faro.",
+          "goto": "m06-first-lighthouse-return#return_entry"
+        },
+        {
+          "id": "close_review",
+          "text": "Rivedo il layer appena registrato.",
+          "goto": "interpretation"
+        }
+      ]
+    }
+  }
+}
