@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "id": "M12",
+  "title": "Dopo il Mondo",
+  "targets": {
+    "stitches": 4753,
+    "choices": 1884
+  },
+  "progressionRole": "world-exit-postgame",
+  "designDocument": "docs/modules/M12_DOPO_IL_MONDO_MODULE_DESIGN.md",
+  "mappingDocument": "docs/modules/M12_PRODUCTION_MAPPING.md",
+  "requiredBeats": [
+    "M12_00_WORLD_EXIT_BRANCH",
+    "M12_01_RETURN_ASTERIA",
+    "M12_02_VALEDARSENA_CALLBACKS",
+    "M12_03_BRUMA_CALLBACKS",
+    "M12_04_FERROX_CALLBACKS",
+    "M12_05_COAST_CALLBACKS",
+    "M12_06_HIGHLANDS_CALLBACKS",
+    "M12_07_INTERREGIONAL_CALLBACKS",
+    "M12_08_MERIDIANA_CALLBACKS",
+    "M12_09_FRIEND_BEAT_12",
+    "M12_10_POSTGAME_HOOKS",
+    "M12_11_MAIN_STORY_COMPLETE"
+  ],
+  "blocks": [
+    {
+      "id": "M12_00_WORLD_EXIT_BRANCH",
+      "title": "World Exit Branch",
+      "targets": {
+        "stitches": 396,
+        "choices": 157
+      }
+    },
+    {
+      "id": "M12_01_RETURN_ASTERIA",
+      "title": "Return Asteria",
+      "targets": {
+        "stitches": 259,
+        "choices": 103
+      }
+    },
+    {
+      "id": "M12_02_VALEDARSENA_CALLBACKS",
+      "title": "Valedarsena Callbacks",
+      "targets": {
+        "stitches": 442,
+        "choices": 175
+      }
+    },
+    {
+      "id": "M12_03_BRUMA_CALLBACKS",
+      "title": "Bruma Callbacks",
+      "targets": {
+        "stitches": 442,
+        "choices": 175
+      }
+    },
+    {
+      "id": "M12_04_FERROX_CALLBACKS",
+      "title": "Ferrox Callbacks",
+      "targets": {
+        "stitches": 442,
+        "choices": 175
+      }
+    },
+    {
+      "id": "M12_05_COAST_CALLBACKS",
+      "title": "Coast Callbacks",
+      "targets": {
+        "stitches": 442,
+        "choices": 175
+      }
+    },
+    {
+      "id": "M12_06_HIGHLANDS_CALLBACKS",
+      "title": "Highlands Callbacks",
+      "targets": {
+        "stitches": 442,
+        "choices": 175
+      }
+    },
+    {
+      "id": "M12_07_INTERREGIONAL_CALLBACKS",
+      "title": "Interregional Callbacks",
+      "targets": {
+        "stitches": 442,
+        "choices": 175
+      }
+    },
+    {
+      "id": "M12_08_MERIDIANA_CALLBACKS",
+      "title": "Meridiana Callbacks",
+      "targets": {
+        "stitches": 442,
+        "choices": 175
+      }
+    },
+    {
+      "id": "M12_09_FRIEND_BEAT_12",
+      "title": "Friend Beat 12",
+      "targets": {
+        "stitches": 441,
+        "choices": 175
+      }
+    },
+    {
+      "id": "M12_10_POSTGAME_HOOKS",
+      "title": "Postgame Hooks",
+      "targets": {
+        "stitches": 304,
+        "choices": 121
+      }
+    },
+    {
+      "id": "M12_11_MAIN_STORY_COMPLETE",
+      "title": "Main Story Complete",
+      "targets": {
+        "stitches": 259,
+        "choices": 103
+      }
+    }
+  ]
+}
