@@ -1,7 +1,7 @@
 # P5E LIBROGAME — M12 MODULE DESIGN
 
 **Modulo:** M12 — Dopo il Mondo  
-**Stato:** MASTER-MAPPED / IMPLEMENTATION-READY DESIGN  
+**Stato:** COMPLETE / RUNTIME-VALIDATED  
 **Progetto:** Pokémon 5e Digital Librogame / Librogame5e  
 **Branch:** pokemon5e-digital-bookgame  
 **Trainer level band:** 18–20  
