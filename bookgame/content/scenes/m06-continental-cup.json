@@ -1,0 +1,797 @@
+{
+  "schemaVersion": 1,
+  "id": "m06-continental-cup",
+  "moduleId": "M06",
+  "title": "M6_08 — Continental Cup",
+  "locationId": "interregional_continental_arena",
+  "entryNodeId": "cup_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m5_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m06_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m6_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "A"
+      },
+      {
+        "path": "world.flags.continental_registration_complete",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "cup_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La Continental Cup usa un bracket vero: perdere termina la corsa, vincere apre il round successivo. Nessun avversario viene sostituito per produrre un incontro narrativamente conveniente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "cup_bracket",
+          "text": "Apro il bracket della mia run.",
+          "goto": "bracket"
+        },
+        {
+          "id": "cup_rules",
+          "text": "Rileggo formato e limiti.",
+          "goto": "rules"
+        },
+        {
+          "id": "cup_defer",
+          "text": "Non inizio ancora il primo round.",
+          "goto": "m06-continental-entry#registered"
+        }
+      ]
+    },
+    "rules": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "I match sono Singles ufficiali con Official Five in questa Cup. La vittoria della competizione non sostituisce il Gate del Faro A→S."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rules_bracket",
+          "text": "Torno al bracket.",
+          "goto": "bracket"
+        },
+        {
+          "id": "rules_entry",
+          "text": "Torno all'entry Continental.",
+          "goto": "m06-continental-entry#registered"
+        }
+      ]
+    },
+    "bracket": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il percorso previsto per questa istanza passa da quarti, semifinale e finale. Ogni round esiste solo se hai vinto quello precedente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "bracket_qf",
+          "text": "Preparo il quarto di finale.",
+          "goto": "qf_preview"
+        },
+        {
+          "id": "bracket_review",
+          "text": "Controllo come verrà registrato un piazzamento.",
+          "goto": "cup_review"
+        },
+        {
+          "id": "bracket_rules",
+          "text": "Rileggo il formato.",
+          "goto": "rules"
+        },
+        {
+          "id": "bracket_leave",
+          "text": "Esco dal tabellone senza inventare un risultato.",
+          "goto": "m06-continental-entry#registered"
+        }
+      ]
+    },
+    "qf_preview": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il quarto oppone un roster elite fisso e pubblico. Ordine, scelte e linee di gioco restano coperte dal fog of war."
+        }
+      ],
+      "choices": [
+        {
+          "id": "qf_roster",
+          "text": "Rileggo il roster pubblico.",
+          "goto": "qf_confirm"
+        },
+        {
+          "id": "qf_ready",
+          "text": "Sono pronto per la conferma.",
+          "goto": "qf_confirm"
+        },
+        {
+          "id": "qf_bracket",
+          "text": "Torno al bracket.",
+          "goto": "bracket"
+        }
+      ]
+    },
+    "qf_confirm": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il match non parte finché il roster del player non contiene almeno cinque Pokémon utilizzabili dal sistema ufficiale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "qf_start",
+          "text": "Avvio il quarto di finale.",
+          "goto": "qf_handoff",
+          "conditions": {
+            "all": [
+              {
+                "path": "player.roster.length",
+                "gte": 5
+              },
+              {
+                "path": "world.flags.continental_qf_result",
+                "exists": false
+              }
+            ]
+          }
+        },
+        {
+          "id": "qf_back",
+          "text": "Non parto ancora.",
+          "goto": "qf_preview"
+        }
+      ]
+    },
+    "qf_handoff": {
+      "stitches": [
+        {
+          "id": "qfh1",
+          "text": "Il controllo passa al combattimento Pokémon 5e/E5. Solo il resolver decide se il bracket continua."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fight_continental_qf",
+          "text": "Combatto il quarto di finale.",
+          "combat": {
+            "encounterId": "A6_CONTINENTAL_QF",
+            "opponentRegistered": true,
+            "competition": {
+              "type": "official_match",
+              "matchId": "A6_CONTINENTAL_QF",
+              "format": "Singles",
+              "officialRosterSize": 5,
+              "difficulty": "ELITE",
+              "opponentTrainerId": "CONT_QF_VERA_KELL"
+            },
+            "returnNodes": {
+              "win": "qf_win",
+              "lose": "qf_loss"
+            },
+            "opponentTrainerId": "CONT_QF_VERA_KELL",
+            "opponent": {
+              "species": "Crobat",
+              "level": 16,
+              "abilityId": "inner-focus",
+              "trainerId": "CONT_QF_VERA_KELL"
+            },
+            "opponentBench": [
+              {
+                "species": "Scizor",
+                "level": 16,
+                "abilityId": "technician",
+                "trainerId": "CONT_QF_VERA_KELL"
+              },
+              {
+                "species": "Starmie",
+                "level": 16,
+                "abilityId": "natural-cure",
+                "trainerId": "CONT_QF_VERA_KELL"
+              },
+              {
+                "species": "Houndoom",
+                "level": 16,
+                "abilityId": "flash-fire",
+                "trainerId": "CONT_QF_VERA_KELL"
+              },
+              {
+                "species": "Donphan",
+                "level": 16,
+                "abilityId": "sturdy",
+                "trainerId": "CONT_QF_VERA_KELL"
+              }
+            ],
+            "goto": "qf_handoff"
+          }
+        }
+      ]
+    },
+    "qf_win": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La vittoria è registrata da E5 e apre la semifinale. Non modifica Rank A."
+        }
+      ],
+      "choices": [
+        {
+          "id": "qf_win_record",
+          "text": "Registro il passaggio del turno.",
+          "goto": "sf_preview",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "continental_qf_result",
+              "value": "win"
+            }
+          ]
+        },
+        {
+          "id": "qf_win_review",
+          "text": "Rivedo il piazzamento minimo raggiunto.",
+          "goto": "cup_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "continental_qf_result",
+              "value": "win"
+            }
+          ]
+        }
+      ]
+    },
+    "qf_loss": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La sconfitta ai quarti chiude il bracket del player. Il risultato non viene riscritto e non abbassa il Rank."
+        }
+      ],
+      "choices": [
+        {
+          "id": "qf_loss_close",
+          "text": "Registro l'eliminazione ai quarti.",
+          "goto": "cup_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "continental_qf_result",
+              "value": "loss"
+            },
+            {
+              "type": "set_flag",
+              "key": "continental_result",
+              "value": "quarterfinal"
+            },
+            {
+              "type": "set_flag",
+              "key": "continental_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "qf_loss_review",
+          "text": "Rivedo il risultato prima di chiudere.",
+          "goto": "cup_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "continental_qf_result",
+              "value": "loss"
+            }
+          ]
+        }
+      ]
+    },
+    "sf_preview": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La semifinale presenta un secondo roster elite. Arrivarci richiede una vittoria QF reale, non una scelta narrativa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sf_roster",
+          "text": "Rileggo il roster pubblico.",
+          "goto": "sf_handoff",
+          "conditions": {
+            "path": "world.flags.continental_qf_result",
+            "eq": "win"
+          }
+        },
+        {
+          "id": "sf_ready",
+          "text": "Passo direttamente al match.",
+          "goto": "sf_handoff",
+          "conditions": {
+            "path": "world.flags.continental_qf_result",
+            "eq": "win"
+          }
+        },
+        {
+          "id": "sf_review",
+          "text": "Rivedo il bracket prima di giocare.",
+          "goto": "cup_review"
+        }
+      ]
+    },
+    "sf_handoff": {
+      "stitches": [
+        {
+          "id": "sfh1",
+          "text": "E5 prende in carico la semifinale. Il risultato precedente resta nella history e non viene consumato o sostituito."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fight_continental_sf",
+          "text": "Combatto la semifinale.",
+          "combat": {
+            "encounterId": "A6_CONTINENTAL_SF",
+            "opponentRegistered": true,
+            "competition": {
+              "type": "official_match",
+              "matchId": "A6_CONTINENTAL_SF",
+              "format": "Singles",
+              "officialRosterSize": 5,
+              "difficulty": "ELITE",
+              "opponentTrainerId": "CONT_SF_ORIN_VALE"
+            },
+            "returnNodes": {
+              "win": "sf_win",
+              "lose": "sf_loss"
+            },
+            "opponentTrainerId": "CONT_SF_ORIN_VALE",
+            "opponent": {
+              "species": "Jolteon",
+              "level": 16,
+              "abilityId": "volt-absorb",
+              "trainerId": "CONT_SF_ORIN_VALE"
+            },
+            "opponentBench": [
+              {
+                "species": "Machamp",
+                "level": 16,
+                "abilityId": "guts",
+                "trainerId": "CONT_SF_ORIN_VALE"
+              },
+              {
+                "species": "Skarmory",
+                "level": 16,
+                "abilityId": "sturdy",
+                "trainerId": "CONT_SF_ORIN_VALE"
+              },
+              {
+                "species": "Gengar",
+                "level": 16,
+                "abilityId": "cursed-body",
+                "trainerId": "CONT_SF_ORIN_VALE"
+              },
+              {
+                "species": "Milotic",
+                "level": 16,
+                "abilityId": "marvel-scale",
+                "trainerId": "CONT_SF_ORIN_VALE"
+              }
+            ],
+            "goto": "sf_handoff"
+          }
+        }
+      ]
+    },
+    "sf_win": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La vittoria in semifinale apre la finale e garantisce almeno il piazzamento da finalista."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sf_win_final",
+          "text": "Registro la vittoria e passo alla finale.",
+          "goto": "final_preview",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "continental_sf_result",
+              "value": "win"
+            }
+          ]
+        },
+        {
+          "id": "sf_win_review",
+          "text": "Rivedo il percorso compiuto.",
+          "goto": "cup_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "continental_sf_result",
+              "value": "win"
+            }
+          ]
+        }
+      ]
+    },
+    "sf_loss": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La sconfitta in semifinale produce un piazzamento reale da semifinalista. Nessun retry viene inventato dentro la stessa Cup."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sf_loss_close",
+          "text": "Registro il piazzamento da semifinalista.",
+          "goto": "cup_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "continental_sf_result",
+              "value": "loss"
+            },
+            {
+              "type": "set_flag",
+              "key": "continental_result",
+              "value": "semifinal"
+            },
+            {
+              "type": "set_flag",
+              "key": "continental_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "sf_loss_review",
+          "text": "Rivedo la semifinale prima di chiudere.",
+          "goto": "cup_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "continental_sf_result",
+              "value": "loss"
+            }
+          ]
+        }
+      ]
+    },
+    "final_preview": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La finale è l'ultimo match del bracket, non il Gate A→S. Anche una vittoria qui resta un titolo Continental separato dal Rank."
+        }
+      ],
+      "choices": [
+        {
+          "id": "final_roster",
+          "text": "Rileggo il roster pubblico della finale.",
+          "goto": "final_handoff",
+          "conditions": {
+            "path": "world.flags.continental_sf_result",
+            "eq": "win"
+          }
+        },
+        {
+          "id": "final_ready",
+          "text": "Entro nella finale.",
+          "goto": "final_handoff",
+          "conditions": {
+            "path": "world.flags.continental_sf_result",
+            "eq": "win"
+          }
+        },
+        {
+          "id": "final_review",
+          "text": "Rivedo il significato del titolo.",
+          "goto": "cup_review"
+        }
+      ]
+    },
+    "final_handoff": {
+      "stitches": [
+        {
+          "id": "fh1",
+          "text": "La finale passa al resolver Pokémon 5e/E5. Il campione della Cup è chi vince realmente questo match."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fight_continental_final",
+          "text": "Combatto la finale Continental.",
+          "combat": {
+            "encounterId": "A6_CONTINENTAL_FINAL",
+            "opponentRegistered": true,
+            "competition": {
+              "type": "official_match",
+              "matchId": "A6_CONTINENTAL_FINAL",
+              "format": "Singles",
+              "officialRosterSize": 5,
+              "difficulty": "ELITE",
+              "opponentTrainerId": "CONT_FINAL_SENA_MARCH"
+            },
+            "returnNodes": {
+              "win": "final_win",
+              "lose": "final_loss"
+            },
+            "opponentTrainerId": "CONT_FINAL_SENA_MARCH",
+            "opponent": {
+              "species": "Charizard",
+              "level": 16,
+              "abilityId": "blaze",
+              "trainerId": "CONT_FINAL_SENA_MARCH"
+            },
+            "opponentBench": [
+              {
+                "species": "Blastoise",
+                "level": 16,
+                "abilityId": "torrent",
+                "trainerId": "CONT_FINAL_SENA_MARCH"
+              },
+              {
+                "species": "Vileplume",
+                "level": 16,
+                "abilityId": "chlorophyll",
+                "trainerId": "CONT_FINAL_SENA_MARCH"
+              },
+              {
+                "species": "Alakazam",
+                "level": 16,
+                "abilityId": "synchronize",
+                "trainerId": "CONT_FINAL_SENA_MARCH"
+              },
+              {
+                "species": "Snorlax",
+                "level": 16,
+                "abilityId": "thick-fat",
+                "trainerId": "CONT_FINAL_SENA_MARCH"
+              }
+            ],
+            "goto": "final_handoff"
+          }
+        }
+      ]
+    },
+    "final_win": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Hai vinto realmente la Continental Cup. Il titolo e il risultato restano persistenti, ma Rank A non cambia."
+        }
+      ],
+      "choices": [
+        {
+          "id": "final_win_close",
+          "text": "Registro il titolo Continental.",
+          "goto": "cup_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "continental_final_result",
+              "value": "win"
+            },
+            {
+              "type": "set_flag",
+              "key": "continental_result",
+              "value": "winner"
+            },
+            {
+              "type": "set_flag",
+              "key": "continental_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "final_win_review",
+          "text": "Rivedo il percorso prima di chiudere.",
+          "goto": "cup_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "continental_final_result",
+              "value": "win"
+            },
+            {
+              "type": "set_flag",
+              "key": "continental_result",
+              "value": "winner"
+            }
+          ]
+        }
+      ]
+    },
+    "final_loss": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La finale termina con una sconfitta reale. Sei finalista; il gioco non trasforma la corsa in vittoria per esigenze di trama."
+        }
+      ],
+      "choices": [
+        {
+          "id": "final_loss_close",
+          "text": "Registro il piazzamento da finalista.",
+          "goto": "cup_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "continental_final_result",
+              "value": "loss"
+            },
+            {
+              "type": "set_flag",
+              "key": "continental_result",
+              "value": "finalist"
+            },
+            {
+              "type": "set_flag",
+              "key": "continental_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "final_loss_review",
+          "text": "Rivedo la finale.",
+          "goto": "cup_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "continental_final_result",
+              "value": "loss"
+            },
+            {
+              "type": "set_flag",
+              "key": "continental_result",
+              "value": "finalist"
+            }
+          ]
+        }
+      ]
+    },
+    "cup_review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il tabellone resta quello prodotto dai risultati reali. Puoi rivedere il percorso, non cambiare gli esiti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "review_qf_loss",
+          "text": "Chiudo come eliminato ai quarti.",
+          "goto": "cup_close",
+          "conditions": {
+            "path": "world.flags.continental_qf_result",
+            "eq": "loss"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "continental_result",
+              "value": "quarterfinal"
+            },
+            {
+              "type": "set_flag",
+              "key": "continental_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "review_sf_loss",
+          "text": "Chiudo come semifinalista.",
+          "goto": "cup_close",
+          "conditions": {
+            "path": "world.flags.continental_sf_result",
+            "eq": "loss"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "continental_result",
+              "value": "semifinal"
+            },
+            {
+              "type": "set_flag",
+              "key": "continental_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "review_winner",
+          "text": "Chiudo come vincitore.",
+          "goto": "cup_close",
+          "conditions": {
+            "path": "world.flags.continental_result",
+            "eq": "winner"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "continental_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "review_finalist",
+          "text": "Chiudo come finalista.",
+          "goto": "cup_close",
+          "conditions": {
+            "path": "world.flags.continental_result",
+            "eq": "finalist"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "continental_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "cup_close": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La Continental Cup è ora uno storico competitivo persistente. Il mistero antico può proseguire senza trasformare il titolo in una chiave narrativa gratuita."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_ancient",
+          "text": "Passo al secondo layer del mistero.",
+          "goto": "m06-ancient-layer-two#layer_entry"
+        },
+        {
+          "id": "close_entry",
+          "text": "Torno all'area Continental.",
+          "goto": "m06-continental-entry#continental_entry"
+        }
+      ]
+    },
+    "skipped": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se la Cup è stata saltata, non esistono bracket, punti o piazzamenti immaginari."
+        }
+      ],
+      "choices": [
+        {
+          "id": "skipped_ancient",
+          "text": "Proseguo al secondo layer del mistero.",
+          "goto": "m06-ancient-layer-two#layer_entry"
+        }
+      ]
+    }
+  }
+}
