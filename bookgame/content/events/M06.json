@@ -1,0 +1,1024 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "M06",
+  "events": [
+    {
+      "id": "A6_HIDDEN_TRAJECTORIES",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "world.flags.m6_active",
+            "eq": true
+          },
+          {
+            "any": [
+              {
+                "path": "player.trainerLevel",
+                "gte": 15
+              },
+              {
+                "path": "world.flags.campaign_late_threshold",
+                "eq": true
+              }
+            ]
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "luke_trajectory",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Luke"
+              },
+              {
+                "path": "world.flags.friend_beat_05_friend_id",
+                "ne": "Luke"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a6_hidden_trajectories_available",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m6_trajectory_friend_id",
+              "value": "Luke"
+            }
+          ]
+        },
+        {
+          "id": "mattew_trajectory",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Mattew"
+              },
+              {
+                "path": "world.flags.friend_beat_05_friend_id",
+                "ne": "Mattew"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a6_hidden_trajectories_available",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m6_trajectory_friend_id",
+              "value": "Mattew"
+            }
+          ]
+        },
+        {
+          "id": "daniel_trajectory",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Daniel"
+              },
+              {
+                "path": "world.flags.friend_beat_05_friend_id",
+                "ne": "Daniel"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a6_hidden_trajectories_available",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m6_trajectory_friend_id",
+              "value": "Daniel"
+            }
+          ]
+        },
+        {
+          "id": "edward_trajectory",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Edward"
+              },
+              {
+                "path": "world.flags.friend_beat_05_friend_id",
+                "ne": "Edward"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a6_hidden_trajectories_available",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m6_trajectory_friend_id",
+              "value": "Edward"
+            }
+          ]
+        },
+        {
+          "id": "fab_trajectory",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Fab"
+              },
+              {
+                "path": "world.flags.friend_beat_05_friend_id",
+                "ne": "Fab"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a6_hidden_trajectories_available",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m6_trajectory_friend_id",
+              "value": "Fab"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A6_CONTINENTAL",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "world.flags.m6_active",
+            "eq": true
+          },
+          {
+            "path": "competition.rankOrder",
+            "gte": 5
+          },
+          {
+            "any": [
+              {
+                "path": "player.trainerLevel",
+                "gte": 16
+              },
+              {
+                "path": "world.flags.masters_result_qualifies",
+                "eq": true
+              }
+            ]
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "continental_window",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a6_continental_available",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M6_FRIEND_BEAT_SELECT",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "world.flags.m6_hidden_trajectories_complete",
+            "eq": true
+          },
+          {
+            "path": "world.flags.friend_beat_06_complete",
+            "ne": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "luke_solaria_hub_physical",
+          "when": {
+            "all": [
+              {
+                "path": "world.flags.m6_trajectory_friend_id",
+                "eq": "Luke"
+              },
+              {
+                "path": "world.locationId",
+                "eq": "solaria_hub"
+              },
+              {
+                "path": "npcs.Luke.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Luke.schedule.locationId",
+                "eq": "solaria_hub"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_friend_id",
+              "value": "Luke"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "luke_luminara_hub_physical",
+          "when": {
+            "all": [
+              {
+                "path": "world.flags.m6_trajectory_friend_id",
+                "eq": "Luke"
+              },
+              {
+                "path": "world.locationId",
+                "eq": "luminara_hub"
+              },
+              {
+                "path": "npcs.Luke.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Luke.schedule.locationId",
+                "eq": "luminara_hub"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_friend_id",
+              "value": "Luke"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "luke_interregional_masters_hall_physical",
+          "when": {
+            "all": [
+              {
+                "path": "world.flags.m6_trajectory_friend_id",
+                "eq": "Luke"
+              },
+              {
+                "path": "world.locationId",
+                "eq": "interregional_masters_hall"
+              },
+              {
+                "path": "npcs.Luke.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Luke.schedule.locationId",
+                "eq": "interregional_masters_hall"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_friend_id",
+              "value": "Luke"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "mattew_solaria_hub_physical",
+          "when": {
+            "all": [
+              {
+                "path": "world.flags.m6_trajectory_friend_id",
+                "eq": "Mattew"
+              },
+              {
+                "path": "world.locationId",
+                "eq": "solaria_hub"
+              },
+              {
+                "path": "npcs.Mattew.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Mattew.schedule.locationId",
+                "eq": "solaria_hub"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_friend_id",
+              "value": "Mattew"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "mattew_luminara_hub_physical",
+          "when": {
+            "all": [
+              {
+                "path": "world.flags.m6_trajectory_friend_id",
+                "eq": "Mattew"
+              },
+              {
+                "path": "world.locationId",
+                "eq": "luminara_hub"
+              },
+              {
+                "path": "npcs.Mattew.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Mattew.schedule.locationId",
+                "eq": "luminara_hub"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_friend_id",
+              "value": "Mattew"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "mattew_interregional_masters_hall_physical",
+          "when": {
+            "all": [
+              {
+                "path": "world.flags.m6_trajectory_friend_id",
+                "eq": "Mattew"
+              },
+              {
+                "path": "world.locationId",
+                "eq": "interregional_masters_hall"
+              },
+              {
+                "path": "npcs.Mattew.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Mattew.schedule.locationId",
+                "eq": "interregional_masters_hall"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_friend_id",
+              "value": "Mattew"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "daniel_solaria_hub_physical",
+          "when": {
+            "all": [
+              {
+                "path": "world.flags.m6_trajectory_friend_id",
+                "eq": "Daniel"
+              },
+              {
+                "path": "world.locationId",
+                "eq": "solaria_hub"
+              },
+              {
+                "path": "npcs.Daniel.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Daniel.schedule.locationId",
+                "eq": "solaria_hub"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_friend_id",
+              "value": "Daniel"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "daniel_luminara_hub_physical",
+          "when": {
+            "all": [
+              {
+                "path": "world.flags.m6_trajectory_friend_id",
+                "eq": "Daniel"
+              },
+              {
+                "path": "world.locationId",
+                "eq": "luminara_hub"
+              },
+              {
+                "path": "npcs.Daniel.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Daniel.schedule.locationId",
+                "eq": "luminara_hub"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_friend_id",
+              "value": "Daniel"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "daniel_interregional_masters_hall_physical",
+          "when": {
+            "all": [
+              {
+                "path": "world.flags.m6_trajectory_friend_id",
+                "eq": "Daniel"
+              },
+              {
+                "path": "world.locationId",
+                "eq": "interregional_masters_hall"
+              },
+              {
+                "path": "npcs.Daniel.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Daniel.schedule.locationId",
+                "eq": "interregional_masters_hall"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_friend_id",
+              "value": "Daniel"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "edward_solaria_hub_physical",
+          "when": {
+            "all": [
+              {
+                "path": "world.flags.m6_trajectory_friend_id",
+                "eq": "Edward"
+              },
+              {
+                "path": "world.locationId",
+                "eq": "solaria_hub"
+              },
+              {
+                "path": "npcs.Edward.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Edward.schedule.locationId",
+                "eq": "solaria_hub"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_friend_id",
+              "value": "Edward"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "edward_luminara_hub_physical",
+          "when": {
+            "all": [
+              {
+                "path": "world.flags.m6_trajectory_friend_id",
+                "eq": "Edward"
+              },
+              {
+                "path": "world.locationId",
+                "eq": "luminara_hub"
+              },
+              {
+                "path": "npcs.Edward.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Edward.schedule.locationId",
+                "eq": "luminara_hub"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_friend_id",
+              "value": "Edward"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "edward_interregional_masters_hall_physical",
+          "when": {
+            "all": [
+              {
+                "path": "world.flags.m6_trajectory_friend_id",
+                "eq": "Edward"
+              },
+              {
+                "path": "world.locationId",
+                "eq": "interregional_masters_hall"
+              },
+              {
+                "path": "npcs.Edward.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Edward.schedule.locationId",
+                "eq": "interregional_masters_hall"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_friend_id",
+              "value": "Edward"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "fab_solaria_hub_physical",
+          "when": {
+            "all": [
+              {
+                "path": "world.flags.m6_trajectory_friend_id",
+                "eq": "Fab"
+              },
+              {
+                "path": "world.locationId",
+                "eq": "solaria_hub"
+              },
+              {
+                "path": "npcs.Fab.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Fab.schedule.locationId",
+                "eq": "solaria_hub"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_friend_id",
+              "value": "Fab"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "fab_luminara_hub_physical",
+          "when": {
+            "all": [
+              {
+                "path": "world.flags.m6_trajectory_friend_id",
+                "eq": "Fab"
+              },
+              {
+                "path": "world.locationId",
+                "eq": "luminara_hub"
+              },
+              {
+                "path": "npcs.Fab.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Fab.schedule.locationId",
+                "eq": "luminara_hub"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_friend_id",
+              "value": "Fab"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "fab_interregional_masters_hall_physical",
+          "when": {
+            "all": [
+              {
+                "path": "world.flags.m6_trajectory_friend_id",
+                "eq": "Fab"
+              },
+              {
+                "path": "world.locationId",
+                "eq": "interregional_masters_hall"
+              },
+              {
+                "path": "npcs.Fab.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Fab.schedule.locationId",
+                "eq": "interregional_masters_hall"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_friend_id",
+              "value": "Fab"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "luke_remote",
+          "when": {
+            "path": "world.flags.m6_trajectory_friend_id",
+            "eq": "Luke"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_friend_id",
+              "value": "Luke"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "mattew_remote",
+          "when": {
+            "path": "world.flags.m6_trajectory_friend_id",
+            "eq": "Mattew"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_friend_id",
+              "value": "Mattew"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "daniel_remote",
+          "when": {
+            "path": "world.flags.m6_trajectory_friend_id",
+            "eq": "Daniel"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_friend_id",
+              "value": "Daniel"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "edward_remote",
+          "when": {
+            "path": "world.flags.m6_trajectory_friend_id",
+            "eq": "Edward"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_friend_id",
+              "value": "Edward"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "fab_remote",
+          "when": {
+            "path": "world.flags.m6_trajectory_friend_id",
+            "eq": "Fab"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_friend_id",
+              "value": "Fab"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_available",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A6_RANK_TRIAL_A_S",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "world.flags.m6_active",
+            "eq": true
+          },
+          {
+            "path": "competition.rank",
+            "eq": "A"
+          },
+          {
+            "any": [
+              {
+                "path": "player.trainerLevel",
+                "gte": 14
+              },
+              {
+                "path": "world.flags.rank_trial_A_S_available",
+                "eq": true
+              }
+            ]
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "rank_trial_window",
+          "effects": [
+            {
+              "type": "competition_trial_available",
+              "checkpointId": "RANK_A_TO_S",
+              "fromRank": "A",
+              "toRank": "S",
+              "requiredRosterSize": 6,
+              "retryable": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A6_CUTOFF",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "world.flags.m6_active",
+            "eq": true
+          },
+          {
+            "any": [
+              {
+                "path": "player.trainerLevel",
+                "gte": 17
+              },
+              {
+                "path": "world.flags.world_calendar_cutoff",
+                "eq": true
+              }
+            ]
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "cutoff_window",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a6_cutoff_available",
+              "value": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
