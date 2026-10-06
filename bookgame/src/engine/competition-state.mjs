@@ -241,7 +241,7 @@ export function beginCompetitionMatch(state, meta) {
   return competition.activeMatch;
 }
 
-export function resolveCompetitionMatch(state, meta, outcome) {
+export function resolveCompetitionMatch(state, meta, outcome, battle = null) {
   validateMetaRuntime(meta);
   if (!["win", "lose"].includes(outcome)) {
     throw new Error("Official competition outcome must be win or lose");
@@ -267,7 +267,7 @@ export function resolveCompetitionMatch(state, meta, outcome) {
   competition.history.push(record);
 
   if (Number.isInteger(meta.worldOpponentIndex)) {
-    recordWorldGroupStageOutcome(state, meta, outcome, record.resolvedAtMinutes, arguments[3] ?? null);
+    recordWorldGroupStageOutcome(state, meta, outcome, record.resolvedAtMinutes, battle);
   }
 
   if (meta.type === "official_match" && meta.firstOfficial === true) {
@@ -521,30 +521,30 @@ export function resolveWorldDraw(state, {
 
 
 const WORLD_GROUP_RUNTIME_POOL = [
-  { species: "Growlithe", form: "Hisuian" },
-  { species: "Eevee" },
-  { species: "Gastly" },
-  { species: "Totodile" },
-  { species: "Koffing" },
-  { species: "Houndour" },
-  { species: "Wooloo" },
-  { species: "Shinx" },
-  { species: "Tandemaus" }
+  { id: "growlithe_hisui", species: "Growlithe", form: "Hisuian" },
+  { id: "eevee", species: "Eevee" },
+  { id: "gastly", species: "Gastly" },
+  { id: "totodile", species: "Totodile" },
+  { id: "koffing", species: "Koffing" },
+  { id: "houndour", species: "Houndour" },
+  { id: "wooloo", species: "Wooloo" },
+  { id: "shinx", species: "Shinx" },
+  { id: "tandemaus", species: "Tandemaus" }
 ];
 
 const WORLD_GROUP_SIGNATURE_PROXY = {
-  Luke: { species: "Growlithe", form: "Hisuian" },
-  Mattew: { species: "Shinx" },
-  Daniel: { species: "Gastly" },
-  Edward: { species: "Totodile" },
-  Fab: { species: "Koffing" },
-  "Kaia Solari": { species: "Houndour" },
-  "Astrid Vahl": { species: "Tandemaus" },
-  Red: { species: "Growlithe", form: "Hisuian" },
-  Cynthia: { species: "Shinx" },
-  "Steven Stone": { species: "Koffing" },
-  N: { species: "Eevee" },
-  Lance: { species: "Totodile" }
+  Luke: { id: "growlithe_hisui", species: "Growlithe", form: "Hisuian" },
+  Mattew: { id: "shinx", species: "Shinx" },
+  Daniel: { id: "gastly", species: "Gastly" },
+  Edward: { id: "totodile", species: "Totodile" },
+  Fab: { id: "koffing", species: "Koffing" },
+  "Kaia Solari": { id: "houndour", species: "Houndour" },
+  "Astrid Vahl": { id: "tandemaus", species: "Tandemaus" },
+  Red: { id: "growlithe_hisui", species: "Growlithe", form: "Hisuian" },
+  Cynthia: { id: "shinx", species: "Shinx" },
+  "Steven Stone": { id: "koffing", species: "Koffing" },
+  N: { id: "eevee", species: "Eevee" },
+  Lance: { id: "totodile", species: "Totodile" }
 };
 
 function worldGroupStageOrThrow(state) {

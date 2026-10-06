@@ -22,10 +22,6 @@
       {
         "path": "competition.world.groupStage.playerMatches.0.outcome",
         "exists": true
-      },
-      {
-        "path": "world.flags.world_group_md2_resolved",
-        "ne": true
       }
     ]
   },
@@ -233,6 +229,10 @@
               "lose": "loss_return"
             },
             "goto": "match_handoff"
+          },
+          "conditions": {
+            "path": "world.flags.world_group_md2_resolved",
+            "ne": true
           }
         }
       ]

@@ -18,10 +18,6 @@
       {
         "path": "competition.world.playerOpponents.length",
         "eq": 3
-      },
-      {
-        "path": "world.flags.world_group_md1_resolved",
-        "ne": true
       }
     ]
   },
@@ -229,6 +225,10 @@
               "lose": "loss_return"
             },
             "goto": "match_handoff"
+          },
+          "conditions": {
+            "path": "world.flags.world_group_md1_resolved",
+            "ne": true
           }
         }
       ]
