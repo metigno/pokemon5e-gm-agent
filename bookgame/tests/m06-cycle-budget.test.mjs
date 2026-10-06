@@ -19,6 +19,14 @@ const cycle2=[
   ["m06-ancient-layer-two",13,29]
 ];
 
+const cycle3=[
+  ["m06-first-lighthouse-return",13,29],
+  ["m06-trial-registration",17,38],
+  ["m06-promotion-trial-a-s",19,42],
+  ["m06-world-cutoff",19,42],
+  ["m06-module-outcome",12,25]
+];
+
 test("M6_00-M6_04 logical production budget is locked at 64 nodes / 141 meaningful choices",async()=>{
   let nodes=0,choices=0;
   for(const [rel,n,c] of expected){
@@ -132,6 +140,62 @@ test("M6 first ten blocks consume exactly 140 nodes / 308 choices",async()=>{
 test("M6_05-M6_09 authored nodes have no zero-incoming padding",async()=>{
   const scenes={};
   for(const [rel] of cycle2){
+    scenes[rel]=JSON.parse(await readFile(fileURLToPath(new URL("../content/scenes/"+rel+".json",import.meta.url)),"utf8"));
+  }
+  const keys=new Set();
+  for(const [sceneId,scene] of Object.entries(scenes)){
+    for(const nodeId of Object.keys(scene.nodes)) keys.add(sceneId+"#"+nodeId);
+  }
+  const incoming=Object.fromEntries([...keys].map(key=>[key,0]));
+  for(const [sceneId,scene] of Object.entries(scenes)){
+    incoming[sceneId+"#"+scene.entryNodeId]+=1;
+    const add=(raw)=>{
+      if(typeof raw!=="string") return;
+      const parts=raw.includes("#")?raw.split("#"):[sceneId,raw];
+      const target=parts[0]+"#"+parts[1];
+      if(Object.hasOwn(incoming,target)) incoming[target]+=1;
+    };
+    for(const node of Object.values(scene.nodes)){
+      for(const choice of node.choices??[]){
+        add(choice.goto);
+        if(choice.check){add(choice.outcomes?.success?.goto);add(choice.outcomes?.failure?.goto);}
+        if(choice.combat){add(choice.combat.goto);for(const target of Object.values(choice.combat.returnNodes??{})) add(target);}
+        if(choice.ecology){for(const target of Object.values(choice.ecology.returnNodes??{})) add(target);}
+      }
+    }
+  }
+  assert.deepEqual(Object.entries(incoming).filter(([,count])=>count===0).map(([key])=>key),[]);
+});
+
+test("M6_10-M6_14 logical production budget is locked at 80 nodes / 176 meaningful choices",async()=>{
+  let nodes=0,choices=0;
+  for(const [rel,n,c] of cycle3){
+    const scene=JSON.parse(await readFile(fileURLToPath(new URL("../content/scenes/"+rel+".json",import.meta.url)),"utf8"));
+    const actualNodes=Object.keys(scene.nodes).length;
+    const actualChoices=Object.values(scene.nodes).reduce((sum,node)=>sum+(node.choices?.length??0),0);
+    assert.equal(actualNodes,n,rel+" node budget");
+    assert.equal(actualChoices,c,rel+" choice budget");
+    nodes+=actualNodes;choices+=actualChoices;
+  }
+  assert.equal(nodes,80);
+  assert.equal(choices,176);
+});
+
+test("M6 complete runtime surface is exactly 220 nodes / 484 meaningful choices",async()=>{
+  const all=[...expected,...cycle2,...cycle3];
+  let nodes=0,choices=0;
+  for(const [rel] of all){
+    const scene=JSON.parse(await readFile(fileURLToPath(new URL("../content/scenes/"+rel+".json",import.meta.url)),"utf8"));
+    nodes+=Object.keys(scene.nodes).length;
+    choices+=Object.values(scene.nodes).reduce((sum,node)=>sum+(node.choices?.length??0),0);
+  }
+  assert.equal(nodes,220);
+  assert.equal(choices,484);
+});
+
+test("M6_10-M6_14 authored nodes have no zero-incoming padding",async()=>{
+  const scenes={};
+  for(const [rel] of cycle3){
     scenes[rel]=JSON.parse(await readFile(fileURLToPath(new URL("../content/scenes/"+rel+".json",import.meta.url)),"utf8"));
   }
   const keys=new Set();
