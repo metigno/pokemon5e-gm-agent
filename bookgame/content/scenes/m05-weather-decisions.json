@@ -1,0 +1,554 @@
+{
+  "schemaVersion": 1,
+  "id": "m05-weather-decisions",
+  "moduleId": "M05",
+  "title": "M5_04 — Weather Decisions",
+  "locationId": "alt_town_weather",
+  "entryNodeId": "weather_board",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m4_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m05_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m5_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "B"
+      },
+      {
+        "path": "world.flags.altacima_discovered",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "weather_board": {
+      "stitches": [
+        {
+          "id": "board_1",
+          "text": "Il bollettino di Altacima divide il giorno in finestre operative. Non assegna un sì o un no permanente: descrive vento, visibilità e probabilità di celle temporalesche nel momento presente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "read_morning",
+          "text": "Leggo la finestra del mattino.",
+          "conditions": {
+            "path": "world.time",
+            "eq": "morning"
+          },
+          "goto": "morning_window"
+        },
+        {
+          "id": "read_afternoon",
+          "text": "Leggo la finestra del pomeriggio.",
+          "conditions": {
+            "path": "world.time",
+            "eq": "afternoon"
+          },
+          "goto": "afternoon_window"
+        },
+        {
+          "id": "read_evening",
+          "text": "Leggo la finestra serale.",
+          "conditions": {
+            "path": "world.time",
+            "eq": "evening"
+          },
+          "goto": "evening_window"
+        },
+        {
+          "id": "read_night",
+          "text": "Leggo la finestra notturna.",
+          "conditions": {
+            "path": "world.time",
+            "eq": "night"
+          },
+          "goto": "night_window"
+        }
+      ]
+    },
+    "morning_window": {
+      "stitches": [
+        {
+          "id": "morning_1",
+          "text": "Al mattino la visibilità è buona ma il vento sulle creste è previsto in aumento. La finestra favorisce una partenza presto, non garantisce che resti favorevole per tutta la traversata."
+        }
+      ],
+      "choices": [
+        {
+          "id": "morning_route",
+          "text": "Confronto le varianti di percorso prima di decidere.",
+          "goto": "route_matrix",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_weather_state",
+              "value": "stable_morning"
+            }
+          ]
+        },
+        {
+          "id": "morning_assess",
+          "text": "Valuto quanto rapidamente può chiudersi il margine. (CT Survival)",
+          "check": {
+            "ability": "WIS",
+            "skill": "Survival",
+            "dc": 13
+          },
+          "outcomes": {
+            "success": {
+              "goto": "risk_clear",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "m5_weather_read_quality",
+                  "value": "clear"
+                }
+              ]
+            },
+            "failure": {
+              "goto": "risk_uncertain",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "m5_weather_read_quality",
+                  "value": "uncertain"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "morning_wait",
+          "text": "Aspetto un'ora per un aggiornamento.",
+          "timeCostMinutes": 60,
+          "goto": "postpone"
+        }
+      ]
+    },
+    "afternoon_window": {
+      "stitches": [
+        {
+          "id": "afternoon_1",
+          "text": "Nel pomeriggio le raffiche laterali sono più frequenti. La tratta resta praticabile solo con una scelta più conservativa o accettando un margine minore."
+        }
+      ],
+      "choices": [
+        {
+          "id": "afternoon_deviate",
+          "text": "Valuto una variante meno esposta.",
+          "goto": "deviation",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_weather_state",
+              "value": "gusty_afternoon"
+            }
+          ]
+        },
+        {
+          "id": "afternoon_wait",
+          "text": "Rinvio e aspetto un nuovo bollettino.",
+          "timeCostMinutes": 60,
+          "goto": "postpone"
+        }
+      ]
+    },
+    "evening_window": {
+      "stitches": [
+        {
+          "id": "evening_1",
+          "text": "Verso sera la probabilità di celle temporalesche cresce e la luce utile diminuisce. Partire ora compra poco tempo e riduce le opzioni di rientro."
+        }
+      ],
+      "choices": [
+        {
+          "id": "evening_lance",
+          "text": "Confronto la decisione con il principio del margine discusso con Lance.",
+          "conditions": {
+            "path": "world.flags.lance_met",
+            "eq": true
+          },
+          "goto": "lance_callback",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_weather_state",
+              "value": "storm_risk_evening"
+            }
+          ]
+        },
+        {
+          "id": "evening_postpone",
+          "text": "Rinvio la partenza.",
+          "timeCostMinutes": 60,
+          "goto": "postpone",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_weather_state",
+              "value": "storm_risk_evening"
+            }
+          ]
+        }
+      ]
+    },
+    "night_window": {
+      "stitches": [
+        {
+          "id": "night_1",
+          "text": "Di notte la tratta alta è chiusa alle partenze ordinarie. Il Rank B non sostituisce visibilità, personale di servizio o procedure di sicurezza."
+        }
+      ],
+      "choices": [
+        {
+          "id": "night_wait",
+          "text": "Aspetto fino a una finestra diurna.",
+          "timeCostMinutes": 360,
+          "goto": "postpone",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_weather_state",
+              "value": "night_closed"
+            }
+          ]
+        },
+        {
+          "id": "night_hub",
+          "text": "Torno ai servizi di Altacima.",
+          "goto": "m05-altacima#town_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_weather_state",
+              "value": "night_closed"
+            },
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        }
+      ]
+    },
+    "route_matrix": {
+      "stitches": [
+        {
+          "id": "route_1",
+          "text": "Il percorso principale è più diretto ma prende vento sulla cresta. Una variante di servizio è più lunga e protetta, con meno possibilità di avanzare rapidamente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "route_direct",
+          "text": "Tengo la direttrice principale come opzione.",
+          "goto": "risk_assessment",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_fulgore_route_plan",
+              "value": "direct"
+            }
+          ]
+        },
+        {
+          "id": "route_sheltered",
+          "text": "Scelgo la variante più riparata.",
+          "goto": "deviation",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_fulgore_route_plan",
+              "value": "sheltered"
+            }
+          ]
+        }
+      ]
+    },
+    "risk_assessment": {
+      "stitches": [
+        {
+          "id": "risk_1",
+          "text": "Prima di partire puoi trattare la scelta come una scommessa cieca oppure spendere tempo per leggere meglio il margine. Il sistema conserva entrambe le possibilità senza premiare automaticamente l'opzione più prudente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "risk_check",
+          "text": "Faccio una lettura finale di vento e nubi. (CT Nature)",
+          "check": {
+            "ability": "INT",
+            "skill": "Nature",
+            "dc": 13
+          },
+          "outcomes": {
+            "success": {
+              "goto": "risk_clear",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "m5_weather_read_quality",
+                  "value": "clear"
+                }
+              ]
+            },
+            "failure": {
+              "goto": "risk_uncertain",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "m5_weather_read_quality",
+                  "value": "uncertain"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "risk_commit",
+          "text": "Accetto l'incertezza e preparo comunque la partenza.",
+          "goto": "fulgore_gate",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_weather_read_quality",
+              "value": "accepted_uncertainty"
+            }
+          ]
+        },
+        {
+          "id": "risk_wait",
+          "text": "Rinvio la decisione.",
+          "timeCostMinutes": 60,
+          "goto": "postpone"
+        }
+      ]
+    },
+    "risk_clear": {
+      "stitches": [
+        {
+          "id": "clear_1",
+          "text": "La lettura conferma un margine utilizzabile, non una garanzia. Sai quali segnali richiederebbero deviazione o rientro se il quadro cambiasse."
+        }
+      ],
+      "choices": [
+        {
+          "id": "clear_gate",
+          "text": "Preparo la partenza con criteri di rientro espliciti.",
+          "goto": "fulgore_gate",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_return_threshold_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "clear_route",
+          "text": "Confronto ancora le varianti.",
+          "goto": "route_matrix"
+        }
+      ]
+    },
+    "risk_uncertain": {
+      "stitches": [
+        {
+          "id": "uncertain_1",
+          "text": "I segnali restano ambigui. Fallire la lettura non diventa successo nascosto: puoi partire accettando l'incertezza, cambiare percorso o aspettare."
+        }
+      ],
+      "choices": [
+        {
+          "id": "uncertain_deviate",
+          "text": "Passo alla variante riparata.",
+          "goto": "deviation"
+        },
+        {
+          "id": "uncertain_wait",
+          "text": "Aspetto un aggiornamento.",
+          "timeCostMinutes": 60,
+          "goto": "postpone"
+        }
+      ]
+    },
+    "deviation": {
+      "stitches": [
+        {
+          "id": "dev_1",
+          "text": "La variante protetta allunga la tratta ma mantiene più punti di riparo. Il costo è tempo; il beneficio è un profilo di esposizione diverso, non invulnerabilità."
+        }
+      ],
+      "choices": [
+        {
+          "id": "dev_accept",
+          "text": "Accetto il costo di tempo e preparo questa rotta.",
+          "goto": "fulgore_gate",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_fulgore_route_plan",
+              "value": "sheltered"
+            }
+          ]
+        },
+        {
+          "id": "dev_reconsider",
+          "text": "Rivaluto la scelta dal bollettino.",
+          "goto": "weather_board"
+        }
+      ]
+    },
+    "postpone": {
+      "stitches": [
+        {
+          "id": "post_1",
+          "text": "Il rinvio fa avanzare davvero il mondo. Schedule, eventi e disponibilità possono cambiare; la decisione non viene congelata in attesa del player."
+        }
+      ],
+      "choices": [
+        {
+          "id": "post_reread",
+          "text": "Leggo il bollettino aggiornato.",
+          "goto": "weather_board"
+        },
+        {
+          "id": "post_hub",
+          "text": "Uso il tempo per tornare nel hub.",
+          "goto": "m05-altacima#town_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        }
+      ]
+    },
+    "lance_callback": {
+      "stitches": [
+        {
+          "id": "lance_1",
+          "text": "Il consiglio di Lance non produce un bonus invisibile. Serve soltanto a rendere esplicita la logica già emersa: rischio utile, soglia di rientro e possibilità di rinvio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "lance_margin",
+          "text": "Applico il criterio al percorso di oggi.",
+          "goto": "risk_assessment",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_lance_weather_callback_used",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "lance_wait",
+          "text": "Seguendo quel criterio, rinvio.",
+          "timeCostMinutes": 60,
+          "goto": "postpone",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_lance_weather_callback_used",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "fulgore_gate": {
+      "stitches": [
+        {
+          "id": "gate_1",
+          "text": "Al controllo per Fulgore la decisione viene registrata come piano di partenza, non come viaggio già completato. Il blocco successivo dovrà consumare questo stato e risolvere la salita reale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "gate_confirm",
+          "text": "Confermo il piano e la soglia di rischio scelta.",
+          "goto": "decision_record",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_fulgore_departure_ready",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "gate_cancel",
+          "text": "Non parto ancora: torno al bollettino.",
+          "goto": "weather_board"
+        }
+      ]
+    },
+    "decision_record": {
+      "stitches": [
+        {
+          "id": "record_1",
+          "text": "La scelta conserva momento, rotta e qualità dell'informazione. Nessun flag dichiara che hai raggiunto Fulgore prima che M5_05 risolva davvero la tratta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record_complete",
+          "text": "Registro M5_04 come decisione meteo completata.",
+          "goto": "weather_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_weather_decisions_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "record_review",
+          "text": "Rivedo il piano prima di chiudere.",
+          "goto": "fulgore_gate"
+        }
+      ]
+    },
+    "weather_close": {
+      "stitches": [
+        {
+          "id": "close_1",
+          "text": "La finestra meteo resta dinamica. Hai una decisione persistente, non un permesso eterno; aspettare ancora può cambiare le condizioni prima della partenza effettiva."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_hub",
+          "text": "Torno ad Altacima con il piano registrato.",
+          "goto": "m05-altacima#town_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        },
+        {
+          "id": "close_board",
+          "text": "Riapro il bollettino per vedere se qualcosa è cambiato.",
+          "goto": "weather_board"
+        }
+      ]
+    }
+  }
+}
