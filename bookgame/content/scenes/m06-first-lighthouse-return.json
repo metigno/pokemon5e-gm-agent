@@ -1,0 +1,359 @@
+{
+  "schemaVersion": 1,
+  "id": "m06-first-lighthouse-return",
+  "moduleId": "M06",
+  "title": "M6_10 — First Lighthouse Return",
+  "locationId": "far_ruins_approach",
+  "entryNodeId": "return_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m5_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m06_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m6_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "A"
+      },
+      {
+        "path": "world.flags.m6_lighthouse_return_ready",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m6_ancient_layer_two_complete",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "return_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il secondo layer del mistero riporta il percorso verso le Rovine del Primo Faro. Questa volta il luogo ha due significati separati: pista antica e sede del Gate A→S."
+        }
+      ],
+      "choices": [
+        {
+          "id": "return_routes",
+          "text": "Scelgo come rientrare verso il Primo Faro.",
+          "goto": "route_board"
+        },
+        {
+          "id": "return_context",
+          "text": "Rivedo perché il ritorno è ora rilevante.",
+          "goto": "ancient_context"
+        },
+        {
+          "id": "return_defer",
+          "text": "Rimando la partenza senza perdere il thread.",
+          "goto": "defer"
+        }
+      ]
+    },
+    "route_board": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Due tratte legali raggiungono l'area. Entrambe consumano tempo reale e nessuna anticipa il Trial."
+        }
+      ],
+      "choices": [
+        {
+          "id": "route_coast",
+          "text": "Prendo la tratta costiera.",
+          "goto": "coast_route"
+        },
+        {
+          "id": "route_inland",
+          "text": "Prendo la tratta interna.",
+          "goto": "inland_route"
+        },
+        {
+          "id": "route_back",
+          "text": "Torno al riepilogo prima di partire.",
+          "goto": "return_entry"
+        }
+      ]
+    },
+    "coast_route": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La costa rende visibili i riferimenti del vecchio Faro prima dell'arrivo. È più diretta ma dipende da un trasferimento lungo la litoranea."
+        }
+      ],
+      "choices": [
+        {
+          "id": "coast_travel",
+          "text": "Completo la tratta costiera.",
+          "goto": "arrival",
+          "timeCostMinutes": 180,
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_lighthouse_route",
+              "value": "coast"
+            },
+            {
+              "type": "set_location",
+              "locationId": "far_ruins_approach"
+            }
+          ]
+        },
+        {
+          "id": "coast_back",
+          "text": "Cambio percorso prima di partire.",
+          "goto": "route_board"
+        }
+      ]
+    },
+    "inland_route": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La tratta interna passa per servizi di collegamento e richiede più tempo, ma evita parte della costa esposta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "inland_travel",
+          "text": "Completo la tratta interna.",
+          "goto": "arrival",
+          "timeCostMinutes": 240,
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_lighthouse_route",
+              "value": "inland"
+            },
+            {
+              "type": "set_location",
+              "locationId": "far_ruins_approach"
+            }
+          ]
+        },
+        {
+          "id": "inland_back",
+          "text": "Cambio percorso prima di partire.",
+          "goto": "route_board"
+        }
+      ]
+    },
+    "arrival": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Le Rovine del Primo Faro sono una zona Rank A reale. Arrivare qui non promuove: rende soltanto accessibile il contesto del Gate."
+        }
+      ],
+      "choices": [
+        {
+          "id": "arrival_boundary",
+          "text": "Raggiungo il perimetro delle Rovine.",
+          "goto": "ruins_boundary"
+        },
+        {
+          "id": "arrival_explore",
+          "text": "Osservo prima il luogo e i segnali antichi.",
+          "goto": "explore"
+        }
+      ]
+    },
+    "ruins_boundary": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il perimetro separa area visitabile, tracce antiche e Gate del Faro. Puoi osservare e tornare indietro anche senza registrarti al Trial."
+        }
+      ],
+      "choices": [
+        {
+          "id": "boundary_gate",
+          "text": "Vado verso il Gate del Faro.",
+          "goto": "gate_context"
+        },
+        {
+          "id": "boundary_ancient",
+          "text": "Ricollego il luogo al secondo layer del mistero.",
+          "goto": "ancient_context"
+        },
+        {
+          "id": "boundary_cutoff",
+          "text": "Controllo come il cutoff mondiale entra nel quadro.",
+          "goto": "cutoff_context"
+        }
+      ]
+    },
+    "ancient_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Faro conferma che il mistero è più ampio di Fulgore, ma non risolve ancora origine o natura del fenomeno. Nessuna creatura viene concessa dalla sola presenza nelle Rovine."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ancient_explore",
+          "text": "Esamino ciò che è pubblico e accessibile.",
+          "goto": "explore"
+        },
+        {
+          "id": "ancient_gate",
+          "text": "Tengo separato il mistero dal checkpoint competitivo.",
+          "goto": "gate_context"
+        }
+      ]
+    },
+    "gate_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "RANK_A_TO_S è il Gate del Faro: Singles, Official Six, un solo esaminatore, nessun bypass tramite Masters, Continental Cup o reputazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "gate_red",
+          "text": "Rileggo il gate attraverso il confronto con Red.",
+          "goto": "red_context"
+        },
+        {
+          "id": "gate_cutoff",
+          "text": "Controllo il rapporto fra Rank S e cutoff.",
+          "goto": "cutoff_context"
+        },
+        {
+          "id": "gate_close",
+          "text": "Ho il contesto necessario: preparo la registrazione.",
+          "goto": "close"
+        }
+      ]
+    },
+    "red_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se Red è stato incontrato, il suo principio di adattamento offre un modo di leggere il Gate, non un bonus o una scorciatoia."
+        }
+      ],
+      "choices": [
+        {
+          "id": "red_note",
+          "text": "Conservo il callback come prospettiva.",
+          "goto": "gate_context",
+          "conditions": {
+            "path": "world.flags.red_met",
+            "eq": true
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_lighthouse_red_context_used",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "red_back",
+          "text": "Torno al Gate senza usare Red come autorità.",
+          "goto": "gate_context"
+        }
+      ]
+    },
+    "cutoff_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il World Ranking Cutoff è una deadline separata dal Trial: può congelare lo stato della stagione, ma non trasformare una sconfitta A→S in promozione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "cutoff_gate",
+          "text": "Torno alla logica del Gate.",
+          "goto": "gate_context"
+        },
+        {
+          "id": "cutoff_explore",
+          "text": "Rivedo il luogo prima di chiudere.",
+          "goto": "explore"
+        }
+      ]
+    },
+    "explore": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'esplorazione delle Rovine produce contesto e continuità, non loot narrativo gratuito. Le aree più profonde restano soggette agli accessi futuri."
+        }
+      ],
+      "choices": [
+        {
+          "id": "explore_boundary",
+          "text": "Torno al perimetro del Faro.",
+          "goto": "ruins_boundary"
+        },
+        {
+          "id": "explore_close",
+          "text": "Chiudo il ritorno e apro la registrazione.",
+          "goto": "close"
+        }
+      ]
+    },
+    "defer": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Rimandare lascia attivi cutoff, trial window, schedule e Living World. Nessuno di questi thread si congela."
+        }
+      ],
+      "choices": [
+        {
+          "id": "defer_handoff",
+          "text": "Torno al riepilogo Rank A.",
+          "goto": "m06-handoff#rank_a_band"
+        },
+        {
+          "id": "defer_return",
+          "text": "Cambio idea e parto per il Faro.",
+          "goto": "route_board"
+        }
+      ]
+    },
+    "close": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il ritorno al Primo Faro è ora persistente. Il prossimo passo è la registrazione A→S, non una promozione automatica."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_trial",
+          "text": "Apro il desk del Gate del Faro.",
+          "goto": "m06-trial-registration#trial_info",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_first_lighthouse_return_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "far_ruins"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
