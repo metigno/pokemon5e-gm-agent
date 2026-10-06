@@ -316,9 +316,12 @@ export function resolveSavingThrow({
     defender.effects?.saveAdvantageSources ?? [],
     round
   );
+  const restrainedDex =
+    attribute === "dex" &&
+    hasActiveEffect(defender.effects?.restrainedSources ?? [], round);
   const roll = rollD20(dice, {
     advantage: advantage || effectAdvantage,
-    disadvantage: disadvantage || statusDisadvantage
+    disadvantage: disadvantage || statusDisadvantage || restrainedDex
   });
   const effectModifier = activeEffectModifier(
     defender.effects?.saveModifierSources ?? [],
@@ -336,6 +339,7 @@ export function resolveSavingThrow({
     modifier,
     effectModifier,
     effectAdvantage,
+    restrainedDex,
     total,
     success: total >= dc,
     ...roll
@@ -376,9 +380,20 @@ export function resolveAttack({
     attacker.effects?.attackAdvantageSources ?? [],
     round
   );
+  const attackerRestrained = hasActiveEffect(
+    attacker.effects?.restrainedSources ?? [],
+    round
+  );
+  const defenderRestrained = hasActiveEffect(
+    defender.effects?.restrainedSources ?? [],
+    round
+  );
   const attackRoll = rollD20(dice, {
-    advantage: effectAdvantage,
-    disadvantage: forceDisadvantage || attackHasDisadvantage(attacker)
+    advantage: effectAdvantage || defenderRestrained,
+    disadvantage:
+      forceDisadvantage ||
+      attackHasDisadvantage(attacker) ||
+      attackerRestrained
   });
   const gutsBonus = gutsMeleeBonus(attacker, move);
   const attackModifier = stats.toHit + extraAttackModifier + gutsBonus;
@@ -409,6 +424,8 @@ export function resolveAttack({
       criticalRangeBonus,
       criticalThreshold,
       effectAdvantage,
+      attackerRestrained,
+      defenderRestrained,
       gutsBonus,
       damage: 0,
       typeMultiplier: 1,
@@ -449,6 +466,8 @@ export function resolveAttack({
     criticalRangeBonus,
     criticalThreshold,
     effectAdvantage,
+    attackerRestrained,
+    defenderRestrained,
     damageRoll,
     damageDiceMultiplier,
     damageModifier: effectiveDamageModifier,

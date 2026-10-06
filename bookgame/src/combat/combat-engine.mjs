@@ -50,6 +50,7 @@ const SAVE_EFFECT_MOVES = new Set([
   "sand-attack",
   "hypnosis",
   "charm",
+  "cotton-spore",
   "fake-tears",
   "metal-sound",
   "screech",
@@ -184,6 +185,7 @@ function removeEffectSource(combatant, source, round = null) {
     "typeImmunitySources",
     "stabMultiplierSources",
     "criticalRangeBonusSources",
+    "restrainedSources",
     "switchLockSources",
     "escapeLockSources",
     "movementLockSources",
@@ -542,6 +544,7 @@ function clearTransientEffects(combatant) {
     typeImmunitySources: [],
     stabMultiplierSources: [],
     criticalRangeBonusSources: [],
+    restrainedSources: [],
     switchLockSources: [],
     escapeLockSources: [],
     movementLockSources: [],
@@ -945,6 +948,32 @@ function applySaveEffect(battle, side, move, saveResult) {
     return { effect: "status", statusResult: applyStatus(target, "Asleep") };
   }
 
+  if (move.id === "cotton-spore") {
+    const expiresRound = battle.round + 10;
+    const beforeSpeed = movementSpeed(target, battle.round).value;
+    target.effects.speedModifierSources.push({
+      source: "cotton-spore",
+      value: -10,
+      expiresRound
+    });
+    const afterSpeed = movementSpeed(target, battle.round).value;
+    const restrained = beforeSpeed > 0 && afterSpeed === 0;
+    if (restrained) {
+      target.effects.restrainedSources.push({
+        source: "cotton-spore",
+        expiresRound
+      });
+    }
+    return {
+      effect: "speed_modifier",
+      value: -10,
+      beforeSpeed,
+      afterSpeed,
+      restrained,
+      expiresRound
+    };
+  }
+
   if (move.id === "charm") {
     const penalty = -(tieredCombatBonus(battle[side].level) + 1);
     const value = addSourceCappedModifier(
@@ -1173,6 +1202,7 @@ export class Pokemon5eCombatEngine {
         typeImmunitySources: [],
         stabMultiplierSources: [],
         criticalRangeBonusSources: [],
+        restrainedSources: [],
         switchLockSources: [],
         escapeLockSources: [],
         movementLockSources: [],
@@ -1600,8 +1630,12 @@ export class Pokemon5eCombatEngine {
     const roll = automaticHit
       ? { rolls: [], natural: null, mode: "automatic" }
       : rollD20(this.dice, {
-          advantage: hasActiveSource(attacker.effects?.attackAdvantageSources ?? [], next.round),
-          disadvantage: attackHasDisadvantage(attacker)
+          advantage:
+            hasActiveSource(attacker.effects?.attackAdvantageSources ?? [], next.round) ||
+            hasActiveSource(defender.effects?.restrainedSources ?? [], next.round),
+          disadvantage:
+            attackHasDisadvantage(attacker) ||
+            hasActiveSource(attacker.effects?.restrainedSources ?? [], next.round)
         });
     const attackTotal = automaticHit ? null : roll.natural + pb + moveModifier;
     const attackAdvantageConsumed = automaticHit
@@ -1649,8 +1683,13 @@ export class Pokemon5eCombatEngine {
       activeModifier(attacker.effects.attackModifierSources, next.round) +
       activeModifier(defender.effects.incomingAttackBonusSources, next.round);
     const roll = rollD20(this.dice, {
-      advantage: hasActiveSource(attacker.effects?.attackAdvantageSources ?? [], next.round),
-      disadvantage: forceDisadvantage || attackHasDisadvantage(attacker)
+      advantage:
+        hasActiveSource(attacker.effects?.attackAdvantageSources ?? [], next.round) ||
+        hasActiveSource(defender.effects?.restrainedSources ?? [], next.round),
+      disadvantage:
+        forceDisadvantage ||
+        attackHasDisadvantage(attacker) ||
+        hasActiveSource(attacker.effects?.restrainedSources ?? [], next.round)
     });
     const attackModifier = stats.toHit + attackBonus;
     const attackTotal = roll.natural + attackModifier;
@@ -3002,7 +3041,12 @@ export class Pokemon5eCombatEngine {
       distanceFeet: distance(next.trainer.position, next.opponent.position),
       round: next.round,
       registered: next.opponentRegistered,
-      context,
+      context: {
+        ...context,
+        restrained:
+          Boolean(context.restrained) ||
+          hasActiveSource(next.opponent.effects?.restrainedSources ?? [], next.round)
+      },
       dice: this.dice
     });
 

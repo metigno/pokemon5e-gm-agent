@@ -18,6 +18,7 @@ import {
   endTurnStatus,
   startTurnStatus
 } from "../src/combat/status.mjs";
+import { movementSpeed } from "../src/combat/spatial.mjs";
 import { SequenceDice } from "../src/engine/dice.mjs";
 
 const WORLD_DISTRIBUTION = new URL(
@@ -102,7 +103,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
   const moves = await data.listMoves();
   const unresolved = moves.filter((move) => !isMoveResolvable(move)).map((move) => move.id);
 
-  assert.ok(unresolved.length <= 185, `unresolved move rules regressed to ${unresolved.length}`);
+  assert.ok(unresolved.length <= 184, `unresolved move rules regressed to ${unresolved.length}`);
   assert.ok(unresolved.includes("acupressure"));
   for (const id of [
     "agility",
@@ -137,6 +138,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
     "aromatherapy",
     "heal-bell",
     "charm",
+    "cotton-spore",
     "fake-tears",
     "metal-sound",
     "screech",
@@ -580,6 +582,54 @@ test("Fillet Away pays 10 HP, boosts speed and consumes advantage on the next at
   assert.equal(attack.attackRoll.natural, 17);
   assert.equal(attack.attackAdvantageConsumed, "fillet-away");
   assert.equal(battle.player.effects.attackAdvantageSources.at(-1).usesRemaining, 0);
+});
+
+
+test("Cotton Spore creates a real Restrained combat effect when its speed reduction reaches zero", async () => {
+  const combat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 1])
+  });
+  let battle = await combat.createBattle({
+    encounterId: "FULL_RUNTIME_COTTON_SPORE",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["cotton-spore"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 20, y: 0 }
+  });
+
+  const baseSpeed = movementSpeed(battle.opponent, battle.round).value;
+  battle.opponent.effects.speedModifierSources.push({
+    source: "fixture",
+    value: -(baseSpeed - 10),
+    expiresRound: null
+  });
+  assert.equal(movementSpeed(battle.opponent, battle.round).value, 10);
+
+  battle = await combat.usePlayerMove(battle, "cotton-spore");
+  assert.equal(movementSpeed(battle.opponent, battle.round).value, 0);
+  assert.equal(battle.opponent.effects.restrainedSources.at(-1).source, "cotton-spore");
+
+  const tackle = await new Poke5eDataRepository().getMove("tackle");
+  const restrainedAttack = resolveAttack({
+    attacker: battle.opponent,
+    defender: battle.player,
+    move: tackle,
+    dice: new SequenceDice([18, 5]),
+    round: battle.round
+  });
+  assert.equal(restrainedAttack.attackRoll.mode, "disadvantage");
+  assert.equal(restrainedAttack.attackRoll.natural, 5);
+
+  const dexSave = resolveSavingThrow({
+    defender: battle.opponent,
+    attribute: "dex",
+    dc: 10,
+    dice: new SequenceDice([18, 5]),
+    round: battle.round
+  });
+  assert.equal(dexSave.restrainedDex, true);
+  assert.equal(dexSave.mode, "disadvantage");
+  assert.equal(dexSave.natural, 5);
 });
 
 test("save debuffs and allied status cures execute their 2024 effects", async () => {

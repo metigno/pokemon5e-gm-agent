@@ -22,10 +22,15 @@ export function baseMovementSpeed(combatant) {
 
 export function movementSpeed(combatant, round = null) {
   const base = baseMovementSpeed(combatant);
-  const movementLocked = (combatant.effects?.movementLockSources ?? [])
-    .some((source) => round == null || source.expiresRound == null || round < source.expiresRound);
+  const isActive = (source) =>
+    round == null ||
+    ((source.startsRound == null || round >= source.startsRound) &&
+     (source.expiresRound == null || round < source.expiresRound));
+  const movementLocked =
+    (combatant.effects?.movementLockSources ?? []).some(isActive) ||
+    (combatant.effects?.restrainedSources ?? []).some(isActive);
   const speedModifier = (combatant.effects?.speedModifierSources ?? [])
-    .filter((source) => round == null || source.expiresRound == null || round < source.expiresRound)
+    .filter(isActive)
     .reduce((sum, source) => sum + source.value, 0);
   const modified = movementLocked ? 0 : Math.max(0, base.value + speedModifier);
   const value = combatant.statuses?.nonVolatile === "Paralysis"
