@@ -1,0 +1,162 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "M04",
+  "events": [
+    {
+      "id": "A4_LEAGUE_REG",
+      "once": true,
+      "trigger": {
+        "any": [
+          {
+            "path": "competition.rankOrder",
+            "gte": 3
+          },
+          {
+            "path": "player.trainerLevel",
+            "gte": 9
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "registration_window",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a4_league_reg_available",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A4_MAJOR_NAME",
+      "once": true,
+      "trigger": {
+        "any": [
+          {
+            "path": "competition.rankOrder",
+            "gte": 3
+          },
+          {
+            "path": "player.trainerLevel",
+            "gte": 9
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "major_name_window",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a4_major_name_available",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A4_RANK_TRIAL_C_B",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "competition.rank",
+            "eq": "C"
+          },
+          {
+            "any": [
+              {
+                "path": "player.trainerLevel",
+                "gte": 9
+              },
+              {
+                "path": "world.flags.rank_trial_C_B_available",
+                "eq": true
+              }
+            ]
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "trial_window",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a4_rank_trial_c_b_available",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A4_REGIONAL_LEAGUE",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "competition.rankOrder",
+            "gte": 3
+          },
+          {
+            "any": [
+              {
+                "path": "world.flags.upper_regional_registration_complete",
+                "eq": true
+              },
+              {
+                "path": "player.trainerLevel",
+                "gte": 10
+              }
+            ]
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "upper_regional_window",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a4_regional_league_available",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A4_AFTER_LEAGUE",
+      "once": true,
+      "trigger": {
+        "any": [
+          {
+            "path": "world.flags.upper_regional_result",
+            "exists": true
+          },
+          {
+            "path": "competition.rankOrder",
+            "gte": 4
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "after_league_window",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a4_after_league_available",
+              "value": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
