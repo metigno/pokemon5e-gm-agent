@@ -113,11 +113,6 @@
           "id": "routes_fulgore",
           "text": "Chiedo se Fulgore conta già come tratta interregionale.",
           "goto": "travel_rights"
-        },
-        {
-          "id": "routes_defer",
-          "text": "Non apro ancora la pratica.",
-          "goto": "defer"
         }
       ]
     },
@@ -483,6 +478,21 @@
         }
       ],
       "choices": [
+        {
+          "id": "close_reunion",
+          "text": "La finestra dei Five è aperta: raggiungo la reunion.",
+          "conditions": {
+            "path": "world.flags.a5_five_cross_available",
+            "eq": true
+          },
+          "goto": "m05-five-cross-again#reunion_entry",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        },
         {
           "id": "close_hub",
           "text": "Torno alla piazza di Altacima.",
