@@ -137,9 +137,21 @@ function effectiveAc(combatant, round) {
 function hasActiveSource(sources = [], round) {
   return sources.some(
     (source) =>
+      (source.usesRemaining == null || source.usesRemaining > 0) &&
       (source.startsRound == null || round >= source.startsRound) &&
       (source.expiresRound == null || round < source.expiresRound)
   );
+}
+
+function consumeAttackAdvantageUse(combatant, round) {
+  for (const source of combatant.effects?.attackAdvantageSources ?? []) {
+    if (source.usesRemaining == null || source.usesRemaining <= 0) continue;
+    if (source.startsRound != null && round < source.startsRound) continue;
+    if (source.expiresRound != null && round >= source.expiresRound) continue;
+    source.usesRemaining -= 1;
+    return source.source;
+  }
+  return null;
 }
 
 function removeEffectSource(combatant, source, round = null) {
@@ -387,7 +399,8 @@ function isSimpleModifierMove(move) {
 
 const SPECIAL_SELF_MOVES = new Set([
   "charge",
-  "clangorous-soul"
+  "clangorous-soul",
+  "fillet-away"
 ]);
 
 function isSpecialSelfMove(move) {
@@ -1496,6 +1509,7 @@ export class Pokemon5eCombatEngine {
       forceDisadvantage,
       round: next.round
     });
+    const attackAdvantageConsumed = consumeAttackAdvantageUse(attacker, next.round);
 
     defender.hp.current = Math.max(0, defender.hp.current - result.damage);
     checkConcentrationAfterDamage(next, targetSide, result.damage, this.dice);
@@ -1528,6 +1542,7 @@ export class Pokemon5eCombatEngine {
       actor: side,
       target: targetSide,
       ...result,
+      attackAdvantageConsumed,
       secondaryStatus: secondary,
       statusResult,
       thawed,
@@ -1570,6 +1585,9 @@ export class Pokemon5eCombatEngine {
           disadvantage: attackHasDisadvantage(attacker)
         });
     const attackTotal = automaticHit ? null : roll.natural + pb + moveModifier;
+    const attackAdvantageConsumed = automaticHit
+      ? null
+      : consumeAttackAdvantageUse(attacker, next.round);
     const defenderAc = effectiveAc(defender, next.round);
     const hit = automaticHit || roll.natural === 20 ||
       (roll.natural !== 1 && attackTotal >= defenderAc);
@@ -1590,6 +1608,7 @@ export class Pokemon5eCombatEngine {
       moveModifier,
       attackRoll: roll,
       attackTotal,
+      attackAdvantageConsumed,
       defenderAc,
       hit,
       damage,
@@ -1616,6 +1635,7 @@ export class Pokemon5eCombatEngine {
     });
     const attackModifier = stats.toHit + attackBonus;
     const attackTotal = roll.natural + attackModifier;
+    const attackAdvantageConsumed = consumeAttackAdvantageUse(attacker, next.round);
     const defenderAc = effectiveAc(defender, next.round);
     const hit = roll.natural === 20 ||
       (roll.natural !== 1 && attackTotal >= defenderAc);
@@ -1632,6 +1652,7 @@ export class Pokemon5eCombatEngine {
       attackRoll: roll,
       attackModifier,
       attackTotal,
+      attackAdvantageConsumed,
       defenderAc,
       hit,
       status,
@@ -1910,6 +1931,63 @@ export class Pokemon5eCombatEngine {
           stabExpiresRound: next.round + 2
         },
         concentration: true
+      });
+      return next;
+    }
+
+    if (move.id === "fillet-away") {
+      const selfDamage = 10;
+      combatant.hp.current = Math.max(0, combatant.hp.current - selfDamage);
+      const concentrationCheck = checkConcentrationAfterDamage(
+        next,
+        side,
+        selfDamage,
+        this.dice
+      );
+
+      if (combatant.hp.current <= 0) {
+        next.log.push({
+          type: "special_self_move",
+          round: next.round,
+          actor: side,
+          moveId: move.id,
+          selfDamage,
+          concentrationCheck,
+          applied: null,
+          hpAfter: combatant.hp.current
+        });
+        markDowned(next, side, "self_move_damage");
+        return next;
+      }
+
+      removeEffectSource(combatant, "fillet-away", next.round);
+      combatant.effects.attackAdvantageSources.push({
+        source: "fillet-away",
+        usesRemaining: 1,
+        expiresRound: next.round + 1
+      });
+      combatant.effects.speedModifierSources.push({
+        source: "fillet-away",
+        value: 15,
+        expiresRound: next.round + 1
+      });
+      if (combatant.turn.started) {
+        combatant.turn.movementRemaining += 15;
+      }
+
+      next.log.push({
+        type: "special_self_move",
+        round: next.round,
+        actor: side,
+        moveId: move.id,
+        selfDamage,
+        concentrationCheck,
+        applied: {
+          attackAdvantageUses: 1,
+          speed: 15,
+          expiresRound: next.round + 1
+        },
+        hpAfter: combatant.hp.current
       });
       return next;
     }

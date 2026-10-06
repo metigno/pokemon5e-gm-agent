@@ -281,9 +281,10 @@ function activeEffectModifier(sources = [], round = null) {
 function hasActiveEffect(sources = [], round = null) {
   return sources.some(
     (source) =>
-      round == null ||
-      ((source.startsRound == null || round >= source.startsRound) &&
-       (source.expiresRound == null || round < source.expiresRound))
+      (source.usesRemaining == null || source.usesRemaining > 0) &&
+      (round == null ||
+       ((source.startsRound == null || round >= source.startsRound) &&
+        (source.expiresRound == null || round < source.expiresRound)))
   );
 }
 

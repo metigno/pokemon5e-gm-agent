@@ -102,7 +102,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
   const moves = await data.listMoves();
   const unresolved = moves.filter((move) => !isMoveResolvable(move)).map((move) => move.id);
 
-  assert.ok(unresolved.length <= 187, `unresolved move rules regressed to ${unresolved.length}`);
+  assert.ok(unresolved.length <= 186, `unresolved move rules regressed to ${unresolved.length}`);
   assert.ok(unresolved.includes("acupressure"));
   for (const id of [
     "agility",
@@ -118,6 +118,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
     "defend-order",
     "defense-curl",
     "dragon-dance",
+    "fillet-away",
     "focus-energy",
     "geomancy",
     "hone-claws",
@@ -517,6 +518,34 @@ test("Charge keeps AC until the next turn and activates doubled STAB only on tha
   battle = await combat.usePlayerMove(battle, "tackle");
   const attack = [...battle.log].reverse().find((event) => event.type === "attack");
   assert.equal(attack.stab, 6);
+});
+
+
+test("Fillet Away pays 10 HP, boosts speed and consumes advantage on the next attack", async () => {
+  const combat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 5, 17, 4])
+  });
+  let battle = await combat.createBattle({
+    encounterId: "FULL_RUNTIME_FILLET_AWAY",
+    playerPokemon: { speciesId: "pikachu", level: 5, moveIds: ["fillet-away", "tackle"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+
+  const hpBefore = battle.player.hp.current;
+  const speedBefore = battle.player.turn.movementRemaining;
+  battle = await combat.usePlayerMove(battle, "fillet-away");
+  assert.equal(battle.player.hp.current, hpBefore - 10);
+  assert.equal(battle.player.turn.movementRemaining, speedBefore + 15);
+  assert.equal(battle.player.effects.attackAdvantageSources.at(-1).usesRemaining, 1);
+
+  battle = await combat.usePlayerMove(battle, "tackle");
+  const attack = [...battle.log].reverse().find((event) => event.type === "attack");
+  assert.equal(attack.attackRoll.mode, "advantage");
+  assert.equal(attack.attackRoll.natural, 17);
+  assert.equal(attack.attackAdvantageConsumed, "fillet-away");
+  assert.equal(battle.player.effects.attackAdvantageSources.at(-1).usesRemaining, 0);
 });
 
 test("save debuffs and allied status cures execute their 2024 effects", async () => {
