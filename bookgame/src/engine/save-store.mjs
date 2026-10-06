@@ -1,6 +1,7 @@
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { migrateGameState } from "./state.mjs";
 
 const DEFAULT_DIR = fileURLToPath(new URL("../../local-saves/", import.meta.url));
 
@@ -29,6 +30,7 @@ export class SaveStore {
   }
 
   async load(slot) {
-    return JSON.parse(await readFile(this.filePath(slot), "utf8"));
+    const parsed = JSON.parse(await readFile(this.filePath(slot), "utf8"));
+    return migrateGameState(parsed);
   }
 }
