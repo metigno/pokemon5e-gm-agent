@@ -578,7 +578,7 @@ test("Disable, Imprison and Taunt enforce move locks through legalMoves and dire
     playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["disable"] },
     opponent: { speciesId: "caterpie", level: 5, moveIds: ["harden", "tackle"] },
     playerPosition: { x: 0, y: 0 },
-    opponentPosition: { x: 20, y: 0 }
+    opponentPosition: { x: 5, y: 0 }
   });
   disableBattle.opponent.lastMoveId = "harden";
   disableBattle = await disableCombat.usePlayerMove(disableBattle, "disable");
@@ -596,7 +596,7 @@ test("Disable, Imprison and Taunt enforce move locks through legalMoves and dire
     playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["imprison", "tackle"] },
     opponent: { speciesId: "caterpie", level: 5, moveIds: ["tackle", "harden"] },
     playerPosition: { x: 0, y: 0 },
-    opponentPosition: { x: 20, y: 0 }
+    opponentPosition: { x: 5, y: 0 }
   });
   imprisonBattle = await imprisonCombat.usePlayerMove(imprisonBattle, "imprison");
   assert.deepEqual(imprisonBattle.opponent.effects.moveLockSources.at(-1)?.moveIds, ["tackle"]);
@@ -612,7 +612,7 @@ test("Disable, Imprison and Taunt enforce move locks through legalMoves and dire
     playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["taunt"] },
     opponent: { speciesId: "caterpie", level: 5, moveIds: ["harden", "tackle"] },
     playerPosition: { x: 0, y: 0 },
-    opponentPosition: { x: 20, y: 0 }
+    opponentPosition: { x: 5, y: 0 }
   });
   tauntBattle = await tauntCombat.usePlayerMove(tauntBattle, "taunt");
   const tauntLegal = await tauntCombat.legalMoves(tauntBattle, "opponent");
