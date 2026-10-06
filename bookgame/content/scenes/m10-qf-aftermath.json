@@ -1,0 +1,362 @@
+{
+  "schemaVersion": 1,
+  "id": "m10-qf-aftermath",
+  "moduleId": "M10",
+  "title": "M10_08 — QF Aftermath",
+  "locationId": "world_knockout_hall",
+  "entryNodeId": "aftermath_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m10_world_qf_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.world_qf_resolved",
+        "eq": true
+      },
+      {
+        "path": "competition.world.top8Locked",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "aftermath_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il risultato del player è definitivo. E5 deve ora chiudere gli altri tre quarti e produrre il Final Four reale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_resolve",
+          "text": "Risolvo strutturalmente il round.",
+          "goto": "resolve_guard"
+        },
+        {
+          "id": "entry_history",
+          "text": "Audito il mio record.",
+          "goto": "history_audit"
+        },
+        {
+          "id": "entry_world",
+          "text": "Controllo cosa deve contenere il Top4.",
+          "goto": "top4_rules"
+        }
+      ]
+    },
+    "resolve_guard": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La risoluzione QF conserva il match del player e usa il seed deterministico per gli altri tre. Ripetere l'operazione non rigioca nulla."
+        }
+      ],
+      "choices": [
+        {
+          "id": "resolve_now",
+          "text": "Risolvo gli altri QF e locko il Top4.",
+          "goto": "round_resolved",
+          "conditions": {
+            "path": "competition.world.knockout.qfResolved",
+            "ne": true
+          },
+          "effects": [
+            {
+              "type": "competition_world_qf_resolve",
+              "eventId": "WORLD_QF_RESOLVE"
+            }
+          ]
+        },
+        {
+          "id": "resolve_existing",
+          "text": "Il QF round è già chiuso: leggo il Top4 persistente.",
+          "goto": "round_resolved",
+          "conditions": {
+            "path": "competition.world.knockout.qfResolved",
+            "eq": true
+          }
+        },
+        {
+          "id": "resolve_audit",
+          "text": "Prima rivedo l'integrità.",
+          "goto": "history_audit"
+        }
+      ]
+    },
+    "history_audit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il tuo match resta player_pokemon5e_combat; gli altri tre sono deterministic_offscreen_world_resolution."
+        }
+      ],
+      "choices": [
+        {
+          "id": "history_rules",
+          "text": "Controllo la regola Top4.",
+          "goto": "top4_rules"
+        },
+        {
+          "id": "history_resolve",
+          "text": "Torno al resolve guard.",
+          "goto": "resolve_guard"
+        }
+      ]
+    },
+    "top4_rules": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Top4 contiene esattamente i quattro vincitori QF. Una sconfitta del player avanza il suo avversario reale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "top4_friend",
+          "text": "Controllo gli amici.",
+          "goto": "friend_visibility"
+        },
+        {
+          "id": "top4_anchor",
+          "text": "Controllo gli Anchor.",
+          "goto": "anchor_visibility"
+        }
+      ]
+    },
+    "round_resolved": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il QF round è chiuso e E5 ha prodotto quattro semifinalisti unici più due SF pairing."
+        }
+      ],
+      "choices": [
+        {
+          "id": "resolved_top4",
+          "text": "Apro il riepilogo Top4.",
+          "goto": "top4_summary"
+        },
+        {
+          "id": "resolved_outcome",
+          "text": "Leggo il significato del mio risultato.",
+          "goto": "player_outcome"
+        }
+      ]
+    },
+    "player_outcome": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "world_qf_won separa due realtà: Final Four oppure eliminazione. Nessun altro flag può contraddire il risultato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "outcome_sf",
+          "text": "Controllo il pairing SF se sono ancora dentro.",
+          "goto": "sf_preview"
+        },
+        {
+          "id": "outcome_friend",
+          "text": "Controllo chi è sopravvissuto.",
+          "goto": "friend_visibility"
+        }
+      ]
+    },
+    "top4_summary": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "competition.world.top4 è il lock E5 dei semifinalisti. Sopravvive a save/reload e sarà l'input di M11."
+        }
+      ],
+      "choices": [
+        {
+          "id": "summary_sf",
+          "text": "Vedo il pairing SF del player.",
+          "goto": "sf_preview"
+        },
+        {
+          "id": "summary_anchor",
+          "text": "Controllo gli Anchor senza plot armor.",
+          "goto": "anchor_visibility"
+        },
+        {
+          "id": "summary_commit",
+          "text": "Porto il round verso la chiusura.",
+          "goto": "commit"
+        }
+      ]
+    },
+    "sf_preview": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se hai vinto, playerSfOpponent deriva dai due QF adiacenti. Se hai perso, non esiste un SF match del player."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sf_pressure",
+          "text": "Ragiono sulla pressione del Final Four.",
+          "goto": "future_pressure"
+        },
+        {
+          "id": "sf_commit",
+          "text": "Torno alla chiusura.",
+          "goto": "commit"
+        }
+      ]
+    },
+    "friend_visibility": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un amico può essere nel Top4 o eliminato. FRIEND_BEAT_10 non protegge il suo risultato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "friend_anchor",
+          "text": "Confronto la stessa regola con gli Anchor.",
+          "goto": "anchor_visibility"
+        },
+        {
+          "id": "friend_commit",
+          "text": "Porto lo stato al commit.",
+          "goto": "commit"
+        }
+      ]
+    },
+    "anchor_visibility": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Silas e gli altri Anchor restano soggetti agli stessi QF reali. Nessun nome è garantito nel Final Four."
+        }
+      ],
+      "choices": [
+        {
+          "id": "anchor_top4",
+          "text": "Torno al riepilogo.",
+          "goto": "top4_summary"
+        },
+        {
+          "id": "anchor_commit",
+          "text": "Passo alla chiusura.",
+          "goto": "commit"
+        }
+      ]
+    },
+    "future_pressure": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "M11 giocherà le semifinali; M10 deve soltanto consegnare Top4, SF bracket e risorse intatte."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pressure_resources",
+          "text": "Controllo cosa il team porta avanti.",
+          "goto": "resource_persistence"
+        },
+        {
+          "id": "pressure_commit",
+          "text": "Chiudo l'aftermath.",
+          "goto": "commit"
+        }
+      ]
+    },
+    "resource_persistence": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Nessun risultato off-screen cura il player. Il roster resta quello uscito dal QF."
+        }
+      ],
+      "choices": [
+        {
+          "id": "resources_top4",
+          "text": "Torno al Top4.",
+          "goto": "top4_summary"
+        },
+        {
+          "id": "resources_commit",
+          "text": "Procedo alla chiusura.",
+          "goto": "commit"
+        }
+      ]
+    },
+    "commit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "QF Aftermath è completo quando Top4 e SF pairing sono persistenti, indipendentemente dal fatto che il player sia ancora dentro."
+        }
+      ],
+      "choices": [
+        {
+          "id": "commit_now",
+          "text": "Chiudo M10_08.",
+          "goto": "complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m10_qf_aftermath_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "commit_review",
+          "text": "Rivedo il Top4.",
+          "goto": "top4_summary"
+        }
+      ]
+    },
+    "complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il QF round è completamente risolto. Resta soltanto classificare l'outcome di M10 e aprire il modulo corretto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "complete_outcome",
+          "text": "Passo al Module Outcome.",
+          "goto": "handoff"
+        },
+        {
+          "id": "complete_summary",
+          "text": "Rileggo il Top4.",
+          "goto": "top4_summary"
+        }
+      ]
+    },
+    "handoff": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "M10_09 leggerà soltanto stato competitivo e Friend Beat persistenti: non riscriverà nessun risultato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "handoff_outcome",
+          "text": "Apro il Module Outcome.",
+          "goto": "m10-module-outcome#outcome_entry"
+        },
+        {
+          "id": "handoff_player",
+          "text": "Rileggo la conseguenza del mio QF.",
+          "goto": "player_outcome"
+        }
+      ]
+    }
+  }
+}
