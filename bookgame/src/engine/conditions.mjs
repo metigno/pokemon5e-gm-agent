@@ -16,7 +16,14 @@ const FIXED_PATHS = new Set([
   "competition.rankOrder",
   "competition.circuitPoints",
   "competition.firstOfficialResolved",
-  "competition.history.length"
+  "competition.history.length",
+  "competition.world.edition",
+  "competition.world.drawComplete",
+  "competition.world.fieldLocked",
+  "competition.world.field.length",
+  "competition.world.seedOrder.length",
+  "competition.world.playerGroup",
+  "competition.world.playerOpponents.length"
 ]);
 
 const COMPARATORS = new Set(["eq", "ne", "gt", "gte", "lt", "lte", "in", "exists"]);
