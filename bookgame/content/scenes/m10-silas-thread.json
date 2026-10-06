@@ -99,7 +99,7 @@
         {
           "id": "bracket_schedule",
           "text": "Passo alla plausibilità del venue.",
-          "goto": "schedule_gate"
+          "goto": "venue_overlap"
         }
       ]
     },
