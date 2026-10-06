@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "M11",
+  "events": [
+    {
+      "id": "M11_REI_FINAL_FOUR_SCHEDULE",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "world.flags.m11_final_four_lock_complete",
+            "eq": true
+          },
+          {
+            "path": "competition.world.knockout.reiInTop4",
+            "eq": true
+          },
+          {
+            "path": "world.flags.m11_rei_available",
+            "ne": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "rei_final_four_venue",
+          "effects": [
+            {
+              "type": "npc_register",
+              "npcId": "Rei",
+              "name": "Rei",
+              "relationshipScore": 0,
+              "state": {
+                "role": "world_final_four_anchor",
+                "introduced": false,
+                "competitiveProtection": false,
+                "module": "M11",
+                "worldTop4": true
+              }
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "Rei",
+              "scheduleId": "m11_world_sf",
+              "locationId": "world_knockout_hall",
+              "availability": "available",
+              "activity": "sf_preparation"
+            },
+            {
+              "type": "set_flag",
+              "key": "m11_rei_available",
+              "value": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
