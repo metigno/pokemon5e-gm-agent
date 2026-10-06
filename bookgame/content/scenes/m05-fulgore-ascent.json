@@ -281,11 +281,6 @@
           "id": "none_continue",
           "text": "Continuo verso l'altopiano.",
           "goto": "plateau_edge"
-        },
-        {
-          "id": "none_recheck",
-          "text": "Torno a leggere il terreno invece di forzare un incontro.",
-          "goto": "checkpoint"
         }
       ]
     },
@@ -524,9 +519,25 @@
       ],
       "choices": [
         {
-          "id": "close_explore",
-          "text": "Apro l'esplorazione dell'altopiano.",
-          "goto": "plateau_arrival"
+          "id": "close_trace",
+          "text": "L'anomalia di Fulgore è attiva: la seguo.",
+          "conditions": {
+            "path": "world.flags.a5_trace_available",
+            "eq": true
+          },
+          "goto": "m05-ancient-trace#trace_entry"
+        },
+        {
+          "id": "close_altacima",
+          "text": "Per ora torno ad Altacima.",
+          "timeCostMinutes": 60,
+          "goto": "m05-altacima#town_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
         }
       ]
     },
