@@ -61,6 +61,24 @@ export function isAllowedConditionPath(path) {
       ID_RE.test(segments[2]) &&
       ["available", "registered", "attempts", "bestResult", "lastResult", "completed", "requiredRosterSize"].includes(segments[3])) return true;
   if (segments.length === 4 &&
+      segments[0] === "competition" &&
+      segments[1] === "world" &&
+      segments[2] === "groupStage" &&
+      ["opened", "playerGroup", "playerPosition", "playerPoints", "kaiaInPlayerGroup", "resolved"].includes(segments[3])) return true;
+  if (segments.length === 5 &&
+      segments[0] === "competition" &&
+      segments[1] === "world" &&
+      segments[2] === "qualifications" &&
+      ID_RE.test(segments[3]) &&
+      ["qualified", "source"].includes(segments[4])) return true;
+  if (segments.length === 6 &&
+      segments[0] === "competition" &&
+      segments[1] === "world" &&
+      segments[2] === "groupStage" &&
+      segments[3] === "playerMatches" &&
+      /^[0-2]$/.test(segments[4]) &&
+      ["outcome", "opponentId", "opponentName", "matchday", "matchId"].includes(segments[5])) return true;
+  if (segments.length === 4 &&
       segments[0] === "shops" &&
       ID_RE.test(segments[1]) &&
       segments[2] === "stock" &&
