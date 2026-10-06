@@ -5,7 +5,7 @@
 **Purpose:** production map for converting M8 into validated offline story content  
 **Locked authored budget:** **4,400 stitches / 2,500 player choices**
 
-**Module implementation status:** **M8_00–M8_09 IMPLEMENTED / LIBRARY-V2 ALIGNED / RUNTIME VALIDATION PENDING**
+**Module implementation status:** **M8_00–M8_09 COMPLETE / LIBRARY-V2 ALIGNED / RUNTIME PASS**
 
 E1–E7 are reusable infrastructure from M1. A block may extend generic data or content, but must not fork those engines into module-specific substitutes.
 
@@ -82,7 +82,7 @@ The authored-surface budget above remains locked at **4,400 stitches / 2,500 cho
 | M8_07_TRAINING_HALL | 15 | 33 | IMPLEMENTED |
 | M8_08_MEDIA_DAY | 15 | 32 | IMPLEMENTED |
 | M8_09_OPENING_CEREMONY | 12 | 26 | IMPLEMENTED |
-| **Cycle M8_05–M8_09** | **76** | **166** | **IMPLEMENTED / STATIC PASS** |
+| **Cycle M8_05–M8_09** | **76** | **166** | **COMPLETE / RUNTIME PASS** |
 | M8_10_WORLD_DRAW | TBD | TBD | PLANNED |
 | M8_11_GROUP_REVEAL | TBD | TBD | PLANNED |
 | **M8 TOTAL TARGET** | **190** | **418** | |
@@ -136,7 +136,7 @@ The first cycle used **82 / 181**. Cycle 2 adds **76 / 166**, bringing M8_00–M
 - Media Day preserves player voice and never grants stat bonuses;
 - Opening Ceremony never sets `world_draw_complete`, `world_field_32_locked` or `player_group`;
 - dedicated regressions: `m08-cycle2.test.mjs` plus expanded `m08-cycle-budget.test.mjs`;
-- runtime GitHub Actions evidence is required before marking this cycle COMPLETE.
+- GitHub Actions runtime evidence: **PASS** on content/test commit `466811b9f7e8cf0c5e5fef19c7f81a9eea2d3d66`, Bookgame Tests run `37456416179` (#344) — **1,187 passed / 0 failed**.
 
 # 3. CANONICAL EVENT BINDINGS
 
