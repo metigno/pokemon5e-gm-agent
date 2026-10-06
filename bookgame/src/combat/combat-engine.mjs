@@ -158,6 +158,7 @@ function attackHitStatus(move, natural) {
 const IMMEDIATE_HEALING_MOVES = new Set([
   "floral-healing",
   "heal-order",
+  "heal-pulse",
   "jungle-healing",
   "life-dew",
   "milk-drink",
@@ -169,6 +170,24 @@ const IMMEDIATE_HEALING_MOVES = new Set([
 
 function isImmediateHealingMove(move) {
   return move.dice?.type === "healing" && IMMEDIATE_HEALING_MOVES.has(move.id);
+}
+
+function healingTargetSide(move, userSide, requestedTargetSide = null) {
+  if (move.range?.type === "self") return userSide;
+
+  if (
+    requestedTargetSide != null &&
+    requestedTargetSide !== "player" &&
+    requestedTargetSide !== "opponent"
+  ) {
+    throw new Error(`Invalid healing target side: ${requestedTargetSide}`);
+  }
+
+  const targetSide = requestedTargetSide ?? (move.id === "heal-pulse" ? otherSide(userSide) : userSide);
+  if (move.id === "heal-pulse" && targetSide === userSide) {
+    throw new Error("Heal Pulse cannot target its user");
+  }
+  return targetSide;
 }
 
 const STATEFUL_AUTO_DAMAGE_MOVES = new Set([
@@ -865,7 +884,10 @@ export class Pokemon5eCombatEngine {
       if (!slot || !combatant.turn[slot]) continue;
       if (!isMoveResolvable(move)) continue;
       if (requiresSleepingTarget(move) && defender.statuses?.nonVolatile !== "Asleep") continue;
-      const rangeTarget = isImmediateHealingMove(move) ? combatant : defender;
+      const healTargetSide = isImmediateHealingMove(move)
+        ? healingTargetSide(move, side)
+        : null;
+      const rangeTarget = healTargetSide ? battle[healTargetSide] : defender;
       if (!rangeCheckForMove(combatant, rangeTarget, move).legal) continue;
       result.push(move);
     }
@@ -1030,18 +1052,19 @@ export class Pokemon5eCombatEngine {
     return next;
   }
 
-  async resolveHealingMove(next, side, move) {
+  async resolveHealingMove(next, side, targetSide, move) {
     const user = next[side];
+    const target = next[targetSide];
     const stats = calculateMoveStats(user, move);
     const healingRoll = rollExpression(stats.damageDice, this.dice);
     const rawHealing = Math.max(0, healingRoll.total + stats.damageModifier);
-    const before = user.hp.current;
-    user.hp.current = Math.min(user.hp.max, user.hp.current + rawHealing);
+    const before = target.hp.current;
+    target.hp.current = Math.min(target.hp.max, target.hp.current + rawHealing);
 
     const curedStatuses = [];
     if (move.id === "jungle-healing") {
       for (const status of STATUS_IDS) {
-        if (clearStatus(user, status)) curedStatuses.push(status);
+        if (clearStatus(target, status)) curedStatuses.push(status);
       }
     }
 
@@ -1049,14 +1072,14 @@ export class Pokemon5eCombatEngine {
       type: "healing_move",
       round: next.round,
       actor: side,
-      target: side,
+      target: targetSide,
       moveId: move.id,
       moveName: move.name,
       healingRoll,
       healingModifier: stats.damageModifier,
-      healing: user.hp.current - before,
+      healing: target.hp.current - before,
       hpBefore: before,
-      hpAfter: user.hp.current,
+      hpAfter: target.hp.current,
       curedStatuses
     });
     return next;
@@ -1167,7 +1190,16 @@ export class Pokemon5eCombatEngine {
     return next;
   }
 
-  async useMove(battle, side, moveId, { useDefenderIntimidate = false, targetPoint = null } = {}) {
+  async useMove(
+    battle,
+    side,
+    moveId,
+    {
+      useDefenderIntimidate = false,
+      targetPoint = null,
+      targetSide: requestedTargetSide = null
+    } = {}
+  ) {
     if (battle.outcome) return clone(battle);
     if (battle.awaitingSwitch) throw new Error("A required switch must be resolved first");
     if (this.actor(battle) !== side) throw new Error(`It is not ${side}'s turn`);
@@ -1197,7 +1229,10 @@ export class Pokemon5eCombatEngine {
     const areaTarget = AREA_MOVES.has(move.id) && targetPoint
       ? point(targetPoint.x, targetPoint.y)
       : null;
-    const rangeTarget = isImmediateHealingMove(move) ? attacker : defender;
+    const healTargetSide = isImmediateHealingMove(move)
+      ? healingTargetSide(move, side, requestedTargetSide)
+      : null;
+    const rangeTarget = healTargetSide ? next[healTargetSide] : defender;
     const range = areaTarget
       ? {
           legal: distance(attacker.position, areaTarget) <= move.range.value + 1e-9,
@@ -1258,7 +1293,7 @@ export class Pokemon5eCombatEngine {
     } else if (isAutomaticDamageMove(move)) {
       next = await this.resolveAutomaticDamageMove(next, side, move);
     } else if (isImmediateHealingMove(move)) {
-      next = await this.resolveHealingMove(next, side, move);
+      next = await this.resolveHealingMove(next, side, healTargetSide, move);
     } else if (AREA_MOVES.has(move.id)) {
       const stats = calculateMoveStats(attacker, move);
       const center = areaTarget ?? clone(defender.position);
