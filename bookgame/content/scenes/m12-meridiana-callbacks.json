@@ -19,9 +19,9 @@
       ],
       "choices": [
         {
-          "id": "entry_media",
-          "text": "Parto da media e sponsor.",
-          "goto": "media_history"
+          "id": "entry_city",
+          "text": "Parto dalla Meridiana di oggi, poi rileggo media e sponsor.",
+          "goto": "city_now"
         },
         {
           "id": "entry_qualifier",
@@ -440,7 +440,7 @@
         {
           "id": "outcome_direct",
           "text": "Registro la qualificazione diretta prodotta dal Qualifier.",
-          "goto": "complete",
+          "goto": "callback_review",
           "conditions": {
             "path": "world.flags.m7_qualifier_result",
             "eq": "qualified"
@@ -466,7 +466,7 @@
         {
           "id": "outcome_last_chance",
           "text": "Registro la qualificazione ottenuta tramite Last Chance.",
-          "goto": "complete",
+          "goto": "callback_review",
           "conditions": {
             "path": "world.flags.m7_last_chance_result",
             "eq": "qualified"
@@ -492,7 +492,7 @@
         {
           "id": "outcome_missed",
           "text": "Registro Worlds Missed senza alterarne la causa competitiva.",
-          "goto": "complete",
+          "goto": "callback_review",
           "conditions": {
             "path": "world.flags.worlds_missed",
             "eq": true
@@ -518,7 +518,7 @@
         {
           "id": "outcome_fallback",
           "text": "Registro soltanto lo stato mondiale persistente disponibile.",
-          "goto": "complete",
+          "goto": "callback_review",
           "conditions": {
             "all": [
               {
@@ -564,14 +564,14 @@
       ],
       "choices": [
         {
-          "id": "continue",
-          "text": "Proseguo con questo aspetto del callback.",
+          "id": "finish_meridiana",
+          "text": "Chiudo il callback di Meridiana mantenendo intatti i risultati M7.",
           "goto": "complete"
         },
         {
-          "id": "crosscheck",
-          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
-          "goto": "callback_entry"
+          "id": "review_sponsor",
+          "text": "Rileggo sponsor e qualificazione.",
+          "goto": "sponsor_synthesis"
         }
       ]
     },
