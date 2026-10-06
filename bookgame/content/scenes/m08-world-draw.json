@@ -1,0 +1,605 @@
+{
+  "schemaVersion": 1,
+  "id": "m08-world-draw",
+  "moduleId": "M08",
+  "title": "M8_10 — World Draw",
+  "locationId": "world_draw_hall",
+  "entryNodeId": "draw_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m7_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m08_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.world_qualified",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_active",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_world_registration_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_opening_ceremony_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.friend_beat_08_complete",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "draw_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il WORLD_DRAW è l'ultimo checkpoint pre-M9. Deve congelare un field reale di 32 e generare gruppi una sola volta attraverso E5."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_authority",
+          "text": "Controllo quale sistema possiede il sorteggio.",
+          "goto": "authority"
+        },
+        {
+          "id": "entry_field",
+          "text": "Controllo da dove arrivano i 32 partecipanti.",
+          "goto": "field_source"
+        },
+        {
+          "id": "entry_ready",
+          "text": "Passo alla preparazione del sorteggio.",
+          "goto": "draw_preview"
+        }
+      ]
+    },
+    "authority": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il sorteggio appartiene al Competition subsystem E5. I flag narrativi possono soltanto riflettere lo stato strutturato, non sostituirlo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "authority_actual",
+          "text": "Controllo come vengono rispettati gli esiti reali.",
+          "goto": "actual_state"
+        },
+        {
+          "id": "authority_preview",
+          "text": "Torno alla preparazione.",
+          "goto": "draw_preview"
+        }
+      ]
+    },
+    "field_source": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La base è il roster canonico 2060. Il field finale non copia risultati storici: usa qualificazioni NPC già note e simula solo le qualificazioni off-screen ancora irrisolte."
+        }
+      ],
+      "choices": [
+        {
+          "id": "field_roster",
+          "text": "Controllo la policy del roster canonico.",
+          "goto": "roster_policy"
+        },
+        {
+          "id": "field_friends",
+          "text": "Controllo perché gli amici non sono garantiti.",
+          "goto": "friend_policy"
+        }
+      ]
+    },
+    "actual_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un NPC con worldQualified=true entra nel field; con false resta fuori. Solo gli stati ancora sconosciuti vengono risolti deterministicamente dal layer competitivo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "actual_anchor",
+          "text": "Controllo le garanzie pre-Mondiale degli Anchor.",
+          "goto": "anchor_policy"
+        },
+        {
+          "id": "actual_integrity",
+          "text": "Passo all'audit d'integrità.",
+          "goto": "integrity"
+        }
+      ]
+    },
+    "roster_policy": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "I team non vengono rigenerati dal draw. Il sorteggio conserva solo identità competitive; i roster di battaglia restano quelli persistenti del Trainer Encounter System."
+        }
+      ],
+      "choices": [
+        {
+          "id": "roster_seed",
+          "text": "Passo alla logica di seed.",
+          "goto": "seed_policy"
+        },
+        {
+          "id": "roster_field",
+          "text": "Torno alla provenienza del field.",
+          "goto": "field_source"
+        }
+      ]
+    },
+    "anchor_policy": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La macrotraiettoria può garantire prima del Mondiale alcuni Anchor necessari al payoff. Dal momento del draw in poi nessun Anchor è protetto da sconfitte o eliminazioni."
+        }
+      ],
+      "choices": [
+        {
+          "id": "anchor_seed",
+          "text": "Passo alla logica di seed e gruppi.",
+          "goto": "seed_policy"
+        },
+        {
+          "id": "anchor_actual",
+          "text": "Torno allo stato reale.",
+          "goto": "actual_state"
+        }
+      ]
+    },
+    "friend_policy": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Luke, Mattew, Daniel, Edward e Fab non vengono inseriti per fanservice. Se il loro stato dice fuori, restano fuori; se è irrisolto competono nella stessa simulazione off-screen degli altri."
+        }
+      ],
+      "choices": [
+        {
+          "id": "friend_callbacks",
+          "text": "Ricollego il Friend Beat senza alterare il field.",
+          "goto": "callbacks"
+        },
+        {
+          "id": "friend_field",
+          "text": "Torno alla provenienza del field.",
+          "goto": "field_source"
+        }
+      ]
+    },
+    "seed_policy": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il draw usa un seed deterministico legato a carriera ed edizione. Aspettare o ricaricare la stessa carriera non crea un nuovo gruppo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "seed_preview",
+          "text": "Passo alla preview finale.",
+          "goto": "draw_preview"
+        },
+        {
+          "id": "seed_wait",
+          "text": "Valuto se rimandare prima del lock.",
+          "goto": "wait_window"
+        }
+      ]
+    },
+    "draw_preview": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Prima del commit puoi rivedere field, policy e conseguenze. Dopo il commit field e gruppi sono immutabili per questa edizione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "preview_field",
+          "text": "Rivedo il field dei candidati.",
+          "goto": "field_source"
+        },
+        {
+          "id": "preview_integrity",
+          "text": "Eseguo l'audit prima del lock.",
+          "goto": "integrity"
+        },
+        {
+          "id": "preview_commit",
+          "text": "Vado al commit guard.",
+          "goto": "commit_guard"
+        }
+      ]
+    },
+    "commit_guard": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il commit richiede qualificazione player, registrazione World, Friend Beat 08 e cerimonia completata. Nessun risultato di match viene creato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "guard_execute",
+          "text": "Eseguo il WORLD_DRAW canonico.",
+          "goto": "execute_draw",
+          "conditions": {
+            "path": "competition.world.drawComplete",
+            "eq": false
+          }
+        },
+        {
+          "id": "guard_existing",
+          "text": "Il draw è già chiuso: apro lo stato lockato.",
+          "goto": "draw_locked",
+          "conditions": {
+            "path": "competition.world.drawComplete",
+            "eq": true
+          }
+        },
+        {
+          "id": "guard_preview",
+          "text": "Torno alla preview.",
+          "goto": "draw_preview"
+        }
+      ]
+    },
+    "execute_draw": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "E5 sta per risolvere qualificazioni off-screen residue, lockare i 32 e assegnare otto gruppi da quattro."
+        }
+      ],
+      "choices": [
+        {
+          "id": "execute_now",
+          "text": "Confermo il sorteggio una sola volta.",
+          "goto": "draw_locked",
+          "effects": [
+            {
+              "type": "competition_world_draw",
+              "eventId": "WORLD_DRAW",
+              "groupCount": 8,
+              "groupSize": 4,
+              "participants": [
+                {
+                  "id": "c2060_01_luke",
+                  "name": "Luke"
+                },
+                {
+                  "id": "c2060_02_mattew",
+                  "name": "Mattew"
+                },
+                {
+                  "id": "c2060_03_daniel",
+                  "name": "Daniel"
+                },
+                {
+                  "id": "c2060_04_edward",
+                  "name": "Edward"
+                },
+                {
+                  "id": "c2060_05_fab",
+                  "name": "Fab"
+                },
+                {
+                  "id": "c2060_06_cynthia",
+                  "name": "Cynthia"
+                },
+                {
+                  "id": "c2060_07_steven_stone",
+                  "name": "Steven Stone"
+                },
+                {
+                  "id": "c2060_08_n",
+                  "name": "N"
+                },
+                {
+                  "id": "c2060_09_red",
+                  "name": "Red"
+                },
+                {
+                  "id": "c2060_10_lance",
+                  "name": "Lance"
+                },
+                {
+                  "id": "c2060_11_campione_di_borrius",
+                  "name": "Campione di Borrius"
+                },
+                {
+                  "id": "c2060_12_alder",
+                  "name": "Alder"
+                },
+                {
+                  "id": "c2060_13_kael",
+                  "name": "Kael"
+                },
+                {
+                  "id": "c2060_14_darian",
+                  "name": "Darian"
+                },
+                {
+                  "id": "c2060_15_ferred",
+                  "name": "Ferred"
+                },
+                {
+                  "id": "c2060_16_ren",
+                  "name": "Ren"
+                },
+                {
+                  "id": "c2060_17_ethan",
+                  "name": "Ethan"
+                },
+                {
+                  "id": "c2060_18_brendan",
+                  "name": "Brendan"
+                },
+                {
+                  "id": "c2060_19_lucinda",
+                  "name": "Lucinda"
+                },
+                {
+                  "id": "c2060_20_rei",
+                  "name": "Rei",
+                  "guaranteedQualified": true
+                },
+                {
+                  "id": "c2060_21_blue",
+                  "name": "Blue"
+                },
+                {
+                  "id": "c2060_22_giovanni",
+                  "name": "Giovanni"
+                },
+                {
+                  "id": "c2060_23_dandel_leon",
+                  "name": "Dandel / Leon"
+                },
+                {
+                  "id": "c2060_24_archie",
+                  "name": "Archie"
+                },
+                {
+                  "id": "c2060_25_maxie",
+                  "name": "Maxie"
+                },
+                {
+                  "id": "c2060_26_astrid_vahl",
+                  "name": "Astrid Vahl",
+                  "guaranteedQualified": true
+                },
+                {
+                  "id": "c2060_27_silas_crowe",
+                  "name": "Silas Crowe",
+                  "guaranteedQualified": true
+                },
+                {
+                  "id": "c2060_28_rurik_dune",
+                  "name": "Rurik Dune"
+                },
+                {
+                  "id": "c2060_29_ayame_hoshino",
+                  "name": "Ayame Hoshino"
+                },
+                {
+                  "id": "c2060_30_orion_vale",
+                  "name": "Orion Vale"
+                },
+                {
+                  "id": "c2060_31_nyx_vesper",
+                  "name": "Nyx Vesper"
+                },
+                {
+                  "id": "c2060_32_kaia_solari",
+                  "name": "Kaia Solari",
+                  "guaranteedQualified": true
+                },
+                {
+                  "id": "c2060_33_lucas",
+                  "name": "Lucas"
+                },
+                {
+                  "id": "c2060_34_ronan_ward",
+                  "name": "Ronan Ward"
+                },
+                {
+                  "id": "c2060_35_soren_veyr",
+                  "name": "Soren Veyr"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "execute_back",
+          "text": "Non confermo ancora.",
+          "goto": "commit_guard"
+        }
+      ]
+    },
+    "draw_locked": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il sorteggio è ora persistente: 32 partecipanti, otto gruppi, un gruppo player e tre avversari. Ricaricare non lo rigenera."
+        }
+      ],
+      "choices": [
+        {
+          "id": "locked_summary",
+          "text": "Controllo il riepilogo del gruppo.",
+          "goto": "group_summary"
+        },
+        {
+          "id": "locked_integrity",
+          "text": "Verifico che il field resti a 32.",
+          "goto": "integrity"
+        },
+        {
+          "id": "locked_close",
+          "text": "Passo alla chiusura del draw.",
+          "goto": "draw_close"
+        }
+      ]
+    },
+    "group_summary": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il player è stato assegnato al Gruppo {{competition.world.playerGroup}}. I tre avversari sono già nello stato E5 ma verranno presentati nel blocco successivo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "summary_preview",
+          "text": "Controllo il significato del gruppo.",
+          "goto": "player_group_preview"
+        },
+        {
+          "id": "summary_close",
+          "text": "Passo alla chiusura del draw.",
+          "goto": "draw_close"
+        }
+      ]
+    },
+    "player_group_preview": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un gruppo da quattro produce esattamente tre match nel modulo M9. L'ordine degli avversari deriva dal draw persistente, non dalla narrazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "group_integrity",
+          "text": "Controllo ancora l'integrità del sorteggio.",
+          "goto": "integrity"
+        },
+        {
+          "id": "group_summary",
+          "text": "Torno al riepilogo.",
+          "goto": "group_summary"
+        }
+      ]
+    },
+    "integrity": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'audit richiede field=32, seedOrder=32, gruppo player definito e tre avversari. Nessun duplicato o quarto avversario può essere aggiunto dal testo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "integrity_callbacks",
+          "text": "Controllo i callback senza modificare il draw.",
+          "goto": "callbacks"
+        },
+        {
+          "id": "integrity_commit",
+          "text": "Torno al commit guard.",
+          "goto": "commit_guard"
+        }
+      ]
+    },
+    "callbacks": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Astrid, Friend Beat e media possono cambiare il tono della rivelazione. Non possono cambiare chi è stato sorteggiato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "callbacks_friend",
+          "text": "Rileggo la policy sugli amici.",
+          "goto": "friend_policy"
+        },
+        {
+          "id": "callbacks_preview",
+          "text": "Torno alla preview.",
+          "goto": "draw_preview"
+        }
+      ]
+    },
+    "wait_window": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Rimandare consuma un'ora e lascia muovere il mondo, ma il seed della stessa carriera/edizione resta stabile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "wait_hour",
+          "text": "Aspetto un'ora e torno al commit guard.",
+          "goto": "commit_guard",
+          "timeCostMinutes": 60
+        },
+        {
+          "id": "wait_seed",
+          "text": "Torno alla spiegazione del seed.",
+          "goto": "seed_policy"
+        }
+      ]
+    },
+    "draw_close": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "WORLD_DRAW è completo soltanto quando E5 conferma field e gruppi. Ora può iniziare la rivelazione formale del gruppo del player."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_reveal",
+          "text": "Passo al Group Reveal.",
+          "goto": "m08-group-reveal#reveal_entry",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.world.drawComplete",
+                "eq": true
+              },
+              {
+                "path": "competition.world.fieldLocked",
+                "eq": true
+              },
+              {
+                "path": "competition.world.field.length",
+                "eq": 32
+              },
+              {
+                "path": "competition.world.playerOpponents.length",
+                "eq": 3
+              }
+            ]
+          }
+        },
+        {
+          "id": "close_review",
+          "text": "Rivedo il gruppo senza modificarlo.",
+          "goto": "group_summary"
+        }
+      ]
+    }
+  }
+}
