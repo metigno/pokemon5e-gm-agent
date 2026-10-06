@@ -10,12 +10,14 @@ import {
   advancePokeballStabilization,
   createChaseState,
   createPokemonDeathState,
+  damageTrainerAtZero,
   faintPokemon,
   recallFaintedPokemon,
   releasePokemonFromBall,
   resolveChaseRound,
   resolveGroupFleeCheck,
-  resolvePokemonDeathSave
+  resolvePokemonDeathSave,
+  resolveTrainerDeathSave
 } from "./survival.mjs";
 import {
   abilityModifier,
@@ -5557,6 +5559,200 @@ export class Pokemon5eCombatEngine {
       results: clone(results)
     });
     return { battle: next, results };
+  }
+
+  trainerAsDefender(trainer) {
+    const ability = (key) => Number(trainer.abilities?.[key] ?? trainer.abilities?.[key.toLowerCase()] ?? 10);
+    return {
+      combatantId: "trainer",
+      name: trainer.name,
+      level: trainer.level ?? trainer.trainerLevel ?? 1,
+      ac: trainer.ac,
+      types: [],
+      abilityId: null,
+      attributes: {
+        str: ability("STR"),
+        dex: ability("DEX"),
+        con: ability("CON"),
+        int: ability("INT"),
+        wis: ability("WIS"),
+        cha: ability("CHA")
+      },
+      savingThrows: (trainer.savingThrows ?? []).map((entry) => String(entry).toLowerCase()),
+      effects: {
+        saveAdvantageSources: [],
+        saveModifierSources: [],
+        restrainedSources: [],
+        typeImmunitySources: [],
+        damageResistanceSources: [],
+        damageReductionSources: []
+      },
+      statuses: createStatusState(),
+      hp: trainer.hp
+    };
+  }
+
+  async useOpponentMoveAgainstTrainer(battle, moveId) {
+    if (battle.outcome || battle.awaitingSwitch) return clone(battle);
+    if (this.actor(battle) !== "opponent") {
+      throw new Error("The opponent can target the Trainer only on its turn");
+    }
+
+    let next = await this.prepareCurrentTurn(battle);
+    if (this.actor(next) !== "opponent") return next;
+    const attacker = next.opponent;
+    const trainer = next.trainer;
+
+    if (!attacker.moveIds.includes(moveId)) throw new Error(`${attacker.name} does not know ${moveId}`);
+    if ((attacker.pp[moveId] ?? 0) <= 0) throw new Error(`${moveId} has no PP remaining`);
+
+    const move = await this.data.getMove(moveId);
+    if (!isMoveResolvable(move)) throw new Error(`Move ${move.id} is not runtime-resolvable`);
+    const slot = moveSlot(move);
+    if (!slot || !attacker.turn[slot]) throw new Error(`No ${move.time?.unit ?? "turn"} slot available for ${moveId}`);
+
+    const targetProxy = this.trainerAsDefender(trainer);
+    targetProxy.position = trainer.position;
+    const range = rangeCheckForMove(attacker, targetProxy, move, next.battlefield);
+    if (!range.legal) {
+      throw new Error(`${move.name} is out of range of the Trainer`);
+    }
+
+    attacker.pp[moveId] = Math.max(0, attacker.pp[moveId] - 1);
+    attacker.turn[slot] = false;
+    attacker.lastMoveId = move.id;
+
+    let resolution = null;
+    const wasDown = trainer.hp.current <= 0;
+
+    if (move.attack && move.dice?.type === "damage") {
+      resolution = resolveAttack({
+        attacker,
+        defender: targetProxy,
+        move,
+        dice: this.dice,
+        round: next.round
+      });
+      if (resolution.hit) {
+        trainer.hp.current = Math.max(0, trainer.hp.current - resolution.damage);
+      }
+    } else if (move.save && move.dice?.type === "damage") {
+      const stats = calculateMoveStats(attacker, move, next.round);
+      const save = resolveSavingThrow({
+        defender: targetProxy,
+        attribute: stats.saveAttribute,
+        dc: stats.saveDc,
+        dice: this.dice,
+        round: next.round
+      });
+      const damageRoll = rollExpression(stats.damageDice, this.dice);
+      const rawDamage = Math.max(0, damageRoll.total + stats.damageModifier);
+      const damage = save.success && saveAllowsHalfDamage(move)
+        ? Math.floor(rawDamage / 2)
+        : save.success
+          ? 0
+          : rawDamage;
+      trainer.hp.current = Math.max(0, trainer.hp.current - damage);
+      resolution = { save, damageRoll, rawDamage, damage };
+    } else if (move.dice?.type === "damage") {
+      const stats = calculateMoveStats(attacker, move, next.round);
+      const damageRoll = rollExpression(stats.damageDice, this.dice);
+      const damage = Math.max(0, damageRoll.total + stats.damageModifier);
+      trainer.hp.current = Math.max(0, trainer.hp.current - damage);
+      resolution = { automatic: true, damageRoll, damage };
+    } else if (move.save) {
+      const stats = calculateMoveStats(attacker, move, next.round);
+      const save = resolveSavingThrow({
+        defender: targetProxy,
+        attribute: stats.saveAttribute,
+        dc: stats.saveDc,
+        dice: this.dice,
+        round: next.round
+      });
+      const condition = failedSaveStatus(move, save);
+      if (condition && !save.success && !trainer.conditions.includes(condition)) {
+        trainer.conditions.push(condition);
+      }
+      resolution = { save, condition: save.success ? null : condition };
+    } else {
+      next.canonicalRuntime ??= { effects: [], flags: {}, pendingChoices: [] };
+      next.canonicalRuntime.pendingChoices.push({
+        kind: "trainer_target_move",
+        moveId: move.id,
+        actor: "opponent",
+        target: "trainer",
+        description: move.description
+      });
+      resolution = { pendingCanonicalEffect: true };
+    }
+
+    if (trainer.hp.current <= 0) {
+      trainer.death ??= {
+        state: "alive",
+        deathSaveSuccesses: 0,
+        deathSaveFailures: 0,
+        stable: false,
+        dead: false
+      };
+      if (wasDown) {
+        const damageAtZero = damageTrainerAtZero(trainer, {
+          critical: Boolean(resolution?.critical)
+        });
+        resolution.damageAtZero = damageAtZero;
+      } else {
+        trainer.death.state = "dying";
+        trainer.death.stable = false;
+        trainer.death.dead = false;
+        trainer.death.deathSaveSuccesses = 0;
+        trainer.death.deathSaveFailures = 0;
+      }
+      if (trainer.death.dead) {
+        next.outcome = "career_ended";
+      }
+    }
+
+    next.log.push({
+      type: "trainer_targeted",
+      round: next.round,
+      actor: "opponent",
+      target: "trainer",
+      moveId: move.id,
+      resolution: clone(resolution),
+      trainerHpAfter: trainer.hp.current,
+      deathState: trainer.death?.state ?? "alive"
+    });
+
+    if (next.outcome === "career_ended") {
+      next.log.push({
+        type: "combat_end",
+        round: next.round,
+        outcome: "career_ended",
+        reason: "trainer_death"
+      });
+      return next;
+    }
+
+    return endTurnInternal(next, "opponent", this.dice);
+  }
+
+  resolveTrainerDeathSave(battle) {
+    const next = clone(battle);
+    const result = resolveTrainerDeathSave(next.trainer, this.dice);
+    if (result.dead) {
+      next.outcome = "career_ended";
+      next.log.push({
+        type: "combat_end",
+        round: next.round,
+        outcome: "career_ended",
+        reason: "trainer_death"
+      });
+    }
+    next.log.push({
+      type: "trainer_death_save",
+      round: next.round,
+      ...clone(result)
+    });
+    return { battle: next, result };
   }
 
   async attemptPlayerCapture(battle, ball = "pokeball", context = {}) {
