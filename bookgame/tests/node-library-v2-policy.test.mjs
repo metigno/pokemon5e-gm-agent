@@ -19,7 +19,7 @@ test("Node Library V2 baseline exists and remains R01-R38", () => {
   assert.match(catalog, /NODE REUSE CATALOG V2/);
   assert.match(catalog, /NODE REUSE LIBRARY V2 = R01→R38/);
   assert.match(catalog, /M05→M12 LIBRARY-FIRST AUTHORING PROTOCOL/);
-  assert.match(lock, /LOCKED BASELINE FOR M05→M12 AUTHORING/);
+  assert.match(lock, /LOCKED COMPLETE BASELINE \/ BOOKGAME RC0/);
   assert.match(lock, /R01→R38/);
 });
 
