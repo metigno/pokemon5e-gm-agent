@@ -1,0 +1,373 @@
+{
+  "schemaVersion": 1,
+  "id": "m08-medical-control",
+  "moduleId": "M08",
+  "title": "M8_02 — Medical Control",
+  "locationId": "world_medical_center",
+  "entryNodeId": "medical_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m7_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m08_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.world_qualified",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m7_before_lights_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_active",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_world_arrived",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_accreditation_complete",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "medical_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il controllo medico legge la squadra reale arrivata al Mondiale. Non concede cure gratuite e non sostituisce HP, PP, status o infortuni con flag narrativi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_exam",
+          "text": "Inizio il controllo.",
+          "goto": "medical_hub",
+          "conditions": {
+            "path": "world.flags.m8_medical_control_complete",
+            "ne": true
+          }
+        },
+        {
+          "id": "entry_review",
+          "text": "Il controllo è già registrato: rivedo il referto organizzativo.",
+          "goto": "medical_hub",
+          "conditions": {
+            "path": "world.flags.m8_medical_control_complete",
+            "eq": true
+          }
+        },
+        {
+          "id": "entry_roster",
+          "text": "Controllo subito quale roster viene letto.",
+          "goto": "roster_status"
+        }
+      ]
+    },
+    "medical_hub": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il desk separa roster presente, stato di salute e pianificazione del recupero. Ogni dato meccanico resta nel foglio Pokémon reale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "hub_roster",
+          "text": "Verifico il roster presente.",
+          "goto": "roster_status"
+        },
+        {
+          "id": "hub_health",
+          "text": "Rivedo HP, condizioni e infortuni come stato persistente.",
+          "goto": "hp_status"
+        },
+        {
+          "id": "hub_schedule",
+          "text": "Controllo il costo temporale del controllo.",
+          "goto": "schedule_cost"
+        }
+      ]
+    },
+    "roster_status": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il controllo legge la lunghezza del roster senza creare membri o sostituzioni."
+        }
+      ],
+      "choices": [
+        {
+          "id": "roster_six",
+          "text": "Con almeno sei Pokémon posso proseguire verso la registrazione dopo il controllo.",
+          "goto": "clearance",
+          "conditions": {
+            "path": "player.roster.length",
+            "gte": 6
+          }
+        },
+        {
+          "id": "roster_short",
+          "text": "Con meno di sei Pokémon registro soltanto che la squadra è incompleta.",
+          "goto": "recovery_info",
+          "conditions": {
+            "path": "player.roster.length",
+            "lt": 6
+          }
+        },
+        {
+          "id": "roster_hub",
+          "text": "Torno al desk medico.",
+          "goto": "medical_hub"
+        }
+      ]
+    },
+    "hp_status": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "HP e PP restano esattamente quelli salvati. Il personale può descrivere rischio e priorità, ma non applica un heal narrativo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "hp_conditions",
+          "text": "Rivedo condizioni e status.",
+          "goto": "conditions_status"
+        },
+        {
+          "id": "hp_injuries",
+          "text": "Rivedo gli infortuni persistenti.",
+          "goto": "injury_status"
+        }
+      ]
+    },
+    "conditions_status": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Le condizioni meccaniche vengono lasciate al motore Pokémon 5e. Questa scena non le cancella né le converte in un semplice flag."
+        }
+      ],
+      "choices": [
+        {
+          "id": "conditions_recovery",
+          "text": "Passo alle opzioni di recupero reale.",
+          "goto": "recovery_info"
+        },
+        {
+          "id": "conditions_health",
+          "text": "Torno allo stato salute.",
+          "goto": "hp_status"
+        }
+      ]
+    },
+    "injury_status": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Qualunque injury o limitazione precedente resta valida finché il sistema competente non la risolve."
+        }
+      ],
+      "choices": [
+        {
+          "id": "injury_recovery",
+          "text": "Valuto il piano di recupero.",
+          "goto": "recovery_info"
+        },
+        {
+          "id": "injury_health",
+          "text": "Torno allo stato salute.",
+          "goto": "hp_status"
+        }
+      ]
+    },
+    "recovery_info": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il personale può suggerire riposo, servizio medico o riduzione del carico; il recupero vero richiede tempo e sistemi reali."
+        }
+      ],
+      "choices": [
+        {
+          "id": "recovery_schedule",
+          "text": "Controllo il tempo disponibile.",
+          "goto": "schedule_cost"
+        },
+        {
+          "id": "recovery_audit",
+          "text": "Passo all'audit del controllo.",
+          "goto": "audit"
+        }
+      ]
+    },
+    "schedule_cost": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il controllo occupa una finestra reale. Spendere tempo qui può modificare schedule e disponibilità altrove."
+        }
+      ],
+      "choices": [
+        {
+          "id": "schedule_exam",
+          "text": "Completo trenta minuti di valutazione.",
+          "goto": "audit",
+          "timeCostMinutes": 30,
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m8_medical_exam_time_spent",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "schedule_hub",
+          "text": "Rimando l'esame e torno al desk.",
+          "goto": "medical_hub"
+        }
+      ]
+    },
+    "clearance": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Avere sei Pokémon non significa essere guariti. Significa soltanto che il formato roster può essere valutato nel prossimo gate."
+        }
+      ],
+      "choices": [
+        {
+          "id": "clearance_audit",
+          "text": "Passo all'audit senza modificare salute.",
+          "goto": "audit"
+        },
+        {
+          "id": "clearance_roster",
+          "text": "Torno al roster.",
+          "goto": "roster_status"
+        }
+      ]
+    },
+    "medical_callback": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Risultati, sponsor e pressione precedente possono cambiare il modo in cui il rischio viene discusso, mai i valori meccanici della squadra."
+        }
+      ],
+      "choices": [
+        {
+          "id": "callback_audit",
+          "text": "Torno all'audit.",
+          "goto": "audit"
+        },
+        {
+          "id": "callback_hub",
+          "text": "Torno al desk medico.",
+          "goto": "medical_hub"
+        }
+      ]
+    },
+    "defer": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Puoi interrompere il controllo prima del commit. Il tempo continua a esistere e la registrazione resta chiusa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "defer_hour",
+          "text": "Aspetto un'ora prima di riprendere.",
+          "goto": "medical_hub",
+          "timeCostMinutes": 60
+        },
+        {
+          "id": "defer_audit",
+          "text": "Riprendo dall'audit.",
+          "goto": "audit"
+        }
+      ]
+    },
+    "audit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'audit verifica che il controllo abbia osservato la squadra senza curarla, sostituirla o registrarla a competizioni."
+        }
+      ],
+      "choices": [
+        {
+          "id": "audit_callback",
+          "text": "Controllo come il contesto precedente modifica la lettura.",
+          "goto": "medical_callback"
+        },
+        {
+          "id": "audit_commit",
+          "text": "Chiudo il controllo medico.",
+          "goto": "commit"
+        }
+      ]
+    },
+    "commit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il commit registra che il controllo è avvenuto. Non scrive HP, PP, injury o roster duplicati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "commit_now",
+          "text": "Registro il controllo medico come completato.",
+          "goto": "complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m8_medical_control_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "world_medical_center"
+            }
+          ]
+        },
+        {
+          "id": "commit_defer",
+          "text": "Non chiudo ancora il controllo.",
+          "goto": "defer"
+        }
+      ]
+    },
+    "complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il controllo medico è persistente e non ha guarito la squadra. Ora può aprirsi la registrazione amministrativa al Mondiale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "complete_registration",
+          "text": "Passo alla registrazione.",
+          "goto": "m08-registration#registration_entry"
+        },
+        {
+          "id": "complete_review",
+          "text": "Rivedo il referto organizzativo.",
+          "goto": "medical_hub"
+        }
+      ]
+    }
+  }
+}
