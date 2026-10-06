@@ -1,0 +1,522 @@
+{
+  "schemaVersion": 1,
+  "id": "m12-valedarsena-callbacks",
+  "moduleId": "M12",
+  "title": "M12_02 — Valedarsena Callbacks",
+  "locationId": "valedarsena_city",
+  "entryNodeId": "callback_entry",
+  "conditions": {
+    "path": "world.flags.m12_return_asteria_complete",
+    "eq": true
+  },
+  "nodes": {
+    "callback_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Valedarsena non è congelata al tuo primo arrivo. M12 legge ciò che hai realmente fatto in M1 e mostra una città che ha continuato a vivere."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "city_now"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "city_now"
+        },
+        {
+          "id": "context_1",
+          "text": "Confronto questo dettaglio con un altro pezzo del percorso.",
+          "goto": "m1_pressure"
+        }
+      ]
+    },
+    "city_now": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Le strade, il Centro e l'Arena sono familiari, ma il contesto locale dipende dagli esiti registrati mesi prima."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "m1_pressure"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "callback_entry"
+        },
+        {
+          "id": "context_2",
+          "text": "Confronto questo dettaglio con un altro pezzo del percorso.",
+          "goto": "pressure_partial"
+        }
+      ]
+    },
+    "m1_pressure": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La vecchia pressione ecologica e logistica viene riletta attraverso gli indicatori M1 già persistenti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "pressure_resolved"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "city_now"
+        },
+        {
+          "id": "context_3",
+          "text": "Confronto questo dettaglio con un altro pezzo del percorso.",
+          "goto": "farm"
+        }
+      ]
+    },
+    "pressure_resolved": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se hai contribuito a una risoluzione locale, il callback può riconoscerla senza trasformarla in una soluzione globale retroattiva."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "pressure_partial"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "m1_pressure"
+        }
+      ]
+    },
+    "pressure_partial": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se sei intervenuto solo in parte, il mondo conserva sia il contributo sia ciò che era rimasto aperto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "pressure_offscreen"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "pressure_resolved"
+        }
+      ]
+    },
+    "pressure_offscreen": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se non sei intervenuto, E6 può mostrare cosa hanno fatto NPC e comunità senza attribuirti meriti inesistenti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "farm"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "pressure_partial"
+        }
+      ]
+    },
+    "farm": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La Fattoria resta un punto concreto del passato, collegato alle scelte su mandria, aiuto e abbandono."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "farm_helped"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "pressure_offscreen"
+        }
+      ]
+    },
+    "farm_helped": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un aiuto registrato può cambiare tono, accesso o riconoscimento, non riscrivere il resto di M1."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "farm_abandoned"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "farm"
+        }
+      ]
+    },
+    "farm_abandoned": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un'occasione lasciata andare può essere stata risolta, peggiorata o trasformata da altri mentre eri via."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "ginestre"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "farm_helped"
+        }
+      ]
+    },
+    "ginestre": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Ginestre ricorda le prime deviazioni e conserva soltanto i fatti realmente avvenuti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "ranger"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "farm_abandoned"
+        }
+      ]
+    },
+    "ranger": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il filo Ranger può collegare prove M1 e conseguenze successive senza duplicare un nuovo sistema d'indagine."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "services"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "ginestre"
+        }
+      ]
+    },
+    "services": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "I servizi di Valedarsena sono ancora quelli del mondo persistente; M12 non crea versioni epilogo separate."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "ecology"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "ranger"
+        }
+      ]
+    },
+    "ecology": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La fauna locale può essere diversa per il Living World, ma E7 resta l'unica autorità per distribuzione e incontri."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "reputation"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "services"
+        }
+      ]
+    },
+    "reputation": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La reputazione locale è distinta dal risultato mondiale: fama e fiducia non sono la stessa variabile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "friend_memory"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "ecology"
+        }
+      ]
+    },
+    "friend_memory": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Eventuali ricordi degli amici vengono mostrati solo se compatibili con la loro traiettoria e disponibilità attuali."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "city_growth"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "reputation"
+        }
+      ]
+    },
+    "city_growth": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Cambiamenti urbani o logistici sono callback del tempo trascorso, non premi automatici per aver completato moduli."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "quest_residue"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "friend_memory"
+        }
+      ]
+    },
+    "quest_residue": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Le quest residue vengono lette dal loro vero stato: complete, fallite, ignorate o ancora trasformabili."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "e6_offscreen"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "city_growth"
+        }
+      ]
+    },
+    "e6_offscreen": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Quando il player non ha chiuso un problema, E6 può averlo mosso in avanti senza aspettarlo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "current_access"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "quest_residue"
+        }
+      ]
+    },
+    "current_access": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il postgame può riaprire esplorazione e servizi già legali, rispettando rank, condizioni e accessi reali."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "callback_synthesis"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "e6_offscreen"
+        }
+      ]
+    },
+    "callback_synthesis": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "M12 sintetizza un esito Valedarsena coerente con M1 senza creare una nuova verità sopra quella salvata."
+        }
+      ],
+      "choices": [
+        {
+          "id": "class_resolved",
+          "text": "Registro un callback locale risolto dal mio intervento reale.",
+          "goto": "complete",
+          "conditions": {
+            "path": "world.flags.m1_world_pressure_local_resolved",
+            "eq": true
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_valedarsena_callback_state",
+              "value": "resolved_player_history"
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_valedarsena_callbacks_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
+          ]
+        },
+        {
+          "id": "class_partial",
+          "text": "Registro un callback parziale: ho inciso, ma non ho chiuso tutto.",
+          "goto": "complete",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.m1_world_pressure_player_involved",
+                "eq": true
+              },
+              {
+                "path": "world.flags.m1_world_pressure_local_resolved",
+                "ne": true
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_valedarsena_callback_state",
+              "value": "partial_player_history"
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_valedarsena_callbacks_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
+          ]
+        },
+        {
+          "id": "class_offscreen",
+          "text": "Registro che Valedarsena ha continuato a muoversi senza attribuirmi azioni mai fatte.",
+          "goto": "complete",
+          "conditions": {
+            "path": "world.flags.m1_world_pressure_player_involved",
+            "ne": true
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_valedarsena_callback_state",
+              "value": "offscreen_world_history"
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_valedarsena_callbacks_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
+          ]
+        }
+      ]
+    },
+    "complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il callback di Valedarsena è registrato. Il viaggio può proseguire verso Bruma e Borgo Salice."
+        }
+      ],
+      "choices": [
+        {
+          "id": "to_bruma",
+          "text": "Proseguo verso Bruma e Borgo Salice.",
+          "goto": "m12-bruma-callbacks#callback_entry"
+        },
+        {
+          "id": "review_valedarsena",
+          "text": "Rileggo la sintesi di Valedarsena.",
+          "goto": "callback_synthesis"
+        }
+      ]
+    }
+  }
+}
