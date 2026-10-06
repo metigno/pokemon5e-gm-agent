@@ -1,0 +1,392 @@
+{
+  "schemaVersion": 1,
+  "id": "m07-meridiana-arrival",
+  "moduleId": "M07",
+  "title": "M7_01 — Meridiana Arrival",
+  "locationId": "meridiana_city",
+  "entryNodeId": "arrival_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m6_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m07_unlocked",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "S"
+      },
+      {
+        "path": "world.flags.m7_active",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "arrival_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Meridiana è costruita attorno alla vita professionale: il Grand Hall domina la piazza, mentre arena, clinica sportiva, università e stazione si distribuiscono sugli assi principali."
+        }
+      ],
+      "choices": [
+        {
+          "id": "arrival_register",
+          "text": "Registro l'arrivo reale a Meridiana.",
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "meridiana_discovered",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m7_meridiana_arrived",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "meridiana_city"
+            }
+          ]
+        },
+        {
+          "id": "arrival_hall",
+          "text": "Entro prima nel Grand Hall.",
+          "goto": "grand_hall"
+        },
+        {
+          "id": "arrival_scan",
+          "text": "Osservo servizi e flussi prima di muovermi.",
+          "goto": "services_review"
+        }
+      ]
+    },
+    "grand_hall": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Grand Hall non è una stanza del boss: è il centro amministrativo del circuito Rank S, con bacheche, accrediti e accessi separati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "hall_hub",
+          "text": "Esco nella piazza professionale.",
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "meridiana_city"
+            }
+          ]
+        },
+        {
+          "id": "hall_arena",
+          "text": "Controllo il settore arena.",
+          "goto": "arena"
+        },
+        {
+          "id": "hall_station",
+          "text": "Controllo i collegamenti internazionali.",
+          "goto": "station"
+        }
+      ]
+    },
+    "city_hub": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Dalla piazza puoi raggiungere medicina sportiva, università e distretto sponsor. Nessun servizio cura, allena o qualifica con una semplice riga di dialogo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "hub_medical",
+          "text": "Vado alla medicina sportiva.",
+          "goto": "medical_sports"
+        },
+        {
+          "id": "hub_university",
+          "text": "Vado all'università tecnica.",
+          "goto": "university"
+        },
+        {
+          "id": "hub_sponsor",
+          "text": "Attraverso il distretto sponsor/media.",
+          "goto": "sponsor_district"
+        }
+      ]
+    },
+    "medical_sports": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La reception valuta disponibilità e rischio, ma lo stato di HP, PP, condizioni e infortuni resta del sistema medico reale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "medical_info",
+          "text": "Chiedo come viene valutata la readiness professionale.",
+          "goto": "medical_info"
+        },
+        {
+          "id": "medical_back",
+          "text": "Torno alla piazza.",
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "meridiana_city"
+            }
+          ]
+        }
+      ]
+    },
+    "medical_info": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Readiness significa combinare recupero, calendario e carico reale. Rank S non rende automaticamente sana una squadra stanca o incompleta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "medical_note",
+          "text": "Registro l'informazione senza ricevere cure gratuite.",
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_medical_guidance_known",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "meridiana_city"
+            }
+          ]
+        },
+        {
+          "id": "medical_services",
+          "text": "Confronto gli altri servizi disponibili.",
+          "goto": "services_review"
+        }
+      ]
+    },
+    "station": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La stazione internazionale collega Meridiana alle sedi del circuito. Accesso, orari e finestre restano vincoli reali: nessun viaggio viene anticipato dalla UI."
+        }
+      ],
+      "choices": [
+        {
+          "id": "station_note",
+          "text": "Registro la funzione della stazione.",
+          "goto": "services_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_station_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "station_back",
+          "text": "Torno al Grand Hall.",
+          "goto": "grand_hall"
+        }
+      ]
+    },
+    "university": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'università ospita analisi di match, fisiologia e studio tattico. Le informazioni possono guidare decisioni, ma non sostituiscono statistiche o feature Pokémon 5e."
+        }
+      ],
+      "choices": [
+        {
+          "id": "university_note",
+          "text": "Registro il servizio tecnico.",
+          "goto": "services_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_university_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "university_back",
+          "text": "Torno alla piazza.",
+          "goto": "city_hub"
+        }
+      ]
+    },
+    "arena": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La grande arena ospita scrim e finestre ufficiali diverse. Vedere il campo non significa essere registrati a un evento."
+        }
+      ],
+      "choices": [
+        {
+          "id": "arena_rumor",
+          "text": "Ascolto chi viene indicato come benchmark del circuito.",
+          "goto": "cynthia_hint"
+        },
+        {
+          "id": "arena_back",
+          "text": "Torno al Grand Hall.",
+          "goto": "grand_hall"
+        }
+      ]
+    },
+    "sponsor_district": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Agenzie, sponsor e media occupano lo stesso asse ma hanno obiettivi diversi. Un contratto può imporre tempo e obblighi, mai bonus di combattimento illegali."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sponsor_media",
+          "text": "Osservo la zona stampa.",
+          "goto": "media_row"
+        },
+        {
+          "id": "sponsor_back",
+          "text": "Torno alla piazza.",
+          "goto": "city_hub"
+        }
+      ]
+    },
+    "media_row": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Telecamere, interviste e panel rendono visibile ogni risultato. La pressione è narrativa e di agenda, non un modificatore nascosto ai dadi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "media_review",
+          "text": "Valuto come i servizi si intrecciano.",
+          "goto": "services_review"
+        },
+        {
+          "id": "media_wait",
+          "text": "Resto in zona abbastanza da vedere cambiare i turni.",
+          "goto": "wait_plaza"
+        }
+      ]
+    },
+    "services_review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Meridiana concentra opportunità, ma tutte competono per lo stesso tempo. Prepararsi meglio in un asse può significare rinunciare a un altro."
+        }
+      ],
+      "choices": [
+        {
+          "id": "services_cynthia",
+          "text": "Seguo il nome che ricorre fra arena e Grand Hall.",
+          "goto": "cynthia_hint"
+        },
+        {
+          "id": "services_hub",
+          "text": "Torno alla piazza.",
+          "goto": "city_hub"
+        }
+      ]
+    },
+    "wait_plaza": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un'ora in piazza cambia turni, schedule e disponibilità. Il mondo professionale non aspetta il player."
+        }
+      ],
+      "choices": [
+        {
+          "id": "wait_hour",
+          "text": "Lascio passare un'altra ora e torno all'hub.",
+          "goto": "city_hub",
+          "timeCostMinutes": 60,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "meridiana_city"
+            }
+          ]
+        },
+        {
+          "id": "wait_close",
+          "text": "Chiudo il primo orientamento.",
+          "goto": "arrival_close"
+        }
+      ]
+    },
+    "cynthia_hint": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Più persone citano Cynthia non come celebrità da inseguire, ma come trainer capace di proteggere risorse e piano gara per periodi molto lunghi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "hint_follow",
+          "text": "Cerco un incontro plausibile nel circuito.",
+          "goto": "arrival_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "cynthia_meridiana_hint",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "hint_arena",
+          "text": "Torno al settore arena.",
+          "goto": "arena"
+        }
+      ]
+    },
+    "arrival_close": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Ora conosci la struttura essenziale di Meridiana. Il prossimo incontro resta subordinato alla presenza reale dell'Anchor, non a un teletrasporto narrativo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_cynthia",
+          "text": "Passo al contesto in cui può comparire Cynthia.",
+          "goto": "m07-cynthia-enters#cynthia_entry"
+        },
+        {
+          "id": "close_hub",
+          "text": "Resto libero nella piazza di Meridiana.",
+          "goto": "city_hub"
+        }
+      ]
+    }
+  }
+}

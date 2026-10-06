@@ -1,0 +1,400 @@
+{
+  "schemaVersion": 1,
+  "id": "m07-media-sponsor",
+  "moduleId": "M07",
+  "title": "M7_03 — Media & Sponsor",
+  "locationId": "meridiana_media_district",
+  "entryNodeId": "media_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m6_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m07_unlocked",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "S"
+      },
+      {
+        "path": "world.flags.m7_active",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m7_meridiana_arrived",
+        "eq": true
+      },
+      {
+        "path": "world.flags.cynthia_met",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "media_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "A Meridiana la carriera ha una seconda arena: telecamere, interviste e contratti competono per tempo e attenzione senza cambiare le regole di battaglia."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_hub",
+          "text": "Entro nel distretto professionale.",
+          "goto": "media_hub"
+        },
+        {
+          "id": "entry_press",
+          "text": "Parto dalla sala stampa.",
+          "goto": "press_room"
+        },
+        {
+          "id": "entry_sponsor",
+          "text": "Parto dal desk sponsor.",
+          "goto": "sponsor_desk"
+        }
+      ]
+    },
+    "media_hub": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Press room, desk sponsor e agenda obblighi sono separati. Il player può scegliere esposizione e impegni, ma nessuna firma aggiunge statistiche ai Pokémon."
+        }
+      ],
+      "choices": [
+        {
+          "id": "hub_sponsor",
+          "text": "Valuto una posizione contrattuale.",
+          "goto": "sponsor_desk"
+        },
+        {
+          "id": "hub_press",
+          "text": "Preparo il rapporto con i media.",
+          "goto": "press_room"
+        },
+        {
+          "id": "hub_obligations",
+          "text": "Controllo il costo temporale degli impegni.",
+          "goto": "obligations"
+        }
+      ]
+    },
+    "sponsor_desk": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il desk presenta tre posture: indipendente, partner locale, partner maggiore. Cambiano visibilità e agenda; non concedono vantaggi meccanici occulti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sponsor_independent",
+          "text": "Resto indipendente.",
+          "goto": "independent_path"
+        },
+        {
+          "id": "sponsor_local",
+          "text": "Valuto un partner locale.",
+          "goto": "local_partner"
+        },
+        {
+          "id": "sponsor_major",
+          "text": "Valuto un partner maggiore.",
+          "goto": "major_partner"
+        }
+      ]
+    },
+    "press_room": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un media trainer ti prepara a domande su sconfitte, roster e aspettative. La risposta può definire il profilo pubblico, non il tiro di dado successivo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "press_train",
+          "text": "Faccio una sessione di media training.",
+          "goto": "media_training"
+        },
+        {
+          "id": "press_interview",
+          "text": "Accetto direttamente una breve intervista.",
+          "goto": "interview_choice"
+        }
+      ]
+    },
+    "sponsor_terms": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "I termini scelti vengono registrati come vincolo narrativo/di agenda. Denaro o beni eventuali dovranno passare dai sistemi economici reali, non da questa scena."
+        }
+      ],
+      "choices": [
+        {
+          "id": "terms_obligations",
+          "text": "Controllo gli obblighi temporali.",
+          "goto": "obligations",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_sponsor_terms_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "terms_hub",
+          "text": "Torno al distretto.",
+          "goto": "media_hub"
+        }
+      ]
+    },
+    "independent_path": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Restare indipendente riduce gli obblighi sponsor ma non elimina la pressione mediatica del circuito."
+        }
+      ],
+      "choices": [
+        {
+          "id": "independent_commit",
+          "text": "Confermo l'indipendenza.",
+          "goto": "sponsor_terms",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_sponsor_path",
+              "value": "independent"
+            }
+          ]
+        },
+        {
+          "id": "independent_back",
+          "text": "Riapro le opzioni contrattuali.",
+          "goto": "sponsor_desk"
+        }
+      ]
+    },
+    "local_partner": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un partner locale offre supporto di visibilità e appuntamenti limitati. Nessun vantaggio di combattimento entra nel contratto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "local_commit",
+          "text": "Scelgo il partner locale come postura.",
+          "goto": "sponsor_terms",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_sponsor_path",
+              "value": "local_partner"
+            }
+          ]
+        },
+        {
+          "id": "local_back",
+          "text": "Riapro le opzioni contrattuali.",
+          "goto": "sponsor_desk"
+        }
+      ]
+    },
+    "major_partner": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un partner maggiore porta più esposizione e più finestre obbligatorie. Il costo principale qui è l'agenda, non un buff."
+        }
+      ],
+      "choices": [
+        {
+          "id": "major_commit",
+          "text": "Scelgo il partner maggiore come postura.",
+          "goto": "sponsor_terms",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_sponsor_path",
+              "value": "major_partner"
+            }
+          ]
+        },
+        {
+          "id": "major_back",
+          "text": "Riapro le opzioni contrattuali.",
+          "goto": "sponsor_desk"
+        }
+      ]
+    },
+    "media_training": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La sessione dura mezz'ora e serve a preparare messaggi e limiti. Non modifica Carisma, skill o statistiche della scheda."
+        }
+      ],
+      "choices": [
+        {
+          "id": "training_interview",
+          "text": "Uso la sessione e passo all'intervista.",
+          "goto": "interview_choice",
+          "timeCostMinutes": 30,
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_media_training_done",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "training_hub",
+          "text": "Interrompo e torno al distretto.",
+          "goto": "media_hub"
+        }
+      ]
+    },
+    "interview_choice": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Puoi essere aperto sui tuoi obiettivi o mantenere un profilo selettivo. Entrambe le posture hanno conseguenze di esposizione, non bonus numerici."
+        }
+      ],
+      "choices": [
+        {
+          "id": "interview_open",
+          "text": "Parlo apertamente della corsa al Mondiale.",
+          "goto": "obligations",
+          "timeCostMinutes": 30,
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_media_style",
+              "value": "open"
+            }
+          ]
+        },
+        {
+          "id": "interview_selective",
+          "text": "Mantengo il messaggio essenziale.",
+          "goto": "obligations",
+          "timeCostMinutes": 30,
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_media_style",
+              "value": "selective"
+            }
+          ]
+        }
+      ]
+    },
+    "obligations": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Ogni postura occupa tempo diverso e può entrare in conflitto con preparazione, recupero o scouting. La scelta resta visibile nelle scene future."
+        }
+      ],
+      "choices": [
+        {
+          "id": "obligations_callback",
+          "text": "Valuto come la reputazione precedente influenza la lettura pubblica.",
+          "goto": "callback"
+        },
+        {
+          "id": "obligations_wait",
+          "text": "Lascio passare una finestra prima di chiudere l'agenda.",
+          "goto": "wait_window"
+        }
+      ]
+    },
+    "callback": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Prestigio, sconfitte e relazioni precedenti possono cambiare tono e interesse dei media, ma non trasformano un contratto in una ricompensa mai guadagnata."
+        }
+      ],
+      "choices": [
+        {
+          "id": "callback_close",
+          "text": "Registro il contesto e chiudo il blocco.",
+          "goto": "media_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_media_callback_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "callback_hub",
+          "text": "Torno al distretto.",
+          "goto": "media_hub"
+        }
+      ]
+    },
+    "wait_window": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Aspettare consuma un'ora e lascia correre schedule e opportunità. Non completa nessun Qualifier."
+        }
+      ],
+      "choices": [
+        {
+          "id": "wait_hour",
+          "text": "Aspetto un'ora e torno al distretto.",
+          "goto": "media_hub",
+          "timeCostMinutes": 60
+        },
+        {
+          "id": "wait_close",
+          "text": "Chiudo l'agenda senza altra attesa.",
+          "goto": "media_close"
+        }
+      ]
+    },
+    "media_close": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Media e sponsor sono ora una parte persistente della carriera. La preparazione professionale deve tenere conto di questi impegni senza duplicare i sistemi di squadra."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_prep",
+          "text": "Passo alla preparazione professionale.",
+          "goto": "m07-pro-preparation#prep_entry",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_media_sponsor_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "close_hub",
+          "text": "Resto nel distretto media.",
+          "goto": "media_hub"
+        }
+      ]
+    }
+  }
+}

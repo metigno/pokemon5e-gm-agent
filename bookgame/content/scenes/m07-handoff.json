@@ -1,0 +1,306 @@
+{
+  "schemaVersion": 1,
+  "id": "m07-handoff",
+  "moduleId": "M07",
+  "title": "M7_00 — Rank S Handoff",
+  "locationId": "first_lighthouse_ruins",
+  "entryNodeId": "m07_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m6_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m07_unlocked",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "S"
+      }
+    ]
+  },
+  "nodes": {
+    "m07_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "M7 eredita Rank S, risultati reali di M6, cutoff, roster, risorse e conseguenze. Rank S apre Meridiana ma non concede automaticamente la qualificazione mondiale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "activate_m7",
+          "text": "Attivo M7 senza cambiare il risultato del cutoff.",
+          "goto": "rank_s_band",
+          "conditions": {
+            "path": "world.flags.m7_active",
+            "ne": true
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_active",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "review_active_m7",
+          "text": "M7 è già attivo: rivedo la fascia Candidate Mondiale.",
+          "goto": "rank_s_band",
+          "conditions": {
+            "path": "world.flags.m7_active",
+            "eq": true
+          }
+        }
+      ]
+    },
+    "rank_s_band": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La fascia Rank S separa prestigio, accesso e qualificazione. Il World Qualifier resta un evento E5 successivo con esito reale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "band_candidate",
+          "text": "Controllo cosa significa essere Candidate Mondiale.",
+          "goto": "candidate_status"
+        },
+        {
+          "id": "band_cutoff",
+          "text": "Rivedo lo snapshot del World Cutoff.",
+          "goto": "cutoff_state"
+        },
+        {
+          "id": "band_meridiana",
+          "text": "Valuto l'accesso a Meridiana.",
+          "goto": "meridiana_preview"
+        },
+        {
+          "id": "band_defer",
+          "text": "Rimando la partenza e lascio avanzare il mondo.",
+          "goto": "defer"
+        }
+      ]
+    },
+    "carryover": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "HP, PP, condizioni, inventario, denaro, EXP, evoluzioni, infortuni, relazioni, ranking e history restano quelli reali di fine M6."
+        }
+      ],
+      "choices": [
+        {
+          "id": "carry_callbacks",
+          "text": "Controllo i callback che possono cambiare il contesto di Meridiana.",
+          "goto": "callbacks"
+        },
+        {
+          "id": "carry_back",
+          "text": "Torno al quadro Rank S.",
+          "goto": "rank_s_band"
+        }
+      ]
+    },
+    "cutoff_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il cutoff di M6 è uno snapshot persistente della carriera al momento stabilito. M7 può leggerlo, ma non può riscriverlo retroattivamente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "cutoff_guard",
+          "text": "Controllo cosa non concede lo snapshot.",
+          "goto": "qualification_guard"
+        },
+        {
+          "id": "cutoff_back",
+          "text": "Torno al quadro Rank S.",
+          "goto": "rank_s_band"
+        }
+      ]
+    },
+    "qualification_guard": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il guardrail è esplicito: current_rank=S non equivale a world_qualified=true. Qualifier e Last Chance restano separati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "guard_ready",
+          "text": "Registro la separazione Rank/qualificazione.",
+          "goto": "handoff_ready",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_rank_qualification_guard_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "guard_back",
+          "text": "Torno allo snapshot.",
+          "goto": "cutoff_state"
+        }
+      ]
+    },
+    "callbacks": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Red, Lance, gli altri Anchor, Friend Beat e risultati competitivi precedenti possono cambiare reputazione e dialoghi, mai inventare vittorie o ricompense."
+        }
+      ],
+      "choices": [
+        {
+          "id": "callbacks_record",
+          "text": "Registro il principio di continuità.",
+          "goto": "handoff_ready",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_prior_callbacks_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "callbacks_back",
+          "text": "Torno allo stato ereditato.",
+          "goto": "carryover"
+        }
+      ]
+    },
+    "meridiana_preview": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Meridiana è il nodo professionale Rank S: Grand Hall, arena, media, sponsor, università, stazione internazionale e medicina sportiva."
+        }
+      ],
+      "choices": [
+        {
+          "id": "preview_ready",
+          "text": "Preparo l'ingresso reale in città.",
+          "goto": "handoff_ready"
+        },
+        {
+          "id": "preview_guard",
+          "text": "Prima ricontrollo la distinzione fra Rank S e Mondiale.",
+          "goto": "qualification_guard"
+        }
+      ]
+    },
+    "candidate_status": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Essere Candidate Mondiale significa avere accesso al percorso, non un posto garantito. Ranking, registrazione, roster e bracket restano autorità strutturate."
+        }
+      ],
+      "choices": [
+        {
+          "id": "candidate_carry",
+          "text": "Rivedo lo stato che porto con me.",
+          "goto": "carryover"
+        },
+        {
+          "id": "candidate_meridiana",
+          "text": "Passo alla preview di Meridiana.",
+          "goto": "meridiana_preview"
+        }
+      ]
+    },
+    "defer": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Rimandare è legale. Non chiude M7 e non ferma gli altri trainer, i media, gli sponsor o le finestre competitive."
+        }
+      ],
+      "choices": [
+        {
+          "id": "defer_hour",
+          "text": "Aspetto un'ora prima di decidere.",
+          "goto": "wait_node",
+          "timeCostMinutes": 60
+        },
+        {
+          "id": "defer_review",
+          "text": "Rivedo subito il quadro Rank S.",
+          "goto": "rank_s_band"
+        }
+      ]
+    },
+    "wait_node": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il tempo è trascorso nel calendario reale. Nessuna qualificazione viene prodotta dalla sola attesa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "wait_back",
+          "text": "Rivaluto la fascia Rank S.",
+          "goto": "rank_s_band"
+        },
+        {
+          "id": "wait_preview",
+          "text": "Controllo se parto per Meridiana.",
+          "goto": "meridiana_preview"
+        }
+      ]
+    },
+    "handoff_ready": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il passaggio è pronto quando il player sceglie di partire. L'arrivo è un'azione distinta e non altera Rank, ranking o world_qualified."
+        }
+      ],
+      "choices": [
+        {
+          "id": "handoff_depart",
+          "text": "Parto verso Meridiana.",
+          "goto": "m07-meridiana-arrival#arrival_entry"
+        },
+        {
+          "id": "handoff_close",
+          "text": "Faccio un ultimo controllo prima della partenza.",
+          "goto": "close"
+        }
+      ]
+    },
+    "close": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La chiusura del handoff conserva ogni stato precedente e lascia solo a M7 il proprio flag di attività."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_depart",
+          "text": "Procedo verso Meridiana.",
+          "goto": "m07-meridiana-arrival#arrival_entry"
+        },
+        {
+          "id": "close_back",
+          "text": "Torno al riepilogo Rank S.",
+          "goto": "rank_s_band"
+        }
+      ]
+    }
+  }
+}

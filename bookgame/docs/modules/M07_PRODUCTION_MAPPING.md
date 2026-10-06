@@ -5,7 +5,7 @@
 **Purpose:** production map for converting M7 into validated offline story content  
 **Locked authored budget:** **5,200 stitches / 3,200 player choices**
 
-**Module implementation status:** **MAPPED / NOT YET PRODUCTION-COMPLETE**
+**Module implementation status:** **M7_00–M7_04 IMPLEMENTED / LIBRARY-V2 ALIGNED / STATIC-PASS — RUNTIME CI EVIDENCE PENDING**
 
 E1–E7 are reusable infrastructure from M1. A block may extend generic data or content, but must not fork those engines into module-specific substitutes.
 
@@ -71,6 +71,57 @@ Budgets are authored surface capacity. One run sees only the paths made legal by
 
 ---
 
+## 2A. RUNTIME LOGICAL PRODUCTION TRACKING
+
+The authored-surface budget above remains locked at **5,200 stitches / 3,200 choices**. Runtime production follows the canonical M7 target of **210 logical nodes / 462 meaningful choices**.
+
+| Block | Logical nodes | Meaningful choices | Status |
+|---|---:|---:|---|
+| M7_00_RANK_S_HANDOFF | 12 | 26 | IMPLEMENTED |
+| M7_01_MERIDIANA_ARRIVAL | 14 | 31 | IMPLEMENTED |
+| M7_02_CYNTHIA_ENTERS | 14 | 31 | IMPLEMENTED |
+| M7_03_MEDIA_SPONSOR | 14 | 31 | IMPLEMENTED |
+| M7_04_PRO_PREPARATION | 12 | 26 | IMPLEMENTED |
+| **Cycle M7_00–M7_04** | **66** | **145** | **IMPLEMENTED / STATIC PASS** |
+| M7_05_FRIEND_BEAT_07 | 20 | 44 | PLANNED |
+| M7_06_QUALIFIER_REGISTRATION | 18 | 40 | PLANNED |
+| M7_07_WORLD_QUALIFIER | 20 | 44 | PLANNED |
+| M7_08_QUALIFIER_RESULT | 18 | 40 | PLANNED |
+| M7_09_LAST_CHANCE_GATE | 14 | 31 | PLANNED |
+| M7_10_LAST_CHANCE | 14 | 31 | PLANNED |
+| M7_11_BEFORE_THE_LIGHTS | 14 | 31 | PLANNED |
+| M7_12_WORLDS_MISSED | 14 | 30 | PLANNED |
+| M7_13_MODULE_OUTCOME | 12 | 26 | PLANNED |
+| **M7 TOTAL** | **210** | **462** | |
+
+The first cycle therefore leaves exactly **144 nodes / 317 meaningful choices** for M7_05–M7_13. No node is added merely to hit the number.
+
+## 2B. LIBRARY V2 ROUTING FOR CYCLE 1
+
+- **M7_00:** R21 module handoff + R33 cross-module callback + R16 eligibility information + R32 wait/time.
+- **M7_01:** R01 location entry/return + R02 hub navigation + R13 medical/service shell + R32 wait/time.
+- **M7_02:** R24 persistent first meeting + R25 multi-context Anchor intro + R23 schedule causality + R33 callbacks.
+- **M7_03:** R11 persistent lifecycle/commitment state + R23 availability/context + R32 time cost + R33 callbacks. Sponsor/media state never grants a combat/stat bonus.
+- **M7_04:** R16 roster preparation/eligibility info + R13 medical-service shell + R32 time allocation + R33 continuity. Training/scouting choices schedule or record intent; they do not fork Pokémon 5e systems.
+
+**No R39 candidate is required.** Library V2 R01→R38 is sufficient for the complete first M7 cycle.
+
+### Cycle 1 validation status
+
+- authored files: present;
+- exact logical budget: **66 nodes / 145 meaningful choices**;
+- authored-surface manifest: **5,200 stitches / 3,200 choices**;
+- static condition/effect/target design audit: **PASS**;
+- authored-node reachability: locked by `m07-cycle-budget.test.mjs`;
+- Rank S / World qualification separation: explicit in M7_00 and dedicated tests;
+- Cynthia first meeting: persistent/idempotent and non-boss;
+- media/sponsor: no hidden combat/stat bonus;
+- pro preparation: reads actual roster size and does not register the Qualifier;
+- runtime regression authored in `m07-cycle1.test.mjs`;
+- GitHub Actions runtime evidence: **PENDING**.
+
+Final **COMPLETE** remains reserved for executable runtime evidence.
+
 # 3. CANONICAL EVENT BINDINGS
 
 - `A7_WORLD_QUALIFIER`
@@ -107,6 +158,20 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+
+
+**Reuse class:** REUSE
+
+**Source archetypes:**
+- R21_MODULE_HANDOFF
+- R33_CROSS_MODULE_CALLBACK
+- R16_ROSTER_PREPARATION_ELIGIBILITY_INFO
+- R32_WAIT_LET_TIME_PASS
+
+**Unique layer:** Rank S is inherited as access to the World-candidate phase while `world_qualified` remains untouched.
+
+**Implementation lock (cycle 1):** Scene `m07-handoff` contains **12 nodes / 26 meaningful choices**. It preserves M6 state, makes the Rank S / qualification distinction explicit, allows legal deferral and hands off to Meridiana without fabricating World entry.
+
 ---
 
 ## M7_01_MERIDIANA_ARRIVAL
@@ -118,6 +183,20 @@ A content gap is not permission to implement a second engine.
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R01_LOCATION_ENTRY_RETURN
+- R02_HUB_NAVIGATION
+- R13_MEDICAL_POKEMON_CENTER_SERVICE
+- R32_WAIT_LET_TIME_PASS
+
+**Unique layer:** Meridiana is a dense Rank S professional hub where services compete for time but none bypasses medical, roster, travel or competition systems.
+
+**Implementation lock (cycle 1):** Scene `m07-meridiana-arrival` contains **14 nodes / 31 meaningful choices**. Arrival writes real geography, exposes Grand Hall/arena/medicine/university/station/media services and never changes Rank or World qualification.
 
 ---
 
@@ -131,6 +210,20 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R24_PERSISTENT_NPC_FIRST_MEETING
+- R25_MULTI_CONTEXT_ANCHOR_INTRO
+- R23_NPC_PRESENCE_SCHEDULE_GATE
+- R33_CROSS_MODULE_CALLBACK
+
+**Unique layer:** Cynthia's identity is long-horizon resource protection and planning; she is a peer/benchmark rather than a forced boss.
+
+**Implementation lock (cycle 1):** Scene `m07-cynthia-enters` contains **14 nodes / 31 meaningful choices**. First meeting is persistent/idempotent, observation can defer contact, relationship state is durable, and Gible→Gabite→Garchomp remains career history rather than scene-granted power.
+
 ---
 
 ## M7_03_MEDIA_SPONSOR
@@ -143,6 +236,20 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R11_QUEST_LIFECYCLE
+- R23_NPC_PRESENCE_SCHEDULE_GATE
+- R32_WAIT_LET_TIME_PASS
+- R33_CROSS_MODULE_CALLBACK
+
+**Unique layer:** public exposure and sponsor posture create durable agenda/reputation pressure without hidden stat, dice or combat bonuses.
+
+**Implementation lock (cycle 1):** Scene `m07-media-sponsor` contains **14 nodes / 31 meaningful choices**. Independent/local/major sponsor posture and media style persist; time costs are real; no World qualification, Rank change or mechanical buff is granted.
+
 ---
 
 ## M7_04_PRO_PREPARATION
@@ -154,6 +261,20 @@ A content gap is not permission to implement a second engine.
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R16_ROSTER_PREPARATION_ELIGIBILITY_INFO
+- R13_MEDICAL_POKEMON_CENTER_SERVICE
+- R32_WAIT_LET_TIME_PASS
+- R33_CROSS_MODULE_CALLBACK
+
+**Unique layer:** Rank S preparation is an agenda problem across roster, training, scouting, recovery and public obligations while Pokémon/team state remains engine-owned.
+
+**Implementation lock (cycle 1):** Scene `m07-pro-preparation` contains **12 nodes / 26 meaningful choices**. Readiness checks the actual roster, training/scouting record priorities without directly changing Pokémon stats, medicine never auto-heals, and completion does not register or resolve the World Qualifier.
 
 ---
 

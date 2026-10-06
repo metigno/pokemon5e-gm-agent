@@ -1,0 +1,449 @@
+{
+  "schemaVersion": 1,
+  "id": "m07-cynthia-enters",
+  "moduleId": "M07",
+  "title": "M7_02 — Cynthia Enters",
+  "locationId": "meridiana_grand_hall",
+  "entryNodeId": "cynthia_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m6_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m07_unlocked",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "S"
+      },
+      {
+        "path": "world.flags.m7_active",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m7_meridiana_arrived",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "cynthia_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Cynthia compare dove il suo schedule professionale la rende plausibile: fra Grand Hall, arena e spazi di analisi. Non viene presentata come boss obbligatorio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "cynthia_introduce",
+          "text": "Mi presento direttamente.",
+          "goto": "first_exchange",
+          "conditions": {
+            "path": "world.flags.cynthia_met",
+            "ne": true
+          },
+          "effects": [
+            {
+              "type": "npc_register",
+              "npcId": "Cynthia",
+              "name": "Cynthia",
+              "relationshipScore": 0,
+              "state": {
+                "introduced": true,
+                "context": "meridiana_grand_hall",
+                "role": "world_candidate_anchor"
+              }
+            },
+            {
+              "type": "set_flag",
+              "key": "cynthia_met",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "cynthia_observe",
+          "text": "La osservo prima di interromperla.",
+          "goto": "observe",
+          "conditions": {
+            "path": "world.flags.cynthia_met",
+            "ne": true
+          }
+        },
+        {
+          "id": "cynthia_reengage",
+          "text": "Cynthia mi conosce già: riprendo il confronto.",
+          "goto": "reengage",
+          "conditions": {
+            "path": "world.flags.cynthia_met",
+            "eq": true
+          }
+        }
+      ]
+    },
+    "encounter_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il suo tratto distintivo non è una frase ad effetto: valuta quante risorse stai spendendo oggi per non arrivare vuoto al match che conta davvero."
+        }
+      ],
+      "choices": [
+        {
+          "id": "context_long",
+          "text": "Parlo di gestione del lungo periodo.",
+          "goto": "long_game"
+        },
+        {
+          "id": "context_resources",
+          "text": "Le chiedo come protegge le risorse decisive.",
+          "goto": "resource_control"
+        },
+        {
+          "id": "context_callbacks",
+          "text": "Porto nel discorso il percorso fatto fin qui.",
+          "goto": "callbacks"
+        }
+      ]
+    },
+    "first_exchange": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Cynthia tratta un Rank S come un trainer completo ma non finito. Il Mondiale è ancora una probabilità da guadagnare, non una ricompensa per il titolo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "exchange_long",
+          "text": "Le chiedo come pianifica settimane, non singoli match.",
+          "goto": "long_game"
+        },
+        {
+          "id": "exchange_resource",
+          "text": "Parliamo di quando non usare subito l'opzione migliore.",
+          "goto": "resource_control"
+        },
+        {
+          "id": "exchange_garchomp",
+          "text": "Le chiedo del percorso del suo ace.",
+          "goto": "garchomp_line"
+        }
+      ]
+    },
+    "observe": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La vedi interrompere una sessione prima di spremere l'ultima risorsa. Il punto sembra essere arrivare al giorno decisivo con opzioni ancora disponibili."
+        }
+      ],
+      "choices": [
+        {
+          "id": "observe_intro",
+          "text": "Ora mi presento.",
+          "goto": "first_exchange",
+          "effects": [
+            {
+              "type": "npc_register",
+              "npcId": "Cynthia",
+              "name": "Cynthia",
+              "relationshipScore": 0,
+              "state": {
+                "introduced": true,
+                "context": "observed_first",
+                "role": "world_candidate_anchor"
+              }
+            },
+            {
+              "type": "set_flag",
+              "key": "cynthia_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "cynthia_observed_before_intro",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "observe_defer",
+          "text": "Non forzo l'incontro.",
+          "goto": "defer",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "cynthia_contact_deferred",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "defer": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Rinviare non crea una seconda Cynthia in un altro luogo. Il contatto potrà riaprirsi solo quando schedule e contesto lo consentono."
+        }
+      ],
+      "choices": [
+        {
+          "id": "defer_return",
+          "text": "Torno alla piazza di Meridiana.",
+          "goto": "m07-meridiana-arrival#city_hub"
+        },
+        {
+          "id": "defer_recover",
+          "text": "Il contesto è ancora valido: provo a presentarmi.",
+          "goto": "first_exchange",
+          "conditions": {
+            "path": "world.flags.cynthia_met",
+            "ne": true
+          },
+          "effects": [
+            {
+              "type": "npc_register",
+              "npcId": "Cynthia",
+              "name": "Cynthia",
+              "relationshipScore": 0,
+              "state": {
+                "introduced": true,
+                "context": "deferred_recovery",
+                "role": "world_candidate_anchor"
+              }
+            },
+            {
+              "type": "set_flag",
+              "key": "cynthia_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "cynthia_contact_recovered",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "long_game": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Per Cynthia una serie competitiva si perde anche vincendo troppo caro: HP, PP, informazioni e prevedibilità sono risorse che si consumano."
+        }
+      ],
+      "choices": [
+        {
+          "id": "long_benchmark",
+          "text": "Confronto questo principio col mio modo di prepararmi.",
+          "goto": "peer_benchmark"
+        },
+        {
+          "id": "long_relationship",
+          "text": "Le dico dove faccio più fatica a fermarmi.",
+          "goto": "relationship"
+        }
+      ]
+    },
+    "resource_control": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Proteggere una risorsa non significa giocare passivi: significa sapere quale rischio serve adesso e quale appartiene a un turno o a un match futuro."
+        }
+      ],
+      "choices": [
+        {
+          "id": "resource_ace",
+          "text": "Collego il discorso alla crescita del suo ace.",
+          "goto": "garchomp_line"
+        },
+        {
+          "id": "resource_schedule",
+          "text": "Le chiedo come inserisce recupero e analisi nel calendario.",
+          "goto": "schedule_read"
+        }
+      ]
+    },
+    "garchomp_line": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Gible, Gabite e Garchomp sono tappe di una carriera reale, non una trasformazione concessa dalla scena. L'ace è diventato affidabile perché il piano è cresciuto con lui."
+        }
+      ],
+      "choices": [
+        {
+          "id": "garchomp_benchmark",
+          "text": "Uso il suo esempio come benchmark, non come ricompensa.",
+          "goto": "peer_benchmark",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "cynthia_ace_history_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "garchomp_callback",
+          "text": "Ricollego la lezione agli Anchor precedenti.",
+          "goto": "callbacks"
+        }
+      ]
+    },
+    "callbacks": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Red, Lance e gli altri Anchor possono avere lasciato metodi diversi. Cynthia reagisce al percorso reale del player senza ereditare automaticamente rapporti o risultati altrui."
+        }
+      ],
+      "choices": [
+        {
+          "id": "callbacks_note",
+          "text": "Registro il confronto fra approcci.",
+          "goto": "relationship",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "cynthia_prior_anchor_callback_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "callbacks_back",
+          "text": "Torno al contesto dell'incontro.",
+          "goto": "encounter_context"
+        }
+      ]
+    },
+    "relationship": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il rapporto nasce dal modo in cui discuti il rischio, non da un bonus segreto. Una convergenza di metodo può restare come relazione persistente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "relationship_respect",
+          "text": "Condivido l'idea di proteggere il piano lungo.",
+          "goto": "cynthia_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Cynthia",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "cynthia_long_game_common_ground",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "relationship_question",
+          "text": "Resto critico e continuo il confronto.",
+          "goto": "long_game"
+        }
+      ]
+    },
+    "schedule_read": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Cynthia divide preparazione, recupero e osservazione. Nessuna di queste finestre ferma gli eventi degli altri trainer."
+        }
+      ],
+      "choices": [
+        {
+          "id": "schedule_close",
+          "text": "Chiudo l'incontro rispettando il suo schedule.",
+          "goto": "cynthia_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "cynthia_schedule_respected",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "schedule_defer",
+          "text": "La lascio tornare al lavoro.",
+          "goto": "defer"
+        }
+      ]
+    },
+    "peer_benchmark": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il benchmark non stabilisce chi vincerà: mostra soltanto quanto è alto il livello di gestione richiesto prima del Qualifier."
+        }
+      ],
+      "choices": [
+        {
+          "id": "benchmark_schedule",
+          "text": "Le chiedo come traduce il metodo in agenda.",
+          "goto": "schedule_read"
+        },
+        {
+          "id": "benchmark_relationship",
+          "text": "Le rispondo sul mio approccio.",
+          "goto": "relationship"
+        }
+      ]
+    },
+    "reengage": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un secondo contatto parte dalla relazione già esistente; l'introduzione non viene ricreata e Cynthia conserva il suo stato persistente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "reengage_context",
+          "text": "Riprendo il discorso sulla gestione del lungo periodo.",
+          "goto": "encounter_context"
+        },
+        {
+          "id": "reengage_resource",
+          "text": "Vado direttamente sul tema delle risorse.",
+          "goto": "resource_control"
+        }
+      ]
+    },
+    "cynthia_close": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'incontro lascia un benchmark e una relazione, non una vittoria. La pressione pubblica di Meridiana resta il prossimo problema concreto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_media",
+          "text": "Passo al distretto media e sponsor.",
+          "goto": "m07-media-sponsor#media_entry"
+        },
+        {
+          "id": "close_hub",
+          "text": "Torno alla piazza di Meridiana.",
+          "goto": "m07-meridiana-arrival#city_hub"
+        }
+      ]
+    }
+  }
+}

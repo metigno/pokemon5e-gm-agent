@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "id": "M07",
+  "title": "Sotto i Riflettori",
+  "targets": {
+    "stitches": 5200,
+    "choices": 3200
+  },
+  "progressionRole": "rank-s-world-qualifier-band",
+  "designDocument": "docs/modules/M07_SOTTO_I_RIFLETTORI_MODULE_DESIGN.md",
+  "mappingDocument": "docs/modules/M07_PRODUCTION_MAPPING.md",
+  "requiredBeats": [
+    "M7_00_RANK_S_HANDOFF",
+    "M7_01_MERIDIANA_ARRIVAL",
+    "M7_02_CYNTHIA_ENTERS",
+    "M7_03_MEDIA_SPONSOR",
+    "M7_04_PRO_PREPARATION",
+    "M7_05_FRIEND_BEAT_07",
+    "M7_06_QUALIFIER_REGISTRATION",
+    "M7_07_WORLD_QUALIFIER",
+    "M7_08_QUALIFIER_RESULT",
+    "M7_09_LAST_CHANCE_GATE",
+    "M7_10_LAST_CHANCE",
+    "M7_11_BEFORE_THE_LIGHTS",
+    "M7_12_WORLDS_MISSED",
+    "M7_13_MODULE_OUTCOME"
+  ],
+  "blocks": [
+    {
+      "id": "M7_00_RANK_S_HANDOFF",
+      "title": "Rank S Handoff",
+      "targets": {
+        "stitches": 294,
+        "choices": 181
+      }
+    },
+    {
+      "id": "M7_01_MERIDIANA_ARRIVAL",
+      "title": "Meridiana Arrival",
+      "targets": {
+        "stitches": 346,
+        "choices": 213
+      }
+    },
+    {
+      "id": "M7_02_CYNTHIA_ENTERS",
+      "title": "Cynthia Enters",
+      "targets": {
+        "stitches": 346,
+        "choices": 213
+      }
+    },
+    {
+      "id": "M7_03_MEDIA_SPONSOR",
+      "title": "Media & Sponsor",
+      "targets": {
+        "stitches": 346,
+        "choices": 213
+      }
+    },
+    {
+      "id": "M7_04_PRO_PREPARATION",
+      "title": "Pro Preparation",
+      "targets": {
+        "stitches": 294,
+        "choices": 181
+      }
+    },
+    {
+      "id": "M7_05_FRIEND_BEAT_07",
+      "title": "Friend Beat 07",
+      "targets": {
+        "stitches": 501,
+        "choices": 308
+      }
+    },
+    {
+      "id": "M7_06_QUALIFIER_REGISTRATION",
+      "title": "Qualifier Registration",
+      "targets": {
+        "stitches": 449,
+        "choices": 276
+      }
+    },
+    {
+      "id": "M7_07_WORLD_QUALIFIER",
+      "title": "World Qualifier",
+      "targets": {
+        "stitches": 501,
+        "choices": 308
+      }
+    },
+    {
+      "id": "M7_08_QUALIFIER_RESULT",
+      "title": "Qualifier Result",
+      "targets": {
+        "stitches": 449,
+        "choices": 276
+      }
+    },
+    {
+      "id": "M7_09_LAST_CHANCE_GATE",
+      "title": "Last Chance Gate",
+      "targets": {
+        "stitches": 345,
+        "choices": 213
+      }
+    },
+    {
+      "id": "M7_10_LAST_CHANCE",
+      "title": "Last Chance",
+      "targets": {
+        "stitches": 345,
+        "choices": 213
+      }
+    },
+    {
+      "id": "M7_11_BEFORE_THE_LIGHTS",
+      "title": "Before the Lights",
+      "targets": {
+        "stitches": 345,
+        "choices": 212
+      }
+    },
+    {
+      "id": "M7_12_WORLDS_MISSED",
+      "title": "Worlds Missed",
+      "targets": {
+        "stitches": 345,
+        "choices": 212
+      }
+    },
+    {
+      "id": "M7_13_MODULE_OUTCOME",
+      "title": "Module Outcome",
+      "targets": {
+        "stitches": 294,
+        "choices": 181
+      }
+    }
+  ]
+}

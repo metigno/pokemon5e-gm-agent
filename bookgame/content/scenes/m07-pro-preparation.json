@@ -1,0 +1,365 @@
+{
+  "schemaVersion": 1,
+  "id": "m07-pro-preparation",
+  "moduleId": "M07",
+  "title": "M7_04 — Pro Preparation",
+  "locationId": "meridiana_training_quarter",
+  "entryNodeId": "prep_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m6_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m07_unlocked",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "S"
+      },
+      {
+        "path": "world.flags.m7_active",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m7_meridiana_arrived",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m7_media_sponsor_reviewed",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "prep_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La preparazione Rank S coordina roster, training, scouting, recupero e agenda. La scena sceglie priorità, ma non modifica direttamente statistiche Pokémon 5e."
+        }
+      ],
+      "choices": [
+        {
+          "id": "prep_start",
+          "text": "Apro il piano professionale.",
+          "goto": "prep_hub"
+        },
+        {
+          "id": "prep_media",
+          "text": "Rileggo prima gli impegni media/sponsor.",
+          "goto": "sponsor_constraints"
+        }
+      ]
+    },
+    "prep_hub": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Quattro assi competono per il tempo disponibile: Official Six, training, scouting e medicina sportiva. Nessuno viene risolto automaticamente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "hub_roster",
+          "text": "Controllo la profondità reale del roster.",
+          "goto": "roster_review"
+        },
+        {
+          "id": "hub_training",
+          "text": "Definisco una finestra di training.",
+          "goto": "training_plan"
+        },
+        {
+          "id": "hub_scouting",
+          "text": "Valuto se serve scouting aggiuntivo.",
+          "goto": "scouting_plan"
+        },
+        {
+          "id": "hub_medical",
+          "text": "Rivedo recupero e disponibilità.",
+          "goto": "medical_plan"
+        }
+      ]
+    },
+    "roster_review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La preparazione legge il roster strutturato. Avere Rank S non crea il sesto Pokémon né rende disponibile chi è realmente indisponibile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "roster_six",
+          "text": "Il roster ha almeno sei membri: registro solo che l'ho verificato.",
+          "goto": "ready_check",
+          "conditions": {
+            "path": "player.roster.length",
+            "gte": 6
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_official_six_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "roster_back",
+          "text": "Il roster richiede ancora lavoro: torno al piano.",
+          "goto": "prep_hub"
+        }
+      ]
+    },
+    "training_plan": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il training può essere tecnico o di rifinitura, ma gli incrementi reali devono passare dai sistemi Pokémon 5e esistenti. Qui si decide soltanto l'agenda."
+        }
+      ],
+      "choices": [
+        {
+          "id": "training_controlled",
+          "text": "Prenoto una finestra controllata di un'ora.",
+          "goto": "schedule_plan",
+          "timeCostMinutes": 60,
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_training_plan",
+              "value": "controlled"
+            }
+          ]
+        },
+        {
+          "id": "training_extended",
+          "text": "Dedico due ore alla preparazione estesa.",
+          "goto": "schedule_plan",
+          "timeCostMinutes": 120,
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_training_plan",
+              "value": "extended"
+            }
+          ]
+        }
+      ]
+    },
+    "scouting_plan": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Scouting significa raccogliere informazione o cercare opportunità reali; non genera automaticamente Pokémon, IV, mosse o counter perfetti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "scouting_review",
+          "text": "Scelgo scouting informativo senza catture automatiche.",
+          "goto": "pressure_plan",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_scouting_plan",
+              "value": "information_first"
+            }
+          ]
+        },
+        {
+          "id": "scouting_defer",
+          "text": "Rinuncio allo scouting per proteggere tempo e recupero.",
+          "goto": "pressure_plan",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_scouting_plan",
+              "value": "deferred"
+            }
+          ]
+        }
+      ]
+    },
+    "medical_plan": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La medicina sportiva può valutare readiness, ma la reception non ripristina HP, PP o infortuni con un flag narrativo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "medical_review",
+          "text": "Registro che la squadra deve passare dal servizio medico reale.",
+          "goto": "schedule_plan",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_medical_readiness_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "medical_back",
+          "text": "Torno al piano senza cambiare lo stato della squadra.",
+          "goto": "prep_hub"
+        }
+      ]
+    },
+    "schedule_plan": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Ogni ora spesa qui è sottratta ad altro. L'agenda deve convivere con sponsor, media e finestre competitive."
+        }
+      ],
+      "choices": [
+        {
+          "id": "schedule_pressure",
+          "text": "Confronto il piano con la pressione esterna.",
+          "goto": "pressure_plan"
+        },
+        {
+          "id": "schedule_cynthia",
+          "text": "Confronto il piano con il benchmark di Cynthia.",
+          "goto": "cynthia_advice"
+        }
+      ]
+    },
+    "pressure_plan": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La preparazione è valida se conserva opzioni per il Qualifier, non se massimizza una singola giornata."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pressure_sponsor",
+          "text": "Verifico gli obblighi sponsor/media.",
+          "goto": "sponsor_constraints"
+        },
+        {
+          "id": "pressure_ready",
+          "text": "Passo al readiness check.",
+          "goto": "ready_check"
+        }
+      ]
+    },
+    "cynthia_advice": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il benchmark di Cynthia ricorda di non spendere tutte le risorse per sentirsi pronti oggi. Il consiglio non modifica nessuna statistica."
+        }
+      ],
+      "choices": [
+        {
+          "id": "cynthia_ready",
+          "text": "Applico il principio solo alla pianificazione.",
+          "goto": "ready_check",
+          "conditions": {
+            "path": "world.flags.cynthia_met",
+            "eq": true
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_cynthia_preparation_callback",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "cynthia_back",
+          "text": "Torno al piano operativo.",
+          "goto": "prep_hub"
+        }
+      ]
+    },
+    "sponsor_constraints": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Gli obblighi scelti nel blocco precedente restano reali. Cambiare priorità qui non cancella retroattivamente la postura sponsor o media."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sponsor_ready",
+          "text": "Accetto il vincolo e passo al readiness check.",
+          "goto": "ready_check",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_sponsor_constraints_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "sponsor_back",
+          "text": "Torno al piano generale.",
+          "goto": "prep_hub"
+        }
+      ]
+    },
+    "ready_check": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il readiness check non registra ancora il World Qualifier. Verifica soltanto se il piano è abbastanza maturo da entrare nel prossimo blocco."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ready_six",
+          "text": "Con almeno sei Pokémon reali chiudo la preparazione.",
+          "goto": "prep_close",
+          "conditions": {
+            "path": "player.roster.length",
+            "gte": 6
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m7_pro_preparation_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "ready_keep_preparing",
+          "text": "Non chiudo ancora: continuo a prepararmi.",
+          "goto": "prep_hub"
+        }
+      ]
+    },
+    "prep_close": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "M7_04 termina con un piano persistente, non con una qualificazione. FRIEND_BEAT_07 e registrazione al Qualifier restano blocchi successivi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_hub",
+          "text": "Torno libero a Meridiana.",
+          "goto": "m07-meridiana-arrival#city_hub"
+        },
+        {
+          "id": "close_media",
+          "text": "Rivedo gli impegni pubblici prima del prossimo passo.",
+          "goto": "m07-media-sponsor#media_hub"
+        }
+      ]
+    }
+  }
+}
