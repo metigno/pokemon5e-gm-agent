@@ -156,15 +156,39 @@ export function rollExpression(expression, dice, { critical = false } = {}) {
   return { expression: `${count}d${sides}`, rolls, total: rolls.reduce((a, b) => a + b, 0) };
 }
 
-function rollDamage(expression, dice, { critical = false, disadvantage = false } = {}) {
+export function damageRollHasAdvantage(combatant, move) {
+  if (move.dice?.type !== "damage") return false;
+  if (
+    combatant.abilityId === "adaptability" &&
+    combatant.types.includes(move.type)
+  ) {
+    return true;
+  }
+  return combatant.abilityId === "technician" && move.pp >= 15;
+}
+
+function rollDamage(
+  expression,
+  dice,
+  { critical = false, advantage = false, disadvantage = false } = {}
+) {
+  if (advantage && disadvantage) {
+    advantage = false;
+    disadvantage = false;
+  }
+
   const first = rollExpression(expression, dice, { critical });
-  if (!disadvantage) return { selected: first, attempts: [first], mode: "normal" };
+  if (!advantage && !disadvantage) {
+    return { selected: first, attempts: [first], mode: "normal" };
+  }
 
   const second = rollExpression(expression, dice, { critical });
   return {
-    selected: first.total <= second.total ? first : second,
+    selected: advantage
+      ? (first.total >= second.total ? first : second)
+      : (first.total <= second.total ? first : second),
     attempts: [first, second],
-    mode: "disadvantage"
+    mode: advantage ? "advantage" : "disadvantage"
   };
 }
 
@@ -293,6 +317,7 @@ export function resolveAttack({
 
   const damageRoll = rollDamage(stats.damageDice, dice, {
     critical: criticalDamage,
+    advantage: damageRollHasAdvantage(attacker, move),
     disadvantage: damageHasDisadvantage(attacker)
   });
   const rawDamage = Math.max(0, damageRoll.selected.total + stats.damageModifier);
