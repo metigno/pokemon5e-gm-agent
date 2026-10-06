@@ -172,6 +172,17 @@ function isImmediateHealingMove(move) {
   return move.dice?.type === "healing" && IMMEDIATE_HEALING_MOVES.has(move.id);
 }
 
+const OHKO_MOVES = new Set([
+  "fissure",
+  "guillotine",
+  "horn-drill",
+  "sheer-cold"
+]);
+
+function isOhkoMove(move) {
+  return OHKO_MOVES.has(move.id);
+}
+
 function healingTargetSide(move, userSide, requestedTargetSide = null) {
   if (move.range?.type === "self") return userSide;
 
@@ -222,6 +233,7 @@ export function isMoveResolvable(move) {
   if (move.save && damage) return true;
   if (isAutomaticDamageMove(move)) return true;
   if (isImmediateHealingMove(move)) return true;
+  if (isOhkoMove(move)) return true;
   if (SAVE_EFFECT_MOVES.has(move.id) || AREA_MOVES.has(move.id)) return true;
   if ((move.attack || move.save) && statusFromText(move.description)) return true;
   if (move.id === "struggle") return true;
@@ -1052,6 +1064,37 @@ export class Pokemon5eCombatEngine {
     return next;
   }
 
+  async resolveOhkoMove(next, side, move) {
+    const attacker = next[side];
+    const targetSide = otherSide(side);
+    const defender = next[targetSide];
+    const natural = this.dice.roll(20);
+    const levelBlocked = defender.level >= attacker.level + 10;
+    const fissureBlocked =
+      move.id === "fissure" &&
+      (defender.types.includes("flying") || defender.abilityId === "levitate");
+    const success = natural === 20 && !levelBlocked && !fissureBlocked;
+
+    if (success) defender.hp.current = 0;
+
+    next.log.push({
+      type: "ohko_move",
+      round: next.round,
+      actor: side,
+      target: targetSide,
+      moveId: move.id,
+      moveName: move.name,
+      natural,
+      levelBlocked,
+      fissureBlocked,
+      success,
+      targetHpAfter: defender.hp.current
+    });
+
+    if (success) markDowned(next, targetSide, "ohko_move");
+    return next;
+  }
+
   async resolveHealingMove(next, side, targetSide, move) {
     const user = next[side];
     const target = next[targetSide];
@@ -1294,6 +1337,8 @@ export class Pokemon5eCombatEngine {
       next = await this.resolveAutomaticDamageMove(next, side, move);
     } else if (isImmediateHealingMove(move)) {
       next = await this.resolveHealingMove(next, side, healTargetSide, move);
+    } else if (isOhkoMove(move)) {
+      next = await this.resolveOhkoMove(next, side, move);
     } else if (AREA_MOVES.has(move.id)) {
       const stats = calculateMoveStats(attacker, move);
       const center = areaTarget ?? clone(defender.position);
