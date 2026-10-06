@@ -203,7 +203,7 @@
         {
           "id": "prep_information",
           "text": "Focus: informazioni pubbliche e fog of war.",
-          "goto": "registered",
+          "goto": "opponent",
           "effects": [
             {
               "type": "set_flag",
@@ -257,7 +257,7 @@
         {
           "id": "defer_masters",
           "text": "Torno al Masters Circuit.",
-          "goto": "m06-masters-circuit#circuit_hub"
+          "goto": "route"
         },
         {
           "id": "defer_return",
@@ -335,14 +335,14 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il desk Continental resta una pressione concorrente, non l'unico contenuto del modulo."
+          "text": "La Continental Cup resta una pressione concorrente. Puoi tornare al Masters Circuit senza consumare l'iscrizione."
         }
       ],
       "choices": [
         {
-          "id": "route_entry",
-          "text": "Torno all'ingresso della Continental Cup.",
-          "goto": "continental_entry"
+          "id": "route_masters",
+          "text": "Torno al Masters Circuit.",
+          "goto": "m06-masters-circuit#circuit_hub"
         }
       ]
     }
