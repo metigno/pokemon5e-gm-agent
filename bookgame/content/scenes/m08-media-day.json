@@ -1,0 +1,402 @@
+{
+  "schemaVersion": 1,
+  "id": "m08-media-day",
+  "moduleId": "M08",
+  "title": "M8_08 — Media Day",
+  "locationId": "world_media_center",
+  "entryNodeId": "media_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m7_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m08_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.world_qualified",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_active",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_world_registration_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_world_village_arrived",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_training_hall_complete",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "media_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Media Day aumenta esposizione e domande, non il potere del personaggio. Il player sceglie come parlare senza ricevere una voce imposta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_hub",
+          "text": "Entro nel Media Day.",
+          "goto": "media_hub"
+        },
+        {
+          "id": "entry_brief",
+          "text": "Controllo prima il formato delle interviste.",
+          "goto": "briefing"
+        },
+        {
+          "id": "entry_callbacks",
+          "text": "Rivedo come sponsor e reputazione precedente pesano sul contesto.",
+          "goto": "callbacks"
+        }
+      ]
+    },
+    "media_hub": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Puoi scegliere tono, profondità e tempo dedicato. Nessuna risposta cambia automaticamente Carisma, skill o statistiche Pokémon."
+        }
+      ],
+      "choices": [
+        {
+          "id": "hub_interview",
+          "text": "Scelgo come affrontare l'intervista principale.",
+          "goto": "interview_choice"
+        },
+        {
+          "id": "hub_callbacks",
+          "text": "Controllo i callback precedenti.",
+          "goto": "callbacks"
+        },
+        {
+          "id": "hub_wait",
+          "text": "Rimando una finestra e lascio passare tempo.",
+          "goto": "wait_window"
+        }
+      ]
+    },
+    "briefing": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Le domande riguardano qualificazione, aspettative e preparazione. Il draw non è ancora pubblico e non può essere anticipato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "brief_interview",
+          "text": "Passo all'intervista.",
+          "goto": "interview_choice"
+        },
+        {
+          "id": "brief_guard",
+          "text": "Controllo il guardrail reputazione/risultato.",
+          "goto": "reputation_guard"
+        }
+      ]
+    },
+    "interview_choice": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Puoi essere aperto, prudente o competitivo. Sono posture pubbliche, non allineamenti obbligatori del personaggio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "interview_open",
+          "text": "Rispondo in modo aperto.",
+          "goto": "open_style"
+        },
+        {
+          "id": "interview_guarded",
+          "text": "Mantengo un profilo prudente.",
+          "goto": "guarded_style"
+        },
+        {
+          "id": "interview_competitive",
+          "text": "Accetto il tono competitivo senza promettere risultati.",
+          "goto": "competitive_style"
+        }
+      ]
+    },
+    "open_style": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Parli con chiarezza di obiettivi e preparazione, senza rivelare informazioni che il player non conosce ancora."
+        }
+      ],
+      "choices": [
+        {
+          "id": "open_record",
+          "text": "Registro lo stile pubblico aperto.",
+          "goto": "reputation_guard",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m8_media_style",
+              "value": "open"
+            }
+          ]
+        },
+        {
+          "id": "open_astrid",
+          "text": "Rispondo a una domanda sulla campionessa in carica.",
+          "goto": "astrid_question"
+        }
+      ]
+    },
+    "guarded_style": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Mantieni il messaggio essenziale e proteggi informazioni. Non vieni penalizzato meccanicamente per la prudenza."
+        }
+      ],
+      "choices": [
+        {
+          "id": "guarded_record",
+          "text": "Registro lo stile pubblico prudente.",
+          "goto": "reputation_guard",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m8_media_style",
+              "value": "guarded"
+            }
+          ]
+        },
+        {
+          "id": "guarded_friend",
+          "text": "Rispondo a una domanda sugli amici.",
+          "goto": "friend_question"
+        }
+      ]
+    },
+    "competitive_style": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Accetti il confronto pubblico ma non dichiari vittorie future come fatti. Il bracket resta indipendente dalla retorica."
+        }
+      ],
+      "choices": [
+        {
+          "id": "competitive_record",
+          "text": "Registro lo stile competitivo.",
+          "goto": "reputation_guard",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m8_media_style",
+              "value": "competitive"
+            }
+          ]
+        },
+        {
+          "id": "competitive_sponsor",
+          "text": "Gestisco una domanda sugli sponsor.",
+          "goto": "sponsor_question"
+        }
+      ]
+    },
+    "callbacks": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "M7 media/sponsor, risultati passati e Anchor precedenti possono cambiare interesse e tono, mai produrre un bonus nascosto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "callbacks_interview",
+          "text": "Porto il contesto nell'intervista.",
+          "goto": "interview_choice"
+        },
+        {
+          "id": "callbacks_guard",
+          "text": "Rivedo il guardrail reputazione/risultato.",
+          "goto": "reputation_guard"
+        }
+      ]
+    },
+    "astrid_question": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Puoi riconoscere Astrid come campionessa senza trasformarla nel boss predestinato del tuo percorso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "astrid_guard",
+          "text": "Registro una risposta rispettosa del field reale.",
+          "goto": "reputation_guard",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m8_media_astrid_answered",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "astrid_hub",
+          "text": "Torno al Media Day.",
+          "goto": "media_hub"
+        }
+      ]
+    },
+    "friend_question": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Parlare dei Four non sincronizza le loro carriere con la tua e non rivela risultati che non possiedi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "friend_guard",
+          "text": "Mantengo separate le nostre traiettorie.",
+          "goto": "reputation_guard",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m8_media_friend_answered",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "friend_hub",
+          "text": "Torno al Media Day.",
+          "goto": "media_hub"
+        }
+      ]
+    },
+    "sponsor_question": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Gli obblighi sponsor precedenti possono riapparire come contesto, ma nessun contratto compra seed o vantaggi competitivi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sponsor_guard",
+          "text": "Mantengo separati sponsor e competizione.",
+          "goto": "reputation_guard",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m8_media_sponsor_answered",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "sponsor_hub",
+          "text": "Torno al Media Day.",
+          "goto": "media_hub"
+        }
+      ]
+    },
+    "wait_window": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Rimandare consuma un'ora e lascia avanzare schedule e attività del venue. Il Media Day non congela il mondo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "wait_hour",
+          "text": "Aspetto un'ora e torno al Media Day.",
+          "goto": "media_hub",
+          "timeCostMinutes": 60
+        },
+        {
+          "id": "wait_commit",
+          "text": "Chiudo la finestra senza altra attesa.",
+          "goto": "media_commit"
+        }
+      ]
+    },
+    "reputation_guard": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La reputazione può cambiare il modo in cui vieni percepito, ma questa scena non inventa un secondo sistema numerico né modifica risultati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "guard_commit",
+          "text": "Passo alla chiusura del Media Day.",
+          "goto": "media_commit"
+        },
+        {
+          "id": "guard_hub",
+          "text": "Torno alle opzioni di intervista.",
+          "goto": "media_hub"
+        }
+      ]
+    },
+    "media_commit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il commit registra che il Media Day è stato affrontato e conserva la postura scelta, senza alterare WORLD_DRAW."
+        }
+      ],
+      "choices": [
+        {
+          "id": "commit_now",
+          "text": "Chiudo il Media Day.",
+          "goto": "media_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m8_media_day_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "commit_review",
+          "text": "Rivedo ancora il tono pubblico.",
+          "goto": "interview_choice"
+        }
+      ]
+    },
+    "media_close": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Media Day è completo. Il prossimo evento collettivo è la cerimonia d'apertura, ancora precedente al sorteggio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_ceremony",
+          "text": "Passo alla cerimonia d'apertura.",
+          "goto": "m08-opening-ceremony#ceremony_entry"
+        }
+      ]
+    }
+  }
+}
