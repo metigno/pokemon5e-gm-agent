@@ -5,7 +5,7 @@
 **Purpose:** production map for converting M6 into validated offline story content  
 **Locked authored budget:** **5,500 stitches / 3,400 player choices**
 
-**Module implementation status:** **M6_00–M6_09 IMPLEMENTED / LIBRARY-V2 ALIGNED / STATIC-PASS — RUNTIME CI EVIDENCE PENDING**
+**Module implementation status:** **M6_00–M6_14 IMPLEMENTED / LIBRARY-V2 ALIGNED / STATIC-PASS — RUNTIME CI EVIDENCE PENDING**
 
 E1–E7 are reusable infrastructure from M1. A block may extend generic data or content, but must not fork those engines into module-specific substitutes.
 
@@ -63,11 +63,11 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 | M6_07_CONTINENTAL_ENTRY | eligibility e preparazione alla Continental Cup | 281 | 174 | IMPLEMENTED |
 | M6_08_CONTINENTAL_CUP | A6_CONTINENTAL con bracket reale | 479 | 296 | IMPLEMENTED |
 | M6_09_ANCIENT_LAYER_TWO | secondo strato del mistero, ancora non una ricompensa leggendaria gratuita | 330 | 204 | IMPLEMENTED |
-| M6_10_FIRST_LIGHTHOUSE_RETURN | ritorno alle Rovine del Primo Faro e gate context | 330 | 204 | PLANNED |
-| M6_11_TRIAL_REGISTRATION | eligibility A→S separata dai punti Masters | 430 | 266 | PLANNED |
-| M6_12_PROMOTION_TRIAL_A_S | checkpoint RANK_A_TO_S, roster ufficiale 6 | 479 | 296 | PLANNED |
-| M6_13_WORLD_CUTOFF | A6_CUTOFF: deadline e freeze eligibility/ranking | 479 | 296 | PLANNED |
-| M6_14_MODULE_OUTCOME | Rank S e handoff verso Meridiana | 281 | 174 | PLANNED |
+| M6_10_FIRST_LIGHTHOUSE_RETURN | ritorno alle Rovine del Primo Faro e gate context | 330 | 204 | IMPLEMENTED |
+| M6_11_TRIAL_REGISTRATION | eligibility A→S separata dai punti Masters | 430 | 266 | IMPLEMENTED |
+| M6_12_PROMOTION_TRIAL_A_S | checkpoint RANK_A_TO_S, roster ufficiale 6 | 479 | 296 | IMPLEMENTED |
+| M6_13_WORLD_CUTOFF | A6_CUTOFF: deadline e freeze eligibility/ranking | 479 | 296 | IMPLEMENTED |
+| M6_14_MODULE_OUTCOME | Rank S e handoff verso Meridiana | 281 | 174 | IMPLEMENTED |
 | **TOTAL** |  | **5,500** | **3,400** | |
 
 Budgets are authored surface capacity. One run sees only the paths made legal by its state.
@@ -93,7 +93,13 @@ The first production cycle is allocated proportionally from the fixed M6 budget:
 | M6_09_ANCIENT_LAYER_TWO | 13 | 29 | IMPLEMENTED |
 | **Cycle M6_05–M6_09** | **76** | **167** | **IMPLEMENTED / STATIC PASS** |
 | **Cumulative M6_00–M6_09** | **140** | **308** | **IMPLEMENTED / STATIC PASS** |
-| **Remaining M6 target** | **80** | **176** | PLANNED |
+| M6_10_FIRST_LIGHTHOUSE_RETURN | 13 | 29 | IMPLEMENTED |
+| M6_11_TRIAL_REGISTRATION | 17 | 38 | IMPLEMENTED |
+| M6_12_PROMOTION_TRIAL_A_S | 19 | 42 | IMPLEMENTED |
+| M6_13_WORLD_CUTOFF | 19 | 42 | IMPLEMENTED |
+| M6_14_MODULE_OUTCOME | 12 | 25 | IMPLEMENTED |
+| **Cycle M6_10–M6_14** | **80** | **176** | **IMPLEMENTED / STATIC PASS** |
+| **M6 TOTAL** | **220** | **484** | **IMPLEMENTED / STATIC PASS** |
 
 This is the proportional share implied by the locked authored budget. No node is added merely to hit a number.
 
@@ -142,6 +148,33 @@ Per the production rule, final **COMPLETE** status is reserved for runtime evide
 - GitHub Actions runtime evidence: **PENDING** because the repository still emits no workflow/check for the current PR head.
 
 Final **COMPLETE** remains reserved for runtime evidence.
+
+
+## 2D. LIBRARY V2 ROUTING FOR CYCLE 3
+
+- **M6_10:** R01 location return + R34 access boundary/reconnaissance + R33 ancient/Anchor callbacks + R32 legal deferral. The Faro is both a real place and Trial venue, but those state owners remain separate.
+- **M6_11:** R16 eligibility/roster information + R17 Trial registration + R33 Red/cutoff callbacks. Official Six is required and registration never heals or fabricates a roster.
+- **M6_12:** R18 Promotion Trial + R06 combat handoff + R19 rank result/retry. The fixed six-on-six Gate is resolved only by E5; win promotes A→S, loss preserves A and reopens registration.
+- **M6_13:** R29 living-world deadline + R38 outcome classification + R33 competition/friend/Anchor callbacks. The cutoff persists whether it found Rank S or Rank A and is never rewritten by later promotion.
+- **M6_14:** R20 module exit contract + R21 next-module handoff + R33 continuity audit. M7 unlock requires real Rank S and all mandatory M6 axes; World qualification is explicitly not granted.
+
+**No R39 candidate is required.** The complete M6 implementation remains expressible through Library V2 R01→R38.
+
+### Cycle 3 validation status
+
+- authored files: present;
+- exact cycle budget: **80 nodes / 176 choices**;
+- complete M6 runtime surface: **220 nodes / 484 meaningful choices**;
+- static condition/effect/target audit: **PASS**;
+- authored-node reachability: **PASS, 0 zero-incoming M6 nodes**;
+- A→S Gate metadata: **Official Six / ELITE / fixed level 17 / retryable**;
+- cutoff classification: persistent `rank_s_at_cutoff` or `rank_a_at_cutoff`;
+- strict exit contract: Rank S + Red + FRIEND_BEAT_06 + Ancient Layer Two + cutoff review + Faro return;
+- next unlock: `m07_unlocked=true`, while `world_qualified` remains untouched;
+- dedicated regressions: `m06-cycle3.test.mjs` plus final `m06-cycle-budget.test.mjs` locks;
+- GitHub Actions runtime evidence: **PENDING** because the repository still emits no workflow/check for this branch.
+
+M6 is therefore fully authored and statically validated. Final **COMPLETE** label remains reserved for executable runtime evidence.
 
 ---
 
@@ -420,6 +453,18 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R01_LOCATION_ENTRY_RETURN
+- R34_ACCESS_BOUNDARY_RECONNAISSANCE_GATE
+- R33_CROSS_MODULE_CALLBACK
+- R32_WAIT_LET_TIME_PASS
+
+**Unique layer:** return to the First Lighthouse where Ancient Layer Two and the A→S venue coexist without merging their state ownership.
+
+**Implementation lock (cycle 3):** Scene `m06-first-lighthouse-return` contains **13 nodes / 29 meaningful choices**. Coast/inland travel consumes real time, arrival never promotes, and Faro exploration grants context only. Closing the block persists the real return and opens Trial registration.
+
 ---
 
 ## M6_11_TRIAL_REGISTRATION
@@ -431,6 +476,17 @@ A content gap is not permission to implement a second engine.
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+**Reuse class:** REUSE / ADAPT
+
+**Source archetypes:**
+- R16_ROSTER_PREPARATION_ELIGIBILITY_INFO
+- R17_TRIAL_REGISTRATION
+- R33_CROSS_MODULE_CALLBACK
+
+**Unique layer:** Gate del Faro registration for a full Official Six under cutoff pressure.
+
+**Implementation lock (cycle 3):** Scene `m06-trial-registration` contains **17 nodes / 38 meaningful choices**. It synchronizes canonical `RANK_A_TO_S`, requires six real roster members, registers through E5, preserves retry history, and never converts Masters/Continental results into Rank.
 
 ---
 
@@ -444,6 +500,17 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R18_PROMOTION_TRIAL
+- R06_COMBAT_HANDOFF
+- R19_RANK_RESULT_NEXT_ACCESS
+
+**Unique layer:** complete Master exam at the Gate del Faro using a fixed Official Six and no invisible scaling.
+
+**Implementation lock (cycle 3):** Scene `m06-promotion-trial-a-s` contains **19 nodes / 42 meaningful choices**. The opponent is a fixed level-17 Official Six; E5 alone resolves win/loss. Win promotes to Rank S, loss keeps Rank A and reopens retry. Neither path grants World qualification.
+
 ---
 
 ## M6_13_WORLD_CUTOFF
@@ -456,6 +523,17 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R29_LIVING_WORLD_OFF_SCREEN_RESOLUTION
+- R38_COMPOSITE_OUTCOME_CLASSIFIER
+- R33_CROSS_MODULE_CALLBACK
+
+**Unique layer:** season deadline freeze that preserves whether the player was Rank S or Rank A when the cutoff actually fired.
+
+**Implementation lock (cycle 3):** Scene `m06-world-cutoff` contains **19 nodes / 42 meaningful choices**. `A6_CUTOFF` records `rank_s_at_cutoff` or `rank_a_at_cutoff`; later promotion cannot rewrite that snapshot. The scene only reviews/finalizes the callback and never alters competition history.
+
 ---
 
 ## M6_14_MODULE_OUTCOME
@@ -467,6 +545,17 @@ A content gap is not permission to implement a second engine.
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+**Reuse class:** REUSE
+
+**Source archetypes:**
+- R20_MODULE_EXIT_CONTRACT
+- R21_MODULE_HANDOFF
+- R33_CROSS_MODULE_CALLBACK
+
+**Unique layer:** Rank S handoff into the Candidate Mondiale phase while preserving cutoff timing and keeping World qualification entirely in M7.
+
+**Implementation lock (cycle 3):** Scene `m06-module-outcome` contains **12 nodes / 25 meaningful choices**. The strict contract requires Rank S, Red, FRIEND_BEAT_06, Ancient Layer Two, cutoff review and Faro return. Completion writes `m6_complete`, `m07_unlocked` and `m6_outcome_complete` without resetting state or setting `world_qualified`.
 
 
 # 6. STATE OWNERSHIP
