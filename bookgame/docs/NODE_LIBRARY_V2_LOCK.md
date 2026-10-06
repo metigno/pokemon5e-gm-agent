@@ -2,8 +2,8 @@
 
 **Status:** LOCKED BASELINE FOR M05→M12 AUTHORING  
 **Production branch reviewed:** `m10-00-04-work`  
-**Runtime-validated corpus:** M01 + M02 + M03 + M04 + M05 + M06 + M07 + M08 + M09  
-**Latest runtime evidence:** M10 Cycle 1 (M10_00–M10_04) — 78 / 171; CI 1,253 passed / 0 failed / 0 skipped. Complete-module baseline remains M01→M09.  
+**Runtime-validated corpus:** M01 + M02 + M03 + M04 + M05 + M06 + M07 + M08 + M09 + M10  
+**Latest runtime evidence:** M10 COMPLETE — 160 / 352; Bookgame Tests #389: 1,269 passed / 0 failed / 0 skipped. Complete-module baseline is M01→M10.  
 **Catalog:** `bookgame/docs/NODE_REUSE_CATALOG.md`
 
 ---
@@ -21,7 +21,8 @@
 | M07 | 210 | 462 |
 | M08 | 190 | 418 |
 | M09 | 170 | 374 |
-| **TOTAL** | **1,924** | **4,371** |
+| M10 | 160 | 352 |
+| **TOTAL** | **2,084** | **4,723** |
 
 Latest final M5 compiler validation reported:
 
@@ -222,7 +223,7 @@ This order is now canonical for production.
 
 Current lock:
 
-**R01→R38 / complete-module baseline M01→M09 = 1,924 runtime-validated logical nodes and 4,371 meaningful choices; no R39 requirement.**
+**R01→R38 / complete-module baseline M01→M10 = 2,084 runtime-validated logical nodes and 4,723 meaningful choices; no R39 requirement.**
 
 ---
 
@@ -332,7 +333,7 @@ The completed Library V2 corpus is now:
 
 ## M10 CYCLE 1 VALIDATION EVIDENCE — 2026-10-06
 
-M10 — *Nessuna Seconda Possibilità* is **not module-complete yet**. The completed Library V2 baseline therefore remains **M01→M09 = 1,924 logical nodes / 4,371 meaningful choices**.
+Historical Cycle-1 note: at this checkpoint M10 was not yet complete. This section is superseded by the final M10 validation below.
 
 Validated M10 Cycle 1 extension:
 
@@ -365,4 +366,44 @@ Validation evidence:
 - `validate:story`: **PASS**;
 - full test suite: **1,253 passed / 0 failed / 0 skipped**.
 
-This extends the runtime evidence for Library V2 into M10 without promoting the complete-module corpus beyond M09. M10_05→M10_09 must still satisfy FRIEND_BEAT_10, QF and final exit-contract requirements before M10 can be added to the complete-module baseline.
+Cycle 1 was later superseded by the complete M10 validation recorded below.
+
+
+---
+
+## M10 FINAL RUNTIME VALIDATION EVIDENCE — 2026-10-06
+
+M10 — *Nessuna Seconda Possibilità* is now **COMPLETE** at **160 logical nodes / 352 meaningful choices**.
+
+Final evidence:
+
+- all ten blocks M10_00→M10_09 are implemented;
+- Cycle 1 = **78 / 171**, Cycle 2 = **82 / 181**, exact total = **160 / 352**;
+- all **160/160** authored M10 nodes are reachable with no zero-incoming padding;
+- authored-surface manifest remains **4,000 stitches / 2,000 choices**;
+- E5 owns the full R16→Top8→QF→Top4 lifecycle;
+- QF victory produces two real SF pairings and a real player SF opponent for M11;
+- R16/QF losses advance the actual opponent and keep the player eliminated;
+- E4 Friend Beat selection is now reusable by World stage/output prefix and FRIEND_BEAT_10 reads actual knockout state;
+- Player vs Friend occurs only when the bracket genuinely creates it;
+- no Friend, Anchor or named rival receives result protection;
+- R16 elimination reaches M12 only after FRIEND_BEAT_10;
+- QF elimination cannot skip QF_AFTERMATH;
+- QF victory unlocks M11 only with a locked Top4 and real SF player match;
+- QF resolution is idempotent;
+- save/reload preserves Top4, Friend Beat, roster and official history;
+- Library V2 R01→R38 remains sufficient; **no R39 candidate is justified**.
+
+Final validation:
+
+- branch: `m10-00-04-work`;
+- PR **#11**;
+- validated implementation HEAD: `02ea569ec09839fc0bf4505b97b0ffc733cecff7`;
+- GitHub Actions **Bookgame Tests #389**: **SUCCESS**;
+- syntax: **PASS**;
+- `validate:story`: **PASS**;
+- tests: **1,269 passed / 0 failed / 0 skipped**.
+
+The completed Library V2 corpus is now:
+
+**M01→M10 = 2,084 runtime-validated logical nodes / 4,723 meaningful choices.**
