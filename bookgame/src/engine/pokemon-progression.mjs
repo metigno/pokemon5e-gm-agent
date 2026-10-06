@@ -517,6 +517,11 @@ export async function evolvePokemon(
   if (Object.hasOwn(next, "type")) next.type = evolvedTypes;
 
   next.abilityId = mappedEvolutionAbility(pokemon, fromSpecies, toSpecies);
+  next.hitDice = {
+    die: toSpecies.hitDice,
+    current: Number(next.hitDice?.current ?? next.level),
+    max: Number(next.hitDice?.max ?? next.level)
+  };
   next.savingThrows = [...new Set([...(next.savingThrows ?? fromSpecies.savingThrows ?? []), ...(toSpecies.savingThrows ?? [])])];
 
   if (Array.isArray(next.proficiencies) && Array.isArray(toSpecies.skills)) {
@@ -580,6 +585,8 @@ export async function initializePokemonRuntime(
   next.pendingMoveLearning = Array.isArray(next.pendingMoveLearning) ? next.pendingMoveLearning : [];
   next.pendingMoveChoices = Array.isArray(next.pendingMoveChoices) ? next.pendingMoveChoices : [];
   next.pendingAsiChoices = Array.isArray(next.pendingAsiChoices) ? next.pendingAsiChoices : [];
+  next.pendingLevelUp ??= null;
+  next.declinedEvolutionAtLevel ??= null;
 
   if (Array.isArray(next.moveIds) && next.moveIds.length > 4) {
     throw new Error(`${species.name} has more than four learned moves`);
@@ -587,69 +594,224 @@ export async function initializePokemonRuntime(
   return next;
 }
 
+async function applyNormalPokemonLevelBenefits(
+  pokemon,
+  fromLevel,
+  toLevel,
+  {
+    data,
+    evolutions,
+    hpRolls = {}
+  }
+) {
+  let next = clone(pokemon);
+  const species = await data.getSpecies(next.speciesId);
+  const previousMoves = new Set(await data.getLevelMoveIds(species, fromLevel));
+  const conMod = abilityModifier(next.attributes.con ?? next.attributes.CON ?? species.attributes.con);
+  const defaultHitDie = hitDieAverage(species.hitDice);
+  const rawHitDie = Number.isFinite(hpRolls[toLevel]) ? Number(hpRolls[toLevel]) : defaultHitDie;
+  const hpIncrease = Math.max(1, rawHitDie + conMod);
+
+  next.level = toLevel;
+  next.hp.max += hpIncrease;
+  next.hp.current += hpIncrease;
+  const existingHitDice = next.hitDice ?? { die: species.hitDice, current: fromLevel, max: fromLevel };
+  next.hitDice = {
+    die: species.hitDice,
+    max: Math.max(toLevel, Number(existingHitDice.max ?? fromLevel) + 1),
+    current: Math.min(
+      Math.max(toLevel, Number(existingHitDice.max ?? fromLevel) + 1),
+      Number(existingHitDice.current ?? fromLevel) + 1
+    )
+  };
+
+  const availableMoves = await data.getLevelMoveIds(species, toLevel);
+  const newlyAvailable = availableMoves.filter((id) => !previousMoves.has(id));
+  for (const moveId of newlyAvailable) {
+    if (!next.pendingMoveLearning.some((entry) => entry.moveId === moveId)) {
+      next.pendingMoveLearning.push({ moveId, level: toLevel });
+    }
+  }
+  next.pendingMoveChoices.push({
+    level: toLevel,
+    availableMoveIds: clone(availableMoves),
+    maxReplacements: 1
+  });
+
+  const asiPoints = pokemonLevelAsiPoints(species.id, evolutions);
+  if (POKEMON_ASI_LEVELS.has(toLevel)) {
+    next.pendingAsiChoices.push({
+      level: toLevel,
+      points: asiPoints,
+      maxScore: toLevel === 20 ? (Number(species.sr ?? 0) >= 15 ? 30 : 22) : 20,
+      kind: toLevel === 20 ? "peak-power" : "asi-or-feat"
+    });
+  }
+
+  return {
+    pokemon: next,
+    event: {
+      from: fromLevel,
+      to: toLevel,
+      speciesId: species.id,
+      hpIncrease,
+      hitDie: species.hitDice,
+      newlyAvailableMoves: newlyAvailable,
+      moveReplacementChoice: true,
+      asiPoints: POKEMON_ASI_LEVELS.has(toLevel) ? asiPoints : 0,
+      asiChoice: POKEMON_ASI_LEVELS.has(toLevel)
+    }
+  };
+}
+
+async function continuePokemonLevelUps(
+  pokemon,
+  {
+    data,
+    evolutions,
+    hpRolls = {},
+    context = {}
+  }
+) {
+  let next = clone(pokemon);
+  const levelUps = [];
+
+  if (next.pendingLevelUp) {
+    return { pokemon: next, levelUps, pendingLevelUp: clone(next.pendingLevelUp) };
+  }
+
+  while (next.level < 20 && next.xp >= EXPERIENCE_NEEDED_PER_LEVEL[next.level]) {
+    const fromLevel = next.level;
+    const toLevel = fromLevel + 1;
+    const candidate = { ...clone(next), level: toLevel };
+    const evolutionOptions = await availableEvolutions(candidate, context, data);
+    const delayedAtThisLevel = Number(next.declinedEvolutionAtLevel ?? -1) === toLevel;
+
+    next.level = toLevel;
+    if (evolutionOptions.length > 0 && !delayedAtThisLevel) {
+      next.pendingLevelUp = {
+        fromLevel,
+        toLevel,
+        stage: "evolution_decision",
+        evolutionIds: evolutionOptions.map((entry) => entry.id)
+      };
+      return {
+        pokemon: next,
+        levelUps,
+        pendingLevelUp: clone(next.pendingLevelUp)
+      };
+    }
+
+    const applied = await applyNormalPokemonLevelBenefits(next, fromLevel, toLevel, {
+      data,
+      evolutions,
+      hpRolls
+    });
+    next = applied.pokemon;
+    levelUps.push(applied.event);
+  }
+
+  return { pokemon: next, levelUps, pendingLevelUp: null };
+}
+
 export async function awardPokemonXp(
   pokemon,
   amount,
   {
     data = new Poke5eDataRepository(),
-    hpRolls = {}
+    hpRolls = {},
+    context = {}
   } = {}
 ) {
   if (!Number.isFinite(amount) || amount < 0) throw new RangeError("Pokémon XP award must be non-negative");
   let next = await initializePokemonRuntime(pokemon, data);
-  const species = await data.getSpecies(next.speciesId);
-  const evolutions = await data.listEvolutions();
-  const asiPoints = pokemonLevelAsiPoints(species.id, evolutions);
   next.xp += amount;
-  const levelUps = [];
+  const evolutions = await data.listEvolutions();
+  return continuePokemonLevelUps(next, { data, evolutions, hpRolls, context });
+}
 
-  while (next.level < 20 && next.xp >= EXPERIENCE_NEEDED_PER_LEVEL[next.level]) {
-    const previousLevel = next.level;
-    const previousMoves = new Set(await data.getLevelMoveIds(species, previousLevel));
-    const newLevel = previousLevel + 1;
-    const conMod = abilityModifier(next.attributes.con ?? next.attributes.CON ?? species.attributes.con);
-    const defaultHitDie = hitDieAverage(species.hitDice);
-    const rawHitDie = Number.isFinite(hpRolls[newLevel]) ? Number(hpRolls[newLevel]) : defaultHitDie;
-    const hpIncrease = Math.max(1, rawHitDie + conMod);
-
-    next.level = newLevel;
-    next.hp.max += hpIncrease;
-    next.hp.current += hpIncrease;
-
-    const availableMoves = await data.getLevelMoveIds(species, newLevel);
-    const newlyAvailable = availableMoves.filter((id) => !previousMoves.has(id));
-    for (const moveId of newlyAvailable) {
-      if (!next.pendingMoveLearning.some((entry) => entry.moveId === moveId)) {
-        next.pendingMoveLearning.push({ moveId, level: newLevel });
-      }
-    }
-    next.pendingMoveChoices.push({
-      level: newLevel,
-      availableMoveIds: clone(availableMoves),
-      maxReplacements: 1
-    });
-
-    if (POKEMON_ASI_LEVELS.has(newLevel)) {
-      next.pendingAsiChoices.push({
-        level: newLevel,
-        points: asiPoints,
-        maxScore: newLevel === 20 ? (Number(species.sr ?? 0) >= 15 ? 30 : 22) : 20,
-        kind: newLevel === 20 ? "peak-power" : "asi-or-feat"
-      });
-    }
-
-    levelUps.push({
-      from: previousLevel,
-      to: newLevel,
-      hpIncrease,
-      newlyAvailableMoves: newlyAvailable,
-      moveReplacementChoice: true,
-      asiPoints: POKEMON_ASI_LEVELS.has(newLevel) ? asiPoints : 0,
-      asiChoice: POKEMON_ASI_LEVELS.has(newLevel)
-    });
+export async function resolvePendingPokemonLevelUp(
+  pokemon,
+  {
+    evolutionId = null,
+    declineEvolution = false,
+    asiDistribution = null,
+    context = {},
+    data = new Poke5eDataRepository(),
+    hpRolls = {}
+  } = {}
+) {
+  let next = await initializePokemonRuntime(pokemon, data);
+  const pending = next.pendingLevelUp;
+  if (!pending || pending.stage !== "evolution_decision") {
+    throw new Error("No pending Pokémon evolution decision during level-up");
+  }
+  if (declineEvolution && evolutionId) {
+    throw new Error("Choose either an evolution or decline it, not both");
+  }
+  if (!declineEvolution && !evolutionId) {
+    return {
+      status: "choice_required",
+      choice: {
+        type: "level_up_evolution",
+        level: pending.toLevel,
+        evolutionIds: clone(pending.evolutionIds)
+      },
+      pokemon: next
+    };
   }
 
-  return { pokemon: next, levelUps };
+  const evolutions = await data.listEvolutions();
+  if (declineEvolution) {
+    next.declinedEvolutionAtLevel = pending.toLevel;
+  } else {
+    if (!pending.evolutionIds.includes(evolutionId)) {
+      throw new Error(`Evolution ${evolutionId} is not available for this level-up`);
+    }
+    const evolution = evolutions.find((entry) => entry.id === evolutionId && !entry.nonCanon);
+    if (!evolution) throw new Error(`Unknown canonical evolution: ${evolutionId}`);
+    const evolved = await evolvePokemon(next, evolution, {
+      context,
+      asiDistribution,
+      data
+    });
+    if (evolved.status === "choice_required") {
+      return {
+        ...evolved,
+        pokemon: next,
+        pendingLevelUp: clone(pending)
+      };
+    }
+    if (evolved.mode !== "replace") {
+      throw new Error(`Level-up evolution ${evolutionId} requires a party-level additional Pokémon resolution`);
+    }
+    next = evolved.pokemon;
+    if (evolved.inventory !== undefined) context = { ...context, inventory: evolved.inventory };
+    if (evolved.money !== undefined) context = { ...context, money: evolved.money };
+  }
+
+  next.pendingLevelUp = null;
+  const applied = await applyNormalPokemonLevelBenefits(
+    next,
+    pending.fromLevel,
+    pending.toLevel,
+    { data, evolutions, hpRolls }
+  );
+  next = applied.pokemon;
+
+  const continued = await continuePokemonLevelUps(next, {
+    data,
+    evolutions,
+    hpRolls,
+    context
+  });
+  return {
+    status: continued.pendingLevelUp ? "choice_required" : "complete",
+    pokemon: continued.pokemon,
+    levelUps: [applied.event, ...continued.levelUps],
+    pendingLevelUp: continued.pendingLevelUp,
+    context
+  };
 }
 
 export function learnPokemonMove(pokemon, moveId, { forgetMoveId = null } = {}) {
