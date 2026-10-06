@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - pokemon5e-digital-bookgame
+      - m6-00-04-work
     paths:
       - "bookgame/**"
       - "src/bridge/**"
