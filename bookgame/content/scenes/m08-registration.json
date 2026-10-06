@@ -1,0 +1,342 @@
+{
+  "schemaVersion": 1,
+  "id": "m08-registration",
+  "moduleId": "M08",
+  "title": "M8_03 — Registration",
+  "locationId": "world_registration_desk",
+  "entryNodeId": "registration_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m7_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m08_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.world_qualified",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m7_before_lights_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_active",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_world_arrived",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_accreditation_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_medical_control_complete",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "registration_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La registrazione World formalizza la partecipazione della run già qualificata. Non genera field, gruppo, seed o risultati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_eligibility",
+          "text": "Controllo l'eligibility amministrativa.",
+          "goto": "eligibility"
+        },
+        {
+          "id": "entry_rules",
+          "text": "Rileggo formato e lock.",
+          "goto": "rules"
+        },
+        {
+          "id": "entry_defer",
+          "text": "Rimando la registrazione.",
+          "goto": "defer"
+        }
+      ]
+    },
+    "eligibility": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Tre elementi restano separati: qualificazione reale, controllo medico completato e roster sufficiente per l'Official Six."
+        }
+      ],
+      "choices": [
+        {
+          "id": "eligibility_qualified",
+          "text": "Verifico la qualificazione salvata.",
+          "goto": "qualification_status"
+        },
+        {
+          "id": "eligibility_roster",
+          "text": "Verifico il roster reale.",
+          "goto": "roster_review"
+        },
+        {
+          "id": "eligibility_medical",
+          "text": "Verifico il gate medico.",
+          "goto": "medical_gate"
+        }
+      ]
+    },
+    "qualification_status": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "world_qualified=true proviene da M7 e non viene riscritto qui. La registrazione ne consuma soltanto il diritto di accesso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "qualified_roster",
+          "text": "Passo al roster.",
+          "goto": "roster_review"
+        },
+        {
+          "id": "qualified_rules",
+          "text": "Torno alle regole.",
+          "goto": "rules"
+        }
+      ]
+    },
+    "roster_review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il desk legge il roster strutturato senza copiarlo in flag narrativi. Il motore userà lo stato reale quando inizieranno gli incontri."
+        }
+      ],
+      "choices": [
+        {
+          "id": "roster_ready",
+          "text": "Con almeno sei Pokémon passo al desk finale.",
+          "goto": "registration_desk",
+          "conditions": {
+            "path": "player.roster.length",
+            "gte": 6
+          }
+        },
+        {
+          "id": "roster_missing",
+          "text": "Con meno di sei Pokémon non posso chiudere la registrazione.",
+          "goto": "defer",
+          "conditions": {
+            "path": "player.roster.length",
+            "lt": 6
+          }
+        }
+      ]
+    },
+    "medical_gate": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il controllo medico è un prerequisito amministrativo già completato; non implica che ogni Pokémon sia pienamente recuperato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "medical_desk",
+          "text": "Passo al desk finale.",
+          "goto": "registration_desk"
+        },
+        {
+          "id": "medical_rules",
+          "text": "Torno alle regole.",
+          "goto": "rules"
+        }
+      ]
+    },
+    "rules": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Formato World: Singles e Official Six secondo le regole canoniche. Il roster effettivo resta quello del motore; nessun buff o sostituzione viene creato qui."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rules_lock",
+          "text": "Capisco cosa significa lock amministrativo.",
+          "goto": "lock_explainer"
+        },
+        {
+          "id": "rules_eligibility",
+          "text": "Torno all'eligibility.",
+          "goto": "eligibility"
+        }
+      ]
+    },
+    "lock_explainer": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il lock impedisce di fingere un roster diverso attraverso la narrazione. Non memorizza una seconda copia dei Pokémon e non anticipa i match."
+        }
+      ],
+      "choices": [
+        {
+          "id": "lock_desk",
+          "text": "Vado al desk finale.",
+          "goto": "registration_desk"
+        },
+        {
+          "id": "lock_rules",
+          "text": "Torno alle regole.",
+          "goto": "rules"
+        }
+      ]
+    },
+    "registration_desk": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il desk può chiudere la registrazione solo se la run è qualificata, il controllo medico è fatto e il roster contiene almeno sei Pokémon."
+        }
+      ],
+      "choices": [
+        {
+          "id": "desk_confirm",
+          "text": "Procedo alla conferma.",
+          "goto": "confirmation",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.world_qualified",
+                "eq": true
+              },
+              {
+                "path": "world.flags.m8_medical_control_complete",
+                "eq": true
+              },
+              {
+                "path": "player.roster.length",
+                "gte": 6
+              }
+            ]
+          }
+        },
+        {
+          "id": "desk_rules",
+          "text": "Rivedo le regole.",
+          "goto": "rules"
+        },
+        {
+          "id": "desk_defer",
+          "text": "Non firmo ancora.",
+          "goto": "defer"
+        }
+      ]
+    },
+    "confirmation": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La conferma registra lo stato amministrativo della partecipazione. WORLD_DRAW resta ancora irrisolto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "confirm_register",
+          "text": "Confermo la registrazione al Mondiale.",
+          "goto": "registered",
+          "conditions": {
+            "path": "world.flags.m8_world_registration_complete",
+            "ne": true
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m8_world_registration_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m8_world_roster_registered",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "confirm_back",
+          "text": "Torno al desk senza firmare.",
+          "goto": "registration_desk"
+        }
+      ]
+    },
+    "registered": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La registrazione è persistente. Non esistono ancora player_group, tre avversari o world_draw_complete."
+        }
+      ],
+      "choices": [
+        {
+          "id": "registered_village",
+          "text": "Passo al World Village.",
+          "goto": "complete"
+        },
+        {
+          "id": "registered_rules",
+          "text": "Rivedo il lock.",
+          "goto": "lock_explainer"
+        }
+      ]
+    },
+    "defer": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Rimandare non cancella la qualificazione, ma lascia la registrazione incompleta e il mondo in movimento."
+        }
+      ],
+      "choices": [
+        {
+          "id": "defer_hour",
+          "text": "Aspetto un'ora e ricontrollo.",
+          "goto": "registration_entry",
+          "timeCostMinutes": 60
+        },
+        {
+          "id": "defer_rules",
+          "text": "Rileggo le regole prima di decidere.",
+          "goto": "rules"
+        }
+      ]
+    },
+    "complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La registrazione World è chiusa senza inventare il sorteggio. Il prossimo spazio è il Village, dove il torneo diventa socialmente reale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "complete_village",
+          "text": "Entro nel World Village.",
+          "goto": "m08-world-village#village_entry"
+        },
+        {
+          "id": "complete_registered",
+          "text": "Resto allo stato registrato.",
+          "goto": "registered"
+        }
+      ]
+    }
+  }
+}
