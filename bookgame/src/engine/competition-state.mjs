@@ -17,6 +17,21 @@ function rankOrder(rank) {
   return index;
 }
 
+export function createWorldCompetitionState() {
+  return {
+    edition: 1,
+    drawComplete: false,
+    fieldLocked: false,
+    field: [],
+    seedOrder: [],
+    groups: {},
+    playerGroup: null,
+    playerOpponents: [],
+    qualifications: {},
+    drawSeed: null
+  };
+}
+
 export function createCompetitionState() {
   return {
     rank: "F",
@@ -26,7 +41,8 @@ export function createCompetitionState() {
     firstOfficialResult: null,
     activeMatch: null,
     history: [],
-    trials: {}
+    trials: {},
+    world: createWorldCompetitionState()
   };
 }
 
@@ -40,6 +56,17 @@ export function ensureCompetition(state) {
   state.competition.activeMatch ??= null;
   state.competition.history ??= [];
   state.competition.trials ??= {};
+  state.competition.world ??= createWorldCompetitionState();
+  state.competition.world.edition ??= 1;
+  state.competition.world.drawComplete ??= false;
+  state.competition.world.fieldLocked ??= false;
+  state.competition.world.field ??= [];
+  state.competition.world.seedOrder ??= [];
+  state.competition.world.groups ??= {};
+  state.competition.world.playerGroup ??= null;
+  state.competition.world.playerOpponents ??= [];
+  state.competition.world.qualifications ??= {};
+  state.competition.world.drawSeed ??= null;
   return state.competition;
 }
 
@@ -232,10 +259,226 @@ export function resolveCompetitionMatch(state, meta, outcome) {
   return record;
 }
 
+
+function hashString(value) {
+  let hash = 2166136261;
+  for (let index = 0; index < value.length; index += 1) {
+    hash ^= value.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+  return hash >>> 0;
+}
+
+function stableOrder(items, seed) {
+  return [...items]
+    .map((item) => ({ item, score: hashString(seed + "|" + item.id) }))
+    .sort((a, b) => a.score - b.score || a.item.id.localeCompare(b.item.id))
+    .map(({ item }) => item);
+}
+
+function findNpcForWorldParticipant(state, participant) {
+  return Object.values(state.npcs ?? {}).find((npc) =>
+    npc &&
+    (npc.id === participant.npcId ||
+     npc.id === participant.id ||
+     npc.name === participant.name)
+  ) ?? null;
+}
+
+function worldQualificationState(state, participant) {
+  const npc = findNpcForWorldParticipant(state, participant);
+  if (typeof npc?.state?.worldQualified === "boolean") {
+    return {
+      qualified: npc.state.worldQualified,
+      source: "npc_actual"
+    };
+  }
+  if (participant.guaranteedQualified === true) {
+    return {
+      qualified: true,
+      source: "macro_anchor_guarantee"
+    };
+  }
+  return {
+    qualified: null,
+    source: "unresolved"
+  };
+}
+
+function validateWorldParticipants(participants) {
+  if (!Array.isArray(participants) || participants.length < 32) {
+    throw new Error("WORLD_DRAW requires at least 32 canonical participants");
+  }
+  const ids = new Set();
+  const names = new Set();
+  for (const participant of participants) {
+    if (!participant || typeof participant !== "object" || Array.isArray(participant)) {
+      throw new Error("WORLD_DRAW participant must be an object");
+    }
+    requireId(participant.id, "world participant id");
+    if (typeof participant.name !== "string" || participant.name.trim().length === 0) {
+      throw new Error("WORLD_DRAW participant name is required");
+    }
+    if (ids.has(participant.id)) throw new Error("Duplicate WORLD_DRAW participant id: " + participant.id);
+    if (names.has(participant.name)) throw new Error("Duplicate WORLD_DRAW participant name: " + participant.name);
+    ids.add(participant.id);
+    names.add(participant.name);
+    if (participant.guaranteedQualified !== undefined &&
+        typeof participant.guaranteedQualified !== "boolean") {
+      throw new Error("guaranteedQualified must be boolean");
+    }
+  }
+}
+
+export function resolveWorldDraw(state, {
+  eventId = "WORLD_DRAW",
+  participants,
+  groupCount = 8,
+  groupSize = 4
+}) {
+  requireId(eventId, "world draw eventId");
+  validateWorldParticipants(participants);
+  if (!Number.isInteger(groupCount) || !Number.isInteger(groupSize) ||
+      groupCount < 1 || groupSize < 2 || groupCount * groupSize !== 32) {
+    throw new Error("WORLD_DRAW requires exactly 32 slots across groups");
+  }
+
+  const competition = ensureCompetition(state);
+  const world = competition.world;
+  if (world.drawComplete) return world;
+
+  if (state.world?.flags?.world_qualified !== true) {
+    throw new Error("WORLD_DRAW requires player world_qualified=true");
+  }
+
+  const player = participants.find((participant) => participant.name === state.player?.name);
+  if (!player) {
+    throw new Error("WORLD_DRAW canonical participant pool does not contain the player");
+  }
+
+  const qualificationSeed = [
+    state.slot ?? "slot",
+    state.createdAt ?? "career",
+    "world-edition-" + world.edition,
+    "qualification"
+  ].join("|");
+  const drawSeed = [
+    state.slot ?? "slot",
+    state.createdAt ?? "career",
+    "world-edition-" + world.edition,
+    eventId,
+    "draw"
+  ].join("|");
+
+  const qualifications = {};
+  qualifications[player.id] = {
+    participantId: player.id,
+    name: player.name,
+    qualified: true,
+    source: "player_actual"
+  };
+
+  const lockedIn = [];
+  const unresolved = [];
+  for (const participant of participants) {
+    if (participant.id === player.id) continue;
+    const status = worldQualificationState(state, participant);
+    if (status.qualified === true) {
+      lockedIn.push(participant);
+      qualifications[participant.id] = {
+        participantId: participant.id,
+        name: participant.name,
+        qualified: true,
+        source: status.source
+      };
+    } else if (status.qualified === false) {
+      qualifications[participant.id] = {
+        participantId: participant.id,
+        name: participant.name,
+        qualified: false,
+        source: status.source
+      };
+    } else {
+      unresolved.push(participant);
+    }
+  }
+
+  if (lockedIn.length > 31) {
+    throw new Error("WORLD_DRAW has more than 31 qualified non-player participants");
+  }
+
+  const needed = 31 - lockedIn.length;
+  const orderedUnknown = stableOrder(unresolved, qualificationSeed);
+  if (orderedUnknown.length < needed) {
+    throw new Error("WORLD_DRAW cannot fill a 32-player field from eligible state");
+  }
+
+  const simulatedIn = orderedUnknown.slice(0, needed);
+  const simulatedOut = orderedUnknown.slice(needed);
+  for (const participant of simulatedIn) {
+    qualifications[participant.id] = {
+      participantId: participant.id,
+      name: participant.name,
+      qualified: true,
+      source: "offscreen_qualification_simulation"
+    };
+  }
+  for (const participant of simulatedOut) {
+    qualifications[participant.id] = {
+      participantId: participant.id,
+      name: participant.name,
+      qualified: false,
+      source: "offscreen_qualification_simulation"
+    };
+  }
+
+  const field = [player, ...lockedIn, ...simulatedIn].map((participant) => ({
+    id: participant.id,
+    name: participant.name
+  }));
+  if (field.length !== 32) throw new Error("WORLD_DRAW field must contain exactly 32 participants");
+
+  const seedOrder = stableOrder(field, drawSeed);
+  const groupLabels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".slice(0, groupCount).split("");
+  const groups = {};
+  for (let index = 0; index < groupCount; index += 1) {
+    groups[groupLabels[index]] = seedOrder.slice(index * groupSize, (index + 1) * groupSize);
+  }
+
+  const playerGroup = groupLabels.find((label) =>
+    groups[label].some((participant) => participant.name === state.player.name)
+  );
+  if (!playerGroup) throw new Error("WORLD_DRAW failed to place the player");
+
+  const playerOpponents = groups[playerGroup].filter((participant) => participant.name !== state.player.name);
+  if (playerOpponents.length !== 3) throw new Error("WORLD_DRAW player group must contain three opponents");
+
+  world.drawComplete = true;
+  world.fieldLocked = true;
+  world.field = structuredClone(field);
+  world.seedOrder = structuredClone(seedOrder);
+  world.groups = structuredClone(groups);
+  world.playerGroup = playerGroup;
+  world.playerOpponents = structuredClone(playerOpponents);
+  world.qualifications = qualifications;
+  world.drawSeed = drawSeed;
+
+  state.world.flags ??= {};
+  state.world.flags.world_draw_complete = true;
+  state.world.flags.world_field_32_locked = true;
+  state.world.flags.player_group = playerGroup;
+  state.world.flags.world_group_opponent_1 = playerOpponents[0].name;
+  state.world.flags.world_group_opponent_2 = playerOpponents[1].name;
+  state.world.flags.world_group_opponent_3 = playerOpponents[2].name;
+
+  return world;
+}
+
 export function applyCompetitionEffect(state, effect) {
   switch (effect.type) {
     case "competition_trial_available": return setTrialAvailable(state, effect);
     case "competition_trial_register": return registerTrial(state, effect);
+    case "competition_world_draw": return resolveWorldDraw(state, effect);
     default: throw new Error("Unsupported competition effect type: " + effect.type);
   }
 }
@@ -268,6 +511,48 @@ export function validateCompetitionEffect(effect, at = "effect") {
   if (effect.type === "competition_trial_register") {
     if (typeof effect.checkpointId !== "string" || !ID_RE.test(effect.checkpointId)) {
       push("INVALID_CHECKPOINT_ID", "competition_trial_register requires checkpointId", at + ".checkpointId");
+    }
+    return errors;
+  }
+
+  if (effect.type === "competition_world_draw") {
+    if (effect.eventId !== undefined && (typeof effect.eventId !== "string" || !ID_RE.test(effect.eventId))) {
+      push("INVALID_WORLD_DRAW_EVENT_ID", "eventId must be a stable identifier", at + ".eventId");
+    }
+    if (!Array.isArray(effect.participants) || effect.participants.length < 32) {
+      push("INVALID_WORLD_DRAW_PARTICIPANTS", "competition_world_draw requires at least 32 participants", at + ".participants");
+      return errors;
+    }
+    const ids = new Set();
+    const names = new Set();
+    effect.participants.forEach((participant, index) => {
+      const path = at + ".participants[" + index + "]";
+      if (!participant || typeof participant !== "object" || Array.isArray(participant)) {
+        push("INVALID_WORLD_DRAW_PARTICIPANT", "participant must be an object", path);
+        return;
+      }
+      if (typeof participant.id !== "string" || !ID_RE.test(participant.id)) {
+        push("INVALID_WORLD_DRAW_PARTICIPANT_ID", "participant id must be a stable identifier", path + ".id");
+      } else if (ids.has(participant.id)) {
+        push("DUPLICATE_WORLD_DRAW_PARTICIPANT_ID", "participant ids must be unique", path + ".id");
+      } else {
+        ids.add(participant.id);
+      }
+      if (typeof participant.name !== "string" || participant.name.trim().length === 0) {
+        push("INVALID_WORLD_DRAW_PARTICIPANT_NAME", "participant name is required", path + ".name");
+      } else if (names.has(participant.name)) {
+        push("DUPLICATE_WORLD_DRAW_PARTICIPANT_NAME", "participant names must be unique", path + ".name");
+      } else {
+        names.add(participant.name);
+      }
+      if (participant.guaranteedQualified !== undefined && typeof participant.guaranteedQualified !== "boolean") {
+        push("INVALID_WORLD_DRAW_GUARANTEE", "guaranteedQualified must be boolean", path + ".guaranteedQualified");
+      }
+    });
+    const groupCount = effect.groupCount ?? 8;
+    const groupSize = effect.groupSize ?? 4;
+    if (!Number.isInteger(groupCount) || !Number.isInteger(groupSize) || groupCount * groupSize !== 32) {
+      push("INVALID_WORLD_DRAW_GROUP_SHAPE", "groupCount * groupSize must equal 32", at);
     }
     return errors;
   }
