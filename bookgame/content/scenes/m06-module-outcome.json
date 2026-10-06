@@ -68,9 +68,9 @@
           "goto": "contract_audit"
         },
         {
-          "id": "outcome_rank",
-          "text": "Rivedo cosa significa Rank S.",
-          "goto": "rank_review"
+          "id": "outcome_people",
+          "text": "Rivedo Red e il Friend Beat prima della chiusura.",
+          "goto": "red_review"
         },
         {
           "id": "outcome_cutoff",
