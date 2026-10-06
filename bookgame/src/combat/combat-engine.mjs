@@ -5446,7 +5446,17 @@ export class Pokemon5eCombatEngine {
     const escalatingGuard = new Set([
       "baneful-bunker","detect","kings-shield","obstruct","protect","spiky-shield"
     ]);
-    if (escalatingGuard.has(move.id)) {
+    if (move.id === "silk-trap") {
+      result.prevented = incomingNatural !== 20;
+      if (result.prevented && target && failedSave) {
+        target.effects.restrainedSources ??= [];
+        target.effects.restrainedSources.push({
+          source: move.id,
+          expiresRound: next.round + 2
+        });
+        result.restrainedAttacker = true;
+      }
+    } else if (escalatingGuard.has(move.id)) {
       reactor.abilityState.canonicalReactionUses ??= {};
       const uses = Number(reactor.abilityState.canonicalReactionUses[move.id] ?? 0);
       const succeeds = uses === 0 || this.dice.roll(20) > 15;
