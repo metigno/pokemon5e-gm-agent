@@ -1,0 +1,1185 @@
+{
+  "schemaVersion": 1,
+  "id": "m04-upper-regional",
+  "moduleId": "M04",
+  "title": "M4_11 — Upper Regional Circuit",
+  "locationId": "mar_city_arena",
+  "entryNodeId": "circuit_board",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m3_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m04_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m4_active",
+        "eq": true
+      },
+      {
+        "path": "world.flags.upper_regional_registration_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.a4_regional_league_available",
+        "eq": true
+      },
+      {
+        "path": "competition.rankOrder",
+        "gte": 3
+      }
+    ]
+  },
+  "nodes": {
+    "circuit_board": {
+      "stitches": [
+        {
+          "id": "board_1",
+          "text": "Il tabellone Upper Regional è una competizione opzionale vera. Ogni lotta entra nella cronologia E5; il piazzamento può diventare seeding/reputazione futura, ma non può sbloccare Rank B al posto del Promotion Trial."
+        }
+      ],
+      "choices": [
+        {
+          "id": "start_upper",
+          "text": "Entro nel bracket dai quarti.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.upper_regional_qf_result",
+                "exists": false
+              },
+              {
+                "path": "world.flags.upper_regional_result",
+                "exists": false
+              }
+            ]
+          },
+          "goto": "qf_announce",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_started",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "resume_sf",
+          "text": "Riprendo dal turno successivo.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.upper_regional_qf_result",
+                "eq": "win"
+              },
+              {
+                "path": "world.flags.upper_regional_sf_result",
+                "exists": false
+              }
+            ]
+          },
+          "goto": "sf_announce"
+        },
+        {
+          "id": "resume_final",
+          "text": "Riprendo dalla finale.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.upper_regional_sf_result",
+                "eq": "win"
+              },
+              {
+                "path": "world.flags.upper_regional_final_result",
+                "exists": false
+              }
+            ]
+          },
+          "goto": "final_announce"
+        },
+        {
+          "id": "review_resolved",
+          "text": "Rivedo il risultato già risolto.",
+          "conditions": {
+            "path": "world.flags.upper_regional_result",
+            "exists": true
+          },
+          "goto": "circuit_result"
+        },
+        {
+          "id": "withdraw_before_start",
+          "text": "Mi ritiro prima della prima lotta.",
+          "conditions": {
+            "path": "world.flags.upper_regional_qf_result",
+            "exists": false
+          },
+          "goto": "withdraw_confirm"
+        },
+        {
+          "id": "board_back",
+          "text": "Torno all'Arena senza iniziare adesso.",
+          "goto": "m04-mareasale-arrival#arena_lobby",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city_arena"
+            }
+          ]
+        }
+      ]
+    },
+    "qf_announce": {
+      "stitches": [
+        {
+          "id": "qf_1",
+          "text": "Quarti di finale. Juno Reef usa un roster ufficiale da quattro e prova a togliere valore agli switch facili. Il match è HARD, non un esame di promozione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "qf_scout",
+          "text": "Leggo il profilo pubblico del roster.",
+          "goto": "qf_scout"
+        },
+        {
+          "id": "qf_plan",
+          "text": "Scelgo una priorità di resource management.",
+          "goto": "qf_plan"
+        },
+        {
+          "id": "qf_start",
+          "text": "Inizio il quarto di finale.",
+          "goto": "qf_handoff"
+        },
+        {
+          "id": "qf_forfeit",
+          "text": "Concedo il match prima di iniziare.",
+          "goto": "forfeit_result",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_result",
+              "value": "forfeited"
+            },
+            {
+              "type": "set_flag",
+              "key": "upper_regional_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "qf_scout": {
+      "stitches": [
+        {
+          "id": "qf_scout_1",
+          "text": "Il profilo pubblico mostra Sableye, Roselia, Growlithe e Staryu. Non rivela mosse nascoste o decisioni future: sai solo ciò che un partecipante potrebbe legalmente sapere."
+        }
+      ],
+      "choices": [
+        {
+          "id": "qf_scout_note",
+          "text": "Registro ciò che è pubblico e torno al match.",
+          "goto": "qf_announce",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_qf_scouted",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "qf_scout_start",
+          "text": "Ho abbastanza informazioni: inizio.",
+          "goto": "qf_handoff",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_qf_scouted",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "qf_plan": {
+      "stitches": [
+        {
+          "id": "qf_plan_1",
+          "text": "Un piano di bracket deve sopravvivere anche al match successivo: il gioco non ti regala cure invisibili né resetta automaticamente il roster fra scene."
+        }
+      ],
+      "choices": [
+        {
+          "id": "qf_plan_preserve",
+          "text": "Conservo le risorse decisive finché non vedo la win condition.",
+          "goto": "qf_handoff",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_qf_plan",
+              "value": "preserve"
+            }
+          ]
+        },
+        {
+          "id": "qf_plan_tempo",
+          "text": "Spendo risorse solo se posso convertire il vantaggio.",
+          "goto": "qf_handoff",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_qf_plan",
+              "value": "convert"
+            }
+          ]
+        },
+        {
+          "id": "qf_plan_back",
+          "text": "Riconsidero prima di entrare.",
+          "goto": "qf_announce"
+        }
+      ]
+    },
+    "qf_handoff": {
+      "stitches": [
+        {
+          "id": "qf_handoff_1",
+          "text": "Il giudice chiama i roster ufficiali da quattro. Da qui l'esito appartiene al motore Pokémon 5e/E5."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fight_qf",
+          "text": "Combatto il quarto di finale.",
+          "combat": {
+            "encounterId": "M4_UPPER_REGIONAL_QF",
+            "opponentRegistered": true,
+            "competition": {
+              "type": "official_match",
+              "matchId": "A4_UPPER_REGIONAL_QF",
+              "format": "Singles",
+              "officialRosterSize": 4,
+              "difficulty": "HARD",
+              "opponentTrainerId": "MAR_UPPER_JUNO_REEF"
+            },
+            "returnNodes": {
+              "win": "qf_win",
+              "lose": "qf_loss"
+            },
+            "opponentTrainerId": "MAR_UPPER_JUNO_REEF",
+            "opponent": {
+              "species": "Sableye",
+              "level": 9,
+              "abilityId": "keen-eye",
+              "trainerId": "MAR_UPPER_JUNO_REEF"
+            },
+            "opponentBench": [
+              {
+                "species": "Roselia",
+                "level": 9,
+                "abilityId": "natural-cure",
+                "trainerId": "MAR_UPPER_JUNO_REEF"
+              },
+              {
+                "species": "Growlithe",
+                "level": 9,
+                "abilityId": "intimidate",
+                "trainerId": "MAR_UPPER_JUNO_REEF"
+              },
+              {
+                "species": "Staryu",
+                "level": 9,
+                "abilityId": "natural-cure",
+                "trainerId": "MAR_UPPER_JUNO_REEF"
+              }
+            ],
+            "goto": "qf_handoff"
+          }
+        }
+      ]
+    },
+    "qf_win": {
+      "stitches": [
+        {
+          "id": "qf_win_1",
+          "text": "Hai vinto il quarto. Il risultato entra nella cronologia ufficiale; non cambia il Rank."
+        }
+      ],
+      "choices": [
+        {
+          "id": "qf_win_continue",
+          "text": "Registro il risultato e preparo la semifinale.",
+          "goto": "qf_post",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_qf_result",
+              "value": "win"
+            }
+          ]
+        },
+        {
+          "id": "qf_win_withdraw",
+          "text": "Mi ritiro dal bracket nonostante la vittoria.",
+          "goto": "withdrawn_result",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_qf_result",
+              "value": "win"
+            },
+            {
+              "type": "set_flag",
+              "key": "upper_regional_result",
+              "value": "withdrew"
+            },
+            {
+              "type": "set_flag",
+              "key": "upper_regional_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "qf_loss": {
+      "stitches": [
+        {
+          "id": "qf_loss_1",
+          "text": "La sconfitta chiude il tuo bracket. Non annulla l'iscrizione, non modifica il Rank e non viene riscritta da una cutscene."
+        }
+      ],
+      "choices": [
+        {
+          "id": "qf_loss_close",
+          "text": "Registro l'eliminazione ai quarti.",
+          "goto": "circuit_result",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_qf_result",
+              "value": "loss"
+            },
+            {
+              "type": "set_flag",
+              "key": "upper_regional_result",
+              "value": "quarterfinal"
+            },
+            {
+              "type": "set_flag",
+              "key": "upper_regional_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "qf_loss_review",
+          "text": "Rivedo dove ho speso male le risorse prima di chiudere.",
+          "goto": "loss_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_qf_result",
+              "value": "loss"
+            }
+          ]
+        }
+      ]
+    },
+    "qf_post": {
+      "stitches": [
+        {
+          "id": "qf_post_1",
+          "text": "Fra i turni puoi rivedere informazioni e scegliere se continuare. Nessun effetto narrativo ripristina HP, PP o condizioni."
+        }
+      ],
+      "choices": [
+        {
+          "id": "qf_post_sf",
+          "text": "Vado alla semifinale.",
+          "goto": "sf_announce"
+        },
+        {
+          "id": "qf_post_hub",
+          "text": "Esco dal tabellone e riprendo più tardi.",
+          "goto": "m04-mareasale-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        },
+        {
+          "id": "qf_post_withdraw",
+          "text": "Chiudo qui il mio Upper Regional.",
+          "goto": "withdrawn_result",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_result",
+              "value": "withdrew"
+            },
+            {
+              "type": "set_flag",
+              "key": "upper_regional_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "sf_announce": {
+      "stitches": [
+        {
+          "id": "sf_1",
+          "text": "Semifinale. Ivo Tide alterna pressione e controllo con Chinchou, Carvanha, Sableye e Roselia. Il roster resta ufficiale da quattro."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sf_scout",
+          "text": "Rileggo il profilo pubblico.",
+          "goto": "sf_scout"
+        },
+        {
+          "id": "sf_plan",
+          "text": "Scelgo come adattare il piano dopo il quarto.",
+          "goto": "sf_plan"
+        },
+        {
+          "id": "sf_start",
+          "text": "Inizio la semifinale.",
+          "goto": "sf_handoff"
+        },
+        {
+          "id": "sf_withdraw",
+          "text": "Mi ritiro prima della semifinale.",
+          "goto": "withdrawn_result",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_result",
+              "value": "withdrew"
+            },
+            {
+              "type": "set_flag",
+              "key": "upper_regional_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "sf_scout": {
+      "stitches": [
+        {
+          "id": "sf_scout_1",
+          "text": "Il profilo mostra solo specie e informazioni pubbliche. La parte difficile è adattare ciò che resta del tuo piano alle risorse che hai davvero."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sf_scout_note",
+          "text": "Registro lo scouting.",
+          "goto": "sf_announce",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_sf_scouted",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "sf_scout_start",
+          "text": "Entro subito nel match.",
+          "goto": "sf_handoff",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_sf_scouted",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "sf_plan": {
+      "stitches": [
+        {
+          "id": "sf_plan_1",
+          "text": "La semifinale premia l'adattamento: il piano del quarto è informazione, non un obbligo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sf_plan_switch",
+          "text": "Priorità alla flessibilità degli switch.",
+          "goto": "sf_handoff",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_sf_plan",
+              "value": "switch_flexibility"
+            }
+          ]
+        },
+        {
+          "id": "sf_plan_resources",
+          "text": "Priorità alla conservazione delle risorse residue.",
+          "goto": "sf_handoff",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_sf_plan",
+              "value": "resource_control"
+            }
+          ]
+        },
+        {
+          "id": "sf_plan_back",
+          "text": "Torno alla chiamata del match.",
+          "goto": "sf_announce"
+        }
+      ]
+    },
+    "sf_handoff": {
+      "stitches": [
+        {
+          "id": "sf_handoff_1",
+          "text": "La semifinale passa al motore di combattimento ufficiale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fight_sf",
+          "text": "Combatto la semifinale.",
+          "combat": {
+            "encounterId": "M4_UPPER_REGIONAL_SF",
+            "opponentRegistered": true,
+            "competition": {
+              "type": "official_match",
+              "matchId": "A4_UPPER_REGIONAL_SF",
+              "format": "Singles",
+              "officialRosterSize": 4,
+              "difficulty": "HARD",
+              "opponentTrainerId": "MAR_UPPER_IVO_TIDE"
+            },
+            "returnNodes": {
+              "win": "sf_win",
+              "lose": "sf_loss"
+            },
+            "opponentTrainerId": "MAR_UPPER_IVO_TIDE",
+            "opponent": {
+              "species": "Chinchou",
+              "level": 10,
+              "abilityId": "volt-absorb",
+              "trainerId": "MAR_UPPER_IVO_TIDE"
+            },
+            "opponentBench": [
+              {
+                "species": "Carvanha",
+                "level": 10,
+                "abilityId": "rough-skin",
+                "trainerId": "MAR_UPPER_IVO_TIDE"
+              },
+              {
+                "species": "Sableye",
+                "level": 10,
+                "abilityId": "keen-eye",
+                "trainerId": "MAR_UPPER_IVO_TIDE"
+              },
+              {
+                "species": "Roselia",
+                "level": 10,
+                "abilityId": "natural-cure",
+                "trainerId": "MAR_UPPER_IVO_TIDE"
+              }
+            ],
+            "goto": "sf_handoff"
+          }
+        }
+      ]
+    },
+    "sf_win": {
+      "stitches": [
+        {
+          "id": "sf_win_1",
+          "text": "Hai raggiunto la finale. Il bracket registra la vittoria; il gate geografico resta comunque C→B."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sf_win_final",
+          "text": "Registro la vittoria e preparo la finale.",
+          "goto": "sf_post",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_sf_result",
+              "value": "win"
+            }
+          ]
+        },
+        {
+          "id": "sf_win_withdraw",
+          "text": "Mi ritiro prima della finale.",
+          "goto": "withdrawn_result",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_sf_result",
+              "value": "win"
+            },
+            {
+              "type": "set_flag",
+              "key": "upper_regional_result",
+              "value": "withdrew"
+            },
+            {
+              "type": "set_flag",
+              "key": "upper_regional_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "sf_loss": {
+      "stitches": [
+        {
+          "id": "sf_loss_1",
+          "text": "La semifinale termina con una sconfitta reale. Nessun risultato precedente viene cancellato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sf_loss_close",
+          "text": "Registro il piazzamento in semifinale.",
+          "goto": "circuit_result",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_sf_result",
+              "value": "loss"
+            },
+            {
+              "type": "set_flag",
+              "key": "upper_regional_result",
+              "value": "semifinal"
+            },
+            {
+              "type": "set_flag",
+              "key": "upper_regional_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "sf_loss_review",
+          "text": "Rivedo l'adattamento prima di chiudere.",
+          "goto": "loss_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_sf_result",
+              "value": "loss"
+            }
+          ]
+        }
+      ]
+    },
+    "sf_post": {
+      "stitches": [
+        {
+          "id": "sf_post_1",
+          "text": "La finale è il terzo match del tuo percorso, non una scena isolata dal costo dei turni precedenti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sf_post_final",
+          "text": "Vado alla finale.",
+          "goto": "final_announce"
+        },
+        {
+          "id": "sf_post_hub",
+          "text": "Riprendo più tardi.",
+          "goto": "m04-mareasale-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        }
+      ]
+    },
+    "final_announce": {
+      "stitches": [
+        {
+          "id": "final_1",
+          "text": "Finale. Selene Mar usa Mareanie, Mimikyu, Growlithe e Chinchou: un roster che costringe a cambiare piano invece di inseguire una sola risposta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "final_scout",
+          "text": "Rileggo il profilo pubblico.",
+          "goto": "final_scout"
+        },
+        {
+          "id": "final_plan",
+          "text": "Scelgo quale risorsa non posso permettermi di perdere presto.",
+          "goto": "final_plan"
+        },
+        {
+          "id": "final_start",
+          "text": "Inizio la finale.",
+          "goto": "final_handoff"
+        },
+        {
+          "id": "final_withdraw",
+          "text": "Mi ritiro prima della finale.",
+          "goto": "withdrawn_result",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_result",
+              "value": "withdrew"
+            },
+            {
+              "type": "set_flag",
+              "key": "upper_regional_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "final_scout": {
+      "stitches": [
+        {
+          "id": "final_scout_1",
+          "text": "Conosci la composizione pubblica, non la sequenza delle decisioni. Il fog of war resta reale anche in finale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "final_scout_note",
+          "text": "Registro ciò che è noto.",
+          "goto": "final_announce",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_final_scouted",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "final_scout_start",
+          "text": "Entro nel match.",
+          "goto": "final_handoff",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_final_scouted",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "final_plan": {
+      "stitches": [
+        {
+          "id": "final_plan_1",
+          "text": "La finale non premia il piano più elegante ma quello che sa cambiare quando la prima ipotesi smette di essere vera."
+        }
+      ],
+      "choices": [
+        {
+          "id": "final_plan_anchor",
+          "text": "Preservo la risorsa che copre più finali plausibili.",
+          "goto": "final_handoff",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_final_plan",
+              "value": "future_coverage"
+            }
+          ]
+        },
+        {
+          "id": "final_plan_pressure",
+          "text": "Converto il primo vantaggio reale invece di aspettare conferme infinite.",
+          "goto": "final_handoff",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_final_plan",
+              "value": "convert_advantage"
+            }
+          ]
+        },
+        {
+          "id": "final_plan_back",
+          "text": "Torno alla chiamata.",
+          "goto": "final_announce"
+        }
+      ]
+    },
+    "final_handoff": {
+      "stitches": [
+        {
+          "id": "final_handoff_1",
+          "text": "La finale passa interamente al motore Pokémon 5e/E5."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fight_final",
+          "text": "Combatto la finale.",
+          "combat": {
+            "encounterId": "M4_UPPER_REGIONAL_FINAL",
+            "opponentRegistered": true,
+            "competition": {
+              "type": "official_match",
+              "matchId": "A4_UPPER_REGIONAL_FINAL",
+              "format": "Singles",
+              "officialRosterSize": 4,
+              "difficulty": "ELITE",
+              "opponentTrainerId": "MAR_UPPER_SELENE_MAR"
+            },
+            "returnNodes": {
+              "win": "final_win",
+              "lose": "final_loss"
+            },
+            "opponentTrainerId": "MAR_UPPER_SELENE_MAR",
+            "opponent": {
+              "species": "Mareanie",
+              "level": 10,
+              "abilityId": "merciless",
+              "trainerId": "MAR_UPPER_SELENE_MAR"
+            },
+            "opponentBench": [
+              {
+                "species": "Mimikyu",
+                "level": 10,
+                "abilityId": "disguise",
+                "trainerId": "MAR_UPPER_SELENE_MAR"
+              },
+              {
+                "species": "Growlithe",
+                "level": 10,
+                "abilityId": "intimidate",
+                "trainerId": "MAR_UPPER_SELENE_MAR"
+              },
+              {
+                "species": "Chinchou",
+                "level": 10,
+                "abilityId": "volt-absorb",
+                "trainerId": "MAR_UPPER_SELENE_MAR"
+              }
+            ],
+            "goto": "final_handoff"
+          }
+        }
+      ]
+    },
+    "final_win": {
+      "stitches": [
+        {
+          "id": "final_win_1",
+          "text": "Hai vinto l'Upper Regional. È un titolo del bracket, non una promozione di Rank."
+        }
+      ],
+      "choices": [
+        {
+          "id": "final_win_close",
+          "text": "Registro il titolo.",
+          "goto": "circuit_result",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_final_result",
+              "value": "win"
+            },
+            {
+              "type": "set_flag",
+              "key": "upper_regional_result",
+              "value": "winner"
+            },
+            {
+              "type": "set_flag",
+              "key": "upper_regional_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "final_win_review",
+          "text": "Rivedo come ho gestito le risorse lungo tre match.",
+          "goto": "winner_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_final_result",
+              "value": "win"
+            }
+          ]
+        }
+      ]
+    },
+    "final_loss": {
+      "stitches": [
+        {
+          "id": "final_loss_1",
+          "text": "La finale si chiude con una sconfitta. Resti finalista; il risultato non viene appiattito a 'non hai vinto'."
+        }
+      ],
+      "choices": [
+        {
+          "id": "final_loss_close",
+          "text": "Registro il piazzamento da finalista.",
+          "goto": "circuit_result",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_final_result",
+              "value": "loss"
+            },
+            {
+              "type": "set_flag",
+              "key": "upper_regional_result",
+              "value": "finalist"
+            },
+            {
+              "type": "set_flag",
+              "key": "upper_regional_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "final_loss_review",
+          "text": "Rivedo la finale prima di chiudere.",
+          "goto": "loss_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_final_result",
+              "value": "loss"
+            }
+          ]
+        }
+      ]
+    },
+    "winner_review": {
+      "stitches": [
+        {
+          "id": "winner_1",
+          "text": "Il titolo dimostra che hai gestito bene questo bracket. Non dimostra automaticamente che supererai un esame costruito con un obiettivo diverso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "winner_close",
+          "text": "Chiudo il bracket da vincitore.",
+          "goto": "circuit_result",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_result",
+              "value": "winner"
+            },
+            {
+              "type": "set_flag",
+              "key": "upper_regional_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "loss_review": {
+      "stitches": [
+        {
+          "id": "loss_1",
+          "text": "La review distingue informazione, esecuzione e risorse rimaste. Il risultato ufficiale resta quello prodotto dal match."
+        }
+      ],
+      "choices": [
+        {
+          "id": "loss_qf_close",
+          "text": "Chiudo come eliminato ai quarti.",
+          "conditions": {
+            "path": "world.flags.upper_regional_qf_result",
+            "eq": "loss"
+          },
+          "goto": "circuit_result",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_result",
+              "value": "quarterfinal"
+            },
+            {
+              "type": "set_flag",
+              "key": "upper_regional_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "loss_sf_close",
+          "text": "Chiudo come semifinalista.",
+          "conditions": {
+            "path": "world.flags.upper_regional_sf_result",
+            "eq": "loss"
+          },
+          "goto": "circuit_result",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_result",
+              "value": "semifinal"
+            },
+            {
+              "type": "set_flag",
+              "key": "upper_regional_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "loss_final_close",
+          "text": "Chiudo come finalista.",
+          "conditions": {
+            "path": "world.flags.upper_regional_final_result",
+            "eq": "loss"
+          },
+          "goto": "circuit_result",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_result",
+              "value": "finalist"
+            },
+            {
+              "type": "set_flag",
+              "key": "upper_regional_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "withdraw_confirm": {
+      "stitches": [
+        {
+          "id": "withdraw_1",
+          "text": "Ritirarti prima di combattere chiude questa finestra senza inventare una sconfitta ufficiale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "confirm_withdraw",
+          "text": "Confermo il ritiro.",
+          "goto": "withdrawn_result",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_result",
+              "value": "withdrew"
+            },
+            {
+              "type": "set_flag",
+              "key": "upper_regional_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "cancel_withdraw",
+          "text": "Resto nel bracket.",
+          "goto": "circuit_board"
+        }
+      ]
+    },
+    "withdrawn_result": {
+      "stitches": [
+        {
+          "id": "withdrawn_1",
+          "text": "Il risultato persistente è `withdrew`. Non vengono creati match che non hai disputato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "withdrawn_close",
+          "text": "Torno a Mareasale.",
+          "goto": "circuit_result"
+        }
+      ]
+    },
+    "forfeit_result": {
+      "stitches": [
+        {
+          "id": "forfeit_1",
+          "text": "Il bracket registra la concessione come esito narrativo della partecipazione, senza falsificare un record E5 per una lotta mai iniziata."
+        }
+      ],
+      "choices": [
+        {
+          "id": "forfeit_close",
+          "text": "Chiudo il bracket.",
+          "goto": "circuit_result"
+        }
+      ]
+    },
+    "circuit_result": {
+      "stitches": [
+        {
+          "id": "result_1",
+          "text": "L'Upper Regional è risolto. Il risultato resta disponibile per seeding, inviti e dialoghi futuri; Rank C/B continua a dipendere soltanto dal checkpoint canonico."
+        }
+      ],
+      "choices": [
+        {
+          "id": "result_trial",
+          "text": "Controllo la finestra del Promotion Trial C→B.",
+          "conditions": {
+            "path": "world.flags.a4_rank_trial_c_b_available",
+            "eq": true
+          },
+          "goto": "m04-trial-registration#trial_info",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city_arena"
+            }
+          ]
+        },
+        {
+          "id": "result_hub",
+          "text": "Torno a Mareasale.",
+          "goto": "m04-mareasale-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
