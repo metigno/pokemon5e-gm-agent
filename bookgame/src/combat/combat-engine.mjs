@@ -419,7 +419,9 @@ function isSimpleModifierMove(move) {
 const SPECIAL_SELF_MOVES = new Set([
   "charge",
   "clangorous-soul",
-  "fillet-away"
+  "fillet-away",
+  "healing-wish",
+  "lunar-dance"
 ]);
 
 function isSpecialSelfMove(move) {
@@ -565,6 +567,42 @@ function healthyBenchIndices(battle, side = "player") {
     .map(({ index }) => index);
 }
 
+function applyPendingSwitchEffect(battle, side, incoming) {
+  const effect = battle.pendingSwitchEffects?.[side];
+  if (!effect) return null;
+
+  const hpBefore = incoming.hp.current;
+  const curedStatuses = [];
+  for (const status of STATUS_IDS) {
+    if (clearStatus(incoming, status)) curedStatuses.push(status);
+  }
+
+  if (effect.kind === "lunar-dance") {
+    incoming.hp.current = incoming.hp.max;
+  } else if (effect.kind === "healing-wish") {
+    incoming.hp.current = Math.min(
+      incoming.hp.max,
+      incoming.hp.current + Number(effect.healing ?? 0)
+    );
+  }
+
+  battle.pendingSwitchEffects[side] = null;
+  const event = {
+    type: "switch_healing_effect",
+    round: battle.round,
+    actor: side,
+    moveId: effect.moveId,
+    effect: effect.kind,
+    targetSpeciesId: incoming.speciesId,
+    curedStatuses,
+    healing: incoming.hp.current - hpBefore,
+    hpBefore,
+    hpAfter: incoming.hp.current
+  };
+  battle.log.push(event);
+  return event;
+}
+
 function forceOpponentReplacement(battle) {
   const benchIndex = healthyBenchIndices(battle, "opponent")[0];
   if (benchIndex === undefined) return false;
@@ -588,6 +626,7 @@ function forceOpponentReplacement(battle) {
   incoming.turn.disengaged = false;
   incoming.turn.movementRemaining = 0;
   battle.opponent = incoming;
+  applyPendingSwitchEffect(battle, "opponent", incoming);
 
   battle.log.push({
     type: "switch",
@@ -1272,6 +1311,10 @@ export class Pokemon5eCombatEngine {
       opponentBench,
       opponentRegistered: Boolean(handoff.opponentRegistered),
       awaitingSwitch: null,
+      pendingSwitchEffects: {
+        player: null,
+        opponent: null
+      },
       zones: [],
       pendingEffects: [],
       environment: clone(handoff.environment ?? {}),
@@ -1990,6 +2033,29 @@ export class Pokemon5eCombatEngine {
         },
         concentration: true
       });
+      return next;
+    }
+
+    if (["healing-wish", "lunar-dance"].includes(move.id)) {
+      const healing = combatant.hp.current;
+      next.pendingSwitchEffects ??= { player: null, opponent: null };
+      next.pendingSwitchEffects[side] = {
+        kind: move.id,
+        moveId: move.id,
+        healing: move.id === "healing-wish" ? healing : null
+      };
+      combatant.hp.current = 0;
+      next.log.push({
+        type: "special_self_move",
+        round: next.round,
+        actor: side,
+        moveId: move.id,
+        selfFainted: true,
+        pendingSwitchEffect: clone(next.pendingSwitchEffects[side]),
+        hpBefore: healing,
+        hpAfter: 0
+      });
+      markDowned(next, side, move.id);
       return next;
     }
 
@@ -3002,6 +3068,7 @@ export class Pokemon5eCombatEngine {
     incoming.turn.movementRemaining = 0;
     next.player = incoming;
     next.awaitingSwitch = null;
+    applyPendingSwitchEffect(next, "player", incoming);
 
     next.log.push({
       type: "switch",
