@@ -168,10 +168,55 @@ function rollDamage(expression, dice, { critical = false, disadvantage = false }
   };
 }
 
-function abilityImmunity(defender, moveType) {
-  if (defender.abilityId === "levitate" && moveType === "ground") return "levitate";
-  if (defender.abilityId === "flash-fire" && moveType === "fire") return "flash-fire";
-  return null;
+function addResistance(multiplier) {
+  if (multiplier >= 2) return 1;
+  return 0.5;
+}
+
+function addVulnerability(multiplier) {
+  if (multiplier <= 0.5) return 1;
+  return 2;
+}
+
+export function damageProfile(move, defender) {
+  const moveType = move.type;
+  if (defender.abilityId === "levitate" && moveType === "ground") {
+    return { multiplier: 0, immunityAbility: "levitate", modifierAbility: null };
+  }
+  if (defender.abilityId === "flash-fire" && moveType === "fire") {
+    return { multiplier: 0, immunityAbility: "flash-fire", modifierAbility: null };
+  }
+
+  let multiplier = typeMultiplier(moveType, defender.types);
+  let modifierAbility = null;
+  const melee = move.attack?.scope === "melee" || move.range?.type === "melee";
+
+  if (
+    defender.abilityId === "thick-fat" &&
+    ["fire", "ice"].includes(moveType)
+  ) {
+    multiplier = addResistance(multiplier);
+    modifierAbility = "thick-fat";
+  } else if (defender.abilityId === "heatproof" && moveType === "fire") {
+    multiplier = addResistance(multiplier);
+    modifierAbility = "heatproof";
+  } else if (defender.abilityId === "purifying-salt" && moveType === "ghost") {
+    multiplier = addResistance(multiplier);
+    modifierAbility = "purifying-salt";
+  } else if (defender.abilityId === "aura-guard" && melee) {
+    multiplier = addResistance(multiplier);
+    modifierAbility = "aura-guard";
+  } else if (defender.abilityId === "fluffy") {
+    if (moveType === "fire") {
+      multiplier = addVulnerability(multiplier);
+      modifierAbility = "fluffy";
+    } else if (melee) {
+      multiplier = addResistance(multiplier);
+      modifierAbility = "fluffy";
+    }
+  }
+
+  return { multiplier, immunityAbility: null, modifierAbility };
 }
 
 export function resolveSavingThrow({
@@ -240,6 +285,8 @@ export function resolveAttack({
       criticalDamage: false,
       damage: 0,
       typeMultiplier: 1,
+      immunityAbility: null,
+      modifierAbility: null,
       stab: stats.stab
     };
   }
@@ -249,8 +296,11 @@ export function resolveAttack({
     disadvantage: damageHasDisadvantage(attacker)
   });
   const rawDamage = Math.max(0, damageRoll.selected.total + stats.damageModifier);
-  const immunityAbility = abilityImmunity(defender, move.type);
-  const multiplier = immunityAbility ? 0 : typeMultiplier(move.type, defender.types);
+  const {
+    multiplier,
+    immunityAbility,
+    modifierAbility
+  } = damageProfile(move, defender);
   const damage = multiplier === 0.5
     ? Math.floor(rawDamage / 2)
     : rawDamage * multiplier;
@@ -273,6 +323,7 @@ export function resolveAttack({
     damageType: move.type,
     typeMultiplier: multiplier,
     immunityAbility,
+    modifierAbility,
     stab: stats.stab
   };
 }
