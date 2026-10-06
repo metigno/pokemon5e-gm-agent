@@ -159,13 +159,19 @@ function modifierRuleFor(move, level) {
   const tier = tieredCombatBonus(level);
   const rules = {
     "agility": { speed: 20 },
+    "autotomize": { speed: 10, stackCaps: { speed: 30 } },
+    "barrier": { ac: 2 },
     "bulk-up": { ac: tier, damage: tier },
     "coil": { attack: 1, damage: 1, ac: 1 },
     "cotton-guard": { ac: 2 },
     "defend-order": { ac: tier },
+    "dragon-dance": { attack: proficiencyBonus(level) },
     "hone-claws": { attack: 1, damage: 1, stackCap: 3 },
     "minimize": { ac: 2 },
-    "rock-polish": { ac: 2, speed: 20 }
+    "quiver-dance": { attack: 1, damage: 1, ac: level >= 10 ? 2 : 1 },
+    "rock-polish": { ac: 2, speed: 20 },
+    "shell-smash": { ac: -1, damage: proficiencyBonus(level) },
+    "shift-gear": { attack: 1, damage: 1, speed: 10 }
   };
   return rules[move.id] ?? null;
 }
@@ -304,13 +310,19 @@ function isStatusCureMove(move) {
 
 const SIMPLE_MODIFIER_MOVES = new Set([
   "agility",
+  "autotomize",
+  "barrier",
   "bulk-up",
   "coil",
   "cotton-guard",
   "defend-order",
+  "dragon-dance",
   "hone-claws",
   "minimize",
-  "rock-polish"
+  "quiver-dance",
+  "rock-polish",
+  "shell-smash",
+  "shift-gear"
 ]);
 
 function isSimpleModifierMove(move) {
@@ -1295,13 +1307,16 @@ export class Pokemon5eCombatEngine {
         ? delayedHealingTargetSide(move, side)
         : null;
       const ongoingHealTargetSide = isOngoingHealingMove(move) ? side : null;
+      const modifierTargetSide = isSimpleModifierMove(move) ? side : null;
       const rangeTarget = healTargetSide
         ? battle[healTargetSide]
         : delayedHealTargetSide
           ? battle[delayedHealTargetSide]
           : ongoingHealTargetSide
             ? battle[ongoingHealTargetSide]
-            : defender;
+            : modifierTargetSide
+              ? battle[modifierTargetSide]
+              : defender;
       if (!rangeCheckForMove(combatant, rangeTarget, move).legal) continue;
       result.push(move);
     }
@@ -1733,7 +1748,8 @@ export class Pokemon5eCombatEngine {
 
     const expiresRound = effectExpiryRound(move, next.round);
     const speedBefore = activeModifier(combatant.effects.speedModifierSources, next.round);
-    if (!rule.stackCap) removeEffectSource(combatant, move.id, next.round);
+    const stackable = Boolean(rule.stackCap || rule.stackCaps);
+    if (!stackable) removeEffectSource(combatant, move.id, next.round);
 
     const applied = {};
     const specs = [
@@ -1745,13 +1761,16 @@ export class Pokemon5eCombatEngine {
     for (const [name, key] of specs) {
       const value = Number(rule[name] ?? 0);
       if (!value) continue;
-      if (rule.stackCap && (name === "attack" || name === "damage")) {
+      const stackCap =
+        rule.stackCaps?.[name] ??
+        (rule.stackCap && (name === "attack" || name === "damage") ? rule.stackCap : null);
+      if (stackCap != null) {
         applied[name] = addSourceCappedModifier(
           combatant.effects[key],
           { source: move.id, value, expiresRound },
           next.round,
           -Infinity,
-          rule.stackCap
+          stackCap
         );
       } else {
         combatant.effects[key].push({ source: move.id, value, expiresRound });
@@ -2074,6 +2093,7 @@ export class Pokemon5eCombatEngine {
       ? delayedHealingTargetSide(move, side, requestedTargetSide)
       : null;
     const ongoingHealTargetSide = isOngoingHealingMove(move) ? side : null;
+    const modifierTargetSide = isSimpleModifierMove(move) ? side : null;
     const cureTargetSide = isStatusCureMove(move)
       ? (move.id === "purify" ? otherSide(side) : side)
       : null;
@@ -2083,7 +2103,9 @@ export class Pokemon5eCombatEngine {
         ? next[delayedHealTargetSide]
         : ongoingHealTargetSide
           ? next[ongoingHealTargetSide]
-          : cureTargetSide
+          : modifierTargetSide
+            ? next[modifierTargetSide]
+            : cureTargetSide
         ? next[cureTargetSide]
         : defender;
     const range = areaTarget

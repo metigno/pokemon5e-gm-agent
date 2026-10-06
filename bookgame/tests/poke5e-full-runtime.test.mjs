@@ -101,17 +101,23 @@ test("move execution coverage has an explicit non-regression gate", async () => 
   const moves = await data.listMoves();
   const unresolved = moves.filter((move) => !isMoveResolvable(move)).map((move) => move.id);
 
-  assert.ok(unresolved.length <= 206, `unresolved move rules regressed to ${unresolved.length}`);
+  assert.ok(unresolved.length <= 200, `unresolved move rules regressed to ${unresolved.length}`);
   assert.ok(unresolved.includes("acupressure"));
   for (const id of [
     "agility",
+    "autotomize",
+    "barrier",
     "bulk-up",
     "coil",
     "cotton-guard",
     "defend-order",
+    "dragon-dance",
     "hone-claws",
     "minimize",
+    "quiver-dance",
     "rock-polish",
+    "shell-smash",
+    "shift-gear",
     "aromatherapy",
     "heal-bell",
     "charm",
@@ -181,6 +187,37 @@ test("common self-buff moves execute level scaling, AC, damage, speed and concen
   assert.equal(speedBattle.player.turn.movementRemaining, baseMovement + 20);
 });
 
+
+
+test("extended self-buffs execute proficiency scaling and self-area targeting", async () => {
+  const shellCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1])
+  });
+  let shellBattle = await shellCombat.createBattle({
+    encounterId: "FULL_RUNTIME_SHELL_SMASH",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["shell-smash"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 50, y: 0 }
+  });
+  shellBattle = await shellCombat.usePlayerMove(shellBattle, "shell-smash");
+  assert.equal(shellBattle.player.effects.acModifierSources.at(-1).value, -1);
+  assert.equal(shellBattle.player.effects.damageModifierSources.at(-1).value, 3);
+
+  const barrierCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1])
+  });
+  let barrierBattle = await barrierCombat.createBattle({
+    encounterId: "FULL_RUNTIME_BARRIER_SELF_AREA",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["barrier"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 50, y: 0 }
+  });
+  barrierBattle = await barrierCombat.usePlayerMove(barrierBattle, "barrier");
+  assert.equal(barrierBattle.player.effects.acModifierSources.at(-1).value, 2);
+  assert.equal(barrierBattle.player.concentration?.moveId, "barrier");
+});
 
 test("save debuffs and allied status cures execute their 2024 effects", async () => {
   const debuffCombat = new Pokemon5eCombatEngine({
