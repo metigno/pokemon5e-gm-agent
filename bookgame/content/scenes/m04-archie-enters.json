@@ -1,0 +1,537 @@
+{
+  "schemaVersion": 1,
+  "id": "m04-archie-enters",
+  "moduleId": "M04",
+  "title": "M4_03 — Archie",
+  "locationId": "mar_city_weather",
+  "entryNodeId": "weather_office_intro",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m3_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m04_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m4_active",
+        "eq": true
+      },
+      {
+        "path": "world.flags.mareasale_discovered",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "C"
+      }
+    ]
+  },
+  "nodes": {
+    "weather_office_intro": {
+      "stitches": [
+        {
+          "id": "weather_intro_1",
+          "text": "Il meteorologo indica un uomo appoggiato alla carta marina, giacca da viaggio aperta e attenzione concentrata sulle correnti più che sugli orari del porto. Sta discutendo con il personale, non comandandolo."
+        },
+        {
+          "id": "weather_intro_2",
+          "text": "«Archie,» dice lui quando si gira. Non aggiunge titoli. Le domande che stava facendo riguardano quanto una rotta resti davvero 'aperta' quando il mare comincia a cambiare."
+        }
+      ],
+      "choices": [
+        {
+          "id": "weather_introduce",
+          "text": "Mi presento e gli chiedo perché segue così da vicino le finestre marine.",
+          "conditions": {
+            "path": "world.flags.archie_met",
+            "ne": true
+          },
+          "goto": "first_exchange",
+          "effects": [
+            {
+              "type": "npc_register",
+              "npcId": "Archie",
+              "name": "Archie",
+              "relationshipScore": 0,
+              "state": {
+                "introduced": true,
+                "context": "mareasale_weather_office",
+                "role": "maritime_anchor"
+              }
+            },
+            {
+              "type": "set_flag",
+              "key": "archie_met",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "weather_listen_first",
+          "text": "Prima ascolto come ragiona sul mare.",
+          "conditions": {
+            "path": "world.flags.archie_met",
+            "ne": true
+          },
+          "goto": "listen_before_intro"
+        },
+        {
+          "id": "weather_reengage",
+          "text": "Archie mi conosce già: riprendo il discorso sulle rotte.",
+          "conditions": {
+            "path": "world.flags.archie_met",
+            "eq": true
+          },
+          "goto": "ocean_first"
+        }
+      ]
+    },
+    "harbor_master_intro": {
+      "stitches": [
+        {
+          "id": "harbor_intro_1",
+          "text": "Il responsabile ti accompagna sul bordo della sala operativa. Archie sta indicando una rotta costiera e chiedendo perché alcune barche provino comunque a partire quando la finestra si stringe."
+        },
+        {
+          "id": "harbor_intro_2",
+          "text": "Il tono non è da ispettore e nemmeno da turista. Sembra interessato a come le persone cambiano comportamento quando il mare impone un limite."
+        }
+      ],
+      "choices": [
+        {
+          "id": "harbor_introduce",
+          "text": "Mi presento e gli chiedo cosa sta cercando di capire.",
+          "conditions": {
+            "path": "world.flags.archie_met",
+            "ne": true
+          },
+          "goto": "first_exchange",
+          "effects": [
+            {
+              "type": "npc_register",
+              "npcId": "Archie",
+              "name": "Archie",
+              "relationshipScore": 0,
+              "state": {
+                "introduced": true,
+                "context": "mareasale_harbor_master",
+                "role": "maritime_anchor"
+              }
+            },
+            {
+              "type": "set_flag",
+              "key": "archie_met",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "harbor_wait",
+          "text": "Ascolto prima la discussione con il responsabile.",
+          "conditions": {
+            "path": "world.flags.archie_met",
+            "ne": true
+          },
+          "goto": "listen_before_intro"
+        },
+        {
+          "id": "harbor_reengage",
+          "text": "Riprendo con Archie il discorso sulle rotte.",
+          "conditions": {
+            "path": "world.flags.archie_met",
+            "eq": true
+          },
+          "goto": "ocean_first"
+        }
+      ]
+    },
+    "deferred_intro": {
+      "stitches": [
+        {
+          "id": "deferred_1",
+          "text": "Chiedi all'ufficio dove sia finito il trainer che studiava correnti e partenze. Ti indicano la diga. Archie è ancora a Mareasale: il suo percorso non dipende dal fatto che tu abbia rimandato il primo contatto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "deferred_introduce",
+          "text": "Questa volta mi presento.",
+          "conditions": {
+            "path": "world.flags.archie_met",
+            "ne": true
+          },
+          "goto": "first_exchange",
+          "effects": [
+            {
+              "type": "npc_register",
+              "npcId": "Archie",
+              "name": "Archie",
+              "relationshipScore": 0,
+              "state": {
+                "introduced": true,
+                "context": "mareasale_deferred_contact",
+                "role": "maritime_anchor"
+              }
+            },
+            {
+              "type": "set_flag",
+              "key": "archie_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "archie_contact_recovered",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "deferred_again",
+          "text": "Non ancora. Lascio il contatto aperto.",
+          "goto": "archie_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "archie_contact_deferred_again",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "listen_before_intro": {
+      "stitches": [
+        {
+          "id": "listen_1",
+          "text": "Archie sostiene che molte persone trattino il mare come un ostacolo da ridurre a tabella. «Ma se una rotta esiste solo quando tutto resta fermo, non è una rotta molto intelligente.» Non sta proponendo di ignorare la sicurezza; sta contestando l'idea che il controllo venga sempre prima dell'adattamento."
+        }
+      ],
+      "choices": [
+        {
+          "id": "listen_introduce",
+          "text": "Entro nella conversazione e mi presento.",
+          "goto": "first_exchange",
+          "effects": [
+            {
+              "type": "npc_register",
+              "npcId": "Archie",
+              "name": "Archie",
+              "relationshipScore": 0,
+              "state": {
+                "introduced": true,
+                "context": "mareasale_observed_first",
+                "role": "maritime_anchor"
+              }
+            },
+            {
+              "type": "set_flag",
+              "key": "archie_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "archie_listened_before_intro",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "listen_leave",
+          "text": "Non mi presento ancora. Lascio che finisca la sua discussione.",
+          "goto": "archie_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "archie_rumor_heard",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "archie_contact_deferred",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "first_exchange": {
+      "stitches": [
+        {
+          "id": "first_1",
+          "text": "Archie non ti chiede il Rank. Guarda invece il pannello alle tue spalle. «Hai già visto quanto cambiano le partenze in mezza giornata? È quello che mi interessa: cosa fai quando il mondo non resta fermo abbastanza per il tuo piano.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "ask_ocean_first",
+          "text": "Gli chiedo cosa intende davvero per adattarsi al mare.",
+          "goto": "ocean_first"
+        },
+        {
+          "id": "challenge_safety",
+          "text": "Gli dico che adattarsi non può significare trattare la sicurezza come un'opinione.",
+          "goto": "safety_argument",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Archie",
+              "delta": 1
+            }
+          ]
+        },
+        {
+          "id": "agree_adaptation",
+          "text": "Gli dico che un piano rigido vale poco se non sa leggere il cambiamento.",
+          "goto": "adaptation_argument",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Archie",
+              "delta": 2
+            }
+          ]
+        },
+        {
+          "id": "ask_port",
+          "text": "Gli chiedo cosa pensa della pressione che vedo sul porto.",
+          "conditions": {
+            "any": [
+              {
+                "path": "world.flags.mareasale_weather_pressure_linked",
+                "eq": true
+              },
+              {
+                "path": "world.flags.mareasale_port_system_observed",
+                "eq": true
+              },
+              {
+                "path": "world.flags.mareasale_quay_observed",
+                "eq": true
+              }
+            ]
+          },
+          "goto": "port_argument"
+        },
+        {
+          "id": "end_first_exchange",
+          "text": "Chiudo qui la conversazione per ora.",
+          "goto": "archie_close"
+        }
+      ]
+    },
+    "ocean_first": {
+      "stitches": [
+        {
+          "id": "ocean_1",
+          "text": "«Ocean-first non vuol dire lasciare che l'acqua decida tutto. Vuol dire partire dal fatto che è il sistema più grande della stanza.» Archie indica vento, marea e traffico. «Se li tratti come rumore attorno al tuo programma, prima o poi il programma perde.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "ocean_ask_people",
+          "text": "Gli chiedo dove mette le persone dentro questa filosofia.",
+          "goto": "people_in_system"
+        },
+        {
+          "id": "ocean_push_back",
+          "text": "Gli dico che un sistema grande non rende meno importanti regole e responsabilità.",
+          "goto": "safety_argument",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Archie",
+              "delta": 1
+            }
+          ]
+        },
+        {
+          "id": "ocean_accept",
+          "text": "Prendo il principio come una lente, non come una verità assoluta.",
+          "goto": "archie_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Archie",
+              "delta": 2
+            },
+            {
+              "type": "set_flag",
+              "key": "archie_ocean_first_understood",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "safety_argument": {
+      "stitches": [
+        {
+          "id": "safety_1",
+          "text": "Archie annuisce invece di irrigidirsi. «Esatto. Una regola che tiene conto del mare è utile. Una regola che finge che il mare sia sempre uguale è solo carta.» Il dissenso resta sul metodo, non diventa automaticamente ostilità."
+        }
+      ],
+      "choices": [
+        {
+          "id": "safety_follow",
+          "text": "Gli chiedo come distingue una regola utile da una regola rigida.",
+          "goto": "people_in_system"
+        },
+        {
+          "id": "safety_close",
+          "text": "Lascio il punto aperto.",
+          "goto": "archie_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "archie_safety_debate",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "adaptation_argument": {
+      "stitches": [
+        {
+          "id": "adapt_1",
+          "text": "«Allora guardiamo lo stesso problema da lati simili.» Non ti attribuisce una fedeltà o una fazione. Per Archie l'accordo su una frase vale meno di ciò che farai quando il porto inizierà davvero a comprimere tempi e persone."
+        }
+      ],
+      "choices": [
+        {
+          "id": "adapt_port",
+          "text": "Gli chiedo se ha già visto quella pressione sui moli.",
+          "goto": "port_argument"
+        },
+        {
+          "id": "adapt_close",
+          "text": "Chiudo la conversazione e torno al porto.",
+          "goto": "archie_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "archie_adaptation_common_ground",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "people_in_system": {
+      "stitches": [
+        {
+          "id": "people_1",
+          "text": "«Le persone sono il motivo per cui devi leggere il sistema bene.» Archie punta il dito sulle rotte sospese. «Un capitano che parte per orgoglio non è più libero. Ha solo spostato il rischio su equipaggio, soccorritori e chi aspetta il carico.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "people_record",
+          "text": "Registro che il suo 'ocean-first' non equivale a ignorare il rischio umano.",
+          "goto": "archie_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "archie_people_principle_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "people_port",
+          "text": "Allora gli chiedo cosa vede nella pressione del porto.",
+          "goto": "port_argument"
+        }
+      ]
+    },
+    "port_argument": {
+      "stitches": [
+        {
+          "id": "port_1",
+          "text": "Archie guarda verso le gru. «Ritardo più carico più paura di perdere la finestra. È lì che la gente comincia a convincersi che un documento può aspettare, che un sigillo può essere controllato dopo, che una scorciatoia è solo efficienza.»"
+        },
+        {
+          "id": "port_2",
+          "text": "Non dice 'contrabbando'. Ti offre un criterio per leggere i prossimi segnali senza trasformare ogni anomalia in reato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "port_record",
+          "text": "Registro il criterio: cercare la catena, non il singolo container.",
+          "goto": "archie_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "archie_port_pressure_principle",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Archie",
+              "key": "sharedPortPressureContext",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "port_investigate",
+          "text": "Vado a vedere la zona merci con questo criterio in mente.",
+          "goto": "m04-port-pressure#pressure_board",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "archie_port_pressure_principle",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Archie",
+              "key": "sharedPortPressureContext",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "mar_city_cargo"
+            }
+          ]
+        }
+      ]
+    },
+    "archie_close": {
+      "stitches": [
+        {
+          "id": "close_1",
+          "text": "Archie torna alle sue rotte e tu al porto. Non si unisce al party e non resta inchiodato a una scena: il suo stato persiste come Anchor e potrà riapparire solo quando schedule e causalità lo permetteranno."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_hub",
+          "text": "Torno al centro di Mareasale.",
+          "goto": "m04-mareasale-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        },
+        {
+          "id": "close_weather",
+          "text": "Torno al pannello meteo.",
+          "goto": "m04-weather-window#weather_board",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city_weather"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
