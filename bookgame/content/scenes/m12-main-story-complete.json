@@ -1,0 +1,326 @@
+{
+  "schemaVersion": 1,
+  "id": "m12-main-story-complete",
+  "moduleId": "M12",
+  "title": "M12_11 — Main Story Complete",
+  "locationId": "meridiana_city",
+  "entryNodeId": "final_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m12_world_exit_resolved",
+        "eq": true
+      },
+      {
+        "path": "world.flags.friend_beat_12_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m12_postgame_hooks_complete",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "final_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La main story può finire solo ora: WORLD_EXIT è risolto, FRIEND_BEAT_12 è completo e gli hook del postgame sono registrati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "audit_exit",
+          "text": "Verifico WORLD_EXIT.",
+          "goto": "world_exit_audit"
+        },
+        {
+          "id": "audit_friend",
+          "text": "Verifico FRIEND_BEAT_12.",
+          "goto": "friend_audit"
+        },
+        {
+          "id": "audit_postgame",
+          "text": "Verifico il postgame prima del commit.",
+          "goto": "postgame_audit"
+        }
+      ]
+    },
+    "world_exit_audit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "WORLD_EXIT resta il risultato reale della stagione, non un epilogo riscritto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo.",
+          "goto": "friend_audit"
+        },
+        {
+          "id": "review",
+          "text": "Confronto questo punto con un altro aspetto della chiusura.",
+          "goto": "postgame_audit"
+        }
+      ]
+    },
+    "friend_audit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "FRIEND_BEAT_12 conserva contatti e relazioni senza congelare il cast."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo.",
+          "goto": "postgame_audit"
+        },
+        {
+          "id": "review",
+          "text": "Confronto questo punto con un altro aspetto della chiusura.",
+          "goto": "competition_integrity"
+        }
+      ]
+    },
+    "postgame_audit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Gli hook residui restano giocabili nello stesso save dopo la chiusura."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo.",
+          "goto": "competition_integrity"
+        },
+        {
+          "id": "review",
+          "text": "Confronto questo punto con un altro aspetto della chiusura.",
+          "goto": "roster_integrity"
+        }
+      ]
+    },
+    "competition_integrity": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "E5 conserva ranking, bracket, campione e history esattamente come prima del commit finale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo.",
+          "goto": "roster_integrity"
+        },
+        {
+          "id": "review",
+          "text": "Confronto questo punto con un altro aspetto della chiusura.",
+          "goto": "quest_integrity"
+        }
+      ]
+    },
+    "roster_integrity": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Roster, livelli, EXP, HP, PP, status e infortuni non vengono resettati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo.",
+          "goto": "quest_integrity"
+        },
+        {
+          "id": "review",
+          "text": "Confronto questo punto con un altro aspetto della chiusura.",
+          "goto": "npc_integrity"
+        }
+      ]
+    },
+    "quest_integrity": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Quest e Living World conservano il loro stato; il commit non completa né fallisce nulla retroattivamente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo.",
+          "goto": "npc_integrity"
+        },
+        {
+          "id": "review",
+          "text": "Confronto questo punto con un altro aspetto della chiusura.",
+          "goto": "completion_policy"
+        }
+      ]
+    },
+    "npc_integrity": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "NPC, relazioni e schedule restano persistenti e possono continuare a cambiare nel postgame."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo.",
+          "goto": "completion_policy"
+        },
+        {
+          "id": "review",
+          "text": "Confronto questo punto con un altro aspetto della chiusura.",
+          "goto": "commit_guard"
+        }
+      ]
+    },
+    "completion_policy": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "MAIN_STORY_COMPLETE significa soltanto che l'arco principale è chiuso, non che il salvataggio è read-only."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo.",
+          "goto": "commit_guard"
+        },
+        {
+          "id": "review",
+          "text": "Confronto questo punto con un altro aspetto della chiusura.",
+          "goto": "complete"
+        }
+      ]
+    },
+    "commit_guard": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il commit finale abilita esplicitamente il free roam postgame e marca M12 completo una sola volta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "commit_final",
+          "text": "Chiudo la main story e lascio il save in free roam.",
+          "goto": "complete",
+          "conditions": {
+            "path": "world.flags.main_story_complete",
+            "ne": true
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "main_story_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "postgame_free_roam",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "free_roam",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_main_story_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "commit_existing",
+          "text": "La main story è già completa; non duplico il commit.",
+          "goto": "complete",
+          "conditions": {
+            "path": "world.flags.main_story_complete",
+            "eq": true
+          }
+        }
+      ]
+    },
+    "complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La main story è completa. Il torneo è finito; la vita del save continua."
+        }
+      ],
+      "choices": [
+        {
+          "id": "enter_free_roam",
+          "text": "Continuo a giocare nel postgame.",
+          "goto": "free_roam"
+        },
+        {
+          "id": "review_final",
+          "text": "Rileggo cosa è stato chiuso e cosa resta aperto.",
+          "goto": "final_review"
+        }
+      ]
+    },
+    "free_roam": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il postgame resta libero: esplorazione, relazioni, quest residue, training, catture e hook ancora legali possono continuare."
+        }
+      ],
+      "choices": [
+        {
+          "id": "stay_free_roam",
+          "text": "Resto nel postgame con lo stesso save.",
+          "goto": "free_roam"
+        },
+        {
+          "id": "review_state",
+          "text": "Rileggo il contratto finale.",
+          "goto": "final_review"
+        }
+      ]
+    },
+    "final_review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Puoi rileggere il percorso concluso senza trasformarlo in un nuovo atto obbligatorio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo.",
+          "goto": "final_entry"
+        },
+        {
+          "id": "review",
+          "text": "Confronto questo punto con un altro aspetto della chiusura.",
+          "goto": "world_exit_audit"
+        }
+      ]
+    }
+  }
+}
