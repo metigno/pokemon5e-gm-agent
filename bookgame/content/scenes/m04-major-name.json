@@ -1,0 +1,414 @@
+{
+  "schemaVersion": 1,
+  "id": "m04-major-name",
+  "moduleId": "M04",
+  "title": "M4_10 — Un nome dal mondo più grande",
+  "locationId": "mar_city",
+  "entryNodeId": "major_arrival",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m3_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m04_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m4_active",
+        "eq": true
+      },
+      {
+        "path": "world.flags.a4_major_name_available",
+        "eq": true
+      },
+      {
+        "path": "competition.rankOrder",
+        "gte": 3
+      }
+    ]
+  },
+  "nodes": {
+    "major_arrival": {
+      "stitches": [
+        {
+          "id": "arrival_1",
+          "text": "Al porto arriva un allenatore che non appartiene alla tua cerchia né al circuito locale. Gli addetti lo riconoscono prima ancora che venga annunciato: Maxie, da Hoenn."
+        },
+        {
+          "id": "arrival_2",
+          "text": "Qui non guida una squadra criminale e non entra in scena come boss. È a Mareasale per osservare infrastrutture, flussi e sistemi costieri: la sua presenza allarga il mondo oltre Asteria senza trasformare il passato in una condanna automatica."
+        }
+      ],
+      "choices": [
+        {
+          "id": "approach_maxie",
+          "text": "Mi presento a Maxie.",
+          "goto": "maxie_intro",
+          "effects": [
+            {
+              "type": "npc_register",
+              "npcId": "Maxie",
+              "name": "Maxie",
+              "relationshipScore": 0,
+              "state": {
+                "role": "wider_world_trainer"
+              }
+            },
+            {
+              "type": "set_flag",
+              "key": "maxie_met",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "observe_first",
+          "text": "Osservo come legge il porto prima di parlargli.",
+          "goto": "maxie_observation"
+        },
+        {
+          "id": "leave_major_name",
+          "text": "Non lo cerco adesso.",
+          "goto": "m04-mareasale-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        }
+      ]
+    },
+    "maxie_observation": {
+      "stitches": [
+        {
+          "id": "obs_1",
+          "text": "Maxie non guarda le navi più grandi. Guarda i punti in cui una decisione si propaga: ritardi, deviazioni, scorte e margini. È una lettura quasi opposta al ritmo di Archie, ma parla dello stesso sistema."
+        }
+      ],
+      "choices": [
+        {
+          "id": "obs_approach",
+          "text": "Adesso mi presento.",
+          "goto": "maxie_intro",
+          "effects": [
+            {
+              "type": "npc_register",
+              "npcId": "Maxie",
+              "name": "Maxie",
+              "relationshipScore": 0,
+              "state": {
+                "role": "wider_world_trainer"
+              }
+            },
+            {
+              "type": "set_flag",
+              "key": "maxie_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "maxie_observed_first",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "obs_note",
+          "text": "Registro soltanto il metodo e torno al porto.",
+          "goto": "major_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "major_name_seen",
+              "value": "Maxie"
+            }
+          ]
+        }
+      ]
+    },
+    "maxie_intro": {
+      "stitches": [
+        {
+          "id": "intro_1",
+          "text": "Maxie ti misura con una domanda invece che con un titolo. «Quando un sistema perde margine, preferisci accelerare per recuperare tempo o rallentare per non perdere controllo?»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "answer_control",
+          "text": "Prima conservo controllo; recupero tempo dopo.",
+          "goto": "infrastructure_talk",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "maxie_first_answer",
+              "value": "control"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Maxie",
+              "delta": 2
+            }
+          ]
+        },
+        {
+          "id": "answer_pressure",
+          "text": "Se la finestra è reale, a volte bisogna spendere margine.",
+          "goto": "infrastructure_talk",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "maxie_first_answer",
+              "value": "pressure"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Maxie",
+              "delta": 1
+            }
+          ]
+        },
+        {
+          "id": "answer_context",
+          "text": "Dipende da cosa succede se sbaglio.",
+          "goto": "infrastructure_talk",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "maxie_first_answer",
+              "value": "context"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Maxie",
+              "delta": 3
+            }
+          ]
+        }
+      ]
+    },
+    "infrastructure_talk": {
+      "stitches": [
+        {
+          "id": "infra_1",
+          "text": "Maxie parla di infrastruttura come di una squadra: ogni risorsa ha un ruolo, ogni ridondanza costa, ogni scorciatoia crea un debito altrove. Non ti chiede di condividere la sua filosofia; ti mostra come la applica."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ask_archie_history",
+          "text": "Chiedo come vede oggi Archie.",
+          "conditions": {
+            "path": "world.flags.archie_met",
+            "eq": true
+          },
+          "goto": "archie_history"
+        },
+        {
+          "id": "ask_smuggling",
+          "text": "Gli descrivo le vulnerabilità logistiche che ho visto.",
+          "conditions": {
+            "path": "world.flags.smuggling_state",
+            "exists": true
+          },
+          "goto": "smuggling_context"
+        },
+        {
+          "id": "ask_competition",
+          "text": "Chiedo come traduce resource management in una lotta ufficiale.",
+          "goto": "competition_context"
+        },
+        {
+          "id": "ask_wider_world",
+          "text": "Chiedo cosa cambia fuori dal circuito regionale.",
+          "goto": "wider_world"
+        },
+        {
+          "id": "close_infra",
+          "text": "Tengo il principio e chiudo l'incontro.",
+          "goto": "major_close"
+        }
+      ]
+    },
+    "archie_history": {
+      "stitches": [
+        {
+          "id": "archie_1",
+          "text": "Maxie non riduce Archie a un'etichetta. «Abbiamo provato a imporre al mondo sistemi troppo semplici. Lui vede movimento. Io vedo struttura. Entrambi abbiamo imparato che ignorare l'altra metà presenta il conto.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "archie_record",
+          "text": "Registro il contrasto senza scegliere una fazione.",
+          "goto": "infrastructure_talk",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "maxie_archie_history_known",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Maxie",
+              "key": "archieContextShared",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "archie_challenge",
+          "text": "Gli faccio notare che una buona struttura può diventare rigidità.",
+          "goto": "infrastructure_talk",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "maxie_rigidity_challenged",
+              "value": true
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Maxie",
+              "delta": 2
+            }
+          ]
+        }
+      ]
+    },
+    "smuggling_context": {
+      "stitches": [
+        {
+          "id": "smug_1",
+          "text": "Maxie separa vulnerabilità e colpa con precisione. «Una rete clandestina sfrutta sistemi reali. Se vuoi fermarla, devi rendere costoso il percorso, non fingere che il percorso non esista.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "smug_record",
+          "text": "Registro il principio come lettura infrastrutturale.",
+          "goto": "infrastructure_talk",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "maxie_smuggling_context_known",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Maxie",
+              "key": "smugglingContextShared",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "smug_pushback",
+          "text": "Gli ricordo che ottimizzare controlli può scaricare il costo su chi lavora nel porto.",
+          "goto": "infrastructure_talk",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "maxie_social_cost_challenged",
+              "value": true
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Maxie",
+              "delta": 2
+            }
+          ]
+        }
+      ]
+    },
+    "competition_context": {
+      "stitches": [
+        {
+          "id": "comp_1",
+          "text": "«In un match lungo, HP, PP, informazioni e switch sono infrastruttura. Se spendi tutto per vincere un turno, il turno dopo scopri cosa hai davvero comprato.» Il tema del Trial C→B smette di sembrare astratto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "comp_resource",
+          "text": "Mi concentro sul valore delle risorse che restano dopo ogni scambio.",
+          "goto": "infrastructure_talk",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "maxie_trial_resource_note",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "comp_adapt",
+          "text": "Mi concentro su quando un piano deve essere abbandonato.",
+          "goto": "infrastructure_talk",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "maxie_trial_adaptation_note",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "wider_world": {
+      "stitches": [
+        {
+          "id": "world_1",
+          "text": "Maxie descrive circuiti in cui nessuno conosce già ogni arena, viaggio o avversario. Rank B non è prestigio gratuito: è il momento in cui la logistica smette di essere sfondo e diventa parte della carriera."
+        }
+      ],
+      "choices": [
+        {
+          "id": "world_record",
+          "text": "Registro il primo quadro concreto della carriera interregionale.",
+          "goto": "infrastructure_talk",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "wider_world_context_known",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "major_close": {
+      "stitches": [
+        {
+          "id": "close_1",
+          "text": "L'incontro non assegna una vittoria né un mentore. Maxie resta un trainer persistente del mondo più grande, con una prospettiva che potrà tornare quando la tua carriera avrà davvero raggiunto quella scala."
+        }
+      ],
+      "choices": [
+        {
+          "id": "complete_major_name",
+          "text": "Torno a Mareasale.",
+          "goto": "m04-mareasale-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "major_name_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "major_name_id",
+              "value": "Maxie"
+            },
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
