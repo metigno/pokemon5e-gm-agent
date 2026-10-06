@@ -123,15 +123,21 @@ test("M9_10 entry requires resolved advanced Top16 state",async()=>{
   await assert.rejects(()=>engine.present(s));
 });
 
-test("M9_08 advanced gate routes into M9_10 without inventing an R16 opponent",async()=>{
+test("M9_08 advanced gate closes resolution before M9_10 without inventing an R16 opponent",async()=>{
   const {engine}=await makeEngine();
   let s=advancedState();
   const top16=structuredClone(s.competition.world.top16);
   s.story.sceneId="m09-group-resolution";s.story.nodeId="advanced_gate";
   s=await engine.choose(s,"advanced_ready");
+  assert.equal(s.story.sceneId,"m09-group-resolution");
+  assert.equal(s.story.nodeId,"resolution_complete");
+  assert.equal(s.world.flags.m9_advance_route_available,true);
+  assert.deepEqual(s.competition.world.top16,top16);
+  assert.equal(s.world.flags.world_r16_opponent,undefined);
+  assert.equal(s.competition.world.r16Opponent,undefined);
+  s=await engine.choose(s,"complete_advance");
   assert.equal(s.story.sceneId,"m09-advance-route");
   assert.equal(s.story.nodeId,"advance_entry");
-  assert.equal(s.world.flags.m9_advance_route_available,true);
   assert.deepEqual(s.competition.world.top16,top16);
   assert.equal(s.world.flags.world_r16_opponent,undefined);
   assert.equal(s.competition.world.r16Opponent,undefined);
