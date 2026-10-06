@@ -1,0 +1,821 @@
+{
+  "schemaVersion": 1,
+  "id": "m04-coast-route",
+  "moduleId": "M04",
+  "title": "M4_05 — Costa di Sale",
+  "locationId": "sal_coast",
+  "entryNodeId": "coast_gate",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m3_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m04_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m4_active",
+        "eq": true
+      },
+      {
+        "path": "world.flags.mareasale_discovered",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "C"
+      }
+    ]
+  },
+  "nodes": {
+    "coast_gate": {
+      "stitches": [
+        {
+          "id": "gate_1",
+          "text": "La strada lascia Mareasale e segue il bordo della costa fra rocce chiare, saline naturali e piccole insenature. SAL-COAST appartiene alla fascia Rank C, ma non è un corridoio: sentieri, marea e attività locali cambiano cosa puoi vedere."
+        },
+        {
+          "id": "gate_2",
+          "text": "Un cartello pubblico distingue percorso alto, battigia e molo costiero. La Barriera Azzurra non si raggiunge da qui a piedi: per quella serve una partenza autorizzata."
+        }
+      ],
+      "choices": [
+        {
+          "id": "take_high_path",
+          "text": "Seguo il percorso alto lungo le scogliere.",
+          "timeCostMinutes": 30,
+          "goto": "high_path",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "sal_coast_high"
+            }
+          ]
+        },
+        {
+          "id": "take_shore_path",
+          "text": "Scendo verso la battigia e le pozze di marea.",
+          "timeCostMinutes": 25,
+          "goto": "shore_path",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "sal_coast_shore"
+            }
+          ]
+        },
+        {
+          "id": "visit_coast_jetty",
+          "text": "Raggiungo il piccolo molo costiero.",
+          "timeCostMinutes": 20,
+          "goto": "coast_jetty",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "sal_coast_jetty"
+            }
+          ]
+        },
+        {
+          "id": "coast_return_city",
+          "text": "Torno a Mareasale.",
+          "timeCostMinutes": 90,
+          "goto": "m04-mareasale-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        }
+      ]
+    },
+    "high_path": {
+      "stitches": [
+        {
+          "id": "high_1",
+          "text": "Dal sentiero alto vedi correnti, schiuma e linee di volo degli uccelli marini. Più sotto, alcune imbarcazioni costiere restano vicine alla riva quando il vento gira verso il largo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "high_read_weather",
+          "text": "Uso il paesaggio per confrontare ciò che avevo letto all'ufficio meteo.",
+          "conditions": {
+            "path": "world.flags.mareasale_weather_read",
+            "eq": true
+          },
+          "goto": "coast_weather_read"
+        },
+        {
+          "id": "high_watch_fauna",
+          "text": "Osservo il margine fra scogliera e mare senza avvicinarmi troppo.",
+          "goto": "coast_fauna_view"
+        },
+        {
+          "id": "high_old_marker",
+          "text": "Controllo un vecchio segnale di rotta inciso nella pietra.",
+          "goto": "old_marker"
+        },
+        {
+          "id": "high_back",
+          "text": "Torno al bivio costiero.",
+          "goto": "coast_gate",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "sal_coast"
+            }
+          ]
+        }
+      ]
+    },
+    "coast_weather_read": {
+      "stitches": [
+        {
+          "id": "weather_1",
+          "text": "La costa rende visibile ciò che il pannello sintetizzava: raffiche, onda e direzione della corrente non cambiano insieme. Una finestra utile può essere buona per la riva e troppo stretta per una rotta verso il reef."
+        }
+      ],
+      "choices": [
+        {
+          "id": "weather_note",
+          "text": "Registro la differenza fra costa e rotta offshore.",
+          "goto": "high_path",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "coast_weather_gradient_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "weather_jetty",
+          "text": "Vado al molo per vedere come la differenza cambia le partenze.",
+          "goto": "coast_jetty",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "coast_weather_gradient_known",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "sal_coast_jetty"
+            }
+          ]
+        }
+      ]
+    },
+    "old_marker": {
+      "stitches": [
+        {
+          "id": "marker_1",
+          "text": "Il segnale non è un reperto misterioso: indica una linea sicura storica per entrare in una piccola cala quando la visibilità peggiora. Le tacche successive mostrano che la costa è stata riletta e corretta nel tempo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "marker_record",
+          "text": "Registro che le rotte costiere sono conoscenza aggiornata, non tradizione immutabile.",
+          "goto": "high_path",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "coast_route_history_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "marker_archie",
+          "text": "Questo principio richiama ciò che diceva Archie sull'adattamento.",
+          "conditions": {
+            "path": "world.flags.archie_met",
+            "eq": true
+          },
+          "goto": "archie_coast_callback"
+        }
+      ]
+    },
+    "archie_coast_callback": {
+      "stitches": [
+        {
+          "id": "archie_1",
+          "text": "Il confronto è semplice: Archie non aveva detto di ignorare le mappe, ma di trattarle come letture del sistema. Le correzioni incise sulla pietra sono esattamente quel tipo di memoria operativa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "archie_coast_note",
+          "text": "Collego il principio di Archie alla costa senza trasformarlo in una verità obbligatoria.",
+          "goto": "high_path",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "archie_coast_callback_seen",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "shore_path": {
+      "stitches": [
+        {
+          "id": "shore_1",
+          "text": "La battigia alterna sabbia scura, pietre levigate e pozze lasciate dalla marea. Qui il rischio non è il mare aperto ma il tempo: alcune zone diventano meno praticabili quando l'acqua risale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "shore_tide_check",
+          "text": "Controllo fin dove è arrivata l'ultima marea. (CT Survival)",
+          "timeCostMinutes": 10,
+          "check": {
+            "ability": "WIS",
+            "skill": "Survival",
+            "dc": 12
+          },
+          "outcomes": {
+            "success": {
+              "goto": "tide_read_success",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "coast_tide_read_quality",
+                  "value": "clear"
+                }
+              ]
+            },
+            "failure": {
+              "goto": "tide_read_partial",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "coast_tide_read_quality",
+                  "value": "partial"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "shore_observe_fauna",
+          "text": "Mi fermo a osservare la fauna delle pozze e del margine.",
+          "goto": "coast_fauna_view"
+        },
+        {
+          "id": "shore_fisher",
+          "text": "Parlo con una pescatrice che sta controllando reti e orari.",
+          "goto": "fisher_contact"
+        },
+        {
+          "id": "shore_back",
+          "text": "Torno al bivio costiero.",
+          "goto": "coast_gate",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "sal_coast"
+            }
+          ]
+        }
+      ]
+    },
+    "tide_read_success": {
+      "stitches": [
+        {
+          "id": "tide_success_1",
+          "text": "Le linee umide e i depositi di alghe ti permettono di leggere bene il ciclo recente. La cala resta percorribile abbastanza a lungo da esplorarla senza dover correre."
+        }
+      ],
+      "choices": [
+        {
+          "id": "tide_success_cove",
+          "text": "Uso la finestra per raggiungere la piccola cala.",
+          "timeCostMinutes": 20,
+          "goto": "salt_cove",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "coast_cove_safe_window",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "tide_success_back",
+          "text": "Non mi serve andare oltre: torno alla battigia.",
+          "goto": "shore_path"
+        }
+      ]
+    },
+    "tide_read_partial": {
+      "stitches": [
+        {
+          "id": "tide_partial_1",
+          "text": "Riconosci il senso generale della marea ma non abbastanza da stimare una finestra sicura per la cala. Puoi restare sulla battigia senza trasformare l'incertezza in un rischio gratuito."
+        }
+      ],
+      "choices": [
+        {
+          "id": "tide_partial_fisher",
+          "text": "Chiedo a chi lavora qui come leggere la finestra locale.",
+          "goto": "fisher_contact"
+        },
+        {
+          "id": "tide_partial_back",
+          "text": "Resto sul percorso pubblico.",
+          "goto": "shore_path"
+        }
+      ]
+    },
+    "salt_cove": {
+      "stitches": [
+        {
+          "id": "cove_1",
+          "text": "La cala è piccola e riparata. Trovi segni normali di uso costiero — corde, impronte, resti di cassette — ma anche un punto dove una barca leggera può arrivare senza usare il molo principale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "cove_note_landing",
+          "text": "Registro l'approdo secondario come informazione geografica, non come prova di reato.",
+          "goto": "shore_path",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "coast_secondary_landing_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "cove_check_marks",
+          "text": "Controllo se i segni recenti indicano uso frequente. (CT Investigation)",
+          "timeCostMinutes": 10,
+          "check": {
+            "ability": "INT",
+            "skill": "Investigation",
+            "dc": 13
+          },
+          "outcomes": {
+            "success": {
+              "goto": "cove_marks_specific",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "coast_landing_recent_use",
+                  "value": true
+                }
+              ]
+            },
+            "failure": {
+              "goto": "cove_marks_unclear",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "coast_landing_checked",
+                  "value": true
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "cove_marks_specific": {
+      "stitches": [
+        {
+          "id": "marks_1",
+          "text": "Le tracce indicano più arrivi recenti di piccole imbarcazioni, abbastanza da parlare di uso ripetuto. Potrebbero essere pescatori, manutenzione o altro: la geografia apre una possibilità, non identifica chi la usa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "marks_record",
+          "text": "Registro l'uso recente dell'approdo.",
+          "goto": "shore_path",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "coast_secondary_landing_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "marks_pressure_link",
+          "text": "Collego il dato alle anomalie del porto senza dichiarare una causa.",
+          "conditions": {
+            "path": "world.flags.port_pressure_complete",
+            "eq": true
+          },
+          "goto": "coast_pressure_link"
+        }
+      ]
+    },
+    "cove_marks_unclear": {
+      "stitches": [
+        {
+          "id": "marks_unclear_1",
+          "text": "Il vento e la marea hanno cancellato abbastanza dettagli da rendere qualsiasi cronologia poco affidabile. Sai che l'approdo è usato; non sai quanto spesso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "marks_unclear_record",
+          "text": "Registro soltanto l'esistenza dell'approdo.",
+          "goto": "shore_path",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "coast_secondary_landing_known",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "coast_pressure_link": {
+      "stitches": [
+        {
+          "id": "pressure_link_1",
+          "text": "Un approdo secondario può spiegare come un movimento fisico avvenga fuori dal flusso documentale del porto. Non prova che sia successo: rende però la catena logistica più plausibile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pressure_link_record",
+          "text": "Registro il collegamento come ipotesi verificabile.",
+          "goto": "shore_path",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "smuggling_coast_link_known",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "fisher_contact": {
+      "stitches": [
+        {
+          "id": "fisher_1",
+          "text": "La pescatrice guarda l'acqua prima di risponderti. «Qui non impari l'orario della marea una volta sola. Impari quando smettere di fidarti dell'orario.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "fisher_ask_reef",
+          "text": "Chiedo cosa rende davvero difficile raggiungere la Barriera Azzurra.",
+          "goto": "fisher_reef"
+        },
+        {
+          "id": "fisher_ask_landing",
+          "text": "Chiedo se la cala laterale viene usata spesso.",
+          "conditions": {
+            "path": "world.flags.coast_secondary_landing_known",
+            "eq": true
+          },
+          "goto": "fisher_landing"
+        },
+        {
+          "id": "fisher_ask_port",
+          "text": "Chiedo se i ritardi di Mareasale stanno cambiando il lavoro qui.",
+          "goto": "fisher_port"
+        },
+        {
+          "id": "fisher_back",
+          "text": "La ringrazio e torno alla battigia.",
+          "goto": "shore_path"
+        }
+      ]
+    },
+    "fisher_reef": {
+      "stitches": [
+        {
+          "id": "fisher_reef_1",
+          "text": "«Il reef non è lontano. È stretto. Con visibilità buona passi dove devi passare; con onda e luce sbagliate hai meno margine per correggere.» Il problema è accesso contestuale, non distanza."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fisher_reef_note",
+          "text": "Registro il margine di correzione come rischio principale.",
+          "goto": "fisher_contact",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "reef_navigation_margin_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "fisher_reef_access",
+          "text": "Vado al molo e verifico se esiste una partenza adatta.",
+          "goto": "m04-reef-access#reef_desk",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "reef_navigation_margin_known",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "sal_coast_jetty"
+            }
+          ]
+        }
+      ]
+    },
+    "fisher_landing": {
+      "stitches": [
+        {
+          "id": "fisher_landing_1",
+          "text": "«La cala? Sì, la usiamo. Ma non abbastanza da spiegare tutte le tracce che hai visto, se sono davvero recenti.» È il primo dato locale che restringe l'ipotesi senza trasformarla in accusa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fisher_landing_record",
+          "text": "Registro che parte dell'uso recente resta non spiegato.",
+          "goto": "fisher_contact",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "coast_landing_unexplained_use",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "fisher_port": {
+      "stitches": [
+        {
+          "id": "fisher_port_1",
+          "text": "«Quando Mareasale accumula ritardi, qui riceviamo richieste strane: consegne anticipate, ritiri fuori orario, gente che vuole sapere quale cala resta accessibile.» La pressione del porto arriva fin qui prima dei container."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fisher_port_note",
+          "text": "Registro che la pressione logistica si propaga lungo la costa.",
+          "goto": "fisher_contact",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "coast_port_pressure_propagates",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "coast_jetty": {
+      "stitches": [
+        {
+          "id": "jetty_1",
+          "text": "Il molo costiero serve pescatori, manutenzione e piccoli mezzi. Un pannello rimanda all'ufficio meteo di Mareasale per le autorizzazioni verso il reef: qui nessuno improvvisa una partenza."
+        }
+      ],
+      "choices": [
+        {
+          "id": "jetty_reef",
+          "text": "Verifico le condizioni per la Barriera Azzurra.",
+          "goto": "m04-reef-access#reef_desk",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "sal_coast_jetty"
+            }
+          ]
+        },
+        {
+          "id": "jetty_watch",
+          "text": "Osservo quali barche usano il molo e quando.",
+          "timeCostMinutes": 15,
+          "goto": "jetty_observation"
+        },
+        {
+          "id": "jetty_back",
+          "text": "Torno al bivio costiero.",
+          "goto": "coast_gate",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "sal_coast"
+            }
+          ]
+        }
+      ]
+    },
+    "jetty_observation": {
+      "stitches": [
+        {
+          "id": "jetty_obs_1",
+          "text": "I movimenti ordinari sono leggibili: pesca, manutenzione, rientro. Una piccola barca senza carico resta però pronta più a lungo delle altre, come se aspettasse una finestra o un segnale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "jetty_note",
+          "text": "Registro la barca come dato da verificare, non come colpevole.",
+          "goto": "coast_jetty",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "coast_waiting_boat_noted",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "jetty_ignore",
+          "text": "Non do peso a una singola anomalia.",
+          "goto": "coast_jetty"
+        }
+      ]
+    },
+    "coast_fauna_view": {
+      "stitches": [
+        {
+          "id": "fauna_1",
+          "text": "Il margine costiero alterna acqua bassa, roccia e sabbia. Ti fermi abbastanza lontano da lasciare che sia la fauna locale a mostrarsi, se decide di farlo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "observe_coast_fauna",
+          "text": "Osservo in silenzio per qualche minuto.",
+          "timeCostMinutes": 20,
+          "ecology": {
+            "requestId": "M4_COSTA_SALE_OBSERVATION_01",
+            "zoneId": "SAL-COAST",
+            "habitat": "coast",
+            "method": "wild_observation",
+            "allowedSpecies": [
+              "wingull",
+              "wattrel",
+              "sandygast",
+              "binacle",
+              "finizen"
+            ],
+            "returnNodes": {
+              "noEncounter": "fauna_none",
+              "wingull": "fauna_wingull",
+              "wattrel": "fauna_wattrel",
+              "sandygast": "fauna_sandygast",
+              "binacle": "fauna_binacle",
+              "finizen": "fauna_finizen"
+            }
+          }
+        },
+        {
+          "id": "fauna_back",
+          "text": "Torno al percorso senza aspettare.",
+          "goto": "coast_gate",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "sal_coast"
+            }
+          ]
+        }
+      ]
+    },
+    "fauna_none": {
+      "stitches": [
+        {
+          "id": "none_1",
+          "text": "Per qualche minuto vedi solo acqua, schiuma e movimenti troppo lontani per diventare un incontro riconoscibile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "none_back",
+          "text": "Torno al percorso.",
+          "goto": "coast_gate",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "sal_coast"
+            }
+          ]
+        }
+      ]
+    },
+    "fauna_wingull": {
+      "stitches": [
+        {
+          "id": "wingull_1",
+          "text": "Un Wingull sfrutta il vento lungo la scogliera e poi scende verso una zona di scarti di pesca. Il comportamento segue cibo e corrente d'aria, non il tuo passaggio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "wingull_back",
+          "text": "Lo lascio proseguire e torno al percorso.",
+          "goto": "coast_gate",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "sal_coast"
+            }
+          ]
+        }
+      ]
+    },
+    "fauna_wattrel": {
+      "stitches": [
+        {
+          "id": "wattrel_1",
+          "text": "Un Wattrel rimane basso sull'acqua e cambia direzione quando una raffica attraversa l'insenatura. È un segnale vivo della stessa dinamica che condiziona le barche."
+        }
+      ],
+      "choices": [
+        {
+          "id": "wattrel_back",
+          "text": "Continuo senza disturbarlo.",
+          "goto": "coast_gate",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "sal_coast"
+            }
+          ]
+        }
+      ]
+    },
+    "fauna_sandygast": {
+      "stitches": [
+        {
+          "id": "sandygast_1",
+          "text": "Vicino alla parte asciutta della spiaggia, un Sandygast si confonde quasi con i depositi di sabbia finché il movimento della paletta naturale non lo tradisce."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sandygast_back",
+          "text": "Mantengo distanza e torno al percorso.",
+          "goto": "coast_gate",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "sal_coast"
+            }
+          ]
+        }
+      ]
+    },
+    "fauna_binacle": {
+      "stitches": [
+        {
+          "id": "binacle_1",
+          "text": "Due Binacle occupano una roccia esposta dalla marea. Non reagiscono al porto lontano; reagiscono al livello dell'acqua e allo spazio disponibile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "binacle_back",
+          "text": "Li lascio sulla roccia e torno al percorso.",
+          "goto": "coast_gate",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "sal_coast"
+            }
+          ]
+        }
+      ]
+    },
+    "fauna_finizen": {
+      "stitches": [
+        {
+          "id": "finizen_1",
+          "text": "Un Finizen compare oltre la piccola risacca, abbastanza vicino da essere riconoscibile e abbastanza lontano da non dover interagire con te."
+        }
+      ],
+      "choices": [
+        {
+          "id": "finizen_back",
+          "text": "Osservo il passaggio e torno al percorso.",
+          "goto": "coast_gate",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "sal_coast"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
