@@ -14,12 +14,36 @@
       {
         "any": [
           {
-            "path": "world.flags.world_eliminated",
-            "eq": true
+            "all": [
+              {
+                "path": "world.flags.world_eliminated",
+                "eq": true
+              },
+              {
+                "path": "world.flags.world_qf_resolved",
+                "ne": true
+              }
+            ]
           },
           {
-            "path": "world.flags.world_qf_won",
-            "eq": true
+            "all": [
+              {
+                "path": "world.flags.m10_qf_aftermath_complete",
+                "eq": true
+              },
+              {
+                "any": [
+                  {
+                    "path": "world.flags.world_qf_won",
+                    "eq": true
+                  },
+                  {
+                    "path": "world.flags.world_eliminated",
+                    "eq": true
+                  }
+                ]
+              }
+            ]
           }
         ]
       }
@@ -253,6 +277,10 @@
           "goto": "committed",
           "conditions": {
             "all": [
+              {
+                "path": "world.flags.m10_qf_aftermath_complete",
+                "eq": true
+              },
               {
                 "path": "world.flags.world_qf_won",
                 "eq": true
