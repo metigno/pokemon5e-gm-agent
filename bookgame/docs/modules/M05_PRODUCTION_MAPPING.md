@@ -5,7 +5,7 @@
 **Purpose:** production map for converting M5 into validated offline story content  
 **Locked authored budget:** **5,700 stitches / 3,600 player choices**
 
-**Module implementation status:** **M5_00–M5_09 COMPLETE / LIBRARY-V2 ALIGNED; M5_10–M5_14 PLANNED**
+**Module implementation status:** **M5_00–M5_09 COMPLETE / LIBRARY-V2 ALIGNED; M5_10–M5_14 IMPLEMENTED / VALIDATION PENDING**
 
 E1–E7 are reusable infrastructure from M1. A block may extend generic data or content, but must not fork those engines into module-specific substitutes.
 
@@ -63,11 +63,11 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 | M5_07_INTERREGIONAL_LICENSE | A5_INTERREGIONAL e apertura di tratte più ampie | 362 | 229 | COMPLETE |
 | M5_08_FIVE_CROSS_AGAIN | A5_FIVE_CROSS: reunion causale dei Five | 362 | 228 | COMPLETE |
 | M5_09_FRIEND_BEAT_05 | beat personale obbligatorio dentro la reunion | 525 | 331 | COMPLETE |
-| M5_10_HIGH_ALTITUDE_EVENT | soccorso/competizione/lavoro ad alta quota con stato reale | 362 | 228 | PLANNED |
-| M5_11_TRIAL_REGISTRATION | eligibility B→A ad Altacima | 470 | 297 | PLANNED |
-| M5_12_PROMOTION_TRIAL_B_A | checkpoint RANK_B_TO_A, roster ufficiale 5 | 525 | 331 | PLANNED |
-| M5_13_MASTERS_ENTRY | A5_MASTERS_ENTRY dopo Rank A, senza sostituire il gate | 307 | 194 | PLANNED |
-| M5_14_MODULE_OUTCOME | Rank A, licenza interregionale e handoff M6 | 307 | 194 | PLANNED |
+| M5_10_HIGH_ALTITUDE_EVENT | soccorso/competizione/lavoro ad alta quota con stato reale | 362 | 228 | IMPLEMENTED / VALIDATION PENDING |
+| M5_11_TRIAL_REGISTRATION | eligibility B→A ad Altacima | 470 | 297 | IMPLEMENTED / VALIDATION PENDING |
+| M5_12_PROMOTION_TRIAL_B_A | checkpoint RANK_B_TO_A, roster ufficiale 5 | 525 | 331 | IMPLEMENTED / VALIDATION PENDING |
+| M5_13_MASTERS_ENTRY | A5_MASTERS_ENTRY dopo Rank A, senza sostituire il gate | 307 | 194 | IMPLEMENTED / VALIDATION PENDING |
+| M5_14_MODULE_OUTCOME | Rank A, licenza interregionale e handoff M6 | 307 | 194 | IMPLEMENTED / VALIDATION PENDING |
 | **TOTAL** |  | **5,700** | **3,600** | |
 
 Budgets are authored surface capacity. One run sees only the paths made legal by its state.
@@ -93,9 +93,15 @@ The first production cycle is allocated proportionally from the fixed M5 budget 
 | M5_09_FRIEND_BEAT_05 | 22 | 48 | COMPLETE |
 | **Cycle M5_05–M5_09** | **82** | **183** | **COMPLETE** |
 | **Cumulative M5_00–M5_09** | **157** | **347** | **COMPLETE** |
-| **Remaining M5_10–M5_14 capacity** | **83** | **181** | PLANNED |
+| M5_10_HIGH_ALTITUDE_EVENT | 15 | 32 | IMPLEMENTED / VALIDATION PENDING |
+| M5_11_TRIAL_REGISTRATION | 14 | 31 | IMPLEMENTED / VALIDATION PENDING |
+| M5_12_PROMOTION_TRIAL_B_A | 22 | 48 | IMPLEMENTED / VALIDATION PENDING |
+| M5_13_MASTERS_ENTRY | 18 | 40 | IMPLEMENTED / VALIDATION PENDING |
+| M5_14_MODULE_OUTCOME | 14 | 30 | IMPLEMENTED / VALIDATION PENDING |
+| **Cycle M5_10–M5_14** | **83** | **181** | **IMPLEMENTED / VALIDATION PENDING** |
+| **M5 TOTAL** | **240** | **528** | **IMPLEMENTED / VALIDATION PENDING** |
 
-No nodes were added merely to hit a number. Cycle 2 consumes **82 nodes / 183 choices**, exactly the proportional share implied by the locked M5 budget: 15/34 for Fulgore, Trace and License; 15/33 for Five Cross; 22/48 for the deliberately broader FRIEND_BEAT_05. The final five blocks retain **83 nodes / 181 choices**.
+No nodes were added merely to hit a number. Cycle 2 consumes **82 nodes / 183 choices**, exactly the proportional share implied by the locked M5 budget: 15/34 for Fulgore, Trace and License; 15/33 for Five Cross; 22/48 for the deliberately broader FRIEND_BEAT_05. The final five blocks consume the remaining **83 nodes / 181 choices** exactly, bringing M5 to the locked logical target of **240 nodes / 528 meaningful choices** with no padding.
 
 ## 2B. LIBRARY V2 ROUTING FOR CYCLE 1
 
@@ -145,6 +151,16 @@ Validation executed on GitHub Actions from branch `m5-00-04-work` after the five
 - first validation exposed exactly two strict-source issues: an invalid mixed E1 trigger shape and a Fulgore fauna candidate rejected by the compiled habitat filter; both were repaired at the source without broadening rules or weakening validation;
 - final workflow run: **#37435071829**;
 - M1–M4 and M5_00–M5_04 regressions remain green.
+
+## 2F. LIBRARY V2 ROUTING FOR CYCLE 3
+
+- **M5_10:** R31 local problem response + R36 multi-modal resolution + R35 conditional Lance co-action + R32 waiting + R03 checks. The high-altitude incident records direct rescue versus support without inventing injuries or credit.
+- **M5_11:** R16 eligibility/roster information + R17 Promotion Trial registration. The scene writes only canonical E5 Trial availability/registration for `RANK_B_TO_A`.
+- **M5_12:** R18 Promotion Trial gate + R06 combat handoff + R19 Rank result/retry. E5 alone changes Rank B→A on a real win; the fixed Official Five is never scaled to the player.
+- **M5_13:** R16 eligibility information + R15 official match lifecycle + R06 combat handoff + R33 continuity. Masters Entry is seeding content, not a Rank checkpoint.
+- **M5_14:** R38 composite outcome audit + R20 module exit contract + R21 module handoff + R33 callbacks. M6 unlock is written only after the full M5 exit contract is already true.
+
+**No R39 candidate is required.** Library V2 R01→R38 remains sufficient for the complete M5 implementation.
 
 ---
 
@@ -429,6 +445,19 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R31_LOCAL_PROBLEM_RESPONSE
+- R36_MULTI_MODAL_CONFLICT_RESOLUTION_LATTICE
+- R35_CONDITIONAL_ALLY_CO_ACTION
+- R32_WAIT_LET_TIME_PASS
+- R03_SIMPLE_SKILL_CHECK
+
+**Unique layer:** altitude rescue/support pressure where useful risk, retreat and credit attribution are all explicit.
+
+**Implementation lock:** Scene `m05-high-altitude-event` contains **15 nodes / 32 meaningful choices**. It supports direct rescue, route stabilization, reporting, waiting and conditional Lance co-action. A failed check changes tactics instead of fabricating injury; support and direct rescue remain distinct persistent outcomes.
+
 ---
 
 ## M5_11_TRIAL_REGISTRATION
@@ -440,6 +469,14 @@ A content gap is not permission to implement a second engine.
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+**Reuse class:** REUSE
+
+**Source archetypes:**
+- R16_ROSTER_PREPARATION_ELIGIBILITY_INFO
+- R17_PROMOTION_QUALIFIER_REGISTRATION
+
+**Implementation lock:** Scene `m05-trial-registration` contains **14 nodes / 31 meaningful choices**. It synchronizes the canonical E5 checkpoint `RANK_B_TO_A`, requires Rank B and five real roster members, registers through `competition_trial_register`, and does not heal, clone or narratively lock a fake Official Five.
 
 ---
 
@@ -453,6 +490,15 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Reuse class:** REUSE
+
+**Source archetypes:**
+- R18_PROMOTION_TRIAL_GATE_MATCH
+- R06_COMBAT_HANDOFF
+- R19_RANK_RESULT_NEXT_ACCESS
+
+**Implementation lock:** Scene `m05-promotion-trial-b-a` contains **22 nodes / 48 meaningful choices**. It uses one fixed level-13 Official Five, ELITE difficulty and `promotion_trial` E5 metadata. Win promotes to Rank A through E5; loss preserves Rank B, consumes registration and leaves the checkpoint retryable. No invisible scaling or narrative promotion exists.
+
 ---
 
 ## M5_13_MASTERS_ENTRY
@@ -465,6 +511,18 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R16_ROSTER_PREPARATION_ELIGIBILITY_INFO
+- R15_OFFICIAL_MATCH_LIFECYCLE
+- R06_COMBAT_HANDOFF
+- R33_CROSS_MODULE_CALLBACK
+
+**Unique layer:** Rank-A Masters seeding entry whose win/loss changes seeding but never geography or Rank.
+
+**Implementation lock:** Scene `m05-masters-entry` contains **18 nodes / 40 meaningful choices**. The event requires the real A5 Masters window, can be deferred legally, and offers a fixed level-14 Official Five seeding match. Win/loss is recorded by E5 and maps to high/open seed bands without touching Rank A or future A→S.
+
 ---
 
 ## M5_14_MODULE_OUTCOME
@@ -476,6 +534,16 @@ A content gap is not permission to implement a second engine.
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+**Reuse class:** REUSE
+
+**Source archetypes:**
+- R38_COMPOSITE_OUTCOME_CLASSIFIER
+- R20_MODULE_EXIT_CONTRACT
+- R21_MODULE_HANDOFF
+- R33_CROSS_MODULE_CALLBACK
+
+**Implementation lock:** Scene `m05-module-outcome` contains **14 nodes / 30 meaningful choices**. Its scene gate requires Rank A, Lance met, FRIEND_BEAT_05 complete, interregional license, persistent Ancient Trace and Masters Entry available or resolved. Only the final audited choice writes `m5_complete=true`, `m06_unlocked=true` and `m5_outcome_complete=true`; no roster/resource state is reset.
 
 
 # 6. STATE OWNERSHIP
