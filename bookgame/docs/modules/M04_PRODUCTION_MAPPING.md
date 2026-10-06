@@ -5,7 +5,7 @@
 **Purpose:** production map for converting M4 into validated offline story content  
 **Locked authored budget:** **5,900 stitches / 3,800 player choices**
 
-**Module implementation status:** **MAPPED / NOT YET PRODUCTION-COMPLETE**
+**Module implementation status:** **M4_00–M4_04 COMPLETE / MODEL-ALIGNED; M4_05–M4_14 PLANNED**
 
 E1–E7 are reusable infrastructure from M1. A block may extend generic data or content, but must not fork those engines into module-specific substitutes.
 
@@ -53,11 +53,11 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 
 | Block | Function | Stitches | Choices | Current state |
 |---|---|---:|---:|---|
-| M4_00_RANK_C_HANDOFF | ereditare Crossroads, Ferrox e Regional Cup | 307 | 198 | PLANNED |
-| M4_01_MAREASALE_ARRIVAL | aprire porto, trasporti, Arena del Molo e nuove schedule | 361 | 233 | PLANNED |
-| M4_02_WEATHER_WINDOW | meteo e partenze come vincoli reali di viaggio | 361 | 233 | PLANNED |
-| M4_03_ARCHIE_ENTERS | introduzione causale di Archie e filosofia ocean-first | 361 | 233 | PLANNED |
-| M4_04_PORT_PRESSURE | lavoro, merci, ritardi e primi segnali di contrabbando | 361 | 232 | PLANNED |
+| M4_00_RANK_C_HANDOFF | ereditare Crossroads, Ferrox e Regional Cup | 307 | 198 | COMPLETE |
+| M4_01_MAREASALE_ARRIVAL | aprire porto, trasporti, Arena del Molo e nuove schedule | 361 | 233 | COMPLETE |
+| M4_02_WEATHER_WINDOW | meteo e partenze come vincoli reali di viaggio | 361 | 233 | COMPLETE |
+| M4_03_ARCHIE_ENTERS | introduzione causale di Archie e filosofia ocean-first | 361 | 233 | COMPLETE |
+| M4_04_PORT_PRESSURE | lavoro, merci, ritardi e primi segnali di contrabbando | 361 | 232 | COMPLETE |
 | M4_05_COAST_ROUTE | Costa di Sale come spazio esplorabile, non corridoio | 361 | 232 | PLANNED |
 | M4_06_REEF_ACCESS | Barriera Azzurra, rischi marini e accesso contestuale | 361 | 232 | PLANNED |
 | M4_07_SMUGGLING_THREAD | indagine/intervento/ignorare senza replica di M2 | 361 | 232 | PLANNED |
@@ -71,6 +71,48 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 | **TOTAL** |  | **5,900** | **3,800** | |
 
 Budgets are authored surface capacity. One run sees only the paths made legal by its state.
+
+## 2A. RUNTIME LOGICAL PRODUCTION TRACKING
+
+The legacy 5,900-stitch / 3,800-choice table above remains the authored-surface planning budget. Runtime production is also tracked against the logical-node budget used for M1–M3 implementation review:
+
+- M4 logical target: approximately **250 logical nodes / ~550 meaningful choices**.
+- M4_00: **4 nodes / 9 choices**.
+- M4_01: **16 nodes / 43 choices**.
+- M4_02: **11 nodes / 34 choices**.
+- M4_03: **11 nodes / 28 choices**.
+- M4_04: **18 nodes / 52 choices**.
+- Cycle M4_00–M4_04: **60 nodes / 166 choices**.
+- Approximate remaining logical budget for M4_05–M4_14: **190 nodes / ~384 choices**.
+
+These are not padding quotas. Every retained choice changes route, information, time, risk, relationship, resource, state or future access.
+
+## 2B. VALIDATION EVIDENCE
+
+M4_00–M4_04 validation was executed on GitHub Actions from branch `m4-00-04-work`:
+
+- syntax checks: PASS;
+- `npm --prefix bookgame run validate:story`: PASS;
+- compiled global graph: **46 scenes / 701 nodes / 1,037 stitches / 1,641 choices / 33 world events / 9 ecology zones / 343 ecology species**;
+- `npm --prefix bookgame test`: **888 pass / 0 fail / 0 skipped / 0 cancelled**;
+- validation workflow run: **#297**;
+- the first run exposed two test-fixture mismatches only: the canonical qualitative relationship label is `Neutral`, and the M3→M4 traversal fixture was missing historical `m03_unlocked`; both fixtures were repaired without changing gameplay;
+- M1, M2 and M3 remain green.
+
+The temporary CI branch trigger used for validation was restored immediately afterward; canonical workflow configuration is unchanged.
+
+## 2C. NODE LIBRARY / PATTERN REUSE AUDIT
+
+The repository still uses the validated M1–M3 scene families and engine contracts as the concrete production pattern library rather than a separate standalone `NODE_LIBRARY` asset.
+
+Cycle M4_00–M4_04 reuses:
+
+- M3 handoff/idempotence pattern → M4_00;
+- Ferravia/Borgo-style real hub, shop and non-healing service patterns → M4_01;
+- E2 world clock and condition-gated choices → M4_02 weather/departure windows;
+- Steven/N-style causal Anchor registration, relationship persistence and recoverable deferred contact → M4_03 Archie;
+- M2/M3 multi-source investigation/synthesis pattern → M4_04, but applied to logistics/document gaps rather than repeating the poaching plot;
+- existing E1–E7 effects only; **no new runtime effect type or duplicate subsystem was introduced**.
 
 ---
 
@@ -112,6 +154,10 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Implementation lock (verified 2026-10-06):**
+
+Scene `m04-handoff` requires completed M3, `m04_unlocked=true` and structured Rank C. It activates only `m4_active`, preserves all M1–M3 state, and links canonically from `m03-trial-result#m3_exit_confirmed`. Travel to Mareasale costs 240 in-world minutes; staying in Ferravia is legal. Canonical A4 availability events may become available at Rank C, but no later M4 content is auto-completed.
+
 ---
 
 ## M4_01_MAREASALE_ARRIVAL
@@ -123,6 +169,10 @@ A content gap is not permission to implement a second engine.
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+**Implementation lock (verified 2026-10-06):**
+
+Scene `m04-mareasale-arrival` contains **16 nodes / 43 choices** and opens Mareasale as a reusable Rank C hub. Port office, weather office, Arena del Molo, market, rest house and public quay are distinct routes. The supply shop reuses persistent money/inventory/finite-stock `purchase_item`; rest advances E2 time without altering HP, PP or status. Arena information never registers the Upper Regional or C→B Trial. Port-pressure and Archie hooks are state-gated.
 
 ---
 
@@ -136,6 +186,10 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Implementation lock (verified 2026-10-06):**
+
+Scene `m04-weather-window` contains **11 nodes / 34 choices** and uses the real E2 clock (`world.time`) to expose morning, afternoon, evening or night states. Waiting advances the same world clock that drives deadlines and schedules. Weather knowledge never grants permanent reef access: departure, tide and visibility are modeled as contextual constraints. The scene can reveal a causal Archie lead or logistics pressure without forcing either outcome.
+
 ---
 
 ## M4_03_ARCHIE_ENTERS
@@ -148,6 +202,10 @@ A content gap is not permission to implement a second engine.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Implementation lock (verified 2026-10-06):**
+
+Scene `m04-archie-enters` contains **11 nodes / 28 choices** and registers Archie persistently through E4 only when the player actually meets him. His ocean-first philosophy is presented as adaptation to a larger system, not automatic villainy or recklessness. Agreement/disagreement modifies relationship/context without forcing alignment. A declined first contact remains recoverable from Mareasale, preventing the mandatory `archie_met` exit contract from softlocking.
+
 ---
 
 ## M4_04_PORT_PRESSURE
@@ -159,6 +217,10 @@ A content gap is not permission to implement a second engine.
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+**Implementation lock (verified 2026-10-06):**
+
+Scene `m04-port-pressure` contains **18 nodes / 52 choices**. Manifest records, seal timing, worker testimony, rerouting, weather delays, customs notices, night movements and optional Archie context form independent evidence sources. Investigation/Perception/Persuasion checks create real success/failure states. Synthesis records only `strong`, `partial` or `low` smuggling-signal quality plus `port_pressure_complete`; it deliberately does **not** write the final `smuggling_state`, accuse a culprit or start M4_07 early.
 
 ---
 
