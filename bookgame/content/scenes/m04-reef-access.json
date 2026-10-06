@@ -1,0 +1,758 @@
+{
+  "schemaVersion": 1,
+  "id": "m04-reef-access",
+  "moduleId": "M04",
+  "title": "M4_06 — Barriera Azzurra",
+  "locationId": "sal_coast_jetty",
+  "entryNodeId": "reef_desk",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m3_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m04_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m4_active",
+        "eq": true
+      },
+      {
+        "path": "world.flags.mareasale_discovered",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "C"
+      }
+    ]
+  },
+  "nodes": {
+    "reef_desk": {
+      "stitches": [
+        {
+          "id": "desk_1",
+          "text": "Il banco del piccolo molo non vende un biglietto permanente per la Barriera Azzurra. Controlla Rank, finestra meteo corrente e disponibilità del mezzo; la stessa destinazione può essere legale al mattino e sospesa poche ore dopo."
+        },
+        {
+          "id": "desk_2",
+          "text": "La rotta attraversa un canale stretto fra bassi fondali. Il rischio principale è perdere margine di correzione quando vento, onda o visibilità peggiorano insieme."
+        }
+      ],
+      "choices": [
+        {
+          "id": "check_current_window",
+          "text": "Controllo se la finestra attuale consente la partenza.",
+          "goto": "window_check"
+        },
+        {
+          "id": "review_reef_rules",
+          "text": "Chiedo quali condizioni devono essere vere contemporaneamente.",
+          "goto": "reef_rules"
+        },
+        {
+          "id": "review_navigation",
+          "text": "Chiedo come viene attraversato il canale del reef.",
+          "goto": "navigation_brief"
+        },
+        {
+          "id": "reef_back_coast",
+          "text": "Non parto. Torno sulla Costa di Sale.",
+          "goto": "m04-coast-route#coast_jetty",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "sal_coast_jetty"
+            }
+          ]
+        },
+        {
+          "id": "reef_back_city",
+          "text": "Torno a Mareasale.",
+          "timeCostMinutes": 90,
+          "goto": "m04-mareasale-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        }
+      ]
+    },
+    "reef_rules": {
+      "stitches": [
+        {
+          "id": "rules_1",
+          "text": "Servono fascia Rank C, verifica meteo recente e una finestra compatibile. Il banco non converte una vecchia lettura del mattino in un permesso valido per tutto il giorno."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rules_check_now",
+          "text": "Verifico la finestra attuale.",
+          "goto": "window_check"
+        },
+        {
+          "id": "rules_weather_office",
+          "text": "Torno a Mareasale per aggiornare il meteo.",
+          "timeCostMinutes": 90,
+          "goto": "m04-weather-window#weather_board",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city_weather"
+            }
+          ]
+        },
+        {
+          "id": "rules_back",
+          "text": "Torno al banco.",
+          "goto": "reef_desk"
+        }
+      ]
+    },
+    "window_check": {
+      "stitches": [
+        {
+          "id": "window_1",
+          "text": "Il banco confronta l'ora corrente con l'ultima lettura operativa che hai raccolto. Se il dato non corrisponde più alla fascia attuale, devi aggiornarlo invece di riusare una vecchia autorizzazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "window_open",
+          "text": "La finestra del mattino è ancora favorevole: confermo la partenza.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.time",
+                "eq": "morning"
+              },
+              {
+                "path": "world.flags.mareasale_weather_state",
+                "eq": "favorable_morning"
+              }
+            ]
+          },
+          "goto": "departure_brief"
+        },
+        {
+          "id": "window_crosswind",
+          "text": "Il pomeriggio è in crosswind: non parto per il reef.",
+          "conditions": {
+            "path": "world.time",
+            "eq": "afternoon"
+          },
+          "goto": "window_closed"
+        },
+        {
+          "id": "window_evening",
+          "text": "La finestra serale si sta chiudendo: non parto.",
+          "conditions": {
+            "path": "world.time",
+            "eq": "evening"
+          },
+          "goto": "window_closed"
+        },
+        {
+          "id": "window_night",
+          "text": "Le partenze non essenziali sono chiuse di notte.",
+          "conditions": {
+            "path": "world.time",
+            "eq": "night"
+          },
+          "goto": "window_closed"
+        },
+        {
+          "id": "window_stale_morning",
+          "text": "È mattina ma non ho una lettura favorevole valida: aggiorno il meteo.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.time",
+                "eq": "morning"
+              },
+              {
+                "path": "world.flags.mareasale_weather_state",
+                "ne": "favorable_morning"
+              }
+            ]
+          },
+          "timeCostMinutes": 90,
+          "goto": "m04-weather-window#weather_board",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city_weather"
+            }
+          ]
+        },
+        {
+          "id": "window_back",
+          "text": "Torno al banco.",
+          "goto": "reef_desk"
+        }
+      ]
+    },
+    "window_closed": {
+      "stitches": [
+        {
+          "id": "closed_1",
+          "text": "Il molo non tratta la sospensione come fallimento. Puoi aspettare, fare altro o tornare all'ufficio meteo: il mondo continuerà a processare il tempo mentre scegli."
+        }
+      ],
+      "choices": [
+        {
+          "id": "closed_wait",
+          "text": "Aspetto due ore e ricontrollo.",
+          "timeCostMinutes": 120,
+          "goto": "window_check",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "reef_window_waited",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "closed_weather",
+          "text": "Torno all'ufficio meteo per una lettura aggiornata.",
+          "timeCostMinutes": 90,
+          "goto": "m04-weather-window#weather_board",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city_weather"
+            }
+          ]
+        },
+        {
+          "id": "closed_coast",
+          "text": "Resto sulla Costa di Sale.",
+          "goto": "m04-coast-route#coast_gate",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "sal_coast"
+            }
+          ]
+        }
+      ]
+    },
+    "navigation_brief": {
+      "stitches": [
+        {
+          "id": "nav_1",
+          "text": "Il passaggio non richiede eroismo: richiede tenere la barca dentro una linea con margine sufficiente per correggere. La guida locale legge colore dell'acqua, onda corta e riferimenti sulla costa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "nav_note",
+          "text": "Registro i riferimenti di navigazione prima di partire.",
+          "goto": "reef_desk",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "reef_navigation_brief_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "nav_ask_margin",
+          "text": "Chiedo cosa succede quando il margine si riduce.",
+          "goto": "navigation_margin"
+        }
+      ]
+    },
+    "navigation_margin": {
+      "stitches": [
+        {
+          "id": "margin_1",
+          "text": "«Quando devi correggere due volte invece di una, stai già spendendo margine. La decisione giusta spesso è girarsi prima che diventi una lotta.» È la stessa logica di resource management che il Rank C comincia a chiedere anche in Arena."
+        }
+      ],
+      "choices": [
+        {
+          "id": "margin_record",
+          "text": "Registro il principio del margine.",
+          "goto": "reef_desk",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "reef_navigation_margin_known",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "departure_brief": {
+      "stitches": [
+        {
+          "id": "departure_1",
+          "text": "La guida registra la partenza, controlla giubbotti e radio e ribadisce che il rientro avverrà prima della chiusura della finestra. Nessun salto narrativo cancella il tempo in mare."
+        }
+      ],
+      "choices": [
+        {
+          "id": "depart_reef",
+          "text": "Parto verso la Barriera Azzurra.",
+          "timeCostMinutes": 45,
+          "goto": "reef_approach",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "reef_departure_authorized",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "mar_reef_approach"
+            }
+          ]
+        },
+        {
+          "id": "depart_reconsider",
+          "text": "Cambio idea prima di mollare gli ormeggi.",
+          "goto": "reef_desk"
+        }
+      ]
+    },
+    "reef_approach": {
+      "stitches": [
+        {
+          "id": "approach_1",
+          "text": "La costa arretra e il colore dell'acqua cambia. Il reef non è una parete continua: è una rete di bassi fondali, canali e zone più scure dove il fondo scende."
+        },
+        {
+          "id": "approach_2",
+          "text": "La guida ti lascia leggere il passaggio ma conserva il comando del mezzo. Se sbagli un'osservazione, il gioco non trasforma un servizio autorizzato in una prova suicida."
+        }
+      ],
+      "choices": [
+        {
+          "id": "read_channel",
+          "text": "Provo a individuare il canale con più margine. (CT Survival)",
+          "timeCostMinutes": 10,
+          "check": {
+            "ability": "WIS",
+            "skill": "Survival",
+            "dc": 13
+          },
+          "outcomes": {
+            "success": {
+              "goto": "channel_clear",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "reef_channel_read",
+                  "value": "clear"
+                }
+              ]
+            },
+            "failure": {
+              "goto": "channel_partial",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "reef_channel_read",
+                  "value": "partial"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "watch_reef_fauna",
+          "text": "Osservo la fauna lungo il bordo del reef.",
+          "goto": "reef_fauna_view"
+        },
+        {
+          "id": "trust_guide",
+          "text": "Lascio che la guida segua la linea senza aggiungere osservazioni.",
+          "goto": "reef_platform",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "reef_navigation_role",
+              "value": "passenger"
+            }
+          ]
+        }
+      ]
+    },
+    "channel_clear": {
+      "stitches": [
+        {
+          "id": "clear_1",
+          "text": "Riconosci una linea più scura con onda meno spezzata: il canale lascia più spazio per correggere. La guida conferma la lettura e la usa come parte del passaggio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "clear_platform",
+          "text": "Proseguo verso il punto di osservazione.",
+          "goto": "reef_platform",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "reef_navigation_role",
+              "value": "assisted_read"
+            }
+          ]
+        },
+        {
+          "id": "clear_fauna",
+          "text": "Uso la posizione per osservare il bordo del reef.",
+          "goto": "reef_fauna_view"
+        }
+      ]
+    },
+    "channel_partial": {
+      "stitches": [
+        {
+          "id": "partial_1",
+          "text": "La luce sull'acqua ti fa leggere male uno dei margini. La guida corregge subito la linea. Il fallimento produce informazione: capisci quanto sia facile confondere profondità e riflesso senza conoscenza locale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "partial_accept",
+          "text": "Accetto la correzione e lascio guidare chi conosce il passaggio.",
+          "goto": "reef_platform",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "reef_navigation_role",
+              "value": "guide_led"
+            }
+          ]
+        },
+        {
+          "id": "partial_note",
+          "text": "Registro perché il margine visivo può ingannare.",
+          "goto": "reef_platform",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "reef_visual_risk_known",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "reef_platform": {
+      "stitches": [
+        {
+          "id": "platform_1",
+          "text": "La barca raggiunge un punto autorizzato ai margini della Barriera Azzurra. Non attracchi sul reef: osservi da una piattaforma galleggiante e da una zona d'acqua abbastanza profonda da non danneggiare il fondale."
+        },
+        {
+          "id": "platform_2",
+          "text": "Da qui la città è solo una linea lontana. Le conseguenze delle decisioni del porto — traffico, ritardi, rotte secondarie — diventano più facili da immaginare su una costa piena di passaggi piccoli."
+        }
+      ],
+      "choices": [
+        {
+          "id": "platform_observe",
+          "text": "Osservo il reef e i passaggi naturali.",
+          "timeCostMinutes": 20,
+          "goto": "reef_observation"
+        },
+        {
+          "id": "platform_fauna",
+          "text": "Aspetto che la fauna marina si mostri.",
+          "goto": "reef_fauna_view"
+        },
+        {
+          "id": "platform_route_link",
+          "text": "Penso a come un piccolo mezzo potrebbe usare questi canali fuori dal traffico principale.",
+          "conditions": {
+            "any": [
+              {
+                "path": "world.flags.smuggling_signal_quality",
+                "in": [
+                  "partial",
+                  "strong"
+                ]
+              },
+              {
+                "path": "world.flags.coast_secondary_landing_known",
+                "eq": true
+              }
+            ]
+          },
+          "goto": "reef_smuggling_link"
+        },
+        {
+          "id": "platform_return",
+          "text": "Non resto oltre la finestra: rientro.",
+          "timeCostMinutes": 45,
+          "goto": "reef_return",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "sal_coast_jetty"
+            }
+          ]
+        }
+      ]
+    },
+    "reef_observation": {
+      "stitches": [
+        {
+          "id": "observation_1",
+          "text": "La barriera offre molti percorsi piccoli ma pochi davvero efficienti. Una barca leggera può scomparire alla vista del porto senza sparire dal sistema fisico: deve comunque trovare un canale, una marea e un punto d'arrivo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "observation_record",
+          "text": "Registro la geografia operativa del reef.",
+          "goto": "reef_platform",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "reef_route_geography_known",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "reef_visited",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "observation_link",
+          "text": "Collego la geografia alle anomalie logistiche che ho già visto.",
+          "conditions": {
+            "path": "world.flags.port_pressure_complete",
+            "eq": true
+          },
+          "goto": "reef_smuggling_link",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "reef_route_geography_known",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "reef_visited",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "reef_smuggling_link": {
+      "stitches": [
+        {
+          "id": "link_1",
+          "text": "Il reef potrebbe offrire una tratta secondaria fra piccoli approdi e costa, ma non rende invisibili merci o persone. Per essere utile a una rete clandestina servirebbero orari, mezzi e qualcuno capace di coordinare porto e costa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "link_record",
+          "text": "Registro il reef come possibile segmento, non come prova conclusiva.",
+          "goto": "reef_platform",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "smuggling_reef_link_known",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "reef_visited",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "reef_fauna_view": {
+      "stitches": [
+        {
+          "id": "fauna_1",
+          "text": "La guida spegne il motore e lascia la barca derivare lentamente fuori dalla zona più sensibile. Se qualcosa si mostra, lo farà senza essere inseguito."
+        }
+      ],
+      "choices": [
+        {
+          "id": "observe_reef_fauna",
+          "text": "Osservo in silenzio.",
+          "timeCostMinutes": 20,
+          "ecology": {
+            "requestId": "M4_BARRIERA_AZZURRA_OBSERVATION_01",
+            "zoneId": "MAR-REEF",
+            "habitat": "reef",
+            "method": "boat_observation",
+            "allowedSpecies": [
+              "chinchou",
+              "horsea",
+              "mareanie",
+              "corsola",
+              "finizen"
+            ],
+            "returnNodes": {
+              "noEncounter": "reef_fauna_none",
+              "chinchou": "reef_chinchou",
+              "horsea": "reef_horsea",
+              "mareanie": "reef_mareanie",
+              "corsola": "reef_corsola",
+              "finizen": "reef_finizen"
+            }
+          }
+        },
+        {
+          "id": "fauna_platform",
+          "text": "Non aspetto oltre: torno alla piattaforma.",
+          "goto": "reef_platform"
+        }
+      ]
+    },
+    "reef_fauna_none": {
+      "stitches": [
+        {
+          "id": "none_1",
+          "text": "L'acqua resta leggibile ma nessun Pokémon si espone abbastanza da diventare un incontro riconoscibile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "none_platform",
+          "text": "Torno all'osservazione del reef.",
+          "goto": "reef_platform"
+        }
+      ]
+    },
+    "reef_chinchou": {
+      "stitches": [
+        {
+          "id": "chinchou_1",
+          "text": "Un Chinchou passa sotto la barca abbastanza in profondità da apparire come due punti luminosi prima che il corpo diventi visibile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "chinchou_platform",
+          "text": "Lo lascio allontanare.",
+          "goto": "reef_platform"
+        }
+      ]
+    },
+    "reef_horsea": {
+      "stitches": [
+        {
+          "id": "horsea_1",
+          "text": "Un Horsea resta vicino a una zona riparata dalla corrente principale e si sposta solo quando l'acqua cambia direzione fra due rocce sommerse."
+        }
+      ],
+      "choices": [
+        {
+          "id": "horsea_platform",
+          "text": "Non interferisco e torno al reef.",
+          "goto": "reef_platform"
+        }
+      ]
+    },
+    "reef_mareanie": {
+      "stitches": [
+        {
+          "id": "mareanie_1",
+          "text": "Un Mareanie si muove lentamente sul margine duro del reef. La guida mantiene distanza per non trasformare l'osservazione in disturbo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "mareanie_platform",
+          "text": "Lo lascio nel suo habitat.",
+          "goto": "reef_platform"
+        }
+      ]
+    },
+    "reef_corsola": {
+      "stitches": [
+        {
+          "id": "corsola_1",
+          "text": "Un Corsola emerge fra colori simili al fondale. La sua presenza rende evidente perché il passaggio autorizzato evita le zone più basse."
+        }
+      ],
+      "choices": [
+        {
+          "id": "corsola_platform",
+          "text": "Torno all'osservazione generale.",
+          "goto": "reef_platform"
+        }
+      ]
+    },
+    "reef_finizen": {
+      "stitches": [
+        {
+          "id": "finizen_1",
+          "text": "Un Finizen segue per qualche secondo l'onda della barca e poi devia verso acqua più aperta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "finizen_platform",
+          "text": "Lo lascio cambiare rotta.",
+          "goto": "reef_platform"
+        }
+      ]
+    },
+    "reef_return": {
+      "stitches": [
+        {
+          "id": "return_1",
+          "text": "Rientri al molo prima che la finestra operativa si chiuda. La visita resta registrata, ma non diventa un permesso permanente: una partenza futura dovrà ancora rispettare il meteo di quel momento."
+        }
+      ],
+      "choices": [
+        {
+          "id": "return_coast",
+          "text": "Resto sulla Costa di Sale.",
+          "goto": "m04-coast-route#coast_jetty",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "reef_visited",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "sal_coast_jetty"
+            }
+          ]
+        },
+        {
+          "id": "return_city",
+          "text": "Torno a Mareasale.",
+          "timeCostMinutes": 90,
+          "goto": "m04-mareasale-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "reef_visited",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
