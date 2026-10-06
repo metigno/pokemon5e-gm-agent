@@ -47,3 +47,49 @@ test("M6 first cycle remains on the 220/484 logical trajectory",async()=>{
   const remaining={nodes:220-64,choices:484-141};
   assert.deepEqual(remaining,{nodes:156,choices:343});
 });
+
+test("M6_00-M6_04 authored nodes are all reachable from their cycle entry graph",async()=>{
+  const scenes={};
+  for(const [rel] of expected){
+    scenes[rel]=JSON.parse(await readFile(fileURLToPath(new URL("../content/scenes/"+rel+".json",import.meta.url)),"utf8"));
+  }
+  const keys=new Set();
+  for(const [sceneId,scene] of Object.entries(scenes)){
+    for(const nodeId of Object.keys(scene.nodes)) keys.add(sceneId+"#"+nodeId);
+  }
+  const edges=new Map([...keys].map(key=>[key,[]]));
+  const add=(raw,currentScene,from)=>{
+    if(typeof raw!=="string") return;
+    const parts=raw.includes("#")?raw.split("#"):[currentScene,raw];
+    const target=parts[0]+"#"+parts[1];
+    if(keys.has(target)) edges.get(from).push(target);
+  };
+  for(const [sceneId,scene] of Object.entries(scenes)){
+    for(const [nodeId,node] of Object.entries(scene.nodes)){
+      const from=sceneId+"#"+nodeId;
+      for(const choice of node.choices??[]){
+        add(choice.goto,sceneId,from);
+        if(choice.check){
+          add(choice.outcomes?.success?.goto,sceneId,from);
+          add(choice.outcomes?.failure?.goto,sceneId,from);
+        }
+        if(choice.combat){
+          add(choice.combat.goto,sceneId,from);
+          for(const target of Object.values(choice.combat.returnNodes??{})) add(target,sceneId,from);
+        }
+        if(choice.ecology){
+          for(const target of Object.values(choice.ecology.returnNodes??{})) add(target,sceneId,from);
+        }
+      }
+    }
+  }
+  const queue=Object.entries(scenes).map(([sceneId,scene])=>sceneId+"#"+scene.entryNodeId);
+  const visited=new Set(queue);
+  while(queue.length){
+    const current=queue.shift();
+    for(const target of edges.get(current)??[]){
+      if(!visited.has(target)){visited.add(target);queue.push(target);}
+    }
+  }
+  assert.deepEqual([...keys].filter(key=>!visited.has(key)),[]);
+});
