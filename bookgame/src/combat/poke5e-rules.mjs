@@ -494,15 +494,23 @@ export function resolveAttack({
   };
 }
 
-export function resolveSaveMove({ attacker, defender, move, dice, round = null }) {
+export function resolveSaveMove({
+  attacker,
+  defender,
+  move,
+  dice,
+  round = null,
+  forceTargetAdvantage = false
+}) {
   const stats = calculateMoveStats(attacker, move, round);
   if (stats.saveDc == null || stats.saveAttribute == null) {
     throw new Error(`Move ${move.id} is not a save move`);
   }
 
   const targetAdvantage =
-    attacker.statuses?.flinchedTurns > 0 &&
-    move.time?.unit === "action";
+    forceTargetAdvantage ||
+    (attacker.statuses?.flinchedTurns > 0 &&
+     move.time?.unit === "action");
 
   const save = resolveSavingThrow({
     defender,
