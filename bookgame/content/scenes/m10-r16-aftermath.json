@@ -354,7 +354,7 @@
         {
           "id": "placeholder_complete",
           "text": "Torno allo stato di ciclo completato.",
-          "goto": "cycle1_complete"
+          "goto": "m10-friend-beat-10#friend_entry"
         },
         {
           "id": "placeholder_friend",
