@@ -1577,6 +1577,49 @@ export function resolveWorldSfRound(state, { eventId = "WORLD_SF_RESOLVE" } = {}
   return knockout;
 }
 
+export function resolveWorldFinalRound(state, { eventId = "WORLD_FINAL_RESOLVE" } = {}) {
+  requireId(eventId, "world final resolution eventId");
+  const { world, knockout } = worldKnockoutOrThrow(state);
+  if (!knockout.sfResolved || !knockout.finalistsLocked || !knockout.finalMatch) {
+    throw new Error("WORLD_FINAL resolution requires the locked final from WORLD_SF");
+  }
+  if (knockout.finalResolved) return knockout;
+
+  const match = knockout.finalMatch;
+  if (knockout.playerAdvancedToFinal === true) {
+    if (!match.playerOutcome || !match.winnerId || !match.loserId) {
+      throw new Error("WORLD_FINAL with player finalist requires the official player combat result");
+    }
+  } else {
+    simulateWorldKnockoutMatch(state, match);
+  }
+
+  const winner = participantByIdFromMatch(match, match.winnerId);
+  const runnerUp = participantByIdFromMatch(match, match.loserId);
+  if (!winner || !runnerUp) throw new Error("WORLD_FINAL could not resolve champion and runner-up");
+
+  knockout.finalResolved = true;
+  knockout.worldChampion = structuredClone(winner);
+  knockout.worldRunnerUp = structuredClone(runnerUp);
+  if (knockout.playerAdvancedToFinal !== true) knockout.playerWonFinal = false;
+  world.finalResolved = true;
+  world.currentWorldChampion = structuredClone(winner);
+  world.currentWorldRunnerUp = structuredClone(runnerUp);
+
+  state.world.flags ??= {};
+  state.world.flags.world_final_resolved = true;
+  state.world.flags.current_world_champion = winner.name;
+  state.world.flags.current_world_champion_id = winner.id;
+  state.world.flags.current_world_runner_up = runnerUp.name;
+  state.world.flags.current_world_runner_up_id = runnerUp.id;
+  if (knockout.playerAdvancedToFinal !== true) {
+    state.world.flags.world_champion = false;
+    state.world.flags.world_final_result = "not_player";
+  }
+  state.world.flags.world_final_event_resolution_id = eventId;
+  return knockout;
+}
+
 export function applyCompetitionEffect(state, effect) {
   switch (effect.type) {
     case "competition_trial_available": return setTrialAvailable(state, effect);
@@ -1589,6 +1632,7 @@ export function applyCompetitionEffect(state, effect) {
     case "competition_world_qf_resolve": return resolveWorldQfRound(state, effect);
     case "competition_world_sf_open": return openWorldSfRound(state, effect);
     case "competition_world_sf_resolve": return resolveWorldSfRound(state, effect);
+    case "competition_world_final_resolve": return resolveWorldFinalRound(state, effect);
     default: throw new Error("Unsupported competition effect type: " + effect.type);
   }
 }
@@ -1632,7 +1676,7 @@ export function validateCompetitionEffect(effect, at = "effect") {
     return errors;
   }
 
-  if (["competition_world_r16_open", "competition_world_r16_resolve", "competition_world_qf_resolve", "competition_world_sf_open", "competition_world_sf_resolve"].includes(effect.type)) {
+  if (["competition_world_r16_open", "competition_world_r16_resolve", "competition_world_qf_resolve", "competition_world_sf_open", "competition_world_sf_resolve", "competition_world_final_resolve"].includes(effect.type)) {
     if (effect.eventId !== undefined && (typeof effect.eventId !== "string" || !ID_RE.test(effect.eventId))) {
       push("INVALID_WORLD_KNOCKOUT_EVENT_ID", "eventId must be a stable identifier", at + ".eventId");
     }
