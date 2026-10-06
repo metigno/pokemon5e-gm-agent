@@ -19,9 +19,9 @@
       ],
       "choices": [
         {
-          "id": "entry_continental",
-          "text": "Parto dal risultato della Continental Cup.",
-          "goto": "continental_history"
+          "id": "entry_circuit",
+          "text": "Parto dal circuito e dal risultato continentale.",
+          "goto": "circuit_now"
         },
         {
           "id": "entry_masters",
@@ -559,9 +559,9 @@
       ],
       "choices": [
         {
-          "id": "to_meridiana",
-          "text": "Proseguo verso Meridiana.",
-          "goto": "m12-meridiana-callbacks#callback_entry"
+          "id": "finish_callback",
+          "text": "Chiudo il callback interregionale senza cambiare i risultati.",
+          "goto": "complete"
         },
         {
           "id": "review_interregional",
@@ -579,14 +579,14 @@
       ],
       "choices": [
         {
-          "id": "continue",
-          "text": "Proseguo con questo aspetto del callback.",
-          "goto": "callback_entry"
+          "id": "to_meridiana",
+          "text": "Proseguo verso Meridiana.",
+          "goto": "m12-meridiana-callbacks#callback_entry"
         },
         {
-          "id": "crosscheck",
-          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
-          "goto": "circuit_now"
+          "id": "review_complete",
+          "text": "Riapro il riepilogo interregionale.",
+          "goto": "callback_review"
         }
       ]
     }
