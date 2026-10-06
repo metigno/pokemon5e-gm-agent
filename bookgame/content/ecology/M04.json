@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "M04",
+  "zones": [
+    {
+      "id": "MAR-CITY",
+      "sourceZoneId": "MAR-CITY",
+      "habitats": [
+        "city",
+        "coast",
+        "marine",
+        "industrial"
+      ],
+      "methods": [
+        "wild_observation",
+        "shore_exploration",
+        "overland_encounter"
+      ]
+    },
+    {
+      "id": "SAL-COAST",
+      "sourceZoneId": "SAL-COAST",
+      "habitats": [
+        "coast",
+        "shore",
+        "marine",
+        "cliff"
+      ],
+      "methods": [
+        "wild_observation",
+        "shore_exploration",
+        "overland_encounter"
+      ]
+    },
+    {
+      "id": "MAR-REEF",
+      "sourceZoneId": "MAR-REEF",
+      "habitats": [
+        "reef",
+        "marine",
+        "coast"
+      ],
+      "methods": [
+        "wild_observation",
+        "reef_exploration",
+        "boat_observation"
+      ]
+    }
+  ]
+}
