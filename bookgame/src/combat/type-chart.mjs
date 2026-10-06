@@ -20,6 +20,9 @@ const OFFENSE = {
 };
 
 export function typeMultiplier(attackType, defenderTypes) {
+  // Typeless and Stellar damage do not use the ordinary 18-type matchup table.
+  if (["typeless", "stellar", "varies"].includes(attackType)) return 1;
+
   const chart = OFFENSE[attackType];
   if (!chart) throw new Error(`Unknown attack type: ${attackType}`);
 
