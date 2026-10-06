@@ -308,6 +308,27 @@
             "ne": true
           },
           "goto": "module_continuity"
+        },
+        {
+          "id": "go_to_m04",
+          "text": "Proseguo verso la nuova fascia Rank C.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.m3_complete",
+                "eq": true
+              },
+              {
+                "path": "world.flags.m04_unlocked",
+                "eq": true
+              },
+              {
+                "path": "competition.rank",
+                "eq": "C"
+              }
+            ]
+          },
+          "goto": "m04-handoff#m04_entry"
         }
       ]
     },
