@@ -5,7 +5,7 @@
 **Purpose:** production map for converting M9 into validated offline story content  
 **Locked authored budget:** **4,300 stitches / 2,300 player choices**
 
-**Module implementation status:** **IN PROGRESS — M9_00–M9_04 COMPLETE / CYCLE 1 EXACT 77×170 / LIBRARY-V2 ALIGNED / E5 WORLD_GROUPS**
+**Module implementation status:** **IN PROGRESS — M9_00–M9_09 COMPLETE / CUMULATIVE 156×344 / LIBRARY-V2 ALIGNED / M9_10 REMAINS 14×30**
 
 E1–E7 are reusable infrastructure from M1. A block may extend generic data or content, but must not fork those engines into module-specific substitutes.
 
@@ -319,6 +319,104 @@ Cycle 1 converts the first five production blocks into runtime content while pre
 **No R39 candidate is required.** The only new work is an E5 World-group state extension plus UNIQUE M9 content composed from Library V2 R01→R38 primitives.
 
 **Cycle 1 CI evidence:** GitHub Actions PR #10 run #358 — syntax PASS, `validate:story` PASS, **1,216 tests passed / 0 failed / 0 skipped**.
+
+
+
+---
+
+# 5B. CYCLE 2 IMPLEMENTATION LOCK — M9_05–M9_09
+
+Cycle 2 adds **79 nodes / 174 meaningful choices**, bringing M09 to **156 nodes / 344 choices**. The final block M9_10 therefore owns the exact residual budget **14 nodes / 30 choices**.
+
+## M9_05_FRIEND_BEAT_09
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R26_FRIEND_BEAT_SELECTOR
+- R27_FRIEND_BEAT_CONTENT
+- R23_NPC_PRESENCE_SCHEDULE_GATE
+- R29_LIVING_WORLD_OFF_SCREEN_RESOLUTION
+- R33_CROSS_MODULE_CALLBACK
+- R37_MULTI_ROUND_TOURNAMENT_LIFECYCLE
+
+**Unique layer:** E4 selects the Friend Beat from actual World state: same-group next opponent first, same-group already played, qualified friend in another group, then external contact. Previous Friend Beat reuse is avoided only within equivalent competitive priority.
+
+**Implementation lock:** `m09-friend-beat-09` = **20 nodes / 43 choices**. A same-group friend never creates an extra fight; the official combat remains the E5 Matchday already played or scheduled.
+
+## M9_06_INTERDAY_TWO
+
+**Reuse class:** REUSE / ADAPT
+
+**Source archetypes:**
+- R13_MEDICAL_POKEMON_CENTER_SERVICE
+- R32_WAIT_LET_TIME_PASS
+- R29_LIVING_WORLD_OFF_SCREEN_RESOLUTION
+- R33_CROSS_MODULE_CALLBACK
+- R37_MULTI_ROUND_TOURNAMENT_LIFECYCLE
+
+**Unique layer:** reads the real 0/3/6-point state after two matches and exposes pressure scenarios without converting them into scripted qualification/elimination.
+
+**Implementation lock:** `m09-interday-two` = **13 nodes / 30 choices**. No automatic heal, no prediction flag, no pairing mutation.
+
+## M9_07_MATCHDAY_THREE
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R15_FIRST_OFFICIAL_MATCH_LIFECYCLE
+- R06_COMBAT_HANDOFF
+- R16_ROSTER_PREPARATION_ELIGIBILITY_INFO
+- R29_LIVING_WORLD_OFF_SCREEN_RESOLUTION
+- R37_MULTI_ROUND_TOURNAMENT_LIFECYCLE
+
+**Unique layer:** consumes the immutable third draw opponent (`playerOpponents[2]`) exactly once and completes the six-match player group record.
+
+**Implementation lock:** `m09-matchday-three` = **20 nodes / 42 choices**.
+
+## M9_08_GROUP_RESOLUTION
+
+**Reuse class:** ADAPT / E5 EXTENSION
+
+**Source archetypes:**
+- R37_MULTI_ROUND_TOURNAMENT_LIFECYCLE
+- R38_COMPOSITE_OUTCOME_CLASSIFIER
+- R29_LIVING_WORLD_OFF_SCREEN_RESOLUTION
+- R20_MODULE_EXIT_CONTRACT
+
+**Unique layer:** E5 resolves all eight four-person groups, six matches per group, final standings and exactly 16 advancing trainers. Ties are ordered by points, then head-to-head points among tied trainers, then immutable draw seed order as the final stable system criterion.
+
+**Implementation lock:** `m09-group-resolution` = **13 nodes / 30 choices**. The narrative layer cannot write final position, qualification or Top16 membership.
+
+## M9_09_ELIMINATED_ROUTE
+
+**Reuse class:** REUSE / ADAPT
+
+**Source archetypes:**
+- R20_MODULE_EXIT_CONTRACT
+- R21_MODULE_HANDOFF
+- R33_CROSS_MODULE_CALLBACK
+- R29_LIVING_WORLD_OFF_SCREEN_RESOLUTION
+
+**Unique layer:** consumes only `advanced=false` from E5, preserves team/world state and unlocks M12/WORLD_EXIT without manufacturing a consolation rematch.
+
+**Implementation lock:** `m09-eliminated-route` = **13 nodes / 29 choices**. It may set `m12_unlocked` and `m9_complete`, but never `m10_unlocked`.
+
+## Cycle 2 validation contract
+
+- exact Cycle-2 budget: **79 nodes / 174 choices**;
+- cumulative M9_00–M9_09 budget: **156 / 344**;
+- exact M9_10 residual: **14 / 30**;
+- Friend Beat selection is World-state-aware and schedule-aware;
+- no duplicate Player-vs-Friend official match;
+- Matchday 3 consumes draw opponent index 2 and is replay-safe;
+- E5 locks all eight group tables and exactly 16 advancing participants;
+- final position and advanced/eliminated state come only from E5;
+- eliminated route unlocks M12, never M10;
+- all Cycle-2 nodes reachable with no zero-incoming padding;
+- save/reload preserves Top16, final standings and route state.
+
+**No R39 candidate is required for Cycle 2.** Library V2 R01→R38 remains sufficient; the only engine work is a reusable E4 World Friend Beat selector and the missing E5 group-resolution lifecycle.
 
 
 # 6. STATE OWNERSHIP
