@@ -559,6 +559,15 @@
             "ne": true
           },
           "goto": "reunion_close"
+        },
+        {
+          "id": "friend_gate_close",
+          "text": "Il contatto personale non è ancora disponibile: torno alla piazza.",
+          "conditions": {
+            "path": "world.flags.friend_beat_05_available",
+            "ne": true
+          },
+          "goto": "reunion_close"
         }
       ]
     },
