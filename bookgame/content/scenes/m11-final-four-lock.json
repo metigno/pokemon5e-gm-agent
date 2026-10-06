@@ -1,0 +1,344 @@
+{
+  "schemaVersion": 1,
+  "id": "m11-final-four-lock",
+  "moduleId": "M11",
+  "title": "M11_00 — Final Four Lock",
+  "locationId": "world_knockout_hall",
+  "entryNodeId": "final_four_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m10_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m11_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.world_qf_won",
+        "eq": true
+      },
+      {
+        "path": "competition.world.top4Locked",
+        "eq": true
+      },
+      {
+        "path": "competition.world.knockout.qfResolved",
+        "eq": true
+      },
+      {
+        "path": "competition.world.knockout.playerAdvancedToSf",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "final_four_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Final Four non viene sorteggiato di nuovo: M11 consuma i quattro semifinalisti e i due incroci già prodotti dal QF reale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "final_four_entry_next",
+          "text": "Proseguo verso Top4 Audit.",
+          "goto": "top4_audit"
+        },
+        {
+          "id": "final_four_entry_alt",
+          "text": "Confronto questo punto con Lock Guard.",
+          "goto": "lock_guard"
+        },
+        {
+          "id": "final_four_entry_deep",
+          "text": "Approfondisco Bracket Integrity.",
+          "goto": "bracket_integrity"
+        }
+      ]
+    },
+    "top4_audit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Top4 deve contenere quattro partecipanti unici e il player deve comparire in una sola semifinale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "top4_audit_next",
+          "text": "Proseguo verso Lock Guard.",
+          "goto": "lock_guard"
+        },
+        {
+          "id": "top4_audit_alt",
+          "text": "Confronto questo punto con Bracket Integrity.",
+          "goto": "bracket_integrity"
+        },
+        {
+          "id": "top4_audit_deep",
+          "text": "Approfondisco Player Slot.",
+          "goto": "player_slot"
+        }
+      ]
+    },
+    "lock_guard": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il lock M11 può soltanto aprire WORLD_SF sul bracket persistente. Nessun nome può essere sostituito per creare una semifinale più spettacolare."
+        }
+      ],
+      "choices": [
+        {
+          "id": "lock_now",
+          "text": "Apro WORLD_SF sul Top4 reale.",
+          "goto": "lock_committed",
+          "conditions": {
+            "path": "competition.world.knockout.sfOpened",
+            "ne": true
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m11_active",
+              "value": true
+            },
+            {
+              "type": "competition_world_sf_open",
+              "eventId": "WORLD_SF"
+            },
+            {
+              "type": "set_flag",
+              "key": "m11_final_four_lock_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "lock_existing",
+          "text": "WORLD_SF è già aperto: rileggo il lock persistente.",
+          "goto": "lock_committed",
+          "conditions": {
+            "path": "competition.world.knockout.sfOpened",
+            "eq": true
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m11_final_four_lock_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "lock_review",
+          "text": "Prima rifaccio l'audit del Top4.",
+          "goto": "top4_audit"
+        }
+      ]
+    },
+    "bracket_integrity": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Le due semifinali restano quelle generate da E5; friend, Rei e rivali mantengono il posto guadagnato o l'eliminazione subita."
+        }
+      ],
+      "choices": [
+        {
+          "id": "bracket_integrity_next",
+          "text": "Proseguo verso Player Slot.",
+          "goto": "player_slot"
+        },
+        {
+          "id": "bracket_integrity_alt",
+          "text": "Confronto questo punto con Opponent Card.",
+          "goto": "opponent_card"
+        }
+      ]
+    },
+    "player_slot": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il match del player è identificato dal playerSfMatchId già derivato dal Top4."
+        }
+      ],
+      "choices": [
+        {
+          "id": "player_slot_next",
+          "text": "Proseguo verso Opponent Card.",
+          "goto": "opponent_card"
+        },
+        {
+          "id": "player_slot_alt",
+          "text": "Confronto questo punto con Rei Status.",
+          "goto": "rei_status"
+        }
+      ]
+    },
+    "opponent_card": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'avversario della semifinale è {{competition.world.knockout.playerSfOpponent.name}}. Il dossier può cambiare informazione, non il pairing."
+        }
+      ],
+      "choices": [
+        {
+          "id": "opponent_card_next",
+          "text": "Proseguo verso Rei Status.",
+          "goto": "rei_status"
+        },
+        {
+          "id": "opponent_card_alt",
+          "text": "Confronto questo punto con Friend Status.",
+          "goto": "friend_status"
+        }
+      ]
+    },
+    "rei_status": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Rei può essere nel Top4, fuori dal torneo oppure dall'altro lato del bracket. Nessuna traiettoria narrativa lo rende finalista per diritto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rei_status_next",
+          "text": "Proseguo verso Friend Status.",
+          "goto": "friend_status"
+        },
+        {
+          "id": "rei_status_alt",
+          "text": "Confronto questo punto con Schedule.",
+          "goto": "schedule"
+        }
+      ]
+    },
+    "friend_status": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un amico ancora vivo nel Mondiale conserva il proprio slot reale; Player vs Friend esiste solo se il bracket lo produce."
+        }
+      ],
+      "choices": [
+        {
+          "id": "friend_status_next",
+          "text": "Proseguo verso Schedule.",
+          "goto": "schedule"
+        },
+        {
+          "id": "friend_status_alt",
+          "text": "Confronto questo punto con Persistence.",
+          "goto": "persistence"
+        }
+      ]
+    },
+    "schedule": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il venue e gli schedule possono creare incontri plausibili prima della semifinale, senza teletrasportare nessuno."
+        }
+      ],
+      "choices": [
+        {
+          "id": "schedule_next",
+          "text": "Proseguo verso Persistence.",
+          "goto": "persistence"
+        },
+        {
+          "id": "schedule_alt",
+          "text": "Confronto questo punto con Lock Committed.",
+          "goto": "lock_committed"
+        }
+      ]
+    },
+    "persistence": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "HP, PP, status, roster, inventario, EXP e infortuni arrivano dal QF senza reset di modulo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "persistence_next",
+          "text": "Proseguo verso Lock Committed.",
+          "goto": "lock_committed"
+        },
+        {
+          "id": "persistence_alt",
+          "text": "Confronto questo punto con Handoff.",
+          "goto": "handoff"
+        }
+      ]
+    },
+    "lock_committed": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "WORLD_SF è aperto sullo stesso Top4. L'avversario del player resta {{competition.world.knockout.playerSfOpponent.name}}."
+        }
+      ],
+      "choices": [
+        {
+          "id": "lock_committed_next",
+          "text": "Proseguo verso Handoff.",
+          "goto": "handoff"
+        },
+        {
+          "id": "lock_committed_alt",
+          "text": "Confronto questo punto con Complete.",
+          "goto": "complete"
+        }
+      ]
+    },
+    "handoff": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Con il bracket verificato, M11 può osservare Rei come competitor reale prima della preparazione alla semifinale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "handoff_rei",
+          "text": "Passo al thread di Rei.",
+          "goto": "m11-rei-thread#rei_entry"
+        },
+        {
+          "id": "handoff_review",
+          "text": "Rileggo il bracket aperto.",
+          "goto": "lock_committed"
+        }
+      ]
+    },
+    "complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Final Four lock è leggibile e persistente; rientrare nella scena non deve generare un nuovo bracket."
+        }
+      ],
+      "choices": [
+        {
+          "id": "complete_next",
+          "text": "Proseguo verso Final Four Entry.",
+          "goto": "final_four_entry"
+        },
+        {
+          "id": "complete_alt",
+          "text": "Confronto questo punto con Top4 Audit.",
+          "goto": "top4_audit"
+        }
+      ]
+    }
+  }
+}
