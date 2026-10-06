@@ -28,6 +28,10 @@
     "conditions": {
       "path": "src/lib/pokemon/status.ts",
       "blobSha": "6f86d9bc861a7f7f2fd8e90c9b60333e5d10c458"
+    },
+    "tms": {
+      "path": "src/lib/srd/data/2024/tms/en.json",
+      "blobSha": "8f9a02d6fda5567af89a507d8768d66a35c03874"
     }
   },
   "counts": {
@@ -36,7 +40,8 @@
     "abilities": 340,
     "items": 305,
     "evolutions": 538,
-    "conditions": 8
+    "conditions": 8,
+    "tms": 256
   },
   "policy": "complete_offline_bookgame_runtime_pack",
   "note": "Vendored at a pinned upstream ref so normal play never requires network access."
