@@ -1,0 +1,372 @@
+{
+  "schemaVersion": 1,
+  "id": "m10-module-outcome",
+  "moduleId": "M10",
+  "title": "M10_09 — Module Outcome",
+  "locationId": "world_knockout_hall",
+  "entryNodeId": "outcome_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m10_friend_beat_10_complete",
+        "eq": true
+      },
+      {
+        "any": [
+          {
+            "path": "world.flags.world_eliminated",
+            "eq": true
+          },
+          {
+            "path": "world.flags.world_qf_won",
+            "eq": true
+          }
+        ]
+      }
+    ]
+  },
+  "nodes": {
+    "outcome_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "M10 si chiude sulla conseguenza reale del knockout: eliminazione oppure accesso al Final Four."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_audit",
+          "text": "Audito lo stato competitivo.",
+          "goto": "state_audit"
+        },
+        {
+          "id": "entry_history",
+          "text": "Controllo la history ufficiale.",
+          "goto": "history"
+        },
+        {
+          "id": "entry_friend",
+          "text": "Controllo che FRIEND_BEAT_10 sia persistente.",
+          "goto": "friend_closure"
+        }
+      ]
+    },
+    "state_audit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il classificatore legge world_eliminated e world_qf_won insieme al Top4 E5. Non crea un terzo risultato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "audit_elim",
+          "text": "Leggo il contratto di eliminazione.",
+          "goto": "eliminated_state",
+          "conditions": {
+            "path": "world.flags.world_eliminated",
+            "eq": true
+          }
+        },
+        {
+          "id": "audit_top4",
+          "text": "Leggo il contratto Final Four.",
+          "goto": "top4_state",
+          "conditions": {
+            "path": "world.flags.world_qf_won",
+            "eq": true
+          }
+        }
+      ]
+    },
+    "eliminated_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se sei eliminato, M11 non è legale. La carriera passa al World Exit/M12 conservando tutti i risultati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "elim_contract",
+          "text": "Controllo l'handoff M12.",
+          "goto": "m12_contract"
+        },
+        {
+          "id": "elim_resource",
+          "text": "Verifico che la squadra non venga resettata.",
+          "goto": "resource"
+        }
+      ]
+    },
+    "top4_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se hai vinto il QF, il player deve comparire nel Top4 e avere un SF pairing reale prima di aprire M11."
+        }
+      ],
+      "choices": [
+        {
+          "id": "top4_contract",
+          "text": "Controllo l'handoff M11.",
+          "goto": "m11_contract"
+        },
+        {
+          "id": "top4_resource",
+          "text": "Verifico la persistenza del team.",
+          "goto": "resource"
+        }
+      ]
+    },
+    "history": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "competition.history conserva gironi, R16 e l'eventuale QF. M10_09 non duplica né cancella record."
+        }
+      ],
+      "choices": [
+        {
+          "id": "history_audit",
+          "text": "Torno al classificatore.",
+          "goto": "state_audit"
+        },
+        {
+          "id": "history_friend",
+          "text": "Controllo il Friend Beat.",
+          "goto": "friend_closure"
+        }
+      ]
+    },
+    "friend_closure": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "FRIEND_BEAT_10 conserva friend_id, contact_mode, context, type e result; nessuno di questi campi sostituisce il bracket."
+        }
+      ],
+      "choices": [
+        {
+          "id": "friend_history",
+          "text": "Torno alla history.",
+          "goto": "history"
+        },
+        {
+          "id": "friend_resource",
+          "text": "Controllo lo stato persistente.",
+          "goto": "resource"
+        }
+      ]
+    },
+    "resource": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "HP, PP, status, inventario e roster restano identici all'ultimo combat e ai servizi realmente usati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "resource_m11",
+          "text": "Valuto il contratto Final Four.",
+          "goto": "m11_contract"
+        },
+        {
+          "id": "resource_m12",
+          "text": "Valuto il contratto World Exit.",
+          "goto": "m12_contract"
+        }
+      ]
+    },
+    "m11_contract": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "M11 è legale soltanto con world_qf_won=true, Top4 lockato e player presente nel SF bracket."
+        }
+      ],
+      "choices": [
+        {
+          "id": "m11_commit",
+          "text": "Passo al commit guard.",
+          "goto": "commit_guard",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.world_qf_won",
+                "eq": true
+              },
+              {
+                "path": "competition.world.top4Locked",
+                "eq": true
+              },
+              {
+                "path": "competition.world.knockout.playerAdvancedToSf",
+                "eq": true
+              }
+            ]
+          }
+        },
+        {
+          "id": "m11_review",
+          "text": "Rileggo il Top4.",
+          "goto": "top4_state"
+        }
+      ]
+    },
+    "m12_contract": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "M12 è legale quando world_eliminated=true, sia che l'eliminazione sia avvenuta in R16 sia in QF."
+        }
+      ],
+      "choices": [
+        {
+          "id": "m12_commit",
+          "text": "Passo al commit guard.",
+          "goto": "commit_guard",
+          "conditions": {
+            "path": "world.flags.world_eliminated",
+            "eq": true
+          }
+        },
+        {
+          "id": "m12_review",
+          "text": "Rileggo l'eliminazione.",
+          "goto": "eliminated_state"
+        }
+      ]
+    },
+    "commit_guard": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il commit finale può aprire un solo ramo. Entrambi impostano m10_complete senza riscrivere competition.world."
+        }
+      ],
+      "choices": [
+        {
+          "id": "commit_m11",
+          "text": "Chiudo M10 e sblocco M11.",
+          "goto": "committed",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.world_qf_won",
+                "eq": true
+              },
+              {
+                "path": "competition.world.top4Locked",
+                "eq": true
+              },
+              {
+                "path": "competition.world.knockout.playerAdvancedToSf",
+                "eq": true
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m10_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m10_module_outcome_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m10_outcome_route",
+              "value": "final_four"
+            },
+            {
+              "type": "set_flag",
+              "key": "m11_unlocked",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "commit_m12",
+          "text": "Chiudo M10 e sblocco M12/WORLD_EXIT.",
+          "goto": "committed",
+          "conditions": {
+            "path": "world.flags.world_eliminated",
+            "eq": true
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m10_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m10_module_outcome_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m10_outcome_route",
+              "value": "world_exit"
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_unlocked",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "commit_review",
+          "text": "Prima rivedo l'audit.",
+          "goto": "state_audit"
+        }
+      ]
+    },
+    "committed": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "M10 è completo. Il prossimo modulo è stato sbloccato dalla competizione reale, non da un teleport narrativo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "committed_complete",
+          "text": "Registro la chiusura leggibile.",
+          "goto": "complete"
+        },
+        {
+          "id": "committed_history",
+          "text": "Rivedo ancora la history persistente.",
+          "goto": "history"
+        }
+      ]
+    },
+    "complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Nessuna Seconda Possibilità si chiude mantenendo bracket, risultati, Friend Beat e squadra. M11 o M12 potranno consumare questo stato senza ricostruirlo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "complete_state",
+          "text": "Rileggo lo stato finale.",
+          "goto": "state_audit"
+        },
+        {
+          "id": "complete_friend",
+          "text": "Rileggo il Friend Beat persistente.",
+          "goto": "friend_closure"
+        }
+      ]
+    }
+  }
+}
