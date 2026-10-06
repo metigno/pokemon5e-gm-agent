@@ -1287,11 +1287,29 @@ function recordWorldKnockoutOutcome(state, meta, outcome, resolvedAtMinutes, bat
     state.world.flags.world_qf_resolved = true;
     state.world.flags.world_qf_result = outcome;
     state.world.flags.world_qf_won = outcome === "win";
-  } else {
+  } else if (meta.worldKnockoutRound === "SF") {
     knockout.playerAdvancedToFinal = outcome === "win";
     state.world.flags.world_sf_resolved = true;
     state.world.flags.world_sf_result = outcome;
     state.world.flags.world_sf_won = outcome === "win";
+  } else {
+    const world = ensureCompetition(state).world;
+    const winner = participantByIdFromMatch(match, match.winnerId);
+    const runnerUp = participantByIdFromMatch(match, match.loserId);
+    knockout.finalResolved = true;
+    knockout.playerWonFinal = outcome === "win";
+    knockout.worldChampion = structuredClone(winner);
+    knockout.worldRunnerUp = structuredClone(runnerUp);
+    world.finalResolved = true;
+    world.currentWorldChampion = structuredClone(winner);
+    world.currentWorldRunnerUp = structuredClone(runnerUp);
+    state.world.flags.world_final_resolved = true;
+    state.world.flags.world_final_result = outcome;
+    state.world.flags.world_champion = outcome === "win";
+    state.world.flags.current_world_champion = winner.name;
+    state.world.flags.current_world_champion_id = winner.id;
+    state.world.flags.current_world_runner_up = runnerUp.name;
+    state.world.flags.current_world_runner_up_id = runnerUp.id;
   }
   return match;
 }
