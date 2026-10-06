@@ -391,8 +391,8 @@
       "choices": [
         {
           "id": "close_lighthouse",
-          "text": "Registro che il ritorno al Primo Faro è il prossimo passo disponibile.",
-          "goto": "m06-handoff#rank_a_band",
+          "text": "Torno alle Rovine del Primo Faro con il secondo layer registrato.",
+          "goto": "m06-first-lighthouse-return#return_entry",
           "effects": [
             {
               "type": "set_flag",
