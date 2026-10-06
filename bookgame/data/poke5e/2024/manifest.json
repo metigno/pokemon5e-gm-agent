@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "ruleset": "2024",
+  "source": {
+    "repository": "Auroratide/poke5e",
+    "ref": "b411a993eba07f36218f8ea70dd2c402e2e7c91a",
+    "version": "v1.12.15",
+    "species": {
+      "path": "static/data/pokemon.json",
+      "blobSha": "84fc644614f27be47d4ab8ce2c2764e16f0ab91d"
+    },
+    "moves": {
+      "path": "src/lib/srd/data/2024/moves/en.json",
+      "blobSha": "e15a6db588b3e4fa699ff2f57fb31744eedff58e"
+    },
+    "abilities": {
+      "path": "src/lib/srd/data/2024/abilities/en.json",
+      "blobSha": "174299af59b90dee0f7e65c3e7761eadde6b353e"
+    },
+    "items": {
+      "path": "src/lib/srd/data/2024/items/en.json",
+      "blobSha": "bf3087ec1ae501badaf0dd57f8116ef0a1e15c80"
+    },
+    "evolutions": {
+      "path": "src/lib/srd/data/2024/evolutions/en.json",
+      "blobSha": "1cf8e0af74a9de198f5e1268dc09cf5b69c487f8"
+    },
+    "conditions": {
+      "path": "src/lib/pokemon/status.ts",
+      "blobSha": "6f86d9bc861a7f7f2fd8e90c9b60333e5d10c458"
+    }
+  },
+  "counts": {
+    "species": 1151,
+    "moves": 830,
+    "abilities": 340,
+    "items": 305,
+    "evolutions": 538,
+    "conditions": 8
+  },
+  "policy": "complete_offline_bookgame_runtime_pack",
+  "note": "Vendored at a pinned upstream ref so normal play never requires network access."
+}
