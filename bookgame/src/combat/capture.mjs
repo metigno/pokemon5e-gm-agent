@@ -38,7 +38,7 @@ function ballReduction(ballId, { trainer, target, activePokemon, round, context 
   if (ballId === "dive-ball") return context.underwater ? 10 : 0;
   if (ballId === "nest-ball") return target.level <= 5 ? 5 : 0;
   if (ballId === "repeat-ball") return context.alreadyCaughtSpecies ? 10 : 0;
-  if (ballId === "timer-ball") return Math.min(10, Math.max(0, context.timerConcentrationTurns ?? 0));
+  if (ballId === "timer-ball") return context.timerActivatedPreviousTurn ? 15 : 0;
   if (ballId === "dusk-ball") return context.darkness || context.night ? 10 : 0;
   if (ballId === "quick-ball") return round === 1 ? 15 : 0;
   if (ballId === "dream-ball") return target.statuses?.nonVolatile === "Asleep" ? 5 : 0;
@@ -46,7 +46,8 @@ function ballReduction(ballId, { trainer, target, activePokemon, round, context 
 }
 
 export function captureAdvantage(target, context = {}) {
-  return ["Poisoned","Asleep","Burned","Paralysis","Frozen"].includes(target.statuses?.nonVolatile)
+  return ["Poisoned","BadlyPoisoned","Asleep","Burned","Paralysis","Frozen"].includes(target.statuses?.nonVolatile)
+    || (target.statuses?.confusedRounds ?? 0) > 0
     || Boolean(context.restrained)
     || Boolean(context.confused);
 }
