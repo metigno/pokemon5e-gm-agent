@@ -1,7 +1,7 @@
 # NPC CHARACTER LIBRARY V1 — LOCK
 
-**Status:** LOCKED BASELINE / M12 DELTA PENDING  
-**Branch origin:** `m11-00-04-work` after M11 runtime validation  
+**Status:** LOCKED RC0 / POST-M12 DELTA PASS  
+**Branch origin:** `bookgame-rc0` from runtime-validated `m12-00-04-work` + NPC Library V1  
 **Machine-readable registry:** `content/npcs/NPC_CHARACTER_LIBRARY_V1.json`
 
 ## 1. Authority
@@ -64,18 +64,20 @@ No NPC may be teleported into a reunion. Location, schedule, competition state, 
 
 Any newly authored named persistent NPC in M12 must be added to the machine-readable registry in the final delta pass.
 
-## 6. Delta audit after M12
+## 6. Delta audit after M12 — PASS
 
-When M12 production closes:
+Executed on **2026-10-06** against the completed M12 production surface.
 
-1. scan every M12 scene for `npc_register`, `npcId`, persistent schedule writes and named callbacks;
-2. compare all discovered runtime IDs with `NPC_CHARACTER_LIBRARY_V1.json`;
-3. add any real new named persistent/callback characters;
-4. reject duplicate IDs or name/ID drift;
-5. verify that M12 still has no new Anchor unless the Master is explicitly changed;
-6. rerun the registry test before merge.
+Findings:
 
-Until that pass, the **narrative/core cast is complete**, while the exhaustive list of incidental M12 names remains intentionally open.
+1. all M12 scene files were scanned for `npc_register`, structured `npcId` fields, persistent schedule writes and named callbacks;
+2. **0** `npc_register` occurrences and **0** structured `npcId` fields were found in M12;
+3. M12 introduces **no new Anchor**;
+4. observed named character callbacks reuse prior registry entries only: N, Archie, Steven Stone, Lance, Red and Cynthia, plus the Five through FRIEND_BEAT_12;
+5. no new named persistent or callback-only M12 character requires a registry entry;
+6. runtime IDs remain unique and the M01→M11 Anchor mapping is unchanged.
+
+The post-M12 delta is therefore closed with **PASS**. The registry is release-candidate complete for `bookgame-rc0`.
 
 ## 7. Authoring protocol
 
