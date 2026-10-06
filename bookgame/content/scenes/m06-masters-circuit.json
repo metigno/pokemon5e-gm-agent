@@ -424,15 +424,19 @@
       "choices": [
         {
           "id": "close_record",
-          "text": "Registro che il blocco Masters è stato visitato.",
-          "goto": "route_link",
+          "text": "Il segnale Hidden Trajectories è disponibile: passo all'aggiornamento sui Five.",
+          "goto": "m06-hidden-trajectories#trajectory_entry",
           "effects": [
             {
               "type": "set_flag",
               "key": "m6_masters_circuit_visited",
               "value": true
             }
-          ]
+          ],
+          "conditions": {
+            "path": "world.flags.a6_hidden_trajectories_available",
+            "eq": true
+          }
         },
         {
           "id": "close_hub",
