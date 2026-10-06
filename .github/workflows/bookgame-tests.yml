@@ -9,6 +9,13 @@ on:
       - "bookgame/**"
       - "src/bridge/**"
       - ".github/workflows/bookgame-tests.yml"
+  pull_request:
+    branches:
+      - m5-00-04-work
+    paths:
+      - "bookgame/**"
+      - "src/bridge/**"
+      - ".github/workflows/bookgame-tests.yml"
   workflow_dispatch:
 
 jobs:
