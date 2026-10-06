@@ -181,7 +181,6 @@
         {
           "id": "spar_accept",
           "text": "Accetto lo sparring 1v1.",
-          "goto": "spar_handoff",
           "combat": {
             "encounterId": "M8_TRAINING_HALL_LUCARIO_SPAR",
             "opponent": {
