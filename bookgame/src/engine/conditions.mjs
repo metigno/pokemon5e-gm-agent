@@ -25,7 +25,18 @@ const FIXED_PATHS = new Set([
   "competition.world.playerGroup",
   "competition.world.playerOpponents.length",
   "competition.world.top16Locked",
-  "competition.world.top16.length"
+  "competition.world.top16.length",
+  "competition.world.top8Locked",
+  "competition.world.top8.length",
+  "competition.world.knockout.opened",
+  "competition.world.knockout.r16Resolved",
+  "competition.world.knockout.silasInTop16",
+  "competition.world.knockout.silasIsPlayerOpponent",
+  "competition.world.knockout.playerAdvancedToQf",
+  "competition.world.knockout.top8Locked",
+  "competition.world.knockout.top8.length",
+  "competition.world.knockout.playerQfMatchId",
+  "competition.world.knockout.silasAdvancedToQf"
 ]);
 
 const COMPARATORS = new Set(["eq", "ne", "gt", "gte", "lt", "lte", "in", "exists"]);
