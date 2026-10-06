@@ -108,9 +108,9 @@ Validation executed on GitHub Actions from branch `m5-00-04-work` after the five
 - `npm --prefix bookgame run validate:story`: **PASS**;
 - compiled global graph: **61 scenes / 969 nodes / 1,323 stitches / 2,291 choices / 36 world events / 12 ecology zones / 416 ecology species**;
 - compiled M05 authored surface currently present: **82 stitches / 164 choices** across the first five scenes;
-- `npm --prefix bookgame test`: **1,025 pass / 0 fail / 0 skipped / 0 cancelled**;
+- `npm --prefix bookgame test`: **1,028 pass / 0 fail / 0 skipped / 0 cancelled**;
 - Node Library V2 policy tests: **PASS**, including the M05→M12 library-first declaration audit;
-- workflow run: **#37432167878**;
+- workflow run: **#37432393064**;
 - all M1–M4 regressions remain green.
 
 The compiler still reports the pre-existing terminal/local-reachability warnings from older authored scene patterns; the M5 multi-context Lance entry also intentionally has alternate entry nodes that are reached cross-scene and therefore appear as local-reachability warnings, not validation errors.
