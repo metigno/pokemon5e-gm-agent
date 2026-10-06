@@ -247,6 +247,42 @@
           ]
         },
         {
+          "id": "hub_recontact_archie",
+          "text": "Cerco il trainer marittimo di cui parlano ufficio meteo e porto.",
+          "timeCostMinutes": 10,
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.archie_met",
+                "ne": true
+              },
+              {
+                "any": [
+                  {
+                    "path": "world.flags.archie_rumor_heard",
+                    "eq": true
+                  },
+                  {
+                    "path": "world.flags.mareasale_weather_read",
+                    "eq": true
+                  },
+                  {
+                    "path": "world.flags.mareasale_weather_pressure_linked",
+                    "eq": true
+                  }
+                ]
+              }
+            ]
+          },
+          "goto": "m04-archie-enters#deferred_intro",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city_weather"
+            }
+          ]
+        },
+        {
           "id": "hub_back_ferravia",
           "text": "Torno a Ferravia.",
           "timeCostMinutes": 240,
