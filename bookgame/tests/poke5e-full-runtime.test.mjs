@@ -5,6 +5,7 @@ import { readFile } from "node:fs/promises";
 import { Pokemon5eCombatEngine, isMoveResolvable } from "../src/combat/combat-engine.mjs";
 import { applyItemToPokemon, compileItemRule } from "../src/combat/item-rules.mjs";
 import { Poke5eDataRepository } from "../src/combat/poke5e-data.mjs";
+import { calculateMoveStats, resolveAttack } from "../src/combat/poke5e-rules.mjs";
 import {
   applyStatus,
   createStatusState,
@@ -338,6 +339,94 @@ test("Refresh and Purify execute status cures with Purify healing only on a real
     const event = battle.log.find((entry) => entry.type === "status_cure_move");
     assert.deepEqual(event.curedStatuses.sort(), ["Confused", "Poisoned"]);
     assert.equal(event.healing, 10);
+  }
+});
+
+test("common passive abilities execute low-HP STAB, critical armor, status immunity and Pressure", async () => {
+  const data = new Poke5eDataRepository();
+
+  {
+    const combat = new Pokemon5eCombatEngine({ dice: new SequenceDice([10]) });
+    const bulbasaur = await combat.createCombatant({
+      speciesId: "bulbasaur",
+      level: 5,
+      abilityId: "overgrow",
+      moveIds: ["vine-whip"]
+    });
+    bulbasaur.hp.current = Math.floor(bulbasaur.hp.max * 0.25);
+    const stats = calculateMoveStats(bulbasaur, await data.getMove("vine-whip"));
+    assert.equal(stats.stab, 6);
+  }
+
+  {
+    const combat = new Pokemon5eCombatEngine({ dice: new SequenceDice([10]) });
+    const attacker = await combat.createCombatant({
+      speciesId: "eevee",
+      level: 5,
+      moveIds: ["tackle"]
+    });
+    const defender = await combat.createCombatant({
+      speciesId: "shellder",
+      level: 5,
+      abilityId: "shell-armor",
+      moveIds: ["tackle"]
+    });
+    const result = resolveAttack({
+      attacker,
+      defender,
+      move: await data.getMove("tackle"),
+      dice: new SequenceDice([20, 6])
+    });
+    assert.equal(result.critical, true);
+    assert.equal(result.criticalDamage, false);
+    assert.equal(result.damageRoll.selected.expression, "1d12");
+  }
+
+  for (const [abilityId, status] of [
+    ["insomnia", "Asleep"],
+    ["comatose", "Asleep"],
+    ["own-tempo", "Confused"],
+    ["inner-focus", "Flinched"],
+    ["limber", "Paralysis"],
+    ["immunity", "Poisoned"],
+    ["water-veil", "Burned"],
+    ["magma-armor", "Frozen"],
+    ["purifying-salt", "BadlyPoisoned"]
+  ]) {
+    const target = dummyPokemon();
+    target.abilityId = abilityId;
+    const result = applyStatus(target, status);
+    assert.equal(result.applied, false, `${abilityId} should block ${status}`);
+    assert.match(result.reason, /^ability:/);
+  }
+
+  {
+    const combat = new Pokemon5eCombatEngine({
+      dice: new SequenceDice([20, 1, 15, 6])
+    });
+    let battle = await combat.createBattle({
+      encounterId: "FULL_RUNTIME_PRESSURE",
+      playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["tackle"] },
+      opponent: {
+        speciesId: "dusclops",
+        level: 10,
+        abilityId: "pressure",
+        moveIds: ["tackle"]
+      },
+      playerPosition: { x: 0, y: 0 },
+      opponentPosition: { x: 5, y: 0 }
+    });
+    const ppBefore = battle.player.pp.tackle;
+    battle = await combat.usePlayerMove(battle, "tackle");
+    assert.equal(battle.player.pp.tackle, ppBefore - 2);
+    assert.ok(
+      battle.log.some(
+        (event) =>
+          event.type === "ability_trigger" &&
+          event.abilityId === "pressure" &&
+          event.ppCost === 2
+      )
+    );
   }
 });
 
