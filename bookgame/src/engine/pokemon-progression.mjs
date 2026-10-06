@@ -585,7 +585,7 @@ export async function awardPokemonXp(
       from: previousLevel,
       to: newLevel,
       hpIncrease,
-      newlyAvailableMoves,
+      newlyAvailableMoves: newlyAvailable,
       asiChoice: POKEMON_ASI_LEVELS.has(newLevel)
     });
   }
