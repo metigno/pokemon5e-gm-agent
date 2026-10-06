@@ -1,0 +1,713 @@
+{
+  "schemaVersion": 1,
+  "purpose": "RC warning triage. Every accepted compiler warning is named and must not drift.",
+  "expectedCounts": {
+    "total": 117,
+    "TERMINAL_NODE": 14,
+    "UNREACHABLE_NODE_LOCAL": 103
+  },
+  "entries": [
+    {
+      "code": "TERMINAL_NODE",
+      "sceneFile": "first-road.json",
+      "nodeId": "combat_handoff",
+      "reason": "intentional_external_subsystem_handoff"
+    },
+    {
+      "code": "TERMINAL_NODE",
+      "sceneFile": "m01-blue-enters.json",
+      "nodeId": "arena_match_handoff",
+      "reason": "intentional_external_subsystem_handoff"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-blue-enters.json",
+      "nodeId": "center_intro",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-blue-enters.json",
+      "nodeId": "center_talk",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-blue-enters.json",
+      "nodeId": "center_verbal",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-blue-enters.json",
+      "nodeId": "center_info",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-blue-enters.json",
+      "nodeId": "center_exit",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-blue-enters.json",
+      "nodeId": "shop_intro",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-blue-enters.json",
+      "nodeId": "shop_talk",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-blue-enters.json",
+      "nodeId": "shop_verbal",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-blue-enters.json",
+      "nodeId": "shop_info",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-blue-enters.json",
+      "nodeId": "shop_exit",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-blue-enters.json",
+      "nodeId": "field_intro_done",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-blue-enters.json",
+      "nodeId": "field_intro_clue",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-blue-enters.json",
+      "nodeId": "field_talk_done",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-blue-enters.json",
+      "nodeId": "field_verbal_done",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-blue-enters.json",
+      "nodeId": "field_info_done",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-blue-enters.json",
+      "nodeId": "field_exit_done",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-blue-enters.json",
+      "nodeId": "field_talk_clue",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-blue-enters.json",
+      "nodeId": "field_verbal_clue",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-blue-enters.json",
+      "nodeId": "field_info_clue",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-blue-enters.json",
+      "nodeId": "field_exit_clue",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "TERMINAL_NODE",
+      "sceneFile": "m01-ecology-opportunities.json",
+      "nodeId": "wild_combat_handoff",
+      "reason": "intentional_external_subsystem_handoff"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-ecology-opportunities.json",
+      "nodeId": "farm_no_sighting",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-ecology-opportunities.json",
+      "nodeId": "gin_wooloo",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-ecology-opportunities.json",
+      "nodeId": "wooloo_curious",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-ecology-opportunities.json",
+      "nodeId": "gin_shinx",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-ecology-opportunities.json",
+      "nodeId": "shinx_read",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-ecology-opportunities.json",
+      "nodeId": "shinx_tense",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-ecology-opportunities.json",
+      "nodeId": "wild_combat_handoff",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-ecology-opportunities.json",
+      "nodeId": "gin_peaceful_return",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-ecology-opportunities.json",
+      "nodeId": "farm_peaceful_return",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-ecology-opportunities.json",
+      "nodeId": "gin_wild_win",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-ecology-opportunities.json",
+      "nodeId": "gin_wild_loss",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-ecology-opportunities.json",
+      "nodeId": "gin_wild_captured",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-ecology-opportunities.json",
+      "nodeId": "farm_wild_win",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-ecology-opportunities.json",
+      "nodeId": "farm_wild_loss",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-ecology-opportunities.json",
+      "nodeId": "farm_wild_captured",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-ecology-opportunities.json",
+      "nodeId": "farm_wooloo",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-ecology-opportunities.json",
+      "nodeId": "farm_wooloo_curious",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-ecology-opportunities.json",
+      "nodeId": "farm_shinx",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-ecology-opportunities.json",
+      "nodeId": "farm_shinx_read",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-ecology-opportunities.json",
+      "nodeId": "farm_shinx_tense",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-ecology-opportunities.json",
+      "nodeId": "farm_hisuian_growlithe",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-ecology-opportunities.json",
+      "nodeId": "farm_hisuian_growlithe_calm",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-ecology-opportunities.json",
+      "nodeId": "farm_hisuian_growlithe_warning",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-ecology-opportunities.json",
+      "nodeId": "val_no_sighting",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-ecology-opportunities.json",
+      "nodeId": "val_pidgey",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-ecology-opportunities.json",
+      "nodeId": "val_burmy",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-ecology-opportunities.json",
+      "nodeId": "val_tandemaus",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-ecology-opportunities.json",
+      "nodeId": "val_purrloin",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-ecology-opportunities.json",
+      "nodeId": "val_peaceful_return",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-ecology-opportunities.json",
+      "nodeId": "val_wild_win",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-ecology-opportunities.json",
+      "nodeId": "val_wild_loss",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-ecology-opportunities.json",
+      "nodeId": "val_wild_captured",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "TERMINAL_NODE",
+      "sceneFile": "m01-first-road.json",
+      "nodeId": "sparring_handoff",
+      "reason": "intentional_external_subsystem_handoff"
+    },
+    {
+      "code": "TERMINAL_NODE",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "spar_luke_handoff",
+      "reason": "intentional_external_subsystem_handoff"
+    },
+    {
+      "code": "TERMINAL_NODE",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "spar_mattew_handoff",
+      "reason": "intentional_external_subsystem_handoff"
+    },
+    {
+      "code": "TERMINAL_NODE",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "spar_daniel_handoff",
+      "reason": "intentional_external_subsystem_handoff"
+    },
+    {
+      "code": "TERMINAL_NODE",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "spar_edward_handoff",
+      "reason": "intentional_external_subsystem_handoff"
+    },
+    {
+      "code": "TERMINAL_NODE",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "spar_fab_handoff",
+      "reason": "intentional_external_subsystem_handoff"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "dispatch_exploration",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "dispatch_farm",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "dispatch_arena",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "dispatch_exploration_luke",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "dispatch_farm_luke",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "dispatch_arena_luke",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "spar_luke_handoff",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "spar_luke_win",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "spar_luke_loss",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "dispatch_exploration_mattew",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "dispatch_farm_mattew",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "dispatch_arena_mattew",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "spar_mattew_handoff",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "spar_mattew_win",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "spar_mattew_loss",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "dispatch_exploration_daniel",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "dispatch_farm_daniel",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "dispatch_arena_daniel",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "spar_daniel_handoff",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "spar_daniel_win",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "spar_daniel_loss",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "dispatch_exploration_edward",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "dispatch_farm_edward",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "dispatch_arena_edward",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "spar_edward_handoff",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "spar_edward_win",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "spar_edward_loss",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "dispatch_exploration_fab",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "dispatch_farm_fab",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "dispatch_arena_fab",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "spar_fab_handoff",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "spar_fab_win",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "spar_fab_loss",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "exploration_complete",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "farm_complete",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m01-friend-beat-01.json",
+      "nodeId": "arena_complete",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "TERMINAL_NODE",
+      "sceneFile": "m01-valedarsena-first-arrival.json",
+      "nodeId": "first_official_handoff",
+      "reason": "intentional_external_subsystem_handoff"
+    },
+    {
+      "code": "TERMINAL_NODE",
+      "sceneFile": "m01-valedarsena-first-arrival.json",
+      "nodeId": "trial_combat_handoff",
+      "reason": "intentional_external_subsystem_handoff"
+    },
+    {
+      "code": "TERMINAL_NODE",
+      "sceneFile": "m02-promotion-trial-e-d.json",
+      "nodeId": "trial_combat_handoff",
+      "reason": "intentional_external_subsystem_handoff"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m02-trial-result.json",
+      "nodeId": "trial_loss",
+      "reason": "combat_outcome_return_entry"
+    },
+    {
+      "code": "TERMINAL_NODE",
+      "sceneFile": "m03-promotion-trial-d-c.json",
+      "nodeId": "trial_combat_handoff",
+      "reason": "intentional_external_subsystem_handoff"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m03-promotion-trial-d-c.json",
+      "nodeId": "trial_combat_handoff",
+      "reason": "combat_subsystem_handoff_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m03-steven-enters.json",
+      "nodeId": "deferred_contact",
+      "reason": "deferred_world_event_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m03-trial-result.json",
+      "nodeId": "trial_loss",
+      "reason": "combat_outcome_return_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m04-archie-enters.json",
+      "nodeId": "harbor_master_intro",
+      "reason": "deferred_world_event_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m04-archie-enters.json",
+      "nodeId": "deferred_intro",
+      "reason": "deferred_world_event_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m04-coast-route.json",
+      "nodeId": "fauna_wattrel",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m04-coast-route.json",
+      "nodeId": "fauna_sandygast",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m04-coast-route.json",
+      "nodeId": "fauna_finizen",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m04-reef-access.json",
+      "nodeId": "reef_horsea",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m04-reef-access.json",
+      "nodeId": "reef_mareanie",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m04-reef-access.json",
+      "nodeId": "reef_corsola",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m04-reef-access.json",
+      "nodeId": "reef_finizen",
+      "reason": "cross_scene_or_external_runtime_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m05-lance-enters.json",
+      "nodeId": "weather_intro",
+      "reason": "deferred_world_event_entry"
+    },
+    {
+      "code": "UNREACHABLE_NODE_LOCAL",
+      "sceneFile": "m05-lance-enters.json",
+      "nodeId": "deferred_intro",
+      "reason": "deferred_world_event_entry"
+    },
+    {
+      "code": "TERMINAL_NODE",
+      "sceneFile": "m08-training-hall.json",
+      "nodeId": "spar_handoff",
+      "reason": "intentional_external_subsystem_handoff"
+    }
+  ]
+}
