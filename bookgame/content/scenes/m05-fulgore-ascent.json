@@ -250,15 +250,15 @@
             "zoneId": "FUL-PLATEAU",
             "method": "wild_observation",
             "allowedSpecies": [
-              "mareep",
-              "shinx",
-              "pawmi"
+              "riolu",
+              "geodude",
+              "machop"
             ],
             "returnNodes": {
               "noEncounter": "fauna_none",
-              "mareep": "fauna_mareep",
-              "shinx": "fauna_shinx",
-              "pawmi": "fauna_pawmi"
+              "riolu": "fauna_riolu",
+              "geodude": "fauna_geodude",
+              "machop": "fauna_machop"
             }
           }
         },
@@ -281,111 +281,6 @@
           "id": "none_continue",
           "text": "Continuo verso l'altopiano.",
           "goto": "plateau_edge"
-        }
-      ]
-    },
-    "fauna_mareep": {
-      "stitches": [
-        {
-          "id": "fm1",
-          "text": "Un Mareep pascola dietro una piega del terreno, usando la roccia come frangivento. Non sembra interessato a te."
-        }
-      ],
-      "choices": [
-        {
-          "id": "mareep_leave",
-          "text": "Lo lascio tranquillo e continuo.",
-          "goto": "plateau_edge",
-          "effects": [
-            {
-              "type": "set_flag",
-              "key": "m5_fulgore_fauna_seen",
-              "value": "mareep"
-            }
-          ]
-        },
-        {
-          "id": "mareep_watch",
-          "text": "Osservo come sceglie i ripari.",
-          "timeCostMinutes": 10,
-          "goto": "checkpoint",
-          "effects": [
-            {
-              "type": "set_flag",
-              "key": "m5_fulgore_fauna_seen",
-              "value": "mareep"
-            }
-          ]
-        }
-      ]
-    },
-    "fauna_shinx": {
-      "stitches": [
-        {
-          "id": "fs1",
-          "text": "Uno Shinx resta basso fra le rocce, fermandosi ogni volta che una raffica supera il bordo del pendio."
-        }
-      ],
-      "choices": [
-        {
-          "id": "shinx_leave",
-          "text": "Non lo avvicino e proseguo.",
-          "goto": "plateau_edge",
-          "effects": [
-            {
-              "type": "set_flag",
-              "key": "m5_fulgore_fauna_seen",
-              "value": "shinx"
-            }
-          ]
-        },
-        {
-          "id": "shinx_watch",
-          "text": "Studio il suo uso del terreno.",
-          "timeCostMinutes": 10,
-          "goto": "checkpoint",
-          "effects": [
-            {
-              "type": "set_flag",
-              "key": "m5_fulgore_fauna_seen",
-              "value": "shinx"
-            }
-          ]
-        }
-      ]
-    },
-    "fauna_pawmi": {
-      "stitches": [
-        {
-          "id": "fp1",
-          "text": "Un Pawmi attraversa rapidamente un tratto aperto e scompare fra due spuntoni di roccia appena il vento cambia."
-        }
-      ],
-      "choices": [
-        {
-          "id": "pawmi_leave",
-          "text": "Lo lascio andare e continuo.",
-          "goto": "plateau_edge",
-          "effects": [
-            {
-              "type": "set_flag",
-              "key": "m5_fulgore_fauna_seen",
-              "value": "pawmi"
-            }
-          ]
-        },
-        {
-          "id": "pawmi_watch",
-          "text": "Registro il comportamento senza seguirlo.",
-          "timeCostMinutes": 10,
-          "goto": "checkpoint",
-          "effects": [
-            {
-              "type": "set_flag",
-              "key": "m5_fulgore_fauna_seen",
-              "value": "pawmi"
-            }
-          ]
         }
       ]
     },
@@ -567,6 +462,111 @@
             {
               "type": "set_location",
               "locationId": "ful_plateau"
+            }
+          ]
+        }
+      ]
+    },
+    "fauna_riolu": {
+      "stitches": [
+        {
+          "id": "fr1",
+          "text": "Un Riolu si muove lungo il margine del pendio, fermandosi nei punti in cui la roccia spezza il vento. Non mostra interesse a trasformare l'incontro in uno scontro."
+        }
+      ],
+      "choices": [
+        {
+          "id": "riolu_leave",
+          "text": "Lo lascio tranquillo e continuo.",
+          "goto": "plateau_edge",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_fulgore_fauna_seen",
+              "value": "riolu"
+            }
+          ]
+        },
+        {
+          "id": "riolu_watch",
+          "text": "Osservo come usa il terreno.",
+          "timeCostMinutes": 10,
+          "goto": "checkpoint",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_fulgore_fauna_seen",
+              "value": "riolu"
+            }
+          ]
+        }
+      ]
+    },
+    "fauna_geodude": {
+      "stitches": [
+        {
+          "id": "fg1",
+          "text": "Un Geodude resta quasi indistinguibile dalla pietra finché non cambia posizione. Il suo movimento conferma quanto la fauna locale sfrutti ripari e pareti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "geodude_leave",
+          "text": "Non lo disturbo e proseguo.",
+          "goto": "plateau_edge",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_fulgore_fauna_seen",
+              "value": "geodude"
+            }
+          ]
+        },
+        {
+          "id": "geodude_watch",
+          "text": "Registro il suo uso del riparo.",
+          "timeCostMinutes": 10,
+          "goto": "checkpoint",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_fulgore_fauna_seen",
+              "value": "geodude"
+            }
+          ]
+        }
+      ]
+    },
+    "fauna_machop": {
+      "stitches": [
+        {
+          "id": "fm1",
+          "text": "Un Machop attraversa un tratto aperto solo dopo aver atteso una pausa nelle raffiche, poi scompare dietro un costone."
+        }
+      ],
+      "choices": [
+        {
+          "id": "machop_leave",
+          "text": "Lo lascio andare e continuo.",
+          "goto": "plateau_edge",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_fulgore_fauna_seen",
+              "value": "machop"
+            }
+          ]
+        },
+        {
+          "id": "machop_watch",
+          "text": "Registro il comportamento senza seguirlo.",
+          "timeCostMinutes": 10,
+          "goto": "checkpoint",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_fulgore_fauna_seen",
+              "value": "machop"
             }
           ]
         }
