@@ -1,0 +1,317 @@
+{
+  "schemaVersion": 1,
+  "id": "m06-handoff",
+  "moduleId": "M06",
+  "title": "M6_00 — Rank A Handoff",
+  "locationId": "alt_town",
+  "entryNodeId": "m06_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m5_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m06_unlocked",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "A"
+      }
+    ]
+  },
+  "nodes": {
+    "m06_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "M6 eredita Rank A, licenza interregionale, risultati Masters già realmente ottenuti e tutto lo stato persistente. Nessun punto, incontro con Red o promozione A→S viene concesso all'ingresso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "activate_m6",
+          "text": "Attivo M6 senza riscrivere la carriera.",
+          "goto": "rank_a_band",
+          "conditions": {
+            "path": "world.flags.m6_active",
+            "ne": true
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_active",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "review_active_m6",
+          "text": "M6 è già attivo: rivedo la fascia Rank A.",
+          "goto": "rank_a_band",
+          "conditions": {
+            "path": "world.flags.m6_active",
+            "eq": true
+          }
+        }
+      ]
+    },
+    "rank_a_band": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Rank A apre il circuito interregionale avanzato. La forza locale non equivale a risultato fuori regione: viaggio, calendario, seed Masters e disponibilità reale restano vincoli separati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "band_routes",
+          "text": "Rivedo le tratte interregionali disponibili.",
+          "goto": "route_preview"
+        },
+        {
+          "id": "band_masters",
+          "text": "Controllo cosa eredito davvero dal Masters Entry.",
+          "goto": "masters_state"
+        },
+        {
+          "id": "band_license",
+          "text": "Controllo i limiti della licenza interregionale.",
+          "goto": "license_state"
+        },
+        {
+          "id": "band_wait",
+          "text": "Resto ad Altacima e lascio scorrere il mondo.",
+          "goto": "wait_node"
+        }
+      ]
+    },
+    "carryover": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Roster, HP, PP, condizioni, denaro, inventario, EXP, relazioni, ranking e risultati E5 restano quelli reali di fine M5. Le parti opzionali non viste non vengono inventate."
+        }
+      ],
+      "choices": [
+        {
+          "id": "carry_callbacks",
+          "text": "Rivedo i callback utili dei moduli precedenti.",
+          "goto": "callbacks"
+        },
+        {
+          "id": "carry_back",
+          "text": "Torno alla fascia Rank A.",
+          "goto": "rank_a_band"
+        }
+      ]
+    },
+    "masters_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Masters Entry di M5 può avere un risultato persistente oppure essere ancora una finestra aperta. M6 non trasforma uno stato mancante in una vittoria o in un seed favorevole."
+        }
+      ],
+      "choices": [
+        {
+          "id": "masters_record",
+          "text": "Registro che il seed esistente verrà soltanto letto.",
+          "goto": "guard_state",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_masters_carryover_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "masters_back",
+          "text": "Torno alla fascia Rank A.",
+          "goto": "rank_a_band"
+        }
+      ]
+    },
+    "license_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La licenza interregionale consente di usare tratte legali, non di ignorare orari, costi temporali, accessi locali o Rank. Solaria e Luminara sono opzioni, non tappe obbligatorie entrambe."
+        }
+      ],
+      "choices": [
+        {
+          "id": "license_routes",
+          "text": "Passo alla selezione delle tratte.",
+          "goto": "route_preview"
+        },
+        {
+          "id": "license_back",
+          "text": "Torno alla fascia Rank A.",
+          "goto": "rank_a_band"
+        }
+      ]
+    },
+    "callbacks": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Gli esiti di Ferrox, Mareasale, Fulgore, Lance e dei Friend Beat precedenti possono cambiare contesto e tono, ma M6 li legge senza attribuire ricompense mai guadagnate."
+        }
+      ],
+      "choices": [
+        {
+          "id": "callbacks_note",
+          "text": "Registro il principio di continuità.",
+          "goto": "guard_state",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_prior_callbacks_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "callbacks_back",
+          "text": "Torno al riepilogo dello stato.",
+          "goto": "carryover"
+        }
+      ]
+    },
+    "route_preview": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il terminale interregionale mostra più tratte. Puoi scegliere una destinazione coerente con calendario e licenza, rimandare oppure restare nel circuito locale senza perdere M6."
+        }
+      ],
+      "choices": [
+        {
+          "id": "preview_solaria",
+          "text": "Valuto Solaria come prima tratta.",
+          "goto": "route_commit",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_route_candidate",
+              "value": "solaria"
+            }
+          ]
+        },
+        {
+          "id": "preview_luminara",
+          "text": "Valuto Luminara come prima tratta.",
+          "goto": "route_commit",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_route_candidate",
+              "value": "luminara"
+            }
+          ]
+        },
+        {
+          "id": "preview_carryover",
+          "text": "Prima controllo ancora lo stato ereditato.",
+          "goto": "carryover"
+        }
+      ]
+    },
+    "stay_altacima": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Rimanere ad Altacima è una scelta legale. Il mondo continua e nessun evento interregionale viene considerato completato solo perché è disponibile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "stay_return",
+          "text": "Torno alla fascia Rank A.",
+          "goto": "rank_a_band"
+        },
+        {
+          "id": "stay_services",
+          "text": "Rientro nell'hub di Altacima.",
+          "goto": "m05-altacima#town_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        }
+      ]
+    },
+    "guard_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La barriera di stato è esplicita: M6 non cambia Rank A, non incontra Red e non assegna risultati Masters attraverso flag narrativi di riepilogo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "guard_routes",
+          "text": "Ora scelgo una tratta.",
+          "goto": "route_preview"
+        },
+        {
+          "id": "guard_back",
+          "text": "Torno al riepilogo.",
+          "goto": "rank_a_band"
+        }
+      ]
+    },
+    "route_commit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La scelta della prima tratta è una preferenza di viaggio, non un teletrasporto. La partenza reale appartiene al blocco successivo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "commit_route",
+          "text": "Confermo che voglio passare alla selezione operativa.",
+          "goto": "m06-route-selection#route_entry"
+        },
+        {
+          "id": "commit_back",
+          "text": "Cambio idea prima della partenza.",
+          "goto": "route_preview"
+        }
+      ]
+    },
+    "wait_node": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Aspettare consuma tempo reale e può cambiare schedule, finestre e disponibilità. Non genera automaticamente progressione competitiva."
+        }
+      ],
+      "choices": [
+        {
+          "id": "wait_hour",
+          "text": "Aspetto un'ora e torno alla fascia Rank A.",
+          "goto": "rank_a_band",
+          "timeCostMinutes": 60
+        },
+        {
+          "id": "wait_hub",
+          "text": "Torno ai servizi di Altacima.",
+          "goto": "m05-altacima#town_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
