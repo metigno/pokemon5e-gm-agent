@@ -401,7 +401,7 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
       const combat = choice.combat;
       const dynamicWorldOpponent =
         Number.isInteger(combat.competition?.worldOpponentIndex) ||
-        ["R16", "QF", "SF"].includes(combat.competition?.worldKnockoutRound);
+        ["R16", "QF", "SF", "FINAL"].includes(combat.competition?.worldKnockoutRound);
       if (typeof combat.encounterId !== "string" || combat.encounterId.length === 0) {
         errors.push(diag("INVALID_ENCOUNTER_ID", "combat.encounterId is required", choiceAt + ".combat"));
       }
