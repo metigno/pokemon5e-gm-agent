@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "ruleset": "2024",
+  "source": {
+    "repository": "Auroratide/poke5e",
+    "ref": "b411a993eba07f36218f8ea70dd2c402e2e7c91a",
+    "path": "src/lib/pokemon/status.ts",
+    "blobSha": "6f86d9bc861a7f7f2fd8e90c9b60333e5d10c458"
+  },
+  "nonVolatile": [
+    {
+      "id": "Asleep",
+      "name": "Asleep",
+      "abbr": "SLP",
+      "volatile": false,
+      "mechanics": {
+        "incapacitated": true,
+        "restrained": true,
+        "savingThrowsDisadvantage": "all",
+        "maxRounds": 3,
+        "forcedMovementWakeCheck": {
+          "die": "d20",
+          "dc": 11
+        },
+        "endTurnWakeCheck": {
+          "die": "d20",
+          "dc": 11
+        }
+      }
+    },
+    {
+      "id": "Burned",
+      "name": "Burned",
+      "abbr": "BRN",
+      "volatile": false,
+      "mechanics": {
+        "damageRollDisadvantage": true,
+        "endTurnDamage": "PB",
+        "endsOnUnconscious": true,
+        "immuneTypes": [
+          "fire"
+        ]
+      }
+    },
+    {
+      "id": "Frozen",
+      "name": "Frozen",
+      "abbr": "FRZ",
+      "volatile": false,
+      "mechanics": {
+        "incapacitated": true,
+        "restrained": true,
+        "maxDurationMinutes": 60,
+        "endTurnSave": {
+          "attribute": "str",
+          "dc": "10+SOURCE_PB"
+        },
+        "endsOnDamageTypes": [
+          "fire"
+        ],
+        "endsOnBurnInflictingMoveDamage": true,
+        "immuneTypes": [
+          "ice"
+        ]
+      }
+    },
+    {
+      "id": "Paralysis",
+      "name": "Paralysis",
+      "abbr": "PAR",
+      "volatile": false,
+      "mechanics": {
+        "savingThrowDisadvantage": [
+          "str",
+          "dex"
+        ],
+        "speedMultiplier": 0.5,
+        "startTurnCheck": {
+          "die": "d4",
+          "incapacitatedOn": [
+            1
+          ],
+          "restrainedOn": [
+            1
+          ]
+        },
+        "immuneTypes": [
+          "electric"
+        ]
+      }
+    },
+    {
+      "id": "Poisoned",
+      "name": "Poisoned",
+      "abbr": "PSN",
+      "volatile": false,
+      "mechanics": {
+        "abilityChecksDisadvantage": "all",
+        "attackRollsDisadvantage": true,
+        "endTurnDamage": "PB",
+        "endsOnUnconscious": true,
+        "immuneTypes": [
+          "poison",
+          "steel"
+        ]
+      }
+    },
+    {
+      "id": "BadlyPoisoned",
+      "name": "Badly Poisoned",
+      "abbr": "PSN",
+      "volatile": false,
+      "mechanics": {
+        "abilityChecksDisadvantage": "all",
+        "attackRollsDisadvantage": true,
+        "endTurnDamage": "2*PB",
+        "endsOnUnconscious": true,
+        "immuneTypes": [
+          "poison",
+          "steel"
+        ]
+      }
+    }
+  ],
+  "volatile": [
+    {
+      "id": "Confused",
+      "name": "Confused",
+      "abbr": "CON",
+      "volatile": true,
+      "mechanics": {
+        "reactionsDisabled": true,
+        "maxRounds": 3,
+        "startTurnTable": {
+          "1": "STRUGGLE_SELF_AUTO_HIT",
+          "2": "STRUGGLE_NEAREST_OR_SELF_AUTO_HIT",
+          "3": "NO_MOVE_OR_ACTIONS",
+          "8": "END_CONDITION",
+          "die": "d8",
+          "4-7": "NORMAL_BEHAVIOR"
+        }
+      }
+    },
+    {
+      "id": "Flinched",
+      "name": "Flinched",
+      "abbr": "FLN",
+      "volatile": true,
+      "mechanics": {
+        "attackRollsDisadvantage": true,
+        "abilityChecksDisadvantage": "all",
+        "savingThrowsDisadvantage": "all",
+        "targetsSaveAdvantageAgainstAction": true,
+        "endsAtEndOfNextTurn": true
+      }
+    }
+  ]
+}
