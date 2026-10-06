@@ -8,6 +8,11 @@ on:
       - "bookgame/**"
       - "src/bridge/**"
       - ".github/workflows/bookgame-tests.yml"
+  pull_request:
+    paths:
+      - "bookgame/**"
+      - "src/bridge/**"
+      - ".github/workflows/bookgame-tests.yml"
   workflow_dispatch:
 
 jobs:
