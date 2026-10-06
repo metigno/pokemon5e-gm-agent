@@ -1,0 +1,472 @@
+{
+  "schemaVersion": 1,
+  "id": "m04-league-registration",
+  "moduleId": "M04",
+  "title": "M4_09 — Upper Regional Registration",
+  "locationId": "mar_city_arena",
+  "entryNodeId": "registration_hall",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m3_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m04_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m4_active",
+        "eq": true
+      },
+      {
+        "path": "world.flags.a4_league_reg_available",
+        "eq": true
+      },
+      {
+        "path": "competition.rankOrder",
+        "gte": 3
+      }
+    ]
+  },
+  "nodes": {
+    "registration_hall": {
+      "stitches": [
+        {
+          "id": "hall_1",
+          "text": "Lo sportello upper-regional dell'Arena del Molo gestisce iscrizione e calendario separatamente dal Promotion Trial C→B. Entrare qui non crea un match e non cambia il Rank."
+        },
+        {
+          "id": "hall_2",
+          "text": "Lo sportello accetta nuove pratiche durante le fasce diurne. La sera puoi leggere il regolamento, ma non forzare una registrazione fuori orario."
+        }
+      ],
+      "choices": [
+        {
+          "id": "open_desk_morning",
+          "text": "Lo sportello è aperto: vado al banco di registrazione.",
+          "conditions": {
+            "path": "world.time",
+            "eq": "morning"
+          },
+          "goto": "registration_desk"
+        },
+        {
+          "id": "open_desk_afternoon",
+          "text": "Lo sportello è ancora aperto: vado al banco.",
+          "conditions": {
+            "path": "world.time",
+            "eq": "afternoon"
+          },
+          "goto": "registration_desk"
+        },
+        {
+          "id": "closed_evening",
+          "text": "Lo sportello è chiuso per oggi; controllo gli orari.",
+          "conditions": {
+            "path": "world.time",
+            "eq": "evening"
+          },
+          "goto": "office_closed"
+        },
+        {
+          "id": "closed_night",
+          "text": "Di notte lo sportello è chiuso; controllo gli orari.",
+          "conditions": {
+            "path": "world.time",
+            "eq": "night"
+          },
+          "goto": "office_closed"
+        },
+        {
+          "id": "review_upper_rules",
+          "text": "Leggo cosa l'upper-regional può e non può fare.",
+          "goto": "upper_rules"
+        },
+        {
+          "id": "review_calendar",
+          "text": "Controllo come il calendario reagisce a una registrazione.",
+          "goto": "calendar_rules"
+        },
+        {
+          "id": "registration_back",
+          "text": "Torno nell'Arena del Molo.",
+          "goto": "m04-mareasale-arrival#arena_lobby",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city_arena"
+            }
+          ]
+        }
+      ]
+    },
+    "upper_rules": {
+      "stitches": [
+        {
+          "id": "rules_1",
+          "text": "L'upper-regional è opzionale e produce risultati competitivi reali quando i match vengono disputati. Può influenzare punti, reputazione e seeding; non sostituisce il checkpoint C→B e non promuove per narrazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rules_desk",
+          "text": "Vado al banco di registrazione.",
+          "conditions": {
+            "path": "world.time",
+            "in": [
+              "morning",
+              "afternoon"
+            ]
+          },
+          "goto": "registration_desk"
+        },
+        {
+          "id": "rules_calendar",
+          "text": "Controllo prima il calendario.",
+          "goto": "calendar_rules"
+        },
+        {
+          "id": "rules_back",
+          "text": "Torno all'ingresso.",
+          "goto": "registration_hall"
+        }
+      ]
+    },
+    "calendar_rules": {
+      "stitches": [
+        {
+          "id": "calendar_1",
+          "text": "La registrazione apre una finestra competitiva nel Living World. Gli altri trainer continuano a disputare i propri match; il tuo bracket verrà creato solo quando M4_11 consumerà il vero stato di iscrizione."
+        },
+        {
+          "id": "calendar_2",
+          "text": "Rimandare è legale. Rinunciare definitivamente, invece, produce un risultato persistente `skipped` e il circuito prosegue senza di te."
+        }
+      ],
+      "choices": [
+        {
+          "id": "calendar_register",
+          "text": "Registro adesso.",
+          "conditions": {
+            "path": "world.time",
+            "in": [
+              "morning",
+              "afternoon"
+            ]
+          },
+          "goto": "registration_desk"
+        },
+        {
+          "id": "calendar_defer",
+          "text": "Non mi iscrivo ancora.",
+          "goto": "deferred"
+        },
+        {
+          "id": "calendar_decline",
+          "text": "Rinuncio all'upper-regional per questa finestra.",
+          "conditions": {
+            "path": "world.flags.upper_regional_registration_complete",
+            "ne": true
+          },
+          "goto": "decline_confirm"
+        }
+      ]
+    },
+    "office_closed": {
+      "stitches": [
+        {
+          "id": "closed_1",
+          "text": "L'orario del banco è finito. Aspettare non è una scorciatoia: il tempo deve davvero avanzare e, con esso, quest, meteo, schedule e altri eventi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "closed_wait_morning",
+          "text": "Aspetto fino a una fascia utile facendo avanzare sei ore.",
+          "timeCostMinutes": 360,
+          "goto": "registration_hall",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_office_waited",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "closed_defer",
+          "text": "Torno a Mareasale e farò altro.",
+          "goto": "deferred"
+        }
+      ]
+    },
+    "registration_desk": {
+      "stitches": [
+        {
+          "id": "desk_1",
+          "text": "Il banco legge Rank e stato della finestra. Non clona il tuo roster e non registra una formazione narrativa finta: il roster ufficiale verrà validato dal match system quando l'upper-regional inizierà."
+        }
+      ],
+      "choices": [
+        {
+          "id": "register_upper_regional",
+          "text": "Confermo l'iscrizione all'Upper Regional Circuit.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.upper_regional_registration_complete",
+                "ne": true
+              },
+              {
+                "path": "world.flags.upper_regional_result",
+                "exists": false
+              }
+            ]
+          },
+          "goto": "registered",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_registration_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "upper_regional_registration_status",
+              "value": "registered"
+            }
+          ]
+        },
+        {
+          "id": "registration_status",
+          "text": "Controllo una registrazione già effettuata.",
+          "conditions": {
+            "path": "world.flags.upper_regional_registration_complete",
+            "eq": true
+          },
+          "goto": "registered"
+        },
+        {
+          "id": "desk_rank_gate",
+          "text": "Controllo perché Rank C è sufficiente per iscriversi ma non per saltare il Trial.",
+          "goto": "rank_gate_review"
+        },
+        {
+          "id": "desk_defer",
+          "text": "Non firmo ancora.",
+          "goto": "deferred"
+        }
+      ]
+    },
+    "rank_gate_review": {
+      "stitches": [
+        {
+          "id": "rank_1",
+          "text": "Rank C ti rende eleggibile alla fascia upper-regional. Rank B resta invece dietro `RANK_C_TO_B`: nessun numero di match opzionali può bypassare quel checkpoint."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rank_desk",
+          "text": "Torno al banco.",
+          "goto": "registration_desk"
+        },
+        {
+          "id": "rank_rules",
+          "text": "Rileggo la separazione fra bracket e Trial.",
+          "goto": "upper_rules"
+        }
+      ]
+    },
+    "registered": {
+      "stitches": [
+        {
+          "id": "registered_1",
+          "text": "L'iscrizione è registrata. Il Living World può ora aprire `A4_REGIONAL_LEAGUE`; non hai ancora vinto, perso o disputato alcun match."
+        }
+      ],
+      "choices": [
+        {
+          "id": "registered_schedule",
+          "text": "Controllo cosa cambia nel calendario.",
+          "goto": "registered_schedule"
+        },
+        {
+          "id": "registered_prepare",
+          "text": "Registro una priorità di preparazione senza modificare il roster.",
+          "goto": "prep_focus"
+        },
+        {
+          "id": "registered_hub",
+          "text": "Torno a Mareasale.",
+          "goto": "m04-mareasale-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        }
+      ]
+    },
+    "registered_schedule": {
+      "stitches": [
+        {
+          "id": "schedule_1",
+          "text": "La finestra competitiva è ora reale e può convivere con costa, contrabbando, Friend Beat e Trial. Nessuno di questi thread viene congelato solo perché ti sei iscritto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "schedule_note",
+          "text": "Registro che l'upper-regional è una pressione concorrente, non il nuovo unico obiettivo.",
+          "goto": "registered",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_schedule_understood",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "schedule_hub",
+          "text": "Torno nel porto.",
+          "goto": "m04-mareasale-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        }
+      ]
+    },
+    "prep_focus": {
+      "stitches": [
+        {
+          "id": "prep_1",
+          "text": "Puoi decidere cosa osservare nei prossimi match, ma la scelta non assegna EV, HP, livelli o bonus invisibili."
+        }
+      ],
+      "choices": [
+        {
+          "id": "prep_resources",
+          "text": "Mi concentro sulla gestione delle risorse fra match.",
+          "goto": "registered",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_prep_focus",
+              "value": "resources"
+            }
+          ]
+        },
+        {
+          "id": "prep_adaptation",
+          "text": "Mi concentro sull'adattamento fra avversari diversi.",
+          "goto": "registered",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_prep_focus",
+              "value": "adaptation"
+            }
+          ]
+        },
+        {
+          "id": "prep_information",
+          "text": "Mi concentro sullo scouting pubblico e sul fog of war.",
+          "goto": "registered",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_prep_focus",
+              "value": "information"
+            }
+          ]
+        }
+      ]
+    },
+    "deferred": {
+      "stitches": [
+        {
+          "id": "defer_1",
+          "text": "Non hai consumato la finestra. L'evento di registrazione resta disponibile finché non scegli un esito definitivo o il mondo futuro non lo chiude attraverso una regola autorizzata."
+        }
+      ],
+      "choices": [
+        {
+          "id": "defer_hub",
+          "text": "Torno a Mareasale.",
+          "goto": "m04-mareasale-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        },
+        {
+          "id": "defer_return",
+          "text": "Cambio idea e torno all'ingresso.",
+          "goto": "registration_hall"
+        }
+      ]
+    },
+    "decline_confirm": {
+      "stitches": [
+        {
+          "id": "decline_1",
+          "text": "Rinunciare è diverso da rimandare. Il circuito continuerà senza di te e M4 conserverà `skipped` come risultato reale della competizione opzionale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "confirm_decline",
+          "text": "Confermo: salto l'Upper Regional Circuit.",
+          "goto": "declined",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "upper_regional_registration_status",
+              "value": "declined"
+            },
+            {
+              "type": "set_flag",
+              "key": "upper_regional_result",
+              "value": "skipped"
+            }
+          ]
+        },
+        {
+          "id": "cancel_decline",
+          "text": "No. Rimando soltanto.",
+          "goto": "deferred"
+        }
+      ]
+    },
+    "declined": {
+      "stitches": [
+        {
+          "id": "declined_1",
+          "text": "Il tuo nome non entra nel bracket di questa finestra. Non ottieni match, punti o piazzamenti immaginari; il risultato persistente è semplicemente `skipped`."
+        }
+      ],
+      "choices": [
+        {
+          "id": "declined_hub",
+          "text": "Torno a Mareasale.",
+          "goto": "m04-mareasale-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
