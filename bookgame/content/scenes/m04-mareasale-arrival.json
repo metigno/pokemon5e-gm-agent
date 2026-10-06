@@ -342,6 +342,23 @@
           ]
         },
         {
+          "id": "hub_friend_beat_04",
+          "text": "Rispondo al contatto di uno degli altri Five.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.friend_beat_04_available",
+                "eq": true
+              },
+              {
+                "path": "world.flags.friend_beat_04_complete",
+                "ne": true
+              }
+            ]
+          },
+          "goto": "m04-friend-beat-04#friend_call"
+        },
+        {
           "id": "hub_back_ferravia",
           "text": "Torno a Ferravia.",
           "timeCostMinutes": 240,
