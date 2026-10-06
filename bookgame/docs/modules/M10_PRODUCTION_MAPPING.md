@@ -48,11 +48,11 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 | M10_02_R16_PREP | preparazione senza reset di HP/condizioni non consentiti | 312 | 156 | COMPLETE / CYCLE 1 VALIDATED |
 | M10_03_WORLD_R16 | ottavo reale, single elimination | 532 | 266 | COMPLETE / CYCLE 1 VALIDATED |
 | M10_04_R16_AFTERMATH | eliminazione oppure avanzamento e risultati degli altri | 367 | 183 | COMPLETE / CYCLE 1 VALIDATED |
-| M10_05_FRIEND_BEAT_10 | corsa dell'amico visibile; Player vs Friend solo se bracket | 532 | 266 | PLANNED |
-| M10_06_QF_PREP | pressione Top8 e stato roster reale | 312 | 156 | PLANNED |
-| M10_07_WORLD_QF | quarto reale, single elimination | 532 | 266 | PLANNED |
-| M10_08_QF_AFTERMATH | eliminazione oppure Final Four | 367 | 183 | PLANNED |
-| M10_09_MODULE_OUTCOME | handoff M11 o WORLD_EXIT | 312 | 156 | PLANNED |
+| M10_05_FRIEND_BEAT_10 | corsa dell'amico visibile; Player vs Friend solo se bracket | 532 | 266 | IMPLEMENTED / VALIDATION PENDING |
+| M10_06_QF_PREP | pressione Top8 e stato roster reale | 312 | 156 | IMPLEMENTED / VALIDATION PENDING |
+| M10_07_WORLD_QF | quarto reale, single elimination | 532 | 266 | IMPLEMENTED / VALIDATION PENDING |
+| M10_08_QF_AFTERMATH | eliminazione oppure Final Four | 367 | 183 | IMPLEMENTED / VALIDATION PENDING |
+| M10_09_MODULE_OUTCOME | handoff M11 o WORLD_EXIT | 312 | 156 | IMPLEMENTED / VALIDATION PENDING |
 | **TOTAL** |  | **4,000** | **2,000** | |
 
 Budgets are authored surface capacity. One run sees only the paths made legal by its state.
@@ -331,6 +331,101 @@ Do **not** promote the completed Library V2 baseline beyond **M01→M09** until 
 - `validate:story`: **PASS**;
 - full test suite: **1,253 passed / 0 failed / 0 skipped**;
 - M10-specific regression reaches save/reload after a real R16 result and derived Top8/QF pairing.
+
+---
+
+# 5B. CYCLE 2 IMPLEMENTATION LOCK — M10_05–M10_09
+
+Cycle 2 closes the knockout module without changing the authored-surface manifest (**4,000 stitches / 2,000 choices**).
+
+**Cycle 2 logical surface:** **82 nodes / 181 meaningful choices** exactly.  
+**Complete M10 logical surface:** **160 nodes / 352 meaningful choices** exactly.
+
+## M10_05_FRIEND_BEAT_10
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R23_NPC_PRESENCE_SCHEDULE_GATE
+- R24_PERSISTENT_NPC_FIRST_MEETING
+- R29_LIVING_WORLD_OFF_SCREEN_RESOLUTION
+- R33_CROSS_MODULE_CALLBACK
+- R38_COMPOSITE_OUTCOME_CLASSIFIER
+
+**Unique layer:** E4 Friend Beat selection is parameterized for the knockout stage. It prioritizes an actual QF opponent, then friends still in Top8, then eliminated World participants, while preserving schedule/location causality and rotation from FRIEND_BEAT_09.
+
+**Implementation lock:** scene `m10-friend-beat-10` contains **22 nodes / 48 meaningful choices**. Player vs Friend occurs only when the E5 QF bracket actually creates that pairing. Friend Beat state cannot alter any R16/QF result.
+
+## M10_06_QF_PREP
+
+**Reuse class:** REUSE / ADAPT
+
+**Source archetypes:**
+- R16_ROSTER_PREPARATION_ELIGIBILITY_INFO
+- R13_MEDICAL_POKEMON_CENTER_SERVICE
+- R32_WAIT_LET_TIME_PASS
+- R33_CROSS_MODULE_CALLBACK
+
+**Unique layer:** preparation consumes the real Top8 and `playerQfOpponent` produced by E5. Time can advance, but informational preparation never heals or rebuilds the roster.
+
+**Implementation lock:** scene `m10-qf-prep` contains **12 nodes / 27 meaningful choices**.
+
+## M10_07_WORLD_QF
+
+**Reuse class:** ADAPT / E5 EXTENSION
+
+**Source archetypes:**
+- R15_FIRST_OFFICIAL_MATCH_LIFECYCLE
+- R06_COMBAT_HANDOFF
+- R16_ROSTER_PREPARATION_ELIGIBILITY_INFO
+- R37_MULTI_ROUND_TOURNAMENT_LIFECYCLE
+- R33_CROSS_MODULE_CALLBACK
+
+**Unique layer:** the Pokémon 5e bridge dynamically resolves the actual QF match id, opponent id and regulated roster from E5. No authored trainer identity can substitute the bracket.
+
+**Implementation lock:** scene `m10-world-qf` contains **21 nodes / 47 meaningful choices**. One official QF record is written; replay after resolution is hidden/rejected.
+
+## M10_08_QF_AFTERMATH
+
+**Reuse class:** ADAPT / E5 EXTENSION
+
+**Source archetypes:**
+- R37_MULTI_ROUND_TOURNAMENT_LIFECYCLE
+- R38_COMPOSITE_OUTCOME_CLASSIFIER
+- R29_LIVING_WORLD_OFF_SCREEN_RESOLUTION
+- R33_CROSS_MODULE_CALLBACK
+
+**Unique layer:** E5 deterministically resolves the other three quarterfinals, locks exactly four unique semifinalists and derives two SF pairings for M11.
+
+**Implementation lock:** scene `m10-qf-aftermath` contains **15 nodes / 33 meaningful choices**. A player loss advances the actual QF opponent; a win places the player in Top4 and derives `playerSfOpponent`.
+
+## M10_09_MODULE_OUTCOME
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R21_MODULE_HANDOFF
+- R38_COMPOSITE_OUTCOME_CLASSIFIER
+- R33_CROSS_MODULE_CALLBACK
+- R37_MULTI_ROUND_TOURNAMENT_LIFECYCLE
+
+**Unique layer:** the module exits only from canonical knockout state. R16/QF elimination unlocks M12/WORLD_EXIT; QF victory plus real Top4/SF state unlocks M11.
+
+**Implementation lock:** scene `m10-module-outcome` contains **12 nodes / 26 meaningful choices**. M11 and M12 are mutually exclusive consequences of E5 state.
+
+## E4/E5 Cycle 2 extensions
+
+- `friend_beat_world_select` now accepts a reusable `stage` and `outputPrefix` instead of hardcoding FRIEND_BEAT_09;
+- knockout-stage Friend Beat context distinguishes QF opponent, other Top8 friend, R16-eliminated friend, World-eliminated friend and external contact;
+- QF combat reuses the same dynamic World knockout bridge introduced for R16;
+- E5 persists QF results, Top4, SF bracket, player SF match/opponent and knockout opponent rosters;
+- the other three QFs resolve deterministically from the same career/draw seed;
+- no friend, Anchor or named rival receives result protection;
+- R16 elimination bypasses QF blocks after mandatory FRIEND_BEAT_10 and exits through M10_09;
+- QF loss exits through M10_09 to M12;
+- QF win hands a real Final Four state to M11.
+
+**No R39 candidate is required.** R01→R38 remains sufficient; the new work extends E4/E5 engine ownership rather than inventing a new narrative topology.
 
 ---
 
