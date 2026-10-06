@@ -5,7 +5,7 @@
 **Purpose:** production map for converting M6 into validated offline story content  
 **Locked authored budget:** **5,500 stitches / 3,400 player choices**
 
-**Module implementation status:** **M6_00–M6_04 COMPLETE / LIBRARY-V2 ALIGNED — M6 PARTIAL**
+**Module implementation status:** **M6_00–M6_04 IMPLEMENTED / LIBRARY-V2 ALIGNED / STATIC-PASS — RUNTIME CI EVIDENCE PENDING**
 
 E1–E7 are reusable infrastructure from M1. A block may extend generic data or content, but must not fork those engines into module-specific substitutes.
 
@@ -53,11 +53,11 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 
 | Block | Function | Stitches | Choices | Current state |
 |---|---|---:|---:|---|
-| M6_00_RANK_A_HANDOFF | ereditare Masters entry e licenza interregionale | 281 | 174 | COMPLETE |
-| M6_01_ROUTE_SELECTION | scelta reale tra tratte disponibili senza obbligo di visitarle tutte | 331 | 204 | COMPLETE |
-| M6_02_INTERREGIONAL_TRAVEL | Solaria/Luminara o altra tratta legale con tempi reali | 330 | 204 | COMPLETE |
-| M6_03_RED_ENTERS | introduzione di Red come competitor osservatore | 330 | 204 | COMPLETE |
-| M6_04_MASTERS_CIRCUIT | eventi Masters e ranking senza geographic bypass | 330 | 204 | COMPLETE |
+| M6_00_RANK_A_HANDOFF | ereditare Masters entry e licenza interregionale | 281 | 174 | IMPLEMENTED |
+| M6_01_ROUTE_SELECTION | scelta reale tra tratte disponibili senza obbligo di visitarle tutte | 331 | 204 | IMPLEMENTED |
+| M6_02_INTERREGIONAL_TRAVEL | Solaria/Luminara o altra tratta legale con tempi reali | 330 | 204 | IMPLEMENTED |
+| M6_03_RED_ENTERS | introduzione di Red come competitor osservatore | 330 | 204 | IMPLEMENTED |
+| M6_04_MASTERS_CIRCUIT | eventi Masters e ranking senza geographic bypass | 330 | 204 | IMPLEMENTED |
 | M6_05_HIDDEN_TRAJECTORIES | A6_HIDDEN_TRAJECTORIES e payoff visibile di un amico | 330 | 204 | PLANNED |
 | M6_06_FRIEND_BEAT_06 | evoluzione/cambio carriera/incontro reale di uno dei Four | 479 | 296 | PLANNED |
 | M6_07_CONTINENTAL_ENTRY | eligibility e preparazione alla Continental Cup | 281 | 174 | PLANNED |
@@ -85,7 +85,7 @@ The first production cycle is allocated proportionally from the fixed M6 budget:
 | M6_02_INTERREGIONAL_TRAVEL | 13 | 29 | COMPLETE |
 | M6_03_RED_ENTERS | 13 | 29 | COMPLETE |
 | M6_04_MASTERS_CIRCUIT | 14 | 29 | COMPLETE |
-| **Cycle M6_00–M6_04** | **64** | **141** | **COMPLETE** |
+| **Cycle M6_00–M6_04** | **64** | **141** | **IMPLEMENTED / STATIC PASS** |
 | **Remaining M6 target** | **156** | **343** | PLANNED |
 
 This is the proportional share implied by the locked authored budget. No node is added merely to hit a number.
@@ -99,6 +99,17 @@ This is the proportional share implied by the locked authored budget. No node is
 - **M6_04:** R15 official match lifecycle + R06 combat handoff + R16 eligibility + R33 continuity; ranking consequences remain E5-owned.
 
 **No R39 candidate is required.** Library V2 R01→R38 is sufficient for the complete first M6 cycle.
+
+### Cycle 1 validation status
+
+- authored files: present;
+- exact logical budget: **64 nodes / 141 choices**;
+- static schema/condition/effect/target audit: **PASS**;
+- authored-node reachability: **PASS, 0 unreachable nodes**;
+- dedicated budget/runtime/save tests: authored in `m06-cycle-budget.test.mjs` and `m06-cycle1.test.mjs`;
+- GitHub Actions runtime evidence: **PENDING** because no workflow/check was emitted for the current PR head during this production pass.
+
+Per the production rule, final **COMPLETE** status is reserved for runtime evidence.
 
 ---
 
