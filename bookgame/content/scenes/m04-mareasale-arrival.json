@@ -283,6 +283,18 @@
           ]
         },
         {
+          "id": "hub_coast_route",
+          "text": "Parto lungo la Costa di Sale.",
+          "timeCostMinutes": 90,
+          "goto": "m04-coast-route#coast_gate",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "sal_coast"
+            }
+          ]
+        },
+        {
           "id": "hub_back_ferravia",
           "text": "Torno a Ferravia.",
           "timeCostMinutes": 240,
