@@ -183,6 +183,55 @@ test("healing moves respect real target rules instead of always healing the user
   assert.equal(pulseBattle.log.at(-1).target, "opponent");
 });
 
+test("canonical OHKO moves execute their d20, level and immunity rules", async () => {
+  const hornCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 20])
+  });
+  let hornBattle = await hornCombat.createBattle({
+    encounterId: "FULL_RUNTIME_HORN_DRILL",
+    playerPokemon: { speciesId: "rhydon", level: 5, moveIds: ["horn-drill"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+  hornBattle = await hornCombat.usePlayerMove(hornBattle, "horn-drill");
+  assert.equal(hornBattle.outcome, "win");
+  assert.equal(hornBattle.log.find((event) => event.type === "ohko_move").success, true);
+
+  const levelCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 20])
+  });
+  let levelBattle = await levelCombat.createBattle({
+    encounterId: "FULL_RUNTIME_SHEER_COLD_LEVEL",
+    playerPokemon: { speciesId: "snover", level: 5, moveIds: ["sheer-cold"] },
+    opponent: { speciesId: "caterpie", level: 15, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+  const levelHp = levelBattle.opponent.hp.current;
+  levelBattle = await levelCombat.usePlayerMove(levelBattle, "sheer-cold");
+  const levelEvent = levelBattle.log.find((event) => event.type === "ohko_move");
+  assert.equal(levelEvent.natural, 20);
+  assert.equal(levelEvent.levelBlocked, true);
+  assert.equal(levelBattle.opponent.hp.current, levelHp);
+
+  const fissureCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 20])
+  });
+  let fissureBattle = await fissureCombat.createBattle({
+    encounterId: "FULL_RUNTIME_FISSURE_FLYING",
+    playerPokemon: { speciesId: "diglett", level: 5, moveIds: ["fissure"] },
+    opponent: { speciesId: "pidgey", level: 5, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+  const fissureHp = fissureBattle.opponent.hp.current;
+  fissureBattle = await fissureCombat.usePlayerMove(fissureBattle, "fissure");
+  const fissureEvent = fissureBattle.log.find((event) => event.type === "ohko_move");
+  assert.equal(fissureEvent.fissureBlocked, true);
+  assert.equal(fissureBattle.opponent.hp.current, fissureHp);
+});
+
 test("2024 status core supports Frozen, Badly Poisoned and Confused", () => {
   const frozen = dummyPokemon({ types: ["water"] });
   assert.equal(applyStatus(frozen, "Frozen", { sourceProficiencyBonus: 3 }).applied, true);
