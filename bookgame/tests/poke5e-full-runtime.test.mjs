@@ -102,7 +102,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
   const moves = await data.listMoves();
   const unresolved = moves.filter((move) => !isMoveResolvable(move)).map((move) => move.id);
 
-  assert.ok(unresolved.length <= 186, `unresolved move rules regressed to ${unresolved.length}`);
+  assert.ok(unresolved.length <= 185, `unresolved move rules regressed to ${unresolved.length}`);
   assert.ok(unresolved.includes("acupressure"));
   for (const id of [
     "agility",
@@ -123,6 +123,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
     "geomancy",
     "hone-claws",
     "iron-defense",
+    "magnet-rise",
     "meditate",
     "minimize",
     "no-retreat",
@@ -483,6 +484,39 @@ test("Focus Energy expands critical range and Aqua Ring heals at each end turn u
   );
 });
 
+
+
+test("Magnet Rise blocks damaging and non-damaging Ground moves for its concentration duration", async () => {
+  const combat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1])
+  });
+  let battle = await combat.createBattle({
+    encounterId: "FULL_RUNTIME_MAGNET_RISE",
+    playerPokemon: { speciesId: "pikachu", level: 5, moveIds: ["magnet-rise"] },
+    opponent: { speciesId: "sandshrew", level: 5, moveIds: ["sand-attack"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+
+  battle = await combat.usePlayerMove(battle, "magnet-rise");
+  assert.equal(battle.player.concentration?.moveId, "magnet-rise");
+  assert.equal(battle.player.effects.typeImmunitySources.at(-1).type, "ground");
+  assert.equal(
+    damageProfile(
+      { type: "ground", attack: { scope: "ranged" } },
+      battle.player,
+      battle.round
+    ).multiplier,
+    0
+  );
+
+  battle = await combat.endPlayerTurn(battle);
+  battle = await combat.useMove(battle, "opponent", "sand-attack");
+  const immune = [...battle.log].reverse().find((event) => event.type === "save_move");
+  assert.equal(immune.immune, true);
+  assert.equal(immune.immunityAbility, null);
+  assert.equal(immune.immunityEffect, "magnet-rise");
+});
 
 test("Charge keeps AC until the next turn and activates doubled STAB only on that turn", async () => {
   const combat = new Pokemon5eCombatEngine({
