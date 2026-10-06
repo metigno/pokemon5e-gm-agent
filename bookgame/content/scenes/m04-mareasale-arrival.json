@@ -382,6 +382,114 @@
           ]
         },
         {
+          "id": "hub_major_name",
+          "text": "Seguo la notizia del trainer arrivato da Hoenn.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.a4_major_name_available",
+                "eq": true
+              },
+              {
+                "path": "world.flags.major_name_complete",
+                "ne": true
+              }
+            ]
+          },
+          "goto": "m04-major-name#major_arrival",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        },
+        {
+          "id": "hub_upper_regional",
+          "text": "Riprendo l'Upper Regional Circuit.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.a4_regional_league_available",
+                "eq": true
+              },
+              {
+                "path": "world.flags.upper_regional_registration_complete",
+                "eq": true
+              },
+              {
+                "path": "world.flags.upper_regional_result",
+                "exists": false
+              }
+            ]
+          },
+          "goto": "m04-upper-regional#circuit_board",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city_arena"
+            }
+          ]
+        },
+        {
+          "id": "hub_trial_c_b",
+          "text": "Vado alla registrazione del Promotion Trial C→B.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.a4_rank_trial_c_b_available",
+                "eq": true
+              },
+              {
+                "path": "competition.rank",
+                "eq": "C"
+              }
+            ]
+          },
+          "goto": "m04-trial-registration#trial_info",
+          "effects": [
+            {
+              "type": "competition_trial_available",
+              "checkpointId": "RANK_C_TO_B",
+              "fromRank": "C",
+              "toRank": "B",
+              "requiredRosterSize": 4,
+              "retryable": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "mar_city_arena"
+            }
+          ]
+        },
+        {
+          "id": "hub_after_league",
+          "text": "Rivedo le conseguenze di fine M4.",
+          "conditions": {
+            "any": [
+              {
+                "path": "world.flags.a4_after_league_available",
+                "eq": true
+              },
+              {
+                "path": "competition.rank",
+                "eq": "B"
+              },
+              {
+                "path": "world.flags.upper_regional_result",
+                "exists": true
+              }
+            ]
+          },
+          "goto": "m04-after-league#after_entry",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        },
+        {
           "id": "hub_back_ferravia",
           "text": "Torno a Ferravia.",
           "timeCostMinutes": 240,
@@ -540,6 +648,54 @@
             ]
           },
           "goto": "m04-league-registration#registration_hall"
+        },
+        {
+          "id": "arena_upper_regional",
+          "text": "Entro nel tabellone Upper Regional.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.a4_regional_league_available",
+                "eq": true
+              },
+              {
+                "path": "world.flags.upper_regional_registration_complete",
+                "eq": true
+              },
+              {
+                "path": "world.flags.upper_regional_result",
+                "exists": false
+              }
+            ]
+          },
+          "goto": "m04-upper-regional#circuit_board"
+        },
+        {
+          "id": "arena_trial_c_b",
+          "text": "Vado al banco del Promotion Trial C→B.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.a4_rank_trial_c_b_available",
+                "eq": true
+              },
+              {
+                "path": "competition.rank",
+                "eq": "C"
+              }
+            ]
+          },
+          "goto": "m04-trial-registration#trial_info",
+          "effects": [
+            {
+              "type": "competition_trial_available",
+              "checkpointId": "RANK_C_TO_B",
+              "fromRank": "C",
+              "toRank": "B",
+              "requiredRosterSize": 4,
+              "retryable": true
+            }
+          ]
         },
         {
           "id": "arena_back",
