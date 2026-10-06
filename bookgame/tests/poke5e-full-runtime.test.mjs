@@ -9,7 +9,8 @@ import {
   calculateMoveStats,
   damageProfile,
   damageRollHasAdvantage,
-  resolveAttack
+  resolveAttack,
+  resolveSavingThrow
 } from "../src/combat/poke5e-rules.mjs";
 import {
   applyStatus,
@@ -101,7 +102,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
   const moves = await data.listMoves();
   const unresolved = moves.filter((move) => !isMoveResolvable(move)).map((move) => move.id);
 
-  assert.ok(unresolved.length <= 200, `unresolved move rules regressed to ${unresolved.length}`);
+  assert.ok(unresolved.length <= 197, `unresolved move rules regressed to ${unresolved.length}`);
   assert.ok(unresolved.includes("acupressure"));
   for (const id of [
     "agility",
@@ -109,15 +110,18 @@ test("move execution coverage has an explicit non-regression gate", async () => 
     "barrier",
     "bulk-up",
     "coil",
+    "cosmic-power",
     "cotton-guard",
     "defend-order",
     "dragon-dance",
     "hone-claws",
+    "meditate",
     "minimize",
     "quiver-dance",
     "rock-polish",
     "shell-smash",
     "shift-gear",
+    "victory-dance",
     "aromatherapy",
     "heal-bell",
     "charm",
@@ -217,6 +221,76 @@ test("extended self-buffs execute proficiency scaling and self-area targeting", 
   barrierBattle = await barrierCombat.usePlayerMove(barrierBattle, "barrier");
   assert.equal(barrierBattle.player.effects.acModifierSources.at(-1).value, 2);
   assert.equal(barrierBattle.player.concentration?.moveId, "barrier");
+});
+
+
+test("Meditate, Cosmic Power and Victory Dance affect every saving-throw path", async () => {
+  const meditateCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1])
+  });
+  let meditateBattle = await meditateCombat.createBattle({
+    encounterId: "FULL_RUNTIME_MEDITATE",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["meditate"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 30, y: 0 }
+  });
+  meditateBattle = await meditateCombat.usePlayerMove(meditateBattle, "meditate");
+  assert.equal(meditateBattle.player.effects.attackModifierSources.at(-1).value, 2);
+  assert.equal(meditateBattle.player.effects.saveModifierSources.at(-1).value, 2);
+  const meditateSave = resolveSavingThrow({
+    defender: meditateBattle.player,
+    attribute: "wis",
+    dc: 12,
+    dice: new SequenceDice([10]),
+    round: meditateBattle.round
+  });
+  assert.equal(meditateSave.effectModifier, 2);
+  assert.equal(meditateSave.total, 12);
+
+  const cosmicCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1])
+  });
+  let cosmicBattle = await cosmicCombat.createBattle({
+    encounterId: "FULL_RUNTIME_COSMIC_POWER",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["cosmic-power"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 30, y: 0 }
+  });
+  cosmicBattle = await cosmicCombat.usePlayerMove(cosmicBattle, "cosmic-power");
+  const cosmicSave = resolveSavingThrow({
+    defender: cosmicBattle.player,
+    attribute: "con",
+    dc: 15,
+    dice: new SequenceDice([4, 16]),
+    round: cosmicBattle.round
+  });
+  assert.equal(cosmicSave.effectAdvantage, true);
+  assert.equal(cosmicSave.mode, "advantage");
+  assert.equal(cosmicSave.natural, 16);
+
+  const frozen = structuredClone(cosmicBattle.player);
+  applyStatus(frozen, "Frozen", { sourceProficiencyBonus: 2 });
+  const frozenEvents = endTurnStatus(frozen, new SequenceDice([2, 18]), 3, cosmicBattle.round);
+  const frozenSave = frozenEvents.find((event) => event.type === "frozen_break_check");
+  assert.equal(frozenSave.advantage, true);
+  assert.deepEqual(frozenSave.rolls, [2, 18]);
+
+  const victoryCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1])
+  });
+  let victoryBattle = await victoryCombat.createBattle({
+    encounterId: "FULL_RUNTIME_VICTORY_DANCE",
+    playerPokemon: { speciesId: "eevee", level: 10, moveIds: ["victory-dance"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 30, y: 0 }
+  });
+  victoryBattle = await victoryCombat.usePlayerMove(victoryBattle, "victory-dance");
+  assert.equal(victoryBattle.player.effects.attackModifierSources.at(-1).value, 2);
+  assert.equal(victoryBattle.player.effects.acModifierSources.at(-1).value, 2);
+  assert.equal(victoryBattle.player.effects.saveModifierSources.at(-1).value, 2);
 });
 
 test("save debuffs and allied status cures execute their 2024 effects", async () => {

@@ -207,7 +207,19 @@ export function startTurnStatus(combatant, dice) {
   return { skipTurn: false, reason: null, rolls, forcedAction: null };
 }
 
-export function endTurnStatus(combatant, dice, proficiencyBonus) {
+function activeSaveModifier(combatant, round = null) {
+  return (combatant.effects?.saveModifierSources ?? [])
+    .filter((source) => round == null || source.expiresRound == null || round < source.expiresRound)
+    .reduce((sum, source) => sum + Number(source.value ?? 0), 0);
+}
+
+function hasSaveAdvantage(combatant, round = null) {
+  return (combatant.effects?.saveAdvantageSources ?? []).some(
+    (source) => round == null || source.expiresRound == null || round < source.expiresRound
+  );
+}
+
+export function endTurnStatus(combatant, dice, proficiencyBonus, round = null) {
   const events = [];
   const nonVolatile = combatant.statuses?.nonVolatile;
 
@@ -244,9 +256,13 @@ export function endTurnStatus(combatant, dice, proficiencyBonus) {
   }
 
   if (nonVolatile === "Frozen") {
-    const natural = dice.roll(20);
+    const advantage = hasSaveAdvantage(combatant, round);
+    const rolls = advantage ? [dice.roll(20), dice.roll(20)] : [dice.roll(20)];
+    const natural = Math.max(...rolls);
+    const effectModifier = activeSaveModifier(combatant, round);
     const modifier = Math.floor((combatant.attributes.str - 10) / 2) +
-      (combatant.savingThrows?.includes("str") ? proficiencyBonus : 0);
+      (combatant.savingThrows?.includes("str") ? proficiencyBonus : 0) +
+      effectModifier;
     const sourcePb = combatant.statuses.sourceProficiencyBonus ?? proficiencyBonus;
     const dc = 10 + sourcePb;
     const total = natural + modifier;
@@ -254,6 +270,9 @@ export function endTurnStatus(combatant, dice, proficiencyBonus) {
     events.push({
       type: "frozen_break_check",
       natural,
+      rolls,
+      advantage,
+      effectModifier,
       modifier,
       total,
       dc,

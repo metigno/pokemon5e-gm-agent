@@ -140,6 +140,8 @@ function removeEffectSource(combatant, source, round = null) {
     "damageModifierSources",
     "acModifierSources",
     "speedModifierSources",
+    "saveModifierSources",
+    "saveAdvantageSources",
     "movementLockSources",
     "ongoingEffects"
   ]) {
@@ -163,15 +165,22 @@ function modifierRuleFor(move, level) {
     "barrier": { ac: 2 },
     "bulk-up": { ac: tier, damage: tier },
     "coil": { attack: 1, damage: 1, ac: 1 },
+    "cosmic-power": { saveAdvantage: true },
     "cotton-guard": { ac: 2 },
     "defend-order": { ac: tier },
     "dragon-dance": { attack: proficiencyBonus(level) },
     "hone-claws": { attack: 1, damage: 1, stackCap: 3 },
+    "meditate": { attack: tier, save: tier },
     "minimize": { ac: 2 },
     "quiver-dance": { attack: 1, damage: 1, ac: level >= 10 ? 2 : 1 },
     "rock-polish": { ac: 2, speed: 20 },
     "shell-smash": { ac: -1, damage: proficiencyBonus(level) },
-    "shift-gear": { attack: 1, damage: 1, speed: 10 }
+    "shift-gear": { attack: 1, damage: 1, speed: 10 },
+    "victory-dance": {
+      ac: level >= 10 ? 2 : 1,
+      attack: level >= 10 ? 2 : 1,
+      save: level >= 10 ? 2 : 1
+    }
   };
   return rules[move.id] ?? null;
 }
@@ -314,15 +323,18 @@ const SIMPLE_MODIFIER_MOVES = new Set([
   "barrier",
   "bulk-up",
   "coil",
+  "cosmic-power",
   "cotton-guard",
   "defend-order",
   "dragon-dance",
   "hone-claws",
+  "meditate",
   "minimize",
   "quiver-dance",
   "rock-polish",
   "shell-smash",
-  "shift-gear"
+  "shift-gear",
+  "victory-dance"
 ]);
 
 function isSimpleModifierMove(move) {
@@ -439,6 +451,8 @@ function clearTransientEffects(combatant) {
     damageModifierSources: [],
     acModifierSources: [],
     speedModifierSources: [],
+    saveModifierSources: [],
+    saveAdvantageSources: [],
     movementLockSources: [],
     ongoingEffects: [],
     stockpileCount: 0
@@ -525,7 +539,8 @@ function checkConcentrationAfterDamage(battle, side, damage, dice) {
     defender: battle[side],
     attribute: "con",
     dc,
-    dice
+    dice,
+    round: battle.round
   });
 
   battle.log.push({
@@ -584,7 +599,12 @@ function advanceTurnIndex(battle) {
 function endTurnInternal(battle, side, dice) {
   const next = clone(battle);
   const combatant = next[side];
-  const events = endTurnStatus(combatant, dice, proficiencyBonus(combatant.level));
+  const events = endTurnStatus(
+    combatant,
+    dice,
+    proficiencyBonus(combatant.level),
+    next.round
+  );
 
   for (const event of events) {
     next.log.push({ ...event, round: next.round, actor: side });
@@ -1025,6 +1045,8 @@ export class Pokemon5eCombatEngine {
         damageModifierSources: [],
         acModifierSources: [],
         speedModifierSources: [],
+        saveModifierSources: [],
+        saveAdvantageSources: [],
         movementLockSources: [],
         ongoingEffects: [],
         stockpileCount: 0
@@ -1200,7 +1222,8 @@ export class Pokemon5eCombatEngine {
         defender: combatant,
         attribute: zone.saveAttribute,
         dc: zone.saveDc,
-        dice: this.dice
+        dice: this.dice,
+        round: next.round
       });
       const damageInfo = zoneDamage(zone, combatant, this.dice, save.success);
       combatant.hp.current = Math.max(0, combatant.hp.current - damageInfo.damage);
@@ -1552,7 +1575,8 @@ export class Pokemon5eCombatEngine {
       defender,
       attribute: stats.saveAttribute,
       dc: stats.saveDc,
-      dice: this.dice
+      dice: this.dice,
+      round: next.round
     });
 
     const before = {
@@ -1756,7 +1780,8 @@ export class Pokemon5eCombatEngine {
       ["attack", "attackModifierSources"],
       ["damage", "damageModifierSources"],
       ["ac", "acModifierSources"],
-      ["speed", "speedModifierSources"]
+      ["speed", "speedModifierSources"],
+      ["save", "saveModifierSources"]
     ];
     for (const [name, key] of specs) {
       const value = Number(rule[name] ?? 0);
@@ -1776,6 +1801,14 @@ export class Pokemon5eCombatEngine {
         combatant.effects[key].push({ source: move.id, value, expiresRound });
         applied[name] = value;
       }
+    }
+
+    if (rule.saveAdvantage) {
+      combatant.effects.saveAdvantageSources.push({
+        source: move.id,
+        expiresRound
+      });
+      applied.saveAdvantage = true;
     }
 
     const speedAfter = activeModifier(combatant.effects.speedModifierSources, next.round);
@@ -1993,7 +2026,8 @@ export class Pokemon5eCombatEngine {
       dice: this.dice,
       advantage:
         attacker.statuses?.flinchedTurns > 0 &&
-        move.time?.unit === "action"
+        move.time?.unit === "action",
+      round: next.round
     });
 
     const damageRoll = rollSaveMoveDamage(attacker, move, stats.damageDice, this.dice);
@@ -2259,7 +2293,8 @@ export class Pokemon5eCombatEngine {
           attacker,
           defender,
           move,
-          dice: this.dice
+          dice: this.dice,
+          round: next.round
         });
         const applied = applySaveEffect(next, side, move, result);
         next.log.push({
@@ -2289,7 +2324,13 @@ export class Pokemon5eCombatEngine {
           immunityAbility: "levitate"
         });
       } else {
-        const result = resolveSaveMove({ attacker, defender, move, dice: this.dice });
+        const result = resolveSaveMove({
+          attacker,
+          defender,
+          move,
+          dice: this.dice,
+          round: next.round
+        });
         const status = failedSaveStatus(move, result.save);
         const statusResult = applyMoveStatus(attacker, defender, status);
         next.log.push({

@@ -243,28 +243,52 @@ export function damageProfile(move, defender) {
   return { multiplier, immunityAbility: null, modifierAbility };
 }
 
+function activeEffectModifier(sources = [], round = null) {
+  return sources
+    .filter((source) => round == null || source.expiresRound == null || round < source.expiresRound)
+    .reduce((sum, source) => sum + Number(source.value ?? 0), 0);
+}
+
+function hasActiveEffect(sources = [], round = null) {
+  return sources.some(
+    (source) => round == null || source.expiresRound == null || round < source.expiresRound
+  );
+}
+
 export function resolveSavingThrow({
   defender,
   attribute,
   dc,
   dice,
   advantage = false,
-  disadvantage = false
+  disadvantage = false,
+  round = null
 }) {
   const statusDisadvantage = saveHasDisadvantage(defender, attribute);
+  const effectAdvantage = hasActiveEffect(
+    defender.effects?.saveAdvantageSources ?? [],
+    round
+  );
   const roll = rollD20(dice, {
-    advantage,
+    advantage: advantage || effectAdvantage,
     disadvantage: disadvantage || statusDisadvantage
   });
+  const effectModifier = activeEffectModifier(
+    defender.effects?.saveModifierSources ?? [],
+    round
+  );
   const modifier =
     abilityModifier(defender.attributes[attribute]) +
-    (defender.savingThrows.includes(attribute) ? proficiencyBonus(defender.level) : 0);
+    (defender.savingThrows.includes(attribute) ? proficiencyBonus(defender.level) : 0) +
+    effectModifier;
   const total = roll.natural + modifier;
 
   return {
     attribute,
     dc,
     modifier,
+    effectModifier,
+    effectAdvantage,
     total,
     success: total >= dc,
     ...roll
@@ -375,7 +399,7 @@ export function resolveAttack({
   };
 }
 
-export function resolveSaveMove({ attacker, defender, move, dice }) {
+export function resolveSaveMove({ attacker, defender, move, dice, round = null }) {
   const stats = calculateMoveStats(attacker, move);
   if (stats.saveDc == null || stats.saveAttribute == null) {
     throw new Error(`Move ${move.id} is not a save move`);
@@ -390,7 +414,8 @@ export function resolveSaveMove({ attacker, defender, move, dice }) {
     attribute: stats.saveAttribute,
     dc: stats.saveDc,
     dice,
-    advantage: targetAdvantage
+    advantage: targetAdvantage,
+    round
   });
 
   return {
