@@ -1,9 +1,9 @@
 # P5E LIBROGAME — NODE LIBRARY V2 LOCK
 
 **Status:** LOCKED BASELINE FOR M05→M12 AUTHORING  
-**Production branch reviewed:** `m9-00-04-work`  
+**Production branch reviewed:** `m10-00-04-work`  
 **Runtime-validated corpus:** M01 + M02 + M03 + M04 + M05 + M06 + M07 + M08 + M09  
-**Latest runtime evidence:** M09 COMPLETE — 170 / 374; M9 final CI 1,239 passed / 0 failed / 0 skipped  
+**Latest runtime evidence:** M10 Cycle 1 (M10_00–M10_04) — 78 / 171; CI 1,253 passed / 0 failed / 0 skipped. Complete-module baseline remains M01→M09.  
 **Catalog:** `bookgame/docs/NODE_REUSE_CATALOG.md`
 
 ---
@@ -327,3 +327,42 @@ The completed Library V2 corpus is now:
 
 **M01→M09 = 1,924 runtime-validated logical nodes / 4,371 meaningful choices.**
 
+
+---
+
+## M10 CYCLE 1 VALIDATION EVIDENCE — 2026-10-06
+
+M10 — *Nessuna Seconda Possibilità* is **not module-complete yet**. The completed Library V2 baseline therefore remains **M01→M09 = 1,924 logical nodes / 4,371 meaningful choices**.
+
+Validated M10 Cycle 1 extension:
+
+- blocks: `M10_00_R16_BRACKET` → `M10_04_R16_AFTERMATH`;
+- runtime logical surface: **78 nodes / 171 meaningful choices** exactly;
+- full M10 trajectory remains **160 nodes / 352 meaningful choices**;
+- exact residual for M10_05→M10_09: **82 nodes / 181 meaningful choices**;
+- authored-surface manifest remains **4,000 stitches / 2,000 choices**;
+- every Cycle-1 block declares Library V2 reuse/adaptation from **R01→R38**;
+- **no R39 candidate is required**;
+- E5 Competition now owns the persistent World knockout state rather than narrative flags;
+- R16 pairings consume the immutable M09 Top16 and final group positions;
+- Player vs Friend/Anchor occurs only when the actual bracket creates it;
+- Silas Crowe receives no result protection and physical contact remains E4 schedule/location gated;
+- official R16 combat dynamically resolves match id, opponent id and regulated roster from E5;
+- the other seven R16 matches resolve deterministically from the career/draw seed;
+- exactly eight unique Top8 participants and four QF pairings are locked after R16;
+- player loss advances the actual opponent and preserves elimination;
+- preparation and aftermath never narratively heal or rebuild structured Pokémon state;
+- all **78/78 Cycle-1 nodes** are reachable with no zero-incoming padding;
+- save/reload preserves bracket, Top8, roster and official history.
+
+Validation evidence:
+
+- branch: `m10-00-04-work`;
+- PR **#11**;
+- validated implementation HEAD: `e534484de220f569d0badd6e9a3089a694e2ba75`;
+- GitHub Actions **Bookgame Tests #370**;
+- syntax check: **PASS**;
+- `validate:story`: **PASS**;
+- full test suite: **1,253 passed / 0 failed / 0 skipped**.
+
+This extends the runtime evidence for Library V2 into M10 without promoting the complete-module corpus beyond M09. M10_05→M10_09 must still satisfy FRIEND_BEAT_10, QF and final exit-contract requirements before M10 can be added to the complete-module baseline.
