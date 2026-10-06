@@ -43,11 +43,11 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 
 | Block | Function | Stitches | Choices | Current state |
 |---|---|---:|---:|---|
-| M10_00_R16_BRACKET | lock dell'avversario dagli incroci reali | 367 | 184 | IMPLEMENTED / VALIDATION PENDING |
-| M10_01_SILAS_THREAD | Silas compare solo dove il bracket o il venue lo rendono plausibile | 367 | 184 | IMPLEMENTED / VALIDATION PENDING |
-| M10_02_R16_PREP | preparazione senza reset di HP/condizioni non consentiti | 312 | 156 | IMPLEMENTED / VALIDATION PENDING |
-| M10_03_WORLD_R16 | ottavo reale, single elimination | 532 | 266 | IMPLEMENTED / VALIDATION PENDING |
-| M10_04_R16_AFTERMATH | eliminazione oppure avanzamento e risultati degli altri | 367 | 183 | IMPLEMENTED / VALIDATION PENDING |
+| M10_00_R16_BRACKET | lock dell'avversario dagli incroci reali | 367 | 184 | COMPLETE / CYCLE 1 VALIDATED |
+| M10_01_SILAS_THREAD | Silas compare solo dove il bracket o il venue lo rendono plausibile | 367 | 184 | COMPLETE / CYCLE 1 VALIDATED |
+| M10_02_R16_PREP | preparazione senza reset di HP/condizioni non consentiti | 312 | 156 | COMPLETE / CYCLE 1 VALIDATED |
+| M10_03_WORLD_R16 | ottavo reale, single elimination | 532 | 266 | COMPLETE / CYCLE 1 VALIDATED |
+| M10_04_R16_AFTERMATH | eliminazione oppure avanzamento e risultati degli altri | 367 | 183 | COMPLETE / CYCLE 1 VALIDATED |
 | M10_05_FRIEND_BEAT_10 | corsa dell'amico visibile; Player vs Friend solo se bracket | 532 | 266 | PLANNED |
 | M10_06_QF_PREP | pressione Top8 e stato roster reale | 312 | 156 | PLANNED |
 | M10_07_WORLD_QF | quarto reale, single elimination | 532 | 266 | PLANNED |
@@ -320,6 +320,17 @@ Cycle 1 extends the existing Competition subsystem rather than introducing a par
 **No R39 candidate is required.** Library V2 R01→R38 remains sufficient; the only generic engine work is the missing E5 World knockout lifecycle.
 
 Do **not** promote the completed Library V2 baseline beyond **M01→M09** until the remaining M10_05→M10_09 blocks are implemented and the full M10 exit contract is validated.
+
+### Cycle 1 validation evidence — 2026-10-06
+
+- branch: `m10-00-04-work`;
+- PR: **#11**;
+- validated implementation HEAD: `e534484de220f569d0badd6e9a3089a694e2ba75`;
+- GitHub Actions Bookgame Tests run **#370**;
+- syntax check: **PASS**;
+- `validate:story`: **PASS**;
+- full test suite: **1,253 passed / 0 failed / 0 skipped**;
+- M10-specific regression reaches save/reload after a real R16 result and derived Top8/QF pairing.
 
 ---
 
