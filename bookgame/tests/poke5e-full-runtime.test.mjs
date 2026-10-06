@@ -101,7 +101,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
   const moves = await data.listMoves();
   const unresolved = moves.filter((move) => !isMoveResolvable(move)).map((move) => move.id);
 
-  assert.ok(unresolved.length <= 211, `unresolved move rules regressed to ${unresolved.length}`);
+  assert.ok(unresolved.length <= 208, `unresolved move rules regressed to ${unresolved.length}`);
   assert.ok(unresolved.includes("acupressure"));
   for (const id of [
     "agility",
@@ -122,6 +122,9 @@ test("move execution coverage has an explicit non-regression gate", async () => 
     "moonlight",
     "morning-sun",
     "rest",
+    "ingrain",
+    "lunar-blessing",
+    "wish",
     "heal-pulse",
     "recover"
   ]) {
@@ -332,6 +335,73 @@ test("Moonlight, Morning Sun and Rest execute environmental and delayed healing 
   assert.equal(restBattle.player.statuses.nonVolatile, "Asleep");
   assert.ok(restBattle.player.hp.current > hpBefore);
   assert.equal(restBattle.pendingEffects.length, 0);
+});
+
+
+test("Ingrain, Lunar Blessing and Wish execute persistent healing state", async () => {
+  const ingrainCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 4])
+  });
+  let ingrainBattle = await ingrainCombat.createBattle({
+    encounterId: "FULL_RUNTIME_INGRAIN",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["ingrain"] },
+    playerBench: [{ speciesId: "pikachu", level: 5, moveIds: ["tackle"] }],
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+  ingrainBattle.player.hp.current = Math.max(1, ingrainBattle.player.hp.max - 20);
+  const ingrainHp = ingrainBattle.player.hp.current;
+  ingrainBattle = await ingrainCombat.usePlayerMove(ingrainBattle, "ingrain");
+  assert.equal(ingrainBattle.player.turn.movementRemaining, 0);
+  await assert.rejects(
+    () => ingrainCombat.switchPlayer(ingrainBattle, 0),
+    /Ingrain prevents voluntary switching/
+  );
+  ingrainBattle = await ingrainCombat.endPlayerTurn(ingrainBattle);
+  assert.ok(ingrainBattle.player.hp.current > ingrainHp);
+  assert.equal(
+    ingrainBattle.player.effects.ongoingEffects.find((effect) => effect.kind === "ingrain").remainingEndTurns,
+    2
+  );
+
+  const lunarCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 20, 4])
+  });
+  let lunarBattle = await lunarCombat.createBattle({
+    encounterId: "FULL_RUNTIME_LUNAR_BLESSING",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["lunar-blessing"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["growl"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+  lunarBattle.player.hp.current = Math.max(1, lunarBattle.player.hp.max - 20);
+  const lunarHp = lunarBattle.player.hp.current;
+  lunarBattle = await lunarCombat.usePlayerMove(lunarBattle, "lunar-blessing");
+  lunarBattle = await lunarCombat.endPlayerTurn(lunarBattle);
+  lunarBattle = await lunarCombat.advanceToPlayerOrEnd(lunarBattle);
+  assert.ok(lunarBattle.player.hp.current > lunarHp);
+  assert.equal(lunarBattle.player.concentration?.moveId, "lunar-blessing");
+
+  const wishCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 10, 4, 1, 1, 1, 1, 1])
+  });
+  let wishBattle = await wishCombat.createBattle({
+    encounterId: "FULL_RUNTIME_WISH",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["wish"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+  wishBattle.player.hp.current = Math.max(1, wishBattle.player.hp.max - 20);
+  wishBattle = await wishCombat.usePlayerMove(wishBattle, "wish", { targetSide: "player" });
+  assert.equal(wishBattle.pendingEffects.at(-1).kind, "wish");
+  wishBattle = await wishCombat.endPlayerTurn(wishBattle);
+  wishBattle = await wishCombat.advanceToPlayerOrEnd(wishBattle);
+  const wishBefore = wishBattle.player.hp.current;
+  wishBattle = await wishCombat.endPlayerTurn(wishBattle);
+  assert.ok(wishBattle.player.hp.current > wishBefore);
+  assert.equal(wishBattle.pendingEffects.length, 0);
 });
 
 test("canonical OHKO moves execute their d20, level and immunity rules", async () => {

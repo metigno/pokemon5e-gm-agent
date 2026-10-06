@@ -139,7 +139,9 @@ function removeEffectSource(combatant, source, round = null) {
     "incomingAttackBonusSources",
     "damageModifierSources",
     "acModifierSources",
-    "speedModifierSources"
+    "speedModifierSources",
+    "movementLockSources",
+    "ongoingEffects"
   ]) {
     if (!Array.isArray(combatant.effects?.[key])) continue;
     combatant.effects[key] = combatant.effects[key].filter((entry) => entry.source !== source);
@@ -245,11 +247,26 @@ function isImmediateHealingMove(move) {
 }
 
 const DELAYED_HEALING_MOVES = new Set([
-  "rest"
+  "rest",
+  "wish"
 ]);
 
 function isDelayedHealingMove(move) {
   return move.dice?.type === "healing" && DELAYED_HEALING_MOVES.has(move.id);
+}
+
+const ONGOING_HEALING_MOVES = new Set([
+  "ingrain",
+  "lunar-blessing"
+]);
+
+function isOngoingHealingMove(move) {
+  return move.dice?.type === "healing" && ONGOING_HEALING_MOVES.has(move.id);
+}
+
+function delayedHealingTargetSide(move, userSide, requestedTargetSide = null) {
+  if (move.id === "rest") return userSide;
+  return healingTargetSide(move, userSide, requestedTargetSide);
 }
 
 const OHKO_MOVES = new Set([
@@ -358,6 +375,7 @@ export function isMoveResolvable(move) {
   if (isAutomaticDamageMove(move)) return true;
   if (isImmediateHealingMove(move)) return true;
   if (isDelayedHealingMove(move)) return true;
+  if (isOngoingHealingMove(move)) return true;
   if (isOhkoMove(move)) return true;
   if (isSaveHpEffectMove(move)) return true;
   if (isStatusCureMove(move)) return true;
@@ -398,7 +416,9 @@ function clearTransientEffects(combatant) {
     incomingAttackBonusSources: [],
     damageModifierSources: [],
     acModifierSources: [],
-    speedModifierSources: []
+    speedModifierSources: [],
+    movementLockSources: [],
+    ongoingEffects: []
   };
   combatant.concentration = null;
 }
@@ -594,9 +614,75 @@ function endTurnInternal(battle, side, dice) {
       continue;
     }
 
+    if (effect.kind === "wish") {
+      const source = next[effect.sourceSide];
+      const target = next[effect.targetSide];
+      const inRange =
+        source?.position &&
+        target?.position &&
+        distance(source.position, target.position) <= effect.maxRange + 1e-9;
+      let healing = 0;
+      let healingRoll = null;
+      if (inRange) {
+        healingRoll = rollExpression(effect.healingDice, dice);
+        const rawHealing = Math.max(0, healingRoll.total + effect.healingModifier);
+        const before = target.hp.current;
+        target.hp.current = Math.min(target.hp.max, before + rawHealing);
+        healing = target.hp.current - before;
+      }
+      next.log.push({
+        type: "delayed_healing",
+        round: next.round,
+        actor: side,
+        target: effect.targetSide,
+        moveId: effect.moveId,
+        effect: "wish",
+        inRange: Boolean(inRange),
+        healingRoll,
+        healing,
+        hpAfter: target?.hp?.current ?? null
+      });
+      continue;
+    }
+
     remainingPending.push(effect);
   }
   next.pendingEffects = remainingPending;
+
+  const ongoingEffects = combatant.effects?.ongoingEffects ?? [];
+  const remainingOngoing = [];
+  for (const effect of ongoingEffects) {
+    if (effect.kind !== "ingrain") {
+      remainingOngoing.push(effect);
+      continue;
+    }
+
+    const healingRoll = rollExpression(effect.healingDice, dice);
+    const rawHealing = Math.max(0, healingRoll.total + effect.healingModifier);
+    const before = combatant.hp.current;
+    combatant.hp.current = Math.min(combatant.hp.max, before + rawHealing);
+    const remainingEndTurns = effect.remainingEndTurns - 1;
+    next.log.push({
+      type: "ongoing_healing",
+      round: next.round,
+      actor: side,
+      moveId: effect.moveId,
+      effect: "ingrain",
+      healingRoll,
+      healing: combatant.hp.current - before,
+      remainingEndTurns,
+      hpAfter: combatant.hp.current
+    });
+
+    if (remainingEndTurns > 0) {
+      remainingOngoing.push({ ...effect, remainingEndTurns });
+    } else {
+      combatant.effects.movementLockSources =
+        (combatant.effects.movementLockSources ?? [])
+          .filter((entry) => entry.source !== effect.source);
+    }
+  }
+  combatant.effects.ongoingEffects = remainingOngoing;
 
   combatant.turn.started = false;
   combatant.turn.actionAvailable = true;
@@ -915,7 +1001,9 @@ export class Pokemon5eCombatEngine {
         incomingAttackBonusSources: [],
         damageModifierSources: [],
         acModifierSources: [],
-        speedModifierSources: []
+        speedModifierSources: [],
+        movementLockSources: [],
+        ongoingEffects: []
       },
       turn: {
         started: false,
@@ -1041,6 +1129,31 @@ export class Pokemon5eCombatEngine {
 
     next.log.push({ type: "turn_start", round: next.round, actor: side });
 
+    for (const effect of combatant.effects?.ongoingEffects ?? []) {
+      if (effect.kind !== "lunar-blessing") continue;
+      if (effect.expiresRound != null && next.round >= effect.expiresRound) continue;
+
+      const healingRoll = rollExpression(effect.healingDice, this.dice);
+      const rawHealing = Math.max(0, healingRoll.total + effect.healingModifier);
+      const before = combatant.hp.current;
+      combatant.hp.current = Math.min(combatant.hp.max, before + rawHealing);
+      const curedStatuses = [];
+      for (const status of STATUS_IDS) {
+        if (clearStatus(combatant, status)) curedStatuses.push(status);
+      }
+      next.log.push({
+        type: "ongoing_healing",
+        round: next.round,
+        actor: side,
+        moveId: effect.moveId,
+        effect: "lunar-blessing",
+        healingRoll,
+        healing: combatant.hp.current - before,
+        curedStatuses,
+        hpAfter: combatant.hp.current
+      });
+    }
+
     const expiry = expireZonesAtTurnStart(next.zones, side, next.round);
     next.zones = expiry.active;
     for (const zone of expiry.expired) {
@@ -1162,7 +1275,17 @@ export class Pokemon5eCombatEngine {
       const healTargetSide = isImmediateHealingMove(move)
         ? healingTargetSide(move, side)
         : null;
-      const rangeTarget = healTargetSide ? battle[healTargetSide] : defender;
+      const delayedHealTargetSide = isDelayedHealingMove(move)
+        ? delayedHealingTargetSide(move, side)
+        : null;
+      const ongoingHealTargetSide = isOngoingHealingMove(move) ? side : null;
+      const rangeTarget = healTargetSide
+        ? battle[healTargetSide]
+        : delayedHealTargetSide
+          ? battle[delayedHealTargetSide]
+          : ongoingHealTargetSide
+            ? battle[ongoingHealTargetSide]
+            : defender;
       if (!rangeCheckForMove(combatant, rangeTarget, move).legal) continue;
       result.push(move);
     }
@@ -1577,7 +1700,7 @@ export class Pokemon5eCombatEngine {
     return next;
   }
 
-  async resolveDelayedHealingMove(next, side, move) {
+  async resolveDelayedHealingMove(next, side, targetSide, move) {
     const user = next[side];
     const stats = calculateMoveStats(user, move);
 
@@ -1602,7 +1725,96 @@ export class Pokemon5eCombatEngine {
       return next;
     }
 
+    if (move.id === "wish") {
+      next.pendingEffects ??= [];
+      next.pendingEffects.push({
+        kind: "wish",
+        phase: "end_turn",
+        sourceSide: side,
+        targetSide,
+        triggerRound: next.round + 1,
+        moveId: move.id,
+        healingDice: stats.damageDice,
+        healingModifier: stats.damageModifier,
+        maxRange: move.range?.value ?? 0
+      });
+      next.log.push({
+        type: "delayed_healing_scheduled",
+        round: next.round,
+        actor: side,
+        target: targetSide,
+        moveId: move.id,
+        triggerRound: next.round + 1
+      });
+      return next;
+    }
+
     throw new Error(`No delayed healing handler for ${move.id}`);
+  }
+
+  async resolveOngoingHealingMove(next, side, move) {
+    const combatant = next[side];
+    const stats = calculateMoveStats(combatant, move);
+    combatant.effects.ongoingEffects ??= [];
+    combatant.effects.movementLockSources ??= [];
+
+    if (move.id === "ingrain") {
+      removeEffectSource(combatant, "ingrain", next.round);
+      combatant.effects.ongoingEffects.push({
+        kind: "ingrain",
+        source: "ingrain",
+        moveId: move.id,
+        healingDice: stats.damageDice,
+        healingModifier: stats.damageModifier,
+        remainingEndTurns: 3
+      });
+      combatant.effects.movementLockSources.push({
+        source: "ingrain",
+        expiresRound: null
+      });
+      combatant.turn.movementRemaining = 0;
+      next.log.push({
+        type: "ongoing_healing_started",
+        round: next.round,
+        actor: side,
+        moveId: move.id,
+        effect: "ingrain",
+        remainingEndTurns: 3
+      });
+      return next;
+    }
+
+    if (move.id === "lunar-blessing") {
+      endConcentrationState(next, side, "new_concentration");
+      const expiresRound = effectExpiryRound(move, next.round);
+      removeEffectSource(combatant, "lunar-blessing", next.round);
+      combatant.effects.ongoingEffects.push({
+        kind: "lunar-blessing",
+        source: "lunar-blessing",
+        moveId: move.id,
+        healingDice: stats.damageDice,
+        healingModifier: stats.damageModifier,
+        expiresRound
+      });
+      combatant.concentration = {
+        zoneId: null,
+        moveId: move.id,
+        effectSource: "lunar-blessing",
+        expiresRound
+      };
+      next.log.push({
+        type: "ongoing_healing_started",
+        round: next.round,
+        actor: side,
+        moveId: move.id,
+        effect: "lunar-blessing",
+        expiresRound,
+        concentration: true
+      });
+      return next;
+    }
+
+    throw new Error(`No ongoing healing handler for ${move.id}`);
   }
 
   async resolveAutomaticDamageMove(next, side, move) {
@@ -1763,7 +1975,10 @@ export class Pokemon5eCombatEngine {
     const healTargetSide = isImmediateHealingMove(move)
       ? healingTargetSide(move, side, requestedTargetSide)
       : null;
-    const delayedHealTargetSide = isDelayedHealingMove(move) ? side : null;
+    const delayedHealTargetSide = isDelayedHealingMove(move)
+      ? delayedHealingTargetSide(move, side, requestedTargetSide)
+      : null;
+    const ongoingHealTargetSide = isOngoingHealingMove(move) ? side : null;
     const cureTargetSide = isStatusCureMove(move)
       ? (move.id === "purify" ? otherSide(side) : side)
       : null;
@@ -1771,7 +1986,9 @@ export class Pokemon5eCombatEngine {
       ? next[healTargetSide]
       : delayedHealTargetSide
         ? next[delayedHealTargetSide]
-        : cureTargetSide
+        : ongoingHealTargetSide
+          ? next[ongoingHealTargetSide]
+          : cureTargetSide
         ? next[cureTargetSide]
         : defender;
     const range = areaTarget
@@ -1854,7 +2071,9 @@ export class Pokemon5eCombatEngine {
     } else if (isImmediateHealingMove(move)) {
       next = await this.resolveHealingMove(next, side, healTargetSide, move);
     } else if (isDelayedHealingMove(move)) {
-      next = await this.resolveDelayedHealingMove(next, side, move);
+      next = await this.resolveDelayedHealingMove(next, side, delayedHealTargetSide, move);
+    } else if (isOngoingHealingMove(move)) {
+      next = await this.resolveOngoingHealingMove(next, side, move);
     } else if (isOhkoMove(move)) {
       next = await this.resolveOhkoMove(next, side, move);
     } else if (isSaveHpEffectMove(move)) {
@@ -2120,6 +2339,12 @@ export class Pokemon5eCombatEngine {
     if (incoming.hp.current <= 0) throw new Error("Cannot switch to a fainted Pokémon");
 
     const outgoing = next.player;
+    if (
+      !forced &&
+      (outgoing.effects?.movementLockSources ?? []).some((entry) => entry.source === "ingrain")
+    ) {
+      throw new Error("Ingrain prevents voluntary switching");
+    }
     if (!withinLineOfSightDistance(next.trainer.position, outgoing.position, 60)) {
       throw new Error("Active Pokémon is more than 60ft from the trainer");
     }
