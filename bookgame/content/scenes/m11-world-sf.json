@@ -1,0 +1,543 @@
+{
+  "schemaVersion": 1,
+  "id": "m11-world-sf",
+  "moduleId": "M11",
+  "title": "M11_03 — World SF",
+  "locationId": "world_knockout_hall",
+  "entryNodeId": "sf_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m11_sf_prep_complete",
+        "eq": true
+      },
+      {
+        "path": "competition.world.knockout.sfOpened",
+        "eq": true
+      },
+      {
+        "path": "competition.world.knockout.playerAdvancedToSf",
+        "eq": true
+      },
+      {
+        "path": "competition.world.knockout.playerSfMatchId",
+        "exists": true
+      }
+    ]
+  },
+  "nodes": {
+    "sf_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La semifinale è single elimination. Il match del player è quello già scritto nel bracket E5."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sf_entry_next",
+          "text": "Proseguo verso Opponent Card.",
+          "goto": "opponent_card"
+        },
+        {
+          "id": "sf_entry_alt",
+          "text": "Confronto questo punto con Rules.",
+          "goto": "rules"
+        },
+        {
+          "id": "sf_entry_deep",
+          "text": "Approfondisco Pressure.",
+          "goto": "pressure"
+        }
+      ]
+    },
+    "opponent_card": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il tuo avversario è {{competition.world.knockout.playerSfOpponent.name}}; roster e trainerId vengono risolti dal bridge competitivo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "opponent_card_next",
+          "text": "Proseguo verso Rules.",
+          "goto": "rules"
+        },
+        {
+          "id": "opponent_card_alt",
+          "text": "Confronto questo punto con Pressure.",
+          "goto": "pressure"
+        },
+        {
+          "id": "opponent_card_deep",
+          "text": "Approfondisco Match Handoff.",
+          "goto": "match_handoff"
+        }
+      ]
+    },
+    "rules": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Formato Singles, sei Pokémon ufficiali e regole Pokémon 5e: nessun risultato è predeterminato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rules_next",
+          "text": "Proseguo verso Pressure.",
+          "goto": "pressure"
+        },
+        {
+          "id": "rules_alt",
+          "text": "Confronto questo punto con Match Handoff.",
+          "goto": "match_handoff"
+        },
+        {
+          "id": "rules_deep",
+          "text": "Approfondisco Win Return.",
+          "goto": "win_return"
+        }
+      ]
+    },
+    "pressure": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Una sola partita separa il player dalla finale, ma la pressione non modifica i dadi o le statistiche."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pressure_next",
+          "text": "Proseguo verso Match Handoff.",
+          "goto": "match_handoff"
+        },
+        {
+          "id": "pressure_alt",
+          "text": "Confronto questo punto con Win Return.",
+          "goto": "win_return"
+        },
+        {
+          "id": "pressure_deep",
+          "text": "Approfondisco Loss Return.",
+          "goto": "loss_return"
+        }
+      ]
+    },
+    "match_handoff": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il bridge usa playerSfMatchId e playerSfOpponent per costruire il combattimento ufficiale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fight_sf",
+          "text": "Combatto la semifinale del Mondiale.",
+          "combat": {
+            "encounterId": "WORLD_SF_PLAYER",
+            "opponentRegistered": true,
+            "competition": {
+              "type": "official_match",
+              "matchId": "WORLD_SF_PLAYER",
+              "format": "Singles",
+              "officialRosterSize": 6,
+              "difficulty": "STORY_THREAT",
+              "worldKnockoutRound": "SF"
+            },
+            "returnNodes": {
+              "win": "win_return",
+              "lose": "loss_return"
+            },
+            "goto": "match_handoff"
+          },
+          "conditions": {
+            "path": "world.flags.world_sf_resolved",
+            "ne": true
+          }
+        },
+        {
+          "id": "handoff_readiness",
+          "text": "Non entro ancora: torno alla readiness.",
+          "goto": "readiness"
+        },
+        {
+          "id": "handoff_rules",
+          "text": "Rileggo le regole prima di entrare.",
+          "goto": "rules"
+        }
+      ]
+    },
+    "win_return": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La vittoria rende il player finalista provvisorio; l'altra semifinale deve ancora essere risolta da E5."
+        }
+      ],
+      "choices": [
+        {
+          "id": "win_record",
+          "text": "Registro la chiusura narrativa della mia semifinale.",
+          "goto": "result_record",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m11_world_sf_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "win_resources",
+          "text": "Controllo ciò che resta al team.",
+          "goto": "resources_after",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m11_world_sf_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "loss_return": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La sconfitta elimina il player dal titolo. Non esiste ripescaggio verso la finale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "loss_record",
+          "text": "Registro l'eliminazione nella mia semifinale.",
+          "goto": "result_record",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m11_world_sf_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "loss_resources",
+          "text": "Controllo lo stato del team dopo la sconfitta.",
+          "goto": "resources_after",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m11_world_sf_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "result_record": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il risultato ufficiale resta nella competition history una sola volta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "result_record_next",
+          "text": "Proseguo verso Resources After.",
+          "goto": "resources_after"
+        },
+        {
+          "id": "result_record_alt",
+          "text": "Confronto questo punto con History.",
+          "goto": "history"
+        }
+      ]
+    },
+    "resources_after": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il team conserva HP, PP, status e altre conseguenze del combattimento appena concluso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "resources_after_next",
+          "text": "Proseguo verso History.",
+          "goto": "history"
+        },
+        {
+          "id": "resources_after_alt",
+          "text": "Confronto questo punto con Bracket Context.",
+          "goto": "bracket_context"
+        }
+      ]
+    },
+    "history": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La history permette di distinguere risultato del player e risoluzione off-screen dell'altra semifinale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "history_next",
+          "text": "Proseguo verso Bracket Context.",
+          "goto": "bracket_context"
+        },
+        {
+          "id": "history_alt",
+          "text": "Confronto questo punto con Rei Context.",
+          "goto": "rei_context"
+        }
+      ]
+    },
+    "bracket_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il vincitore del match reale occupa uno dei due slot della finale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "bracket_context_next",
+          "text": "Proseguo verso Rei Context.",
+          "goto": "rei_context"
+        },
+        {
+          "id": "bracket_context_alt",
+          "text": "Confronto questo punto con Friend Context.",
+          "goto": "friend_context"
+        }
+      ]
+    },
+    "rei_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Rei può vincere o perdere soltanto attraverso il match in cui si trova realmente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rei_context_next",
+          "text": "Proseguo verso Friend Context.",
+          "goto": "friend_context"
+        },
+        {
+          "id": "rei_context_alt",
+          "text": "Confronto questo punto con World Pressure.",
+          "goto": "world_pressure"
+        }
+      ]
+    },
+    "friend_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Lo stesso vale per gli amici: nessuna relazione protegge un risultato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "friend_context_next",
+          "text": "Proseguo verso World Pressure.",
+          "goto": "world_pressure"
+        },
+        {
+          "id": "friend_context_alt",
+          "text": "Confronto questo punto con Single Elimination.",
+          "goto": "single_elimination"
+        }
+      ]
+    },
+    "world_pressure": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'altra semifinale esiste indipendentemente dalla scena del player e verrà chiusa una sola volta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "world_pressure_next",
+          "text": "Proseguo verso Single Elimination.",
+          "goto": "single_elimination"
+        },
+        {
+          "id": "world_pressure_alt",
+          "text": "Confronto questo punto con Readiness.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "single_elimination": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Perdere WORLD_SF significa essere fuori dal titolo mondiale di questa edizione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "single_elimination_next",
+          "text": "Proseguo verso Readiness.",
+          "goto": "readiness"
+        },
+        {
+          "id": "single_elimination_alt",
+          "text": "Confronto questo punto con No Reset.",
+          "goto": "no_reset"
+        }
+      ]
+    },
+    "readiness": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Prima del fight il sistema verifica match, avversario e roster regolamentare."
+        }
+      ],
+      "choices": [
+        {
+          "id": "readiness_next",
+          "text": "Proseguo verso No Reset.",
+          "goto": "no_reset"
+        },
+        {
+          "id": "readiness_alt",
+          "text": "Confronto questo punto con Official Record.",
+          "goto": "official_record"
+        }
+      ]
+    },
+    "no_reset": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Né vittoria né sconfitta curano automaticamente il team."
+        }
+      ],
+      "choices": [
+        {
+          "id": "no_reset_next",
+          "text": "Proseguo verso Official Record.",
+          "goto": "official_record"
+        },
+        {
+          "id": "no_reset_alt",
+          "text": "Confronto questo punto con Aftermath Gate.",
+          "goto": "aftermath_gate"
+        }
+      ]
+    },
+    "official_record": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il record E5 è l'unica autorità per dire se il player ha vinto WORLD_SF."
+        }
+      ],
+      "choices": [
+        {
+          "id": "official_record_next",
+          "text": "Proseguo verso Aftermath Gate.",
+          "goto": "aftermath_gate"
+        },
+        {
+          "id": "official_record_alt",
+          "text": "Confronto questo punto con Handoff.",
+          "goto": "handoff"
+        }
+      ]
+    },
+    "aftermath_gate": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Dopo il risultato del player, M11_04 può risolvere l'altra semifinale e creare la finale reale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "aftermath_gate_next",
+          "text": "Proseguo verso Handoff.",
+          "goto": "handoff"
+        },
+        {
+          "id": "aftermath_gate_alt",
+          "text": "Confronto questo punto con Complete.",
+          "goto": "complete"
+        }
+      ]
+    },
+    "handoff": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il match del player è concluso; il bracket attende soltanto la seconda semifinale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "handoff_other",
+          "text": "Passo alla risoluzione dell'altra semifinale.",
+          "goto": "m11-other-sf#other_sf_entry"
+        },
+        {
+          "id": "handoff_history",
+          "text": "Rivedo il record ufficiale.",
+          "goto": "official_record"
+        }
+      ]
+    },
+    "complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "WORLD_SF del player è chiuso senza riscrivere il tabellone."
+        }
+      ],
+      "choices": [
+        {
+          "id": "complete_next",
+          "text": "Proseguo verso Review.",
+          "goto": "review"
+        },
+        {
+          "id": "complete_alt",
+          "text": "Confronto questo punto con Sf Entry.",
+          "goto": "sf_entry"
+        }
+      ]
+    },
+    "review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Rileggere la scena non può offrire un secondo fight sullo stesso matchId."
+        }
+      ],
+      "choices": [
+        {
+          "id": "review_next",
+          "text": "Proseguo verso Sf Entry.",
+          "goto": "sf_entry"
+        },
+        {
+          "id": "review_alt",
+          "text": "Confronto questo punto con Opponent Card.",
+          "goto": "opponent_card"
+        }
+      ]
+    }
+  }
+}
