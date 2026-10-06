@@ -30,7 +30,9 @@ const EFFECT_TYPES = new Set([
   "competition_world_groups_resolve",
   "competition_world_r16_open",
   "competition_world_r16_resolve",
-  "competition_world_qf_resolve"
+  "competition_world_qf_resolve",
+  "competition_world_sf_open",
+  "competition_world_sf_resolve"
 ]);
 
 function diag(code, message, at) {
@@ -123,7 +125,7 @@ function validateEffects(effects, at, errors) {
     if (["npc_register", "npc_relationship_adjust", "npc_state_set", "npc_schedule_set", "friend_beat_select", "friend_beat_world_select"].includes(effect.type)) {
       errors.push(...validateNpcEffect(effect, effectAt));
     }
-    if (["competition_trial_available", "competition_trial_register", "competition_world_draw", "competition_world_groups_open", "competition_world_groups_resolve", "competition_world_r16_open", "competition_world_r16_resolve", "competition_world_qf_resolve"].includes(effect.type)) {
+    if (["competition_trial_available", "competition_trial_register", "competition_world_draw", "competition_world_groups_open", "competition_world_groups_resolve", "competition_world_r16_open", "competition_world_r16_resolve", "competition_world_qf_resolve", "competition_world_sf_open", "competition_world_sf_resolve"].includes(effect.type)) {
       errors.push(...validateCompetitionEffect(effect, effectAt));
     }
   }
@@ -399,7 +401,7 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
       const combat = choice.combat;
       const dynamicWorldOpponent =
         Number.isInteger(combat.competition?.worldOpponentIndex) ||
-        ["R16", "QF"].includes(combat.competition?.worldKnockoutRound);
+        ["R16", "QF", "SF"].includes(combat.competition?.worldKnockoutRound);
       if (typeof combat.encounterId !== "string" || combat.encounterId.length === 0) {
         errors.push(diag("INVALID_ENCOUNTER_ID", "combat.encounterId is required", choiceAt + ".combat"));
       }
