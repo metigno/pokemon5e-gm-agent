@@ -1,3 +1,5 @@
+import { semanticAbilityContract, semanticItemContract } from "./semantic-coverage.mjs";
+
 const MOVE_IDS = `
 after-you ally-switch amnesia aromatic-mist assist attract aurora-veil baby-doll-eyes baneful-bunker baton-pass belly-drum bestow bide block camouflage captivate chilly-reception coaching conversion conversion-2 copycat court-change crafty-shield decorate destiny-bond detect diamond-storm doodle double-team dragon-cheer eerie-spell electric-terrain electrify embargo encore endure entrainment explosion final-gambit flash fling flower-shield focus-punch follow-me foresight gastro-acid gear-up glare grassy-terrain gravity growth grudge guard-split guard-swap happy-hour heal-block heart-swap helping-hand hold-hands howl instruct ion-deluge kings-shield light-screen lucky-chant magic-coat magic-room magnetic-flux mat-block me-first memento metal-burst metronome mimic miracle-eye mirror-coat mirror-move misty-terrain mud-sport nasty-plot nature-power nightmare noble-roar obstruct octolock odor-sleuth outrage parting-shot perish-song play-nice powder power-shift power-split power-swap power-trick protect psych-up psychic-terrain psycho-shift quash quick-guard rage rage-powder recycle reflect retaliate revenge revival-blessing roar role-play roost rototiller scary-face sharpen shed-tail shelter silk-trap simple-beam sing sketch skill-swap slack-off sleep-talk smokescreen snatch snowscape speed-swap spicy-extract spider-web spiky-shield spite splash spotlight sticky-web strength-sap string-shot stuff-cheeks substitute switcheroo swords-dance tailwind take-heart teatime telekinesis teleport tidy-up topsy-turvy torment transform trick trick-room vital-throw water-sport whirlwind wide-guard withdraw wonder-room work-up worry-seed yawn
 `.trim().split(/\s+/);
@@ -115,9 +117,14 @@ const ITEM_SCOPES = {
 
 export function compileCanonicalItemRule(item) {
   const scope = ITEM_SCOPES[item?.type] ?? null;
+  const semantic = semanticItemContract(item);
   return {
     itemId: item?.id ?? null,
-    supported: scope != null,
+    supported: scope != null && semantic.semanticCertified,
+    semanticCertified: semantic.semanticCertified,
+    semanticDomains: semantic.domains,
+    runtimeOwners: semantic.runtimeOwners,
+    explicitSemanticException: semantic.explicitException,
     scope,
     runtimeContext:
       scope === "capture" ? "capture" :
@@ -129,17 +136,19 @@ export function compileCanonicalItemRule(item) {
 }
 
 export function compileCanonicalAbilityRule(ability) {
+  const semantic = semanticAbilityContract(ability);
   const id = ability?.id ?? null;
   const text = ability?.description ?? "";
-  let family = "passive";
+  let family = semantic.domains[0] ?? null;
   if (/^form-change-/.test(id ?? "")) family = "form_change";
   else if (/knows .+ as a fifth move/i.test(text)) family = "fifth_move";
-  else if (/outside (?:of )?combat|short rest|long rest|overworld|wild/i.test(text)) family = "world_utility";
-  else if (/when|whenever|upon|after|before|if |while|at the (?:start|end|beginning)/i.test(text)) family = "triggered";
-  else if (/weather|terrain|sunlight|rain|snow|sandstorm|hail/i.test(text)) family = "environment";
   return {
     abilityId: id,
-    supported: Boolean(id && text),
+    supported: semantic.semanticCertified,
+    semanticCertified: semantic.semanticCertified,
+    semanticDomains: semantic.domains,
+    runtimeOwners: semantic.runtimeOwners,
+    explicitSemanticException: semantic.explicitException,
     family,
     description: text
   };
