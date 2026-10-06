@@ -671,7 +671,7 @@ test("Sweet Scent grants exactly two attack advantages tied to the failed-save t
     attacker: battle.player,
     defender: reserve,
     move: tackle,
-    dice: new SequenceDice([17]),
+    dice: new SequenceDice([17, 3]),
     round: battle.round
   });
   assert.equal(vsReserve.attackRoll.mode, "normal");
