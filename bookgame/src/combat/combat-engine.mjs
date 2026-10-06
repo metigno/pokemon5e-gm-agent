@@ -32,12 +32,14 @@ import {
 import {
   applyStatus,
   attackHasDisadvantage,
+  clearStatus,
   createStatusState,
   damageHasDisadvantage,
   endFrozenOnFireDamage,
   endTurnStatus,
   reactionsDisabled,
-  startTurnStatus
+  startTurnStatus,
+  STATUS_IDS
 } from "./status.mjs";
 
 const SAVE_EFFECT_MOVES = new Set([
@@ -153,6 +155,22 @@ function attackHitStatus(move, natural) {
   return null;
 }
 
+const IMMEDIATE_HEALING_MOVES = new Set([
+  "floral-healing",
+  "heal-order",
+  "jungle-healing",
+  "life-dew",
+  "milk-drink",
+  "recover",
+  "shore-up",
+  "soft-boiled",
+  "synthesis"
+]);
+
+function isImmediateHealingMove(move) {
+  return move.dice?.type === "healing" && IMMEDIATE_HEALING_MOVES.has(move.id);
+}
+
 const STATEFUL_AUTO_DAMAGE_MOVES = new Set([
   "diamond-storm",
   "focus-punch",
@@ -184,6 +202,7 @@ function isMoveResolvable(move) {
   if (move.attack && damage) return true;
   if (move.save && damage) return true;
   if (isAutomaticDamageMove(move)) return true;
+  if (isImmediateHealingMove(move)) return true;
   if (SAVE_EFFECT_MOVES.has(move.id) || AREA_MOVES.has(move.id)) return true;
   if ((move.attack || move.save) && statusFromText(move.description)) return true;
   if (move.id === "struggle") return true;
@@ -819,7 +838,8 @@ export class Pokemon5eCombatEngine {
       if (!slot || !combatant.turn[slot]) continue;
       if (!isMoveResolvable(move)) continue;
       if (requiresSleepingTarget(move) && defender.statuses?.nonVolatile !== "Asleep") continue;
-      if (!rangeCheckForMove(combatant, defender, move).legal) continue;
+      const rangeTarget = isImmediateHealingMove(move) ? combatant : defender;
+      if (!rangeCheckForMove(combatant, rangeTarget, move).legal) continue;
       result.push(move);
     }
 
@@ -983,6 +1003,38 @@ export class Pokemon5eCombatEngine {
     return next;
   }
 
+  async resolveHealingMove(next, side, move) {
+    const user = next[side];
+    const stats = calculateMoveStats(user, move);
+    const healingRoll = rollExpression(stats.damageDice, this.dice);
+    const rawHealing = Math.max(0, healingRoll.total + stats.damageModifier);
+    const before = user.hp.current;
+    user.hp.current = Math.min(user.hp.max, user.hp.current + rawHealing);
+
+    const curedStatuses = [];
+    if (move.id === "jungle-healing") {
+      for (const status of STATUS_IDS) {
+        if (clearStatus(user, status)) curedStatuses.push(status);
+      }
+    }
+
+    next.log.push({
+      type: "healing_move",
+      round: next.round,
+      actor: side,
+      target: side,
+      moveId: move.id,
+      moveName: move.name,
+      healingRoll,
+      healingModifier: stats.damageModifier,
+      healing: user.hp.current - before,
+      hpBefore: before,
+      hpAfter: user.hp.current,
+      curedStatuses
+    });
+    return next;
+  }
+
   async resolveAutomaticDamageMove(next, side, move) {
     const attacker = next[side];
     const targetSide = otherSide(side);
@@ -1118,13 +1170,14 @@ export class Pokemon5eCombatEngine {
     const areaTarget = AREA_MOVES.has(move.id) && targetPoint
       ? point(targetPoint.x, targetPoint.y)
       : null;
+    const rangeTarget = isImmediateHealingMove(move) ? attacker : defender;
     const range = areaTarget
       ? {
           legal: distance(attacker.position, areaTarget) <= move.range.value + 1e-9,
           distance: distance(attacker.position, areaTarget),
           maxRange: move.range.value
         }
-      : rangeCheckForMove(attacker, defender, move);
+      : rangeCheckForMove(attacker, rangeTarget, move);
     if (!range.legal) {
       throw new Error(`${move.name} is out of range: ${range.distance.toFixed(1)}ft > ${range.maxRange}ft`);
     }
@@ -1177,6 +1230,8 @@ export class Pokemon5eCombatEngine {
       });
     } else if (isAutomaticDamageMove(move)) {
       next = await this.resolveAutomaticDamageMove(next, side, move);
+    } else if (isImmediateHealingMove(move)) {
+      next = await this.resolveHealingMove(next, side, move);
     } else if (AREA_MOVES.has(move.id)) {
       const stats = calculateMoveStats(attacker, move);
       const center = areaTarget ?? clone(defender.position);
