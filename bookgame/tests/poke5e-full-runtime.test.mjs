@@ -103,7 +103,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
   const moves = await data.listMoves();
   const unresolved = moves.filter((move) => !isMoveResolvable(move)).map((move) => move.id);
 
-  assert.ok(unresolved.length <= 161, `unresolved move rules regressed to ${unresolved.length}`);
+  assert.ok(unresolved.length <= 159, `unresolved move rules regressed to ${unresolved.length}`);
   for (const id of [
     "acupressure",
     "feather-dance",
@@ -116,6 +116,8 @@ test("move execution coverage has an explicit non-regression gate", async () => 
     "haze",
     "mist",
     "safeguard",
+    "hail",
+    "sandstorm",
     "agility",
     "autotomize",
     "barrier",
@@ -437,6 +439,59 @@ test("Safeguard blocks new status and Mist blocks negative stat changes", async 
   const growlEvent = [...mistBattle.log].reverse().find((event) => event.type === "save_move");
   assert.equal(growlEvent?.applied?.effect, "blocked_stat_drop");
   assert.equal(growlEvent?.applied?.source, "mist");
+});
+
+test("Hail and Sandstorm use persistent no-save hazard zones with first-entry exposure", async () => {
+  const hailCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, ...Array(60).fill(1)])
+  });
+  let hailBattle = await hailCombat.createBattle({
+    encounterId: "FULL_RUNTIME_HAIL",
+    playerPokemon: { speciesId: "eevee", level: 6, moveIds: ["hail"] },
+    opponent: { speciesId: "caterpie", level: 5, moveIds: ["harden"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 100, y: 0 }
+  });
+  hailBattle = await hailCombat.usePlayerMove(hailBattle, "hail", {
+    targetPoint: { x: 40, y: 0 }
+  });
+  const hailZone = hailBattle.zones.at(-1);
+  assert.equal(hailZone?.effect, "hail");
+  assert.equal(hailZone?.radius, 50);
+  assert.equal(hailZone?.flatDamage, 3);
+  assert.equal(hailZone?.noSave, true);
+  assert.deepEqual(hailZone?.immuneTypes, ["ice"]);
+  assert.equal(hailBattle.player.concentration?.zoneId, hailZone.id);
+
+  hailBattle = await hailCombat.endPlayerTurn(hailBattle);
+  const hpBeforeEntry = hailBattle.opponent.hp.current;
+  hailBattle = await hailCombat.moveCombatant(hailBattle, "opponent", { x: 90, y: 0 });
+  const entryTick = [...hailBattle.log].reverse().find(
+    (event) => event.type === "zone_tick" && event.zoneId === hailZone.id
+  );
+  assert.equal(entryTick?.trigger, "enter");
+  assert.equal(entryTick?.save, null);
+  assert.equal(entryTick?.rawDamage, 3);
+  assert.ok(hailBattle.opponent.hp.current < hpBeforeEntry);
+
+  const sandCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, ...Array(40).fill(1)])
+  });
+  let sandBattle = await sandCombat.createBattle({
+    encounterId: "FULL_RUNTIME_SANDSTORM",
+    playerPokemon: { speciesId: "eevee", level: 10, moveIds: ["sandstorm"] },
+    opponent: { speciesId: "caterpie", level: 5, moveIds: ["harden"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 20, y: 0 }
+  });
+  sandBattle = await sandCombat.usePlayerMove(sandBattle, "sandstorm", {
+    targetPoint: { x: 20, y: 0 }
+  });
+  const sandZone = sandBattle.zones.at(-1);
+  assert.equal(sandZone?.effect, "sandstorm");
+  assert.equal(sandZone?.flatDamage, 5);
+  assert.deepEqual(sandZone?.immuneTypes, ["rock", "steel", "ground"]);
+  assert.equal(sandZone?.expiresRound, 6);
 });
 
 test("common self-buff moves execute level scaling, AC, damage, speed and concentration rules", async () => {
