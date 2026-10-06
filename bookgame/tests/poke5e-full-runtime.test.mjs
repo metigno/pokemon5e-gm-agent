@@ -103,7 +103,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
   const moves = await data.listMoves();
   const unresolved = moves.filter((move) => !isMoveResolvable(move)).map((move) => move.id);
 
-  assert.ok(unresolved.length <= 179, `unresolved move rules regressed to ${unresolved.length}`);
+  assert.ok(unresolved.length <= 178, `unresolved move rules regressed to ${unresolved.length}`);
   assert.ok(unresolved.includes("acupressure"));
   for (const id of [
     "agility",
@@ -122,6 +122,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
     "fillet-away",
     "focus-energy",
     "geomancy",
+    "harden",
     "hone-claws",
     "iron-defense",
     "laser-focus",
@@ -735,6 +736,49 @@ test("Sweet Scent grants exactly two attack advantages tied to the failed-save t
     round: battle.round
   });
   assert.equal(vsReserve.attackRoll.mode, "normal");
+});
+
+
+test("Harden reduces status and move damage through the same temporary reduction source", async () => {
+  const statusCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 6])
+  });
+  let statusBattle = await statusCombat.createBattle({
+    encounterId: "FULL_RUNTIME_HARDEN_STATUS",
+    playerPokemon: { speciesId: "caterpie", level: 5, moveIds: ["harden"] },
+    opponent: { speciesId: "weedle", level: 1, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 20, y: 0 }
+  });
+  applyStatus(statusBattle.player, "Poisoned");
+  const hpBeforeStatus = statusBattle.player.hp.current;
+  statusBattle = await statusCombat.usePlayerMove(statusBattle, "harden");
+  statusBattle = await statusCombat.endPlayerTurn(statusBattle);
+  const poisonEvent = statusBattle.log.find(
+    (event) => event.type === "status_damage" && event.actor === "player"
+  );
+  assert.equal(poisonEvent.damageBeforeReduction, 3);
+  assert.equal(poisonEvent.damage, 0);
+  assert.equal(statusBattle.player.hp.current, hpBeforeStatus);
+
+  const attackCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 18, 6, 4])
+  });
+  let attackBattle = await attackCombat.createBattle({
+    encounterId: "FULL_RUNTIME_HARDEN_ATTACK",
+    playerPokemon: { speciesId: "caterpie", level: 5, moveIds: ["harden"] },
+    opponent: { speciesId: "weedle", level: 1, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+  attackBattle = await attackCombat.usePlayerMove(attackBattle, "harden");
+  attackBattle = await attackCombat.endPlayerTurn(attackBattle);
+  const hpBeforeAttack = attackBattle.player.hp.current;
+  attackBattle = await attackCombat.useMove(attackBattle, "opponent", "tackle");
+  const attackEvent = [...attackBattle.log].reverse().find((event) => event.type === "attack");
+  assert.ok(attackEvent.damageBeforeReduction >= attackEvent.damage);
+  assert.ok(attackEvent.damageReduction >= 0);
+  assert.equal(hpBeforeAttack - attackBattle.player.hp.current, attackEvent.damage);
 });
 
 test("Healing Wish and Lunar Dance resolve on the next forced switch", async () => {

@@ -204,6 +204,7 @@ function removeEffectSource(combatant, source, round = null) {
     "saveAdvantageSources",
     "attackAdvantageSources",
     "damageResistanceSources",
+    "damageReductionSources",
     "typeImmunitySources",
     "stabMultiplierSources",
     "criticalRangeBonusSources",
@@ -247,6 +248,7 @@ function modifierRuleFor(move, level) {
     "dragon-dance": { attack: proficiencyBonus(level) },
     "focus-energy": { criticalRangeBonus: 2 },
     "geomancy": { speed: 10, attackAdvantage: true, saveAdvantage: true },
+    "harden": { damageReduction: true, durationRounds: 1 },
     "hone-claws": { attack: 1, damage: 1, stackCap: 3 },
     "iron-defense": {
       ac: 6,
@@ -422,6 +424,7 @@ const SIMPLE_MODIFIER_MOVES = new Set([
   "dragon-dance",
   "focus-energy",
   "geomancy",
+  "harden",
   "hone-claws",
   "iron-defense",
   "magnet-rise",
@@ -569,6 +572,7 @@ function clearTransientEffects(combatant) {
     saveAdvantageSources: [],
     attackAdvantageSources: [],
     damageResistanceSources: [],
+    damageReductionSources: [],
     typeImmunitySources: [],
     stabMultiplierSources: [],
     criticalRangeBonusSources: [],
@@ -696,6 +700,37 @@ function endConcentrationState(battle, side, reason) {
   return true;
 }
 
+function applyDamageReduction(combatant, damage, dice, round) {
+  const originalDamage = Math.max(0, Number(damage) || 0);
+  let remaining = originalDamage;
+  const reductions = [];
+
+  for (const source of combatant.effects?.damageReductionSources ?? []) {
+    if (remaining <= 0) break;
+    if (source.startsRound != null && round < source.startsRound) continue;
+    if (source.expiresRound != null && round >= source.expiresRound) continue;
+
+    const roll = rollExpression(source.dice, dice);
+    const rolledReduction = Math.max(0, roll.total + Number(source.modifier ?? 0));
+    const appliedReduction = Math.min(remaining, rolledReduction);
+    remaining -= appliedReduction;
+    reductions.push({
+      source: source.source,
+      roll,
+      modifier: Number(source.modifier ?? 0),
+      rolledReduction,
+      appliedReduction
+    });
+  }
+
+  return {
+    damageBeforeReduction: originalDamage,
+    damage: remaining,
+    damageReduction: originalDamage - remaining,
+    reductions
+  };
+}
+
 function checkConcentrationAfterDamage(battle, side, damage, dice) {
   if (damage <= 0 || !battle[side]?.concentration) return null;
 
@@ -772,10 +807,18 @@ function endTurnInternal(battle, side, dice) {
   );
 
   for (const event of events) {
-    next.log.push({ ...event, round: next.round, actor: side });
     if (event.type === "status_damage" && event.damage > 0) {
-      checkConcentrationAfterDamage(next, side, event.damage, dice);
+      const reduced = applyDamageReduction(combatant, event.damage, dice, next.round);
+      const restored = event.damage - reduced.damage;
+      combatant.hp.current = Math.min(combatant.hp.max, combatant.hp.current + restored);
+      event.damageBeforeReduction = reduced.damageBeforeReduction;
+      event.damageReduction = reduced.damageReduction;
+      event.reductions = reduced.reductions;
+      event.damage = reduced.damage;
+      event.hpAfter = combatant.hp.current;
+      if (event.damage > 0) checkConcentrationAfterDamage(next, side, event.damage, dice);
     }
+    next.log.push({ ...event, round: next.round, actor: side });
   }
 
   if (combatant.hp.current <= 0) {
@@ -1288,6 +1331,7 @@ export class Pokemon5eCombatEngine {
         saveAdvantageSources: [],
         attackAdvantageSources: [],
         damageResistanceSources: [],
+        damageReductionSources: [],
         typeImmunitySources: [],
         stabMultiplierSources: [],
         criticalRangeBonusSources: [],
@@ -1490,6 +1534,16 @@ export class Pokemon5eCombatEngine {
         save.success,
         next.round
       );
+      const reducedZoneDamage = applyDamageReduction(
+        combatant,
+        damageInfo.damage,
+        this.dice,
+        next.round
+      );
+      damageInfo.damageBeforeReduction = reducedZoneDamage.damageBeforeReduction;
+      damageInfo.damageReduction = reducedZoneDamage.damageReduction;
+      damageInfo.reductions = reducedZoneDamage.reductions;
+      damageInfo.damage = reducedZoneDamage.damage;
       combatant.hp.current = Math.max(0, combatant.hp.current - damageInfo.damage);
 
       let statusResult = null;
@@ -1683,6 +1737,17 @@ export class Pokemon5eCombatEngine {
       endConcentrationState(next, side, "consumed");
     }
 
+    const reducedAttackDamage = applyDamageReduction(
+      defender,
+      result.damage,
+      this.dice,
+      next.round
+    );
+    result.damageBeforeReduction = reducedAttackDamage.damageBeforeReduction;
+    result.damageReduction = reducedAttackDamage.damageReduction;
+    result.reductions = reducedAttackDamage.reductions;
+    result.damage = reducedAttackDamage.damage;
+
     defender.hp.current = Math.max(0, defender.hp.current - result.damage);
     checkConcentrationAfterDamage(next, targetSide, result.damage, this.dice);
 
@@ -1769,7 +1834,14 @@ export class Pokemon5eCombatEngine {
     const defenderAc = effectiveAc(defender, next.round);
     const hit = automaticHit || roll.natural === 20 ||
       (roll.natural !== 1 && attackTotal >= defenderAc);
-    const damage = hit ? Math.max(0, 2 + moveModifier) : 0;
+    const baseDamage = hit ? Math.max(0, 2 + moveModifier) : 0;
+    const reducedStruggleDamage = applyDamageReduction(
+      defender,
+      baseDamage,
+      this.dice,
+      next.round
+    );
+    const damage = reducedStruggleDamage.damage;
 
     defender.hp.current = Math.max(0, defender.hp.current - damage);
     if (targetSide !== side) checkConcentrationAfterDamage(next, targetSide, damage, this.dice);
@@ -1789,6 +1861,9 @@ export class Pokemon5eCombatEngine {
       attackAdvantageConsumed,
       defenderAc,
       hit,
+      damageBeforeReduction: reducedStruggleDamage.damageBeforeReduction,
+      damageReduction: reducedStruggleDamage.damageReduction,
+      reductions: reducedStruggleDamage.reductions,
       damage,
       targetHpAfter: defender.hp.current
     });
@@ -2219,7 +2294,8 @@ export class Pokemon5eCombatEngine {
     }
 
     if (move.id === "fillet-away") {
-      const selfDamage = 10;
+      const reducedSelfDamage = applyDamageReduction(combatant, 10, this.dice, next.round);
+      const selfDamage = reducedSelfDamage.damage;
       combatant.hp.current = Math.max(0, combatant.hp.current - selfDamage);
       const concentrationCheck = checkConcentrationAfterDamage(
         next,
@@ -2234,6 +2310,9 @@ export class Pokemon5eCombatEngine {
           round: next.round,
           actor: side,
           moveId: move.id,
+          selfDamageBeforeReduction: reducedSelfDamage.damageBeforeReduction,
+          damageReduction: reducedSelfDamage.damageReduction,
+          reductions: reducedSelfDamage.reductions,
           selfDamage,
           concentrationCheck,
           applied: null,
@@ -2263,6 +2342,9 @@ export class Pokemon5eCombatEngine {
         round: next.round,
         actor: side,
         moveId: move.id,
+        selfDamageBeforeReduction: reducedSelfDamage.damageBeforeReduction,
+        damageReduction: reducedSelfDamage.damageReduction,
+        reductions: reducedSelfDamage.reductions,
         selfDamage,
         concentrationCheck,
         applied: {
@@ -2277,7 +2359,13 @@ export class Pokemon5eCombatEngine {
 
     if (move.id === "clangorous-soul") {
       const damageRoll = rollExpression("3d6", this.dice);
-      const damage = damageRoll.total;
+      const reducedSelfDamage = applyDamageReduction(
+        combatant,
+        damageRoll.total,
+        this.dice,
+        next.round
+      );
+      const damage = reducedSelfDamage.damage;
       combatant.hp.current = Math.max(0, combatant.hp.current - damage);
       const concentrationCheck = checkConcentrationAfterDamage(
         next,
@@ -2293,6 +2381,9 @@ export class Pokemon5eCombatEngine {
           actor: side,
           moveId: move.id,
           damageRoll,
+          selfDamageBeforeReduction: reducedSelfDamage.damageBeforeReduction,
+          damageReduction: reducedSelfDamage.damageReduction,
+          reductions: reducedSelfDamage.reductions,
           selfDamage: damage,
           concentrationCheck,
           applied: null,
@@ -2332,6 +2423,9 @@ export class Pokemon5eCombatEngine {
         actor: side,
         moveId: move.id,
         damageRoll,
+        selfDamageBeforeReduction: reducedSelfDamage.damageBeforeReduction,
+        damageReduction: reducedSelfDamage.damageReduction,
+        reductions: reducedSelfDamage.reductions,
         selfDamage: damage,
         concentrationCheck,
         applied,
@@ -2447,6 +2541,19 @@ export class Pokemon5eCombatEngine {
         expiresRound
       });
       applied.criticalRangeBonus = Number(rule.criticalRangeBonus);
+    }
+    if (rule.damageReduction) {
+      const stats = calculateMoveStats(combatant, move, next.round);
+      combatant.effects.damageReductionSources.push({
+        source: move.id,
+        dice: stats.damageDice,
+        modifier: stats.damageModifier,
+        expiresRound
+      });
+      applied.damageReduction = {
+        dice: stats.damageDice,
+        modifier: stats.damageModifier
+      };
     }
 
     const speedAfter = activeModifier(combatant.effects.speedModifierSources, next.round);
@@ -2653,9 +2760,19 @@ export class Pokemon5eCombatEngine {
         0,
         damageRoll.selected.total + stats.damageModifier + damageBonus
       );
-      const damage = multiplier === 0.5 ? Math.floor(rawDamage / 2) : rawDamage * multiplier;
-      totalDamage += damage;
-      hits.push({ index: index + 1, damageRoll, rawDamage, damage });
+      const beforeReduction =
+        multiplier === 0.5 ? Math.floor(rawDamage / 2) : rawDamage * multiplier;
+      const reduced = applyDamageReduction(defender, beforeReduction, this.dice, next.round);
+      totalDamage += reduced.damage;
+      hits.push({
+        index: index + 1,
+        damageRoll,
+        rawDamage,
+        damageBeforeReduction: reduced.damageBeforeReduction,
+        damageReduction: reduced.damageReduction,
+        reductions: reduced.reductions,
+        damage: reduced.damage
+      });
     }
 
     defender.hp.current = Math.max(0, defender.hp.current - totalDamage);
@@ -2713,6 +2830,11 @@ export class Pokemon5eCombatEngine {
     const multiplier = damageMultiplierFor(move, defender, next.round);
     let damage = multiplier === 0.5 ? Math.floor(rawDamage / 2) : rawDamage * multiplier;
     if (save.success) damage = saveAllowsHalfDamage(move) ? Math.floor(damage / 2) : 0;
+    const reducedSaveDamage = applyDamageReduction(defender, damage, this.dice, next.round);
+    const damageBeforeReduction = reducedSaveDamage.damageBeforeReduction;
+    const damageReduction = reducedSaveDamage.damageReduction;
+    const reductions = reducedSaveDamage.reductions;
+    damage = reducedSaveDamage.damage;
 
     defender.hp.current = Math.max(0, defender.hp.current - damage);
     checkConcentrationAfterDamage(next, targetSide, damage, this.dice);
@@ -2735,6 +2857,9 @@ export class Pokemon5eCombatEngine {
       damageModifier: stats.damageModifier + damageBonus,
       rawDamage,
       typeMultiplier: multiplier,
+      damageBeforeReduction,
+      damageReduction,
+      reductions,
       damage,
       status,
       statusResult,
