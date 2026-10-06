@@ -5,6 +5,7 @@ import {
   abilityModifier,
   calculateMoveStats,
   damageProfile,
+  damageRollHasAdvantage,
   proficiencyBonus,
   resolveAttack,
   resolveSaveMove,
@@ -480,16 +481,26 @@ function applyMoveStatus(attacker, defender, status) {
   });
 }
 
-function rollSaveMoveDamage(attacker, expression, dice) {
+function rollSaveMoveDamage(attacker, move, expression, dice) {
+  let advantage = damageRollHasAdvantage(attacker, move);
+  let disadvantage = damageHasDisadvantage(attacker);
+  if (advantage && disadvantage) {
+    advantage = false;
+    disadvantage = false;
+  }
+
   const first = rollExpression(expression, dice);
-  if (!damageHasDisadvantage(attacker)) {
+  if (!advantage && !disadvantage) {
     return { selected: first, attempts: [first], mode: "normal" };
   }
+
   const second = rollExpression(expression, dice);
   return {
-    selected: first.total <= second.total ? first : second,
+    selected: advantage
+      ? (first.total >= second.total ? first : second)
+      : (first.total <= second.total ? first : second),
     attempts: [first, second],
-    mode: "disadvantage"
+    mode: advantage ? "advantage" : "disadvantage"
   };
 }
 
@@ -1292,7 +1303,7 @@ export class Pokemon5eCombatEngine {
     let totalDamage = 0;
 
     for (let index = 0; index < automaticDamageHitCount(move); index += 1) {
-      const damageRoll = rollSaveMoveDamage(attacker, stats.damageDice, this.dice);
+      const damageRoll = rollSaveMoveDamage(attacker, move, stats.damageDice, this.dice);
       const rawDamage = Math.max(0, damageRoll.selected.total + stats.damageModifier);
       const damage = multiplier === 0.5 ? Math.floor(rawDamage / 2) : rawDamage * multiplier;
       totalDamage += damage;
@@ -1344,7 +1355,7 @@ export class Pokemon5eCombatEngine {
         move.time?.unit === "action"
     });
 
-    const damageRoll = rollSaveMoveDamage(attacker, stats.damageDice, this.dice);
+    const damageRoll = rollSaveMoveDamage(attacker, move, stats.damageDice, this.dice);
     const rawDamage = Math.max(0, damageRoll.selected.total + stats.damageModifier);
     const multiplier = damageMultiplierFor(move, defender);
     let damage = multiplier === 0.5 ? Math.floor(rawDamage / 2) : rawDamage * multiplier;
