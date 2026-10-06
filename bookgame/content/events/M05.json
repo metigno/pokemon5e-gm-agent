@@ -1,0 +1,425 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "M05",
+  "events": [
+    {
+      "id": "A5_INTERREGIONAL",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "competition.rankOrder",
+            "gte": 4
+          }
+        ],
+        "any": [
+          {
+            "path": "player.trainerLevel",
+            "gte": 11
+          },
+          {
+            "path": "world.flags.interregional_schedule_open",
+            "eq": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "license_window",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a5_interregional_available",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A5_TRACE",
+      "once": true,
+      "trigger": {
+        "any": [
+          {
+            "path": "player.trainerLevel",
+            "gte": 13
+          },
+          {
+            "path": "world.flags.major_lore_chain_started",
+            "eq": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "trace_window",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a5_trace_available",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A5_FIVE_CROSS",
+      "once": true,
+      "trigger": {
+        "any": [
+          {
+            "path": "player.trainerLevel",
+            "gte": 13
+          },
+          {
+            "path": "world.flags.friend_reunion_conditions_met",
+            "eq": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "reunion_window",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a5_five_cross_available",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M5_FRIEND_BEAT_SELECT",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "world.flags.five_cross_complete",
+            "eq": true
+          },
+          {
+            "path": "world.flags.friend_beat_05_complete",
+            "ne": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "luke_present",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Luke"
+              },
+              {
+                "path": "npcs.Luke.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Luke.schedule.locationId",
+                "in": [
+                  "alt_town",
+                  "ful_plateau"
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_friend_id",
+              "value": "Luke"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "mattew_present",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Mattew"
+              },
+              {
+                "path": "npcs.Mattew.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Mattew.schedule.locationId",
+                "in": [
+                  "alt_town",
+                  "ful_plateau"
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_friend_id",
+              "value": "Mattew"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "daniel_present",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Daniel"
+              },
+              {
+                "path": "npcs.Daniel.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Daniel.schedule.locationId",
+                "in": [
+                  "alt_town",
+                  "ful_plateau"
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_friend_id",
+              "value": "Daniel"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "edward_present",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Edward"
+              },
+              {
+                "path": "npcs.Edward.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Edward.schedule.locationId",
+                "in": [
+                  "alt_town",
+                  "ful_plateau"
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_friend_id",
+              "value": "Edward"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "fab_present",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Fab"
+              },
+              {
+                "path": "npcs.Fab.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Fab.schedule.locationId",
+                "in": [
+                  "alt_town",
+                  "ful_plateau"
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_friend_id",
+              "value": "Fab"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "fallback_luke_player",
+          "when": {
+            "path": "player.name",
+            "eq": "Luke"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_friend_id",
+              "value": "Mattew"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "fallback_mattew_player",
+          "when": {
+            "path": "player.name",
+            "eq": "Mattew"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_friend_id",
+              "value": "Daniel"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "fallback_daniel_player",
+          "when": {
+            "path": "player.name",
+            "eq": "Daniel"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_friend_id",
+              "value": "Edward"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "fallback_edward_player",
+          "when": {
+            "path": "player.name",
+            "eq": "Edward"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_friend_id",
+              "value": "Fab"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "fallback_fab_player",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_friend_id",
+              "value": "Luke"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_05_available",
+              "value": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
