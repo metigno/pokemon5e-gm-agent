@@ -3,7 +3,7 @@
 **Status:** LOCKED BASELINE FOR M05→M12 AUTHORING  
 **Production branch reviewed:** `m12-00-04-work`  
 **Runtime-validated corpus:** M01→M11 complete + M12 Cycle 1 extension  
-**Latest runtime evidence:** M12 Cycle 1 — 95 / 209; Bookgame Tests #413: 1,311 passed / 0 failed / 0 skipped. Complete-module baseline remains M01→M11.  
+**Latest runtime evidence:** M12 Cycle 2 — cumulative 179 / 397 through M12_08; Bookgame Tests #422: 1,321 passed / 0 failed / 0 skipped. Complete-module baseline remains M01→M11.  
 **Catalog:** `bookgame/docs/NODE_REUSE_CATALOG.md`
 
 ---
@@ -534,3 +534,41 @@ Validation evidence:
 The current Library decision therefore remains:
 
 **R01→R38 / complete-module baseline M01→M11, with M12 runtime-validated through M12_04; no R39 requirement.**
+
+
+---
+
+## M12 CYCLE 2 RUNTIME EXTENSION EVIDENCE — 2026-10-06
+
+M12 — *Dopo il Mondo* remains **not module-complete**. The complete-module Library V2 baseline remains **M01→M11 = 2,234 logical nodes / 5,053 meaningful choices**.
+
+Validated extension through M12_08:
+
+- Cycle 2 blocks: `M12_05_COAST_CALLBACKS` → `M12_08_MERIDIANA_CALLBACKS`;
+- Cycle-2 surface: **84 nodes / 188 meaningful choices**;
+- cumulative M12 surface: **179 nodes / 397 meaningful choices**;
+- residual M12_09→M12_11: **49 nodes / 105 meaningful choices**;
+- all Cycle-2 blocks compose **R01→R38**; **no R39 candidate required**;
+- M4 coast/smuggling history is read, never rewritten;
+- M5 altitude result and ancient-mystery knowledge remain independent persisted axes;
+- M6 Continental/Masters results remain independent persisted axes;
+- M7 direct qualification, Last Chance qualification and Worlds Missed remain distinct persisted routes;
+- sponsor/media state is not conflated with qualification state;
+- all **84/84 Cycle-2 nodes** are forward-reachable with no zero-incoming padding;
+- save/reload preserves original M4→M7 outcomes and M12 callback state;
+- no narrative heal, roster reset, rank rewrite or competition rewrite is introduced.
+
+Validation evidence:
+
+- branch: `m12-00-04-work`;
+- PR **#14**;
+- validated implementation HEAD: `b86c58a3963bcf1d984c310ccc9e7698715a72a6`;
+- GitHub Actions **Bookgame Tests #422: SUCCESS**;
+- syntax: **PASS**;
+- `validate:story`: **PASS**;
+- compiler: **151 scenes / 2,413 nodes / 2,768 stitches / 5,472 compiled choices**;
+- full suite: **1,321 passed / 0 failed / 0 skipped**.
+
+Current Library decision:
+
+**R01→R38 / complete-module baseline M01→M11, with M12 runtime-validated through M12_08; no R39 requirement.**
