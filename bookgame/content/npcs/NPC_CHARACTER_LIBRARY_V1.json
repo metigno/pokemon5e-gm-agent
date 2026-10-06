@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "status": "LOCKED_BASELINE_PENDING_M12_DELTA",
+  "status": "LOCKED_RC0_POST_M12_DELTA_PASS",
   "scope": "Pokemon 5e Digital Librogame character/NPC reuse registry",
   "authority": [
     "docs/P5E_LIBROGAME_ENGINE_SOURCE_OF_TRUTH.md",
@@ -247,7 +247,7 @@
     "M09": "complete",
     "M10": "complete",
     "M11": "complete_runtime_validated",
-    "M12": "mapped_not_production_complete"
+    "M12": "complete_runtime_validated"
   },
   "m12Policy": {
     "anchor": "cast completo / WORLD_EXIT",
@@ -261,7 +261,7 @@
     "newNamedPersistentNpcRequiresLibraryDelta": true
   },
   "deltaAudit": {
-    "required": true,
+    "required": false,
     "trigger": "after M12 production completion and again before final release merge",
     "scanFor": [
       "npc_register",
@@ -276,6 +276,25 @@
       "M12 does not silently introduce a new Anchor",
       "scene-scoped unnamed roles are not promoted to persistent NPCs accidentally",
       "new named M12 characters are classified as persistent, callback-only, or scene-scoped"
-    ]
+    ],
+    "completed": true,
+    "result": "PASS",
+    "completedOn": "2026-10-06",
+    "evidence": {
+      "m12NpcRegisterMentions": 0,
+      "m12StructuredNpcIds": 0,
+      "newM12Anchor": false,
+      "newNamedPersistentCharacters": 0,
+      "newNamedCallbackCharacters": 0,
+      "priorAnchorCallbacksObserved": [
+        "N",
+        "Archie",
+        "Steven",
+        "Lance",
+        "Red",
+        "Cynthia"
+      ],
+      "note": "M12 reuses prior cast through causal state/schedule callbacks; no new persistent or callback-only named character requires a registry delta."
+    }
   }
 }
