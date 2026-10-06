@@ -3,7 +3,7 @@
 **Module:** M12 — Dopo il Mondo  
 **Authority:** subordinate to `P5E_LIBROGAME_ENGINE_SOURCE_OF_TRUTH.md`, `P5E_LIBROGAME_12_MODULES_MASTER.md` and `M12_DOPO_IL_MONDO_MODULE_DESIGN.md`  
 **Locked authored budget:** **4,753 stitches / 1,884 player choices**  
-**Module implementation status:** **CYCLE 2 RUNTIME-VALIDATED**
+**Module implementation status:** **FINAL CYCLE IMPLEMENTED / VALIDATION PENDING**
 
 E1–E7 are shared infrastructure from M1. No module-specific replacement engine is allowed.
 
@@ -54,9 +54,9 @@ The spine is production ordering, not forced linear play. Actual legal branches 
 | M12_06_HIGHLANDS_CALLBACKS | M5 Fulgore, Altacima e mistero antico | 442 | 175 | CYCLE 2 VALIDATED |
 | M12_07_INTERREGIONAL_CALLBACKS | M6 carriera, Red, Masters e cutoff | 442 | 175 | CYCLE 2 VALIDATED |
 | M12_08_MERIDIANA_CALLBACKS | M7 media, Cynthia, Qualifier e status professionale | 442 | 175 | CYCLE 2 VALIDATED |
-| M12_09_FRIEND_BEAT_12 | chiusura con tutti gli amici plausibili, almeno uno garantito | 441 | 175 | PLANNED |
-| M12_10_POSTGAME_HOOKS | side quest, Legendary arcs, Primo Faro, mistero antico e future stagioni | 304 | 121 | PLANNED |
-| M12_11_MAIN_STORY_COMPLETE | flag finale senza chiudere free-roam o cancellare stato | 259 | 103 | PLANNED |
+| M12_09_FRIEND_BEAT_12 | chiusura con tutti gli amici plausibili, almeno uno garantito | 441 | 175 | FINAL CYCLE IMPLEMENTED |
+| M12_10_POSTGAME_HOOKS | side quest, Legendary arcs, Primo Faro, mistero antico e future stagioni | 304 | 121 | FINAL CYCLE IMPLEMENTED |
+| M12_11_MAIN_STORY_COMPLETE | flag finale senza chiudere free-roam o cancellare stato | 259 | 103 | FINAL CYCLE IMPLEMENTED |
 | **TOTAL** |  | **4,753** | **1,884** | |
 
 ---
@@ -483,3 +483,58 @@ Validation:
 - tests: **1,321 passed / 0 failed / 0 skipped**.
 
 M12 remains open only for **M12_09 FRIEND_BEAT_12**, **M12_10 POSTGAME_HOOKS** and **M12_11 MAIN_STORY_COMPLETE**.
+
+
+---
+
+# 5C. FINAL CYCLE IMPLEMENTATION LOCK — M12_09–M12_11
+
+The final production cycle closes the relational arc and the main story while keeping the same save writable and alive.
+
+**Final-cycle logical surface:** **49 nodes / 105 meaningful choices** exactly.  
+**Complete M12 logical surface:** **228 nodes / 502 meaningful choices** exactly.
+
+## M12_09_FRIEND_BEAT_12
+
+**Reuse class:** ADAPT / COMPOSED
+
+**Source archetypes:**
+- R23 — NPC PRESENCE / SCHEDULE GATE
+- R26 — FRIEND BEAT DISPATCH
+- R27 — FRIEND BEAT CONTENT
+- R28 — FRIEND DIVERGENCE / UPDATE
+- R33 — CROSS-MODULE CALLBACK
+
+**Unique layer:** E4 guarantees one causal primary contact using persistent World/schedule state. The final group contact may mix physical and remote participation so the Four can all be involved without teleportation. It persists `friend_beat_12_friend_ids`, type and result. Any rematch remains optional and cannot replace WORLD_FINAL as the final boss.
+
+**Implementation lock:** scene `m12-friend-beat-12` contains **21 nodes / 46 meaningful choices**.
+
+## M12_10_POSTGAME_HOOKS
+
+**Reuse class:** REUSE / ADAPT
+
+**Source archetypes:**
+- R11 — QUEST LIFECYCLE
+- R21 — MODULE HANDOFF
+- R29 — LIVING WORLD OFF-SCREEN RESOLUTION
+- R33 — CROSS-MODULE CALLBACK
+
+**Unique layer:** registers policy for surviving side quests, Legendary arcs, ancient-mystery layers, Primo Faro, exploration, relationships, training/captures and future seasons. It preserves only hooks that already exist in canonical state and never grants a new Legendary or second save model.
+
+**Implementation lock:** scene `m12-postgame-hooks` contains **15 nodes / 32 meaningful choices**.
+
+## M12_11_MAIN_STORY_COMPLETE
+
+**Reuse class:** REUSE / ADAPT
+
+**Source archetypes:**
+- R20 — MODULE EXIT / OUTCOME
+- R21 — MODULE HANDOFF
+- R33 — CROSS-MODULE CALLBACK
+- R38 — COMPOSITE OUTCOME CLASSIFIER
+
+**Unique layer:** final commit sets `main_story_complete`, `postgame_free_roam` and `m12_complete` only after WORLD_EXIT, FRIEND_BEAT_12 and postgame hooks are complete. It never resets roster, quests, NPC state, rank, bracket or World Champion.
+
+**Implementation lock:** scene `m12-main-story-complete` contains **13 nodes / 27 meaningful choices**.
+
+**Library decision:** final M12 is fully expressible through Library V2 **R01→R38**. **No R39 candidate is required.**
