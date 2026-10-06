@@ -15,20 +15,24 @@ import {
   scaledHp
 } from "./poke5e-rules.mjs";
 import {
+  baseMovementSpeed,
   canTargetMove,
   distance,
   leavesReach,
   moveToward,
   movementSpeed,
+  movementSpeedForType,
   point,
   reachForSize,
+  validateMovement,
   withinLineOfSightDistance
 } from "./spatial.mjs";
 import {
   createCircleZone,
   expireZonesAtTurnStart,
   removeZone,
-  zoneContains
+  zoneContains,
+  zoneTransition
 } from "./zones.mjs";
 import {
   applyStatus,
@@ -1583,7 +1587,7 @@ function findBallIndex(inventory, requested) {
   });
 }
 
-function rangeCheckForMove(attacker, defender, move) {
+function rangeCheckForMove(attacker, defender, move, battlefield = null) {
   if (move.range?.type === "self" && move.shape?.value) {
     const actual = distance(attacker.position, defender.position);
     const max = move.shape.value;
@@ -1600,7 +1604,7 @@ function rangeCheckForMove(attacker, defender, move) {
     return { legal: actual <= 60 + 1e-9, distance: actual, maxRange: 60 };
   }
 
-  const result = canTargetMove(attacker, defender, move);
+  const result = canTargetMove(attacker, defender, move, battlefield);
   if (result.legal) return result;
 
   if (move.id === "quick-attack" && move.range?.type === "melee") {
@@ -1962,6 +1966,13 @@ export class Pokemon5eCombatEngine {
       },
       zones: [],
       pendingEffects: [],
+      battlefield: clone(handoff.battlefield ?? {
+        obstacles: [],
+        terrain: [],
+        waterRegions: [],
+        underwater: false,
+        burrowable: true
+      }),
       environment: clone(handoff.environment ?? {}),
       outcome: null,
       log: [{
@@ -2185,13 +2196,13 @@ export class Pokemon5eCombatEngine {
                     : specialTargetSide
                       ? battle[specialTargetSide]
                       : defender;
-      if (!rangeCheckForMove(combatant, rangeTarget, move).legal) continue;
+      if (!rangeCheckForMove(combatant, rangeTarget, move, battle.battlefield).legal) continue;
       result.push(move);
     }
 
     if (combatant.turn.actionAvailable) {
       const struggle = await this.data.getMove("struggle");
-      if (rangeCheckForMove(combatant, defender, struggle).legal) result.push(struggle);
+      if (rangeCheckForMove(combatant, defender, struggle, battle.battlefield).legal) result.push(struggle);
     }
 
     return result;
@@ -2224,10 +2235,21 @@ export class Pokemon5eCombatEngine {
       activeModifier(attacker.effects.attackModifierSources, next.round) +
       activeModifier(defender.effects.incomingAttackBonusSources, next.round);
     const damageBonus = activeModifier(attacker.effects.damageModifierSources, next.round);
+    const rangeProfile = rangeCheckForMove(attacker, defender, effectiveMove, next.battlefield);
+    const coverAcBonus = Number.isFinite(rangeProfile.coverAcBonus) ? rangeProfile.coverAcBonus : 0;
     const defenderForResolution = {
       ...defender,
-      ac: effectiveAc(defender, next.round, effectiveMove)
+      ac: effectiveAc(defender, next.round, effectiveMove) + coverAcBonus
     };
+    const movementMode = attacker.movementMode ?? baseMovementSpeed(attacker).type;
+    const midFlight =
+      movementMode === "flying" ||
+      (movementMode === "hover" && Number(attacker.position?.z ?? 0) > 10);
+    const flightRangeDisadvantage =
+      midFlight &&
+      effectiveMove.attack?.scope === "ranged" &&
+      Number.isFinite(rangeProfile.maxRange) &&
+      rangeProfile.distance > rangeProfile.maxRange / 2 + 1e-9;
 
     const flashFireWasCharged =
       attacker.abilityId === "flash-fire" &&
@@ -2258,7 +2280,7 @@ export class Pokemon5eCombatEngine {
       extraAttackModifier: attackBonus,
       extraDamageModifier: damageBonus,
       damageDiceMultiplier: stockpileMultiplier,
-      forceDisadvantage,
+      forceDisadvantage: forceDisadvantage || flightRangeDisadvantage,
       forceHit: Boolean(forcedHitConsumed),
       forceCritical: Boolean(forcedCriticalConsumed),
       round: next.round
@@ -2322,6 +2344,9 @@ export class Pokemon5eCombatEngine {
       forcedHitConsumed,
       forcedCriticalConsumed,
       weather: move.id === "weather-ball" ? weatherProfile.kind : null,
+      cover: rangeProfile.cover ?? "none",
+      coverAcBonus,
+      flightRangeDisadvantage,
       secondaryStatus: secondary,
       statusResult,
       thawed,
@@ -4191,7 +4216,7 @@ export class Pokemon5eCombatEngine {
 
       const target = battle[otherSide(reactorSide)];
       if (!target?.position || !reactor.position) continue;
-      if (!rangeCheckForMove(reactor, target, move).legal) continue;
+      if (!rangeCheckForMove(reactor, target, move, battle.battlefield).legal) continue;
       result.push(move);
     }
     return result;
@@ -4238,7 +4263,7 @@ export class Pokemon5eCombatEngine {
       throw new Error(`${move.name} currently requires the opposing active creature as target`);
     }
     const target = next[targetSide];
-    const range = rangeCheckForMove(reactor, target, move);
+    const range = rangeCheckForMove(reactor, target, move, next.battlefield);
     if (!range.legal) {
       throw new Error(
         `${move.name} reaction is out of range: ${range.distance.toFixed(1)}ft > ${range.maxRange}ft`
@@ -4332,7 +4357,12 @@ export class Pokemon5eCombatEngine {
     return this.resolveAttackMove(next, reactorSide, move, { reaction: true });
   }
 
-  async moveCombatant(battle, side, destination, { opportunityMoveId = null } = {}) {
+  async moveCombatant(
+    battle,
+    side,
+    destination,
+    { opportunityMoveId = null, movementType = null, forced = false } = {}
+  ) {
     if (battle.outcome || battle.awaitingSwitch) return clone(battle);
     if (this.actor(battle) !== side) throw new Error(`It is not ${side}'s turn`);
 
@@ -4342,11 +4372,28 @@ export class Pokemon5eCombatEngine {
     const mover = next[side];
     const reactorSide = otherSide(side);
     const reactor = next[reactorSide];
-    const target = point(destination.x, destination.y);
-    const travel = distance(mover.position, target);
+    const target = point(
+      destination.x,
+      destination.y,
+      Number.isFinite(destination.z) ? destination.z : (Number.isFinite(mover.position?.z) ? mover.position.z : undefined)
+    );
+    const mode = movementType ?? mover.movementMode ?? baseMovementSpeed(mover).type;
+    const movement = validateMovement(mover, mover.position, target, {
+      movementType: mode,
+      battlefield: next.battlefield,
+      round: next.round,
+      forced
+    });
+    if (!movement.legal) {
+      const detail = movement.obstacleId ? ` (${movement.obstacleId})` : "";
+      throw new Error(`Illegal ${mode} movement: ${movement.reason}${detail}`);
+    }
+    const spentBefore = Number(mover.turn.movementSpent ?? 0);
+    const available = Math.max(0, movementSpeedForType(mover, mode, next.round).value - spentBefore);
+    const travel = movement.cost;
 
-    if (travel > mover.turn.movementRemaining + 1e-9) {
-      throw new Error(`Movement exceeds remaining speed: ${travel.toFixed(1)}ft > ${mover.turn.movementRemaining}ft`);
+    if (!forced && travel > available + 1e-9) {
+      throw new Error(`Movement exceeds remaining speed: ${travel.toFixed(1)}ft > ${available.toFixed(1)}ft`);
     }
 
     const provokes =
@@ -4366,22 +4413,37 @@ export class Pokemon5eCombatEngine {
 
     const from = clone(next[side].position);
     next[side].position = target;
-    next[side].turn.movementRemaining -= travel;
+    next[side].movementMode = mode;
+    next[side].turn.movementSpent = spentBefore + travel;
+    next[side].turn.movementRemaining = Math.max(
+      0,
+      movementSpeedForType(next[side], mode, next.round).value - next[side].turn.movementSpent
+    );
     next.log.push({
       type: "movement",
       round: next.round,
       actor: side,
       from,
       to: clone(target),
-      feet: travel,
+      feet: movement.distance,
+      movementCost: travel,
+      difficultFeet: movement.difficultFeet,
+      movementType: mode,
+      forced,
       provokedOpportunity: provokes,
       opportunityTaken: Boolean(provokes && opportunityMoveId)
     });
 
     for (const zone of next.zones) {
-      if (zoneContains(zone, from) || !zoneContains(zone, target)) continue;
-      const exposure = applyZoneExposure(next, side, zone, this.dice, "enter");
-      if (exposure.downed || next.outcome || next.awaitingSwitch) return next;
+      const transition = zoneTransition(zone, from, target);
+      if (transition.entered && zone.triggerOnEnter !== false) {
+        const exposure = applyZoneExposure(next, side, zone, this.dice, "enter");
+        if (exposure.downed || next.outcome || next.awaitingSwitch) return next;
+      }
+      if (transition.left && zone.triggerOnLeave) {
+        const exposure = applyZoneExposure(next, side, zone, this.dice, "leave");
+        if (exposure.downed || next.outcome || next.awaitingSwitch) return next;
+      }
     }
 
     return next;
@@ -4394,7 +4456,11 @@ export class Pokemon5eCombatEngine {
     const next = await this.prepareCurrentTurn(battle);
     if (this.actor(next) !== "player") return next;
 
-    const target = point(destination.x, destination.y);
+    const target = point(
+      destination.x,
+      destination.y,
+      Number.isFinite(destination.z) ? destination.z : (Number.isFinite(next.trainer.position?.z) ? next.trainer.position.z : undefined)
+    );
     const travel = distance(next.trainer.position, target);
     if (travel > next.trainer.movementRemaining + 1e-9) {
       throw new Error(`Trainer movement exceeds remaining speed: ${travel.toFixed(1)}ft > ${next.trainer.movementRemaining}ft`);
