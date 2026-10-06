@@ -3,7 +3,7 @@
 **Module:** M12 — Dopo il Mondo  
 **Authority:** subordinate to `P5E_LIBROGAME_ENGINE_SOURCE_OF_TRUTH.md`, `P5E_LIBROGAME_12_MODULES_MASTER.md` and `M12_DOPO_IL_MONDO_MODULE_DESIGN.md`  
 **Locked authored budget:** **4,753 stitches / 1,884 player choices**  
-**Module implementation status:** **CYCLE 2 IMPLEMENTED / VALIDATION PENDING**
+**Module implementation status:** **CYCLE 2 RUNTIME-VALIDATED**
 
 E1–E7 are shared infrastructure from M1. No module-specific replacement engine is allowed.
 
@@ -50,10 +50,10 @@ The spine is production ordering, not forced linear play. Actual legal branches 
 | M12_02_VALEDARSENA_CALLBACKS | M1 callbacks e stato attuale della città | 442 | 175 | CYCLE 1 VALIDATED |
 | M12_03_BRUMA_CALLBACKS | M2 rete di cattura, Ranger e fauna dopo il tempo trascorso | 442 | 175 | CYCLE 1 VALIDATED |
 | M12_04_FERROX_CALLBACKS | M3 lavoro, rescue e infrastrutture | 442 | 175 | CYCLE 1 VALIDATED |
-| M12_05_COAST_CALLBACKS | M4 porto, contrabbando e mare | 442 | 175 | CYCLE 2 IMPLEMENTED |
-| M12_06_HIGHLANDS_CALLBACKS | M5 Fulgore, Altacima e mistero antico | 442 | 175 | CYCLE 2 IMPLEMENTED |
-| M12_07_INTERREGIONAL_CALLBACKS | M6 carriera, Red, Masters e cutoff | 442 | 175 | CYCLE 2 IMPLEMENTED |
-| M12_08_MERIDIANA_CALLBACKS | M7 media, Cynthia, Qualifier e status professionale | 442 | 175 | CYCLE 2 IMPLEMENTED |
+| M12_05_COAST_CALLBACKS | M4 porto, contrabbando e mare | 442 | 175 | CYCLE 2 VALIDATED |
+| M12_06_HIGHLANDS_CALLBACKS | M5 Fulgore, Altacima e mistero antico | 442 | 175 | CYCLE 2 VALIDATED |
+| M12_07_INTERREGIONAL_CALLBACKS | M6 carriera, Red, Masters e cutoff | 442 | 175 | CYCLE 2 VALIDATED |
+| M12_08_MERIDIANA_CALLBACKS | M7 media, Cynthia, Qualifier e status professionale | 442 | 175 | CYCLE 2 VALIDATED |
 | M12_09_FRIEND_BEAT_12 | chiusura con tutti gli amici plausibili, almeno uno garantito | 441 | 175 | PLANNED |
 | M12_10_POSTGAME_HOOKS | side quest, Legendary arcs, Primo Faro, mistero antico e future stagioni | 304 | 121 | PLANNED |
 | M12_11_MAIN_STORY_COMPLETE | flag finale senza chiudere free-roam o cancellare stato | 259 | 103 | PLANNED |
@@ -446,3 +446,40 @@ Cycle 2 extends the runtime callback chain through the complete M4→M7 geograph
 **Implementation lock:** scene `m12-meridiana-callbacks` contains **21 nodes / 47 meaningful choices**.
 
 **Library decision:** the four blocks are fully expressible with R01→R38. **No R39 candidate is required.**
+
+
+---
+
+# 11. CYCLE 2 RUNTIME VALIDATION EVIDENCE — 2026-10-06
+
+Validated scope: **M12_05_COAST_CALLBACKS → M12_08_MERIDIANA_CALLBACKS**.
+
+- exact Cycle-2 runtime surface: **84 logical nodes / 188 meaningful choices**;
+- cumulative M12 through M12_08: **179 logical nodes / 397 meaningful choices**;
+- exact residual for M12_09→M12_11: **49 nodes / 105 meaningful choices**;
+- authored-surface manifest remains **4,753 stitches / 1,884 choices**;
+- Ferrox now hands off causally into Coast without changing the M12_04 budget;
+- all **84/84** Cycle-2 nodes are reachable from the Coast entry;
+- no zero-incoming padding islands remain in Cycle 2;
+- Coast preserves the actual M4 smuggling outcome and never promotes weak/ignored evidence;
+- Highlands preserves M5 high-altitude outcome and ancient-mystery knowledge as two independent axes;
+- Interregional preserves Continental Cup and Masters results independently, with Red/cutoff/Primo Faro remaining separate hooks;
+- Meridiana preserves direct qualification, Last Chance qualification and Worlds Missed as distinct histories;
+- sponsor/media state remains separate from competitive qualification;
+- no callback rewrites prior M4→M7 outcome flags;
+- save/reload preserves prior outcomes and the new M12 callback state;
+- M12_08 sets only `m12_cycle2_complete=true`; it does **not** set `m12_complete` or `main_story_complete`;
+- Library V2 **R01→R38** remains sufficient; **no R39 candidate is required**.
+
+Validation:
+
+- branch: `m12-00-04-work`;
+- PR **#14**;
+- validated implementation HEAD: `b86c58a3963bcf1d984c310ccc9e7698715a72a6`;
+- GitHub Actions **Bookgame Tests #422: SUCCESS**;
+- syntax: **PASS**;
+- `validate:story`: **PASS**;
+- compiler: **151 scenes / 2,413 nodes / 2,768 stitches / 5,472 compiled choices**;
+- tests: **1,321 passed / 0 failed / 0 skipped**.
+
+M12 remains open only for **M12_09 FRIEND_BEAT_12**, **M12_10 POSTGAME_HOOKS** and **M12_11 MAIN_STORY_COMPLETE**.
