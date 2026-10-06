@@ -1,0 +1,403 @@
+{
+  "schemaVersion": 1,
+  "id": "m08-group-reveal",
+  "moduleId": "M08",
+  "title": "M8_11 — Group Reveal",
+  "locationId": "world_draw_hall",
+  "entryNodeId": "reveal_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m7_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m08_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.world_qualified",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_active",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_world_registration_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_opening_ceremony_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.friend_beat_08_complete",
+        "eq": true
+      },
+      {
+        "path": "competition.world.drawComplete",
+        "eq": true
+      },
+      {
+        "path": "competition.world.fieldLocked",
+        "eq": true
+      },
+      {
+        "path": "competition.world.field.length",
+        "eq": 32
+      },
+      {
+        "path": "competition.world.playerOpponents.length",
+        "eq": 3
+      }
+    ]
+  },
+  "nodes": {
+    "reveal_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il tabellone si ferma sul Gruppo {{competition.world.playerGroup}}. Ora i tre nomi sono ufficiali e non possono essere sostituiti per fanservice."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_group",
+          "text": "Rivedo la composizione del gruppo.",
+          "goto": "group_identity"
+        },
+        {
+          "id": "entry_first",
+          "text": "Guardo il primo avversario.",
+          "goto": "opponent_one"
+        },
+        {
+          "id": "entry_schedule",
+          "text": "Controllo il calendario che passerà a M9.",
+          "goto": "schedule"
+        }
+      ]
+    },
+    "group_identity": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Gruppo {{competition.world.playerGroup}}: tu più {{competition.world.playerOpponents.0.name}}, {{competition.world.playerOpponents.1.name}} e {{competition.world.playerOpponents.2.name}}."
+        }
+      ],
+      "choices": [
+        {
+          "id": "group_first",
+          "text": "Analizzo il primo nome.",
+          "goto": "opponent_one"
+        },
+        {
+          "id": "group_integrity",
+          "text": "Controllo che il gruppo resti quello sorteggiato.",
+          "goto": "group_integrity"
+        }
+      ]
+    },
+    "opponent_one": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Primo avversario programmabile: {{competition.world.playerOpponents.0.name}}. Il draw rivela l'identità, non il risultato del match."
+        }
+      ],
+      "choices": [
+        {
+          "id": "one_second",
+          "text": "Passo al secondo avversario.",
+          "goto": "opponent_two"
+        },
+        {
+          "id": "one_schedule",
+          "text": "Controllo come entra nel calendario.",
+          "goto": "schedule"
+        }
+      ]
+    },
+    "opponent_two": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Secondo avversario programmabile: {{competition.world.playerOpponents.1.name}}. Nessun rapporto precedente concede un esito automatico."
+        }
+      ],
+      "choices": [
+        {
+          "id": "two_third",
+          "text": "Passo al terzo avversario.",
+          "goto": "opponent_three"
+        },
+        {
+          "id": "two_friend",
+          "text": "Controllo se il nome può essere un amico senza cambiare il bracket.",
+          "goto": "friend_check"
+        }
+      ]
+    },
+    "opponent_three": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Terzo avversario programmabile: {{competition.world.playerOpponents.2.name}}. Dopo questo nome il tuo girone è completamente noto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "three_schedule",
+          "text": "Passo al calendario di M9.",
+          "goto": "schedule"
+        },
+        {
+          "id": "three_integrity",
+          "text": "Rivedo l'integrità del gruppo.",
+          "goto": "group_integrity"
+        }
+      ]
+    },
+    "schedule": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "M9 userà questi tre avversari nell'ordine persistente del draw per tre match ufficiali. Gli altri gruppi continueranno in parallelo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "schedule_continuity",
+          "text": "Controllo cosa resta persistente fra M8 e M9.",
+          "goto": "continuity"
+        },
+        {
+          "id": "schedule_review",
+          "text": "Torno alla composizione del gruppo.",
+          "goto": "group_identity"
+        }
+      ]
+    },
+    "group_integrity": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il gruppo è proprietà di E5. Media, Anchor, amicizie e preferenze narrative non possono sostituire uno dei tre nomi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "integrity_friend",
+          "text": "Controllo il caso Friend nel gruppo.",
+          "goto": "friend_check"
+        },
+        {
+          "id": "integrity_astrid",
+          "text": "Controllo il caso Astrid/Anchor.",
+          "goto": "astrid_check"
+        }
+      ]
+    },
+    "friend_check": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se uno dei Four è fra i tre nomi, M9 potrà produrre un match ufficiale reale. Se nessuno c'è, il Friend Beat futuro userà un altro contesto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "friend_first",
+          "text": "Rivedo il primo avversario.",
+          "goto": "opponent_one"
+        },
+        {
+          "id": "friend_third",
+          "text": "Rivedo il terzo avversario.",
+          "goto": "opponent_three"
+        },
+        {
+          "id": "friend_exit",
+          "text": "Passo all'exit contract.",
+          "goto": "exit_guard"
+        }
+      ]
+    },
+    "astrid_check": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Astrid o qualunque altro Anchor può essere nel gruppo soltanto se il draw lo ha prodotto. Da qui in avanti nessuno ha protezione sui risultati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "astrid_integrity",
+          "text": "Torno all'integrità del gruppo.",
+          "goto": "group_integrity"
+        },
+        {
+          "id": "astrid_exit",
+          "text": "Passo all'exit contract.",
+          "goto": "exit_guard"
+        }
+      ]
+    },
+    "continuity": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Roster, HP, PP, condizioni, inventario, relazioni e stato NPC non vengono resettati. Anche il field e il draw restano identici al passaggio in M9."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continuity_review",
+          "text": "Rivedo i tre avversari.",
+          "goto": "review_loop"
+        },
+        {
+          "id": "continuity_exit",
+          "text": "Passo all'exit contract.",
+          "goto": "exit_guard"
+        }
+      ]
+    },
+    "review_loop": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Puoi rivedere il gruppo quanto vuoi senza reroll: {{competition.world.playerOpponents.0.name}}, {{competition.world.playerOpponents.1.name}}, {{competition.world.playerOpponents.2.name}}."
+        }
+      ],
+      "choices": [
+        {
+          "id": "review_group",
+          "text": "Torno al riepilogo del gruppo.",
+          "goto": "group_identity"
+        },
+        {
+          "id": "review_schedule",
+          "text": "Torno al calendario.",
+          "goto": "schedule"
+        },
+        {
+          "id": "review_exit",
+          "text": "Sono pronto a chiudere M8.",
+          "goto": "exit_guard"
+        }
+      ]
+    },
+    "exit_guard": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "M8 può chiudersi soltanto con draw completo, field 32 lockato, gruppo definito, tre avversari noti e FRIEND_BEAT_08 completato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "exit_commit",
+          "text": "Applico l'exit contract M8.",
+          "goto": "commit_m8",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.world.drawComplete",
+                "eq": true
+              },
+              {
+                "path": "competition.world.fieldLocked",
+                "eq": true
+              },
+              {
+                "path": "competition.world.field.length",
+                "eq": 32
+              },
+              {
+                "path": "competition.world.playerGroup",
+                "exists": true
+              },
+              {
+                "path": "competition.world.playerOpponents.length",
+                "eq": 3
+              },
+              {
+                "path": "world.flags.friend_beat_08_complete",
+                "eq": true
+              }
+            ]
+          }
+        },
+        {
+          "id": "exit_review",
+          "text": "Rivedo ancora il gruppo.",
+          "goto": "review_loop"
+        },
+        {
+          "id": "exit_draw",
+          "text": "Torno al blocco WORLD_DRAW senza rigenerarlo.",
+          "goto": "m08-world-draw#draw_locked"
+        }
+      ]
+    },
+    "commit_m8": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il commit di modulo non tocca il draw: registra soltanto M8 completo e rende accessibile M9."
+        }
+      ],
+      "choices": [
+        {
+          "id": "commit_now",
+          "text": "Chiudo M8 e sblocco il World Group Stage.",
+          "goto": "complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m8_group_reveal_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m8_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m09_unlocked",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m8_outcome",
+              "value": "world_draw_locked"
+            }
+          ]
+        },
+        {
+          "id": "commit_review",
+          "text": "Rivedo l'exit contract.",
+          "goto": "exit_guard"
+        }
+      ]
+    },
+    "complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "M8 — Il Mondo nello Stesso Posto è completo. Il Gruppo {{competition.world.playerGroup}} e i tre avversari sono bloccati per M9."
+        }
+      ],
+      "choices": [
+        {
+          "id": "complete_hub",
+          "text": "Resto nel World Village con M9 sbloccato.",
+          "goto": "m08-world-village#village_hub"
+        }
+      ]
+    }
+  }
+}
