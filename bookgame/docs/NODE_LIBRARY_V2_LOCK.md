@@ -223,7 +223,7 @@ This order is now canonical for production.
 
 Current lock:
 
-**R01→R38 / complete-module baseline M01→M10 = 2,084 runtime-validated logical nodes and 4,723 meaningful choices; no R39 requirement.**
+**R01→R38 / complete-module baseline M01→M11 = 2,234 runtime-validated logical nodes and 5,053 meaningful choices; no R39 requirement.**
 
 ---
 
@@ -449,4 +449,47 @@ Validation evidence:
 The completed Library V2 corpus remains:
 
 **M01→M10 = 2,084 runtime-validated logical nodes / 4,723 meaningful choices**, with M11 validated through M11_04.
+
+---
+
+## M11 FINAL RUNTIME VALIDATION EVIDENCE — 2026-10-06
+
+M11 — *Per Diventare Campione* is now **COMPLETE** at **150 logical nodes / 330 meaningful choices**.
+
+Final evidence:
+
+- all nine blocks M11_00→M11_08 are implemented;
+- Cycle 1 = **79 / 175**, Cycle 2 = **71 / 155**, exact total = **150 / 330**;
+- all **150/150** authored M11 nodes are reachable with no zero-incoming padding;
+- authored-surface manifest remains **3,500 stitches / 1,600 choices**;
+- E5 owns the complete Top4→SF→Final→Champion lifecycle;
+- WORLD_SF consumes the actual M10 Top4 and never re-seeds or replaces opponents;
+- the player semifinal and final both resolve dynamic match id, opponent id and regulated roster from structured E5 state;
+- the second semifinal resolves deterministically with no plot armor;
+- exactly two actual SF winners create WORLD_FINAL_1;
+- E4 World Friend Beat selection now supports a Final Four context and FRIEND_BEAT_11 can prioritize a true final opponent, another finalist or an eliminated friend;
+- FRIEND_BEAT_11 remains mandatory on both finalist and SF-eliminated routes;
+- Final Prep preserves HP, PP, statuses, injuries, inventory, money and roster without narrative reset;
+- winning WORLD_FINAL_1 sets the player as actual World Champion;
+- losing WORLD_FINAL_1 sets the actual opponent as World Champion and the player as runner-up;
+- if the player loses in SF, E5 resolves WORLD_FINAL off-screen from the real finalists before WORLD_EXIT;
+- `currentWorldChampion` / `current_world_champion` always identify the actual winner of WORLD_FINAL;
+- World Final resolution is idempotent and cannot be replayed;
+- Champion, runner-up and SF-eliminated routes all unlock M12/WORLD_EXIT only after FRIEND_BEAT_11 and a resolved World Final;
+- save/reload preserves champion, runner-up, Friend Beat state, roster and official competition history;
+- Library V2 R01→R38 remains sufficient; **no R39 candidate is justified**.
+
+Final validation:
+
+- branch: `m11-00-04-work`;
+- PR **#12**;
+- validated implementation HEAD: `730d118ad6f8e72e9941dbe6512de1466670d66d`;
+- GitHub Actions **Bookgame Tests #409**: **SUCCESS**;
+- syntax: **PASS**;
+- `validate:story`: **PASS**;
+- tests: **1,298 passed / 0 failed / 0 skipped**.
+
+The completed Library V2 corpus is now:
+
+**M01→M11 = 2,234 runtime-validated logical nodes / 5,053 meaningful choices.**
 
