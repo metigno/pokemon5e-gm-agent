@@ -3,7 +3,7 @@
 **Module:** M11 — Per Diventare Campione  
 **Authority:** subordinate to `P5E_LIBROGAME_ENGINE_SOURCE_OF_TRUTH.md`, `P5E_LIBROGAME_12_MODULES_MASTER.md` and `M11_PER_DIVENTARE_CAMPIONE_MODULE_DESIGN.md`  
 **Locked authored budget:** **3,500 stitches / 1,600 player choices**  
-**Module implementation status:** **CYCLE 2 IMPLEMENTED / VALIDATION PENDING**
+**Module implementation status:** **COMPLETE / RUNTIME-VALIDATED**
 
 E1–E7 are shared infrastructure from M1. No module-specific replacement engine is allowed.
 
@@ -44,10 +44,10 @@ The spine is production ordering, not forced linear play. Actual legal branches 
 | M11_02_SF_PREP | preparazione con stato squadra persistente | 305 | 140 | CYCLE 1 VALIDATED |
 | M11_03_WORLD_SF | semifinale reale, single elimination | 521 | 238 | CYCLE 1 VALIDATED |
 | M11_04_OTHER_SF | risoluzione dell'altra semifinale senza plot armor | 359 | 164 | CYCLE 1 VALIDATED |
-| M11_05_FRIEND_BEAT_11 | amico nel Final Four o ultimo contatto plausibile | 521 | 238 | IMPLEMENTED / VALIDATION PENDING |
-| M11_06_FINAL_PREP | preparazione finale senza reset gratuito | 305 | 139 | IMPLEMENTED / VALIDATION PENDING |
-| M11_07_WORLD_FINAL | finale reale: Champion is whoever actually wins | 520 | 238 | IMPLEMENTED / VALIDATION PENDING |
-| M11_08_CHAMPIONSHIP_OUTCOME | registrare campione/finalista/eliminato e aprire WORLD_EXIT | 305 | 139 | IMPLEMENTED / VALIDATION PENDING |
+| M11_05_FRIEND_BEAT_11 | amico nel Final Four o ultimo contatto plausibile | 521 | 238 | VALIDATED |
+| M11_06_FINAL_PREP | preparazione finale senza reset gratuito | 305 | 139 | VALIDATED |
+| M11_07_WORLD_FINAL | finale reale: Champion is whoever actually wins | 520 | 238 | VALIDATED |
+| M11_08_CHAMPIONSHIP_OUTCOME | registrare campione/finalista/eliminato e aprire WORLD_EXIT | 305 | 139 | VALIDATED |
 | **TOTAL** |  | **3,500** | **1,600** | |
 
 ---
@@ -338,6 +338,18 @@ Cycle 2 closes M11 on the exact residual trajectory left by Cycle 1.
 **Implementation lock:** scene `m11-championship-outcome` contains **16 nodes / 34 meaningful choices**.
 
 **Library decision:** R01→R38 fully expresses Cycle 2. **No R39 candidate is required.**
+
+**Final runtime validation evidence:**
+- branch: `m11-00-04-work`;
+- PR: **#12**;
+- validated implementation HEAD: `730d118ad6f8e72e9941dbe6512de1466670d66d`;
+- GitHub Actions **Bookgame Tests #409**: **SUCCESS**;
+- syntax check: **PASS**;
+- `validate:story`: **PASS**;
+- full suite: **1,298 passed / 0 failed / 0 skipped**;
+- complete M11 reachability: **150/150 nodes reachable**, zero zero-incoming padding;
+- exact full module logical surface: **150 nodes / 330 meaningful choices**.
+
 
 
 # 6. STATE OWNERSHIP
