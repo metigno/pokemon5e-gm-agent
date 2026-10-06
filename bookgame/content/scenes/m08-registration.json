@@ -254,8 +254,24 @@
           "text": "Confermo la registrazione al Mondiale.",
           "goto": "registered",
           "conditions": {
-            "path": "world.flags.m8_world_registration_complete",
-            "ne": true
+            "all": [
+              {
+                "path": "world.flags.world_qualified",
+                "eq": true
+              },
+              {
+                "path": "world.flags.m8_medical_control_complete",
+                "eq": true
+              },
+              {
+                "path": "player.roster.length",
+                "gte": 6
+              },
+              {
+                "path": "world.flags.m8_world_registration_complete",
+                "ne": true
+              }
+            ]
           },
           "effects": [
             {
