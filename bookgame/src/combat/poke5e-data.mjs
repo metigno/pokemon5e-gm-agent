@@ -304,7 +304,11 @@ export class Poke5eDataRepository {
   async metadata() {
     const pack = await loadPack();
     return structuredClone({
-      ...pack.manifest,
+      ...pack.manifest.source,
+      source: pack.manifest.source,
+      schemaVersion: pack.manifest.schemaVersion,
+      ruleset: pack.manifest.ruleset,
+      policy: pack.manifest.policy,
       counts: pack.counts
     });
   }
