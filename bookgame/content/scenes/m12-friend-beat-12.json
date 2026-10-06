@@ -108,14 +108,14 @@
       ],
       "choices": [
         {
-          "id": "continue",
-          "text": "Proseguo.",
+          "id": "group_presence",
+          "text": "Lascio che presenza fisica e contatto remoto seguano la situazione reale.",
           "goto": "mixed_presence"
         },
         {
-          "id": "review",
-          "text": "Confronto questo punto con un altro aspetto della chiusura.",
-          "goto": "world_results"
+          "id": "group_record",
+          "text": "Registro chi viene coinvolto nel contatto di gruppo.",
+          "goto": "group_record"
         }
       ]
     },
@@ -619,9 +619,9 @@
       ],
       "choices": [
         {
-          "id": "to_postgame",
-          "text": "Passo agli hook del postgame.",
-          "goto": "m12-postgame-hooks#postgame_entry"
+          "id": "to_handoff",
+          "text": "Chiudo il beat e passo all'handoff postgame.",
+          "goto": "handoff"
         },
         {
           "id": "review_friend_beat",
