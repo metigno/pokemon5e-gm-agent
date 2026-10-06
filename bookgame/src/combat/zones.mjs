@@ -15,7 +15,10 @@ export function createCircleZone({
   damageDice,
   damageModifier,
   damageType,
-  effect
+  effect,
+  flatDamage = null,
+  immuneTypes = [],
+  noSave = false
 }) {
   return {
     id,
@@ -33,7 +36,10 @@ export function createCircleZone({
     damageDice,
     damageModifier,
     damageType,
-    effect
+    effect,
+    flatDamage,
+    immuneTypes: [...immuneTypes],
+    noSave
   };
 }
 
