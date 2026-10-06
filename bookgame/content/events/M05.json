@@ -10,16 +10,18 @@
           {
             "path": "competition.rankOrder",
             "gte": 4
-          }
-        ],
-        "any": [
-          {
-            "path": "player.trainerLevel",
-            "gte": 11
           },
           {
-            "path": "world.flags.interregional_schedule_open",
-            "eq": true
+            "any": [
+              {
+                "path": "player.trainerLevel",
+                "gte": 11
+              },
+              {
+                "path": "world.flags.interregional_schedule_open",
+                "eq": true
+              }
+            ]
           }
         ]
       },
