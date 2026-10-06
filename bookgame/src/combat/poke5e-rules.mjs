@@ -100,7 +100,14 @@ function stabFor(combatant, move, pb, round = null) {
 }
 
 export function calculateMoveStats(combatant, move, round = null) {
-  const attribute = bestMoveAttribute(move, combatant.attributes);
+  const override = combatant.effects?.movePowerOverride;
+  const overrideActive =
+    override &&
+    (override.usesRemaining == null || override.usesRemaining > 0) &&
+    (round == null || override.expiresRound == null || round < override.expiresRound);
+  const attribute = overrideActive
+    ? override.attribute
+    : bestMoveAttribute(move, combatant.attributes);
   const moveMod = attribute ? abilityModifier(combatant.attributes[attribute]) : 0;
   const pb = proficiencyBonus(combatant.level);
   const stab = move.dice?.type === "damage" ? stabFor(combatant, move, pb, round) : 0;
@@ -215,7 +222,7 @@ function addResistanceStep(multiplier) {
   return 0.5;
 }
 
-export function damageProfile(move, defender, round = null) {
+export function damageProfile(move, defender, round = null, attacker = null) {
   const moveType = move.type;
   const immunityEffect = (defender.effects?.typeImmunitySources ?? []).find(
     (source) =>
@@ -239,6 +246,25 @@ export function damageProfile(move, defender, round = null) {
   }
 
   let multiplier = typeMultiplier(moveType, defender.types);
+  const immunityIgnore = (attacker?.effects?.typeImmunityIgnoreSources ?? []).find(
+    (source) =>
+      (source.usesRemaining == null || source.usesRemaining > 0) &&
+      (source.startsRound == null || round == null || round >= source.startsRound) &&
+      (source.expiresRound == null || round == null || round < source.expiresRound) &&
+      (!Array.isArray(source.moveTypes) || source.moveTypes.includes(moveType)) &&
+      (source.targetCombatantId == null || source.targetCombatantId === defender.combatantId)
+  );
+  if (multiplier === 0 && immunityIgnore) {
+    const nonImmune = (defender.types ?? [])
+      .map((type) => typeMultiplier(moveType, [type]))
+      .filter((value) => value !== 0);
+    multiplier = nonImmune.length > 0
+      ? nonImmune.reduce((product, value) => product * value, 1)
+      : 1;
+    if (immunityIgnore.usesRemaining != null) {
+      immunityIgnore.usesRemaining = Math.max(0, immunityIgnore.usesRemaining - 1);
+    }
+  }
   let modifierAbility = null;
   const melee = move.attack?.scope === "melee" || move.range?.type === "melee";
 
@@ -541,7 +567,7 @@ export function resolveAttack({
     multiplier,
     immunityAbility,
     modifierAbility
-  } = damageProfile(move, defender, round);
+  } = damageProfile(move, defender, round, attacker);
   const damage = multiplier === 0.5
     ? Math.floor(rawDamage / 2)
     : rawDamage * multiplier;
