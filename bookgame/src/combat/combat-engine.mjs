@@ -33,6 +33,7 @@ import {
   applyStatus,
   attackHasDisadvantage,
   createStatusState,
+  damageHasDisadvantage,
   endFrozenOnFireDamage,
   endTurnStatus,
   reactionsDisabled,
@@ -365,6 +366,30 @@ function saveAllowsHalfDamage(move) {
   return /half (?:as much|damage)|half the damage/i.test(move.description ?? "");
 }
 
+function applyMoveStatus(attacker, defender, status) {
+  if (!status) return null;
+  const corrosion =
+    attacker.abilityId === "corrosion" &&
+    ["Poisoned", "BadlyPoisoned"].includes(status);
+  return applyStatus(defender, status, {
+    sourceProficiencyBonus: proficiencyBonus(attacker.level),
+    ignoreTypeImmunity: corrosion
+  });
+}
+
+function rollSaveMoveDamage(attacker, expression, dice) {
+  const first = rollExpression(expression, dice);
+  if (!damageHasDisadvantage(attacker)) {
+    return { selected: first, attempts: [first], mode: "normal" };
+  }
+  const second = rollExpression(expression, dice);
+  return {
+    selected: first.total <= second.total ? first : second,
+    attempts: [first, second],
+    mode: "disadvantage"
+  };
+}
+
 function applySaveEffect(battle, side, move, saveResult) {
   const targetSide = otherSide(side);
   const target = battle[targetSide];
@@ -679,9 +704,9 @@ export class Pokemon5eCombatEngine {
 
       let statusResult = null;
       if (zone.effect === "poison-gas" && !save.success) {
-        statusResult = applyStatus(combatant, "Poisoned");
+        statusResult = applyMoveStatus(next[zone.sourceSide], combatant, "Poisoned");
       } else if (zone.effect === "smog" && !save.success && save.total <= zone.saveDc - 5) {
-        statusResult = applyStatus(combatant, "Poisoned");
+        statusResult = applyMoveStatus(next[zone.sourceSide], combatant, "Poisoned");
       }
 
       next.log.push({
@@ -825,15 +850,11 @@ export class Pokemon5eCombatEngine {
     }
 
     let statusResult = null;
+    const thawed = result.hit ? endFrozenOnFireDamage(defender, move, result.damage) : false;
     const secondary = result.hit && result.typeMultiplier > 0
       ? secondaryStatusFor(move, result.natural)
       : null;
-    if (secondary) {
-      statusResult = applyStatus(defender, secondary, {
-        sourceProficiencyBonus: proficiencyBonus(attacker.level)
-      });
-    }
-    const thawed = result.hit ? endFrozenOnFireDamage(defender, move, result.damage) : false;
+    if (secondary) statusResult = applyMoveStatus(attacker, defender, secondary);
 
     next.log.push({
       type: reaction ? "opportunity_attack" : "attack",
@@ -914,9 +935,7 @@ export class Pokemon5eCombatEngine {
     const hit = roll.natural === 20 ||
       (roll.natural !== 1 && attackTotal >= defender.ac);
     const status = hit ? attackHitStatus(move, roll.natural) : null;
-    const statusResult = status
-      ? applyStatus(defender, status, { sourceProficiencyBonus: proficiencyBonus(attacker.level) })
-      : null;
+    const statusResult = applyMoveStatus(attacker, defender, status);
 
     next.log.push({
       type: "status_attack",
@@ -951,8 +970,8 @@ export class Pokemon5eCombatEngine {
         move.time?.unit === "action"
     });
 
-    const rolled = rollExpression(stats.damageDice, this.dice);
-    const rawDamage = Math.max(0, rolled.total + stats.damageModifier);
+    const damageRoll = rollSaveMoveDamage(attacker, stats.damageDice, this.dice);
+    const rawDamage = Math.max(0, damageRoll.selected.total + stats.damageModifier);
     const multiplier = damageMultiplierFor(move.type, defender);
     let damage = multiplier === 0.5 ? Math.floor(rawDamage / 2) : rawDamage * multiplier;
     if (save.success) damage = saveAllowsHalfDamage(move) ? Math.floor(damage / 2) : 0;
@@ -960,11 +979,11 @@ export class Pokemon5eCombatEngine {
     defender.hp.current = Math.max(0, defender.hp.current - damage);
     checkConcentrationAfterDamage(next, targetSide, damage, this.dice);
 
+    const thawed = endFrozenOnFireDamage(defender, move, damage);
     const status = failedSaveStatus(move, save);
     const statusResult = status && multiplier > 0
-      ? applyStatus(defender, status, { sourceProficiencyBonus: proficiencyBonus(attacker.level) })
+      ? applyMoveStatus(attacker, defender, status)
       : null;
-    const thawed = endFrozenOnFireDamage(defender, move, damage);
 
     next.log.push({
       type: "save_damage",
@@ -974,7 +993,7 @@ export class Pokemon5eCombatEngine {
       moveId: move.id,
       moveName: move.name,
       save,
-      damageRoll: rolled,
+      damageRoll,
       damageModifier: stats.damageModifier,
       rawDamage,
       typeMultiplier: multiplier,
@@ -1166,9 +1185,7 @@ export class Pokemon5eCombatEngine {
       } else {
         const result = resolveSaveMove({ attacker, defender, move, dice: this.dice });
         const status = failedSaveStatus(move, result.save);
-        const statusResult = status
-          ? applyStatus(defender, status, { sourceProficiencyBonus: proficiencyBonus(attacker.level) })
-          : null;
+        const statusResult = applyMoveStatus(attacker, defender, status);
         next.log.push({
           type: "save_status",
           round: next.round,
