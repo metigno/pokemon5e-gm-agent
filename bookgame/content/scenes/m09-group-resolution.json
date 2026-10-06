@@ -305,7 +305,7 @@
         {
           "id": "advanced_ready",
           "text": "Segno disponibile la route di avanzamento.",
-          "goto": "resolution_complete",
+          "goto": "m09-advance-route#advance_entry",
           "effects": [
             {
               "type": "set_flag",

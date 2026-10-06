@@ -1,0 +1,349 @@
+{
+  "schemaVersion": 1,
+  "id": "m09-advance-route",
+  "moduleId": "M09",
+  "title": "M9_10 — Advance Route",
+  "locationId": "world_village",
+  "entryNodeId": "advance_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m9_group_resolution_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m9_advance_route_available",
+        "eq": true
+      },
+      {
+        "path": "competition.world.groupStage.resolved",
+        "eq": true
+      },
+      {
+        "path": "competition.world.groupStage.advanced",
+        "eq": true
+      },
+      {
+        "path": "competition.world.top16Locked",
+        "eq": true
+      },
+      {
+        "path": "competition.world.top16.length",
+        "eq": 16
+      },
+      {
+        "path": "world.flags.friend_beat_09_complete",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "advance_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Sei dentro il Top16 perché E5 ti ha classificato tra i primi due del gruppo. M9_10 non sceglie ancora l'avversario degli ottavi: consegna soltanto a M10 un bracket field reale e lockato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_result",
+          "text": "Rileggo il piazzamento finale del gruppo.",
+          "goto": "group_result"
+        },
+        {
+          "id": "entry_top16",
+          "text": "Controllo il Top16 reale.",
+          "goto": "top16"
+        },
+        {
+          "id": "entry_handoff",
+          "text": "Controllo cosa M10 riceverà davvero.",
+          "goto": "handoff_policy"
+        }
+      ]
+    },
+    "group_result": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La posizione finale resta {{competition.world.groupStage.finalPosition}}. Il risultato del girone non viene ricalcolato entrando nella route di avanzamento."
+        }
+      ],
+      "choices": [
+        {
+          "id": "result_top16",
+          "text": "Passo ai sedici qualificati.",
+          "goto": "top16"
+        }
+      ]
+    },
+    "top16": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il field a eliminazione diretta contiene esattamente sedici partecipanti prodotti da E5. Essere un amico o un Anchor non garantisce di esserne parte."
+        }
+      ],
+      "choices": [
+        {
+          "id": "top16_friends",
+          "text": "Controllo il significato per amici e Anchor.",
+          "goto": "friend_anchor"
+        },
+        {
+          "id": "top16_bracket",
+          "text": "Verifico quando verrà creato l'incrocio degli ottavi.",
+          "goto": "bracket_boundary"
+        },
+        {
+          "id": "top16_handoff",
+          "text": "Passo alla policy di handoff.",
+          "goto": "handoff_policy"
+        }
+      ]
+    },
+    "friend_anchor": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Le carriere degli altri continuano dal Top16 reale. Chi è fuori resta fuori; chi è dentro potrà essere incontrato soltanto se il bracket futuro lo produce."
+        }
+      ],
+      "choices": [
+        {
+          "id": "friends_top16",
+          "text": "Torno al field dei sedici.",
+          "goto": "top16"
+        },
+        {
+          "id": "friends_callback",
+          "text": "Conservo il Friend Beat senza trasformarlo in pairing.",
+          "goto": "continuity"
+        }
+      ]
+    },
+    "bracket_boundary": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il confine tra moduli è intenzionale: M9 locka chi avanza; M10_00 costruirà l'incrocio degli ottavi dagli incroci reali. Anticiparlo qui duplicherebbe E5."
+        }
+      ],
+      "choices": [
+        {
+          "id": "bracket_handoff",
+          "text": "Passo al contratto M10.",
+          "goto": "handoff_policy"
+        }
+      ]
+    },
+    "team_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "HP, PP, status, infortuni e risorse restano quelli dopo tre Matchday. Il passaggio agli ottavi non cura né ricrea il team; qualunque recupero futuro dovrà usare i sistemi esistenti e tempo reale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "team_world",
+          "text": "Guardo cosa continua nel mondo mentre avanzo.",
+          "goto": "living_world"
+        },
+        {
+          "id": "team_handoff",
+          "text": "Accetto lo stato persistente e passo all'handoff.",
+          "goto": "handoff_policy"
+        }
+      ]
+    },
+    "living_world": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Mondiale non si congela al tuo passaggio. Gli altri qualificati entrano nella fase a eliminazione diretta con il proprio stato persistente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "world_top16",
+          "text": "Ritorno al Top16.",
+          "goto": "top16"
+        },
+        {
+          "id": "world_continuity",
+          "text": "Conservo relazioni e callback verso M10.",
+          "goto": "continuity"
+        }
+      ]
+    },
+    "continuity": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Kaia, gli amici e gli altri Anchor mantengono relazione, schedule e risultati. Nessun callback può cambiare retroattivamente il field dei sedici."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continuity_friends",
+          "text": "Rileggo il loro stato competitivo.",
+          "goto": "friend_anchor"
+        },
+        {
+          "id": "continuity_handoff",
+          "text": "Passo al contratto di uscita.",
+          "goto": "handoff_policy"
+        }
+      ]
+    },
+    "handoff_policy": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il contratto M9→M10 richiede soltanto: gruppo risolto, advanced=true, Top16 lockato, Friend Beat 09 completo e stato squadra persistente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "handoff_check",
+          "text": "Verifico il contratto completo.",
+          "goto": "exit_check"
+        },
+        {
+          "id": "handoff_bracket",
+          "text": "Rileggo perché l'avversario R16 appartiene a M10.",
+          "goto": "bracket_boundary"
+        },
+        {
+          "id": "handoff_team",
+          "text": "Controllo ancora la squadra.",
+          "goto": "team_state"
+        }
+      ]
+    },
+    "exit_check": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Tutti i dati competitivi necessari esistono già dentro E5. L'unico write narrativo rimasto è sbloccare M10 e chiudere M9."
+        }
+      ],
+      "choices": [
+        {
+          "id": "check_commit",
+          "text": "Sono pronto a chiudere il modulo.",
+          "goto": "commit"
+        },
+        {
+          "id": "check_top16",
+          "text": "Prima rivedo il Top16.",
+          "goto": "top16"
+        }
+      ]
+    },
+    "commit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Questo commit non modifica Top16, posizione o risultati. Marca soltanto il completamento di M9 e rende disponibile M10."
+        }
+      ],
+      "choices": [
+        {
+          "id": "commit_now",
+          "text": "Chiudo M9 e sblocco M10.",
+          "goto": "advance_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m10_unlocked",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m9_advance_route_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m9_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "commit_review",
+          "text": "Prima ricontrollo il contratto.",
+          "goto": "exit_check"
+        },
+        {
+          "id": "commit_continuity",
+          "text": "Prima ricontrollo cosa persiste.",
+          "goto": "continuity"
+        }
+      ]
+    },
+    "advance_complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "M9 è completo per questa run: tre Matchday giocati, gruppo risolto, Top16 lockato e M10 disponibile. L'avversario degli ottavi non è ancora stato inventato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "complete_summary",
+          "text": "Rileggo il riepilogo finale.",
+          "goto": "summary"
+        },
+        {
+          "id": "complete_hold",
+          "text": "Resto nel Village con lo stato attuale.",
+          "goto": "hold"
+        }
+      ]
+    },
+    "summary": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il record di M9 conserva draw, tre risultati, sei match del gruppo, posizione finale, Friend Beat, relazioni, squadra e Top16."
+        }
+      ],
+      "choices": [
+        {
+          "id": "summary_result",
+          "text": "Rivedo il piazzamento.",
+          "goto": "group_result"
+        },
+        {
+          "id": "summary_hold",
+          "text": "Chiudo il riepilogo senza modificare lo stato.",
+          "goto": "hold"
+        }
+      ]
+    },
+    "hold": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il salvataggio è pronto per M10_00. Nessun quarto match o pairing provvisorio viene aggiunto da M9."
+        }
+      ],
+      "choices": [
+        {
+          "id": "hold_summary",
+          "text": "Riapro il riepilogo se voglio verificare lo stato.",
+          "goto": "summary"
+        },
+        {
+          "id": "hold_team",
+          "text": "Controllo la squadra persistente.",
+          "goto": "team_state"
+        }
+      ]
+    }
+  }
+}
