@@ -37,6 +37,27 @@ export function createWorldGroupStageState() {
   };
 }
 
+export function createWorldKnockoutState() {
+  return {
+    opened: false,
+    r16Bracket: [],
+    playerR16MatchId: null,
+    playerR16Opponent: null,
+    silasInTop16: false,
+    silasIsPlayerOpponent: false,
+    r16Results: [],
+    r16Resolved: false,
+    top8Locked: false,
+    top8: [],
+    qfBracket: [],
+    playerAdvancedToQf: null,
+    playerQfMatchId: null,
+    playerQfOpponent: null,
+    silasAdvancedToQf: null,
+    opponentRosters: {}
+  };
+}
+
 export function createWorldCompetitionState() {
   return {
     edition: 1,
@@ -51,7 +72,10 @@ export function createWorldCompetitionState() {
     drawSeed: null,
     top16Locked: false,
     top16: [],
-    groupStage: createWorldGroupStageState()
+    top8Locked: false,
+    top8: [],
+    groupStage: createWorldGroupStageState(),
+    knockout: createWorldKnockoutState()
   };
 }
 
@@ -92,6 +116,8 @@ export function ensureCompetition(state) {
   state.competition.world.drawSeed ??= null;
   state.competition.world.top16Locked ??= false;
   state.competition.world.top16 ??= [];
+  state.competition.world.top8Locked ??= false;
+  state.competition.world.top8 ??= [];
   state.competition.world.groupStage ??= createWorldGroupStageState();
   state.competition.world.groupStage.opened ??= false;
   state.competition.world.groupStage.playerGroup ??= null;
@@ -108,6 +134,24 @@ export function ensureCompetition(state) {
   state.competition.world.groupStage.finalPosition ??= null;
   state.competition.world.groupStage.advanced ??= null;
   state.competition.world.groupStage.resolved ??= false;
+  state.competition.world.knockout ??= createWorldKnockoutState();
+  const knockout = state.competition.world.knockout;
+  knockout.opened ??= false;
+  knockout.r16Bracket ??= [];
+  knockout.playerR16MatchId ??= null;
+  knockout.playerR16Opponent ??= null;
+  knockout.silasInTop16 ??= false;
+  knockout.silasIsPlayerOpponent ??= false;
+  knockout.r16Results ??= [];
+  knockout.r16Resolved ??= false;
+  knockout.top8Locked ??= false;
+  knockout.top8 ??= [];
+  knockout.qfBracket ??= [];
+  knockout.playerAdvancedToQf ??= null;
+  knockout.playerQfMatchId ??= null;
+  knockout.playerQfOpponent ??= null;
+  knockout.silasAdvancedToQf ??= null;
+  knockout.opponentRosters ??= {};
   return state.competition;
 }
 
@@ -199,6 +243,12 @@ function validateMetaRuntime(meta) {
       (!Number.isInteger(meta.worldMatchday) || meta.worldMatchday < 1 || meta.worldMatchday > 3)) {
     throw new RangeError("worldMatchday must be an integer from 1 to 3");
   }
+  if (meta.worldKnockoutRound !== undefined && !["R16", "QF"].includes(meta.worldKnockoutRound)) {
+    throw new Error("worldKnockoutRound must be R16 or QF");
+  }
+  if (meta.worldKnockoutRound !== undefined && meta.type !== "official_match") {
+    throw new Error("World knockout matches must be official_match");
+  }
   if (meta.type === "promotion_trial") {
     requireId(meta.checkpointId, "checkpointId");
     rankOrder(meta.fromRank);
@@ -276,6 +326,9 @@ export function resolveCompetitionMatch(state, meta, outcome, battle = null) {
 
   if (Number.isInteger(meta.worldOpponentIndex)) {
     recordWorldGroupStageOutcome(state, meta, outcome, record.resolvedAtMinutes, battle);
+  }
+  if (meta.worldKnockoutRound !== undefined) {
+    recordWorldKnockoutOutcome(state, meta, outcome, record.resolvedAtMinutes, battle);
   }
 
   if (meta.type === "official_match" && meta.firstOfficial === true) {
@@ -569,7 +622,7 @@ function participantSeedIndex(world, participantId) {
   return index < 0 ? Number.MAX_SAFE_INTEGER : index;
 }
 
-function regulatedWorldRoster(state, participant) {
+function regulatedWorldRoster(state, participant, regulation = "WORLD_GROUPS_L20") {
   const { groupStage } = worldGroupStageOrThrow(state);
   if (groupStage.opponentRosters[participant.id]) {
     return structuredClone(groupStage.opponentRosters[participant.id]);
@@ -593,7 +646,7 @@ function regulatedWorldRoster(state, participant) {
     level: 20,
     trainerId: participant.id,
     rosterIndex: index,
-    regulation: "WORLD_GROUPS_L20",
+    regulation,
     source: "persistent_regulated_world_roster"
   }));
   groupStage.opponentRosters[participant.id] = structuredClone(roster);
@@ -959,6 +1012,272 @@ export function resolveWorldGroupStage(state, { eventId = "WORLD_GROUPS_RESOLVE"
   return groupStage;
 }
 
+
+function participantFromTop16Row(row) {
+  return {
+    id: row.participantId,
+    name: row.name,
+    group: row.group,
+    groupPosition: row.groupPosition
+  };
+}
+
+function worldKnockoutOrThrow(state) {
+  const competition = ensureCompetition(state);
+  const world = competition.world;
+  const knockout = world.knockout;
+  if (!world.top16Locked || !Array.isArray(world.top16) || world.top16.length !== 16) {
+    throw new Error("WORLD_R16 requires the locked Top16 from WORLD_GROUPS");
+  }
+  if (!world.groupStage?.resolved) {
+    throw new Error("WORLD_R16 requires resolved World groups");
+  }
+  return { competition, world, knockout };
+}
+
+function top16Row(world, group, position) {
+  return world.top16.find((row) => row.group === group && row.groupPosition === position) ?? null;
+}
+
+function buildR16Bracket(world) {
+  const labels = Object.keys(world.groups ?? {}).sort();
+  if (labels.length !== 8) throw new Error("WORLD_R16 requires exactly eight World groups");
+  const bracket = [];
+  let matchNumber = 1;
+  for (let index = 0; index < labels.length; index += 2) {
+    const left = labels[index];
+    const right = labels[index + 1];
+    const leftWinner = top16Row(world, left, 1);
+    const leftRunner = top16Row(world, left, 2);
+    const rightWinner = top16Row(world, right, 1);
+    const rightRunner = top16Row(world, right, 2);
+    if (!leftWinner || !leftRunner || !rightWinner || !rightRunner) {
+      throw new Error("WORLD_R16 Top16 is missing a required group position");
+    }
+    const pairs = [[leftWinner, rightRunner], [rightWinner, leftRunner]];
+    for (const [homeRow, awayRow] of pairs) {
+      bracket.push({
+        round: "R16",
+        matchId: "WORLD_R16_" + String(matchNumber++),
+        home: participantFromTop16Row(homeRow),
+        away: participantFromTop16Row(awayRow),
+        outcome: null,
+        playerOutcome: null,
+        winnerId: null,
+        loserId: null,
+        resolvedAtMinutes: null,
+        source: null
+      });
+    }
+  }
+  return bracket;
+}
+
+export function openWorldR16Bracket(state, { eventId = "WORLD_R16" } = {}) {
+  requireId(eventId, "world r16 eventId");
+  const { world, knockout } = worldKnockoutOrThrow(state);
+  if (knockout.opened) return knockout;
+  if (world.groupStage.advanced !== true) throw new Error("WORLD_R16 requires player advancement from groups");
+
+  const bracket = buildR16Bracket(world);
+  const playerMatch = bracket.find((match) =>
+    match.home.name === state.player?.name || match.away.name === state.player?.name
+  );
+  if (!playerMatch) throw new Error("WORLD_R16 bracket does not contain the player");
+  const playerIsHome = playerMatch.home.name === state.player?.name;
+  const opponent = playerIsHome ? playerMatch.away : playerMatch.home;
+
+  knockout.opened = true;
+  knockout.r16Bracket = bracket;
+  knockout.playerR16MatchId = playerMatch.matchId;
+  knockout.playerR16Opponent = structuredClone(opponent);
+  knockout.silasInTop16 = world.top16.some((row) => row.name === "Silas Crowe");
+  knockout.silasIsPlayerOpponent = opponent.name === "Silas Crowe";
+
+  state.world.flags ??= {};
+  state.world.flags.world_r16_bracket_locked = true;
+  state.world.flags.world_r16_event_id = eventId;
+  state.world.flags.world_r16_opponent_id = opponent.id;
+  state.world.flags.world_r16_opponent = opponent.name;
+  state.world.flags.world_r16_silas_in_top16 = knockout.silasInTop16;
+  state.world.flags.world_r16_silas_is_player_opponent = knockout.silasIsPlayerOpponent;
+  return knockout;
+}
+
+function participantForKnockoutMatch(match, playerName) {
+  if (match.home.name === playerName) return match.away;
+  if (match.away.name === playerName) return match.home;
+  return null;
+}
+
+export function prepareWorldKnockoutMatch(state, meta) {
+  validateMetaRuntime(meta);
+  if (meta.worldKnockoutRound !== "R16") {
+    throw new Error("Only R16 knockout handoff is available in the M10 cycle-1 runtime");
+  }
+  const { knockout } = worldKnockoutOrThrow(state);
+  if (!knockout.opened) throw new Error("WORLD_R16 bracket has not been opened");
+  const match = knockout.r16Bracket.find((entry) => entry.matchId === knockout.playerR16MatchId);
+  if (!match) throw new Error("WORLD_R16 player match is missing");
+  if (match.outcome) throw new Error("WORLD_R16 player match is already resolved");
+  const opponent = participantForKnockoutMatch(match, state.player?.name);
+  if (!opponent) throw new Error("WORLD_R16 player opponent cannot be resolved");
+  const roster = regulatedWorldRoster(state, opponent, "WORLD_KNOCKOUT_L20");
+  return {
+    participant: structuredClone(opponent),
+    roster: structuredClone(roster),
+    meta: {
+      ...meta,
+      matchId: match.matchId,
+      opponentTrainerId: opponent.id,
+      worldKnockoutRound: "R16"
+    }
+  };
+}
+
+function persistWorldKnockoutOpponentRoster(knockout, opponentId, battle) {
+  if (!battle || !opponentId) return;
+  const combatants = [battle.opponent, ...(battle.opponentBench ?? [])].filter(Boolean);
+  if (combatants.length === 0) return;
+  knockout.opponentRosters[opponentId] = combatants.map((combatant, index) => ({
+    speciesId: combatant.speciesId,
+    name: combatant.name,
+    level: combatant.level,
+    hp: structuredClone(combatant.hp),
+    statuses: structuredClone(combatant.statuses),
+    abilityId: combatant.abilityId,
+    moveIds: structuredClone(combatant.moveIds),
+    pp: structuredClone(combatant.pp),
+    trainerId: opponentId,
+    rosterIndex: index,
+    regulation: "WORLD_KNOCKOUT_L20",
+    source: "persistent_regulated_world_roster"
+  }));
+}
+
+function recordWorldKnockoutOutcome(state, meta, outcome, resolvedAtMinutes, battle = null) {
+  const { knockout } = worldKnockoutOrThrow(state);
+  if (meta.worldKnockoutRound !== "R16") {
+    throw new Error("Unsupported World knockout round: " + String(meta.worldKnockoutRound));
+  }
+  const match = knockout.r16Bracket.find((entry) => entry.matchId === knockout.playerR16MatchId);
+  if (!match) throw new Error("WORLD_R16 player match is missing");
+  if (match.outcome) throw new Error("WORLD_R16 player match already has a result");
+
+  const playerIsHome = match.home.name === state.player?.name;
+  const homeWon = playerIsHome ? outcome === "win" : outcome === "lose";
+  match.outcome = homeWon ? "win" : "lose";
+  match.playerOutcome = outcome;
+  match.winnerId = homeWon ? match.home.id : match.away.id;
+  match.loserId = homeWon ? match.away.id : match.home.id;
+  match.resolvedAtMinutes = resolvedAtMinutes;
+  match.source = "player_pokemon5e_combat";
+  const opponent = playerIsHome ? match.away : match.home;
+  persistWorldKnockoutOpponentRoster(knockout, opponent.id, battle);
+
+  knockout.playerAdvancedToQf = outcome === "win";
+  state.world.flags ??= {};
+  state.world.flags.world_r16_resolved = true;
+  state.world.flags.world_r16_result = outcome;
+  state.world.flags.world_r16_won = outcome === "win";
+  state.world.flags.world_eliminated = outcome === "lose";
+  return match;
+}
+
+function simulateWorldKnockoutMatch(state, match) {
+  if (match.outcome) return match;
+  const world = ensureCompetition(state).world;
+  const seed = [
+    world.drawSeed ?? "world-draw",
+    "R16",
+    match.matchId,
+    match.home.id,
+    match.away.id
+  ].join("|");
+  const homeWins = (hashString(seed) & 1) === 0;
+  match.outcome = homeWins ? "win" : "lose";
+  match.playerOutcome = null;
+  match.winnerId = homeWins ? match.home.id : match.away.id;
+  match.loserId = homeWins ? match.away.id : match.home.id;
+  match.resolvedAtMinutes = null;
+  match.source = "deterministic_offscreen_world_resolution";
+  return match;
+}
+
+function participantByIdFromMatch(match, participantId) {
+  if (match.home.id === participantId) return match.home;
+  if (match.away.id === participantId) return match.away;
+  return null;
+}
+
+export function resolveWorldR16Round(state, { eventId = "WORLD_R16_RESOLVE" } = {}) {
+  requireId(eventId, "world r16 resolution eventId");
+  const { world, knockout } = worldKnockoutOrThrow(state);
+  if (!knockout.opened) throw new Error("WORLD_R16 bracket has not been opened");
+  if (knockout.r16Resolved) return knockout;
+  const playerMatch = knockout.r16Bracket.find((entry) => entry.matchId === knockout.playerR16MatchId);
+  if (!playerMatch || !playerMatch.playerOutcome) {
+    throw new Error("WORLD_R16 resolution requires the player's official R16 result");
+  }
+
+  for (const match of knockout.r16Bracket) simulateWorldKnockoutMatch(state, match);
+  if (knockout.r16Bracket.some((match) => !match.winnerId)) {
+    throw new Error("WORLD_R16 failed to resolve every knockout match");
+  }
+
+  knockout.r16Results = structuredClone(knockout.r16Bracket);
+  const top8 = knockout.r16Bracket.map((match) => {
+    const participant = participantByIdFromMatch(match, match.winnerId);
+    return {
+      id: participant.id,
+      name: participant.name,
+      fromMatchId: match.matchId
+    };
+  });
+  if (top8.length !== 8 || new Set(top8.map((entry) => entry.id)).size !== 8) {
+    throw new Error("WORLD_R16 must lock exactly eight unique quarterfinalists");
+  }
+
+  knockout.top8Locked = true;
+  knockout.top8 = structuredClone(top8);
+  world.top8Locked = true;
+  world.top8 = structuredClone(top8);
+  knockout.qfBracket = [];
+  for (let index = 0; index < top8.length; index += 2) {
+    knockout.qfBracket.push({
+      round: "QF",
+      matchId: "WORLD_QF_" + String(index / 2 + 1),
+      home: structuredClone(top8[index]),
+      away: structuredClone(top8[index + 1]),
+      outcome: null,
+      playerOutcome: null,
+      winnerId: null,
+      loserId: null,
+      resolvedAtMinutes: null,
+      source: null
+    });
+  }
+
+  const playerQf = knockout.qfBracket.find((match) =>
+    match.home.name === state.player?.name || match.away.name === state.player?.name
+  ) ?? null;
+  knockout.playerQfMatchId = playerQf?.matchId ?? null;
+  knockout.playerQfOpponent = playerQf
+    ? structuredClone(playerQf.home.name === state.player?.name ? playerQf.away : playerQf.home)
+    : null;
+  knockout.silasAdvancedToQf = top8.some((entry) => entry.name === "Silas Crowe");
+  knockout.r16Resolved = true;
+
+  state.world.flags ??= {};
+  state.world.flags.world_r16_round_resolved = true;
+  state.world.flags.world_top8_locked = true;
+  state.world.flags.world_r16_event_resolution_id = eventId;
+  state.world.flags.world_qf_opponent = knockout.playerQfOpponent?.name ?? null;
+  state.world.flags.world_qf_opponent_id = knockout.playerQfOpponent?.id ?? null;
+  state.world.flags.world_r16_silas_advanced = knockout.silasAdvancedToQf;
+  return knockout;
+}
+
 export function applyCompetitionEffect(state, effect) {
   switch (effect.type) {
     case "competition_trial_available": return setTrialAvailable(state, effect);
@@ -966,6 +1285,8 @@ export function applyCompetitionEffect(state, effect) {
     case "competition_world_draw": return resolveWorldDraw(state, effect);
     case "competition_world_groups_open": return openWorldGroupStage(state, effect);
     case "competition_world_groups_resolve": return resolveWorldGroupStage(state, effect);
+    case "competition_world_r16_open": return openWorldR16Bracket(state, effect);
+    case "competition_world_r16_resolve": return resolveWorldR16Round(state, effect);
     default: throw new Error("Unsupported competition effect type: " + effect.type);
   }
 }
@@ -1005,6 +1326,13 @@ export function validateCompetitionEffect(effect, at = "effect") {
   if (["competition_world_groups_open", "competition_world_groups_resolve"].includes(effect.type)) {
     if (effect.eventId !== undefined && (typeof effect.eventId !== "string" || !ID_RE.test(effect.eventId))) {
       push("INVALID_WORLD_GROUPS_EVENT_ID", "eventId must be a stable identifier", at + ".eventId");
+    }
+    return errors;
+  }
+
+  if (["competition_world_r16_open", "competition_world_r16_resolve"].includes(effect.type)) {
+    if (effect.eventId !== undefined && (typeof effect.eventId !== "string" || !ID_RE.test(effect.eventId))) {
+      push("INVALID_WORLD_R16_EVENT_ID", "eventId must be a stable identifier", at + ".eventId");
     }
     return errors;
   }
@@ -1094,6 +1422,12 @@ export function validateCompetitionCombat(meta, at = "combat.competition") {
   }
   if (meta.worldOpponentIndex !== undefined && meta.type !== "official_match") {
     push("INVALID_WORLD_GROUP_MATCH_TYPE", "World group matches must be official_match", at + ".type");
+  }
+  if (meta.worldKnockoutRound !== undefined && !["R16", "QF"].includes(meta.worldKnockoutRound)) {
+    push("INVALID_WORLD_KNOCKOUT_ROUND", "worldKnockoutRound must be R16 or QF", at + ".worldKnockoutRound");
+  }
+  if (meta.worldKnockoutRound !== undefined && meta.type !== "official_match") {
+    push("INVALID_WORLD_KNOCKOUT_MATCH_TYPE", "World knockout matches must be official_match", at + ".type");
   }
   if (meta.type === "promotion_trial") {
     if (typeof meta.checkpointId !== "string" || !ID_RE.test(meta.checkpointId)) {
