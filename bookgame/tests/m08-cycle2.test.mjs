@@ -97,9 +97,8 @@ test("M8_05 first Astrid meeting is persistent and never grants draw state",asyn
 
 test("M8_06 selector prefers a real physical Village overlap when available",async()=>{
   const {engine}=await makeEngine();
-  let s=base();
+  let s=await withAstrid(engine,base());
   setNpcSchedule(s,{npcId:"Mattew",scheduleId:"m8_mattew_world_village",locationId:"world_village",availability:"available",activity:"world_preparation"});
-  s=await withAstrid(engine,s);
   s.story.sceneId="m08-astrid-enters";s.story.nodeId="astrid_entry";
   s=await engine.choose(s,"astrid_introduce");
   assert.equal(s.world.flags.friend_beat_08_available,true);
