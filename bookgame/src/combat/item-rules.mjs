@@ -1,4 +1,5 @@
 import { clearStatus, STATUS_IDS } from "./status.mjs";
+import { compileCanonicalItemRule } from "./canonical-runtime.mjs";
 
 function normalizeItemId(value) {
   return String(value ?? "")
@@ -64,12 +65,15 @@ function statusRule(item) {
 
 export function compileItemRule(item) {
   const delayed = /\b10 minutes after consumption\b/i.test(item.description ?? "");
+  const canonical = compileCanonicalItemRule(item);
   const result = {
     itemId: item.id,
     itemType: item.type,
     action: /bonus action/i.test(item.description ?? "") ? "bonus_action_or_action" : "action",
     consumed: /consumed on use/i.test(item.description ?? ""),
     delayed,
+    scope: canonical.scope,
+    runtimeContext: canonical.runtimeContext,
     rules: []
   };
 
@@ -84,7 +88,9 @@ export function compileItemRule(item) {
     result.requiresAdjacent = true;
   }
 
-  result.supported = result.rules.length > 0 && !delayed;
+  result.combatApplicable = result.rules.length > 0 && !delayed;
+  result.supported = canonical.supported;
+  result.requiresExternalContext = result.supported && !result.combatApplicable;
   return result;
 }
 
@@ -102,7 +108,17 @@ export function applyItemToPokemon({ item, target, dice, moveId = null }) {
     return {
       applied: false,
       itemId: item.id,
-      reason: compiled.delayed ? "delayed_item_requires_world_time" : "item_rule_not_runtime_resolved",
+      reason: "item_rule_not_runtime_resolved",
+      compiled
+    };
+  }
+  if (!compiled.combatApplicable) {
+    return {
+      applied: false,
+      itemId: item.id,
+      reason: compiled.delayed
+        ? "delayed_item_requires_world_time"
+        : `item_requires_${compiled.runtimeContext}_runtime_context`,
       compiled
     };
   }
