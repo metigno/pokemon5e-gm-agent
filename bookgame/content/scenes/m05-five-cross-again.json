@@ -51,11 +51,6 @@
           "id": "entry_shared",
           "text": "Apro il canale comune per chi è lontano.",
           "goto": "shared_table"
-        },
-        {
-          "id": "entry_schedule",
-          "text": "Prima confronto le nostre traiettorie attuali.",
-          "goto": "schedule_split"
         }
       ]
     },
@@ -555,6 +550,15 @@
             "eq": true
           },
           "goto": "m05-friend-beat-05#friend_call"
+        },
+        {
+          "id": "friend_gate_close",
+          "text": "Il contatto personale non è ancora disponibile: torno alla piazza.",
+          "conditions": {
+            "path": "world.flags.friend_beat_05_available",
+            "ne": true
+          },
+          "goto": "reunion_close"
         }
       ]
     },
