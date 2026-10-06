@@ -297,10 +297,31 @@ export class BookgameEngine {
         playerBench: clone(playerRoster ? playerRoster.slice(1) : (choice.combat.playerBench ?? [])),
         trainer: {
           name: next.player.name,
+          trainerClass: next.player.trainerClass,
+          trainerPath: clone(next.player.trainerPath),
           level: next.player.trainerLevel,
+          trainerLevel: next.player.trainerLevel,
+          trainerXp: next.player.trainerXp,
           abilities: clone(next.player.abilities),
           skills: clone(next.player.skills),
-          inventory: clone(next.player.inventory)
+          proficiencies: clone(next.player.proficiencies),
+          savingThrows: clone(next.player.savingThrows),
+          hp: clone(next.player.hp),
+          ac: next.player.ac,
+          hitDice: clone(next.player.hitDice),
+          classResources: clone(next.player.classResources),
+          classFeatures: clone(next.player.classFeatures),
+          feats: clone(next.player.feats),
+          specializations: clone(next.player.specializations),
+          equipment: clone(next.player.equipment),
+          trainerGear: clone(next.player.trainerGear),
+          conditions: clone(next.player.conditions),
+          movement: clone(next.player.movement),
+          inventory: clone(next.player.inventory),
+          money: next.player.money,
+          featureUsage: clone(next.player.featureUsage),
+          persistentEffects: clone(next.player.persistentEffects),
+          death: clone(next.player.death)
         },
         trainerPosition: clone(choice.combat.trainerPosition ?? { x: 0, y: 0 }),
         playerPosition: clone(choice.combat.playerPosition ?? { x: 0, y: 0 }),
@@ -376,8 +397,19 @@ export class BookgameEngine {
       }
     }
 
-    if (resolvedBattle?.trainer?.inventory) {
-      next.player.inventory = clone(resolvedBattle.trainer.inventory);
+    if (resolvedBattle?.trainer) {
+      const trainer = resolvedBattle.trainer;
+      for (const field of [
+        "trainerClass", "trainerPath", "trainerXp", "abilities", "skills", "proficiencies",
+        "savingThrows", "hp", "ac", "hitDice", "classResources", "classFeatures",
+        "feats", "specializations", "equipment", "trainerGear", "conditions", "movement",
+        "inventory", "money", "featureUsage", "persistentEffects", "death"
+      ]) {
+        if (trainer[field] !== undefined) next.player[field] = clone(trainer[field]);
+      }
+      if (Number.isInteger(trainer.trainerLevel ?? trainer.level)) {
+        next.player.trainerLevel = trainer.trainerLevel ?? trainer.level;
+      }
     }
 
     if (resolvedBattle?.player) {
@@ -394,11 +426,24 @@ export class BookgameEngine {
           speciesId: combatant.speciesId,
           name: combatant.name,
           level: combatant.level,
+          xp: combatant.xp ?? existing.xp,
           hp: clone(combatant.hp),
+          ac: combatant.ac,
+          attributes: clone(combatant.attributes),
+          savingThrows: clone(combatant.savingThrows),
+          proficiencies: clone(combatant.proficiencies),
+          hitDice: clone(combatant.hitDice),
+          bond: clone(combatant.bond),
+          gender: combatant.gender ?? existing.gender,
+          nature: combatant.nature ?? existing.nature,
           statuses: clone(combatant.statuses),
           abilityId: combatant.abilityId,
           moveIds: clone(combatant.moveIds),
-          pp: clone(combatant.pp)
+          pp: clone(combatant.pp),
+          evolutionHistory: clone(combatant.evolutionHistory),
+          pendingMoveLearning: clone(combatant.pendingMoveLearning),
+          pendingMoveChoices: clone(combatant.pendingMoveChoices),
+          pendingAsiChoices: clone(combatant.pendingAsiChoices)
         };
         next.player.roster[combatant.rosterIndex] = persisted;
 
@@ -418,11 +463,24 @@ export class BookgameEngine {
         speciesId: resolvedBattle.opponent.speciesId,
         name: resolvedBattle.opponent.name,
         level: resolvedBattle.opponent.level,
+        xp: resolvedBattle.opponent.xp,
         hp: clone(resolvedBattle.opponent.hp),
+        ac: resolvedBattle.opponent.ac,
+        attributes: clone(resolvedBattle.opponent.attributes),
+        savingThrows: clone(resolvedBattle.opponent.savingThrows),
+        proficiencies: clone(resolvedBattle.opponent.proficiencies),
+        hitDice: clone(resolvedBattle.opponent.hitDice),
+        bond: clone(resolvedBattle.opponent.bond),
+        gender: resolvedBattle.opponent.gender,
+        nature: resolvedBattle.opponent.nature,
         statuses: clone(resolvedBattle.opponent.statuses),
         abilityId: resolvedBattle.opponent.abilityId,
         moveIds: clone(resolvedBattle.opponent.moveIds),
         pp: clone(resolvedBattle.opponent.pp),
+        evolutionHistory: clone(resolvedBattle.opponent.evolutionHistory),
+        pendingMoveLearning: clone(resolvedBattle.opponent.pendingMoveLearning),
+        pendingMoveChoices: clone(resolvedBattle.opponent.pendingMoveChoices),
+        pendingAsiChoices: clone(resolvedBattle.opponent.pendingAsiChoices),
         capturedAt: {
           day: next.world.day,
           locationId: next.world.locationId,
