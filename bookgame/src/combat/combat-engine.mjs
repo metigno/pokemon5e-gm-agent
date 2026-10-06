@@ -1061,6 +1061,72 @@ function applyDamageReduction(combatant, damage, dice, round) {
   };
 }
 
+function activeCanonicalSource(source, round) {
+  return (
+    (source?.usesRemaining == null || source.usesRemaining > 0) &&
+    (source?.startsRound == null || round >= source.startsRound) &&
+    (source?.expiresRound == null || round < source.expiresRound)
+  );
+}
+
+function tryAbsorbWithDuplicate(battle, defenderSide, move, dice) {
+  const defender = battle[defenderSide];
+  const attacker = battle[otherSide(defenderSide)];
+  const sources = defender.effects?.duplicateSources ?? [];
+  const source = sources.find((entry) => activeCanonicalSource(entry, battle.round) && entry.duplicates > 0);
+  if (!source) return null;
+  const width = Number(move.shape?.value ?? 0);
+  if (move.shape && width > Number(source.maxWidth ?? 5)) return null;
+  const attackerBlind = (attacker.effects?.blindedSources ?? []).some(
+    (entry) => activeCanonicalSource(entry, battle.round)
+  );
+  const ignoresIllusions =
+    attackerBlind ||
+    Boolean(attacker.senses?.blindsight) ||
+    Boolean(attacker.senses?.truesight);
+  if (ignoresIllusions) return null;
+
+  const rolls = Array.from({ length: source.duplicates }, () => dice.roll(Number(source.die ?? 6)));
+  const avoided = rolls.some((roll) => roll >= Number(source.avoidOn ?? 4));
+  if (avoided) {
+    source.duplicates = Math.max(0, source.duplicates - 1);
+    if (source.duplicates <= 0 && defender.concentration?.moveId === source.source) {
+      endConcentrationState(battle, defenderSide, "duplicates_destroyed");
+    }
+  }
+  return { avoided, rolls, remainingDuplicates: source.duplicates };
+}
+
+function applyCanonicalDamageShare(battle, damagedSide, damage) {
+  if (!(damage > 0)) return [];
+  const damaged = battle[damagedSide];
+  const events = [];
+  for (const source of damaged.effects?.damageShareSources ?? []) {
+    if (!activeCanonicalSource(source, battle.round)) continue;
+    const targetSide = source.targetSide;
+    const target = battle[targetSide];
+    if (!target) continue;
+    if (source.targetCombatantId && target.combatantId !== source.targetCombatantId) continue;
+    const sharedDamage = Math.max(0, Math.floor(damage * Number(source.fraction ?? 0.5)));
+    if (sharedDamage <= 0) continue;
+    target.hp.current = Math.max(0, target.hp.current - sharedDamage);
+    const event = {
+      type: "damage_share",
+      round: battle.round,
+      actor: damagedSide,
+      target: targetSide,
+      source: source.source,
+      originalDamage: damage,
+      sharedDamage,
+      targetHpAfter: target.hp.current
+    };
+    battle.log.push(event);
+    events.push(event);
+    if (target.hp.current <= 0) markDowned(battle, targetSide, source.source ?? "damage_share");
+  }
+  return events;
+}
+
 function checkConcentrationAfterDamage(battle, side, damage, dice) {
   if (damage <= 0 || !battle[side]?.concentration) return null;
 
@@ -5149,8 +5215,23 @@ export class Pokemon5eCombatEngine {
         !isPointAreaMove(move) &&
         move.range?.type !== "self" &&
         rangeTarget === defender;
-      const ppCost = pressureApplies ? 2 : 1;
+      const extraPpCost = Math.max(
+        0,
+        activeModifier(attacker.effects?.extraPpCostSources ?? [], next.round)
+      );
+      const ppCost = 1 + (pressureApplies ? 1 : 0) + extraPpCost;
       attacker.pp[move.id] = Math.max(0, attacker.pp[move.id] - ppCost);
+      if (extraPpCost > 0) {
+        next.log.push({
+          type: "pp_cost_modifier",
+          round: next.round,
+          actor: side,
+          moveId: move.id,
+          source: "canonical_effect",
+          extraPpCost,
+          ppCost
+        });
+      }
       if (pressureApplies) {
         next.log.push({
           type: "ability_trigger",
@@ -5343,6 +5424,18 @@ export class Pokemon5eCombatEngine {
       });
     } else {
       throw new Error(`Move ${move.id} is known but its special rules are not executable by the combat resolver`);
+    }
+
+    const powerOverride = next[side]?.effects?.movePowerOverride;
+    if (
+      move.id !== "power-shift" &&
+      powerOverride &&
+      activeCanonicalSource(powerOverride, next.round)
+    ) {
+      if (powerOverride.usesRemaining != null) {
+        powerOverride.usesRemaining = Math.max(0, powerOverride.usesRemaining - 1);
+      }
+      if (powerOverride.usesRemaining === 0) next[side].effects.movePowerOverride = null;
     }
 
     if (next.outcome || next.awaitingSwitch) return next;
@@ -6027,7 +6120,8 @@ export class Pokemon5eCombatEngine {
     }
 
     const blockedBy = this.fleeBlockedReason(next);
-    if (blockedBy && !useEscapeRope) {
+    const moveGrantedSuccesses = Number(next.flee.bonusSuccesses ?? 0);
+    if (blockedBy && !useEscapeRope && moveGrantedSuccesses <= 0) {
       next.flee.lastAttemptRound = next.round;
       next.log.push({
         type: "flee_attempt",
@@ -6051,18 +6145,24 @@ export class Pokemon5eCombatEngine {
         checks: []
       };
     } else {
+      const group = resolveGroupFleeCheck({
+        participants,
+        dc,
+        dice: this.dice,
+        advantage,
+        disadvantage
+      });
+      group.successes += moveGrantedSuccesses;
+      group.requiredSuccesses = Math.ceil(group.checks.length / 2);
+      group.escaped = group.successes >= group.requiredSuccesses;
       result = {
         legal: true,
         automatic: false,
-        source: "group-check",
-        ...resolveGroupFleeCheck({
-          participants,
-          dc,
-          dice: this.dice,
-          advantage,
-          disadvantage
-        })
+        source: moveGrantedSuccesses > 0 ? "group-check+move" : "group-check",
+        moveGrantedSuccesses,
+        ...group
       };
+      next.flee.bonusSuccesses = 0;
     }
 
     next.log.push({
