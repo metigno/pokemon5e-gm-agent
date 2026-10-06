@@ -5,7 +5,7 @@
 **Purpose:** production map for converting M9 into validated offline story content  
 **Locked authored budget:** **4,300 stitches / 2,300 player choices**
 
-**Module implementation status:** **IN PROGRESS — M9_00–M9_09 COMPLETE / CUMULATIVE 156×344 / LIBRARY-V2 ALIGNED / M9_10 REMAINS 14×30**
+**Module implementation status:** **COMPLETE — M9_00–M9_10 / EXACT 170×374 / LIBRARY-V2 ALIGNED / FULL EXIT CONTRACT WIRED**
 
 E1–E7 are reusable infrastructure from M1. A block may extend generic data or content, but must not fork those engines into module-specific substitutes.
 
@@ -55,7 +55,7 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 | M9_07_MATCHDAY_THREE | terzo match programmato | 492 | 263 | COMPLETE |
 | M9_08_GROUP_RESOLUTION | tiebreak ufficiale, posizione finale e Top16 | 340 | 182 | COMPLETE |
 | M9_09_ELIMINATED_ROUTE | uscita coerente se non qualificato agli ottavi | 340 | 182 | COMPLETE |
-| M9_10_ADVANCE_ROUTE | handoff al bracket R16 se Top2 | 340 | 182 | PLANNED |
+| M9_10_ADVANCE_ROUTE | handoff al bracket R16 se Top2 | 340 | 182 | COMPLETE |
 | **TOTAL** |  | **4,300** | **2,300** | |
 
 Budgets are authored surface capacity. One run sees only the paths made legal by its state.
@@ -419,6 +419,54 @@ Cycle 2 adds **79 nodes / 174 meaningful choices**, bringing M09 to **156 nodes 
 **No R39 candidate is required for Cycle 2.** Library V2 R01→R38 remains sufficient; the only engine work is a reusable E4 World Friend Beat selector and the missing E5 group-resolution lifecycle.
 
 **Cycle 2 CI evidence:** GitHub Actions PR #10 — syntax PASS, `validate:story` PASS, **1,230 tests passed / 0 failed / 0 skipped**.
+
+
+
+---
+
+# 5C. FINAL IMPLEMENTATION LOCK — M9_10_ADVANCE_ROUTE
+
+## M9_10_ADVANCE_ROUTE
+
+**Reuse class:** REUSE / ADAPT
+
+**Source archetypes:**
+- R20_MODULE_EXIT_CONTRACT
+- R21_MODULE_HANDOFF
+- R33_CROSS_MODULE_CALLBACK
+- R37_MULTI_ROUND_TOURNAMENT_LIFECYCLE
+- R38_COMPOSITE_OUTCOME_CLASSIFIER
+
+**Unique layer:** consumes only the already-resolved E5 state `groupStage.advanced=true` plus the locked 16-player field. It does **not** choose or invent the Round-of-16 opponent; bracket pairing remains owned by M10_00.
+
+**Implementation lock:** `m09-advance-route` = **14 nodes / 30 meaningful choices** exactly.
+
+The route:
+
+- requires resolved World groups;
+- requires exactly 16 E5-qualified participants;
+- preserves the Top16 unchanged;
+- preserves HP, PP, status, injury, inventory and roster state;
+- preserves all three group-match results and competition history;
+- writes only `m10_unlocked`, `m9_advance_route_complete` and `m9_complete`;
+- never writes `m12_unlocked`;
+- never writes an R16 opponent or provisional bracket pairing.
+
+## Final M09 budget
+
+- Cycle 1 M9_00–M9_04: **77 / 170**
+- Cycle 2 M9_05–M9_09: **79 / 174**
+- Final M9_10: **14 / 30**
+- **M09 TOTAL: 170 logical nodes / 374 meaningful choices**
+
+Both exit routes now satisfy the module contract:
+
+- advanced run → `m9_complete=true` + `m10_unlocked=true`;
+- eliminated run → `m9_complete=true` + `m12_unlocked=true`;
+- both require `friend_beat_09_complete=true`;
+- both preserve actual E5 group history and Top16 state.
+
+**No R39 candidate is required for M09.** The complete module remains expressible through Library V2 R01→R38 plus reusable E4/E5 engine extensions.
 
 
 # 6. STATE OWNERSHIP
