@@ -2,8 +2,8 @@
 
 **Status:** LOCKED BASELINE FOR M05→M12 AUTHORING  
 **Production branch reviewed:** `m12-00-04-work`  
-**Runtime-validated corpus:** M01→M11 complete + M12 Cycle 1 extension  
-**Latest runtime evidence:** M12 Cycle 2 — cumulative 179 / 397 through M12_08; Bookgame Tests #422: 1,321 passed / 0 failed / 0 skipped. Complete-module baseline remains M01→M11.  
+**Runtime-validated corpus:** M01→M12 COMPLETE
+**Latest runtime evidence:** M12 COMPLETE — 228 / 502; Bookgame Tests #428: 1,333 passed / 0 failed / 0 skipped. Complete-module baseline is M01→M12.
 **Catalog:** `bookgame/docs/NODE_REUSE_CATALOG.md`
 
 ---
@@ -22,7 +22,9 @@
 | M08 | 190 | 418 |
 | M09 | 170 | 374 |
 | M10 | 160 | 352 |
-| **TOTAL** | **2,084** | **4,723** |
+| M11 | 150 | 330 |
+| M12 | 228 | 502 |
+| **TOTAL** | **2,462** | **5,555** |
 
 Latest final M5 compiler validation reported:
 
@@ -223,7 +225,7 @@ This order is now canonical for production.
 
 Current lock:
 
-**R01→R38 / complete-module baseline M01→M11 = 2,234 runtime-validated logical nodes and 5,053 meaningful choices; no R39 requirement.**
+**R01→R38 / complete-module baseline M01→M12 = 2,462 runtime-validated logical nodes and 5,555 meaningful choices; no R39 requirement.**
 
 ---
 
@@ -572,3 +574,38 @@ Validation evidence:
 Current Library decision:
 
 **R01→R38 / complete-module baseline M01→M11, with M12 runtime-validated through M12_08; no R39 requirement.**
+
+
+---
+
+## M12 FINAL RUNTIME VALIDATION EVIDENCE — 2026-10-06
+
+M12 — *Dopo il Mondo* is **COMPLETE** at **228 logical nodes / 502 meaningful choices**.
+
+Final evidence:
+
+- all twelve M12 blocks M12_00→M12_11 are implemented;
+- exact cycle totals: **95/209 + 84/188 + 49/105 = 228/502**;
+- all **228/228** authored M12 nodes are reachable from WORLD_EXIT;
+- no zero-incoming padding remains;
+- Champion, eliminated and Worlds Missed histories all reach the same structural postgame without erasing their differences;
+- all M1→M7 callback outcomes are read from persistent state and never rewritten;
+- FRIEND_BEAT_12 composes R23/R26/R27/R28/R33 and needs no new reusable topology;
+- postgame hooks reuse E1→E7 and the same save model;
+- `MAIN_STORY_COMPLETE` leaves free roam writable and interactive;
+- save/reload preserves complete campaign state;
+- Library V2 **R01→R38** is sufficient through the full campaign;
+- **no R39 candidate is justified**.
+
+Final validation:
+
+- branch: `m12-00-04-work`;
+- PR **#14**;
+- validated runtime HEAD: `4323e799fc3344e56e9cb6d72c40aa94ab90249a`;
+- GitHub Actions **Bookgame Tests #428: SUCCESS**;
+- compiler: **154 scenes / 2,462 nodes / 2,817 stitches / 5,577 compiled choices / 60 world events / 14 ecology zones / 479 ecology species**;
+- full suite: **1,333 passed / 0 failed / 0 skipped**.
+
+The complete Library V2 corpus is now:
+
+**M01→M12 = 2,462 runtime-validated logical nodes / 5,555 meaningful choices.**
