@@ -1,0 +1,538 @@
+{
+  "schemaVersion": 1,
+  "id": "m11-world-final",
+  "moduleId": "M11",
+  "title": "M11_07 — World Final",
+  "locationId": "world_knockout_hall",
+  "entryNodeId": "final_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m11_final_prep_complete",
+        "eq": true
+      },
+      {
+        "path": "competition.world.knockout.playerAdvancedToFinal",
+        "eq": true
+      },
+      {
+        "path": "competition.world.knockout.finalistsLocked",
+        "eq": true
+      },
+      {
+        "path": "competition.world.knockout.playerFinalMatchId",
+        "exists": true
+      }
+    ]
+  },
+  "nodes": {
+    "final_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "WORLD_FINAL_1 è l'ultimo match del bracket reale. L'avversario è il vincitore effettivo dell'altra semifinale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "final_entry_next",
+          "text": "Proseguo.",
+          "goto": "opponent_card"
+        },
+        {
+          "id": "final_entry_alt",
+          "text": "Approfondisco.",
+          "goto": "rules"
+        },
+        {
+          "id": "final_entry_detail_0",
+          "text": "Esamino un'altra conseguenza.",
+          "goto": "pressure"
+        }
+      ]
+    },
+    "opponent_card": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "E5 risolve l'avversario da playerFinalOpponent e dal roster regolamentare persistente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "opponent_card_next",
+          "text": "Proseguo.",
+          "goto": "rules"
+        },
+        {
+          "id": "opponent_card_alt",
+          "text": "Approfondisco.",
+          "goto": "pressure"
+        },
+        {
+          "id": "opponent_card_detail_1",
+          "text": "Esamino un'altra conseguenza.",
+          "goto": "history_before"
+        }
+      ]
+    },
+    "rules": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La finale resta un official Singles Pokémon 5e: nessun risultato viene narrato prima del combat."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rules_next",
+          "text": "Proseguo.",
+          "goto": "pressure"
+        },
+        {
+          "id": "rules_alt",
+          "text": "Approfondisco.",
+          "goto": "history_before"
+        },
+        {
+          "id": "rules_detail_2",
+          "text": "Esamino un'altra conseguenza.",
+          "goto": "resources_before"
+        }
+      ]
+    },
+    "pressure": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il titolo è in palio, ma la pressione non altera dadi o statistiche."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pressure_next",
+          "text": "Proseguo.",
+          "goto": "history_before"
+        },
+        {
+          "id": "pressure_alt",
+          "text": "Approfondisco.",
+          "goto": "resources_before"
+        },
+        {
+          "id": "pressure_detail_3",
+          "text": "Esamino un'altra conseguenza.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "history_before": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La history precedente resta intatta e WORLD_FINAL può essere registrata una sola volta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "history_before_next",
+          "text": "Proseguo.",
+          "goto": "resources_before"
+        },
+        {
+          "id": "history_before_alt",
+          "text": "Approfondisco.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "resources_before": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il team entra con le conseguenze reali della semifinale e della preparazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "resources_before_next",
+          "text": "Proseguo.",
+          "goto": "readiness"
+        },
+        {
+          "id": "resources_before_alt",
+          "text": "Approfondisco.",
+          "goto": "match_handoff"
+        }
+      ]
+    },
+    "readiness": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il bridge verifica FINAL, matchId, avversario e roster prima di iniziare."
+        }
+      ],
+      "choices": [
+        {
+          "id": "readiness_next",
+          "text": "Proseguo.",
+          "goto": "match_handoff"
+        },
+        {
+          "id": "readiness_alt",
+          "text": "Approfondisco.",
+          "goto": "win_return"
+        }
+      ]
+    },
+    "match_handoff": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Da qui l'autorità passa al combattimento Pokémon 5e."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fight_final",
+          "text": "Combatto la finale del Mondiale.",
+          "combat": {
+            "encounterId": "WORLD_FINAL_PLAYER",
+            "opponentRegistered": true,
+            "competition": {
+              "type": "official_match",
+              "matchId": "WORLD_FINAL_PLAYER",
+              "format": "Singles",
+              "officialRosterSize": 6,
+              "difficulty": "STORY_THREAT",
+              "worldKnockoutRound": "FINAL"
+            },
+            "returnNodes": {
+              "win": "win_return",
+              "lose": "loss_return"
+            },
+            "goto": "match_handoff"
+          },
+          "conditions": {
+            "path": "world.flags.world_final_resolved",
+            "ne": true
+          }
+        },
+        {
+          "id": "handoff_readiness",
+          "text": "Torno alla readiness.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "win_return": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La vittoria rende il player campione del mondo di questa edizione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "win_record",
+          "text": "Registro la vittoria mondiale.",
+          "goto": "result_record",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m11_world_final_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "win_resources",
+          "text": "Controllo la squadra.",
+          "goto": "resources_after",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m11_world_final_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "loss_return": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La sconfitta rende campione l'altro finalista reale; il player resta runner-up."
+        }
+      ],
+      "choices": [
+        {
+          "id": "loss_record",
+          "text": "Registro la sconfitta in finale.",
+          "goto": "result_record",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m11_world_final_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "loss_resources",
+          "text": "Controllo la squadra.",
+          "goto": "resources_after",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m11_world_final_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "result_record": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il record ufficiale della finale contiene un solo outcome."
+        }
+      ],
+      "choices": [
+        {
+          "id": "result_record_next",
+          "text": "Proseguo.",
+          "goto": "champion_meaning"
+        },
+        {
+          "id": "result_record_alt",
+          "text": "Approfondisco.",
+          "goto": "runnerup_meaning"
+        }
+      ]
+    },
+    "champion_meaning": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Essere campione significa aver vinto WORLD_FINAL_1."
+        }
+      ],
+      "choices": [
+        {
+          "id": "champion_meaning_next",
+          "text": "Proseguo.",
+          "goto": "runnerup_meaning"
+        },
+        {
+          "id": "champion_meaning_alt",
+          "text": "Approfondisco.",
+          "goto": "resources_after"
+        }
+      ]
+    },
+    "runnerup_meaning": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Essere finalista sconfitto conserva il percorso reale senza trasformarlo in vittoria."
+        }
+      ],
+      "choices": [
+        {
+          "id": "runnerup_meaning_next",
+          "text": "Proseguo.",
+          "goto": "resources_after"
+        },
+        {
+          "id": "runnerup_meaning_alt",
+          "text": "Approfondisco.",
+          "goto": "history_after"
+        }
+      ]
+    },
+    "resources_after": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Le risorse restano quelle prodotte dal combattimento finale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "resources_after_next",
+          "text": "Proseguo.",
+          "goto": "history_after"
+        },
+        {
+          "id": "resources_after_alt",
+          "text": "Approfondisco.",
+          "goto": "friend_context"
+        }
+      ]
+    },
+    "history_after": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Campione e runner-up sono salvati nello stato E5 insieme alla history."
+        }
+      ],
+      "choices": [
+        {
+          "id": "history_after_next",
+          "text": "Proseguo.",
+          "goto": "friend_context"
+        },
+        {
+          "id": "history_after_alt",
+          "text": "Approfondisco.",
+          "goto": "rei_context"
+        }
+      ]
+    },
+    "friend_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un amico affrontato in finale mantiene la relazione, ma il risultato resta indipendente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "friend_context_next",
+          "text": "Proseguo.",
+          "goto": "rei_context"
+        },
+        {
+          "id": "friend_context_alt",
+          "text": "Approfondisco.",
+          "goto": "single_elimination"
+        }
+      ]
+    },
+    "rei_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Rei può essere campione soltanto se il bracket e il combattimento lo portano davvero al titolo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rei_context_next",
+          "text": "Proseguo.",
+          "goto": "single_elimination"
+        },
+        {
+          "id": "rei_context_alt",
+          "text": "Approfondisco.",
+          "goto": "official_record"
+        }
+      ]
+    },
+    "single_elimination": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Non esiste rematch automatico della stessa finale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "single_elimination_next",
+          "text": "Proseguo.",
+          "goto": "official_record"
+        },
+        {
+          "id": "single_elimination_alt",
+          "text": "Approfondisco.",
+          "goto": "outcome_gate"
+        }
+      ]
+    },
+    "official_record": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "currentWorldChampion deve coincidere col winnerId reale della finale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "official_record_next",
+          "text": "Proseguo.",
+          "goto": "outcome_gate"
+        },
+        {
+          "id": "official_record_alt",
+          "text": "Approfondisco.",
+          "goto": "handoff"
+        }
+      ]
+    },
+    "outcome_gate": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Solo dopo il risultato reale si può classificare il Championship Outcome."
+        }
+      ],
+      "choices": [
+        {
+          "id": "outcome_gate_next",
+          "text": "Proseguo.",
+          "goto": "handoff"
+        },
+        {
+          "id": "outcome_gate_alt",
+          "text": "Approfondisco.",
+          "goto": "complete"
+        }
+      ]
+    },
+    "handoff": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La finale è risolta; il prossimo blocco registra campione, finalista e WORLD_EXIT."
+        }
+      ],
+      "choices": [
+        {
+          "id": "handoff_outcome",
+          "text": "Passo al Championship Outcome.",
+          "goto": "m11-championship-outcome#outcome_entry"
+        },
+        {
+          "id": "handoff_history",
+          "text": "Rivedo il record.",
+          "goto": "history_after"
+        }
+      ]
+    },
+    "complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "WORLD_FINAL è chiusa e non può essere rigiocata."
+        }
+      ],
+      "choices": [
+        {
+          "id": "complete_next",
+          "text": "Proseguo.",
+          "goto": "final_entry"
+        },
+        {
+          "id": "complete_alt",
+          "text": "Approfondisco.",
+          "goto": "opponent_card"
+        }
+      ]
+    }
+  }
+}
