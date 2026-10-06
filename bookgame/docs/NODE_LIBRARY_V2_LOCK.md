@@ -3,7 +3,7 @@
 **Status:** LOCKED BASELINE FOR M05→M12 AUTHORING  
 **Production branch reviewed:** `m8-00-04-work`  
 **Runtime-validated corpus:** M01 + M02 + M03 + M04 + M05 + M06 + M07  
-**Latest runtime evidence:** M07 — 210 / 462; M8 cycle 1 — 82 / 181; M8 cycle 1 CI 1,174 passed / 0 failed  
+**Latest runtime evidence:** M07 — 210 / 462; M8 cycles 1–2 — 158 / 347; M8 cycle 2 CI 1,187 passed / 0 failed  
 **Catalog:** `bookgame/docs/NODE_REUSE_CATALOG.md`
 
 ---
@@ -73,21 +73,21 @@ M06 and M07 therefore extend the runtime-validated Library V2 corpus through the
 
 # 2B. M08 CYCLE-1 RUNTIME EXTENSION EVIDENCE
 
-M08 — *Il Mondo nello Stesso Posto* is now runtime-validated through **M8_00–M8_04** at **82 logical nodes / 181 meaningful choices**.
+M08 — *Il Mondo nello Stesso Posto* is now runtime-validated through **M8_00–M8_09** at **158 logical nodes / 347 meaningful choices**.
 
 Evidence:
 
-- all five first-cycle blocks declare Library V2 reuse;
+- all ten implemented M8 blocks declare Library V2 reuse;
 - R01→R38 is sufficient; no R39 candidate is justified;
-- all 82 authored nodes are reachable and have incoming routes;
+- all 158 authored nodes are reachable and have incoming routes;
 - World arrival consumes the real M7 `world_qualified` route without resetting state;
 - accreditation changes access/timeline only;
 - medical control never heals or rewrites structured Pokémon state;
 - World registration reads the actual roster and does not perform WORLD_DRAW;
 - World Village preserves schedule-causal friend/Anchor encounters;
-- content commit `2541e060424e5d2cc4a48451c3344dcf839d846b`, Bookgame Tests run `37454771937` (#336): **1,174 passed / 0 failed**.
+- cycle-2 content/test commit `466811b9f7e8cf0c5e5fef19c7f81a9eea2d3d66`, Bookgame Tests run `37456416179` (#344): **1,187 passed / 0 failed**.
 
-The complete-module baseline remains **M01→M07 = 1,564 nodes / 3,579 meaningful choices** until M08 is fully closed. Partial validated M08 production adds **82 / 181** on top of that corpus.
+The complete-module baseline remains **M01→M07 = 1,564 nodes / 3,579 meaningful choices** until M08 is fully closed. Partial validated M08 production adds **158 / 347** on top of that corpus.
 
 
 
@@ -201,4 +201,4 @@ This order is now canonical for production.
 
 Current lock:
 
-**R01→R38 / complete-module baseline M01→M07 = 1,564 runtime-validated logical nodes and 3,579 meaningful choices, plus validated M08 cycle 1 = 82 / 181; no R39 requirement.**
+**R01→R38 / complete-module baseline M01→M07 = 1,564 runtime-validated logical nodes and 3,579 meaningful choices, plus validated M08 cycles 1–2 = 158 / 347; no R39 requirement.**
