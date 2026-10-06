@@ -1027,7 +1027,7 @@
             },
             {
               "type": "set_flag",
-              "key": "world_cutoff_complete",
+              "key": "m6_world_cutoff_snapshot_ready",
               "value": true
             }
           ]
@@ -1047,7 +1047,7 @@
             },
             {
               "type": "set_flag",
-              "key": "world_cutoff_complete",
+              "key": "m6_world_cutoff_snapshot_ready",
               "value": true
             }
           ]
