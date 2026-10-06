@@ -23,7 +23,8 @@ const EFFECT_TYPES = new Set([
   "npc_schedule_set",
   "friend_beat_select",
   "competition_trial_available",
-  "competition_trial_register"
+  "competition_trial_register",
+  "competition_world_draw"
 ]);
 
 function diag(code, message, at) {
@@ -116,7 +117,7 @@ function validateEffects(effects, at, errors) {
     if (["npc_register", "npc_relationship_adjust", "npc_state_set", "npc_schedule_set", "friend_beat_select"].includes(effect.type)) {
       errors.push(...validateNpcEffect(effect, effectAt));
     }
-    if (["competition_trial_available", "competition_trial_register"].includes(effect.type)) {
+    if (["competition_trial_available", "competition_trial_register", "competition_world_draw"].includes(effect.type)) {
       errors.push(...validateCompetitionEffect(effect, effectAt));
     }
   }
