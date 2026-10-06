@@ -468,6 +468,8 @@ Both exit routes now satisfy the module contract:
 
 **No R39 candidate is required for M09.** The complete module remains expressible through Library V2 R01→R38 plus reusable E4/E5 engine extensions.
 
+**Final M09 CI evidence:** GitHub Actions Bookgame Tests run #367 on HEAD `b9cca7a6bb0baf38c9ff65c27ad37f7180554a5e` — syntax PASS, `validate:story` PASS, **1,239 tests passed / 0 failed / 0 skipped**.
+
 
 # 6. STATE OWNERSHIP
 

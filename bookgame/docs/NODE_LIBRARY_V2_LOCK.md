@@ -1,9 +1,9 @@
 # P5E LIBROGAME — NODE LIBRARY V2 LOCK
 
 **Status:** LOCKED BASELINE FOR M05→M12 AUTHORING  
-**Production branch reviewed:** `m8-00-04-work`  
-**Runtime-validated corpus:** M01 + M02 + M03 + M04 + M05 + M06 + M07  
-**Latest runtime evidence:** M07 — 210 / 462; M08 COMPLETE — 190 / 418; M8 final CI 1,200 passed / 0 failed  
+**Production branch reviewed:** `m9-00-04-work`  
+**Runtime-validated corpus:** M01 + M02 + M03 + M04 + M05 + M06 + M07 + M08 + M09  
+**Latest runtime evidence:** M09 COMPLETE — 170 / 374; M9 final CI 1,239 passed / 0 failed / 0 skipped  
 **Catalog:** `bookgame/docs/NODE_REUSE_CATALOG.md`
 
 ---
@@ -19,7 +19,9 @@
 | M05 | 240 | 528 |
 | M06 | 220 | 484 |
 | M07 | 210 | 462 |
-| **TOTAL** | **1,564** | **3,579** |
+| M08 | 190 | 418 |
+| M09 | 170 | 374 |
+| **TOTAL** | **1,924** | **4,371** |
 
 Latest final M5 compiler validation reported:
 
@@ -220,7 +222,7 @@ This order is now canonical for production.
 
 Current lock:
 
-**R01→R38 / complete-module baseline M01→M08 = 1,754 runtime-validated logical nodes and 3,997 meaningful choices; no R39 requirement.**
+**R01→R38 / complete-module baseline M01→M09 = 1,924 runtime-validated logical nodes and 4,371 meaningful choices; no R39 requirement.**
 
 ---
 
@@ -252,7 +254,7 @@ Validation evidence:
 - `validate:story`: PASS;
 - full test suite: **1,216 passed / 0 failed / 0 skipped**.
 
-Do **not** advance the completed Library V2 baseline to M01→M09 until the remaining M09 production blocks are implemented and validated.
+Cycle 1 was later superseded by the complete M09 validation recorded below.
 
 ---
 
@@ -282,5 +284,46 @@ Validation evidence:
 - `validate:story`: PASS;
 - full test suite: **1,230 passed / 0 failed / 0 skipped**.
 
-Do **not** advance the completed Library V2 baseline to M01→M09 until M9_10 is implemented and the full M09 exit contract is validated.
+Cycle 2 was later superseded by the complete M09 validation recorded below.
+
+---
+
+## M09 FINAL RUNTIME VALIDATION EVIDENCE — 2026-10-06
+
+M09 — *Tre Partite per Restare* is now **COMPLETE** at **170 logical nodes / 374 meaningful choices**.
+
+Final evidence:
+
+- all eleven M9 blocks M9_00→M9_10 are implemented;
+- exact module budget: **170 / 374**;
+- all M9 authored nodes are reachable from the real module entry;
+- no zero-incoming padding islands remain;
+- M9_04 reconnects directly into FRIEND_BEAT_09;
+- M9_08 closes through `resolution_complete` before entering either terminal route;
+- advanced and eliminated routes are both reachable from the same structured E5 resolution;
+- WORLD_GROUPS consumes exactly three immutable draw opponents;
+- all eight groups resolve through E5 with six matches per group;
+- exactly 16 participants are locked into the Top16;
+- final player position and `world_group_advanced` are derived from E5, not narrative flags;
+- FRIEND_BEAT_09 is driven by real World qualification/group/schedule state;
+- advanced route preserves Top16 and intentionally leaves R16 pairing to M10_00;
+- eliminated route unlocks M12/WORLD_EXIT and never M10;
+- advanced route unlocks M10 and never M12;
+- HP, PP, status, injury, roster, inventory and existing competition history persist across the module boundary;
+- save/reload is covered for both World-group progression and final exit state;
+- Library V2 R01→R38 remains sufficient;
+- **no R39 candidate is justified**.
+
+Final validation:
+
+- branch: `m9-00-04-work`;
+- validated content HEAD: `b9cca7a6bb0baf38c9ff65c27ad37f7180554a5e`;
+- GitHub Actions Bookgame Tests run **#367**;
+- syntax: PASS;
+- `validate:story`: PASS;
+- tests: **1,239 passed / 0 failed / 0 skipped**.
+
+The completed Library V2 corpus is now:
+
+**M01→M09 = 1,924 runtime-validated logical nodes / 4,371 meaningful choices.**
 
