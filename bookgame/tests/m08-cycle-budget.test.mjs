@@ -190,3 +190,76 @@ test("M8_05-M8_09 authored nodes are reachable and have no zero-incoming padding
   assert.deepEqual([...keys].filter(k=>!visited.has(k)),[]);
   assert.deepEqual(Object.entries(incoming).filter(([,v])=>v===0).map(([k])=>k),[]);
 });
+
+
+const cycle3=[
+  ["m08-world-draw",18,40],
+  ["m08-group-reveal",14,31]
+];
+
+test("M8_10-M8_11 logical production budget is locked at 32 nodes / 71 meaningful choices",async()=>{
+  let nodes=0,choices=0;
+  for(const [rel,n,c] of cycle3){
+    const scene=JSON.parse(await readFile(fileURLToPath(new URL("../content/scenes/"+rel+".json",import.meta.url)),"utf8"));
+    const actualNodes=Object.keys(scene.nodes).length;
+    const actualChoices=Object.values(scene.nodes).reduce((sum,node)=>sum+(node.choices?.length??0),0);
+    assert.equal(actualNodes,n,rel+" node budget");
+    assert.equal(actualChoices,c,rel+" choice budget");
+    nodes+=actualNodes;choices+=actualChoices;
+  }
+  assert.equal(nodes,32);
+  assert.equal(choices,71);
+});
+
+test("M8 complete logical surface is exactly 190 nodes / 418 meaningful choices",async()=>{
+  const all=[...expected,...cycle2,...cycle3];
+  let nodes=0,choices=0;
+  for(const [rel] of all){
+    const scene=JSON.parse(await readFile(fileURLToPath(new URL("../content/scenes/"+rel+".json",import.meta.url)),"utf8"));
+    nodes+=Object.keys(scene.nodes).length;
+    choices+=Object.values(scene.nodes).reduce((sum,node)=>sum+(node.choices?.length??0),0);
+  }
+  assert.equal(nodes,190);
+  assert.equal(choices,418);
+});
+
+test("M8_10-M8_11 authored nodes are reachable and have no zero-incoming padding",async()=>{
+  const scenes={};
+  for(const [rel] of cycle3){
+    scenes[rel]=JSON.parse(await readFile(fileURLToPath(new URL("../content/scenes/"+rel+".json",import.meta.url)),"utf8"));
+  }
+  const keys=new Set();
+  for(const [sceneId,scene] of Object.entries(scenes)){
+    for(const nodeId of Object.keys(scene.nodes)) keys.add(sceneId+"#"+nodeId);
+  }
+  const incoming=Object.fromEntries([...keys].map(k=>[k,0]));
+  const edges=new Map([...keys].map(k=>[k,[]]));
+  for(const [sceneId,scene] of Object.entries(scenes)) incoming[sceneId+"#"+scene.entryNodeId]+=1;
+  const add=(raw,currentScene,from)=>{
+    if(typeof raw!=="string") return;
+    const parts=raw.includes("#")?raw.split("#"):[currentScene,raw];
+    const target=parts[0]+"#"+parts[1];
+    if(keys.has(target)){incoming[target]+=1;edges.get(from).push(target);}
+  };
+  for(const [sceneId,scene] of Object.entries(scenes)){
+    for(const [nodeId,node] of Object.entries(scene.nodes)){
+      const from=sceneId+"#"+nodeId;
+      for(const choice of node.choices??[]){
+        add(choice.goto,sceneId,from);
+        if(choice.check){add(choice.outcomes?.success?.goto,sceneId,from);add(choice.outcomes?.failure?.goto,sceneId,from);}
+        if(choice.combat){add(choice.combat.goto,sceneId,from);for(const target of Object.values(choice.combat.returnNodes??{})) add(target,sceneId,from);}
+        if(choice.ecology){for(const target of Object.values(choice.ecology.returnNodes??{})) add(target,sceneId,from);}
+      }
+    }
+  }
+  const queue=Object.entries(scenes).map(([sceneId,scene])=>sceneId+"#"+scene.entryNodeId);
+  const visited=new Set(queue);
+  while(queue.length){
+    const current=queue.shift();
+    for(const target of edges.get(current)??[]){
+      if(!visited.has(target)){visited.add(target);queue.push(target);}
+    }
+  }
+  assert.deepEqual([...keys].filter(k=>!visited.has(k)),[]);
+  assert.deepEqual(Object.entries(incoming).filter(([,v])=>v===0).map(([k])=>k),[]);
+});
