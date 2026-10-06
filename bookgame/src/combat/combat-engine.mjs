@@ -1284,7 +1284,9 @@ function endTurnInternal(battle, side, dice) {
   combatant.turn.actionAvailable = true;
   combatant.turn.bonusActionAvailable = true;
   combatant.turn.disengaged = false;
-  combatant.turn.movementRemaining = movementSpeed(combatant, next.round).value;
+  combatant.turn.movementSpent = 0;
+  combatant.movementMode ??= baseMovementSpeed(combatant).type;
+  combatant.turn.movementRemaining = movementSpeedForType(combatant, combatant.movementMode, next.round).value;
   advanceTurnIndex(next);
   return next;
 }
@@ -1852,6 +1854,9 @@ export class Pokemon5eCombatEngine {
       pendingMoveLearning: clone(descriptor.pendingMoveLearning ?? []),
       pendingMoveChoices: clone(descriptor.pendingMoveChoices ?? []),
       pendingAsiChoices: clone(descriptor.pendingAsiChoices ?? []),
+      pendingLevelUp: clone(descriptor.pendingLevelUp ?? null),
+      declinedEvolutionAtLevel: descriptor.declinedEvolutionAtLevel ?? null,
+      movementMode: descriptor.movementMode ?? null,
       abilityId,
       ability,
       heldItemId: descriptor.heldItemId ?? descriptor.heldItem?.id ?? null,
@@ -1897,14 +1902,17 @@ export class Pokemon5eCombatEngine {
         actionAvailable: true,
         bonusActionAvailable: true,
         disengaged: false,
-        movementRemaining: 0
+        movementRemaining: 0,
+        movementSpent: 0
       },
       moveIds,
       maxPp,
       pp
     };
 
-    combatant.turn.movementRemaining = movementSpeed(combatant).value;
+    combatant.movementMode ??= baseMovementSpeed(combatant).type;
+    combatant.turn.movementRemaining = movementSpeedForType(combatant, combatant.movementMode).value;
+    combatant.turn.movementSpent = 0;
     return combatant;
   }
 
@@ -2043,7 +2051,9 @@ export class Pokemon5eCombatEngine {
     combatant.turn.bonusActionAvailable = true;
     combatant.turn.disengaged = false;
     combatant.turn.zoneExposureIds = [];
-    combatant.turn.movementRemaining = movementSpeed(combatant, next.round).value;
+    combatant.movementMode ??= baseMovementSpeed(combatant).type;
+    combatant.turn.movementSpent = 0;
+    combatant.turn.movementRemaining = movementSpeedForType(combatant, combatant.movementMode, next.round).value;
     combatant.reactionAvailable = !reactionsDisabled(combatant);
 
     if (side === "player") {
