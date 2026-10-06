@@ -48,7 +48,12 @@ const SAVE_EFFECT_MOVES = new Set([
   "leer",
   "tail-whip",
   "sand-attack",
-  "hypnosis"
+  "hypnosis",
+  "charm",
+  "fake-tears",
+  "metal-sound",
+  "screech",
+  "tearful-look"
 ]);
 
 const AREA_MOVES = new Set([
@@ -92,6 +97,16 @@ function activeModifier(sources, round) {
 
 function addCappedModifier(sources, { source, value, expiresRound }, round, min, max) {
   const current = activeModifier(sources, round);
+  const desired = Math.max(min, Math.min(max, current + value));
+  const actual = desired - current;
+  if (actual === 0) return 0;
+  sources.push({ source, value: actual, expiresRound });
+  return actual;
+}
+
+function addSourceCappedModifier(sources, { source, value, expiresRound }, round, min, max) {
+  const ownSources = sources.filter((entry) => entry.source === source);
+  const current = activeModifier(ownSources, round);
   const desired = Math.max(min, Math.min(max, current + value));
   const actual = desired - current;
   if (actual === 0) return 0;
@@ -250,6 +265,8 @@ function isSaveHpEffectMove(move) {
 }
 
 const STATUS_CURE_MOVES = new Set([
+  "aromatherapy",
+  "heal-bell",
   "purify",
   "refresh"
 ]);
@@ -622,6 +639,51 @@ function applySaveEffect(battle, side, move, saveResult) {
 
   if (move.id === "hypnosis") {
     return { effect: "status", statusResult: applyStatus(target, "Asleep") };
+  }
+
+  if (move.id === "charm") {
+    const penalty = -(tieredCombatBonus(battle[side].level) + 1);
+    const value = addSourceCappedModifier(
+      target.effects.attackModifierSources,
+      { source: "charm", value: penalty, expiresRound: battle.round + 10 },
+      battle.round,
+      -5,
+      0
+    );
+    return { effect: "attack_modifier", value };
+  }
+
+  if (move.id === "fake-tears" || move.id === "metal-sound") {
+    target.effects.incomingAttackBonusSources = target.effects.incomingAttackBonusSources
+      .filter((entry) => entry.source !== move.id);
+    target.effects.incomingAttackBonusSources.push({
+      source: move.id,
+      value: 5,
+      expiresRound: battle.round + 2
+    });
+    return { effect: "incoming_attack_bonus", value: 5 };
+  }
+
+  if (move.id === "screech") {
+    const value = addSourceCappedModifier(
+      target.effects.incomingAttackBonusSources,
+      { source: "screech", value: 1, expiresRound: battle.round + 10 },
+      battle.round,
+      0,
+      3
+    );
+    return { effect: "incoming_attack_bonus", value };
+  }
+
+  if (move.id === "tearful-look") {
+    const value = addSourceCappedModifier(
+      target.effects.attackModifierSources,
+      { source: "tearful-look", value: -1, expiresRound: battle.round + 10 },
+      battle.round,
+      -5,
+      0
+    );
+    return { effect: "attack_modifier", value };
   }
 
   throw new Error(`No save effect handler for ${move.id}`);
@@ -1227,7 +1289,7 @@ export class Pokemon5eCombatEngine {
       for (const status of ["Poisoned", "BadlyPoisoned", "Paralysis", "Burned"]) {
         if (clearStatus(target, status)) curedStatuses.push(status);
       }
-    } else if (move.id === "purify") {
+    } else if (move.id === "purify" || ["aromatherapy", "heal-bell"].includes(move.id)) {
       for (const status of STATUS_IDS) {
         if (clearStatus(target, status)) curedStatuses.push(status);
       }
@@ -1408,7 +1470,7 @@ export class Pokemon5eCombatEngine {
       const value = Number(rule[name] ?? 0);
       if (!value) continue;
       if (rule.stackCap && (name === "attack" || name === "damage")) {
-        applied[name] = addCappedModifier(
+        applied[name] = addSourceCappedModifier(
           combatant.effects[key],
           { source: move.id, value, expiresRound },
           next.round,
@@ -1609,8 +1671,8 @@ export class Pokemon5eCombatEngine {
     const healTargetSide = isImmediateHealingMove(move)
       ? healingTargetSide(move, side, requestedTargetSide)
       : null;
-    const cureTargetSide = isStatusCureMove(move) && move.id === "purify"
-      ? otherSide(side)
+    const cureTargetSide = isStatusCureMove(move)
+      ? (move.id === "purify" ? otherSide(side) : side)
       : null;
     const rangeTarget = healTargetSide
       ? next[healTargetSide]

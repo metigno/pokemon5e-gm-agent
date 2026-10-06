@@ -101,7 +101,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
   const moves = await data.listMoves();
   const unresolved = moves.filter((move) => !isMoveResolvable(move)).map((move) => move.id);
 
-  assert.ok(unresolved.length <= 221, `unresolved move rules regressed to ${unresolved.length}`);
+  assert.ok(unresolved.length <= 214, `unresolved move rules regressed to ${unresolved.length}`);
   assert.ok(unresolved.includes("acupressure"));
   for (const id of [
     "agility",
@@ -112,6 +112,13 @@ test("move execution coverage has an explicit non-regression gate", async () => 
     "hone-claws",
     "minimize",
     "rock-polish",
+    "aromatherapy",
+    "heal-bell",
+    "charm",
+    "fake-tears",
+    "metal-sound",
+    "screech",
+    "tearful-look",
     "heal-pulse",
     "recover"
   ]) {
@@ -164,6 +171,43 @@ test("common self-buff moves execute level scaling, AC, damage, speed and concen
   speedBattle = await speedCombat.usePlayerMove(speedBattle, "agility");
   assert.equal(speedBattle.player.effects.speedModifierSources.at(-1).value, 20);
   assert.equal(speedBattle.player.turn.movementRemaining, baseMovement + 20);
+});
+
+
+test("save debuffs and allied status cures execute their 2024 effects", async () => {
+  const debuffCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 1])
+  });
+  let debuffBattle = await debuffCombat.createBattle({
+    encounterId: "FULL_RUNTIME_CHARM",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["charm"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+  debuffBattle = await debuffCombat.usePlayerMove(debuffBattle, "charm");
+  assert.equal(debuffBattle.opponent.effects.attackModifierSources.at(-1).source, "charm");
+  assert.equal(debuffBattle.opponent.effects.attackModifierSources.at(-1).value, -3);
+
+  const cureCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1])
+  });
+  let cureBattle = await cureCombat.createBattle({
+    encounterId: "FULL_RUNTIME_AROMATHERAPY",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["aromatherapy"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 50, y: 0 }
+  });
+  applyStatus(cureBattle.player, "Poisoned");
+  applyStatus(cureBattle.player, "Confused");
+  cureBattle = await cureCombat.usePlayerMove(cureBattle, "aromatherapy");
+  assert.equal(cureBattle.player.statuses.nonVolatile, null);
+  assert.equal(cureBattle.player.statuses.confusedRounds, 0);
+  assert.deepEqual(
+    cureBattle.log.find((event) => event.type === "status_cure_move").curedStatuses.sort(),
+    ["Confused", "Poisoned"]
+  );
 });
 
 test("regional-form lookup resolves real upstream species ids", async () => {
