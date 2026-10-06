@@ -37,7 +37,7 @@ function applyEffects(state, effects = []) {
       applyNpcEffect(state, effect);
       continue;
     }
-    if (["competition_trial_available", "competition_trial_register"].includes(effect.type)) {
+    if (["competition_trial_available", "competition_trial_register", "competition_world_draw"].includes(effect.type)) {
       applyCompetitionEffect(state, effect);
       continue;
     }
@@ -69,11 +69,44 @@ function applyTarget(state, target, currentSceneId) {
   return parsed;
 }
 
-function nodeText(node) {
-  if (Array.isArray(node.stitches)) {
-    return node.stitches.map((stitch) => stitch.text).join("\n\n");
+function readStoryTemplatePath(state, path) {
+  const segments = path.split(".");
+  if (segments.some((segment) => ["__proto__", "prototype", "constructor"].includes(segment))) return undefined;
+  if (segments[0] !== "competition") return undefined;
+  let current = state;
+  for (const segment of segments) {
+    if (current === null || current === undefined) return undefined;
+    if (Array.isArray(current) && /^\\d+$/.test(segment)) {
+      current = current[Number(segment)];
+      continue;
+    }
+    if (typeof current !== "object") return undefined;
+    current = current[segment];
   }
-  return node.text;
+  return current;
+}
+
+function interpolateStoryText(text, state) {
+  if (typeof text !== "string") return text;
+  return text.replace(/\\{\\{([A-Za-z0-9_.]+)\\}\\}/g, (_match, path) => {
+    const value = readStoryTemplatePath(state, path);
+    return value === undefined || value === null ? "?" : String(value);
+  });
+}
+
+function renderedStitches(node, state) {
+  if (!Array.isArray(node.stitches)) return null;
+  return node.stitches.map((stitch) => ({
+    ...clone(stitch),
+    text: interpolateStoryText(stitch.text, state)
+  }));
+}
+
+function nodeText(node, state) {
+  if (Array.isArray(node.stitches)) {
+    return renderedStitches(node, state).map((stitch) => stitch.text).join("\n\n");
+  }
+  return interpolateStoryText(node.text, state);
 }
 
 function getCheckModifier(state, check) {
@@ -136,8 +169,8 @@ export class BookgameEngine {
       sceneTitle: scene.title,
       moduleId: scene.moduleId ?? null,
       nodeId: state.story.nodeId,
-      text: nodeText(node),
-      stitches: clone(node.stitches ?? null),
+      text: nodeText(node, state),
+      stitches: renderedStitches(node, state),
       choices: clone(visibleChoices),
       worldTime: getWorldTimeView(state.world),
       questJournal: getQuestJournal(state),
