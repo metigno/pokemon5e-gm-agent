@@ -1,0 +1,751 @@
+{
+  "schemaVersion": 1,
+  "id": "m04-mareasale-arrival",
+  "moduleId": "M04",
+  "title": "M4_01 — Mareasale",
+  "locationId": "mar_city",
+  "entryNodeId": "port_approach",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m3_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m04_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m4_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "C"
+      }
+    ]
+  },
+  "shops": {
+    "mareasale_supply": {
+      "refreshEveryDays": 3,
+      "stock": {
+        "poke-ball": 8,
+        "potion": 5,
+        "antidote": 5
+      }
+    }
+  },
+  "nodes": {
+    "port_approach": {
+      "stitches": [
+        {
+          "id": "approach_1",
+          "text": "Mareasale appare prima come odore che come skyline: sale, cordame bagnato e carburante da servizio. Poi la strada scende e il porto riempie l'orizzonte con moli, gru basse, pescherecci, traghetti e navi merci."
+        },
+        {
+          "id": "approach_2",
+          "text": "MAR-CITY è un hub Rank C costruito intorno al traffico marittimo. Il Circuito è visibile ma non dominante: l'Arena del Molo occupa una banchina riadattata, mentre orari, vento e carichi decidono il ritmo della città."
+        },
+        {
+          "id": "approach_3",
+          "text": "Il tuo arrivo non ferma niente. Una sirena segnala una partenza, un rimorchiatore gira nel bacino e un addetto sposta un pannello meteo prima ancora che tu raggiunga il primo incrocio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "enter_mareasale",
+          "text": "Entro nel porto e registro Mareasale come hub.",
+          "timeCostMinutes": 10,
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mareasale_discovered",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        },
+        {
+          "id": "check_harbor_board",
+          "text": "Prima controllo il tabellone degli arrivi, partenze e avvisi.",
+          "timeCostMinutes": 10,
+          "goto": "harbor_board"
+        },
+        {
+          "id": "return_ferravia",
+          "text": "Non entro ancora: torno verso Ferravia.",
+          "timeCostMinutes": 240,
+          "goto": "m03-ferravia-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        }
+      ]
+    },
+    "harbor_board": {
+      "stitches": [
+        {
+          "id": "board_1",
+          "text": "Il tabellone separa tre categorie: traffico merci, servizi costieri e partenze autorizzate verso la barriera. Alcune righe mostrano ritardi legati al vento; altre richiedono conferma dall'ufficio meteo."
+        },
+        {
+          "id": "board_2",
+          "text": "Un pannello del Circuito indica Arena del Molo, registrazione upper-regional quando disponibile e Promotion Trial C→B su finestra separata. Leggere il pannello non iscrive a nulla."
+        }
+      ],
+      "choices": [
+        {
+          "id": "board_note_weather",
+          "text": "Segno che le partenze costiere dipendono dal meteo.",
+          "goto": "port_approach",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mareasale_departure_weather_noted",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "board_enter",
+          "text": "Entro in città con il quadro degli orari.",
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mareasale_discovered",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        }
+      ]
+    },
+    "city_hub": {
+      "stitches": [
+        {
+          "id": "hub_1",
+          "text": "Il cuore di Mareasale è una piazza allungata fra magazzini e acqua. Da qui raggiungi banchine, ufficio meteo, Arena del Molo, mercato portuale e una casa di riposo per trainer."
+        },
+        {
+          "id": "hub_2",
+          "text": "Il porto non è un menu statico: alcune partenze esistono soltanto in finestre compatibili con vento e visibilità. Gli addetti consultano continuamente pannelli e radio."
+        },
+        {
+          "id": "hub_3",
+          "text": "Più lontano, la Costa di Sale corre verso sud-ovest. La Barriera Azzurra non è una destinazione pedonale: richiederà accesso marittimo e condizioni adatte."
+        }
+      ],
+      "choices": [
+        {
+          "id": "hub_dock_office",
+          "text": "Vado all'ufficio del porto e chiedo come funzionano le rotte.",
+          "timeCostMinutes": 10,
+          "goto": "dock_office",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city_dock_office"
+            }
+          ]
+        },
+        {
+          "id": "hub_weather",
+          "text": "Vado all'ufficio meteo per controllare la finestra di viaggio.",
+          "timeCostMinutes": 5,
+          "goto": "m04-weather-window#weather_board",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city_weather"
+            }
+          ]
+        },
+        {
+          "id": "hub_arena",
+          "text": "Visito l'Arena del Molo.",
+          "timeCostMinutes": 10,
+          "goto": "arena_lobby",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city_arena"
+            }
+          ]
+        },
+        {
+          "id": "hub_market",
+          "text": "Passo dal mercato portuale.",
+          "timeCostMinutes": 5,
+          "goto": "port_market",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city_market"
+            }
+          ]
+        },
+        {
+          "id": "hub_rest",
+          "text": "Entro nella casa di riposo del Circuito.",
+          "timeCostMinutes": 5,
+          "goto": "rest_house",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city_rest"
+            }
+          ]
+        },
+        {
+          "id": "hub_overlook",
+          "text": "Salgo sul belvedere della diga per leggere il porto dall'alto.",
+          "timeCostMinutes": 15,
+          "goto": "overlook"
+        },
+        {
+          "id": "hub_quay_walk",
+          "text": "Cammino lungo le banchine pubbliche e osservo il lavoro.",
+          "timeCostMinutes": 20,
+          "goto": "quay_walk"
+        },
+        {
+          "id": "hub_port_pressure",
+          "text": "Voglio capire perché i ritardi stanno accumulando pressione sul porto.",
+          "conditions": {
+            "any": [
+              {
+                "path": "world.flags.mareasale_dock_routes_known",
+                "eq": true
+              },
+              {
+                "path": "world.flags.mareasale_quay_observed",
+                "eq": true
+              },
+              {
+                "path": "world.flags.mareasale_departure_weather_noted",
+                "eq": true
+              }
+            ]
+          },
+          "goto": "m04-port-pressure#pressure_board",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city_cargo"
+            }
+          ]
+        },
+        {
+          "id": "hub_back_ferravia",
+          "text": "Torno a Ferravia.",
+          "timeCostMinutes": 240,
+          "goto": "m03-ferravia-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        }
+      ]
+    },
+    "dock_office": {
+      "stitches": [
+        {
+          "id": "dock_1",
+          "text": "L'ufficio del porto lavora come una sala operativa civile: mappe delle rotte, fasce di marea, radio e una parete di permessi. Un impiegato distingue subito servizi pubblici, merci e accessi alla barriera."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ask_routes",
+          "text": "Chiedo quali rotte sono disponibili a un Rank C.",
+          "goto": "dock_routes"
+        },
+        {
+          "id": "ask_weather_dependency",
+          "text": "Chiedo quanto il meteo può cambiare una partenza già annunciata.",
+          "goto": "dock_weather"
+        },
+        {
+          "id": "dock_back",
+          "text": "Torno nella piazza del porto.",
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        }
+      ]
+    },
+    "dock_routes": {
+      "stitches": [
+        {
+          "id": "routes_1",
+          "text": "«Costa di Sale via strada e piccoli servizi costieri. Barriera Azzurra solo con partenza autorizzata e finestra marina compatibile. Nessuno sale perché 'ha il Rank giusto' se il mare non permette di uscire.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "routes_record",
+          "text": "Registro la differenza fra accesso di Rank e accesso operativo.",
+          "goto": "dock_office",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mareasale_dock_routes_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "routes_weather",
+          "text": "Allora vado direttamente all'ufficio meteo.",
+          "goto": "m04-weather-window#weather_board",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mareasale_dock_routes_known",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "mar_city_weather"
+            }
+          ]
+        }
+      ]
+    },
+    "dock_weather": {
+      "stitches": [
+        {
+          "id": "dock_weather_1",
+          "text": "«Un orario è una previsione logistica, non un diritto alla partenza. Se vento, onda o visibilità superano il margine del mezzo, si aspetta.» L'impiegato indica il pannello meteo come unica fonte operativa aggiornata."
+        }
+      ],
+      "choices": [
+        {
+          "id": "dock_weather_note",
+          "text": "Prendo nota e torno all'ufficio.",
+          "goto": "dock_office",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mareasale_weather_dependency_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "dock_weather_go",
+          "text": "Vado a leggere il pannello meteo.",
+          "goto": "m04-weather-window#weather_board",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mareasale_weather_dependency_known",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "mar_city_weather"
+            }
+          ]
+        }
+      ]
+    },
+    "arena_lobby": {
+      "stitches": [
+        {
+          "id": "arena_1",
+          "text": "L'Arena del Molo usa una vecchia piattaforma merci coperta. Il campo è regolamentare, ma intorno senti funi, vento e metallo: il porto continua a lavorare durante i match."
+        },
+        {
+          "id": "arena_2",
+          "text": "Due sportelli sono distinti: upper-regional e Promotion Trial C→B. Nessuno dei due è attivato da questa visita."
+        }
+      ],
+      "choices": [
+        {
+          "id": "arena_rules",
+          "text": "Chiedo il formato generale del Trial C→B.",
+          "goto": "arena_rules"
+        },
+        {
+          "id": "arena_upper",
+          "text": "Chiedo come funzionerà l'upper-regional quando la finestra sarà aperta.",
+          "goto": "arena_upper"
+        },
+        {
+          "id": "arena_back",
+          "text": "Torno nel porto.",
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        }
+      ]
+    },
+    "arena_rules": {
+      "stitches": [
+        {
+          "id": "arena_rules_1",
+          "text": "Il gate C→B usa Singles e quattro Pokémon ufficiali. La sfida valuta resource management e adattamento. Il banco non registra ancora nulla: questa è soltanto informazione pubblica."
+        }
+      ],
+      "choices": [
+        {
+          "id": "arena_rules_note",
+          "text": "Registro il formato per prepararmi più avanti.",
+          "goto": "arena_lobby",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mareasale_trial_rules_known",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "arena_upper": {
+      "stitches": [
+        {
+          "id": "arena_upper_1",
+          "text": "L'upper-regional è una competizione separata dal gate. Può dare punti, premi e seeding, ma non apre Rank B e non sostituisce una vittoria al Trial."
+        }
+      ],
+      "choices": [
+        {
+          "id": "arena_upper_note",
+          "text": "Registro la separazione fra bracket e promozione.",
+          "goto": "arena_lobby",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mareasale_upper_regional_rules_known",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "port_market": {
+      "stitches": [
+        {
+          "id": "market_1",
+          "text": "Il mercato vende cibo, cordame, ricambi e consumabili comuni. Per il tuo inventario il banco utile è un piccolo rivenditore Circuito con stock finito e refresh ogni tre giorni."
+        }
+      ],
+      "choices": [
+        {
+          "id": "market_shop",
+          "text": "Controllo il banco di consumabili.",
+          "goto": "supply_shop"
+        },
+        {
+          "id": "market_notice",
+          "text": "Leggo gli avvisi per marinai e lavoratori.",
+          "goto": "supply_notice"
+        },
+        {
+          "id": "market_back",
+          "text": "Torno nel porto.",
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        }
+      ]
+    },
+    "supply_shop": {
+      "stitches": [
+        {
+          "id": "shop_1",
+          "text": "Il banco usa denaro e inventario persistenti. Nessun credito, nessun acquisto narrativo finto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "buy_poke_ball",
+          "text": "Compro una Poké Ball — ₽250.",
+          "conditions": {
+            "all": [
+              {
+                "path": "player.money",
+                "gte": 250
+              },
+              {
+                "path": "shops.mareasale_supply.stock.poke-ball",
+                "gte": 1
+              }
+            ]
+          },
+          "goto": "supply_shop",
+          "effects": [
+            {
+              "type": "purchase_item",
+              "shopId": "mareasale_supply",
+              "itemId": "poke-ball",
+              "cost": 250,
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "id": "buy_potion",
+          "text": "Compro una Potion — ₽200.",
+          "conditions": {
+            "all": [
+              {
+                "path": "player.money",
+                "gte": 200
+              },
+              {
+                "path": "shops.mareasale_supply.stock.potion",
+                "gte": 1
+              }
+            ]
+          },
+          "goto": "supply_shop",
+          "effects": [
+            {
+              "type": "purchase_item",
+              "shopId": "mareasale_supply",
+              "itemId": "potion",
+              "cost": 200,
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "id": "buy_antidote",
+          "text": "Compro un Antidote — ₽200.",
+          "conditions": {
+            "all": [
+              {
+                "path": "player.money",
+                "gte": 200
+              },
+              {
+                "path": "shops.mareasale_supply.stock.antidote",
+                "gte": 1
+              }
+            ]
+          },
+          "goto": "supply_shop",
+          "effects": [
+            {
+              "type": "purchase_item",
+              "shopId": "mareasale_supply",
+              "itemId": "antidote",
+              "cost": 200,
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "id": "shop_back",
+          "text": "Torno al mercato.",
+          "goto": "port_market"
+        }
+      ]
+    },
+    "supply_notice": {
+      "stitches": [
+        {
+          "id": "notice_1",
+          "text": "Gli avvisi parlano di mare mosso, turni portuali pieni e controlli documentali intensificati sui carichi notturni. Nessuno usa ancora la parola contrabbando."
+        }
+      ],
+      "choices": [
+        {
+          "id": "notice_record",
+          "text": "Registro che i controlli sui carichi sono aumentati.",
+          "goto": "port_market",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mareasale_cargo_controls_noted",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "notice_pressure",
+          "text": "Voglio capire meglio la pressione sui moli.",
+          "goto": "m04-port-pressure#pressure_board",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mareasale_cargo_controls_noted",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "mar_city_cargo"
+            }
+          ]
+        }
+      ]
+    },
+    "rest_house": {
+      "stitches": [
+        {
+          "id": "rest_1",
+          "text": "La casa di riposo offre panche, acqua e spazio tranquillo. Non applica cure Pokémon 5e invisibili: fermarsi qui fa passare tempo, non resetta HP, PP o condizioni."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rest_hour",
+          "text": "Mi fermo un'ora senza guarigione automatica.",
+          "timeCostMinutes": 60,
+          "goto": "rest_done",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mareasale_rest_used",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "rest_back",
+          "text": "Esco senza fermarmi.",
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        }
+      ]
+    },
+    "rest_done": {
+      "stitches": [
+        {
+          "id": "rest_done_1",
+          "text": "Passa un'ora mentre partenze, quest, stock e schedule continuano a essere processati dal mondo. La squadra resta nello stato meccanico reale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rest_done_back",
+          "text": "Torno nel porto.",
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        }
+      ]
+    },
+    "overlook": {
+      "stitches": [
+        {
+          "id": "overlook_1",
+          "text": "Dalla diga vedi quanto Mareasale dipenda da sincronizzazione: navi che aspettano spazio, gru ferme finché un camion non libera la corsia, piccoli mezzi costieri che leggono il vento prima di uscire."
+        }
+      ],
+      "choices": [
+        {
+          "id": "overlook_note",
+          "text": "Registro il porto come sistema di vincoli, non come sfondo.",
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mareasale_port_system_observed",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        },
+        {
+          "id": "overlook_weather",
+          "text": "Vado all'ufficio meteo con questa lettura.",
+          "goto": "m04-weather-window#weather_board",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mareasale_port_system_observed",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "mar_city_weather"
+            }
+          ]
+        }
+      ]
+    },
+    "quay_walk": {
+      "stitches": [
+        {
+          "id": "quay_1",
+          "text": "Sul molo pubblico non puoi entrare nelle aree doganali, ma puoi osservare turni, carrelli, sigilli e attese. Alcuni container cambiano banchina due volte prima di essere caricati: non è necessariamente sospetto, è logistica sotto pressione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "quay_record",
+          "text": "Registro ciò che vedo senza trasformarlo subito in accusa.",
+          "goto": "city_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mareasale_quay_observed",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        },
+        {
+          "id": "quay_pressure",
+          "text": "Seguo il flusso verso la zona merci pubblica.",
+          "goto": "m04-port-pressure#pressure_board",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "mareasale_quay_observed",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "mar_city_cargo"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
