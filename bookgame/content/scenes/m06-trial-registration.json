@@ -1,0 +1,493 @@
+{
+  "schemaVersion": 1,
+  "id": "m06-trial-registration",
+  "moduleId": "M06",
+  "title": "M6_11 — Trial Registration A→S",
+  "locationId": "far_ruins_gate",
+  "entryNodeId": "trial_info",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m5_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m06_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m6_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "A"
+      },
+      {
+        "path": "world.flags.m6_first_lighthouse_return_complete",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "trial_info": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Gate del Faro gestisce RANK_A_TO_S come checkpoint E5 separato da Masters, Continental Cup e World Cutoff. Il formato canonico è Singles con Official Six."
+        }
+      ],
+      "choices": [
+        {
+          "id": "info_audit",
+          "text": "Verifico eligibility e stato E5.",
+          "goto": "eligibility_audit"
+        },
+        {
+          "id": "info_examiner",
+          "text": "Leggo il profilo pubblico dell'esaminatore.",
+          "goto": "examiner_review"
+        },
+        {
+          "id": "info_identity",
+          "text": "Rivedo cosa valuta questo Gate.",
+          "goto": "master_identity"
+        },
+        {
+          "id": "info_defer",
+          "text": "Rimando senza consumare la finestra.",
+          "goto": "postponed"
+        }
+      ]
+    },
+    "eligibility_audit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'idoneità richiede Rank A reale, checkpoint disponibile e almeno sei Pokémon nel roster al momento della registrazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "audit_sync",
+          "text": "Sincronizzo RANK_A_TO_S con E5.",
+          "goto": "trial_desk",
+          "conditions": {
+            "path": "competition.trials.RANK_A_TO_S.available",
+            "ne": true
+          },
+          "effects": [
+            {
+              "type": "competition_trial_available",
+              "checkpointId": "RANK_A_TO_S",
+              "fromRank": "A",
+              "toRank": "S",
+              "requiredRosterSize": 6,
+              "retryable": true
+            }
+          ]
+        },
+        {
+          "id": "audit_ready",
+          "text": "Il checkpoint E5 è già disponibile.",
+          "goto": "trial_desk",
+          "conditions": {
+            "path": "competition.trials.RANK_A_TO_S.available",
+            "eq": true
+          }
+        },
+        {
+          "id": "audit_rank",
+          "text": "Rivedo perché nessun risultato Masters/Cup può sostituire il Gate.",
+          "goto": "rank_gate_review"
+        }
+      ]
+    },
+    "trial_desk": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il desk legge il roster reale e lo stato E5. Non cura, non clona una squadra e non usa i punti come scorciatoia."
+        }
+      ],
+      "choices": [
+        {
+          "id": "desk_register",
+          "text": "Registro l'Official Six per A→S.",
+          "goto": "registered",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.trials.RANK_A_TO_S.available",
+                "eq": true
+              },
+              {
+                "path": "competition.trials.RANK_A_TO_S.registered",
+                "ne": true
+              },
+              {
+                "path": "player.roster.length",
+                "gte": 6
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "competition_trial_register",
+              "checkpointId": "RANK_A_TO_S"
+            }
+          ]
+        },
+        {
+          "id": "desk_roster",
+          "text": "Controllo il requisito dei sei Pokémon.",
+          "goto": "roster_review"
+        },
+        {
+          "id": "desk_examiner",
+          "text": "Rivedo l'esaminatore fisso del Gate.",
+          "goto": "examiner_review"
+        },
+        {
+          "id": "desk_strategy",
+          "text": "Rivedo il tema dell'esame Master completo.",
+          "goto": "master_identity"
+        }
+      ]
+    },
+    "roster_review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Trial richiede almeno sei Pokémon nel roster. Questo controllo non riordina, cura o modifica alcun membro."
+        }
+      ],
+      "choices": [
+        {
+          "id": "roster_register",
+          "text": "Ho sei Pokémon: registro.",
+          "goto": "registered",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.trials.RANK_A_TO_S.available",
+                "eq": true
+              },
+              {
+                "path": "competition.trials.RANK_A_TO_S.registered",
+                "ne": true
+              },
+              {
+                "path": "player.roster.length",
+                "gte": 6
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "competition_trial_register",
+              "checkpointId": "RANK_A_TO_S"
+            }
+          ]
+        },
+        {
+          "id": "roster_short",
+          "text": "Non ho ancora sei Pokémon: devo prepararmi.",
+          "goto": "postponed",
+          "conditions": {
+            "path": "player.roster.length",
+            "lt": 6
+          }
+        },
+        {
+          "id": "roster_back",
+          "text": "Torno al desk senza cambiare il roster.",
+          "goto": "trial_desk"
+        }
+      ]
+    },
+    "examiner_review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'esaminatore del Faro usa un Official Six fisso per questa fascia. Il team non si adatta al tuo roster e non scala invisibilmente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "examiner_identity",
+          "text": "Collego il profilo al tema del Gate.",
+          "goto": "master_identity"
+        },
+        {
+          "id": "examiner_desk",
+          "text": "Torno al desk.",
+          "goto": "trial_desk"
+        }
+      ]
+    },
+    "master_identity": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "A→S misura la gestione completa di sei Pokémon: profondità, ritmo, preservazione delle risorse, adattamento e chiusura del match."
+        }
+      ],
+      "choices": [
+        {
+          "id": "identity_resources",
+          "text": "Controllo lo stato reale delle risorse.",
+          "goto": "resource_state"
+        },
+        {
+          "id": "identity_attempts",
+          "text": "Controllo retry e tentativi.",
+          "goto": "attempt_history"
+        }
+      ]
+    },
+    "attempt_history": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Gate è retryable. E5 conta i tentativi: una sconfitta rimuove la registrazione ma lascia disponibile il checkpoint."
+        }
+      ],
+      "choices": [
+        {
+          "id": "attempt_cutoff",
+          "text": "Controllo come il retry interagisce col cutoff.",
+          "goto": "cutoff_review"
+        },
+        {
+          "id": "attempt_back",
+          "text": "Torno al desk.",
+          "goto": "trial_desk"
+        }
+      ]
+    },
+    "resource_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "HP, PP, status, inventario e roster restano quelli reali. Registrarsi non ripristina nulla."
+        }
+      ],
+      "choices": [
+        {
+          "id": "resource_prep",
+          "text": "Definisco solo un focus mentale, senza bonus.",
+          "goto": "prep_focus"
+        }
+      ]
+    },
+    "cutoff_review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il cutoff può congelare lo stato stagionale, ma non cambia le regole del Gate. Se arrivi tardi, il risultato temporale resta persistente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "cutoff_lighthouse",
+          "text": "Ricollego il cutoff al contesto del Faro.",
+          "goto": "lighthouse_context"
+        },
+        {
+          "id": "cutoff_back",
+          "text": "Torno al desk.",
+          "goto": "trial_desk"
+        }
+      ]
+    },
+    "red_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Red può offrire una lettura sull'adattamento solo se già incontrato. Il callback non concede reroll, bonus o informazioni private."
+        }
+      ],
+      "choices": [
+        {
+          "id": "red_ready",
+          "text": "Tengo il principio come prospettiva.",
+          "goto": "registered_status",
+          "conditions": {
+            "path": "world.flags.red_met",
+            "eq": true
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_trial_red_context",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "red_identity",
+          "text": "Rileggo il tema Master senza bonus.",
+          "goto": "master_identity"
+        }
+      ]
+    },
+    "registered": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La registrazione E5 è attiva. Uscire dal desk non annulla automaticamente il tentativo; il match inizierà solo quando entrerai nel Gate."
+        }
+      ],
+      "choices": [
+        {
+          "id": "registered_status",
+          "text": "Controllo cosa è stato registrato.",
+          "goto": "registered_status"
+        },
+        {
+          "id": "registered_red",
+          "text": "Rileggo il Gate attraverso Red.",
+          "goto": "red_context",
+          "conditions": {
+            "path": "world.flags.red_met",
+            "eq": true
+          }
+        },
+        {
+          "id": "registered_enter",
+          "text": "Entro nel Promotion Trial A→S.",
+          "goto": "trial_ready",
+          "conditions": {
+            "path": "competition.trials.RANK_A_TO_S.registered",
+            "eq": true
+          }
+        }
+      ]
+    },
+    "registered_status": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Checkpoint RANK_A_TO_S, Rank A attuale, Official Six richiesto, retry attivo. Rank S non esiste ancora."
+        }
+      ],
+      "choices": [
+        {
+          "id": "status_enter",
+          "text": "Lo stato è corretto: vado al Gate.",
+          "goto": "trial_ready"
+        },
+        {
+          "id": "status_back",
+          "text": "Resto al desk.",
+          "goto": "registered"
+        }
+      ]
+    },
+    "postponed": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Rimandare non consuma il checkpoint. Masters, Continental, Friend Beat, mistero e cutoff continuano nel loro stato reale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "postponed_lighthouse",
+          "text": "Torno al perimetro del Faro.",
+          "goto": "m06-first-lighthouse-return#ruins_boundary"
+        },
+        {
+          "id": "postponed_return",
+          "text": "Cambio idea e torno alle informazioni del Trial.",
+          "goto": "trial_info"
+        }
+      ]
+    },
+    "rank_gate_review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Rank S esiste soltanto dopo una vittoria reale a RANK_A_TO_S. Nessun titolo Continental, seed Masters o rapporto con Red può bypassarlo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rank_audit",
+          "text": "Torno all'audit E5.",
+          "goto": "eligibility_audit"
+        },
+        {
+          "id": "rank_context",
+          "text": "Rivedo il ruolo del Faro nella progressione.",
+          "goto": "lighthouse_context"
+        }
+      ]
+    },
+    "trial_ready": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La registrazione è pronta per essere consumata dal match system. Nessun risultato è ancora scritto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ready_enter",
+          "text": "Entro nel Gate del Faro.",
+          "goto": "m06-promotion-trial-a-s#trial_gate_call"
+        }
+      ]
+    },
+    "lighthouse_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Le Rovine sono sia luogo narrativo sia venue del checkpoint. I due ruoli condividono spazio ma non state ownership."
+        }
+      ],
+      "choices": [
+        {
+          "id": "lighthouse_trial",
+          "text": "Torno alle informazioni del Trial.",
+          "goto": "trial_info"
+        }
+      ]
+    },
+    "prep_focus": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Puoi scegliere cosa osservare nel match, ma questa preferenza non modifica statistiche o probabilità."
+        }
+      ],
+      "choices": [
+        {
+          "id": "prep_depth",
+          "text": "Focus: preservare profondità del team.",
+          "goto": "trial_desk",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_a_s_prep_focus",
+              "value": "depth"
+            }
+          ]
+        },
+        {
+          "id": "prep_adaptation",
+          "text": "Focus: adattare ritmo e switch.",
+          "goto": "trial_desk",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_a_s_prep_focus",
+              "value": "adaptation"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
