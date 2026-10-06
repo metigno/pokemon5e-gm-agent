@@ -38,12 +38,28 @@
       {
         "any": [
           {
-            "path": "world.flags.world_qualified",
-            "eq": true
+            "all": [
+              {
+                "path": "world.flags.world_qualified",
+                "eq": true
+              },
+              {
+                "path": "world.flags.m7_before_lights_complete",
+                "eq": true
+              }
+            ]
           },
           {
-            "path": "world.flags.worlds_missed",
-            "eq": true
+            "all": [
+              {
+                "path": "world.flags.worlds_missed",
+                "eq": true
+              },
+              {
+                "path": "world.flags.m7_worlds_missed_resolved",
+                "eq": true
+              }
+            ]
           }
         ]
       }

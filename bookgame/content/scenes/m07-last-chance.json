@@ -46,10 +46,6 @@
       {
         "path": "world.flags.a7_last_chance_available",
         "eq": true
-      },
-      {
-        "path": "world.flags.m7_last_chance_complete",
-        "ne": true
       }
     ]
   },

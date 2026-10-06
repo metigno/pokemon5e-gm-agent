@@ -199,3 +199,16 @@ test("M7 final state survives save/reload",async()=>{
     if(dir)await rm(dir,{recursive:true,force:true});
   }
 });
+
+
+test("M7_13 cannot bypass the final branch-resolution beat",async()=>{
+  const {engine,bundle}=await makeEngine();
+  let s=quietPriorEvents(base(),bundle);
+  Object.assign(s.world.flags,{world_qualified:true});
+  delete s.world.flags.m7_before_lights_complete;
+  s.story.sceneId="m07-module-outcome";s.story.nodeId="outcome_entry";
+  await assert.rejects(()=>engine.present(s),/Scene conditions are not satisfied/);
+  s.world.flags.m7_before_lights_complete=true;
+  const view=await engine.present(s);
+  assert.equal(view.sceneId,"m07-module-outcome");
+});
