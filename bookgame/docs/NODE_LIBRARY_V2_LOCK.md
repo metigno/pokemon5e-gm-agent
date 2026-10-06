@@ -1,9 +1,9 @@
 # P5E LIBROGAME — NODE LIBRARY V2 LOCK
 
-**Status:** LOCKED BASELINE FOR M05→M12 AUTHORING  
-**Production branch reviewed:** `m12-00-04-work`  
+**Status:** LOCKED COMPLETE BASELINE / BOOKGAME RC0  
+**Baseline branch:** `bookgame-rc0` (runtime content inherited unchanged from `m12-00-04-work`)  
 **Runtime-validated corpus:** M01→M12 COMPLETE
-**Latest runtime evidence:** M12 COMPLETE — 228 / 502; Bookgame Tests #428: 1,333 passed / 0 failed / 0 skipped. Complete-module baseline is M01→M12.
+**Base runtime evidence:** M12 COMPLETE — 228 / 502; Bookgame Tests #430 SUCCESS — 1,333 passed / 0 failed / 0 skipped. Complete-module baseline is M01→M12. RC0 adds the locked NPC library and E2E release gate without changing M1–M12 narrative/runtime content.
 **Catalog:** `bookgame/docs/NODE_REUSE_CATALOG.md`
 
 ---
