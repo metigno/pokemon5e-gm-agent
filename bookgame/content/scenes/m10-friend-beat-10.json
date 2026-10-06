@@ -548,7 +548,23 @@
               "key": "m10_friend_beat_10_complete",
               "value": true
             }
-          ]
+          ],
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.friend_beat_10_friend_id",
+                "exists": true
+              },
+              {
+                "path": "world.flags.friend_beat_10_type",
+                "exists": true
+              },
+              {
+                "path": "world.flags.friend_beat_10_result",
+                "exists": true
+              }
+            ]
+          }
         },
         {
           "id": "commit_audit",
