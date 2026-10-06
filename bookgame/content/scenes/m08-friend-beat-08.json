@@ -1,0 +1,646 @@
+{
+  "schemaVersion": 1,
+  "id": "m08-friend-beat-08",
+  "moduleId": "M08",
+  "title": "M8_06 — Friend Beat 08",
+  "locationId": "world_village",
+  "entryNodeId": "friend_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m7_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m08_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.world_qualified",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_active",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_world_registration_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_world_village_arrived",
+        "eq": true
+      },
+      {
+        "path": "world.flags.astrid_met",
+        "eq": true
+      },
+      {
+        "path": "world.flags.friend_beat_08_available",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "friend_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "FRIEND_BEAT_08 usa uno dei Four secondo posizione e schedule reali. Se nessun incontro fisico è plausibile, il contatto resta remoto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_status",
+          "text": "Controllo chi è stato selezionato e in quale modalità.",
+          "goto": "selector_status"
+        },
+        {
+          "id": "entry_contact",
+          "text": "Apro il contatto disponibile.",
+          "goto": "dispatch"
+        }
+      ]
+    },
+    "selector_status": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il selector evita il protagonista e, quando possibile, l'amico usato nel Friend Beat precedente. Non attribuisce qualificazioni non registrate."
+        }
+      ],
+      "choices": [
+        {
+          "id": "status_dispatch",
+          "text": "Passo al contatto selezionato.",
+          "goto": "dispatch"
+        },
+        {
+          "id": "status_callback",
+          "text": "Rivedo la continuità dei Friend Beat.",
+          "goto": "callback"
+        },
+        {
+          "id": "status_wait",
+          "text": "Posso scegliere quando rispondere al contatto.",
+          "goto": "wait_contact"
+        }
+      ]
+    },
+    "dispatch": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Ogni ramo conserva lo stato indipendente dell'amico. Essere tuo amico non gli assegna automaticamente un posto nel World Village."
+        }
+      ],
+      "choices": [
+        {
+          "id": "dispatch_luke",
+          "text": "Rispondo a Luke.",
+          "goto": "luke_contact",
+          "conditions": {
+            "path": "world.flags.friend_beat_08_friend_id",
+            "eq": "Luke"
+          }
+        },
+        {
+          "id": "dispatch_mattew",
+          "text": "Rispondo a Mattew.",
+          "goto": "mattew_contact",
+          "conditions": {
+            "path": "world.flags.friend_beat_08_friend_id",
+            "eq": "Mattew"
+          }
+        },
+        {
+          "id": "dispatch_daniel",
+          "text": "Rispondo a Daniel.",
+          "goto": "daniel_contact",
+          "conditions": {
+            "path": "world.flags.friend_beat_08_friend_id",
+            "eq": "Daniel"
+          }
+        },
+        {
+          "id": "dispatch_edward",
+          "text": "Rispondo a Edward.",
+          "goto": "edward_contact",
+          "conditions": {
+            "path": "world.flags.friend_beat_08_friend_id",
+            "eq": "Edward"
+          }
+        },
+        {
+          "id": "dispatch_fab",
+          "text": "Rispondo a Fab.",
+          "goto": "fab_contact",
+          "conditions": {
+            "path": "world.flags.friend_beat_08_friend_id",
+            "eq": "Fab"
+          }
+        }
+      ]
+    },
+    "luke_contact": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Luke parla del Mondiale come di un problema di adattamento: il piano migliore dipenderà da avversari che ancora non conosci."
+        }
+      ],
+      "choices": [
+        {
+          "id": "luke_physical",
+          "text": "Parliamo di persona nel World Village.",
+          "goto": "physical_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_08_contact_mode",
+            "eq": "physical"
+          },
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 1
+            }
+          ]
+        },
+        {
+          "id": "luke_remote",
+          "text": "Parliamo a distanza.",
+          "goto": "remote_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_08_contact_mode",
+            "eq": "remote"
+          },
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 1
+            }
+          ]
+        }
+      ]
+    },
+    "mattew_contact": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Mattew separa entusiasmo e stato reale: essere al Village o restare fuori dal venue sono due traiettorie diverse."
+        }
+      ],
+      "choices": [
+        {
+          "id": "mattew_physical",
+          "text": "Parliamo di persona nel World Village.",
+          "goto": "physical_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_08_contact_mode",
+            "eq": "physical"
+          },
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 1
+            }
+          ]
+        },
+        {
+          "id": "mattew_remote",
+          "text": "Parliamo a distanza.",
+          "goto": "remote_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_08_contact_mode",
+            "eq": "remote"
+          },
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 1
+            }
+          ]
+        }
+      ]
+    },
+    "daniel_contact": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Daniel insiste sulle informazioni incomplete: prima del draw, inventarsi il gruppo è già un errore strategico."
+        }
+      ],
+      "choices": [
+        {
+          "id": "daniel_physical",
+          "text": "Parliamo di persona nel World Village.",
+          "goto": "physical_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_08_contact_mode",
+            "eq": "physical"
+          },
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 1
+            }
+          ]
+        },
+        {
+          "id": "daniel_remote",
+          "text": "Parliamo a distanza.",
+          "goto": "remote_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_08_contact_mode",
+            "eq": "remote"
+          },
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 1
+            }
+          ]
+        }
+      ]
+    },
+    "edward_contact": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Edward guarda soprattutto alla tenuta: viaggio, recupero e pressione non vengono cancellati dall'accredito."
+        }
+      ],
+      "choices": [
+        {
+          "id": "edward_physical",
+          "text": "Parliamo di persona nel World Village.",
+          "goto": "physical_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_08_contact_mode",
+            "eq": "physical"
+          },
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 1
+            }
+          ]
+        },
+        {
+          "id": "edward_remote",
+          "text": "Parliamo a distanza.",
+          "goto": "remote_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_08_contact_mode",
+            "eq": "remote"
+          },
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 1
+            }
+          ]
+        }
+      ]
+    },
+    "fab_contact": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Fab resta pragmatico: risorse, salute e tempo sono più concreti del rumore attorno al Mondiale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fab_physical",
+          "text": "Parliamo di persona nel World Village.",
+          "goto": "physical_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_08_contact_mode",
+            "eq": "physical"
+          },
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 1
+            }
+          ]
+        },
+        {
+          "id": "fab_remote",
+          "text": "Parliamo a distanza.",
+          "goto": "remote_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_08_contact_mode",
+            "eq": "remote"
+          },
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 1
+            }
+          ]
+        }
+      ]
+    },
+    "physical_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Siete davvero nello stesso luogo. Questo dimostra soltanto una sovrapposizione reale di schedule; non garantisce che condividiate gruppo o percorso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "physical_world",
+          "text": "Parliamo di cosa cambia entrando nel venue.",
+          "goto": "world_talk",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_type",
+              "value": "physical_world_village"
+            }
+          ]
+        },
+        {
+          "id": "physical_pressure",
+          "text": "Parliamo della pressione prima del draw.",
+          "goto": "shared_pressure",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_type",
+              "value": "physical_world_village"
+            }
+          ]
+        },
+        {
+          "id": "physical_state",
+          "text": "Confrontiamo solo ciò che sappiamo davvero delle nostre carriere.",
+          "goto": "uncertain_friend",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_type",
+              "value": "physical_world_village"
+            }
+          ]
+        }
+      ]
+    },
+    "remote_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il contatto resta remoto: l'amico non viene spostato nel Village. La distanza è parte della sua traiettoria reale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "remote_world",
+          "text": "Parliamo di cosa significa vivere questo momento da luoghi diversi.",
+          "goto": "worlds_apart",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_type",
+              "value": "remote_world_contact"
+            }
+          ]
+        },
+        {
+          "id": "remote_pressure",
+          "text": "Parliamo della pressione a distanza.",
+          "goto": "shared_pressure",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_type",
+              "value": "remote_world_contact"
+            }
+          ]
+        },
+        {
+          "id": "remote_state",
+          "text": "Gli chiedo soltanto come sta andando davvero.",
+          "goto": "uncertain_friend",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_type",
+              "value": "remote_world_contact"
+            }
+          ]
+        }
+      ]
+    },
+    "world_talk": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il World Village rende il torneo concreto, ma il draw deve ancora avvenire. Nessuno dei due può conoscere legalmente il gruppo futuro."
+        }
+      ],
+      "choices": [
+        {
+          "id": "world_gap",
+          "text": "Parliamo della differenza fra essere qui e sapere già cosa succederà.",
+          "goto": "qualification_gap"
+        },
+        {
+          "id": "world_pressure",
+          "text": "Torniamo alla pressione condivisa.",
+          "goto": "shared_pressure"
+        }
+      ]
+    },
+    "qualification_gap": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se l'amico è fisicamente qui, il suo stato lo ha reso plausibile. Se è remoto, la scena non inventa la ragione né gli assegna una qualificazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "gap_uncertain",
+          "text": "Mantengo l'incertezza dove lo stato non è pubblico.",
+          "goto": "uncertain_friend"
+        },
+        {
+          "id": "gap_relationship",
+          "text": "Parliamo del rapporto fra le nostre carriere separate.",
+          "goto": "relationship"
+        }
+      ]
+    },
+    "shared_pressure": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La pressione comune non produce bonus. Può cambiare il tono del rapporto, non le probabilità del prossimo match."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pressure_relationship",
+          "text": "Rispondo sul piano personale.",
+          "goto": "relationship"
+        },
+        {
+          "id": "pressure_callback",
+          "text": "Ricollego il momento ai Friend Beat precedenti.",
+          "goto": "callback"
+        }
+      ]
+    },
+    "uncertain_friend": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Quando un risultato o una qualificazione dell'amico non è nello stato pubblico, il dialogo non lo anticipa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "uncertain_world",
+          "text": "Torniamo a ciò che sappiamo del Mondiale.",
+          "goto": "world_talk"
+        },
+        {
+          "id": "uncertain_pressure",
+          "text": "Restiamo sulla pressione comune.",
+          "goto": "shared_pressure"
+        }
+      ]
+    },
+    "worlds_apart": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Essere lontani nel momento più visibile della carriera può pesare, ma non significa automaticamente successo o fallimento dell'altro."
+        }
+      ],
+      "choices": [
+        {
+          "id": "apart_relationship",
+          "text": "Parliamo di come restare in contatto senza sincronizzare le carriere.",
+          "goto": "relationship"
+        },
+        {
+          "id": "apart_world",
+          "text": "Torniamo al tema del Mondiale.",
+          "goto": "world_talk"
+        }
+      ]
+    },
+    "relationship": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il rapporto cambia perché avete scelto di confrontarvi, non perché il gioco vi allinea nello stesso bracket."
+        }
+      ],
+      "choices": [
+        {
+          "id": "relationship_record",
+          "text": "Registro il momento condiviso.",
+          "goto": "result_record"
+        },
+        {
+          "id": "relationship_more",
+          "text": "Resto ancora sul tema della pressione.",
+          "goto": "shared_pressure"
+        }
+      ]
+    },
+    "callback": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "I Friend Beat precedenti restano parte della relazione e della rotazione. M8 non li cancella e non ricicla automaticamente lo stesso amico."
+        }
+      ],
+      "choices": [
+        {
+          "id": "callback_contact",
+          "text": "Torno al contatto corrente.",
+          "goto": "dispatch"
+        },
+        {
+          "id": "callback_record",
+          "text": "Chiudo il callback e registro il beat.",
+          "goto": "result_record"
+        }
+      ]
+    },
+    "wait_contact": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Aspettare un'ora può cambiare schedule, ma non teletrasporta l'amico selezionato e non riscrive il suo stato competitivo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "wait_hour",
+          "text": "Aspetto un'ora e ricontrollo il contatto.",
+          "goto": "selector_status",
+          "timeCostMinutes": 60
+        },
+        {
+          "id": "wait_dispatch",
+          "text": "Rispondo senza altra attesa.",
+          "goto": "dispatch"
+        }
+      ]
+    },
+    "result_record": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il beat conserva amico, modalità e tipo di contatto. Non assegna seed, punti o qualificazioni."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record_complete",
+          "text": "Segno FRIEND_BEAT_08 come completato.",
+          "goto": "friend_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_08_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "friend_close": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il rapporto torna sullo sfondo. Il prossimo spazio è la Training Hall, dove preparazione e sparring restano opzionali e reali."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_training",
+          "text": "Passo alla Training Hall.",
+          "goto": "m08-training-hall#training_entry"
+        }
+      ]
+    }
+  }
+}
