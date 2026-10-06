@@ -1,0 +1,503 @@
+{
+  "schemaVersion": 1,
+  "id": "m08-world-arrival",
+  "moduleId": "M08",
+  "title": "M8_00 — World Arrival",
+  "locationId": "meridiana_international_station",
+  "entryNodeId": "world_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m7_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m08_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.world_qualified",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m7_before_lights_complete",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "world_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "M8 parte soltanto da una run realmente qualificata. Rank S, qualifier history, roster, risorse e conseguenze restano quelli salvati; il Mondiale non ricostruisce la carriera."
+        }
+      ],
+      "choices": [
+        {
+          "id": "activate_m8",
+          "text": "Attivo M8 mantenendo intatto l'esito della qualificazione.",
+          "goto": "handoff",
+          "conditions": {
+            "path": "world.flags.m8_active",
+            "ne": true
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m8_active",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "review_m8",
+          "text": "M8 è già attivo: rivedo il passaggio verso il venue.",
+          "goto": "handoff",
+          "conditions": {
+            "path": "world.flags.m8_active",
+            "eq": true
+          }
+        }
+      ]
+    },
+    "handoff": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il viaggio verso il World Championship venue è un cambio di luogo e pressione, non un reset. Prima di partire puoi controllare ciò che stai portando con te."
+        }
+      ],
+      "choices": [
+        {
+          "id": "handoff_carry",
+          "text": "Controllo lo stato ereditato.",
+          "goto": "carryover"
+        },
+        {
+          "id": "handoff_travel",
+          "text": "Preparo il trasferimento internazionale.",
+          "goto": "travel"
+        },
+        {
+          "id": "handoff_preview",
+          "text": "Guardo cosa mi aspetta al venue.",
+          "goto": "venue_preview"
+        }
+      ]
+    },
+    "carryover": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Pokémon, HP, PP, condizioni, EXP, inventario, denaro, relazioni, schedule e competition history restano persistenti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "carry_history",
+          "text": "Rivedo la storia competitiva che mi ha portato qui.",
+          "goto": "history"
+        },
+        {
+          "id": "carry_roster",
+          "text": "Rivedo il roster senza modificarlo.",
+          "goto": "roster"
+        }
+      ]
+    },
+    "history": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La qualificazione è già un fatto E5. M8 può leggerla e reagire, ma non riscrive Qualifier o Last Chance."
+        }
+      ],
+      "choices": [
+        {
+          "id": "history_guard",
+          "text": "Controllo il guardrail della qualificazione.",
+          "goto": "qualification_guard"
+        },
+        {
+          "id": "history_handoff",
+          "text": "Torno al passaggio di modulo.",
+          "goto": "handoff"
+        }
+      ]
+    },
+    "roster": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il roster reale viaggia con te. Nessun membro viene curato, sostituito o reso disponibile dal semplice cambio di modulo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "roster_medical",
+          "text": "Controllo la continuità medica.",
+          "goto": "medical_continuity"
+        },
+        {
+          "id": "roster_handoff",
+          "text": "Torno al passaggio di modulo.",
+          "goto": "handoff"
+        }
+      ]
+    },
+    "qualification_guard": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "world_qualified=true è requisito di ingresso, non una promessa di risultato nel torneo. Field, draw e match restano irrisolti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "guard_credentials",
+          "text": "Passo alle credenziali di ingresso.",
+          "goto": "world_credentials"
+        },
+        {
+          "id": "guard_handoff",
+          "text": "Torno al riepilogo.",
+          "goto": "handoff"
+        }
+      ]
+    },
+    "world_credentials": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La qualifica concede il diritto di presentarsi al venue. Accredito, controllo medico e registrazione restano passaggi separati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "credentials_travel",
+          "text": "Procedo verso il trasferimento.",
+          "goto": "travel"
+        },
+        {
+          "id": "credentials_handoff",
+          "text": "Torno al riepilogo.",
+          "goto": "handoff"
+        }
+      ]
+    },
+    "travel": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il trasferimento consuma tempo reale e lascia continuare schedule, eventi e carriere NPC."
+        }
+      ],
+      "choices": [
+        {
+          "id": "travel_depart",
+          "text": "Parto per il World Championship venue.",
+          "goto": "venue_preview",
+          "timeCostMinutes": 120
+        },
+        {
+          "id": "travel_check",
+          "text": "Prima verifico che nessun risultato futuro sia già scritto.",
+          "goto": "direct_check"
+        },
+        {
+          "id": "travel_defer",
+          "text": "Rimando la partenza.",
+          "goto": "defer"
+        }
+      ]
+    },
+    "direct_check": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Prima dell'arrivo non esistono ancora gruppo, seed o avversari assegnati al player. Quelle informazioni arriveranno dal WORLD_DRAW canonico."
+        }
+      ],
+      "choices": [
+        {
+          "id": "check_travel",
+          "text": "Torno alla partenza.",
+          "goto": "travel"
+        },
+        {
+          "id": "check_guard",
+          "text": "Rileggo il guardrail della qualificazione.",
+          "goto": "qualification_guard"
+        }
+      ]
+    },
+    "defer": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Rinviare è legale, ma il mondo continua. Il torneo non aspetta il player fuori dalle finestre previste."
+        }
+      ],
+      "choices": [
+        {
+          "id": "defer_wait",
+          "text": "Lascio passare un'ora.",
+          "goto": "wait",
+          "timeCostMinutes": 60
+        },
+        {
+          "id": "defer_travel",
+          "text": "Riconsidero la partenza.",
+          "goto": "travel"
+        }
+      ]
+    },
+    "wait": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "È trascorsa un'ora nel calendario persistente. Nessun accredito o sorteggio è stato completato dall'attesa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "wait_travel",
+          "text": "Torno alla partenza.",
+          "goto": "travel"
+        },
+        {
+          "id": "wait_preview",
+          "text": "Rileggo la struttura del venue.",
+          "goto": "venue_preview"
+        }
+      ]
+    },
+    "venue_preview": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il venue riunisce ingressi atleti, Village, medicina, training, media e arena in un'unica area internazionale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "preview_gates",
+          "text": "Controllo gli ingressi atleti.",
+          "goto": "gates"
+        },
+        {
+          "id": "preview_village",
+          "text": "Guardo il World Village.",
+          "goto": "village_preview"
+        },
+        {
+          "id": "preview_security",
+          "text": "Controllo i livelli di accesso.",
+          "goto": "security"
+        }
+      ]
+    },
+    "gates": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Gli ingressi separano pubblico, staff e partecipanti. Essere qualificati non equivale ad avere già completato l'accredito."
+        }
+      ],
+      "choices": [
+        {
+          "id": "gates_accredit",
+          "text": "Vedo cosa servirà all'accredito.",
+          "goto": "accreditation_hint"
+        },
+        {
+          "id": "gates_preview",
+          "text": "Torno alla panoramica.",
+          "goto": "venue_preview"
+        }
+      ]
+    },
+    "village_preview": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Village è un luogo di convivenza tra trainer qualificati, non una lobby che congela schedule o relazioni."
+        }
+      ],
+      "choices": [
+        {
+          "id": "village_arrival",
+          "text": "Preparo l'arrivo fisico al venue.",
+          "goto": "arrival_commit"
+        },
+        {
+          "id": "village_preview_back",
+          "text": "Torno alla panoramica.",
+          "goto": "venue_preview"
+        }
+      ]
+    },
+    "security": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Le aree riservate dipendono dalle credenziali e dalla timeline del torneo. Nessuna scelta narrativa apre zone prima dell'accredito."
+        }
+      ],
+      "choices": [
+        {
+          "id": "security_accredit",
+          "text": "Rivedo il passaggio di accredito.",
+          "goto": "accreditation_hint"
+        },
+        {
+          "id": "security_preview",
+          "text": "Torno alla panoramica.",
+          "goto": "venue_preview"
+        }
+      ]
+    },
+    "accreditation_hint": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il primo desk del venue controllerà identità, accessi e calendario; non assegnerà gruppi né risultati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "accredit_arrival",
+          "text": "Vado al commit di arrivo.",
+          "goto": "arrival_commit"
+        },
+        {
+          "id": "accredit_gates",
+          "text": "Torno agli ingressi.",
+          "goto": "gates"
+        }
+      ]
+    },
+    "medical_continuity": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il successivo controllo medico leggerà lo stato reale della squadra. L'arrivo non ripristina HP, PP, condizioni o infortuni."
+        }
+      ],
+      "choices": [
+        {
+          "id": "medical_carry",
+          "text": "Torno allo stato ereditato.",
+          "goto": "carryover"
+        },
+        {
+          "id": "medical_arrival",
+          "text": "Sono pronto ad arrivare senza reset.",
+          "goto": "arrival_commit"
+        }
+      ]
+    },
+    "arrival_commit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il commit di arrivo registra solo il luogo e l'ingresso nella fase World. La qualificazione resta quella già ottenuta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "arrival_now",
+          "text": "Registro l'arrivo al World Championship venue.",
+          "goto": "commit_now"
+        },
+        {
+          "id": "arrival_review",
+          "text": "Prima rivedo il venue.",
+          "goto": "venue_preview"
+        }
+      ]
+    },
+    "commit_now": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'arrivo fisico viene scritto nello stato del mondo; nessun altro sistema competitivo viene anticipato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "commit_arrival",
+          "text": "Confermo l'arrivo.",
+          "goto": "arrival_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m8_world_arrived",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "world_venue_discovered",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "world_championship_venue"
+            }
+          ]
+        },
+        {
+          "id": "commit_back",
+          "text": "Rileggo ancora il passaggio.",
+          "goto": "arrival_commit"
+        }
+      ]
+    },
+    "arrival_complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Sei nel venue come partecipante qualificato. Il prossimo passo è l'accredito, ancora separato da controllo medico, registrazione e draw."
+        }
+      ],
+      "choices": [
+        {
+          "id": "complete_accredit",
+          "text": "Passo all'accredito.",
+          "goto": "m08-accreditation#accreditation_entry"
+        },
+        {
+          "id": "complete_hub",
+          "text": "Resto nell'atrio del venue.",
+          "goto": "venue_hub"
+        }
+      ]
+    },
+    "venue_hub": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'atrio del venue collega accrediti, ingressi e indicazioni per il Village senza forzare la sequenza oltre i gate reali."
+        }
+      ],
+      "choices": [
+        {
+          "id": "hub_gates",
+          "text": "Torno agli ingressi.",
+          "goto": "gates"
+        },
+        {
+          "id": "hub_village",
+          "text": "Rivedo il Village.",
+          "goto": "village_preview"
+        },
+        {
+          "id": "hub_accredit",
+          "text": "Vado all'accredito.",
+          "goto": "m08-accreditation#accreditation_entry"
+        }
+      ]
+    }
+  }
+}
