@@ -540,7 +540,7 @@
       "choices": [
         {
           "id": "defer_hub",
-          "text": "Torno ad Altacima.",
+          "text": "Torno ad Altacima lasciando la finestra Masters disponibile.",
           "goto": "m05-altacima#town_hub",
           "effects": [
             {
@@ -550,9 +550,13 @@
           ]
         },
         {
-          "id": "defer_return",
-          "text": "Cambio idea e torno all'ingresso Masters.",
-          "goto": "masters_entry"
+          "id": "defer_outcome",
+          "text": "L'exit contract è già soddisfatto: chiudo M5 senza disputare ora il seeding match.",
+          "conditions": {
+            "path": "world.flags.m5_module_outcome_available",
+            "eq": true
+          },
+          "goto": "m05-module-outcome#outcome_entry"
         }
       ]
     },
