@@ -83,7 +83,7 @@
         {
           "id": "band_wait",
           "text": "Resto ad Altacima e lascio scorrere il mondo.",
-          "goto": "wait_node"
+          "goto": "stay_altacima"
         }
       ]
     },
@@ -230,8 +230,9 @@
       "choices": [
         {
           "id": "stay_return",
-          "text": "Torno alla fascia Rank A.",
-          "goto": "rank_a_band"
+          "text": "Aspetto un'ora prima di rivalutare la fascia Rank A.",
+          "goto": "wait_node",
+          "timeCostMinutes": 60
         },
         {
           "id": "stay_services",
