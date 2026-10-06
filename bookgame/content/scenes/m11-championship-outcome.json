@@ -14,12 +14,32 @@
       {
         "any": [
           {
-            "path": "competition.world.knockout.finalResolved",
-            "eq": true
+            "all": [
+              {
+                "path": "competition.world.knockout.playerAdvancedToFinal",
+                "eq": true
+              },
+              {
+                "path": "competition.world.knockout.finalResolved",
+                "eq": true
+              },
+              {
+                "path": "world.flags.m11_world_final_complete",
+                "eq": true
+              }
+            ]
           },
           {
-            "path": "world.flags.world_eliminated",
-            "eq": true
+            "all": [
+              {
+                "path": "competition.world.knockout.playerAdvancedToFinal",
+                "ne": true
+              },
+              {
+                "path": "world.flags.world_eliminated",
+                "eq": true
+              }
+            ]
           }
         ]
       }
