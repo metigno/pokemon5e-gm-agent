@@ -11,6 +11,14 @@ const expected=[
   ["m06-masters-circuit",14,29]
 ];
 
+const cycle2=[
+  ["m06-hidden-trajectories",13,29],
+  ["m06-friend-beat-06",19,42],
+  ["m06-continental-entry",12,25],
+  ["m06-continental-cup",19,42],
+  ["m06-ancient-layer-two",13,29]
+];
+
 test("M6_00-M6_04 logical production budget is locked at 64 nodes / 141 meaningful choices",async()=>{
   let nodes=0,choices=0;
   for(const [rel,n,c] of expected){
@@ -92,4 +100,61 @@ test("M6_00-M6_04 authored nodes are all reachable from their cycle entry graph"
     }
   }
   assert.deepEqual([...keys].filter(key=>!visited.has(key)),[]);
+});
+
+test("M6_05-M6_09 logical production budget is locked at 76 nodes / 167 meaningful choices",async()=>{
+  let nodes=0,choices=0;
+  for(const [rel,n,c] of cycle2){
+    const scene=JSON.parse(await readFile(fileURLToPath(new URL("../content/scenes/"+rel+".json",import.meta.url)),"utf8"));
+    const actualNodes=Object.keys(scene.nodes).length;
+    const actualChoices=Object.values(scene.nodes).reduce((sum,node)=>sum+(node.choices?.length??0),0);
+    assert.equal(actualNodes,n,rel+" node budget");
+    assert.equal(actualChoices,c,rel+" choice budget");
+    nodes+=actualNodes;choices+=actualChoices;
+  }
+  assert.equal(nodes,76);
+  assert.equal(choices,167);
+});
+
+test("M6 first ten blocks consume exactly 140 nodes / 308 choices",async()=>{
+  const all=[...expected,...cycle2];
+  let nodes=0,choices=0;
+  for(const [rel] of all){
+    const scene=JSON.parse(await readFile(fileURLToPath(new URL("../content/scenes/"+rel+".json",import.meta.url)),"utf8"));
+    nodes+=Object.keys(scene.nodes).length;
+    choices+=Object.values(scene.nodes).reduce((sum,node)=>sum+(node.choices?.length??0),0);
+  }
+  assert.equal(nodes,140);
+  assert.equal(choices,308);
+  assert.deepEqual({nodes:220-nodes,choices:484-choices},{nodes:80,choices:176});
+});
+
+test("M6_05-M6_09 authored nodes have no zero-incoming padding",async()=>{
+  const scenes={};
+  for(const [rel] of cycle2){
+    scenes[rel]=JSON.parse(await readFile(fileURLToPath(new URL("../content/scenes/"+rel+".json",import.meta.url)),"utf8"));
+  }
+  const keys=new Set();
+  for(const [sceneId,scene] of Object.entries(scenes)){
+    for(const nodeId of Object.keys(scene.nodes)) keys.add(sceneId+"#"+nodeId);
+  }
+  const incoming=Object.fromEntries([...keys].map(key=>[key,0]));
+  for(const [sceneId,scene] of Object.entries(scenes)){
+    incoming[sceneId+"#"+scene.entryNodeId]+=1;
+    const add=(raw)=>{
+      if(typeof raw!=="string") return;
+      const parts=raw.includes("#")?raw.split("#"):[sceneId,raw];
+      const target=parts[0]+"#"+parts[1];
+      if(Object.hasOwn(incoming,target)) incoming[target]+=1;
+    };
+    for(const node of Object.values(scene.nodes)){
+      for(const choice of node.choices??[]){
+        add(choice.goto);
+        if(choice.check){add(choice.outcomes?.success?.goto);add(choice.outcomes?.failure?.goto);}
+        if(choice.combat){add(choice.combat.goto);for(const target of Object.values(choice.combat.returnNodes??{})) add(target);}
+        if(choice.ecology){for(const target of Object.values(choice.ecology.returnNodes??{})) add(target);}
+      }
+    }
+  }
+  assert.deepEqual(Object.entries(incoming).filter(([,count])=>count===0).map(([key])=>key),[]);
 });
