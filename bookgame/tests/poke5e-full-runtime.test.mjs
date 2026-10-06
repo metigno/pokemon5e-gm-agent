@@ -103,7 +103,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
   const moves = await data.listMoves();
   const unresolved = moves.filter((move) => !isMoveResolvable(move)).map((move) => move.id);
 
-  assert.ok(unresolved.length <= 163, `unresolved move rules regressed to ${unresolved.length}`);
+  assert.ok(unresolved.length <= 161, `unresolved move rules regressed to ${unresolved.length}`);
   for (const id of [
     "acupressure",
     "feather-dance",
@@ -114,6 +114,8 @@ test("move execution coverage has an explicit non-regression gate", async () => 
     "defog",
     "fairy-lock",
     "haze",
+    "mist",
+    "safeguard",
     "agility",
     "autotomize",
     "barrier",
@@ -388,6 +390,49 @@ test("Defog, Haze and Fairy Lock mutate the battle field instead of falling back
   assert.equal(lockBattle.player.effects.switchLockSources.at(-1)?.source, "fairy-lock");
   assert.equal(lockBattle.opponent.effects.switchLockSources.at(-1)?.source, "fairy-lock");
   assert.equal(lockBattle.opponent.effects.escapeLockSources.at(-1)?.expiresRound, 2);
+});
+
+test("Safeguard blocks new status and Mist blocks negative stat changes", async () => {
+  const safeguardCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, ...Array(40).fill(1)])
+  });
+  let safeguardBattle = await safeguardCombat.createBattle({
+    encounterId: "FULL_RUNTIME_SAFEGUARD",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["safeguard"] },
+    opponent: { speciesId: "caterpie", level: 5, moveIds: ["poison-powder"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+  safeguardBattle = await safeguardCombat.usePlayerMove(safeguardBattle, "safeguard");
+  assert.equal(safeguardBattle.player.effects.statusImmunitySources.at(-1)?.source, "safeguard");
+  safeguardBattle = await safeguardCombat.endPlayerTurn(safeguardBattle);
+  safeguardBattle = await safeguardCombat.useMove(safeguardBattle, "opponent", "poison-powder");
+  assert.equal(safeguardBattle.player.statuses.nonVolatile, null);
+  const poisonEvent = [...safeguardBattle.log].reverse().find((event) => event.type === "save_status");
+  assert.equal(poisonEvent?.statusResult?.reason, "status_immunity");
+  assert.equal(poisonEvent?.statusResult?.source, "safeguard");
+
+  const mistCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, ...Array(40).fill(1)])
+  });
+  let mistBattle = await mistCombat.createBattle({
+    encounterId: "FULL_RUNTIME_MIST",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["mist"] },
+    opponent: { speciesId: "caterpie", level: 5, moveIds: ["growl"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+  mistBattle = await mistCombat.usePlayerMove(mistBattle, "mist");
+  assert.equal(mistBattle.player.effects.statDropImmunitySources.at(-1)?.source, "mist");
+  mistBattle = await mistCombat.endPlayerTurn(mistBattle);
+  mistBattle = await mistCombat.useMove(mistBattle, "opponent", "growl");
+  assert.equal(
+    mistBattle.player.effects.attackModifierSources.some((source) => source.source === "growl"),
+    false
+  );
+  const growlEvent = [...mistBattle.log].reverse().find((event) => event.type === "save_move");
+  assert.equal(growlEvent?.applied?.effect, "blocked_stat_drop");
+  assert.equal(growlEvent?.applied?.source, "mist");
 });
 
 test("common self-buff moves execute level scaling, AC, damage, speed and concentration rules", async () => {
