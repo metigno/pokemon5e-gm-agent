@@ -313,7 +313,7 @@ const ONGOING_HEALING_MOVES = new Set([
 ]);
 
 function isOngoingHealingMove(move) {
-  return move.dice?.type === "healing" && ONGOING_HEALING_MOVES.has(move.id);
+  return ONGOING_HEALING_MOVES.has(move.id);
 }
 
 function delayedHealingTargetSide(move, userSide, requestedTargetSide = null) {
