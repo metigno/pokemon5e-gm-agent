@@ -3,7 +3,7 @@
 **Module:** M11 — Per Diventare Campione  
 **Authority:** subordinate to `P5E_LIBROGAME_ENGINE_SOURCE_OF_TRUTH.md`, `P5E_LIBROGAME_12_MODULES_MASTER.md` and `M11_PER_DIVENTARE_CAMPIONE_MODULE_DESIGN.md`  
 **Locked authored budget:** **3,500 stitches / 1,600 player choices**  
-**Module implementation status:** **CYCLE 1 RUNTIME-VALIDATED**
+**Module implementation status:** **CYCLE 2 IMPLEMENTED / VALIDATION PENDING**
 
 E1–E7 are shared infrastructure from M1. No module-specific replacement engine is allowed.
 
@@ -44,10 +44,10 @@ The spine is production ordering, not forced linear play. Actual legal branches 
 | M11_02_SF_PREP | preparazione con stato squadra persistente | 305 | 140 | CYCLE 1 VALIDATED |
 | M11_03_WORLD_SF | semifinale reale, single elimination | 521 | 238 | CYCLE 1 VALIDATED |
 | M11_04_OTHER_SF | risoluzione dell'altra semifinale senza plot armor | 359 | 164 | CYCLE 1 VALIDATED |
-| M11_05_FRIEND_BEAT_11 | amico nel Final Four o ultimo contatto plausibile | 521 | 238 | PLANNED |
-| M11_06_FINAL_PREP | preparazione finale senza reset gratuito | 305 | 139 | PLANNED |
-| M11_07_WORLD_FINAL | finale reale: Champion is whoever actually wins | 520 | 238 | PLANNED |
-| M11_08_CHAMPIONSHIP_OUTCOME | registrare campione/finalista/eliminato e aprire WORLD_EXIT | 305 | 139 | PLANNED |
+| M11_05_FRIEND_BEAT_11 | amico nel Final Four o ultimo contatto plausibile | 521 | 238 | IMPLEMENTED / VALIDATION PENDING |
+| M11_06_FINAL_PREP | preparazione finale senza reset gratuito | 305 | 139 | IMPLEMENTED / VALIDATION PENDING |
+| M11_07_WORLD_FINAL | finale reale: Champion is whoever actually wins | 520 | 238 | IMPLEMENTED / VALIDATION PENDING |
+| M11_08_CHAMPIONSHIP_OUTCOME | registrare campione/finalista/eliminato e aprire WORLD_EXIT | 305 | 139 | IMPLEMENTED / VALIDATION PENDING |
 | **TOTAL** |  | **3,500** | **1,600** | |
 
 ---
@@ -270,6 +270,74 @@ Cycle 1 converts the Final Four / semifinal half of M11 into runtime content whi
 - full suite: **1,284 passed / 0 failed / 0 skipped**;
 - Cycle-1 reachability: **79/79 nodes reachable**, zero zero-incoming padding.
 
+
+
+
+# 5B. CYCLE 2 IMPLEMENTATION LOCK — M11_05–M11_08
+
+Cycle 2 closes M11 on the exact residual trajectory left by Cycle 1.
+
+**Cycle 2 logical surface:** **71 nodes / 155 meaningful choices** exactly.  
+**Full M11 logical surface:** **150 nodes / 330 meaningful choices** exactly.
+
+## M11_05_FRIEND_BEAT_11
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R23 — NPC PRESENCE / SCHEDULE GATE
+- R26 — FRIEND BEAT SELECTOR
+- R27 — FRIEND BEAT CONTENT
+- R28 — FRIEND DIVERGENCE / UPDATE
+- R33 — CROSS-MODULE CALLBACK
+- R37 — MULTI-ROUND TOURNAMENT LIFECYCLE
+
+**Unique layer:** E4 extends the existing World Friend Beat selector with a Final Four context. It can prioritize a real final opponent, another finalist or an eliminated friend without altering bracket state.
+
+**Implementation lock:** scene `m11-friend-beat-11` contains **20 nodes / 44 meaningful choices**.
+
+## M11_06_FINAL_PREP
+
+**Reuse class:** REUSE / ADAPT
+
+**Source archetypes:**
+- R16 — ROSTER PREPARATION / ELIGIBILITY INFO
+- R13 — MEDICAL / POKÉMON CENTER SERVICE
+- R22 — TIME-OF-DAY VARIANT
+- R32 — WAIT / LET TIME PASS
+
+**Unique layer:** Final Prep preserves all post-SF resources and can only hand off the actual player final already locked by E5.
+
+**Implementation lock:** scene `m11-final-prep` contains **13 nodes / 29 meaningful choices**.
+
+## M11_07_WORLD_FINAL
+
+**Reuse class:** ADAPT / E5 EXTENSION
+
+**Source archetypes:**
+- R06 — COMBAT HANDOFF
+- R15 — FIRST/OFFICIAL MATCH LIFECYCLE
+- R37 — MULTI-ROUND TOURNAMENT LIFECYCLE
+
+**Unique layer:** `WORLD_FINAL` is the same E5 knockout lifecycle extended through the actual final. The player becomes champion only by winning the official Pokémon 5e combat.
+
+**Implementation lock:** scene `m11-world-final` contains **22 nodes / 48 meaningful choices**.
+
+## M11_08_CHAMPIONSHIP_OUTCOME
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R20 — MODULE EXIT CONTRACT
+- R21 — MODULE HANDOFF
+- R29 — LIVING WORLD OFF-SCREEN RESOLUTION
+- R38 — COMPOSITE OUTCOME CLASSIFIER
+
+**Unique layer:** Champion, runner-up and SF-eliminated routes are classified from E5 state. If the player lost the semifinal, E5 resolves the real final off-screen before WORLD_EXIT so `current_world_champion` always names the actual winner.
+
+**Implementation lock:** scene `m11-championship-outcome` contains **16 nodes / 34 meaningful choices**.
+
+**Library decision:** R01→R38 fully expresses Cycle 2. **No R39 candidate is required.**
 
 
 # 6. STATE OWNERSHIP
