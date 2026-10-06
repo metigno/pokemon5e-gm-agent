@@ -107,6 +107,7 @@ test("all upstream species can instantiate at their real minimum level without a
     const fighter = await combat.createCombatant({ speciesId: entry.id, level: entry.minLevel });
     assert.equal(fighter.speciesId, entry.id);
     assert.ok(fighter.hp.max > 0, entry.id);
+    assert.ok(fighter.moveIds.length <= 4, entry.id);
     if (fighter.abilityId) assert.ok(fighter.ability?.description, entry.id);
   }
 });
@@ -196,4 +197,29 @@ test("representative long-tail data resolves locally without network access", as
   assert.equal((await data.getItem("poke-ball")).type, "pokeball");
   assert.equal((await data.getCondition("Badly Poisoned")).id, "BadlyPoisoned");
   assert.ok((await data.listEvolutions()).length >= 500);
+});
+
+test("persisted known moves are capped at four and survive as the exact combat moveset", async () => {
+  const combat = new Pokemon5eCombatEngine({ dice: new SequenceDice([10]) });
+  const fighter = await combat.createCombatant({
+    speciesId: "pikachu",
+    level: 10,
+    moveIds: ["thunder-shock", "quick-attack", "thunder-wave", "electro-ball"]
+  });
+
+  assert.deepEqual(fighter.moveIds, [
+    "thunder-shock",
+    "quick-attack",
+    "thunder-wave",
+    "electro-ball"
+  ]);
+
+  await assert.rejects(
+    () => combat.createCombatant({
+      speciesId: "pikachu",
+      level: 10,
+      moveIds: ["tail-whip", "thunder-shock", "play-nice", "growl", "quick-attack"]
+    }),
+    /at most 4 known moves/
+  );
 });
