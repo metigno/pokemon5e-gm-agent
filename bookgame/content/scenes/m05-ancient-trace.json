@@ -1,0 +1,528 @@
+{
+  "schemaVersion": 1,
+  "id": "m05-ancient-trace",
+  "moduleId": "M05",
+  "title": "M5_06 — Ancient Trace",
+  "locationId": "ful_plateau",
+  "entryNodeId": "trace_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m4_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m05_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m5_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "B"
+      },
+      {
+        "path": "world.flags.fulgore_visited",
+        "eq": true
+      },
+      {
+        "path": "world.flags.a5_trace_available",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m5_ancient_trace_complete",
+        "ne": true
+      }
+    ]
+  },
+  "nodes": {
+    "trace_entry": {
+      "stitches": [
+        {
+          "id": "e1",
+          "text": "Una sequenza insolita interrompe il ritmo dell'altopiano: strumenti che oscillano senza un fronte temporalesco coerente, pietre annerite in un disegno troppo regolare e una scarica lontana che non coincide con le nubi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "trace_static",
+          "text": "Controllo l'anomalia elettrica.",
+          "goto": "static_field"
+        },
+        {
+          "id": "trace_stones",
+          "text": "Esamino le pietre e il terreno.",
+          "goto": "stone_marks"
+        },
+        {
+          "id": "trace_weather",
+          "text": "Confronto il fenomeno con il meteo ordinario.",
+          "goto": "weather_echo"
+        },
+        {
+          "id": "trace_leave",
+          "text": "Non inseguo l'anomalia adesso.",
+          "goto": "leave_unresolved"
+        }
+      ]
+    },
+    "static_field": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La carica residua non segue la distribuzione tipica di un singolo fulmine. C'è un gradiente, ma non abbastanza per dire cosa l'abbia prodotto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "static_check",
+          "text": "Cerco un pattern misurabile. (CT Investigation)",
+          "check": {
+            "ability": "INT",
+            "skill": "Investigation",
+            "dc": 14
+          },
+          "outcomes": {
+            "success": {
+              "goto": "strong_trace",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "m5_trace_static_evidence",
+                  "value": "patterned"
+                }
+              ]
+            },
+            "failure": {
+              "goto": "partial_trace",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "m5_trace_static_evidence",
+                  "value": "ambiguous"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "static_compare",
+          "text": "Confronto la carica con le pietre annerite.",
+          "goto": "compare"
+        },
+        {
+          "id": "static_report",
+          "text": "Segnalo subito il dato grezzo alla stazione.",
+          "goto": "report_station"
+        }
+      ]
+    },
+    "stone_marks": {
+      "stitches": [
+        {
+          "id": "m1",
+          "text": "Le pietre mostrano vetriature sottili e una disposizione che potrebbe essere naturale solo con una coincidenza notevole. Nessuna iscrizione leggibile, nessun simbolo che autorizzi già un'identità."
+        }
+      ],
+      "choices": [
+        {
+          "id": "marks_check",
+          "text": "Studio allineamento e stratificazione. (CT Nature)",
+          "check": {
+            "ability": "INT",
+            "skill": "Nature",
+            "dc": 14
+          },
+          "outcomes": {
+            "success": {
+              "goto": "strong_trace",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "m5_trace_stone_evidence",
+                  "value": "layered_pattern"
+                }
+              ]
+            },
+            "failure": {
+              "goto": "false_lead",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "m5_trace_stone_evidence",
+                  "value": "uncertain"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "marks_weather",
+          "text": "Verifico se il vento può aver prodotto la disposizione.",
+          "goto": "weather_echo"
+        },
+        {
+          "id": "marks_witness",
+          "text": "Cerco qualcuno che abbia visto la scarica.",
+          "goto": "witness"
+        }
+      ]
+    },
+    "weather_echo": {
+      "stitches": [
+        {
+          "id": "w1",
+          "text": "Il bollettino non registra una cella compatibile con ciò che hai osservato. È una discrepanza, non una prova soprannaturale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "weather_record",
+          "text": "Registro la discrepanza come evidenza indipendente.",
+          "goto": "compare",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_trace_weather_evidence",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "weather_lance",
+          "text": "Chiedo a Lance se ha visto qualcosa di simile.",
+          "conditions": {
+            "path": "world.flags.lance_met",
+            "eq": true
+          },
+          "goto": "lance_context"
+        },
+        {
+          "id": "weather_report",
+          "text": "Porto il confronto alla stazione.",
+          "goto": "report_station"
+        }
+      ]
+    },
+    "witness": {
+      "stitches": [
+        {
+          "id": "wi1",
+          "text": "Un addetto di manutenzione ricorda un bagliore basso sull'orizzonte, seguito da strumenti fuori scala per pochi secondi. Non ha visto una creatura né un oggetto identificabile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "witness_record",
+          "text": "Registro solo ciò che ha realmente visto.",
+          "goto": "compare",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_trace_witness_evidence",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "witness_press",
+          "text": "Chiedo se è sicuro di non aver visto altro.",
+          "goto": "false_lead"
+        }
+      ]
+    },
+    "compare": {
+      "stitches": [
+        {
+          "id": "c1",
+          "text": "Le piste possono rafforzarsi a vicenda senza diventare una risposta. Il punto utile è capire se più anomalie indipendenti convergono."
+        }
+      ],
+      "choices": [
+        {
+          "id": "compare_strong",
+          "text": "Metto insieme almeno due segnali coerenti.",
+          "conditions": {
+            "any": [
+              {
+                "all": [
+                  {
+                    "path": "world.flags.m5_trace_static_evidence",
+                    "eq": "patterned"
+                  },
+                  {
+                    "path": "world.flags.m5_trace_weather_evidence",
+                    "eq": true
+                  }
+                ]
+              },
+              {
+                "all": [
+                  {
+                    "path": "world.flags.m5_trace_stone_evidence",
+                    "eq": "layered_pattern"
+                  },
+                  {
+                    "path": "world.flags.m5_trace_witness_evidence",
+                    "eq": true
+                  }
+                ]
+              }
+            ]
+          },
+          "goto": "strong_trace"
+        },
+        {
+          "id": "compare_partial",
+          "text": "La convergenza è ancora incompleta.",
+          "goto": "partial_trace"
+        },
+        {
+          "id": "compare_report",
+          "text": "Consegno il quadro alla stazione senza interpretarlo oltre.",
+          "goto": "report_station"
+        }
+      ]
+    },
+    "lance_context": {
+      "stitches": [
+        {
+          "id": "l1",
+          "text": "Lance non riconosce un'entità o una specie. Dice soltanto che alcuni fenomeni sembrano antichi perché il paesaggio conserva cicatrici più a lungo delle nostre spiegazioni."
+        }
+      ],
+      "choices": [
+        {
+          "id": "lance_record",
+          "text": "Registro il suo dubbio, non una soluzione.",
+          "goto": "partial_trace",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_trace_lance_context",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "lance_compare",
+          "text": "Torno ai dati verificabili.",
+          "goto": "compare"
+        }
+      ]
+    },
+    "false_lead": {
+      "stitches": [
+        {
+          "id": "f1",
+          "text": "Una parte del pattern potrebbe essere semplice erosione o selezione involontaria dei segnali più strani. L'ipotesi resta possibile e impedisce di trasformare il mistero in certezza prematura."
+        }
+      ],
+      "choices": [
+        {
+          "id": "false_accept",
+          "text": "Mantengo il falso positivo come possibilità reale.",
+          "goto": "partial_trace",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_trace_false_positive_considered",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "false_report",
+          "text": "Lo includo nel rapporto come limite.",
+          "goto": "report_station"
+        }
+      ]
+    },
+    "strong_trace": {
+      "stitches": [
+        {
+          "id": "st1",
+          "text": "Più segnali indipendenti convergono: qualcosa ha lasciato una firma non spiegata dal meteo ordinario. Questo è il massimo che puoi affermare senza inventare la causa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "strong_layer",
+          "text": "Registro il primo strato del mistero come traccia convergente.",
+          "goto": "layer_record",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ancient_mystery_layer_1",
+              "value": "convergent_ancient_trace"
+            }
+          ]
+        },
+        {
+          "id": "strong_report",
+          "text": "Prima invio i dati alla stazione.",
+          "goto": "report_station",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_trace_strength",
+              "value": "strong"
+            }
+          ]
+        }
+      ]
+    },
+    "partial_trace": {
+      "stitches": [
+        {
+          "id": "pt1",
+          "text": "Hai una discrepanza reale ma non abbastanza convergenza per definirla oltre. Il mistero può restare parziale senza essere invalidato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "partial_layer",
+          "text": "Registro il layer come traccia incompleta.",
+          "goto": "layer_record",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ancient_mystery_layer_1",
+              "value": "partial_unresolved_trace"
+            }
+          ]
+        },
+        {
+          "id": "partial_more",
+          "text": "Faccio un ultimo confronto con i dati disponibili.",
+          "goto": "compare"
+        }
+      ]
+    },
+    "report_station": {
+      "stitches": [
+        {
+          "id": "r1",
+          "text": "La stazione accetta il rapporto e separa osservazioni da interpretazioni. Nessuno trasforma il documento in una conferma di leggendario, mitico o cattura."
+        }
+      ],
+      "choices": [
+        {
+          "id": "report_record",
+          "text": "Registro che la traccia è stata segnalata.",
+          "goto": "layer_record",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_trace_reported",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "report_back",
+          "text": "Torno sul campo per decidere quanto posso davvero concludere.",
+          "goto": "compare"
+        }
+      ]
+    },
+    "leave_unresolved": {
+      "stitches": [
+        {
+          "id": "u1",
+          "text": "Ignorare l'anomalia non la cancella. Il mondo conserva il fatto che il fenomeno è stato notato ma non investigato da te."
+        }
+      ],
+      "choices": [
+        {
+          "id": "unresolved_layer",
+          "text": "Registro solo l'esistenza di una traccia non indagata.",
+          "goto": "layer_record",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "ancient_mystery_layer_1",
+              "value": "noticed_not_investigated"
+            }
+          ]
+        },
+        {
+          "id": "unresolved_return",
+          "text": "Cambio idea e faccio almeno un controllo.",
+          "goto": "static_field"
+        }
+      ]
+    },
+    "layer_record": {
+      "stitches": [
+        {
+          "id": "lr1",
+          "text": "Il primo layer è persistente e volutamente incompleto. Moduli successivi potranno confrontarlo con nuove prove senza retroattivamente inventare ciò che hai visto qui."
+        }
+      ],
+      "choices": [
+        {
+          "id": "layer_complete",
+          "text": "Chiudo A5_TRACE con questo stato.",
+          "goto": "trace_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_ancient_trace_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "major_lore_chain_started",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "layer_review",
+          "text": "Rivedo le fonti prima di chiudere.",
+          "goto": "compare"
+        }
+      ]
+    },
+    "trace_close": {
+      "stitches": [
+        {
+          "id": "tc1",
+          "text": "La scena termina con una domanda meglio definita, non con una risposta. Nessun Pokémon raro viene aggiunto al roster e nessun incontro futuro è garantito."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_after",
+          "text": "Torno all'altopiano con il layer registrato.",
+          "goto": "after_trace"
+        }
+      ]
+    },
+    "after_trace": {
+      "stitches": [
+        {
+          "id": "a1",
+          "text": "Fulgore torna a essere un luogo aperto. Il mistero resta nel save insieme a rotta, meteo, Lance e carriera, pronto per callback futuri."
+        }
+      ],
+      "choices": [
+        {
+          "id": "after_altacima",
+          "text": "Rientro ad Altacima.",
+          "timeCostMinutes": 60,
+          "goto": "m05-altacima#town_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
