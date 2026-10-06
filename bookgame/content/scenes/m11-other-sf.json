@@ -353,8 +353,8 @@
         },
         {
           "id": "complete_alt",
-          "text": "Confronto questo punto con Other Sf Entry.",
-          "goto": "other_sf_entry"
+          "text": "Rivedo il Final Four già risolto.",
+          "goto": "review"
         }
       ]
     },
