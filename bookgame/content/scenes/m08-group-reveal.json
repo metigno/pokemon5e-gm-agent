@@ -317,7 +317,7 @@
               },
               {
                 "path": "competition.world.playerGroup",
-                "exists": true
+                "ne": null
               },
               {
                 "path": "competition.world.playerOpponents.length",
