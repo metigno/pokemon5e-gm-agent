@@ -1,0 +1,519 @@
+{
+  "schemaVersion": 1,
+  "id": "m10-world-qf",
+  "moduleId": "M10",
+  "title": "M10_07 — World QF",
+  "locationId": "world_knockout_hall",
+  "entryNodeId": "qf_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m10_qf_prep_complete",
+        "eq": true
+      },
+      {
+        "path": "competition.world.knockout.playerAdvancedToQf",
+        "eq": true
+      },
+      {
+        "path": "competition.world.knockout.playerQfMatchId",
+        "exists": true
+      }
+    ]
+  },
+  "nodes": {
+    "qf_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il quarto è single elimination e usa il QF match del player già creato da E5."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_opponent",
+          "text": "Apro la scheda dell'avversario reale.",
+          "goto": "opponent_card"
+        },
+        {
+          "id": "entry_rules",
+          "text": "Rileggo le regole ufficiali.",
+          "goto": "rules"
+        },
+        {
+          "id": "entry_pressure",
+          "text": "Guardo la pressione degli altri quarti.",
+          "goto": "world_pressure"
+        }
+      ]
+    },
+    "opponent_card": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Avversario QF: {{competition.world.knockout.playerQfOpponent.name}}. Il nome viene dal bracket Top8 persistente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "opponent_callback",
+          "text": "Controllo i precedenti leciti.",
+          "goto": "opponent_callback"
+        },
+        {
+          "id": "opponent_roster",
+          "text": "Controllo il mio roster.",
+          "goto": "roster_state"
+        },
+        {
+          "id": "opponent_ready",
+          "text": "Passo alla readiness.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "opponent_callback": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un precedente può cambiare il tono, mai il roster regolamentato, il matchId o l'esito."
+        }
+      ],
+      "choices": [
+        {
+          "id": "callback_pressure",
+          "text": "Ragiono sulla pressione del duello.",
+          "goto": "pressure"
+        },
+        {
+          "id": "callback_ready",
+          "text": "Chiudo il callback.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "rules": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Formato ufficiale: Singles, sei Pokémon, nessun replay dopo il risultato. Vittoria = Final Four; sconfitta = eliminazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rules_roster",
+          "text": "Controllo la squadra.",
+          "goto": "roster_state"
+        },
+        {
+          "id": "rules_integrity",
+          "text": "Controllo l'idempotenza.",
+          "goto": "match_integrity"
+        },
+        {
+          "id": "rules_ready",
+          "text": "Passo alla readiness.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "roster_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il bridge usa i sei Pokémon reali del roster. Nessun membro viene guarito dalla transizione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "roster_resources",
+          "text": "Controllo HP/PP persistenti.",
+          "goto": "resources_before"
+        },
+        {
+          "id": "roster_ready",
+          "text": "Procedo alla readiness.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "resources_before": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Le risorse sono quelle lasciate da R16, servizi reali e prep. Nessun recupero nascosto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "resources_risk",
+          "text": "Valuto il rischio di entrare così.",
+          "goto": "pressure"
+        },
+        {
+          "id": "resources_ready",
+          "text": "Accetto lo stato.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "pressure": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Top8 riduce il margine d'errore, ma la pressione non modifica tiri, AC o danni."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pressure_world",
+          "text": "Guardo gli altri quarti.",
+          "goto": "world_pressure"
+        },
+        {
+          "id": "pressure_ready",
+          "text": "Torno al mio match.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "world_pressure": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Gli altri tre QF esistono indipendentemente dal player e saranno risolti da E5 soltanto dopo il tuo risultato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "world_integrity",
+          "text": "Controllo come evitare doppi risultati.",
+          "goto": "match_integrity"
+        },
+        {
+          "id": "world_ready",
+          "text": "Torno alla readiness.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "match_integrity": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "E5 rifiuta un secondo avvio se il QF del player possiede già un outcome. History deve contenere un solo record ufficiale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "integrity_rules",
+          "text": "Rivedo le regole.",
+          "goto": "rules"
+        },
+        {
+          "id": "integrity_handoff",
+          "text": "Passo al bridge.",
+          "goto": "match_handoff"
+        }
+      ]
+    },
+    "readiness": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La readiness finale verifica QF bracket, match irrisolto e roster. Poi il controllo passa al motore Pokémon 5e."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ready_handoff",
+          "text": "Avvio la procedura ufficiale.",
+          "goto": "match_handoff"
+        },
+        {
+          "id": "ready_back",
+          "text": "Torno all'avversario.",
+          "goto": "opponent_card"
+        },
+        {
+          "id": "ready_pressure",
+          "text": "Rileggo il rischio.",
+          "goto": "pressure"
+        }
+      ]
+    },
+    "match_handoff": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il bridge risolve dinamicamente matchId, trainerId e roster dal QF E5."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fight_qf",
+          "text": "Combatto il quarto di finale.",
+          "combat": {
+            "encounterId": "WORLD_QF_PLAYER",
+            "opponentRegistered": true,
+            "competition": {
+              "type": "official_match",
+              "matchId": "WORLD_QF_PLAYER",
+              "format": "Singles",
+              "officialRosterSize": 6,
+              "difficulty": "ELITE",
+              "worldKnockoutRound": "QF"
+            },
+            "returnNodes": {
+              "win": "win_return",
+              "lose": "loss_return"
+            },
+            "goto": "match_handoff"
+          },
+          "conditions": {
+            "path": "world.flags.world_qf_resolved",
+            "ne": true
+          }
+        },
+        {
+          "id": "handoff_back",
+          "text": "Non entro ancora: torno alla readiness.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "win_return": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La vittoria è stata scritta sul QF reale. Prima del Final Four E5 deve chiudere gli altri tre quarti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "win_record",
+          "text": "Registro la chiusura narrativa del mio QF.",
+          "goto": "result_record",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m10_world_qf_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "win_resources",
+          "text": "Controllo ciò che resta al team.",
+          "goto": "resources_after",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m10_world_qf_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "loss_return": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La sconfitta è eliminazione reale. Non esiste ripescaggio o percorso alternativo verso M11."
+        }
+      ],
+      "choices": [
+        {
+          "id": "loss_record",
+          "text": "Registro la chiusura narrativa del QF.",
+          "goto": "result_record",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m10_world_qf_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "loss_resources",
+          "text": "Controllo lo stato del team.",
+          "goto": "resources_after",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m10_world_qf_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "result_record": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "competition.history contiene ora il WORLD_QF_n reale e il bracket possiede playerOutcome."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record_outcome",
+          "text": "Leggo la conseguenza competitiva.",
+          "goto": "outcome_meaning"
+        },
+        {
+          "id": "record_resources",
+          "text": "Controllo le risorse persistenti.",
+          "goto": "resources_after"
+        },
+        {
+          "id": "record_world",
+          "text": "Guardo gli altri QF.",
+          "goto": "other_qf"
+        }
+      ]
+    },
+    "outcome_meaning": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Vittoria significa candidato Top4; sconfitta significa world_eliminated=true. Il testo non può ribaltare lo stato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "outcome_other",
+          "text": "Passo agli altri risultati QF.",
+          "goto": "other_qf"
+        },
+        {
+          "id": "outcome_history",
+          "text": "Rileggo l'audit history.",
+          "goto": "history_audit"
+        }
+      ]
+    },
+    "resources_after": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "HP, PP e status del combat sono già tornati nel roster persistente tramite il battle bridge."
+        }
+      ],
+      "choices": [
+        {
+          "id": "resources_history",
+          "text": "Controllo il record unico.",
+          "goto": "history_audit"
+        },
+        {
+          "id": "resources_next",
+          "text": "Passo al gate dell'aftermath.",
+          "goto": "aftermath_gate"
+        }
+      ]
+    },
+    "other_qf": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Gli altri quarti non proteggono amici o Anchor. M10_08 li risolverà con il seed della carriera."
+        }
+      ],
+      "choices": [
+        {
+          "id": "other_friend",
+          "text": "Controllo il caso di un amico nel Top8.",
+          "goto": "friend_context"
+        },
+        {
+          "id": "other_gate",
+          "text": "Vado al gate dell'aftermath.",
+          "goto": "aftermath_gate"
+        }
+      ]
+    },
+    "friend_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se un amico era in un altro QF, può vincere o perdere indipendentemente dal Friend Beat. Se era il tuo avversario, il suo destino coincide col risultato reale del match."
+        }
+      ],
+      "choices": [
+        {
+          "id": "friend_world",
+          "text": "Torno al quadro dei quarti.",
+          "goto": "other_qf"
+        },
+        {
+          "id": "friend_gate",
+          "text": "Procedo al gate.",
+          "goto": "aftermath_gate"
+        }
+      ]
+    },
+    "history_audit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'audit richiede un solo record QF ufficiale e nessun reset di competition.history all'uscita."
+        }
+      ],
+      "choices": [
+        {
+          "id": "history_integrity",
+          "text": "Rileggo l'idempotenza.",
+          "goto": "match_integrity"
+        },
+        {
+          "id": "history_gate",
+          "text": "Passo al gate.",
+          "goto": "aftermath_gate"
+        }
+      ]
+    },
+    "aftermath_gate": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "M10_08 può aprirsi soltanto dopo il risultato reale del QF."
+        }
+      ],
+      "choices": [
+        {
+          "id": "gate_aftermath",
+          "text": "Apro il QF Aftermath.",
+          "goto": "m10-qf-aftermath#aftermath_entry"
+        },
+        {
+          "id": "gate_review",
+          "text": "Rivedo il record.",
+          "goto": "result_record"
+        }
+      ]
+    },
+    "qf_complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il tuo quarto è concluso. Ora E5 deve chiudere l'intero Top8 prima di produrre il Final Four."
+        }
+      ],
+      "choices": [
+        {
+          "id": "complete_gate",
+          "text": "Procedo all'aftermath.",
+          "goto": "aftermath_gate"
+        },
+        {
+          "id": "complete_history",
+          "text": "Rileggo l'history.",
+          "goto": "history_audit"
+        }
+      ]
+    }
+  }
+}
