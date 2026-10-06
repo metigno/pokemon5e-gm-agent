@@ -157,6 +157,432 @@
           ]
         }
       ]
+    },
+    {
+      "id": "M4_SMUGGLING_WINDOW",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "world.flags.port_pressure_complete",
+            "eq": true
+          },
+          {
+            "path": "world.flags.smuggling_state",
+            "exists": false
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "smuggling_window_opens",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "smuggling_thread_available",
+              "value": true
+            },
+            {
+              "type": "quest_start",
+              "questId": "M4_SMUGGLING_THREAD",
+              "title": "Movimenti fuori registro",
+              "objective": "Decidi se verificare, segnalare o ignorare le anomalie logistiche prima che la rete cambi rotta.",
+              "deadlineMinutes": 1440,
+              "onDeadline": {
+                "status": "failed",
+                "resolution": "network_shifted_without_player",
+                "resolvedBy": "world"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M4_SMUGGLING_DEADLINE_OUTCOME",
+      "once": true,
+      "trigger": {
+        "path": "quests.M4_SMUGGLING_THREAD.status",
+        "eq": "failed"
+      },
+      "outcomes": [
+        {
+          "id": "player_ignored",
+          "when": {
+            "path": "quests.M4_SMUGGLING_THREAD.resolution",
+            "eq": "player_ignored"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "smuggling_state",
+              "value": "ignored"
+            },
+            {
+              "type": "set_flag",
+              "key": "smuggling_thread_resolved",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "network_shifted",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "smuggling_state",
+              "value": "resolved_without_player"
+            },
+            {
+              "type": "set_flag",
+              "key": "smuggling_thread_resolved",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M4_FRIEND_CALL",
+      "once": true,
+      "trigger": {
+        "any": [
+          {
+            "path": "world.flags.port_pressure_complete",
+            "eq": true
+          },
+          {
+            "path": "world.flags.reef_visited",
+            "eq": true
+          },
+          {
+            "path": "player.trainerLevel",
+            "gte": 9
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "luke_present_coast",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Luke"
+              },
+              {
+                "path": "npcs.Luke.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Luke.schedule.locationId",
+                "in": [
+                  "mar_city",
+                  "sal_coast",
+                  "sal_coast_jetty"
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_friend_id",
+              "value": "Luke"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "mattew_present_coast",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Mattew"
+              },
+              {
+                "path": "npcs.Mattew.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Mattew.schedule.locationId",
+                "in": [
+                  "mar_city",
+                  "sal_coast",
+                  "sal_coast_jetty"
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_friend_id",
+              "value": "Mattew"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "daniel_present_coast",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Daniel"
+              },
+              {
+                "path": "npcs.Daniel.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Daniel.schedule.locationId",
+                "in": [
+                  "mar_city",
+                  "sal_coast",
+                  "sal_coast_jetty"
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_friend_id",
+              "value": "Daniel"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "edward_present_coast",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Edward"
+              },
+              {
+                "path": "npcs.Edward.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Edward.schedule.locationId",
+                "in": [
+                  "mar_city",
+                  "sal_coast",
+                  "sal_coast_jetty"
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_friend_id",
+              "value": "Edward"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "fab_present_coast",
+          "when": {
+            "all": [
+              {
+                "path": "player.name",
+                "ne": "Fab"
+              },
+              {
+                "path": "npcs.Fab.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Fab.schedule.locationId",
+                "in": [
+                  "mar_city",
+                  "sal_coast",
+                  "sal_coast_jetty"
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_friend_id",
+              "value": "Fab"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_contact_mode",
+              "value": "physical"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "luke_fallback_mattew",
+          "when": {
+            "path": "player.name",
+            "eq": "Luke"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_friend_id",
+              "value": "Mattew"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "mattew_fallback_daniel",
+          "when": {
+            "path": "player.name",
+            "eq": "Mattew"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_friend_id",
+              "value": "Daniel"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "daniel_fallback_edward",
+          "when": {
+            "path": "player.name",
+            "eq": "Daniel"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_friend_id",
+              "value": "Edward"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "edward_fallback_fab",
+          "when": {
+            "path": "player.name",
+            "eq": "Edward"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_friend_id",
+              "value": "Fab"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_available",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "fab_fallback_luke",
+          "when": {
+            "path": "player.name",
+            "eq": "Fab"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_friend_id",
+              "value": "Luke"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_contact_mode",
+              "value": "remote"
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_04_available",
+              "value": true
+            }
+          ]
+        }
+      ]
     }
   ]
 }
