@@ -339,7 +339,7 @@
         {
           "id": "complete_outcome",
           "text": "Rileggo la conseguenza del mio ottavo.",
-          "goto": "player_outcome"
+          "goto": "handoff_placeholder"
         }
       ]
     },
