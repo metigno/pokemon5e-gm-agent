@@ -491,7 +491,7 @@
         {
           "id": "gate_review",
           "text": "Rivedo il record.",
-          "goto": "result_record"
+          "goto": "qf_complete"
         }
       ]
     },
