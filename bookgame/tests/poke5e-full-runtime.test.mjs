@@ -102,7 +102,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
   const moves = await data.listMoves();
   const unresolved = moves.filter((move) => !isMoveResolvable(move)).map((move) => move.id);
 
-  assert.ok(unresolved.length <= 197, `unresolved move rules regressed to ${unresolved.length}`);
+  assert.ok(unresolved.length <= 195, `unresolved move rules regressed to ${unresolved.length}`);
   assert.ok(unresolved.includes("acupressure"));
   for (const id of [
     "agility",
@@ -114,9 +114,11 @@ test("move execution coverage has an explicit non-regression gate", async () => 
     "cotton-guard",
     "defend-order",
     "dragon-dance",
+    "geomancy",
     "hone-claws",
     "meditate",
     "minimize",
+    "no-retreat",
     "quiver-dance",
     "rock-polish",
     "shell-smash",
@@ -291,6 +293,47 @@ test("Meditate, Cosmic Power and Victory Dance affect every saving-throw path", 
   assert.equal(victoryBattle.player.effects.attackModifierSources.at(-1).value, 2);
   assert.equal(victoryBattle.player.effects.acModifierSources.at(-1).value, 2);
   assert.equal(victoryBattle.player.effects.saveModifierSources.at(-1).value, 2);
+});
+
+
+test("Geomancy and No Retreat execute attack advantage, save advantage, speed and switching locks", async () => {
+  const geomancyCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1])
+  });
+  let geomancyBattle = await geomancyCombat.createBattle({
+    encounterId: "FULL_RUNTIME_GEOMANCY",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["geomancy", "tackle"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+  const baseSpeed = geomancyBattle.player.turn.movementRemaining;
+  geomancyBattle = await geomancyCombat.usePlayerMove(geomancyBattle, "geomancy");
+  assert.equal(geomancyBattle.player.turn.movementRemaining, baseSpeed + 10);
+  assert.equal(geomancyBattle.player.concentration?.moveId, "geomancy");
+  assert.equal(geomancyBattle.player.effects.attackAdvantageSources.at(-1).source, "geomancy");
+  assert.equal(geomancyBattle.player.effects.saveAdvantageSources.at(-1).source, "geomancy");
+
+  const noRetreatCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1])
+  });
+  let noRetreatBattle = await noRetreatCombat.createBattle({
+    encounterId: "FULL_RUNTIME_NO_RETREAT",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["no-retreat", "tackle"] },
+    playerBench: [{ speciesId: "pikachu", level: 5, moveIds: ["tackle"] }],
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+  noRetreatBattle = await noRetreatCombat.usePlayerMove(noRetreatBattle, "no-retreat");
+  assert.equal(noRetreatBattle.player.effects.attackAdvantageSources.at(-1).source, "no-retreat");
+  assert.equal(noRetreatBattle.player.effects.saveAdvantageSources.at(-1).source, "no-retreat");
+  assert.equal(noRetreatBattle.player.effects.escapeLockSources.at(-1).source, "no-retreat");
+
+  await assert.rejects(
+    () => noRetreatCombat.switchPlayer(noRetreatBattle, 0),
+    /no-retreat prevents voluntary switching/
+  );
 });
 
 test("save debuffs and allied status cures execute their 2024 effects", async () => {

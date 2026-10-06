@@ -317,14 +317,20 @@ export function resolveAttack({
   extraAttackModifier = 0,
   extraDamageModifier = 0,
   damageDiceMultiplier = 1,
-  forceDisadvantage = false
+  forceDisadvantage = false,
+  round = null
 }) {
   const stats = calculateMoveStats(attacker, move);
   if (stats.toHit == null || stats.damageDice == null) {
     throw new Error(`Move ${move.id} is not a supported damaging attack-roll move`);
   }
 
+  const effectAdvantage = hasActiveEffect(
+    attacker.effects?.attackAdvantageSources ?? [],
+    round
+  );
   const attackRoll = rollD20(dice, {
+    advantage: effectAdvantage,
     disadvantage: forceDisadvantage || attackHasDisadvantage(attacker)
   });
   const gutsBonus = gutsMeleeBonus(attacker, move);
@@ -348,6 +354,7 @@ export function resolveAttack({
       hit: false,
       critical: false,
       criticalDamage: false,
+      effectAdvantage,
       gutsBonus,
       damage: 0,
       typeMultiplier: 1,
@@ -385,6 +392,7 @@ export function resolveAttack({
     hit: true,
     critical,
     criticalDamage,
+    effectAdvantage,
     damageRoll,
     damageDiceMultiplier,
     damageModifier: effectiveDamageModifier,

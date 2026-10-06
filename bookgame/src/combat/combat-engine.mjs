@@ -131,6 +131,12 @@ function effectiveAc(combatant, round) {
   return combatant.ac + activeModifier(combatant.effects?.acModifierSources ?? [], round);
 }
 
+function hasActiveSource(sources = [], round) {
+  return sources.some(
+    (source) => source.expiresRound == null || round < source.expiresRound
+  );
+}
+
 function removeEffectSource(combatant, source, round = null) {
   const speedSources = combatant.effects?.speedModifierSources ?? [];
   const speedBefore = round == null ? 0 : activeModifier(speedSources, round);
@@ -142,6 +148,9 @@ function removeEffectSource(combatant, source, round = null) {
     "speedModifierSources",
     "saveModifierSources",
     "saveAdvantageSources",
+    "attackAdvantageSources",
+    "switchLockSources",
+    "escapeLockSources",
     "movementLockSources",
     "ongoingEffects"
   ]) {
@@ -169,9 +178,16 @@ function modifierRuleFor(move, level) {
     "cotton-guard": { ac: 2 },
     "defend-order": { ac: tier },
     "dragon-dance": { attack: proficiencyBonus(level) },
+    "geomancy": { speed: 10, attackAdvantage: true, saveAdvantage: true },
     "hone-claws": { attack: 1, damage: 1, stackCap: 3 },
     "meditate": { attack: tier, save: tier },
     "minimize": { ac: 2 },
+    "no-retreat": {
+      attackAdvantage: true,
+      saveAdvantage: true,
+      switchLock: true,
+      escapeLock: true
+    },
     "quiver-dance": { attack: 1, damage: 1, ac: level >= 10 ? 2 : 1 },
     "rock-polish": { ac: 2, speed: 20 },
     "shell-smash": { ac: -1, damage: proficiencyBonus(level) },
@@ -327,9 +343,11 @@ const SIMPLE_MODIFIER_MOVES = new Set([
   "cotton-guard",
   "defend-order",
   "dragon-dance",
+  "geomancy",
   "hone-claws",
   "meditate",
   "minimize",
+  "no-retreat",
   "quiver-dance",
   "rock-polish",
   "shell-smash",
@@ -453,6 +471,9 @@ function clearTransientEffects(combatant) {
     speedModifierSources: [],
     saveModifierSources: [],
     saveAdvantageSources: [],
+    attackAdvantageSources: [],
+    switchLockSources: [],
+    escapeLockSources: [],
     movementLockSources: [],
     ongoingEffects: [],
     stockpileCount: 0
@@ -722,6 +743,12 @@ function endTurnInternal(battle, side, dice) {
     } else {
       combatant.effects.movementLockSources =
         (combatant.effects.movementLockSources ?? [])
+          .filter((entry) => entry.source !== effect.source);
+      combatant.effects.switchLockSources =
+        (combatant.effects.switchLockSources ?? [])
+          .filter((entry) => entry.source !== effect.source);
+      combatant.effects.escapeLockSources =
+        (combatant.effects.escapeLockSources ?? [])
           .filter((entry) => entry.source !== effect.source);
     }
   }
@@ -1047,6 +1074,9 @@ export class Pokemon5eCombatEngine {
         speedModifierSources: [],
         saveModifierSources: [],
         saveAdvantageSources: [],
+        attackAdvantageSources: [],
+        switchLockSources: [],
+        escapeLockSources: [],
         movementLockSources: [],
         ongoingEffects: [],
         stockpileCount: 0
@@ -1388,7 +1418,8 @@ export class Pokemon5eCombatEngine {
       extraAttackModifier: attackBonus,
       extraDamageModifier: damageBonus,
       damageDiceMultiplier: stockpileMultiplier,
-      forceDisadvantage
+      forceDisadvantage,
+      round: next.round
     });
 
     defender.hp.current = Math.max(0, defender.hp.current - result.damage);
@@ -1459,7 +1490,10 @@ export class Pokemon5eCombatEngine {
     const pb = proficiencyBonus(attacker.level);
     const roll = automaticHit
       ? { rolls: [], natural: null, mode: "automatic" }
-      : rollD20(this.dice, { disadvantage: attackHasDisadvantage(attacker) });
+      : rollD20(this.dice, {
+          advantage: hasActiveSource(attacker.effects?.attackAdvantageSources ?? [], next.round),
+          disadvantage: attackHasDisadvantage(attacker)
+        });
     const attackTotal = automaticHit ? null : roll.natural + pb + moveModifier;
     const defenderAc = effectiveAc(defender, next.round);
     const hit = automaticHit || roll.natural === 20 ||
@@ -1502,6 +1536,7 @@ export class Pokemon5eCombatEngine {
       activeModifier(attacker.effects.attackModifierSources, next.round) +
       activeModifier(defender.effects.incomingAttackBonusSources, next.round);
     const roll = rollD20(this.dice, {
+      advantage: hasActiveSource(attacker.effects?.attackAdvantageSources ?? [], next.round),
       disadvantage: forceDisadvantage || attackHasDisadvantage(attacker)
     });
     const attackModifier = stats.toHit + attackBonus;
@@ -1810,6 +1845,27 @@ export class Pokemon5eCombatEngine {
       });
       applied.saveAdvantage = true;
     }
+    if (rule.attackAdvantage) {
+      combatant.effects.attackAdvantageSources.push({
+        source: move.id,
+        expiresRound
+      });
+      applied.attackAdvantage = true;
+    }
+    if (rule.switchLock) {
+      combatant.effects.switchLockSources.push({
+        source: move.id,
+        expiresRound
+      });
+      applied.switchLock = true;
+    }
+    if (rule.escapeLock) {
+      combatant.effects.escapeLockSources.push({
+        source: move.id,
+        expiresRound
+      });
+      applied.escapeLock = true;
+    }
 
     const speedAfter = activeModifier(combatant.effects.speedModifierSources, next.round);
     if (combatant.turn.started && speedAfter !== speedBefore) {
@@ -1910,6 +1966,14 @@ export class Pokemon5eCombatEngine {
         remainingEndTurns: 3
       });
       combatant.effects.movementLockSources.push({
+        source: "ingrain",
+        expiresRound: null
+      });
+      combatant.effects.switchLockSources.push({
+        source: "ingrain",
+        expiresRound: null
+      });
+      combatant.effects.escapeLockSources.push({
         source: "ingrain",
         expiresRound: null
       });
@@ -2499,11 +2563,12 @@ export class Pokemon5eCombatEngine {
     if (incoming.hp.current <= 0) throw new Error("Cannot switch to a fainted Pokémon");
 
     const outgoing = next.player;
-    if (
-      !forced &&
-      (outgoing.effects?.movementLockSources ?? []).some((entry) => entry.source === "ingrain")
-    ) {
-      throw new Error("Ingrain prevents voluntary switching");
+    const switchLock = (outgoing.effects?.switchLockSources ?? []).find(
+      (entry) => entry.expiresRound == null || next.round < entry.expiresRound
+    );
+    if (!forced && switchLock) {
+      const label = switchLock.source === "ingrain" ? "Ingrain" : switchLock.source;
+      throw new Error(`${label} prevents voluntary switching`);
     }
     if (!withinLineOfSightDistance(next.trainer.position, outgoing.position, 60)) {
       throw new Error("Active Pokémon is more than 60ft from the trainer");
