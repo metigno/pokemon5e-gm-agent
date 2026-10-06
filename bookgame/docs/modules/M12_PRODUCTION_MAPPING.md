@@ -3,7 +3,7 @@
 **Module:** M12 — Dopo il Mondo  
 **Authority:** subordinate to `P5E_LIBROGAME_ENGINE_SOURCE_OF_TRUTH.md`, `P5E_LIBROGAME_12_MODULES_MASTER.md` and `M12_DOPO_IL_MONDO_MODULE_DESIGN.md`  
 **Locked authored budget:** **4,753 stitches / 1,884 player choices**  
-**Module implementation status:** **CYCLE 1 RUNTIME-VALIDATED**
+**Module implementation status:** **CYCLE 2 IMPLEMENTED / VALIDATION PENDING**
 
 E1–E7 are shared infrastructure from M1. No module-specific replacement engine is allowed.
 
@@ -50,10 +50,10 @@ The spine is production ordering, not forced linear play. Actual legal branches 
 | M12_02_VALEDARSENA_CALLBACKS | M1 callbacks e stato attuale della città | 442 | 175 | CYCLE 1 VALIDATED |
 | M12_03_BRUMA_CALLBACKS | M2 rete di cattura, Ranger e fauna dopo il tempo trascorso | 442 | 175 | CYCLE 1 VALIDATED |
 | M12_04_FERROX_CALLBACKS | M3 lavoro, rescue e infrastrutture | 442 | 175 | CYCLE 1 VALIDATED |
-| M12_05_COAST_CALLBACKS | M4 porto, contrabbando e mare | 442 | 175 | PLANNED |
-| M12_06_HIGHLANDS_CALLBACKS | M5 Fulgore, Altacima e mistero antico | 442 | 175 | PLANNED |
-| M12_07_INTERREGIONAL_CALLBACKS | M6 carriera, Red, Masters e cutoff | 442 | 175 | PLANNED |
-| M12_08_MERIDIANA_CALLBACKS | M7 media, Cynthia, Qualifier e status professionale | 442 | 175 | PLANNED |
+| M12_05_COAST_CALLBACKS | M4 porto, contrabbando e mare | 442 | 175 | CYCLE 2 IMPLEMENTED |
+| M12_06_HIGHLANDS_CALLBACKS | M5 Fulgore, Altacima e mistero antico | 442 | 175 | CYCLE 2 IMPLEMENTED |
+| M12_07_INTERREGIONAL_CALLBACKS | M6 carriera, Red, Masters e cutoff | 442 | 175 | CYCLE 2 IMPLEMENTED |
+| M12_08_MERIDIANA_CALLBACKS | M7 media, Cynthia, Qualifier e status professionale | 442 | 175 | CYCLE 2 IMPLEMENTED |
 | M12_09_FRIEND_BEAT_12 | chiusura con tutti gli amici plausibili, almeno uno garantito | 441 | 175 | PLANNED |
 | M12_10_POSTGAME_HOOKS | side quest, Legendary arcs, Primo Faro, mistero antico e future stagioni | 304 | 121 | PLANNED |
 | M12_11_MAIN_STORY_COMPLETE | flag finale senza chiudere free-roam o cancellare stato | 259 | 103 | PLANNED |
@@ -377,3 +377,72 @@ Validation:
 - tests: **1,311 passed / 0 failed / 0 skipped**.
 
 M12 is **not module-complete yet**. The next production surface starts at M12_05.
+
+
+---
+
+# 5B. CYCLE 2 IMPLEMENTATION LOCK — M12_05–M12_08
+
+Cycle 2 extends the runtime callback chain through the complete M4→M7 geographic/career history.
+
+**Cycle 2 logical surface:** **84 nodes / 188 meaningful choices** exactly.  
+**Cumulative M12 through M12_08:** **179 nodes / 397 meaningful choices**.  
+**Residual M12 budget:** **49 nodes / 105 meaningful choices** for M12_09→M12_11.
+
+## M12_05_COAST_CALLBACKS
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R29 — LIVING WORLD OFF-SCREEN RESOLUTION
+- R30 — INVESTIGATION / EVIDENCE AGGREGATION
+- R33 — CROSS-MODULE CALLBACK
+- R38 — COMPOSITE OUTCOME CLASSIFIER
+
+**Unique layer:** consumes M4 port/reef/smuggling history and keeps coordinated intercept, customs intercept, route documented, monitoring, insufficient evidence and ignored histories distinct.
+
+**Implementation lock:** scene `m12-coast-callbacks` contains **21 nodes / 47 meaningful choices**.
+
+## M12_06_HIGHLANDS_CALLBACKS
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R29 — LIVING WORLD OFF-SCREEN RESOLUTION
+- R31 — LOCAL PROBLEM RESPONSE
+- R33 — CROSS-MODULE CALLBACK
+- R38 — COMPOSITE OUTCOME CLASSIFIER
+
+**Unique layer:** separately preserves the real M5 high-altitude outcome and the player's actual ancient-mystery knowledge layer. It never promotes a partial clue into a solved mystery.
+
+**Implementation lock:** scene `m12-highlands-callbacks` contains **21 nodes / 47 meaningful choices**.
+
+## M12_07_INTERREGIONAL_CALLBACKS
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R28 — FRIEND / CAREER DIVERGENCE
+- R29 — LIVING WORLD OFF-SCREEN RESOLUTION
+- R33 — CROSS-MODULE CALLBACK
+- R38 — COMPOSITE OUTCOME CLASSIFIER
+
+**Unique layer:** Continental Cup, Masters, Red, cutoff and Primo Faro remain independent career facts. Continental and Masters results are read and preserved separately.
+
+**Implementation lock:** scene `m12-interregional-callbacks` contains **21 nodes / 47 meaningful choices**.
+
+## M12_08_MERIDIANA_CALLBACKS
+
+**Reuse class:** ADAPT
+
+**Source archetypes:**
+- R23 — NPC PRESENCE / SCHEDULE GATE
+- R28 — FRIEND / CAREER DIVERGENCE
+- R33 — CROSS-MODULE CALLBACK
+- R38 — COMPOSITE OUTCOME CLASSIFIER
+
+**Unique layer:** sponsor/media context, Cynthia, Rank S and World qualification remain separate. Direct qualification, Last Chance qualification and Worlds Missed are preserved as distinct M7 histories.
+
+**Implementation lock:** scene `m12-meridiana-callbacks` contains **21 nodes / 47 meaningful choices**.
+
+**Library decision:** the four blocks are fully expressible with R01→R38. **No R39 candidate is required.**
