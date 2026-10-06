@@ -1,0 +1,297 @@
+{
+  "schemaVersion": 1,
+  "id": "m09-groups-open",
+  "moduleId": "M09",
+  "title": "M9_00 — Groups Open",
+  "locationId": "world_village",
+  "entryNodeId": "groups_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m8_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m09_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.world_qualified",
+        "eq": true
+      },
+      {
+        "path": "competition.world.drawComplete",
+        "eq": true
+      },
+      {
+        "path": "competition.world.fieldLocked",
+        "eq": true
+      },
+      {
+        "path": "competition.world.playerOpponents.length",
+        "eq": 3
+      }
+    ]
+  },
+  "nodes": {
+    "groups_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Gruppo {{competition.world.playerGroup}} non è più un annuncio: da questo momento è un calendario competitivo persistente. I tre nomi arrivano dal sorteggio E5 di M8 e non possono essere sostituiti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_group",
+          "text": "Rivedo i quattro partecipanti del gruppo.",
+          "goto": "group_identity"
+        },
+        {
+          "id": "entry_calendar",
+          "text": "Controllo l'ordine delle tre giornate.",
+          "goto": "calendar"
+        },
+        {
+          "id": "entry_authority",
+          "text": "Verifico chi possiede risultati e classifica.",
+          "goto": "group_rules"
+        }
+      ]
+    },
+    "group_identity": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il gruppo contiene te e {{competition.world.playerOpponents.0.name}}, {{competition.world.playerOpponents.1.name}}, {{competition.world.playerOpponents.2.name}}. Nessun rapporto personale cambia il sorteggio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "group_first",
+          "text": "Analizzo il primo avversario sorteggiato.",
+          "goto": "opponent_one"
+        },
+        {
+          "id": "group_second",
+          "text": "Analizzo il secondo avversario sorteggiato.",
+          "goto": "opponent_two"
+        },
+        {
+          "id": "group_third",
+          "text": "Analizzo il terzo avversario sorteggiato.",
+          "goto": "opponent_three"
+        }
+      ]
+    },
+    "group_rules": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "WORLD_GROUPS appartiene a E5 Competition. Le scene possono mostrare il torneo, ma vittorie, sconfitte, punti e posizione devono derivare dallo stato competitivo strutturato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rules_calendar",
+          "text": "Passo al calendario ufficiale.",
+          "goto": "calendar"
+        },
+        {
+          "id": "rules_standings",
+          "text": "Controllo come nasce la classifica.",
+          "goto": "standings_zero"
+        }
+      ]
+    },
+    "calendar": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'ordine è immutabile per questa edizione: Matchday 1 contro il primo nome del draw, Matchday 2 contro il secondo, Matchday 3 contro il terzo. Gli altri due avversari giocano tra loro in ogni giornata."
+        }
+      ],
+      "choices": [
+        {
+          "id": "calendar_first",
+          "text": "Apro la scheda del Matchday 1.",
+          "goto": "opponent_one"
+        },
+        {
+          "id": "calendar_world",
+          "text": "Controllo cosa succede fuori dal mio match.",
+          "goto": "world_continues"
+        }
+      ]
+    },
+    "opponent_one": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Matchday 1: {{competition.world.playerOpponents.0.name}}. L'identità è nota; risultato, HP, PP e decisioni tattiche non lo sono."
+        }
+      ],
+      "choices": [
+        {
+          "id": "one_second",
+          "text": "Confronto il secondo avversario.",
+          "goto": "opponent_two"
+        },
+        {
+          "id": "one_commit",
+          "text": "Preparo il lock operativo dei gruppi.",
+          "goto": "open_commit"
+        }
+      ]
+    },
+    "opponent_two": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Matchday 2: {{competition.world.playerOpponents.1.name}}. Non esiste una scorciatoia narrativa per arrivarci con un risultato prestabilito."
+        }
+      ],
+      "choices": [
+        {
+          "id": "two_third",
+          "text": "Passo al terzo avversario.",
+          "goto": "opponent_three"
+        },
+        {
+          "id": "two_calendar",
+          "text": "Torno all'ordine delle giornate.",
+          "goto": "calendar"
+        }
+      ]
+    },
+    "opponent_three": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Matchday 3: {{competition.world.playerOpponents.2.name}}. Sarà l'ultimo incontro del round robin, ma la sua importanza dipenderà dai punti realmente ottenuti prima."
+        }
+      ],
+      "choices": [
+        {
+          "id": "three_standings",
+          "text": "Controllo la classifica iniziale.",
+          "goto": "standings_zero"
+        },
+        {
+          "id": "three_group",
+          "text": "Torno alla composizione del gruppo.",
+          "goto": "group_identity"
+        }
+      ]
+    },
+    "standings_zero": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Prima della prima partita tutti hanno 0 punti. Eventuali parità provvisorie usano soltanto un ordine stabile di visualizzazione: i tiebreak ufficiali arriveranno alla risoluzione del gruppo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "standings_world",
+          "text": "Guardo gli altri match che proseguiranno off-screen.",
+          "goto": "world_continues"
+        },
+        {
+          "id": "standings_commit",
+          "text": "Passo al commit E5 di WORLD_GROUPS.",
+          "goto": "open_commit"
+        }
+      ]
+    },
+    "world_continues": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il torneo non congela gli altri tre partecipanti. Quando giochi una giornata, E5 registra anche l'altro match del gruppo con un esito off-screen persistente e deterministico per la carriera."
+        }
+      ],
+      "choices": [
+        {
+          "id": "world_rules",
+          "text": "Rivedo l'autorità E5.",
+          "goto": "group_rules"
+        },
+        {
+          "id": "world_commit",
+          "text": "Sono pronto ad aprire formalmente il girone.",
+          "goto": "open_commit"
+        }
+      ]
+    },
+    "open_commit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il commit non gioca nessuna partita. Crea soltanto il calendario dei tre Matchday, la tabella a zero punti e il legame stabile con i tre avversari già estratti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "open_now",
+          "text": "Apro WORLD_GROUPS con il draw già lockato.",
+          "goto": "groups_open",
+          "conditions": {
+            "path": "competition.world.groupStage.opened",
+            "ne": true
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m9_active",
+              "value": true
+            },
+            {
+              "type": "competition_world_groups_open",
+              "eventId": "WORLD_GROUPS"
+            },
+            {
+              "type": "set_flag",
+              "key": "m9_groups_open_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "open_existing",
+          "text": "WORLD_GROUPS è già aperto: rileggo lo stato persistente.",
+          "goto": "groups_open",
+          "conditions": {
+            "path": "competition.world.groupStage.opened",
+            "eq": true
+          }
+        },
+        {
+          "id": "open_review",
+          "text": "Prima rivedo il calendario.",
+          "goto": "calendar"
+        }
+      ]
+    },
+    "groups_open": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "WORLD_GROUPS è aperto. Il calendario E5 è persistente e il primo Matchday userà esattamente {{competition.world.playerOpponents.0.name}} come avversario."
+        }
+      ],
+      "choices": [
+        {
+          "id": "open_matchday",
+          "text": "Vado alla preparazione del Matchday 1.",
+          "goto": "m09-matchday-one#matchday_entry"
+        },
+        {
+          "id": "open_table",
+          "text": "Rileggo la situazione iniziale.",
+          "goto": "standings_zero"
+        }
+      ]
+    }
+  }
+}

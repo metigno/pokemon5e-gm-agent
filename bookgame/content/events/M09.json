@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "M09",
+  "events": [
+    {
+      "id": "M9_KAIA_GROUP_SCHEDULE",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "world.flags.m9_matchday_one_complete",
+            "eq": true
+          },
+          {
+            "path": "competition.world.qualifications.c2060_32_kaia_solari.qualified",
+            "eq": true
+          },
+          {
+            "path": "world.flags.m9_kaia_available",
+            "ne": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "kaia_world_village",
+          "effects": [
+            {
+              "type": "npc_register",
+              "npcId": "KaiaSolari",
+              "name": "Kaia Solari",
+              "relationshipScore": 0,
+              "state": {
+                "role": "world_groups_anchor",
+                "introduced": false,
+                "competitiveProtection": false,
+                "module": "M09",
+                "worldQualified": true
+              }
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "KaiaSolari",
+              "scheduleId": "m9_world_groups_interday_one",
+              "locationId": "world_village",
+              "availability": "available",
+              "activity": "group_stage_recovery"
+            },
+            {
+              "type": "set_flag",
+              "key": "m9_kaia_available",
+              "value": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

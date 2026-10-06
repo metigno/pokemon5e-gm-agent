@@ -1,0 +1,476 @@
+{
+  "schemaVersion": 1,
+  "id": "m09-matchday-one",
+  "moduleId": "M09",
+  "title": "M9_01 — Matchday One",
+  "locationId": "world_group_arena",
+  "entryNodeId": "matchday_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m9_groups_open_complete",
+        "eq": true
+      },
+      {
+        "path": "competition.world.groupStage.opened",
+        "eq": true
+      },
+      {
+        "path": "competition.world.playerOpponents.length",
+        "eq": 3
+      },
+      {
+        "path": "world.flags.world_group_md1_resolved",
+        "ne": true
+      }
+    ]
+  },
+  "nodes": {
+    "matchday_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il primo Matchday non sceglie un avversario: legge l'indice 0 del draw lockato. Oggi giochi contro {{competition.world.playerOpponents.0.name}}."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_opponent",
+          "text": "Apro la scheda dell'avversario.",
+          "goto": "opponent_card"
+        },
+        {
+          "id": "entry_rules",
+          "text": "Rileggo formato e vincoli.",
+          "goto": "rules"
+        },
+        {
+          "id": "entry_table",
+          "text": "Guardo la classifica prima del match.",
+          "goto": "standings_before"
+        }
+      ]
+    },
+    "opponent_card": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "{{competition.world.playerOpponents.0.name}} entra come partecipante reale del gruppo. Il roster regolamentato viene materializzato una volta e persiste; non cambia perché ricarichi o perdi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "card_schedule",
+          "text": "Controllo che sia davvero il Matchday 1.",
+          "goto": "schedule_lock"
+        },
+        {
+          "id": "card_roster",
+          "text": "Controllo il mio Official Six.",
+          "goto": "roster_state"
+        },
+        {
+          "id": "card_callbacks",
+          "text": "Rivedo eventuali precedenti senza alterare il match.",
+          "goto": "opponent_callback"
+        }
+      ]
+    },
+    "rules": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Formato ufficiale: Singles, sei Pokémon registrati, risultato deciso dal motore Pokémon 5e. Non c'è retry del Matchday e una sconfitta non resetta il girone."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rules_roster",
+          "text": "Controllo la disponibilità della mia squadra.",
+          "goto": "roster_state"
+        },
+        {
+          "id": "rules_schedule",
+          "text": "Controllo il calendario lockato.",
+          "goto": "schedule_lock"
+        },
+        {
+          "id": "rules_ready",
+          "text": "Passo alla preparazione finale.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "schedule_lock": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "E5 associa WORLD_GROUP_MD1 al primo avversario del draw. Se il match è già risolto, il sistema rifiuta un secondo avvio invece di duplicare punti o history."
+        }
+      ],
+      "choices": [
+        {
+          "id": "schedule_table",
+          "text": "Rileggo la tabella pre-match.",
+          "goto": "standings_before"
+        },
+        {
+          "id": "schedule_ready",
+          "text": "Procedo verso la conferma.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "standings_before": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Prima del fischio d'inizio la classifica legge lo stato strutturato del gruppo: nessun testo può assegnare punti in anticipo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "table_world",
+          "text": "Controllo l'altro incontro della giornata.",
+          "goto": "world_pressure"
+        },
+        {
+          "id": "table_ready",
+          "text": "Passo alla readiness.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "roster_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il player deve presentare almeno sei Pokémon reali. Il Matchday non cura, non sostituisce e non ricrea nessun membro del roster."
+        }
+      ],
+      "choices": [
+        {
+          "id": "roster_medical",
+          "text": "Controllo il rischio di entrare con risorse consumate.",
+          "goto": "medical_state"
+        },
+        {
+          "id": "roster_ready",
+          "text": "Passo alla conferma del match.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "medical_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "HP, PP, status e infortuni restano quelli persistenti. Eventuali servizi di recupero devono essere usati davvero fuori da questa frase."
+        }
+      ],
+      "choices": [
+        {
+          "id": "medical_roster",
+          "text": "Torno al roster.",
+          "goto": "roster_state"
+        },
+        {
+          "id": "medical_ready",
+          "text": "Accetto lo stato reale e passo alla readiness.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "readiness": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La conferma finale controlla roster, calendario e assenza di un risultato precedente. Da qui il controllo passa al battle bridge."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ready_handoff",
+          "text": "Avvio la procedura ufficiale.",
+          "goto": "match_handoff"
+        },
+        {
+          "id": "ready_back",
+          "text": "Non entro ancora: torno alle regole.",
+          "goto": "rules"
+        }
+      ]
+    },
+    "match_handoff": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il bridge risolve dinamicamente l'avversario dal draw E5. Non esiste un nome hardcoded in questa scena."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fight_matchday_one",
+          "text": "Combatto il Matchday 1.",
+          "combat": {
+            "encounterId": "WORLD_GROUP_MD1",
+            "opponentRegistered": true,
+            "competition": {
+              "type": "official_match",
+              "matchId": "WORLD_GROUP_MD1",
+              "format": "Singles",
+              "officialRosterSize": 6,
+              "difficulty": "ELITE",
+              "worldOpponentIndex": 0,
+              "worldMatchday": 1
+            },
+            "returnNodes": {
+              "win": "win_return",
+              "lose": "loss_return"
+            },
+            "goto": "match_handoff"
+          }
+        }
+      ]
+    },
+    "win_return": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La vittoria è stata registrata da E5. Tre punti derivano dal risultato reale del combat, non dal nodo narrativo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "win_record",
+          "text": "Registro la chiusura narrativa del Matchday.",
+          "goto": "result_record",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m9_matchday_one_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "win_table",
+          "text": "Guardo subito la classifica aggiornata.",
+          "goto": "standings_after"
+        }
+      ]
+    },
+    "loss_return": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La sconfitta resta nel girone. Non esiste reload narrativo, promozione automatica o eliminazione prematura: restano due partite."
+        }
+      ],
+      "choices": [
+        {
+          "id": "loss_record",
+          "text": "Registro la chiusura narrativa del Matchday.",
+          "goto": "result_record",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m9_matchday_one_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "loss_resources",
+          "text": "Controllo le risorse rimaste.",
+          "goto": "resources_after"
+        }
+      ]
+    },
+    "result_record": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il risultato player e l'altro match del gruppo sono ormai persistenti. La scena può leggerli, non modificarli."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record_offscreen",
+          "text": "Controllo l'altro match del gruppo.",
+          "goto": "offscreen_result"
+        },
+        {
+          "id": "record_table",
+          "text": "Apro la nuova classifica.",
+          "goto": "standings_after"
+        },
+        {
+          "id": "record_resources",
+          "text": "Controllo cosa mi porto nell'interday.",
+          "goto": "resources_after"
+        }
+      ]
+    },
+    "offscreen_result": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "E5 ha risolto anche l'altro incontro del Matchday 1 con seed della carriera. Nessun Anchor o amico riceve protezione dal risultato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "offscreen_table",
+          "text": "Vedo l'effetto sulla classifica.",
+          "goto": "standings_after"
+        },
+        {
+          "id": "offscreen_world",
+          "text": "Guardo la pressione del torneo nel suo insieme.",
+          "goto": "world_pressure"
+        }
+      ]
+    },
+    "standings_after": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La posizione provvisoria e i punti vengono calcolati dai due match del giorno. Le parità definitive non vengono ancora sciolte come se il gruppo fosse finito."
+        }
+      ],
+      "choices": [
+        {
+          "id": "after_resources",
+          "text": "Controllo le risorse per domani.",
+          "goto": "resources_after"
+        },
+        {
+          "id": "after_window",
+          "text": "Passo alla pressione e alla finestra post-match.",
+          "goto": "next_window"
+        },
+        {
+          "id": "after_offscreen",
+          "text": "Rivedo l'altro risultato.",
+          "goto": "offscreen_result"
+        }
+      ]
+    },
+    "resources_after": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Matchday può averti lasciato Pokémon affaticati o danneggiati. M9 non azzera nulla all'uscita dall'arena."
+        }
+      ],
+      "choices": [
+        {
+          "id": "resources_medical",
+          "text": "Rileggo il principio di persistenza.",
+          "goto": "medical_state"
+        },
+        {
+          "id": "resources_interday",
+          "text": "Passo alla finestra tra le partite.",
+          "goto": "next_window"
+        }
+      ]
+    },
+    "opponent_callback": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se avevi già incontrato questo trainer, quella storia può cambiare il tono. Non cambia l'identità sorteggiata, il roster persistente o l'esito."
+        }
+      ],
+      "choices": [
+        {
+          "id": "callback_card",
+          "text": "Torno alla scheda dell'avversario.",
+          "goto": "opponent_card"
+        },
+        {
+          "id": "callback_ready",
+          "text": "Chiudo il callback e preparo il match.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "world_pressure": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Mentre sei in campo, gli altri gruppi e le carriere NPC continuano. Il Mondiale non aspetta che tu apra ogni scena opzionale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pressure_table",
+          "text": "Torno alla classifica del mio gruppo.",
+          "goto": "standings_after"
+        },
+        {
+          "id": "pressure_window",
+          "text": "Entro nella finestra post-match.",
+          "goto": "next_window"
+        }
+      ]
+    },
+    "next_window": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Tra Matchday 1 e 2 esiste tempo reale per recupero, servizi, media e vita del Village. Lasciarlo passare muove anche il resto del mondo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "window_gate",
+          "text": "Controllo il gate di uscita del Matchday.",
+          "goto": "interday_gate"
+        },
+        {
+          "id": "window_table",
+          "text": "Prima rileggo la classifica.",
+          "goto": "standings_after"
+        }
+      ]
+    },
+    "interday_gate": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'interday si apre soltanto dopo che E5 possiede il risultato del Matchday 1. Una semplice visita alla scena non basta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "gate_complete",
+          "text": "Chiudo il Matchday 1.",
+          "goto": "matchday_complete"
+        },
+        {
+          "id": "gate_review",
+          "text": "Rivedo il record della giornata.",
+          "goto": "result_record"
+        }
+      ]
+    },
+    "matchday_complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il primo Matchday è chiuso. Il torneo passa alla gestione tra le partite senza cancellare il risultato o le risorse residue."
+        }
+      ],
+      "choices": [
+        {
+          "id": "complete_interday",
+          "text": "Entro nell'Interday 1.",
+          "goto": "m09-interday-one#interday_entry"
+        }
+      ]
+    }
+  }
+}

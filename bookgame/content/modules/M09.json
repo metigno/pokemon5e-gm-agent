@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "id": "M09",
+  "title": "Tre Partite per Restare",
+  "targets": {
+    "stitches": 4300,
+    "choices": 2300
+  },
+  "progressionRole": "world-group-stage",
+  "designDocument": "docs/modules/M09_TRE_PARTITE_PER_RESTARE_MODULE_DESIGN.md",
+  "mappingDocument": "docs/modules/M09_PRODUCTION_MAPPING.md",
+  "requiredBeats": [
+    "M9_00_GROUPS_OPEN",
+    "M9_01_MATCHDAY_ONE",
+    "M9_02_INTERDAY_ONE",
+    "M9_03_KAIA_THREAD",
+    "M9_04_MATCHDAY_TWO",
+    "M9_05_FRIEND_BEAT_09",
+    "M9_06_INTERDAY_TWO",
+    "M9_07_MATCHDAY_THREE",
+    "M9_08_GROUP_RESOLUTION",
+    "M9_09_ELIMINATED_ROUTE",
+    "M9_10_ADVANCE_ROUTE"
+  ],
+  "blocks": [
+    {
+      "id": "M9_00_GROUPS_OPEN",
+      "title": "Groups Open",
+      "targets": {
+        "stitches": 289,
+        "choices": 154
+      }
+    },
+    {
+      "id": "M9_01_MATCHDAY_ONE",
+      "title": "Matchday One",
+      "targets": {
+        "stitches": 493,
+        "choices": 264
+      }
+    },
+    {
+      "id": "M9_02_INTERDAY_ONE",
+      "title": "Interday One",
+      "targets": {
+        "stitches": 340,
+        "choices": 182
+      }
+    },
+    {
+      "id": "M9_03_KAIA_THREAD",
+      "title": "Kaia Thread",
+      "targets": {
+        "stitches": 340,
+        "choices": 182
+      }
+    },
+    {
+      "id": "M9_04_MATCHDAY_TWO",
+      "title": "Matchday Two",
+      "targets": {
+        "stitches": 493,
+        "choices": 264
+      }
+    },
+    {
+      "id": "M9_05_FRIEND_BEAT_09",
+      "title": "Friend Beat 09",
+      "targets": {
+        "stitches": 493,
+        "choices": 263
+      }
+    },
+    {
+      "id": "M9_06_INTERDAY_TWO",
+      "title": "Interday Two",
+      "targets": {
+        "stitches": 340,
+        "choices": 182
+      }
+    },
+    {
+      "id": "M9_07_MATCHDAY_THREE",
+      "title": "Matchday Three",
+      "targets": {
+        "stitches": 492,
+        "choices": 263
+      }
+    },
+    {
+      "id": "M9_08_GROUP_RESOLUTION",
+      "title": "Group Resolution",
+      "targets": {
+        "stitches": 340,
+        "choices": 182
+      }
+    },
+    {
+      "id": "M9_09_ELIMINATED_ROUTE",
+      "title": "Eliminated Route",
+      "targets": {
+        "stitches": 340,
+        "choices": 182
+      }
+    },
+    {
+      "id": "M9_10_ADVANCE_ROUTE",
+      "title": "Advance Route",
+      "targets": {
+        "stitches": 340,
+        "choices": 182
+      }
+    }
+  ]
+}
