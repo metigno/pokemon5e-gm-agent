@@ -1,0 +1,318 @@
+{
+  "schemaVersion": 1,
+  "id": "m11-final-prep",
+  "moduleId": "M11",
+  "title": "M11_06 — Final Prep",
+  "locationId": "world_knockout_hall",
+  "entryNodeId": "prep_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m11_friend_beat_11_complete",
+        "eq": true
+      },
+      {
+        "path": "competition.world.knockout.playerAdvancedToFinal",
+        "eq": true
+      },
+      {
+        "path": "competition.world.knockout.finalistsLocked",
+        "eq": true
+      },
+      {
+        "path": "competition.world.knockout.finalResolved",
+        "ne": true
+      },
+      {
+        "path": "competition.world.knockout.playerFinalMatchId",
+        "exists": true
+      }
+    ]
+  },
+  "nodes": {
+    "prep_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La preparazione alla finale parte dallo stato esatto lasciato dalla semifinale e dal Friend Beat."
+        }
+      ],
+      "choices": [
+        {
+          "id": "prep_entry_next",
+          "text": "Proseguo.",
+          "goto": "resource_state"
+        },
+        {
+          "id": "prep_entry_alt",
+          "text": "Approfondisco.",
+          "goto": "time_budget"
+        },
+        {
+          "id": "prep_entry_detail_0",
+          "text": "Esamino un'altra conseguenza.",
+          "goto": "opponent_card"
+        }
+      ]
+    },
+    "resource_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Nessuna transizione narrativa ripristina HP, PP, status, infortuni, inventario o denaro."
+        }
+      ],
+      "choices": [
+        {
+          "id": "resource_state_next",
+          "text": "Proseguo.",
+          "goto": "time_budget"
+        },
+        {
+          "id": "resource_state_alt",
+          "text": "Approfondisco.",
+          "goto": "opponent_card"
+        },
+        {
+          "id": "resource_state_detail_1",
+          "text": "Esamino un'altra conseguenza.",
+          "goto": "tactical_plan"
+        }
+      ]
+    },
+    "time_budget": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Spendere tempo muove il mondo e gli schedule; non cambia i due finalisti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "time_short",
+          "text": "Dedico 15 minuti alla tattica.",
+          "goto": "tactical_plan",
+          "timeCostMinutes": 15
+        },
+        {
+          "id": "time_long",
+          "text": "Dedico 30 minuti al roster.",
+          "goto": "roster_state",
+          "timeCostMinutes": 30
+        },
+        {
+          "id": "time_now",
+          "text": "Entro senza altro tempo.",
+          "goto": "risk"
+        }
+      ]
+    },
+    "opponent_card": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'avversario di WORLD_FINAL è playerFinalOpponent e non può essere sostituito."
+        }
+      ],
+      "choices": [
+        {
+          "id": "opponent_card_next",
+          "text": "Proseguo.",
+          "goto": "tactical_plan"
+        },
+        {
+          "id": "opponent_card_alt",
+          "text": "Approfondisco.",
+          "goto": "roster_state"
+        }
+      ]
+    },
+    "tactical_plan": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La preparazione può cambiare informazione e priorità, non statistiche nascostamente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "tactical_plan_next",
+          "text": "Proseguo.",
+          "goto": "roster_state"
+        },
+        {
+          "id": "tactical_plan_alt",
+          "text": "Approfondisco.",
+          "goto": "medical_policy"
+        }
+      ]
+    },
+    "roster_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La squadra ufficiale resta soggetta alle stesse regole Pokémon 5e e alle risorse reali."
+        }
+      ],
+      "choices": [
+        {
+          "id": "roster_state_next",
+          "text": "Proseguo.",
+          "goto": "medical_policy"
+        },
+        {
+          "id": "roster_state_alt",
+          "text": "Approfondisco.",
+          "goto": "service_window"
+        }
+      ]
+    },
+    "medical_policy": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Qualunque recupero passa dai servizi realmente disponibili e dai relativi costi e tempi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "medical_policy_next",
+          "text": "Proseguo.",
+          "goto": "service_window"
+        },
+        {
+          "id": "medical_policy_alt",
+          "text": "Approfondisco.",
+          "goto": "risk"
+        }
+      ]
+    },
+    "service_window": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il modulo non crea una cura gratuita perché la partita è una finale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "service_window_next",
+          "text": "Proseguo.",
+          "goto": "risk"
+        },
+        {
+          "id": "service_window_alt",
+          "text": "Approfondisco.",
+          "goto": "save_state"
+        }
+      ]
+    },
+    "risk": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Entrare subito significa accettare lo stato corrente del team."
+        }
+      ],
+      "choices": [
+        {
+          "id": "risk_next",
+          "text": "Proseguo.",
+          "goto": "save_state"
+        },
+        {
+          "id": "risk_alt",
+          "text": "Approfondisco.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "save_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Save/reload conserva risorse, finalisti e avversario."
+        }
+      ],
+      "choices": [
+        {
+          "id": "save_state_next",
+          "text": "Proseguo.",
+          "goto": "readiness"
+        },
+        {
+          "id": "save_state_alt",
+          "text": "Approfondisco.",
+          "goto": "handoff"
+        }
+      ]
+    },
+    "readiness": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La readiness controlla che WORLD_FINAL_1 sia il match reale del player."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ready_commit",
+          "text": "Confermo la readiness.",
+          "goto": "handoff",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m11_final_prep_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "ready_review",
+          "text": "Rivedo le risorse.",
+          "goto": "resource_state"
+        }
+      ]
+    },
+    "handoff": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il bridge E5/Pokémon 5e riceverà matchId, trainerId e roster dinamici."
+        }
+      ],
+      "choices": [
+        {
+          "id": "handoff_final",
+          "text": "Entro nella finale ufficiale.",
+          "goto": "m11-world-final#final_entry"
+        },
+        {
+          "id": "handoff_complete",
+          "text": "Registro la preparazione.",
+          "goto": "complete"
+        }
+      ]
+    },
+    "complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "FINAL_PREP è completo senza reset o mutazioni del bracket."
+        }
+      ],
+      "choices": [
+        {
+          "id": "complete_next",
+          "text": "Proseguo.",
+          "goto": "prep_entry"
+        },
+        {
+          "id": "complete_alt",
+          "text": "Approfondisco.",
+          "goto": "resource_state"
+        }
+      ]
+    }
+  }
+}
