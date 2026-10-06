@@ -354,7 +354,7 @@
         {
           "id": "handoff_rei",
           "text": "Rileggo il thread di Rei.",
-          "goto": "rei_status"
+          "goto": "complete"
         }
       ]
     },
