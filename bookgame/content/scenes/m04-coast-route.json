@@ -79,6 +79,23 @@
           ]
         },
         {
+          "id": "coast_friend_beat_04",
+          "text": "Mi fermo per il contatto con uno degli altri Five.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.friend_beat_04_available",
+                "eq": true
+              },
+              {
+                "path": "world.flags.friend_beat_04_complete",
+                "ne": true
+              }
+            ]
+          },
+          "goto": "m04-friend-beat-04#friend_call"
+        },
+        {
           "id": "coast_return_city",
           "text": "Torno a Mareasale.",
           "timeCostMinutes": 90,
