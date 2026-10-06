@@ -623,13 +623,16 @@ function participantSeedIndex(world, participantId) {
 }
 
 function regulatedWorldRoster(state, participant, regulation = "WORLD_GROUPS_L20") {
-  const { groupStage } = worldGroupStageOrThrow(state);
-  if (groupStage.opponentRosters[participant.id]) {
-    return structuredClone(groupStage.opponentRosters[participant.id]);
+  const { world, groupStage } = worldGroupStageOrThrow(state);
+  const knockoutCache = regulation === "WORLD_KNOCKOUT_L20";
+  const cache = knockoutCache ? world.knockout.opponentRosters : groupStage.opponentRosters;
+  if (cache[participant.id]) {
+    return structuredClone(cache[participant.id]);
   }
 
   const signature = WORLD_GROUP_SIGNATURE_PROXY[participant.name] ?? null;
-  const seed = "world-groups|" + String(participant.id) + "|" + String(state.competition.world.edition);
+  const seedPrefix = knockoutCache ? "world-knockout" : "world-groups";
+  const seed = seedPrefix + "|" + String(participant.id) + "|" + String(state.competition.world.edition);
   let ordered = stableOrder(WORLD_GROUP_RUNTIME_POOL, seed);
   if (signature) {
     ordered = [
@@ -649,7 +652,7 @@ function regulatedWorldRoster(state, participant, regulation = "WORLD_GROUPS_L20
     regulation,
     source: "persistent_regulated_world_roster"
   }));
-  groupStage.opponentRosters[participant.id] = structuredClone(roster);
+  cache[participant.id] = structuredClone(roster);
   return roster;
 }
 
