@@ -1,0 +1,306 @@
+{
+  "schemaVersion": 1,
+  "id": "m11-sf-prep",
+  "moduleId": "M11",
+  "title": "M11_02 — SF Prep",
+  "locationId": "world_knockout_hall",
+  "entryNodeId": "prep_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m11_rei_thread_complete",
+        "eq": true
+      },
+      {
+        "path": "competition.world.knockout.sfOpened",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "prep_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La preparazione alla semifinale parte dallo stato reale lasciato dal QF: nessun heal narrativo e nessuna ricostruzione gratuita del roster."
+        }
+      ],
+      "choices": [
+        {
+          "id": "prep_entry_next",
+          "text": "Proseguo verso Time Budget.",
+          "goto": "time_budget"
+        },
+        {
+          "id": "prep_entry_alt",
+          "text": "Confronto questo punto con Resource State.",
+          "goto": "resource_state"
+        },
+        {
+          "id": "prep_entry_deep",
+          "text": "Approfondisco Tactical Plan.",
+          "goto": "tactical_plan"
+        }
+      ]
+    },
+    "time_budget": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Tempo, servizi e schedule continuano a muoversi. Spendere minuti può aiutare a prepararsi ma non congela il resto del mondo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "time_short",
+          "text": "Dedico 15 minuti alla revisione tattica.",
+          "goto": "tactical_plan",
+          "timeCostMinutes": 15
+        },
+        {
+          "id": "time_long",
+          "text": "Dedico 30 minuti al controllo del roster e delle risorse.",
+          "goto": "roster_state",
+          "timeCostMinutes": 30
+        },
+        {
+          "id": "time_now",
+          "text": "Non consumo altro tempo: accetto lo stato corrente.",
+          "goto": "risk"
+        }
+      ]
+    },
+    "resource_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "HP, PP, status, infortuni, inventario e denaro sono quelli persistenti della run."
+        }
+      ],
+      "choices": [
+        {
+          "id": "resource_state_next",
+          "text": "Proseguo verso Tactical Plan.",
+          "goto": "tactical_plan"
+        },
+        {
+          "id": "resource_state_alt",
+          "text": "Confronto questo punto con Roster State.",
+          "goto": "roster_state"
+        },
+        {
+          "id": "resource_state_deep",
+          "text": "Approfondisco Medical Policy.",
+          "goto": "medical_policy"
+        }
+      ]
+    },
+    "tactical_plan": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La tattica può cambiare priorità e informazione; non modifica di nascosto statistiche o mosse."
+        }
+      ],
+      "choices": [
+        {
+          "id": "tactical_plan_next",
+          "text": "Proseguo verso Roster State.",
+          "goto": "roster_state"
+        },
+        {
+          "id": "tactical_plan_alt",
+          "text": "Confronto questo punto con Medical Policy.",
+          "goto": "medical_policy"
+        }
+      ]
+    },
+    "roster_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'Official Six è quello legale per il match. Ogni variazione deve passare dalle normali regole già esistenti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "roster_state_next",
+          "text": "Proseguo verso Medical Policy.",
+          "goto": "medical_policy"
+        },
+        {
+          "id": "roster_state_alt",
+          "text": "Confronto questo punto con Service Window.",
+          "goto": "service_window"
+        }
+      ]
+    },
+    "medical_policy": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il recupero è disponibile solo tramite i servizi e i tempi consentiti; la scena non cura direttamente nessuno."
+        }
+      ],
+      "choices": [
+        {
+          "id": "medical_policy_next",
+          "text": "Proseguo verso Service Window.",
+          "goto": "service_window"
+        },
+        {
+          "id": "medical_policy_alt",
+          "text": "Confronto questo punto con Risk.",
+          "goto": "risk"
+        }
+      ]
+    },
+    "service_window": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Usare un servizio consuma il tempo e le risorse previste dal mondo, se realmente disponibile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "service_window_next",
+          "text": "Proseguo verso Risk.",
+          "goto": "risk"
+        },
+        {
+          "id": "service_window_alt",
+          "text": "Confronto questo punto con Opponent Readiness.",
+          "goto": "opponent_readiness"
+        }
+      ]
+    },
+    "risk": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Entrare subito conserva tempo ma accetta lo stato corrente della squadra."
+        }
+      ],
+      "choices": [
+        {
+          "id": "risk_next",
+          "text": "Proseguo verso Opponent Readiness.",
+          "goto": "opponent_readiness"
+        },
+        {
+          "id": "risk_alt",
+          "text": "Confronto questo punto con Save State.",
+          "goto": "save_state"
+        }
+      ]
+    },
+    "opponent_readiness": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'avversario resta {{competition.world.knockout.playerSfOpponent.name}} qualunque sia la preparazione scelta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "opponent_readiness_next",
+          "text": "Proseguo verso Save State.",
+          "goto": "save_state"
+        },
+        {
+          "id": "opponent_readiness_alt",
+          "text": "Confronto questo punto con Commit.",
+          "goto": "commit"
+        }
+      ]
+    },
+    "save_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Salvare e ricaricare deve conservare bracket, roster e consumo di tempo esattamente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "save_state_next",
+          "text": "Proseguo verso Commit.",
+          "goto": "commit"
+        },
+        {
+          "id": "save_state_alt",
+          "text": "Confronto questo punto con Handoff.",
+          "goto": "handoff"
+        }
+      ]
+    },
+    "commit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La readiness apre il combattimento ufficiale senza toccare le risorse."
+        }
+      ],
+      "choices": [
+        {
+          "id": "commit_now",
+          "text": "Confermo la readiness senza reset.",
+          "goto": "handoff",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m11_sf_prep_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "commit_review",
+          "text": "Rivedo lo stato delle risorse.",
+          "goto": "resource_state"
+        }
+      ]
+    },
+    "handoff": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La prossima scena consegna il match a Pokémon 5e/E5 usando matchId e opponentId dinamici."
+        }
+      ],
+      "choices": [
+        {
+          "id": "handoff_match",
+          "text": "Entro nella semifinale ufficiale.",
+          "goto": "m11-world-sf#sf_entry"
+        },
+        {
+          "id": "handoff_review",
+          "text": "Rivedo il piano tattico.",
+          "goto": "tactical_plan"
+        }
+      ]
+    },
+    "complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La preparazione è completa e non ha riscritto nessuna risorsa strutturata."
+        }
+      ],
+      "choices": [
+        {
+          "id": "complete_next",
+          "text": "Proseguo verso Prep Entry.",
+          "goto": "prep_entry"
+        },
+        {
+          "id": "complete_alt",
+          "text": "Confronto questo punto con Time Budget.",
+          "goto": "time_budget"
+        }
+      ]
+    }
+  }
+}
