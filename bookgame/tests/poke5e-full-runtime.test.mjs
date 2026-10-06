@@ -293,6 +293,54 @@ test("save-based HP moves execute Endeavor, Nature's Madness, Pain Split and Rui
   }
 });
 
+test("Refresh and Purify execute status cures with Purify healing only on a real cure", async () => {
+  {
+    const combat = new Pokemon5eCombatEngine({
+      dice: new SequenceDice([20, 1])
+    });
+    let battle = await combat.createBattle({
+      encounterId: "FULL_RUNTIME_REFRESH",
+      playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["refresh"] },
+      opponent: { speciesId: "eevee", level: 5, moveIds: ["tackle"] },
+      playerPosition: { x: 0, y: 0 },
+      opponentPosition: { x: 5, y: 0 }
+    });
+    applyStatus(battle.player, "Burned");
+    battle = await combat.usePlayerMove(battle, "refresh");
+    assert.equal(battle.player.statuses.nonVolatile, null);
+    assert.deepEqual(
+      battle.log.find((event) => event.type === "status_cure_move").curedStatuses,
+      ["Burned"]
+    );
+  }
+
+  {
+    const combat = new Pokemon5eCombatEngine({
+      dice: new SequenceDice([20, 1])
+    });
+    let battle = await combat.createBattle({
+      encounterId: "FULL_RUNTIME_PURIFY",
+      playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["purify"] },
+      opponent: { speciesId: "eevee", level: 5, moveIds: ["tackle"] },
+      playerPosition: { x: 0, y: 0 },
+      opponentPosition: { x: 5, y: 0 }
+    });
+    applyStatus(battle.opponent, "Poisoned");
+    applyStatus(battle.opponent, "Confused");
+    battle.player.hp.current = Math.max(1, battle.player.hp.max - 15);
+    const hpBefore = battle.player.hp.current;
+
+    battle = await combat.usePlayerMove(battle, "purify");
+    assert.equal(battle.opponent.statuses.nonVolatile, null);
+    assert.equal(battle.opponent.statuses.confusedRounds, 0);
+    assert.equal(battle.player.hp.current, Math.min(battle.player.hp.max, hpBefore + 10));
+
+    const event = battle.log.find((entry) => entry.type === "status_cure_move");
+    assert.deepEqual(event.curedStatuses.sort(), ["Confused", "Poisoned"]);
+    assert.equal(event.healing, 10);
+  }
+});
+
 test("2024 status core supports Frozen, Badly Poisoned and Confused", () => {
   const frozen = dummyPokemon({ types: ["water"] });
   assert.equal(applyStatus(frozen, "Frozen", { sourceProficiencyBonus: 3 }).applied, true);
