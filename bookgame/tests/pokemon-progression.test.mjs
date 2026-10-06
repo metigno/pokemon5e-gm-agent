@@ -132,17 +132,17 @@ test("XP level-up preserves HP state, exposes move learning and enforces the fou
   assert.equal(result.pokemon.pendingMoveChoices.length, 1);
 
   assert.throws(
-    () => resolvePokemonMoveReplacement(result.pokemon, 2, "razor-leaf"),
+    () => resolvePokemonMoveReplacement(result.pokemon, 2, "leech-seed"),
     /requires choosing one of the four known moves to forget/
   );
   const learned = resolvePokemonMoveReplacement(
     result.pokemon,
     2,
-    "razor-leaf",
+    "leech-seed",
     { forgetMoveId: "growl" }
   );
   assert.equal(learned.moveIds.length, 4);
-  assert.ok(learned.moveIds.includes("razor-leaf"));
+  assert.ok(learned.moveIds.includes("leech-seed"));
   assert.ok(!learned.moveIds.includes("growl"));
   assert.equal(learned.pendingMoveChoices.length, 0);
 });
