@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 
 import { Pokemon5eCombatEngine, isMoveResolvable } from "../src/combat/combat-engine.mjs";
+import { CANONICAL_SPECIAL_MOVE_IDS, compileCanonicalAbilityRule, compileCanonicalMoveRule } from "../src/combat/canonical-runtime.mjs";
 import { applyItemToPokemon, compileItemRule } from "../src/combat/item-rules.mjs";
 import { Poke5eDataRepository } from "../src/combat/poke5e-data.mjs";
 import {
@@ -103,7 +104,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
   const moves = await data.listMoves();
   const unresolved = moves.filter((move) => !isMoveResolvable(move)).map((move) => move.id);
 
-  assert.ok(unresolved.length <= 160, `unresolved move rules regressed to ${unresolved.length}`);
+  assert.deepEqual(unresolved, [], `all 830 move rules must be runtime-resolvable; unresolved: ${unresolved.join(", ")}`);
   for (const id of [
     "acupressure",
     "feather-dance",
@@ -2075,29 +2076,33 @@ test("all 256 TM references resolve to real offline moves", async () => {
 });
 
 
-test("TEMP runtime completion diagnostic", async () => {
+test("P5E_RUNTIME_COMPLETE closes move, ability and item coverage gates", async () => {
   const data = new Poke5eDataRepository();
   const moves = await data.listMoves();
   const abilities = await data.listAbilities();
   const items = await data.listItems();
-  const unresolvedMoves = moves.filter((move) => !isMoveResolvable(move)).map((move) => ({ id: move.id, name: move.name, time: move.time, range: move.range, attack: move.attack, save: move.save, dice: move.dice, duration: move.duration, description: move.description }));
-  const unsupportedItems = items.filter((item) => !compileItemRule(item).supported).map((item) => ({ id: item.id, name: item.name, type: item.type, description: item.description }));
-  console.log("P5E_DIAG_MOVES=" + JSON.stringify(unresolvedMoves));
-  console.log("P5E_DIAG_ITEMS=" + JSON.stringify(unsupportedItems));
-  console.log("P5E_DIAG_ABILITIES=" + JSON.stringify(abilities.map((ability) => ({ id: ability.id, name: ability.name, description: ability.description }))));
-  assert.ok(true);
-});
 
+  assert.equal(moves.length, 830);
+  assert.deepEqual(
+    moves.filter((move) => !isMoveResolvable(move)).map((move) => move.id),
+    []
+  );
 
-test("TEMP compact runtime diagnostic", async () => {
-  const data = new Poke5eDataRepository();
-  const moves = (await data.listMoves()).filter((move) => !isMoveResolvable(move));
-  const items = (await data.listItems()).filter((item) => !compileItemRule(item).supported);
-  const abilities = await data.listAbilities();
-  for (let i = 0; i < moves.length; i += 25) console.log("P5E_MOVE_IDS_" + i + "=" + JSON.stringify(moves.slice(i, i + 25).map((move) => move.id)));
-  for (let i = 0; i < moves.length; i += 10) console.log("P5E_MOVE_DESC_" + i + "=" + JSON.stringify(moves.slice(i, i + 10).map((move) => ({id:move.id,description:move.description,time:move.time,range:move.range,attack:move.attack,save:move.save,dice:move.dice,duration:move.duration,shape:move.shape}))));
-  console.log("P5E_ITEM_TYPE_COUNTS=" + JSON.stringify(items.reduce((acc,item)=>(acc[item.type]=(acc[item.type]??0)+1,acc),{})));
-  for (let i = 0; i < items.length; i += 30) console.log("P5E_ITEM_IDS_" + i + "=" + JSON.stringify(items.slice(i, i + 30).map((item) => [item.id,item.type])));
-  for (let i = 0; i < abilities.length; i += 40) console.log("P5E_ABILITY_IDS_" + i + "=" + JSON.stringify(abilities.slice(i, i + 40).map((ability) => ability.id)));
-  assert.ok(true);
+  assert.equal(CANONICAL_SPECIAL_MOVE_IDS.size, 160);
+  for (const id of CANONICAL_SPECIAL_MOVE_IDS) {
+    const move = await data.getMove(id);
+    assert.equal(compileCanonicalMoveRule(move).supported, true, id);
+  }
+
+  assert.equal(abilities.length, 340);
+  assert.deepEqual(
+    abilities.filter((ability) => !compileCanonicalAbilityRule(ability).supported).map((ability) => ability.id),
+    []
+  );
+
+  assert.equal(items.length, 305);
+  assert.deepEqual(
+    items.filter((item) => !compileItemRule(item).supported).map((item) => item.id),
+    []
+  );
 });
