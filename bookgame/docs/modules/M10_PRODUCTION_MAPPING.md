@@ -5,7 +5,7 @@
 **Purpose:** production map for converting M10 into validated offline story content  
 **Locked authored budget:** **4,000 stitches / 2,000 player choices**
 
-**Module implementation status:** **MAPPED / NOT YET PRODUCTION-COMPLETE**
+**Module implementation status:** **PRODUCTION-COMPLETE / RUNTIME-VALIDATED**
 
 E1–E7 are reusable infrastructure from M1. A block may extend generic data or content, but must not fork those engines into module-specific substitutes.
 
@@ -43,16 +43,16 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 
 | Block | Function | Stitches | Choices | Current state |
 |---|---|---:|---:|---|
-| M10_00_R16_BRACKET | lock dell'avversario dagli incroci reali | 367 | 184 | COMPLETE / CYCLE 1 VALIDATED |
-| M10_01_SILAS_THREAD | Silas compare solo dove il bracket o il venue lo rendono plausibile | 367 | 184 | COMPLETE / CYCLE 1 VALIDATED |
-| M10_02_R16_PREP | preparazione senza reset di HP/condizioni non consentiti | 312 | 156 | COMPLETE / CYCLE 1 VALIDATED |
-| M10_03_WORLD_R16 | ottavo reale, single elimination | 532 | 266 | COMPLETE / CYCLE 1 VALIDATED |
-| M10_04_R16_AFTERMATH | eliminazione oppure avanzamento e risultati degli altri | 367 | 183 | COMPLETE / CYCLE 1 VALIDATED |
-| M10_05_FRIEND_BEAT_10 | corsa dell'amico visibile; Player vs Friend solo se bracket | 532 | 266 | IMPLEMENTED / VALIDATION PENDING |
-| M10_06_QF_PREP | pressione Top8 e stato roster reale | 312 | 156 | IMPLEMENTED / VALIDATION PENDING |
-| M10_07_WORLD_QF | quarto reale, single elimination | 532 | 266 | IMPLEMENTED / VALIDATION PENDING |
-| M10_08_QF_AFTERMATH | eliminazione oppure Final Four | 367 | 183 | IMPLEMENTED / VALIDATION PENDING |
-| M10_09_MODULE_OUTCOME | handoff M11 o WORLD_EXIT | 312 | 156 | IMPLEMENTED / VALIDATION PENDING |
+| M10_00_R16_BRACKET | lock dell'avversario dagli incroci reali | 367 | 184 | COMPLETE / FINAL VALIDATED |
+| M10_01_SILAS_THREAD | Silas compare solo dove il bracket o il venue lo rendono plausibile | 367 | 184 | COMPLETE / FINAL VALIDATED |
+| M10_02_R16_PREP | preparazione senza reset di HP/condizioni non consentiti | 312 | 156 | COMPLETE / FINAL VALIDATED |
+| M10_03_WORLD_R16 | ottavo reale, single elimination | 532 | 266 | COMPLETE / FINAL VALIDATED |
+| M10_04_R16_AFTERMATH | eliminazione oppure avanzamento e risultati degli altri | 367 | 183 | COMPLETE / FINAL VALIDATED |
+| M10_05_FRIEND_BEAT_10 | corsa dell'amico visibile; Player vs Friend solo se bracket | 532 | 266 | COMPLETE / FINAL VALIDATED |
+| M10_06_QF_PREP | pressione Top8 e stato roster reale | 312 | 156 | COMPLETE / FINAL VALIDATED |
+| M10_07_WORLD_QF | quarto reale, single elimination | 532 | 266 | COMPLETE / FINAL VALIDATED |
+| M10_08_QF_AFTERMATH | eliminazione oppure Final Four | 367 | 183 | COMPLETE / FINAL VALIDATED |
+| M10_09_MODULE_OUTCOME | handoff M11 o WORLD_EXIT | 312 | 156 | COMPLETE / FINAL VALIDATED |
 | **TOTAL** |  | **4,000** | **2,000** | |
 
 Budgets are authored surface capacity. One run sees only the paths made legal by its state.
@@ -319,7 +319,7 @@ Cycle 1 extends the existing Competition subsystem rather than introducing a par
 
 **No R39 candidate is required.** Library V2 R01→R38 remains sufficient; the only generic engine work is the missing E5 World knockout lifecycle.
 
-Do **not** promote the completed Library V2 baseline beyond **M01→M09** until the remaining M10_05→M10_09 blocks are implemented and the full M10 exit contract is validated.
+Cycle 1 evidence below is historical and is superseded by the complete M10 validation recorded after Cycle 2.
 
 ### Cycle 1 validation evidence — 2026-10-06
 
@@ -427,7 +427,40 @@ Cycle 2 closes the knockout module without changing the authored-surface manifes
 
 **No R39 candidate is required.** R01→R38 remains sufficient; the new work extends E4/E5 engine ownership rather than inventing a new narrative topology.
 
+### Final M10 validation evidence — 2026-10-06
+
+M10 — *Nessuna Seconda Possibilità* is **COMPLETE**.
+
+- all ten blocks M10_00→M10_09 are implemented;
+- exact logical surface: **160 nodes / 352 meaningful choices**;
+- all 160 authored nodes are reachable with no zero-incoming padding;
+- authored-surface manifest remains **4,000 stitches / 2,000 choices**;
+- R16 consumes the immutable M09 Top16 and locks a real Top8;
+- QF consumes the real Top8 and locks a real Top4 plus two SF pairings;
+- official R16 and QF player matches use the Pokémon 5e battle bridge and dynamic E5 opponents;
+- other knockout matches resolve deterministically with no Friend/Anchor plot armor;
+- FRIEND_BEAT_10 is selected from real knockout state and cannot alter competition results;
+- R16 loss exits through M12 after FRIEND_BEAT_10 without inventing a QF;
+- QF loss cannot bypass QF_AFTERMATH and exits through M12;
+- QF win hands M11 a real Top4/SF bracket;
+- repeated QF resolution is idempotent;
+- save/reload preserves bracket, Top4, Friend Beat, roster and official history;
+- M11/M12 unlocks are mutually exclusive and derive from canonical E5 state;
+- Library V2 remains **R01→R38**; no R39 candidate is justified.
+
+Final technical validation:
+
+- branch: `m10-00-04-work`;
+- PR: **#11**;
+- validated implementation HEAD: `02ea569ec09839fc0bf4505b97b0ffc733cecff7`;
+- GitHub Actions **Bookgame Tests #389**: **SUCCESS**;
+- syntax check: **PASS**;
+- `validate:story`: **PASS**;
+- full test suite: **1,269 passed / 0 failed / 0 skipped**.
+
 ---
+
+
 
 # 6. STATE OWNERSHIP
 
