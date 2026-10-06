@@ -1,4 +1,5 @@
 import { attemptCapture } from "./capture.mjs";
+import { applyItemToPokemon, findInventoryItemIndex } from "./item-rules.mjs";
 import { Poke5eDataRepository } from "./poke5e-data.mjs";
 import {
   abilityModifier,
@@ -7,6 +8,7 @@ import {
   resolveAttack,
   resolveSaveMove,
   resolveSavingThrow,
+  rollD20,
   rollExpression,
   scaledHp
 } from "./poke5e-rules.mjs";
@@ -29,20 +31,13 @@ import {
 } from "./zones.mjs";
 import {
   applyStatus,
+  attackHasDisadvantage,
   createStatusState,
+  endFrozenOnFireDamage,
   endTurnStatus,
+  reactionsDisabled,
   startTurnStatus
 } from "./status.mjs";
-
-const SUPPORTED_ABILITIES = new Set([
-  "intimidate",
-  "flash-fire",
-  "levitate",
-  "torrent",
-  "early-bird",
-  "run-away",
-  "rock-head"
-]);
 
 const SAVE_EFFECT_MOVES = new Set([
   "growl",
@@ -106,10 +101,65 @@ function moveSlot(move) {
   return null;
 }
 
+function statusFromText(text = "") {
+  if (/badly poison/i.test(text)) return "BadlyPoisoned";
+  if (/\bpoison(?:ed)?\b/i.test(text)) return "Poisoned";
+  if (/\bburn(?:ed|t)?\b/i.test(text)) return "Burned";
+  if (/\bparaly(?:ze|zed|sis)\b/i.test(text)) return "Paralysis";
+  if (/\bfro(?:zen|ze)\b/i.test(text)) return "Frozen";
+  if (/\b(?:fall|falls|put|puts)?\s*asleep\b|\bsleep condition\b/i.test(text)) return "Asleep";
+  if (/\bconfus(?:e|ed|ion)\b/i.test(text)) return "Confused";
+  if (/\bflinch(?:ed|es)?\b/i.test(text)) return "Flinched";
+  return null;
+}
+
+function naturalStatusThreshold(move) {
+  const text = move.description ?? "";
+  const match = text.match(/natural(?: attack)? roll(?:s)?(?: of)?\s+(\d+)(?:\s+or\s+(?:higher|\d+))?/i);
+  return match ? Number(match[1]) : null;
+}
+
+function failedSaveStatus(move, save) {
+  if (save.success) return null;
+  const status = statusFromText(move.description);
+  if (!status) return null;
+
+  const text = move.description ?? "";
+  if (/fail(?:s|ed)? (?:the )?save by 5 or more/i.test(text) && save.total > save.dc - 5) {
+    return null;
+  }
+
+  if (
+    /(?:on|upon) (?:a )?(?:failed save|failure)|must (?:make|succeed on).*\bor become|fail(?:s|ed)? .*become/i.test(text) ||
+    /fail(?:s|ed)? (?:the )?save by 5 or more/i.test(text)
+  ) {
+    return status;
+  }
+  return null;
+}
+
+function attackHitStatus(move, natural) {
+  const status = statusFromText(move.description);
+  if (!status) return null;
+
+  const threshold = naturalStatusThreshold(move);
+  if (threshold != null) return natural >= threshold ? status : null;
+
+  const text = move.description ?? "";
+  if (/on (?:a )?(?:successful )?(?:attack|hit)[^.]{0,180}(?:become|becomes|becoming|caus(?:e|ing)|inflict)/i.test(text)) {
+    return status;
+  }
+  return null;
+}
+
 function isMoveResolvable(move) {
-  return Boolean(move.attack && move.dice?.type === "damage")
-    || SAVE_EFFECT_MOVES.has(move.id)
-    || AREA_MOVES.has(move.id);
+  const damage = move.dice?.type === "damage";
+  if (move.attack && damage) return true;
+  if (move.save && damage) return true;
+  if (SAVE_EFFECT_MOVES.has(move.id) || AREA_MOVES.has(move.id)) return true;
+  if ((move.attack || move.save) && statusFromText(move.description)) return true;
+  if (move.id === "struggle") return true;
+  return false;
 }
 
 function defaultPosition(value, fallback) {
@@ -300,11 +350,19 @@ function endTurnInternal(battle, side, dice) {
   return next;
 }
 
-function secondaryStatusFor(moveId, natural) {
-  if (moveId === "ember" && natural >= 19) return "Burned";
-  if (moveId === "bite" && natural >= 19) return "Flinched";
-  if (moveId === "lick" && natural >= 18) return "Paralysis";
-  return null;
+function secondaryStatusFor(move, natural) {
+  return attackHitStatus(move, natural);
+}
+
+function damageMultiplierFor(moveType, defender) {
+  if (moveType === "typeless" || moveType === "stellar" || moveType === "varies") return 1;
+  if (defender.abilityId === "levitate" && moveType === "ground") return 0;
+  if (defender.abilityId === "flash-fire" && moveType === "fire") return 0;
+  return typeMultiplier(moveType, defender.types);
+}
+
+function saveAllowsHalfDamage(move) {
+  return /half (?:as much|damage)|half the damage/i.test(move.description ?? "");
 }
 
 function applySaveEffect(battle, side, move, saveResult) {
@@ -366,6 +424,22 @@ function findBallIndex(inventory, requested) {
 }
 
 function rangeCheckForMove(attacker, defender, move) {
+  if (move.range?.type === "self" && move.shape?.value) {
+    const actual = distance(attacker.position, defender.position);
+    const max = move.shape.value;
+    return {
+      legal: actual <= max + 1e-9,
+      distance: actual,
+      maxRange: max,
+      shape: move.shape.type
+    };
+  }
+
+  if (move.id === "struggle") {
+    const actual = distance(attacker.position, defender.position);
+    return { legal: actual <= 60 + 1e-9, distance: actual, maxRange: 60 };
+  }
+
   const result = canTargetMove(attacker, defender, move);
   if (result.legal) return result;
 
@@ -398,19 +472,14 @@ export class Pokemon5eCombatEngine {
   async createCombatant(descriptor, positionValue = null) {
     const species = await this.data.getSpecies(descriptor);
     const level = descriptor.level ?? species.minLevel;
-    const moves = (await this.data.getSupportedMoves(species, level)).filter(isMoveResolvable);
-    if (moves.length === 0) {
-      throw new Error(`${species.name} has no supported moves in the local combat pack`);
-    }
+    const moves = await this.data.getSupportedMoves(species, level);
 
     const normalAbilities = species.abilities.filter((ability) => !ability.hidden);
-    const abilityId = descriptor.abilityId ?? normalAbilities[0]?.id ?? null;
+    const abilityId = descriptor.abilityId ?? normalAbilities[0]?.id ?? species.abilities[0]?.id ?? null;
     if (abilityId && !species.abilities.some((ability) => ability.id === abilityId)) {
       throw new Error(`${species.name} cannot use ability ${abilityId}`);
     }
-    if (abilityId && !SUPPORTED_ABILITIES.has(abilityId)) {
-      throw new Error(`Ability ${abilityId} is not implemented by the offline combat core yet`);
-    }
+    const ability = abilityId ? await this.data.getAbility(abilityId) : null;
 
     const maxHp = scaledHp(species, level);
     const persistedHp = descriptor.hp && Number.isFinite(descriptor.hp.current)
@@ -420,9 +489,12 @@ export class Pokemon5eCombatEngine {
     if (descriptor.statuses && typeof descriptor.statuses === "object") {
       statuses.nonVolatile = descriptor.statuses.nonVolatile ?? null;
       statuses.remainingRounds = descriptor.statuses.remainingRounds ?? null;
+      statuses.sourceProficiencyBonus = descriptor.statuses.sourceProficiencyBonus ?? null;
+      statuses.confusedRounds = descriptor.statuses.confusedRounds ?? 0;
       statuses.flinchedTurns = descriptor.statuses.flinchedTurns ?? 0;
     }
     const moveIds = moves.map((move) => move.id);
+    const maxPp = Object.fromEntries(moves.map((move) => [move.id, move.pp]));
     const pp = Object.fromEntries(moves.map((move) => {
       const persisted = descriptor.pp?.[move.id];
       return [
@@ -449,6 +521,8 @@ export class Pokemon5eCombatEngine {
       attributes: species.attributes,
       savingThrows: species.savingThrows,
       abilityId,
+      ability,
+      heldItemId: descriptor.heldItemId ?? descriptor.heldItem?.id ?? null,
       abilityState: {
         intimidateAvailable: abilityId === "intimidate",
         flashFireCharged: false
@@ -469,6 +543,7 @@ export class Pokemon5eCombatEngine {
         movementRemaining: 0
       },
       moveIds,
+      maxPp,
       pp
     };
 
@@ -506,7 +581,7 @@ export class Pokemon5eCombatEngine {
     const order = chooseOrder(player, opponent, playerInitiative, opponentInitiative);
 
     return {
-      schemaVersion: 3,
+      schemaVersion: 4,
       ruleset: "2024",
       encounterId: handoff.encounterId,
       round: 1,
@@ -564,7 +639,7 @@ export class Pokemon5eCombatEngine {
     combatant.turn.bonusActionAvailable = true;
     combatant.turn.disengaged = false;
     combatant.turn.movementRemaining = movementSpeed(combatant).value;
-    combatant.reactionAvailable = true;
+    combatant.reactionAvailable = !reactionsDisabled(combatant);
 
     if (side === "player") {
       next.trainer.actionAvailable = true;
@@ -643,14 +718,16 @@ export class Pokemon5eCombatEngine {
     }
 
     const status = startTurnStatus(combatant, this.dice);
-    if (status.rolls.length > 0) {
+    if (status.rolls.length > 0 || status.statusEnded) {
       next.log.push({
         type: "status_start_check",
         round: next.round,
         actor: side,
-        status: combatant.statuses.nonVolatile,
+        status: status.reason ?? status.statusEnded ?? combatant.statuses.nonVolatile ?? "Confused",
         rolls: status.rolls,
-        skipTurn: status.skipTurn
+        skipTurn: status.skipTurn,
+        forcedAction: status.forcedAction ?? null,
+        statusEnded: status.statusEnded ?? null
       });
     }
 
@@ -661,6 +738,17 @@ export class Pokemon5eCombatEngine {
         actor: side,
         reason: status.reason
       });
+      return endTurnInternal(next, side, this.dice);
+    }
+
+    if (status.forcedAction === "STRUGGLE_SELF") {
+      next = await this.resolveStruggle(next, side, side, { automaticHit: true, reason: "confusion" });
+      if (next.outcome || next.awaitingSwitch) return next;
+      return endTurnInternal(next, side, this.dice);
+    }
+    if (status.forcedAction === "STRUGGLE_NEAREST") {
+      next = await this.resolveStruggle(next, side, otherSide(side), { automaticHit: false, reason: "confusion" });
+      if (next.outcome || next.awaitingSwitch) return next;
       return endTurnInternal(next, side, this.dice);
     }
 
@@ -680,6 +768,11 @@ export class Pokemon5eCombatEngine {
       if (!isMoveResolvable(move)) continue;
       if (!rangeCheckForMove(combatant, defender, move).legal) continue;
       result.push(move);
+    }
+
+    if (combatant.turn.actionAvailable) {
+      const struggle = await this.data.getMove("struggle");
+      if (rangeCheckForMove(combatant, defender, struggle).legal) result.push(struggle);
     }
 
     return result;
@@ -733,9 +826,14 @@ export class Pokemon5eCombatEngine {
 
     let statusResult = null;
     const secondary = result.hit && result.typeMultiplier > 0
-      ? secondaryStatusFor(move.id, result.natural)
+      ? secondaryStatusFor(move, result.natural)
       : null;
-    if (secondary) statusResult = applyStatus(defender, secondary);
+    if (secondary) {
+      statusResult = applyStatus(defender, secondary, {
+        sourceProficiencyBonus: proficiencyBonus(attacker.level)
+      });
+    }
+    const thawed = result.hit ? endFrozenOnFireDamage(defender, move, result.damage) : false;
 
     next.log.push({
       type: reaction ? "opportunity_attack" : "attack",
@@ -745,6 +843,7 @@ export class Pokemon5eCombatEngine {
       ...result,
       secondaryStatus: secondary,
       statusResult,
+      thawed,
       targetHpAfter: defender.hp.current
     });
 
@@ -752,6 +851,141 @@ export class Pokemon5eCombatEngine {
       markDowned(next, targetSide, reaction ? "opportunity_attack" : "move_damage");
     }
 
+    return next;
+  }
+
+  async resolveStruggle(next, side, targetSide, { automaticHit = false, reason = null } = {}) {
+    const attacker = next[side];
+    const defender = next[targetSide];
+    const move = await this.data.getMove("struggle");
+    const attribute = ["str", "dex"].sort(
+      (a, b) => attacker.attributes[b] - attacker.attributes[a]
+    )[0];
+    const moveModifier = abilityModifier(attacker.attributes[attribute]);
+    const pb = proficiencyBonus(attacker.level);
+    const roll = automaticHit
+      ? { rolls: [], natural: null, mode: "automatic" }
+      : rollD20(this.dice, { disadvantage: attackHasDisadvantage(attacker) });
+    const attackTotal = automaticHit ? null : roll.natural + pb + moveModifier;
+    const hit = automaticHit || roll.natural === 20 ||
+      (roll.natural !== 1 && attackTotal >= defender.ac);
+    const damage = hit ? Math.max(0, 2 + moveModifier) : 0;
+
+    defender.hp.current = Math.max(0, defender.hp.current - damage);
+    if (targetSide !== side) checkConcentrationAfterDamage(next, targetSide, damage, this.dice);
+    else checkConcentrationAfterDamage(next, side, damage, this.dice);
+
+    next.log.push({
+      type: "struggle",
+      round: next.round,
+      actor: side,
+      target: targetSide,
+      reason,
+      attribute,
+      proficiencyBonus: pb,
+      moveModifier,
+      attackRoll: roll,
+      attackTotal,
+      defenderAc: defender.ac,
+      hit,
+      damage,
+      targetHpAfter: defender.hp.current
+    });
+
+    if (defender.hp.current <= 0) {
+      markDowned(next, targetSide, reason === "confusion" ? "confusion_struggle" : "struggle");
+    }
+    return next;
+  }
+
+  async resolveStatusAttackMove(next, side, move, { forceDisadvantage = false } = {}) {
+    const attacker = next[side];
+    const targetSide = otherSide(side);
+    const defender = next[targetSide];
+    const stats = calculateMoveStats(attacker, move);
+    const attackBonus =
+      activeModifier(attacker.effects.attackModifierSources, next.round) +
+      activeModifier(defender.effects.incomingAttackBonusSources, next.round);
+    const roll = rollD20(this.dice, {
+      disadvantage: forceDisadvantage || attackHasDisadvantage(attacker)
+    });
+    const attackModifier = stats.toHit + attackBonus;
+    const attackTotal = roll.natural + attackModifier;
+    const hit = roll.natural === 20 ||
+      (roll.natural !== 1 && attackTotal >= defender.ac);
+    const status = hit ? attackHitStatus(move, roll.natural) : null;
+    const statusResult = status
+      ? applyStatus(defender, status, { sourceProficiencyBonus: proficiencyBonus(attacker.level) })
+      : null;
+
+    next.log.push({
+      type: "status_attack",
+      round: next.round,
+      actor: side,
+      target: targetSide,
+      moveId: move.id,
+      moveName: move.name,
+      attackRoll: roll,
+      attackModifier,
+      attackTotal,
+      defenderAc: defender.ac,
+      hit,
+      status,
+      statusResult
+    });
+    return next;
+  }
+
+  async resolveSaveDamageMove(next, side, move) {
+    const attacker = next[side];
+    const targetSide = otherSide(side);
+    const defender = next[targetSide];
+    const stats = calculateMoveStats(attacker, move);
+    const save = resolveSavingThrow({
+      defender,
+      attribute: stats.saveAttribute,
+      dc: stats.saveDc,
+      dice: this.dice,
+      advantage:
+        attacker.statuses?.flinchedTurns > 0 &&
+        move.time?.unit === "action"
+    });
+
+    const rolled = rollExpression(stats.damageDice, this.dice);
+    const rawDamage = Math.max(0, rolled.total + stats.damageModifier);
+    const multiplier = damageMultiplierFor(move.type, defender);
+    let damage = multiplier === 0.5 ? Math.floor(rawDamage / 2) : rawDamage * multiplier;
+    if (save.success) damage = saveAllowsHalfDamage(move) ? Math.floor(damage / 2) : 0;
+
+    defender.hp.current = Math.max(0, defender.hp.current - damage);
+    checkConcentrationAfterDamage(next, targetSide, damage, this.dice);
+
+    const status = failedSaveStatus(move, save);
+    const statusResult = status && multiplier > 0
+      ? applyStatus(defender, status, { sourceProficiencyBonus: proficiencyBonus(attacker.level) })
+      : null;
+    const thawed = endFrozenOnFireDamage(defender, move, damage);
+
+    next.log.push({
+      type: "save_damage",
+      round: next.round,
+      actor: side,
+      target: targetSide,
+      moveId: move.id,
+      moveName: move.name,
+      save,
+      damageRoll: rolled,
+      damageModifier: stats.damageModifier,
+      rawDamage,
+      typeMultiplier: multiplier,
+      damage,
+      status,
+      statusResult,
+      thawed,
+      targetHpAfter: defender.hp.current
+    });
+
+    if (defender.hp.current <= 0) markDowned(next, targetSide, "move_damage");
     return next;
   }
 
@@ -767,10 +1001,18 @@ export class Pokemon5eCombatEngine {
     const targetSide = otherSide(side);
     const defender = next[targetSide];
 
-    if (!attacker.moveIds.includes(moveId)) throw new Error(`${attacker.name} does not know supported move ${moveId}`);
-    if ((attacker.pp[moveId] ?? 0) <= 0) throw new Error(`${moveId} has no PP remaining`);
+    const isStruggle = moveId === "struggle";
+    if (!isStruggle && !attacker.moveIds.includes(moveId)) {
+      throw new Error(`${attacker.name} does not know move ${moveId}`);
+    }
+    if (!isStruggle && (attacker.pp[moveId] ?? 0) <= 0) {
+      throw new Error(`${moveId} has no PP remaining`);
+    }
 
     const move = await this.data.getMove(moveId);
+    if (!isMoveResolvable(move)) {
+      throw new Error(`Move ${move.id} is known but its special rules are not executable by the combat resolver`);
+    }
     const slot = moveSlot(move);
     if (!slot || !attacker.turn[slot]) throw new Error(`No ${move.time?.unit ?? "turn"} slot available for ${moveId}`);
 
@@ -805,7 +1047,7 @@ export class Pokemon5eCombatEngine {
       });
     }
 
-    attacker.pp[move.id] -= 1;
+    if (!isStruggle) attacker.pp[move.id] -= 1;
     attacker.turn[slot] = false;
 
     let intimidateUsed = false;
@@ -828,7 +1070,9 @@ export class Pokemon5eCombatEngine {
       });
     }
 
-    if (move.attack && move.dice?.type === "damage") {
+    if (move.id === "struggle") {
+      next = await this.resolveStruggle(next, side, targetSide, { reason: "voluntary" });
+    } else if (move.attack && move.dice?.type === "damage") {
       next = await this.resolveAttackMove(next, side, move, {
         forceDisadvantage: intimidateUsed
       });
@@ -871,6 +1115,8 @@ export class Pokemon5eCombatEngine {
         actor: side,
         zone: clone(zone)
       });
+    } else if (move.save && move.dice?.type === "damage") {
+      next = await this.resolveSaveDamageMove(next, side, move);
     } else if (SAVE_EFFECT_MOVES.has(move.id)) {
       if (defender.abilityId === "levitate" && move.type === "ground") {
         next.log.push({
@@ -901,8 +1147,40 @@ export class Pokemon5eCombatEngine {
           applied
         });
       }
+    } else if (move.attack && statusFromText(move.description)) {
+      next = await this.resolveStatusAttackMove(next, side, move, {
+        forceDisadvantage: intimidateUsed
+      });
+    } else if (move.save && statusFromText(move.description)) {
+      if (defender.abilityId === "levitate" && move.type === "ground") {
+        next.log.push({
+          type: "save_move",
+          round: next.round,
+          actor: side,
+          target: targetSide,
+          moveId: move.id,
+          moveName: move.name,
+          immune: true,
+          immunityAbility: "levitate"
+        });
+      } else {
+        const result = resolveSaveMove({ attacker, defender, move, dice: this.dice });
+        const status = failedSaveStatus(move, result.save);
+        const statusResult = status
+          ? applyStatus(defender, status, { sourceProficiencyBonus: proficiencyBonus(attacker.level) })
+          : null;
+        next.log.push({
+          type: "save_status",
+          round: next.round,
+          actor: side,
+          target: targetSide,
+          ...result,
+          status,
+          statusResult
+        });
+      }
     } else {
-      throw new Error(`Move ${move.id} is in the pack but not implemented by the resolver`);
+      throw new Error(`Move ${move.id} is known but its special rules are not executable by the combat resolver`);
     }
 
     if (next.outcome || next.awaitingSwitch) return next;
@@ -1164,6 +1442,51 @@ export class Pokemon5eCombatEngine {
     }
 
     return { battle: next, result };
+  }
+
+  async useTrainerItem(battle, itemId, { targetSide = "player", moveId = null } = {}) {
+    if (battle.outcome || battle.awaitingSwitch) {
+      return { battle: clone(battle), result: { applied: false, reason: "combat_not_active" } };
+    }
+    if (this.actor(battle) !== "player") throw new Error("Trainer items are only available on the player's turn");
+
+    const next = await this.prepareCurrentTurn(battle);
+    if (this.actor(next) !== "player") {
+      return { battle: next, result: { applied: false, reason: "turn_skipped" } };
+    }
+    if (!next.trainer.actionAvailable) {
+      return { battle: next, result: { applied: false, reason: "no_trainer_action" } };
+    }
+
+    const index = findInventoryItemIndex(next.trainer.inventory, itemId);
+    if (index < 0) {
+      return { battle: next, result: { applied: false, reason: "item_not_owned" } };
+    }
+
+    const target = next[targetSide];
+    if (!target) throw new Error(`Unknown Pokémon target side: ${targetSide}`);
+    const item = await this.data.getItem(itemId);
+    const compiled = applyItemToPokemon({ item, target, dice: this.dice, moveId });
+
+    if (!compiled.applied) return { battle: next, result: compiled };
+
+    if (compiled.compiled.requiresAdjacent &&
+        distance(next.trainer.position, target.position) > 5 + 1e-9) {
+      return { battle: clone(battle), result: { applied: false, reason: "target_not_adjacent" } };
+    }
+
+    if (compiled.consumed) next.trainer.inventory.splice(index, 1);
+    next.trainer.actionAvailable = false;
+    next.log.push({
+      type: "trainer_item",
+      round: next.round,
+      actor: "trainer",
+      target: targetSide,
+      itemId: item.id,
+      effects: clone(compiled.effects),
+      consumed: compiled.consumed
+    });
+    return { battle: next, result: compiled };
   }
 
   async usePlayerMove(battle, moveId, options = {}) {
