@@ -5,7 +5,12 @@ import { readFile } from "node:fs/promises";
 import { Pokemon5eCombatEngine, isMoveResolvable } from "../src/combat/combat-engine.mjs";
 import { applyItemToPokemon, compileItemRule } from "../src/combat/item-rules.mjs";
 import { Poke5eDataRepository } from "../src/combat/poke5e-data.mjs";
-import { calculateMoveStats, damageProfile, resolveAttack } from "../src/combat/poke5e-rules.mjs";
+import {
+  calculateMoveStats,
+  damageProfile,
+  damageRollHasAdvantage,
+  resolveAttack
+} from "../src/combat/poke5e-rules.mjs";
 import {
   applyStatus,
   createStatusState,
@@ -380,6 +385,45 @@ test("common passive abilities execute low-HP STAB, critical armor, status immun
     assert.equal(result.critical, true);
     assert.equal(result.criticalDamage, false);
     assert.equal(result.damageRoll.selected.expression, "1d12");
+  }
+
+  {
+    const combat = new Pokemon5eCombatEngine({ dice: new SequenceDice([10]) });
+    const attacker = await combat.createCombatant({
+      speciesId: "eevee",
+      level: 5,
+      abilityId: "adaptability",
+      moveIds: ["tackle"]
+    });
+    const defender = await combat.createCombatant({
+      speciesId: "eevee",
+      level: 5,
+      moveIds: ["tackle"]
+    });
+    const tackle = await data.getMove("tackle");
+
+    assert.equal(damageRollHasAdvantage(attacker, tackle), true);
+    let result = resolveAttack({
+      attacker,
+      defender,
+      move: tackle,
+      dice: new SequenceDice([15, 2, 10])
+    });
+    assert.equal(result.damageRoll.mode, "advantage");
+    assert.equal(result.damageRoll.selected.total, 10);
+
+    attacker.abilityId = "technician";
+    assert.equal(damageRollHasAdvantage(attacker, tackle), true);
+
+    attacker.abilityId = "adaptability";
+    applyStatus(attacker, "Burned");
+    result = resolveAttack({
+      attacker,
+      defender,
+      move: tackle,
+      dice: new SequenceDice([15, 5])
+    });
+    assert.equal(result.damageRoll.mode, "normal");
   }
 
   for (const [abilityId, status] of [
