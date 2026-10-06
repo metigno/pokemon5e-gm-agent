@@ -4,6 +4,7 @@ import { Poke5eDataRepository } from "./poke5e-data.mjs";
 import {
   abilityModifier,
   calculateMoveStats,
+  damageProfile,
   proficiencyBonus,
   resolveAttack,
   resolveSaveMove,
@@ -22,7 +23,6 @@ import {
   reachForSize,
   withinLineOfSightDistance
 } from "./spatial.mjs";
-import { typeMultiplier } from "./type-chart.mjs";
 import {
   createCircleZone,
   expireZonesAtTurnStart,
@@ -461,11 +461,8 @@ function secondaryStatusFor(move, natural) {
   return attackHitStatus(move, natural);
 }
 
-function damageMultiplierFor(moveType, defender) {
-  if (moveType === "typeless" || moveType === "stellar" || moveType === "varies") return 1;
-  if (defender.abilityId === "levitate" && moveType === "ground") return 0;
-  if (defender.abilityId === "flash-fire" && moveType === "fire") return 0;
-  return typeMultiplier(moveType, defender.types);
+function damageMultiplierFor(move, defender) {
+  return damageProfile(move, defender).multiplier;
 }
 
 function saveAllowsHalfDamage(move) {
@@ -587,7 +584,7 @@ function rangeCheckForMove(attacker, defender, move) {
 function zoneDamage(zone, target, dice, saveSucceeded = false) {
   const rolled = rollExpression(zone.damageDice, dice);
   const raw = Math.max(0, rolled.total + zone.damageModifier);
-  const multiplier = typeMultiplier(zone.damageType, target.types);
+  const multiplier = damageProfile({ type: zone.damageType }, target).multiplier;
   let damage = multiplier === 0.5 ? Math.floor(raw / 2) : raw * multiplier;
   if (saveSucceeded && zone.effect === "smog") damage = Math.floor(damage / 2);
   return { rolled, raw, multiplier, damage };
@@ -1290,7 +1287,7 @@ export class Pokemon5eCombatEngine {
     }
 
     const stats = calculateMoveStats(attacker, move);
-    const multiplier = damageMultiplierFor(move.type, defender);
+    const multiplier = damageMultiplierFor(move, defender);
     const hits = [];
     let totalDamage = 0;
 
@@ -1349,7 +1346,7 @@ export class Pokemon5eCombatEngine {
 
     const damageRoll = rollSaveMoveDamage(attacker, stats.damageDice, this.dice);
     const rawDamage = Math.max(0, damageRoll.selected.total + stats.damageModifier);
-    const multiplier = damageMultiplierFor(move.type, defender);
+    const multiplier = damageMultiplierFor(move, defender);
     let damage = multiplier === 0.5 ? Math.floor(rawDamage / 2) : rawDamage * multiplier;
     if (save.success) damage = saveAllowsHalfDamage(move) ? Math.floor(damage / 2) : 0;
 
