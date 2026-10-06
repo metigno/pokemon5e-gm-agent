@@ -2425,6 +2425,11 @@ export class Pokemon5eCombatEngine {
       endConcentrationState(next, side, "consumed");
     }
 
+    const duplicateInterception = result.hit
+      ? tryAbsorbWithDuplicate(next, targetSide, effectiveMove, this.dice)
+      : null;
+    if (duplicateInterception?.avoided) result.damage = 0;
+
     const reducedAttackDamage = applyDamageReduction(
       defender,
       result.damage,
@@ -2437,7 +2442,10 @@ export class Pokemon5eCombatEngine {
     result.damage = reducedAttackDamage.damage;
 
     defender.hp.current = Math.max(0, defender.hp.current - hpDamageAfterTemporaryHp(defender, result.damage));
-    checkConcentrationAfterDamage(next, targetSide, result.damage, this.dice);
+    if (!duplicateInterception?.avoided) {
+      checkConcentrationAfterDamage(next, targetSide, result.damage, this.dice);
+      applyCanonicalDamageShare(next, targetSide, result.damage);
+    }
 
     if (flashFireWasCharged) {
       attacker.abilityState.flashFireCharged = false;
@@ -2455,8 +2463,10 @@ export class Pokemon5eCombatEngine {
     }
 
     let statusResult = null;
-    const thawed = result.hit ? endFrozenOnFireDamage(defender, effectiveMove, result.damage) : false;
-    const secondary = result.hit && result.typeMultiplier > 0
+    const thawed = result.hit && !duplicateInterception?.avoided
+      ? endFrozenOnFireDamage(defender, effectiveMove, result.damage)
+      : false;
+    const secondary = result.hit && !duplicateInterception?.avoided && result.typeMultiplier > 0
       ? secondaryStatusFor(effectiveMove, result.natural)
       : null;
     if (secondary) statusResult = applyMoveStatus(attacker, defender, secondary, next.round);
@@ -2474,6 +2484,7 @@ export class Pokemon5eCombatEngine {
       cover: rangeProfile.cover ?? "none",
       coverAcBonus,
       flightRangeDisadvantage,
+      duplicateInterception,
       secondaryStatus: secondary,
       statusResult,
       thawed,
@@ -2536,6 +2547,7 @@ export class Pokemon5eCombatEngine {
     const damage = reducedStruggleDamage.damage;
 
     defender.hp.current = Math.max(0, defender.hp.current - hpDamageAfterTemporaryHp(defender, damage));
+    applyCanonicalDamageShare(next, targetSide, damage);
     if (targetSide !== side) checkConcentrationAfterDamage(next, targetSide, damage, this.dice);
     else checkConcentrationAfterDamage(next, side, damage, this.dice);
 
@@ -3891,8 +3903,15 @@ export class Pokemon5eCombatEngine {
       });
     }
 
+    const duplicateInterception = totalDamage > 0
+      ? tryAbsorbWithDuplicate(next, targetSide, move, this.dice)
+      : null;
+    if (duplicateInterception?.avoided) totalDamage = 0;
     defender.hp.current = Math.max(0, defender.hp.current - hpDamageAfterTemporaryHp(defender, totalDamage));
-    checkConcentrationAfterDamage(next, targetSide, totalDamage, this.dice);
+    if (!duplicateInterception?.avoided) {
+      checkConcentrationAfterDamage(next, targetSide, totalDamage, this.dice);
+      applyCanonicalDamageShare(next, targetSide, totalDamage);
+    }
     const thawed = endFrozenOnFireDamage(defender, move, totalDamage);
 
     let healing = 0;
@@ -3912,6 +3931,7 @@ export class Pokemon5eCombatEngine {
       typeMultiplier: multiplier,
       damage: totalDamage,
       healing,
+      duplicateInterception,
       thawed,
       targetHpAfter: defender.hp.current,
       actorHpAfter: attacker.hp.current
@@ -3952,11 +3972,21 @@ export class Pokemon5eCombatEngine {
     const reductions = reducedSaveDamage.reductions;
     damage = reducedSaveDamage.damage;
 
-    defender.hp.current = Math.max(0, defender.hp.current - hpDamageAfterTemporaryHp(defender, damage));
-    checkConcentrationAfterDamage(next, targetSide, damage, this.dice);
+    const duplicateInterception = (damage > 0 || !save.success)
+      ? tryAbsorbWithDuplicate(next, targetSide, move, this.dice)
+      : null;
+    if (duplicateInterception?.avoided) damage = 0;
 
-    const thawed = endFrozenOnFireDamage(defender, move, damage);
-    const status = failedSaveStatus(move, save);
+    defender.hp.current = Math.max(0, defender.hp.current - hpDamageAfterTemporaryHp(defender, damage));
+    if (!duplicateInterception?.avoided) {
+      checkConcentrationAfterDamage(next, targetSide, damage, this.dice);
+      applyCanonicalDamageShare(next, targetSide, damage);
+    }
+
+    const thawed = !duplicateInterception?.avoided
+      ? endFrozenOnFireDamage(defender, move, damage)
+      : false;
+    const status = duplicateInterception?.avoided ? null : failedSaveStatus(move, save);
     const statusResult = status && multiplier > 0
       ? applyMoveStatus(attacker, defender, status, next.round)
       : null;
@@ -3977,6 +4007,7 @@ export class Pokemon5eCombatEngine {
       damageReduction,
       reductions,
       damage,
+      duplicateInterception,
       status,
       statusResult,
       thawed,
