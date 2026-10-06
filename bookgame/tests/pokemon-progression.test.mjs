@@ -10,7 +10,8 @@ import {
   evolutionIsEligible,
   learnPokemonMove,
   pokemonLevelAsiPoints,
-  resolvePokemonMoveReplacement
+  resolvePokemonMoveReplacement,
+  resolvePendingPokemonLevelUp
 } from "../src/engine/pokemon-progression.mjs";
 
 const data = new Poke5eDataRepository();
@@ -169,4 +170,69 @@ test("evolution ASI rejects more than four points in one score instead of silent
     ),
     /cannot allocate more than 4 points/
   );
+});
+
+
+test("a level-triggered evolution resolves before normal level-up HP and move benefits", async () => {
+  const eevee = {
+    speciesId: "eevee",
+    level: 7,
+    xp: 20000,
+    moveIds: ["tackle", "quick-attack", "bite", "swift"],
+    abilityId: "run-away",
+    bond: { level: 2, points: { current: 2, max: 2 } },
+    hp: { current: 34, max: 40 },
+    hitDice: { die: "d6", current: 7, max: 7 }
+  };
+
+  const awarded = await awardPokemonXp(eevee, 10000, {
+    data,
+    context: { timeOfDay: "night" }
+  });
+  assert.equal(awarded.pokemon.level, 8);
+  assert.equal(awarded.pokemon.hp.max, 40);
+  assert.equal(awarded.pendingLevelUp.stage, "evolution_decision");
+  assert.ok(awarded.pendingLevelUp.evolutionIds.includes("eevee-to-umbreon"));
+
+  const choice = await resolvePendingPokemonLevelUp(awarded.pokemon, {
+    data,
+    evolutionId: "eevee-to-umbreon",
+    asiDistribution: { str: 2, dex: 4, con: 2, wis: 3, cha: 3 },
+    context: { timeOfDay: "night" },
+    hpRolls: { 8: 6 }
+  });
+
+  assert.equal(choice.status, "complete");
+  assert.equal(choice.pokemon.speciesId, "umbreon");
+  assert.equal(choice.pokemon.hitDice.die, "d10");
+  assert.equal(choice.pokemon.hitDice.max, 8);
+  assert.equal(choice.pokemon.pendingLevelUp, null);
+  assert.ok(choice.pokemon.hp.max > 56, "normal level-up HP is added after the +16 evolution HP");
+  assert.equal(choice.pokemon.pendingAsiChoices.at(-1).points, 3);
+  assert.equal(choice.pokemon.pendingAsiChoices.at(-1).level, 8);
+  assert.equal(choice.pokemon.pendingMoveChoices.at(-1).level, 8);
+});
+
+test("declining an eligible evolution delays it until another level", async () => {
+  const eevee = {
+    speciesId: "eevee",
+    level: 7,
+    xp: 20000,
+    moveIds: ["tackle"],
+    abilityId: "run-away",
+    bond: { level: 2 },
+    hp: { current: 40, max: 40 }
+  };
+  const awarded = await awardPokemonXp(eevee, 10000, {
+    data,
+    context: { timeOfDay: "night" }
+  });
+  const declined = await resolvePendingPokemonLevelUp(awarded.pokemon, {
+    data,
+    declineEvolution: true,
+    context: { timeOfDay: "night" }
+  });
+  assert.equal(declined.pokemon.speciesId, "eevee");
+  assert.equal(declined.pokemon.declinedEvolutionAtLevel, 8);
+  assert.equal(declined.pokemon.pendingLevelUp, null);
 });
