@@ -103,7 +103,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
   const moves = await data.listMoves();
   const unresolved = moves.filter((move) => !isMoveResolvable(move)).map((move) => move.id);
 
-  assert.ok(unresolved.length <= 181, `unresolved move rules regressed to ${unresolved.length}`);
+  assert.ok(unresolved.length <= 179, `unresolved move rules regressed to ${unresolved.length}`);
   assert.ok(unresolved.includes("acupressure"));
   for (const id of [
     "agility",
@@ -124,7 +124,9 @@ test("move execution coverage has an explicit non-regression gate", async () => 
     "geomancy",
     "hone-claws",
     "iron-defense",
+    "laser-focus",
     "magnet-rise",
+    "mind-reader",
     "meditate",
     "minimize",
     "no-retreat",
@@ -557,6 +559,64 @@ test("Charge keeps AC until the next turn and activates doubled STAB only on tha
   battle = await combat.usePlayerMove(battle, "tackle");
   const attack = [...battle.log].reverse().find((event) => event.type === "attack");
   assert.equal(attack.stab, 6);
+});
+
+
+test("Laser Focus and Mind Reader affect exactly one attack roll on the next turn", async () => {
+  const laserCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 20, 1, 4, 5])
+  });
+  let laserBattle = await laserCombat.createBattle({
+    encounterId: "FULL_RUNTIME_LASER_FOCUS",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["laser-focus", "tackle"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["growl"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+
+  laserBattle = await laserCombat.usePlayerMove(laserBattle, "laser-focus");
+  assert.equal(laserBattle.player.concentration?.moveId, "laser-focus");
+  assert.equal(laserBattle.player.effects.forcedCriticalSources.at(-1).startsRound, 2);
+
+  laserBattle = await laserCombat.endPlayerTurn(laserBattle);
+  laserBattle = await laserCombat.advanceToPlayerOrEnd(laserBattle);
+  assert.equal(laserBattle.round, 2);
+
+  laserBattle = await laserCombat.usePlayerMove(laserBattle, "tackle");
+  const laserAttack = [...laserBattle.log].reverse().find((event) => event.type === "attack");
+  assert.equal(laserAttack.natural, 1);
+  assert.equal(laserAttack.forcedCritical, true);
+  assert.equal(laserAttack.critical, true);
+  assert.equal(laserAttack.hit, true);
+  assert.equal(laserAttack.forcedCriticalConsumed, "laser-focus");
+  assert.equal(laserBattle.player.concentration, null);
+
+  const mindCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 20, 1, 4])
+  });
+  let mindBattle = await mindCombat.createBattle({
+    encounterId: "FULL_RUNTIME_MIND_READER",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["mind-reader", "tackle"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["growl"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+
+  mindBattle = await mindCombat.usePlayerMove(mindBattle, "mind-reader");
+  assert.equal(mindBattle.player.effects.forcedHitSources.at(-1).startsRound, 2);
+
+  mindBattle = await mindCombat.endPlayerTurn(mindBattle);
+  mindBattle = await mindCombat.advanceToPlayerOrEnd(mindBattle);
+  mindBattle = await mindCombat.usePlayerMove(mindBattle, "tackle");
+
+  const mindAttack = [...mindBattle.log].reverse().find((event) => event.type === "attack");
+  assert.equal(mindAttack.natural, 1);
+  assert.equal(mindAttack.forcedHit, true);
+  assert.equal(mindAttack.forcedCritical, false);
+  assert.equal(mindAttack.critical, false);
+  assert.equal(mindAttack.hit, true);
+  assert.equal(mindAttack.forcedHitConsumed, "mind-reader");
+  assert.equal(mindBattle.player.effects.forcedHitSources.at(-1).usesRemaining, 0);
 });
 
 
