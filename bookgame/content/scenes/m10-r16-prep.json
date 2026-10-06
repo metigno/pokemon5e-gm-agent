@@ -1,0 +1,286 @@
+{
+  "schemaVersion": 1,
+  "id": "m10-r16-prep",
+  "moduleId": "M10",
+  "title": "M10_02 — R16 Prep",
+  "locationId": "world_knockout_hall",
+  "entryNodeId": "prep_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m10_silas_thread_complete",
+        "eq": true
+      },
+      {
+        "path": "competition.world.knockout.opened",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "prep_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Tra gironi e ottavi non esiste un reset gratuito: roster, HP, PP, status e infortuni restano quelli realmente persistiti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_roster",
+          "text": "Controllo la disponibilità della squadra.",
+          "goto": "roster_state"
+        },
+        {
+          "id": "entry_time",
+          "text": "Valuto quanto tempo spendere prima dell'ottavo.",
+          "goto": "time_budget"
+        },
+        {
+          "id": "entry_opponent",
+          "text": "Rivedo l'avversario lockato.",
+          "goto": "opponent_read"
+        }
+      ]
+    },
+    "roster_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La registrazione ufficiale richiede sei Pokémon disponibili. Questa scena non cura, non sostituisce e non ricrea nessun membro del roster."
+        }
+      ],
+      "choices": [
+        {
+          "id": "roster_medical",
+          "text": "Distinguo informazione medica da cura reale.",
+          "goto": "medical_boundary"
+        },
+        {
+          "id": "roster_plan",
+          "text": "Costruisco il piano usando ciò che ho davvero.",
+          "goto": "tactical_plan"
+        }
+      ]
+    },
+    "medical_boundary": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Una valutazione può dirti che un Pokémon è in cattive condizioni; cambiare HP, PP o status richiede il sottosistema appropriato, non una frase di preparazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "medical_time",
+          "text": "Valuto il costo temporale delle opzioni.",
+          "goto": "time_budget"
+        },
+        {
+          "id": "medical_commit",
+          "text": "Accetto lo stato reale e continuo.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "time_budget": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Ogni minuto speso prima del match muove anche schedule e mondo. Il pairing R16 resta lockato per la stessa edizione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "time_short",
+          "text": "Dedico 15 minuti alla revisione tattica.",
+          "goto": "tactical_plan",
+          "timeCostMinutes": 15
+        },
+        {
+          "id": "time_long",
+          "text": "Dedico 30 minuti al controllo roster.",
+          "goto": "roster_state",
+          "timeCostMinutes": 30
+        },
+        {
+          "id": "time_now",
+          "text": "Non consumo altro tempo e passo alla readiness.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "opponent_read": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'avversario resta {{competition.world.knockout.playerR16Opponent.name}}. Precedenti e reputazione possono cambiare cosa sai, mai chi occupa lo slot."
+        }
+      ],
+      "choices": [
+        {
+          "id": "opponent_callbacks",
+          "text": "Controllo i callback leciti.",
+          "goto": "callbacks"
+        },
+        {
+          "id": "opponent_plan",
+          "text": "Adatto il piano alle informazioni realmente possedute.",
+          "goto": "tactical_plan"
+        }
+      ]
+    },
+    "callbacks": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "I callback possono aggiungere contesto su abitudini osservate o incontri passati. Non rivelano un moveset non conosciuto e non modificano stats."
+        }
+      ],
+      "choices": [
+        {
+          "id": "callbacks_plan",
+          "text": "Traduco il contesto in scelte tattiche.",
+          "goto": "tactical_plan"
+        },
+        {
+          "id": "callbacks_readiness",
+          "text": "Passo alla verifica finale.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "tactical_plan": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Puoi scegliere aggressione, controllo, protezione delle risorse o scouting iniziale, ma nessuna postura diventa un bonus custom fuori dalle regole Pokémon 5e."
+        }
+      ],
+      "choices": [
+        {
+          "id": "plan_risk",
+          "text": "Valuto il rischio di single elimination.",
+          "goto": "risk"
+        },
+        {
+          "id": "plan_ready",
+          "text": "Porto il piano alla readiness.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "risk": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "In un ottavo non esiste partita successiva che compensi un errore: il rischio è competitivo, non una modifica artificiale alle probabilità."
+        }
+      ],
+      "choices": [
+        {
+          "id": "risk_rules",
+          "text": "Rileggo i vincoli del match.",
+          "goto": "match_rules"
+        },
+        {
+          "id": "risk_ready",
+          "text": "Accetto il rischio e vado alla readiness.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "match_rules": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Formato Singles, sei Pokémon, risultato reale del battle bridge. Nessun retry narrativo e nessun esito precompilato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rules_roster",
+          "text": "Rivedo il roster reale.",
+          "goto": "roster_state"
+        },
+        {
+          "id": "rules_ready",
+          "text": "Procedo alla readiness.",
+          "goto": "readiness"
+        }
+      ]
+    },
+    "readiness": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La readiness controlla soltanto che tu sia pronto a consegnare il controllo al battle bridge; non altera lo stato del team."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ready_commit",
+          "text": "Chiudo la preparazione R16.",
+          "goto": "commit"
+        },
+        {
+          "id": "ready_opponent",
+          "text": "Ultima lettura dell'avversario.",
+          "goto": "opponent_read"
+        }
+      ]
+    },
+    "commit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Chiudere M10_02 conserva tutte le risorse correnti e rende disponibile il match ufficiale R16."
+        }
+      ],
+      "choices": [
+        {
+          "id": "commit_now",
+          "text": "Confermo la preparazione senza reset.",
+          "goto": "handoff",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m10_r16_prep_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "commit_review",
+          "text": "Rivedo la readiness.",
+          "goto": "readiness"
+        },
+        {
+          "id": "commit_roster",
+          "text": "Riapro il controllo roster.",
+          "goto": "roster_state"
+        }
+      ]
+    },
+    "handoff": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La preparazione è chiusa. Il prossimo blocco usa direttamente il matchId e l'avversario prodotti da E5."
+        }
+      ],
+      "choices": [
+        {
+          "id": "handoff_match",
+          "text": "Entro nell'ottavo ufficiale.",
+          "goto": "m10-world-r16#r16_entry"
+        },
+        {
+          "id": "handoff_rules",
+          "text": "Rivedo le regole prima di entrare.",
+          "goto": "match_rules"
+        }
+      ]
+    }
+  }
+}
