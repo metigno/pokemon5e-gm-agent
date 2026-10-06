@@ -55,6 +55,8 @@ const SAVE_EFFECT_MOVES = new Set([
   "forests-curse",
   "magic-powder",
   "metal-sound",
+  "feather-dance",
+  "mean-look",
   "screech",
   "soak",
   "sweet-scent",
@@ -509,6 +511,14 @@ function isSpecialSelfMove(move) {
   return SPECIAL_SELF_MOVES.has(move.id);
 }
 
+const SPECIAL_TARGET_MOVES = new Set([
+  "lock-on"
+]);
+
+function isSpecialTargetMove(move) {
+  return SPECIAL_TARGET_MOVES.has(move.id);
+}
+
 const TYPE_COPY_MOVES = new Set([
   "reflect-type"
 ]);
@@ -590,6 +600,7 @@ export function isMoveResolvable(move) {
   if (isStatusCureMove(move)) return true;
   if (isSimpleModifierMove(move)) return true;
   if (isSpecialSelfMove(move)) return true;
+  if (isSpecialTargetMove(move)) return true;
   if (isTypeCopyMove(move)) return true;
   if (isStockpileMove(move)) return true;
   if (SAVE_EFFECT_MOVES.has(move.id) || AREA_MOVES.has(move.id)) return true;
@@ -751,8 +762,12 @@ function endConcentrationState(battle, side, reason) {
     ...(Array.isArray(concentration.effectSources) ? concentration.effectSources : []),
     ...(concentration.effectSource ? [concentration.effectSource] : [])
   ];
+  const effectTarget =
+    concentration.effectTargetSide && battle[concentration.effectTargetSide]
+      ? battle[concentration.effectTargetSide]
+      : combatant;
   for (const source of new Set(effectSources)) {
-    removeEffectSource(combatant, source, battle.round);
+    removeEffectSource(effectTarget, source, battle.round);
   }
   combatant.concentration = null;
   battle.log.push({
@@ -1205,6 +1220,48 @@ function applySaveEffect(battle, side, move, saveResult) {
       expiresRound: battle.round + 2
     });
     return { effect: "incoming_attack_bonus", value: 5 };
+  }
+
+  if (move.id === "feather-dance") {
+    const expiresRound = effectExpiryRound(move, battle.round);
+    const penalty = -proficiencyBonus(target.level);
+    removeEffectSource(target, move.id, battle.round);
+    target.effects.attackModifierSources.push({
+      source: move.id,
+      value: penalty,
+      expiresRound
+    });
+    endConcentrationState(battle, side, "new_concentration");
+    battle[side].concentration = {
+      zoneId: null,
+      moveId: move.id,
+      effectSource: move.id,
+      effectTargetSide: targetSide,
+      expiresRound
+    };
+    return {
+      effect: "attack_modifier",
+      value: penalty,
+      expiresRound,
+      concentration: true
+    };
+  }
+
+  if (move.id === "mean-look") {
+    const expiresRound = effectExpiryRound(move, battle.round);
+    removeEffectSource(target, move.id, battle.round);
+    target.effects.switchLockSources.push({
+      source: move.id,
+      expiresRound
+    });
+    target.effects.escapeLockSources.push({
+      source: move.id,
+      expiresRound
+    });
+    return {
+      effect: "switch_escape_lock",
+      expiresRound
+    };
   }
 
   if (move.id === "screech") {
@@ -2257,6 +2314,39 @@ export class Pokemon5eCombatEngine {
     return next;
   }
 
+  async resolveSpecialTargetMove(next, side, move) {
+    const attacker = next[side];
+    const targetSide = otherSide(side);
+    const defender = next[targetSide];
+
+    if (move.id === "lock-on") {
+      removeEffectSource(attacker, move.id, next.round);
+      attacker.effects.forcedHitSources.push({
+        source: move.id,
+        targetCombatantId: defender.combatantId,
+        usesRemaining: 1,
+        startsRound: next.round + 1,
+        expiresRound: next.round + 2
+      });
+      next.log.push({
+        type: "special_target_move",
+        round: next.round,
+        actor: side,
+        target: targetSide,
+        moveId: move.id,
+        targetCombatantId: defender.combatantId,
+        applied: {
+          forcedHitUses: 1,
+          startsRound: next.round + 1,
+          expiresRound: next.round + 2
+        }
+      });
+      return next;
+    }
+
+    throw new Error(`No special target handler for ${move.id}`);
+  }
+
   async resolveTypeCopyMove(next, side, move) {
     const combatant = next[side];
     const targetSide = otherSide(side);
@@ -3175,6 +3265,7 @@ export class Pokemon5eCombatEngine {
     const ongoingHealTargetSide = isOngoingHealingMove(move) ? side : null;
     const modifierTargetSide = isSimpleModifierMove(move) ? side : null;
     const specialSelfTargetSide = isSpecialSelfMove(move) ? side : null;
+    const specialTargetSide = isSpecialTargetMove(move) ? targetSide : null;
     const cureTargetSide = isStatusCureMove(move)
       ? (move.id === "purify" ? otherSide(side) : side)
       : null;
@@ -3188,9 +3279,11 @@ export class Pokemon5eCombatEngine {
             ? next[modifierTargetSide]
             : specialSelfTargetSide
               ? next[specialSelfTargetSide]
-              : cureTargetSide
-        ? next[cureTargetSide]
-        : defender;
+              : specialTargetSide
+                ? next[specialTargetSide]
+                : cureTargetSide
+                  ? next[cureTargetSide]
+                  : defender;
     const range = areaTarget
       ? {
           legal: distance(attacker.position, areaTarget) <= move.range.value + 1e-9,
@@ -3284,6 +3377,8 @@ export class Pokemon5eCombatEngine {
       next = await this.resolveSimpleModifierMove(next, side, move);
     } else if (isSpecialSelfMove(move)) {
       next = await this.resolveSpecialSelfMove(next, side, move);
+    } else if (isSpecialTargetMove(move)) {
+      next = await this.resolveSpecialTargetMove(next, side, move);
     } else if (isTypeCopyMove(move)) {
       next = await this.resolveTypeCopyMove(next, side, move);
     } else if (isStockpileMove(move)) {
