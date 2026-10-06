@@ -295,6 +295,30 @@
           ]
         },
         {
+          "id": "hub_reef_access",
+          "text": "Raggiungo il molo costiero e verifico una partenza per la Barriera Azzurra.",
+          "timeCostMinutes": 90,
+          "conditions": {
+            "any": [
+              {
+                "path": "world.flags.mareasale_reef_conditions_known",
+                "eq": true
+              },
+              {
+                "path": "world.flags.reef_navigation_margin_known",
+                "eq": true
+              }
+            ]
+          },
+          "goto": "m04-reef-access#reef_desk",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "sal_coast_jetty"
+            }
+          ]
+        },
+        {
           "id": "hub_back_ferravia",
           "text": "Torno a Ferravia.",
           "timeCostMinutes": 240,
