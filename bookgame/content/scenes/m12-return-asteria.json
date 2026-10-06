@@ -1,0 +1,338 @@
+{
+  "schemaVersion": 1,
+  "id": "m12-return-asteria",
+  "moduleId": "M12",
+  "title": "M12_01 — Return Asteria",
+  "locationId": "world_village",
+  "entryNodeId": "return_entry",
+  "conditions": {
+    "path": "world.flags.m12_world_exit_branch_complete",
+    "eq": true
+  },
+  "nodes": {
+    "return_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il viaggio verso Asteria comincia dal luogo in cui la tua stagione si è davvero fermata. Nessun teletrasporto narrativo cancella il tempo del rientro."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "departure"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "departure"
+        },
+        {
+          "id": "context_1",
+          "text": "Confronto questo dettaglio con un altro pezzo del percorso.",
+          "goto": "transit_clock"
+        }
+      ]
+    },
+    "departure": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Biglietti, trasferimenti e attese fanno avanzare il calendario mentre il mondo continua a muoversi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "transit_clock"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "return_entry"
+        }
+      ]
+    },
+    "transit_clock": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il tempo di viaggio è tempo di gioco: schedule NPC, quest residue e Living World restano attivi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "travel_standard",
+          "text": "Affronto il viaggio senza saltare il tempo.",
+          "goto": "public_attention",
+          "timeCostMinutes": 120
+        },
+        {
+          "id": "travel_quiet",
+          "text": "Viaggio in silenzio, lasciando comunque scorrere il calendario.",
+          "goto": "team_persistence",
+          "timeCostMinutes": 120
+        }
+      ]
+    },
+    "public_attention": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La notorietà del ritorno dipende dal percorso reale, non da una reputazione globale sostitutiva di tutte le altre."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rep_champion",
+          "text": "Accetto la visibilità da campione senza cancellare le reputazioni locali.",
+          "goto": "team_persistence",
+          "conditions": {
+            "path": "world.flags.m12_world_exit_route",
+            "eq": "world_champion"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_return_reputation_context",
+              "value": "world_champion"
+            }
+          ]
+        },
+        {
+          "id": "rep_eliminated",
+          "text": "Accetto la lettura pubblica della mia eliminazione reale.",
+          "goto": "team_persistence",
+          "conditions": {
+            "path": "world.flags.m12_world_exit_route",
+            "eq": "world_eliminated"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_return_reputation_context",
+              "value": "world_eliminated"
+            }
+          ]
+        },
+        {
+          "id": "rep_missed",
+          "text": "Accetto che il Mondiale mancato sia parte della mia stagione, non tutta la mia identità.",
+          "goto": "team_persistence",
+          "conditions": {
+            "path": "world.flags.m12_world_exit_route",
+            "eq": "worlds_missed"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_return_reputation_context",
+              "value": "worlds_missed"
+            }
+          ]
+        }
+      ]
+    },
+    "champion_reputation": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un campione del mondo viene riconosciuto più spesso, ma non ottiene automaticamente fiducia in luoghi dove ha lasciato problemi irrisolti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "eliminated_reputation"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "public_attention"
+        }
+      ]
+    },
+    "eliminated_reputation": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un eliminato al Mondiale torna con un risultato pubblico preciso e con tutto ciò che aveva costruito prima della sconfitta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "missed_reputation"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "champion_reputation"
+        }
+      ]
+    },
+    "missed_reputation": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Chi ha mancato il Mondiale torna comunque da professionista con Rank, relazioni e storia locale intatti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "team_persistence"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "eliminated_reputation"
+        }
+      ]
+    },
+    "team_persistence": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Durante il viaggio la squadra non viene curata per script. Qualunque recupero futuro dovrà passare dai sistemi esistenti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "world_history"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "missed_reputation"
+        }
+      ]
+    },
+    "world_history": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "E5 conserva l'edizione mondiale; M12 la consulta ma non la ricrea."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "horizon"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "team_persistence"
+        }
+      ]
+    },
+    "horizon": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Asteria riappare come un mondo già conosciuto e trasformato dal tempo trascorso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "landing"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "world_history"
+        }
+      ]
+    },
+    "landing": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il rientro porta a Valedarsena, primo nodo dei callback locali."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "commit"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "horizon"
+        }
+      ]
+    },
+    "commit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il ritorno viene registrato una sola volta con il contesto di reputazione già derivato dal percorso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "commit_return",
+          "text": "Registro il ritorno ad Asteria.",
+          "goto": "return_complete",
+          "conditions": {
+            "path": "world.flags.m12_return_asteria_complete",
+            "ne": true
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_return_asteria_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
+          ]
+        },
+        {
+          "id": "commit_existing",
+          "text": "Il ritorno è già registrato.",
+          "goto": "return_complete",
+          "conditions": {
+            "path": "world.flags.m12_return_asteria_complete",
+            "eq": true
+          }
+        }
+      ]
+    },
+    "return_complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Sei di nuovo ad Asteria. Il prossimo passo è vedere cosa è diventata Valedarsena dopo tutto quello che è successo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "to_valedarsena",
+          "text": "Entro nei callback di Valedarsena.",
+          "goto": "m12-valedarsena-callbacks#callback_entry"
+        },
+        {
+          "id": "review_world_exit",
+          "text": "Ricollego il ritorno al mio vero WORLD_EXIT.",
+          "goto": "world_history"
+        }
+      ]
+    }
+  }
+}
