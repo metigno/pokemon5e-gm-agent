@@ -37,7 +37,7 @@ function applyEffects(state, effects = []) {
       applyNpcEffect(state, effect);
       continue;
     }
-    if (["competition_trial_available", "competition_trial_register", "competition_world_draw", "competition_world_groups_open", "competition_world_groups_resolve", "competition_world_r16_open", "competition_world_r16_resolve", "competition_world_qf_resolve"].includes(effect.type)) {
+    if (["competition_trial_available", "competition_trial_register", "competition_world_draw", "competition_world_groups_open", "competition_world_groups_resolve", "competition_world_r16_open", "competition_world_r16_resolve", "competition_world_qf_resolve", "competition_world_sf_open", "competition_world_sf_resolve"].includes(effect.type)) {
       applyCompetitionEffect(state, effect);
       continue;
     }
