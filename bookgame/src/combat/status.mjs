@@ -32,7 +32,12 @@ function abilityStatusImmunity(combatant, status) {
   ) {
     return combatant.abilityId;
   }
-  if (status === "Burned" && combatant.abilityId === "water-veil") return "water-veil";
+  if (
+    status === "Burned" &&
+    ["heatproof", "water-veil"].includes(combatant.abilityId)
+  ) {
+    return combatant.abilityId;
+  }
   if (status === "Frozen" && combatant.abilityId === "magma-armor") return "magma-armor";
   if (NON_VOLATILE.has(status) && combatant.abilityId === "purifying-salt") {
     return "purifying-salt";
