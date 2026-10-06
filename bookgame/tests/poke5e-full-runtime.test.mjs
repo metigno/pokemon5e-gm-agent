@@ -103,7 +103,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
   const moves = await data.listMoves();
   const unresolved = moves.filter((move) => !isMoveResolvable(move)).map((move) => move.id);
 
-  assert.ok(unresolved.length <= 166, `unresolved move rules regressed to ${unresolved.length}`);
+  assert.ok(unresolved.length <= 163, `unresolved move rules regressed to ${unresolved.length}`);
   for (const id of [
     "acupressure",
     "feather-dance",
@@ -111,6 +111,9 @@ test("move execution coverage has an explicit non-regression gate", async () => 
     "mean-look",
     "rain-dance",
     "sunny-day",
+    "defog",
+    "fairy-lock",
+    "haze",
     "agility",
     "autotomize",
     "barrier",
@@ -315,6 +318,76 @@ test("weather moves persist offline battle state and Weather Ball consumes that 
   assert.equal(weatherAttack?.weather, "rain");
   assert.equal(weatherAttack?.damageType, "water");
   assert.equal(weatherAttack?.damageDiceMultiplier, 2);
+});
+
+test("Defog, Haze and Fairy Lock mutate the battle field instead of falling back", async () => {
+  const defogCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1])
+  });
+  let defogBattle = await defogCombat.createBattle({
+    encounterId: "FULL_RUNTIME_DEFOG",
+    environment: { weather: "foggy" },
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["defog"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["harden"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+  defogBattle.zones.push({
+    id: "test-smog-zone",
+    moveId: "smog",
+    sourceSide: "opponent",
+    center: { x: 20, y: 0 },
+    radius: 10
+  });
+  defogBattle.opponent.concentration = {
+    zoneId: "test-smog-zone",
+    moveId: "smog"
+  };
+  defogBattle = await defogCombat.usePlayerMove(defogBattle, "defog");
+  assert.equal(defogBattle.zones.length, 0);
+  assert.equal(defogBattle.opponent.concentration, null);
+  assert.equal(defogBattle.environment.weather, null);
+
+  const hazeCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1])
+  });
+  let hazeBattle = await hazeCombat.createBattle({
+    encounterId: "FULL_RUNTIME_HAZE",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["haze"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["harden"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+  hazeBattle.player.effects.acModifierSources.push({
+    source: "iron-defense",
+    value: 6,
+    expiresRound: null
+  });
+  applyStatus(hazeBattle.opponent, "Poisoned");
+  hazeBattle.opponent.effects.attackModifierSources.push({
+    source: "growl",
+    value: -1,
+    expiresRound: null
+  });
+  hazeBattle = await hazeCombat.usePlayerMove(hazeBattle, "haze");
+  assert.equal(hazeBattle.player.effects.acModifierSources.length, 0);
+  assert.equal(hazeBattle.opponent.effects.attackModifierSources.length, 0);
+  assert.equal(hazeBattle.opponent.statuses.nonVolatile, null);
+
+  const lockCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1])
+  });
+  let lockBattle = await lockCombat.createBattle({
+    encounterId: "FULL_RUNTIME_FAIRY_LOCK",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["fairy-lock"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["harden"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+  lockBattle = await lockCombat.usePlayerMove(lockBattle, "fairy-lock");
+  assert.equal(lockBattle.player.effects.switchLockSources.at(-1)?.source, "fairy-lock");
+  assert.equal(lockBattle.opponent.effects.switchLockSources.at(-1)?.source, "fairy-lock");
+  assert.equal(lockBattle.opponent.effects.escapeLockSources.at(-1)?.expiresRound, 2);
 });
 
 test("common self-buff moves execute level scaling, AC, damage, speed and concentration rules", async () => {
