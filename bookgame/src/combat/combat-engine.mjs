@@ -115,7 +115,7 @@ function statusFromText(text = "") {
 
 function naturalStatusThreshold(move) {
   const text = move.description ?? "";
-  const match = text.match(/natural(?: attack)? roll(?:s)?(?: of)?\s+(\d+)(?:\s+or\s+(?:higher|\d+))?/i);
+  const match = text.match(/natural(?: attack)? roll(?:s)?(?:\s+(?:of|is))?\s+(\d+)(?:\s+or\s+(?:higher|\d+))?/i);
   return match ? Number(match[1]) : null;
 }
 
