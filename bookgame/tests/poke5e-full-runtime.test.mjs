@@ -446,6 +446,34 @@ test("common passive abilities execute low-HP STAB, critical armor, status immun
   }
 
   {
+    const combat = new Pokemon5eCombatEngine({ dice: new SequenceDice([10]) });
+    const attacker = await combat.createCombatant({
+      speciesId: "eevee",
+      level: 5,
+      moveIds: ["tackle"]
+    });
+    const defender = await combat.createCombatant({
+      speciesId: "eevee",
+      level: 5,
+      moveIds: ["tackle"]
+    });
+    attacker.abilityId = "guts";
+    applyStatus(attacker, "Burned");
+
+    const result = resolveAttack({
+      attacker,
+      defender,
+      move: await data.getMove("tackle"),
+      dice: new SequenceDice([15, 5])
+    });
+    assert.equal(result.attackRoll.mode, "normal");
+    assert.equal(result.damageRoll.mode, "normal");
+    assert.equal(result.gutsBonus, 2);
+    assert.equal(result.attackModifier, 6);
+    assert.equal(result.damageModifier, 6);
+  }
+
+  {
     const target = dummyPokemon();
     target.types = ["normal"];
 
