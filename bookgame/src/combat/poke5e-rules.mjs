@@ -91,7 +91,7 @@ export function calculateMoveStats(combatant, move) {
   const attribute = bestMoveAttribute(move, combatant.attributes);
   const moveMod = attribute ? abilityModifier(combatant.attributes[attribute]) : 0;
   const pb = proficiencyBonus(combatant.level);
-  const stab = stabFor(combatant, move, pb);
+  const stab = move.dice?.type === "damage" ? stabFor(combatant, move, pb) : 0;
 
   let damageModifier = stab;
   const code = move.dice?.modifier;
