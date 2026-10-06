@@ -584,9 +584,9 @@
       ],
       "choices": [
         {
-          "id": "hold_for_friend_beat",
-          "text": "Chiudo il Cycle 2: il prossimo blocco sarà FRIEND_BEAT_12.",
-          "goto": "complete"
+          "id": "to_friend_beat",
+          "text": "Passo a FRIEND_BEAT_12.",
+          "goto": "m12-friend-beat-12#friend_entry"
         },
         {
           "id": "review_meridiana",
