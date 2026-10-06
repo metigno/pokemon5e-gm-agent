@@ -777,17 +777,53 @@ function defaultPosition(value, fallback) {
 
 function normalizeTrainer(trainer = {}, positionValue) {
   trainer ??= {};
+  const level = trainer.level ?? trainer.trainerLevel ?? 1;
+  const movement = {
+    walking: 30,
+    climbing: 0,
+    swimming: 0,
+    flying: 0,
+    burrowing: 0,
+    ...clone(trainer.movement ?? {})
+  };
+  const speed = Number(trainer.speed ?? movement.walking ?? 30);
   return {
     name: trainer.name ?? "Trainer",
-    level: trainer.level ?? trainer.trainerLevel ?? 1,
+    trainerClass: trainer.trainerClass ?? "pokemon-trainer",
+    trainerPath: trainer.trainerPath ?? null,
+    level,
+    trainerLevel: level,
+    trainerXp: Number(trainer.trainerXp ?? 0),
     abilities: clone(trainer.abilities ?? {
       STR: 10, DEX: 10, CON: 10, INT: 10, WIS: 10, CHA: 10
     }),
     skills: clone(trainer.skills ?? []),
+    proficiencies: clone(trainer.proficiencies ?? { skills: trainer.skills ?? [], expertise: [] }),
+    savingThrows: clone(trainer.savingThrows ?? ["CHA"]),
+    hp: clone(trainer.hp ?? { current: 8, max: 8 }),
+    ac: Number(trainer.ac ?? 10),
+    hitDice: clone(trainer.hitDice ?? { die: "d6", current: level, max: level }),
+    classResources: clone(trainer.classResources ?? {}),
+    classFeatures: clone(trainer.classFeatures ?? ["command-pokemon"]),
+    feats: clone(trainer.feats ?? []),
+    specializations: clone(trainer.specializations ?? {}),
+    equipment: clone(trainer.equipment ?? []),
+    trainerGear: clone(trainer.trainerGear ?? []),
+    conditions: clone(trainer.conditions ?? []),
+    featureUsage: clone(trainer.featureUsage ?? {}),
+    persistentEffects: clone(trainer.persistentEffects ?? []),
+    death: clone(trainer.death ?? {
+      state: "alive",
+      deathSaveSuccesses: 0,
+      deathSaveFailures: 0,
+      stable: false
+    }),
     inventory: clone(trainer.inventory ?? []),
+    money: Number(trainer.money ?? 0),
+    movement,
     position: defaultPosition(positionValue ?? trainer.position, { x: 0, y: 0 }),
-    speed: trainer.speed ?? 30,
-    movementRemaining: trainer.speed ?? 30,
+    speed,
+    movementRemaining: speed,
     actionAvailable: true,
     bonusActionAvailable: true,
     reactionAvailable: true
@@ -1755,7 +1791,10 @@ export class Pokemon5eCombatEngine {
     }
     const ability = abilityId ? await this.data.getAbility(abilityId) : null;
 
-    const maxHp = scaledHp(species, level);
+    const canonicalMaxHp = scaledHp(species, level);
+    const maxHp = descriptor.hp && Number.isFinite(descriptor.hp.max)
+      ? Math.max(1, Math.floor(descriptor.hp.max))
+      : canonicalMaxHp;
     const persistedHp = descriptor.hp && Number.isFinite(descriptor.hp.current)
       ? Math.max(0, Math.min(maxHp, Math.floor(descriptor.hp.current)))
       : maxHp;
@@ -1788,17 +1827,27 @@ export class Pokemon5eCombatEngine {
       sr: species.sr,
       size: species.size,
       baseTypes: clone(species.type),
-      types: clone(species.type),
-      speed: clone(species.speed ?? []),
+      types: clone(Array.isArray(descriptor.types) ? descriptor.types : (Array.isArray(descriptor.type) ? descriptor.type : species.type)),
+      speed: clone(descriptor.speed ?? species.speed ?? []),
       reach: reachForSize(species.size),
       position: defaultPosition(positionValue ?? descriptor.position, { x: 0, y: 0 }),
-      ac: species.ac,
+      ac: Number.isFinite(descriptor.ac) ? Number(descriptor.ac) : species.ac,
       hp: { current: persistedHp, max: maxHp },
       temporaryHp: Number.isFinite(descriptor.temporaryHp)
         ? Math.max(0, Math.floor(descriptor.temporaryHp))
         : 0,
-      attributes: species.attributes,
-      savingThrows: species.savingThrows,
+      xp: Number.isFinite(descriptor.xp) ? Number(descriptor.xp) : null,
+      attributes: clone(descriptor.attributes ?? species.attributes),
+      savingThrows: clone(descriptor.savingThrows ?? species.savingThrows),
+      proficiencies: clone(descriptor.proficiencies ?? species.skills ?? []),
+      hitDice: clone(descriptor.hitDice ?? { die: species.hitDice, current: level, max: level }),
+      bond: clone(descriptor.bond ?? null),
+      gender: descriptor.gender ?? null,
+      nature: descriptor.nature ?? null,
+      evolutionHistory: clone(descriptor.evolutionHistory ?? []),
+      pendingMoveLearning: clone(descriptor.pendingMoveLearning ?? []),
+      pendingMoveChoices: clone(descriptor.pendingMoveChoices ?? []),
+      pendingAsiChoices: clone(descriptor.pendingAsiChoices ?? []),
       abilityId,
       ability,
       heldItemId: descriptor.heldItemId ?? descriptor.heldItem?.id ?? null,
