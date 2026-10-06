@@ -1,0 +1,367 @@
+{
+  "schemaVersion": 1,
+  "id": "m10-r16-aftermath",
+  "moduleId": "M10",
+  "title": "M10_04 — R16 Aftermath",
+  "locationId": "world_knockout_hall",
+  "entryNodeId": "aftermath_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m10_world_r16_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.world_r16_resolved",
+        "eq": true
+      },
+      {
+        "path": "competition.world.knockout.opened",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "aftermath_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il risultato del player è già definitivo. Ora E5 deve chiudere gli altri sette ottavi senza cambiare il tuo match."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_resolve",
+          "text": "Passo alla risoluzione strutturata del round.",
+          "goto": "resolve_guard"
+        },
+        {
+          "id": "entry_history",
+          "text": "Audito il mio record prima del round lock.",
+          "goto": "history_audit"
+        },
+        {
+          "id": "entry_world",
+          "text": "Guardo cosa deve produrre il Top8.",
+          "goto": "top8_rules"
+        }
+      ]
+    },
+    "resolve_guard": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La risoluzione R16 usa il risultato reale del player e seed deterministico per gli altri match. È idempotente: lo stesso round non viene rigiocato al reload."
+        }
+      ],
+      "choices": [
+        {
+          "id": "resolve_now",
+          "text": "Risolvo gli altri ottavi e locko il Top8.",
+          "goto": "round_resolved",
+          "conditions": {
+            "path": "competition.world.knockout.r16Resolved",
+            "ne": true
+          },
+          "effects": [
+            {
+              "type": "competition_world_r16_resolve",
+              "eventId": "WORLD_R16_RESOLVE"
+            }
+          ]
+        },
+        {
+          "id": "resolve_existing",
+          "text": "Il round è già chiuso: leggo il Top8 persistente.",
+          "goto": "round_resolved",
+          "conditions": {
+            "path": "competition.world.knockout.r16Resolved",
+            "eq": true
+          }
+        },
+        {
+          "id": "resolve_audit",
+          "text": "Prima rivedo l'integrità del round.",
+          "goto": "history_audit"
+        }
+      ]
+    },
+    "history_audit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il tuo match resta source=player_pokemon5e_combat; gli altri riportano source=deterministic_offscreen_world_resolution. Le due fonti non si confondono."
+        }
+      ],
+      "choices": [
+        {
+          "id": "history_rules",
+          "text": "Controllo la regola Top8.",
+          "goto": "top8_rules"
+        },
+        {
+          "id": "history_resolve",
+          "text": "Torno al resolve guard.",
+          "goto": "resolve_guard"
+        }
+      ]
+    },
+    "top8_rules": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Top8 contiene esattamente i vincitori degli otto R16. Se il player ha perso, il suo avversario occupa quel posto; non esiste ripescaggio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "top8_friend",
+          "text": "Controllo la corsa degli amici.",
+          "goto": "friend_visibility"
+        },
+        {
+          "id": "top8_anchor",
+          "text": "Controllo gli Anchor senza plot armor.",
+          "goto": "anchor_visibility"
+        }
+      ]
+    },
+    "round_resolved": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Round of 16 è chiuso e E5 ha prodotto otto quarterfinalist unici. L'eventuale QF del player deriva ora dai vincitori adiacenti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "resolved_top8",
+          "text": "Apro il riepilogo Top8.",
+          "goto": "top8_summary"
+        },
+        {
+          "id": "resolved_outcome",
+          "text": "Leggo cosa significa il mio risultato.",
+          "goto": "player_outcome"
+        }
+      ]
+    },
+    "player_outcome": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "world_r16_won distingue soltanto due realtà: vittoria e accesso alla linea QF, oppure eliminazione e futuro handoff verso WORLD_EXIT dopo FRIEND_BEAT_10."
+        }
+      ],
+      "choices": [
+        {
+          "id": "outcome_qf",
+          "text": "Controllo il pairing QF se sono ancora dentro.",
+          "goto": "qf_preview"
+        },
+        {
+          "id": "outcome_friend",
+          "text": "Controllo chi dei Five è ancora nel torneo.",
+          "goto": "friend_visibility"
+        }
+      ]
+    },
+    "top8_summary": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "competition.world.top8 è un lock E5 di otto nomi. Non viene ricostruito dal testo e sopravvive a save/reload."
+        }
+      ],
+      "choices": [
+        {
+          "id": "summary_qf",
+          "text": "Vedo come nasce il quarto del player.",
+          "goto": "qf_preview"
+        },
+        {
+          "id": "summary_anchor",
+          "text": "Controllo Silas e gli altri Anchor.",
+          "goto": "anchor_visibility"
+        },
+        {
+          "id": "summary_commit",
+          "text": "Porto il round verso la chiusura del ciclo.",
+          "goto": "commit"
+        }
+      ]
+    },
+    "qf_preview": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se il player ha vinto, competition.world.knockout.playerQfOpponent identifica il prossimo avversario dal bracket; se ha perso resta null."
+        }
+      ],
+      "choices": [
+        {
+          "id": "qf_pressure",
+          "text": "Ragiono sulla pressione Top8 senza giocare ancora.",
+          "goto": "future_pressure"
+        },
+        {
+          "id": "qf_commit",
+          "text": "Torno alla chiusura dell'aftermath.",
+          "goto": "commit"
+        }
+      ]
+    },
+    "friend_visibility": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un amico nel Top16 può essere nel Top8, eliminato oppure perfino essere stato il tuo avversario. FRIEND_BEAT_10 userà questo stato reale nel blocco successivo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "friend_anchor",
+          "text": "Confronto la stessa regola con gli Anchor.",
+          "goto": "anchor_visibility"
+        },
+        {
+          "id": "friend_commit",
+          "text": "Porto lo stato reale al commit.",
+          "goto": "commit"
+        }
+      ]
+    },
+    "anchor_visibility": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Silas non è protetto: knockout.silasAdvancedToQf deriva dal suo ottavo. Lo stesso principio vale per ogni Anchor ancora nel tabellone."
+        }
+      ],
+      "choices": [
+        {
+          "id": "anchor_top8",
+          "text": "Torno al riepilogo Top8.",
+          "goto": "top8_summary"
+        },
+        {
+          "id": "anchor_commit",
+          "text": "Passo alla chiusura del ciclo.",
+          "goto": "commit"
+        }
+      ]
+    },
+    "future_pressure": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il quarto non viene giocato qui. M10_04 deve soltanto lasciare un Top8 coerente, un pairing derivato e tutte le risorse del player intatte."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pressure_resources",
+          "text": "Controllo ciò che il team porta avanti.",
+          "goto": "resource_persistence"
+        },
+        {
+          "id": "pressure_commit",
+          "text": "Chiudo l'aftermath.",
+          "goto": "commit"
+        }
+      ]
+    },
+    "resource_persistence": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Nessun risultato off-screen cura il player. HP, PP, status, inventario e roster restano esattamente quelli usciti dal battle bridge."
+        }
+      ],
+      "choices": [
+        {
+          "id": "resources_top8",
+          "text": "Torno al Top8.",
+          "goto": "top8_summary"
+        },
+        {
+          "id": "resources_commit",
+          "text": "Procedo alla chiusura.",
+          "goto": "commit"
+        }
+      ]
+    },
+    "commit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "M10_00–M10_04 sono chiusi quando bracket, ottavo del player e Top8 sono persistenti. FRIEND_BEAT_10 resta volutamente al ciclo successivo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "commit_now",
+          "text": "Registro la chiusura del primo ciclo M10.",
+          "goto": "cycle1_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m10_r16_aftermath_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m10_cycle1_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "commit_review",
+          "text": "Rivedo il Top8 prima di chiudere.",
+          "goto": "top8_summary"
+        }
+      ]
+    },
+    "cycle1_complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il primo ciclo M10 è completo: R16 chiuso, Top8 lockato e nessuna scorciatoia verso QF o WORLD_EXIT è stata creata."
+        }
+      ],
+      "choices": [
+        {
+          "id": "complete_summary",
+          "text": "Rileggo il Top8 persistente.",
+          "goto": "top8_summary"
+        },
+        {
+          "id": "complete_outcome",
+          "text": "Rileggo la conseguenza del mio ottavo.",
+          "goto": "player_outcome"
+        }
+      ]
+    },
+    "handoff_placeholder": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il prossimo blocco di produzione sarà FRIEND_BEAT_10 e consumerà questo World state senza riscriverlo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "placeholder_complete",
+          "text": "Torno allo stato di ciclo completato.",
+          "goto": "cycle1_complete"
+        },
+        {
+          "id": "placeholder_friend",
+          "text": "Rivedo la visibilità degli amici.",
+          "goto": "friend_visibility"
+        }
+      ]
+    }
+  }
+}
