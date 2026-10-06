@@ -219,7 +219,7 @@ function weatherBallProfile(environment, round = null, zones = [], position = nu
     "foggy": { type: "normal", multiplier: 2 },
     "cloudy": { type: "normal", multiplier: 2 }
   };
-  return profiles[kind] ?? { type: "normal", multiplier: 1 };
+  return { kind, ...(profiles[kind] ?? { type: "normal", multiplier: 1 }) };
 }
 
 function effectiveAc(combatant, round, incomingMove = null) {
@@ -2202,7 +2202,7 @@ export class Pokemon5eCombatEngine {
       attackAdvantageConsumed,
       forcedHitConsumed,
       forcedCriticalConsumed,
-      weather: move.id === "weather-ball" ? weatherKind(next.environment, next.round) : null,
+      weather: move.id === "weather-ball" ? weatherProfile.kind : null,
       secondaryStatus: secondary,
       statusResult,
       thawed,
