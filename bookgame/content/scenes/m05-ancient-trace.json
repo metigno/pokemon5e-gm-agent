@@ -420,11 +420,6 @@
               "value": true
             }
           ]
-        },
-        {
-          "id": "report_back",
-          "text": "Torno sul campo per decidere quanto posso davvero concludere.",
-          "goto": "compare"
         }
       ]
     },
@@ -510,6 +505,21 @@
         }
       ],
       "choices": [
+        {
+          "id": "after_license",
+          "text": "La finestra interregionale è aperta: torno ad Altacima per la pratica.",
+          "conditions": {
+            "path": "world.flags.a5_interregional_available",
+            "eq": true
+          },
+          "goto": "m05-interregional-license#license_entry",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town_crest"
+            }
+          ]
+        },
         {
           "id": "after_altacima",
           "text": "Rientro ad Altacima.",
