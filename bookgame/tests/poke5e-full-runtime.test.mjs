@@ -2087,3 +2087,17 @@ test("TEMP runtime completion diagnostic", async () => {
   console.log("P5E_DIAG_ABILITIES=" + JSON.stringify(abilities.map((ability) => ({ id: ability.id, name: ability.name, description: ability.description }))));
   assert.ok(true);
 });
+
+
+test("TEMP compact runtime diagnostic", async () => {
+  const data = new Poke5eDataRepository();
+  const moves = (await data.listMoves()).filter((move) => !isMoveResolvable(move));
+  const items = (await data.listItems()).filter((item) => !compileItemRule(item).supported);
+  const abilities = await data.listAbilities();
+  for (let i = 0; i < moves.length; i += 25) console.log("P5E_MOVE_IDS_" + i + "=" + JSON.stringify(moves.slice(i, i + 25).map((move) => move.id)));
+  for (let i = 0; i < moves.length; i += 10) console.log("P5E_MOVE_DESC_" + i + "=" + JSON.stringify(moves.slice(i, i + 10).map((move) => ({id:move.id,description:move.description,time:move.time,range:move.range,attack:move.attack,save:move.save,dice:move.dice,duration:move.duration,shape:move.shape}))));
+  console.log("P5E_ITEM_TYPE_COUNTS=" + JSON.stringify(items.reduce((acc,item)=>(acc[item.type]=(acc[item.type]??0)+1,acc),{})));
+  for (let i = 0; i < items.length; i += 30) console.log("P5E_ITEM_IDS_" + i + "=" + JSON.stringify(items.slice(i, i + 30).map((item) => [item.id,item.type])));
+  for (let i = 0; i < abilities.length; i += 40) console.log("P5E_ABILITY_IDS_" + i + "=" + JSON.stringify(abilities.slice(i, i + 40).map((ability) => ability.id)));
+  assert.ok(true);
+});
