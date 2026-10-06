@@ -485,8 +485,8 @@
       "choices": [
         {
           "id": "complete_hold",
-          "text": "Resto nel World Village con lo stato attuale in attesa del prossimo blocco.",
-          "goto": "standings_after"
+          "text": "Passo a FRIEND_BEAT_09 senza modificare la classifica.",
+          "goto": "m09-friend-beat-09#friend_entry"
         }
       ]
     }

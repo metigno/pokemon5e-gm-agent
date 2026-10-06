@@ -305,7 +305,7 @@
         {
           "id": "advanced_ready",
           "text": "Segno disponibile la route di avanzamento.",
-          "goto": "m09-advance-route#advance_entry",
+          "goto": "resolution_complete",
           "effects": [
             {
               "type": "set_flag",
@@ -330,9 +330,13 @@
           "goto": "route"
         },
         {
-          "id": "complete_summary",
-          "text": "Rileggo il riepilogo strutturato.",
-          "goto": "resolved_summary"
+          "id": "complete_advance",
+          "text": "Entro nella route di avanzamento.",
+          "goto": "m09-advance-route#advance_entry",
+          "conditions": {
+            "path": "competition.world.groupStage.advanced",
+            "eq": true
+          }
         }
       ]
     }
