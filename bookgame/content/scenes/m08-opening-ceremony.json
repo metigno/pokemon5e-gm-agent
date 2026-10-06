@@ -1,0 +1,300 @@
+{
+  "schemaVersion": 1,
+  "id": "m08-opening-ceremony",
+  "moduleId": "M08",
+  "title": "M8_09 — Opening Ceremony",
+  "locationId": "world_main_arena",
+  "entryNodeId": "ceremony_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m7_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m08_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.world_qualified",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_active",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_world_registration_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_world_village_arrived",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_media_day_complete",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "ceremony_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La cerimonia d'apertura mette nello stesso spazio partecipanti, staff e pubblico. Mostra la scala del field senza decidere gruppi o risultati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_hub",
+          "text": "Entro nella cerimonia.",
+          "goto": "ceremony_hub"
+        },
+        {
+          "id": "entry_field",
+          "text": "Osservo il field senza anticipare il draw.",
+          "goto": "field_view"
+        },
+        {
+          "id": "entry_rules",
+          "text": "Rileggo cosa la cerimonia non può decidere.",
+          "goto": "rules_guard"
+        }
+      ]
+    },
+    "ceremony_hub": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Puoi guardare i partecipanti, seguire i momenti pubblici o proteggere concentrazione. La scena non assegna un avversario."
+        }
+      ],
+      "choices": [
+        {
+          "id": "hub_field",
+          "text": "Osservo il field qualificato.",
+          "goto": "field_view"
+        },
+        {
+          "id": "hub_astrid",
+          "text": "Guardo come viene presentata Astrid.",
+          "goto": "astrid_view"
+        },
+        {
+          "id": "hub_friends",
+          "text": "Controllo come appaiono i rapporti personali in questo contesto.",
+          "goto": "friend_view"
+        }
+      ]
+    },
+    "field_view": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Vedi molti dei migliori trainer nello stesso luogo, ma non possiedi ancora la struttura del tuo gruppo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "field_stage",
+          "text": "Seguo la presentazione sul palco.",
+          "goto": "stage"
+        },
+        {
+          "id": "field_draw",
+          "text": "Controllo il confine fra field e sorteggio.",
+          "goto": "draw_guard"
+        }
+      ]
+    },
+    "friend_view": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un amico presente o remoto resta una carriera indipendente. La cerimonia non lo sposta né gli assegna un posto nel tuo gruppo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "friend_media",
+          "text": "Ricollego il momento al Media Day.",
+          "goto": "media_view"
+        },
+        {
+          "id": "friend_hub",
+          "text": "Torno alla cerimonia.",
+          "goto": "ceremony_hub"
+        }
+      ]
+    },
+    "astrid_view": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Astrid viene presentata come campionessa in carica, ma il titolo non la rende intoccabile né garantisce che incroci il player."
+        }
+      ],
+      "choices": [
+        {
+          "id": "astrid_stage",
+          "text": "Torno alla presentazione centrale.",
+          "goto": "stage"
+        },
+        {
+          "id": "astrid_guard",
+          "text": "Rivedo il guardrail competitivo.",
+          "goto": "rules_guard"
+        }
+      ]
+    },
+    "media_view": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Telecamere e pubblico amplificano il momento. La visibilità non cambia seed, match o statistiche."
+        }
+      ],
+      "choices": [
+        {
+          "id": "media_stage",
+          "text": "Torno al palco.",
+          "goto": "stage"
+        },
+        {
+          "id": "media_hub",
+          "text": "Torno alla cerimonia.",
+          "goto": "ceremony_hub"
+        }
+      ]
+    },
+    "rules_guard": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La cerimonia non è WORLD_DRAW, non blocca il field e non produce history competitiva. È presentazione, non risoluzione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rules_draw",
+          "text": "Passo al guardrail del sorteggio.",
+          "goto": "draw_guard"
+        },
+        {
+          "id": "rules_hub",
+          "text": "Torno alla cerimonia.",
+          "goto": "ceremony_hub"
+        }
+      ]
+    },
+    "draw_guard": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Gruppo, tre avversari e calendario nasceranno soltanto dal WORLD_DRAW canonico nel blocco successivo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "draw_commit",
+          "text": "Sono pronto a chiudere la cerimonia senza inventare il draw.",
+          "goto": "ceremony_commit"
+        },
+        {
+          "id": "draw_field",
+          "text": "Torno a osservare il field.",
+          "goto": "field_view"
+        }
+      ]
+    },
+    "stage": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Sul palco il torneo viene raccontato come evento globale. La narrazione non dichiara chi vincerà né chi affronterai."
+        }
+      ],
+      "choices": [
+        {
+          "id": "stage_wait",
+          "text": "Resto fino alla fine della finestra pubblica.",
+          "goto": "wait_window"
+        },
+        {
+          "id": "stage_commit",
+          "text": "Passo alla chiusura della cerimonia.",
+          "goto": "ceremony_commit"
+        }
+      ]
+    },
+    "wait_window": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Restare fino alla fine consuma mezz'ora. Schedule e attività del venue continuano normalmente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "wait_half",
+          "text": "Lascio passare mezz'ora e torno al palco.",
+          "goto": "stage",
+          "timeCostMinutes": 30
+        },
+        {
+          "id": "wait_commit",
+          "text": "Chiudo la cerimonia ora.",
+          "goto": "ceremony_commit"
+        }
+      ]
+    },
+    "ceremony_commit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il commit registra soltanto che la cerimonia è avvenuta. Tutti i flag del draw restano ancora irrisolti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "commit_now",
+          "text": "Registro la cerimonia d'apertura.",
+          "goto": "ceremony_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m8_opening_ceremony_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "commit_review",
+          "text": "Rivedo il confine con il sorteggio.",
+          "goto": "draw_guard"
+        }
+      ]
+    },
+    "ceremony_close": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La cerimonia è completa. Il prossimo blocco è WORLD_DRAW, che dovrà usare il field reale e produrre gruppi una sola volta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_draw",
+          "text": "Passo al WORLD_DRAW quando viene implementato.",
+          "goto": "m08-world-village#schedule_board"
+        },
+        {
+          "id": "close_hub",
+          "text": "Resto nell'area del venue senza generare il sorteggio.",
+          "goto": "m08-world-village#village_hub"
+        }
+      ]
+    }
+  }
+}
