@@ -344,16 +344,60 @@ function normalizeAsiDistribution(distribution = {}) {
   return result;
 }
 
-function applyAsi(attributes, distribution, points) {
+function applyAsi(
+  attributes,
+  distribution,
+  points,
+  { maxPerStat = Infinity, maxScore = 20, label = "ASI" } = {}
+) {
   const delta = normalizeAsiDistribution(distribution);
   const spent = Object.values(delta).reduce((sum, value) => sum + value, 0);
-  if (spent !== points) throw new Error(`Evolution requires exactly ${points} ASI points; received ${spent}`);
+  if (spent !== points) throw new Error(`${label} requires exactly ${points} points; received ${spent}`);
   const next = clone(attributes);
   for (const [key, amount] of Object.entries(delta)) {
+    if (amount > maxPerStat) {
+      throw new Error(`${label} cannot allocate more than ${maxPerStat} points to one ability score`);
+    }
     const existingKey = Object.hasOwn(next, key) ? key : key.toUpperCase();
-    next[existingKey] = Math.min(20, Number(next[existingKey] ?? 10) + amount);
+    const current = Number(next[existingKey] ?? 10);
+    if (current + amount > maxScore) {
+      throw new Error(`${label} cannot increase ${key.toUpperCase()} above ${maxScore}`);
+    }
+    next[existingKey] = current + amount;
   }
   return next;
+}
+
+function maximumEvolutionStages(speciesId, evolutions) {
+  const canonical = (evolutions ?? []).filter((evolution) => !evolution.nonCanon);
+  const forward = new Map();
+  const backward = new Map();
+  for (const evolution of canonical) {
+    if (!forward.has(evolution.from)) forward.set(evolution.from, new Set());
+    if (!backward.has(evolution.to)) backward.set(evolution.to, new Set());
+    forward.get(evolution.from).add(evolution.to);
+    backward.get(evolution.to).add(evolution.from);
+  }
+  if (!forward.has(speciesId) && !backward.has(speciesId)) return 1;
+
+  const depth = (graph, id, seen = new Set()) => {
+    if (seen.has(id)) throw new Error(`Evolution graph contains a cycle at ${id}`);
+    const next = [...(graph.get(id) ?? [])];
+    if (next.length === 0) return 0;
+    const visited = new Set(seen);
+    visited.add(id);
+    return 1 + Math.max(...next.map((candidate) => depth(graph, candidate, visited)));
+  };
+
+  return 1 + depth(backward, speciesId) + depth(forward, speciesId);
+}
+
+export function pokemonLevelAsiPoints(speciesId, evolutions) {
+  const stages = maximumEvolutionStages(speciesId, evolutions);
+  if (stages === 1) return 4;
+  if (stages === 2) return 3;
+  if (stages === 3) return 2;
+  throw new Error(`Unsupported canonical evolution stage count for ${speciesId}: ${stages}`);
 }
 
 function mappedEvolutionAbility(pokemon, fromSpecies, toSpecies) {
@@ -439,7 +483,11 @@ export async function evolvePokemon(
   const next = clone(pokemon);
   const oldAttributes = clone(next.attributes ?? fromSpecies.attributes);
   next.attributes = asiPoints > 0
-    ? applyAsi(oldAttributes, asiDistribution, asiPoints)
+    ? applyAsi(oldAttributes, asiDistribution, asiPoints, {
+        maxPerStat: 4,
+        maxScore: 20,
+        label: "Evolution ASI"
+      })
     : oldAttributes;
 
   const oldConMod = abilityModifier(oldAttributes.con ?? oldAttributes.CON ?? 10);
@@ -530,6 +578,7 @@ export async function initializePokemonRuntime(
   next.abilityId ??= species.abilities.find((ability) => !ability.hidden)?.id ?? species.abilities[0]?.id ?? null;
   next.bond ??= { level: 0, points: { current: 0, max: 0 } };
   next.pendingMoveLearning = Array.isArray(next.pendingMoveLearning) ? next.pendingMoveLearning : [];
+  next.pendingMoveChoices = Array.isArray(next.pendingMoveChoices) ? next.pendingMoveChoices : [];
   next.pendingAsiChoices = Array.isArray(next.pendingAsiChoices) ? next.pendingAsiChoices : [];
 
   if (Array.isArray(next.moveIds) && next.moveIds.length > 4) {
@@ -549,6 +598,8 @@ export async function awardPokemonXp(
   if (!Number.isFinite(amount) || amount < 0) throw new RangeError("Pokémon XP award must be non-negative");
   let next = await initializePokemonRuntime(pokemon, data);
   const species = await data.getSpecies(next.speciesId);
+  const evolutions = await data.listEvolutions();
+  const asiPoints = pokemonLevelAsiPoints(species.id, evolutions);
   next.xp += amount;
   const levelUps = [];
 
@@ -572,11 +623,17 @@ export async function awardPokemonXp(
         next.pendingMoveLearning.push({ moveId, level: newLevel });
       }
     }
+    next.pendingMoveChoices.push({
+      level: newLevel,
+      availableMoveIds: clone(availableMoves),
+      maxReplacements: 1
+    });
 
     if (POKEMON_ASI_LEVELS.has(newLevel)) {
       next.pendingAsiChoices.push({
         level: newLevel,
-        points: 2,
+        points: asiPoints,
+        maxScore: newLevel === 20 ? (Number(species.sr ?? 0) >= 15 ? 30 : 22) : 20,
         kind: newLevel === 20 ? "peak-power" : "asi-or-feat"
       });
     }
@@ -586,6 +643,8 @@ export async function awardPokemonXp(
       to: newLevel,
       hpIncrease,
       newlyAvailableMoves: newlyAvailable,
+      moveReplacementChoice: true,
+      asiPoints: POKEMON_ASI_LEVELS.has(newLevel) ? asiPoints : 0,
       asiChoice: POKEMON_ASI_LEVELS.has(newLevel)
     });
   }
@@ -615,6 +674,17 @@ export function learnPokemonMove(pokemon, moveId, { forgetMoveId = null } = {}) 
   return next;
 }
 
+export function resolvePokemonMoveReplacement(pokemon, level, moveId, { forgetMoveId = null } = {}) {
+  const pending = (pokemon.pendingMoveChoices ?? []).find((choice) => choice.level === level);
+  if (!pending) throw new Error(`No pending move-replacement choice for level ${level}`);
+  if (!pending.availableMoveIds.includes(moveId)) {
+    throw new Error(`${moveId} is not learnable by this Pokémon at level ${level}`);
+  }
+  const next = learnPokemonMove(pokemon, moveId, { forgetMoveId });
+  next.pendingMoveChoices = (next.pendingMoveChoices ?? []).filter((choice) => choice.level !== level);
+  return next;
+}
+
 export function applyPokemonAsiChoice(pokemon, level, distribution) {
   const next = clone(pokemon);
   const pendingIndex = (next.pendingAsiChoices ?? []).findIndex((choice) => choice.level === level);
@@ -622,7 +692,10 @@ export function applyPokemonAsiChoice(pokemon, level, distribution) {
   const choice = next.pendingAsiChoices[pendingIndex];
   const before = clone(next.attributes);
   const beforeCon = abilityModifier(before.con ?? before.CON ?? 10);
-  next.attributes = applyAsi(before, distribution, choice.points);
+  next.attributes = applyAsi(before, distribution, choice.points, {
+    maxScore: choice.maxScore ?? 20,
+    label: choice.kind === "peak-power" ? "Peak Power ASI" : "Level ASI"
+  });
   const afterCon = abilityModifier(next.attributes.con ?? next.attributes.CON ?? 10);
   if (afterCon > beforeCon) {
     const increase = (afterCon - beforeCon) * Number(next.level);
