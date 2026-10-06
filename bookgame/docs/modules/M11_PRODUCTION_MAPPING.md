@@ -3,7 +3,7 @@
 **Module:** M11 — Per Diventare Campione  
 **Authority:** subordinate to `P5E_LIBROGAME_ENGINE_SOURCE_OF_TRUTH.md`, `P5E_LIBROGAME_12_MODULES_MASTER.md` and `M11_PER_DIVENTARE_CAMPIONE_MODULE_DESIGN.md`  
 **Locked authored budget:** **3,500 stitches / 1,600 player choices**  
-**Module implementation status:** **CYCLE 1 IMPLEMENTED / VALIDATION PENDING**
+**Module implementation status:** **CYCLE 1 RUNTIME-VALIDATED**
 
 E1–E7 are shared infrastructure from M1. No module-specific replacement engine is allowed.
 
@@ -39,11 +39,11 @@ The spine is production ordering, not forced linear play. Actual legal branches 
 
 | Block | Function | Stitches | Choices | Current state |
 |---|---|---:|---:|---|
-| M11_00_FINAL_FOUR_LOCK | lock dei quattro semifinalisti reali e del bracket | 305 | 140 | IMPLEMENTED / VALIDATION PENDING |
-| M11_01_REI_THREAD | Rei come competitor reale, mai finalista garantito | 359 | 164 | IMPLEMENTED / VALIDATION PENDING |
-| M11_02_SF_PREP | preparazione con stato squadra persistente | 305 | 140 | IMPLEMENTED / VALIDATION PENDING |
-| M11_03_WORLD_SF | semifinale reale, single elimination | 521 | 238 | IMPLEMENTED / VALIDATION PENDING |
-| M11_04_OTHER_SF | risoluzione dell'altra semifinale senza plot armor | 359 | 164 | IMPLEMENTED / VALIDATION PENDING |
+| M11_00_FINAL_FOUR_LOCK | lock dei quattro semifinalisti reali e del bracket | 305 | 140 | CYCLE 1 VALIDATED |
+| M11_01_REI_THREAD | Rei come competitor reale, mai finalista garantito | 359 | 164 | CYCLE 1 VALIDATED |
+| M11_02_SF_PREP | preparazione con stato squadra persistente | 305 | 140 | CYCLE 1 VALIDATED |
+| M11_03_WORLD_SF | semifinale reale, single elimination | 521 | 238 | CYCLE 1 VALIDATED |
+| M11_04_OTHER_SF | risoluzione dell'altra semifinale senza plot armor | 359 | 164 | CYCLE 1 VALIDATED |
 | M11_05_FRIEND_BEAT_11 | amico nel Final Four o ultimo contatto plausibile | 521 | 238 | PLANNED |
 | M11_06_FINAL_PREP | preparazione finale senza reset gratuito | 305 | 139 | PLANNED |
 | M11_07_WORLD_FINAL | finale reale: Champion is whoever actually wins | 520 | 238 | PLANNED |
@@ -259,6 +259,17 @@ Cycle 1 converts the Final Four / semifinal half of M11 into runtime content whi
 **Implementation lock:** scene `m11-other-sf` contains **16 nodes / 34 meaningful choices**.
 
 **Library decision:** R01→R38 fully expresses Cycle 1. **No R39 candidate is required.**
+
+**Runtime validation evidence:**
+- branch: `m11-00-04-work`;
+- PR: **#12**;
+- validated implementation HEAD: `5ccfd61d44033e1548adf86f1a367460ca969722`;
+- GitHub Actions **Bookgame Tests #393**: **SUCCESS**;
+- syntax check: **PASS**;
+- `validate:story`: **PASS**;
+- full suite: **1,284 passed / 0 failed / 0 skipped**;
+- Cycle-1 reachability: **79/79 nodes reachable**, zero zero-incoming padding.
+
 
 
 # 6. STATE OWNERSHIP
