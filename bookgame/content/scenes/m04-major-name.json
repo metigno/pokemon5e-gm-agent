@@ -121,6 +121,21 @@
           "goto": "major_close",
           "effects": [
             {
+              "type": "npc_register",
+              "npcId": "Maxie",
+              "name": "Maxie",
+              "relationshipScore": 0,
+              "state": {
+                "role": "wider_world_trainer"
+              }
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "Maxie",
+              "key": "seenAtMareasale",
+              "value": true
+            },
+            {
               "type": "set_flag",
               "key": "major_name_seen",
               "value": "Maxie"
