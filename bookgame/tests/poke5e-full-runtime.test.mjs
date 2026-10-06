@@ -127,6 +127,51 @@ test("Struggle guarantees an executable combat action even for a start pool cont
   assert.ok(moves.some((move) => move.id === "struggle"));
 });
 
+test("healing moves respect real target rules instead of always healing the user", async () => {
+  const selfCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 4, 4])
+  });
+  let selfBattle = await selfCombat.createBattle({
+    encounterId: "FULL_RUNTIME_RECOVER_TARGET",
+    playerPokemon: { speciesId: "chansey", level: 5, moveIds: ["recover"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+  selfBattle.player.hp.current = Math.max(1, selfBattle.player.hp.max - 12);
+  const opponentBefore = selfBattle.opponent.hp.current;
+  const playerBefore = selfBattle.player.hp.current;
+
+  selfBattle = await selfCombat.usePlayerMove(selfBattle, "recover", { targetSide: "player" });
+  assert.ok(selfBattle.player.hp.current > playerBefore);
+  assert.equal(selfBattle.opponent.hp.current, opponentBefore);
+  assert.equal(selfBattle.log.at(-1).type, "healing_move");
+  assert.equal(selfBattle.log.at(-1).target, "player");
+
+  const pulseCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 4, 4])
+  });
+  let pulseBattle = await pulseCombat.createBattle({
+    encounterId: "FULL_RUNTIME_HEAL_PULSE_TARGET",
+    playerPokemon: { speciesId: "chansey", level: 5, moveIds: ["heal-pulse"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+  pulseBattle.opponent.hp.current = Math.max(1, pulseBattle.opponent.hp.max - 8);
+  const targetBefore = pulseBattle.opponent.hp.current;
+
+  await assert.rejects(
+    () => pulseCombat.usePlayerMove(pulseBattle, "heal-pulse", { targetSide: "player" }),
+    /cannot target its user/
+  );
+
+  pulseBattle = await pulseCombat.usePlayerMove(pulseBattle, "heal-pulse", { targetSide: "opponent" });
+  assert.ok(pulseBattle.opponent.hp.current > targetBefore);
+  assert.equal(pulseBattle.log.at(-1).type, "healing_move");
+  assert.equal(pulseBattle.log.at(-1).target, "opponent");
+});
+
 test("2024 status core supports Frozen, Badly Poisoned and Confused", () => {
   const frozen = dummyPokemon({ types: ["water"] });
   assert.equal(applyStatus(frozen, "Frozen", { sourceProficiencyBonus: 3 }).applied, true);
