@@ -7,13 +7,14 @@
       "sourceZoneId": "MAR-CITY",
       "habitats": [
         "city",
-        "coast",
-        "marine",
+        "ocean",
         "industrial"
       ],
       "methods": [
         "wild_observation",
-        "shore_exploration",
+        "shoreline_or_water_travel",
+        "fishing_when_plausible",
+        "deep_sea_expedition",
         "overland_encounter"
       ]
     },
@@ -21,29 +22,31 @@
       "id": "SAL-COAST",
       "sourceZoneId": "SAL-COAST",
       "habitats": [
-        "coast",
-        "shore",
-        "marine",
-        "cliff"
+        "beach",
+        "ocean",
+        "reef"
       ],
       "methods": [
         "wild_observation",
-        "shore_exploration",
+        "shoreline_or_water_travel",
+        "fishing_when_plausible",
+        "deep_sea_expedition",
         "overland_encounter"
       ]
     },
     {
       "id": "MAR-REEF",
-      "sourceZoneId": "MAR-REEF",
+      "sourceZoneId": "SAL-COAST",
       "habitats": [
         "reef",
-        "marine",
-        "coast"
+        "ocean",
+        "beach"
       ],
       "methods": [
         "wild_observation",
-        "reef_exploration",
-        "boat_observation"
+        "shoreline_or_water_travel",
+        "fishing_when_plausible",
+        "deep_sea_expedition"
       ]
     }
   ]
