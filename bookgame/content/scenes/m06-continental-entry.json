@@ -1,0 +1,350 @@
+{
+  "schemaVersion": 1,
+  "id": "m06-continental-entry",
+  "moduleId": "M06",
+  "title": "M6_07 — Continental Entry",
+  "locationId": "interregional_continental_hall",
+  "entryNodeId": "continental_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m5_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m06_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m6_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "A"
+      },
+      {
+        "path": "world.flags.friend_beat_06_complete",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "continental_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La Continental Cup è un evento elite per ranking e reputazione. Essere Rank A consente di presentarsi al desk; l'effettiva finestra dipende dall'evento canonico A6_CONTINENTAL."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_eligibility",
+          "text": "Verifico se la finestra è davvero aperta.",
+          "goto": "eligibility"
+        },
+        {
+          "id": "entry_rules",
+          "text": "Rileggo la separazione fra Cup e Rank S.",
+          "goto": "rules"
+        },
+        {
+          "id": "entry_defer",
+          "text": "Rimando senza iscrivermi.",
+          "goto": "defer"
+        }
+      ]
+    },
+    "eligibility": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'eligibility deriva dal trigger canonico: Rank A più livello/risultato Masters sufficiente. La scena non può aprire la Cup solo perché il modulo la prevede."
+        }
+      ],
+      "choices": [
+        {
+          "id": "eligible_register",
+          "text": "La finestra è aperta: vado al banco.",
+          "goto": "registration",
+          "conditions": {
+            "path": "world.flags.a6_continental_available",
+            "eq": true
+          }
+        },
+        {
+          "id": "eligible_wait",
+          "text": "La finestra non è ancora utile: torno al calendario.",
+          "goto": "calendar"
+        }
+      ]
+    },
+    "rules": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La Continental Cup può dare risultati e ranking reali, ma non sostituisce RANK_A_TO_S. Anche vincere la Cup lascia Rank A finché il Gate del Faro non viene vinto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rules_eligibility",
+          "text": "Torno all'eligibility.",
+          "goto": "eligibility"
+        },
+        {
+          "id": "rules_calendar",
+          "text": "Controllo il calendario.",
+          "goto": "calendar"
+        }
+      ]
+    },
+    "calendar": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il torneo convive con Friend Beat, mistero antico e Gate del Faro. Rimandare può cambiare schedule; rinunciare produce uno stato persistente `skipped`."
+        }
+      ],
+      "choices": [
+        {
+          "id": "calendar_register",
+          "text": "Se disponibile, procedo alla registrazione.",
+          "goto": "registration",
+          "conditions": {
+            "path": "world.flags.a6_continental_available",
+            "eq": true
+          }
+        },
+        {
+          "id": "calendar_decline",
+          "text": "Rinuncio alla Cup per questa finestra.",
+          "goto": "decline"
+        }
+      ]
+    },
+    "registration": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il desk registra partecipazione, non vittorie. Il roster ufficiale verrà validato quando il primo match verrà consegnato a E5."
+        }
+      ],
+      "choices": [
+        {
+          "id": "register_now",
+          "text": "Confermo l'iscrizione alla Continental Cup.",
+          "goto": "registered",
+          "conditions": {
+            "path": "world.flags.continental_registration_complete",
+            "ne": true
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "continental_registration_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "continental_registration_status",
+              "value": "registered"
+            },
+            {
+              "type": "set_location",
+              "locationId": "interregional_continental_hall"
+            }
+          ]
+        },
+        {
+          "id": "register_status",
+          "text": "La registrazione esiste già: ne controllo lo stato.",
+          "goto": "registered",
+          "conditions": {
+            "path": "world.flags.continental_registration_complete",
+            "eq": true
+          }
+        },
+        {
+          "id": "register_back",
+          "text": "Non firmo ancora.",
+          "goto": "defer"
+        }
+      ]
+    },
+    "registered": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'iscrizione è persistente. Nessun avversario viene sostituito per fanservice e nessun risultato viene precompilato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "registered_prep",
+          "text": "Definisco un focus senza bonus invisibili.",
+          "goto": "prep"
+        },
+        {
+          "id": "registered_enter",
+          "text": "Entro nel bracket reale della Cup.",
+          "goto": "m06-continental-cup#cup_entry"
+        }
+      ]
+    },
+    "prep": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La preparazione può orientare le tue decisioni, non cambiare statistiche o curare il roster."
+        }
+      ],
+      "choices": [
+        {
+          "id": "prep_information",
+          "text": "Focus: informazioni pubbliche e fog of war.",
+          "goto": "registered",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "continental_prep_focus",
+              "value": "information"
+            }
+          ]
+        },
+        {
+          "id": "prep_resources",
+          "text": "Focus: gestione risorse fra round.",
+          "goto": "registered",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "continental_prep_focus",
+              "value": "resources"
+            }
+          ]
+        }
+      ]
+    },
+    "opponent": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il field contiene trainer elite registrati. Gli accoppiamenti che affronterai sono quelli del bracket della run, non nomi scelti per creare una scena speciale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "opponent_rules",
+          "text": "Rileggo le regole di avanzamento.",
+          "goto": "rules"
+        },
+        {
+          "id": "opponent_registered",
+          "text": "Torno allo stato di registrazione.",
+          "goto": "registered"
+        }
+      ]
+    },
+    "defer": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Rimandare lascia l'evento aperto quando il calendario lo consente. Non vengono assegnati punti o piazzamenti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "defer_masters",
+          "text": "Torno al Masters Circuit.",
+          "goto": "m06-masters-circuit#circuit_hub"
+        },
+        {
+          "id": "defer_return",
+          "text": "Riconsidero la Continental Cup.",
+          "goto": "continental_entry"
+        }
+      ]
+    },
+    "decline": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Rinunciare è definitivo per questa finestra: il mondo continua senza il player nel bracket."
+        }
+      ],
+      "choices": [
+        {
+          "id": "decline_confirm",
+          "text": "Confermo che salto questa Continental Cup.",
+          "goto": "close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "continental_registration_status",
+              "value": "declined"
+            },
+            {
+              "type": "set_flag",
+              "key": "continental_result",
+              "value": "skipped"
+            },
+            {
+              "type": "set_flag",
+              "key": "continental_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "decline_cancel",
+          "text": "No, voglio solo rimandare.",
+          "goto": "defer"
+        }
+      ]
+    },
+    "close": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La registrazione o la rinuncia sono ora persistenti e restano separate dal Rank A→S."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_cup",
+          "text": "Sono registrato: apro il bracket.",
+          "goto": "m06-continental-cup#cup_entry",
+          "conditions": {
+            "path": "world.flags.continental_registration_complete",
+            "eq": true
+          }
+        },
+        {
+          "id": "close_ancient",
+          "text": "Ho saltato la Cup: proseguo verso il secondo layer del mistero.",
+          "goto": "m06-ancient-layer-two#layer_entry",
+          "conditions": {
+            "path": "world.flags.continental_result",
+            "eq": "skipped"
+          }
+        }
+      ]
+    },
+    "route": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il desk Continental resta una pressione concorrente, non l'unico contenuto del modulo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "route_entry",
+          "text": "Torno all'ingresso della Continental Cup.",
+          "goto": "continental_entry"
+        }
+      ]
+    }
+  }
+}
