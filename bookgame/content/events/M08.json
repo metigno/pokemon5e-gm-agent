@@ -30,7 +30,8 @@
                 "role": "reigning_world_champion_anchor",
                 "introduced": false,
                 "competitiveProtection": false,
-                "module": "M08"
+                "module": "M08",
+                "worldQualified": true
               }
             },
             {
