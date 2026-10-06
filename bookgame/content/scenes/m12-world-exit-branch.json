@@ -1,0 +1,492 @@
+{
+  "schemaVersion": 1,
+  "id": "m12-world-exit-branch",
+  "moduleId": "M12",
+  "title": "M12_00 — World Exit Branch",
+  "locationId": "world_village",
+  "entryNodeId": "world_exit_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m12_unlocked",
+        "eq": true
+      },
+      {
+        "any": [
+          {
+            "path": "world.flags.world_champion",
+            "eq": true
+          },
+          {
+            "path": "world.flags.world_eliminated",
+            "eq": true
+          },
+          {
+            "path": "world.flags.worlds_missed",
+            "eq": true
+          }
+        ]
+      }
+    ]
+  },
+  "nodes": {
+    "world_exit_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Mondiale o la corsa verso di esso è finita per questa stagione. M12 apre WORLD_EXIT senza trasformare un titolo, un'eliminazione o un Mondiale mancato in una gerarchia morale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "enter_champion",
+          "text": "Entro nel WORLD_EXIT da campione.",
+          "goto": "route_champion",
+          "conditions": {
+            "path": "world.flags.world_champion",
+            "eq": true
+          }
+        },
+        {
+          "id": "enter_eliminated",
+          "text": "Entro nel WORLD_EXIT dal mio vero punto di eliminazione.",
+          "goto": "route_eliminated",
+          "conditions": {
+            "path": "world.flags.world_eliminated",
+            "eq": true
+          }
+        },
+        {
+          "id": "enter_missed",
+          "text": "Entro nel WORLD_EXIT dopo aver mancato il Mondiale.",
+          "goto": "route_missed",
+          "conditions": {
+            "path": "world.flags.worlds_missed",
+            "eq": true
+          }
+        },
+        {
+          "id": "context_1",
+          "text": "Confronto questo dettaglio con un altro pezzo del percorso.",
+          "goto": "route_eliminated"
+        }
+      ]
+    },
+    "route_champion": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se hai vinto WORLD_FINAL, il titolo resta quello prodotto da E5. Il ritorno parte da quel fatto, non da una ricompensa inventata dall'epilogo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "champion_accept",
+          "text": "Registro il ramo World Champion senza riscrivere E5.",
+          "goto": "result_integrity",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_world_exit_route",
+              "value": "world_champion"
+            }
+          ]
+        },
+        {
+          "id": "champion_record",
+          "text": "Controllo il record prima di partire.",
+          "goto": "world_record"
+        },
+        {
+          "id": "context_2",
+          "text": "Confronto questo dettaglio con un altro pezzo del percorso.",
+          "goto": "result_integrity"
+        }
+      ]
+    },
+    "route_eliminated": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se sei stato eliminato, il punto esatto della competizione resta nel record. Nessun ramo postgame cancella la sconfitta o aggiunge un match di consolazione obbligatorio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "eliminated_accept",
+          "text": "Registro il ramo Eliminated mantenendo il round reale.",
+          "goto": "result_integrity",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_world_exit_route",
+              "value": "world_eliminated"
+            }
+          ]
+        },
+        {
+          "id": "eliminated_record",
+          "text": "Controllo il record prima di partire.",
+          "goto": "world_record"
+        },
+        {
+          "id": "context_3",
+          "text": "Confronto questo dettaglio con un altro pezzo del percorso.",
+          "goto": "roster_state"
+        }
+      ]
+    },
+    "route_missed": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se il Mondiale è stato mancato, M12 conserva il motivo competitivo reale e lascia continuare carriera, relazioni e mondo senza fingere una partecipazione avvenuta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "missed_accept",
+          "text": "Registro Worlds Missed senza inventare risultati.",
+          "goto": "result_integrity",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_world_exit_route",
+              "value": "worlds_missed"
+            }
+          ]
+        },
+        {
+          "id": "missed_world",
+          "text": "Controllo cosa è successo nel mondo mentre il circuito proseguiva.",
+          "goto": "e6_contract"
+        }
+      ]
+    },
+    "result_integrity": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "WORLD_EXIT legge la storia competitiva già registrata. Non riscrive avversari, piazzamenti, campione o qualificazione per rendere il finale più cinematografico."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "world_record"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "route_missed"
+        }
+      ]
+    },
+    "world_record": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il record mondiale resta consultabile insieme ai match effettivamente giocati e alle risoluzioni off-screen autorizzate da E5."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "roster_state"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "result_integrity"
+        }
+      ]
+    },
+    "roster_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La squadra rientra con livelli, HP, PP, status, infortuni e composizione realmente rimasti alla fine del percorso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "resource_state"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "world_record"
+        }
+      ]
+    },
+    "resource_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Denaro, inventario e consumi non vengono normalizzati perché il torneo è finito. Il postgame continua dallo stesso save."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "npc_state"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "roster_state"
+        }
+      ]
+    },
+    "npc_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Amici e Anchor non vengono radunati artificialmente. E4 continuerà a decidere chi è presente, dove e in quale stato di relazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "quest_state"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "resource_state"
+        }
+      ]
+    },
+    "quest_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Quest concluse, fallite o ignorate restano tali. Le irrisolte possono essere trasformate dal Living World, ma non resuscitate per un callback."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "reputation"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "npc_state"
+        }
+      ]
+    },
+    "reputation": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il risultato mondiale influenza il modo in cui il mondo ti riconosce, senza annullare reputazioni locali costruite nei moduli precedenti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "no_hierarchy"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "quest_state"
+        }
+      ]
+    },
+    "no_hierarchy": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Campione, eliminato e Worlds Missed sono tre storie diverse, non tre livelli di dignità del personaggio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "travel_decision"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "reputation"
+        }
+      ]
+    },
+    "travel_decision": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il primo passo concreto è lasciare il circuito mondiale e decidere come tornare ad Asteria mantenendo intatto lo stato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "callback_contract"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "no_hierarchy"
+        }
+      ]
+    },
+    "callback_contract": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "I callback di M12 possono reagire soltanto a fatti realmente presenti nel save: aiuti dati, omissioni, incidenti, esiti e relazioni."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "time_passage"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "travel_decision"
+        }
+      ]
+    },
+    "time_passage": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il ritorno richiederà tempo reale di calendario. E2 continua a far avanzare schedule, deadline e mondo durante il viaggio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "e6_contract"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "callback_contract"
+        }
+      ]
+    },
+    "e6_contract": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "E6 può mostrare cosa è successo in tua assenza, ma ogni risoluzione off-screen deve essere coerente con lo stato preesistente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo seguendo questo filo.",
+          "goto": "commit_guard"
+        },
+        {
+          "id": "review",
+          "text": "Rileggo il passaggio collegato.",
+          "goto": "time_passage"
+        }
+      ]
+    },
+    "commit_guard": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Prima del rientro, M12 registra una sola volta il ramo WORLD_EXIT corrente e apre il postgame senza cambiare il passato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "commit_now",
+          "text": "Registro WORLD_EXIT e apro il viaggio di ritorno.",
+          "goto": "committed",
+          "conditions": {
+            "path": "world.flags.m12_world_exit_branch_complete",
+            "ne": true
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_world_exit_branch_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_world_exit_resolved",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_active",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "commit_existing",
+          "text": "WORLD_EXIT è già registrato; non lo duplico.",
+          "goto": "committed",
+          "conditions": {
+            "path": "world.flags.m12_world_exit_branch_complete",
+            "eq": true
+          }
+        }
+      ]
+    },
+    "committed": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "WORLD_EXIT è stato registrato. Il salvataggio resta pienamente giocabile e pronto al viaggio di ritorno."
+        }
+      ],
+      "choices": [
+        {
+          "id": "to_handoff",
+          "text": "Preparo il ritorno ad Asteria.",
+          "goto": "handoff"
+        },
+        {
+          "id": "audit_resources",
+          "text": "Controllo ancora lo stato persistente.",
+          "goto": "resource_state"
+        }
+      ]
+    },
+    "handoff": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La prossima scena è il ritorno ad Asteria: stesso allenatore, stessa squadra, stesso mondo che ha continuato a muoversi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "return_asteria",
+          "text": "Lascio il circuito mondiale e inizio il viaggio.",
+          "goto": "m12-return-asteria#return_entry"
+        },
+        {
+          "id": "last_world_review",
+          "text": "Rileggo un'ultima volta il contratto WORLD_EXIT.",
+          "goto": "result_integrity"
+        }
+      ]
+    }
+  }
+}
