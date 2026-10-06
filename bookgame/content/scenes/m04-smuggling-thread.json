@@ -1,0 +1,1067 @@
+{
+  "schemaVersion": 1,
+  "id": "m04-smuggling-thread",
+  "moduleId": "M04",
+  "title": "M4_07 — Movimenti fuori registro",
+  "locationId": "mar_city",
+  "entryNodeId": "thread_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m3_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m04_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m4_active",
+        "eq": true
+      },
+      {
+        "path": "world.flags.smuggling_thread_available",
+        "eq": true
+      },
+      {
+        "path": "world.flags.smuggling_state",
+        "exists": false
+      },
+      {
+        "path": "competition.rank",
+        "eq": "C"
+      }
+    ]
+  },
+  "nodes": {
+    "thread_entry": {
+      "stitches": [
+        {
+          "id": "entry_1",
+          "text": "Le anomalie non sono più soltanto un'impressione: il tuo stato registra quanto forte sia il segnale, ma la finestra operativa è reale. Se aspetti troppo, chi usa i punti deboli del porto può cambiare rotta senza di te."
+        },
+        {
+          "id": "entry_2",
+          "text": "Non stai inseguendo bracconieri come in M2. Qui il problema è logistico: movimenti fisici che precedono documenti, approdi secondari, piccoli mezzi e carichi capaci di sparire dentro ritardi perfettamente normali."
+        }
+      ],
+      "choices": [
+        {
+          "id": "review_signal",
+          "text": "Rileggo la qualità delle prove che ho davvero.",
+          "goto": "signal_review"
+        },
+        {
+          "id": "formal_report",
+          "text": "Porto subito ciò che so all'ufficio doganale.",
+          "goto": "customs_report"
+        },
+        {
+          "id": "follow_coast_route",
+          "text": "Verifico se costa e approdi secondari completano la catena.",
+          "conditions": {
+            "any": [
+              {
+                "path": "world.flags.coast_secondary_landing_known",
+                "eq": true
+              },
+              {
+                "path": "world.flags.coast_waiting_boat_noted",
+                "eq": true
+              },
+              {
+                "path": "world.flags.smuggling_coast_link_known",
+                "eq": true
+              }
+            ]
+          },
+          "goto": "coast_followup"
+        },
+        {
+          "id": "follow_reef_route",
+          "text": "Verifico se il reef può essere usato come segmento di transito.",
+          "conditions": {
+            "any": [
+              {
+                "path": "world.flags.reef_route_geography_known",
+                "eq": true
+              },
+              {
+                "path": "world.flags.smuggling_reef_link_known",
+                "eq": true
+              },
+              {
+                "path": "world.flags.reef_visited",
+                "eq": true
+              }
+            ]
+          },
+          "goto": "reef_followup"
+        },
+        {
+          "id": "shadow_transfer",
+          "text": "Provo a documentare un trasferimento invece di accusare qualcuno.",
+          "conditions": {
+            "path": "world.flags.smuggling_signal_quality",
+            "in": [
+              "partial",
+              "strong"
+            ]
+          },
+          "goto": "transfer_setup"
+        },
+        {
+          "id": "ask_archie",
+          "text": "Confronto la catena con Archie senza chiedergli di risolverla per me.",
+          "conditions": {
+            "path": "world.flags.archie_met",
+            "eq": true
+          },
+          "goto": "archie_smuggling"
+        },
+        {
+          "id": "ignore_thread",
+          "text": "Decido di non entrare in questa storia. Il mondo andrà avanti.",
+          "goto": "ignored_close",
+          "effects": [
+            {
+              "type": "quest_fail",
+              "questId": "M4_SMUGGLING_THREAD",
+              "resolution": "player_ignored",
+              "resolvedBy": "player"
+            },
+            {
+              "type": "set_flag",
+              "key": "smuggling_state",
+              "value": "ignored"
+            },
+            {
+              "type": "set_flag",
+              "key": "smuggling_thread_resolved",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "leave_for_now",
+          "text": "Non decido ancora. Torno a Mareasale mentre la finestra continua a scorrere.",
+          "goto": "m04-mareasale-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        }
+      ]
+    },
+    "signal_review": {
+      "stitches": [
+        {
+          "id": "signal_1",
+          "text": "La classificazione non cambia da sola: strong significa più fonti convergenti; partial significa anomalie vere ma incomplete; low significa vulnerabilità del sistema senza una pista affidabile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "review_strong",
+          "text": "Il segnale è forte: scelgo come trasformarlo in azione.",
+          "conditions": {
+            "path": "world.flags.smuggling_signal_quality",
+            "eq": "strong"
+          },
+          "goto": "strong_options"
+        },
+        {
+          "id": "review_partial",
+          "text": "Il segnale è parziale: posso documentare o segnalare con cautela.",
+          "conditions": {
+            "path": "world.flags.smuggling_signal_quality",
+            "eq": "partial"
+          },
+          "goto": "partial_options"
+        },
+        {
+          "id": "review_low",
+          "text": "Il segnale è basso: non devo fingere prove che non ho.",
+          "conditions": {
+            "path": "world.flags.smuggling_signal_quality",
+            "eq": "low"
+          },
+          "goto": "low_options"
+        },
+        {
+          "id": "review_back",
+          "text": "Torno alle opzioni principali.",
+          "goto": "thread_entry"
+        }
+      ]
+    },
+    "strong_options": {
+      "stitches": [
+        {
+          "id": "strong_1",
+          "text": "Con più fonti indipendenti puoi chiedere un controllo mirato senza presentare una teoria come certezza. La differenza è fra indicare una catena verificabile e indicare un colpevole."
+        }
+      ],
+      "choices": [
+        {
+          "id": "strong_customs",
+          "text": "Consegno il dossier e chiedo un controllo mirato.",
+          "goto": "customs_report"
+        },
+        {
+          "id": "strong_shadow",
+          "text": "Documento prima un movimento reale per rafforzare la catena.",
+          "goto": "transfer_setup"
+        },
+        {
+          "id": "strong_coast",
+          "text": "Completo il quadro sulla costa.",
+          "conditions": {
+            "path": "world.flags.coast_secondary_landing_known",
+            "eq": true
+          },
+          "goto": "coast_followup"
+        },
+        {
+          "id": "strong_back",
+          "text": "Torno indietro.",
+          "goto": "thread_entry"
+        }
+      ]
+    },
+    "partial_options": {
+      "stitches": [
+        {
+          "id": "partial_1",
+          "text": "Con prove parziali, intervenire direttamente rischia di trasformare un'anomalia in un'accusa. Puoi ancora verificare tempi, approdi e movimenti prima che la finestra si chiuda."
+        }
+      ],
+      "choices": [
+        {
+          "id": "partial_shadow",
+          "text": "Osservo un trasferimento senza interferire.",
+          "goto": "transfer_setup"
+        },
+        {
+          "id": "partial_customs",
+          "text": "Segnalo le vulnerabilità senza accusare nessuno.",
+          "goto": "customs_report"
+        },
+        {
+          "id": "partial_coast",
+          "text": "Cerco un riscontro lungo la costa.",
+          "goto": "coast_followup",
+          "conditions": {
+            "path": "world.flags.coast_secondary_landing_known",
+            "eq": true
+          }
+        },
+        {
+          "id": "partial_back",
+          "text": "Torno alle opzioni principali.",
+          "goto": "thread_entry"
+        }
+      ]
+    },
+    "low_options": {
+      "stitches": [
+        {
+          "id": "low_1",
+          "text": "Un segnale basso può ancora produrre una decisione utile: segnalare una vulnerabilità, rinunciare all'indagine o usare il tempo per trovare una fonte concreta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "low_customs",
+          "text": "Segnalo soltanto il gap procedurale che ho verificato.",
+          "goto": "customs_report"
+        },
+        {
+          "id": "low_more_data",
+          "text": "Torno a cercare dati nel porto.",
+          "goto": "m04-port-pressure#pressure_board",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city_cargo"
+            }
+          ]
+        },
+        {
+          "id": "low_ignore",
+          "text": "Non investo altro tempo nella pista.",
+          "goto": "ignored_close",
+          "effects": [
+            {
+              "type": "quest_fail",
+              "questId": "M4_SMUGGLING_THREAD",
+              "resolution": "player_ignored",
+              "resolvedBy": "player"
+            },
+            {
+              "type": "set_flag",
+              "key": "smuggling_state",
+              "value": "ignored"
+            },
+            {
+              "type": "set_flag",
+              "key": "smuggling_thread_resolved",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "customs_report": {
+      "stitches": [
+        {
+          "id": "customs_1",
+          "text": "L'ufficiale doganale separa subito ciò che hai osservato da ciò che stai inferendo. Ti chiede documenti, tempi, luoghi e se hai visto un trasferimento concreto fuori dal flusso ordinario."
+        }
+      ],
+      "choices": [
+        {
+          "id": "report_strong",
+          "text": "Consegno la catena convergente e i punti da verificare.",
+          "conditions": {
+            "path": "world.flags.smuggling_signal_quality",
+            "eq": "strong"
+          },
+          "goto": "customs_intercept",
+          "effects": [
+            {
+              "type": "quest_complete",
+              "questId": "M4_SMUGGLING_THREAD",
+              "resolution": "targeted_customs_intercept",
+              "resolvedBy": "player"
+            },
+            {
+              "type": "set_flag",
+              "key": "smuggling_state",
+              "value": "customs_intercept"
+            },
+            {
+              "type": "set_flag",
+              "key": "smuggling_thread_resolved",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "report_partial",
+          "text": "Consegno le anomalie come segnalazione prudente.",
+          "conditions": {
+            "path": "world.flags.smuggling_signal_quality",
+            "eq": "partial"
+          },
+          "goto": "customs_monitoring",
+          "effects": [
+            {
+              "type": "quest_complete",
+              "questId": "M4_SMUGGLING_THREAD",
+              "resolution": "customs_monitoring",
+              "resolvedBy": "player"
+            },
+            {
+              "type": "set_flag",
+              "key": "smuggling_state",
+              "value": "customs_monitoring"
+            },
+            {
+              "type": "set_flag",
+              "key": "smuggling_thread_resolved",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "report_low",
+          "text": "Segnalo soltanto la vulnerabilità procedurale, senza parlare di rete.",
+          "conditions": {
+            "path": "world.flags.smuggling_signal_quality",
+            "eq": "low"
+          },
+          "goto": "insufficient_evidence",
+          "effects": [
+            {
+              "type": "quest_complete",
+              "questId": "M4_SMUGGLING_THREAD",
+              "resolution": "procedural_warning_only",
+              "resolvedBy": "player"
+            },
+            {
+              "type": "set_flag",
+              "key": "smuggling_state",
+              "value": "insufficient_evidence"
+            },
+            {
+              "type": "set_flag",
+              "key": "smuggling_thread_resolved",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "report_back",
+          "text": "Non consegno ancora il dossier.",
+          "goto": "thread_entry"
+        }
+      ]
+    },
+    "customs_intercept": {
+      "stitches": [
+        {
+          "id": "intercept_1",
+          "text": "La dogana usa la tua catena per controllare un movimento prima che diventi un'accusa pubblica. Il controllo trova documentazione falsificata e componenti tecnici non dichiarati in un carico che avrebbe dovuto essere ordinario."
+        },
+        {
+          "id": "intercept_2",
+          "text": "Non hai smantellato 'il contrabbando' in astratto. Hai permesso un'intercettazione concreta e reso più difficile usare quella stessa vulnerabilità nel porto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "intercept_record",
+          "text": "Registro l'esito senza prendermi meriti per il lavoro doganale.",
+          "goto": "thread_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "smuggling_customs_evidence",
+              "value": "document_fraud_and_undeclared_parts"
+            }
+          ]
+        },
+        {
+          "id": "intercept_archie",
+          "text": "Confronto l'esito con Archie.",
+          "conditions": {
+            "path": "world.flags.archie_met",
+            "eq": true
+          },
+          "goto": "archie_outcome"
+        }
+      ]
+    },
+    "customs_monitoring": {
+      "stitches": [
+        {
+          "id": "monitor_1",
+          "text": "La dogana non ha abbastanza per fermare un carico, ma cambia il campionamento dei controlli e mette sotto osservazione i rerouting tardivi. La rete, se esiste, dovrà adattarsi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "monitor_record",
+          "text": "Registro l'esito come monitoraggio attivo.",
+          "goto": "thread_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "smuggling_customs_evidence",
+              "value": "monitoring_only"
+            }
+          ]
+        },
+        {
+          "id": "monitor_archie",
+          "text": "Ragiono con Archie su cosa significa costringere un sistema a cambiare.",
+          "conditions": {
+            "path": "world.flags.archie_met",
+            "eq": true
+          },
+          "goto": "archie_outcome"
+        }
+      ]
+    },
+    "insufficient_evidence": {
+      "stitches": [
+        {
+          "id": "insufficient_1",
+          "text": "L'ufficiale prende nota del gap procedurale ma non apre un'operazione. È un esito valido: hai evitato di trasformare una vulnerabilità in una storia criminale senza prove."
+        }
+      ],
+      "choices": [
+        {
+          "id": "insufficient_record",
+          "text": "Chiudo la pista con ciò che so davvero.",
+          "goto": "thread_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "smuggling_customs_evidence",
+              "value": "procedural_gap_only"
+            }
+          ]
+        }
+      ]
+    },
+    "transfer_setup": {
+      "stitches": [
+        {
+          "id": "setup_1",
+          "text": "Per documentare un trasferimento non devi inseguire nessuno dentro aree interdette. Scegli un punto pubblico da cui leggere orari, mezzo e direzione senza ostacolare il lavoro del porto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "setup_quay",
+          "text": "Osservo dal molo pubblico vicino ai magazzini.",
+          "timeCostMinutes": 45,
+          "goto": "transfer_watch"
+        },
+        {
+          "id": "setup_coast",
+          "text": "Uso l'approdo secondario come punto di confronto.",
+          "conditions": {
+            "path": "world.flags.coast_secondary_landing_known",
+            "eq": true
+          },
+          "timeCostMinutes": 90,
+          "goto": "coast_transfer_watch",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "sal_coast_shore"
+            }
+          ]
+        },
+        {
+          "id": "setup_cancel",
+          "text": "Non consumo la finestra in osservazione.",
+          "goto": "thread_entry"
+        }
+      ]
+    },
+    "transfer_watch": {
+      "stitches": [
+        {
+          "id": "watch_1",
+          "text": "Dopo abbastanza tempo, un piccolo veicolo porta un collo fuori dalla sequenza ordinaria di carico. Non basta a provare reato: serve capire se il movimento ricompare altrove."
+        }
+      ],
+      "choices": [
+        {
+          "id": "watch_perception",
+          "text": "Seguo targhe, orario e direzione senza muovermi dal punto pubblico. (CT Perception)",
+          "check": {
+            "ability": "WIS",
+            "skill": "Perception",
+            "dc": 13
+          },
+          "outcomes": {
+            "success": {
+              "goto": "transfer_documented",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "smuggling_transfer_documented",
+                  "value": true
+                }
+              ]
+            },
+            "failure": {
+              "goto": "transfer_lost",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "smuggling_transfer_partial",
+                  "value": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "watch_stop",
+          "text": "Mi fermo prima di trasformare osservazione in pedinamento.",
+          "goto": "thread_entry"
+        }
+      ]
+    },
+    "coast_transfer_watch": {
+      "stitches": [
+        {
+          "id": "coast_watch_1",
+          "text": "Dalla cala non vedi il porto, ma vedi ciò che arriva. Una barca leggera entra con un collo sigillato poco dopo una finestra di rerouting che avevi segnato a Mareasale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "coast_document",
+          "text": "Registro ora, mezzo e sigillo senza avvicinarmi.",
+          "goto": "transfer_documented",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "smuggling_transfer_documented",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "smuggling_coast_transfer_confirmed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "coast_intervene",
+          "text": "Chiamo la dogana e indico il trasferimento mentre è ancora in corso.",
+          "conditions": {
+            "path": "world.flags.smuggling_signal_quality",
+            "eq": "strong"
+          },
+          "goto": "direct_intervention"
+        }
+      ]
+    },
+    "transfer_documented": {
+      "stitches": [
+        {
+          "id": "documented_1",
+          "text": "Ora hai un movimento fisico collegabile a tempo e direzione. Non conosci tutta la rete, ma il dossier non dipende più soltanto da incongruenze amministrative."
+        }
+      ],
+      "choices": [
+        {
+          "id": "documented_customs",
+          "text": "Consegno la documentazione alla dogana.",
+          "goto": "documented_resolution",
+          "effects": [
+            {
+              "type": "quest_complete",
+              "questId": "M4_SMUGGLING_THREAD",
+              "resolution": "transfer_documented",
+              "resolvedBy": "player"
+            },
+            {
+              "type": "set_flag",
+              "key": "smuggling_state",
+              "value": "route_documented"
+            },
+            {
+              "type": "set_flag",
+              "key": "smuggling_thread_resolved",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "documented_more",
+          "text": "Provo a collegare il trasferimento a costa o reef prima di chiudere.",
+          "conditions": {
+            "any": [
+              {
+                "path": "world.flags.coast_secondary_landing_known",
+                "eq": true
+              },
+              {
+                "path": "world.flags.reef_route_geography_known",
+                "eq": true
+              }
+            ]
+          },
+          "goto": "route_chain"
+        }
+      ]
+    },
+    "transfer_lost": {
+      "stitches": [
+        {
+          "id": "lost_1",
+          "text": "Il mezzo scompare dentro il traffico prima che tu riesca a legare direzione e orario con precisione. Hai speso tempo e ottenuto soltanto un indizio parziale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "lost_customs",
+          "text": "Segnalo comunque ciò che ho visto come informazione incompleta.",
+          "goto": "customs_report"
+        },
+        {
+          "id": "lost_retry_elsewhere",
+          "text": "Cambio punto di osservazione se ho un approdo noto.",
+          "conditions": {
+            "path": "world.flags.coast_secondary_landing_known",
+            "eq": true
+          },
+          "goto": "coast_followup"
+        },
+        {
+          "id": "lost_back",
+          "text": "Torno alle opzioni principali.",
+          "goto": "thread_entry"
+        }
+      ]
+    },
+    "coast_followup": {
+      "stitches": [
+        {
+          "id": "coast_1",
+          "text": "La costa non prova il reato; può però mostrare se un flusso che sparisce dal porto riappare su un approdo secondario con tempi compatibili."
+        }
+      ],
+      "choices": [
+        {
+          "id": "coast_known_unexplained",
+          "text": "Uso l'uso non spiegato della cala come riscontro.",
+          "conditions": {
+            "path": "world.flags.coast_landing_unexplained_use",
+            "eq": true
+          },
+          "goto": "route_chain",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "smuggling_coast_segment_supported",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "coast_waiting_boat",
+          "text": "Uso la barca in attesa come elemento da verificare, non come prova.",
+          "conditions": {
+            "path": "world.flags.coast_waiting_boat_noted",
+            "eq": true
+          },
+          "goto": "transfer_setup"
+        },
+        {
+          "id": "coast_explore",
+          "text": "Torno fisicamente sulla costa per cercare un riscontro.",
+          "timeCostMinutes": 90,
+          "goto": "m04-coast-route#coast_gate",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "sal_coast"
+            }
+          ]
+        },
+        {
+          "id": "coast_back",
+          "text": "Torno al dossier.",
+          "goto": "thread_entry"
+        }
+      ]
+    },
+    "reef_followup": {
+      "stitches": [
+        {
+          "id": "reef_1",
+          "text": "Il reef può spiegare un segmento di rotta ma non l'origine o il contenuto del carico. Serve solo a capire se un mezzo leggero potrebbe evitare il flusso principale senza diventare magicamente invisibile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "reef_supported",
+          "text": "Uso la geografia del reef come segmento possibile.",
+          "conditions": {
+            "path": "world.flags.smuggling_reef_link_known",
+            "eq": true
+          },
+          "goto": "route_chain",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "smuggling_reef_segment_supported",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "reef_visit_again",
+          "text": "Torno al molo e verifico una nuova partenza.",
+          "goto": "m04-reef-access#reef_desk",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "sal_coast_jetty"
+            }
+          ]
+        },
+        {
+          "id": "reef_back",
+          "text": "Torno al dossier.",
+          "goto": "thread_entry"
+        }
+      ]
+    },
+    "route_chain": {
+      "stitches": [
+        {
+          "id": "chain_1",
+          "text": "Porto, piccolo mezzo, approdo e reef possono formare una catena plausibile. Il valore del dato è proprio che ogni segmento è verificabile separatamente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "chain_customs",
+          "text": "Consegno la catena verificabile alla dogana.",
+          "goto": "documented_resolution",
+          "effects": [
+            {
+              "type": "quest_complete",
+              "questId": "M4_SMUGGLING_THREAD",
+              "resolution": "route_chain_documented",
+              "resolvedBy": "player"
+            },
+            {
+              "type": "set_flag",
+              "key": "smuggling_state",
+              "value": "route_documented"
+            },
+            {
+              "type": "set_flag",
+              "key": "smuggling_thread_resolved",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "smuggling_route_chain_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "chain_intervene",
+          "text": "Chiedo un'intercettazione coordinata invece di affrontare il carico da solo.",
+          "conditions": {
+            "path": "world.flags.smuggling_signal_quality",
+            "eq": "strong"
+          },
+          "goto": "direct_intervention"
+        }
+      ]
+    },
+    "direct_intervention": {
+      "stitches": [
+        {
+          "id": "intervention_1",
+          "text": "La tua 'interferenza' non è uno scontro improvvisato: dai posizione e timing alla dogana mentre il trasferimento è ancora leggibile. Gli agenti bloccano il mezzo nella parte autorizzata del porto/costa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "intervention_resolve",
+          "text": "Lascio che siano gli agenti a controllare carico e documenti.",
+          "goto": "intervention_result",
+          "effects": [
+            {
+              "type": "quest_complete",
+              "questId": "M4_SMUGGLING_THREAD",
+              "resolution": "coordinated_intercept",
+              "resolvedBy": "player"
+            },
+            {
+              "type": "set_flag",
+              "key": "smuggling_state",
+              "value": "coordinated_intercept"
+            },
+            {
+              "type": "set_flag",
+              "key": "smuggling_thread_resolved",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "intervention_result": {
+      "stitches": [
+        {
+          "id": "intervention_result_1",
+          "text": "Il controllo trova merce tecnica non dichiarata e documenti ritoccati. Alcuni responsabili operativi vengono identificati, ma il rapporto non pretende che una singola intercettazione cancelli ogni possibile rotta clandestina."
+        }
+      ],
+      "choices": [
+        {
+          "id": "intervention_record",
+          "text": "Registro l'esito concreto e chiudo la quest.",
+          "goto": "thread_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "smuggling_customs_evidence",
+              "value": "coordinated_intercept_confirmed"
+            }
+          ]
+        },
+        {
+          "id": "intervention_archie",
+          "text": "Chiedo ad Archie cosa cambia quando una rete perde una rotta.",
+          "conditions": {
+            "path": "world.flags.archie_met",
+            "eq": true
+          },
+          "goto": "archie_outcome"
+        }
+      ]
+    },
+    "documented_resolution": {
+      "stitches": [
+        {
+          "id": "docres_1",
+          "text": "La dogana riceve una catena documentata abbastanza precisa da cambiare controlli e pattugliamenti. Non hai bisogno di vedere ogni arresto perché l'esito resti persistente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "docres_close",
+          "text": "Chiudo la quest con la rotta documentata.",
+          "goto": "thread_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "smuggling_customs_evidence",
+              "value": "route_chain"
+            }
+          ]
+        },
+        {
+          "id": "docres_archie",
+          "text": "Confronto l'esito con Archie.",
+          "conditions": {
+            "path": "world.flags.archie_met",
+            "eq": true
+          },
+          "goto": "archie_outcome"
+        }
+      ]
+    },
+    "archie_smuggling": {
+      "stitches": [
+        {
+          "id": "archie_1",
+          "text": "Archie ascolta la catena e torna sul suo principio: «Se vuoi capire un flusso, guarda dove è costretto a passare. Non dove vorresti che passasse.» Non sceglie per te se segnalare, seguire o lasciare andare."
+        }
+      ],
+      "choices": [
+        {
+          "id": "archie_customs",
+          "text": "Uso il criterio per preparare un rapporto verificabile.",
+          "goto": "customs_report",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Archie",
+              "key": "smugglingContextShared",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "archie_route",
+          "text": "Uso il criterio per seguire la catena fisica.",
+          "goto": "transfer_setup",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Archie",
+              "key": "smugglingContextShared",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "archie_back",
+          "text": "Tengo il punto ma decido da solo.",
+          "goto": "thread_entry",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Archie",
+              "key": "smugglingContextShared",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "archie_outcome": {
+      "stitches": [
+        {
+          "id": "archie_out_1",
+          "text": "Archie non celebra l'intercettazione come una vittoria totale. «Hai tolto una strada. Ora il sistema cambia. È lì che vedi se hai capito davvero cosa stavi guardando.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "archie_out_close",
+          "text": "Registro il callback e chiudo la quest.",
+          "goto": "thread_close",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Archie",
+              "key": "smugglingOutcomeShared",
+              "value": true
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Archie",
+              "delta": 2
+            }
+          ]
+        }
+      ]
+    },
+    "ignored_close": {
+      "stitches": [
+        {
+          "id": "ignored_1",
+          "text": "Hai scelto di non entrare nella pista. Il mondo non la mette in pausa: controlli e rotte continueranno a cambiare senza il tuo contributo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ignored_hub",
+          "text": "Torno a Mareasale.",
+          "goto": "m04-mareasale-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        }
+      ]
+    },
+    "thread_close": {
+      "stitches": [
+        {
+          "id": "close_1",
+          "text": "Lo stato del contrabbando è ora persistente e separato dalla qualità iniziale del segnale. I moduli successivi potranno leggere se hai ottenuto un'intercettazione, documentato una rotta, attivato monitoraggio, trovato prove insufficienti o lasciato la storia al mondo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_hub",
+          "text": "Torno a Mareasale.",
+          "goto": "m04-mareasale-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        },
+        {
+          "id": "close_coast",
+          "text": "Torno sulla Costa di Sale.",
+          "timeCostMinutes": 90,
+          "goto": "m04-coast-route#coast_gate",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "sal_coast"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
