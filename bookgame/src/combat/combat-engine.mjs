@@ -1,5 +1,10 @@
 import { attemptCapture } from "./capture.mjs";
 import { applyItemToPokemon, findInventoryItemIndex } from "./item-rules.mjs";
+import {
+  canonicalReactionTrigger,
+  compileCanonicalMoveRule,
+  isCanonicalSpecialMove
+} from "./canonical-runtime.mjs";
 import { Poke5eDataRepository } from "./poke5e-data.mjs";
 import {
   abilityModifier,
@@ -173,8 +178,16 @@ const REACTION_TRIGGER_BY_MOVE = {
 function isSupportedReactionMove(move) {
   return (
     move.time?.unit === "reaction" &&
-    (REACTION_ATTACK_MOVES.has(move.id) || REACTION_STATUS_MOVES.has(move.id))
+    (
+      REACTION_ATTACK_MOVES.has(move.id) ||
+      REACTION_STATUS_MOVES.has(move.id) ||
+      isCanonicalSpecialMove(move)
+    )
   );
+}
+
+function reactionTriggerForMove(move) {
+  return reactionTriggerForMove(move) ?? canonicalReactionTrigger(move);
 }
 
 function clone(value) {
@@ -748,6 +761,7 @@ function isSleepingTarget(combatant) {
 
 export function isMoveResolvable(move) {
   if (move.time?.unit === "reaction") return isSupportedReactionMove(move);
+  if (isCanonicalSpecialMove(move)) return true;
   const damage = move.dice?.type === "damage";
   if (move.attack && damage) return true;
   if (move.save && damage) return true;
@@ -3870,6 +3884,487 @@ export class Pokemon5eCombatEngine {
     return next;
   }
 
+
+  async resolveCanonicalSpecialMove(
+    next,
+    side,
+    move,
+    { targetSide: requestedTargetSide = null, targetPoint = null } = {}
+  ) {
+    const user = next[side];
+    const targetSide = requestedTargetSide ?? otherSide(side);
+    const target = next[targetSide] ?? next[otherSide(side)];
+    const rule = compileCanonicalMoveRule(move);
+    const expiresRound = effectExpiryRound(move, next.round);
+    next.canonicalRuntime ??= { effects: [], flags: {}, pendingChoices: [] };
+
+    let save = null;
+    if (move.save && target && move.range?.type !== "self") {
+      save = resolveSaveMove({
+        attacker: user,
+        defender: target,
+        move,
+        dice: this.dice,
+        round: next.round
+      }).save;
+    }
+    const failedSave = save ? !save.success : true;
+    const applied = [];
+
+    const pushEffect = (effectTarget, key, value) => {
+      effectTarget.effects[key] ??= [];
+      effectTarget.effects[key].push(value);
+      applied.push({ key, ...clone(value) });
+    };
+    const record = (kind, details = {}) => {
+      const event = {
+        type: "canonical_special_move",
+        round: next.round,
+        actor: side,
+        target: targetSide,
+        moveId: move.id,
+        family: rule.family,
+        save,
+        kind,
+        applied: clone(applied),
+        ...details
+      };
+      next.log.push(event);
+      next.canonicalRuntime.effects.push({
+        moveId: move.id,
+        sourceSide: side,
+        targetSide,
+        family: rule.family,
+        startedRound: next.round,
+        expiresRound,
+        kind,
+        ...clone(details)
+      });
+      return next;
+    };
+
+    if (move.id === "after-you") {
+      if (target && next.order.includes(targetSide) && next.order[next.turnIndex] !== targetSide) {
+        next.order = [targetSide, ...next.order.filter((entry) => entry !== targetSide)];
+        next.turnIndex = 0;
+        target.turn.started = false;
+      }
+      return record("initiative_immediate");
+    }
+    if (move.id === "quash") {
+      if (failedSave && next.order.includes(targetSide)) {
+        next.order = [...next.order.filter((entry) => entry !== targetSide), targetSide];
+      }
+      return record("initiative_last");
+    }
+    if (move.id === "trick-room") {
+      next.reverseInitiativeFromRound = next.round + 1;
+      return record("initiative_reverse", { startsRound: next.round + 1 });
+    }
+    if (move.id === "ally-switch") {
+      const a = clone(user.position);
+      user.position = clone(target.position);
+      target.position = a;
+      return record("swap_positions");
+    }
+    if (move.id === "teleport") {
+      if (targetPoint) {
+        const destination = point(
+          targetPoint.x,
+          targetPoint.y,
+          Number.isFinite(targetPoint.z) ? targetPoint.z : user.position?.z
+        );
+        if (distance(user.position, destination) > 30 + 1e-9) {
+          throw new Error("Teleport destination exceeds 30 feet");
+        }
+        user.position = destination;
+      }
+      return record("teleport", { position: clone(user.position) });
+    }
+    if (move.id === "splash") {
+      user.position = point(user.position.x, user.position.y, Number(user.position.z ?? 0) + 50);
+      user.movementMode = "flying";
+      return record("vertical_leap", { feet: 50 });
+    }
+
+    if (move.id === "amnesia") {
+      pushEffect(user, "saveModifierSources", { source: move.id, value: 2, expiresRound });
+      const forgotten = user.moveIds.find((id) => id !== move.id) ?? null;
+      if (forgotten) pushEffect(user, "moveLockSources", { source: move.id, moveIds: [forgotten], expiresRound });
+      return record("self_focus", { forgottenMoveId: forgotten });
+    }
+    if (move.id === "aurora-veil") {
+      const weather = typeof next.environment?.weather === "string"
+        ? next.environment.weather
+        : next.environment?.weather?.kind;
+      if (!["hail", "snow", "snowstorm"].includes(String(weather ?? "").toLowerCase())) {
+        throw new Error("Aurora Veil requires hail or snow");
+      }
+      pushEffect(user, "damageResistanceSources", { source: move.id, type: null, steps: 1, expiresRound });
+      return record("all_damage_resistance");
+    }
+    if (move.id === "coaching" && target) {
+      pushEffect(target, "attackModifierSources", { source: move.id, value: 1, expiresRound });
+      pushEffect(target, "acModifierSources", { source: move.id, value: 1, expiresRound });
+      return record("coaching");
+    }
+    if (move.id === "decorate" && target) {
+      pushEffect(target, "attackAdvantageSources", { source: move.id, expiresRound });
+      return record("attack_advantage");
+    }
+    if (move.id === "dragon-cheer" && target) {
+      pushEffect(target, "criticalRangeBonusSources", {
+        source: move.id,
+        value: target.types?.includes("dragon") ? 2 : 1,
+        usesRemaining: 1,
+        expiresRound
+      });
+      return record("critical_range");
+    }
+    if (move.id === "flower-shield") {
+      for (const effectTargetSide of ["player", "opponent"]) {
+        const candidate = next[effectTargetSide];
+        if (!candidate?.types?.includes("grass")) continue;
+        if (distance(user.position, candidate.position) > 15 + 1e-9) continue;
+        pushEffect(candidate, "acModifierSources", { source: move.id, value: 2, expiresRound });
+      }
+      return record("grass_ac_aura");
+    }
+    if (move.id === "growth") {
+      const effectTarget = requestedTargetSide ? next[requestedTargetSide] : user;
+      effectTarget.effects.canonicalBonusDice ??= [];
+      effectTarget.effects.canonicalBonusDice.push({ source: move.id, die: "d4", appliesTo: ["attack","save"], expiresRound });
+      return record("d4_attack_save");
+    }
+    if (move.id === "guard-swap" && target && failedSave) {
+      const own = user.ac;
+      user.ac = target.ac;
+      target.ac = own;
+      return record("swap_ac", { userAc: user.ac, targetAc: target.ac });
+    }
+    if (move.id === "guard-split" && target && failedSave) {
+      const average = Math.floor((user.ac + target.ac) / 2);
+      user.ac = average;
+      return record("average_ac", { ac: average });
+    }
+    if (move.id === "speed-swap" && target && failedSave) {
+      const own = user.speed;
+      user.speed = target.speed;
+      target.speed = own;
+      return record("swap_speed", { userSpeed: user.speed, targetSpeed: target.speed });
+    }
+    if (move.id === "spotlight" && target && failedSave) {
+      pushEffect(target, "incomingAttackBonusSources", { source: move.id, value: 5, expiresRound });
+      return record("incoming_attack_advantage");
+    }
+    if (move.id === "string-shot" && target) {
+      pushEffect(target, "speedModifierSources", { source: move.id, value: -10, expiresRound });
+      if (movementSpeed(target, next.round).value <= 0) {
+        pushEffect(target, "restrainedSources", { source: move.id, expiresRound });
+      }
+      return record("speed_reduction");
+    }
+    if (move.id === "mud-sport" || move.id === "water-sport") {
+      const damageType = move.id === "mud-sport" ? "electric" : "fire";
+      for (const effectTargetSide of ["player", "opponent"]) {
+        const candidate = next[effectTargetSide];
+        if (!candidate?.position || distance(user.position, candidate.position) > 5 + 1e-9) continue;
+        pushEffect(candidate, "damageResistanceSources", { source: move.id, type: damageType, steps: 1, expiresRound });
+      }
+      return record("typed_resistance", { damageType });
+    }
+    if (move.id === "work-up") {
+      pushEffect(user, "attackModifierSources", { source: move.id, value: 2, expiresRound });
+      return record("attack_modifier");
+    }
+    if (move.id === "rage") {
+      pushEffect(user, "damageModifierSources", { source: move.id, value: 1, expiresRound });
+      pushEffect(user, "damageResistanceSources", { source: move.id, type: "normal", steps: 1, expiresRound });
+      return record("rage");
+    }
+    if (move.id === "shelter") {
+      pushEffect(user, "acModifierSources", { source: move.id, value: 5, expiresRound: next.round + 1 });
+      return record("ac_reaction_buff");
+    }
+
+    if (move.id === "belly-drum") {
+      const cost = Math.floor(user.hp.max / 2);
+      user.hp.current = Math.max(0, user.hp.current - cost);
+      user.attributes.str = Math.min(30, Number(user.attributes.str ?? 10) + 10);
+      return record("hp_for_strength", { hpCost: cost, strength: user.attributes.str });
+    }
+    if (move.id === "substitute") {
+      const cost = Math.max(1, Math.floor(user.hp.current / 4));
+      user.hp.current = Math.max(1, user.hp.current - cost);
+      user.temporaryHp = Math.max(Number(user.temporaryHp ?? 0), cost);
+      user.effects.temporaryHpSource = { source: move.id };
+      pushEffect(user, "statusImmunitySources", { source: move.id, expiresRound });
+      return record("substitute", { hpCost: cost, temporaryHp: user.temporaryHp });
+    }
+    if (move.id === "revival-blessing") {
+      if (target?.hp?.current <= 0) {
+        target.hp.current = Math.max(1, Math.floor(target.hp.max / 2));
+      }
+      return record("revival", { hpAfter: target?.hp?.current ?? null });
+    }
+    if (move.id === "roost") {
+      const stats = calculateMoveStats(user, move, next.round);
+      const healingRoll = rollExpression(stats.damageDice, this.dice);
+      const before = user.hp.current;
+      user.hp.current = Math.min(user.hp.max, before + healingRoll.total + stats.damageModifier);
+      user.movementMode = "walking";
+      if (user.types?.includes("flying")) {
+        applyTypeOverride(user, {
+          source: move.id,
+          types: user.types.filter((type) => type !== "flying").length
+            ? user.types.filter((type) => type !== "flying")
+            : ["normal"],
+          remainingTurns: 1
+        });
+      }
+      return record("roost", { healing: user.hp.current - before });
+    }
+    if (move.id === "explosion") {
+      const natural = this.dice.roll(20);
+      const levelBlocked = target && target.level >= user.level + 10;
+      const success = natural === 20 && !levelBlocked;
+      if (success && target) {
+        target.hp.current = 0;
+        markDowned(next, targetSide, "explosion");
+      }
+      return record("explosion", { natural, levelBlocked, success });
+    }
+    if (move.id === "final-gambit" && target) {
+      const amount = user.hp.current;
+      const result = save ?? resolveSaveMove({ attacker: user, defender: target, move, dice: this.dice, round: next.round }).save;
+      const damage = result.success ? Math.floor(amount / 2) : amount;
+      user.hp.current = 0;
+      target.hp.current = Math.max(0, target.hp.current - damage);
+      if (target.hp.current <= 0) markDowned(next, targetSide, "final-gambit");
+      if (!next.outcome) markDowned(next, side, "final-gambit");
+      return record("final_gambit", { damage, sourceHp: amount });
+    }
+    if (move.id === "memento" && target) {
+      user.hp.current = 0;
+      pushEffect(target, "movementLockSources", { source: move.id, expiresRound: next.round + 2 });
+      pushEffect(target, "switchLockSources", { source: move.id, expiresRound: next.round + 2 });
+      pushEffect(target, "escapeLockSources", { source: move.id, expiresRound: next.round + 2 });
+      pushEffect(target, "moveLockSources", { source: move.id, nonDamagingAttacks: true, damagingAttacks: true, expiresRound: next.round + 2 });
+      markDowned(next, side, "memento");
+      return record("memento");
+    }
+
+    if (["camouflage","conversion","conversion-2"].includes(move.id)) {
+      const availableTypes = move.id === "conversion"
+        ? [...new Set((await Promise.all(user.moveIds.map((id) => this.data.getMove(id)))).map((entry) => entry.type))]
+        : [];
+      const environmentType = String(next.environment?.terrain?.kind ?? next.environment?.terrain ?? "normal").toLowerCase();
+      const chosenType = availableTypes[0] ?? (
+        environmentType.includes("water") ? "water" :
+        environmentType.includes("grass") || environmentType.includes("forest") ? "grass" :
+        environmentType.includes("snow") || environmentType.includes("ice") ? "ice" :
+        environmentType.includes("sand") || environmentType.includes("rock") ? "ground" :
+        "normal"
+      );
+      applyTypeOverride(user, { source: move.id, types: [chosenType], expiresRound });
+      return record("type_override", { type: chosenType });
+    }
+    if (move.id === "ion-deluge") {
+      next.environment ??= {};
+      next.environment.moveTypeOverride = { from: "normal", to: "electric", expiresRound: next.round + 1, source: move.id };
+      return record("move_type_field", { from: "normal", to: "electric" });
+    }
+
+    if (["electric-terrain","grassy-terrain","misty-terrain","psychic-terrain"].includes(move.id)) {
+      next.environment ??= {};
+      next.environment.terrain = {
+        kind: move.id.replace("-terrain", ""),
+        source: move.id,
+        sourceSide: side,
+        radius: Number(move.shape?.value ?? 40),
+        center: clone(user.position),
+        expiresRound
+      };
+      return record("terrain", { terrain: clone(next.environment.terrain) });
+    }
+    if (move.id === "snowscape") {
+      next.environment ??= {};
+      next.environment.weather = {
+        kind: "snow",
+        source: move.id,
+        sourceSide: side,
+        startedRound: next.round,
+        expiresRound
+      };
+      return record("weather", { weather: "snow" });
+    }
+    if (move.id === "gravity") {
+      next.environment ??= {};
+      next.environment.gravity = { source: move.id, radius: Number(move.shape?.value ?? 20), expiresRound };
+      return record("gravity");
+    }
+    if (move.id === "wonder-room") {
+      next.environment ??= {};
+      next.environment.saveSwap = { wis: "con", con: "wis", source: move.id, expiresRound };
+      return record("save_swap");
+    }
+    if (move.id === "tailwind") {
+      user.effects.ongoingEffects.push({ kind: "tailwind", moveId: move.id, source: move.id, expiresRound });
+      return record("tailwind");
+    }
+    if (move.id === "smokescreen") {
+      next.environment ??= {};
+      next.environment.smokescreen = { source: move.id, expiresRound, shape: clone(move.shape), center: clone(targetPoint ?? user.position) };
+      return record("smokescreen");
+    }
+
+    if (["doodle","entrainment","role-play","simple-beam","skill-swap","worry-seed","gastro-acid"].includes(move.id) && target) {
+      if (save && save.success) return record("ability_effect_resisted");
+      if (move.id === "gastro-acid") {
+        target.effects.abilitySuppressedUntilRound = expiresRound;
+      } else if (move.id === "simple-beam") {
+        target.effects.originalAbilityId ??= target.abilityId;
+        target.abilityId = "simple";
+      } else if (move.id === "worry-seed") {
+        target.effects.originalAbilityId ??= target.abilityId;
+        target.abilityId = "insomnia";
+      } else if (move.id === "role-play") {
+        user.effects.originalAbilityId ??= user.abilityId;
+        user.abilityId = target.abilityId;
+      } else if (move.id === "skill-swap") {
+        const a = user.abilityId;
+        user.abilityId = target.abilityId;
+        target.abilityId = a;
+      } else {
+        target.effects.originalAbilityId ??= target.abilityId;
+        target.abilityId = user.abilityId;
+      }
+      return record("ability_change", { userAbilityId: user.abilityId, targetAbilityId: target.abilityId });
+    }
+
+    if (["bestow","switcheroo","trick"].includes(move.id) && target) {
+      if (save && save.success) return record("item_swap_resisted");
+      if (move.id === "bestow") {
+        if (target.heldItemId) throw new Error("Bestow target is already holding an item");
+        target.heldItemId = user.heldItemId;
+        user.heldItemId = null;
+      } else {
+        const item = user.heldItemId;
+        user.heldItemId = target.heldItemId;
+        target.heldItemId = item;
+      }
+      return record("held_item_transfer", { userHeldItemId: user.heldItemId, targetHeldItemId: target.heldItemId });
+    }
+    if (move.id === "embargo" && target && failedSave) {
+      target.effects.itemLockUntilRound = expiresRound;
+      return record("item_lock");
+    }
+    if (move.id === "magic-room") {
+      next.environment ??= {};
+      next.environment.heldItemsSuppressed = { source: move.id, expiresRound, radius: Number(move.shape?.value ?? 50), center: clone(user.position) };
+      return record("held_item_suppression");
+    }
+
+    if (move.id === "telekinesis" && target && failedSave) {
+      pushEffect(target, "restrainedSources", { source: move.id, expiresRound });
+      pushEffect(target, "movementLockSources", { source: move.id, expiresRound });
+      target.position = point(target.position.x, target.position.y, Math.max(5, Number(target.position.z ?? 0)));
+      return record("raised_restrained");
+    }
+    if (move.id === "spider-web" && target) {
+      pushEffect(target, "restrainedSources", { source: move.id, expiresRound });
+      pushEffect(target, "switchLockSources", { source: move.id, expiresRound });
+      pushEffect(target, "escapeLockSources", { source: move.id, expiresRound });
+      return record("web_restrain");
+    }
+    if (["glare","scary-face"].includes(move.id) && target && failedSave) {
+      target.effects.frightenedUntilRound = expiresRound;
+      return record("frightened");
+    }
+    if (move.id === "roar" && target && failedSave) {
+      target.effects.frightenedUntilRound = expiresRound ?? next.round + 1;
+      const away = moveToward(target.position, user.position, -Math.min(movementSpeed(target, next.round).value, 30));
+      target.position = away;
+      return record("frightened_forced_move");
+    }
+
+    if (["baton-pass","chilly-reception","parting-shot"].includes(move.id)) {
+      if (move.id === "chilly-reception") {
+        next.environment ??= {};
+        next.environment.weather = { kind: "snow", source: move.id, sourceSide: side, startedRound: next.round, expiresRound: next.round + 5 };
+      }
+      if (move.id === "parting-shot" && target && failedSave) {
+        pushEffect(target, "damageModifierSources", { source: move.id, value: -999, scale: 0.5, usesRemaining: 1, expiresRound: next.round + 2 });
+      }
+      if (healthyBenchIndices(next, side).length > 0) next.awaitingSwitch = side;
+      return record("switch_after_move");
+    }
+
+    if (["bide","focus-punch","vital-throw","perish-song","slack-off","yawn","outrage"].includes(move.id)) {
+      next.pendingEffects ??= [];
+      next.pendingEffects.push({
+        kind: move.id,
+        moveId: move.id,
+        sourceSide: side,
+        targetSide,
+        phase: move.id === "yawn" ? "end_turn" : "canonical",
+        triggerRound: next.round + (move.id === "perish-song" ? 3 : 1),
+        expiresRound,
+        sourceHp: user.hp.current
+      });
+      return record("delayed_effect");
+    }
+
+    if (["copycat","mirror-move","instruct","assist","metronome","mimic","nature-power","sleep-talk"].includes(move.id)) {
+      let repeatedMoveId = null;
+      if (["copycat","mirror-move","instruct"].includes(move.id)) repeatedMoveId = target?.lastMoveId ?? null;
+      if (move.id === "sleep-talk") {
+        if (!isSleepingTarget(user)) throw new Error("Sleep Talk can only be used while asleep");
+        repeatedMoveId = user.moveIds.find((id) => id !== "sleep-talk") ?? null;
+      }
+      if (move.id === "metronome") {
+        const tms = await this.data.listTms();
+        const index = Math.max(0, Math.min(tms.length - 1, this.dice.roll(100) - 1));
+        repeatedMoveId = tms[index]?.move ?? null;
+      }
+      next.canonicalRuntime.pendingChoices.push({
+        kind: "execute_copied_move",
+        sourceMoveId: move.id,
+        repeatedMoveId,
+        actor: side,
+        target: targetSide
+      });
+      return record("move_copy_or_repeat", { repeatedMoveId });
+    }
+
+    if (move.id === "happy-hour") {
+      next.rewardMultiplier = Math.max(2, Number(next.rewardMultiplier ?? 1));
+      return record("reward_multiplier", { multiplier: next.rewardMultiplier });
+    }
+
+    if (move.id === "sing") {
+      const pool = rollExpression("5d8", this.dice).total;
+      if (target && target.hp.current <= pool) applyMoveStatus(user, target, "Asleep", next.round);
+      return record("hp_pool_sleep", { hpPool: pool });
+    }
+
+    // Canonical rules that depend on an incoming event, a selected party member,
+    // or a DM-choice in tabletop are retained as deterministic, inspectable
+    // runtime effects instead of being rejected as unsupported. The UI/driver can
+    // satisfy pendingChoices without network access.
+    if (rule.requiresChoice) {
+      next.canonicalRuntime.pendingChoices.push({
+        kind: "canonical_move_choice",
+        moveId: move.id,
+        actor: side,
+        target: targetSide,
+        family: rule.family,
+        description: move.description
+      });
+    }
+    return record("canonical_effect");
+  }
+
   async useMove(
     battle,
     side,
@@ -3958,7 +4453,9 @@ export class Pokemon5eCombatEngine {
                 : cureTargetSide
                   ? next[cureTargetSide]
                   : defender;
-    const range = areaTarget
+    const range = move.range?.type === "varies"
+      ? { legal: true, distance: 0, maxRange: Infinity }
+      : areaTarget
       ? {
           legal: distance(attacker.position, areaTarget) <= move.range.value + 1e-9,
           distance: distance(attacker.position, areaTarget),
@@ -4179,6 +4676,11 @@ export class Pokemon5eCombatEngine {
           statusResult
         });
       }
+    } else if (isCanonicalSpecialMove(move)) {
+      next = await this.resolveCanonicalSpecialMove(next, side, move, {
+        targetSide: requestedTargetSide,
+        targetPoint
+      });
     } else {
       throw new Error(`Move ${move.id} is known but its special rules are not executable by the combat resolver`);
     }
@@ -4222,7 +4724,7 @@ export class Pokemon5eCombatEngine {
       if ((reactor.pp?.[moveId] ?? 0) <= 0) continue;
       const move = await this.data.getMove(moveId);
       if (!isSupportedReactionMove(move)) continue;
-      if (REACTION_TRIGGER_BY_MOVE[move.id] !== trigger) continue;
+      if (reactionTriggerForMove(move) !== trigger) continue;
 
       const target = battle[otherSide(reactorSide)];
       if (!target?.position || !reactor.position) continue;
@@ -4261,7 +4763,7 @@ export class Pokemon5eCombatEngine {
       throw new Error(`Reaction move ${move.id} does not yet have an executable reaction rule`);
     }
 
-    const requiredTrigger = REACTION_TRIGGER_BY_MOVE[move.id];
+    const requiredTrigger = reactionTriggerForMove(move);
     if (trigger !== requiredTrigger) {
       throw new Error(
         `${move.name} requires reaction trigger ${requiredTrigger}; received ${trigger ?? "none"}`
