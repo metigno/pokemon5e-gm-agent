@@ -288,6 +288,15 @@
       ],
       "choices": [
         {
+          "id": "registered_enter_upper",
+          "text": "La finestra è aperta: entro nell'Upper Regional Circuit.",
+          "conditions": {
+            "path": "world.flags.a4_regional_league_available",
+            "eq": true
+          },
+          "goto": "m04-upper-regional#circuit_board"
+        },
+        {
           "id": "registered_schedule",
           "text": "Controllo cosa cambia nel calendario.",
           "goto": "registered_schedule"
