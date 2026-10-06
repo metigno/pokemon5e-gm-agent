@@ -3,7 +3,7 @@
 **Status:** LOCKED BASELINE FOR M05→M12 AUTHORING  
 **Production branch reviewed:** `m8-00-04-work`  
 **Runtime-validated corpus:** M01 + M02 + M03 + M04 + M05 + M06 + M07  
-**Latest runtime evidence:** M07 — 210 / 462; M8 cycles 1–2 — 158 / 347; M8 cycle 2 CI 1,187 passed / 0 failed  
+**Latest runtime evidence:** M07 — 210 / 462; M08 COMPLETE — 190 / 418; M8 final CI 1,200 passed / 0 failed  
 **Catalog:** `bookgame/docs/NODE_REUSE_CATALOG.md`
 
 ---
@@ -73,21 +73,40 @@ M06 and M07 therefore extend the runtime-validated Library V2 corpus through the
 
 # 2B. M08 CYCLE-1 RUNTIME EXTENSION EVIDENCE
 
-M08 — *Il Mondo nello Stesso Posto* is now runtime-validated through **M8_00–M8_09** at **158 logical nodes / 347 meaningful choices**.
+M08 — *Il Mondo nello Stesso Posto* is now **COMPLETE** at **190 logical nodes / 418 meaningful choices**.
 
 Evidence:
 
-- all ten implemented M8 blocks declare Library V2 reuse;
+- all twelve M8 blocks declare Library V2 reuse or UNIQUE composition from existing primitives;
 - R01→R38 is sufficient; no R39 candidate is justified;
-- all 158 authored nodes are reachable and have incoming routes;
+- all 190 authored nodes are reachable and have incoming routes;
 - World arrival consumes the real M7 `world_qualified` route without resetting state;
 - accreditation changes access/timeline only;
 - medical control never heals or rewrites structured Pokémon state;
 - World registration reads the actual roster and does not perform WORLD_DRAW;
 - World Village preserves schedule-causal friend/Anchor encounters;
-- cycle-2 content/test commit `466811b9f7e8cf0c5e5fef19c7f81a9eea2d3d66`, Bookgame Tests run `37456416179` (#344): **1,187 passed / 0 failed**.
+- final M8 runtime commit `c09fa2838d5101d9c7011527513e0bf94f1c353d`, Bookgame Tests run `37458789483` (#355): **1,200 passed / 0 failed**.
 
-The complete-module baseline remains **M01→M07 = 1,564 nodes / 3,579 meaningful choices** until M08 is fully closed. Partial validated M08 production adds **158 / 347** on top of that corpus.
+The complete-module baseline is now **M01→M08 = 1,754 runtime-validated logical nodes / 3,997 meaningful choices**.
+
+### M08 final E5 evidence
+
+The M8 closure adds structured World Championship state inside the existing **E5 Competition** subsystem rather than promoting a new Library node family.
+
+Validated E5 World behavior:
+
+- stable canonical 2060 candidate roster;
+- explicit NPC qualification state respected;
+- deterministic off-screen qualification only for unresolved candidates;
+- exact 32-player field;
+- 8 groups × 4 participants;
+- deterministic per-career/per-edition draw seed;
+- three persistent player opponents;
+- draw idempotence;
+- rendered group/opponent names from structured state;
+- M9 unlock only after the M8 exit contract;
+- no R39 requirement because this is engine ownership, not a new reusable narrative topology.
+
 
 
 
@@ -201,4 +220,4 @@ This order is now canonical for production.
 
 Current lock:
 
-**R01→R38 / complete-module baseline M01→M07 = 1,564 runtime-validated logical nodes and 3,579 meaningful choices, plus validated M08 cycles 1–2 = 158 / 347; no R39 requirement.**
+**R01→R38 / complete-module baseline M01→M08 = 1,754 runtime-validated logical nodes and 3,997 meaningful choices; no R39 requirement.**
