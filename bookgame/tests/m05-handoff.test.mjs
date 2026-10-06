@@ -80,7 +80,9 @@ test("M5_00 activation is idempotent and does not grant progression",async()=>{
   assert.equal(s.competition.rank,"B");
   assert.equal(s.world.flags.lance_met,undefined);
   assert.equal(s.world.flags.interregional_license,undefined);
-  assert.equal(s.competition.trials.RANK_B_TO_A,undefined);
+  assert.equal(s.competition.trials.RANK_B_TO_A.available,true);
+  assert.equal(s.competition.trials.RANK_B_TO_A.registered,false);
+  assert.equal(s.competition.trials.RANK_B_TO_A.completed,false);
   s.story.sceneId="m05-handoff";
   s.story.nodeId="m05_entry";
   const v=await engine.present(s);
