@@ -217,11 +217,25 @@ function addResistanceStep(multiplier) {
 
 export function damageProfile(move, defender, round = null) {
   const moveType = move.type;
+  const immunityEffect = (defender.effects?.typeImmunitySources ?? []).find(
+    (source) =>
+      source.type === moveType &&
+      (round == null || source.startsRound == null || round >= source.startsRound) &&
+      (round == null || source.expiresRound == null || round < source.expiresRound)
+  );
+  if (immunityEffect) {
+    return {
+      multiplier: 0,
+      immunityAbility: null,
+      immunityEffect: immunityEffect.source,
+      modifierAbility: null
+    };
+  }
   if (defender.abilityId === "levitate" && moveType === "ground") {
-    return { multiplier: 0, immunityAbility: "levitate", modifierAbility: null };
+    return { multiplier: 0, immunityAbility: "levitate", immunityEffect: null, modifierAbility: null };
   }
   if (defender.abilityId === "flash-fire" && moveType === "fire") {
-    return { multiplier: 0, immunityAbility: "flash-fire", modifierAbility: null };
+    return { multiplier: 0, immunityAbility: "flash-fire", immunityEffect: null, modifierAbility: null };
   }
 
   let multiplier = typeMultiplier(moveType, defender.types);
@@ -265,7 +279,7 @@ export function damageProfile(move, defender, round = null) {
     }
   }
 
-  return { multiplier, immunityAbility: null, modifierAbility };
+  return { multiplier, immunityAbility: null, immunityEffect: null, modifierAbility };
 }
 
 function activeEffectModifier(sources = [], round = null) {
