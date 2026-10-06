@@ -2,8 +2,7 @@
 
 **Status:** LOCKED BASELINE FOR M05→M12 AUTHORING  
 **Production branch reviewed:** `m6-00-04-work`  
-**Runtime-validated corpus:** M01 + M02 + M03 + M04 + M05  
-**Static-reviewed extension:** M06 — 220 nodes / 484 meaningful choices, runtime CI pending  
+**Runtime-validated corpus:** M01 + M02 + M03 + M04 + M05 + M06  
 **Catalog:** `bookgame/docs/NODE_REUSE_CATALOG.md`
 
 ---
@@ -17,9 +16,10 @@
 | M03 | 250 | 594 |
 | M04 | 253 | 639 |
 | M05 | 240 | 528 |
-| **TOTAL** | **1,134** | **2,633** |
+| M06 | 220 | 484 |
+| **TOTAL** | **1,354** | **3,117** |
 
-Latest final M5 compiler validation reported:
+Latest retained M5 compiler snapshot reported:
 
 - 71 scenes;
 - 1,134 nodes;
@@ -46,21 +46,22 @@ This is intentional. New story content is expected to reuse or compose existing 
 
 ---
 
-# 2A. M06 STATIC EXTENSION EVIDENCE
+# 2A. M06 RUNTIME VALIDATION EVIDENCE
 
-M06 — *Oltre i Confini* is fully authored at **220 logical nodes / 484 meaningful choices**.
+M06 — *Oltre i Confini* is complete at **220 logical nodes / 484 meaningful choices**.
 
-Static evidence:
+Runtime evidence:
 
 - all 15 M06 blocks implemented;
 - exact module budget preserved;
 - all 220 nodes reachable from the real M6 entry;
 - no zero-incoming padding islands;
 - ACT_6 event bindings and E5 A→S Gate are wired;
-- dedicated cycle 1/2/3 and budget regressions are authored;
+- cycle 1/2/3 and budget regressions execute in GitHub Actions;
+- full Bookgame suite: **1,112 passed / 0 failed**;
 - no structural job required a new R39 candidate.
 
-M06 is therefore evidence that **R01→R38 scales into the Rank A→S / international / cutoff phase**. It is not added to the runtime-validated numerical corpus until executable test evidence is available.
+M06 proves that **R01→R38 scales into the Rank A→S / international / cutoff phase** and is now part of the runtime-validated corpus.
 
 ---
 
@@ -172,4 +173,4 @@ This order is now canonical for production.
 
 Current lock:
 
-**R01→R38 / 1,134 runtime-validated logical nodes across five complete modules + 220 additional M06 static-reviewed nodes with no R39 requirement.**
+**R01→R38 / 1,354 runtime-validated logical nodes across six complete modules / 3,117 meaningful choices / no R39 requirement.**
