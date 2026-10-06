@@ -1,0 +1,587 @@
+{
+  "schemaVersion": 1,
+  "id": "m12-coast-callbacks",
+  "moduleId": "M12",
+  "title": "M12_05 — Coast Callbacks",
+  "locationId": "mar_city",
+  "entryNodeId": "callback_entry",
+  "conditions": {
+    "path": "world.flags.m12_ferrox_callbacks_complete",
+    "eq": true
+  },
+  "nodes": {
+    "callback_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Mareasale e la Costa di Sale riportano a galla porto, meteo, Barriera e contrabbando di M4. Il callback legge ciò che accadde davvero, non una versione epilogo standard."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_port",
+          "text": "Parto dal porto e dalle sue conseguenze.",
+          "goto": "port_now"
+        },
+        {
+          "id": "entry_smuggling",
+          "text": "Parto dal vero esito del contrabbando.",
+          "goto": "smuggling_history"
+        },
+        {
+          "id": "entry_reef",
+          "text": "Parto da costa, meteo e Barriera.",
+          "goto": "weather_history"
+        }
+      ]
+    },
+    "port_now": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il porto è ancora un sistema vivo di turni, dogana, ritardi e rotte. Le conseguenze dipendono dai segnali e dagli esiti già registrati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "pressure_history"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "weather_history"
+        }
+      ]
+    },
+    "pressure_history": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Mismatch di manifesti, sigilli, reroute e trasferimenti notturni restano prove distinte quando furono realmente osservate."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "weather_history"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "reef_history"
+        }
+      ]
+    },
+    "weather_history": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Le finestre meteo di M4 restano parte della memoria operativa della costa: aspettare, partire o rinunciare ebbero costi di tempo reali."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "reef_history"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "smuggling_history"
+        }
+      ]
+    },
+    "reef_history": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La Barriera conserva soltanto accessi e osservazioni realmente ottenuti; M12 non retroattivamente concede una visita mai fatta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "smuggling_history"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "intercept"
+        }
+      ]
+    },
+    "smuggling_history": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "smuggling_state è l'asse principale del callback criminale: intercetto, documentazione, monitoraggio, prove insufficienti o problema ignorato rimangono diversi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "intercept"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "documented"
+        }
+      ]
+    },
+    "intercept": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un coordinated_intercept o customs_intercept può aver ridotto la pressione, ma non cancella la rete logistica che l'aveva resa possibile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "documented"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "monitoring"
+        }
+      ]
+    },
+    "documented": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Una route documentata produce conoscenza persistente anche quando non coincide con un arresto o una chiusura completa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "monitoring"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "insufficient"
+        }
+      ]
+    },
+    "monitoring": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il monitoraggio doganale resta un esito incompleto ma concreto: altri possono aver continuato l'indagine mentre eri lontano."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "insufficient"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "ignored"
+        }
+      ]
+    },
+    "insufficient": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Prove insufficienti non diventano sufficienti solo perché la storia principale è avanzata."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "ignored"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "customs"
+        }
+      ]
+    },
+    "ignored": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un problema ignorato viene affidato al Living World: può essersi mosso, peggiorato o trasformato senza aspettarti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "customs"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "archie"
+        }
+      ]
+    },
+    "customs": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Dogana e autorità sono lette attraverso ciò che avevi davvero segnalato e documentato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "archie"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "coast_ecology"
+        }
+      ]
+    },
+    "archie": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Archie può essere richiamato solo se il suo stato, la relazione e la schedule lo rendono plausibile; M12 non lo teletrasporta sulla costa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "coast_ecology"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "local_reputation"
+        }
+      ]
+    },
+    "coast_ecology": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Mare, costa e reef continuano a usare E7 per fauna e incontri. Il callback non crea una seconda ecologia postgame."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "local_reputation"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "living_world"
+        }
+      ]
+    },
+    "local_reputation": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La reputazione di Mareasale resta separata dalla fama del Mondiale: chi ti riconosce può comunque ricordare cosa facesti qui."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "living_world"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "access_now"
+        }
+      ]
+    },
+    "living_world": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "E6 può aver modificato pattuglie, traffici o sicurezza sulla base dell'esito M4 senza attribuire al player interventi off-screen."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "access_now"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "quest_residue"
+        }
+      ]
+    },
+    "access_now": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Rotte e servizi postgame rispettano accessi, tempo e condizioni reali già possedute."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "quest_residue"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "callback_review"
+        }
+      ]
+    },
+    "quest_residue": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Eventuali residui M4 vengono letti nel loro vero stato; una quest conclusa non viene riaperta per produrre nostalgia."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "callback_review"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "callback_synthesis"
+        }
+      ]
+    },
+    "callback_review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Prima di chiudere il callback, M12 separa ciò che il player sapeva da ciò che il mondo ha fatto successivamente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "callback_synthesis"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "complete"
+        }
+      ]
+    },
+    "callback_synthesis": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La sintesi della Costa classifica l'esito del filo contrabbando senza modificare smuggling_state."
+        }
+      ],
+      "choices": [
+        {
+          "id": "class_coordinated",
+          "text": "Registro l'intercetto coordinato senza riscriverne le prove.",
+          "goto": "complete",
+          "conditions": {
+            "path": "world.flags.smuggling_state",
+            "eq": "coordinated_intercept"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_coast_callback_state",
+              "value": "coordinated_intercept"
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_coast_callbacks_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        },
+        {
+          "id": "class_customs",
+          "text": "Registro l'intercetto doganale realmente ottenuto.",
+          "goto": "complete",
+          "conditions": {
+            "path": "world.flags.smuggling_state",
+            "eq": "customs_intercept"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_coast_callback_state",
+              "value": "customs_intercept"
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_coast_callbacks_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        },
+        {
+          "id": "class_documented",
+          "text": "Registro la rotta documentata come conoscenza persistente.",
+          "goto": "complete",
+          "conditions": {
+            "path": "world.flags.smuggling_state",
+            "eq": "route_documented"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_coast_callback_state",
+              "value": "route_documented"
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_coast_callbacks_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        },
+        {
+          "id": "class_monitoring",
+          "text": "Registro il monitoraggio ancora aperto.",
+          "goto": "complete",
+          "conditions": {
+            "path": "world.flags.smuggling_state",
+            "eq": "customs_monitoring"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_coast_callback_state",
+              "value": "customs_monitoring"
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_coast_callbacks_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        },
+        {
+          "id": "class_insufficient",
+          "text": "Registro che le prove erano insufficienti, senza promuoverle retroattivamente.",
+          "goto": "complete",
+          "conditions": {
+            "path": "world.flags.smuggling_state",
+            "eq": "insufficient_evidence"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_coast_callback_state",
+              "value": "insufficient_evidence"
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_coast_callbacks_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        },
+        {
+          "id": "class_ignored",
+          "text": "Registro il problema ignorato o non classificato come storia del Living World.",
+          "goto": "complete",
+          "conditions": {
+            "any": [
+              {
+                "path": "world.flags.smuggling_state",
+                "eq": "ignored"
+              },
+              {
+                "path": "world.flags.smuggling_state",
+                "exists": false
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_coast_callback_state",
+              "value": "ignored_or_offscreen"
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_coast_callbacks_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        }
+      ]
+    },
+    "complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Mareasale e la Costa sono registrate nel postgame. Il percorso può salire verso Altacima e Fulgore."
+        }
+      ],
+      "choices": [
+        {
+          "id": "to_highlands",
+          "text": "Proseguo verso Altacima e Fulgore.",
+          "goto": "m12-highlands-callbacks#callback_entry"
+        },
+        {
+          "id": "review_coast",
+          "text": "Rileggo la sintesi della costa.",
+          "goto": "callback_synthesis"
+        }
+      ]
+    }
+  }
+}
