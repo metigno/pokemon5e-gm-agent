@@ -103,12 +103,14 @@ test("move execution coverage has an explicit non-regression gate", async () => 
   const moves = await data.listMoves();
   const unresolved = moves.filter((move) => !isMoveResolvable(move)).map((move) => move.id);
 
-  assert.ok(unresolved.length <= 168, `unresolved move rules regressed to ${unresolved.length}`);
+  assert.ok(unresolved.length <= 166, `unresolved move rules regressed to ${unresolved.length}`);
   for (const id of [
     "acupressure",
     "feather-dance",
     "lock-on",
     "mean-look",
+    "rain-dance",
+    "sunny-day",
     "agility",
     "autotomize",
     "barrier",
@@ -264,6 +266,55 @@ test("Feather Dance, Mean Look and Lock-On execute their target rules", async ()
   assert.equal(lockedAttack?.natural, 1);
   assert.equal(lockedAttack?.hit, true);
   assert.equal(lockedAttack?.forcedHitConsumed, "lock-on");
+});
+
+test("weather moves persist offline battle state and Weather Ball consumes that state", async () => {
+  const weatherCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1])
+  });
+  let weatherBattle = await weatherCombat.createBattle({
+    encounterId: "FULL_RUNTIME_RAIN_DANCE",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["rain-dance"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["harden"] }
+  });
+  weatherBattle = await weatherCombat.usePlayerMove(weatherBattle, "rain-dance");
+  assert.deepEqual(weatherBattle.environment.weather, {
+    kind: "rain",
+    source: "rain-dance",
+    sourceSide: "player",
+    startedRound: 1,
+    expiresRound: 6
+  });
+
+  const sunCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1])
+  });
+  let sunBattle = await sunCombat.createBattle({
+    encounterId: "FULL_RUNTIME_SUNNY_DAY",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["sunny-day"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["harden"] }
+  });
+  sunBattle = await sunCombat.usePlayerMove(sunBattle, "sunny-day");
+  assert.equal(sunBattle.environment.weather.kind, "harsh-sunlight");
+  assert.equal(sunBattle.environment.weather.expiresRound, 6);
+
+  const ballCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 20, 1, 1, 1, 1, 1])
+  });
+  let ballBattle = await ballCombat.createBattle({
+    encounterId: "FULL_RUNTIME_WEATHER_BALL",
+    environment: { weather: "rain" },
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["weather-ball"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["harden"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+  ballBattle = await ballCombat.usePlayerMove(ballBattle, "weather-ball");
+  const weatherAttack = [...ballBattle.log].reverse().find((event) => event.type === "attack");
+  assert.equal(weatherAttack?.hit, true);
+  assert.equal(weatherAttack?.weather, "rain");
+  assert.equal(weatherAttack?.damageType, "water");
+  assert.equal(weatherAttack?.damageDiceMultiplier, 2);
 });
 
 test("common self-buff moves execute level scaling, AC, damage, speed and concentration rules", async () => {
