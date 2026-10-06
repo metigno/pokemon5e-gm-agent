@@ -5,7 +5,7 @@
 **Purpose:** production map for converting M7 into validated offline story content  
 **Locked authored budget:** **5,200 stitches / 3,200 player choices**
 
-**Module implementation status:** **M7_00–M7_09 IMPLEMENTED / LIBRARY-V2 ALIGNED / STATIC-PASS — RUNTIME CI EVIDENCE PENDING**
+**Module implementation status:** **M7_00–M7_09 IMPLEMENTED / LIBRARY-V2 ALIGNED / RUNTIME PASS**
 
 E1–E7 are reusable infrastructure from M1. A block may extend generic data or content, but must not fork those engines into module-specific substitutes.
 
@@ -118,7 +118,7 @@ The first cycle therefore leaves exactly **144 nodes / 317 meaningful choices** 
 - media/sponsor: no hidden combat/stat bonus;
 - pro preparation: reads actual roster size and does not register the Qualifier;
 - runtime regression authored in `m07-cycle1.test.mjs`;
-- GitHub Actions runtime evidence: **PENDING**.
+- GitHub Actions runtime evidence: **PASS** on commit `0b0cf92fc00c22adb7126dfce9dc1372dd2889a7` (Bookgame Tests run `37450063293`).
 
 Final **COMPLETE** remains reserved for executable runtime evidence.
 
@@ -144,7 +144,7 @@ Final **COMPLETE** remains reserved for executable runtime evidence.
 - no Promotion Trial misuse for WORLD_QUALIFIER (there is no post-S rank);
 - Last Chance remains finite and separate from the main qualifier;
 - dedicated regressions: `m07-cycle2.test.mjs` plus expanded `m07-cycle-budget.test.mjs`;
-- GitHub Actions runtime evidence: **PENDING**.
+- GitHub Actions runtime evidence: **PASS** on commit `0b0cf92fc00c22adb7126dfce9dc1372dd2889a7` (Bookgame Tests run `37450063293`).
 
 # 3. CANONICAL EVENT BINDINGS
 
