@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - pokemon5e-digital-bookgame
+      - bookgame-rc0
+      - bookgame-p5e-runtime-full
     paths:
       - "bookgame/**"
       - "src/bridge/**"

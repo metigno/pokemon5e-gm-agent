@@ -20,11 +20,15 @@ export function baseMovementSpeed(combatant) {
   return { type: "walking", value: 0 };
 }
 
-export function movementSpeed(combatant) {
+export function movementSpeed(combatant, round = null) {
   const base = baseMovementSpeed(combatant);
+  const speedModifier = (combatant.effects?.speedModifierSources ?? [])
+    .filter((source) => round == null || source.expiresRound == null || round < source.expiresRound)
+    .reduce((sum, source) => sum + source.value, 0);
+  const modified = Math.max(0, base.value + speedModifier);
   const value = combatant.statuses?.nonVolatile === "Paralysis"
-    ? base.value / 2
-    : base.value;
+    ? modified / 2
+    : modified;
   return { ...base, value };
 }
 

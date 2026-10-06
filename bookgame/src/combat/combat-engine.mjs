@@ -99,6 +99,60 @@ function addCappedModifier(sources, { source, value, expiresRound }, round, min,
   return actual;
 }
 
+function tieredCombatBonus(level) {
+  if (level >= 17) return 4;
+  if (level >= 10) return 3;
+  if (level >= 5) return 2;
+  return 1;
+}
+
+function effectExpiryRound(move, round) {
+  if (move.duration?.unit === "round") return round + Number(move.duration.value ?? 0);
+  if (move.duration?.unit === "minute") return round + (Number(move.duration.value ?? 0) * 10);
+  return null;
+}
+
+function effectiveAc(combatant, round) {
+  return combatant.ac + activeModifier(combatant.effects?.acModifierSources ?? [], round);
+}
+
+function removeEffectSource(combatant, source, round = null) {
+  const speedSources = combatant.effects?.speedModifierSources ?? [];
+  const speedBefore = round == null ? 0 : activeModifier(speedSources, round);
+  for (const key of [
+    "attackModifierSources",
+    "incomingAttackBonusSources",
+    "damageModifierSources",
+    "acModifierSources",
+    "speedModifierSources"
+  ]) {
+    if (!Array.isArray(combatant.effects?.[key])) continue;
+    combatant.effects[key] = combatant.effects[key].filter((entry) => entry.source !== source);
+  }
+  if (round != null && combatant.turn?.started) {
+    const speedAfter = activeModifier(combatant.effects?.speedModifierSources ?? [], round);
+    combatant.turn.movementRemaining = Math.max(
+      0,
+      combatant.turn.movementRemaining + speedAfter - speedBefore
+    );
+  }
+}
+
+function modifierRuleFor(move, level) {
+  const tier = tieredCombatBonus(level);
+  const rules = {
+    "agility": { speed: 20 },
+    "bulk-up": { ac: tier, damage: tier },
+    "coil": { attack: 1, damage: 1, ac: 1 },
+    "cotton-guard": { ac: 2 },
+    "defend-order": { ac: tier },
+    "hone-claws": { attack: 1, damage: 1, stackCap: 3 },
+    "minimize": { ac: 2 },
+    "rock-polish": { ac: 2, speed: 20 }
+  };
+  return rules[move.id] ?? null;
+}
+
 function moveSlot(move) {
   if (move.time?.unit === "action") return "actionAvailable";
   if (move.time?.unit === "bonus action") return "bonusActionAvailable";
@@ -204,6 +258,21 @@ function isStatusCureMove(move) {
   return STATUS_CURE_MOVES.has(move.id);
 }
 
+const SIMPLE_MODIFIER_MOVES = new Set([
+  "agility",
+  "bulk-up",
+  "coil",
+  "cotton-guard",
+  "defend-order",
+  "hone-claws",
+  "minimize",
+  "rock-polish"
+]);
+
+function isSimpleModifierMove(move) {
+  return SIMPLE_MODIFIER_MOVES.has(move.id);
+}
+
 function healingTargetSide(move, userSide, requestedTargetSide = null) {
   if (move.range?.type === "self") return userSide;
 
@@ -264,6 +333,7 @@ export function isMoveResolvable(move) {
   if (isOhkoMove(move)) return true;
   if (isSaveHpEffectMove(move)) return true;
   if (isStatusCureMove(move)) return true;
+  if (isSimpleModifierMove(move)) return true;
   if (SAVE_EFFECT_MOVES.has(move.id) || AREA_MOVES.has(move.id)) return true;
   if ((move.attack || move.save) && statusFromText(move.description)) return true;
   if (move.id === "struggle") return true;
@@ -297,7 +367,10 @@ function normalizeTrainer(trainer = {}, positionValue) {
 function clearTransientEffects(combatant) {
   combatant.effects = {
     attackModifierSources: [],
-    incomingAttackBonusSources: []
+    incomingAttackBonusSources: [],
+    damageModifierSources: [],
+    acModifierSources: [],
+    speedModifierSources: []
   };
   combatant.concentration = null;
 }
@@ -355,14 +428,19 @@ function endConcentrationState(battle, side, reason) {
   const concentration = combatant?.concentration;
   if (!concentration) return false;
 
-  battle.zones = removeZone(battle.zones, concentration.zoneId);
+  if (concentration.zoneId) {
+    battle.zones = removeZone(battle.zones, concentration.zoneId);
+  }
+  if (concentration.effectSource) {
+    removeEffectSource(combatant, concentration.effectSource, battle.round);
+  }
   combatant.concentration = null;
   battle.log.push({
     type: "concentration_end",
     round: battle.round,
     actor: side,
     reason,
-    zoneId: concentration.zoneId,
+    zoneId: concentration.zoneId ?? null,
     moveId: concentration.moveId
   });
   return true;
@@ -453,7 +531,7 @@ function endTurnInternal(battle, side, dice) {
   combatant.turn.actionAvailable = true;
   combatant.turn.bonusActionAvailable = true;
   combatant.turn.disengaged = false;
-  combatant.turn.movementRemaining = movementSpeed(combatant).value;
+  combatant.turn.movementRemaining = movementSpeed(combatant, next.round).value;
   advanceTurnIndex(next);
   return next;
 }
@@ -718,7 +796,10 @@ export class Pokemon5eCombatEngine {
       statuses,
       effects: {
         attackModifierSources: [],
-        incomingAttackBonusSources: []
+        incomingAttackBonusSources: [],
+        damageModifierSources: [],
+        acModifierSources: [],
+        speedModifierSources: []
       },
       turn: {
         started: false,
@@ -819,11 +900,18 @@ export class Pokemon5eCombatEngine {
 
     if (combatant.turn.started) return next;
 
+    if (
+      combatant.concentration?.expiresRound != null &&
+      next.round >= combatant.concentration.expiresRound
+    ) {
+      endConcentrationState(next, side, "duration");
+    }
+
     combatant.turn.started = true;
     combatant.turn.actionAvailable = true;
     combatant.turn.bonusActionAvailable = true;
     combatant.turn.disengaged = false;
-    combatant.turn.movementRemaining = movementSpeed(combatant).value;
+    combatant.turn.movementRemaining = movementSpeed(combatant, next.round).value;
     combatant.reactionAvailable = !reactionsDisabled(combatant);
 
     if (side === "player") {
@@ -982,6 +1070,11 @@ export class Pokemon5eCombatEngine {
     const attackBonus =
       activeModifier(attacker.effects.attackModifierSources, next.round) +
       activeModifier(defender.effects.incomingAttackBonusSources, next.round);
+    const damageBonus = activeModifier(attacker.effects.damageModifierSources, next.round);
+    const defenderForResolution = {
+      ...defender,
+      ac: effectiveAc(defender, next.round)
+    };
 
     const flashFireWasCharged =
       attacker.abilityId === "flash-fire" &&
@@ -990,10 +1083,11 @@ export class Pokemon5eCombatEngine {
 
     const result = resolveAttack({
       attacker,
-      defender,
+      defender: defenderForResolution,
       move,
       dice: this.dice,
       extraAttackModifier: attackBonus,
+      extraDamageModifier: damageBonus,
       forceDisadvantage
     });
 
@@ -1054,8 +1148,9 @@ export class Pokemon5eCombatEngine {
       ? { rolls: [], natural: null, mode: "automatic" }
       : rollD20(this.dice, { disadvantage: attackHasDisadvantage(attacker) });
     const attackTotal = automaticHit ? null : roll.natural + pb + moveModifier;
+    const defenderAc = effectiveAc(defender, next.round);
     const hit = automaticHit || roll.natural === 20 ||
-      (roll.natural !== 1 && attackTotal >= defender.ac);
+      (roll.natural !== 1 && attackTotal >= defenderAc);
     const damage = hit ? Math.max(0, 2 + moveModifier) : 0;
 
     defender.hp.current = Math.max(0, defender.hp.current - damage);
@@ -1073,7 +1168,7 @@ export class Pokemon5eCombatEngine {
       moveModifier,
       attackRoll: roll,
       attackTotal,
-      defenderAc: defender.ac,
+      defenderAc,
       hit,
       damage,
       targetHpAfter: defender.hp.current
@@ -1098,8 +1193,9 @@ export class Pokemon5eCombatEngine {
     });
     const attackModifier = stats.toHit + attackBonus;
     const attackTotal = roll.natural + attackModifier;
+    const defenderAc = effectiveAc(defender, next.round);
     const hit = roll.natural === 20 ||
-      (roll.natural !== 1 && attackTotal >= defender.ac);
+      (roll.natural !== 1 && attackTotal >= defenderAc);
     const status = hit ? attackHitStatus(move, roll.natural) : null;
     const statusResult = applyMoveStatus(attacker, defender, status);
 
@@ -1113,7 +1209,7 @@ export class Pokemon5eCombatEngine {
       attackRoll: roll,
       attackModifier,
       attackTotal,
-      defenderAc: defender.ac,
+      defenderAc,
       hit,
       status,
       statusResult
@@ -1288,6 +1384,73 @@ export class Pokemon5eCombatEngine {
     return next;
   }
 
+  async resolveSimpleModifierMove(next, side, move) {
+    const combatant = next[side];
+    const rule = modifierRuleFor(move, combatant.level);
+    if (!rule) throw new Error(`No modifier rule for ${move.id}`);
+
+    if (move.duration?.concentration) {
+      endConcentrationState(next, side, "new_concentration");
+    }
+
+    const expiresRound = effectExpiryRound(move, next.round);
+    const speedBefore = activeModifier(combatant.effects.speedModifierSources, next.round);
+    if (!rule.stackCap) removeEffectSource(combatant, move.id, next.round);
+
+    const applied = {};
+    const specs = [
+      ["attack", "attackModifierSources"],
+      ["damage", "damageModifierSources"],
+      ["ac", "acModifierSources"],
+      ["speed", "speedModifierSources"]
+    ];
+    for (const [name, key] of specs) {
+      const value = Number(rule[name] ?? 0);
+      if (!value) continue;
+      if (rule.stackCap && (name === "attack" || name === "damage")) {
+        applied[name] = addCappedModifier(
+          combatant.effects[key],
+          { source: move.id, value, expiresRound },
+          next.round,
+          -Infinity,
+          rule.stackCap
+        );
+      } else {
+        combatant.effects[key].push({ source: move.id, value, expiresRound });
+        applied[name] = value;
+      }
+    }
+
+    const speedAfter = activeModifier(combatant.effects.speedModifierSources, next.round);
+    if (combatant.turn.started && speedAfter !== speedBefore) {
+      combatant.turn.movementRemaining = Math.max(
+        0,
+        combatant.turn.movementRemaining + speedAfter - speedBefore
+      );
+    }
+
+    if (move.duration?.concentration) {
+      combatant.concentration = {
+        zoneId: null,
+        moveId: move.id,
+        effectSource: move.id,
+        expiresRound
+      };
+    }
+
+    next.log.push({
+      type: "modifier_move",
+      round: next.round,
+      actor: side,
+      moveId: move.id,
+      moveName: move.name,
+      applied,
+      expiresRound,
+      concentration: Boolean(move.duration?.concentration)
+    });
+    return next;
+  }
+
   async resolveAutomaticDamageMove(next, side, move) {
     const attacker = next[side];
     const targetSide = otherSide(side);
@@ -1298,13 +1461,17 @@ export class Pokemon5eCombatEngine {
     }
 
     const stats = calculateMoveStats(attacker, move);
+    const damageBonus = activeModifier(attacker.effects.damageModifierSources, next.round);
     const multiplier = damageMultiplierFor(move, defender);
     const hits = [];
     let totalDamage = 0;
 
     for (let index = 0; index < automaticDamageHitCount(move); index += 1) {
       const damageRoll = rollSaveMoveDamage(attacker, move, stats.damageDice, this.dice);
-      const rawDamage = Math.max(0, damageRoll.selected.total + stats.damageModifier);
+      const rawDamage = Math.max(
+        0,
+        damageRoll.selected.total + stats.damageModifier + damageBonus
+      );
       const damage = multiplier === 0.5 ? Math.floor(rawDamage / 2) : rawDamage * multiplier;
       totalDamage += damage;
       hits.push({ index: index + 1, damageRoll, rawDamage, damage });
@@ -1356,7 +1523,11 @@ export class Pokemon5eCombatEngine {
     });
 
     const damageRoll = rollSaveMoveDamage(attacker, move, stats.damageDice, this.dice);
-    const rawDamage = Math.max(0, damageRoll.selected.total + stats.damageModifier);
+    const damageBonus = activeModifier(attacker.effects.damageModifierSources, next.round);
+    const rawDamage = Math.max(
+      0,
+      damageRoll.selected.total + stats.damageModifier + damageBonus
+    );
     const multiplier = damageMultiplierFor(move, defender);
     let damage = multiplier === 0.5 ? Math.floor(rawDamage / 2) : rawDamage * multiplier;
     if (save.success) damage = saveAllowsHalfDamage(move) ? Math.floor(damage / 2) : 0;
@@ -1379,7 +1550,7 @@ export class Pokemon5eCombatEngine {
       moveName: move.name,
       save,
       damageRoll,
-      damageModifier: stats.damageModifier,
+      damageModifier: stats.damageModifier + damageBonus,
       rawDamage,
       typeMultiplier: multiplier,
       damage,
@@ -1531,6 +1702,8 @@ export class Pokemon5eCombatEngine {
       next = await this.resolveSaveHpEffectMove(next, side, move);
     } else if (isStatusCureMove(move)) {
       next = await this.resolveStatusCureMove(next, side, move);
+    } else if (isSimpleModifierMove(move)) {
+      next = await this.resolveSimpleModifierMove(next, side, move);
     } else if (AREA_MOVES.has(move.id)) {
       const stats = calculateMoveStats(attacker, move);
       const center = areaTarget ?? clone(defender.position);

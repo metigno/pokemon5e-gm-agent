@@ -101,10 +101,69 @@ test("move execution coverage has an explicit non-regression gate", async () => 
   const moves = await data.listMoves();
   const unresolved = moves.filter((move) => !isMoveResolvable(move)).map((move) => move.id);
 
-  assert.ok(unresolved.length <= 229, `unresolved move rules regressed to ${unresolved.length}`);
+  assert.ok(unresolved.length <= 221, `unresolved move rules regressed to ${unresolved.length}`);
   assert.ok(unresolved.includes("acupressure"));
-  assert.ok(!unresolved.includes("heal-pulse"));
-  assert.ok(!unresolved.includes("recover"));
+  for (const id of [
+    "agility",
+    "bulk-up",
+    "coil",
+    "cotton-guard",
+    "defend-order",
+    "hone-claws",
+    "minimize",
+    "rock-polish",
+    "heal-pulse",
+    "recover"
+  ]) {
+    assert.ok(!unresolved.includes(id), `${id} should be executable`);
+  }
+});
+
+test("common self-buff moves execute level scaling, AC, damage, speed and concentration rules", async () => {
+  const combat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 19, 4, 1])
+  });
+  let battle = await combat.createBattle({
+    encounterId: "FULL_RUNTIME_BULK_UP",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["bulk-up", "tackle"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+
+  battle = await combat.usePlayerMove(battle, "bulk-up");
+  assert.equal(battle.player.concentration?.moveId, "bulk-up");
+  assert.equal(battle.player.effects.acModifierSources.at(-1).value, 2);
+  assert.equal(battle.player.effects.damageModifierSources.at(-1).value, 2);
+
+  const baseAc = battle.player.ac;
+  battle = await combat.endPlayerTurn(battle);
+  battle = await combat.useOpponentTurn(battle);
+
+  const incomingAttack = [...battle.log].reverse().find((event) => event.type === "attack");
+  assert.equal(incomingAttack.defenderAc, baseAc + 2);
+  assert.equal(battle.player.concentration, null);
+  assert.equal(battle.player.effects.acModifierSources.length, 0);
+  assert.ok(
+    battle.log.some(
+      (event) => event.type === "concentration_end" && event.reason === "failed_damage_save"
+    )
+  );
+
+  const speedCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1])
+  });
+  let speedBattle = await speedCombat.createBattle({
+    encounterId: "FULL_RUNTIME_AGILITY",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["agility", "tackle"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+  const baseMovement = speedBattle.player.turn.movementRemaining;
+  speedBattle = await speedCombat.usePlayerMove(speedBattle, "agility");
+  assert.equal(speedBattle.player.effects.speedModifierSources.at(-1).value, 20);
+  assert.equal(speedBattle.player.turn.movementRemaining, baseMovement + 20);
 });
 
 test("regional-form lookup resolves real upstream species ids", async () => {

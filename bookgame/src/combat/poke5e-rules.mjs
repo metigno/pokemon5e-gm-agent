@@ -284,6 +284,7 @@ export function resolveAttack({
   move,
   dice,
   extraAttackModifier = 0,
+  extraDamageModifier = 0,
   forceDisadvantage = false
 }) {
   const stats = calculateMoveStats(attacker, move);
@@ -329,7 +330,7 @@ export function resolveAttack({
     advantage: damageRollHasAdvantage(attacker, move),
     disadvantage: damageHasDisadvantage(attacker)
   });
-  const effectiveDamageModifier = stats.damageModifier + gutsBonus;
+  const effectiveDamageModifier = stats.damageModifier + gutsBonus + extraDamageModifier;
   const rawDamage = Math.max(0, damageRoll.selected.total + effectiveDamageModifier);
   const {
     multiplier,
