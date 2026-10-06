@@ -1009,11 +1009,93 @@
       },
       "outcomes": [
         {
-          "id": "cutoff_window",
+          "id": "rank_s_at_cutoff",
+          "when": {
+            "path": "competition.rank",
+            "eq": "S"
+          },
           "effects": [
             {
               "type": "set_flag",
               "key": "a6_cutoff_available",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "world_cutoff_state",
+              "value": "rank_s_at_cutoff"
+            },
+            {
+              "type": "set_flag",
+              "key": "world_cutoff_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "rank_a_at_cutoff",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "a6_cutoff_available",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "world_cutoff_state",
+              "value": "rank_a_at_cutoff"
+            },
+            {
+              "type": "set_flag",
+              "key": "world_cutoff_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M6_MODULE_OUTCOME_WINDOW",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "competition.rank",
+            "eq": "S"
+          },
+          {
+            "path": "world.flags.red_met",
+            "eq": true
+          },
+          {
+            "path": "world.flags.friend_beat_06_complete",
+            "eq": true
+          },
+          {
+            "path": "world.flags.ancient_mystery_layer_2",
+            "exists": true
+          },
+          {
+            "path": "world.flags.world_cutoff_state",
+            "exists": true
+          },
+          {
+            "path": "world.flags.m6_world_cutoff_review_complete",
+            "eq": true
+          },
+          {
+            "path": "world.flags.m6_first_lighthouse_return_complete",
+            "eq": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "module_outcome_window",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_module_outcome_available",
               "value": true
             }
           ]
