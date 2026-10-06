@@ -248,3 +248,104 @@ export function resolveChaseRound(state, {
   if (!next.outcome) next.round += 1;
   return next;
 }
+
+
+export function resolveTrainerDeathSave(trainer, dice) {
+  trainer.death ??= {
+    state: "alive",
+    deathSaveSuccesses: 0,
+    deathSaveFailures: 0,
+    stable: false,
+    dead: false
+  };
+
+  if ((trainer.hp?.current ?? 0) > 0) {
+    return { rolled: false, reason: "trainer_conscious", state: trainer.death.state };
+  }
+  if (trainer.death.dead || trainer.death.state === "dead") {
+    return { rolled: false, reason: "trainer_dead", state: "dead" };
+  }
+  if (trainer.death.stable) {
+    return { rolled: false, reason: "trainer_stable", state: trainer.death.state };
+  }
+
+  const natural = dice.roll(20);
+  let successes = Number(trainer.death.deathSaveSuccesses ?? 0);
+  let failures = Number(trainer.death.deathSaveFailures ?? 0);
+  let regainedHp = 0;
+
+  if (natural === 20) {
+    trainer.hp.current = 1;
+    successes = 0;
+    failures = 0;
+    regainedHp = 1;
+    trainer.death.state = "alive";
+    trainer.death.stable = false;
+    trainer.death.dead = false;
+  } else if (natural === 1) {
+    failures += 2;
+  } else if (natural >= 10) {
+    successes += 1;
+  } else {
+    failures += 1;
+  }
+
+  if (natural !== 20) {
+    if (failures >= 3) {
+      failures = 3;
+      trainer.death.state = "dead";
+      trainer.death.dead = true;
+      trainer.death.stable = false;
+    } else if (successes >= 3) {
+      successes = 3;
+      trainer.death.state = "stable";
+      trainer.death.stable = true;
+      trainer.death.dead = false;
+    } else {
+      trainer.death.state = "dying";
+      trainer.death.dead = false;
+      trainer.death.stable = false;
+    }
+  }
+
+  trainer.death.deathSaveSuccesses = successes;
+  trainer.death.deathSaveFailures = failures;
+  return {
+    rolled: true,
+    natural,
+    successes,
+    failures,
+    regainedHp,
+    state: trainer.death.state,
+    stable: trainer.death.stable,
+    dead: trainer.death.dead
+  };
+}
+
+export function damageTrainerAtZero(trainer, { critical = false } = {}) {
+  trainer.death ??= {
+    state: "dying",
+    deathSaveSuccesses: 0,
+    deathSaveFailures: 0,
+    stable: false,
+    dead: false
+  };
+  if ((trainer.hp?.current ?? 0) > 0 || trainer.death.dead) {
+    return { applied: false, failures: trainer.death.deathSaveFailures ?? 0 };
+  }
+  trainer.death.stable = false;
+  trainer.death.state = "dying";
+  trainer.death.deathSaveFailures = Math.min(
+    3,
+    Number(trainer.death.deathSaveFailures ?? 0) + (critical ? 2 : 1)
+  );
+  if (trainer.death.deathSaveFailures >= 3) {
+    trainer.death.state = "dead";
+    trainer.death.dead = true;
+  }
+  return {
+    applied: true,
+    failures: trainer.death.deathSaveFailures,
+    dead: trainer.death.dead
+  };
+}
