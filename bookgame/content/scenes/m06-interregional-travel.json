@@ -1,0 +1,418 @@
+{
+  "schemaVersion": 1,
+  "id": "m06-interregional-travel",
+  "moduleId": "M06",
+  "title": "M6_02 — Interregional Travel",
+  "locationId": "alt_town_terminal",
+  "entryNodeId": "travel_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m5_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m06_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m6_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "A"
+      },
+      {
+        "path": "world.flags.m6_route_selection_complete",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "travel_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La partenza interregionale usa lo stesso tempo persistente della carriera. Non esistono salti gratuiti fra città: il viaggio può consumare ore, subire ritardi o essere rinviato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "travel_board",
+          "text": "Vado al banco partenze.",
+          "goto": "departure_board"
+        },
+        {
+          "id": "travel_route",
+          "text": "Rileggo la rotta scelta.",
+          "goto": "route_callback"
+        },
+        {
+          "id": "travel_wait",
+          "text": "Aspetto una finestra successiva.",
+          "goto": "wait",
+          "timeCostMinutes": 60
+        }
+      ]
+    },
+    "departure_board": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il banco mostra la destinazione registrata e le alternative ancora legalmente disponibili. Solo la tratta scelta produce l'arrivo corrispondente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "depart_solaria",
+          "text": "Parto per Solaria.",
+          "goto": "solaria_transit",
+          "conditions": {
+            "path": "world.flags.m6_route_plan",
+            "eq": "solaria"
+          },
+          "timeCostMinutes": 240,
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_travel_started",
+              "value": "solaria"
+            },
+            {
+              "type": "set_location",
+              "locationId": "interregional_transit"
+            }
+          ]
+        },
+        {
+          "id": "depart_luminara",
+          "text": "Parto per Luminara.",
+          "goto": "luminara_transit",
+          "conditions": {
+            "path": "world.flags.m6_route_plan",
+            "eq": "luminara"
+          },
+          "timeCostMinutes": 300,
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_travel_started",
+              "value": "luminara"
+            },
+            {
+              "type": "set_location",
+              "locationId": "interregional_transit"
+            }
+          ]
+        },
+        {
+          "id": "depart_delay",
+          "text": "Rimando la partenza senza cambiare piano.",
+          "goto": "delay"
+        },
+        {
+          "id": "depart_change",
+          "text": "Torno a scegliere la rotta.",
+          "goto": "m06-route-selection#route_board",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        }
+      ]
+    },
+    "solaria_transit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il trasferimento verso Solaria attraversa più reti locali. Il tempo è già passato: il viaggio non viene compresso in una riga narrativa senza costo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "solaria_customs",
+          "text": "Passo il controllo di accesso della rete.",
+          "goto": "customs"
+        },
+        {
+          "id": "solaria_delay",
+          "text": "Accetto una coincidenza più lenta.",
+          "goto": "delay",
+          "timeCostMinutes": 60
+        }
+      ]
+    },
+    "luminara_transit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La tratta per Luminara è più lunga e affollata. L'arrivo dipende da connessioni reali, non da un flag di destinazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "luminara_customs",
+          "text": "Passo il controllo di accesso della rete.",
+          "goto": "customs"
+        },
+        {
+          "id": "luminara_delay",
+          "text": "Aspetto la coincidenza successiva.",
+          "goto": "delay",
+          "timeCostMinutes": 60
+        }
+      ]
+    },
+    "customs": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il controllo verifica licenza e stato della tratta. Non modifica Rank, roster o risultati; serve solo a mantenere causale l'accesso interregionale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "customs_solaria",
+          "text": "La tratta è Solaria: completo l'arrivo.",
+          "goto": "arrival_solaria",
+          "conditions": {
+            "path": "world.flags.m6_travel_started",
+            "eq": "solaria"
+          }
+        },
+        {
+          "id": "customs_luminara",
+          "text": "La tratta è Luminara: completo l'arrivo.",
+          "goto": "arrival_luminara",
+          "conditions": {
+            "path": "world.flags.m6_travel_started",
+            "eq": "luminara"
+          }
+        }
+      ]
+    },
+    "delay": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un ritardo può cambiare orari e schedule senza annullare la carriera. Il piano resta persistente finché non lo cambi esplicitamente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "delay_departures",
+          "text": "Torno al banco partenze.",
+          "goto": "departure_board"
+        },
+        {
+          "id": "delay_wait",
+          "text": "Lascio passare ancora un'ora.",
+          "goto": "wait",
+          "timeCostMinutes": 60
+        }
+      ]
+    },
+    "arrival_solaria": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Solaria ti accoglie come trainer Rank A in trasferta. Essere arrivato non significa aver vinto nulla: il circuito locale deve ancora essere affrontato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "solaria_register",
+          "text": "Registro l'arrivo a Solaria.",
+          "goto": "arrival_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_first_destination",
+              "value": "solaria"
+            },
+            {
+              "type": "set_flag",
+              "key": "m6_interregional_travel_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "solaria_hub"
+            }
+          ]
+        },
+        {
+          "id": "solaria_red",
+          "text": "Osservo chi si sta muovendo nel circuito.",
+          "goto": "red_rumor",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_red_context",
+              "value": "solaria"
+            }
+          ]
+        }
+      ]
+    },
+    "arrival_luminara": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Luminara rende visibile la densità del circuito avanzato: molti trainer, poche finestre buone e nessun vantaggio per chi presume che Rank A basti da solo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "luminara_register",
+          "text": "Registro l'arrivo a Luminara.",
+          "goto": "arrival_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_first_destination",
+              "value": "luminara"
+            },
+            {
+              "type": "set_flag",
+              "key": "m6_interregional_travel_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "luminara_hub"
+            }
+          ]
+        },
+        {
+          "id": "luminara_red",
+          "text": "Osservo chi si sta muovendo nel circuito.",
+          "goto": "red_rumor",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_red_context",
+              "value": "luminara"
+            }
+          ]
+        }
+      ]
+    },
+    "route_callback": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La route persistente è un dato di viaggio, non un risultato competitivo. Puoi ancora tornare alla selezione finché non completi la partenza."
+        }
+      ],
+      "choices": [
+        {
+          "id": "route_depart",
+          "text": "Procedo al banco partenze.",
+          "goto": "departure_board"
+        },
+        {
+          "id": "route_change",
+          "text": "Riapro la selezione.",
+          "goto": "m06-route-selection#route_board",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        }
+      ]
+    },
+    "red_rumor": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Fra i nomi che ricorrono nei risultati compare Red: poche dichiarazioni, molte presenze ad alto livello, spostamenti coerenti con il circuito. Il rumor non vale come incontro."
+        }
+      ],
+      "choices": [
+        {
+          "id": "red_note",
+          "text": "Registro solo l'informazione pubblica.",
+          "goto": "arrival_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "red_rumor_heard",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "red_ignore",
+          "text": "Ignoro il nome e continuo con il mio arrivo.",
+          "goto": "arrival_close"
+        }
+      ]
+    },
+    "arrival_close": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il viaggio è concluso e la nuova area entra nello stato persistente. Il prossimo passo può essere l'incontro con Red oppure l'esplorazione del circuito."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_red",
+          "text": "Cerco un contesto plausibile per incontrare Red.",
+          "goto": "m06-red-enters#red_entry"
+        },
+        {
+          "id": "close_route",
+          "text": "Torno alla selezione delle tratte.",
+          "goto": "m06-route-selection#route_entry"
+        }
+      ]
+    },
+    "return_board": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Tornare indietro resta possibile quando il calendario lo consente, ma ogni viaggio futuro dovrà consumare tempo reale a sua volta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "return_departure",
+          "text": "Torno al banco partenze.",
+          "goto": "departure_board"
+        },
+        {
+          "id": "return_close",
+          "text": "Chiudo il riepilogo del viaggio.",
+          "goto": "arrival_close"
+        }
+      ]
+    },
+    "wait": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'attesa aggiorna il mondo condiviso. Non assegna un arrivo, non incontra Red e non altera il Rank."
+        }
+      ],
+      "choices": [
+        {
+          "id": "wait_board",
+          "text": "Ritorno al banco partenze.",
+          "goto": "departure_board"
+        },
+        {
+          "id": "wait_route",
+          "text": "Rivedo la rotta persistente.",
+          "goto": "route_callback"
+        }
+      ]
+    }
+  }
+}
