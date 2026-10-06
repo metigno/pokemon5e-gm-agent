@@ -1,0 +1,382 @@
+{
+  "schemaVersion": 1,
+  "id": "m11-rei-thread",
+  "moduleId": "M11",
+  "title": "M11_01 — Rei Thread",
+  "locationId": "world_knockout_hall",
+  "entryNodeId": "rei_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m11_final_four_lock_complete",
+        "eq": true
+      },
+      {
+        "path": "competition.world.knockout.sfOpened",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "rei_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Rei entra nel modulo come trainer con una corsa propria. Prima di parlarci, il gioco controlla se è davvero nel Top4."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rei_entry_next",
+          "text": "Proseguo verso Rei Status.",
+          "goto": "rei_status"
+        },
+        {
+          "id": "rei_entry_alt",
+          "text": "Confronto questo punto con Schedule Gate.",
+          "goto": "schedule_gate"
+        },
+        {
+          "id": "rei_entry_deep",
+          "text": "Approfondisco Public Context.",
+          "goto": "public_context"
+        }
+      ]
+    },
+    "rei_status": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il suo stato competitivo proviene dal Top4 E5: presente o eliminato sono entrambi risultati validi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rei_status_next",
+          "text": "Proseguo verso Schedule Gate.",
+          "goto": "schedule_gate"
+        },
+        {
+          "id": "rei_status_alt",
+          "text": "Confronto questo punto con Public Context.",
+          "goto": "public_context"
+        },
+        {
+          "id": "rei_status_deep",
+          "text": "Approfondisco Roster Read.",
+          "goto": "roster_read"
+        }
+      ]
+    },
+    "schedule_gate": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un incontro fisico con Rei è legale solo se è ancora nel Top4 e il suo schedule lo colloca nello stesso venue del player."
+        }
+      ],
+      "choices": [
+        {
+          "id": "schedule_meet",
+          "text": "Rei è davvero qui: mi avvicino.",
+          "goto": "conversation",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.world.knockout.reiInTop4",
+                "eq": true
+              },
+              {
+                "path": "npcs.Rei.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.Rei.schedule.locationId",
+                "eq": "world_knockout_hall"
+              },
+              {
+                "path": "world.locationId",
+                "eq": "world_knockout_hall"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Rei",
+              "key": "introduced",
+              "value": true
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Rei",
+              "delta": 1
+            }
+          ]
+        },
+        {
+          "id": "schedule_public",
+          "text": "Non forzo l'incontro: seguo il contesto pubblico.",
+          "goto": "public_context"
+        },
+        {
+          "id": "schedule_bracket",
+          "text": "Prima controllo il suo posto nel bracket.",
+          "goto": "bracket_truth"
+        }
+      ]
+    },
+    "public_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se Rei non è raggiungibile, restano informazioni pubbliche sul suo percorso e sul suo Samurott-Hisui, senza accesso a dati segreti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "public_context_next",
+          "text": "Proseguo verso Roster Read.",
+          "goto": "roster_read"
+        },
+        {
+          "id": "public_context_alt",
+          "text": "Confronto questo punto con Relationship.",
+          "goto": "relationship"
+        },
+        {
+          "id": "public_context_deep",
+          "text": "Approfondisco Pressure.",
+          "goto": "pressure"
+        }
+      ]
+    },
+    "roster_read": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il roster di Rei è stage-aware e persistente. Nessuna scena gli assegna un team costruito apposta per battere il player."
+        }
+      ],
+      "choices": [
+        {
+          "id": "roster_read_next",
+          "text": "Proseguo verso Relationship.",
+          "goto": "relationship"
+        },
+        {
+          "id": "roster_read_alt",
+          "text": "Confronto questo punto con Pressure.",
+          "goto": "pressure"
+        }
+      ]
+    },
+    "relationship": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La relazione può cambiare tono, fiducia e callback; non può cambiare il risultato della sua semifinale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "relationship_next",
+          "text": "Proseguo verso Pressure.",
+          "goto": "pressure"
+        },
+        {
+          "id": "relationship_alt",
+          "text": "Confronto questo punto con Bracket Truth.",
+          "goto": "bracket_truth"
+        }
+      ]
+    },
+    "pressure": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Essere tra gli ultimi quattro alza la pressione, non concede bonus invisibili né svantaggi automatici."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pressure_next",
+          "text": "Proseguo verso Bracket Truth.",
+          "goto": "bracket_truth"
+        },
+        {
+          "id": "pressure_alt",
+          "text": "Confronto questo punto con No Plot Armor.",
+          "goto": "no_plot_armor"
+        }
+      ]
+    },
+    "bracket_truth": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se Rei è il tuo avversario lo decide playerSfOpponent; se è nell'altra semifinale, può ancora perdere prima della finale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "bracket_truth_next",
+          "text": "Proseguo verso No Plot Armor.",
+          "goto": "no_plot_armor"
+        },
+        {
+          "id": "bracket_truth_alt",
+          "text": "Confronto questo punto con Prior Callback.",
+          "goto": "prior_callback"
+        }
+      ]
+    },
+    "no_plot_armor": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Rei non ha plot armor. Il resolver e l'eventuale combattimento ufficiale sono autorità sul risultato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "no_plot_armor_next",
+          "text": "Proseguo verso Prior Callback.",
+          "goto": "prior_callback"
+        },
+        {
+          "id": "no_plot_armor_alt",
+          "text": "Confronto questo punto con Conversation.",
+          "goto": "conversation"
+        }
+      ]
+    },
+    "prior_callback": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Gli incontri precedenti con Rei possono cambiare il dialogo, mai attribuire ricompense o vittorie non ottenute."
+        }
+      ],
+      "choices": [
+        {
+          "id": "prior_callback_next",
+          "text": "Proseguo verso Conversation.",
+          "goto": "conversation"
+        },
+        {
+          "id": "prior_callback_alt",
+          "text": "Confronto questo punto con Remote Context.",
+          "goto": "remote_context"
+        }
+      ]
+    },
+    "conversation": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Parlare con Rei può modificare relazione e informazione, lasciando intatto WORLD_SF."
+        }
+      ],
+      "choices": [
+        {
+          "id": "conversation_next",
+          "text": "Proseguo verso Remote Context.",
+          "goto": "remote_context"
+        },
+        {
+          "id": "conversation_alt",
+          "text": "Confronto questo punto con Commit.",
+          "goto": "commit"
+        }
+      ]
+    },
+    "remote_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se il contatto fisico non è plausibile, il modulo conserva soltanto il contesto remoto/pubblico consentito."
+        }
+      ],
+      "choices": [
+        {
+          "id": "remote_context_next",
+          "text": "Proseguo verso Commit.",
+          "goto": "commit"
+        },
+        {
+          "id": "remote_context_alt",
+          "text": "Confronto questo punto con Handoff.",
+          "goto": "handoff"
+        }
+      ]
+    },
+    "commit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il thread si chiude registrando soltanto il fatto che il player ha attraversato questo beat, non un esito competitivo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "commit_now",
+          "text": "Chiudo il thread di Rei senza alterare WORLD_SF.",
+          "goto": "handoff",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m11_rei_thread_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "commit_review",
+          "text": "Rivedo la verità del bracket.",
+          "goto": "bracket_truth"
+        }
+      ]
+    },
+    "handoff": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La semifinale resta davanti al player con lo stesso avversario e lo stesso stato squadra."
+        }
+      ],
+      "choices": [
+        {
+          "id": "handoff_prep",
+          "text": "Passo alla preparazione della semifinale.",
+          "goto": "m11-sf-prep#prep_entry"
+        },
+        {
+          "id": "handoff_rei",
+          "text": "Rileggo il thread di Rei.",
+          "goto": "rei_status"
+        }
+      ]
+    },
+    "complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Rei è stato trattato come competitor reale, presente o assente secondo lo stato del Mondiale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "complete_next",
+          "text": "Proseguo verso Rei Entry.",
+          "goto": "rei_entry"
+        },
+        {
+          "id": "complete_alt",
+          "text": "Confronto questo punto con Rei Status.",
+          "goto": "rei_status"
+        }
+      ]
+    }
+  }
+}
