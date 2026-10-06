@@ -1,0 +1,777 @@
+{
+  "schemaVersion": 1,
+  "id": "m06-friend-beat-06",
+  "moduleId": "M06",
+  "title": "M6_06 — FRIEND_BEAT_06",
+  "locationId": "interregional_circuit",
+  "entryNodeId": "friend_call",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m5_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m06_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m6_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "A"
+      },
+      {
+        "path": "world.flags.m6_hidden_trajectories_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.friend_beat_06_available",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "friend_call": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "FRIEND_BEAT_06 usa l'amico selezionato dalla traiettoria visibile e la modalità calcolata dal Living World. Nessun membro dei Five compare per obbligo scenico."
+        }
+      ],
+      "choices": [
+        {
+          "id": "dispatch_luke",
+          "text": "Il contatto è Luke.",
+          "goto": "luke_contact",
+          "conditions": {
+            "path": "world.flags.friend_beat_06_friend_id",
+            "eq": "Luke"
+          }
+        },
+        {
+          "id": "dispatch_mattew",
+          "text": "Il contatto è Mattew.",
+          "goto": "mattew_contact",
+          "conditions": {
+            "path": "world.flags.friend_beat_06_friend_id",
+            "eq": "Mattew"
+          }
+        },
+        {
+          "id": "dispatch_daniel",
+          "text": "Il contatto è Daniel.",
+          "goto": "daniel_contact",
+          "conditions": {
+            "path": "world.flags.friend_beat_06_friend_id",
+            "eq": "Daniel"
+          }
+        },
+        {
+          "id": "dispatch_edward",
+          "text": "Il contatto è Edward.",
+          "goto": "edward_contact",
+          "conditions": {
+            "path": "world.flags.friend_beat_06_friend_id",
+            "eq": "Edward"
+          }
+        },
+        {
+          "id": "dispatch_fab",
+          "text": "Il contatto è Fab.",
+          "goto": "fab_contact",
+          "conditions": {
+            "path": "world.flags.friend_beat_06_friend_id",
+            "eq": "Fab"
+          }
+        },
+        {
+          "id": "friend_defer",
+          "text": "Rimando il contatto senza cambiare chi è stato selezionato.",
+          "goto": "defer"
+        }
+      ]
+    },
+    "luke_contact": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Luke è il contatto selezionato. Il payoff di Hidden Trajectories entra ora in una conversazione reale; modalità e profondità dipendono dalla presenza effettiva."
+        }
+      ],
+      "choices": [
+        {
+          "id": "luke_physical",
+          "text": "Incontro Luke di persona.",
+          "goto": "physical_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_06_contact_mode",
+            "eq": "physical"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_type",
+              "value": "physical"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 2
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_result",
+              "value": "luke_physical"
+            }
+          ]
+        },
+        {
+          "id": "luke_remote",
+          "text": "Contatto Luke a distanza.",
+          "goto": "remote_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_06_contact_mode",
+            "eq": "remote"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_type",
+              "value": "remote"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_result",
+              "value": "luke_remote"
+            }
+          ]
+        },
+        {
+          "id": "luke_deep",
+          "text": "Vado direttamente sul cambiamento di carriera che ho appena visto.",
+          "goto": "luke_deep_context",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Luke",
+              "delta": 2
+            }
+          ]
+        }
+      ]
+    },
+    "mattew_contact": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Mattew è il contatto selezionato. Il payoff di Hidden Trajectories entra ora in una conversazione reale; modalità e profondità dipendono dalla presenza effettiva."
+        }
+      ],
+      "choices": [
+        {
+          "id": "mattew_physical",
+          "text": "Incontro Mattew di persona.",
+          "goto": "physical_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_06_contact_mode",
+            "eq": "physical"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_type",
+              "value": "physical"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 2
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_result",
+              "value": "mattew_physical"
+            }
+          ]
+        },
+        {
+          "id": "mattew_remote",
+          "text": "Contatto Mattew a distanza.",
+          "goto": "remote_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_06_contact_mode",
+            "eq": "remote"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_type",
+              "value": "remote"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_result",
+              "value": "mattew_remote"
+            }
+          ]
+        },
+        {
+          "id": "mattew_deep",
+          "text": "Vado direttamente sul cambiamento di carriera che ho appena visto.",
+          "goto": "mattew_deep_context",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Mattew",
+              "delta": 2
+            }
+          ]
+        }
+      ]
+    },
+    "daniel_contact": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Daniel è il contatto selezionato. Il payoff di Hidden Trajectories entra ora in una conversazione reale; modalità e profondità dipendono dalla presenza effettiva."
+        }
+      ],
+      "choices": [
+        {
+          "id": "daniel_physical",
+          "text": "Incontro Daniel di persona.",
+          "goto": "physical_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_06_contact_mode",
+            "eq": "physical"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_type",
+              "value": "physical"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 2
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_result",
+              "value": "daniel_physical"
+            }
+          ]
+        },
+        {
+          "id": "daniel_remote",
+          "text": "Contatto Daniel a distanza.",
+          "goto": "remote_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_06_contact_mode",
+            "eq": "remote"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_type",
+              "value": "remote"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_result",
+              "value": "daniel_remote"
+            }
+          ]
+        },
+        {
+          "id": "daniel_deep",
+          "text": "Vado direttamente sul cambiamento di carriera che ho appena visto.",
+          "goto": "daniel_deep_context",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Daniel",
+              "delta": 2
+            }
+          ]
+        }
+      ]
+    },
+    "edward_contact": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Edward è il contatto selezionato. Il payoff di Hidden Trajectories entra ora in una conversazione reale; modalità e profondità dipendono dalla presenza effettiva."
+        }
+      ],
+      "choices": [
+        {
+          "id": "edward_physical",
+          "text": "Incontro Edward di persona.",
+          "goto": "physical_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_06_contact_mode",
+            "eq": "physical"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_type",
+              "value": "physical"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 2
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_result",
+              "value": "edward_physical"
+            }
+          ]
+        },
+        {
+          "id": "edward_remote",
+          "text": "Contatto Edward a distanza.",
+          "goto": "remote_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_06_contact_mode",
+            "eq": "remote"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_type",
+              "value": "remote"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_result",
+              "value": "edward_remote"
+            }
+          ]
+        },
+        {
+          "id": "edward_deep",
+          "text": "Vado direttamente sul cambiamento di carriera che ho appena visto.",
+          "goto": "edward_deep_context",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Edward",
+              "delta": 2
+            }
+          ]
+        }
+      ]
+    },
+    "fab_contact": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Fab è il contatto selezionato. Il payoff di Hidden Trajectories entra ora in una conversazione reale; modalità e profondità dipendono dalla presenza effettiva."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fab_physical",
+          "text": "Incontro Fab di persona.",
+          "goto": "physical_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_06_contact_mode",
+            "eq": "physical"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_type",
+              "value": "physical"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 2
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_result",
+              "value": "fab_physical"
+            }
+          ]
+        },
+        {
+          "id": "fab_remote",
+          "text": "Contatto Fab a distanza.",
+          "goto": "remote_context",
+          "conditions": {
+            "path": "world.flags.friend_beat_06_contact_mode",
+            "eq": "remote"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_type",
+              "value": "remote"
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_result",
+              "value": "fab_remote"
+            }
+          ]
+        },
+        {
+          "id": "fab_deep",
+          "text": "Vado direttamente sul cambiamento di carriera che ho appena visto.",
+          "goto": "fab_deep_context",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Fab",
+              "delta": 2
+            }
+          ]
+        }
+      ]
+    },
+    "physical_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'incontro fisico mantiene il peso del luogo condiviso: si vede lo stato della giornata, le partenze imminenti e il fatto che entrambi avete impegni reali."
+        }
+      ],
+      "choices": [
+        {
+          "id": "physical_competition",
+          "text": "Parliamo di come il circuito ci sta cambiando.",
+          "goto": "competition_context"
+        },
+        {
+          "id": "physical_result",
+          "text": "Restiamo sul significato del risultato appena visto.",
+          "goto": "result_context"
+        }
+      ]
+    },
+    "remote_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La distanza resta esplicita. La chiamata non finge una presenza comune, ma può essere abbastanza importante da lasciare una conseguenza relazionale persistente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "remote_career",
+          "text": "Parliamo della direzione presa dalla sua carriera.",
+          "goto": "career_context",
+          "timeCostMinutes": 15
+        },
+        {
+          "id": "remote_competition",
+          "text": "Confrontiamo il peso dei risultati interregionali.",
+          "goto": "competition_context",
+          "timeCostMinutes": 10
+        }
+      ]
+    },
+    "luke_deep_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Con Luke il confronto tende alla pressione adattiva: cambiare ritmo senza perdere il controllo di ciò che conta davvero."
+        }
+      ],
+      "choices": [
+        {
+          "id": "luke_deep_record",
+          "text": "Conservo il confronto come callback futuro.",
+          "goto": "career_context",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Luke",
+              "key": "friendBeat06SharedContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_result",
+              "value": "luke_adaptive_pressure"
+            }
+          ]
+        },
+        {
+          "id": "luke_deep_comp",
+          "text": "Lo porto sul terreno competitivo.",
+          "goto": "competition_context"
+        }
+      ]
+    },
+    "mattew_deep_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Con Mattew il discorso diventa metodo: distinguere una buona preparazione da una preparazione troppo rigida quando gli avversari cambiano continuamente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "mattew_deep_record",
+          "text": "Conservo il metodo condiviso.",
+          "goto": "career_context",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Mattew",
+              "key": "friendBeat06SharedContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_result",
+              "value": "mattew_method_shift"
+            }
+          ]
+        },
+        {
+          "id": "mattew_deep_comp",
+          "text": "Confrontiamo i risultati Masters.",
+          "goto": "competition_context"
+        }
+      ]
+    },
+    "daniel_deep_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Daniel riporta il discorso ai costi reali della carriera: trasferte, opportunità perse e quanto vale inseguire una finestra competitiva."
+        }
+      ],
+      "choices": [
+        {
+          "id": "daniel_deep_record",
+          "text": "Conservo il confronto sul costo delle scelte.",
+          "goto": "career_context",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Daniel",
+              "key": "friendBeat06SharedContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_result",
+              "value": "daniel_opportunity_cost"
+            }
+          ]
+        },
+        {
+          "id": "daniel_deep_comp",
+          "text": "Parliamo della Continental Cup.",
+          "goto": "competition_context"
+        }
+      ]
+    },
+    "edward_deep_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Edward legge il cambiamento attraverso continuità e tenuta: non tutto ciò che funziona in una regione sopravvive allo stesso modo fuori casa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "edward_deep_record",
+          "text": "Conservo il confronto sulla continuità.",
+          "goto": "career_context",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Edward",
+              "key": "friendBeat06SharedContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_result",
+              "value": "edward_continuity"
+            }
+          ]
+        },
+        {
+          "id": "edward_deep_comp",
+          "text": "Torniamo al circuito.",
+          "goto": "competition_context"
+        }
+      ]
+    },
+    "fab_deep_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Fab tratta la traiettoria come un problema di identità competitiva: cosa conservare del proprio stile quando il contesto premia altro."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fab_deep_record",
+          "text": "Conservo il confronto sull'identità di gioco.",
+          "goto": "career_context",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Fab",
+              "key": "friendBeat06SharedContext",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_result",
+              "value": "fab_style_identity"
+            }
+          ]
+        },
+        {
+          "id": "fab_deep_comp",
+          "text": "Confrontiamo la pressione del circuito.",
+          "goto": "competition_context"
+        }
+      ]
+    },
+    "competition_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il confronto non altera punti o bracket. Serve a rendere personale la corsa internazionale e può cambiare relazione, informazione e priorità future."
+        }
+      ],
+      "choices": [
+        {
+          "id": "competition_career",
+          "text": "Porto il discorso sulla direzione di carriera.",
+          "goto": "career_context"
+        },
+        {
+          "id": "competition_result",
+          "text": "Chiudo sul significato del risultato visibile.",
+          "goto": "result_context"
+        }
+      ]
+    },
+    "career_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il cambiamento dell'amico resta suo. Il player può riconoscerlo, sostenerlo o confrontarsi con esso senza ricevere automaticamente lo stesso percorso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "career_result",
+          "text": "Porto il momento alla sua conseguenza persistente.",
+          "goto": "result_context"
+        }
+      ]
+    },
+    "result_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "FRIEND_BEAT_06 ha ora un amico, una modalità e un risultato contestuale persistenti. Nessun fight viene creato se il bracket o la scena non lo rendono legale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "result_close",
+          "text": "Chiudo il Friend Beat.",
+          "goto": "close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "friend_beat_06_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "close": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il rapporto prosegue da questo stato. La Continental Cup può ora entrare nel calendario se i requisiti canonici la rendono disponibile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_route",
+          "text": "Passo alla finestra Continental.",
+          "goto": "route_link"
+        }
+      ]
+    },
+    "defer": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Rimandare non cambia il friend selezionato né trasforma un contatto remoto in presenza fisica."
+        }
+      ],
+      "choices": [
+        {
+          "id": "defer_return",
+          "text": "Torno al contatto selezionato.",
+          "goto": "friend_call"
+        }
+      ]
+    },
+    "route_link": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il prossimo blocco verifica l'eligibility della Continental Cup senza confonderla con il Promotion Trial A→S."
+        }
+      ],
+      "choices": [
+        {
+          "id": "route_continental",
+          "text": "Vado all'entry della Continental Cup.",
+          "goto": "m06-continental-entry#continental_entry"
+        }
+      ]
+    }
+  }
+}
