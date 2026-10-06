@@ -19,6 +19,27 @@ export function createStatusState() {
   };
 }
 
+function abilityStatusImmunity(combatant, status) {
+  if (status === "Asleep" && ["comatose", "insomnia"].includes(combatant.abilityId)) {
+    return combatant.abilityId;
+  }
+  if (status === "Confused" && combatant.abilityId === "own-tempo") return "own-tempo";
+  if (status === "Flinched" && combatant.abilityId === "inner-focus") return "inner-focus";
+  if (status === "Paralysis" && combatant.abilityId === "limber") return "limber";
+  if (
+    ["Poisoned", "BadlyPoisoned"].includes(status) &&
+    ["immunity", "pastel-veil"].includes(combatant.abilityId)
+  ) {
+    return combatant.abilityId;
+  }
+  if (status === "Burned" && combatant.abilityId === "water-veil") return "water-veil";
+  if (status === "Frozen" && combatant.abilityId === "magma-armor") return "magma-armor";
+  if (NON_VOLATILE.has(status) && combatant.abilityId === "purifying-salt") {
+    return "purifying-salt";
+  }
+  return null;
+}
+
 export function statusImmunity(combatant, status) {
   if (status === "Burned" && combatant.types.includes("fire")) return "fire_type";
   if (status === "Frozen" && combatant.types.includes("ice")) return "ice_type";
@@ -38,6 +59,11 @@ export function applyStatus(
   { sourceProficiencyBonus = null, ignoreTypeImmunity = false } = {}
 ) {
   combatant.statuses ??= createStatusState();
+
+  const abilityImmunity = abilityStatusImmunity(combatant, status);
+  if (abilityImmunity) {
+    return { applied: false, status, reason: `ability:${abilityImmunity}` };
+  }
 
   if (status === "Flinched") {
     combatant.statuses.flinchedTurns = Math.max(combatant.statuses.flinchedTurns ?? 0, 1);
