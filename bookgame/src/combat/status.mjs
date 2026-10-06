@@ -1,25 +1,47 @@
-const NON_VOLATILE = new Set(["Asleep", "Burned", "Paralysis", "Poisoned"]);
+const NON_VOLATILE = new Set([
+  "Asleep",
+  "Burned",
+  "Frozen",
+  "Paralysis",
+  "Poisoned",
+  "BadlyPoisoned"
+]);
+
+const VOLATILE = new Set(["Confused", "Flinched"]);
 
 export function createStatusState() {
   return {
     nonVolatile: null,
     remainingRounds: null,
+    sourceProficiencyBonus: null,
+    confusedRounds: 0,
     flinchedTurns: 0
   };
 }
 
 export function statusImmunity(combatant, status) {
   if (status === "Burned" && combatant.types.includes("fire")) return "fire_type";
+  if (status === "Frozen" && combatant.types.includes("ice")) return "ice_type";
   if (status === "Paralysis" && combatant.types.includes("electric")) return "electric_type";
-  if (status === "Poisoned" && (combatant.types.includes("poison") || combatant.types.includes("steel"))) {
+  if (
+    (status === "Poisoned" || status === "BadlyPoisoned") &&
+    (combatant.types.includes("poison") || combatant.types.includes("steel"))
+  ) {
     return "poison_or_steel_type";
   }
   return null;
 }
 
-export function applyStatus(combatant, status) {
+export function applyStatus(combatant, status, { sourceProficiencyBonus = null } = {}) {
+  combatant.statuses ??= createStatusState();
+
   if (status === "Flinched") {
-    combatant.statuses.flinchedTurns = Math.max(combatant.statuses.flinchedTurns, 1);
+    combatant.statuses.flinchedTurns = Math.max(combatant.statuses.flinchedTurns ?? 0, 1);
+    return { applied: true, status };
+  }
+
+  if (status === "Confused") {
+    combatant.statuses.confusedRounds = Math.max(combatant.statuses.confusedRounds ?? 0, 3);
     return { applied: true, status };
   }
 
@@ -34,55 +56,144 @@ export function applyStatus(combatant, status) {
 
   combatant.statuses.nonVolatile = status;
   combatant.statuses.remainingRounds = status === "Asleep" ? 3 : null;
+  combatant.statuses.sourceProficiencyBonus =
+    Number.isFinite(sourceProficiencyBonus) ? sourceProficiencyBonus : null;
   return { applied: true, status };
 }
 
+export function clearStatus(combatant, status) {
+  if (!combatant.statuses) return false;
+
+  if (status === "Flinched") {
+    const had = (combatant.statuses.flinchedTurns ?? 0) > 0;
+    combatant.statuses.flinchedTurns = 0;
+    return had;
+  }
+  if (status === "Confused") {
+    const had = (combatant.statuses.confusedRounds ?? 0) > 0;
+    combatant.statuses.confusedRounds = 0;
+    return had;
+  }
+
+  if (combatant.statuses.nonVolatile !== status) return false;
+  combatant.statuses.nonVolatile = null;
+  combatant.statuses.remainingRounds = null;
+  combatant.statuses.sourceProficiencyBonus = null;
+  return true;
+}
+
+export function hasStatus(combatant, status) {
+  if (status === "Flinched") return (combatant.statuses?.flinchedTurns ?? 0) > 0;
+  if (status === "Confused") return (combatant.statuses?.confusedRounds ?? 0) > 0;
+  return combatant.statuses?.nonVolatile === status;
+}
+
 export function attackHasDisadvantage(combatant) {
-  return combatant.statuses.nonVolatile === "Poisoned" || combatant.statuses.flinchedTurns > 0;
+  return (
+    ["Poisoned", "BadlyPoisoned"].includes(combatant.statuses?.nonVolatile) ||
+    (combatant.statuses?.flinchedTurns ?? 0) > 0
+  );
+}
+
+export function abilityCheckHasDisadvantage(combatant) {
+  return (
+    ["Poisoned", "BadlyPoisoned"].includes(combatant.statuses?.nonVolatile) ||
+    (combatant.statuses?.flinchedTurns ?? 0) > 0
+  );
 }
 
 export function damageHasDisadvantage(combatant) {
-  return combatant.statuses.nonVolatile === "Burned";
+  return combatant.statuses?.nonVolatile === "Burned";
 }
 
 export function saveHasDisadvantage(combatant, attribute) {
-  if (combatant.statuses.flinchedTurns > 0) return true;
-  if (combatant.statuses.nonVolatile === "Asleep") return true;
-  return combatant.statuses.nonVolatile === "Paralysis" && ["str", "dex"].includes(attribute);
+  if ((combatant.statuses?.flinchedTurns ?? 0) > 0) return true;
+  if (combatant.statuses?.nonVolatile === "Asleep") return true;
+  return (
+    combatant.statuses?.nonVolatile === "Paralysis" &&
+    ["str", "dex"].includes(attribute)
+  );
+}
+
+export function isIncapacitated(combatant) {
+  return ["Asleep", "Frozen"].includes(combatant.statuses?.nonVolatile);
+}
+
+export function isRestrained(combatant) {
+  return ["Asleep", "Frozen"].includes(combatant.statuses?.nonVolatile);
+}
+
+export function reactionsDisabled(combatant) {
+  return isIncapacitated(combatant) || (combatant.statuses?.confusedRounds ?? 0) > 0;
 }
 
 export function startTurnStatus(combatant, dice) {
-  if (combatant.statuses.nonVolatile === "Asleep") {
-    return { skipTurn: true, reason: "Asleep", rolls: [] };
-  }
+  const rolls = [];
 
-  if (combatant.statuses.nonVolatile === "Paralysis") {
+  // Pokémon 5e 2024 explicitly resolves Paralysis before Asleep/Confused.
+  if (combatant.statuses?.nonVolatile === "Paralysis") {
     const roll = dice.roll(4);
+    rolls.push({ status: "Paralysis", die: "d4", roll });
     if (roll === 1) {
-      return { skipTurn: true, reason: "Paralysis", rolls: [roll] };
+      return { skipTurn: true, reason: "Paralysis", rolls, forcedAction: null };
     }
-    return { skipTurn: false, reason: null, rolls: [roll] };
   }
 
-  return { skipTurn: false, reason: null, rolls: [] };
+  if (combatant.statuses?.nonVolatile === "Frozen") {
+    return { skipTurn: true, reason: "Frozen", rolls, forcedAction: null };
+  }
+
+  if (combatant.statuses?.nonVolatile === "Asleep") {
+    return { skipTurn: true, reason: "Asleep", rolls, forcedAction: null };
+  }
+
+  if ((combatant.statuses?.confusedRounds ?? 0) > 0) {
+    const roll = dice.roll(8);
+    rolls.push({ status: "Confused", die: "d8", roll });
+
+    if (roll === 8) {
+      combatant.statuses.confusedRounds = 0;
+      return { skipTurn: false, reason: null, rolls, forcedAction: null, statusEnded: "Confused" };
+    }
+    if (roll === 3) {
+      return { skipTurn: true, reason: "Confused", rolls, forcedAction: null };
+    }
+    if (roll === 1) {
+      return { skipTurn: false, reason: "Confused", rolls, forcedAction: "STRUGGLE_SELF" };
+    }
+    if (roll === 2) {
+      return { skipTurn: false, reason: "Confused", rolls, forcedAction: "STRUGGLE_NEAREST" };
+    }
+  }
+
+  return { skipTurn: false, reason: null, rolls, forcedAction: null };
 }
 
 export function endTurnStatus(combatant, dice, proficiencyBonus) {
   const events = [];
+  const nonVolatile = combatant.statuses?.nonVolatile;
 
-  if (combatant.statuses.nonVolatile === "Burned" || combatant.statuses.nonVolatile === "Poisoned") {
-    const status = combatant.statuses.nonVolatile;
-    const damage = proficiencyBonus;
+  if (["Burned", "Poisoned", "BadlyPoisoned"].includes(nonVolatile)) {
+    const multiplier = nonVolatile === "BadlyPoisoned" ? 2 : 1;
+    const damage = proficiencyBonus * multiplier;
     combatant.hp.current = Math.max(0, combatant.hp.current - damage);
-    events.push({ type: "status_damage", status, damage, hpAfter: combatant.hp.current });
+    events.push({
+      type: "status_damage",
+      status: nonVolatile,
+      damage,
+      hpAfter: combatant.hp.current
+    });
   }
 
-  if (combatant.statuses.nonVolatile === "Asleep") {
+  if (nonVolatile === "Asleep") {
     const rolls = combatant.abilityId === "early-bird"
       ? [dice.roll(20), dice.roll(20)]
       : [dice.roll(20)];
     const roll = Math.max(...rolls);
-    combatant.statuses.remainingRounds = Math.max(0, (combatant.statuses.remainingRounds ?? 1) - 1);
+    combatant.statuses.remainingRounds = Math.max(
+      0,
+      (combatant.statuses.remainingRounds ?? 1) - 1
+    );
     const wake = roll >= 11 || combatant.statuses.remainingRounds === 0;
     events.push({
       type: "wake_check",
@@ -91,13 +202,36 @@ export function endTurnStatus(combatant, dice, proficiencyBonus) {
       advantage: combatant.abilityId === "early-bird",
       wake
     });
-    if (wake) {
-      combatant.statuses.nonVolatile = null;
-      combatant.statuses.remainingRounds = null;
+    if (wake) clearStatus(combatant, "Asleep");
+  }
+
+  if (nonVolatile === "Frozen") {
+    const natural = dice.roll(20);
+    const modifier = Math.floor((combatant.attributes.str - 10) / 2) +
+      (combatant.savingThrows?.includes("str") ? proficiencyBonus : 0);
+    const sourcePb = combatant.statuses.sourceProficiencyBonus ?? proficiencyBonus;
+    const dc = 10 + sourcePb;
+    const total = natural + modifier;
+    const thaw = total >= dc;
+    events.push({
+      type: "frozen_break_check",
+      natural,
+      modifier,
+      total,
+      dc,
+      thaw
+    });
+    if (thaw) clearStatus(combatant, "Frozen");
+  }
+
+  if ((combatant.statuses?.confusedRounds ?? 0) > 0) {
+    combatant.statuses.confusedRounds -= 1;
+    if (combatant.statuses.confusedRounds === 0) {
+      events.push({ type: "status_end", status: "Confused" });
     }
   }
 
-  if (combatant.statuses.flinchedTurns > 0) {
+  if ((combatant.statuses?.flinchedTurns ?? 0) > 0) {
     combatant.statuses.flinchedTurns -= 1;
     if (combatant.statuses.flinchedTurns === 0) {
       events.push({ type: "status_end", status: "Flinched" });
@@ -106,3 +240,12 @@ export function endTurnStatus(combatant, dice, proficiencyBonus) {
 
   return events;
 }
+
+export function endFrozenOnFireDamage(combatant, move, damage) {
+  if (damage <= 0 || combatant.statuses?.nonVolatile !== "Frozen") return false;
+  const canBurn = /burn/i.test(move?.description ?? "");
+  if (move?.type !== "fire" && !canBurn) return false;
+  return clearStatus(combatant, "Frozen");
+}
+
+export const STATUS_IDS = Object.freeze([...NON_VOLATILE, ...VOLATILE]);
