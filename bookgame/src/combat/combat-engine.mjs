@@ -187,7 +187,7 @@ function isSupportedReactionMove(move) {
 }
 
 function reactionTriggerForMove(move) {
-  return reactionTriggerForMove(move) ?? canonicalReactionTrigger(move);
+  return REACTION_TRIGGER_BY_MOVE[move.id] ?? canonicalReactionTrigger(move);
 }
 
 function clone(value) {
@@ -4734,11 +4734,224 @@ export class Pokemon5eCombatEngine {
     return result;
   }
 
+
+  async resolveCanonicalReactionMove(
+    next,
+    reactorSide,
+    move,
+    {
+      trigger,
+      targetSide: requestedTargetSide = null,
+      incomingDamage = null,
+      incomingMoveId = null,
+      incomingNatural = null,
+      incomingDamageType = null
+    } = {}
+  ) {
+    const reactor = next[reactorSide];
+    const targetSide = requestedTargetSide ?? otherSide(reactorSide);
+    const target = next[targetSide];
+    const expiresRound = effectExpiryRound(move, next.round) ?? next.round + 1;
+    next.canonicalRuntime ??= { effects: [], flags: {}, pendingChoices: [] };
+
+    let save = null;
+    if (move.save && target) {
+      save = resolveSaveMove({
+        attacker: reactor,
+        defender: target,
+        move,
+        dice: this.dice,
+        round: next.round
+      }).save;
+    }
+    const failedSave = save ? !save.success : true;
+    const result = {
+      type: "canonical_reaction",
+      round: next.round,
+      actor: reactorSide,
+      target: targetSide,
+      moveId: move.id,
+      trigger,
+      save,
+      incomingDamage,
+      incomingMoveId,
+      incomingNatural,
+      incomingDamageType,
+      prevented: false,
+      damageMultiplier: 1,
+      attackDisadvantage: false,
+      acBonus: 0
+    };
+
+    const escalatingGuard = new Set([
+      "baneful-bunker","detect","kings-shield","obstruct","protect","spiky-shield"
+    ]);
+    if (escalatingGuard.has(move.id)) {
+      reactor.abilityState.canonicalReactionUses ??= {};
+      const uses = Number(reactor.abilityState.canonicalReactionUses[move.id] ?? 0);
+      const succeeds = uses === 0 || this.dice.roll(20) > 15;
+      reactor.abilityState.canonicalReactionUses[move.id] = uses + 1;
+      result.prevented = succeeds && incomingNatural !== 20;
+      result.guardRollRequired = uses > 0;
+      if (move.id === "baneful-bunker" && result.prevented && trigger === "targeted_by_attack") {
+        result.poisonAttacker = true;
+      }
+      if (move.id === "obstruct" && result.prevented && failedSave) {
+        applyMoveStatus(reactor, target, "Flinched", next.round);
+      }
+      if (move.id === "spiky-shield" && result.prevented && target) {
+        const damage = proficiencyBonus(reactor.level);
+        target.hp.current = Math.max(0, target.hp.current - damage);
+        result.reflectedDamage = damage;
+        if (target.hp.current <= 0) markDowned(next, targetSide, "spiky-shield");
+      }
+    } else if (move.id === "endure") {
+      reactor.abilityState.canonicalReactionUses ??= {};
+      const uses = Number(reactor.abilityState.canonicalReactionUses[move.id] ?? 0);
+      const succeeds = uses === 0 || this.dice.roll(20) > 15;
+      reactor.abilityState.canonicalReactionUses[move.id] = uses + 1;
+      result.prevented = succeeds;
+      result.leaveAtOneHp = succeeds;
+    } else if (move.id === "baby-doll-eyes" || move.id === "noble-roar") {
+      result.attackDisadvantage = true;
+    } else if (move.id === "captivate") {
+      result.prevented = failedSave;
+    } else if (move.id === "attract") {
+      result.rerollDamageUseLower = failedSave;
+    } else if (move.id === "crafty-shield") {
+      result.preventStatus = true;
+    } else if (move.id === "block") {
+      if (target) {
+        target.effects.switchLockSources.push({ source: move.id, expiresRound });
+        target.effects.escapeLockSources.push({ source: move.id, expiresRound });
+      }
+      result.prevented = true;
+    } else if (move.id === "encore" && target && failedSave) {
+      const allowed = target.lastMoveId;
+      const locked = target.moveIds.filter((id) => id !== allowed);
+      target.effects.moveLockSources.push({ source: move.id, moveIds: locked, expiresRound: next.round + 2 });
+      result.allowedMoveId = allowed;
+    } else if (move.id === "light-screen") {
+      result.damageMultiplier = 0.5;
+      reactor.effects.damageResistanceSources.push({ source: move.id, type: null, scope: "ranged", steps: 1, expiresRound: next.round + 1 });
+    } else if (move.id === "reflect") {
+      result.damageMultiplier = 0.5;
+      reactor.effects.damageResistanceSources.push({ source: move.id, type: null, scope: "melee", steps: 1, expiresRound: next.round + 1 });
+    } else if (move.id === "wide-guard") {
+      reactor.abilityState.canonicalReactionUses ??= {};
+      const uses = Number(reactor.abilityState.canonicalReactionUses[move.id] ?? 0);
+      const succeeds = uses === 0 || this.dice.roll(20) > 15;
+      reactor.abilityState.canonicalReactionUses[move.id] = uses + 1;
+      result.damageMultiplier = succeeds ? 0.5 : 1;
+    } else if (move.id === "withdraw") {
+      result.acBonus = 2;
+      reactor.effects.acModifierSources.push({ source: move.id, value: 2, expiresRound: next.round + 1 });
+    } else if (move.id === "shelter") {
+      result.acBonus = 5;
+      reactor.effects.acModifierSources.push({ source: move.id, value: 5, expiresRound: next.round + 1 });
+    } else if (move.id === "lucky-chant") {
+      result.negateCritical = true;
+    } else if (move.id === "magic-coat") {
+      result.reflectStatus = true;
+    } else if (move.id === "heal-block") {
+      result.preventHealing = true;
+    } else if (move.id === "spite" && target && failedSave && incomingMoveId) {
+      const drain = this.dice.roll(4);
+      target.pp[incomingMoveId] = Math.max(0, Number(target.pp[incomingMoveId] ?? 0) - drain);
+      result.ppDrained = drain;
+    } else if (move.id === "grudge" && target && failedSave && incomingMoveId) {
+      target.pp[incomingMoveId] = 0;
+      result.ppDepleted = incomingMoveId;
+    } else if (move.id === "torment" && target && failedSave && incomingMoveId) {
+      target.effects.moveLockSources.push({
+        source: move.id,
+        moveIds: [incomingMoveId],
+        startsRound: next.round + 1,
+        expiresRound: next.round + 2
+      });
+      result.lockedMoveId = incomingMoveId;
+    } else if (move.id === "sticky-web" && target) {
+      target.effects.restrainedSources.push({ source: move.id, expiresRound: null });
+      result.restrained = true;
+    } else if (move.id === "take-heart") {
+      const cured = [];
+      for (const status of STATUS_IDS) if (clearStatus(reactor, status)) cured.push(status);
+      reactor.effects.statusImmunitySources.push({ source: move.id, expiresRound: next.round + 2 });
+      reactor.effects.attackAdvantageSources.push({ source: move.id, expiresRound: next.round + 2 });
+      reactor.effects.saveAdvantageSources.push({ source: move.id, expiresRound: next.round + 2 });
+      result.cured = cured;
+    } else if (move.id === "sketch" && incomingMoveId) {
+      const index = reactor.moveIds.indexOf("sketch");
+      if (index >= 0) {
+        reactor.moveIds[index] = incomingMoveId;
+        reactor.pp[incomingMoveId] = reactor.pp.sketch ?? 1;
+        reactor.maxPp[incomingMoveId] = reactor.maxPp.sketch ?? reactor.pp[incomingMoveId];
+        delete reactor.pp.sketch;
+        delete reactor.maxPp.sketch;
+      }
+      result.learnedMoveId = incomingMoveId;
+    } else if (move.id === "strength-sap") {
+      const stats = calculateMoveStats(reactor, move, next.round);
+      const roll = rollExpression(stats.damageDice, this.dice);
+      const before = reactor.hp.current;
+      reactor.hp.current = Math.min(reactor.hp.max, before + roll.total + stats.damageModifier);
+      result.healing = reactor.hp.current - before;
+      result.prevented = true;
+    } else if (move.id === "powder" && target) {
+      const stats = calculateMoveStats(reactor, move, next.round);
+      const roll = rollExpression(stats.damageDice, this.dice);
+      const damage = Math.max(0, roll.total + stats.damageModifier);
+      target.hp.current = Math.max(0, target.hp.current - damage);
+      result.damage = damage;
+      if (target.hp.current <= 0) markDowned(next, targetSide, "powder");
+    } else if (move.id === "shed-tail") {
+      const recoil = rollExpression("2d6", this.dice).total;
+      reactor.hp.current = Math.max(0, reactor.hp.current - recoil);
+      result.prevented = true;
+      result.recoil = recoil;
+      if (healthyBenchIndices(next, reactorSide).length > 0) next.awaitingSwitch = reactorSide;
+      if (reactor.hp.current <= 0) markDowned(next, reactorSide, "shed-tail");
+    } else if (move.id === "quick-guard") {
+      result.prevented = next.round === 1 && next.turnIndex === 0;
+    } else if (move.id === "court-change" || move.id === "follow-me" || move.id === "snatch" || move.id === "me-first") {
+      result.redirect = failedSave;
+    } else if (move.id === "hold-hands") {
+      result.attackBonus = 1;
+      result.acBonus = 1;
+    } else if (move.id === "electrify") {
+      result.overrideIncomingType = failedSave ? "electric" : null;
+    } else if (move.id === "retaliate" || move.id === "revenge" || move.id === "metal-burst" || move.id === "mirror-coat") {
+      result.counterattack = true;
+      result.counterDamage = incomingDamage == null
+        ? null
+        : Math.min(Number(incomingDamage), reactor.level * 5);
+    }
+
+    next.log.push(result);
+    next.canonicalRuntime.effects.push({
+      moveId: move.id,
+      sourceSide: reactorSide,
+      targetSide,
+      family: "reaction",
+      startedRound: next.round,
+      expiresRound,
+      result: clone(result)
+    });
+    return next;
+  }
+
   async useReactionMove(
     battle,
     reactorSide,
     moveId,
-    { trigger, targetSide: requestedTargetSide = null } = {}
+    {
+      trigger,
+      targetSide: requestedTargetSide = null,
+      incomingDamage = null,
+      incomingMoveId = null,
+      incomingNatural = null,
+      incomingDamageType = null
+    } = {}
   ) {
     if (battle.outcome || battle.awaitingSwitch) return clone(battle);
 
@@ -4832,6 +5045,17 @@ export class Pokemon5eCombatEngine {
         statusResult
       });
       return next;
+    }
+
+    if (isCanonicalSpecialMove(move)) {
+      return this.resolveCanonicalReactionMove(next, reactorSide, move, {
+        trigger,
+        targetSide,
+        incomingDamage,
+        incomingMoveId,
+        incomingNatural,
+        incomingDamageType
+      });
     }
 
     throw new Error(`No reaction handler for ${move.id}`);
