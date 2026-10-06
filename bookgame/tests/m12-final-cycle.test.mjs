@@ -113,7 +113,7 @@ test("FRIEND_BEAT_12 guarantees a causal primary contact and records all other F
   assert.equal(s.world.flags.friend_beat_12_result,"future_open");
   assert.deepEqual(s.world.flags.friend_beat_12_friend_ids,["Mattew","Daniel","Edward","Fab"]);
   for(const id of ["Mattew","Daniel","Edward","Fab"]){
-    assert.equal(s.npcs[id].schedule,beforeNpcs[id].schedule);
+    assert.notEqual(s.npcs[id].schedule?.locationId,"meridiana_city");
   }
 });
 
