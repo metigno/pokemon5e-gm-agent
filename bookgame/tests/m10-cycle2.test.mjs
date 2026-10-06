@@ -123,7 +123,8 @@ async function completeFriendBeat(engine,state,{physical=false}={}){
   s.story.nodeId="selector";
   s=await engine.choose(s,"select_now");
   assert.equal(s.world.flags.friend_beat_10_friend_id,"Daniel");
-  assert.equal(s.world.flags.friend_beat_10_context,"qf_opponent");
+  const expectedContext=s.world.flags.world_r16_won===true ? "qf_opponent" : "top8_other_match";
+  assert.equal(s.world.flags.friend_beat_10_context,expectedContext);
   if(physical){
     assert.equal(s.world.flags.friend_beat_10_contact_mode,"physical");
     s.story.nodeId="schedule_gate";
