@@ -407,3 +407,46 @@ Final validation:
 The completed Library V2 corpus is now:
 
 **M01→M10 = 2,084 runtime-validated logical nodes / 4,723 meaningful choices.**
+
+---
+
+## M11 CYCLE 1 VALIDATION EVIDENCE — 2026-10-06
+
+M11 is **not module-complete yet**, so the completed Library V2 baseline remains **M01→M10**.
+
+Validated M11 Cycle 1 extension:
+
+- blocks: `M11_00_FINAL_FOUR_LOCK` → `M11_04_OTHER_SF`;
+- runtime logical surface: **79 nodes / 175 meaningful choices** exactly;
+- full M11 logical trajectory: **150 nodes / 330 meaningful choices**;
+- exact residual for M11_05→M11_08: **71 nodes / 155 meaningful choices**;
+- authored-surface manifest remains **3,500 stitches / 1,600 choices**;
+- every Cycle-1 block declares Library V2 reuse/adaptation from **R01→R38**;
+- **no R39 candidate is required**;
+- E5 Competition now extends the existing World knockout lifecycle through `WORLD_SF`;
+- M11 consumes the immutable Top4/SF pairings produced by M10 rather than rebuilding or reseeding them;
+- the player semifinal dynamically resolves match id, opponent id and regulated roster from structured E5 state;
+- win/loss comes only from Pokémon 5e combat and is recorded once in official competition history;
+- the other semifinal resolves deterministically from the persistent World seed;
+- exactly two actual semifinal winners become the finalists and create `WORLD_FINAL_1`;
+- Rei receives no plot armor and physical contact requires actual Top4 membership plus E4 schedule/location overlap;
+- SF preparation never heals, rebuilds or normalizes the persistent player roster;
+- semifinal loss eliminates the player while the actual two winners still form the final;
+- opening and resolving WORLD_SF are idempotent;
+- all **79/79 Cycle-1 nodes** are reachable with no zero-incoming padding;
+- save/reload preserves Top4, semifinal results, finalists, roster and official history.
+
+Validation evidence:
+
+- branch: `m11-00-04-work`;
+- PR **#12**;
+- validated implementation HEAD: `5ccfd61d44033e1548adf86f1a367460ca969722`;
+- GitHub Actions **Bookgame Tests #393**: **SUCCESS**;
+- syntax check: **PASS**;
+- `validate:story`: **PASS**;
+- full test suite: **1,284 passed / 0 failed / 0 skipped**.
+
+The completed Library V2 corpus remains:
+
+**M01→M10 = 2,084 runtime-validated logical nodes / 4,723 meaningful choices**, with M11 validated through M11_04.
+
