@@ -379,6 +379,77 @@ async function searchTo({
   );
 }
 
+async function requireChoice(engine, state, choiceId, label = choiceId) {
+  const view = await engine.present(state);
+  assert.ok(
+    view.choices.some((choice) => choice.id === choiceId),
+    `${label}: expected visible choice ${choiceId} at ${view.sceneId}#${view.nodeId}`
+  );
+  return engine.choose(state, choiceId);
+}
+
+async function completeCanonicalM1(engine, start) {
+  let state = structuredClone(start);
+
+  state = await requireChoice(engine, state, "to_valedarsena", "M1 travel");
+  state = await requireChoice(engine, state, "enter_center", "M1 enter Center");
+
+  let view = await engine.present(state);
+  if (view.choices.some((choice) => choice.id === "blue_center_intro")) {
+    state = await requireChoice(engine, state, "blue_center_intro", "M1 Blue entry");
+    state = await requireChoice(engine, state, "talk", "M1 Blue conversation");
+    state = await requireChoice(engine, state, "back", "M1 Blue return");
+  } else {
+    state = await searchTo({
+      engine,
+      start: state,
+      goal: (s) => s.world.flags.blue_met === true,
+      label: "M1 Blue meeting",
+      route: "champion",
+      combatPolicy: "win",
+      maxExpansions: 800
+    });
+  }
+
+  state = await searchTo({
+    engine,
+    start: state,
+    goal: (s) => s.world.flags.friend_beat_01_complete === true,
+    label: "M1 Friend Beat",
+    route: "champion",
+    combatPolicy: "win",
+    maxExpansions: 1200
+  });
+
+  state = await searchTo({
+    engine,
+    start: state,
+    goal: (s) => (s.player.roster?.length ?? 0) >= 2,
+    label: "M1 second Pokémon capture",
+    route: "champion",
+    combatPolicy: "branch",
+    maxExpansions: 1600
+  });
+
+  state = await searchTo({
+    engine,
+    start: state,
+    goal: (s) => s.world.flags.m1_complete === true,
+    label: "M1 Promotion Trial and exit",
+    route: "champion",
+    combatPolicy: "win",
+    maxExpansions: 2500
+  });
+
+  assert.equal(state.world.flags.blue_met, true);
+  assert.equal(state.world.flags.friend_beat_01_complete, true);
+  assert.equal(state.world.flags.friends_split, true);
+  assert.ok(state.player.roster.length >= 2);
+  assert.equal(state.competition.rank, "E");
+  assert.equal(state.world.flags.m02_unlocked, true);
+  return state;
+}
+
 async function persistReload(store, state, slot, label) {
   const saved = structuredClone(state);
   saved.slot = slot;
@@ -408,14 +479,18 @@ test("RC persistent E2E traverses real authored M1→M12 and all three World out
     assert.equal(common.story.sceneId, "m01-release");
     assert.equal(common.story.nodeId, "free_roam");
 
-    for (let module = 1; module <= 6; module += 1) {
+    common = await completeCanonicalM1(engine, common);
+    common = await persistReload(store, common, "rc-lineage", "M1");
+
+    for (let module = 2; module <= 6; module += 1) {
       common = await searchTo({
         engine,
         start: common,
         goal: flag(`m${module}_complete`),
         label: `M${module} completion`,
         route: "champion",
-        combatPolicy: "win"
+        combatPolicy: "win",
+        maxExpansions: 12000
       });
       common = await persistReload(store, common, "rc-lineage", `M${module}`);
     }
