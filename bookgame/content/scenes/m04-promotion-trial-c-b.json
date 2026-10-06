@@ -1,0 +1,387 @@
+{
+  "schemaVersion": 1,
+  "id": "m04-promotion-trial-c-b",
+  "moduleId": "M04",
+  "title": "M4_13 — Promotion Trial C→B",
+  "locationId": "mar_city_arena",
+  "entryNodeId": "trial_gate_call",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m3_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m04_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m4_active",
+        "eq": true
+      },
+      {
+        "path": "competition.trials.RANK_C_TO_B.available",
+        "exists": true
+      }
+    ]
+  },
+  "nodes": {
+    "trial_gate_call": {
+      "stitches": [
+        {
+          "id": "gate_1",
+          "text": "Nerea Voss chiama il tuo nome all'Arena del Molo. Il Trial usa il checkpoint `RANK_C_TO_B`: Singles, roster ufficiale da quattro, un solo esaminatore, difficoltà ELITE."
+        }
+      ],
+      "choices": [
+        {
+          "id": "briefing",
+          "text": "Ascolto il briefing finale.",
+          "conditions": {
+            "path": "competition.trials.RANK_C_TO_B.registered",
+            "eq": true
+          },
+          "goto": "examiner_briefing"
+        },
+        {
+          "id": "confirm_rules",
+          "text": "Controllo ancora una volta le regole ufficiali.",
+          "goto": "rules_confirmation"
+        },
+        {
+          "id": "review_plan",
+          "text": "Rivedo la priorità di resource management.",
+          "goto": "plan_review"
+        },
+        {
+          "id": "withdraw",
+          "text": "Non inizio ancora. Torno alla registrazione.",
+          "conditions": {
+            "path": "competition.trials.RANK_C_TO_B.registered",
+            "eq": true
+          },
+          "goto": "m04-trial-registration#registered"
+        }
+      ]
+    },
+    "rules_confirmation": {
+      "stitches": [
+        {
+          "id": "rules_1",
+          "text": "Quattro Pokémon, Singles, nessun punto o titolo esterno può bypassare il gate. Una sconfitta lascia Rank C; la registrazione viene consumata e il Trial resta disponibile per un nuovo tentativo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rules_briefing",
+          "text": "Regole chiare: ascolto il briefing.",
+          "conditions": {
+            "path": "competition.trials.RANK_C_TO_B.registered",
+            "eq": true
+          },
+          "goto": "examiner_briefing"
+        },
+        {
+          "id": "rules_registration",
+          "text": "Torno al banco.",
+          "goto": "m04-trial-registration#trial_info"
+        }
+      ]
+    },
+    "plan_review": {
+      "stitches": [
+        {
+          "id": "plan_1",
+          "text": "Il Trial non premia un singolo trucco. Devi decidere cosa conservare quando il primo piano funziona solo a metà e quando convertire un vantaggio prima che svanisca."
+        }
+      ],
+      "choices": [
+        {
+          "id": "plan_preserve",
+          "text": "Entro pensando prima alle risorse che devono arrivare vive al finale.",
+          "conditions": {
+            "path": "competition.trials.RANK_C_TO_B.registered",
+            "eq": true
+          },
+          "goto": "examiner_briefing",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_c_b_final_plan",
+              "value": "preserve"
+            }
+          ]
+        },
+        {
+          "id": "plan_convert",
+          "text": "Entro pronto a convertire un vantaggio reale senza aspettare troppo.",
+          "conditions": {
+            "path": "competition.trials.RANK_C_TO_B.registered",
+            "eq": true
+          },
+          "goto": "examiner_briefing",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_c_b_final_plan",
+              "value": "convert"
+            }
+          ]
+        },
+        {
+          "id": "plan_adapt",
+          "text": "Entro accettando di cambiare piano appena le informazioni lo richiedono.",
+          "conditions": {
+            "path": "competition.trials.RANK_C_TO_B.registered",
+            "eq": true
+          },
+          "goto": "examiner_briefing",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_c_b_final_plan",
+              "value": "adapt"
+            }
+          ]
+        },
+        {
+          "id": "plan_back",
+          "text": "Torno alla chiamata del gate.",
+          "goto": "trial_gate_call"
+        }
+      ]
+    },
+    "examiner_briefing": {
+      "stitches": [
+        {
+          "id": "brief_1",
+          "text": "Nerea non promette un matchup favorevole. Il suo roster è fisso per questa fascia e non viene rigenerato in base al tuo team: Sableye, Roselia, Chinchou e Growlithe."
+        },
+        {
+          "id": "brief_2",
+          "text": "«Non valuto se hai il piano perfetto. Valuto cosa fai quando il piano perfetto non esiste più.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "begin_trial",
+          "text": "Confermo il roster e inizio il Trial C→B.",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.rank",
+                "eq": "C"
+              },
+              {
+                "path": "competition.trials.RANK_C_TO_B.registered",
+                "eq": true
+              },
+              {
+                "path": "player.roster.length",
+                "gte": 4
+              }
+            ]
+          },
+          "combat": {
+            "encounterId": "A4_RANK_TRIAL_C_B",
+            "opponentRegistered": true,
+            "competition": {
+              "type": "promotion_trial",
+              "matchId": "A4_RANK_TRIAL_C_B",
+              "checkpointId": "RANK_C_TO_B",
+              "fromRank": "C",
+              "toRank": "B",
+              "format": "Singles",
+              "officialRosterSize": 4,
+              "difficulty": "ELITE",
+              "retryable": true,
+              "opponentTrainerId": "MAR_GATE_C_B_NEREA_VOSS"
+            },
+            "returnNodes": {
+              "win": "trial_win",
+              "lose": "trial_loss"
+            },
+            "opponentTrainerId": "MAR_GATE_C_B_NEREA_VOSS",
+            "opponent": {
+              "species": "Sableye",
+              "level": 10,
+              "abilityId": "keen-eye",
+              "trainerId": "MAR_GATE_C_B_NEREA_VOSS"
+            },
+            "opponentBench": [
+              {
+                "species": "Roselia",
+                "level": 10,
+                "abilityId": "natural-cure",
+                "trainerId": "MAR_GATE_C_B_NEREA_VOSS"
+              },
+              {
+                "species": "Chinchou",
+                "level": 10,
+                "abilityId": "volt-absorb",
+                "trainerId": "MAR_GATE_C_B_NEREA_VOSS"
+              },
+              {
+                "species": "Growlithe",
+                "level": 10,
+                "abilityId": "intimidate",
+                "trainerId": "MAR_GATE_C_B_NEREA_VOSS"
+              }
+            ],
+            "goto": "examiner_briefing"
+          }
+        },
+        {
+          "id": "briefing_back",
+          "text": "Non entro ancora.",
+          "goto": "trial_gate_call"
+        }
+      ]
+    },
+    "trial_win": {
+      "stitches": [
+        {
+          "id": "win_1",
+          "text": "La lotta termina e E5 registra la vittoria. Il checkpoint segna `completed=true`, il Trial non è più disponibile e il Rank diventa B: nessun flag narrativo ha effettuato la promozione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "win_review",
+          "text": "Rivedo cosa ha deciso il match.",
+          "goto": "win_review"
+        },
+        {
+          "id": "win_after",
+          "text": "Passo alle conseguenze di fine modulo.",
+          "goto": "m04-after-league#after_entry"
+        }
+      ]
+    },
+    "win_review": {
+      "stitches": [
+        {
+          "id": "win_review_1",
+          "text": "Il risultato non dice che ogni scelta è stata ottimale; dice che hai superato l'esame con le risorse reali che avevi. Il prossimo access band ora deriva dal Rank B strutturato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "win_review_after",
+          "text": "Chiudo la review e passo al riepilogo M4.",
+          "goto": "m04-after-league#after_entry",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_c_b_win_reviewed",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "trial_loss": {
+      "stitches": [
+        {
+          "id": "loss_1",
+          "text": "La sconfitta resta una sconfitta ufficiale. E5 aumenta il numero di tentativi, rimuove la registrazione e lascia il checkpoint disponibile perché il Trial è retryable. Il Rank resta C."
+        }
+      ],
+      "choices": [
+        {
+          "id": "loss_review",
+          "text": "Rivedo dove il piano ha perso valore.",
+          "goto": "loss_review"
+        },
+        {
+          "id": "loss_register",
+          "text": "Torno direttamente alla registrazione per un nuovo tentativo.",
+          "goto": "m04-trial-registration#trial_info"
+        },
+        {
+          "id": "loss_hub",
+          "text": "Torno a Mareasale e riproverò più tardi.",
+          "goto": "m04-mareasale-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        }
+      ]
+    },
+    "loss_review": {
+      "stitches": [
+        {
+          "id": "loss_review_1",
+          "text": "La review separa tre domande: quale risorsa hai speso troppo presto, quale informazione hai ignorato e in quale turno avresti dovuto cambiare piano. Non modifica l'esito."
+        }
+      ],
+      "choices": [
+        {
+          "id": "loss_note_resource",
+          "text": "Segno la gestione delle risorse come punto da correggere.",
+          "goto": "retry_choice",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_c_b_loss_lesson",
+              "value": "resources"
+            }
+          ]
+        },
+        {
+          "id": "loss_note_adapt",
+          "text": "Segno il timing dell'adattamento come punto da correggere.",
+          "goto": "retry_choice",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_c_b_loss_lesson",
+              "value": "adaptation"
+            }
+          ]
+        },
+        {
+          "id": "loss_note_conversion",
+          "text": "Segno la mancata conversione del vantaggio.",
+          "goto": "retry_choice",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_c_b_loss_lesson",
+              "value": "conversion"
+            }
+          ]
+        }
+      ]
+    },
+    "retry_choice": {
+      "stitches": [
+        {
+          "id": "retry_1",
+          "text": "Il modulo non viene resettato. Archie, Friend Beat, smuggling, Upper Regional, inventario, roster e stato dei Pokémon restano esattamente come sono."
+        }
+      ],
+      "choices": [
+        {
+          "id": "retry_registration",
+          "text": "Torno al banco di registrazione.",
+          "goto": "m04-trial-registration#trial_info"
+        },
+        {
+          "id": "retry_world",
+          "text": "Torno nel mondo aperto prima di riprovare.",
+          "goto": "m04-mareasale-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
