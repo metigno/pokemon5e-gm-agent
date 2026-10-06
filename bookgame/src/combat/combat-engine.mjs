@@ -110,6 +110,46 @@ function isProtectionMove(move) {
   return PROTECTION_MOVES.has(move.id);
 }
 
+const REACTION_ATTACK_MOVES = new Set([
+  "comeuppance",
+  "counter",
+  "pursuit",
+  "spikes",
+  "stealth-rock",
+  "struggle-bug",
+  "sucker-punch",
+  "thunderclap",
+  "upper-hand"
+]);
+
+const REACTION_STATUS_MOVES = new Set([
+  "spore",
+  "stun-spore",
+  "toxic-spikes"
+]);
+
+const REACTION_TRIGGER_BY_MOVE = {
+  "comeuppance": "hit_by_melee_attack",
+  "counter": "hit_by_melee_attack",
+  "pursuit": "target_switch_or_flee",
+  "spikes": "target_switched_in",
+  "stealth-rock": "target_switched_in",
+  "struggle-bug": "hit_by_melee_attack",
+  "sucker-punch": "targeted_by_melee_attack",
+  "thunderclap": "targeted_by_ranged_attack",
+  "upper-hand": "targeted_by_melee_attack",
+  "spore": "targeted_by_melee_attack",
+  "stun-spore": "targeted_by_melee_attack",
+  "toxic-spikes": "target_switched_in"
+};
+
+function isSupportedReactionMove(move) {
+  return (
+    move.time?.unit === "reaction" &&
+    (REACTION_ATTACK_MOVES.has(move.id) || REACTION_STATUS_MOVES.has(move.id))
+  );
+}
+
 function clone(value) {
   return structuredClone(value);
 }
@@ -679,6 +719,7 @@ function isSleepingTarget(combatant) {
 }
 
 export function isMoveResolvable(move) {
+  if (move.time?.unit === "reaction") return isSupportedReactionMove(move);
   const damage = move.dice?.type === "damage";
   if (move.attack && damage) return true;
   if (move.save && damage) return true;
@@ -3972,6 +4013,129 @@ export class Pokemon5eCombatEngine {
     combatant.turn.disengaged = true;
     next.log.push({ type: "disengage", round: next.round, actor: side });
     return next;
+  }
+
+  async availableReactionMoves(battle, reactorSide, trigger) {
+    if (battle.outcome || battle.awaitingSwitch) return [];
+    const reactor = battle[reactorSide];
+    if (!reactor?.reactionAvailable) return [];
+
+    const result = [];
+    for (const moveId of reactor.moveIds ?? []) {
+      if ((reactor.pp?.[moveId] ?? 0) <= 0) continue;
+      const move = await this.data.getMove(moveId);
+      if (!isSupportedReactionMove(move)) continue;
+      if (REACTION_TRIGGER_BY_MOVE[move.id] !== trigger) continue;
+
+      const target = battle[otherSide(reactorSide)];
+      if (!target?.position || !reactor.position) continue;
+      if (!rangeCheckForMove(reactor, target, move).legal) continue;
+      result.push(move);
+    }
+    return result;
+  }
+
+  async useReactionMove(
+    battle,
+    reactorSide,
+    moveId,
+    { trigger, targetSide: requestedTargetSide = null } = {}
+  ) {
+    if (battle.outcome || battle.awaitingSwitch) return clone(battle);
+
+    const next = clone(battle);
+    const reactor = next[reactorSide];
+    if (!reactor) throw new Error(`Unknown reactor side: ${reactorSide}`);
+    if (!reactor.reactionAvailable) {
+      throw new Error(`${reactor.name} has no reaction available`);
+    }
+    if (!reactor.moveIds.includes(moveId)) {
+      throw new Error(`${reactor.name} does not know ${moveId}`);
+    }
+    if ((reactor.pp[moveId] ?? 0) <= 0) {
+      throw new Error(`${moveId} has no PP remaining`);
+    }
+
+    const move = await this.data.getMove(moveId);
+    if (move.time?.unit !== "reaction") {
+      throw new Error(`${moveId} is not a Reaction move`);
+    }
+    if (!isSupportedReactionMove(move)) {
+      throw new Error(`Reaction move ${move.id} does not yet have an executable reaction rule`);
+    }
+
+    const requiredTrigger = REACTION_TRIGGER_BY_MOVE[move.id];
+    if (trigger !== requiredTrigger) {
+      throw new Error(
+        `${move.name} requires reaction trigger ${requiredTrigger}; received ${trigger ?? "none"}`
+      );
+    }
+
+    const targetSide = requestedTargetSide ?? otherSide(reactorSide);
+    if (targetSide !== otherSide(reactorSide)) {
+      throw new Error(`${move.name} currently requires the opposing active creature as target`);
+    }
+    const target = next[targetSide];
+    const range = rangeCheckForMove(reactor, target, move);
+    if (!range.legal) {
+      throw new Error(
+        `${move.name} reaction is out of range: ${range.distance.toFixed(1)}ft > ${range.maxRange}ft`
+      );
+    }
+
+    const pressureApplies =
+      target.abilityId === "pressure" &&
+      move.range?.type !== "self";
+    const ppCost = pressureApplies ? 2 : 1;
+    if ((reactor.pp[moveId] ?? 0) < ppCost) {
+      throw new Error(`${moveId} needs ${ppCost} PP because of Pressure`);
+    }
+
+    reactor.pp[moveId] = Math.max(0, reactor.pp[moveId] - ppCost);
+    reactor.reactionAvailable = false;
+    next.log.push({
+      type: "reaction_use",
+      round: next.round,
+      actor: reactorSide,
+      target: targetSide,
+      trigger,
+      moveId,
+      ppCost
+    });
+
+    if (REACTION_ATTACK_MOVES.has(move.id)) {
+      return this.resolveAttackMove(next, reactorSide, move, { reaction: true });
+    }
+
+    if (REACTION_STATUS_MOVES.has(move.id)) {
+      const result = resolveSaveMove({
+        attacker: reactor,
+        defender: target,
+        move,
+        dice: this.dice,
+        round: next.round
+      });
+      const status = failedSaveStatus(move, result.save);
+      const statusResult = applyMoveStatus(
+        reactor,
+        target,
+        status,
+        next.round
+      );
+      next.log.push({
+        type: "reaction_status",
+        round: next.round,
+        actor: reactorSide,
+        target: targetSide,
+        trigger,
+        ...result,
+        status,
+        statusResult
+      });
+      return next;
+    }
+
+    throw new Error(`No reaction handler for ${move.id}`);
   }
 
   async opportunityAttack(battle, reactorSide, moverSide, moveId) {
