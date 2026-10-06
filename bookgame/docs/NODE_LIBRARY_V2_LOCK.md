@@ -1,8 +1,9 @@
 # P5E LIBROGAME — NODE LIBRARY V2 LOCK
 
 **Status:** LOCKED BASELINE FOR M05→M12 AUTHORING  
-**Production branch reviewed:** `m5-00-04-work`  
-**Validated corpus:** M01 + M02 + M03 + M04 + M05  
+**Production branch reviewed:** `m6-00-04-work`  
+**Runtime-validated corpus:** M01 + M02 + M03 + M04 + M05  
+**Static-reviewed extension:** M06 — 220 nodes / 484 meaningful choices, runtime CI pending  
 **Catalog:** `bookgame/docs/NODE_REUSE_CATALOG.md`
 
 ---
@@ -39,9 +40,27 @@ The reusable structural vocabulary remains:
 
 **R01→R38**
 
-M03, M04 and M05 were audited after implementation and did not prove a missing reusable topology that justifies R39+.
+M03, M04, M05 and the complete static implementation of M06 were audited and did not prove a missing reusable topology that justifies R39+.
 
 This is intentional. New story content is expected to reuse or compose existing structures.
+
+---
+
+# 2A. M06 STATIC EXTENSION EVIDENCE
+
+M06 — *Oltre i Confini* is fully authored at **220 logical nodes / 484 meaningful choices**.
+
+Static evidence:
+
+- all 15 M06 blocks implemented;
+- exact module budget preserved;
+- all 220 nodes reachable from the real M6 entry;
+- no zero-incoming padding islands;
+- ACT_6 event bindings and E5 A→S Gate are wired;
+- dedicated cycle 1/2/3 and budget regressions are authored;
+- no structural job required a new R39 candidate.
+
+M06 is therefore evidence that **R01→R38 scales into the Rank A→S / international / cutoff phase**. It is not added to the runtime-validated numerical corpus until executable test evidence is available.
 
 ---
 
@@ -153,4 +172,4 @@ This order is now canonical for production.
 
 Current lock:
 
-**R01→R38 / 1,134 validated logical nodes of empirical evidence / five complete modules.**
+**R01→R38 / 1,134 runtime-validated logical nodes across five complete modules + 220 additional M06 static-reviewed nodes with no R39 requirement.**
