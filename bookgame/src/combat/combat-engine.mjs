@@ -7,6 +7,17 @@ import {
 } from "./canonical-runtime.mjs";
 import { Poke5eDataRepository } from "./poke5e-data.mjs";
 import {
+  advancePokeballStabilization,
+  createChaseState,
+  createPokemonDeathState,
+  faintPokemon,
+  recallFaintedPokemon,
+  releasePokemonFromBall,
+  resolveChaseRound,
+  resolveGroupFleeCheck,
+  resolvePokemonDeathSave
+} from "./survival.mjs";
+import {
   abilityModifier,
   calculateMoveStats,
   damageProfile,
@@ -938,6 +949,7 @@ function forceOpponentReplacement(battle) {
   const incoming = battle.opponentBench[benchIndex];
   const releasePosition = clone(outgoing.position ?? { x: 5, y: 0 });
 
+  if (outgoing.hp.current <= 0) recallFaintedPokemon(outgoing);
   clearTransientEffects(outgoing);
   outgoing.position = null;
   outgoing.turn.started = false;
@@ -1067,11 +1079,16 @@ function checkConcentrationAfterDamage(battle, side, damage, dice) {
 
 function markDowned(battle, downedSide, reason) {
   endConcentrationState(battle, downedSide, "fainted");
+  const death = faintPokemon(battle[downedSide], {
+    sanctioned: Boolean(battle.sanctioned)
+  });
   battle.log.push({
     type: "fainted",
     round: battle.round,
     actor: downedSide,
-    reason
+    reason,
+    sanctioned: Boolean(battle.sanctioned),
+    deathState: death.state
   });
 
   if (downedSide === "player" && healthyBenchIndices(battle, "player").length > 0) {
@@ -1882,6 +1899,7 @@ export class Pokemon5eCombatEngine {
       switchedInRound: null,
       concentration: null,
       statuses,
+      death: clone(descriptor.death ?? createPokemonDeathState()),
       effects: {
         attackModifierSources: [],
         incomingAttackBonusSources: [],
@@ -1981,6 +1999,11 @@ export class Pokemon5eCombatEngine {
       opponent,
       opponentBench,
       opponentRegistered: Boolean(handoff.opponentRegistered),
+      sanctioned: Boolean(handoff.sanctioned),
+      flee: {
+        lastAttemptRound: null,
+        chase: null
+      },
       awaitingSwitch: null,
       pendingSwitchEffects: {
         player: null,
@@ -5263,6 +5286,7 @@ export class Pokemon5eCombatEngine {
     }
 
     endConcentrationState(next, "player", "switch");
+    if (forced && outgoing.hp.current <= 0) recallFaintedPokemon(outgoing);
     clearTransientEffects(outgoing);
     outgoing.position = null;
     outgoing.turn.started = false;
@@ -5270,6 +5294,7 @@ export class Pokemon5eCombatEngine {
 
     next.playerBench[benchIndex] = outgoing;
     incoming.position = release;
+    releasePokemonFromBall(incoming);
     incoming.switchedInRound = next.round;
     incoming.reactionAvailable = false;
     incoming.turn.started = true;
@@ -5294,6 +5319,244 @@ export class Pokemon5eCombatEngine {
 
     if (!forced) return endTurnInternal(next, "player", this.dice);
     return next;
+  }
+
+  fleeBlockedReason(battle) {
+    const player = battle.player;
+    const opponent = battle.opponent;
+    const activeEscapeLock = (player.effects?.escapeLockSources ?? []).find(
+      (entry) => entry.expiresRound == null || battle.round < entry.expiresRound
+    );
+    if (activeEscapeLock) return activeEscapeLock.source ?? "escape_lock";
+
+    const range = player.position && opponent.position
+      ? distance(player.position, opponent.position)
+      : Infinity;
+    const hasFlight = (player.speed ?? []).some(
+      (entry) => ["flying", "hover"].includes(entry.type) && Number(entry.value ?? 0) > 0
+    );
+    const grounded = player.abilityId !== "levitate" && !hasFlight;
+
+    if (opponent.abilityId === "shadow-tag" && range <= 50 + 1e-9) return "shadow-tag";
+    if (opponent.abilityId === "arena-trap" && grounded && range <= 50 + 1e-9) return "arena-trap";
+    if (opponent.abilityId === "magnet-pull" && player.types?.includes("steel")) return "magnet-pull";
+    return null;
+  }
+
+  async attemptPlayerFlee(
+    battle,
+    {
+      participants = [{ id: "trainer", modifier: 0 }],
+      dc = 15,
+      advantage = false,
+      disadvantage = false,
+      useEscapeRope = false
+    } = {}
+  ) {
+    if (battle.outcome || battle.awaitingSwitch) {
+      return { battle: clone(battle), result: { legal: false, reason: "combat_not_active" } };
+    }
+    if (battle.sanctioned) {
+      return { battle: clone(battle), result: { legal: false, reason: "flee_only_wild_combat" } };
+    }
+    if (this.actor(battle) !== "player") {
+      throw new Error("Fleeing may be attempted on the player's turn");
+    }
+
+    let next = await this.prepareCurrentTurn(battle);
+    if (this.actor(next) !== "player") {
+      return { battle: next, result: { legal: false, reason: "turn_skipped" } };
+    }
+    next.flee ??= { lastAttemptRound: null, chase: null };
+    if (next.flee.lastAttemptRound === next.round) {
+      return { battle: next, result: { legal: false, reason: "flee_already_attempted_this_round" } };
+    }
+
+    const ropeIndex = useEscapeRope
+      ? findInventoryItemIndex(next.trainer.inventory, "escape-rope")
+      : -1;
+    if (useEscapeRope && ropeIndex < 0) {
+      return { battle: next, result: { legal: false, reason: "no_escape_rope" } };
+    }
+
+    const blockedBy = this.fleeBlockedReason(next);
+    if (blockedBy && !useEscapeRope) {
+      next.flee.lastAttemptRound = next.round;
+      next.log.push({
+        type: "flee_attempt",
+        round: next.round,
+        actor: "player",
+        legal: false,
+        blockedBy
+      });
+      return { battle: next, result: { legal: false, reason: "flee_blocked", blockedBy } };
+    }
+
+    next.flee.lastAttemptRound = next.round;
+    let result;
+    if (useEscapeRope) {
+      next.trainer.inventory.splice(ropeIndex, 1);
+      result = {
+        legal: true,
+        escaped: true,
+        automatic: true,
+        source: "escape-rope",
+        checks: []
+      };
+    } else {
+      result = {
+        legal: true,
+        automatic: false,
+        source: "group-check",
+        ...resolveGroupFleeCheck({
+          participants,
+          dc,
+          dice: this.dice,
+          advantage,
+          disadvantage
+        })
+      };
+    }
+
+    next.log.push({
+      type: "flee_attempt",
+      round: next.round,
+      actor: "player",
+      ...clone(result)
+    });
+
+    if (result.escaped) {
+      const pursuits = await this.availableReactionMoves(next, "opponent", "target_flees");
+      const pursuit = pursuits.find((entry) => entry.id === "pursuit");
+      if (pursuit) {
+        next = await this.useReactionMove(next, "opponent", pursuit.id, {
+          trigger: "target_flees",
+          targetSide: "player"
+        });
+        if (next.player.hp.current <= 0 || next.awaitingSwitch || next.outcome) {
+          return {
+            battle: next,
+            result: { ...result, escaped: false, interruptedBy: "pursuit" }
+          };
+        }
+      }
+
+      next.outcome = "fled";
+      next.log.push({
+        type: "combat_end",
+        round: next.round,
+        outcome: "fled",
+        reason: result.source
+      });
+      return { battle: next, result };
+    }
+
+    next.trainer.actionAvailable = false;
+    next.player.turn.actionAvailable = false;
+    return { battle: endTurnInternal(next, "player", this.dice), result };
+  }
+
+  startPlayerChase(battle, options = {}) {
+    const next = clone(battle);
+    if (next.sanctioned) {
+      return { battle: next, result: { legal: false, reason: "flee_only_wild_combat" } };
+    }
+    next.flee ??= { lastAttemptRound: null, chase: null };
+    if (next.flee.lastAttemptRound === next.round) {
+      return { battle: next, result: { legal: false, reason: "flee_already_attempted_this_round" } };
+    }
+    const blockedBy = this.fleeBlockedReason(next);
+    if (blockedBy) {
+      next.flee.lastAttemptRound = next.round;
+      return { battle: next, result: { legal: false, reason: "flee_blocked", blockedBy } };
+    }
+    next.flee.lastAttemptRound = next.round;
+    next.flee.chase = createChaseState(options);
+    next.log.push({
+      type: "chase_start",
+      round: next.round,
+      actor: "player",
+      chase: clone(next.flee.chase)
+    });
+    return { battle: next, result: { legal: true, chase: clone(next.flee.chase) } };
+  }
+
+  advancePlayerChase(
+    battle,
+    {
+      quarryCheck = { modifier: 0 },
+      pursuerCheck = { modifier: 0 },
+      quarryAdvantage = false,
+      pursuerAdvantage = false
+    } = {}
+  ) {
+    const next = clone(battle);
+    if (!next.flee?.chase) {
+      return { battle: next, result: { legal: false, reason: "no_active_chase" } };
+    }
+    next.flee.chase = resolveChaseRound(next.flee.chase, {
+      quarryCheck,
+      pursuerCheck,
+      dice: this.dice,
+      quarryAdvantage,
+      pursuerAdvantage
+    });
+    next.log.push({
+      type: "chase_round",
+      round: next.round,
+      chase: clone(next.flee.chase)
+    });
+    if (next.flee.chase.outcome === "escaped") {
+      next.outcome = "fled";
+      next.log.push({ type: "combat_end", round: next.round, outcome: "fled", reason: "chase" });
+    }
+    return {
+      battle: next,
+      result: { legal: true, chase: clone(next.flee.chase), outcome: next.flee.chase.outcome }
+    };
+  }
+
+  resolvePokemonDeathSave(battle, side = "player", { benchIndex = null } = {}) {
+    const next = clone(battle);
+    const pokemon = benchIndex == null
+      ? next[side]
+      : benchForSide(next, side)[benchIndex];
+    if (!pokemon) return { battle: next, result: { rolled: false, reason: "pokemon_not_found" } };
+    const result = resolvePokemonDeathSave(pokemon, this.dice);
+    next.log.push({
+      type: "death_save",
+      round: next.round,
+      actor: side,
+      benchIndex,
+      speciesId: pokemon.speciesId,
+      ...clone(result)
+    });
+    return { battle: next, result };
+  }
+
+  advancePokeballRecovery(battle, minutes) {
+    const next = clone(battle);
+    const results = [];
+    for (const side of ["player", "opponent"]) {
+      const entries = [next[side], ...benchForSide(next, side)];
+      entries.forEach((pokemon, index) => {
+        if (!pokemon?.death?.inPokeball) return;
+        const result = advancePokeballStabilization(pokemon, minutes);
+        results.push({
+          side,
+          benchIndex: index === 0 ? null : index - 1,
+          speciesId: pokemon.speciesId,
+          ...result
+        });
+      });
+    }
+    next.log.push({
+      type: "pokeball_recovery",
+      round: next.round,
+      minutes,
+      results: clone(results)
+    });
+    return { battle: next, results };
   }
 
   async attemptPlayerCapture(battle, ball = "pokeball", context = {}) {
