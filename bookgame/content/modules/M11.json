@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "id": "M11",
+  "title": "Per Diventare Campione",
+  "targets": {
+    "stitches": 3500,
+    "choices": 1600
+  },
+  "progressionRole": "world-knockout-sf-final",
+  "designDocument": "docs/modules/M11_PER_DIVENTARE_CAMPIONE_MODULE_DESIGN.md",
+  "mappingDocument": "docs/modules/M11_PRODUCTION_MAPPING.md",
+  "requiredBeats": [
+    "M11_00_FINAL_FOUR_LOCK",
+    "M11_01_REI_THREAD",
+    "M11_02_SF_PREP",
+    "M11_03_WORLD_SF",
+    "M11_04_OTHER_SF",
+    "M11_05_FRIEND_BEAT_11",
+    "M11_06_FINAL_PREP",
+    "M11_07_WORLD_FINAL",
+    "M11_08_CHAMPIONSHIP_OUTCOME"
+  ],
+  "blocks": [
+    {
+      "id": "M11_00_FINAL_FOUR_LOCK",
+      "title": "Final Four Lock",
+      "targets": {
+        "stitches": 305,
+        "choices": 140
+      }
+    },
+    {
+      "id": "M11_01_REI_THREAD",
+      "title": "Rei Thread",
+      "targets": {
+        "stitches": 359,
+        "choices": 164
+      }
+    },
+    {
+      "id": "M11_02_SF_PREP",
+      "title": "SF Prep",
+      "targets": {
+        "stitches": 305,
+        "choices": 140
+      }
+    },
+    {
+      "id": "M11_03_WORLD_SF",
+      "title": "World SF",
+      "targets": {
+        "stitches": 521,
+        "choices": 238
+      }
+    },
+    {
+      "id": "M11_04_OTHER_SF",
+      "title": "Other SF",
+      "targets": {
+        "stitches": 359,
+        "choices": 164
+      }
+    },
+    {
+      "id": "M11_05_FRIEND_BEAT_11",
+      "title": "Friend Beat 11",
+      "targets": {
+        "stitches": 521,
+        "choices": 238
+      }
+    },
+    {
+      "id": "M11_06_FINAL_PREP",
+      "title": "Final Prep",
+      "targets": {
+        "stitches": 305,
+        "choices": 139
+      }
+    },
+    {
+      "id": "M11_07_WORLD_FINAL",
+      "title": "World Final",
+      "targets": {
+        "stitches": 520,
+        "choices": 238
+      }
+    },
+    {
+      "id": "M11_08_CHAMPIONSHIP_OUTCOME",
+      "title": "Championship Outcome",
+      "targets": {
+        "stitches": 305,
+        "choices": 139
+      }
+    }
+  ]
+}
