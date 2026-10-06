@@ -180,6 +180,17 @@ function consumeAttackAdvantageUse(combatant, target, round) {
   return null;
 }
 
+function consumeOneShotAttackSource(combatant, key, round) {
+  for (const source of combatant.effects?.[key] ?? []) {
+    if (source.usesRemaining == null || source.usesRemaining <= 0) continue;
+    if (source.startsRound != null && round < source.startsRound) continue;
+    if (source.expiresRound != null && round >= source.expiresRound) continue;
+    source.usesRemaining -= 1;
+    return source.source;
+  }
+  return null;
+}
+
 function removeEffectSource(combatant, source, round = null) {
   const speedSources = combatant.effects?.speedModifierSources ?? [];
   const speedBefore = round == null ? 0 : activeModifier(speedSources, round);
@@ -196,6 +207,8 @@ function removeEffectSource(combatant, source, round = null) {
     "typeImmunitySources",
     "stabMultiplierSources",
     "criticalRangeBonusSources",
+    "forcedHitSources",
+    "forcedCriticalSources",
     "restrainedSources",
     "switchLockSources",
     "escapeLockSources",
@@ -432,7 +445,9 @@ const SPECIAL_SELF_MOVES = new Set([
   "clangorous-soul",
   "fillet-away",
   "healing-wish",
-  "lunar-dance"
+  "laser-focus",
+  "lunar-dance",
+  "mind-reader"
 ]);
 
 function isSpecialSelfMove(move) {
@@ -557,6 +572,8 @@ function clearTransientEffects(combatant) {
     typeImmunitySources: [],
     stabMultiplierSources: [],
     criticalRangeBonusSources: [],
+    forcedHitSources: [],
+    forcedCriticalSources: [],
     restrainedSources: [],
     switchLockSources: [],
     escapeLockSources: [],
@@ -1274,6 +1291,8 @@ export class Pokemon5eCombatEngine {
         typeImmunitySources: [],
         stabMultiplierSources: [],
         criticalRangeBonusSources: [],
+        forcedHitSources: [],
+        forcedCriticalSources: [],
         restrainedSources: [],
         switchLockSources: [],
         escapeLockSources: [],
@@ -1628,6 +1647,16 @@ export class Pokemon5eCombatEngine {
       move.id === "spit-up"
         ? Math.max(1, attacker.effects?.stockpileCount ?? 0)
         : 1;
+    const forcedHitConsumed = consumeOneShotAttackSource(
+      attacker,
+      "forcedHitSources",
+      next.round
+    );
+    const forcedCriticalConsumed = consumeOneShotAttackSource(
+      attacker,
+      "forcedCriticalSources",
+      next.round
+    );
     const result = resolveAttack({
       attacker,
       defender: defenderForResolution,
@@ -1637,6 +1666,8 @@ export class Pokemon5eCombatEngine {
       extraDamageModifier: damageBonus,
       damageDiceMultiplier: stockpileMultiplier,
       forceDisadvantage,
+      forceHit: Boolean(forcedHitConsumed),
+      forceCritical: Boolean(forcedCriticalConsumed),
       round: next.round
     });
     const attackAdvantageConsumed = consumeAttackAdvantageUse(
@@ -1644,6 +1675,13 @@ export class Pokemon5eCombatEngine {
       defender,
       next.round
     );
+
+    if (
+      forcedCriticalConsumed === "laser-focus" &&
+      attacker.concentration?.moveId === "laser-focus"
+    ) {
+      endConcentrationState(next, side, "consumed");
+    }
 
     defender.hp.current = Math.max(0, defender.hp.current - result.damage);
     checkConcentrationAfterDamage(next, targetSide, result.damage, this.dice);
@@ -1677,6 +1715,8 @@ export class Pokemon5eCombatEngine {
       target: targetSide,
       ...result,
       attackAdvantageConsumed,
+      forcedHitConsumed,
+      forcedCriticalConsumed,
       secondaryStatus: secondary,
       statusResult,
       thawed,
@@ -1767,6 +1807,16 @@ export class Pokemon5eCombatEngine {
     const attackBonus =
       activeModifier(attacker.effects.attackModifierSources, next.round) +
       activeModifier(defender.effects.incomingAttackBonusSources, next.round);
+    const forcedHitConsumed = consumeOneShotAttackSource(
+      attacker,
+      "forcedHitSources",
+      next.round
+    );
+    const forcedCriticalConsumed = consumeOneShotAttackSource(
+      attacker,
+      "forcedCriticalSources",
+      next.round
+    );
     const roll = rollD20(this.dice, {
       advantage:
         hasAttackAdvantageAgainst(attacker, defender, next.round) ||
@@ -1784,8 +1834,15 @@ export class Pokemon5eCombatEngine {
       next.round
     );
     const defenderAc = effectiveAc(defender, next.round);
-    const hit = roll.natural === 20 ||
+    const critical = Boolean(forcedCriticalConsumed) || roll.natural === 20;
+    const hit = Boolean(forcedHitConsumed) || critical ||
       (roll.natural !== 1 && attackTotal >= defenderAc);
+    if (
+      forcedCriticalConsumed === "laser-focus" &&
+      attacker.concentration?.moveId === "laser-focus"
+    ) {
+      endConcentrationState(next, side, "consumed");
+    }
     const status = hit ? attackHitStatus(move, roll.natural) : null;
     const statusResult = applyMoveStatus(attacker, defender, status);
 
@@ -1802,6 +1859,9 @@ export class Pokemon5eCombatEngine {
       attackAdvantageConsumed,
       defenderAc,
       hit,
+      critical,
+      forcedHitConsumed,
+      forcedCriticalConsumed,
       status,
       statusResult
     });
@@ -2041,6 +2101,59 @@ export class Pokemon5eCombatEngine {
 
   async resolveSpecialSelfMove(next, side, move) {
     const combatant = next[side];
+
+    if (move.id === "laser-focus") {
+      endConcentrationState(next, side, "new_concentration");
+      removeEffectSource(combatant, "laser-focus", next.round);
+      combatant.effects.forcedCriticalSources.push({
+        source: "laser-focus",
+        usesRemaining: 1,
+        startsRound: next.round + 1,
+        expiresRound: next.round + 2
+      });
+      combatant.concentration = {
+        zoneId: null,
+        moveId: move.id,
+        effectSource: "laser-focus",
+        expiresRound: next.round + 2
+      };
+      next.log.push({
+        type: "special_self_move",
+        round: next.round,
+        actor: side,
+        moveId: move.id,
+        applied: {
+          forcedCriticalUses: 1,
+          startsRound: next.round + 1,
+          expiresRound: next.round + 2
+        },
+        concentration: true
+      });
+      return next;
+    }
+
+    if (move.id === "mind-reader") {
+      removeEffectSource(combatant, "mind-reader", next.round);
+      combatant.effects.forcedHitSources.push({
+        source: "mind-reader",
+        usesRemaining: 1,
+        startsRound: next.round + 1,
+        expiresRound: next.round + 2
+      });
+      next.log.push({
+        type: "special_self_move",
+        round: next.round,
+        actor: side,
+        moveId: move.id,
+        applied: {
+          forcedHitUses: 1,
+          startsRound: next.round + 1,
+          expiresRound: next.round + 2
+        },
+        concentration: false
+      });
+      return next;
+    }
 
     if (move.id === "charge") {
       endConcentrationState(next, side, "new_concentration");
