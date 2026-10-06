@@ -1,0 +1,362 @@
+{
+  "schemaVersion": 1,
+  "id": "m09-kaia-thread",
+  "moduleId": "M09",
+  "title": "M9_03 — Kaia Thread",
+  "locationId": "world_village",
+  "entryNodeId": "kaia_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m9_interday_one_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m9_kaia_available",
+        "eq": true
+      },
+      {
+        "path": "competition.world.qualifications.c2060_32_kaia_solari.qualified",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "kaia_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Kaia Solari è nel Mondiale perché il suo stato competitivo la colloca realmente nel field. Il thread non la sposta: controlla il suo schedule prima di trasformare la presenza in un incontro."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_meet",
+          "text": "Kaia è qui nel Village: mi avvicino.",
+          "goto": "first_meeting",
+          "conditions": {
+            "all": [
+              {
+                "path": "npcs.KaiaSolari.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.KaiaSolari.schedule.locationId",
+                "eq": "world_village"
+              },
+              {
+                "path": "world.locationId",
+                "eq": "world_village"
+              },
+              {
+                "path": "world.flags.kaia_met",
+                "ne": true
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "kaia_met",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "KaiaSolari",
+              "key": "introduced",
+              "value": true
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "KaiaSolari",
+              "delta": 1
+            }
+          ]
+        },
+        {
+          "id": "entry_reengage",
+          "text": "Ci siamo già incontrati: riprendo il confronto.",
+          "goto": "reengage",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.kaia_met",
+                "eq": true
+              },
+              {
+                "path": "npcs.KaiaSolari.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "world.locationId",
+                "eq": "world_village"
+              }
+            ]
+          }
+        },
+        {
+          "id": "entry_public",
+          "text": "Non forzo un incontro fisico: seguo il thread pubblico del torneo.",
+          "goto": "schedule_context"
+        }
+      ]
+    },
+    "schedule_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il programma di Kaia la colloca nel World Village durante questa finestra. Se tu sei altrove, l'informazione resta pubblica ma non diventa magicamente una conversazione faccia a faccia."
+        }
+      ],
+      "choices": [
+        {
+          "id": "schedule_group",
+          "text": "Controllo se Kaia è anche nel mio gruppo.",
+          "goto": "group_relation"
+        },
+        {
+          "id": "schedule_style",
+          "text": "Studio ciò che è pubblico del suo approccio.",
+          "goto": "kaia_style"
+        },
+        {
+          "id": "schedule_defer",
+          "text": "Scelgo di non inseguire il contatto.",
+          "goto": "defer"
+        }
+      ]
+    },
+    "group_relation": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il sorteggio E5 conserva se Kaia appartiene o meno al tuo Gruppo. In entrambi i casi la sua traiettoria competitiva resta autonoma."
+        }
+      ],
+      "choices": [
+        {
+          "id": "group_pressure",
+          "text": "Ragiono sulla pressione che la sua presenza crea nel torneo.",
+          "goto": "pressure"
+        },
+        {
+          "id": "group_independence",
+          "text": "Controllo cosa il copione non può proteggerle.",
+          "goto": "result_independence"
+        }
+      ]
+    },
+    "first_meeting": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Kaia ti tratta come un altro partecipante del Mondiale, non come il centro della sua storia. La sua aggressività nasce da ciò che vede e da ciò che ha realmente vissuto nel torneo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "meeting_pressure",
+          "text": "Parliamo di come si sopravvive a un girone corto.",
+          "goto": "pressure"
+        },
+        {
+          "id": "meeting_style",
+          "text": "Le chiedo come prepara una partita senza inventare informazioni.",
+          "goto": "kaia_style"
+        },
+        {
+          "id": "meeting_callback",
+          "text": "Collego il confronto ai miei incontri precedenti.",
+          "goto": "callback"
+        }
+      ]
+    },
+    "reengage": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il rapporto riparte dallo stato persistente già costruito. Nessun nuovo incontro cancella la relazione precedente o assegna un risultato futuro."
+        }
+      ],
+      "choices": [
+        {
+          "id": "reengage_style",
+          "text": "Torniamo al modo in cui legge il torneo.",
+          "goto": "kaia_style"
+        },
+        {
+          "id": "reengage_callback",
+          "text": "Riprendiamo un filo precedente.",
+          "goto": "callback"
+        }
+      ]
+    },
+    "pressure": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Tre partite lasciano poco spazio per correggere errori. Kaia parla di pressione come gestione del tempo e delle risorse, non come bonus statistico."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pressure_independence",
+          "text": "Le chiedo quanto conta la classifica rispetto al nome.",
+          "goto": "result_independence"
+        },
+        {
+          "id": "pressure_relationship",
+          "text": "Le rispondo sul mio modo di affrontare il rischio.",
+          "goto": "relationship"
+        }
+      ]
+    },
+    "kaia_style": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Kaia cerca iniziativa e adattamento, ma non legge mosse non rivelate. Il suo profilo guida le decisioni future senza trasformarsi in onniscienza."
+        }
+      ],
+      "choices": [
+        {
+          "id": "style_pressure",
+          "text": "Collego lo stile alla pressione del girone.",
+          "goto": "pressure"
+        },
+        {
+          "id": "style_callback",
+          "text": "Confronto il suo metodo con gli Anchor già incontrati.",
+          "goto": "callback"
+        }
+      ]
+    },
+    "result_independence": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Essere Anchor non le concede plot armor. Dal draw in poi Kaia può perdere, scendere in classifica o essere eliminata come ogni altro partecipante."
+        }
+      ],
+      "choices": [
+        {
+          "id": "independence_group",
+          "text": "Torno al rapporto fra Kaia e il mio gruppo.",
+          "goto": "group_relation"
+        },
+        {
+          "id": "independence_commit",
+          "text": "Porto questo punto alla chiusura del thread.",
+          "goto": "thread_commit"
+        }
+      ]
+    },
+    "callback": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Cynthia, Astrid e gli altri incontri precedenti possono cambiare ciò che noti in Kaia. Non trasferiscono automaticamente fiducia, rivalità o risultati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "callback_relationship",
+          "text": "Lascio che il confronto influenzi soltanto il rapporto reale.",
+          "goto": "relationship"
+        },
+        {
+          "id": "callback_style",
+          "text": "Torno al suo stile competitivo.",
+          "goto": "kaia_style"
+        }
+      ]
+    },
+    "relationship": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La conversazione può costruire rispetto o tensione, ma non modifica il draw né la classifica. Il prossimo Matchday resta contro il secondo nome già lockato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "relationship_commit",
+          "text": "Chiudo il thread senza chiedere favori competitivi.",
+          "goto": "thread_commit"
+        },
+        {
+          "id": "relationship_pressure",
+          "text": "Ritorno al tema della pressione.",
+          "goto": "pressure"
+        }
+      ]
+    },
+    "defer": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Non cerchi Kaia. Il suo schedule e la sua carriera continuano comunque; rinunciare alla scena fisica non la congela."
+        }
+      ],
+      "choices": [
+        {
+          "id": "defer_public",
+          "text": "Mi limito a ciò che è pubblico.",
+          "goto": "schedule_context"
+        },
+        {
+          "id": "defer_commit",
+          "text": "Accetto di non avere un incontro personale e chiudo il thread.",
+          "goto": "thread_commit"
+        }
+      ]
+    },
+    "thread_commit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La chiusura registra soltanto che il thread M9 ha avuto una forma coerente con lo stato reale: incontro se possibile, osservazione pubblica se non lo era."
+        }
+      ],
+      "choices": [
+        {
+          "id": "thread_now",
+          "text": "Registro la chiusura del thread di Kaia.",
+          "goto": "thread_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m9_kaia_thread_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "thread_review",
+          "text": "Prima rileggo il rapporto con il gruppo.",
+          "goto": "group_relation"
+        }
+      ]
+    },
+    "thread_complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il thread di Kaia è completo. Nessuna sua partita è stata decisa; il Matchday 2 resta un confronto contro {{competition.world.playerOpponents.1.name}}."
+        }
+      ],
+      "choices": [
+        {
+          "id": "complete_md2",
+          "text": "Passo alla preparazione del Matchday 2.",
+          "goto": "m09-matchday-two#matchday_entry"
+        },
+        {
+          "id": "complete_style",
+          "text": "Rileggo un'ultima volta il suo approccio.",
+          "goto": "kaia_style"
+        }
+      ]
+    }
+  }
+}

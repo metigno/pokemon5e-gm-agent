@@ -1,0 +1,321 @@
+{
+  "schemaVersion": 1,
+  "id": "m09-interday-one",
+  "moduleId": "M09",
+  "title": "M9_02 — Interday One",
+  "locationId": "world_village",
+  "entryNodeId": "interday_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m9_matchday_one_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.world_group_md1_resolved",
+        "eq": true
+      },
+      {
+        "path": "competition.world.groupStage.opened",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "interday_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Matchday 1 è finito, ma la squadra non viene ripristinata dal cambio di scena. Il tempo tra le partite è una risorsa: puoi spenderlo, conservarlo o lasciarlo scorrere."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_village",
+          "text": "Rientro fisicamente nel World Village.",
+          "goto": "recovery_check",
+          "timeCostMinutes": 15,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "world_village"
+            }
+          ]
+        },
+        {
+          "id": "entry_resources",
+          "text": "Controllo subito cosa è rimasto alla squadra.",
+          "goto": "resource_guard"
+        },
+        {
+          "id": "entry_groups",
+          "text": "Guardo come stanno andando gli altri gruppi.",
+          "goto": "other_groups"
+        }
+      ]
+    },
+    "recovery_check": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Recupero significa leggere HP, PP, status e infortuni reali, poi decidere se usare servizi esistenti. M9 non applica un heal narrativo gratuito."
+        }
+      ],
+      "choices": [
+        {
+          "id": "recovery_medical",
+          "text": "Valuto i servizi medici disponibili.",
+          "goto": "medical_service"
+        },
+        {
+          "id": "recovery_training",
+          "text": "Valuto se allenarmi nonostante il calendario.",
+          "goto": "training_option"
+        },
+        {
+          "id": "recovery_table",
+          "text": "Controllo prima punti e posizione.",
+          "goto": "standings_read"
+        }
+      ]
+    },
+    "medical_service": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il centro medico può essere raggiunto come servizio del mondo, ma questa scena non modifica direttamente lo stato Pokémon. Il costo in tempo resta reale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "medical_resources",
+          "text": "Torno all'inventario di risorse residue.",
+          "goto": "resource_guard"
+        },
+        {
+          "id": "medical_recovery",
+          "text": "Riconsidero le priorità di recupero.",
+          "goto": "recovery_check"
+        }
+      ]
+    },
+    "training_option": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Allenarsi è possibile, ma non esiste una ricompensa automatica per aver scelto la parola 'training'. Ogni ora spesa riduce la finestra prima del Matchday 2."
+        }
+      ],
+      "choices": [
+        {
+          "id": "training_wait",
+          "text": "Dedico un'ora alla preparazione tecnica senza buff gratuito.",
+          "goto": "wait_window"
+        },
+        {
+          "id": "training_media",
+          "text": "Prima considero gli impegni media.",
+          "goto": "media_window"
+        }
+      ]
+    },
+    "media_window": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Media e sponsor reagiscono al risultato reale del primo Matchday. La postura pubblica può creare callback, non punti né guarigione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "media_world",
+          "text": "Lascio che la giornata prosegua e osservo il mondo.",
+          "goto": "living_world"
+        },
+        {
+          "id": "media_groups",
+          "text": "Guardo i risultati dagli altri gruppi.",
+          "goto": "other_groups"
+        },
+        {
+          "id": "media_resources",
+          "text": "Proteggo le risorse e chiudo le interviste.",
+          "goto": "resource_guard"
+        }
+      ]
+    },
+    "other_groups": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Gli altri gruppi continuano mentre ti occupi del tuo. Vittorie, sconfitte e carriere NPC non vengono congelate finché non le guardi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "groups_table",
+          "text": "Torno alla mia classifica provvisoria.",
+          "goto": "standings_read"
+        },
+        {
+          "id": "groups_world",
+          "text": "Osservo come il Living World sta avanzando.",
+          "goto": "living_world"
+        },
+        {
+          "id": "groups_media",
+          "text": "Valuto la pressione mediatica generata dai risultati.",
+          "goto": "media_window"
+        }
+      ]
+    },
+    "standings_read": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La classifica dopo il Matchday 1 è provvisoria. I punti arrivano da E5; una posizione momentanea non equivale né a qualificazione né a eliminazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "table_village",
+          "text": "Mi muovo tra i servizi del Village.",
+          "goto": "village_route"
+        },
+        {
+          "id": "table_groups",
+          "text": "Confronto con gli altri gruppi.",
+          "goto": "other_groups"
+        }
+      ]
+    },
+    "village_route": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Nel Village puoi raggiungere aree di recupero, training e socialità senza che gli NPC vengano teletrasportati verso di te."
+        }
+      ],
+      "choices": [
+        {
+          "id": "village_recovery",
+          "text": "Torno alla valutazione del recupero.",
+          "goto": "recovery_check"
+        },
+        {
+          "id": "village_time",
+          "text": "Controllo quanto tempo sono disposto a spendere.",
+          "goto": "wait_window"
+        }
+      ]
+    },
+    "wait_window": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Lasciare passare tempo è una scelta vera: schedule, quest e Living World continuano. Il Matchday 2 non si resetta se aspetti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "wait_hour",
+          "text": "Lascio passare un'ora di preparazione reale.",
+          "goto": "living_world",
+          "timeCostMinutes": 60
+        },
+        {
+          "id": "wait_stop",
+          "text": "Non spendo altra ora e proteggo le risorse.",
+          "goto": "resource_guard"
+        }
+      ]
+    },
+    "resource_guard": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Prima di chiudere l'interday controlli ciò che il primo match ha consumato. Nessuna variabile di squadra viene riscritta da questo blocco."
+        }
+      ],
+      "choices": [
+        {
+          "id": "guard_recovery",
+          "text": "Riapro le opzioni di recupero.",
+          "goto": "recovery_check"
+        },
+        {
+          "id": "guard_commit",
+          "text": "Sono pronto a chiudere l'Interday 1.",
+          "goto": "interday_commit"
+        }
+      ]
+    },
+    "living_world": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il tempo trascorso ha conseguenze oltre il player. Kaia, gli amici e gli altri qualificati seguono schedule e risultati propri."
+        }
+      ],
+      "choices": [
+        {
+          "id": "world_groups",
+          "text": "Rileggo i risultati che stanno emergendo.",
+          "goto": "other_groups"
+        },
+        {
+          "id": "world_commit",
+          "text": "Passo alla chiusura dell'interday.",
+          "goto": "interday_commit"
+        }
+      ]
+    },
+    "interday_commit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Chiudere l'Interday 1 registra soltanto che hai terminato questa finestra di gestione. Non assegna esiti futuri al Matchday 2."
+        }
+      ],
+      "choices": [
+        {
+          "id": "commit_now",
+          "text": "Chiudo l'Interday 1.",
+          "goto": "interday_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m9_interday_one_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "commit_review",
+          "text": "Prima torno alle priorità di recupero.",
+          "goto": "recovery_check"
+        }
+      ]
+    },
+    "interday_complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'Interday 1 è chiuso. Kaia può entrare nel prossimo thread soltanto se il suo stato World e il suo schedule rendono l'incontro plausibile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "complete_kaia",
+          "text": "Passo al thread di Kaia.",
+          "goto": "m09-kaia-thread#kaia_entry"
+        },
+        {
+          "id": "complete_table",
+          "text": "Rileggo la classifica prima di proseguire.",
+          "goto": "standings_read"
+        }
+      ]
+    }
+  }
+}

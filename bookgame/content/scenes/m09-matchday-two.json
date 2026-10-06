@@ -1,26 +1,30 @@
 {
   "schemaVersion": 1,
-  "id": "m09-matchday-one",
+  "id": "m09-matchday-two",
   "moduleId": "M09",
-  "title": "M9_01 — Matchday One",
+  "title": "M9_04 — Matchday Two",
   "locationId": "world_group_arena",
   "entryNodeId": "matchday_entry",
   "conditions": {
     "all": [
       {
-        "path": "world.flags.m9_groups_open_complete",
+        "path": "world.flags.m9_interday_one_complete",
         "eq": true
       },
       {
-        "path": "competition.world.groupStage.opened",
+        "path": "world.flags.m9_kaia_thread_complete",
         "eq": true
-      },
-      {
-        "path": "competition.world.playerOpponents.length",
-        "eq": 3
       },
       {
         "path": "world.flags.world_group_md1_resolved",
+        "eq": true
+      },
+      {
+        "path": "competition.world.groupStage.playerMatches.0.outcome",
+        "exists": true
+      },
+      {
+        "path": "world.flags.world_group_md2_resolved",
         "ne": true
       }
     ]
@@ -30,13 +34,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il primo Matchday non sceglie un avversario: legge l'indice 0 del draw lockato. Oggi giochi contro {{competition.world.playerOpponents.0.name}}."
+          "text": "Il secondo Matchday legge l'indice 1 dello stesso draw lockato. Oggi giochi contro {{competition.world.playerOpponents.1.name}}; il primo risultato resta nello storico."
         }
       ],
       "choices": [
         {
           "id": "entry_opponent",
-          "text": "Apro la scheda dell'avversario.",
+          "text": "Apro la scheda del secondo avversario.",
           "goto": "opponent_card"
         },
         {
@@ -46,7 +50,7 @@
         },
         {
           "id": "entry_table",
-          "text": "Guardo la classifica prima del match.",
+          "text": "Guardo la classifica prima del secondo match.",
           "goto": "standings_before"
         }
       ]
@@ -55,23 +59,23 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "{{competition.world.playerOpponents.0.name}} entra come partecipante reale del gruppo. Il roster regolamentato viene materializzato una volta e persiste; non cambia perché ricarichi o perdi."
+          "text": "{{competition.world.playerOpponents.1.name}} è il secondo avversario persistente del tuo gruppo. Il roster regolamentato viene materializzato una volta e conserva la propria identità di match."
         }
       ],
       "choices": [
         {
           "id": "card_schedule",
-          "text": "Controllo che sia davvero il Matchday 1.",
+          "text": "Controllo il lock del Matchday 2.",
           "goto": "schedule_lock"
         },
         {
           "id": "card_roster",
-          "text": "Controllo il mio Official Six.",
+          "text": "Controllo il mio Official Six dopo il primo match.",
           "goto": "roster_state"
         },
         {
           "id": "card_callbacks",
-          "text": "Rivedo eventuali precedenti senza alterare il match.",
+          "text": "Rivedo eventuali precedenti senza alterare il risultato.",
           "goto": "opponent_callback"
         }
       ]
@@ -80,13 +84,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Formato ufficiale: Singles, sei Pokémon registrati, risultato deciso dal motore Pokémon 5e. Non c'è retry del Matchday e una sconfitta non resetta il girone."
+          "text": "Formato ancora Singles Official Six. La prima giornata non concede retry né vantaggi nascosti: il secondo match parte dallo stato che hai realmente conservato."
         }
       ],
       "choices": [
         {
           "id": "rules_roster",
-          "text": "Controllo la disponibilità della mia squadra.",
+          "text": "Controllo la disponibilità della squadra.",
           "goto": "roster_state"
         },
         {
@@ -105,7 +109,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "E5 associa WORLD_GROUP_MD1 al primo avversario del draw. Se il match è già risolto, il sistema rifiuta un secondo avvio invece di duplicare punti o history."
+          "text": "E5 associa WORLD_GROUP_MD2 al secondo nome del draw. WORLD_GROUP_MD1 rimane intatto e un doppio avvio del Matchday 2 viene rifiutato."
         }
       ],
       "choices": [
@@ -125,13 +129,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Prima del fischio d'inizio la classifica legge lo stato strutturato del gruppo: nessun testo può assegnare punti in anticipo."
+          "text": "I punti prima del Matchday 2 includono entrambi i match della prima giornata. La posizione è provvisoria e non concede ancora accesso agli ottavi."
         }
       ],
       "choices": [
         {
           "id": "table_world",
-          "text": "Controllo l'altro incontro della giornata.",
+          "text": "Controllo l'altro incontro previsto oggi.",
           "goto": "world_pressure"
         },
         {
@@ -145,18 +149,18 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il player deve presentare almeno sei Pokémon reali. Il Matchday non cura, non sostituisce e non ricrea nessun membro del roster."
+          "text": "La squadra entra con lo stato realmente lasciato da Matchday 1 e Interday 1. Nessuna scelta qui aggiunge HP, PP o Pokémon."
         }
       ],
       "choices": [
         {
           "id": "roster_medical",
-          "text": "Controllo il rischio di entrare con risorse consumate.",
+          "text": "Controllo il rischio residuo.",
           "goto": "medical_state"
         },
         {
           "id": "roster_ready",
-          "text": "Passo alla conferma del match.",
+          "text": "Passo alla conferma del secondo match.",
           "goto": "readiness"
         }
       ]
@@ -165,7 +169,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "HP, PP, status e infortuni restano quelli persistenti. Eventuali servizi di recupero devono essere usati davvero fuori da questa frase."
+          "text": "Eventuale recupero deve essere già avvenuto tramite i sistemi appropriati. Il gate del Matchday legge il roster, non lo corregge."
         }
       ],
       "choices": [
@@ -176,7 +180,7 @@
         },
         {
           "id": "medical_ready",
-          "text": "Accetto lo stato reale e passo alla readiness.",
+          "text": "Accetto lo stato reale e continuo.",
           "goto": "readiness"
         }
       ]
@@ -185,7 +189,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La conferma finale controlla roster, calendario e assenza di un risultato precedente. Da qui il controllo passa al battle bridge."
+          "text": "Il Matchday 2 richiede sei Pokémon e un secondo risultato ancora assente. Da qui il battle bridge risolve il partecipante E5 con indice 1."
         }
       ],
       "choices": [
@@ -205,24 +209,24 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il bridge risolve dinamicamente l'avversario dal draw E5. Non esiste un nome hardcoded in questa scena."
+          "text": "Il bridge usa il secondo avversario del draw e il suo roster persistente; nessun nome o team alternativo viene selezionato dalla scena."
         }
       ],
       "choices": [
         {
-          "id": "fight_matchday_one",
-          "text": "Combatto il Matchday 1.",
+          "id": "fight_matchday_two",
+          "text": "Combatto il Matchday 2.",
           "combat": {
-            "encounterId": "WORLD_GROUP_MD1",
+            "encounterId": "WORLD_GROUP_MD2",
             "opponentRegistered": true,
             "competition": {
               "type": "official_match",
-              "matchId": "WORLD_GROUP_MD1",
+              "matchId": "WORLD_GROUP_MD2",
               "format": "Singles",
               "officialRosterSize": 6,
               "difficulty": "ELITE",
-              "worldOpponentIndex": 0,
-              "worldMatchday": 1
+              "worldOpponentIndex": 1,
+              "worldMatchday": 2
             },
             "returnNodes": {
               "win": "win_return",
@@ -237,18 +241,18 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La vittoria è stata registrata da E5. Tre punti derivano dal risultato reale del combat, non dal nodo narrativo."
+          "text": "La seconda vittoria viene aggiunta alla history E5 senza riscrivere il Matchday 1. La nuova classifica include quattro match complessivi del gruppo."
         }
       ],
       "choices": [
         {
           "id": "win_record",
-          "text": "Registro la chiusura narrativa del Matchday.",
+          "text": "Registro la chiusura narrativa del secondo Matchday.",
           "goto": "result_record",
           "effects": [
             {
               "type": "set_flag",
-              "key": "m9_matchday_one_complete",
+              "key": "m9_matchday_two_complete",
               "value": true
             }
           ]
@@ -260,7 +264,7 @@
           "effects": [
             {
               "type": "set_flag",
-              "key": "m9_matchday_one_complete",
+              "key": "m9_matchday_two_complete",
               "value": true
             }
           ]
@@ -271,18 +275,18 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La sconfitta resta nel girone. Non esiste reload narrativo, promozione automatica o eliminazione prematura: restano due partite."
+          "text": "La sconfitta del Matchday 2 resta insieme al primo risultato. Non elimina automaticamente il player: il terzo incontro deve ancora essere giocato."
         }
       ],
       "choices": [
         {
           "id": "loss_record",
-          "text": "Registro la chiusura narrativa del Matchday.",
+          "text": "Registro la chiusura narrativa del secondo Matchday.",
           "goto": "result_record",
           "effects": [
             {
               "type": "set_flag",
-              "key": "m9_matchday_one_complete",
+              "key": "m9_matchday_two_complete",
               "value": true
             }
           ]
@@ -294,7 +298,7 @@
           "effects": [
             {
               "type": "set_flag",
-              "key": "m9_matchday_one_complete",
+              "key": "m9_matchday_two_complete",
               "value": true
             }
           ]
@@ -305,13 +309,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il risultato player e l'altro match del gruppo sono ormai persistenti. La scena può leggerli, non modificarli."
+          "text": "E5 conserva ora due risultati player e due match off-screen. La scena legge questa storia, ma non può editarne punti o avversari."
         }
       ],
       "choices": [
         {
           "id": "record_offscreen",
-          "text": "Controllo l'altro match del gruppo.",
+          "text": "Controllo l'altro match della seconda giornata.",
           "goto": "offscreen_result"
         },
         {
@@ -321,7 +325,7 @@
         },
         {
           "id": "record_resources",
-          "text": "Controllo cosa mi porto nell'interday.",
+          "text": "Controllo cosa resta per il prossimo blocco.",
           "goto": "resources_after"
         }
       ]
@@ -330,7 +334,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "E5 ha risolto anche l'altro incontro del Matchday 1 con seed della carriera. Nessun Anchor o amico riceve protezione dal risultato."
+          "text": "Anche l'altro incontro del Matchday 2 viene risolto una sola volta dal seed della carriera. Nessun partecipante viene favorito perché è famoso o narrativamente importante."
         }
       ],
       "choices": [
@@ -350,18 +354,18 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La posizione provvisoria e i punti vengono calcolati dai due match del giorno. Le parità definitive non vengono ancora sciolte come se il gruppo fosse finito."
+          "text": "Dopo due giornate la classifica è più stretta, ma non è ancora finale. Un vantaggio o uno svantaggio può cambiare al Matchday 3."
         }
       ],
       "choices": [
         {
           "id": "after_resources",
-          "text": "Controllo le risorse per domani.",
+          "text": "Controllo le risorse residue.",
           "goto": "resources_after"
         },
         {
           "id": "after_window",
-          "text": "Passo alla pressione e alla finestra post-match.",
+          "text": "Passo alla pressione tra seconda e terza giornata.",
           "goto": "next_window"
         },
         {
@@ -375,7 +379,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Matchday può averti lasciato Pokémon affaticati o danneggiati. M9 non azzera nulla all'uscita dall'arena."
+          "text": "Le conseguenze meccaniche del secondo match restano sul roster. Il modulo non crea un reset speciale perché il girone è quasi finito."
         }
       ],
       "choices": [
@@ -385,8 +389,8 @@
           "goto": "medical_state"
         },
         {
-          "id": "resources_interday",
-          "text": "Passo alla finestra tra le partite.",
+          "id": "resources_next",
+          "text": "Passo alla finestra successiva.",
           "goto": "next_window"
         }
       ]
@@ -395,7 +399,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se avevi già incontrato questo trainer, quella storia può cambiare il tono. Non cambia l'identità sorteggiata, il roster persistente o l'esito."
+          "text": "Un precedente incontro con questo trainer può cambiare dialogo o reputazione, non il pairing né l'esito. Il draw resta la source of truth."
         }
       ],
       "choices": [
@@ -415,18 +419,18 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Mentre sei in campo, gli altri gruppi e le carriere NPC continuano. Il Mondiale non aspetta che tu apra ogni scena opzionale."
+          "text": "Gli altri gruppi e gli altri partecipanti continuano a muoversi. Due giornate non congelano il mondo in attesa del tuo Friend Beat."
         }
       ],
       "choices": [
         {
           "id": "pressure_table",
-          "text": "Torno alla classifica del mio gruppo.",
+          "text": "Torno alla mia classifica.",
           "goto": "standings_after"
         },
         {
           "id": "pressure_window",
-          "text": "Entro nella finestra post-match.",
+          "text": "Entro nella finestra dopo il secondo match.",
           "goto": "next_window"
         }
       ]
@@ -435,38 +439,38 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Tra Matchday 1 e 2 esiste tempo reale per recupero, servizi, media e vita del Village. Lasciarlo passare muove anche il resto del mondo."
+          "text": "Tra Matchday 2 e 3 cresceranno pressione, Friend Beat e scenari di classifica. Questi scenari descrivono possibilità, non risultati futuri."
         }
       ],
       "choices": [
         {
           "id": "window_gate",
-          "text": "Controllo il gate di uscita del Matchday.",
-          "goto": "interday_gate"
+          "text": "Controllo il gate di chiusura del secondo Matchday.",
+          "goto": "friend_beat_gate"
         },
         {
           "id": "window_table",
-          "text": "Prima rileggo la classifica.",
+          "text": "Prima rileggo i punti attuali.",
           "goto": "standings_after"
         }
       ]
     },
-    "interday_gate": {
+    "friend_beat_gate": {
       "stitches": [
         {
           "id": "s1",
-          "text": "L'interday si apre soltanto dopo che E5 possiede il risultato del Matchday 1. Una semplice visita alla scena non basta."
+          "text": "Il blocco successivo potrà selezionare un amico secondo stato reale e schedule. Non viene creato o teletrasportato da questo Matchday."
         }
       ],
       "choices": [
         {
           "id": "gate_complete",
-          "text": "Chiudo il Matchday 1.",
+          "text": "Chiudo formalmente M9_04.",
           "goto": "matchday_complete"
         },
         {
           "id": "gate_review",
-          "text": "Rivedo il record della giornata.",
+          "text": "Rivedo il record della seconda giornata.",
           "goto": "result_record"
         }
       ]
@@ -475,14 +479,14 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il primo Matchday è chiuso. Il torneo passa alla gestione tra le partite senza cancellare il risultato o le risorse residue."
+          "text": "M9_04 è chiuso: due partite sono reali e persistenti. Il ciclo successivo partirà da FRIEND_BEAT_09 senza alterare la classifica già prodotta."
         }
       ],
       "choices": [
         {
-          "id": "complete_interday",
-          "text": "Entro nell'Interday 1.",
-          "goto": "m09-interday-one#interday_entry"
+          "id": "complete_hold",
+          "text": "Resto nel World Village con lo stato attuale in attesa del prossimo blocco.",
+          "goto": "standings_after"
         }
       ]
     }
