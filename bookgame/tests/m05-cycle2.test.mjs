@@ -68,7 +68,7 @@ test("Fulgore ecology compiles from canonical fauna",async()=>{
   const z=bundle.ecology.zones["FUL-PLATEAU"];
   assert.ok(z);
   const ids=new Set(z.species.map(x=>x.id));
-  for(const id of ["mareep","shinx","pawmi"])assert.ok(ids.has(id));
+  for(const id of ["riolu","geodude","machop"])assert.ok(ids.has(id));
 });
 
 test("M5_05 requires a real weather departure plan",async()=>{
