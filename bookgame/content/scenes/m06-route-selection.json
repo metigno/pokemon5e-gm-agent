@@ -1,0 +1,340 @@
+{
+  "schemaVersion": 1,
+  "id": "m06-route-selection",
+  "moduleId": "M06",
+  "title": "M6_01 — Route Selection",
+  "locationId": "alt_town",
+  "entryNodeId": "route_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m5_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m06_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m6_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "A"
+      }
+    ]
+  },
+  "nodes": {
+    "route_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il terminale interregionale separa desiderio di viaggio, disponibilità effettiva e partenza. Nessuna rotta è obbligatoria soltanto perché compare sul tabellone."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_board",
+          "text": "Apro il tabellone delle tratte.",
+          "goto": "route_board"
+        },
+        {
+          "id": "entry_timetable",
+          "text": "Controllo prima tempi e finestre.",
+          "goto": "timetable"
+        },
+        {
+          "id": "entry_defer",
+          "text": "Rimando la scelta senza chiudere M6.",
+          "goto": "defer"
+        }
+      ]
+    },
+    "route_board": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Solaria e Luminara sono entrambe raggiungibili attraverso la rete autorizzata, ma con tempi e contesti diversi. Puoi anche mantenere un piano aperto prima di impegnarti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "board_solaria",
+          "text": "Scelgo Solaria come prima destinazione.",
+          "goto": "solaria_plan"
+        },
+        {
+          "id": "board_luminara",
+          "text": "Scelgo Luminara come prima destinazione.",
+          "goto": "luminara_plan"
+        },
+        {
+          "id": "board_open",
+          "text": "Mantengo un piano aperto e confronto i vincoli.",
+          "goto": "neutral_plan"
+        },
+        {
+          "id": "board_callbacks",
+          "text": "Controllo se la storia precedente cambia il contesto.",
+          "goto": "callbacks"
+        }
+      ]
+    },
+    "solaria_plan": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Solaria offre un circuito molto esposto al confronto fra stili: buona scelta per chi vuole testare rapidamente la propria adattabilità fuori da Asteria."
+        }
+      ],
+      "choices": [
+        {
+          "id": "solaria_confirm",
+          "text": "Registro Solaria come piano corrente.",
+          "goto": "confirm",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_route_plan",
+              "value": "solaria"
+            }
+          ]
+        },
+        {
+          "id": "solaria_back",
+          "text": "Torno al tabellone.",
+          "goto": "route_board"
+        }
+      ]
+    },
+    "luminara_plan": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Luminara concentra logistica, densità di trainer e finestre Masters. La destinazione non concede punti: decide soltanto dove andrai a cercarli."
+        }
+      ],
+      "choices": [
+        {
+          "id": "luminara_confirm",
+          "text": "Registro Luminara come piano corrente.",
+          "goto": "confirm",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_route_plan",
+              "value": "luminara"
+            }
+          ]
+        },
+        {
+          "id": "luminara_back",
+          "text": "Torno al tabellone.",
+          "goto": "route_board"
+        }
+      ]
+    },
+    "neutral_plan": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Tenere aperte entrambe le opzioni evita una scelta prematura ma non sospende il calendario. Prima della partenza dovrai comunque selezionare una tratta reale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "neutral_timetable",
+          "text": "Confronto i tempi prima di decidere.",
+          "goto": "timetable"
+        },
+        {
+          "id": "neutral_back",
+          "text": "Torno al tabellone.",
+          "goto": "route_board"
+        }
+      ]
+    },
+    "timetable": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Le finestre di trasporto e competizione scorrono sullo stesso calendario del resto del mondo. Aspettare può migliorare una coincidenza e peggiorare un'altra."
+        }
+      ],
+      "choices": [
+        {
+          "id": "time_compare",
+          "text": "Confronto il rischio di perdere una finestra.",
+          "goto": "risk_review"
+        },
+        {
+          "id": "time_wait",
+          "text": "Aspetto un'ora e ricontrollo.",
+          "goto": "wait",
+          "timeCostMinutes": 60
+        }
+      ]
+    },
+    "risk_review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La scelta non viene valutata come giusta o sbagliata in astratto: conta cosa stai sacrificando in tempo, informazione e preparazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "risk_board",
+          "text": "Torno al tabellone con questi vincoli.",
+          "goto": "route_board"
+        },
+        {
+          "id": "risk_defer",
+          "text": "Decido di non partire ancora.",
+          "goto": "defer"
+        }
+      ]
+    },
+    "defer": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Rimandare mantiene M6 attivo e non assegna nessuna rotta. NPC e circuiti continuano secondo E2/E6."
+        }
+      ],
+      "choices": [
+        {
+          "id": "defer_hub",
+          "text": "Rientro ad Altacima.",
+          "goto": "m05-altacima#town_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        },
+        {
+          "id": "defer_board",
+          "text": "Riapro il tabellone.",
+          "goto": "route_board"
+        }
+      ]
+    },
+    "callbacks": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "I callback precedenti possono cambiare reputazione, contatti o informazioni di viaggio, ma non eliminano i requisiti della licenza o del calendario."
+        }
+      ],
+      "choices": [
+        {
+          "id": "callbacks_record",
+          "text": "Registro che il contesto è stato consultato.",
+          "goto": "route_board",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_route_callbacks_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "callbacks_back",
+          "text": "Torno all'ingresso.",
+          "goto": "route_entry"
+        }
+      ]
+    },
+    "confirm": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il piano è ora persistente. La partenza resta un'azione distinta: scegliere una città non significa esservi già arrivati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "confirm_depart",
+          "text": "Passo alla partenza interregionale.",
+          "goto": "m06-interregional-travel#travel_entry",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_route_selection_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "confirm_change",
+          "text": "Cambio piano prima di partire.",
+          "goto": "route_board"
+        }
+      ]
+    },
+    "close": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La selezione può essere chiusa senza visitare entrambe le destinazioni. Il modulo registra una scelta reale, non una checklist turistica."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_depart",
+          "text": "Vado alla partenza.",
+          "goto": "m06-interregional-travel#travel_entry"
+        },
+        {
+          "id": "close_handoff",
+          "text": "Torno al riepilogo M6.",
+          "goto": "m06-handoff#rank_a_band"
+        }
+      ]
+    },
+    "back_link": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Finché non parte il trasporto, puoi rivedere la scelta senza perdere tempo extra oltre a quello esplicitamente consumato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "back_board",
+          "text": "Riapro il tabellone.",
+          "goto": "route_board"
+        },
+        {
+          "id": "back_handoff",
+          "text": "Torno al riepilogo Rank A.",
+          "goto": "m06-handoff#rank_a_band"
+        }
+      ]
+    },
+    "wait": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il pannello si aggiorna dopo l'attesa. La route scelta, se già registrata, resta una preferenza e può ancora essere cambiata prima della partenza."
+        }
+      ],
+      "choices": [
+        {
+          "id": "wait_board",
+          "text": "Controllo di nuovo le tratte.",
+          "goto": "route_board"
+        },
+        {
+          "id": "wait_close",
+          "text": "Tengo il piano e passo alla chiusura.",
+          "goto": "close"
+        }
+      ]
+    }
+  }
+}
