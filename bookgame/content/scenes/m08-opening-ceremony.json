@@ -286,8 +286,8 @@
       "choices": [
         {
           "id": "close_draw",
-          "text": "Passo al WORLD_DRAW quando viene implementato.",
-          "goto": "m08-world-village#schedule_board"
+          "text": "Passo al WORLD_DRAW canonico.",
+          "goto": "m08-world-draw#draw_entry"
         },
         {
           "id": "close_hub",
