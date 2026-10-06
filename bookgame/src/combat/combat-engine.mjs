@@ -359,6 +359,14 @@ function isSimpleModifierMove(move) {
   return SIMPLE_MODIFIER_MOVES.has(move.id);
 }
 
+const SPECIAL_SELF_MOVES = new Set([
+  "clangorous-soul"
+]);
+
+function isSpecialSelfMove(move) {
+  return SPECIAL_SELF_MOVES.has(move.id);
+}
+
 const STOCKPILE_MOVES = new Set([
   "stockpile",
   "swallow"
@@ -431,6 +439,7 @@ export function isMoveResolvable(move) {
   if (isSaveHpEffectMove(move)) return true;
   if (isStatusCureMove(move)) return true;
   if (isSimpleModifierMove(move)) return true;
+  if (isSpecialSelfMove(move)) return true;
   if (isStockpileMove(move)) return true;
   if (SAVE_EFFECT_MOVES.has(move.id) || AREA_MOVES.has(move.id)) return true;
   if ((move.attack || move.save) && statusFromText(move.description)) return true;
@@ -1361,6 +1370,7 @@ export class Pokemon5eCombatEngine {
         : null;
       const ongoingHealTargetSide = isOngoingHealingMove(move) ? side : null;
       const modifierTargetSide = isSimpleModifierMove(move) ? side : null;
+      const specialSelfTargetSide = isSpecialSelfMove(move) ? side : null;
       const rangeTarget = healTargetSide
         ? battle[healTargetSide]
         : delayedHealTargetSide
@@ -1369,7 +1379,9 @@ export class Pokemon5eCombatEngine {
             ? battle[ongoingHealTargetSide]
             : modifierTargetSide
               ? battle[modifierTargetSide]
-              : defender;
+              : specialSelfTargetSide
+                ? battle[specialSelfTargetSide]
+                : defender;
       if (!rangeCheckForMove(combatant, rangeTarget, move).legal) continue;
       result.push(move);
     }
@@ -1796,6 +1808,77 @@ export class Pokemon5eCombatEngine {
     throw new Error(`No Stockpile handler for ${move.id}`);
   }
 
+  async resolveSpecialSelfMove(next, side, move) {
+    const combatant = next[side];
+
+    if (move.id === "clangorous-soul") {
+      const damageRoll = rollExpression("3d6", this.dice);
+      const damage = damageRoll.total;
+      combatant.hp.current = Math.max(0, combatant.hp.current - damage);
+      const concentrationCheck = checkConcentrationAfterDamage(
+        next,
+        side,
+        damage,
+        this.dice
+      );
+
+      if (combatant.hp.current <= 0) {
+        next.log.push({
+          type: "special_self_move",
+          round: next.round,
+          actor: side,
+          moveId: move.id,
+          damageRoll,
+          selfDamage: damage,
+          concentrationCheck,
+          applied: null,
+          hpAfter: combatant.hp.current
+        });
+        markDowned(next, side, "self_move_damage");
+        return next;
+      }
+
+      const applied = {
+        attack: addSourceCappedModifier(
+          combatant.effects.attackModifierSources,
+          { source: move.id, value: 1, expiresRound: null },
+          next.round,
+          0,
+          5
+        ),
+        ac: addSourceCappedModifier(
+          combatant.effects.acModifierSources,
+          { source: move.id, value: 1, expiresRound: null },
+          next.round,
+          0,
+          5
+        ),
+        damage: addSourceCappedModifier(
+          combatant.effects.damageModifierSources,
+          { source: move.id, value: 1, expiresRound: null },
+          next.round,
+          0,
+          5
+        )
+      };
+
+      next.log.push({
+        type: "special_self_move",
+        round: next.round,
+        actor: side,
+        moveId: move.id,
+        damageRoll,
+        selfDamage: damage,
+        concentrationCheck,
+        applied,
+        hpAfter: combatant.hp.current
+      });
+      return next;
+    }
+
+    throw new Error(`No special self handler for ${move.id}`);
+  }
+
   async resolveSimpleModifierMove(next, side, move) {
     const combatant = next[side];
     const rule = modifierRuleFor(move, combatant.level);
@@ -2192,6 +2275,7 @@ export class Pokemon5eCombatEngine {
       : null;
     const ongoingHealTargetSide = isOngoingHealingMove(move) ? side : null;
     const modifierTargetSide = isSimpleModifierMove(move) ? side : null;
+    const specialSelfTargetSide = isSpecialSelfMove(move) ? side : null;
     const cureTargetSide = isStatusCureMove(move)
       ? (move.id === "purify" ? otherSide(side) : side)
       : null;
@@ -2203,7 +2287,9 @@ export class Pokemon5eCombatEngine {
           ? next[ongoingHealTargetSide]
           : modifierTargetSide
             ? next[modifierTargetSide]
-            : cureTargetSide
+            : specialSelfTargetSide
+              ? next[specialSelfTargetSide]
+              : cureTargetSide
         ? next[cureTargetSide]
         : defender;
     const range = areaTarget
@@ -2297,6 +2383,8 @@ export class Pokemon5eCombatEngine {
       next = await this.resolveStatusCureMove(next, side, move);
     } else if (isSimpleModifierMove(move)) {
       next = await this.resolveSimpleModifierMove(next, side, move);
+    } else if (isSpecialSelfMove(move)) {
+      next = await this.resolveSpecialSelfMove(next, side, move);
     } else if (isStockpileMove(move)) {
       next = await this.resolveStockpileMove(next, side, move);
     } else if (AREA_MOVES.has(move.id)) {

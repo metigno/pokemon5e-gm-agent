@@ -102,7 +102,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
   const moves = await data.listMoves();
   const unresolved = moves.filter((move) => !isMoveResolvable(move)).map((move) => move.id);
 
-  assert.ok(unresolved.length <= 195, `unresolved move rules regressed to ${unresolved.length}`);
+  assert.ok(unresolved.length <= 194, `unresolved move rules regressed to ${unresolved.length}`);
   assert.ok(unresolved.includes("acupressure"));
   for (const id of [
     "agility",
@@ -110,6 +110,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
     "barrier",
     "bulk-up",
     "coil",
+    "clangorous-soul",
     "cosmic-power",
     "cotton-guard",
     "defend-order",
@@ -334,6 +335,29 @@ test("Geomancy and No Retreat execute attack advantage, save advantage, speed an
     () => noRetreatCombat.switchPlayer(noRetreatBattle, 0),
     /no-retreat prevents voluntary switching/
   );
+});
+
+
+test("Clangorous Soul pays typeless HP and grants encounter-long capped combat bonuses", async () => {
+  const combat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 2, 3, 4])
+  });
+  let battle = await combat.createBattle({
+    encounterId: "FULL_RUNTIME_CLANGOROUS_SOUL",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["clangorous-soul"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 50, y: 0 }
+  });
+  const hpBefore = battle.player.hp.current;
+  battle = await combat.usePlayerMove(battle, "clangorous-soul");
+  const event = battle.log.find((entry) => entry.type === "special_self_move");
+  assert.equal(event.selfDamage, 9);
+  assert.equal(battle.player.hp.current, hpBefore - 9);
+  assert.equal(battle.player.effects.attackModifierSources.at(-1).value, 1);
+  assert.equal(battle.player.effects.acModifierSources.at(-1).value, 1);
+  assert.equal(battle.player.effects.damageModifierSources.at(-1).value, 1);
+  assert.equal(battle.player.effects.attackModifierSources.at(-1).expiresRound, null);
 });
 
 test("save debuffs and allied status cures execute their 2024 effects", async () => {
