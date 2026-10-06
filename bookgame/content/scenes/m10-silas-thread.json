@@ -1,0 +1,373 @@
+{
+  "schemaVersion": 1,
+  "id": "m10-silas-thread",
+  "moduleId": "M10",
+  "title": "M10_01 — Silas Thread",
+  "locationId": "world_knockout_hall",
+  "entryNodeId": "silas_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m10_r16_bracket_complete",
+        "eq": true
+      },
+      {
+        "path": "competition.world.knockout.opened",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "silas_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Silas Crowe viene trattato come un partecipante reale del Mondiale: il thread parte dal suo stato nel Top16 e non gli assegna automaticamente un incontro col player."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_public",
+          "text": "Seguo il contesto pubblico del suo ottavo.",
+          "goto": "public_context"
+        },
+        {
+          "id": "entry_status",
+          "text": "Controllo se è ancora nel Top16.",
+          "goto": "qualification_state"
+        },
+        {
+          "id": "entry_schedule",
+          "text": "Verifico se un incontro fisico è plausibile.",
+          "goto": "schedule_gate"
+        }
+      ]
+    },
+    "public_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il pubblico lo descrive come un trainer che punisce esitazioni e turni passivi. È informazione di stile, non accesso a mosse o dati segreti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "public_profile",
+          "text": "Studio il profilo senza metagame.",
+          "goto": "silas_profile"
+        },
+        {
+          "id": "public_bracket",
+          "text": "Controllo il suo posto nel bracket.",
+          "goto": "bracket_context"
+        }
+      ]
+    },
+    "qualification_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La sua qualificazione pre-World non vale come protezione: soltanto il Top16 E5 decide se Silas è ancora in gara in M10."
+        }
+      ],
+      "choices": [
+        {
+          "id": "status_bracket",
+          "text": "Leggo il suo eventuale match reale.",
+          "goto": "bracket_context"
+        },
+        {
+          "id": "status_no_force",
+          "text": "Controllo il caso in cui sia già fuori.",
+          "goto": "no_meeting"
+        }
+      ]
+    },
+    "bracket_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se Silas è nel Top16 ha un match R16 reale; se è fuori, il torneo prosegue senza reinserirlo. Se è il tuo avversario, lo determina il pairing e basta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "bracket_direct",
+          "text": "Controllo il caso Player vs Silas.",
+          "goto": "direct_opponent"
+        },
+        {
+          "id": "bracket_schedule",
+          "text": "Passo alla plausibilità del venue.",
+          "goto": "schedule_gate"
+        }
+      ]
+    },
+    "schedule_gate": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un incontro personale richiede che Silas sia ancora nel Top16 e che il suo schedule E4 lo collochi realmente nel venue. Altrimenti resta soltanto il contesto pubblico."
+        }
+      ],
+      "choices": [
+        {
+          "id": "schedule_meet",
+          "text": "Silas è presente nel venue: mi avvicino.",
+          "goto": "meet_silas",
+          "conditions": {
+            "all": [
+              {
+                "path": "npcs.SilasCrowe.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.SilasCrowe.schedule.locationId",
+                "eq": "world_knockout_hall"
+              },
+              {
+                "path": "world.locationId",
+                "eq": "world_knockout_hall"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "silas_met",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "SilasCrowe",
+              "key": "introduced",
+              "value": true
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "SilasCrowe",
+              "delta": 1
+            }
+          ]
+        },
+        {
+          "id": "schedule_public",
+          "text": "Non forzo il contatto: resto sul thread pubblico.",
+          "goto": "no_meeting"
+        },
+        {
+          "id": "schedule_profile",
+          "text": "Prima studio il suo stile dichiarato.",
+          "goto": "silas_profile"
+        }
+      ]
+    },
+    "silas_profile": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Silas costruisce pressione mentale: concede poco tempo, forza decisioni rapide e considera l'inazione una risorsa dell'avversario."
+        }
+      ],
+      "choices": [
+        {
+          "id": "profile_mind",
+          "text": "Approfondisco i mind games.",
+          "goto": "mind_games"
+        },
+        {
+          "id": "profile_passive",
+          "text": "Ragiono sui turni passivi.",
+          "goto": "passive_turns"
+        }
+      ]
+    },
+    "mind_games": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il suo vantaggio narrativo non è un bonus statistico. In battaglia valgono soltanto Pokémon 5e, roster reale, azioni legali e decisioni effettive."
+        }
+      ],
+      "choices": [
+        {
+          "id": "mind_relationship",
+          "text": "Penso a come parlargli senza concedere informazioni.",
+          "goto": "relationship"
+        },
+        {
+          "id": "mind_direct",
+          "text": "Confronto il profilo con il mio avversario reale.",
+          "goto": "direct_opponent"
+        }
+      ]
+    },
+    "passive_turns": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un turno prudente può essere corretto oppure costoso: il modulo non trasforma lo stile di Silas in una penalità automatica per il player."
+        }
+      ],
+      "choices": [
+        {
+          "id": "passive_profile",
+          "text": "Torno al profilo competitivo.",
+          "goto": "silas_profile"
+        },
+        {
+          "id": "passive_commit",
+          "text": "Porto questa lettura alla chiusura del thread.",
+          "goto": "commit"
+        }
+      ]
+    },
+    "relationship": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se lo incontri, la relazione è persistente e può cambiare il tono futuro. Non cambia il bracket né il risultato del suo match."
+        }
+      ],
+      "choices": [
+        {
+          "id": "relationship_meeting",
+          "text": "Rileggo ciò che nasce da un incontro reale.",
+          "goto": "meet_silas"
+        },
+        {
+          "id": "relationship_commit",
+          "text": "Chiudo il thread senza promettere esiti.",
+          "goto": "commit"
+        }
+      ]
+    },
+    "direct_opponent": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "competition.world.knockout.silasIsPlayerOpponent è una conseguenza del bracket. Se è falso, il testo non crea un duello; se è vero, M10_03 userà quel pairing."
+        }
+      ],
+      "choices": [
+        {
+          "id": "direct_schedule",
+          "text": "Controllo se il venue consente il confronto prima del match.",
+          "goto": "schedule_gate"
+        },
+        {
+          "id": "direct_commit",
+          "text": "Passo alla chiusura del thread.",
+          "goto": "commit"
+        }
+      ]
+    },
+    "venue_overlap": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il venue è condiviso da più ottavi, ma condividere l'arena non significa che due trainer debbano incontrarsi. Lo schedule resta il gate causale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "venue_gate",
+          "text": "Ritorno al gate di presenza.",
+          "goto": "schedule_gate"
+        },
+        {
+          "id": "venue_profile",
+          "text": "Rileggo il profilo di Silas.",
+          "goto": "silas_profile"
+        }
+      ]
+    },
+    "meet_silas": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Silas non prova a impressionarti. Ti chiede soltanto quanto del tuo piano resterà in piedi quando un singolo errore significherà eliminazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "meet_answer",
+          "text": "Gli rispondo sul valore dell'adattamento.",
+          "goto": "relationship"
+        },
+        {
+          "id": "meet_pressure",
+          "text": "Porto il discorso sulla pressione dell'ottavo.",
+          "goto": "mind_games"
+        }
+      ]
+    },
+    "no_meeting": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Non c'è bisogno di inventare una conversazione. Il suo risultato, o la sua assenza dal Top16, resta comunque parte del World state visibile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "nomeet_public",
+          "text": "Rileggo il contesto pubblico.",
+          "goto": "public_context"
+        },
+        {
+          "id": "nomeet_commit",
+          "text": "Chiudo il thread rispettando la causalità.",
+          "goto": "commit"
+        }
+      ]
+    },
+    "commit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il thread può chiudersi con o senza incontro personale. L'unico requisito è non aver spostato Silas, non aver cambiato il bracket e aver conservato il suo stato reale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "commit_now",
+          "text": "Chiudo M10_01.",
+          "goto": "handoff",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m10_silas_thread_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "commit_schedule",
+          "text": "Rivedo ancora il gate di presenza.",
+          "goto": "schedule_gate"
+        }
+      ]
+    },
+    "handoff": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il bracket è intatto e il thread di Silas è chiuso. Ora la preparazione all'ottavo deve leggere il roster reale lasciato dai gironi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "handoff_prep",
+          "text": "Entro nella preparazione R16.",
+          "goto": "m10-r16-prep#prep_entry"
+        },
+        {
+          "id": "handoff_review",
+          "text": "Rivedo il contesto dell'Anchor.",
+          "goto": "public_context"
+        }
+      ]
+    }
+  }
+}
