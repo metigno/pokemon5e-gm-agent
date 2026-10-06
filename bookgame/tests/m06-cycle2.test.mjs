@@ -36,6 +36,7 @@ function base(protagonist="Luke"){
   s.player.trainerLevel=16;
   Object.assign(s.world.flags,{
     m1_complete:true,m2_complete:true,m3_complete:true,m4_complete:true,m5_complete:true,
+    friends_split:true,
     m06_unlocked:true,m6_active:true,interregional_license:true,friend_beat_05_complete:true,
     friend_beat_05_friend_id:"Mattew",red_met:true
   });
