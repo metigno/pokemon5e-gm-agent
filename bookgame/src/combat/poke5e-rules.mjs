@@ -302,6 +302,60 @@ function hasActiveEffect(sources = [], round = null) {
   );
 }
 
+function effectSourceApplies(source, round, {
+  attribute = null,
+  move = null,
+  target = null,
+  sourcePosition = null
+} = {}) {
+  if (source.usesRemaining != null && source.usesRemaining <= 0) return false;
+  if (round != null && source.startsRound != null && round < source.startsRound) return false;
+  if (round != null && source.expiresRound != null && round >= source.expiresRound) return false;
+  if (attribute && Array.isArray(source.attributes) && !source.attributes.includes(attribute)) return false;
+  if (move && Array.isArray(source.moveTypes) && !source.moveTypes.includes(move.type)) return false;
+  if (move && Array.isArray(source.moveScopes)) {
+    const scope = move.attack?.scope ?? move.range?.type ?? null;
+    if (!source.moveScopes.includes(scope)) return false;
+  }
+  if (target && source.targetCombatantId && source.targetCombatantId !== target.combatantId) return false;
+  if (
+    target &&
+    source.sourcePosition &&
+    Number.isFinite(source.maxTargetDistance)
+  ) {
+    const a = source.sourcePosition;
+    const b = target.position;
+    if (!a || !b) return false;
+    const dx = Number(a.x ?? 0) - Number(b.x ?? 0);
+    const dy = Number(a.y ?? 0) - Number(b.y ?? 0);
+    const dz = Number(a.z ?? 0) - Number(b.z ?? 0);
+    if (Math.hypot(dx, dy, dz) > source.maxTargetDistance + 1e-9) return false;
+  }
+  return true;
+}
+
+function activeConditionalEffect(sources = [], round = null, context = {}) {
+  return sources.some((source) => effectSourceApplies(source, round, context));
+}
+
+function rollEffectDiceBonus(sources = [], dice, round = null, context = {}) {
+  const rolls = [];
+  let total = 0;
+  for (const source of sources) {
+    if (!effectSourceApplies(source, round, context)) continue;
+    const expression = source.dice ?? source.die;
+    if (!expression) continue;
+    const normalized = /^d\d+$/.test(expression) ? `1${expression}` : expression;
+    const roll = rollExpression(normalized, dice);
+    total += roll.total;
+    rolls.push({ source: source.source ?? null, ...roll });
+    if (source.usesRemaining != null && source.consumeOnUse !== false) {
+      source.usesRemaining = Math.max(0, source.usesRemaining - 1);
+    }
+  }
+  return { total, rolls };
+}
+
 export function resolveSavingThrow({
   defender,
   attribute,
@@ -312,17 +366,29 @@ export function resolveSavingThrow({
   round = null
 }) {
   const statusDisadvantage = saveHasDisadvantage(defender, attribute);
-  const effectAdvantage = hasActiveEffect(
+  const effectAdvantage = activeConditionalEffect(
     defender.effects?.saveAdvantageSources ?? [],
-    round
+    round,
+    { attribute }
+  );
+  const effectDisadvantage = activeConditionalEffect(
+    defender.effects?.saveDisadvantageSources ?? [],
+    round,
+    { attribute }
   );
   const restrainedDex =
     attribute === "dex" &&
     hasActiveEffect(defender.effects?.restrainedSources ?? [], round);
   const roll = rollD20(dice, {
     advantage: advantage || effectAdvantage,
-    disadvantage: disadvantage || statusDisadvantage || restrainedDex
+    disadvantage: disadvantage || effectDisadvantage || statusDisadvantage || restrainedDex
   });
+  const effectDiceBonus = rollEffectDiceBonus(
+    defender.effects?.saveRollDiceSources ?? [],
+    dice,
+    round,
+    { attribute }
+  );
   const effectModifier = activeEffectModifier(
     defender.effects?.saveModifierSources ?? [],
     round
@@ -331,14 +397,16 @@ export function resolveSavingThrow({
     abilityModifier(defender.attributes[attribute]) +
     (defender.savingThrows.includes(attribute) ? proficiencyBonus(defender.level) : 0) +
     effectModifier;
-  const total = roll.natural + modifier;
+  const total = roll.natural + modifier + effectDiceBonus.total;
 
   return {
     attribute,
     dc,
     modifier,
     effectModifier,
+    effectDiceBonus,
     effectAdvantage,
+    effectDisadvantage,
     restrainedDex,
     total,
     success: total >= dc,
@@ -378,14 +446,20 @@ export function resolveAttack({
     throw new Error(`Move ${move.id} is not a supported damaging attack-roll move`);
   }
 
-  const effectAdvantage = (attacker.effects?.attackAdvantageSources ?? []).some(
-    (source) =>
-      (source.usesRemaining == null || source.usesRemaining > 0) &&
-      (round == null ||
-       ((source.startsRound == null || round >= source.startsRound) &&
-        (source.expiresRound == null || round < source.expiresRound))) &&
-      (source.targetCombatantId == null ||
-       source.targetCombatantId === defender.combatantId)
+  const effectAdvantage = activeConditionalEffect(
+    attacker.effects?.attackAdvantageSources ?? [],
+    round,
+    { attribute: stats.attribute, move, target: defender }
+  );
+  const effectDisadvantage = activeConditionalEffect(
+    attacker.effects?.attackDisadvantageSources ?? [],
+    round,
+    { attribute: stats.attribute, move, target: defender }
+  );
+  const incomingAttackAdvantage = activeConditionalEffect(
+    defender.effects?.incomingAttackAdvantageSources ?? [],
+    round,
+    { attribute: stats.attribute, move, target: defender }
   );
   const attackerRestrained = hasActiveEffect(
     attacker.effects?.restrainedSources ?? [],
@@ -396,15 +470,22 @@ export function resolveAttack({
     round
   );
   const attackRoll = rollD20(dice, {
-    advantage: effectAdvantage || defenderRestrained,
+    advantage: effectAdvantage || incomingAttackAdvantage || defenderRestrained,
     disadvantage:
       forceDisadvantage ||
+      effectDisadvantage ||
       attackHasDisadvantage(attacker) ||
       attackerRestrained
   });
+  const effectDiceBonus = rollEffectDiceBonus(
+    attacker.effects?.attackRollDiceSources ?? [],
+    dice,
+    round,
+    { attribute: stats.attribute, move, target: defender }
+  );
   const gutsBonus = gutsMeleeBonus(attacker, move);
   const attackModifier = stats.toHit + extraAttackModifier + gutsBonus;
-  const attackTotal = attackRoll.natural + attackModifier;
+  const attackTotal = attackRoll.natural + attackModifier + effectDiceBonus.total;
   const criticalRangeBonus = activeEffectModifier(
     attacker.effects?.criticalRangeBonusSources ?? [],
     round
@@ -434,6 +515,9 @@ export function resolveAttack({
       criticalRangeBonus,
       criticalThreshold,
       effectAdvantage,
+      effectDisadvantage,
+      incomingAttackAdvantage,
+      effectDiceBonus,
       attackerRestrained,
       defenderRestrained,
       gutsBonus,
@@ -478,6 +562,9 @@ export function resolveAttack({
     criticalRangeBonus,
     criticalThreshold,
     effectAdvantage,
+    effectDisadvantage,
+    incomingAttackAdvantage,
+    effectDiceBonus,
     attackerRestrained,
     defenderRestrained,
     damageRoll,
@@ -511,6 +598,11 @@ export function resolveSaveMove({
     forceTargetAdvantage ||
     (attacker.statuses?.flinchedTurns > 0 &&
      move.time?.unit === "action");
+  const targetDisadvantage = activeConditionalEffect(
+    attacker.effects?.targetSaveDisadvantageSources ?? [],
+    round,
+    { attribute: stats.saveAttribute, move, target: defender }
+  );
 
   const save = resolveSavingThrow({
     defender,
@@ -518,6 +610,7 @@ export function resolveSaveMove({
     dc: stats.saveDc,
     dice,
     advantage: targetAdvantage,
+    disadvantage: targetDisadvantage,
     round
   });
 
