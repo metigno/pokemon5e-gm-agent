@@ -24,13 +24,13 @@ It creates **no new map engine**. Its job is to make the supplied art reusable a
 | `RPG Nature Tileset Autumn.png` | 1536×922, SHA-256 `7e86bcc2…3f05ff3d` | Autumn/dry/barren nature variant |
 | `IceTileset.png` | 1536×691, SHA-256 `9af69816…a467953` | Snow, ice, frozen water, cold mountain/stone |
 | `openRPG_Tilesets_5.24.22.zip` | 5 tilesets + ReadMe, SHA-256 `2bbd8d04…5040b77` | Towns, interiors, caves/mines, ships/ports, macro-world |
-| `Mighty Pack 2023.rar` | manifest audited, SHA-256 `135e563e…39c872d` | **Excluded from map library**: contents are character/battler-oriented, not map tiles |\n| `Kauzz SpacePack.zip` | 14 PNG assets, SHA-256 `7619d15d…06b9486fe` | **Support-only** modern/futuristic dressing: doors, floors, modular pods, service vehicles and optional robot props |
+| `Mighty Pack 2023.rar` | manifest audited, SHA-256 `135e563e…39c872d` | **Excluded from map library**: contents are character/battler-oriented, not map tiles |\n| `Kauzz SpacePack.zip` | 14 PNG assets, SHA-256 `7619d15d…06b9486fe` | **Support-only** modern/futuristic dressing: doors, floors, modular pods, service vehicles and optional robot props |\n| `SoccerTileMap.zip` | 7 PNG, all 700×400, SHA-256 `b3f1bffb…e03e430` | Arena-floor / rectangular stadium-frame reference; football markings must be replaced for Pokémon use |\n| `Urban Skyline Pack.zip` | Day/Dusk/Night composites + 8 layers each + 4X variants, SHA-256 `fe36cdec…9d3dc78` | **Meridiana skyline solved**: modern metropolis backdrop/parallax family |
 
 The OpenRPG ReadMe supplied inside the ZIP explicitly states a **CC0/public-domain** release and a **16×16 tilebase**. Its five sheets are `dungeon.png`, `exterior.png`, `interior.png`, `ship.png` and `world.png`, each 480×256.
 
 The three large Nature/Ice sheets are accepted as user-supplied production assets, but their license is deliberately recorded as **unverified**: no license metadata was found in the supplied rasters, so the library does not invent redistribution rights.
 
-The RAR contains `Terms of Use.txt`, but the current environment could only inspect its archive manifest. Because its actual usable art is `Monsters.png`, four side-view hero battlers and `Giant Rat.png`, it is not needed for map/location production and stays outside this library.\n\n`Kauzz SpacePack.zip` contains no license/readme/terms file, so redistribution rights remain **unverified**. Visually it is useful only as a supporting prop family: two door sheets, two floor-texture sheets, modular facility/pod pieces, service/shuttle vehicles and robot assets. It must not turn Asteria or the World Championship into a space setting.
+The RAR contains `Terms of Use.txt`, but the current environment could only inspect its archive manifest. Because its actual usable art is `Monsters.png`, four side-view hero battlers and `Giant Rat.png`, it is not needed for map/location production and stays outside this library.\n\n`Kauzz SpacePack.zip` contains no license/readme/terms file, so redistribution rights remain **unverified**. Visually it is useful only as a supporting prop family: two door sheets, two floor-texture sheets, modular facility/pod pieces, service/shuttle vehicles and robot assets. It must not turn Asteria or the World Championship into a space setting.\n\n`SoccerTileMap.zip` contains seven 700×400 pitch/arena variants. The later sheets provide a useful dark arena perimeter/frame, but the football lines/goals are not canonical Pokémon-world arena art and must be replaced in derived compositions.\n\n`Urban Skyline Pack.zip` is the important addition: it contains Day, Dusk and Night city composites at 512×288, 4X 2048×1152 versions, and eight separated layers per time-of-day. This directly supplies the previously missing **Meridiana modern skyline** and supports parallax/time-of-day scenes. Neither new ZIP includes a license file, so redistribution status is recorded as unverified.
 
 ## 3. Locked environment classes
 
@@ -45,7 +45,7 @@ The RAR contains `Terms of Use.txt`, but the current environment could only insp
 - **ruins_stone** — Nature/Autumn + OpenRPG dungeon/exterior.
 - **macro_world** — OpenRPG world.
 - **tournament_venue** — composed from exterior/interior/dungeon; currently partial for modern stadium language.
-- **institutional_modern** — OpenRPG base geometry plus selective Kauzz doors/floors/modules; improved but still partial for sports-specific media/medical/sponsor identity.\n- **futuristic_facility_support** — Kauzz SpacePack support layer only; useful for World Village, accreditation/training/support interiors and service areas, never a replacement world style.
+- **institutional_modern** — OpenRPG base geometry plus selective Kauzz doors/floors/modules; improved but still partial for sports-specific media/medical/sponsor identity.\n- **futuristic_facility_support** — Kauzz SpacePack support layer only; useful for World Village, accreditation/training/support interiors and service areas, never a replacement world style.\n- **modern_metropolis_backdrop** — Urban Skyline Day/Dusk/Night; strong Meridiana skyline/backdrop/parallax coverage.\n- **stadium_arena_support** — SoccerTileMap variants 5–7 + Kauzz; strong floor/frame reference, but still not a complete Pokémon grandstand/crowd family.
 
 This is the reuse contract. Scenes should select an environment class and then a concrete composition/state variant, rather than binding directly to arbitrary files.
 
@@ -59,8 +59,8 @@ This is the reuse contract. Scenes should select an environment class and then a
 | **M04** | Mareasale, Costa di Sale, Barriera Azzurra | **Strong** with ship/coast/water sheets |
 | **M05** | Monti Ferrox, Altacima, Altopiano Fulgore | **Strong**; Ice sheet is the main visual source |
 | **M06** | Solaria/Luminara, Masters, Continental Cup, Primo Faro | **Medium**; lighthouse and modern tournament dressing remain specific gaps |
-| **M07** | Meridiana, Grand Hall, arena, media/sponsor, station, medicine sportiva | **Partial, improved**; Kauzz helps interiors/doors/floors/service areas, but metropolis exterior + large stadium remain missing |
-| **M08** | World Village, medical, training hall, media, opening ceremony, draw | **Partial, improved**; World Village/support interiors now have stronger coverage, arena exterior still missing |
+| **M07** | Meridiana, Grand Hall, arena, media/sponsor, station, medicine sportiva | **Medium–Strong**; skyline is now covered and arena floor/frame has a reference. Main remaining gap: Pokémon-specific grandstands/crowd + event dressing |
+| **M08** | World Village, medical, training hall, media, opening ceremony, draw | **Medium–Strong**; World Village/support spaces, skyline/backdrop and arena-floor reference are covered; grandstand/crowd family remains |
 | **M09** | World Group Stage | **Partial by reuse** of M08 venue |
 | **M10** | R16 + QF | **Partial by reuse** of M08 venue |
 | **M11** | SF + Final | **Partial by reuse** of M08 venue |
@@ -84,7 +84,7 @@ The rule is **composition/overlay first**. Do not add a second map architecture 
 4. OpenRPG may be sliced as 16×16 according to its supplied documentation;
 5. do **not** auto-slice the three 1536px Nature/Ice sheets until their intended tile boundaries and black-background/transparency treatment are explicitly fixed;
 6. maps remain offline assets;
-7. M12 reuses prior location assets and state variants rather than creating replacement maps.\n8. Kauzz SpacePack is support-only: prefer doors, floors, modular pods and service vehicles; robots and the rocket remain excluded by default unless a specific authored scene requires them.
+7. M12 reuses prior location assets and state variants rather than creating replacement maps.\n8. Kauzz SpacePack is support-only: prefer doors, floors, modular pods and service vehicles; robots and the rocket remain excluded by default unless a specific authored scene requires them.\n9. Urban Skyline Pack is a backdrop/parallax family, not a walkable tilemap.\n10. SoccerTileMap is geometry/reference support only for Pokémon competition floors; remove/replace football lines and goals in derived arena art.
 
 ## 7. Next implementation step
 
