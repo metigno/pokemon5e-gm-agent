@@ -5,7 +5,7 @@ import { readFile } from "node:fs/promises";
 import { Pokemon5eCombatEngine, isMoveResolvable } from "../src/combat/combat-engine.mjs";
 import { applyItemToPokemon, compileItemRule } from "../src/combat/item-rules.mjs";
 import { Poke5eDataRepository } from "../src/combat/poke5e-data.mjs";
-import { calculateMoveStats, resolveAttack } from "../src/combat/poke5e-rules.mjs";
+import { calculateMoveStats, damageProfile, resolveAttack } from "../src/combat/poke5e-rules.mjs";
 import {
   applyStatus,
   createStatusState,
@@ -389,6 +389,7 @@ test("common passive abilities execute low-HP STAB, critical armor, status immun
     ["inner-focus", "Flinched"],
     ["limber", "Paralysis"],
     ["immunity", "Poisoned"],
+    ["heatproof", "Burned"],
     ["water-veil", "Burned"],
     ["magma-armor", "Frozen"],
     ["purifying-salt", "BadlyPoisoned"]
@@ -398,6 +399,31 @@ test("common passive abilities execute low-HP STAB, critical armor, status immun
     const result = applyStatus(target, status);
     assert.equal(result.applied, false, `${abilityId} should block ${status}`);
     assert.match(result.reason, /^ability:/);
+  }
+
+  {
+    const target = dummyPokemon();
+    target.types = ["normal"];
+
+    target.abilityId = "thick-fat";
+    assert.equal(damageProfile({ type: "fire" }, target).multiplier, 0.5);
+    assert.equal(damageProfile({ type: "ice" }, target).multiplier, 0.5);
+
+    target.abilityId = "heatproof";
+    assert.equal(damageProfile({ type: "fire" }, target).multiplier, 0.5);
+
+    target.abilityId = "purifying-salt";
+    assert.equal(damageProfile({ type: "ghost" }, target).multiplier, 0.5);
+
+    target.abilityId = "aura-guard";
+    assert.equal(
+      damageProfile({ type: "normal", range: { type: "melee" } }, target).multiplier,
+      0.5
+    );
+
+    target.abilityId = "fluffy";
+    assert.equal(damageProfile({ type: "fire", range: { type: "distance" } }, target).multiplier, 2);
+    assert.equal(damageProfile({ type: "normal", range: { type: "melee" } }, target).multiplier, 0.5);
   }
 
   {
