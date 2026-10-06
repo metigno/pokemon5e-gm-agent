@@ -595,22 +595,21 @@
           "ecology": {
             "requestId": "M4_BARRIERA_AZZURRA_OBSERVATION_01",
             "zoneId": "MAR-REEF",
-            "habitat": "reef",
-            "method": "boat_observation",
+            "method": "shoreline_or_water_travel",
             "allowedSpecies": [
               "chinchou",
-              "horsea",
-              "mareanie",
-              "corsola",
-              "finizen"
+              "tentacool",
+              "wailmer",
+              "lanturn",
+              "luvdisc"
             ],
             "returnNodes": {
               "noEncounter": "reef_fauna_none",
               "chinchou": "reef_chinchou",
-              "horsea": "reef_horsea",
-              "mareanie": "reef_mareanie",
-              "corsola": "reef_corsola",
-              "finizen": "reef_finizen"
+              "tentacool": "reef_tentacool",
+              "wailmer": "reef_wailmer",
+              "lanturn": "reef_lanturn",
+              "luvdisc": "reef_luvdisc"
             }
           }
         },
@@ -751,6 +750,66 @@
               "locationId": "mar_city"
             }
           ]
+        }
+      ]
+    },
+    "reef_tentacool": {
+      "stitches": [
+        {
+          "id": "tentacool_1",
+          "text": "Un Tentacool passa nel canale esterno del reef seguendo la corrente, abbastanza lontano dalle zone più basse da non richiedere correzioni della barca."
+        }
+      ],
+      "choices": [
+        {
+          "id": "tentacool_platform",
+          "text": "Lo lascio seguire la corrente.",
+          "goto": "reef_platform"
+        }
+      ]
+    },
+    "reef_wailmer": {
+      "stitches": [
+        {
+          "id": "wailmer_1",
+          "text": "Un Wailmer emerge più al largo e poi scompare dietro il profilo basso dell'acqua. La guida non devia la rotta per inseguirlo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "wailmer_platform",
+          "text": "Resto sulla rotta autorizzata.",
+          "goto": "reef_platform"
+        }
+      ]
+    },
+    "reef_lanturn": {
+      "stitches": [
+        {
+          "id": "lanturn_1",
+          "text": "Un Lanturn attraversa acqua più profonda sul bordo esterno. La sua traiettoria segue il canale naturale che hai imparato a leggere."
+        }
+      ],
+      "choices": [
+        {
+          "id": "lanturn_platform",
+          "text": "Continuo a osservare senza interferire.",
+          "goto": "reef_platform"
+        }
+      ]
+    },
+    "reef_luvdisc": {
+      "stitches": [
+        {
+          "id": "luvdisc_1",
+          "text": "Un piccolo gruppo di Luvdisc resta nella parte più riparata del flusso, usando il reef come protezione dalla corrente principale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "luvdisc_platform",
+          "text": "Li lascio nel loro spazio.",
+          "goto": "reef_platform"
         }
       ]
     }
