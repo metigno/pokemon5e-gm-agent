@@ -110,6 +110,29 @@ function isProtectionMove(move) {
   return PROTECTION_MOVES.has(move.id);
 }
 
+const MOVE_CONTROL_MOVES = new Set([
+  "disable",
+  "imprison",
+  "taunt"
+]);
+
+function isMoveControlMove(move) {
+  return MOVE_CONTROL_MOVES.has(move.id);
+}
+
+function isMoveLocked(combatant, move, round) {
+  for (const source of combatant.effects?.moveLockSources ?? []) {
+    if (source.startsRound != null && round < source.startsRound) continue;
+    if (source.expiresRound != null && round >= source.expiresRound) continue;
+    if (Array.isArray(source.moveIds) && source.moveIds.includes(move.id)) return source.source;
+    if (
+      source.nonDamagingAttacks &&
+      !(move.attack && move.dice?.type === "damage")
+    ) return source.source;
+  }
+  return null;
+}
+
 const REACTION_ATTACK_MOVES = new Set([
   "comeuppance",
   "counter",
@@ -382,6 +405,7 @@ function removeEffectSource(combatant, source, round = null) {
     "switchLockSources",
     "escapeLockSources",
     "movementLockSources",
+    "moveLockSources",
     "statusImmunitySources",
     "statDropImmunitySources",
     "ongoingEffects"
@@ -738,6 +762,7 @@ export function isMoveResolvable(move) {
   if (isEnvironmentMove(move)) return true;
   if (isFieldUtilityMove(move)) return true;
   if (isProtectionMove(move)) return true;
+  if (isMoveControlMove(move)) return true;
   if (isWeatherZoneMove(move)) return true;
   if (SAVE_EFFECT_MOVES.has(move.id) || AREA_MOVES.has(move.id)) return true;
   if ((move.attack || move.save) && statusFromText(move.description)) return true;
@@ -794,6 +819,7 @@ function clearTransientEffects(combatant) {
     switchLockSources: [],
     escapeLockSources: [],
     movementLockSources: [],
+    moveLockSources: [],
     statusImmunitySources: [],
     statDropImmunitySources: [],
     ongoingEffects: [],
@@ -1806,6 +1832,7 @@ export class Pokemon5eCombatEngine {
         switchLockSources: [],
         escapeLockSources: [],
         movementLockSources: [],
+        moveLockSources: [],
         statusImmunitySources: [],
         statDropImmunitySources: [],
         ongoingEffects: [],
@@ -2070,6 +2097,7 @@ export class Pokemon5eCombatEngine {
     for (const id of combatant.moveIds) {
       if ((combatant.pp[id] ?? 0) <= 0) continue;
       const move = await this.data.getMove(id);
+      if (isMoveLocked(combatant, move, battle.round)) continue;
       const slot = moveSlot(move);
       if (!slot || !combatant.turn[slot]) continue;
       if (!isMoveResolvable(move)) continue;
@@ -2580,6 +2608,84 @@ export class Pokemon5eCombatEngine {
       hpBefore: before,
       hpAfter: target.hp.current,
       curedStatuses
+    });
+    return next;
+  }
+
+  async resolveMoveControlMove(next, side, move) {
+    const targetSide = otherSide(side);
+    const user = next[side];
+    const target = next[targetSide];
+    const result = resolveSaveMove({
+      attacker: user,
+      defender: target,
+      move,
+      dice: this.dice,
+      round: next.round
+    });
+
+    let applied = null;
+    if (!result.save.success) {
+      const expiresRound = effectExpiryRound(move, next.round);
+      removeEffectSource(target, move.id, next.round);
+
+      if (move.id === "disable") {
+        const disabledMoveId = target.lastMoveId ?? null;
+        if (disabledMoveId) {
+          target.effects.moveLockSources.push({
+            source: move.id,
+            moveIds: [disabledMoveId],
+            expiresRound
+          });
+          applied = { kind: "move_lock", moveIds: [disabledMoveId], expiresRound };
+        } else {
+          applied = { kind: "no_last_move", moveIds: [], expiresRound };
+        }
+      } else if (move.id === "imprison") {
+        const shared = target.moveIds.filter((id) => user.moveIds.includes(id));
+        if (shared.length > 0) {
+          target.effects.moveLockSources.push({
+            source: move.id,
+            moveIds: shared,
+            expiresRound
+          });
+        }
+        applied = { kind: "shared_move_lock", moveIds: shared, expiresRound };
+      } else if (move.id === "taunt") {
+        target.effects.moveLockSources.push({
+          source: move.id,
+          nonDamagingAttacks: true,
+          targetCombatantId: user.combatantId,
+          expiresRound
+        });
+        applied = {
+          kind: "damaging_attacks_only",
+          targetCombatantId: user.combatantId,
+          expiresRound
+        };
+      }
+
+      if (move.duration?.concentration && applied?.kind !== "no_last_move") {
+        endConcentrationState(next, side, "new_concentration");
+        user.concentration = {
+          zoneId: null,
+          moveId: move.id,
+          effectSource: move.id,
+          effectTargetSide: targetSide,
+          expiresRound
+        };
+      }
+    }
+
+    next.log.push({
+      type: "move_control",
+      round: next.round,
+      actor: side,
+      target: targetSide,
+      moveId: move.id,
+      save: result.save,
+      applied,
+      concentration: Boolean(user.concentration?.moveId === move.id)
     });
     return next;
   }
@@ -3713,6 +3819,10 @@ export class Pokemon5eCombatEngine {
     if (!isMoveResolvable(move)) {
       throw new Error(`Move ${move.id} is known but its special rules are not executable by the combat resolver`);
     }
+    const moveLockSource = isMoveLocked(attacker, move, next.round);
+    if (moveLockSource) {
+      throw new Error(`${move.name} is locked by ${moveLockSource}`);
+    }
     if (move.id === "endeavor" && next.round === 1) {
       throw new Error("Endeavor cannot be used in the first round of combat");
     }
@@ -3793,6 +3903,7 @@ export class Pokemon5eCombatEngine {
     }
 
     if (!isStruggle) {
+      attacker.lastMoveId = move.id;
       const pressureApplies =
         defender.abilityId === "pressure" &&
         !isPointAreaMove(move) &&
@@ -3869,6 +3980,8 @@ export class Pokemon5eCombatEngine {
       next = await this.resolveFieldUtilityMove(next, side, move);
     } else if (isProtectionMove(move)) {
       next = await this.resolveProtectionMove(next, side, protectionTargetSide, move);
+    } else if (isMoveControlMove(move)) {
+      next = await this.resolveMoveControlMove(next, side, move);
     } else if (isWeatherZoneMove(move)) {
       const center = areaTarget ?? clone(defender.position);
       next = await this.resolveWeatherZoneMove(next, side, move, center);
