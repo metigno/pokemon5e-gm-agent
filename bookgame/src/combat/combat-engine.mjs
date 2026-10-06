@@ -78,6 +78,16 @@ function isEnvironmentMove(move) {
   return ENVIRONMENT_MOVES.has(move.id);
 }
 
+const FIELD_UTILITY_MOVES = new Set([
+  "defog",
+  "fairy-lock",
+  "haze"
+]);
+
+function isFieldUtilityMove(move) {
+  return FIELD_UTILITY_MOVES.has(move.id);
+}
+
 function clone(value) {
   return structuredClone(value);
 }
@@ -652,6 +662,7 @@ export function isMoveResolvable(move) {
   if (isTypeCopyMove(move)) return true;
   if (isStockpileMove(move)) return true;
   if (isEnvironmentMove(move)) return true;
+  if (isFieldUtilityMove(move)) return true;
   if (SAVE_EFFECT_MOVES.has(move.id) || AREA_MOVES.has(move.id)) return true;
   if ((move.attack || move.save) && statusFromText(move.description)) return true;
   if (move.id === "struggle") return true;
@@ -2391,6 +2402,101 @@ export class Pokemon5eCombatEngine {
     return next;
   }
 
+  async resolveFieldUtilityMove(next, side, move) {
+    const user = next[side];
+    const radius = Number(move.shape?.value ?? 0);
+
+    if (move.id === "defog") {
+      const removed = next.zones.filter(
+        (zone) => distance(user.position, zone.center) <= radius + Number(zone.radius ?? 0) + 1e-9
+      );
+      const removedIds = new Set(removed.map((zone) => zone.id));
+      for (const zone of removed) {
+        if (next[zone.sourceSide]?.concentration?.zoneId === zone.id) {
+          endConcentrationState(next, zone.sourceSide, "defog");
+        }
+      }
+      next.zones = next.zones.filter((zone) => !removedIds.has(zone.id));
+
+      const currentWeather = weatherKind(next.environment, next.round);
+      const weatherCleared = ["foggy", "cloudy", "fog"].includes(currentWeather);
+      if (weatherCleared) next.environment.weather = null;
+
+      next.log.push({
+        type: "field_utility",
+        round: next.round,
+        actor: side,
+        moveId: move.id,
+        removedZoneIds: [...removedIds],
+        weatherCleared
+      });
+      return next;
+    }
+
+    if (move.id === "haze") {
+      const affected = [];
+      for (const targetSide of ["player", "opponent"]) {
+        const target = next[targetSide];
+        if (!target?.position) continue;
+        if (distance(user.position, target.position) > radius + 1e-9) continue;
+
+        const speedBefore = movementSpeed(target, next.round).value;
+        endConcentrationState(next, targetSide, "haze");
+        const clearedStatuses = [];
+        for (const status of STATUS_IDS) {
+          if (clearStatus(target, status)) clearedStatuses.push(status);
+        }
+        clearTransientEffects(target);
+        const speedAfter = movementSpeed(target, next.round).value;
+        if (target.turn?.started) {
+          target.turn.movementRemaining = Math.max(
+            0,
+            target.turn.movementRemaining + speedAfter - speedBefore
+          );
+        }
+        affected.push({
+          side: targetSide,
+          clearedStatuses,
+          speedBefore,
+          speedAfter
+        });
+      }
+      next.log.push({
+        type: "field_utility",
+        round: next.round,
+        actor: side,
+        moveId: move.id,
+        affected
+      });
+      return next;
+    }
+
+    if (move.id === "fairy-lock") {
+      const expiresRound = effectExpiryRound(move, next.round);
+      const affected = [];
+      for (const targetSide of ["player", "opponent"]) {
+        const target = next[targetSide];
+        if (!target?.position) continue;
+        if (distance(user.position, target.position) > radius + 1e-9) continue;
+        removeEffectSource(target, move.id, next.round);
+        target.effects.switchLockSources.push({ source: move.id, expiresRound });
+        target.effects.escapeLockSources.push({ source: move.id, expiresRound });
+        affected.push(targetSide);
+      }
+      next.log.push({
+        type: "field_utility",
+        round: next.round,
+        actor: side,
+        moveId: move.id,
+        affected,
+        expiresRound
+      });
+      return next;
+    }
+
+    throw new Error(`No field utility handler for ${move.id}`);
+  }
+
   async resolveEnvironmentMove(next, side, move) {
     const kindByMove = {
       "rain-dance": "rain",
@@ -3369,6 +3475,7 @@ export class Pokemon5eCombatEngine {
     const ongoingHealTargetSide = isOngoingHealingMove(move) ? side : null;
     const modifierTargetSide = isSimpleModifierMove(move) ? side : null;
     const specialSelfTargetSide = isSpecialSelfMove(move) ? side : null;
+    const fieldUtilityTargetSide = isFieldUtilityMove(move) ? side : null;
     const specialTargetSide = isSpecialTargetMove(move) ? targetSide : null;
     const cureTargetSide = isStatusCureMove(move)
       ? (move.id === "purify" ? otherSide(side) : side)
@@ -3381,7 +3488,9 @@ export class Pokemon5eCombatEngine {
           ? next[ongoingHealTargetSide]
           : modifierTargetSide
             ? next[modifierTargetSide]
-            : specialSelfTargetSide
+            : fieldUtilityTargetSide
+              ? next[fieldUtilityTargetSide]
+              : specialSelfTargetSide
               ? next[specialSelfTargetSide]
               : specialTargetSide
                 ? next[specialTargetSide]
@@ -3489,6 +3598,8 @@ export class Pokemon5eCombatEngine {
       next = await this.resolveStockpileMove(next, side, move);
     } else if (isEnvironmentMove(move)) {
       next = await this.resolveEnvironmentMove(next, side, move);
+    } else if (isFieldUtilityMove(move)) {
+      next = await this.resolveFieldUtilityMove(next, side, move);
     } else if (AREA_MOVES.has(move.id)) {
       const stats = calculateMoveStats(attacker, move, next.round);
       const center = areaTarget ?? clone(defender.position);
