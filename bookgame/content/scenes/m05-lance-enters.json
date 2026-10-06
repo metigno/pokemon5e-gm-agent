@@ -1,0 +1,598 @@
+{
+  "schemaVersion": 1,
+  "id": "m05-lance-enters",
+  "moduleId": "M05",
+  "title": "M5_03 — Lance Enters",
+  "locationId": "alt_town_crest",
+  "entryNodeId": "crest_intro",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m4_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m05_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m5_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "B"
+      },
+      {
+        "path": "world.flags.altacima_discovered",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "crest_intro": {
+      "stitches": [
+        {
+          "id": "crest_1",
+          "text": "Nella Sala della Cresta un trainer sta discutendo con gli addetti su una partenza rinviata. Non chiede un'eccezione: vuole sapere quale margine resta prima che la finestra diventi irresponsabile."
+        },
+        {
+          "id": "crest_2",
+          "text": "Il nome sul registro è Lance. La sua carriera esiste indipendentemente dalla tua e la linea Dratini→Dragonair→Dragonite viene trattata come progressione persistente, non come forma concessa per la scena."
+        }
+      ],
+      "choices": [
+        {
+          "id": "crest_introduce",
+          "text": "Mi presento.",
+          "conditions": {
+            "path": "world.flags.lance_met",
+            "ne": true
+          },
+          "goto": "first_exchange",
+          "effects": [
+            {
+              "type": "npc_register",
+              "npcId": "Lance",
+              "name": "Lance",
+              "relationshipScore": 0,
+              "state": {
+                "introduced": true,
+                "context": "altacima_crest_hall",
+                "role": "high_altitude_anchor"
+              }
+            },
+            {
+              "type": "set_flag",
+              "key": "lance_met",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "crest_observe",
+          "text": "Ascolto prima come ragiona sul rischio.",
+          "conditions": {
+            "path": "world.flags.lance_met",
+            "ne": true
+          },
+          "goto": "observe_before_intro"
+        },
+        {
+          "id": "crest_reengage",
+          "text": "Lance mi conosce già: riprendo il discorso.",
+          "conditions": {
+            "path": "world.flags.lance_met",
+            "eq": true
+          },
+          "goto": "reengage"
+        }
+      ]
+    },
+    "weather_intro": {
+      "stitches": [
+        {
+          "id": "weather_1",
+          "text": "Alla stazione meteo Lance confronta i dati del vento con i tempi di percorrenza. Non cerca la previsione più favorevole: cerca quella che lascia abbastanza margine per tornare indietro."
+        }
+      ],
+      "choices": [
+        {
+          "id": "weather_introduce",
+          "text": "Mi presento mentre controlliamo il bollettino.",
+          "conditions": {
+            "path": "world.flags.lance_met",
+            "ne": true
+          },
+          "goto": "first_exchange",
+          "effects": [
+            {
+              "type": "npc_register",
+              "npcId": "Lance",
+              "name": "Lance",
+              "relationshipScore": 0,
+              "state": {
+                "introduced": true,
+                "context": "altacima_weather_station",
+                "role": "high_altitude_anchor"
+              }
+            },
+            {
+              "type": "set_flag",
+              "key": "lance_met",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "weather_observe",
+          "text": "Aspetto e osservo come decide.",
+          "conditions": {
+            "path": "world.flags.lance_met",
+            "ne": true
+          },
+          "goto": "observe_before_intro"
+        },
+        {
+          "id": "weather_reengage",
+          "text": "Riprendo la conversazione con Lance.",
+          "conditions": {
+            "path": "world.flags.lance_met",
+            "eq": true
+          },
+          "goto": "reengage"
+        }
+      ]
+    },
+    "deferred_intro": {
+      "stitches": [
+        {
+          "id": "defer_1",
+          "text": "Hai già sentito parlare di Lance ma non l'hai ancora incontrato. Lo trovi dove il suo percorso lo rende plausibile: fra Sala della Cresta e stazione meteo, non materializzato per obbligo narrativo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "deferred_introduce",
+          "text": "Questa volta mi presento.",
+          "conditions": {
+            "path": "world.flags.lance_met",
+            "ne": true
+          },
+          "goto": "first_exchange",
+          "effects": [
+            {
+              "type": "npc_register",
+              "npcId": "Lance",
+              "name": "Lance",
+              "relationshipScore": 0,
+              "state": {
+                "introduced": true,
+                "context": "altacima_deferred_contact",
+                "role": "high_altitude_anchor"
+              }
+            },
+            {
+              "type": "set_flag",
+              "key": "lance_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "lance_contact_recovered",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "deferred_weather",
+          "text": "Lo seguo alla stazione meteo e lascio che il contesto venga prima.",
+          "goto": "weather_intro",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town_weather"
+            }
+          ]
+        },
+        {
+          "id": "deferred_leave",
+          "text": "Rimando ancora l'incontro.",
+          "goto": "m05-altacima#town_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "lance_contact_deferred",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        }
+      ]
+    },
+    "observe_before_intro": {
+      "stitches": [
+        {
+          "id": "obs_1",
+          "text": "Lance non parla di coraggio come assenza di paura. Parla di margine: sapere quando un rischio serve a qualcosa e quando stai solo trasformando orgoglio in costo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "observe_introduce",
+          "text": "Ora mi presento.",
+          "goto": "first_exchange",
+          "effects": [
+            {
+              "type": "npc_register",
+              "npcId": "Lance",
+              "name": "Lance",
+              "relationshipScore": 0,
+              "state": {
+                "introduced": true,
+                "context": "altacima_observed_first",
+                "role": "high_altitude_anchor"
+              }
+            },
+            {
+              "type": "set_flag",
+              "key": "lance_met",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "lance_observed_before_intro",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "observe_leave",
+          "text": "Me ne vado senza interrompere.",
+          "goto": "m05-altacima#town_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "lance_risk_principle_overheard",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "lance_contact_deferred",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        }
+      ]
+    },
+    "first_exchange": {
+      "stitches": [
+        {
+          "id": "first_1",
+          "text": "Lance ti misura più per la domanda che fai che per il Rank sul tesserino. Non presume che una promozione renda più semplice leggere una montagna."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ask_risk",
+          "text": "Gli chiedo come decide quando vale la pena rischiare.",
+          "goto": "risk_principle"
+        },
+        {
+          "id": "ask_career",
+          "text": "Gli chiedo come gestisce la crescita della sua squadra nel circuito.",
+          "goto": "dragon_career"
+        },
+        {
+          "id": "challenge_caution",
+          "text": "Gli dico che troppo margine può diventare esitazione.",
+          "goto": "risk_principle",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Lance",
+              "delta": 1
+            }
+          ]
+        }
+      ]
+    },
+    "risk_principle": {
+      "stitches": [
+        {
+          "id": "risk_1",
+          "text": "«Il rischio utile compra qualcosa: tempo, posizione, informazione. Il rischio inutile compra soltanto la possibilità di perdere ciò che avevi già.» Lance non lo presenta come una morale assoluta, ma come criterio operativo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "risk_agree",
+          "text": "Gli dico che preferisco un rischio con uscita prevista.",
+          "goto": "weather_argument",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Lance",
+              "delta": 2
+            },
+            {
+              "type": "set_flag",
+              "key": "lance_risk_common_ground",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "risk_press",
+          "text": "Gli chiedo cosa fa quando la finestra cambia mentre è già in marcia.",
+          "goto": "weather_argument",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "Lance",
+              "delta": 1
+            }
+          ]
+        }
+      ]
+    },
+    "dragon_career": {
+      "stitches": [
+        {
+          "id": "dragon_1",
+          "text": "Lance parla della sua linea drago come di una carriera parallela: allenamento, esperienza e trasformazioni arrivano quando realmente guadagnate. Nessuna forma futura viene anticipata per impressionare il player."
+        }
+      ],
+      "choices": [
+        {
+          "id": "dragon_record",
+          "text": "Registro il modo in cui separa reputazione e crescita reale.",
+          "goto": "competition_boundary",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "lance_stage_aware_principle_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "dragon_weather",
+          "text": "Gli chiedo come quella filosofia cambia in alta quota.",
+          "goto": "weather_argument"
+        }
+      ]
+    },
+    "weather_argument": {
+      "stitches": [
+        {
+          "id": "warg_1",
+          "text": "Per Lance una previsione non è un interruttore verde o rosso. Una finestra favorevole può chiudersi; una sfavorevole può rendere sensato rinviare, deviare o rinunciare."
+        }
+      ],
+      "choices": [
+        {
+          "id": "weather_margin",
+          "text": "Gli chiedo come legge il margine prima di Fulgore.",
+          "goto": "route_argument"
+        },
+        {
+          "id": "weather_decisions",
+          "text": "Voglio applicarlo al bollettino di oggi.",
+          "goto": "m05-weather-decisions#weather_board",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Lance",
+              "key": "sharedWeatherContext",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "alt_town_weather"
+            }
+          ]
+        }
+      ]
+    },
+    "route_argument": {
+      "stitches": [
+        {
+          "id": "route_1",
+          "text": "Lance indica tre decisioni legittime: partire nella finestra, aspettare dati migliori o scegliere una variante meno esposta. Nessuna delle tre garantisce un risultato; cambia soltanto il profilo di rischio e tempo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "route_note",
+          "text": "Registro le tre opzioni senza trasformarle in bonus invisibili.",
+          "goto": "lance_state",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "lance_route_principle_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "route_prior",
+          "text": "Gli chiedo se conosce ciò che è successo sulle tratte precedenti.",
+          "goto": "prior_context"
+        }
+      ]
+    },
+    "competition_boundary": {
+      "stitches": [
+        {
+          "id": "comp_1",
+          "text": "Lance è un avversario possibile nel mondo competitivo, non un gate mascherato. Incontrarlo, piacergli o batterlo in un eventuale match non può sostituire RANK_B_TO_A."
+        }
+      ],
+      "choices": [
+        {
+          "id": "comp_accept",
+          "text": "Tengo separati rapporto personale e promozione.",
+          "goto": "lance_state",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "lance_competition_boundary_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "comp_ask_schedule",
+          "text": "Gli chiedo quanto resterà ad Altacima.",
+          "goto": "schedule_note"
+        }
+      ]
+    },
+    "prior_context": {
+      "stitches": [
+        {
+          "id": "prior_1",
+          "text": "Se la tua storia precedente contiene Ferrox, Mareasale o competizioni rilevanti, Lance può riconoscerne gli effetti pubblici. Non attribuisce mai al player un'azione che il save non contiene."
+        }
+      ],
+      "choices": [
+        {
+          "id": "prior_ferrox",
+          "text": "Parliamo delle conseguenze di Ferrox che risultano davvero nel mio stato.",
+          "conditions": {
+            "path": "world.flags.ferrox_rescue_state",
+            "exists": true
+          },
+          "goto": "lance_state",
+          "effects": [
+            {
+              "type": "npc_state_set",
+              "npcId": "Lance",
+              "key": "knowsFerroxHistory",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "prior_general",
+          "text": "Restiamo sul presente di Altacima.",
+          "goto": "lance_state"
+        }
+      ]
+    },
+    "lance_state": {
+      "stitches": [
+        {
+          "id": "state_1",
+          "text": "Il primo incontro lascia relazione, contesto e temi condivisi persistenti. Lance continuerà la propria schedule e i propri risultati anche quando non è in scena."
+        }
+      ],
+      "choices": [
+        {
+          "id": "state_close",
+          "text": "Chiudo il primo incontro.",
+          "goto": "lance_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "lance_first_exchange_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "state_weather",
+          "text": "Prima torno sul meteo di oggi.",
+          "goto": "weather_argument"
+        }
+      ]
+    },
+    "reengage": {
+      "stitches": [
+        {
+          "id": "re_1",
+          "text": "Lance non ripete l'introduzione. Riparte dal contesto già persistente e da ciò che è cambiato da allora."
+        }
+      ],
+      "choices": [
+        {
+          "id": "re_weather",
+          "text": "Riprendiamo il tema della finestra meteo.",
+          "goto": "weather_argument"
+        },
+        {
+          "id": "re_comp",
+          "text": "Riprendiamo il confine fra carriera e Rank.",
+          "goto": "competition_boundary"
+        }
+      ]
+    },
+    "lance_close": {
+      "stitches": [
+        {
+          "id": "close_1",
+          "text": "Lance torna alle proprie attività. L'incontro non assegna Rank, licenza, vittorie o nuove forme alla sua squadra; registra soltanto ciò che è realmente avvenuto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_hub",
+          "text": "Torno alla piazza di Altacima.",
+          "goto": "m05-altacima#town_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        },
+        {
+          "id": "close_weather",
+          "text": "Vado alla stazione meteo per decidere la prossima mossa.",
+          "goto": "m05-weather-decisions#weather_board",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town_weather"
+            }
+          ]
+        }
+      ]
+    },
+    "schedule_note": {
+      "stitches": [
+        {
+          "id": "sched_1",
+          "text": "Lance non promette di restare finché il player non ha finito. La sua presenza futura dipenderà da schedule, carriera e condizioni del mondo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sched_record",
+          "text": "Registro che non posso contarci come NPC fisso.",
+          "goto": "lance_state",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "lance_schedule_independent",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "sched_weather",
+          "text": "Chiedo invece quale finestra sta osservando oggi.",
+          "goto": "weather_argument"
+        }
+      ]
+    }
+  }
+}
