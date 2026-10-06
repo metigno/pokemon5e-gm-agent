@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 1,
+  "id": "M04",
+  "title": "Sale, Vento e Marea",
+  "targets": {
+    "stitches": 5900,
+    "choices": 3800
+  },
+  "progressionRole": "rank-c-band",
+  "designDocument": "docs/modules/M04_SALE_VENTO_E_MAREA_MODULE_DESIGN.md",
+  "mappingDocument": "docs/modules/M04_PRODUCTION_MAPPING.md",
+  "requiredBeats": [
+    "M4_00_RANK_C_HANDOFF",
+    "M4_01_MAREASALE_ARRIVAL",
+    "M4_02_WEATHER_WINDOW",
+    "M4_03_ARCHIE_ENTERS",
+    "M4_04_PORT_PRESSURE",
+    "M4_05_COAST_ROUTE",
+    "M4_06_REEF_ACCESS",
+    "M4_07_SMUGGLING_THREAD",
+    "M4_08_FRIEND_BEAT_04",
+    "M4_09_LEAGUE_REGISTRATION",
+    "M4_10_MAJOR_NAME",
+    "M4_11_UPPER_REGIONAL",
+    "M4_12_TRIAL_REGISTRATION",
+    "M4_13_PROMOTION_TRIAL_C_B",
+    "M4_14_AFTER_LEAGUE"
+  ],
+  "blocks": [
+    {
+      "id": "M4_00_RANK_C_HANDOFF",
+      "title": "Rank C Handoff",
+      "targets": {
+        "stitches": 307,
+        "choices": 198
+      }
+    },
+    {
+      "id": "M4_01_MAREASALE_ARRIVAL",
+      "title": "Mareasale Arrival",
+      "targets": {
+        "stitches": 361,
+        "choices": 233
+      }
+    },
+    {
+      "id": "M4_02_WEATHER_WINDOW",
+      "title": "Weather Window",
+      "targets": {
+        "stitches": 361,
+        "choices": 233
+      }
+    },
+    {
+      "id": "M4_03_ARCHIE_ENTERS",
+      "title": "Archie Enters",
+      "targets": {
+        "stitches": 361,
+        "choices": 233
+      }
+    },
+    {
+      "id": "M4_04_PORT_PRESSURE",
+      "title": "Port Pressure",
+      "targets": {
+        "stitches": 361,
+        "choices": 232
+      }
+    },
+    {
+      "id": "M4_05_COAST_ROUTE",
+      "title": "Coast Route",
+      "targets": {
+        "stitches": 361,
+        "choices": 232
+      }
+    },
+    {
+      "id": "M4_06_REEF_ACCESS",
+      "title": "Reef Access",
+      "targets": {
+        "stitches": 361,
+        "choices": 232
+      }
+    },
+    {
+      "id": "M4_07_SMUGGLING_THREAD",
+      "title": "Smuggling Thread",
+      "targets": {
+        "stitches": 361,
+        "choices": 232
+      }
+    },
+    {
+      "id": "M4_08_FRIEND_BEAT_04",
+      "title": "Friend Beat 04",
+      "targets": {
+        "stitches": 523,
+        "choices": 337
+      }
+    },
+    {
+      "id": "M4_09_LEAGUE_REGISTRATION",
+      "title": "League Registration",
+      "targets": {
+        "stitches": 306,
+        "choices": 198
+      }
+    },
+    {
+      "id": "M4_10_MAJOR_NAME",
+      "title": "Major Name",
+      "targets": {
+        "stitches": 361,
+        "choices": 232
+      }
+    },
+    {
+      "id": "M4_11_UPPER_REGIONAL",
+      "title": "Upper Regional",
+      "targets": {
+        "stitches": 523,
+        "choices": 337
+      }
+    },
+    {
+      "id": "M4_12_TRIAL_REGISTRATION",
+      "title": "Trial Registration",
+      "targets": {
+        "stitches": 469,
+        "choices": 302
+      }
+    },
+    {
+      "id": "M4_13_PROMOTION_TRIAL_C_B",
+      "title": "Promotion Trial C→B",
+      "targets": {
+        "stitches": 523,
+        "choices": 337
+      }
+    },
+    {
+      "id": "M4_14_AFTER_LEAGUE",
+      "title": "After League",
+      "targets": {
+        "stitches": 361,
+        "choices": 232
+      }
+    }
+  ]
+}
