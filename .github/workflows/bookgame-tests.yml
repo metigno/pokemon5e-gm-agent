@@ -4,14 +4,11 @@ on:
   push:
     branches:
       - pokemon5e-digital-bookgame
-      - m6-00-04-work
     paths:
       - "bookgame/**"
       - "src/bridge/**"
       - ".github/workflows/bookgame-tests.yml"
   pull_request:
-    branches:
-      - m5-00-04-work
     paths:
       - "bookgame/**"
       - "src/bridge/**"
