@@ -163,6 +163,29 @@ function worldQualificationForFriend(state, friendId) {
 
 function friendWorldContext(state, friendId, stage = "groups") {
   const world = state.competition?.world ?? {};
+  if (stage === "final_four") {
+    const knockout = world.knockout ?? {};
+    if (knockout.playerFinalOpponent?.name === friendId) {
+      return { priority: 0, context: "final_opponent", opponentIndex: null };
+    }
+    if ((knockout.finalists ?? []).some((participant) => participant.name === friendId)) {
+      return { priority: 1, context: "world_finalist", opponentIndex: null };
+    }
+    if ((knockout.top4 ?? []).some((participant) => participant.name === friendId)) {
+      return { priority: 2, context: "sf_eliminated", opponentIndex: null };
+    }
+    if ((world.top8 ?? []).some((participant) => participant.name === friendId)) {
+      return { priority: 3, context: "qf_eliminated", opponentIndex: null };
+    }
+    if ((world.top16 ?? []).some((participant) => participant.name === friendId)) {
+      return { priority: 4, context: "r16_eliminated", opponentIndex: null };
+    }
+    if (worldQualificationForFriend(state, friendId)) {
+      return { priority: 5, context: "world_eliminated", opponentIndex: null };
+    }
+    return { priority: 6, context: "external_contact", opponentIndex: null };
+  }
+
   if (stage === "knockout") {
     const knockout = world.knockout ?? {};
     const qfMatch = (knockout.qfBracket ?? []).find((match) =>
@@ -406,8 +429,8 @@ export function validateNpcEffect(effect, at = "effect") {
         (typeof effect.outputPrefix !== "string" || !ID_RE.test(effect.outputPrefix))) {
       push("INVALID_FRIEND_BEAT_OUTPUT_PREFIX", "outputPrefix must be a stable identifier", at + ".outputPrefix");
     }
-    if (effect.stage !== undefined && !["groups", "knockout"].includes(effect.stage)) {
-      push("INVALID_FRIEND_BEAT_STAGE", "stage must be groups or knockout", at + ".stage");
+    if (effect.stage !== undefined && !["groups", "knockout", "final_four"].includes(effect.stage)) {
+      push("INVALID_FRIEND_BEAT_STAGE", "stage must be groups, knockout or final_four", at + ".stage");
     }
     return errors;
   }
