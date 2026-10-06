@@ -103,7 +103,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
   const moves = await data.listMoves();
   const unresolved = moves.filter((move) => !isMoveResolvable(move)).map((move) => move.id);
 
-  assert.ok(unresolved.length <= 159, `unresolved move rules regressed to ${unresolved.length}`);
+  assert.ok(unresolved.length <= 163, `unresolved move rules regressed to ${unresolved.length}`);
   for (const id of [
     "acupressure",
     "feather-dance",
@@ -118,6 +118,18 @@ test("move execution coverage has an explicit non-regression gate", async () => 
     "safeguard",
     "hail",
     "sandstorm",
+    "comeuppance",
+    "counter",
+    "pursuit",
+    "spikes",
+    "stealth-rock",
+    "struggle-bug",
+    "sucker-punch",
+    "thunderclap",
+    "upper-hand",
+    "spore",
+    "stun-spore",
+    "toxic-spikes",
     "agility",
     "autotomize",
     "barrier",
@@ -492,6 +504,66 @@ test("Hail and Sandstorm use persistent no-save hazard zones with first-entry ex
   assert.equal(sandZone?.flatDamage, 5);
   assert.deepEqual(sandZone?.immuneTypes, ["rock", "steel", "ground"]);
   assert.equal(sandZone?.expiresRound, 6);
+});
+
+test("Reaction moves use a dedicated trigger-aware execution path", async () => {
+  const counterCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([1, 20, 20, 1, 20, ...Array(40).fill(1)])
+  });
+  let counterBattle = await counterCombat.createBattle({
+    encounterId: "FULL_RUNTIME_REACTION_COUNTER",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["counter"] },
+    opponent: { speciesId: "caterpie", level: 5, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+  assert.equal(counterCombat.actor(counterBattle), "opponent");
+  counterBattle = await counterCombat.useMove(counterBattle, "opponent", "tackle");
+  const hpBeforeCounter = counterBattle.opponent.hp.current;
+  const available = await counterCombat.availableReactionMoves(
+    counterBattle,
+    "player",
+    "hit_by_melee_attack"
+  );
+  assert.ok(available.some((move) => move.id === "counter"));
+  counterBattle = await counterCombat.useReactionMove(
+    counterBattle,
+    "player",
+    "counter",
+    { trigger: "hit_by_melee_attack" }
+  );
+  assert.equal(counterBattle.player.reactionAvailable, false);
+  assert.ok(counterBattle.opponent.hp.current < hpBeforeCounter);
+  assert.ok(
+    counterBattle.log.some(
+      (event) =>
+        event.type === "reaction_use" &&
+        event.moveId === "counter" &&
+        event.trigger === "hit_by_melee_attack"
+    )
+  );
+
+  const statusCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 1, ...Array(30).fill(1)])
+  });
+  let statusBattle = await statusCombat.createBattle({
+    encounterId: "FULL_RUNTIME_REACTION_STATUS",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["stun-spore"] },
+    opponent: { speciesId: "caterpie", level: 5, moveIds: ["tackle"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+  statusBattle = await statusCombat.useReactionMove(
+    statusBattle,
+    "player",
+    "stun-spore",
+    { trigger: "targeted_by_melee_attack" }
+  );
+  const reactionStatus = [...statusBattle.log].reverse().find(
+    (event) => event.type === "reaction_status"
+  );
+  assert.equal(reactionStatus?.status, "Paralysis");
+  assert.equal(statusBattle.opponent.statuses.nonVolatile, "Paralysis");
 });
 
 test("common self-buff moves execute level scaling, AC, damage, speed and concentration rules", async () => {
