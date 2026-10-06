@@ -1,0 +1,626 @@
+{
+  "schemaVersion": 1,
+  "id": "m05-promotion-trial-b-a",
+  "moduleId": "M05",
+  "title": "M5_12 — Promotion Trial B→A",
+  "locationId": "alt_town_crest",
+  "entryNodeId": "trial_gate_call",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m4_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m05_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m5_active",
+        "eq": true
+      },
+      {
+        "path": "competition.trials.RANK_B_TO_A.available",
+        "exists": true
+      }
+    ]
+  },
+  "nodes": {
+    "trial_gate_call": {
+      "stitches": [
+        {
+          "id": "tg1",
+          "text": "La Sala della Cresta chiama il tuo checkpoint. L'esame è un Singles con Official Five; la vittoria promuove a Rank A, la sconfitta lascia Rank B e riapre il retry."
+        }
+      ],
+      "choices": [
+        {
+          "id": "gate_briefing",
+          "text": "Ascolto il briefing dell'esaminatrice.",
+          "goto": "examiner_briefing"
+        },
+        {
+          "id": "gate_roster",
+          "text": "Rivedo il roster pubblico fisso del gate.",
+          "goto": "roster_public"
+        },
+        {
+          "id": "gate_readiness",
+          "text": "Controllo se lo stato reale è pronto per iniziare.",
+          "goto": "readiness_check"
+        }
+      ]
+    },
+    "examiner_briefing": {
+      "stitches": [
+        {
+          "id": "eb1",
+          "text": "Aurelia Kite non adatta il proprio team al tuo. Il checkpoint usa sempre lo stesso Official Five per questa fascia: Sableye, Roselia, Chinchou, Growlithe e Noctowl, tutti al livello fissato del gate."
+        },
+        {
+          "id": "eb2",
+          "text": "«Basta una buona idea per vincere un turno. Per salire ad A voglio vedere se il tuo piano sopravvive abbastanza a lungo da usare tutta la squadra.»"
+        }
+      ],
+      "choices": [
+        {
+          "id": "brief_identity",
+          "text": "Rileggo cosa significa endurance e team depth.",
+          "goto": "identity_review"
+        },
+        {
+          "id": "brief_public",
+          "text": "Studio soltanto ciò che è pubblico del roster.",
+          "goto": "roster_public"
+        },
+        {
+          "id": "brief_confirm",
+          "text": "Passo alla conferma finale.",
+          "goto": "final_confirm"
+        }
+      ]
+    },
+    "roster_public": {
+      "stitches": [
+        {
+          "id": "rp1",
+          "text": "La composizione è pubblica, l'ordine decisionale no. Sableye, Roselia, Chinchou, Growlithe e Noctowl coprono ritmi e resistenze differenti; il fog of war sulle scelte dell'esaminatrice resta intatto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "roster_depth",
+          "text": "Penso a come distribuire le risorse sui cinque slot.",
+          "goto": "depth_plan"
+        },
+        {
+          "id": "roster_confirm",
+          "text": "Ho abbastanza informazioni: torno alla conferma.",
+          "goto": "final_confirm"
+        }
+      ]
+    },
+    "identity_review": {
+      "stitches": [
+        {
+          "id": "ir1",
+          "text": "Questo gate misura capacità di mantenere valore nel tempo: non bruciare tutto sulla prima minaccia, riconoscere quando cambiare linea e avere ancora strumenti negli ultimi turni."
+        }
+      ],
+      "choices": [
+        {
+          "id": "identity_depth",
+          "text": "Costruisco un piano sulla profondità del team.",
+          "goto": "depth_plan"
+        },
+        {
+          "id": "identity_pace",
+          "text": "Costruisco un piano sul ritmo del match.",
+          "goto": "pace_plan"
+        }
+      ]
+    },
+    "readiness_check": {
+      "stitches": [
+        {
+          "id": "rd1",
+          "text": "E5 controllerà Rank B, registrazione attiva e almeno cinque Pokémon. La scena non cura HP/PP, non rimuove status e non crea sostituti se il roster reale non è pronto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ready_resources",
+          "text": "Rivedo le risorse reali prima di entrare.",
+          "goto": "resource_review"
+        },
+        {
+          "id": "ready_confirm",
+          "text": "Accetto lo stato attuale e vado alla conferma.",
+          "goto": "final_confirm"
+        }
+      ]
+    },
+    "resource_review": {
+      "stitches": [
+        {
+          "id": "rr1",
+          "text": "Le risorse attuali sono parte dell'esame. Se scegli di entrare adesso, il match usa ciò che hai realmente; se non vuoi farlo, puoi uscire e tornare alla registrazione senza perdere il modulo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "resources_plan",
+          "text": "Adatto il piano allo stato che ho.",
+          "goto": "pace_plan"
+        },
+        {
+          "id": "resources_leave",
+          "text": "Non entro ancora: torno alla registrazione.",
+          "goto": "m05-trial-registration#registered"
+        }
+      ]
+    },
+    "depth_plan": {
+      "stitches": [
+        {
+          "id": "dp1",
+          "text": "Pianificare la profondità significa decidere quali risposte non puoi spendere troppo presto e quali matchup puoi permetterti di assorbire senza inseguire il KO immediato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "depth_preserve",
+          "text": "Priorità: preservare almeno una risposta per il finale.",
+          "goto": "final_confirm",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_b_a_prep_focus",
+              "value": "preserve_depth"
+            }
+          ]
+        },
+        {
+          "id": "depth_rotate",
+          "text": "Priorità: distribuire pressione e switch su più membri.",
+          "goto": "final_confirm",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_b_a_prep_focus",
+              "value": "rotation"
+            }
+          ]
+        },
+        {
+          "id": "depth_pace",
+          "text": "Integro il piano con la gestione del ritmo.",
+          "goto": "pace_plan"
+        }
+      ]
+    },
+    "pace_plan": {
+      "stitches": [
+        {
+          "id": "pp1",
+          "text": "Il ritmo del Trial può cambiare: una partenza aggressiva può costare troppo, ma aspettare sempre può regalare posizione. La scelta qui registra una priorità, non un modificatore invisibile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pace_control",
+          "text": "Priorità: controllare il ritmo prima di accelerare.",
+          "goto": "final_confirm",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_b_a_prep_focus",
+              "value": "pace_control"
+            }
+          ]
+        },
+        {
+          "id": "pace_adapt",
+          "text": "Priorità: cambiare piano appena il valore atteso si sposta.",
+          "goto": "final_confirm",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_b_a_prep_focus",
+              "value": "adaptive_depth"
+            }
+          ]
+        },
+        {
+          "id": "pace_depth",
+          "text": "Torno a ragionare sulla profondità del team.",
+          "goto": "depth_plan"
+        }
+      ]
+    },
+    "final_confirm": {
+      "stitches": [
+        {
+          "id": "fc1",
+          "text": "Da qui non c'è esito narrativo predefinito. Se inizi, il resolver Pokémon 5e/E5 decide il match e registra il risultato ufficiale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "confirm_battle",
+          "text": "Confermo l'Official Five e inizio il Trial.",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.rank",
+                "eq": "B"
+              },
+              {
+                "path": "competition.trials.RANK_B_TO_A.registered",
+                "eq": true
+              },
+              {
+                "path": "player.roster.length",
+                "gte": 5
+              }
+            ]
+          },
+          "goto": "battle_handoff"
+        },
+        {
+          "id": "confirm_back",
+          "text": "Non entro ancora.",
+          "goto": "m05-trial-registration#registered"
+        }
+      ]
+    },
+    "battle_handoff": {
+      "stitches": [
+        {
+          "id": "bh1",
+          "text": "Il controllo passa al sistema di combattimento. Nessuna scelta in questa scena può trasformare una sconfitta in vittoria o saltare il checkpoint."
+        }
+      ],
+      "choices": [
+        {
+          "id": "fight_trial",
+          "text": "Combatto il Promotion Trial B→A.",
+          "combat": {
+            "encounterId": "A5_RANK_TRIAL_B_A",
+            "opponentRegistered": true,
+            "competition": {
+              "type": "promotion_trial",
+              "matchId": "A5_RANK_TRIAL_B_A",
+              "checkpointId": "RANK_B_TO_A",
+              "fromRank": "B",
+              "toRank": "A",
+              "format": "Singles",
+              "officialRosterSize": 5,
+              "difficulty": "ELITE",
+              "retryable": true,
+              "opponentTrainerId": "ALT_GATE_B_A_AURELIA_KITE"
+            },
+            "returnNodes": {
+              "win": "trial_win",
+              "lose": "trial_loss"
+            },
+            "opponentTrainerId": "ALT_GATE_B_A_AURELIA_KITE",
+            "opponent": {
+              "species": "Sableye",
+              "level": 13,
+              "abilityId": "keen-eye",
+              "trainerId": "ALT_GATE_B_A_AURELIA_KITE"
+            },
+            "opponentBench": [
+              {
+                "species": "Roselia",
+                "level": 13,
+                "abilityId": "natural-cure",
+                "trainerId": "ALT_GATE_B_A_AURELIA_KITE"
+              },
+              {
+                "species": "Chinchou",
+                "level": 13,
+                "abilityId": "volt-absorb",
+                "trainerId": "ALT_GATE_B_A_AURELIA_KITE"
+              },
+              {
+                "species": "Growlithe",
+                "level": 13,
+                "abilityId": "intimidate",
+                "trainerId": "ALT_GATE_B_A_AURELIA_KITE"
+              },
+              {
+                "species": "Noctowl",
+                "level": 13,
+                "abilityId": "keen-eye",
+                "trainerId": "ALT_GATE_B_A_AURELIA_KITE"
+              }
+            ],
+            "goto": "battle_handoff"
+          }
+        }
+      ]
+    },
+    "trial_win": {
+      "stitches": [
+        {
+          "id": "tw1",
+          "text": "E5 registra la vittoria e completa `RANK_B_TO_A`: il Trial non è più disponibile, la registrazione viene consumata e il Rank strutturato diventa A."
+        }
+      ],
+      "choices": [
+        {
+          "id": "win_review",
+          "text": "Rivedo cosa ha prodotto davvero la promozione.",
+          "goto": "win_review"
+        },
+        {
+          "id": "win_rank",
+          "text": "Controllo il nuovo stato Rank A.",
+          "goto": "rank_a_confirm"
+        },
+        {
+          "id": "win_masters",
+          "text": "Controllo se il Masters Circuit è già disponibile.",
+          "goto": "masters_check"
+        }
+      ]
+    },
+    "win_review": {
+      "stitches": [
+        {
+          "id": "wr1",
+          "text": "La promozione deriva dal match risolto, non dal flag di modulo, dalla licenza o dal soccorso. Tutti gli altri thread M5 restano nello stato in cui li hai lasciati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "review_depth",
+          "text": "Rivedo come ho usato la profondità del team.",
+          "goto": "win_depth"
+        },
+        {
+          "id": "review_rank",
+          "text": "Passo al controllo Rank A.",
+          "goto": "rank_a_confirm"
+        }
+      ]
+    },
+    "win_depth": {
+      "stitches": [
+        {
+          "id": "wd1",
+          "text": "Il risultato certifica che hai superato l'esame; non certifica che ogni decisione fosse ottimale. La review conserva il focus scelto senza attribuire bonus futuri."
+        }
+      ],
+      "choices": [
+        {
+          "id": "depth_note",
+          "text": "Registro la review del Trial.",
+          "goto": "rank_a_confirm",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_b_a_win_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "depth_masters",
+          "text": "Passo direttamente a verificare il Masters Entry.",
+          "goto": "masters_check"
+        }
+      ]
+    },
+    "masters_check": {
+      "stitches": [
+        {
+          "id": "mc1",
+          "text": "Rank A è necessario ma non sempre sufficiente per aprire subito A5_MASTERS_ENTRY: serve anche il livello previsto o un invito reale. Il sistema non inventa l'accesso per chiudere M5 più in fretta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "masters_open",
+          "text": "La finestra Masters è aperta: vado all'Entry.",
+          "conditions": {
+            "path": "world.flags.a5_masters_entry_available",
+            "eq": true
+          },
+          "goto": "m05-masters-entry#masters_entry"
+        },
+        {
+          "id": "masters_notyet",
+          "text": "La finestra non è ancora aperta: torno ad Altacima.",
+          "conditions": {
+            "path": "world.flags.a5_masters_entry_available",
+            "ne": true
+          },
+          "goto": "trial_exit"
+        }
+      ]
+    },
+    "rank_a_confirm": {
+      "stitches": [
+        {
+          "id": "ra1",
+          "text": "Il profilo competitivo ora mostra Rank A. Questo sblocca l'access band A secondo le regole del mondo, ma non crea automaticamente Masters points, vittorie future o Rank S."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rank_masters",
+          "text": "Controllo il Masters Entry.",
+          "goto": "masters_check"
+        },
+        {
+          "id": "rank_exit",
+          "text": "Rientro ad Altacima con il nuovo Rank.",
+          "goto": "trial_exit"
+        }
+      ]
+    },
+    "trial_loss": {
+      "stitches": [
+        {
+          "id": "tl1",
+          "text": "E5 registra una sconfitta ufficiale. Il numero di tentativi aumenta, la registrazione viene rimossa e il checkpoint resta disponibile perché è retryable. Il Rank resta B."
+        }
+      ],
+      "choices": [
+        {
+          "id": "loss_review",
+          "text": "Rivedo dove il piano ha perso profondità.",
+          "goto": "loss_review"
+        },
+        {
+          "id": "loss_retry",
+          "text": "Controllo immediatamente lo stato del retry.",
+          "goto": "retry_state"
+        },
+        {
+          "id": "loss_register",
+          "text": "Torno al banco per preparare un nuovo tentativo.",
+          "goto": "m05-trial-registration#trial_info"
+        }
+      ]
+    },
+    "loss_review": {
+      "stitches": [
+        {
+          "id": "lr1",
+          "text": "La sconfitta non riscrive Lance, Five, Trace, licenza o risorse. Puoi isolare una lezione senza trasformarla in vantaggio numerico gratuito."
+        }
+      ],
+      "choices": [
+        {
+          "id": "loss_resource",
+          "text": "Analizzo quale risorsa ho speso troppo presto.",
+          "goto": "loss_resources"
+        },
+        {
+          "id": "loss_depth",
+          "text": "Analizzo dove ho smesso di usare la profondità del team.",
+          "goto": "loss_depth"
+        }
+      ]
+    },
+    "loss_resources": {
+      "stitches": [
+        {
+          "id": "lrs1",
+          "text": "Il problema può essere stato il timing con cui hai consumato una risposta, non la sua esistenza. La review registra soltanto il tema scelto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "resource_note",
+          "text": "Registro la gestione delle risorse come lezione.",
+          "goto": "retry_choice",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_b_a_loss_lesson",
+              "value": "resource_timing"
+            }
+          ]
+        },
+        {
+          "id": "resource_other",
+          "text": "Confronto anche la profondità del team.",
+          "goto": "loss_depth"
+        }
+      ]
+    },
+    "loss_depth": {
+      "stitches": [
+        {
+          "id": "ld1",
+          "text": "Una squadra di cinque non aiuta se il match viene giocato come se esistessero soltanto due risposte. La review separa composizione, ordine d'uso e capacità di cambiare linea."
+        }
+      ],
+      "choices": [
+        {
+          "id": "depth_lesson",
+          "text": "Registro la profondità come lezione.",
+          "goto": "retry_choice",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_b_a_loss_lesson",
+              "value": "team_depth"
+            }
+          ]
+        },
+        {
+          "id": "depth_resource",
+          "text": "Confronto anche il timing delle risorse.",
+          "goto": "loss_resources"
+        }
+      ]
+    },
+    "retry_choice": {
+      "stitches": [
+        {
+          "id": "rc1",
+          "text": "Puoi riprovare subito dopo una nuova registrazione oppure tornare nel mondo. Nessuna delle due opzioni resetta M5."
+        }
+      ],
+      "choices": [
+        {
+          "id": "retry_register",
+          "text": "Torno alla registrazione B→A.",
+          "goto": "m05-trial-registration#trial_info"
+        },
+        {
+          "id": "retry_world",
+          "text": "Torno ad Altacima e preparo un altro tentativo più tardi.",
+          "goto": "trial_exit"
+        }
+      ]
+    },
+    "retry_state": {
+      "stitches": [
+        {
+          "id": "rs1",
+          "text": "`RANK_B_TO_A` è ancora disponibile, `registered=false`, `completed=false`, Rank B invariato. Questo è l'unico stato corretto dopo una sconfitta retryable."
+        }
+      ],
+      "choices": [
+        {
+          "id": "retry_state_review",
+          "text": "Rivedo la sconfitta prima di scegliere.",
+          "goto": "loss_review"
+        },
+        {
+          "id": "retry_state_register",
+          "text": "Torno direttamente al banco.",
+          "goto": "m05-trial-registration#trial_info"
+        }
+      ]
+    },
+    "trial_exit": {
+      "stitches": [
+        {
+          "id": "te1",
+          "text": "La Sala della Cresta restituisce il controllo al mondo aperto con il Rank e il Trial state realmente prodotti dal match."
+        }
+      ],
+      "choices": [
+        {
+          "id": "exit_hub",
+          "text": "Torno ad Altacima.",
+          "goto": "m05-altacima#town_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
