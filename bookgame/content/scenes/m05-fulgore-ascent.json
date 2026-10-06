@@ -1,0 +1,565 @@
+{
+  "schemaVersion": 1,
+  "id": "m05-fulgore-ascent",
+  "moduleId": "M05",
+  "title": "M5_05 — Fulgore Ascent",
+  "locationId": "alt_town_gate",
+  "entryNodeId": "ascent_gate",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m4_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m05_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m5_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "B"
+      },
+      {
+        "path": "world.flags.altacima_discovered",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m5_fulgore_departure_ready",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "ascent_gate": {
+      "stitches": [
+        {
+          "id": "g1",
+          "text": "Il controllo d'uscita di Altacima verifica il piano già registrato. La partenza consuma la decisione meteo di M5_04, ma non presume che la finestra resti favorevole fino all'altopiano."
+        }
+      ],
+      "choices": [
+        {
+          "id": "gate_direct",
+          "text": "Parto sulla direttrice principale.",
+          "conditions": {
+            "path": "world.flags.m5_fulgore_route_plan",
+            "eq": "direct"
+          },
+          "timeCostMinutes": 45,
+          "goto": "direct_route",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "ful_ascent"
+            }
+          ]
+        },
+        {
+          "id": "gate_sheltered",
+          "text": "Parto sulla variante riparata.",
+          "conditions": {
+            "path": "world.flags.m5_fulgore_route_plan",
+            "eq": "sheltered"
+          },
+          "timeCostMinutes": 60,
+          "goto": "sheltered_route",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "ful_ascent"
+            }
+          ]
+        },
+        {
+          "id": "gate_recheck",
+          "text": "Ricontrollo il margine prima di impegnarmi.",
+          "goto": "checkpoint"
+        },
+        {
+          "id": "gate_cancel",
+          "text": "Rinuncio alla partenza e torno ad Altacima.",
+          "goto": "m05-altacima#town_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        }
+      ]
+    },
+    "direct_route": {
+      "stitches": [
+        {
+          "id": "d1",
+          "text": "La via diretta prende quota in fretta e attraversa un tratto esposto. Il vantaggio è il tempo; il costo è avere meno ripari se il vento gira."
+        }
+      ],
+      "choices": [
+        {
+          "id": "direct_read",
+          "text": "Leggo le raffiche prima della cresta. (CT Survival)",
+          "check": {
+            "ability": "WIS",
+            "skill": "Survival",
+            "dc": 14
+          },
+          "outcomes": {
+            "success": {
+              "goto": "storm_ridge",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "m5_fulgore_direct_read",
+                  "value": "clear"
+                }
+              ]
+            },
+            "failure": {
+              "goto": "storm_ridge",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "m5_fulgore_direct_read",
+                  "value": "uncertain"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "direct_fauna",
+          "text": "Uso un tratto protetto per osservare la fauna.",
+          "goto": "fauna_view"
+        },
+        {
+          "id": "direct_retreat",
+          "text": "Il margine non mi convince: torno al punto di scelta.",
+          "timeCostMinutes": 30,
+          "goto": "retreat_point"
+        }
+      ]
+    },
+    "sheltered_route": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La variante protetta segue muri di roccia e vecchi paletti del servizio meteo. È più lunga, ma permette di interrompere la salita senza dover attraversare subito la cresta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "shelter_continue",
+          "text": "Continuo mantenendo il margine.",
+          "timeCostMinutes": 45,
+          "goto": "plateau_edge"
+        },
+        {
+          "id": "shelter_fauna",
+          "text": "Mi fermo a osservare il corridoio faunistico.",
+          "goto": "fauna_view"
+        },
+        {
+          "id": "shelter_lance",
+          "text": "Ripenso al criterio di Lance prima dell'ultimo tratto.",
+          "conditions": {
+            "path": "world.flags.lance_met",
+            "eq": true
+          },
+          "goto": "lance_callback"
+        }
+      ]
+    },
+    "storm_ridge": {
+      "stitches": [
+        {
+          "id": "r1",
+          "text": "Sulla cresta il vento arriva a impulsi. Non c'è un evento scriptato che ti punisca perché hai scelto la via rapida: hai semplicemente meno tempo per decidere se insistere, deviare o arretrare."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ridge_push",
+          "text": "Attraverso il tratto esposto ora. (CT CON)",
+          "check": {
+            "ability": "CON",
+            "dc": 13
+          },
+          "outcomes": {
+            "success": {
+              "goto": "plateau_edge",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "m5_fulgore_ridge_result",
+                  "value": "steady"
+                }
+              ]
+            },
+            "failure": {
+              "goto": "retreat_point",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "m5_fulgore_ridge_result",
+                  "value": "forced_pause"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "ridge_deviate",
+          "text": "Devio verso la variante riparata.",
+          "timeCostMinutes": 30,
+          "goto": "sheltered_route",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_fulgore_midcourse_deviation",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "ridge_retreat",
+          "text": "Rientro al riparo prima che il margine si chiuda.",
+          "timeCostMinutes": 30,
+          "goto": "retreat_point"
+        }
+      ]
+    },
+    "fauna_view": {
+      "stitches": [
+        {
+          "id": "f1",
+          "text": "Il vento porta odore d'erba fredda e ozono. Piccoli movimenti fra rocce e ciuffi ricordano che Fulgore è un habitat, non un corridoio competitivo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "observe_fulgore_fauna",
+          "text": "Osservo senza inseguire.",
+          "timeCostMinutes": 20,
+          "ecology": {
+            "requestId": "M5_FULGORE_OBSERVATION_01",
+            "zoneId": "FUL-PLATEAU",
+            "method": "wild_observation",
+            "allowedSpecies": [
+              "mareep",
+              "shinx",
+              "pawmi"
+            ],
+            "returnNodes": {
+              "noEncounter": "fauna_none",
+              "mareep": "fauna_mareep",
+              "shinx": "fauna_shinx",
+              "pawmi": "fauna_pawmi"
+            }
+          }
+        },
+        {
+          "id": "fauna_skip",
+          "text": "Non interferisco e continuo.",
+          "goto": "plateau_edge"
+        }
+      ]
+    },
+    "fauna_none": {
+      "stitches": [
+        {
+          "id": "fn1",
+          "text": "Non compare nulla di abbastanza vicino da identificare. L'assenza di incontro resta un esito valido."
+        }
+      ],
+      "choices": [
+        {
+          "id": "none_continue",
+          "text": "Continuo verso l'altopiano.",
+          "goto": "plateau_edge"
+        },
+        {
+          "id": "none_recheck",
+          "text": "Torno a leggere il terreno invece di forzare un incontro.",
+          "goto": "checkpoint"
+        }
+      ]
+    },
+    "fauna_mareep": {
+      "stitches": [
+        {
+          "id": "fm1",
+          "text": "Un Mareep pascola dietro una piega del terreno, usando la roccia come frangivento. Non sembra interessato a te."
+        }
+      ],
+      "choices": [
+        {
+          "id": "mareep_leave",
+          "text": "Lo lascio tranquillo e continuo.",
+          "goto": "plateau_edge",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_fulgore_fauna_seen",
+              "value": "mareep"
+            }
+          ]
+        },
+        {
+          "id": "mareep_watch",
+          "text": "Osservo come sceglie i ripari.",
+          "timeCostMinutes": 10,
+          "goto": "checkpoint",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_fulgore_fauna_seen",
+              "value": "mareep"
+            }
+          ]
+        }
+      ]
+    },
+    "fauna_shinx": {
+      "stitches": [
+        {
+          "id": "fs1",
+          "text": "Uno Shinx resta basso fra le rocce, fermandosi ogni volta che una raffica supera il bordo del pendio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "shinx_leave",
+          "text": "Non lo avvicino e proseguo.",
+          "goto": "plateau_edge",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_fulgore_fauna_seen",
+              "value": "shinx"
+            }
+          ]
+        },
+        {
+          "id": "shinx_watch",
+          "text": "Studio il suo uso del terreno.",
+          "timeCostMinutes": 10,
+          "goto": "checkpoint",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_fulgore_fauna_seen",
+              "value": "shinx"
+            }
+          ]
+        }
+      ]
+    },
+    "fauna_pawmi": {
+      "stitches": [
+        {
+          "id": "fp1",
+          "text": "Un Pawmi attraversa rapidamente un tratto aperto e scompare fra due spuntoni di roccia appena il vento cambia."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pawmi_leave",
+          "text": "Lo lascio andare e continuo.",
+          "goto": "plateau_edge",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_fulgore_fauna_seen",
+              "value": "pawmi"
+            }
+          ]
+        },
+        {
+          "id": "pawmi_watch",
+          "text": "Registro il comportamento senza seguirlo.",
+          "timeCostMinutes": 10,
+          "goto": "checkpoint",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_fulgore_fauna_seen",
+              "value": "pawmi"
+            }
+          ]
+        }
+      ]
+    },
+    "plateau_edge": {
+      "stitches": [
+        {
+          "id": "p1",
+          "text": "Il terreno finalmente si apre. Davanti a te l'Altopiano Fulgore è una distesa spezzata da piloni meteorologici, rocce nere e linee di scarica lontane."
+        }
+      ],
+      "choices": [
+        {
+          "id": "edge_enter",
+          "text": "Entro nell'altopiano.",
+          "timeCostMinutes": 20,
+          "goto": "plateau_arrival",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "ful_plateau"
+            }
+          ]
+        },
+        {
+          "id": "edge_checkpoint",
+          "text": "Mi fermo a registrare il percorso prima di entrare.",
+          "goto": "checkpoint"
+        },
+        {
+          "id": "edge_retreat",
+          "text": "Decido che oggi il margine non basta.",
+          "goto": "retreat_point"
+        }
+      ]
+    },
+    "retreat_point": {
+      "stitches": [
+        {
+          "id": "rt1",
+          "text": "Arretrare non cancella la scelta di modulo e non conta come fallimento. Hai ancora Rank B e puoi riprovare quando il mondo offre un'altra finestra."
+        }
+      ],
+      "choices": [
+        {
+          "id": "retreat_altacima",
+          "text": "Torno ad Altacima.",
+          "timeCostMinutes": 60,
+          "goto": "m05-altacima#town_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        },
+        {
+          "id": "retreat_reassess",
+          "text": "Resto al riparo e rivaluto.",
+          "timeCostMinutes": 30,
+          "goto": "checkpoint"
+        }
+      ]
+    },
+    "lance_callback": {
+      "stitches": [
+        {
+          "id": "lc1",
+          "text": "Il ricordo della conversazione con Lance non concede vantaggi meccanici: ti ricorda soltanto che il rischio utile deve comprare qualcosa e avere una via d'uscita."
+        }
+      ],
+      "choices": [
+        {
+          "id": "lance_continue",
+          "text": "Mantengo il piano e continuo.",
+          "goto": "plateau_edge",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_lance_ascent_callback",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "lance_retreat",
+          "text": "Il margine non compra abbastanza: arretrato.",
+          "goto": "retreat_point",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m5_lance_ascent_callback",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "checkpoint": {
+      "stitches": [
+        {
+          "id": "c1",
+          "text": "Il check di percorso conserva rotta, tempo e informazioni raccolte. Non cura la squadra e non trasforma una lettura incerta in certezza."
+        }
+      ],
+      "choices": [
+        {
+          "id": "checkpoint_continue",
+          "text": "Proseguo verso il bordo dell'altopiano.",
+          "goto": "plateau_edge"
+        },
+        {
+          "id": "checkpoint_back",
+          "text": "Rientro ad Altacima e ripianifico.",
+          "timeCostMinutes": 45,
+          "goto": "m05-altacima#town_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        }
+      ]
+    },
+    "ascent_close": {
+      "stitches": [
+        {
+          "id": "ac1",
+          "text": "La salita è registrata come completata soltanto dopo aver realmente raggiunto Fulgore. Il percorso scelto resta disponibile come callback."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_explore",
+          "text": "Apro l'esplorazione dell'altopiano.",
+          "goto": "plateau_arrival"
+        }
+      ]
+    },
+    "plateau_arrival": {
+      "stitches": [
+        {
+          "id": "pa1",
+          "text": "Sei sull'Altopiano Fulgore. Il cielo è più grande, il vento più netto e il rumore delle scariche arriva con ritardo. M5 può ora consumare questo luogo per A5_TRACE e gli altri eventi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "arrival_complete",
+          "text": "Registro l'arrivo reale a Fulgore.",
+          "goto": "ascent_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "fulgore_visited",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m5_fulgore_ascent_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "ful_plateau"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
