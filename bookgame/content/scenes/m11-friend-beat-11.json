@@ -549,7 +549,27 @@
               "key": "m11_friend_beat_11_complete",
               "value": true
             }
-          ]
+          ],
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.friend_beat_11_friend_id",
+                "exists": true
+              },
+              {
+                "path": "world.flags.friend_beat_11_contact_mode",
+                "exists": true
+              },
+              {
+                "path": "world.flags.friend_beat_11_type",
+                "exists": true
+              },
+              {
+                "path": "world.flags.friend_beat_11_result",
+                "exists": true
+              }
+            ]
+          }
         },
         {
           "id": "commit_review",
