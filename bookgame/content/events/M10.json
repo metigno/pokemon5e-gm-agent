@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "M10",
+  "events": [
+    {
+      "id": "M10_SILAS_R16_SCHEDULE",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "world.flags.m10_r16_bracket_complete",
+            "eq": true
+          },
+          {
+            "path": "competition.world.knockout.silasInTop16",
+            "eq": true
+          },
+          {
+            "path": "world.flags.m10_silas_available",
+            "ne": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "silas_knockout_venue",
+          "effects": [
+            {
+              "type": "npc_register",
+              "npcId": "SilasCrowe",
+              "name": "Silas Crowe",
+              "relationshipScore": 0,
+              "state": {
+                "role": "world_r16_anchor",
+                "introduced": false,
+                "competitiveProtection": false,
+                "module": "M10",
+                "worldTop16": true
+              }
+            },
+            {
+              "type": "npc_schedule_set",
+              "npcId": "SilasCrowe",
+              "scheduleId": "m10_world_r16",
+              "locationId": "world_knockout_hall",
+              "availability": "available",
+              "activity": "r16_preparation"
+            },
+            {
+              "type": "set_flag",
+              "key": "m10_silas_available",
+              "value": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
