@@ -2359,46 +2359,6 @@
         "protected_rare": [],
         "protected_very_rare": []
       }
-    },
-    "MAR-REEF": {
-      "location_id": "MAR-REEF",
-      "location_name": "Barriera Azzurra",
-      "pools": {
-        "common": [
-          "chinchou",
-          "clamperl",
-          "finizen",
-          "horsea",
-          "mareanie",
-          "skrelp",
-          "staryu"
-        ],
-        "uncommon": [
-          "corsola",
-          "tentacool",
-          "wailmer"
-        ],
-        "rare": [
-          "lanturn",
-          "luvdisc",
-          "pincurchin",
-          "pyukumuku",
-          "qwilfish",
-          "wishiwashi-solo-form"
-        ],
-        "very_rare": [
-          "bruxish",
-          "gorebyss",
-          "lapras",
-          "veluza"
-        ],
-        "exceptional": [
-          "clawitzer",
-          "toxapex"
-        ],
-        "protected_rare": [],
-        "protected_very_rare": []
-      }
     }
   }
 }
