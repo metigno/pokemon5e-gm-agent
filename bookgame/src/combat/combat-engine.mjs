@@ -52,10 +52,14 @@ const SAVE_EFFECT_MOVES = new Set([
   "charm",
   "cotton-spore",
   "fake-tears",
+  "forests-curse",
+  "magic-powder",
   "metal-sound",
   "screech",
+  "soak",
   "sweet-scent",
-  "tearful-look"
+  "tearful-look",
+  "trick-or-treat"
 ]);
 
 const AREA_MOVES = new Set([
@@ -134,6 +138,34 @@ function effectExpiryRound(move, round) {
 
 function effectiveAc(combatant, round) {
   return combatant.ac + activeModifier(combatant.effects?.acModifierSources ?? [], round);
+}
+
+function clearTypeOverride(combatant) {
+  const override = combatant.effects?.typeOverride;
+  if (!override) return null;
+  const previousTypes = clone(combatant.types);
+  combatant.types = clone(combatant.baseTypes ?? combatant.types);
+  combatant.effects.typeOverride = null;
+  return {
+    source: override.source,
+    previousTypes,
+    restoredTypes: clone(combatant.types)
+  };
+}
+
+function applyTypeOverride(
+  combatant,
+  { source, types, remainingTurns = null, expiresRound = null }
+) {
+  clearTypeOverride(combatant);
+  combatant.types = clone(types);
+  combatant.effects.typeOverride = {
+    source,
+    types: clone(types),
+    remainingTurns,
+    expiresRound
+  };
+  return clone(combatant.effects.typeOverride);
 }
 
 function hasActiveSource(sources = [], round) {
@@ -218,6 +250,9 @@ function removeEffectSource(combatant, source, round = null) {
   ]) {
     if (!Array.isArray(combatant.effects?.[key])) continue;
     combatant.effects[key] = combatant.effects[key].filter((entry) => entry.source !== source);
+  }
+  if (combatant.effects?.typeOverride?.source === source) {
+    clearTypeOverride(combatant);
   }
   if (round != null && combatant.turn?.started) {
     const speedAfter = activeModifier(combatant.effects?.speedModifierSources ?? [], round);
@@ -457,6 +492,14 @@ function isSpecialSelfMove(move) {
   return SPECIAL_SELF_MOVES.has(move.id);
 }
 
+const TYPE_COPY_MOVES = new Set([
+  "reflect-type"
+]);
+
+function isTypeCopyMove(move) {
+  return TYPE_COPY_MOVES.has(move.id);
+}
+
 const STOCKPILE_MOVES = new Set([
   "stockpile",
   "swallow"
@@ -530,6 +573,7 @@ export function isMoveResolvable(move) {
   if (isStatusCureMove(move)) return true;
   if (isSimpleModifierMove(move)) return true;
   if (isSpecialSelfMove(move)) return true;
+  if (isTypeCopyMove(move)) return true;
   if (isStockpileMove(move)) return true;
   if (SAVE_EFFECT_MOVES.has(move.id) || AREA_MOVES.has(move.id)) return true;
   if ((move.attack || move.save) && statusFromText(move.description)) return true;
@@ -562,6 +606,7 @@ function normalizeTrainer(trainer = {}, positionValue) {
 }
 
 function clearTransientEffects(combatant) {
+  combatant.types = clone(combatant.baseTypes ?? combatant.types);
   combatant.effects = {
     attackModifierSources: [],
     incomingAttackBonusSources: [],
@@ -579,6 +624,7 @@ function clearTransientEffects(combatant) {
     forcedHitSources: [],
     forcedCriticalSources: [],
     restrainedSources: [],
+    typeOverride: null,
     switchLockSources: [],
     escapeLockSources: [],
     movementLockSources: [],
@@ -961,6 +1007,29 @@ function endTurnInternal(battle, side, dice) {
   }
   combatant.effects.ongoingEffects = remainingOngoing;
 
+  const typeOverride = combatant.effects?.typeOverride;
+  if (typeOverride?.remainingTurns != null) {
+    typeOverride.remainingTurns = Math.max(0, typeOverride.remainingTurns - 1);
+    next.log.push({
+      type: "type_override_tick",
+      round: next.round,
+      actor: side,
+      source: typeOverride.source,
+      remainingTurns: typeOverride.remainingTurns,
+      types: clone(combatant.types)
+    });
+    if (typeOverride.remainingTurns === 0) {
+      const ended = clearTypeOverride(combatant);
+      next.log.push({
+        type: "type_override_end",
+        round: next.round,
+        actor: side,
+        reason: "duration",
+        ...ended
+      });
+    }
+  }
+
   combatant.turn.started = false;
   combatant.turn.actionAvailable = true;
   combatant.turn.bonusActionAvailable = true;
@@ -1116,6 +1185,30 @@ function applySaveEffect(battle, side, move, saveResult) {
       3
     );
     return { effect: "incoming_attack_bonus", value };
+  }
+
+  if (["forests-curse", "magic-powder", "soak", "trick-or-treat"].includes(move.id)) {
+    const typeByMove = {
+      "forests-curse": "grass",
+      "magic-powder": "psychic",
+      "soak": "water",
+      "trick-or-treat": "ghost"
+    };
+    const turnsByMove = {
+      "forests-curse": 3,
+      "magic-powder": 10,
+      "soak": 3,
+      "trick-or-treat": 3
+    };
+    const override = applyTypeOverride(target, {
+      source: move.id,
+      types: [typeByMove[move.id]],
+      remainingTurns: turnsByMove[move.id]
+    });
+    return {
+      effect: "type_override",
+      ...override
+    };
   }
 
   if (move.id === "sweet-scent") {
@@ -1302,7 +1395,8 @@ export class Pokemon5eCombatEngine {
       rosterIndex: Number.isInteger(descriptor.rosterIndex) ? descriptor.rosterIndex : null,
       sr: species.sr,
       size: species.size,
-      types: species.type,
+      baseTypes: clone(species.type),
+      types: clone(species.type),
       speed: clone(species.speed ?? []),
       reach: reachForSize(species.size),
       position: defaultPosition(positionValue ?? descriptor.position, { x: 0, y: 0 }),
@@ -1338,6 +1432,7 @@ export class Pokemon5eCombatEngine {
         forcedHitSources: [],
         forcedCriticalSources: [],
         restrainedSources: [],
+        typeOverride: null,
         switchLockSources: [],
         escapeLockSources: [],
         movementLockSources: [],
@@ -2117,6 +2212,41 @@ export class Pokemon5eCombatEngine {
       curedStatuses
     });
     return next;
+  }
+
+  async resolveTypeCopyMove(next, side, move) {
+    const combatant = next[side];
+    const targetSide = otherSide(side);
+    const target = next[targetSide];
+
+    if (move.id === "reflect-type") {
+      endConcentrationState(next, side, "new_concentration");
+      const expiresRound = effectExpiryRound(move, next.round);
+      const override = applyTypeOverride(combatant, {
+        source: move.id,
+        types: target.types,
+        expiresRound
+      });
+      combatant.concentration = {
+        zoneId: null,
+        moveId: move.id,
+        effectSource: move.id,
+        expiresRound
+      };
+      next.log.push({
+        type: "type_copy_move",
+        round: next.round,
+        actor: side,
+        target: targetSide,
+        moveId: move.id,
+        copiedTypes: clone(target.types),
+        override,
+        concentration: true
+      });
+      return next;
+    }
+
+    throw new Error(`No type copy handler for ${move.id}`);
   }
 
   async resolveStockpileMove(next, side, move) {
@@ -3037,6 +3167,8 @@ export class Pokemon5eCombatEngine {
       next = await this.resolveSimpleModifierMove(next, side, move);
     } else if (isSpecialSelfMove(move)) {
       next = await this.resolveSpecialSelfMove(next, side, move);
+    } else if (isTypeCopyMove(move)) {
+      next = await this.resolveTypeCopyMove(next, side, move);
     } else if (isStockpileMove(move)) {
       next = await this.resolveStockpileMove(next, side, move);
     } else if (AREA_MOVES.has(move.id)) {
