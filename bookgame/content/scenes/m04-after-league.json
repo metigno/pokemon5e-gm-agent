@@ -1,0 +1,541 @@
+{
+  "schemaVersion": 1,
+  "id": "m04-after-league",
+  "moduleId": "M04",
+  "title": "M4_14 — Dopo l'Upper Circuit",
+  "locationId": "mar_city",
+  "entryNodeId": "after_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m3_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m04_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m4_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rankOrder",
+        "gte": 3
+      }
+    ]
+  },
+  "nodes": {
+    "after_entry": {
+      "stitches": [
+        {
+          "id": "entry_1",
+          "text": "Mareasale non chiude M4 con una singola premiazione. Il riepilogo legge ciò che è davvero successo: risultato Upper Regional, stato della rete logistica, rapporto con Archie, Friend Beat e soprattutto il Rank strutturato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "review_upper",
+          "text": "Rivedo il risultato dell'Upper Regional.",
+          "conditions": {
+            "path": "world.flags.upper_regional_result",
+            "exists": true
+          },
+          "goto": "upper_result"
+        },
+        {
+          "id": "review_smuggling",
+          "text": "Rivedo come si è chiusa la pista logistica.",
+          "conditions": {
+            "path": "world.flags.smuggling_state",
+            "exists": true
+          },
+          "goto": "smuggling_result"
+        },
+        {
+          "id": "review_archie",
+          "text": "Rivedo cosa resta del rapporto con Archie.",
+          "conditions": {
+            "path": "world.flags.archie_met",
+            "eq": true
+          },
+          "goto": "archie_result"
+        },
+        {
+          "id": "review_friend",
+          "text": "Rivedo il FRIEND_BEAT_04.",
+          "conditions": {
+            "path": "world.flags.friend_beat_04_complete",
+            "eq": true
+          },
+          "goto": "friend_result"
+        },
+        {
+          "id": "review_rank",
+          "text": "Controllo cosa ha davvero sbloccato il Rank.",
+          "goto": "rank_result"
+        },
+        {
+          "id": "audit_exit",
+          "text": "Controllo se M4 può essere chiuso formalmente.",
+          "goto": "exit_audit"
+        }
+      ]
+    },
+    "upper_result": {
+      "stitches": [
+        {
+          "id": "upper_1",
+          "text": "Il risultato del circuito opzionale resta distinto dalla promozione. Vincitore, finalista, eliminato, ritirato, forfait o skipped sono tutti esiti persistenti validi se derivano da ciò che hai realmente fatto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "upper_winner",
+          "text": "Il risultato è winner: conservo il titolo senza trasformarlo in Rank B.",
+          "conditions": {
+            "path": "world.flags.upper_regional_result",
+            "eq": "winner"
+          },
+          "goto": "after_entry",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m4_upper_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "upper_finalist",
+          "text": "Il risultato è finalist: registro il piazzamento.",
+          "conditions": {
+            "path": "world.flags.upper_regional_result",
+            "eq": "finalist"
+          },
+          "goto": "after_entry",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m4_upper_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "upper_semifinal",
+          "text": "Il risultato è semifinal: registro l'eliminazione.",
+          "conditions": {
+            "path": "world.flags.upper_regional_result",
+            "eq": "semifinal"
+          },
+          "goto": "after_entry",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m4_upper_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "upper_qf",
+          "text": "Il risultato è quarterfinal: registro l'eliminazione.",
+          "conditions": {
+            "path": "world.flags.upper_regional_result",
+            "eq": "quarterfinal"
+          },
+          "goto": "after_entry",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m4_upper_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "upper_skipped",
+          "text": "Il risultato è skipped: il mondo ha proseguito senza inventare match.",
+          "conditions": {
+            "path": "world.flags.upper_regional_result",
+            "eq": "skipped"
+          },
+          "goto": "after_entry",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m4_upper_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "upper_withdrew",
+          "text": "Il risultato è withdrew: conservo il ritiro come scelta reale.",
+          "conditions": {
+            "path": "world.flags.upper_regional_result",
+            "eq": "withdrew"
+          },
+          "goto": "after_entry",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m4_upper_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "upper_forfeit",
+          "text": "Il risultato è forfeited: non viene convertito in un match mai giocato.",
+          "conditions": {
+            "path": "world.flags.upper_regional_result",
+            "eq": "forfeited"
+          },
+          "goto": "after_entry",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m4_upper_reviewed",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "smuggling_result": {
+      "stitches": [
+        {
+          "id": "smug_1",
+          "text": "La costa ricorderà se hai documentato una rotta, aiutato un'intercettazione, attivato monitoraggio, trovato prove insufficienti, ignorato la pista o lasciato che il mondo la risolvesse senza di te."
+        }
+      ],
+      "choices": [
+        {
+          "id": "smug_record",
+          "text": "Conservo l'esito senza riscriverlo.",
+          "goto": "after_entry",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m4_smuggling_reviewed",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "archie_result": {
+      "stitches": [
+        {
+          "id": "archie_1",
+          "text": "Archie resta una persona persistente, non un trofeo di modulo. Le differenze di principio, il contesto del porto e gli eventuali callback rimangono disponibili per il futuro."
+        }
+      ],
+      "choices": [
+        {
+          "id": "archie_record",
+          "text": "Conservo il rapporto così com'è.",
+          "goto": "after_entry",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m4_archie_reviewed",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "friend_result": {
+      "stitches": [
+        {
+          "id": "friend_1",
+          "text": "Il quarto Friend Beat conserva chi hai incontrato o chiamato, il tipo di contatto e il risultato. Non viene sostituito da un generico 'gli amici stanno bene'."
+        }
+      ],
+      "choices": [
+        {
+          "id": "friend_record",
+          "text": "Conservo il beat per i callback futuri.",
+          "goto": "after_entry",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m4_friend_reviewed",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "rank_result": {
+      "stitches": [
+        {
+          "id": "rank_1",
+          "text": "Se sei Rank B, lo sei perché E5 ha registrato una vittoria nel checkpoint C→B. Se sei ancora C, nessun titolo, personaggio famoso o flag narrativo può aprire l'access band interregionale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rank_b_note",
+          "text": "Rank B è attivo: il prossimo modulo potrà consumarlo.",
+          "conditions": {
+            "path": "competition.rank",
+            "eq": "B"
+          },
+          "goto": "after_entry",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m4_rank_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "rank_c_trial",
+          "text": "Sono ancora Rank C: torno al Promotion Trial.",
+          "conditions": {
+            "path": "competition.rank",
+            "eq": "C"
+          },
+          "goto": "m04-trial-registration#trial_info",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city_arena"
+            }
+          ]
+        }
+      ]
+    },
+    "exit_audit": {
+      "stitches": [
+        {
+          "id": "audit_1",
+          "text": "M4 si chiude soltanto quando Rank B, Archie, FRIEND_BEAT_04, risultato Upper Regional e stato del contrabbando esistono tutti nello stato persistente. L'unlock M5 è una conseguenza di questo audit."
+        }
+      ],
+      "choices": [
+        {
+          "id": "complete_m4",
+          "text": "Tutti i requisiti sono soddisfatti: chiudo M4 e sblocco M5.",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.rank",
+                "eq": "B"
+              },
+              {
+                "path": "world.flags.archie_met",
+                "eq": true
+              },
+              {
+                "path": "world.flags.friend_beat_04_complete",
+                "eq": true
+              },
+              {
+                "path": "world.flags.upper_regional_result",
+                "exists": true
+              },
+              {
+                "path": "world.flags.smuggling_state",
+                "exists": true
+              }
+            ]
+          },
+          "goto": "module_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m4_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m05_unlocked",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m4_outcome_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "missing_rank",
+          "text": "Manca Rank B: torno al Trial C→B.",
+          "conditions": {
+            "path": "competition.rank",
+            "eq": "C"
+          },
+          "goto": "m04-trial-registration#trial_info",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city_arena"
+            }
+          ]
+        },
+        {
+          "id": "missing_archie",
+          "text": "Non ho ancora incontrato Archie.",
+          "conditions": {
+            "path": "world.flags.archie_met",
+            "ne": true
+          },
+          "goto": "m04-archie-enters#deferred_intro",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "archie_contact_deferred",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "mar_city_weather"
+            }
+          ]
+        },
+        {
+          "id": "missing_friend",
+          "text": "FRIEND_BEAT_04 non è ancora chiuso.",
+          "conditions": {
+            "path": "world.flags.friend_beat_04_complete",
+            "ne": true
+          },
+          "goto": "m04-friend-beat-04#friend_call"
+        },
+        {
+          "id": "missing_upper_registered",
+          "text": "L'Upper Regional è registrato ma non risolto.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.upper_regional_result",
+                "exists": false
+              },
+              {
+                "path": "world.flags.upper_regional_registration_complete",
+                "eq": true
+              }
+            ]
+          },
+          "goto": "m04-upper-regional#circuit_board",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city_arena"
+            }
+          ]
+        },
+        {
+          "id": "missing_upper_unregistered",
+          "text": "Devo ancora risolvere la scelta Upper Regional.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.upper_regional_result",
+                "exists": false
+              },
+              {
+                "path": "world.flags.upper_regional_registration_complete",
+                "ne": true
+              }
+            ]
+          },
+          "goto": "m04-league-registration#registration_hall",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city_arena"
+            }
+          ]
+        },
+        {
+          "id": "missing_smuggling",
+          "text": "La pista logistica non ha ancora un esito persistente.",
+          "conditions": {
+            "path": "world.flags.smuggling_state",
+            "exists": false
+          },
+          "goto": "smuggling_missing"
+        }
+      ]
+    },
+    "smuggling_missing": {
+      "stitches": [
+        {
+          "id": "smug_missing_1",
+          "text": "Il thread può essere ancora attivo, non ancora aperto o vicino alla scadenza. L'audit non inventa un esito per chiudere il modulo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "smug_thread",
+          "text": "Torno alla pista attiva.",
+          "conditions": {
+            "path": "world.flags.smuggling_thread_available",
+            "eq": true
+          },
+          "goto": "m04-smuggling-thread#thread_entry",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        },
+        {
+          "id": "smug_pressure",
+          "text": "Torno a raccogliere segnali nel porto.",
+          "conditions": {
+            "path": "world.flags.smuggling_thread_available",
+            "ne": true
+          },
+          "goto": "m04-port-pressure#pressure_board",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city_cargo"
+            }
+          ]
+        },
+        {
+          "id": "smug_back",
+          "text": "Torno al riepilogo.",
+          "goto": "after_entry"
+        }
+      ]
+    },
+    "module_complete": {
+      "stitches": [
+        {
+          "id": "complete_1",
+          "text": "M4 è formalmente completo. Il save conserva Rank B, stato dei Pokémon, inventario, denaro, risultati, relazioni, ecology e tutti i callback M1–M4. `m05_unlocked=true` prepara l'entry contract di M5 senza teletrasportarti in contenuto non ancora prodotto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "complete_hub",
+          "text": "Resto a Mareasale con M5 sbloccato.",
+          "goto": "m04-mareasale-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        },
+        {
+          "id": "complete_review",
+          "text": "Rileggo il riepilogo prima di partire.",
+          "goto": "after_entry"
+        }
+      ]
+    }
+  }
+}
