@@ -73,6 +73,10 @@ export function createWorldKnockoutState() {
     playerAdvancedToFinal: null,
     playerFinalMatchId: null,
     playerFinalOpponent: null,
+    finalResolved: false,
+    playerWonFinal: null,
+    worldChampion: null,
+    worldRunnerUp: null,
     opponentRosters: {}
   };
 }
@@ -95,6 +99,9 @@ export function createWorldCompetitionState() {
     top8: [],
     top4Locked: false,
     top4: [],
+    finalResolved: false,
+    currentWorldChampion: null,
+    currentWorldRunnerUp: null,
     groupStage: createWorldGroupStageState(),
     knockout: createWorldKnockoutState()
   };
@@ -141,6 +148,9 @@ export function ensureCompetition(state) {
   state.competition.world.top8 ??= [];
   state.competition.world.top4Locked ??= false;
   state.competition.world.top4 ??= [];
+  state.competition.world.finalResolved ??= false;
+  state.competition.world.currentWorldChampion ??= null;
+  state.competition.world.currentWorldRunnerUp ??= null;
   state.competition.world.groupStage ??= createWorldGroupStageState();
   state.competition.world.groupStage.opened ??= false;
   state.competition.world.groupStage.playerGroup ??= null;
@@ -193,6 +203,10 @@ export function ensureCompetition(state) {
   knockout.playerAdvancedToFinal ??= null;
   knockout.playerFinalMatchId ??= null;
   knockout.playerFinalOpponent ??= null;
+  knockout.finalResolved ??= false;
+  knockout.playerWonFinal ??= null;
+  knockout.worldChampion ??= null;
+  knockout.worldRunnerUp ??= null;
   knockout.opponentRosters ??= {};
   return state.competition;
 }
