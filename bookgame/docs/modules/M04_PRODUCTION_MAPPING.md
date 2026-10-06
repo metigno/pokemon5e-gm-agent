@@ -5,7 +5,7 @@
 **Purpose:** production map for converting M4 into validated offline story content  
 **Locked authored budget:** **5,900 stitches / 3,800 player choices**
 
-**Module implementation status:** **M4_00–M4_09 COMPLETE / MODEL-ALIGNED; M4_10–M4_14 PLANNED**
+**Module implementation status:** **M4_00–M4_14 FULLY COMPLETE / MODEL-ALIGNED**
 
 E1–E7 are reusable infrastructure from M1. A block may extend generic data or content, but must not fork those engines into module-specific substitutes.
 
@@ -63,26 +63,21 @@ This is a production ordering spine, not a forced linear playthrough. Free explo
 | M4_07_SMUGGLING_THREAD | indagine/intervento/ignorare senza replica di M2 | 361 | 232 | COMPLETE |
 | M4_08_FRIEND_BEAT_04 | Friend on the Tide tramite schedule reale | 523 | 337 | COMPLETE |
 | M4_09_LEAGUE_REGISTRATION | A4_LEAGUE_REG e vincoli di calendario | 306 | 198 | COMPLETE |
-| M4_10_MAJOR_NAME | A4_MAJOR_NAME e apertura al wider world | 361 | 232 | PLANNED |
-| M4_11_UPPER_REGIONAL | A4_REGIONAL_LEAGUE con risultati emergenti | 523 | 337 | PLANNED |
-| M4_12_TRIAL_REGISTRATION | eligibility C→B all'Arena del Molo | 469 | 302 | PLANNED |
-| M4_13_PROMOTION_TRIAL_C_B | checkpoint RANK_C_TO_B, roster ufficiale 4 | 523 | 337 | PLANNED |
-| M4_14_AFTER_LEAGUE | A4_AFTER_LEAGUE, Rank B e conseguenze costiere | 361 | 232 | PLANNED |
+| M4_10_MAJOR_NAME | A4_MAJOR_NAME e apertura al wider world | 361 | 232 | COMPLETE |
+| M4_11_UPPER_REGIONAL | A4_REGIONAL_LEAGUE con risultati emergenti | 523 | 337 | COMPLETE |
+| M4_12_TRIAL_REGISTRATION | eligibility C→B all'Arena del Molo | 469 | 302 | COMPLETE |
+| M4_13_PROMOTION_TRIAL_C_B | checkpoint RANK_C_TO_B, roster ufficiale 4 | 523 | 337 | COMPLETE |
+| M4_14_AFTER_LEAGUE | A4_AFTER_LEAGUE, Rank B e conseguenze costiere | 361 | 232 | COMPLETE |
 | **TOTAL** |  | **5,900** | **3,800** | |
 
 Budgets are authored surface capacity. One run sees only the paths made legal by its state.
 
 ## 2A. RUNTIME LOGICAL PRODUCTION TRACKING
 
-The legacy 5,900-stitch / 3,800-choice table above remains the authored-surface planning budget. Runtime production is also tracked against the logical-node budget used for M1–M3 implementation review:
+The legacy 5,900-stitch / 3,800-choice table above remains the authored-surface planning budget. Runtime production is tracked against the logical-node model used for M1–M3 implementation review:
 
 - M4 logical target: approximately **250 logical nodes / ~550 meaningful choices**.
-- M4_00: **4 nodes / 9 choices**.
-- M4_01: **16 nodes / 43 choices**.
-- M4_02: **11 nodes / 34 choices**.
-- M4_03: **11 nodes / 28 choices**.
-- M4_04: **18 nodes / 52 choices**.
-- Cycle M4_00–M4_04: **60 nodes / 166 choices**.
+- M4_00–M4_04: **60 nodes / 166 choices**.
 - M4_05: **28 nodes / 52 choices**.
 - M4_06: **25 nodes / 50 choices**.
 - M4_07: **24 nodes / 65 choices**.
@@ -90,9 +85,15 @@ The legacy 5,900-stitch / 3,800-choice table above remains the authored-surface 
 - M4_09: **12 nodes / 34 choices**.
 - Cycle M4_05–M4_09: **126 nodes / 297 choices**.
 - Cumulative M4_00–M4_09: **186 nodes / 463 choices**.
-- Approximate remaining logical budget for M4_10–M4_14: **64 nodes / ~87 choices**.
+- M4_10: **9 nodes / 21 choices**.
+- M4_11: **27 nodes / 63 choices**.
+- M4_12: **13 nodes / 39 choices**.
+- M4_13: **9 nodes / 23 choices**.
+- M4_14: **9 nodes / 30 choices**.
+- Final cycle M4_10–M4_14: **67 nodes / 176 choices**.
+- **FINAL M4: 253 logical nodes / 639 meaningful choices**.
 
-The remaining figures are directional, not hard caps. M4_10–M4_14 must retain all meaningful competition, Trial, Anchor and exit-contract branches even if the final choice total lands moderately above the approximate target. Padding remains forbidden.
+The final node count is +3 over the ~250 target (about +1.2%). The choice count is higher than the ~550 directional estimate because the real Upper Regional bracket, C→B registration/retry paths, mandatory exit audit and prior-state callbacks remain explicit rather than being collapsed into fake or automatic transitions. No padding was added.
 
 ## 2B. VALIDATION EVIDENCE
 
@@ -123,6 +124,20 @@ M4_05–M4_09 cycle validation was executed after implementation and repair:
 
 The temporary CI branch trigger was restored after the final green run; canonical workflow configuration remains unchanged.
 
+
+M4_10–M4_14 final-cycle validation:
+
+- syntax checks: PASS;
+- `npm --prefix bookgame run validate:story`: PASS;
+- compiled global graph: **56 scenes / 894 nodes / 1,241 stitches / 2,127 choices / 36 world events / 12 ecology zones / 416 ecology species**;
+- `npm --prefix bookgame test`: **976 pass / 0 fail / 0 skipped / 0 cancelled**;
+- validation workflow run: **#306**;
+- the first run had one test-only legacy-save fixture mismatch: the current A4 event correctly created the E5 Trial state before the migration fallback could be exercised. The fixture was corrected to represent a true legacy save where the old event was already resolved but structured Trial state was absent;
+- no gameplay weakening or bypass was introduced to fix the test;
+- M1, M2, M3 and every earlier M4 block remain green.
+
+The temporary CI branch trigger was restored after the final green run; canonical workflow configuration remains unchanged.
+
 ## 2C. NODE LIBRARY / PATTERN REUSE AUDIT
 
 The repository still uses the validated M1–M3 scene families and engine contracts as the concrete production pattern library rather than a separate standalone `NODE_LIBRARY` asset.
@@ -145,6 +160,16 @@ M4_05–M4_09 reuses:
 - M3_08 persistent Five dispatch, upgraded with actual M4 coastal schedule checks and remote fallback → M4_08;
 - M2/M3 registration-state separation from real E5 match resolution → M4_09;
 - canonical A4 event triggers only; no fake bracket win, Rank promotion or World result is authored by narrative flags.
+
+
+M4_10–M4_14 reuses:
+
+- Character Bible + persistent E4 NPC pattern → M4_10 Maxie as the required wider-world name, with no automatic villain framing or premature future roster/form;
+- M3 Regional Cup E5 bracket pattern → M4_11 Upper Regional, upgraded to official roster size 4 and kept strictly separate from Rank promotion;
+- M2/M3 structured Trial registration → M4_12, including an idempotent legacy-save bridge from the old A4 flag-only state;
+- M3 promotion-gate E5 handoff → M4_13 with canonical `RANK_C_TO_B`, ELITE difficulty, official roster 4, fixed examiner roster and retry-on-loss;
+- M3 result/exit auditing → M4_14, but with the full M4 exit contract across Rank, Archie, FRIEND_BEAT_04, Upper Regional and smuggling state;
+- M5 is **unlocked only**, not authored early: `m4_complete=true` + `m05_unlocked=true` satisfy the documented M5 entry contract without linking to nonexistent production content.
 
 ---
 
@@ -346,6 +371,10 @@ Scene `m04-league-registration` contains **12 nodes / 34 choices** and consumes 
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Implementation lock (verified 2026-10-06):**
+
+Scene `m04-major-name` contains **9 nodes / 21 choices** and consumes `A4_MAJOR_NAME`. The required wider-world Character Bible trainer is **Maxie**: Hoenn history and infrastructure/resource-management identity make him causal to Mareasale, Archie and the module theme. He is registered persistently through E4 even if only observed, is not automatically scripted as a villain, and receives no premature Mega/legendary/future-team state. No battle is forced.
+
 ---
 
 ## M4_11_UPPER_REGIONAL
@@ -357,6 +386,10 @@ Scene `m04-league-registration` contains **12 nodes / 34 choices** and consumes 
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+**Implementation lock (verified 2026-10-06):**
+
+Scene `m04-upper-regional` contains **27 nodes / 63 choices**. The optional Upper Regional is a real three-round E5 bracket (QF/SF/Final), Singles, official roster size 4, HARD→ELITE. Every played match creates an E5 history record; withdrawal/forfeit before a fight creates no fabricated match. Persistent results are `quarterfinal`, `semifinal`, `finalist`, `winner`, `withdrew` or `forfeited`; M4_09 may also produce `skipped`. No bracket result changes Rank or bypasses the C→B gate.
 
 ---
 
@@ -370,6 +403,10 @@ Scene `m04-league-registration` contains **12 nodes / 34 choices** and consumes 
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Implementation lock (verified 2026-10-06):**
+
+Scene `m04-trial-registration` contains **13 nodes / 39 choices**. `A4_RANK_TRIAL_C_B` now binds directly to generic E5 `competition_trial_available` for `RANK_C_TO_B` with fromRank C, toRank B, roster size 4 and retryable=true. Registration uses `competition_trial_register`, requires four real roster members and preserves attempt history. A fallback sync path supports legacy saves where the A4 flag existed before structured Trial state was authored; it is idempotent and cannot promote the player.
+
 ---
 
 ## M4_13_PROMOTION_TRIAL_C_B
@@ -382,6 +419,10 @@ Scene `m04-league-registration` contains **12 nodes / 34 choices** and consumes 
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
 
+**Implementation lock (verified 2026-10-06):**
+
+Scene `m04-promotion-trial-c-b` contains **9 nodes / 23 choices**. The canonical gate is Singles / official roster 4 / ELITE / one fixed gate examiner (`MAR_GATE_C_B_NEREA_VOSS`). The examiner roster is fixed for the band; no invisible scaling occurs. E5 alone increments attempts and changes Rank: win sets Rank B and completes the checkpoint; loss keeps Rank C, clears registration and reopens the retryable Trial. Earlier M4/world/player state is not reset.
+
 ---
 
 ## M4_14_AFTER_LEAGUE
@@ -393,6 +434,10 @@ Scene `m04-league-registration` contains **12 nodes / 34 choices** and consumes 
 **Writes:** only durable state produced by this block; no duplicate structured combat/roster data.
 
 **Completion gate:** authored routes compile, illegal choices are hidden/rejected, world time advances where appropriate, save/reload preserves the result, and any combat/competition handoff returns through the existing Pokémon 5e/E5 lifecycle.
+
+**Implementation lock (verified 2026-10-06):**
+
+Scene `m04-after-league` contains **9 nodes / 30 choices** and audits the documented M4 exit contract. `complete_m4` is visible only with structured Rank B, `archie_met=true`, `friend_beat_04_complete=true`, a persistent `upper_regional_result`, and a persistent `smuggling_state`. Missing requirements route back to the responsible real content instead of fabricating outcomes. Success writes `m4_complete=true`, `m05_unlocked=true` and preserves all prior state; this exactly matches M5's documented entry requirement without authoring M5 early.
 
 
 # 6. STATE OWNERSHIP
