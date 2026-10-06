@@ -1,0 +1,461 @@
+{
+  "schemaVersion": 1,
+  "id": "m08-astrid-enters",
+  "moduleId": "M08",
+  "title": "M8_05 — Astrid Enters",
+  "locationId": "world_village",
+  "entryNodeId": "astrid_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m7_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m08_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.world_qualified",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_active",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_world_registration_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_world_village_arrived",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_world_village_orientation_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_astrid_available",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "astrid_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Astrid Vahl compare perché il suo schedule la colloca realmente nel World Village. È la campionessa in carica, non un final boss protetto dal copione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "astrid_introduce",
+          "text": "Mi presento alla campionessa in carica.",
+          "goto": "first_exchange",
+          "conditions": {
+            "path": "world.flags.astrid_met",
+            "ne": true
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "astrid_met",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "AstridVahl",
+              "key": "introduced",
+              "value": true
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "AstridVahl",
+              "delta": 1
+            }
+          ]
+        },
+        {
+          "id": "astrid_observe",
+          "text": "La osservo prima di avvicinarmi.",
+          "goto": "observe",
+          "conditions": {
+            "path": "world.flags.astrid_met",
+            "ne": true
+          }
+        },
+        {
+          "id": "astrid_reengage",
+          "text": "Ci siamo già presentati: riprendo il confronto.",
+          "goto": "reengage",
+          "conditions": {
+            "path": "world.flags.astrid_met",
+            "eq": true
+          }
+        }
+      ]
+    },
+    "encounter_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Astrid tratta il titolo come una posizione da difendere, non come una garanzia. Il suo prossimo risultato sarà deciso dagli stessi sistemi competitivi degli altri."
+        }
+      ],
+      "choices": [
+        {
+          "id": "context_status",
+          "text": "Parliamo di cosa significa essere campionessa in carica.",
+          "goto": "champion_status"
+        },
+        {
+          "id": "context_pressure",
+          "text": "Le chiedo come gestisce la pressione del titolo.",
+          "goto": "title_pressure"
+        },
+        {
+          "id": "context_opponents",
+          "text": "Le chiedo come guarda gli altri qualificati.",
+          "goto": "opponent_view"
+        }
+      ]
+    },
+    "first_exchange": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Astrid non ti parla come a un aspirante esterno: sei già dentro il field qualificato. Questo non rende nessuno favorito per decreto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "exchange_status",
+          "text": "Le chiedo se il titolo cambia il modo di prepararsi.",
+          "goto": "champion_status"
+        },
+        {
+          "id": "exchange_resources",
+          "text": "Parliamo di risorse e recupero prima del draw.",
+          "goto": "resource_line"
+        },
+        {
+          "id": "exchange_callbacks",
+          "text": "Porto nel discorso ciò che ho vissuto per arrivare qui.",
+          "goto": "callbacks"
+        }
+      ]
+    },
+    "observe": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La vedi interrompere una conversazione mediatica per rispettare il proprio programma. Essere campionessa non la rende onnipresente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "observe_intro",
+          "text": "Ora mi presento.",
+          "goto": "first_exchange",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "astrid_met",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "AstridVahl",
+              "key": "introduced",
+              "value": true
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "AstridVahl",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "astrid_observed_before_intro",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "observe_defer",
+          "text": "Non forzo l'incontro e rispetto il suo schedule.",
+          "goto": "defer",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "astrid_contact_deferred",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "champion_status": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il titolo descrive il Mondiale precedente. Non assegna bye, seed segreti o immunità alla sconfitta in questa edizione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "status_pressure",
+          "text": "Le chiedo come convive con l'aspettativa di dover confermare tutto.",
+          "goto": "title_pressure"
+        },
+        {
+          "id": "status_opponents",
+          "text": "Passo al modo in cui legge gli avversari.",
+          "goto": "opponent_view"
+        }
+      ]
+    },
+    "title_pressure": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Astrid separa reputazione e risultato: il pubblico può aspettarsi una vittoria, ma il bracket non è obbligato a produrla."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pressure_relationship",
+          "text": "Le rispondo sul peso delle aspettative.",
+          "goto": "relationship"
+        },
+        {
+          "id": "pressure_resources",
+          "text": "Collego il discorso alla gestione delle risorse.",
+          "goto": "resource_line"
+        }
+      ]
+    },
+    "resource_line": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Prima del draw, recupero, informazioni e tempo valgono più di una dimostrazione spettacolare. Nessuna frase le restituisce HP o PP."
+        }
+      ],
+      "choices": [
+        {
+          "id": "resource_schedule",
+          "text": "Le chiedo come protegge il proprio calendario.",
+          "goto": "schedule_read"
+        },
+        {
+          "id": "resource_context",
+          "text": "Torno al quadro generale dell'incontro.",
+          "goto": "encounter_context"
+        }
+      ]
+    },
+    "opponent_view": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Astrid non finge di conoscere gruppi non ancora sorteggiati. Valuta il field come insieme di minacce possibili, non come tabellone già scritto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "opponent_callbacks",
+          "text": "Confronto questo approccio con i miei incontri precedenti.",
+          "goto": "callbacks"
+        },
+        {
+          "id": "opponent_relationship",
+          "text": "Le dico come affronto l'incertezza.",
+          "goto": "relationship"
+        }
+      ]
+    },
+    "callbacks": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Cynthia, Red, Lance e gli altri Anchor possono aver lasciato metodi diversi. Astrid reagisce al tuo percorso reale senza ereditarne relazioni o risultati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "callbacks_note",
+          "text": "Registro il confronto fra metodi.",
+          "goto": "relationship",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "astrid_prior_anchor_callback_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "callbacks_context",
+          "text": "Torno al contesto dell'incontro.",
+          "goto": "encounter_context"
+        }
+      ]
+    },
+    "relationship": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il rapporto con Astrid nasce dal confronto fra due partecipanti del Mondiale. Non concede un bonus contro di lei o contro il field."
+        }
+      ],
+      "choices": [
+        {
+          "id": "relationship_respect",
+          "text": "Mantengo un confronto rispettoso e concreto.",
+          "goto": "astrid_close",
+          "effects": [
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "AstridVahl",
+              "delta": 1
+            },
+            {
+              "type": "set_flag",
+              "key": "astrid_peer_respect",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "relationship_more",
+          "text": "Continuo a discutere della pressione del titolo.",
+          "goto": "title_pressure"
+        }
+      ]
+    },
+    "defer": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se lasci passare il momento, Astrid non viene ricreata altrove. Il suo schedule resta quello persistente del mondo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "defer_village",
+          "text": "Torno all'hub del Village.",
+          "goto": "m08-world-village#village_hub"
+        },
+        {
+          "id": "defer_recover",
+          "text": "Il contesto è ancora valido: provo a presentarmi.",
+          "goto": "first_exchange",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.astrid_met",
+                "ne": true
+              },
+              {
+                "path": "npcs.AstridVahl.schedule.present",
+                "eq": true
+              },
+              {
+                "path": "npcs.AstridVahl.schedule.locationId",
+                "eq": "world_village"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "astrid_met",
+              "value": true
+            },
+            {
+              "type": "npc_state_set",
+              "npcId": "AstridVahl",
+              "key": "introduced",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "astrid_contact_recovered",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "reengage": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un secondo contatto parte dalla relazione già salvata. L'introduzione non viene ripetuta e il titolo non cambia i prerequisiti del torneo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "reengage_context",
+          "text": "Riprendo il confronto da partecipante a partecipante.",
+          "goto": "encounter_context"
+        },
+        {
+          "id": "reengage_resources",
+          "text": "Vado direttamente sulla gestione pre-draw.",
+          "goto": "resource_line"
+        }
+      ]
+    },
+    "schedule_read": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Astrid divide media, preparazione e recupero. Anche il suo calendario può renderla non disponibile più avanti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "schedule_close",
+          "text": "Chiudo l'incontro rispettando il suo programma.",
+          "goto": "astrid_close",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "astrid_schedule_respected",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "schedule_defer",
+          "text": "La lascio tornare al proprio lavoro.",
+          "goto": "defer"
+        }
+      ]
+    },
+    "astrid_close": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Astrid resta un'Anchor persistente e una concorrente reale. Il prossimo beat riguarda uno dei Four, senza sincronizzarne automaticamente la carriera con la tua."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_friend",
+          "text": "Passo al contatto Friend Beat 08 quando il selector lo rende disponibile.",
+          "goto": "m08-friend-beat-08#friend_entry"
+        },
+        {
+          "id": "close_village",
+          "text": "Resto nel World Village.",
+          "goto": "m08-world-village#village_hub"
+        }
+      ]
+    }
+  }
+}
