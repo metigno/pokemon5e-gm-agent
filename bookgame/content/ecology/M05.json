@@ -7,8 +7,7 @@
       "sourceZoneId": "ALT-TOWN",
       "habitats": [
         "mountain",
-        "city",
-        "cold"
+        "city"
       ],
       "methods": [
         "wild_observation",
@@ -20,8 +19,7 @@
       "sourceZoneId": "FUL-PLATEAU",
       "habitats": [
         "mountain",
-        "grassland",
-        "storm"
+        "grassland"
       ],
       "methods": [
         "wild_observation",
