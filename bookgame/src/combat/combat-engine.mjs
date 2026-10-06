@@ -533,6 +533,33 @@ function zoneDamage(zone, target, dice, saveSucceeded = false) {
   return { rolled, raw, multiplier, damage };
 }
 
+function explicitMoveIds(descriptor) {
+  const raw = descriptor.moveIds ?? descriptor.moves ?? descriptor.knownMoves ?? null;
+  if (!Array.isArray(raw)) return null;
+  const ids = raw.map((entry) => typeof entry === "string" ? entry : entry?.id).filter(Boolean);
+  const unique = [...new Set(ids)];
+  if (unique.length > 4) {
+    throw new Error(`Pokémon 5e allows at most 4 known moves; received ${unique.length}`);
+  }
+  return unique;
+}
+
+async function selectKnownMoves(data, species, level, descriptor) {
+  const explicit = explicitMoveIds(descriptor);
+  if (explicit) {
+    const result = [];
+    for (const id of explicit) result.push(await data.getMove(id));
+    return result;
+  }
+
+  // Upstream 2024: a Pokémon can know at most four moves. Wild/default
+  // combatants use a deterministic selection from the level-legal pool so
+  // save/reload never rerolls a moveset. Persisted/player-owned Pokémon should
+  // carry explicit moveIds once their moveset has been chosen.
+  const available = await data.getSupportedMoves(species, level);
+  return available.slice(0, 4);
+}
+
 export class Pokemon5eCombatEngine {
   constructor({ data = new Poke5eDataRepository(), dice } = {}) {
     if (!dice) throw new Error("Pokemon5eCombatEngine requires a dice source");
@@ -543,7 +570,7 @@ export class Pokemon5eCombatEngine {
   async createCombatant(descriptor, positionValue = null) {
     const species = await this.data.getSpecies(descriptor);
     const level = descriptor.level ?? species.minLevel;
-    const moves = await this.data.getSupportedMoves(species, level);
+    const moves = await selectKnownMoves(this.data, species, level, descriptor);
 
     const normalAbilities = species.abilities.filter((ability) => !ability.hidden);
     const abilityId = descriptor.abilityId ?? normalAbilities[0]?.id ?? species.abilities[0]?.id ?? null;
