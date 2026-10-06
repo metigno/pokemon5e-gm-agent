@@ -8,7 +8,9 @@ import {
   awardPokemonXp,
   evolvePokemon,
   evolutionIsEligible,
-  learnPokemonMove
+  learnPokemonMove,
+  pokemonLevelAsiPoints,
+  resolvePokemonMoveReplacement
 } from "../src/engine/pokemon-progression.mjs";
 
 const data = new Poke5eDataRepository();
@@ -106,7 +108,7 @@ test("evolution requires the canonical ASI choice, consumes its item and updates
   const evolved = await evolvePokemon(pokemon, raichu, {
     context,
     data,
-    asiDistribution: { dex: 9 }
+    asiDistribution: { str: 1, dex: 4, con: 1, wis: 3 }
   });
   assert.equal(evolved.status, "evolved");
   assert.equal(evolved.pokemon.speciesId, "raichu");
@@ -127,13 +129,44 @@ test("XP level-up preserves HP state, exposes move learning and enforces the fou
   assert.equal(result.levelUps.length, 1);
   assert.ok(result.pokemon.hp.max >= result.pokemon.hp.current);
   assert.ok(Array.isArray(result.pokemon.pendingMoveLearning));
+  assert.equal(result.pokemon.pendingMoveChoices.length, 1);
 
   assert.throws(
-    () => learnPokemonMove(result.pokemon, "razor-leaf"),
+    () => resolvePokemonMoveReplacement(result.pokemon, 2, "razor-leaf"),
     /requires choosing one of the four known moves to forget/
   );
-  const learned = learnPokemonMove(result.pokemon, "razor-leaf", { forgetMoveId: "growl" });
+  const learned = resolvePokemonMoveReplacement(
+    result.pokemon,
+    2,
+    "razor-leaf",
+    { forgetMoveId: "growl" }
+  );
   assert.equal(learned.moveIds.length, 4);
   assert.ok(learned.moveIds.includes("razor-leaf"));
   assert.ok(!learned.moveIds.includes("growl"));
+  assert.equal(learned.pendingMoveChoices.length, 0);
+});
+
+test("Pokemon ASI points follow one-, two-, and three-stage canonical evolution lines", async () => {
+  const evolutions = await data.listEvolutions();
+  assert.equal(pokemonLevelAsiPoints("tauros", evolutions), 4);
+  assert.equal(pokemonLevelAsiPoints("eevee", evolutions), 3);
+  assert.equal(pokemonLevelAsiPoints("bulbasaur", evolutions), 2);
+});
+
+test("evolution ASI rejects more than four points in one score instead of silently clamping", async () => {
+  const evolutions = await data.listEvolutions();
+  const raichu = evolutions.find((entry) => entry.id === "pikachu-to-raichu");
+  await assert.rejects(
+    () => evolvePokemon(
+      { speciesId: "pikachu", level: 8, moveIds: ["thunder-shock"], bond: { level: 0 } },
+      raichu,
+      {
+        context: { inventory: [{ itemId: "thunder-stone", quantity: 1 }] },
+        data,
+        asiDistribution: { dex: 9 }
+      }
+    ),
+    /cannot allocate more than 4 points/
+  );
 });
