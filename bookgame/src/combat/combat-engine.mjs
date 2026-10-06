@@ -88,6 +88,15 @@ function isFieldUtilityMove(move) {
   return FIELD_UTILITY_MOVES.has(move.id);
 }
 
+const PROTECTION_MOVES = new Set([
+  "mist",
+  "safeguard"
+]);
+
+function isProtectionMove(move) {
+  return PROTECTION_MOVES.has(move.id);
+}
+
 function clone(value) {
   return structuredClone(value);
 }
@@ -312,6 +321,8 @@ function removeEffectSource(combatant, source, round = null) {
     "switchLockSources",
     "escapeLockSources",
     "movementLockSources",
+    "statusImmunitySources",
+    "statDropImmunitySources",
     "ongoingEffects"
   ]) {
     if (!Array.isArray(combatant.effects?.[key])) continue;
@@ -663,6 +674,7 @@ export function isMoveResolvable(move) {
   if (isStockpileMove(move)) return true;
   if (isEnvironmentMove(move)) return true;
   if (isFieldUtilityMove(move)) return true;
+  if (isProtectionMove(move)) return true;
   if (SAVE_EFFECT_MOVES.has(move.id) || AREA_MOVES.has(move.id)) return true;
   if ((move.attack || move.save) && statusFromText(move.description)) return true;
   if (move.id === "struggle") return true;
@@ -1157,8 +1169,16 @@ function saveAllowsHalfDamage(move) {
   return /half (?:as much|damage)|half the damage/i.test(move.description ?? "");
 }
 
-function applyMoveStatus(attacker, defender, status) {
+function applyMoveStatus(attacker, defender, status, round = null) {
   if (!status) return null;
+  if (hasActiveSource(defender.effects?.statusImmunitySources ?? [], round)) {
+    const source = (defender.effects?.statusImmunitySources ?? []).find(
+      (entry) =>
+        (entry.startsRound == null || round == null || round >= entry.startsRound) &&
+        (entry.expiresRound == null || round == null || round < entry.expiresRound)
+    )?.source ?? null;
+    return { applied: false, status, reason: "status_immunity", source };
+  }
   const corrosion =
     attacker.abilityId === "corrosion" &&
     ["Poisoned", "BadlyPoisoned"].includes(status);
@@ -1196,6 +1216,31 @@ function applySaveEffect(battle, side, move, saveResult) {
   const target = battle[targetSide];
   if (saveResult.save.success) return null;
 
+  const negativeStatMoves = new Set([
+    "charm",
+    "cotton-spore",
+    "fake-tears",
+    "feather-dance",
+    "growl",
+    "leer",
+    "metal-sound",
+    "sand-attack",
+    "screech",
+    "tail-whip",
+    "tearful-look"
+  ]);
+  if (
+    negativeStatMoves.has(move.id) &&
+    hasActiveSource(target.effects?.statDropImmunitySources ?? [], battle.round)
+  ) {
+    const source = target.effects.statDropImmunitySources.find(
+      (entry) =>
+        (entry.startsRound == null || battle.round >= entry.startsRound) &&
+        (entry.expiresRound == null || battle.round < entry.expiresRound)
+    )?.source ?? null;
+    return { effect: "blocked_stat_drop", source };
+  }
+
   if (move.id === "growl") {
     const value = addCappedModifier(
       target.effects.attackModifierSources,
@@ -1230,7 +1275,10 @@ function applySaveEffect(battle, side, move, saveResult) {
   }
 
   if (move.id === "hypnosis") {
-    return { effect: "status", statusResult: applyStatus(target, "Asleep") };
+    return {
+      effect: "status",
+      statusResult: applyMoveStatus(battle[side], target, "Asleep", battle.round)
+    };
   }
 
   if (move.id === "cotton-spore") {
@@ -1588,6 +1636,8 @@ export class Pokemon5eCombatEngine {
         switchLockSources: [],
         escapeLockSources: [],
         movementLockSources: [],
+        statusImmunitySources: [],
+        statDropImmunitySources: [],
         ongoingEffects: [],
         stockpileCount: 0,
     temporaryHpSource: null
@@ -1818,9 +1868,9 @@ export class Pokemon5eCombatEngine {
 
       let statusResult = null;
       if (zone.effect === "poison-gas" && !save.success) {
-        statusResult = applyMoveStatus(next[zone.sourceSide], combatant, "Poisoned");
+        statusResult = applyMoveStatus(next[zone.sourceSide], combatant, "Poisoned", next.round);
       } else if (zone.effect === "smog" && !save.success && save.total <= zone.saveDc - 5) {
-        statusResult = applyMoveStatus(next[zone.sourceSide], combatant, "Poisoned");
+        statusResult = applyMoveStatus(next[zone.sourceSide], combatant, "Poisoned", next.round);
       }
 
       next.log.push({
@@ -2051,7 +2101,7 @@ export class Pokemon5eCombatEngine {
     const secondary = result.hit && result.typeMultiplier > 0
       ? secondaryStatusFor(effectiveMove, result.natural)
       : null;
-    if (secondary) statusResult = applyMoveStatus(attacker, defender, secondary);
+    if (secondary) statusResult = applyMoveStatus(attacker, defender, secondary, next.round);
 
     next.log.push({
       type: reaction ? "opportunity_attack" : "attack",
@@ -2202,7 +2252,7 @@ export class Pokemon5eCombatEngine {
       endConcentrationState(next, side, "consumed");
     }
     const status = hit ? attackHitStatus(move, roll.natural) : null;
-    const statusResult = applyMoveStatus(attacker, defender, status);
+    const statusResult = applyMoveStatus(attacker, defender, status, next.round);
 
     next.log.push({
       type: "status_attack",
@@ -2400,6 +2450,42 @@ export class Pokemon5eCombatEngine {
       curedStatuses
     });
     return next;
+  }
+
+  async resolveProtectionMove(next, side, targetSide, move) {
+    const target = next[targetSide];
+    const expiresRound = effectExpiryRound(move, next.round);
+    removeEffectSource(target, move.id, next.round);
+
+    if (move.id === "safeguard") {
+      target.effects.statusImmunitySources.push({ source: move.id, expiresRound });
+      next.log.push({
+        type: "protection_move",
+        round: next.round,
+        actor: side,
+        target: targetSide,
+        moveId: move.id,
+        protection: "status_immunity",
+        expiresRound
+      });
+      return next;
+    }
+
+    if (move.id === "mist") {
+      target.effects.statDropImmunitySources.push({ source: move.id, expiresRound });
+      next.log.push({
+        type: "protection_move",
+        round: next.round,
+        actor: side,
+        target: targetSide,
+        moveId: move.id,
+        protection: "negative_stat_immunity",
+        expiresRound
+      });
+      return next;
+    }
+
+    throw new Error(`No protection handler for ${move.id}`);
   }
 
   async resolveFieldUtilityMove(next, side, move) {
@@ -3389,7 +3475,7 @@ export class Pokemon5eCombatEngine {
     const thawed = endFrozenOnFireDamage(defender, move, damage);
     const status = failedSaveStatus(move, save);
     const statusResult = status && multiplier > 0
-      ? applyMoveStatus(attacker, defender, status)
+      ? applyMoveStatus(attacker, defender, status, next.round)
       : null;
 
     next.log.push({
@@ -3699,7 +3785,7 @@ export class Pokemon5eCombatEngine {
           round: next.round
         });
         const status = failedSaveStatus(move, result.save);
-        const statusResult = applyMoveStatus(attacker, defender, status);
+        const statusResult = applyMoveStatus(attacker, defender, status, next.round);
         next.log.push({
           type: "save_status",
           round: next.round,
