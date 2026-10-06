@@ -7,7 +7,7 @@ import { advanceWorldTime, getWorldTimeView } from "./time.mjs";
 import { applyQuestEffect, getQuestJournal, processQuestDeadlines } from "./quest-state.mjs";
 import { applyNpcEffect, refreshNpcSchedules } from "./npc-state.mjs";
 import { processWorldEvents } from "./world-events.mjs";
-import { applyCompetitionEffect, beginCompetitionMatch, prepareWorldGroupMatch, resolveCompetitionMatch } from "./competition-state.mjs";
+import { applyCompetitionEffect, beginCompetitionMatch, prepareWorldGroupMatch, prepareWorldKnockoutMatch, resolveCompetitionMatch } from "./competition-state.mjs";
 import { recordWildEncounter, selectOrdinaryEncounter } from "./ecology.mjs";
 import { applyPurchaseItem, ensureSceneShops } from "./shop-state.mjs";
 
@@ -37,7 +37,7 @@ function applyEffects(state, effects = []) {
       applyNpcEffect(state, effect);
       continue;
     }
-    if (["competition_trial_available", "competition_trial_register", "competition_world_draw", "competition_world_groups_open", "competition_world_groups_resolve"].includes(effect.type)) {
+    if (["competition_trial_available", "competition_trial_register", "competition_world_draw", "competition_world_groups_open", "competition_world_groups_resolve", "competition_world_r16_open", "competition_world_r16_resolve"].includes(effect.type)) {
       applyCompetitionEffect(state, effect);
       continue;
     }
@@ -264,6 +264,10 @@ export class BookgameEngine {
       let dynamicWorldOpponent = null;
       if (competitionMeta?.worldOpponentIndex !== undefined) {
         const prepared = prepareWorldGroupMatch(next, competitionMeta);
+        competitionMeta = prepared.meta;
+        dynamicWorldOpponent = prepared.roster;
+      } else if (competitionMeta?.worldKnockoutRound !== undefined) {
+        const prepared = prepareWorldKnockoutMatch(next, competitionMeta);
         competitionMeta = prepared.meta;
         dynamicWorldOpponent = prepared.roster;
       }
