@@ -306,6 +306,40 @@ test("M10_09 QF loss unlocks M12 while QF win unlocks M11 from the real Top4",as
   assert.ok(win.competition.world.knockout.playerSfMatchId);
 });
 
+test("M10_08 repeated QF resolution is idempotent and cannot duplicate Top4",async()=>{
+  const {engine}=await makeEngine();
+  let s=await resolveR16(engine,"win");
+  s=await completeFriendBeat(engine,s);
+  s=await resolveQfRound(engine,s,"win");
+  const before=structuredClone(s.competition.world);
+  s.story.sceneId="m10-qf-aftermath";
+  s.story.nodeId="resolve_guard";
+  const view=await engine.present(s);
+  assert.equal(view.choices.some(c=>c.id==="resolve_now"),false);
+  assert.ok(view.choices.some(c=>c.id==="resolve_existing"));
+  s=await engine.choose(s,"resolve_existing");
+  assert.deepEqual(s.competition.world,before);
+});
+
+test("M10_09 cannot be entered after a QF loss before QF aftermath resolves the full round",async()=>{
+  const {engine}=await makeEngine();
+  let s=await resolveR16(engine,"win");
+  s=await completeFriendBeat(engine,s);
+  s=await playQf(engine,s,"lose");
+  s.story.sceneId="m10-module-outcome";
+  s.story.nodeId="outcome_entry";
+  await assert.rejects(()=>engine.present(s));
+  s.story.sceneId="m10-qf-aftermath";
+  s.story.nodeId="resolve_guard";
+  s=await engine.choose(s,"resolve_now");
+  s.story.nodeId="commit";
+  s=await engine.choose(s,"commit_now");
+  s.story.sceneId="m10-module-outcome";
+  s.story.nodeId="outcome_entry";
+  const view=await engine.present(s);
+  assert.equal(view.sceneId,"m10-module-outcome");
+});
+
 test("M10 final save/reload preserves Top4, Friend Beat, roster and official history",async()=>{
   let dir;
   try{
