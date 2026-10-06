@@ -1,0 +1,166 @@
+{
+  "schemaVersion": 1,
+  "id": "m04-handoff",
+  "moduleId": "M04",
+  "title": "M4_00 — Rank C Handoff",
+  "locationId": "fer_city",
+  "entryNodeId": "m04_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m3_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m04_unlocked",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "C"
+      }
+    ]
+  },
+  "nodes": {
+    "m04_entry": {
+      "stitches": [
+        {
+          "id": "rank_c_registered",
+          "text": "Il Circuito conferma Rank C senza cancellare nulla di ciò che ti ha portato fin qui. La nuova fascia apre Mareasale, la Costa di Sale e la Barriera Azzurra, oltre alle aree Rank inferiori già accessibili."
+        },
+        {
+          "id": "m3_state_intact",
+          "text": "Ferrox, Steven, FRIEND_BEAT_03, Regional Cup, competition history, roster, HP, PP, condizioni, inventario, denaro, EXP, relazioni e tentativi del Trial D→C restano esattamente nello stato raggiunto in M3."
+        },
+        {
+          "id": "coast_not_auto_started",
+          "text": "M4 non apre automaticamente Archie, contrabbando, Upper Regional o Trial C→B. Il mare e il porto esistono già; gli eventi diventano rilevanti solo quando tempo, luogo e stato li rendono plausibili."
+        }
+      ],
+      "choices": [
+        {
+          "id": "activate_m4",
+          "text": "Registro ufficialmente l'apertura della fascia Rank C e avvio M4.",
+          "conditions": {
+            "path": "world.flags.m4_active",
+            "ne": true
+          },
+          "goto": "rank_c_band",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m4_active",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "m4_already_active",
+          "text": "M4 è già attivo. Rivedo la fascia Rank C.",
+          "conditions": {
+            "path": "world.flags.m4_active",
+            "eq": true
+          },
+          "goto": "rank_c_band"
+        }
+      ]
+    },
+    "rank_c_band": {
+      "stitches": [
+        {
+          "id": "band_1",
+          "text": "Mareasale è il primo vero hub marittimo della carriera. Da Ferravia la direttrice scende verso il porto in diverse ore di viaggio; la Costa di Sale e la Barriera Azzurra restano invece contenuti da raggiungere attraverso accessi e finestre reali."
+        },
+        {
+          "id": "band_2",
+          "text": "Rank C amplia il circuito competitivo ma non sostituisce la geografia: Arena del Molo, registrazioni upper-regional e Trial C→B saranno servizi separati, con stato E5 proprio."
+        },
+        {
+          "id": "band_3",
+          "text": "Puoi partire subito verso Mareasale oppure restare a Ferravia per chiudere attività già aperte. Il mondo continua in entrambi i casi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "travel_mareasale",
+          "text": "Parto per Mareasale.",
+          "timeCostMinutes": 240,
+          "goto": "m04-mareasale-arrival#port_approach",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city_approach"
+            }
+          ]
+        },
+        {
+          "id": "remain_ferravia",
+          "text": "Resto a Ferravia ancora un po'.",
+          "goto": "m03-ferravia-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        },
+        {
+          "id": "review_m3_state",
+          "text": "Rileggo ciò che M3 porta davvero nella nuova fascia.",
+          "goto": "m3_carryover"
+        },
+        {
+          "id": "review_access_notes",
+          "text": "Controllo quali accessi Rank C restano comunque condizionati.",
+          "goto": "rank_c_access_notes"
+        }
+      ]
+    },
+    "m3_carryover": {
+      "stitches": [
+        {
+          "id": "carry_1",
+          "text": "Il riepilogo legge lo stato reale: esito Ferrox, eventuale piazzamento nella Regional Cup, relazione con Steven, FRIEND_BEAT_03 e risultato del Trial D→C. Nessuno di questi elementi viene normalizzato in un percorso 'canonico' unico."
+        },
+        {
+          "id": "carry_2",
+          "text": "Se una parte opzionale di M3 non è stata vista, M4 non finge che sia successa. Se è stata vista, resta disponibile soltanto dove un callback ha senso causale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "carry_to_band",
+          "text": "Chiudo il riepilogo e torno alla scelta di viaggio.",
+          "goto": "rank_c_band"
+        },
+        {
+          "id": "carry_to_mareasale",
+          "text": "Ho finito di controllare: parto per Mareasale.",
+          "timeCostMinutes": 240,
+          "goto": "m04-mareasale-arrival#port_approach",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city_approach"
+            }
+          ]
+        }
+      ]
+    },
+    "rank_c_access_notes": {
+      "stitches": [
+        {
+          "id": "access_1",
+          "text": "Le nuove aree non implicano libertà assoluta: FER-TUNNELS, FER-MOUNTAINS, MAR-CITY, SAL-COAST e MAR-REEF appartengono alla fascia C, ma singoli accessi possono richiedere meteo, trasporti o autorizzazioni locali."
+        }
+      ],
+      "choices": [
+        {
+          "id": "access_back",
+          "text": "Torno alla fascia Rank C.",
+          "goto": "rank_c_band"
+        }
+      ]
+    }
+  }
+}
