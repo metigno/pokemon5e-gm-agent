@@ -122,11 +122,9 @@ test("M5_00 mountain departure advances real time and changes location",async()=
   const before=s.world.elapsedMinutes;
   s=await engine.choose(s,"activate_m5");
   s=await engine.choose(s,"band_depart_mountains");
-  s=await engine.choose(s,"depart_start").catch(()=>s);
-  if(s.story.nodeId==="departure_check"){
-    s.world.flags.m5_approach_plan="service_road";
-    s=await engine.choose(s,"depart_start");
-  }
+  s=await engine.choose(s,"depart_route");
+  s=await engine.choose(s,"route_cautious");
+  s=await engine.choose(s,"start_mountains");
   assert.equal(s.story.sceneId,"m05-mountain-approach");
   assert.equal(s.story.nodeId,"mountain_departure");
   assert.equal(s.world.locationId,"fer_mountains");
