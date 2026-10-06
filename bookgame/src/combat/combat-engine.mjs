@@ -183,6 +183,17 @@ function isOhkoMove(move) {
   return OHKO_MOVES.has(move.id);
 }
 
+const SAVE_HP_EFFECT_MOVES = new Set([
+  "endeavor",
+  "natures-madness",
+  "pain-split",
+  "ruination"
+]);
+
+function isSaveHpEffectMove(move) {
+  return SAVE_HP_EFFECT_MOVES.has(move.id);
+}
+
 function healingTargetSide(move, userSide, requestedTargetSide = null) {
   if (move.range?.type === "self") return userSide;
 
@@ -234,6 +245,7 @@ export function isMoveResolvable(move) {
   if (isAutomaticDamageMove(move)) return true;
   if (isImmediateHealingMove(move)) return true;
   if (isOhkoMove(move)) return true;
+  if (isSaveHpEffectMove(move)) return true;
   if (SAVE_EFFECT_MOVES.has(move.id) || AREA_MOVES.has(move.id)) return true;
   if ((move.attack || move.save) && statusFromText(move.description)) return true;
   if (move.id === "struggle") return true;
@@ -914,6 +926,7 @@ export class Pokemon5eCombatEngine {
       const slot = moveSlot(move);
       if (!slot || !combatant.turn[slot]) continue;
       if (!isMoveResolvable(move)) continue;
+      if (move.id === "endeavor" && battle.round === 1) continue;
       if (requiresSleepingTarget(move) && defender.statuses?.nonVolatile !== "Asleep") continue;
       const healTargetSide = isImmediateHealingMove(move)
         ? healingTargetSide(move, side)
@@ -1080,6 +1093,73 @@ export class Pokemon5eCombatEngine {
       status,
       statusResult
     });
+    return next;
+  }
+
+  async resolveSaveHpEffectMove(next, side, move) {
+    const attacker = next[side];
+    const targetSide = otherSide(side);
+    const defender = next[targetSide];
+    const stats = calculateMoveStats(attacker, move);
+    const save = resolveSavingThrow({
+      defender,
+      attribute: stats.saveAttribute,
+      dc: stats.saveDc,
+      dice: this.dice
+    });
+
+    const before = {
+      actorHp: attacker.hp.current,
+      targetHp: defender.hp.current,
+      targetMaxHp: defender.hp.max
+    };
+    let hpLoss = 0;
+    let targetHpAfter = defender.hp.current;
+    let actorHpAfter = attacker.hp.current;
+    let targetMaxHpAfter = defender.hp.max;
+
+    if (!save.success) {
+      if (move.id === "endeavor") {
+        const desiredReduction = Math.max(0, defender.hp.current - attacker.hp.current);
+        hpLoss = Math.min(desiredReduction, defender.level * 5);
+        defender.hp.current = Math.max(0, defender.hp.current - hpLoss);
+      } else if (move.id === "natures-madness") {
+        hpLoss = Math.max(1, Math.floor(defender.hp.current / 2));
+        defender.hp.current = Math.max(0, defender.hp.current - hpLoss);
+      } else if (move.id === "pain-split") {
+        const sharedHp = Math.floor((attacker.hp.current + defender.hp.current) / 2);
+        attacker.hp.current = Math.min(attacker.hp.max, sharedHp);
+        defender.hp.current = Math.min(defender.hp.max, sharedHp);
+      } else if (move.id === "ruination") {
+        hpLoss = Math.max(1, Math.floor(defender.hp.current / 2));
+        defender.hp.current = Math.max(0, defender.hp.current - hpLoss);
+        defender.hp.max = Math.max(1, defender.hp.max - hpLoss);
+        defender.hp.current = Math.min(defender.hp.current, defender.hp.max);
+      }
+    }
+
+    targetHpAfter = defender.hp.current;
+    actorHpAfter = attacker.hp.current;
+    targetMaxHpAfter = defender.hp.max;
+
+    next.log.push({
+      type: "save_hp_effect",
+      round: next.round,
+      actor: side,
+      target: targetSide,
+      moveId: move.id,
+      moveName: move.name,
+      save,
+      hpLoss,
+      actorHpBefore: before.actorHp,
+      actorHpAfter,
+      targetHpBefore: before.targetHp,
+      targetHpAfter,
+      targetMaxHpBefore: before.targetMaxHp,
+      targetMaxHpAfter
+    });
+
+    if (defender.hp.current <= 0) markDowned(next, targetSide, "move_hp_effect");
     return next;
   }
 
@@ -1285,6 +1365,9 @@ export class Pokemon5eCombatEngine {
     if (!isMoveResolvable(move)) {
       throw new Error(`Move ${move.id} is known but its special rules are not executable by the combat resolver`);
     }
+    if (move.id === "endeavor" && next.round === 1) {
+      throw new Error("Endeavor cannot be used in the first round of combat");
+    }
     const slot = moveSlot(move);
     if (!slot || !attacker.turn[slot]) throw new Error(`No ${move.time?.unit ?? "turn"} slot available for ${moveId}`);
 
@@ -1358,6 +1441,8 @@ export class Pokemon5eCombatEngine {
       next = await this.resolveHealingMove(next, side, healTargetSide, move);
     } else if (isOhkoMove(move)) {
       next = await this.resolveOhkoMove(next, side, move);
+    } else if (isSaveHpEffectMove(move)) {
+      next = await this.resolveSaveHpEffectMove(next, side, move);
     } else if (AREA_MOVES.has(move.id)) {
       const stats = calculateMoveStats(attacker, move);
       const center = areaTarget ?? clone(defender.position);
