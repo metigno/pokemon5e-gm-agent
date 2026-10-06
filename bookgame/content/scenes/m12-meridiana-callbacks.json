@@ -1,0 +1,599 @@
+{
+  "schemaVersion": 1,
+  "id": "m12-meridiana-callbacks",
+  "moduleId": "M12",
+  "title": "M12_08 — Meridiana Callbacks",
+  "locationId": "meridiana_city",
+  "entryNodeId": "callback_entry",
+  "conditions": {
+    "path": "world.flags.m12_interregional_callbacks_complete",
+    "eq": true
+  },
+  "nodes": {
+    "callback_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Meridiana è l'ultimo grande callback competitivo prima della chiusura relazionale: media, sponsor, Cynthia, Qualifier e Last Chance vengono letti dal loro vero stato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_media",
+          "text": "Parto da media e sponsor.",
+          "goto": "media_history"
+        },
+        {
+          "id": "entry_qualifier",
+          "text": "Parto dal vero percorso di qualificazione.",
+          "goto": "qualifier_history"
+        },
+        {
+          "id": "entry_cynthia",
+          "text": "Parto dal filo con Cynthia e dallo status professionale.",
+          "goto": "cynthia"
+        }
+      ]
+    },
+    "city_now": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La città continua a ospitare circuito e media anche dopo il Mondiale; il suo ruolo non finisce con la tua stagione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "media_history"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "sponsor_history"
+        }
+      ]
+    },
+    "media_history": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "m7_media_style conserva come scegliesti di esporti pubblicamente, senza diventare una personalità imposta dal narratore."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "sponsor_history"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "sponsor_independent"
+        }
+      ]
+    },
+    "sponsor_history": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "m7_sponsor_path conserva indipendenza, partner locale o major partner come scelta di carriera realmente fatta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "sponsor_independent"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "sponsor_local"
+        }
+      ]
+    },
+    "sponsor_independent": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La route independent conserva autonomia e relativi costi senza essere trattata come scelta superiore."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "sponsor_local"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "sponsor_major"
+        }
+      ]
+    },
+    "sponsor_local": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un local_partner resta un rapporto professionale locale, non un major sponsor retroattivo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "sponsor_major"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "cynthia"
+        }
+      ]
+    },
+    "sponsor_major": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un major_partner conserva visibilità e vincoli realmente accettati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "cynthia"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "qualifier_history"
+        }
+      ]
+    },
+    "cynthia": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Cynthia può essere richiamata solo se il suo stato E4 e la schedule lo permettono. La sua importanza narrativa non la rende sempre disponibile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "qualifier_history"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "direct_qualification"
+        }
+      ]
+    },
+    "qualifier_history": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "m7_qualifier_result distingue qualificazione diretta ed eliminazioni effettive."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "direct_qualification"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "last_chance"
+        }
+      ]
+    },
+    "direct_qualification": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Una qualificazione diretta resta il percorso con cui il Mondiale fu raggiunto, anche dopo il risultato finale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "last_chance"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "worlds_missed"
+        }
+      ]
+    },
+    "last_chance": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se il Last Chance fu necessario, il callback conserva vittoria o sconfitta di quella route separatamente dal Qualifier principale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "worlds_missed"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "world_participation"
+        }
+      ]
+    },
+    "worlds_missed": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Worlds Missed resta un esito professionale concreto e non viene riscritto solo perché il postgame continua."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "world_participation"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "rank_s"
+        }
+      ]
+    },
+    "world_participation": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se il player partecipò al Mondiale, Meridiana ricorda il gate superato ma non modifica ciò che accadde nei moduli M8–M11."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "rank_s"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "professional_status"
+        }
+      ]
+    },
+    "rank_s": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Rank S resta distinto dalla qualificazione mondiale, esattamente come nel contratto M7."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "professional_status"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "media_now"
+        }
+      ]
+    },
+    "professional_status": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Status professionale, sponsor e risultato mondiale sono assi diversi della carriera."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "media_now"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "circuit_future"
+        }
+      ]
+    },
+    "media_now": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il postgame può generare nuove richieste media tramite sistemi esistenti, non attraverso un epilogo rigido."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "circuit_future"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "sponsor_synthesis"
+        }
+      ]
+    },
+    "circuit_future": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Meridiana può restare un punto di future stagioni senza creare ACT_9 obbligatorio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "sponsor_synthesis"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "outcome_synthesis"
+        }
+      ]
+    },
+    "sponsor_synthesis": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La prima sintesi registra il vero contesto sponsor, incluso il caso in cui non esista un path persistente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sponsor_independent",
+          "text": "Registro la route independent realmente scelta.",
+          "goto": "outcome_synthesis",
+          "conditions": {
+            "path": "world.flags.m7_sponsor_path",
+            "eq": "independent"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_meridiana_sponsor_context",
+              "value": "independent"
+            }
+          ]
+        },
+        {
+          "id": "sponsor_local",
+          "text": "Registro il partner locale realmente scelto.",
+          "goto": "outcome_synthesis",
+          "conditions": {
+            "path": "world.flags.m7_sponsor_path",
+            "eq": "local_partner"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_meridiana_sponsor_context",
+              "value": "local_partner"
+            }
+          ]
+        },
+        {
+          "id": "sponsor_major",
+          "text": "Registro il major partner realmente scelto.",
+          "goto": "outcome_synthesis",
+          "conditions": {
+            "path": "world.flags.m7_sponsor_path",
+            "eq": "major_partner"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_meridiana_sponsor_context",
+              "value": "major_partner"
+            }
+          ]
+        },
+        {
+          "id": "sponsor_absent",
+          "text": "Non esiste un path sponsor canonico: non ne invento uno.",
+          "goto": "outcome_synthesis",
+          "conditions": {
+            "path": "world.flags.m7_sponsor_path",
+            "exists": false
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_meridiana_sponsor_context",
+              "value": "not_recorded"
+            }
+          ]
+        }
+      ]
+    },
+    "outcome_synthesis": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La seconda sintesi registra come M7 condusse o non condusse al Mondiale senza riscrivere la competizione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "outcome_direct",
+          "text": "Registro la qualificazione diretta prodotta dal Qualifier.",
+          "goto": "complete",
+          "conditions": {
+            "path": "world.flags.m7_qualifier_result",
+            "eq": "qualified"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_meridiana_callback_state",
+              "value": "qualified_direct"
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_meridiana_callbacks_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_cycle2_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "outcome_last_chance",
+          "text": "Registro la qualificazione ottenuta tramite Last Chance.",
+          "goto": "complete",
+          "conditions": {
+            "path": "world.flags.m7_last_chance_result",
+            "eq": "qualified"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_meridiana_callback_state",
+              "value": "qualified_last_chance"
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_meridiana_callbacks_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_cycle2_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "outcome_missed",
+          "text": "Registro Worlds Missed senza alterarne la causa competitiva.",
+          "goto": "complete",
+          "conditions": {
+            "path": "world.flags.worlds_missed",
+            "eq": true
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_meridiana_callback_state",
+              "value": "worlds_missed"
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_meridiana_callbacks_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_cycle2_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "outcome_fallback",
+          "text": "Registro soltanto lo stato mondiale persistente disponibile.",
+          "goto": "complete",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.m7_qualifier_result",
+                "ne": "qualified"
+              },
+              {
+                "path": "world.flags.m7_last_chance_result",
+                "ne": "qualified"
+              },
+              {
+                "path": "world.flags.worlds_missed",
+                "ne": true
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_meridiana_callback_state",
+              "value": "world_state_only"
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_meridiana_callbacks_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_cycle2_complete",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "callback_review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Media, Cynthia e status restano disponibili come callback solo quando il loro stato causale lo permette."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue",
+          "text": "Proseguo con questo aspetto del callback.",
+          "goto": "complete"
+        },
+        {
+          "id": "crosscheck",
+          "text": "Confronto questo punto con un'altra conseguenza del percorso.",
+          "goto": "callback_entry"
+        }
+      ]
+    },
+    "complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Meridiana è registrata. I grandi callback geografici M1→M7 sono completi; resta la chiusura con gli amici e il postgame aperto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "hold_for_friend_beat",
+          "text": "Chiudo il Cycle 2: il prossimo blocco sarà FRIEND_BEAT_12.",
+          "goto": "complete"
+        },
+        {
+          "id": "review_meridiana",
+          "text": "Rileggo sponsor e qualificazione.",
+          "goto": "sponsor_synthesis"
+        }
+      ]
+    }
+  }
+}
