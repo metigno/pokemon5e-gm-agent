@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "id": "M10",
+  "title": "Nessuna Seconda Possibilità",
+  "targets": {
+    "stitches": 4000,
+    "choices": 2000
+  },
+  "progressionRole": "world-knockout-r16-qf",
+  "designDocument": "docs/modules/M10_NESSUNA_SECONDA_POSSIBILITA_MODULE_DESIGN.md",
+  "mappingDocument": "docs/modules/M10_PRODUCTION_MAPPING.md",
+  "requiredBeats": [
+    "M10_00_R16_BRACKET",
+    "M10_01_SILAS_THREAD",
+    "M10_02_R16_PREP",
+    "M10_03_WORLD_R16",
+    "M10_04_R16_AFTERMATH",
+    "M10_05_FRIEND_BEAT_10",
+    "M10_06_QF_PREP",
+    "M10_07_WORLD_QF",
+    "M10_08_QF_AFTERMATH",
+    "M10_09_MODULE_OUTCOME"
+  ],
+  "blocks": [
+    {
+      "id": "M10_00_R16_BRACKET",
+      "title": "R16 Bracket",
+      "targets": {
+        "stitches": 367,
+        "choices": 184
+      }
+    },
+    {
+      "id": "M10_01_SILAS_THREAD",
+      "title": "Silas Thread",
+      "targets": {
+        "stitches": 367,
+        "choices": 184
+      }
+    },
+    {
+      "id": "M10_02_R16_PREP",
+      "title": "R16 Prep",
+      "targets": {
+        "stitches": 312,
+        "choices": 156
+      }
+    },
+    {
+      "id": "M10_03_WORLD_R16",
+      "title": "World R16",
+      "targets": {
+        "stitches": 532,
+        "choices": 266
+      }
+    },
+    {
+      "id": "M10_04_R16_AFTERMATH",
+      "title": "R16 Aftermath",
+      "targets": {
+        "stitches": 367,
+        "choices": 183
+      }
+    },
+    {
+      "id": "M10_05_FRIEND_BEAT_10",
+      "title": "Friend Beat 10",
+      "targets": {
+        "stitches": 532,
+        "choices": 266
+      }
+    },
+    {
+      "id": "M10_06_QF_PREP",
+      "title": "QF Prep",
+      "targets": {
+        "stitches": 312,
+        "choices": 156
+      }
+    },
+    {
+      "id": "M10_07_WORLD_QF",
+      "title": "World QF",
+      "targets": {
+        "stitches": 532,
+        "choices": 266
+      }
+    },
+    {
+      "id": "M10_08_QF_AFTERMATH",
+      "title": "QF Aftermath",
+      "targets": {
+        "stitches": 367,
+        "choices": 183
+      }
+    },
+    {
+      "id": "M10_09_MODULE_OUTCOME",
+      "title": "Module Outcome",
+      "targets": {
+        "stitches": 312,
+        "choices": 156
+      }
+    }
+  ]
+}
