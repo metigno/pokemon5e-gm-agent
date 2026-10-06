@@ -197,7 +197,7 @@ test("forced replacement recalls a fainted Pokemon and pauses its death saves", 
 
 test("wild Pokemon can target the Trainer and Trainer death ends the career", async () => {
   const combat = new Pokemon5eCombatEngine({
-    dice: new SequenceDice([1, 20, 20, 6, 6, 1, 9])
+    dice: new SequenceDice([1, 20, 19, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8])
   });
   const battle = await combat.createBattle({
     encounterId: "TRAINER_TARGET",
@@ -221,10 +221,11 @@ test("wild Pokemon can target the Trainer and Trainer death ends the career", as
   assert.notEqual(hit.outcome, "career_ended");
 
   const first = combat.resolveTrainerDeathSave(hit);
-  assert.equal(first.result.natural, 1);
-  assert.equal(first.result.failures, 2);
+  assert.equal(first.result.failures, 1);
   const second = combat.resolveTrainerDeathSave(first.battle);
-  assert.equal(second.result.failures, 3);
-  assert.equal(second.result.dead, true);
-  assert.equal(second.battle.outcome, "career_ended");
+  assert.equal(second.result.failures, 2);
+  const third = combat.resolveTrainerDeathSave(second.battle);
+  assert.equal(third.result.failures, 3);
+  assert.equal(third.result.dead, true);
+  assert.equal(third.battle.outcome, "career_ended");
 });
