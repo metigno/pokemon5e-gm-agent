@@ -260,6 +260,10 @@ function removeEffectSource(combatant, source, round = null) {
   if (combatant.effects?.typeOverride?.source === source) {
     clearTypeOverride(combatant);
   }
+  if (combatant.effects?.temporaryHpSource?.source === source) {
+    combatant.temporaryHp = 0;
+    combatant.effects.temporaryHpSource = null;
+  }
   if (round != null && combatant.turn?.started) {
     const speedAfter = activeModifier(combatant.effects?.speedModifierSources ?? [], round);
     combatant.turn.movementRemaining = Math.max(
@@ -491,6 +495,7 @@ function isSimpleModifierMove(move) {
 }
 
 const SPECIAL_SELF_MOVES = new Set([
+  "acupressure",
   "charge",
   "clangorous-soul",
   "fillet-away",
@@ -619,6 +624,7 @@ function normalizeTrainer(trainer = {}, positionValue) {
 
 function clearTransientEffects(combatant) {
   combatant.types = clone(combatant.baseTypes ?? combatant.types);
+  combatant.temporaryHp = 0;
   combatant.effects = {
     attackModifierSources: [],
     incomingAttackBonusSources: [],
@@ -642,7 +648,8 @@ function clearTransientEffects(combatant) {
     escapeLockSources: [],
     movementLockSources: [],
     ongoingEffects: [],
-    stockpileCount: 0
+    stockpileCount: 0,
+    temporaryHpSource: null
   };
   combatant.concentration = null;
 }
@@ -757,6 +764,17 @@ function endConcentrationState(battle, side, reason) {
     moveId: concentration.moveId
   });
   return true;
+}
+
+function hpDamageAfterTemporaryHp(combatant, damage) {
+  const incoming = Math.max(0, Number(damage) || 0);
+  const available = Math.max(0, Number(combatant.temporaryHp ?? 0));
+  const absorbed = Math.min(available, incoming);
+  combatant.temporaryHp = available - absorbed;
+  if (combatant.temporaryHp <= 0 && combatant.effects?.temporaryHpSource) {
+    combatant.effects.temporaryHpSource = null;
+  }
+  return incoming - absorbed;
 }
 
 function applyDamageReduction(combatant, damage, dice, round) {
@@ -1415,6 +1433,9 @@ export class Pokemon5eCombatEngine {
       position: defaultPosition(positionValue ?? descriptor.position, { x: 0, y: 0 }),
       ac: species.ac,
       hp: { current: persistedHp, max: maxHp },
+      temporaryHp: Number.isFinite(descriptor.temporaryHp)
+        ? Math.max(0, Math.floor(descriptor.temporaryHp))
+        : 0,
       attributes: species.attributes,
       savingThrows: species.savingThrows,
       abilityId,
@@ -1451,7 +1472,8 @@ export class Pokemon5eCombatEngine {
         escapeLockSources: [],
         movementLockSources: [],
         ongoingEffects: [],
-        stockpileCount: 0
+        stockpileCount: 0,
+    temporaryHpSource: null
       },
       turn: {
         started: false,
@@ -1569,6 +1591,13 @@ export class Pokemon5eCombatEngine {
     ) {
       endConcentrationState(next, side, "duration");
     }
+    if (
+      combatant.effects?.temporaryHpSource?.expiresRound != null &&
+      next.round >= combatant.effects.temporaryHpSource.expiresRound
+    ) {
+      combatant.temporaryHp = 0;
+      combatant.effects.temporaryHpSource = null;
+    }
 
     combatant.turn.started = true;
     combatant.turn.actionAvailable = true;
@@ -1653,7 +1682,7 @@ export class Pokemon5eCombatEngine {
       damageInfo.damageReduction = reducedZoneDamage.damageReduction;
       damageInfo.reductions = reducedZoneDamage.reductions;
       damageInfo.damage = reducedZoneDamage.damage;
-      combatant.hp.current = Math.max(0, combatant.hp.current - damageInfo.damage);
+      combatant.hp.current = Math.max(0, combatant.hp.current - hpDamageAfterTemporaryHp(combatant, damageInfo.damage));
 
       let statusResult = null;
       if (zone.effect === "poison-gas" && !save.success) {
@@ -1857,7 +1886,7 @@ export class Pokemon5eCombatEngine {
     result.reductions = reducedAttackDamage.reductions;
     result.damage = reducedAttackDamage.damage;
 
-    defender.hp.current = Math.max(0, defender.hp.current - result.damage);
+    defender.hp.current = Math.max(0, defender.hp.current - hpDamageAfterTemporaryHp(defender, result.damage));
     checkConcentrationAfterDamage(next, targetSide, result.damage, this.dice);
 
     if (flashFireWasCharged) {
@@ -1952,7 +1981,7 @@ export class Pokemon5eCombatEngine {
     );
     const damage = reducedStruggleDamage.damage;
 
-    defender.hp.current = Math.max(0, defender.hp.current - damage);
+    defender.hp.current = Math.max(0, defender.hp.current - hpDamageAfterTemporaryHp(defender, damage));
     if (targetSide !== side) checkConcentrationAfterDamage(next, targetSide, damage, this.dice);
     else checkConcentrationAfterDamage(next, side, damage, this.dice);
 
@@ -2115,17 +2144,17 @@ export class Pokemon5eCombatEngine {
       if (move.id === "endeavor") {
         const desiredReduction = Math.max(0, defender.hp.current - attacker.hp.current);
         hpLoss = Math.min(desiredReduction, defender.level * 5);
-        defender.hp.current = Math.max(0, defender.hp.current - hpLoss);
+        defender.hp.current = Math.max(0, defender.hp.current - hpDamageAfterTemporaryHp(defender, hpLoss));
       } else if (move.id === "natures-madness") {
         hpLoss = Math.max(1, Math.floor(defender.hp.current / 2));
-        defender.hp.current = Math.max(0, defender.hp.current - hpLoss);
+        defender.hp.current = Math.max(0, defender.hp.current - hpDamageAfterTemporaryHp(defender, hpLoss));
       } else if (move.id === "pain-split") {
         const sharedHp = Math.floor((attacker.hp.current + defender.hp.current) / 2);
         attacker.hp.current = Math.min(attacker.hp.max, sharedHp);
         defender.hp.current = Math.min(defender.hp.max, sharedHp);
       } else if (move.id === "ruination") {
         hpLoss = Math.max(1, Math.floor(defender.hp.current / 2));
-        defender.hp.current = Math.max(0, defender.hp.current - hpLoss);
+        defender.hp.current = Math.max(0, defender.hp.current - hpDamageAfterTemporaryHp(defender, hpLoss));
         defender.hp.max = Math.max(1, defender.hp.max - hpLoss);
         defender.hp.current = Math.min(defender.hp.current, defender.hp.max);
       }
@@ -2321,6 +2350,67 @@ export class Pokemon5eCombatEngine {
   async resolveSpecialSelfMove(next, side, move) {
     const combatant = next[side];
 
+    if (move.id === "acupressure") {
+      removeEffectSource(combatant, "acupressure", next.round);
+      const roll = this.dice.roll(6);
+      const expiresRound = effectExpiryRound(move, next.round);
+      const applied = { roll, expiresRound };
+
+      if (roll === 1) {
+        combatant.effects.attackModifierSources.push({
+          source: move.id,
+          value: 1,
+          expiresRound
+        });
+        applied.attack = 1;
+      } else if (roll === 2) {
+        combatant.effects.damageModifierSources.push({
+          source: move.id,
+          value: 2,
+          expiresRound
+        });
+        applied.damage = 2;
+      } else if (roll === 3) {
+        combatant.temporaryHp = Math.max(combatant.temporaryHp ?? 0, 10);
+        combatant.effects.temporaryHpSource = {
+          source: move.id,
+          expiresRound
+        };
+        applied.temporaryHp = combatant.temporaryHp;
+      } else if (roll === 4) {
+        combatant.effects.saveModifierSources.push({
+          source: move.id,
+          value: 1,
+          expiresRound
+        });
+        applied.save = 1;
+      } else if (roll === 5) {
+        combatant.effects.criticalRangeBonusSources.push({
+          source: move.id,
+          value: 1,
+          expiresRound
+        });
+        applied.criticalRangeBonus = 1;
+      } else {
+        combatant.effects.acModifierSources.push({
+          source: move.id,
+          value: 1,
+          expiresRound
+        });
+        applied.ac = 1;
+      }
+
+      next.log.push({
+        type: "special_self_move",
+        round: next.round,
+        actor: side,
+        moveId: move.id,
+        applied,
+        concentration: false
+      });
+      return next;
+    }
+
     if (move.id === "laser-focus") {
       endConcentrationState(next, side, "new_concentration");
       removeEffectSource(combatant, "laser-focus", next.round);
@@ -2440,7 +2530,7 @@ export class Pokemon5eCombatEngine {
     if (move.id === "fillet-away") {
       const reducedSelfDamage = applyDamageReduction(combatant, 10, this.dice, next.round);
       const selfDamage = reducedSelfDamage.damage;
-      combatant.hp.current = Math.max(0, combatant.hp.current - selfDamage);
+      combatant.hp.current = Math.max(0, combatant.hp.current - hpDamageAfterTemporaryHp(combatant, selfDamage));
       const concentrationCheck = checkConcentrationAfterDamage(
         next,
         side,
@@ -2510,7 +2600,7 @@ export class Pokemon5eCombatEngine {
         next.round
       );
       const damage = reducedSelfDamage.damage;
-      combatant.hp.current = Math.max(0, combatant.hp.current - damage);
+      combatant.hp.current = Math.max(0, combatant.hp.current - hpDamageAfterTemporaryHp(combatant, damage));
       const concentrationCheck = checkConcentrationAfterDamage(
         next,
         side,
@@ -2932,7 +3022,7 @@ export class Pokemon5eCombatEngine {
       });
     }
 
-    defender.hp.current = Math.max(0, defender.hp.current - totalDamage);
+    defender.hp.current = Math.max(0, defender.hp.current - hpDamageAfterTemporaryHp(defender, totalDamage));
     checkConcentrationAfterDamage(next, targetSide, totalDamage, this.dice);
     const thawed = endFrozenOnFireDamage(defender, move, totalDamage);
 
@@ -2993,7 +3083,7 @@ export class Pokemon5eCombatEngine {
     const reductions = reducedSaveDamage.reductions;
     damage = reducedSaveDamage.damage;
 
-    defender.hp.current = Math.max(0, defender.hp.current - damage);
+    defender.hp.current = Math.max(0, defender.hp.current - hpDamageAfterTemporaryHp(defender, damage));
     checkConcentrationAfterDamage(next, targetSide, damage, this.dice);
 
     const thawed = endFrozenOnFireDamage(defender, move, damage);
