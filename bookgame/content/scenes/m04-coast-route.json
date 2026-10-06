@@ -676,22 +676,21 @@
           "ecology": {
             "requestId": "M4_COSTA_SALE_OBSERVATION_01",
             "zoneId": "SAL-COAST",
-            "habitat": "coast",
             "method": "wild_observation",
             "allowedSpecies": [
               "wingull",
-              "wattrel",
-              "sandygast",
               "binacle",
-              "finizen"
+              "krabby",
+              "tentacool",
+              "chinchou"
             ],
             "returnNodes": {
               "noEncounter": "fauna_none",
               "wingull": "fauna_wingull",
-              "wattrel": "fauna_wattrel",
-              "sandygast": "fauna_sandygast",
               "binacle": "fauna_binacle",
-              "finizen": "fauna_finizen"
+              "krabby": "fauna_krabby",
+              "tentacool": "fauna_tentacool",
+              "chinchou": "fauna_chinchou"
             }
           }
         },
@@ -824,6 +823,69 @@
         {
           "id": "finizen_back",
           "text": "Osservo il passaggio e torno al percorso.",
+          "goto": "coast_gate",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "sal_coast"
+            }
+          ]
+        }
+      ]
+    },
+    "fauna_krabby": {
+      "stitches": [
+        {
+          "id": "krabby_1",
+          "text": "Un Krabby attraversa il bordo della battigia sfruttando una zona di acqua bassa e si ferma appena il moto dell'onda cambia."
+        }
+      ],
+      "choices": [
+        {
+          "id": "krabby_back",
+          "text": "Lo lascio al suo percorso e torno alla costa.",
+          "goto": "coast_gate",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "sal_coast"
+            }
+          ]
+        }
+      ]
+    },
+    "fauna_tentacool": {
+      "stitches": [
+        {
+          "id": "tentacool_1",
+          "text": "Un Tentacool deriva oltre la risacca, portato dalla corrente abbastanza vicino da essere riconoscibile senza doverlo inseguire."
+        }
+      ],
+      "choices": [
+        {
+          "id": "tentacool_back",
+          "text": "Mantengo distanza e torno al percorso.",
+          "goto": "coast_gate",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "sal_coast"
+            }
+          ]
+        }
+      ]
+    },
+    "fauna_chinchou": {
+      "stitches": [
+        {
+          "id": "chinchou_1",
+          "text": "Un Chinchou resta appena sotto la superficie più scura della cala; le antenne luminose diventano visibili solo quando cambia angolo rispetto alla luce."
+        }
+      ],
+      "choices": [
+        {
+          "id": "chinchou_back",
+          "text": "Non lo disturbo e torno al percorso.",
           "goto": "coast_gate",
           "effects": [
             {
