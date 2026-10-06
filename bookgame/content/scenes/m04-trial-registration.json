@@ -1,0 +1,521 @@
+{
+  "schemaVersion": 1,
+  "id": "m04-trial-registration",
+  "moduleId": "M04",
+  "title": "M4_12 — Registrazione Promotion Trial C→B",
+  "locationId": "mar_city_arena",
+  "entryNodeId": "trial_info",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m3_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m04_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m4_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "C"
+      },
+      {
+        "path": "world.flags.a4_rank_trial_c_b_available",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "trial_info": {
+      "stitches": [
+        {
+          "id": "info_1",
+          "text": "Il Promotion Trial di Mareasale è il gate obbligatorio C→B. L'Upper Regional può averti dato esperienza, risultati o reputazione, ma nessun piazzamento può sostituire questo checkpoint."
+        },
+        {
+          "id": "info_2",
+          "text": "Formato canonico: Singles, un esaminatore, roster ufficiale da quattro. Una sconfitta lascia Rank C e permette un nuovo tentativo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "go_desk",
+          "text": "Vado al banco di registrazione.",
+          "goto": "trial_desk"
+        },
+        {
+          "id": "format_review",
+          "text": "Rivedo il formato e cosa viene valutato.",
+          "goto": "format_review"
+        },
+        {
+          "id": "eligibility_audit",
+          "text": "Controllo lo stato E5 del Trial.",
+          "goto": "eligibility_audit"
+        },
+        {
+          "id": "registered_status",
+          "text": "Controllo la registrazione già attiva.",
+          "conditions": {
+            "path": "competition.trials.RANK_C_TO_B.registered",
+            "eq": true
+          },
+          "goto": "registered"
+        },
+        {
+          "id": "attempt_history",
+          "text": "Rivedo i tentativi precedenti.",
+          "conditions": {
+            "path": "competition.trials.RANK_C_TO_B.attempts",
+            "gte": 1
+          },
+          "goto": "attempt_history"
+        },
+        {
+          "id": "postpone",
+          "text": "Non mi registro adesso.",
+          "goto": "postponed"
+        }
+      ]
+    },
+    "eligibility_audit": {
+      "stitches": [
+        {
+          "id": "audit_1",
+          "text": "L'idoneità deve esistere nel subsystem E5, non soltanto come flag narrativo. Il checkpoint richiede Rank C e quattro Pokémon disponibili nel roster."
+        }
+      ],
+      "choices": [
+        {
+          "id": "sync_trial_state",
+          "text": "Sincronizzo il checkpoint canonico C→B con E5.",
+          "conditions": {
+            "path": "competition.trials.RANK_C_TO_B.available",
+            "ne": true
+          },
+          "goto": "trial_desk",
+          "effects": [
+            {
+              "type": "competition_trial_available",
+              "checkpointId": "RANK_C_TO_B",
+              "fromRank": "C",
+              "toRank": "B",
+              "requiredRosterSize": 4,
+              "retryable": true
+            }
+          ]
+        },
+        {
+          "id": "audit_ready",
+          "text": "Il checkpoint E5 è già disponibile.",
+          "conditions": {
+            "path": "competition.trials.RANK_C_TO_B.available",
+            "eq": true
+          },
+          "goto": "trial_desk"
+        },
+        {
+          "id": "audit_back",
+          "text": "Torno alle informazioni.",
+          "goto": "trial_info"
+        }
+      ]
+    },
+    "format_review": {
+      "stitches": [
+        {
+          "id": "format_1",
+          "text": "Il tema dell'esame è resource management e adattamento: non basta trovare una linea forte, devi sapere cosa conservare, cosa spendere e quando abbandonare un piano diventato obsoleto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "format_roster",
+          "text": "Controllo cosa significa roster ufficiale da quattro.",
+          "goto": "roster_review"
+        },
+        {
+          "id": "format_examiner",
+          "text": "Chiedo il profilo pubblico dell'esaminatrice.",
+          "goto": "examiner_review"
+        },
+        {
+          "id": "format_upper",
+          "text": "Confronto il Trial con l'Upper Regional.",
+          "conditions": {
+            "path": "world.flags.upper_regional_result",
+            "exists": true
+          },
+          "goto": "upper_context"
+        },
+        {
+          "id": "format_back",
+          "text": "Torno alle informazioni.",
+          "goto": "trial_info"
+        }
+      ]
+    },
+    "trial_desk": {
+      "stitches": [
+        {
+          "id": "desk_1",
+          "text": "Il banco legge lo stato E5 e il roster reale. Non crea quattro Pokémon narrativi e non considera punti o titoli come sostituti dell'idoneità."
+        }
+      ],
+      "choices": [
+        {
+          "id": "register_now",
+          "text": "Registro il roster per il Trial C→B.",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.trials.RANK_C_TO_B.available",
+                "eq": true
+              },
+              {
+                "path": "competition.trials.RANK_C_TO_B.registered",
+                "ne": true
+              },
+              {
+                "path": "player.roster.length",
+                "gte": 4
+              }
+            ]
+          },
+          "goto": "registered",
+          "effects": [
+            {
+              "type": "competition_trial_register",
+              "checkpointId": "RANK_C_TO_B"
+            }
+          ]
+        },
+        {
+          "id": "check_roster",
+          "text": "Controllo se ho almeno quattro Pokémon.",
+          "goto": "roster_review"
+        },
+        {
+          "id": "examiner_info",
+          "text": "Chiedo il profilo pubblico dell'esaminatrice.",
+          "goto": "examiner_review"
+        },
+        {
+          "id": "resource_prep",
+          "text": "Rivedo il tema resource management prima di firmare.",
+          "goto": "strategy_review"
+        },
+        {
+          "id": "desk_back",
+          "text": "Mi allontano senza registrarmi.",
+          "goto": "postponed"
+        }
+      ]
+    },
+    "roster_review": {
+      "stitches": [
+        {
+          "id": "roster_1",
+          "text": "Il match userà i primi quattro membri del roster ufficiale secondo il contratto E5 corrente. Questa schermata non cura, non riordina e non modifica i Pokémon."
+        }
+      ],
+      "choices": [
+        {
+          "id": "roster_ok_register",
+          "text": "Ho quattro Pokémon: registro.",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.trials.RANK_C_TO_B.available",
+                "eq": true
+              },
+              {
+                "path": "competition.trials.RANK_C_TO_B.registered",
+                "ne": true
+              },
+              {
+                "path": "player.roster.length",
+                "gte": 4
+              }
+            ]
+          },
+          "goto": "registered",
+          "effects": [
+            {
+              "type": "competition_trial_register",
+              "checkpointId": "RANK_C_TO_B"
+            }
+          ]
+        },
+        {
+          "id": "roster_short",
+          "text": "Non ho ancora quattro Pokémon: torno a prepararmi.",
+          "conditions": {
+            "path": "player.roster.length",
+            "lt": 4
+          },
+          "goto": "postponed"
+        },
+        {
+          "id": "roster_desk",
+          "text": "Torno al banco.",
+          "goto": "trial_desk"
+        }
+      ]
+    },
+    "examiner_review": {
+      "stitches": [
+        {
+          "id": "examiner_1",
+          "text": "Nerea Voss è personale di gate persistente dell'Arena del Molo. Il suo roster C→B è fisso per questa fascia: nessun rubber-banding invisibile dopo ogni tuo tentativo."
+        }
+      ],
+      "choices": [
+        {
+          "id": "examiner_strategy",
+          "text": "Chiedo cosa può essere detto pubblicamente sul criterio di valutazione.",
+          "goto": "strategy_review"
+        },
+        {
+          "id": "examiner_desk",
+          "text": "Torno al banco.",
+          "goto": "trial_desk"
+        }
+      ]
+    },
+    "strategy_review": {
+      "stitches": [
+        {
+          "id": "strategy_1",
+          "text": "Non ricevi mosse segrete dell'esaminatrice. Puoi solo decidere quale principio portare nel match: preservare risorse, convertire vantaggi o mantenere un piano B credibile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "strategy_preserve",
+          "text": "Segno la conservazione delle risorse come priorità.",
+          "goto": "trial_desk",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_c_b_prep_focus",
+              "value": "preserve_resources"
+            }
+          ]
+        },
+        {
+          "id": "strategy_convert",
+          "text": "Segno la conversione del vantaggio come priorità.",
+          "goto": "trial_desk",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_c_b_prep_focus",
+              "value": "convert_advantage"
+            }
+          ]
+        },
+        {
+          "id": "strategy_adapt",
+          "text": "Segno l'adattamento come priorità.",
+          "goto": "trial_desk",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_c_b_prep_focus",
+              "value": "adaptation"
+            }
+          ]
+        },
+        {
+          "id": "strategy_maxie",
+          "text": "Ripenso al principio infrastrutturale di Maxie.",
+          "conditions": {
+            "path": "world.flags.maxie_trial_resource_note",
+            "eq": true
+          },
+          "goto": "maxie_context"
+        },
+        {
+          "id": "strategy_archie",
+          "text": "Ripenso al principio di Archie sul movimento e sul margine.",
+          "conditions": {
+            "path": "world.flags.archie_met",
+            "eq": true
+          },
+          "goto": "archie_context"
+        }
+      ]
+    },
+    "maxie_context": {
+      "stitches": [
+        {
+          "id": "maxie_1",
+          "text": "Maxie aveva descritto HP, PP, informazioni e switch come infrastruttura: una risorsa spesa deve comprare qualcosa di reale, non solo far sembrare buono un turno."
+        }
+      ],
+      "choices": [
+        {
+          "id": "maxie_note",
+          "text": "Porto quel criterio nel piano.",
+          "goto": "trial_desk",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_c_b_maxie_context_reviewed",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "archie_context": {
+      "stitches": [
+        {
+          "id": "archie_1",
+          "text": "Archie aveva insistito sul movimento: un piano che non reagisce al sistema reale smette di essere un piano. Il Trial misura anche quando accetti di cambiare linea."
+        }
+      ],
+      "choices": [
+        {
+          "id": "archie_note",
+          "text": "Porto quel criterio nel piano.",
+          "goto": "trial_desk",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_c_b_archie_context_reviewed",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "upper_context": {
+      "stitches": [
+        {
+          "id": "upper_1",
+          "text": "Il tuo piazzamento Upper Regional resta informazione utile, non un bonus nascosto. Vincere il bracket non abbassa la difficoltà; perderlo non aumenta il roster dell'esaminatrice."
+        }
+      ],
+      "choices": [
+        {
+          "id": "upper_note",
+          "text": "Registro la separazione fra bracket e gate.",
+          "goto": "format_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_c_b_upper_context_reviewed",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "registered": {
+      "stitches": [
+        {
+          "id": "registered_1",
+          "text": "La registrazione E5 è attiva. Il Trial può iniziare ora o più tardi; lasciare l'Arena non cancella automaticamente la registrazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "enter_trial",
+          "text": "Entro nel Promotion Trial C→B.",
+          "conditions": {
+            "path": "competition.trials.RANK_C_TO_B.registered",
+            "eq": true
+          },
+          "goto": "m04-promotion-trial-c-b#trial_gate_call"
+        },
+        {
+          "id": "registered_prep",
+          "text": "Rivedo un'ultima volta il piano.",
+          "goto": "strategy_review"
+        },
+        {
+          "id": "registered_examiner",
+          "text": "Rivedo il profilo dell'esaminatrice.",
+          "goto": "examiner_review"
+        },
+        {
+          "id": "registered_hub",
+          "text": "Torno a Mareasale e rientrerò più tardi.",
+          "goto": "m04-mareasale-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        }
+      ]
+    },
+    "attempt_history": {
+      "stitches": [
+        {
+          "id": "attempt_1",
+          "text": "E5 conserva tentativi e miglior risultato. Una sconfitta precedente non viene cancellata da una nuova registrazione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "attempt_desk",
+          "text": "Torno al banco.",
+          "goto": "trial_desk",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_c_b_attempt_history_reviewed",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "attempt_strategy",
+          "text": "Rivedo cosa cambiare nel prossimo tentativo.",
+          "goto": "strategy_review",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "trial_c_b_attempt_history_reviewed",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "postponed": {
+      "stitches": [
+        {
+          "id": "post_1",
+          "text": "Il gate resta aperto finché sei Rank C e il checkpoint è disponibile. Il mondo e gli altri thread continuano mentre rinvii."
+        }
+      ],
+      "choices": [
+        {
+          "id": "post_hub",
+          "text": "Torno a Mareasale.",
+          "goto": "m04-mareasale-arrival#city_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        },
+        {
+          "id": "post_desk",
+          "text": "Cambio idea e torno al banco.",
+          "goto": "trial_desk"
+        }
+      ]
+    }
+  }
+}
