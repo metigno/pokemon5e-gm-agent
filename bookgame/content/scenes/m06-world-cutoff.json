@@ -1,0 +1,486 @@
+{
+  "schemaVersion": 1,
+  "id": "m06-world-cutoff",
+  "moduleId": "M06",
+  "title": "M6_13 — World Ranking Cutoff",
+  "locationId": "far_ruins_gate",
+  "entryNodeId": "cutoff_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m5_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m06_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m6_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rankOrder",
+        "gte": 5
+      }
+    ]
+  },
+  "nodes": {
+    "cutoff_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il World Ranking Cutoff è una deadline globale, non un altro match. Congela lo stato rilevante della stagione senza correggere retroattivamente la carriera."
+        }
+      ],
+      "choices": [
+        {
+          "id": "cutoff_rules",
+          "text": "Rileggo cosa viene congelato.",
+          "goto": "cutoff_rules"
+        },
+        {
+          "id": "cutoff_status",
+          "text": "Il cutoff è già scattato: controllo lo stato.",
+          "goto": "current_status",
+          "conditions": {
+            "path": "world.flags.world_cutoff_state",
+            "exists": true
+          }
+        },
+        {
+          "id": "cutoff_pending",
+          "text": "La deadline non è ancora scattata: controllo cosa posso fare.",
+          "goto": "pending",
+          "conditions": {
+            "path": "world.flags.world_cutoff_state",
+            "exists": false
+          }
+        }
+      ]
+    },
+    "cutoff_rules": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il cutoff legge il Rank esistente al momento in cui scatta. Non promuove, non annulla match e non assegna World qualification."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rules_status",
+          "text": "Controllo il mio stato congelato.",
+          "goto": "current_status",
+          "conditions": {
+            "path": "world.flags.world_cutoff_state",
+            "exists": true
+          }
+        },
+        {
+          "id": "rules_history",
+          "text": "Rivedo i risultati che restano nello storico.",
+          "goto": "history_review"
+        },
+        {
+          "id": "rules_season",
+          "text": "Rivedo cosa significa per la stagione.",
+          "goto": "season_context"
+        }
+      ]
+    },
+    "current_status": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Lo stato congelato può registrare Rank S già ottenuto oppure Rank A ancora presente al momento della deadline. Entrambi sono fatti persistenti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "status_s",
+          "text": "Il cutoff mi ha trovato già Rank S.",
+          "goto": "rank_s_state",
+          "conditions": {
+            "path": "world.flags.world_cutoff_state",
+            "eq": "rank_s_at_cutoff"
+          }
+        },
+        {
+          "id": "status_a",
+          "text": "Il cutoff mi ha trovato ancora Rank A.",
+          "goto": "rank_a_state",
+          "conditions": {
+            "path": "world.flags.world_cutoff_state",
+            "eq": "rank_a_at_cutoff"
+          }
+        },
+        {
+          "id": "status_history",
+          "text": "Controllo la history senza cambiarla.",
+          "goto": "history_review"
+        }
+      ]
+    },
+    "before_cutoff": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Essere Rank S alla deadline conserva la candidatura per il percorso successivo, ma non equivale a essere già qualificato al Mondiale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "before_freeze",
+          "text": "Registro la lettura del cutoff.",
+          "goto": "freeze_confirm"
+        },
+        {
+          "id": "before_continental",
+          "text": "Rivedo la Continental come risultato separato.",
+          "goto": "continental_review"
+        }
+      ]
+    },
+    "after_cutoff": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se il cutoff è scattato mentre eri ancora Rank A, quel fatto resta nella stagione. Una promozione successiva non riscrive retroattivamente la deadline."
+        }
+      ],
+      "choices": [
+        {
+          "id": "after_freeze",
+          "text": "Registro la lettura tardiva del cutoff.",
+          "goto": "freeze_confirm"
+        },
+        {
+          "id": "after_masters",
+          "text": "Rivedo i Masters come contesto separato.",
+          "goto": "masters_review"
+        }
+      ]
+    },
+    "rank_s_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il record dice `rank_s_at_cutoff`: il Gate era già superato quando la stagione ha congelato il quadro."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rank_s_before",
+          "text": "Passo alla conseguenza stagionale.",
+          "goto": "before_cutoff"
+        },
+        {
+          "id": "rank_s_friend",
+          "text": "Rivedo il Friend Beat che accompagna questa fase.",
+          "goto": "friend_review"
+        }
+      ]
+    },
+    "rank_a_state": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il record dice `rank_a_at_cutoff`: la deadline ha preceduto la promozione. Questo non cancella una futura vittoria A→S."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rank_a_after",
+          "text": "Passo alla conseguenza stagionale.",
+          "goto": "after_cutoff"
+        },
+        {
+          "id": "rank_a_red",
+          "text": "Rivedo il confronto con Red.",
+          "goto": "red_review"
+        }
+      ]
+    },
+    "history_review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Masters, Continental Cup e Gate restano record distinti. Il cutoff non ne cambia vincitori, piazzamenti o tentativi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "history_masters",
+          "text": "Rivedo il Masters Circuit.",
+          "goto": "masters_review"
+        },
+        {
+          "id": "history_continental",
+          "text": "Rivedo la Continental Cup.",
+          "goto": "continental_review"
+        }
+      ]
+    },
+    "masters_review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Masters result resta ciò che E5 ha registrato. Il cutoff non lo converte in Rank, seed o qualification diversi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "masters_friend",
+          "text": "Passo al contesto personale.",
+          "goto": "friend_review"
+        },
+        {
+          "id": "masters_history",
+          "text": "Torno allo storico complessivo.",
+          "goto": "history_review"
+        }
+      ]
+    },
+    "continental_review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La Continental Cup resta un titolo o piazzamento indipendente. Anche una vittoria non sostituisce il Gate del Faro."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continental_red",
+          "text": "Rivedo il principio di adattamento di Red.",
+          "goto": "red_review"
+        },
+        {
+          "id": "continental_history",
+          "text": "Torno allo storico complessivo.",
+          "goto": "history_review"
+        }
+      ]
+    },
+    "friend_review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "FRIEND_BEAT_06 resta una conseguenza personale persistente, non un moltiplicatore di ranking."
+        }
+      ],
+      "choices": [
+        {
+          "id": "friend_ancient",
+          "text": "Ricollego la stagione al secondo layer del mistero.",
+          "goto": "ancient_review"
+        },
+        {
+          "id": "friend_red",
+          "text": "Rivedo Red come Anchor del modulo.",
+          "goto": "red_review"
+        }
+      ]
+    },
+    "red_review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Red resta un competitor osservatore, non un garante di accesso. Il suo rapporto col player non modifica il cutoff."
+        }
+      ],
+      "choices": [
+        {
+          "id": "red_ancient",
+          "text": "Passo al thread antico.",
+          "goto": "ancient_review"
+        },
+        {
+          "id": "red_season",
+          "text": "Torno al significato stagionale.",
+          "goto": "season_context"
+        }
+      ]
+    },
+    "ancient_review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il secondo layer antico resta fuori dal ranking. Il Faro ospita entrambi i thread senza fonderne le regole."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ancient_season",
+          "text": "Torno al significato stagionale.",
+          "goto": "season_context"
+        },
+        {
+          "id": "ancient_freeze",
+          "text": "Sono pronto a registrare il review del cutoff.",
+          "goto": "freeze_confirm"
+        }
+      ]
+    },
+    "freeze_confirm": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il cutoff è già un fatto del Living World. Questo passaggio registra solo che il player ne ha preso atto, preservando lo stato originale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "freeze_record",
+          "text": "Registro il review del cutoff.",
+          "goto": "freeze_record",
+          "conditions": {
+            "path": "world.flags.world_cutoff_state",
+            "exists": true
+          }
+        },
+        {
+          "id": "freeze_rules",
+          "text": "Rileggo le regole prima di chiudere.",
+          "goto": "cutoff_rules"
+        },
+        {
+          "id": "freeze_season",
+          "text": "Rivedo le conseguenze stagionali.",
+          "goto": "season_context"
+        }
+      ]
+    },
+    "freeze_record": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Lo stato congelato resta immutato. M6 ora possiede il callback richiesto per l'uscita."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record_gate",
+          "text": "Verifico il gate di chiusura M6.",
+          "goto": "module_gate",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_world_cutoff_review_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "record_status",
+          "text": "Rileggo il record congelato.",
+          "goto": "current_status"
+        }
+      ]
+    },
+    "pending": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se la deadline non è ancora scattata, aspettare deve far avanzare davvero il mondo. Puoi anche tornare ad attività ancora aperte."
+        }
+      ],
+      "choices": [
+        {
+          "id": "pending_wait",
+          "text": "Aspetto sei ore e ricontrollo.",
+          "goto": "cutoff_entry",
+          "timeCostMinutes": 360
+        },
+        {
+          "id": "pending_return",
+          "text": "Torno alle Rovine senza forzare la deadline.",
+          "goto": "m06-first-lighthouse-return#ruins_boundary"
+        }
+      ]
+    },
+    "season_context": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il cutoff decide quale stato appartiene a questa finestra stagionale. M7 potrà usare questo callback senza falsificare quando hai raggiunto Rank S."
+        }
+      ],
+      "choices": [
+        {
+          "id": "season_freeze",
+          "text": "Torno alla registrazione del review.",
+          "goto": "freeze_confirm"
+        },
+        {
+          "id": "season_rules",
+          "text": "Rileggo la regola di freeze.",
+          "goto": "cutoff_rules"
+        }
+      ]
+    },
+    "module_gate": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Per chiudere M6 servono Rank S attuale, Red incontrato, FRIEND_BEAT_06, secondo layer antico e cutoff persistente/reviewed."
+        }
+      ],
+      "choices": [
+        {
+          "id": "gate_close",
+          "text": "Tutti i requisiti sono presenti: passo all'outcome.",
+          "goto": "close",
+          "conditions": {
+            "all": [
+              {
+                "path": "competition.rank",
+                "eq": "S"
+              },
+              {
+                "path": "world.flags.red_met",
+                "eq": true
+              },
+              {
+                "path": "world.flags.friend_beat_06_complete",
+                "eq": true
+              },
+              {
+                "path": "world.flags.ancient_mystery_layer_2",
+                "exists": true
+              },
+              {
+                "path": "world.flags.m6_world_cutoff_review_complete",
+                "eq": true
+              }
+            ]
+          }
+        },
+        {
+          "id": "gate_status",
+          "text": "Rivedo lo stato del cutoff.",
+          "goto": "current_status"
+        }
+      ]
+    },
+    "close": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il cutoff è stato consumato come contesto, non come scorciatoia competitiva. M6 può ora eseguire il proprio exit contract."
+        }
+      ],
+      "choices": [
+        {
+          "id": "close_outcome",
+          "text": "Passo al riepilogo finale di M6.",
+          "goto": "m06-module-outcome#outcome_entry"
+        },
+        {
+          "id": "close_ruins",
+          "text": "Resto al Primo Faro prima di chiudere.",
+          "goto": "m06-first-lighthouse-return#ruins_boundary"
+        }
+      ]
+    }
+  }
+}
