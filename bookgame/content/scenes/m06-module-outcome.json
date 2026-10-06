@@ -1,0 +1,330 @@
+{
+  "schemaVersion": 1,
+  "id": "m06-module-outcome",
+  "moduleId": "M06",
+  "title": "M6_14 — Module Outcome",
+  "locationId": "far_ruins",
+  "entryNodeId": "outcome_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m5_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m06_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m6_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "S"
+      },
+      {
+        "path": "world.flags.red_met",
+        "eq": true
+      },
+      {
+        "path": "world.flags.friend_beat_06_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.ancient_mystery_layer_2",
+        "exists": true
+      },
+      {
+        "path": "world.flags.world_cutoff_state",
+        "exists": true
+      },
+      {
+        "path": "world.flags.m6_world_cutoff_review_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m6_first_lighthouse_return_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m6_module_outcome_available",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "outcome_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "M6 può chiudersi solo leggendo lo stato reale: Rank S, Red, Friend Beat, secondo layer antico, ritorno al Faro e cutoff persistente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "outcome_audit",
+          "text": "Eseguo l'audit completo del contratto.",
+          "goto": "contract_audit"
+        },
+        {
+          "id": "outcome_rank",
+          "text": "Rivedo cosa significa Rank S.",
+          "goto": "rank_review"
+        },
+        {
+          "id": "outcome_cutoff",
+          "text": "Rivedo il cutoff prima di chiudere.",
+          "goto": "cutoff_review"
+        }
+      ]
+    },
+    "contract_audit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'audit non crea requisiti mancanti. Verifica soltanto che tutti gli assi obbligatori esistano già nello stato persistente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "audit_complete",
+          "text": "Il contratto è soddisfatto: chiudo M6.",
+          "goto": "module_complete",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m07_unlocked",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m6_outcome_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "audit_rank",
+          "text": "Rivedo il checkpoint A→S.",
+          "goto": "rank_review"
+        },
+        {
+          "id": "audit_history",
+          "text": "Rivedo la parte competitiva della run.",
+          "goto": "competition_review"
+        },
+        {
+          "id": "audit_continuity",
+          "text": "Controllo che nulla venga resettato.",
+          "goto": "continuity_review"
+        }
+      ]
+    },
+    "rank_review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Rank S è stato ottenuto esclusivamente dal checkpoint E5 RANK_A_TO_S. Non equivale a World qualification."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rank_competition",
+          "text": "Rivedo lo storico competitivo.",
+          "goto": "competition_review"
+        },
+        {
+          "id": "rank_m7",
+          "text": "Controllo cosa sblocca realmente M7.",
+          "goto": "m7_preview"
+        }
+      ]
+    },
+    "red_review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Red resta persistente con relazione e contesto accumulati. La chiusura del modulo non lo resetta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "red_friend",
+          "text": "Passo al Friend Beat.",
+          "goto": "friend_review"
+        },
+        {
+          "id": "red_contract",
+          "text": "Torno all'audit.",
+          "goto": "contract_audit"
+        }
+      ]
+    },
+    "friend_review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "FRIEND_BEAT_06 conserva amico, modalità e risultato reali. Nessun nuovo incontro viene inventato durante l'outcome."
+        }
+      ],
+      "choices": [
+        {
+          "id": "friend_red",
+          "text": "Rivedo Red come Anchor.",
+          "goto": "red_review"
+        },
+        {
+          "id": "friend_contract",
+          "text": "Torno all'audit.",
+          "goto": "contract_audit"
+        }
+      ]
+    },
+    "cutoff_review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "`world_cutoff_state` resta il valore realmente congelato: Rank S o Rank A al momento della deadline. M7 potrà reagire a questa differenza."
+        }
+      ],
+      "choices": [
+        {
+          "id": "cutoff_ancient",
+          "text": "Rivedo il secondo layer del mistero.",
+          "goto": "ancient_review"
+        },
+        {
+          "id": "cutoff_contract",
+          "text": "Torno all'audit.",
+          "goto": "contract_audit"
+        }
+      ]
+    },
+    "ancient_review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il secondo layer antico resta irrisolto o parzialmente interpretato. M6 non lo converte in Legendary, cattura o rivelazione finale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ancient_continuity",
+          "text": "Controllo la continuità verso il modulo successivo.",
+          "goto": "continuity_review"
+        },
+        {
+          "id": "ancient_contract",
+          "text": "Torno all'audit.",
+          "goto": "contract_audit"
+        }
+      ]
+    },
+    "competition_review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Masters, Continental Cup e Gate del Faro conservano tutti i risultati reali. Il riepilogo non modifica history o piazzamenti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "competition_rank",
+          "text": "Torno al significato di Rank S.",
+          "goto": "rank_review"
+        },
+        {
+          "id": "competition_cutoff",
+          "text": "Ricollego lo storico al cutoff.",
+          "goto": "cutoff_review"
+        }
+      ]
+    },
+    "continuity_review": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Roster, HP, PP, status, inventario, denaro, livelli, relazioni, schedule, ecology e history non vengono resettati al confine M6→M7."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continuity_m7",
+          "text": "Controllo il prossimo accesso senza teletrasporto.",
+          "goto": "m7_preview"
+        },
+        {
+          "id": "continuity_audit",
+          "text": "Torno all'audit finale.",
+          "goto": "contract_audit"
+        }
+      ]
+    },
+    "m7_preview": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "M7 — Sotto i Riflettori parte da Rank S. Meridiana diventa la prossima fascia, ma il World Qualifier resta separato e non viene assegnato qui."
+        }
+      ],
+      "choices": [
+        {
+          "id": "preview_complete",
+          "text": "Torno alla chiusura del modulo.",
+          "goto": "module_complete",
+          "conditions": {
+            "path": "world.flags.m6_complete",
+            "eq": true
+          }
+        },
+        {
+          "id": "preview_audit",
+          "text": "Torno all'audit prima di chiudere.",
+          "goto": "contract_audit"
+        }
+      ]
+    },
+    "module_complete": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "M6 — Oltre i Confini è completo. `m07_unlocked=true` prepara la fase Candidate Mondiale conservando l'intero stato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "complete_handoff",
+          "text": "Registro il punto di handoff verso M7.",
+          "goto": "handoff"
+        }
+      ]
+    },
+    "handoff": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'handoff non teletrasporta a Meridiana e non apre automaticamente il World Qualifier. Resti al Primo Faro con M7 sbloccato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "handoff_ruins",
+          "text": "Resto alle Rovine del Primo Faro con M7 disponibile.",
+          "goto": "m06-first-lighthouse-return#ruins_boundary",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "far_ruins"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
