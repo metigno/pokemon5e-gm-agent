@@ -391,8 +391,15 @@
       "choices": [
         {
           "id": "close_lighthouse",
-          "text": "Passo al ritorno verso il Primo Faro.",
-          "goto": "m06-first-lighthouse-return#return_entry"
+          "text": "Registro che il ritorno al Primo Faro è il prossimo passo disponibile.",
+          "goto": "m06-handoff#rank_a_band",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m6_lighthouse_return_ready",
+              "value": true
+            }
+          ]
         },
         {
           "id": "close_review",
