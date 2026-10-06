@@ -278,6 +278,13 @@ function gutsMeleeBonus(combatant, move) {
   return combatant.abilityId === "guts" && afflicted && melee ? 2 : 0;
 }
 
+function multiplyDiceExpression(expression, multiplier) {
+  if (multiplier === 1) return expression;
+  const match = /^(\d+)d(\d+)$/.exec(expression);
+  if (!match) throw new Error(`Unsupported multiplied dice expression: ${expression}`);
+  return `${Number(match[1]) * multiplier}d${match[2]}`;
+}
+
 export function resolveAttack({
   attacker,
   defender,
@@ -285,6 +292,7 @@ export function resolveAttack({
   dice,
   extraAttackModifier = 0,
   extraDamageModifier = 0,
+  damageDiceMultiplier = 1,
   forceDisadvantage = false
 }) {
   const stats = calculateMoveStats(attacker, move);
@@ -325,7 +333,8 @@ export function resolveAttack({
     };
   }
 
-  const damageRoll = rollDamage(stats.damageDice, dice, {
+  const damageDice = multiplyDiceExpression(stats.damageDice, damageDiceMultiplier);
+  const damageRoll = rollDamage(damageDice, dice, {
     critical: criticalDamage,
     advantage: damageRollHasAdvantage(attacker, move),
     disadvantage: damageHasDisadvantage(attacker)
@@ -353,6 +362,7 @@ export function resolveAttack({
     critical,
     criticalDamage,
     damageRoll,
+    damageDiceMultiplier,
     damageModifier: effectiveDamageModifier,
     gutsBonus,
     rawDamage,

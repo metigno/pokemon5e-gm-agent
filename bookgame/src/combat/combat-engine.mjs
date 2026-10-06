@@ -317,6 +317,15 @@ function isSimpleModifierMove(move) {
   return SIMPLE_MODIFIER_MOVES.has(move.id);
 }
 
+const STOCKPILE_MOVES = new Set([
+  "stockpile",
+  "swallow"
+]);
+
+function isStockpileMove(move) {
+  return STOCKPILE_MOVES.has(move.id);
+}
+
 function healingTargetSide(move, userSide, requestedTargetSide = null) {
   if (move.range?.type === "self") return userSide;
 
@@ -380,6 +389,7 @@ export function isMoveResolvable(move) {
   if (isSaveHpEffectMove(move)) return true;
   if (isStatusCureMove(move)) return true;
   if (isSimpleModifierMove(move)) return true;
+  if (isStockpileMove(move)) return true;
   if (SAVE_EFFECT_MOVES.has(move.id) || AREA_MOVES.has(move.id)) return true;
   if ((move.attack || move.save) && statusFromText(move.description)) return true;
   if (move.id === "struggle") return true;
@@ -418,7 +428,8 @@ function clearTransientEffects(combatant) {
     acModifierSources: [],
     speedModifierSources: [],
     movementLockSources: [],
-    ongoingEffects: []
+    ongoingEffects: [],
+    stockpileCount: 0
   };
   combatant.concentration = null;
 }
@@ -1003,7 +1014,8 @@ export class Pokemon5eCombatEngine {
         acModifierSources: [],
         speedModifierSources: [],
         movementLockSources: [],
-        ongoingEffects: []
+        ongoingEffects: [],
+        stockpileCount: 0
       },
       turn: {
         started: false,
@@ -1271,6 +1283,10 @@ export class Pokemon5eCombatEngine {
       if (!slot || !combatant.turn[slot]) continue;
       if (!isMoveResolvable(move)) continue;
       if (move.id === "endeavor" && battle.round === 1) continue;
+      if (
+        ["swallow", "spit-up"].includes(move.id) &&
+        (combatant.effects?.stockpileCount ?? 0) <= 0
+      ) continue;
       if (requiresSleepingTarget(move) && !isSleepingTarget(defender)) continue;
       const healTargetSide = isImmediateHealingMove(move)
         ? healingTargetSide(move, side)
@@ -1322,6 +1338,10 @@ export class Pokemon5eCombatEngine {
       attacker.abilityState.flashFireCharged &&
       move.type === "fire";
 
+    const stockpileMultiplier =
+      move.id === "spit-up"
+        ? Math.max(1, attacker.effects?.stockpileCount ?? 0)
+        : 1;
     const result = resolveAttack({
       attacker,
       defender: defenderForResolution,
@@ -1329,6 +1349,7 @@ export class Pokemon5eCombatEngine {
       dice: this.dice,
       extraAttackModifier: attackBonus,
       extraDamageModifier: damageBonus,
+      damageDiceMultiplier: stockpileMultiplier,
       forceDisadvantage
     });
 
@@ -1368,6 +1389,19 @@ export class Pokemon5eCombatEngine {
       thawed,
       targetHpAfter: defender.hp.current
     });
+
+    if (move.id === "spit-up") {
+      const consumed = attacker.effects?.stockpileCount ?? 0;
+      attacker.effects.stockpileCount = 0;
+      removeEffectSource(attacker, "stockpile", next.round);
+      next.log.push({
+        type: "stockpile_consumed",
+        round: next.round,
+        actor: side,
+        moveId: move.id,
+        charges: consumed
+      });
+    }
 
     if (defender.hp.current <= 0) {
       markDowned(next, targetSide, reaction ? "opportunity_attack" : "move_damage");
@@ -1631,6 +1665,61 @@ export class Pokemon5eCombatEngine {
       curedStatuses
     });
     return next;
+  }
+
+  async resolveStockpileMove(next, side, move) {
+    const combatant = next[side];
+    combatant.effects.stockpileCount ??= 0;
+
+    if (move.id === "stockpile") {
+      if (combatant.effects.stockpileCount >= 3) {
+        throw new Error("Stockpile is already at its maximum of 3 charges");
+      }
+      combatant.effects.stockpileCount += 1;
+      addSourceCappedModifier(
+        combatant.effects.acModifierSources,
+        { source: "stockpile", value: 1, expiresRound: null },
+        next.round,
+        0,
+        3
+      );
+      next.log.push({
+        type: "stockpile",
+        round: next.round,
+        actor: side,
+        charges: combatant.effects.stockpileCount
+      });
+      return next;
+    }
+
+    if (move.id === "swallow") {
+      const charges = combatant.effects.stockpileCount;
+      if (charges <= 0) throw new Error("Swallow requires at least one Stockpile charge");
+      const stats = calculateMoveStats(combatant, move);
+      const baseExpression = stats.damageDice;
+      const match = /^(\d+)d(\d+)$/.exec(baseExpression);
+      if (!match) throw new Error(`Unsupported Swallow dice expression: ${baseExpression}`);
+      const multipliedExpression = `${Number(match[1]) * charges}d${match[2]}`;
+      const healingRoll = rollExpression(multipliedExpression, this.dice);
+      const rawHealing = Math.max(0, healingRoll.total + stats.damageModifier);
+      const before = combatant.hp.current;
+      combatant.hp.current = Math.min(combatant.hp.max, before + rawHealing);
+      combatant.effects.stockpileCount = 0;
+      removeEffectSource(combatant, "stockpile", next.round);
+      next.log.push({
+        type: "stockpile_consumed",
+        round: next.round,
+        actor: side,
+        moveId: move.id,
+        charges,
+        healingRoll,
+        healing: combatant.hp.current - before,
+        hpAfter: combatant.hp.current
+      });
+      return next;
+    }
+
+    throw new Error(`No Stockpile handler for ${move.id}`);
   }
 
   async resolveSimpleModifierMove(next, side, move) {
@@ -1966,6 +2055,12 @@ export class Pokemon5eCombatEngine {
     if (move.id === "endeavor" && next.round === 1) {
       throw new Error("Endeavor cannot be used in the first round of combat");
     }
+    if (
+      ["swallow", "spit-up"].includes(move.id) &&
+      (attacker.effects?.stockpileCount ?? 0) <= 0
+    ) {
+      throw new Error(`${move.name} requires at least one Stockpile charge`);
+    }
     const slot = moveSlot(move);
     if (!slot || !attacker.turn[slot]) throw new Error(`No ${move.time?.unit ?? "turn"} slot available for ${moveId}`);
 
@@ -2082,6 +2177,8 @@ export class Pokemon5eCombatEngine {
       next = await this.resolveStatusCureMove(next, side, move);
     } else if (isSimpleModifierMove(move)) {
       next = await this.resolveSimpleModifierMove(next, side, move);
+    } else if (isStockpileMove(move)) {
+      next = await this.resolveStockpileMove(next, side, move);
     } else if (AREA_MOVES.has(move.id)) {
       const stats = calculateMoveStats(attacker, move);
       const center = areaTarget ?? clone(defender.position);

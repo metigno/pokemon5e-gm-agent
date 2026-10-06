@@ -101,7 +101,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
   const moves = await data.listMoves();
   const unresolved = moves.filter((move) => !isMoveResolvable(move)).map((move) => move.id);
 
-  assert.ok(unresolved.length <= 208, `unresolved move rules regressed to ${unresolved.length}`);
+  assert.ok(unresolved.length <= 206, `unresolved move rules regressed to ${unresolved.length}`);
   assert.ok(unresolved.includes("acupressure"));
   for (const id of [
     "agility",
@@ -125,6 +125,8 @@ test("move execution coverage has an explicit non-regression gate", async () => 
     "ingrain",
     "lunar-blessing",
     "wish",
+    "stockpile",
+    "swallow",
     "heal-pulse",
     "recover"
   ]) {
@@ -402,6 +404,57 @@ test("Ingrain, Lunar Blessing and Wish execute persistent healing state", async 
   wishBattle = await wishCombat.endPlayerTurn(wishBattle);
   assert.ok(wishBattle.player.hp.current > wishBefore);
   assert.equal(wishBattle.pendingEffects.length, 0);
+});
+
+
+test("Stockpile powers and is consumed by Swallow and Spit Up", async () => {
+  const swallowCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 20, 6])
+  });
+  let swallowBattle = await swallowCombat.createBattle({
+    encounterId: "FULL_RUNTIME_STOCKPILE_SWALLOW",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["stockpile", "swallow"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["growl"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+  swallowBattle.player.hp.current = Math.max(1, swallowBattle.player.hp.max - 20);
+  swallowBattle = await swallowCombat.usePlayerMove(swallowBattle, "stockpile");
+  assert.equal(swallowBattle.player.effects.stockpileCount, 1);
+  assert.equal(swallowBattle.player.effects.acModifierSources.at(-1).value, 1);
+  swallowBattle = await swallowCombat.endPlayerTurn(swallowBattle);
+  swallowBattle = await swallowCombat.advanceToPlayerOrEnd(swallowBattle);
+  const hpBefore = swallowBattle.player.hp.current;
+  swallowBattle = await swallowCombat.usePlayerMove(swallowBattle, "swallow");
+  assert.ok(swallowBattle.player.hp.current > hpBefore);
+  assert.equal(swallowBattle.player.effects.stockpileCount, 0);
+  assert.equal(
+    swallowBattle.player.effects.acModifierSources.some((entry) => entry.source === "stockpile"),
+    false
+  );
+
+  const spitCombat = new Pokemon5eCombatEngine({
+    dice: new SequenceDice([20, 1, 20, 20, 15, 4, 4])
+  });
+  let spitBattle = await spitCombat.createBattle({
+    encounterId: "FULL_RUNTIME_STOCKPILE_SPIT_UP",
+    playerPokemon: { speciesId: "eevee", level: 5, moveIds: ["stockpile", "spit-up"] },
+    opponent: { speciesId: "caterpie", level: 1, moveIds: ["growl"] },
+    playerPosition: { x: 0, y: 0 },
+    opponentPosition: { x: 5, y: 0 }
+  });
+  spitBattle = await spitCombat.usePlayerMove(spitBattle, "stockpile");
+  spitBattle = await spitCombat.endPlayerTurn(spitBattle);
+  spitBattle = await spitCombat.advanceToPlayerOrEnd(spitBattle);
+  spitBattle = await spitCombat.usePlayerMove(spitBattle, "stockpile");
+  assert.equal(spitBattle.player.effects.stockpileCount, 2);
+  spitBattle = await spitCombat.endPlayerTurn(spitBattle);
+  spitBattle = await spitCombat.advanceToPlayerOrEnd(spitBattle);
+  spitBattle = await spitCombat.usePlayerMove(spitBattle, "spit-up");
+  const attack = [...spitBattle.log].reverse().find((event) => event.type === "attack");
+  assert.equal(attack.damageDiceMultiplier, 2);
+  assert.equal(attack.damageRoll.selected.rolls.length, 2);
+  assert.equal(spitBattle.player.effects.stockpileCount, 0);
 });
 
 test("canonical OHKO moves execute their d20, level and immunity rules", async () => {
