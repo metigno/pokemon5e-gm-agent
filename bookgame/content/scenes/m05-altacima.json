@@ -1,0 +1,586 @@
+{
+  "schemaVersion": 1,
+  "id": "m05-altacima",
+  "moduleId": "M05",
+  "title": "M5_02 — Altacima",
+  "locationId": "alt_town",
+  "entryNodeId": "town_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m4_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m05_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m5_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "B"
+      }
+    ]
+  },
+  "shops": {
+    "altacima_supply": {
+      "refreshEveryDays": 3,
+      "stock": {
+        "poke-ball": 6,
+        "potion": 4,
+        "antidote": 4
+      }
+    }
+  },
+  "nodes": {
+    "town_entry": {
+      "stitches": [
+        {
+          "id": "entry_1",
+          "text": "Altacima non è una città costruita contro la montagna ma dentro i suoi limiti: edifici bassi, passerelle protette, funi di servizio e pannelli meteo ad ogni incrocio."
+        },
+        {
+          "id": "entry_2",
+          "text": "La Sala della Cresta ospita il circuito locale. Clinica, logistica, mercato e ufficio meteo sono separati: nessun servizio narrativo sostituisce le regole strutturate di squadra o competizione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_register",
+          "text": "Registro Altacima come hub Rank B.",
+          "goto": "town_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "altacima_discovered",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        },
+        {
+          "id": "entry_board",
+          "text": "Leggo prima il pannello dei servizi.",
+          "goto": "hub_services"
+        },
+        {
+          "id": "entry_overlook",
+          "text": "Guardo la città dalla terrazza d'arrivo.",
+          "goto": "overlook"
+        }
+      ]
+    },
+    "town_hub": {
+      "stitches": [
+        {
+          "id": "hub_1",
+          "text": "Il cuore di Altacima è una piazza stretta sotto la parete nord. Da qui raggiungi la clinica, l'ufficio logistico, la Sala della Cresta, il mercato e la stazione meteo."
+        },
+        {
+          "id": "hub_2",
+          "text": "Verso est una strada sale al controllo dell'Altopiano Fulgore. Il cancello non è una decorazione: la decisione di partire dipenderà da finestra meteo e stato reale del percorso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "hub_medical",
+          "text": "Vado alla clinica di quota.",
+          "goto": "medical_desk",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town_clinic"
+            }
+          ]
+        },
+        {
+          "id": "hub_logistics",
+          "text": "Vado all'ufficio logistico.",
+          "goto": "logistics_desk",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town_logistics"
+            }
+          ]
+        },
+        {
+          "id": "hub_crest",
+          "text": "Entro nella Sala della Cresta.",
+          "goto": "crest_lobby",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town_crest"
+            }
+          ]
+        },
+        {
+          "id": "hub_market",
+          "text": "Passo dal mercato per trainer.",
+          "goto": "market",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town_market"
+            }
+          ]
+        },
+        {
+          "id": "hub_weather",
+          "text": "Controllo la stazione meteo.",
+          "goto": "weather_desk",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town_weather"
+            }
+          ]
+        },
+        {
+          "id": "hub_lance",
+          "text": "Cerco il trainer drago di cui stanno parlando.",
+          "conditions": {
+            "any": [
+              {
+                "path": "world.flags.lance_rumor_heard",
+                "eq": true
+              },
+              {
+                "path": "world.flags.altacima_weather_read",
+                "eq": true
+              }
+            ]
+          },
+          "goto": "m05-lance-enters#crest_intro",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town_crest"
+            }
+          ]
+        },
+        {
+          "id": "hub_return_mountains",
+          "text": "Torno verso i Monti Ferrox.",
+          "goto": "mountain_return"
+        }
+      ]
+    },
+    "medical_desk": {
+      "stitches": [
+        {
+          "id": "med_1",
+          "text": "La clinica tratta problemi legati a quota, freddo e affaticamento, ma la reception non altera HP, PP o condizioni con una riga di dialogo. Le cure reali restano di competenza del sistema medico applicabile."
+        }
+      ],
+      "choices": [
+        {
+          "id": "med_info",
+          "text": "Chiedo come riconoscere quando una squadra dovrebbe fermarsi.",
+          "goto": "medical_info"
+        },
+        {
+          "id": "med_back",
+          "text": "Torno alla piazza.",
+          "goto": "town_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        }
+      ]
+    },
+    "medical_info": {
+      "stitches": [
+        {
+          "id": "medinfo_1",
+          "text": "L'operatrice insiste su una regola semplice: non usare il Rank come misura della sicurezza. Un trainer autorizzato può comunque arrivare stanco, ferito o con risorse insufficienti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "medinfo_record",
+          "text": "Registro il principio senza ottenere una cura gratuita.",
+          "goto": "town_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "altacima_medical_guidance_known",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        }
+      ]
+    },
+    "logistics_desk": {
+      "stitches": [
+        {
+          "id": "log_1",
+          "text": "L'ufficio logistico gestisce tempi di salita, corde di servizio, chiusure e partenze verso Fulgore. Le autorizzazioni dipendono dal momento, non da un flag permanente ottenuto una volta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "log_routes",
+          "text": "Chiedo quali percorsi portano all'Altopiano Fulgore.",
+          "goto": "hub_state",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "fulgore_route_known",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "log_lance",
+          "text": "Chiedo chi sta usando oggi la tratta alta.",
+          "goto": "lance_rumor"
+        }
+      ]
+    },
+    "crest_lobby": {
+      "stitches": [
+        {
+          "id": "crest_1",
+          "text": "La Sala della Cresta è insieme arena, ufficio gare e rifugio pubblico. Le bacheche distinguono nettamente attività libere, eventi registrati e Promotion Trial B→A."
+        }
+      ],
+      "choices": [
+        {
+          "id": "crest_rules",
+          "text": "Leggo i requisiti del circuito e del Trial.",
+          "goto": "crest_rules"
+        },
+        {
+          "id": "crest_lance",
+          "text": "Ascolto la discussione su un trainer arrivato con un Dragonair.",
+          "goto": "lance_rumor"
+        }
+      ]
+    },
+    "crest_rules": {
+      "stitches": [
+        {
+          "id": "rules_1",
+          "text": "Il Promotion Trial B→A richiede il checkpoint strutturato RANK_B_TO_A e il roster ufficiale previsto. Informarsi non registra il Trial e non crea un risultato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rules_note",
+          "text": "Registro i requisiti senza iscrivermi.",
+          "goto": "town_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "altacima_trial_rules_known",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        },
+        {
+          "id": "rules_back",
+          "text": "Torno all'atrio della Sala.",
+          "goto": "crest_lobby"
+        }
+      ]
+    },
+    "market": {
+      "stitches": [
+        {
+          "id": "market_1",
+          "text": "Il mercato vende materiale ordinario del Circuito. Non compare equipaggiamento speciale solo perché la quota è più alta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "market_shop",
+          "text": "Controllo le scorte.",
+          "goto": "supply_shop"
+        },
+        {
+          "id": "market_back",
+          "text": "Torno alla piazza.",
+          "goto": "town_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        }
+      ]
+    },
+    "supply_shop": {
+      "stitches": [
+        {
+          "id": "shop_1",
+          "text": "Le scorte sono limitate e persistenti. Acquistare usa denaro reale e riduce lo stock; non esistono rifornimenti narrativi gratuiti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "buy_poke_ball",
+          "text": "Compro una Poké Ball — ₽250.",
+          "conditions": {
+            "all": [
+              {
+                "path": "player.money",
+                "gte": 250
+              },
+              {
+                "path": "shops.altacima_supply.stock.poke-ball",
+                "gte": 1
+              }
+            ]
+          },
+          "goto": "supply_shop",
+          "effects": [
+            {
+              "type": "purchase_item",
+              "shopId": "altacima_supply",
+              "itemId": "poke-ball",
+              "cost": 250,
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "id": "buy_potion",
+          "text": "Compro una Potion — ₽300.",
+          "conditions": {
+            "all": [
+              {
+                "path": "player.money",
+                "gte": 300
+              },
+              {
+                "path": "shops.altacima_supply.stock.potion",
+                "gte": 1
+              }
+            ]
+          },
+          "goto": "supply_shop",
+          "effects": [
+            {
+              "type": "purchase_item",
+              "shopId": "altacima_supply",
+              "itemId": "potion",
+              "cost": 300,
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "id": "shop_back",
+          "text": "Chiudo il banco e torno al mercato.",
+          "goto": "market"
+        }
+      ]
+    },
+    "rest_house": {
+      "stitches": [
+        {
+          "id": "rest_1",
+          "text": "Una sala riscaldata permette di fermarsi senza trasformare la sosta in una cura automatica. Il tempo passa; lo stato della squadra resta quello reale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rest_hour",
+          "text": "Mi fermo un'ora.",
+          "timeCostMinutes": 60,
+          "goto": "town_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        }
+      ]
+    },
+    "overlook": {
+      "stitches": [
+        {
+          "id": "ov_1",
+          "text": "Dal belvedere distingui la strada appena percorsa e, più in alto, le scariche lontane che danno il nome all'Altopiano Fulgore."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ov_fulgore",
+          "text": "Osservo la direttrice verso Fulgore.",
+          "goto": "hub_state",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "fulgore_seen_from_altacima",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "ov_hub",
+          "text": "Scendo nella piazza.",
+          "goto": "town_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        }
+      ]
+    },
+    "weather_desk": {
+      "stitches": [
+        {
+          "id": "weather_1",
+          "text": "La stazione pubblica mostra vento, visibilità e probabilità di celle temporalesche. Il dato è una fotografia del momento, non un permesso permanente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "weather_read",
+          "text": "Registro il bollettino attuale.",
+          "goto": "town_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "altacima_weather_read",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        },
+        {
+          "id": "weather_decide",
+          "text": "Voglio capire come trasformare il bollettino in una decisione di viaggio.",
+          "goto": "m05-weather-decisions#weather_board"
+        }
+      ]
+    },
+    "lance_rumor": {
+      "stitches": [
+        {
+          "id": "lance_1",
+          "text": "Gli addetti descrivono un trainer che tratta la montagna come parte della gara, non come ostacolo da dominare. Viaggia con un Dratini evoluto nella sua carriera reale, senza esibizioni fuori contesto."
+        }
+      ],
+      "choices": [
+        {
+          "id": "lance_note",
+          "text": "Registro il nome: Lance.",
+          "goto": "town_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "lance_rumor_heard",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        }
+      ]
+    },
+    "mountain_return": {
+      "stitches": [
+        {
+          "id": "ret_1",
+          "text": "La via di ritorno resta aperta. Lasciare Altacima non cancella l'accesso né completa contenuti non risolti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ret_descend",
+          "text": "Scendo verso i Monti Ferrox.",
+          "timeCostMinutes": 120,
+          "goto": "m05-mountain-approach#arrival_gate",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "fer_mountains"
+            }
+          ]
+        }
+      ]
+    },
+    "hub_services": {
+      "stitches": [
+        {
+          "id": "services_1",
+          "text": "Il pannello elenca clinica, logistica, Sala della Cresta, mercato, sala riscaldata, stazione meteo e strada per Fulgore. Gli orari e il meteo possono limitare singole funzioni."
+        }
+      ],
+      "choices": [
+        {
+          "id": "services_rest",
+          "text": "Segno anche la sala riscaldata come luogo dove aspettare.",
+          "goto": "rest_house"
+        },
+        {
+          "id": "services_enter",
+          "text": "Entro nel cuore della città.",
+          "goto": "town_hub",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "altacima_discovered",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        }
+      ]
+    },
+    "hub_state": {
+      "stitches": [
+        {
+          "id": "state_1",
+          "text": "Altacima collega circuito e ambiente: Rank B consente di essere qui, ma la prossima tratta dipende da una scelta informata su rischio, tempo e obiettivi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "state_back",
+          "text": "Torno alla piazza con queste informazioni.",
+          "goto": "town_hub",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
