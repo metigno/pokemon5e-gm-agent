@@ -96,7 +96,7 @@ test("move execution coverage has an explicit non-regression gate", async () => 
   const moves = await data.listMoves();
   const unresolved = moves.filter((move) => !isMoveResolvable(move)).map((move) => move.id);
 
-  assert.ok(unresolved.length <= 239, `unresolved move rules regressed to ${unresolved.length}`);
+  assert.ok(unresolved.length <= 229, `unresolved move rules regressed to ${unresolved.length}`);
   assert.ok(unresolved.includes("acupressure"));
   assert.ok(!unresolved.includes("heal-pulse"));
   assert.ok(!unresolved.includes("recover"));
