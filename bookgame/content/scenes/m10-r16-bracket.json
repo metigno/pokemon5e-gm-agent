@@ -1,0 +1,375 @@
+{
+  "schemaVersion": 1,
+  "id": "m10-r16-bracket",
+  "moduleId": "M10",
+  "title": "M10_00 — R16 Bracket",
+  "locationId": "world_knockout_hall",
+  "entryNodeId": "bracket_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.m9_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m10_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.world_group_advanced",
+        "eq": true
+      },
+      {
+        "path": "competition.world.top16Locked",
+        "eq": true
+      },
+      {
+        "path": "competition.world.groupStage.resolved",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "bracket_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il Top16 è già lockato da E5. M10 può soltanto trasformare quelle sedici qualificazioni reali negli incroci degli ottavi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "entry_rules",
+          "text": "Controllo le regole dell'eliminazione diretta.",
+          "goto": "bracket_rules"
+        },
+        {
+          "id": "entry_source",
+          "text": "Verifico da dove arrivano gli incroci.",
+          "goto": "pairing_source"
+        },
+        {
+          "id": "entry_top16",
+          "text": "Audito i sedici qualificati prima del lock.",
+          "goto": "top16_audit"
+        }
+      ]
+    },
+    "bracket_rules": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Gli ottavi sono single elimination: nessuna sconfitta viene cancellata e nessun avversario viene sostituito per creare un duello più interessante."
+        }
+      ],
+      "choices": [
+        {
+          "id": "rules_pairing",
+          "text": "Studio la logica degli incroci.",
+          "goto": "adjacent_groups"
+        },
+        {
+          "id": "rules_integrity",
+          "text": "Controllo i vincoli di integrità.",
+          "goto": "integrity"
+        }
+      ]
+    },
+    "pairing_source": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il bracket usa esclusivamente gruppo e posizione finale prodotti da WORLD_GROUPS. Il testo non sceglie nomi e non ripesca eliminati."
+        }
+      ],
+      "choices": [
+        {
+          "id": "source_groups",
+          "text": "Vedo come si incrociano i gruppi adiacenti.",
+          "goto": "adjacent_groups"
+        },
+        {
+          "id": "source_player",
+          "text": "Cerco il mio slot nel bracket.",
+          "goto": "player_slot"
+        }
+      ]
+    },
+    "top16_audit": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Ogni riga Top16 conserva participantId, gruppo e posizione. Se una di queste informazioni manca, E5 rifiuta di aprire WORLD_R16."
+        }
+      ],
+      "choices": [
+        {
+          "id": "audit_player",
+          "text": "Controllo che il player compaia una sola volta.",
+          "goto": "player_slot"
+        },
+        {
+          "id": "audit_integrity",
+          "text": "Passo all'audit finale.",
+          "goto": "integrity"
+        }
+      ]
+    },
+    "adjacent_groups": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Gli incroci sono strutturali: A1-B2, B1-A2, C1-D2, D1-C2 e così via fino a G/H. Questo rende il bracket riproducibile senza fanservice."
+        }
+      ],
+      "choices": [
+        {
+          "id": "groups_slot",
+          "text": "Applico lo schema al mio slot reale.",
+          "goto": "player_slot"
+        },
+        {
+          "id": "groups_schedule",
+          "text": "Guardo l'ordine operativo degli ottavi.",
+          "goto": "schedule"
+        }
+      ]
+    },
+    "player_slot": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il player occupa un solo match degli otto. Il suo avversario sarà il partecipante nell'altro lato dello stesso incrocio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "slot_opponent",
+          "text": "Apro la scheda dell'avversario derivato.",
+          "goto": "opponent_card"
+        },
+        {
+          "id": "slot_friend",
+          "text": "Controllo la policy sugli amici ancora vivi.",
+          "goto": "friend_policy"
+        }
+      ]
+    },
+    "opponent_card": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Finché E5 non effettua il commit del bracket non esiste un nome narrativo autorevole. Dopo il lock, la scheda legge lo stato strutturato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "opponent_callback",
+          "text": "Controllo eventuali precedenti senza cambiare pairing.",
+          "goto": "callback"
+        },
+        {
+          "id": "opponent_commit",
+          "text": "Vado verso il commit del bracket.",
+          "goto": "commit_guard"
+        }
+      ]
+    },
+    "callback": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Precedenti, rivalità e relazioni possono cambiare il tono dell'ottavo; non possono cambiare il lato del tabellone assegnato dai gruppi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "callback_friend",
+          "text": "Rileggo il caso di un amico.",
+          "goto": "friend_policy"
+        },
+        {
+          "id": "callback_anchor",
+          "text": "Rileggo il caso di un Anchor.",
+          "goto": "anchor_policy"
+        }
+      ]
+    },
+    "friend_policy": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se un membro dei Five è nel Top16, resta nel suo slot reale. Player vs Friend accade soltanto se gli incroci producono davvero quel match."
+        }
+      ],
+      "choices": [
+        {
+          "id": "friend_anchor",
+          "text": "Controllo anche gli Anchor.",
+          "goto": "anchor_policy"
+        },
+        {
+          "id": "friend_schedule",
+          "text": "Passo alla timeline degli ottavi.",
+          "goto": "schedule"
+        }
+      ]
+    },
+    "anchor_policy": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Silas, Rei, Astrid, Kaia e gli altri non hanno protezione dopo l'inizio del Mondiale. Possono essere nel Top16 oppure essere già fuori."
+        }
+      ],
+      "choices": [
+        {
+          "id": "anchor_schedule",
+          "text": "Controllo la plausibilità del venue.",
+          "goto": "schedule"
+        },
+        {
+          "id": "anchor_integrity",
+          "text": "Verifico che non esista plot armor nel lock.",
+          "goto": "integrity"
+        }
+      ]
+    },
+    "schedule": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il venue assegna una finestra agli otto match. Attendere può muovere il mondo, ma non può rigenerare i sedici qualificati o il pairing della stessa edizione."
+        }
+      ],
+      "choices": [
+        {
+          "id": "schedule_integrity",
+          "text": "Controllo cosa resta immutabile.",
+          "goto": "integrity"
+        },
+        {
+          "id": "schedule_commit",
+          "text": "Passo al commit guard.",
+          "goto": "commit_guard"
+        }
+      ]
+    },
+    "integrity": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il commit è valido solo con gruppi risolti, Top16=16 e player qualificato. E5 deve produrre otto match e un solo match del player."
+        }
+      ],
+      "choices": [
+        {
+          "id": "integrity_source",
+          "text": "Rivedo la source of truth.",
+          "goto": "pairing_source"
+        },
+        {
+          "id": "integrity_commit",
+          "text": "Procedo al commit guard.",
+          "goto": "commit_guard"
+        }
+      ]
+    },
+    "commit_guard": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Da qui E5 può aprire WORLD_R16 una sola volta. L'operazione non gioca nessun match: blocca soltanto bracket e avversario reale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "commit_open",
+          "text": "Locko il bracket R16 da E5.",
+          "goto": "bracket_locked",
+          "conditions": {
+            "path": "competition.world.knockout.opened",
+            "ne": true
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m10_active",
+              "value": true
+            },
+            {
+              "type": "competition_world_r16_open",
+              "eventId": "WORLD_R16"
+            },
+            {
+              "type": "set_flag",
+              "key": "m10_r16_bracket_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "commit_existing",
+          "text": "Il bracket è già lockato: leggo lo stato persistente.",
+          "goto": "bracket_locked",
+          "conditions": {
+            "path": "competition.world.knockout.opened",
+            "eq": true
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m10_r16_bracket_complete",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "commit_review",
+          "text": "Prima rivedo l'audit Top16.",
+          "goto": "top16_audit"
+        }
+      ]
+    },
+    "bracket_locked": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "WORLD_R16 è lockato. Il tuo avversario è {{competition.world.knockout.playerR16Opponent.name}} e il matchId appartiene allo stato E5, non alla scena."
+        }
+      ],
+      "choices": [
+        {
+          "id": "locked_handoff",
+          "text": "Passo al thread di Silas senza cambiare il bracket.",
+          "goto": "handoff"
+        },
+        {
+          "id": "locked_opponent",
+          "text": "Rileggo la scheda dell'avversario reale.",
+          "goto": "opponent_card"
+        }
+      ]
+    },
+    "handoff": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Il primo blocco è chiuso: il prossimo passo osserva Silas nel contesto del bracket e del venue effettivi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "handoff_silas",
+          "text": "Apro il thread di Silas.",
+          "goto": "m10-silas-thread#silas_entry"
+        },
+        {
+          "id": "handoff_review",
+          "text": "Rivedo il bracket lockato.",
+          "goto": "bracket_locked"
+        }
+      ]
+    }
+  }
+}
