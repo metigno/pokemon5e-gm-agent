@@ -231,8 +231,9 @@ export function applyWorldFriendBeatSelection(state, effect = {}) {
 
   const outputPrefix = effect.outputPrefix ?? "friend_beat_09";
   requireId(outputPrefix, "World FRIEND_BEAT outputPrefix");
-  const stateSuffix = outputPrefix
-    .split("_")
+  const prefixParts = outputPrefix.split("_");
+  const stateSuffix = prefixParts[0] + prefixParts
+    .slice(1)
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join("");
 
