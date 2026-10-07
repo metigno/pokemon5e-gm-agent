@@ -1,4 +1,28 @@
 import { isTrainerPath2024, trainerProgression2024 } from "../rules/trainer-2024.mjs";
+
+function abilityModifier(score) { return Math.floor((Number(score ?? 10) - 10) / 2); }
+function npcMaxHp(level, abilities) { return Math.max(1, 8 + Math.max(0, abilityModifier(abilities?.CON)) * Math.max(0, level - 1)); }
+function npcRuntimeFields(level, abilities = {}, state = {}) {
+  const maxHp = npcMaxHp(level, abilities);
+  return {
+    hp: structuredClone(state.hp ?? { current: maxHp, max: maxHp }),
+    ac: Number(state.ac ?? 10),
+    hitDice: structuredClone(state.hitDice ?? { die: "d6", current: level, max: level }),
+    skills: structuredClone(state.skills ?? []),
+    proficiencies: structuredClone(state.proficiencies ?? { skills: state.skills ?? [], expertise: [] }),
+    savingThrows: structuredClone(state.savingThrows ?? ["CHA"]),
+    equipment: structuredClone(state.equipment ?? []),
+    trainerGear: structuredClone(state.trainerGear ?? []),
+    inventory: structuredClone(state.inventory ?? []),
+    classResources: structuredClone(state.classResources ?? {}),
+    classFeatures: structuredClone(state.classFeatures ?? ["command-pokemon"]),
+    featureUsage: structuredClone(state.featureUsage ?? {}),
+    conditions: structuredClone(state.conditions ?? []),
+    persistentEffects: structuredClone(state.persistentEffects ?? []),
+    death: structuredClone(state.death ?? { state: "alive", deathSaveSuccesses: 0, deathSaveFailures: 0, stable: false }),
+    movement: structuredClone(state.movement ?? { walking: 30, climbing: 0, swimming: 0, flying: 0, burrowing: 0 })
+  };
+}
 import { ensureWorldClock } from "./time.mjs";
 
 export const RELATIONSHIP_STATES = ["Hostile", "Distrustful", "Neutral", "Friendly", "Loyal"];
@@ -70,11 +94,14 @@ export function createPersistentNpc({
     throw new RangeError("relationshipScore must be an integer from -100 to 100");
   }
   const trainerLevel = Number.isInteger(state.trainerLevel) ? state.trainerLevel : 1;
-  const trainer = createTrainerRulesState({
-    trainerLevel,
-    specializations: state.specializations ?? [],
-    trainerPath: state.trainerPath ?? null
-  });
+  const trainer = {
+    ...createTrainerRulesState({
+      trainerLevel,
+      specializations: state.specializations ?? [],
+      trainerPath: state.trainerPath ?? null
+    }),
+    ...npcRuntimeFields(trainerLevel, state.abilities ?? {}, state)
+  };
 
   return {
     id,

@@ -1,5 +1,6 @@
 import { abilityModifier } from "../../../src/bridge/motor-to-poke5e.mjs";
-import { CryptoDice, rollD20 } from "./dice.mjs";
+import { CryptoDice } from "./dice.mjs";
+import { resolveTrainerCheck } from "./trainer-rolls.mjs";
 import { evaluateCondition } from "./conditions.mjs";
 import { SceneRepository } from "./scene-repository.mjs";
 import { completeTrainerCreation, proficiencyBonus, touchState } from "./state.mjs";
@@ -125,17 +126,6 @@ function nodeText(node, state) {
   return interpolateStoryText(node.text, state);
 }
 
-function getCheckModifier(state, check) {
-  const score = state.player.abilities[check.ability];
-  if (!Number.isInteger(score)) throw new Error(`Unknown ability: ${check.ability}`);
-  let modifier = abilityModifier(score);
-
-  if (check.skill && state.player.skills.includes(check.skill)) {
-    modifier += proficiencyBonus(state.player.trainerLevel);
-  }
-
-  return modifier;
-}
 
 export class BookgameEngine {
   constructor({
@@ -295,9 +285,15 @@ export class BookgameEngine {
       historyEntry.toSceneId = target.sceneId;
       historyEntry.toNodeId = target.nodeId;
     } else if (choice.check) {
-      const modifier = getCheckModifier(next, choice.check);
-      const roll = rollD20(this.dice, modifier);
-      const passed = roll.total >= choice.check.dc;
+      const roll = resolveTrainerCheck(next, {
+        ability: choice.check.ability,
+        skill: choice.check.skill ?? null,
+        dc: choice.check.dc,
+        advantage: choice.check.advantage === true,
+        disadvantage: choice.check.disadvantage === true,
+        dice: this.dice
+      });
+      const passed = roll.passed;
       const outcomeKey = passed ? "success" : "failure";
       const outcome = choice.outcomes?.[outcomeKey];
       if (!outcome) throw new Error(`Choice ${choiceId} has no ${outcomeKey} outcome`);
