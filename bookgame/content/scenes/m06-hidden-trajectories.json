@@ -326,6 +326,11 @@
               "type": "set_flag",
               "key": "m6_hidden_trajectories_complete",
               "value": true
+            },
+            {
+              "type": "trainer_milestone_level",
+              "milestoneId": "M06_HIDDEN_TRAJECTORIES",
+              "level": 16
             }
           ]
         },
