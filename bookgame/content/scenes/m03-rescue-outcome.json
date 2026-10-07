@@ -38,7 +38,7 @@
         },
         {
           "id": "outcome_2",
-          "text": "Il rapporto distingue tre cose: esito umano, danno strutturale e responsabilità. Il tuo contributo può aver cambiato il margine, ma non ti rende automaticamente responsabile dell'intero incidente."
+          "text": "Il documento separa il bilancio delle persone dai danni alla galleria e dalle cause individuate dalla commissione. In una sezione a parte compaiono anche i contributi delle squadre e dei volontari presenti."
         }
       ],
       "choices": [
@@ -108,7 +108,7 @@
       "choices": [
         {
           "id": "balanced_register",
-          "text": "Registro il bilancio verificato.",
+          "text": "Prendo nota del bilancio verificato.",
           "goto": "responsibility_review",
           "effects": [
             {
@@ -149,7 +149,7 @@
       "choices": [
         {
           "id": "evac_register",
-          "text": "Registro persone in salvo e danno strutturale elevato.",
+          "text": "Prendo nota: persone in salvo, danni strutturali più estesi.",
           "goto": "responsibility_review",
           "effects": [
             {
@@ -190,7 +190,7 @@
       "choices": [
         {
           "id": "stable_register",
-          "text": "Registro il recupero ritardato ma stabile.",
+          "text": "Prendo nota del recupero e delle condizioni del ramo.",
           "goto": "responsibility_review",
           "effects": [
             {
@@ -227,7 +227,7 @@
       "choices": [
         {
           "id": "support_register",
-          "text": "Registro un contributo utile ma limitato.",
+          "text": "Prendo nota del contributo logistico e del bilancio.",
           "goto": "responsibility_review",
           "effects": [
             {
@@ -271,7 +271,7 @@
       "choices": [
         {
           "id": "missed_register",
-          "text": "Registro il bilancio senza riscrivere il mio ruolo.",
+          "text": "Prendo atto del bilancio e del fatto che sono arrivato tardi.",
           "goto": "responsibility_review",
           "effects": [
             {
@@ -309,13 +309,13 @@
       "stitches": [
         {
           "id": "declined_1",
-          "text": "Hai scelto di non partecipare. Le squadre Ferrox hanno comunque recuperato tutti, ma con feriti e danni estesi. Il rapporto non ti attribuisce colpa legale; la tua storia registra però che avevi una finestra e l'hai lasciata ad altri."
+          "text": "Hai scelto di non partecipare. Le squadre Ferrox hanno comunque recuperato tutti, ma con feriti e danni estesi. Nel registro degli interventi il tuo nome non compare tra chi è entrato nel perimetro."
         }
       ],
       "choices": [
         {
           "id": "declined_register",
-          "text": "Registro il bilancio e la mia non-partecipazione.",
+          "text": "Prendo atto del bilancio e della mia non-partecipazione.",
           "goto": "responsibility_review",
           "effects": [
             {
@@ -416,7 +416,7 @@
       "stitches": [
         {
           "id": "personal_1",
-          "text": "Responsabilità personale e responsabilità dell'incidente non sono la stessa cosa. Puoi riconoscere una scelta tardiva o un rifiuto senza trasformarti nel colpevole tecnico del cedimento."
+          "text": "Nel rapporto le cause del cedimento occupano pagine diverse dal registro degli interventi. Arrivare tardi o scegliere di non entrare descrive ciò che hai fatto tu; non basta, da solo, a spiegare perché la galleria abbia ceduto."
         }
       ],
       "choices": [
@@ -450,17 +450,17 @@
       "stitches": [
         {
           "id": "resp_1",
-          "text": "La commissione tecnica individua una catena, non un singolo colpevole: cartografia incompleta, cicli di manutenzione rinviati entro margini formali, pressione produttiva e vulnerabilità del ramo vecchio si sono sovrapposti."
+          "text": "La commissione tecnica ricostruisce una catena: cartografia incompleta, manutenzioni rinviate pur restando entro i margini previsti, maggiore pressione produttiva e vulnerabilità del ramo vecchio si sono sovrapposte."
         },
         {
           "id": "resp_2",
-          "text": "Il tuo rapporto personale può aver accelerato informazioni o soccorso, ma la responsabilità sistemica resta distinta dal tuo comportamento sul campo."
+          "text": "Le comunicazioni del soccorso mostrano dove informazioni tempestive hanno fatto guadagnare minuti. Le cause tecniche del cedimento, però, restano quelle indicate nelle pagine precedenti."
         }
       ],
       "choices": [
         {
           "id": "resp_systemic",
-          "text": "Registro la responsabilità come sistemica e condivisa.",
+          "text": "Condivido la conclusione della commissione: le cause si sono sovrapposte.",
           "goto": "reputation_review",
           "effects": [
             {
@@ -658,7 +658,7 @@
       "stitches": [
         {
           "id": "people_detail_1",
-          "text": "Il rapporto sanitario distingue recuperati, feriti non critici e tempi di esposizione. Non usa il linguaggio di 'vittime' per creare gravità artificiale: registra soltanto ciò che è stato verificato."
+          "text": "Il rapporto sanitario elenca persone recuperate, ferite non critiche e tempi di esposizione. Ogni voce è accompagnata dall'orario in cui la squadra medica l'ha verificata."
         }
       ],
       "choices": [
@@ -669,7 +669,7 @@
         },
         {
           "id": "people_detail_record",
-          "text": "Segno che il bilancio umano è verificato.",
+          "text": "Tengo a mente il bilancio sanitario verificato.",
           "goto": "responsibility_review",
           "effects": [
             {
@@ -716,7 +716,7 @@
       "choices": [
         {
           "id": "access_register",
-          "text": "Registro la limitazione futura.",
+          "text": "Tengo conto della chiusura del ramo nord.",
           "goto": "responsibility_review",
           "effects": [
             {
@@ -737,13 +737,13 @@
       "stitches": [
         {
           "id": "worker_debrief_1",
-          "text": "Gli operai non parlano con una voce unica. Alcuni vedono il problema nei rinvii, altri nel carico produttivo, altri ancora nella vecchia geometria della galleria. La pluralità resta nel report."
+          "text": "Fuori dal cambio turno gli operai non danno tutti la stessa spiegazione. «Troppi rinvii», dice uno. Un altro indica il volume dei carichi. Un terzo torna alle vecchie gallerie. Nel verbale compaiono tutte e tre le testimonianze."
         }
       ],
       "choices": [
         {
           "id": "worker_debrief_pressure",
-          "text": "Registro che il tema della pressione produttiva è ricorrente.",
+          "text": "Tengo conto di quanto spesso gli operai citano la pressione produttiva.",
           "goto": "responsibility_review",
           "effects": [
             {
@@ -755,7 +755,7 @@
         },
         {
           "id": "worker_debrief_mixed",
-          "text": "Registro un quadro misto senza forzare una causa sola.",
+          "text": "Tengo aperte le diverse spiegazioni riportate dagli operai.",
           "goto": "responsibility_review",
           "effects": [
             {
@@ -807,13 +807,13 @@
       "stitches": [
         {
           "id": "counterfactual_1",
-          "text": "Il rapporto evita il controfattuale facile: non può dimostrare che una singola scelta diversa avrebbe cancellato l'incidente. Può soltanto mostrare quali margini sono stati consumati prima e durante il soccorso."
+          "text": "La commissione non scrive che una singola decisione diversa avrebbe impedito tutto. Indica invece dove, prima e durante il soccorso, i margini di sicurezza si sono progressivamente ridotti."
         }
       ],
       "choices": [
         {
           "id": "counterfactual_accept",
-          "text": "Registro il limite del controfattuale.",
+          "text": "Accetto che il rapporto non possa dimostrare quel controfattuale.",
           "goto": "responsibility_review",
           "effects": [
             {
@@ -834,13 +834,13 @@
       "stitches": [
         {
           "id": "economy_1",
-          "text": "La chiusura del ramo nord rallenta turni e trasporto materiali. Ferravia assorbe il colpo, ma il costo esiste anche senza trasformarsi in una penalità monetaria automatica al player."
+          "text": "Con il ramo nord chiuso, alcuni carichi aspettano più a lungo e altri vengono spostati su tratte diverse. Nei bar vicino alla stazione gli operai parlano già di turni modificati e consegne rimandate."
         }
       ],
       "choices": [
         {
           "id": "economy_register",
-          "text": "Registro la conseguenza economica locale.",
+          "text": "Tengo conto anche delle conseguenze sui turni e sui trasporti.",
           "goto": "reputation_review",
           "effects": [
             {
@@ -872,7 +872,7 @@
       "choices": [
         {
           "id": "rail_record",
-          "text": "Registro la deviazione come conseguenza del danno.",
+          "text": "Prendo nota delle deviazioni dei convogli di servizio.",
           "goto": "reputation_review",
           "effects": [
             {
@@ -893,13 +893,13 @@
       "stitches": [
         {
           "id": "inspection_1",
-          "text": "Il rapporto impone una revisione tecnica successiva prima della piena riapertura. È un gancio futuro autorizzato dallo stato, non una promessa che il player debba per forza seguirlo."
+          "text": "Prima di riaprire completamente il ramo nord serviranno nuove misurazioni, un controllo delle paratie e una revisione della cartografia. Le date non sono ancora fissate."
         }
       ],
       "choices": [
         {
           "id": "inspection_record",
-          "text": "Registro la revisione futura.",
+          "text": "Tengo a mente le verifiche necessarie prima della riapertura.",
           "goto": "reputation_review",
           "effects": [
             {
