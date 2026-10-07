@@ -42,7 +42,7 @@
       "stitches": [
         {
           "id": "friend_call_1",
-          "text": "Uno degli altri Five ti contatta mentre Ferravia continua a muoversi intorno a te. È quello che, tra viaggi e impegni del Circuito, riesce davvero a raggiungerti in questo momento."
+          "text": "Il Pokégear vibra mentre Ferravia continua a muoversi intorno a te. Sullo schermo compare il nome di uno degli altri Five."
         }
       ],
       "choices": [
@@ -97,7 +97,7 @@
       "stitches": [
         {
           "id": "luke_root_text",
-          "text": "Luke chiama da una tratta più lunga del circuito. Il suo percorso non si è riavvolto per incontrarti: se è a Ferravia, lo è perché la schedule lo permette; altrimenti il contatto resta remoto."
+          "text": "Luke ti chiama con rumore di strada alle spalle. «Oh, finalmente. Dimmi che il Rank D non ti ha già fatto diventare una persona seria.»"
         }
       ],
       "choices": [
@@ -171,7 +171,7 @@
       "stitches": [
         {
           "id": "luke_physical_text",
-          "text": "Luke guarda per un momento la strada alle tue spalle. «Allora? Hai capito quali rischi sono veri o stai ancora litigando con ogni cartello che incontri?» Il tono è quello di sempre: provocatorio abbastanza da farti capire che la domanda gli interessa davvero."
+          "text": "Luke ti squadra appena arrivi. «Allora? Tutta questa storia di gallerie ti ha insegnato a scegliere i rischi o continui a buttarti contro tutto quello che ti guarda male?» Fa una pausa. «Non rispondere. So già che potrei fare la stessa cosa.»"
         }
       ],
       "choices": [
@@ -260,13 +260,13 @@
       "stitches": [
         {
           "id": "luke_rescue_text",
-          "text": "Quando racconti Ferrox, Luke torna sulla sequenza: cosa sapevi prima, quando hai deciso di entrare, quando hai smesso. Per lui il punto è se il percorso ha cambiato la tua lettura del rischio."
+          "text": "Quando racconti Ferrox, Luke smette di scherzare abbastanza da seguire la sequenza: cosa avevi visto, quando sei entrato e perché a un certo punto hai continuato oppure ti sei fermato. «La parte difficile non è entrare. È capire quando la testardaggine sta ancora servendo a qualcosa.»"
         }
       ],
       "choices": [
         {
           "id": "luke_rescue_honest",
-          "text": "Descrivo anche ciò che non so ancora dell'outcome.",
+          "text": "Racconto anche quello che ancora non so su come sia finita.",
           "goto": "friend_beat_close",
           "effects": [
             {
@@ -310,13 +310,13 @@
       "stitches": [
         {
           "id": "luke_competition_text",
-          "text": "Sul circuito è pragmatico: salire di Rank apre strade, ma non rende automaticamente migliore ogni decisione fatta per arrivarci."
+          "text": "«Rank C o no, io non cambio squadra solo perché qualcuno mi dice che esiste una scelta più comoda.» Luke sbuffa. «Semmai trovo il modo di far funzionare meglio quelli che voglio io. Il punto è arrivarci senza raccontarsi balle.»"
         }
       ],
       "choices": [
         {
           "id": "luke_competition_compare",
-          "text": "Confrontiamo come stiamo preparando il prossimo step.",
+          "text": "Confrontiamo come stiamo preparando il Trial.",
           "timeCostMinutes": 10,
           "goto": "friend_beat_close",
           "effects": [
@@ -355,7 +355,7 @@
       "stitches": [
         {
           "id": "luke_personal_result_text",
-          "text": "Luke ti prende in giro ancora una volta prima di salutarvi. Quando la comunicazione si chiude, la conversazione resta tra voi senza bisogno di premi o annunci."
+          "text": "Luke ti prende in giro un'ultima volta. «Va bene, questa te la concedo. Ma se al prossimo incontro mi fai un discorso maturo, nego tutto.»"
         }
       ],
       "choices": [
@@ -378,7 +378,7 @@
       "stitches": [
         {
           "id": "mattew_root_text",
-          "text": "Mattew apre il contatto con il tono di chi ha già una sessione di allenamento in testa. Il suo vecchio focus sul Promotion Trial non è sparito; si è trasformato in metodo competitivo."
+          "text": "Mattew risponde quasi subito. Dietro di lui senti richiami scanditi e il colpo secco di una mossa contro un bersaglio d'allenamento. «Hai cinque minuti? Sto facendo ripetere la stessa sequenza finché non smette di essere fortuna.»"
         }
       ],
       "choices": [
@@ -452,7 +452,7 @@
       "stitches": [
         {
           "id": "mattew_physical_text",
-          "text": "Mattew confronta preparazione, ritmo e capacità di non sprecare tentativi. Non chiede dettagli che non hai; vuole capire cosa stai facendo diversamente da quando eravate Rank F. Essere nello stesso posto cambia il ritmo della conversazione: potete leggere reazioni e silenzi senza ridurre tutto a un messaggio."
+          "text": "Mattew arriva ancora con l'aria di chi stava allenandosi fino a un minuto prima. «Fammi indovinare: hai improvvisato qualcosa, ha quasi funzionato e adesso vuoi chiamarla strategia.» Il sorriso dura poco; poi ti chiede cosa hai davvero cambiato nel modo di preparare la squadra."
         }
       ],
       "choices": [
@@ -496,7 +496,7 @@
       "stitches": [
         {
           "id": "mattew_remote_text",
-          "text": "Mattew confronta preparazione, ritmo e capacità di non sprecare tentativi. Non chiede dettagli che non hai; vuole capire cosa stai facendo diversamente da quando eravate Rank F. La distanza resta reale: non potete trasformare la chiamata in un incontro fisico se la schedule non lo permette."
+          "text": "«Non dirmi solo com'è andata. Dimmi cosa avevi preparato prima.» Mattew torna sempre lì: allenamento, ripetizione, cosa un Pokémon sa fare sotto pressione perché l'ha imparato davvero e cosa invece è uscito bene una volta sola."
         }
       ],
       "choices": [
@@ -541,13 +541,13 @@
       "stitches": [
         {
           "id": "mattew_rescue_text",
-          "text": "Su Ferrox evita la retorica. «Hai avuto una finestra, hai scelto un piano, poi hai dovuto vivere con il risultato. Non è così diverso da un match, solo che qui il costo non è un record.»"
+          "text": "Mattew ascolta Ferrox senza trasformarla in una gara. «In allenamento puoi ripetere una sequenza finché viene bene. Lì dentro no. È proprio per quello che prepari prima le cose semplici: richiami, tempi, chi segue chi.»"
         }
       ],
       "choices": [
         {
           "id": "mattew_rescue_honest",
-          "text": "Descrivo anche ciò che non so ancora dell'outcome.",
+          "text": "Racconto anche quello che ancora non so su come sia finita.",
           "goto": "friend_beat_close",
           "effects": [
             {
@@ -591,13 +591,13 @@
       "stitches": [
         {
           "id": "mattew_competition_text",
-          "text": "Quando parlate del Trial D→C, Mattew insiste sul roster reale e sul fatto che perdere un tentativo non deve cancellare il resto del percorso."
+          "text": "«Tre Pokémon?» Mattew sembra quasi contento del limite. «Perfetto. Meno spazio per nascondersi. Devi sapere perché ognuno è lì, cosa copre e cosa fai quando il piano uno salta.»"
         }
       ],
       "choices": [
         {
           "id": "mattew_competition_compare",
-          "text": "Confrontiamo come stiamo preparando il prossimo step.",
+          "text": "Confrontiamo come stiamo preparando il Trial.",
           "timeCostMinutes": 10,
           "goto": "friend_beat_close",
           "effects": [
@@ -659,7 +659,7 @@
       "stitches": [
         {
           "id": "daniel_root_text",
-          "text": "Daniel risponde fra un incarico logistico e l'altro. Il suo modo di leggere il mondo è rimasto concreto: tempi, persone, passaggi e chi deve sapere cosa prima che un problema diventi di tutti."
+          "text": "Daniel risponde con un «Dimmi» educato e immediato. Aspetta che tu finisca prima di fare la prima domanda; quando la fa, è precisa."
         }
       ],
       "choices": [
@@ -733,7 +733,7 @@
       "stitches": [
         {
           "id": "daniel_physical_text",
-          "text": "Daniel ti racconta cosa ha imparato dai contratti: quasi nessuna crisi nasce da una sola decisione. Di solito è una catena di piccoli ritardi che nessuno considera importante da sola. Essere nello stesso posto cambia il ritmo della conversazione: potete leggere reazioni e silenzi senza ridurre tutto a un messaggio."
+          "text": "Daniel ti lascia raccontare senza interromperti, poi incrocia le braccia. «Una cosa non mi torna. Se una regola di sicurezza esiste perché qualcuno può farsi male, il fatto che rispettarla rallenti il lavoro non la rende meno importante.» Il tono resta calmo, ma su questo non tratta."
         }
       ],
       "choices": [
@@ -777,7 +777,7 @@
       "stitches": [
         {
           "id": "daniel_remote_text",
-          "text": "Daniel ti racconta cosa ha imparato dai contratti: quasi nessuna crisi nasce da una sola decisione. Di solito è una catena di piccoli ritardi che nessuno considera importante da sola. La distanza resta reale: non potete trasformare la chiamata in un incontro fisico se la schedule non lo permette."
+          "text": "Daniel ascolta tutta la sequenza prima di rispondere. «Capisco il ritardo, capisco la pressione. Quello che non accetto è usare entrambe le cose come scusa dopo.» Per lui responsabilità e circostanze possono convivere, ma non cancellarsi."
         }
       ],
       "choices": [
@@ -822,13 +822,13 @@
       "stitches": [
         {
           "id": "daniel_rescue_text",
-          "text": "Ferrox lo interessa per il flusso delle informazioni. Ti chiede chi sapeva della mappa, chi sapeva dei turni e quanto tempo è passato fra il primo segnale e il dispaccio."
+          "text": "Su Ferrox Daniel vuole sapere chi aveva responsabilità su cosa e quali informazioni erano disponibili quando sono state prese le decisioni. Non cerca un colpevole rapido. «Prima separiamo quello che sappiamo da quello che sarebbe comodo credere.»"
         }
       ],
       "choices": [
         {
           "id": "daniel_rescue_honest",
-          "text": "Descrivo anche ciò che non so ancora dell'outcome.",
+          "text": "Racconto anche quello che ancora non so su come sia finita.",
           "goto": "friend_beat_close",
           "effects": [
             {
@@ -872,13 +872,13 @@
       "stitches": [
         {
           "id": "daniel_competition_text",
-          "text": "Sul circuito Daniel non finge di essere meno competitivo degli altri, ma considera i match una parte del calendario, non l'unico motivo per cui il calendario esiste."
+          "text": "«Voglio vincere anch'io.» Daniel lo dice senza imbarazzo. «Ma se per passare un Trial devo trattare i miei Pokémon come pezzi sostituibili, allora sto preparando male il Trial. Non è un problema loro.»"
         }
       ],
       "choices": [
         {
           "id": "daniel_competition_compare",
-          "text": "Confrontiamo come stiamo preparando il prossimo step.",
+          "text": "Confrontiamo come stiamo preparando il Trial.",
           "timeCostMinutes": 10,
           "goto": "friend_beat_close",
           "effects": [
@@ -940,7 +940,7 @@
       "stitches": [
         {
           "id": "edward_root_text",
-          "text": "Edward risponde da un ambiente aperto, con rumore di vento e terreno sotto i passi. Il suo allenamento sul campo gli ha dato l'abitudine di leggere prima il posto e poi la sfida."
+          "text": "Edward risponde con vento nel microfono. «Aspetta.» Si sente un richiamo rivolto a uno dei suoi Pokémon, poi torna da te. «Okay. Adesso posso fingere che la tua giornata sia più interessante della mia.»"
         }
       ],
       "choices": [
@@ -1014,7 +1014,7 @@
       "stitches": [
         {
           "id": "edward_physical_text",
-          "text": "Edward parla di come la squadra reagisce ai terreni diversi e di quanto spesso la soluzione più forte non sia quella più veloce. Non trasforma ogni problema in combattimento. Essere nello stesso posto cambia il ritmo della conversazione: potete leggere reazioni e silenzi senza ridurre tutto a un messaggio."
+          "text": "Edward ti squadra, poi guarda la tua squadra prima ancora di chiederti del resto. «Dimmi che non hai passato tutto questo tempo in una città di ferro senza vedere almeno una cosa bella.» Sorride. «E sì, un Pokémon che sfonda qualcosa conta.»"
         }
       ],
       "choices": [
@@ -1058,7 +1058,7 @@
       "stitches": [
         {
           "id": "edward_remote_text",
-          "text": "Edward parla di come la squadra reagisce ai terreni diversi e di quanto spesso la soluzione più forte non sia quella più veloce. Non trasforma ogni problema in combattimento. La distanza resta reale: non potete trasformare la chiamata in un incontro fisico se la schedule non lo permette."
+          "text": "Edward ascolta, commenta due volte la parte più pericolosa e una volta soltanto quella prudente. «Non sto dicendo che dovevi fare il matto. Sto dicendo che, se devi prendere un rischio, almeno prendine uno che abbia senso per la tua squadra.»"
         }
       ],
       "choices": [
@@ -1103,13 +1103,13 @@
       "stitches": [
         {
           "id": "edward_rescue_text",
-          "text": "Quando gli descrivi Ferrox, si concentra su aria, spazio e vie di fuga. «Se il posto ti dice di rallentare, correre più forte non lo rende meno pericoloso.»"
+          "text": "Quando descrivi Ferrox, Edward si fa più serio. «Spazio stretto, aria pessima, vie d'uscita limitate... lì non vince chi fa più rumore.» Poi aggiunge: «Che è una frase terribile, quindi non ripeterla quando mi vedi combattere.»"
         }
       ],
       "choices": [
         {
           "id": "edward_rescue_honest",
-          "text": "Descrivo anche ciò che non so ancora dell'outcome.",
+          "text": "Racconto anche quello che ancora non so su come sia finita.",
           "goto": "friend_beat_close",
           "effects": [
             {
@@ -1153,13 +1153,13 @@
       "stitches": [
         {
           "id": "edward_competition_text",
-          "text": "Sul Trial D→C ragiona in termini di adattamento: tre Pokémon ufficiali significano anche scegliere cosa lasciare fuori, non soltanto cosa portare."
+          "text": "«Tre posti sono pochi.» Edward non sembra turbato. «Meglio. Porto quelli con cui voglio vincere, non quelli che fanno più bella una tabella. Se qualcuno non capisce la scelta, può guardare il match.»"
         }
       ],
       "choices": [
         {
           "id": "edward_competition_compare",
-          "text": "Confrontiamo come stiamo preparando il prossimo step.",
+          "text": "Confrontiamo come stiamo preparando il Trial.",
           "timeCostMinutes": 10,
           "goto": "friend_beat_close",
           "effects": [
@@ -1221,7 +1221,7 @@
       "stitches": [
         {
           "id": "fab_root_text",
-          "text": "Fab entra nel contatto senza preamboli. La rotta Ranger le ha lasciato un modo asciutto di parlare di rischio: chi è sul posto, chi ha autorità, chi può peggiorare la situazione anche con buone intenzioni."
+          "text": "Fab risponde dopo qualche squillo. «Oh. Sei vivo.» Una pausa breve. «Bene, perché stavo per dover fingere di sapere cosa si fa in questi casi.»"
         }
       ],
       "choices": [
@@ -1295,7 +1295,7 @@
       "stitches": [
         {
           "id": "fab_physical_text",
-          "text": "Fab ti aggiorna sul proprio percorso senza farne un racconto eroico. Per lei essere utile significa spesso non occupare lo spazio di chi ha competenza migliore. Essere nello stesso posto cambia il ritmo della conversazione: potete leggere reazioni e silenzi senza ridurre tutto a un messaggio."
+          "text": "Fab arriva senza l'aria di chi abbia preparato un discorso. Ti chiede prima come stanno i Pokémon, poi come stai gestendo il resto. «Io continuo a pensare che metà dei problemi diventino più facili quando smettiamo di comportarci come se dovessimo avere sempre la risposta giusta.»"
         }
       ],
       "choices": [
@@ -1339,7 +1339,7 @@
       "stitches": [
         {
           "id": "fab_remote_text",
-          "text": "Fab ti aggiorna sul proprio percorso senza farne un racconto eroico. Per lei essere utile significa spesso non occupare lo spazio di chi ha competenza migliore. La distanza resta reale: non potete trasformare la chiamata in un incontro fisico se la schedule non lo permette."
+          "text": "Fab ascolta e ogni tanto interrompe con una domanda molto più semplice delle tue spiegazioni. «Okay, ma i tuoi Pokémon come l'hanno presa?» Quando provi ad allargare il discorso, ride. «No, davvero. Partiamo da quello.»"
         }
       ],
       "choices": [
@@ -1384,13 +1384,13 @@
       "stitches": [
         {
           "id": "fab_rescue_text",
-          "text": "Ferrox le interessa subito. Ti chiede se il perimetro aveva regole chiare e se le hai rispettate. La differenza fra intervento e intralcio, dice, è spesso una singola decisione."
+          "text": "Ferrox gli strappa qualche secondo di silenzio. «Se c'erano persone che sapevano fare quel lavoro meglio di te, spero che tu le abbia lasciate fare.» Poi alleggerisce subito: «Io probabilmente sarei stato quello utile a portare acqua. E mi sarebbe andato benissimo.»"
         }
       ],
       "choices": [
         {
           "id": "fab_rescue_honest",
-          "text": "Descrivo anche ciò che non so ancora dell'outcome.",
+          "text": "Racconto anche quello che ancora non so su come sia finita.",
           "goto": "friend_beat_close",
           "effects": [
             {
@@ -1434,13 +1434,13 @@
       "stitches": [
         {
           "id": "fab_competition_text",
-          "text": "Sulla competizione non è disinteressata: semplicemente rifiuta l'idea che una coppa o un Rank possano assorbire ogni altra priorità del mondo."
+          "text": "«Certo che voglio vincere.» Fab ride. «Solo che non ho intenzione di trasformare i miei Pokémon in un progetto aziendale per farlo. Arriviamo, facciamo il nostro e vediamo chi resta in piedi.»"
         }
       ],
       "choices": [
         {
           "id": "fab_competition_compare",
-          "text": "Confrontiamo come stiamo preparando il prossimo step.",
+          "text": "Confrontiamo come stiamo preparando il Trial.",
           "timeCostMinutes": 10,
           "goto": "friend_beat_close",
           "effects": [
@@ -1502,7 +1502,7 @@
       "stitches": [
         {
           "id": "friend_beat_close_1",
-          "text": "Il terzo beat con uno degli altri Five si chiude senza congelare la sua carriera. Il contatto registra chi era, che tipo di interazione avete avuto e quale contesto avete condiviso."
+          "text": "La conversazione finisce come finiscono spesso quelle tra voi: senza una conclusione perfetta. Dall'altra parte restano allenamenti, viaggi e impegni; dalla tua, Ferravia continua a fare rumore."
         }
       ],
       "choices": [
