@@ -54,6 +54,7 @@ export function createPersistentNpc({
     id,
     name,
     trainer,
+    abilities: structuredClone(state.abilities ?? {}),
     relationship: {
       score: relationshipScore,
       qualitative: relationshipStateForScore(relationshipScore)
