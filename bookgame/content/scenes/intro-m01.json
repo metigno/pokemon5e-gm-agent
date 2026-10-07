@@ -8,39 +8,305 @@
   "nodes": {
     "trainer_specialization": {
       "stitches": [
-        {"id":"trainer_identity","text":"La licenza davanti a te non definisce che tipo di persona devi essere. Registra però come hai imparato a lavorare con i Pokémon: è la tua Specialization iniziale da Trainer."},
-        {"id":"trainer_rules","text":"Sei un Trainer di livello 1. Il Trainer Path non viene scelto qui: arriverà con la progressione prevista dalle regole Pokémon 5e."}
+        {
+          "id": "trainer_identity",
+          "text": "La licenza davanti a te non definisce che tipo di persona devi essere. Registra però come hai imparato a lavorare con i Pokémon: è la tua Specialization iniziale da Trainer."
+        },
+        {
+          "id": "trainer_rules",
+          "text": "Sei un Trainer di livello 1. Il Trainer Path non viene scelto qui: arriverà con la progressione prevista dalle regole Pokémon 5e."
+        }
       ],
       "choices": [
-        {"id":"specialization_fire","text":"Specialization: Fire.","effects":[{"type":"trainer_specialization","specialization":"Fire"}],"goto":"tutorial_choice"},
-        {"id":"specialization_water","text":"Specialization: Water.","effects":[{"type":"trainer_specialization","specialization":"Water"}],"goto":"tutorial_choice"},
-        {"id":"specialization_grass","text":"Specialization: Grass.","effects":[{"type":"trainer_specialization","specialization":"Grass"}],"goto":"tutorial_choice"},
-        {"id":"specialization_normal","text":"Specialization: Normal.","effects":[{"type":"trainer_specialization","specialization":"Normal"}],"goto":"tutorial_choice"}
+        {
+          "id": "specialization_normal",
+          "text": "Poké Fan (Normal)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "normal"
+            }
+          ],
+          "goto": "tutorial_choice"
+        },
+        {
+          "id": "specialization_fighting",
+          "text": "Black Belt (Fighting)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "fighting"
+            }
+          ],
+          "goto": "tutorial_choice"
+        },
+        {
+          "id": "specialization_flying",
+          "text": "Bird Keeper (Flying)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "flying"
+            }
+          ],
+          "goto": "tutorial_choice"
+        },
+        {
+          "id": "specialization_poison",
+          "text": "Punk (Poison)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "poison"
+            }
+          ],
+          "goto": "tutorial_choice"
+        },
+        {
+          "id": "specialization_ground",
+          "text": "Camper (Ground)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "ground"
+            }
+          ],
+          "goto": "tutorial_choice"
+        },
+        {
+          "id": "specialization_rock",
+          "text": "Hiker (Rock)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "rock"
+            }
+          ],
+          "goto": "tutorial_choice"
+        },
+        {
+          "id": "specialization_bug",
+          "text": "Bug Maniac (Bug)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "bug"
+            }
+          ],
+          "goto": "tutorial_choice"
+        },
+        {
+          "id": "specialization_ghost",
+          "text": "Mystic (Ghost)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "ghost"
+            }
+          ],
+          "goto": "tutorial_choice"
+        },
+        {
+          "id": "specialization_steel",
+          "text": "Worker (Steel)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "steel"
+            }
+          ],
+          "goto": "tutorial_choice"
+        },
+        {
+          "id": "specialization_fire",
+          "text": "Kindler (Fire)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "fire"
+            }
+          ],
+          "goto": "tutorial_choice"
+        },
+        {
+          "id": "specialization_water",
+          "text": "Swimmer (Water)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "water"
+            }
+          ],
+          "goto": "tutorial_choice"
+        },
+        {
+          "id": "specialization_grass",
+          "text": "Gardener (Grass)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "grass"
+            }
+          ],
+          "goto": "tutorial_choice"
+        },
+        {
+          "id": "specialization_electric",
+          "text": "Engineer (Electric)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "electric"
+            }
+          ],
+          "goto": "tutorial_choice"
+        },
+        {
+          "id": "specialization_psychic",
+          "text": "Psychic (Psychic)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "psychic"
+            }
+          ],
+          "goto": "tutorial_choice"
+        },
+        {
+          "id": "specialization_ice",
+          "text": "Skier (Ice)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "ice"
+            }
+          ],
+          "goto": "tutorial_choice"
+        },
+        {
+          "id": "specialization_dragon",
+          "text": "Dragon Tamer (Dragon)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "dragon"
+            }
+          ],
+          "goto": "tutorial_choice"
+        },
+        {
+          "id": "specialization_dark",
+          "text": "Delinquent (Dark)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "dark"
+            }
+          ],
+          "goto": "tutorial_choice"
+        },
+        {
+          "id": "specialization_fairy",
+          "text": "Actor (Fairy)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "fairy"
+            }
+          ],
+          "goto": "tutorial_choice"
+        }
       ]
     },
     "tutorial_choice": {
-      "stitches":[
-        {"id":"sheet_ready","text":"La licenza viene registrata. Prima di uscire dal Campus puoi completare il briefing guidato oppure dichiarare di conoscerne già le basi."}
+      "stitches": [
+        {
+          "id": "sheet_ready",
+          "text": "La licenza viene registrata. Prima di uscire dal Campus puoi completare il briefing guidato oppure dichiarare di conoscerne già le basi."
+        }
       ],
-      "choices":[
-        {"id":"play_tutorial","text":"Faccio il briefing guidato.","effects":[{"type":"set_flag","key":"tutorial_skipped","value":false}],"goto":"tutorial_rules"},
-        {"id":"skip_tutorial","text":"Salto volontariamente il briefing.","effects":[{"type":"set_flag","key":"tutorial_skipped","value":true}],"goto":"release"}
+      "choices": [
+        {
+          "id": "play_tutorial",
+          "text": "Faccio il briefing guidato.",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "tutorial_skipped",
+              "value": false
+            }
+          ],
+          "goto": "tutorial_rules"
+        },
+        {
+          "id": "skip_tutorial",
+          "text": "Salto volontariamente il briefing.",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "tutorial_skipped",
+              "value": true
+            }
+          ],
+          "goto": "release"
+        }
       ]
     },
     "tutorial_rules": {
-      "stitches":[
-        {"id":"checks","text":"Quando una scelta richiede una prova, il runtime usa caratteristiche, competenze e dadi del Trainer: la narrazione non decide il risultato al posto delle regole."},
-        {"id":"combat","text":"Negli scontri, iniziativa, azioni, movimento, PP, condizioni, cattura e conseguenze appartengono al motore Pokémon 5e."},
-        {"id":"world","text":"Il tempo passa davvero. Persone, fauna, lavori e opportunità possono cambiare anche quando scegli di occuparti d'altro."}
+      "stitches": [
+        {
+          "id": "checks",
+          "text": "Quando una scelta richiede una prova, il runtime usa caratteristiche, competenze e dadi del Trainer: la narrazione non decide il risultato al posto delle regole."
+        },
+        {
+          "id": "combat",
+          "text": "Negli scontri, iniziativa, azioni, movimento, PP, condizioni, cattura e conseguenze appartengono al motore Pokémon 5e."
+        },
+        {
+          "id": "world",
+          "text": "Il tempo passa davvero. Persone, fauna, lavori e opportunità possono cambiare anche quando scegli di occuparti d'altro."
+        }
       ],
-      "choices":[
-        {"id":"finish_tutorial","text":"Ho capito. Esco nel mondo.","effects":[{"type":"set_flag","key":"tutorial_complete","value":true}],"goto":"release"}
+      "choices": [
+        {
+          "id": "finish_tutorial",
+          "text": "Ho capito. Esco nel mondo.",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "tutorial_complete",
+              "value": true
+            }
+          ],
+          "goto": "release"
+        }
       ]
     },
     "release": {
-      "stitches":[{"id":"release","text":"Il cancello del Campus è davanti a te. Da questo momento le indicazioni finiscono: la prima strada la scegli tu."}],
-      "choices":[
-        {"id":"enter_m1","text":"Esco dal Campus.","effects":[{"type":"set_flag","key":"intro_complete","value":true},{"type":"set_flag","key":"free_roam","value":true}],"goto":"m01-release#free_roam"}
+      "stitches": [
+        {
+          "id": "release",
+          "text": "Il cancello del Campus è davanti a te. Da questo momento le indicazioni finiscono: la prima strada la scegli tu."
+        }
+      ],
+      "choices": [
+        {
+          "id": "enter_m1",
+          "text": "Esco dal Campus.",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "intro_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "free_roam",
+              "value": true
+            }
+          ],
+          "goto": "m01-release#free_roam"
+        }
       ]
     }
   }
