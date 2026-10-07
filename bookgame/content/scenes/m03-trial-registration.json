@@ -34,7 +34,7 @@
       "stitches": [
         {
           "id": "info_1",
-          "text": "Il Promotion Trial D→C si svolge all'Officina Arena di Ferravia. È il gate reale verso Rank C: Singles, roster ufficiale da tre, una sola esaminatrice, vittoria obbligatoria, retry consentito."
+          "text": "Il banco del Trial D→C occupa un lato dell'Officina Arena. Il regolamento esposto indica: Singles, tre Pokémon dichiarati, una esaminatrice. Per ottenere il Rank C devi vincere; dopo una sconfitta puoi presentare una nuova richiesta."
         }
       ],
       "choices": [
@@ -82,7 +82,7 @@
       "stitches": [
         {
           "id": "format_1",
-          "text": "L'identità del checkpoint è tempo, resistenze, coperture e switch. Non c'è level scaling invisibile: l'esaminatore usa il roster fissato per questa fascia."
+          "text": "L'addetto indica il regolamento. «L'esaminatrice controlla bene il ritmo dell'incontro e punisce i cambi prevedibili. La sua squadra per questa fascia è approvata dall'Arena e non viene adattata alla tua.»"
         }
       ],
       "choices": [
@@ -159,7 +159,7 @@
       "stitches": [
         {
           "id": "roster_1",
-          "text": "Servono almeno tre Pokémon reali nel roster. Il Trial non presta membri e non usa copie narrative della squadra."
+          "text": "L'addetto controlla la tua squadra. «Devi presentarti con almeno tre Pokémon disponibili. L'Arena non completa una squadra incompleta.»"
         }
       ],
       "choices": [
@@ -341,7 +341,7 @@
       "stitches": [
         {
           "id": "prep_1",
-          "text": "Prepararti non cambia il roster registrato in un duplicato narrativo. Stai soltanto decidendo se entrare adesso o più tardi."
+          "text": "La ricevuta conserva i tre Pokémon che hai dichiarato. Puoi prenderti altro tempo prima della chiamata."
         }
       ],
       "choices": [
@@ -454,7 +454,7 @@
       "stitches": [
         {
           "id": "switch_1",
-          "text": "Il checkpoint valuta gli switch perché ogni cambio costa tempo e posizione. L'obiettivo è avere un motivo per cambiare, non cambiare per inerzia."
+          "text": "L'addetto riassume uno dei criteri osservati: «Ogni cambio deve avere uno scopo. Se cedi continuamente posizione senza ottenere nulla, l'esaminatrice se ne accorge.»"
         }
       ],
       "choices": [
@@ -481,7 +481,7 @@
       "stitches": [
         {
           "id": "tempo_1",
-          "text": "Il tempo è una risorsa del match: turni, finestre di pressione e capacità di non cedere iniziativa. La scena non assegna bonus; registra soltanto il tuo piano."
+          "text": "Sul foglio informativo il controllo del ritmo è descritto in termini semplici: mantenere iniziativa quando possibile e riconoscere quando vale la pena cederla."
         }
       ],
       "choices": [
@@ -508,7 +508,7 @@
       "stitches": [
         {
           "id": "cup_context_1",
-          "text": "Se hai disputato la Regional Cup, puoi usare quei match come esperienza reale. Il Trial non importa vittorie o sconfitte come bonus automatici."
+          "text": "Gli incontri della Regional Cup possono averti mostrato come reagisce la squadra sotto pressione. Al Trial contano la squadra dichiarata e quello che farai nel prossimo incontro."
         }
       ],
       "choices": [
@@ -535,7 +535,7 @@
       "stitches": [
         {
           "id": "rescue_condition_1",
-          "text": "Prima di confermare, controlli la squadra dopo gli eventi di Ferrox. L'iscrizione non cura ferite, non recupera energie e non rimuove condizioni."
+          "text": "Prima di confermare, controlli i Pokémon dopo Ferrox. La registrazione non è una visita medica: ferite, stanchezza e condizioni restano quelle che la squadra porta con sé."
         }
       ],
       "choices": [
@@ -562,7 +562,7 @@
       "stitches": [
         {
           "id": "audit_1",
-          "text": "La registrazione confermata mostra checkpoint, rank di partenza, rank obiettivo, roster richiesto e retryability. Non memorizza una copia alternativa della squadra."
+          "text": "Sulla ricevuta compaiono il tuo Rank attuale, il Trial richiesto, i tre posti della squadra e la possibilità di ripresentarti in caso di sconfitta."
         }
       ],
       "choices": [
