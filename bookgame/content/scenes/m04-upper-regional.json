@@ -146,7 +146,7 @@
         },
         {
           "id": "qf_plan",
-          "text": "Scelgo una priorità di resource management.",
+          "text": "Scelgo una priorità nella gestione delle risorse.",
           "goto": "qf_plan"
         },
         {
@@ -612,7 +612,7 @@
       "stitches": [
         {
           "id": "sf_win_1",
-          "text": "Hai raggiunto la finale. Il bracket registra la vittoria; il gate geografico resta comunque C→B."
+          "text": "Hai raggiunto la finale. Il tabellone registra la vittoria; il tuo Rank, invece, resta C finché non superi il Promotion Trial."
         }
       ],
       "choices": [
@@ -700,7 +700,7 @@
       "stitches": [
         {
           "id": "sf_post_1",
-          "text": "La finale è il terzo match del tuo percorso, non una scena isolata dal costo dei turni precedenti."
+          "text": "La finale è il terzo incontro del tuo percorso. Ciò che hai speso o subito nei turni precedenti conta ancora."
         }
       ],
       "choices": [
@@ -899,7 +899,7 @@
       "stitches": [
         {
           "id": "final_win_1",
-          "text": "Hai vinto l'Upper Regional. È un titolo del bracket, non una promozione di Rank."
+          "text": "Hai vinto il torneo regionale. È un titolo ufficiale, non una promozione di Rank."
         }
       ],
       "choices": [
@@ -927,7 +927,7 @@
         },
         {
           "id": "final_win_review",
-          "text": "Rivedo come ho gestito le risorse lungo tre match.",
+          "text": "Rivedo come ho gestito le risorse lungo i tre incontri.",
           "goto": "winner_review",
           "effects": [
             {
@@ -987,13 +987,13 @@
       "stitches": [
         {
           "id": "winner_1",
-          "text": "Il titolo dimostra che hai gestito bene questo bracket. Non dimostra automaticamente che supererai un esame costruito con un obiettivo diverso."
+          "text": "Il titolo dimostra che hai gestito bene questo torneo. Il Promotion Trial, però, misura qualcosa di diverso e resta ancora da affrontare."
         }
       ],
       "choices": [
         {
           "id": "winner_close",
-          "text": "Chiudo il bracket da vincitore.",
+          "text": "Lascio il tabellone da vincitore.",
           "goto": "circuit_result",
           "effects": [
             {
@@ -1014,7 +1014,7 @@
       "stitches": [
         {
           "id": "loss_1",
-          "text": "La review distingue informazione, esecuzione e risorse rimaste. Il risultato ufficiale resta quello prodotto dal match."
+          "text": "Puoi ripercorrere informazioni, esecuzione e risorse rimaste; il risultato ufficiale, però, resta quello conquistato sul campo."
         }
       ],
       "choices": [
@@ -1110,7 +1110,7 @@
         },
         {
           "id": "cancel_withdraw",
-          "text": "Resto nel bracket.",
+          "text": "Resto nel torneo.",
           "goto": "circuit_board"
         }
       ]
@@ -1140,7 +1140,7 @@
       "choices": [
         {
           "id": "forfeit_close",
-          "text": "Chiudo il bracket.",
+          "text": "Chiudo qui il torneo.",
           "goto": "circuit_result"
         }
       ]
