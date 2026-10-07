@@ -71,6 +71,19 @@ test("Fulgore ecology compiles from canonical fauna",async()=>{
   for(const id of ["riolu","geodude","machop"])assert.ok(ids.has(id));
 });
 
+test("M5_05 capturable Fulgore fauna exposes a real Pokémon 5e combat handoff",async()=>{
+  const {engine,bundle}=await makeEngine();
+  const scene=bundle.scenes["m05-fulgore-ascent"];
+  for(const id of ["riolu","geodude","machop"])assert.ok(scene.nodes[`fauna_${id}`].choices.some(c=>c.id===`${id}_engage`),id);
+  let s=legal();s.story.sceneId="m05-fulgore-ascent";s.story.nodeId="fauna_riolu";s.world.locationId="ful_plateau";
+  s=await engine.choose(s,"riolu_engage");
+  assert.equal(s.pending.type,"pokemon5e_combat");
+  assert.equal(s.pending.opponent.species,"Riolu");
+  assert.equal(s.pending.opponent.level,11);
+  assert.equal(s.pending.opponentRegistered,false);
+  assert.equal(s.pending.returnNodes.captured,"wild_captured");
+});
+
 test("M5_05 requires a real weather departure plan",async()=>{
   const {engine}=await makeEngine();const s=legal();delete s.world.flags.m5_fulgore_departure_ready;s.story.sceneId="m05-fulgore-ascent";s.story.nodeId="ascent_gate";
   await assert.rejects(()=>engine.present(s),/Scene conditions/);
