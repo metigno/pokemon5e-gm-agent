@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "purpose": "RC warning triage. Every accepted compiler warning is named and must not drift.",
   "expectedCounts": {
-    "total": 118,
-    "TERMINAL_NODE": 15,
+    "total": 119,
+    "TERMINAL_NODE": 16,
     "UNREACHABLE_NODE_LOCAL": 103
   },
   "entries": [
@@ -712,6 +712,12 @@
     {
       "code": "TERMINAL_NODE",
       "sceneFile": "m04-coast-route.json",
+      "nodeId": "wild_combat_handoff",
+      "reason": "intentional_external_subsystem_handoff"
+    },
+    {
+      "code": "TERMINAL_NODE",
+      "sceneFile": "m05-fulgore-ascent.json",
       "nodeId": "wild_combat_handoff",
       "reason": "intentional_external_subsystem_handoff"
     }
