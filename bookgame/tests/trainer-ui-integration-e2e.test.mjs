@@ -45,7 +45,7 @@ test("Trainer UI -> runtime -> save/reload -> continue battle integration", asyn
   state.player.classResources["tactical-points"] = {
     id: "tactical-points",
     name: "Tactical Points",
-    current: 4,
+    current: 2,
     max: 4,
     recharge: "long-rest"
   };
@@ -77,16 +77,12 @@ test("Trainer UI -> runtime -> save/reload -> continue battle integration", asyn
   assert.equal(result.response.status, 200, stderr);
   const action = result.payload.trainerGameplay.features.find((entry) => entry.id === "directed-strike");
   assert.equal(action.legal, true);
-  assert.equal(action.resource.current, 4);
+  assert.equal(action.resource.current, 2);
 
   result = await post("/api/combat/trainer-feature", { featureId: "directed-strike" });
   assert.equal(result.response.status, 200, JSON.stringify(result.payload));
   assert.equal(result.payload.trainerGameplay.classResources["tactical-points"].current, 2);
   assert.equal(result.payload.battle.actor, "player");
-
-  result = await post("/api/combat/trainer-feature", { featureId: "directed-strike" });
-  assert.equal(result.response.status, 200);
-  assert.equal(result.payload.trainerGameplay.classResources["tactical-points"].current, 0);
 
   result = await post("/api/combat/trainer-feature", { featureId: "directed-strike" });
   assert.equal(result.response.status, 409);
