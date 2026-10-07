@@ -1,3 +1,4 @@
+import { specializationByType } from "../rules/trainer-2024.mjs";
 import { getStartingBuild } from "../../../src/bridge/motor-to-poke5e.mjs";
 import { DEFAULT_START_MINUTE, daypartForMinute } from "./time.mjs";
 import { createPersistentNpc } from "./npc-state.mjs";
@@ -127,12 +128,20 @@ export function completeTrainerCreation(state, { specialization } = {}) {
     throw new Error("Pokemon 5e level-1 Trainer creation requires a specialization");
   }
   const next = structuredClone(state);
+  const spec=specializationByType(specialization);
+  if(!spec) throw new Error("Unknown Pokemon 5e 2024 specialization: "+specialization);
   next.player.trainerClass = "Trainer";
   next.player.trainerPath = null;
-  next.player.specializations = [specialization];
+  next.player.specializations = [spec.type];
+  next.player.specializationDetails = [{ id:spec.id,name:spec.name,type:spec.type,effect:structuredClone(spec.effect) }];
+  if(spec.effect.type==="proficiency" && !next.player.skills.includes(spec.effect.value)) next.player.skills.push(spec.effect.value);
+  if(spec.effect.type==="asi") {
+    const key=spec.effect.value.toUpperCase();
+    if(!Number.isInteger(next.player.abilities[key])) throw new Error("Missing Trainer ability for specialization ASI: "+key);
+    next.player.abilities[key]+=1;
+  }
   next.player.characterCreation.complete = true;
   next.player.characterCreation.completed = ["specialization"];
-  next.world.flags.character_creation_complete = true;
   next.world.flags.character_creation_complete = true;
   return next;
 }
