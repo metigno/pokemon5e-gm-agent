@@ -1,7 +1,7 @@
 import { isTrainerPath2024, trainerProgression2024 } from "../rules/trainer-2024.mjs";
 
 function abilityModifier(score) { return Math.floor((Number(score ?? 10) - 10) / 2); }
-function npcMaxHp(level, abilities) { return Math.max(1, 8 + Math.max(0, abilityModifier(abilities?.CON)) * Math.max(0, level - 1)); }
+function npcMaxHp(level, abilities) { const con = abilityModifier(abilities?.CON); return Math.max(1, 6 + con + Math.max(0, level - 1) * Math.max(1, 4 + con)); }
 function npcRuntimeFields(level, abilities = {}, state = {}) {
   const maxHp = npcMaxHp(level, abilities);
   return {
