@@ -10,11 +10,11 @@
       "stitches": [
         {
           "id": "dispatch_exploration_arrival",
-          "text": "L'incrocio nasce dal programma reale di uno degli altri Five, non da una convocazione. Siete nello stesso tratto delle Ginestre per motivi indipendenti."
+          "text": "Vi siete trovati nello stesso posto senza darvi appuntamento. L'altro è già impegnato in quello che stava facendo quando ti nota."
         },
         {
           "id": "dispatch_exploration_selector",
-          "text": "Il motore ha già scelto chi è davvero presente qui in base a schedule, posizione, compatibilità dell'attività, risultato recente e relazione."
+          "text": "Vi siete trovati nello stesso posto senza darvi appuntamento. L'altro è già impegnato in quello che stava facendo quando ti nota."
         }
       ],
       "choices": [
@@ -69,11 +69,11 @@
       "stitches": [
         {
           "id": "dispatch_farm_arrival",
-          "text": "L'incrocio nasce dal programma reale di uno degli altri Five, non da una convocazione. Siete alla Fattoria del Vento mentre il lavoro continua attorno a voi."
+          "text": "Vi siete trovati nello stesso posto senza darvi appuntamento. L'altro è già impegnato in quello che stava facendo quando ti nota."
         },
         {
           "id": "dispatch_farm_selector",
-          "text": "Il motore ha già scelto chi è davvero presente qui in base a schedule, posizione, compatibilità dell'attività, risultato recente e relazione."
+          "text": "Vi siete trovati nello stesso posto senza darvi appuntamento. L'altro è già impegnato in quello che stava facendo quando ti nota."
         }
       ],
       "choices": [
@@ -128,11 +128,11 @@
       "stitches": [
         {
           "id": "dispatch_city_arrival",
-          "text": "L'incrocio nasce dal programma reale di uno degli altri Five, non da una convocazione. Vi incrociate a Valedarsena durante due giornate che non erano state organizzate insieme."
+          "text": "Vi siete trovati nello stesso posto senza darvi appuntamento. L'altro è già impegnato in quello che stava facendo quando ti nota."
         },
         {
           "id": "dispatch_city_selector",
-          "text": "Il motore ha già scelto chi è davvero presente qui in base a schedule, posizione, compatibilità dell'attività, risultato recente e relazione."
+          "text": "Vi siete trovati nello stesso posto senza darvi appuntamento. L'altro è già impegnato in quello che stava facendo quando ti nota."
         }
       ],
       "choices": [
@@ -187,11 +187,11 @@
       "stitches": [
         {
           "id": "dispatch_arena_arrival",
-          "text": "L'incrocio nasce dal programma reale di uno degli altri Five, non da una convocazione. Siete entrambi all'Arena Civica e il confronto può restare tecnico oppure diventare uno sparring."
+          "text": "Vi siete trovati nello stesso posto senza darvi appuntamento. L'altro è già impegnato in quello che stava facendo quando ti nota."
         },
         {
           "id": "dispatch_arena_selector",
-          "text": "Il motore ha già scelto chi è davvero presente qui in base a schedule, posizione, compatibilità dell'attività, risultato recente e relazione."
+          "text": "Vi siete trovati nello stesso posto senza darvi appuntamento. L'altro è già impegnato in quello che stava facendo quando ti nota."
         }
       ],
       "choices": [
@@ -246,7 +246,7 @@
       "stitches": [
         {
           "id": "exp_luke_voice",
-          "text": "Luke si muove d'istinto e guarda prima la strada che il programma: vuole capire cosa cambia davvero quando si passa dalla teoria al campo."
+          "text": "Luke ti vede e alza il mento. «Oh, finalmente qualcuno che conosco. Dimmi che non sei venuto qui per fare tutto con calma.»"
         },
         {
           "id": "exp_luke_context",
@@ -393,11 +393,11 @@
       "stitches": [
         {
           "id": "farm_luke_voice",
-          "text": "Luke si muove d'istinto e guarda prima la strada che il programma: vuole capire cosa cambia davvero quando si passa dalla teoria al campo."
+          "text": "Luke ti vede e alza il mento. «Oh, finalmente qualcuno che conosco. Dimmi che non sei venuto qui per fare tutto con calma.»"
         },
         {
           "id": "farm_luke_context",
-          "text": "Luke è qui per un'attività propria. Lavoratori e Pokémon non smettono di muoversi perché vi conoscete: se collaborate, dovete inserirvi nel lavoro reale senza prenderne il controllo."
+          "text": "Luke sta già dando una mano agli addetti. Quando ti vede indica i recinti. «Se vuoi parlare, parla mentre lavoriamo. Questi non aspettano noi.»"
         }
       ],
       "choices": [
@@ -545,11 +545,11 @@
       "stitches": [
         {
           "id": "city_luke_voice",
-          "text": "Luke si muove d'istinto e guarda prima la strada che il programma: vuole capire cosa cambia davvero quando si passa dalla teoria al campo."
+          "text": "Luke ti vede e alza il mento. «Oh, finalmente qualcuno che conosco. Dimmi che non sei venuto qui per fare tutto con calma.»"
         },
         {
           "id": "city_luke_context",
-          "text": "Luke ha già un proprio programma a Valedarsena. Il fatto che vi siate incontrati non significa che debba seguirti al prossimo nodo."
+          "text": "Luke ti incrocia in città con l'aria di chi aveva già deciso dove andare. «Ti concedo cinque minuti. Dieci se hai fatto qualcosa di interessante.»"
         }
       ],
       "choices": [
@@ -691,7 +691,7 @@
       "stitches": [
         {
           "id": "arena_luke_voice",
-          "text": "Luke si muove d'istinto e guarda prima la strada che il programma: vuole capire cosa cambia davvero quando si passa dalla teoria al campo."
+          "text": "Luke ti vede e alza il mento. «Oh, finalmente qualcuno che conosco. Dimmi che non sei venuto qui per fare tutto con calma.»"
         },
         {
           "id": "arena_luke_context",
