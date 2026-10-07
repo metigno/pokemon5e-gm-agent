@@ -42,7 +42,8 @@ test("NPC Poke Mentor uses Cheerleader as bonus action without replacing its mov
   assert.deepEqual(out.used,["cheerleader"]);
   assert.equal(npc.trainer.classResources.cheerleader.current,0);
   assert.equal(b.opponent.turn.bonusActionAvailable,false);
-  assert.equal(b.opponent.effects.attackModifierSources[0].value,2);
+  const chaMod=Math.floor((Number(npc.trainer.abilities?.CHA??10)-10)/2);
+  assert.equal(b.opponent.effects.attackModifierSources[0].value,Math.max(1,chaMod));
 });
 
 test("NPC AI never uses a feature the Trainer build does not possess",()=>{
