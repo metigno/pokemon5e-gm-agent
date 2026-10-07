@@ -137,7 +137,7 @@
       "stitches": [
         {
           "id": "calendar_1",
-          "text": "La registrazione apre una finestra competitiva nel Living World. Gli altri trainer continuano a disputare i propri match; il tuo bracket verrà creato solo quando M4_11 consumerà il vero stato di iscrizione."
+          "text": "L'iscrizione ti inserisce nel calendario del torneo. Gli altri Allenatori continuano a disputare i propri incontri; il tuo tabellone verrà definito quando la finestra d'iscrizione sarà chiusa."
         },
         {
           "id": "calendar_2",
@@ -283,7 +283,7 @@
       "stitches": [
         {
           "id": "registered_1",
-          "text": "L'iscrizione è registrata. Il Living World può ora aprire `A4_REGIONAL_LEAGUE`; non hai ancora vinto, perso o disputato alcun match."
+          "text": "L'iscrizione è registrata. Il tuo nome compare tra i partecipanti, ma non hai ancora disputato alcun incontro."
         }
       ],
       "choices": [
@@ -356,7 +356,7 @@
       "stitches": [
         {
           "id": "prep_1",
-          "text": "Puoi decidere cosa osservare nei prossimi match, ma la scelta non assegna EV, HP, livelli o bonus invisibili."
+          "text": "Puoi decidere su cosa concentrare la preparazione per i prossimi incontri; non ottieni vantaggi automatici soltanto per aver dichiarato un'intenzione."
         }
       ],
       "choices": [
