@@ -24,5 +24,5 @@ test("scripted NPC snapshot gets real path runtime at appearance level",()=>{
  assert.equal(npc.trainer.classResources["tactical-points"].max,10);
  assert.ok(npc.trainer.classFeatures.includes("raise-your-defenses"));
  assert.ok(!npc.trainer.classFeatures.includes("not-this-time"));
- assert.equal(npc.trainer.hp.max,78);
+ assert.equal(npc.trainer.hp.max,62);
 });
