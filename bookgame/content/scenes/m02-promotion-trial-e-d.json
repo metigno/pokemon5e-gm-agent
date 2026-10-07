@@ -7,11 +7,26 @@
   "entryNodeId": "trial_gate_call",
   "conditions": {
     "all": [
-      { "path": "world.flags.m1_complete", "eq": true },
-      { "path": "world.flags.m02_unlocked", "eq": true },
-      { "path": "world.flags.m2_active", "eq": true },
-      { "path": "competition.rank", "eq": "E" },
-      { "path": "competition.trials.RANK_E_TO_D.registered", "eq": true }
+      {
+        "path": "world.flags.m1_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m02_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m2_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "E"
+      },
+      {
+        "path": "competition.trials.RANK_E_TO_D.registered",
+        "eq": true
+      }
     ]
   },
   "nodes": {
@@ -39,7 +54,6 @@
         }
       ]
     },
-
     "trial_ines_briefing": {
       "stitches": [
         {
@@ -52,7 +66,7 @@
         },
         {
           "id": "briefing_roster",
-          "text": "Sul registro compaiono tre Pokémon fissi: Growlithe, Roselia e Sableye. Nessuno cambia livello in base alla tua squadra — il Trial usa un roster autoriale stabile e difficoltà HARD."
+          "text": "Sul registro dell'arena compaiono i tre Pokémon assegnati a Ines per questa prova: Growlithe, Roselia e Sableye. Sono gli stessi indicati nel regolamento affisso alla Sala Verde."
         }
       ],
       "choices": [
@@ -109,12 +123,11 @@
         }
       ]
     },
-
     "trial_combat_handoff": {
       "stitches": [
         {
           "id": "handoff_1",
-          "text": "L'arbitro chiude il gate e passa il controllo al risolutore Pokémon 5e. Il tuo Official Three e il roster fisso di Ines vengono usati realmente. Nessun vincitore è deciso dallo script."
+          "text": "L'arbitro chiude il cancello laterale. Ines prende posizione dall'altra parte del campo e porta una mano alla prima Poké Ball. «Allenatori pronti.» Il segnale d'inizio risuona nell'arena."
         }
       ],
       "choices": []

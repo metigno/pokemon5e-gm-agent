@@ -6,9 +6,18 @@
   "locationId": "valedarsena_city",
   "conditions": {
     "all": [
-      { "path": "world.flags.m1_complete", "eq": true },
-      { "path": "world.flags.m02_unlocked", "eq": true },
-      { "path": "competition.rank", "eq": "E" }
+      {
+        "path": "world.flags.m1_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m02_unlocked",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "E"
+      }
     ]
   },
   "nodes": {
@@ -16,21 +25,21 @@
       "stitches": [
         {
           "id": "rank_confirmed",
-          "text": "Il Circuito Asteria registra Rank E. La fascia di accesso ora include: Bosco Bruma (AST-MISTWOOD), Colline Aspre (AST-HILLS), la Cava (AST-QUARRY), Borgo Salice (SAL-TOWN), il Lago Astera (AST-LAKE) e il Lago Lacustre (LAC-LAKE)."
+          "text": "Sul terminale del Circuito, accanto al tuo nome, compare la nuova licenza: Rank E. Sotto scorrono le destinazioni ora autorizzate — Bosco Bruma, Colline Aspre, Cava Grigia, Borgo Salice, Lago Astera e Lago Lacustre."
         },
         {
           "id": "m1_preserved",
-          "text": "Lo stato accumulato in M1 è intatto: roster, HP, PP, condizioni, inventario, denaro, quest, relazioni NPC, orario, risultati competitivi, FRIEND_BEAT_01 e tutti i callback ambientali viaggiano intatti nella nuova fascia."
+          "text": "Nello zaino c'è esattamente ciò che avevi prima della promozione. I tuoi Pokémon portano ancora addosso la fatica del viaggio, e a Valedarsena le persone che hai incontrato ricordano quello che è successo."
         },
         {
           "id": "living_world_continues",
-          "text": "Il mondo continua a muoversi. Gli altri trainer si spostano, le competizioni si risolvono fuori scena, le opportunità nascono e scompaiono in base al tempo reale di gioco. Nessun evento di M2 si attiva automaticamente: il territorio Rank E si apre, ma è il giocatore a decidere quando e verso dove muoversi."
+          "text": "Sulla bacheca, alcuni annunci hanno già un orario diverso da quello di stamattina. Altri trainer sono partiti, alcune iscrizioni stanno per chiudere. La nuova licenza ti permette di andare più lontano; non decide dove andrai."
         }
       ],
       "choices": [
         {
           "id": "confirm_rank_e_active",
-          "text": "Registro ufficialmente l'apertura della fascia Rank E e avvio M2.",
+          "text": "Ritiro la licenza aggiornata e controllo le nuove destinazioni.",
           "conditions": {
             "path": "world.flags.m2_active",
             "ne": true
@@ -46,7 +55,7 @@
         },
         {
           "id": "already_active",
-          "text": "M2 è già attivo. Rivedo la fascia di accesso confermata.",
+          "text": "Controllo di nuovo le destinazioni consentite dal Rank E.",
           "conditions": {
             "path": "world.flags.m2_active",
             "eq": true
@@ -59,15 +68,15 @@
       "stitches": [
         {
           "id": "band_confirmed",
-          "text": "Fascia Rank E confermata e registrata nel Circuito. Bosco Bruma è il primo nodo M2 raggiungibile; il viaggio richiede una scelta esplicita del giocatore — il motore non ti sposta automaticamente in nessun luogo."
+          "text": "Tra le destinazioni indicate, Bosco Bruma è raggiungibile direttamente da Valedarsena. Il pannello riporta tempi di percorrenza e condizioni del percorso; nessuno ti mette fretta."
         },
         {
           "id": "no_premature_m2",
-          "text": "N non è ancora stato introdotto. La rete di catture illegali non è attiva. FRIEND_BEAT_02 non è partito. Il Rookie Invitational e il Trial Rank E→D non sono registrati. Nessuna risorsa è stata modificata, nessuna quest è stata silenziata o avviata."
+          "text": "Non ci sono convocazioni obbligatorie né appuntamenti fissati per te. Le strade appena aperte restano lì, insieme a tutto ciò che hai lasciato in sospeso a Valedarsena."
         },
         {
           "id": "callbacks_intact",
-          "text": "I callback di M1 — esito Houndour, stato Valedarsena, relazione con Blue, relazione con Ranger Elio, FRIEND_BEAT_01, identità e provenienza del secondo Pokémon, stato della pressione mondiale, storia competitiva e FRIEND_BEAT risultato — sono disponibili per lettura da tutti i nodi di M2."
+          "text": "Prima di chiudere il terminale riconosci nomi e luoghi già familiari: Blue compare ancora nei risultati recenti, il presidio Ranger mantiene gli avvisi attivi e gli spostamenti dei tuoi amici continuano a comparire quando diventano pubblici."
         }
       ],
       "choices": [
