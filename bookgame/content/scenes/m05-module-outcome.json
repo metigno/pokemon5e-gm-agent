@@ -405,8 +405,8 @@
       "choices": [
         {
           "id": "handoff_hub",
-          "text": "Resto ad Altacima con M6 sbloccato.",
-          "goto": "m05-altacima#town_hub",
+          "text": "Resto ad Altacima e apro l'handoff di M6.",
+          "goto": "m06-handoff#m06_entry",
           "effects": [
             {
               "type": "set_location",
