@@ -2,6 +2,7 @@ import { attemptCapture } from "./capture.mjs";
 import { chooseNpcTurnPlan } from "./npc-tactics.mjs";
 import { chooseNpcTrainerFeature, trainerFeatureExecutionArgs } from "./npc-trainer-tactics.mjs";
 import { executeNpcTrainerFeatureInCombat } from "./npc-trainer-runtime.mjs";
+import { tryTrainerAcReaction } from "./trainer-reaction-window.mjs";
 import { legalTrainerFeatureActions } from "../engine/trainer-actions.mjs";
 import { createNpcKnowledge, npcPublicBattleView, updateNpcKnowledge } from "./npc-knowledge.mjs";
 import { applyItemToPokemon, findInventoryItemIndex } from "./item-rules.mjs";
@@ -31,6 +32,7 @@ import {
   damageRollHasAdvantage,
   proficiencyBonus,
   resolveAttack,
+  resolveAttackCheck,
   resolveSaveMove,
   resolveSavingThrow,
   rollD20,
@@ -2408,6 +2410,26 @@ export class Pokemon5eCombatEngine {
       next.round,
       defender
     );
+    const attackCheck = resolveAttackCheck({
+      attacker,
+      defender: defenderForResolution,
+      move: effectiveMove,
+      dice: this.dice,
+      extraAttackModifier: attackBonus,
+      forceDisadvantage: forceDisadvantage || flightRangeDisadvantage,
+      forceHit: Boolean(forcedHitConsumed),
+      forceCritical: Boolean(forcedCriticalConsumed),
+      round: next.round
+    });
+    const acReaction = tryTrainerAcReaction(next,{
+      defenderSide:targetSide,
+      attackTotal:attackCheck.attackTotal,
+      defenderAc:defenderForResolution.ac,
+      natural:attackCheck.attackRoll.natural,
+      critical:attackCheck.critical,
+      forcedHit:Boolean(forcedHitConsumed)
+    });
+    if(acReaction.reacted) defenderForResolution.ac=acReaction.defenderAc;
     const result = resolveAttack({
       attacker,
       defender: defenderForResolution,
@@ -2419,8 +2441,10 @@ export class Pokemon5eCombatEngine {
       forceDisadvantage: forceDisadvantage || flightRangeDisadvantage,
       forceHit: Boolean(forcedHitConsumed),
       forceCritical: Boolean(forcedCriticalConsumed),
-      round: next.round
+      round: next.round,
+      attackCheck
     });
+    result.trainerAcReaction=acReaction.reacted?acReaction:null;
     const attackAdvantageConsumed = consumeAttackAdvantageUse(
       attacker,
       defender,
