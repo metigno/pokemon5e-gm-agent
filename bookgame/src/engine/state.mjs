@@ -271,6 +271,7 @@ function createRookieFriendNpc(name, playerName) {
 export function createNewGameState({
   protagonist = "Luke",
   slot = "slot1",
+  startAtIntro = false,
   now = () => new Date().toISOString()
 } = {}) {
   const build = getStartingBuild(protagonist);
@@ -281,8 +282,14 @@ export function createNewGameState({
       .map((name) => [name, createRookieFriendNpc(name, protagonist)])
   );
   const trainer = createTrainerRuntime(build, {
-    inventory: ["Pokeball", "Pokeball", "Pokeball", "Pokeball", "Pokeball", "Potion", "Trainer License", "Pokedex"]
+    inventory: startAtIntro
+      ? ["Pokeball", "Pokeball", "Pokeball", "Pokeball", "Pokeball", "Potion", "Trainer License", "Pokedex"]
+      : []
   });
+  if (!startAtIntro) {
+    trainer.characterCreation.complete = true;
+    trainer.characterCreation.completed = ["legacy-bootstrap"];
+  }
 
   return {
     schemaVersion: GAME_STATE_SCHEMA_VERSION,
@@ -301,11 +308,11 @@ export function createNewGameState({
       elapsedMinutes: DEFAULT_START_MINUTE,
       minuteOfDay: DEFAULT_START_MINUTE,
       time: daypartForMinute(DEFAULT_START_MINUTE),
-      locationId: "asteria_campus",
+      locationId: startAtIntro ? "asteria_campus" : "asteria_campus_exit",
       flags: {
-        character_creation_complete: false,
-        intro_complete: false,
-        free_roam: false
+        character_creation_complete: !startAtIntro,
+        intro_complete: !startAtIntro,
+        free_roam: !startAtIntro
       }
     },
     quests: {},
@@ -327,8 +334,8 @@ export function createNewGameState({
       })
     },
     story: {
-      sceneId: "intro-m01",
-      nodeId: "trainer_specialization",
+      sceneId: startAtIntro ? "intro-m01" : "m01-release",
+      nodeId: startAtIntro ? "trainer_specialization" : "free_roam",
       history: []
     },
     pending: null,
