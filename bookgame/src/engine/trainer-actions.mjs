@@ -1,6 +1,6 @@
 // Shared Trainer gameplay actions for player and persistent NPC Trainers.
 function clone(v){return structuredClone(v);}
-function trainerRef(state,actor={kind:"player"}){
+export function trainerRef(state,actor={kind:"player"}){
  if(actor.kind==="player") return state.player;
  if(actor.kind==="npc"){
   const npc=state.npcs?.[actor.id]; if(!npc) throw new Error("Unknown NPC Trainer: "+actor.id);
