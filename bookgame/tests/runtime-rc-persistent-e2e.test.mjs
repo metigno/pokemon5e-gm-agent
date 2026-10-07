@@ -709,6 +709,56 @@ async function completeCanonicalM3FriendBeat(engine, start) {
   return state;
 }
 
+async function completeCanonicalM3TrialWin(engine, start) {
+  let state = structuredClone(start);
+  if (state.competition.rank === "C") return state;
+
+  let view = await engine.present(state);
+  if (view.choices.some((choice) => choice.id === "enter_trial")) {
+    state = await requireChoice(engine, state, "enter_trial", "M3 Trial D→C enter");
+  } else if (view.choices.some((choice) => choice.id === "audit_enter")) {
+    state = await requireChoice(engine, state, "audit_enter", "M3 Trial D→C enter from audit");
+  } else if (view.choices.some((choice) => choice.id === "prep_enter")) {
+    state = await requireChoice(engine, state, "prep_enter", "M3 Trial D→C enter from prep");
+  } else if (!(state.story.sceneId === "m03-promotion-trial-d-c")) {
+    state = await searchTo({
+      engine,
+      start: state,
+      goal: (s) => s.story.sceneId === "m03-promotion-trial-d-c",
+      label: "M3 Trial D to C arena entry",
+      route: "champion",
+      combatPolicy: "win",
+      maxExpansions: 500
+    });
+  }
+
+  view = await engine.present(state);
+  if (view.choices.some((choice) => choice.id === "briefing")) {
+    state = await requireChoice(engine, state, "briefing", "M3 Trial D→C briefing");
+  } else if (view.choices.some((choice) => choice.id === "rules_ready")) {
+    state = await requireChoice(engine, state, "rules_ready", "M3 Trial D→C rules return");
+  }
+
+  view = await engine.present(state);
+  if (!view.choices.some((choice) => choice.id === "begin_trial")) {
+    state = await searchTo({
+      engine,
+      start: state,
+      goal: (s) => s.story.sceneId === "m03-promotion-trial-d-c" && s.story.nodeId === "examiner_briefing",
+      label: "M3 Trial D to C briefing node",
+      route: "champion",
+      combatPolicy: "win",
+      maxExpansions: 200
+    });
+  }
+
+  state = await requireChoice(engine, state, "begin_trial", "M3 Trial D→C begin");
+  assert.equal(state.pending?.type, "pokemon5e_combat");
+  state = resolveAutoplayCombat(engine, state, "win");
+  assert.equal(state.competition.rank, "C");
+  return state;
+}
+
 async function completeCanonicalM3(engine, start) {
   let state = structuredClone(start);
 
@@ -784,6 +834,9 @@ async function completeCanonicalM3(engine, start) {
     }
     if (milestone.label === "M3 Trial D to C window" && state.world.flags.friend_beat_03_complete !== true) {
       state = await completeCanonicalM3FriendBeat(engine, state);
+    }
+    if (milestone.label === "M3 Trial D to C win" && state.competition.rank !== "C") {
+      state = await completeCanonicalM3TrialWin(engine, state);
     }
     if (milestone.goal(state)) continue;
     state = await searchTo({
