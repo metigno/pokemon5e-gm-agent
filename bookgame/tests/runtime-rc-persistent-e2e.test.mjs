@@ -137,6 +137,16 @@ function signature(state) {
       .sort(([a], [b]) => a.localeCompare(b))
   );
   const worldCompetition = state.competition?.world ?? {};
+  const npcs = Object.fromEntries(
+    Object.entries(state.npcs ?? {})
+      .map(([id, npc]) => [id, {
+        scheduleId: npc?.schedule?.scheduleId ?? null,
+        locationId: npc?.schedule?.locationId ?? null,
+        present: npc?.schedule?.present ?? null,
+        state: npc?.state ?? null
+      }])
+      .sort(([a], [b]) => a.localeCompare(b))
+  );
   return JSON.stringify({
     sceneId: state.story?.sceneId ?? null,
     nodeId: state.story?.nodeId ?? null,
@@ -157,6 +167,7 @@ function signature(state) {
     trials,
     quests,
     events,
+    npcs,
     trainerLevel: state.player?.trainerLevel ?? null,
     trainerPath: state.player?.trainerPath ?? null,
     trainerAbilities: state.player?.abilities ?? null,
