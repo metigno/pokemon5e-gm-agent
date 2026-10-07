@@ -865,6 +865,51 @@ async function completeCanonicalM3(engine, start) {
   return state;
 }
 
+async function captureCanonicalM4FourthPokemon(engine, start) {
+  let state = structuredClone(start);
+  if ((state.player.roster?.length ?? 0) >= 4) return state;
+
+  state = await searchTo({
+    engine,
+    start: state,
+    goal: (s) => s.story.sceneId === "m04-mareasale-arrival" && s.story.nodeId === "city_hub",
+    label: "M4 return to Mareasale for roster preparation",
+    route: "champion",
+    combatPolicy: "win",
+    maxExpansions: 1200
+  });
+
+  let view = await engine.present(state);
+  while (view.sceneId === "trainer-level-up") {
+    assert.ok(view.choices.length > 0, "Trainer progression must expose a resolvable choice");
+    state = await engine.choose(state, view.choices[0].id);
+    view = await engine.present(state);
+  }
+
+  state = await requireChoice(engine, state, "hub_coast_route", "M4 coastal capture route");
+  state = await requireChoice(engine, state, "take_high_path", "M4 coastal high path");
+  state = await requireChoice(engine, state, "high_watch_fauna", "M4 coastal fauna viewpoint");
+  state = await requireChoice(engine, state, "observe_coast_fauna", "M4 coastal fauna encounter");
+
+  view = await engine.present(state);
+  if (view.choices.some((choice) => choice.id.endsWith("_back")) && !view.choices.some((choice) => choice.id.endsWith("_engage"))) {
+    state = await engine.choose(state, view.choices.find((choice) => choice.id.endsWith("_back")).id);
+    state = await requireChoice(engine, state, "take_high_path", "M4 coastal retry high path");
+    state = await requireChoice(engine, state, "high_watch_fauna", "M4 coastal retry viewpoint");
+    state = await requireChoice(engine, state, "observe_coast_fauna", "M4 coastal retry encounter");
+    view = await engine.present(state);
+  }
+
+  const engage = view.choices.find((choice) => choice.id.endsWith("_engage"));
+  assert.ok(engage, "M4 capturable coastal ecology result must expose a wild combat handoff");
+  state = await engine.choose(state, engage.id);
+  assert.equal(state.pending?.opponentRegistered, false);
+  assert.ok(state.pending?.returnNodes?.captured, "M4 wild combat must expose captured return");
+  state = resolveAutoplayCombat(engine, state, "captured");
+  assert.ok((state.player.roster?.length ?? 0) >= 4);
+  return state;
+}
+
 async function completeCanonicalM4(engine, start) {
   let state = structuredClone(start);
   const milestones = [
@@ -884,6 +929,9 @@ async function completeCanonicalM4(engine, start) {
     ["M4 completion", s => s.world.flags.m4_complete === true, 1200]
   ];
   for (const [label, goal, maxExpansions] of milestones) {
+    if (label === "M4 fourth Pokémon" && !goal(state)) {
+      state = await captureCanonicalM4FourthPokemon(engine, state);
+    }
     if (goal(state)) continue;
     state = await searchTo({engine,start:state,goal,label,route:"champion",combatPolicy:"win",maxExpansions});
   }
