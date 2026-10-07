@@ -490,7 +490,7 @@
         {
           "id": "handoff_m12",
           "text": "Entro in M12 / WORLD_EXIT.",
-          "goto": "complete"
+          "goto": "m12-world-exit-branch#world_exit_entry"
         },
         {
           "id": "handoff_history",
