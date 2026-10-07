@@ -1471,6 +1471,7 @@ function assertCanonicalFriendNpcsAtM12(state, protagonist) {
     assert.deepEqual([...(npc.trainer?.specializations ?? [])].sort(), [...expected.specializations].sort(), `${protagonist} -> ${name} specializations`);
     assert.equal(npc.rosterCareer?.length, 6, `${protagonist} -> ${name} roster slots`);
     assert.ok(npc.rosterCareer.every((entry) => entry.acquired === true), `${protagonist} -> ${name} full roster acquired`);
+    assert.deepEqual(npc.rosterCareer.map((entry) => entry.evolutionLine.at(-1)), npc.canonicalCareer.finalTeam, `${protagonist} -> ${name} canonical final roster`);
   }
 }
 
