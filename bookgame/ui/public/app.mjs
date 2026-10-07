@@ -142,7 +142,12 @@ function renderChoices(choices) {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "choice-button";
-    button.textContent = choice.text;
+    const rollRequest = choice.save
+      ? `TS ${choice.save.ability}`
+      : choice.check
+        ? `CT ${choice.check.skill ?? choice.check.ability}`
+        : null;
+    button.textContent = rollRequest ? `${choice.text} · ${rollRequest}` : choice.text;
     button.addEventListener("click", async () => {
       button.classList.add("is-selected");
       for (const node of els.choiceList.querySelectorAll("button")) node.disabled = true;
@@ -194,7 +199,7 @@ function renderRoll() {
   }
   els.lastRoll.hidden = false;
   els.lastRoll.textContent =
-    `${roll.notation ?? "d20"} — ${roll.passed ? "successo" : "fallimento"}`;
+    `${roll.kind === "save" ? "TS" : "CT"} ${roll.skill ?? roll.ability ?? ""} · ${roll.notation ?? "d20"} — ${roll.passed ? "successo" : "fallimento"}`;
 }
 
 function hpPercent(hp) {
