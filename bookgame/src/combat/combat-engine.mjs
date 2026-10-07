@@ -2417,6 +2417,9 @@ export class Pokemon5eCombatEngine {
       defender,
       next.round
     );
+    const trainerAttackModifierConsumed = consumeOneShotAttackSource(attacker, "attackModifierSources", next.round, defender);
+    const trainerDamageModifierConsumed = result.hit ? consumeOneShotAttackSource(attacker, "damageModifierSources", next.round, defender) : null;
+    const trainerDamageAdvantageConsumed = result.hit ? consumeOneShotAttackSource(attacker, "damageAdvantageSources", next.round, defender) : null;
 
     if (
       forcedCriticalConsumed === "laser-focus" &&
@@ -2485,6 +2488,9 @@ export class Pokemon5eCombatEngine {
       target: targetSide,
       ...result,
       attackAdvantageConsumed,
+      trainerAttackModifierConsumed,
+      trainerDamageModifierConsumed,
+      trainerDamageAdvantageConsumed,
       forcedHitConsumed,
       forcedCriticalConsumed,
       weather: move.id === "weather-ball" ? weatherProfile.kind : null,
