@@ -20,8 +20,28 @@
         "eq": true
       },
       {
-        "path": "competition.rank",
-        "eq": "A"
+        "any": [
+          {
+            "path": "competition.rank",
+            "eq": "A"
+          },
+          {
+            "all": [
+              {
+                "path": "competition.rank",
+                "eq": "S"
+              },
+              {
+                "path": "world.flags.m6_complete",
+                "eq": true
+              },
+              {
+                "path": "world.flags.m07_unlocked",
+                "eq": true
+              }
+            ]
+          }
+        ]
       },
       {
         "path": "world.flags.m6_lighthouse_return_ready",
