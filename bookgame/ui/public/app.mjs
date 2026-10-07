@@ -43,7 +43,11 @@ const els = {
   playerHpText: $("#player-hp-text"),
   moveList: $("#move-list"),
   endTurn: $("#end-turn"),
-  combatLog: $("#combat-log")
+  combatLog: $("#combat-log"),
+  evolutionOverlay: $("#evolution-overlay"),
+  evolutionStatus: $("#evolution-status"),
+  evolutionFrom: $("#evolution-from"),
+  evolutionTo: $("#evolution-to")
 };
 
 let snapshot = null;
@@ -358,6 +362,53 @@ async function renderSnapshot() {
   }
 }
 
+
+async function playEvolution(presentation) {
+  if (!presentation) return;
+  els.evolutionFrom.dataset.species = presentation.from ?? "";
+  els.evolutionTo.dataset.species = presentation.to ?? presentation.pokemon?.speciesId ?? "";
+  els.evolutionOverlay.hidden = false;
+  for (const phase of presentation.phases ?? []) {
+    els.evolutionOverlay.dataset.phase = phase.id;
+    els.evolutionStatus.textContent = phase.id === "reveal"
+      ? `${presentation.to ?? presentation.pokemon?.speciesId ?? "Pokémon"}!`
+      : "Il Pokémon si sta evolvendo…";
+    if (phase.durationMs > 0) await delay(phase.durationMs);
+  }
+  els.evolutionOverlay.hidden = true;
+  delete els.evolutionOverlay.dataset.phase;
+}
+
+async function runEvolution(option) {
+  try {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let payload = await api("/api/evolution/apply", {
+      method: "POST",
+      body: JSON.stringify({ rosterIndex: option.rosterIndex, evolutionId: option.evolution.id, reducedMotion })
+    });
+    if (payload.evolution.result.status === "choice_required") {
+      const points = Number(payload.evolution.result.choice.points);
+      const stat = window.prompt(`Evoluzione: assegna ${points} punti ASI a STR, DEX, CON, INT, WIS o CHA`, "CON");
+      if (!stat) return;
+      payload = await api("/api/evolution/apply", {
+        method: "POST",
+        body: JSON.stringify({
+          rosterIndex: option.rosterIndex,
+          evolutionId: option.evolution.id,
+          asiDistribution: { [stat.toLowerCase()]: points },
+          reducedMotion
+        })
+      });
+    }
+    snapshot = payload.snapshot;
+    closeDrawer();
+    await playEvolution(payload.evolution.presentation);
+    await renderSnapshot();
+  } catch (error) {
+    showInlineError(error.message);
+  }
+}
+
 function renderTrainer() {
   const player = snapshot.player;
   const stats = Object.entries(player.abilities ?? {})
@@ -436,14 +487,18 @@ function renderTrainer() {
 
 function renderTeam() {
   const roster = snapshot.player.roster ?? [];
+  const options = snapshot.evolutions ?? [];
   return roster.map((pokemon, index) => {
-    const name = pokemon.name ?? pokemon.species ?? pokemon.speciesId ?? `Pokémon ${index + 1}`;
+    const name = pokemon.nickname ?? pokemon.name ?? pokemon.species ?? pokemon.speciesId ?? `Pokémon ${index + 1}`;
     const hp = pokemon.hp ? `HP ${pokemon.hp.current}/${pokemon.hp.max}` : "HP —";
+    const available = options.filter((entry) => entry.rosterIndex === index);
     return `
       <div class="data-card">
         <h3>${escapeHtml(name)} ${index === 0 ? "· Active" : ""}</h3>
+        <div class="data-row"><span>Specie</span><span>${escapeHtml(pokemon.speciesId ?? pokemon.species ?? "—")}</span></div>
         <div class="data-row"><span>Livello</span><span>${escapeHtml(pokemon.level ?? "—")}</span></div>
         <div class="data-row"><span>Stato</span><span>${escapeHtml(hp)}</span></div>
+        ${available.map((entry) => `<button type="button" class="primary-button evolution-action" data-roster-index="${entry.rosterIndex}" data-evolution-id="${escapeHtml(entry.evolution.id)}">Evolvi → ${escapeHtml(entry.evolution.to)}</button>`).join("")}
       </div>
     `;
   }).join("") || '<div class="data-card">Nessun Pokémon nel roster.</div>';
@@ -559,6 +614,16 @@ function openDrawer(panel) {
       } catch (error) {
         showInlineError(error.message);
       }
+    });
+  }
+
+  for (const button of els.drawerContent.querySelectorAll(".evolution-action")) {
+    button.addEventListener("click", () => {
+      const option = (snapshot.evolutions ?? []).find((entry) =>
+        entry.rosterIndex === Number(button.dataset.rosterIndex) &&
+        entry.evolution.id === button.dataset.evolutionId
+      );
+      if (option) runEvolution(option);
     });
   }
 
