@@ -426,9 +426,28 @@ function renderTeam() {
 function renderBag() {
   const inventory = snapshot.player.inventory ?? [];
   if (inventory.length === 0) return '<div class="data-card">Inventario vuoto.</div>';
-  return inventory.map((item) => {
+  const battle = snapshot.battle;
+  const canUse = Boolean(battle && battle.actor === "player" && battle.awaitingSwitch !== "player" && battle.trainerActionAvailable);
+  const moveOptions = (battle?.moves ?? [])
+    .map((move) => `<option value="${escapeHtml(move.id)}">${escapeHtml(move.name)} · PP ${escapeHtml(move.ppCurrent)}/${escapeHtml(move.ppMax)}</option>`)
+    .join("");
+  return inventory.map((item, index) => {
+    const id = typeof item === "string" ? item : item.id ?? item.name ?? "";
     const name = typeof item === "string" ? item : item.name ?? item.id ?? "Oggetto";
-    return `<div class="data-card"><h3>${escapeHtml(name)}</h3></div>`;
+    return `
+      <div class="data-card">
+        <h3>${escapeHtml(name)}</h3>
+        ${battle ? `
+          <div class="data-row">
+            <span>Bersaglio</span>
+            <span>Pokémon attivo</span>
+          </div>
+          ${moveOptions ? `<label class="data-row"><span>Mossa (se richiesta)</span><select class="item-move" data-item-index="${index}"><option value="">—</option>${moveOptions}</select></label>` : ""}
+          <button type="button" class="item-use" data-item-id="${escapeHtml(id)}" data-item-index="${index}" ${canUse ? "" : "disabled"}>Usa</button>
+          ${canUse ? "" : '<small>Disponibile durante il tuo turno quando l’azione Trainer è libera.</small>'}
+        ` : "<small>Gli oggetti di combattimento si usano dalla Bag durante il tuo turno.</small>"}
+      </div>
+    `;
   }).join("");
 }
 
@@ -511,6 +530,25 @@ function openDrawer(panel) {
         });
         els.drawerContent.innerHTML = renderTrainer();
         openDrawer("trainer");
+      } catch (error) {
+        showInlineError(error.message);
+      }
+    });
+  }
+
+  for (const button of els.drawerContent.querySelectorAll(".item-use")) {
+    button.addEventListener("click", async () => {
+      try {
+        const move = els.drawerContent.querySelector(`.item-move[data-item-index="${button.dataset.itemIndex}"]`);
+        snapshot = await api("/api/combat/item", {
+          method: "POST",
+          body: JSON.stringify({
+            itemId: button.dataset.itemId,
+            targetSide: "player",
+            moveId: move?.value || null
+          })
+        });
+        openDrawer("bag");
       } catch (error) {
         showInlineError(error.message);
       }
