@@ -6708,7 +6708,50 @@ export class Pokemon5eCombatEngine {
       return rank(a) - rank(b);
     });
 
-    return this.useMove(next, "opponent", usable[0].id, {
+    const selected = usable[0];
+    if (
+      selected.attack &&
+      selected.dice?.type === "damage" &&
+      next.trainer?.reactionAvailable &&
+      !next.pendingTrainerReaction
+    ) {
+      next.pendingTrainerReaction = {
+        trigger: "targeted_by_attack",
+        featureId: "raise-your-defenses",
+        mode: "ac",
+        attackerSide: "opponent",
+        targetSide: "player",
+        moveId: selected.id
+      };
+      next.log.push({
+        type: "trainer_reaction_window",
+        round: next.round,
+        featureId: "raise-your-defenses",
+        trigger: "targeted_by_attack",
+        moveId: selected.id
+      });
+      return next;
+    }
+
+    return this.useMove(next, "opponent", selected.id, {
+      useDefenderIntimidate: usePlayerIntimidate
+    });
+  }
+
+  async resolvePendingTrainerReaction(battle, { useReaction = false, usePlayerIntimidate = false } = {}) {
+    if (!battle.pendingTrainerReaction) throw new Error("No Trainer reaction is pending");
+    const next = clone(battle);
+    const pending = clone(next.pendingTrainerReaction);
+    next.pendingTrainerReaction = null;
+    if (this.actor(next) !== pending.attackerSide) throw new Error("Trainer reaction trigger is no longer current");
+    next.log.push({
+      type: "trainer_reaction_window_resolved",
+      round: next.round,
+      featureId: pending.featureId,
+      trigger: pending.trigger,
+      used: Boolean(useReaction)
+    });
+    return this.useMove(next, pending.attackerSide, pending.moveId, {
       useDefenderIntimidate: usePlayerIntimidate
     });
   }
@@ -6718,10 +6761,10 @@ export class Pokemon5eCombatEngine {
     let intimidateRequested = usePlayerIntimidate;
 
     while (!next.outcome) {
-      if (next.awaitingSwitch) return next;
+      if (next.awaitingSwitch || next.pendingTrainerReaction) return next;
 
       next = await this.prepareCurrentTurn(next);
-      if (next.outcome || next.awaitingSwitch) break;
+      if (next.outcome || next.awaitingSwitch || next.pendingTrainerReaction) break;
 
       if (this.actor(next) === "player") return next;
 
