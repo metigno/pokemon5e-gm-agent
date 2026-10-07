@@ -2,7 +2,7 @@ import { abilityModifier } from "../../../src/bridge/motor-to-poke5e.mjs";
 import { CryptoDice, rollD20 } from "./dice.mjs";
 import { evaluateCondition } from "./conditions.mjs";
 import { SceneRepository } from "./scene-repository.mjs";
-import { proficiencyBonus, touchState } from "./state.mjs";
+import { completeTrainerCreation, proficiencyBonus, touchState } from "./state.mjs";
 import { advanceWorldTime, getWorldTimeView } from "./time.mjs";
 import { applyQuestEffect, getQuestJournal, processQuestDeadlines } from "./quest-state.mjs";
 import { applyNpcEffect, refreshNpcSchedules } from "./npc-state.mjs";
@@ -17,6 +17,11 @@ function clone(value) {
 
 function applyEffects(state, effects = []) {
   for (const effect of effects) {
+    if (effect.type === "trainer_specialization") {
+      const completed = completeTrainerCreation(state, { specialization: effect.specialization });
+      Object.assign(state, completed);
+      continue;
+    }
     if (effect.type === "set_flag") {
       state.world.flags[effect.key] = effect.value;
       continue;
