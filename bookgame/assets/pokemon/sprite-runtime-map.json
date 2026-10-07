@@ -10,7 +10,7 @@
   },
   "counts": {
     "sprites": 608,
-    "aliases": 627,
+    "aliases": 628,
     "aliasCollisions": 0
   },
   "aliasIndex": {
@@ -640,7 +640,8 @@
     "zoroark-hisuian": "zoroark-hisui",
     "zorua": "zorua",
     "zubat": "zubat",
-    "zweilous": "zweilous"
+    "zweilous": "zweilous",
+    "wooper-paldean": "wooper-paldea"
   },
   "sprites": {
     "abra": {
