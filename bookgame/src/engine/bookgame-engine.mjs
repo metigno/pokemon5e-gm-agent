@@ -4,6 +4,7 @@ import { evaluateCondition } from "./conditions.mjs";
 import { SceneRepository } from "./scene-repository.mjs";
 import { proficiencyBonus, touchState } from "./state.mjs";
 import {
+  applyTrainerProgressionEffect,
   getTrainerProgressionView,
   hasPendingTrainerProgression,
   resolveTrainerProgressionChoice,
@@ -29,6 +30,10 @@ function applyEffects(state, effects = []) {
     }
     if (effect.type === "set_location") {
       state.world.locationId = effect.locationId;
+      continue;
+    }
+    if (effect.type === "trainer_milestone_level") {
+      applyTrainerProgressionEffect(state, effect);
       continue;
     }
     if (effect.type === "purchase_item") {
