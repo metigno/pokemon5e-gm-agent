@@ -104,10 +104,10 @@ const cycle2=[
   ["m10-qf-prep",12,27],
   ["m10-world-qf",21,47],
   ["m10-qf-aftermath",15,33],
-  ["m10-module-outcome",12,26]
+  ["m10-module-outcome",12,29]
 ];
 
-test("M10_05-M10_09 logical production budget is locked at 82 nodes / 181 meaningful choices",async()=>{
+test("M10_05-M10_09 logical production budget is locked at 82 nodes / 184 meaningful choices",async()=>{
   let nodes=0,choices=0;
   for(const [rel,n,c] of cycle2){
     const scene=await readScene(rel);
@@ -118,10 +118,10 @@ test("M10_05-M10_09 logical production budget is locked at 82 nodes / 181 meanin
     nodes+=actualNodes;choices+=actualChoices;
   }
   assert.equal(nodes,82);
-  assert.equal(choices,181);
+  assert.equal(choices,184);
 });
 
-test("M10 complete logical surface is exactly 160 nodes / 352 meaningful choices",async()=>{
+test("M10 complete logical surface is exactly 160 nodes / 355 meaningful choices",async()=>{
   let nodes=0,choices=0;
   for(const [rel] of [...expected,...cycle2]){
     const scene=await readScene(rel);
@@ -129,7 +129,7 @@ test("M10 complete logical surface is exactly 160 nodes / 352 meaningful choices
     choices+=Object.values(scene.nodes).reduce((sum,node)=>sum+(node.choices?.length??0),0);
   }
   assert.equal(nodes,160);
-  assert.equal(choices,352);
+  assert.equal(choices,355);
 });
 
 test("M10_05-M10_09 authored nodes are reachable and have no zero-incoming padding",async()=>{
