@@ -22,7 +22,9 @@ function createRookieFriendNpc(name) {
       starterSpecies: build.starter.species,
       starterForm: build.starter.form,
       starterLevel: build.starter.level,
-      recentResult: "none"
+      recentResult: "none",
+      specializations: [],
+      trainerPath: null
     }
   });
 }
@@ -97,7 +99,10 @@ export function createNewGameState({
           met: false,
           rankState: "F",
           teamStage: "rookie",
-          resultContext: "none"
+          resultContext: "none",
+          trainerLevel: 1,
+          specializations: [],
+          trainerPath: null
         }
       })
     },
