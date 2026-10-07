@@ -30,7 +30,7 @@
       "stitches": [
         {
           "id": "tg1",
-          "text": "La Sala della Cresta chiama il tuo checkpoint. L'esame è un Singles con Official Five; la vittoria promuove a Rank A, la sconfitta lascia Rank B e riapre il retry."
+          "text": "Dalla Sala della Cresta chiamano il tuo nome. L'esame è un Singles con cinque Pokémon: se vinci passi al Rank A; se perdi resti Rank B e potrai iscriverti a un nuovo tentativo."
         }
       ],
       "choices": [
@@ -41,7 +41,7 @@
         },
         {
           "id": "gate_roster",
-          "text": "Rivedo il roster pubblico fisso del gate.",
+          "text": "Rivedo la squadra pubblica dell'esaminatrice.",
           "goto": "roster_public"
         },
         {
@@ -55,7 +55,7 @@
       "stitches": [
         {
           "id": "eb1",
-          "text": "Aurelia Kite non adatta il proprio team al tuo. Il checkpoint usa sempre lo stesso Official Five per questa fascia: Sableye, Roselia, Chinchou, Growlithe e Noctowl, tutti al livello fissato del gate."
+          "text": "Aurelia Kite entra senza chiederti cosa porterai. La sua squadra è la stessa per ogni candidato di questa fascia: Sableye, Roselia, Chinchou, Growlithe e Noctowl, ai livelli previsti dal regolamento."
         },
         {
           "id": "eb2",
@@ -104,7 +104,7 @@
       "stitches": [
         {
           "id": "ir1",
-          "text": "Questo gate misura capacità di mantenere valore nel tempo: non bruciare tutto sulla prima minaccia, riconoscere quando cambiare linea e avere ancora strumenti negli ultimi turni."
+          "text": "L'esame vuole vedere cosa resta del tuo piano quando il combattimento si allunga: se consumi tutto sulla prima minaccia, se sai cambiare linea e se hai ancora risposte negli ultimi turni."
         }
       ],
       "choices": [
@@ -124,7 +124,7 @@
       "stitches": [
         {
           "id": "rd1",
-          "text": "E5 controllerà Rank B, registrazione attiva e almeno cinque Pokémon. La scena non cura HP/PP, non rimuove status e non crea sostituti se il roster reale non è pronto."
+          "text": "Prima di aprire l'arena vengono controllati Rank B, iscrizione attiva e cinque Pokémon disponibili. Nessuno verrà curato o sostituito al banco: entrerai con la squadra nelle condizioni in cui si trova."
         }
       ],
       "choices": [
@@ -242,13 +242,13 @@
       "stitches": [
         {
           "id": "fc1",
-          "text": "Da qui non c'è esito narrativo predefinito. Se inizi, il resolver Pokémon 5e/E5 decide il match e registra il risultato ufficiale."
+          "text": "Da qui non esiste un esito prestabilito. Se entri, saranno le regole del combattimento e le vostre decisioni a determinare il risultato ufficiale."
         }
       ],
       "choices": [
         {
           "id": "confirm_battle",
-          "text": "Confermo l'Official Five e inizio il Trial.",
+          "text": "Confermo i cinque Pokémon e inizio il Trial.",
           "conditions": {
             "all": [
               {
@@ -278,7 +278,7 @@
       "stitches": [
         {
           "id": "bh1",
-          "text": "Il controllo passa al sistema di combattimento. Nessuna scelta in questa scena può trasformare una sconfitta in vittoria o saltare il checkpoint."
+          "text": "Le porte dell'arena si chiudono dietro di te. Da questo momento conta soltanto ciò che accade nel combattimento."
         }
       ],
       "choices": [
@@ -346,7 +346,7 @@
       "stitches": [
         {
           "id": "tw1",
-          "text": "E5 registra la vittoria e completa `RANK_B_TO_A`: il Trial non è più disponibile, la registrazione viene consumata e il Rank strutturato diventa A."
+          "text": "La vittoria viene registrata. Aurelia firma la promozione e la tua tessera passa al Rank A; questo Trial è concluso."
         }
       ],
       "choices": [
@@ -371,7 +371,7 @@
       "stitches": [
         {
           "id": "wr1",
-          "text": "La promozione deriva dal match risolto, non dal flag di modulo, dalla licenza o dal soccorso. Tutti gli altri thread M5 restano nello stato in cui li hai lasciati."
+          "text": "La promozione arriva da questa vittoria, non dalla licenza, dal soccorso o da altri risultati ottenuti sulle montagne. Tutto il resto resta esattamente nello stato in cui lo hai lasciato."
         }
       ],
       "choices": [
@@ -466,7 +466,7 @@
       "stitches": [
         {
           "id": "tl1",
-          "text": "E5 registra una sconfitta ufficiale. Il numero di tentativi aumenta, la registrazione viene rimossa e il checkpoint resta disponibile perché è retryable. Il Rank resta B."
+          "text": "La sconfitta viene registrata. Resti Rank B; l'iscrizione di questo tentativo è chiusa, ma potrai tornare al banco e presentarti di nuovo."
         }
       ],
       "choices": [
