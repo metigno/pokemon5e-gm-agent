@@ -181,7 +181,7 @@
       "stitches": [
         {
           "id": "rescue_success_context_1",
-          "text": "Il contributo che hai dato non equivale al bilancio finale. M3_11 dovrà ancora registrare persone, danni e responsabilità; il fatto utile qui è che hai partecipato entro la finestra e hai scelto un tipo concreto di supporto."
+          "text": "Hai già dato il tuo contributo all'emergenza, ma il bilancio finale non è ancora pronto. Sai soltanto dove sei intervenuto e quanto tempo hai speso."
         }
       ],
       "choices": [
@@ -336,7 +336,7 @@
       "stitches": [
         {
           "id": "trial_context_1",
-          "text": "Il formato resta quello strutturato dal subsystem Competition. Nessuna scelta di Crossroads registra il Trial, seleziona il roster o concede una vittoria: prepara soltanto la tua priorità narrativa e di tempo."
+          "text": "Il banco del Trial resta aperto con le stesse regole: iscrizione separata, tre Pokémon dichiarati e vittoria da conquistare sul campo. Scegliere di occupartene adesso significa soltanto dargli priorità."
         }
       ],
       "choices": [
@@ -415,7 +415,7 @@
       "stitches": [
         {
           "id": "cup_context_1",
-          "text": "Il costo non è una penalità nascosta: è tempo. Se scegli la Cup, altri thread possono avanzare, scadere o risolversi senza di te secondo i propri sistemi. Il bracket, quando arriverà, userà risultati reali."
+          "text": "La Coppa richiede tempo. Se scegli di partecipare, Ferravia e le altre questioni aperte continueranno a muoversi mentre sei impegnato nel tabellone."
         }
       ],
       "choices": [
