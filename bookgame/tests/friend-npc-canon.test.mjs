@@ -33,8 +33,13 @@ test("Luke receives his NPC canon when another friend is the protagonist",()=>{
 });
 
 test("player choice never inherits the NPC scripted path",()=>{
- const s=createNewGameState({protagonist:"Fab"});
- assert.equal(s.player.trainerPath,null);
- assert.deepEqual(s.player.specializations,[]);
- assert.equal(s.npcs.Fab,undefined);
+ for(const player of names){
+  const s=createNewGameState({protagonist:player});
+  const fourNpcNames=names.filter(name=>name!==player);
+  assert.equal(s.player.name,player);
+  assert.equal(s.player.trainerPath,null);
+  assert.deepEqual(s.player.specializations,[]);
+  assert.equal(s.npcs[player],undefined);
+  assert.equal(fourNpcNames.filter(name=>s.npcs[name]?.canonicalCareer).length,4);
+ }
 });
