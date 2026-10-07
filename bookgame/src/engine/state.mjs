@@ -1,5 +1,6 @@
 import { specializationByType } from "../rules/trainer-2024.mjs";
 import { friendNpcCanon } from "../rules/friend-npc-canon.mjs";
+import { initializeFriendCareerRoster } from "./npc-roster-progression.mjs";
 import { getStartingBuild } from "../../../src/bridge/motor-to-poke5e.mjs";
 import { DEFAULT_START_MINUTE, daypartForMinute } from "./time.mjs";
 import { createPersistentNpc } from "./npc-state.mjs";
@@ -15,7 +16,7 @@ const FIVE_FRIEND_IDS = ["Luke", "Mattew", "Daniel", "Edward", "Fab"];
 function createRookieFriendNpc(name, playerName) {
   const build = getStartingBuild(name);
   const canon = friendNpcCanon(name, playerName);
-  return createPersistentNpc({
+  const npc = createPersistentNpc({
     id: name,
     name,
     state: {
@@ -32,6 +33,8 @@ function createRookieFriendNpc(name, playerName) {
       canonicalCareer: canon
     }
   });
+  npc.rosterCareer = initializeFriendCareerRoster(npc);
+  return npc;
 }
 
 export function createNewGameState({
