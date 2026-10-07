@@ -1,4 +1,5 @@
 import { distance } from "./spatial.mjs";
+import { battleFogView } from "./fog-of-war.mjs";
 
 async function firstOpportunityMove(battle, combatEngine, side) {
   const combatant = battle[side];
@@ -18,8 +19,9 @@ function ballEntries(battle) {
 
 export function printBattlefield(battle) {
   const gap = distance(battle.player.position, battle.opponent.position);
+  const visible = battleFogView(battle, battle.playerKnowledge ?? { default: 0 });
   console.log("");
-  console.log("Round " + battle.round + " — " + battle.player.name + " " + battle.player.hp.current + "/" + battle.player.hp.max + " HP | " + battle.opponent.name + " " + battle.opponent.hp.current + "/" + battle.opponent.hp.max + " HP");
+  console.log("Round " + battle.round + " — " + battle.player.name + " " + battle.player.hp.current + "/" + battle.player.hp.max + " HP | " + visible.opponent.name + " " + visible.opponent.hp.current + "/" + visible.opponent.hp.max + " HP");
   console.log("Distanza Pokémon: " + gap.toFixed(1) + " ft | Movimento rimasto: " + battle.player.turn.movementRemaining.toFixed(1) + " ft");
   console.log("Posizioni — Trainer (" + battle.trainer.position.x.toFixed(1) + ", " + battle.trainer.position.y.toFixed(1) + ") | " + battle.player.name + " (" + battle.player.position.x.toFixed(1) + ", " + battle.player.position.y.toFixed(1) + ") | " + battle.opponent.name + " (" + battle.opponent.position.x.toFixed(1) + ", " + battle.opponent.position.y.toFixed(1) + ")");
 }
