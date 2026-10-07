@@ -21,8 +21,8 @@ test("new game cannot silently skip Pokemon 5e Trainer creation", () => {
 test("level 1 completion requires specialization and does not invent a Trainer Path", () => {
   const state = createNewGameState({ protagonist: "Luke", now: fixedNow });
   assert.throws(() => completeTrainerCreation(state, {}), /specialization/i);
-  const ready = completeTrainerCreation(state, { specialization: "Fire" });
-  assert.deepEqual(ready.player.specializations, ["Fire"]);
+  const ready = completeTrainerCreation(state, { specialization: "fire" });
+  assert.deepEqual(ready.player.specializations, ["fire"]);
   assert.equal(ready.player.trainerPath, null);
   assert.equal(ready.player.characterCreation.complete, true);
   assert.equal(ready.world.flags.character_creation_complete, true);
