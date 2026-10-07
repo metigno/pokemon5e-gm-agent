@@ -14,11 +14,11 @@
         },
         {
           "id": "arena_blue_measure",
-          "text": "Blue ti riconosce come un altro rookie del circuito. Non fa il simpatico e non cerca un nemico: vuole capire in fretta se sei uno che sa davvero cosa sta facendo."
+          "text": "Blue ti squadra, poi guarda il tuo Pokémon. «Rookie anche tu? Bene. Vediamo se almeno uno qui è venuto per vincere.» Il sorriso dura appena un secondo."
         },
         {
           "id": "arena_blue_choice",
-          "text": "Puoi trasformare l'incrocio in conversazione, confronto tecnico, provocazione leggera o niente di più di un cenno. Nessuna di queste strade richiede di batterlo."
+          "text": "Squirtle resta vicino alla linea mentre Blue torna a controllare il tabellone. Hai il tempo di parlargli, provocarlo, chiedergli informazioni o lasciarlo perdere."
         }
       ],
       "choices": [
@@ -313,11 +313,11 @@
       "stitches": [
         {
           "id": "arena_talk_read",
-          "text": "Blue non spreca tempo con presentazioni lunghe. Ti chiede che tipo di allenatore vuoi diventare e ascolta la risposta soprattutto per capire se sai distinguere intenzione e risultato."
+          "text": "Blue incrocia le braccia. «Allora? Che Trainer vuoi diventare?» Non aspetta un discorso perfetto; ascolta abbastanza da capire se dietro le parole c'è qualcosa di concreto."
         },
         {
           "id": "arena_talk_not_friend",
-          "text": "Il tono resta competitivo. Non è amicizia automatica e non è ostilità automatica: è un primo metro di giudizio."
+          "text": "Quando finisci, annuisce appena. «Vedremo.» Non sembra né conquistato né infastidito: semplicemente, adesso ha un'opinione da mettere alla prova."
         }
       ],
       "choices": [
@@ -364,7 +364,7 @@
       "stitches": [
         {
           "id": "arena_info",
-          "text": "Blue indica il ritmo degli incontri, i requisiti del Promotion Trial e il modo in cui i rookie vengono chiamati. Non ti regala una scorciatoia: ti dà informazioni che chiunque può verificare, solo con più precisione."
+          "text": "Blue indica il tabellone. «Chiamano per fascia e disponibilità. Per il Promotion Trial controllano Rank e squadra prima di registrarti.» Fa spallucce. «È scritto lì. Basta leggere.»"
         }
       ],
       "choices": [
@@ -385,11 +385,11 @@
       "stitches": [
         {
           "id": "arena_match_terms",
-          "text": "Blue accetta soltanto se resta uno sparring reale: un Pokémon per parte, nessun risultato concordato e nessun valore ufficiale nel Circuito."
+          "text": "Blue guarda il campo libero e poi te. «Uno contro uno. Niente scuse dopo.»"
         },
         {
           "id": "arena_squirtle",
-          "text": "Fa un cenno a Squirtle. È ancora un team da rookie, non l'ombra anticipata di un roster futuro."
+          "text": "Fa un cenno e Squirtle avanza di mezzo passo, attento al campo quanto lui."
         }
       ],
       "choices": [
@@ -428,7 +428,7 @@
       "stitches": [
         {
           "id": "arena_match_pending",
-          "text": "Lo sparring passa al resolver Pokémon 5e. La scena non decide chi vince."
+          "text": "Blue manda Squirtle oltre la linea. «Vediamo se parli bene quanto combatti.» Quando il campo viene liberato, lo sparring comincia."
         }
       ],
       "choices": []
@@ -437,7 +437,7 @@
       "stitches": [
         {
           "id": "arena_match_win_text",
-          "text": "Lo sparring finisce a tuo favore. Blue guarda prima Squirtle, poi te. Non cerca una scusa e non trasforma una sconfitta da rookie in una resa della propria traiettoria."
+          "text": "Quando lo sparring finisce a tuo favore, Blue richiama Squirtle e lo controlla prima di guardarti. «Okay. Questa me la segno.» Nessuna scusa; soltanto un sorriso molto meno distratto di prima."
         }
       ],
       "choices": [
@@ -501,7 +501,7 @@
       "stitches": [
         {
           "id": "arena_match_loss_text",
-          "text": "Lo sparring finisce a favore di Blue. «Meglio di quanto pensavo,» dice, senza fingere che la vittoria chiuda il discorso. È un risultato reale, non un gate narrativo."
+          "text": "Quando Squirtle chiude lo sparring, Blue lo richiama con un gesto soddisfatto. «Meglio di quanto pensavo.» Ti lancia un'ultima occhiata. «Ma non abbastanza.»"
         }
       ],
       "choices": [
@@ -565,7 +565,7 @@
       "stitches": [
         {
           "id": "arena_exit_text",
-          "text": "Blue torna al suo programma e tu al tuo. Il Circuito non congela nessuno dei due perché il primo incontro è stato breve."
+          "text": "Blue torna al tabellone come se avesse già il prossimo posto dove andare. Pochi secondi dopo, siete di nuovo due Trainer con strade separate."
         }
       ],
       "choices": [
