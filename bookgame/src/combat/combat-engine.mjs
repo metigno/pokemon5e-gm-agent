@@ -1,5 +1,5 @@
 import { attemptCapture } from "./capture.mjs";
-import { chooseNpcMove } from "./npc-tactics.mjs";
+import { chooseNpcTurnPlan } from "./npc-tactics.mjs";
 import { applyItemToPokemon, findInventoryItemIndex } from "./item-rules.mjs";
 import {
   canonicalReactionTrigger,
@@ -6732,13 +6732,16 @@ export class Pokemon5eCombatEngine {
 
     if (usable.length === 0) return endTurnInternal(next, "opponent", this.dice);
 
-    const chosen = chooseNpcMove(usable, {
-      difficulty: next.opponent?.aiDifficulty ?? next.aiDifficulty ?? "hard",
-      targetHpRatio: next.player.hp.max > 0 ? next.player.hp.current / next.player.hp.max : 0,
-      selfHpRatio: next.opponent.hp.max > 0 ? next.opponent.hp.current / next.opponent.hp.max : 0
+    const plan = chooseNpcTurnPlan({
+      legalMoves: usable,
+      bench: next.opponentBench ?? [],
+      active: next.opponent,
+      target: next.player,
+      difficulty: next.opponent?.aiDifficulty ?? next.aiDifficulty ?? "hard"
     });
-
-    return this.useMove(next, "opponent", chosen.id, {
+    if (plan.kind === "switch") return this.switchOpponent(next, plan.benchIndex);
+    if (plan.kind === "end") return endTurnInternal(next, "opponent", this.dice);
+    return this.useMove(next, "opponent", plan.moveId, {
       useDefenderIntimidate: usePlayerIntimidate
     });
   }
