@@ -42,7 +42,7 @@
       "stitches": [
         {
           "id": "call_1",
-          "text": "La reunion comune lascia spazio a un solo confronto personale. Il selector ha già scelto l'amico compatibile con presenza, schedule e continuità: se è lontano, il beat resta remoto."
+          "text": "Quando il gruppo si disperde resta tempo per un solo confronto personale. Sarà con l'amico che puoi davvero raggiungere adesso; se è lontano, la distanza resta parte della conversazione."
         }
       ],
       "choices": [
@@ -282,7 +282,7 @@
       "choices": [
         {
           "id": "luke_deep_close",
-          "text": "Conservo questo momento come callback futuro.",
+          "text": "Mi porto dietro questo confronto: potrà tornare a pesare quando le nostre strade si incroceranno di nuovo.",
           "goto": "friend_beat_close",
           "effects": [
             {
@@ -485,7 +485,7 @@
       "choices": [
         {
           "id": "mattew_deep_close",
-          "text": "Conservo questo momento come callback futuro.",
+          "text": "Mi porto dietro questo confronto: potrà tornare a pesare quando le nostre strade si incroceranno di nuovo.",
           "goto": "friend_beat_close",
           "effects": [
             {
@@ -688,7 +688,7 @@
       "choices": [
         {
           "id": "daniel_deep_close",
-          "text": "Conservo questo momento come callback futuro.",
+          "text": "Mi porto dietro questo confronto: potrà tornare a pesare quando le nostre strade si incroceranno di nuovo.",
           "goto": "friend_beat_close",
           "effects": [
             {
@@ -869,7 +869,7 @@
       "choices": [
         {
           "id": "edward_deep_close",
-          "text": "Conservo questo momento come callback futuro.",
+          "text": "Mi porto dietro questo confronto: potrà tornare a pesare quando le nostre strade si incroceranno di nuovo.",
           "goto": "friend_beat_close",
           "effects": [
             {
@@ -1050,7 +1050,7 @@
       "choices": [
         {
           "id": "fab_deep_close",
-          "text": "Conservo questo momento come callback futuro.",
+          "text": "Mi porto dietro questo confronto: potrà tornare a pesare quando le nostre strade si incroceranno di nuovo.",
           "goto": "friend_beat_close",
           "effects": [
             {
