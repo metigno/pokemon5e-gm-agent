@@ -69,6 +69,56 @@
           "text": "Cinque Poké Ball sono disposte sul banco, ciascuna davanti a un nome: Luke — Hisuian Growlithe; Mattew — Eevee; Daniel — Gastly; Edward — Totodile; Fab — Koffing."
         },
         {
+          "id": "voice_luke",
+          "conditions": {
+            "not": {
+              "path": "player.name",
+              "eq": "Luke"
+            }
+          },
+          "text": "Luke lascia che Hisuian Growlithe gli giri attorno una volta. «Prima vediamo cosa vuole fare lui. Poi ci muoviamo.»"
+        },
+        {
+          "id": "voice_mattew",
+          "conditions": {
+            "not": {
+              "path": "player.name",
+              "eq": "Mattew"
+            }
+          },
+          "text": "Mattew aspetta che Eevee smetta di guardare la stanza. «Prima osserva. Bene. Almeno partiamo dallo stesso punto.»"
+        },
+        {
+          "id": "voice_daniel",
+          "conditions": {
+            "not": {
+              "path": "player.name",
+              "eq": "Daniel"
+            }
+          },
+          "text": "Gastly compare alle spalle di Daniel invece che davanti. Lui si volta con mezzo sorriso. «Oppure possiamo iniziare così. Va bene.»"
+        },
+        {
+          "id": "voice_edward",
+          "conditions": {
+            "not": {
+              "path": "player.name",
+              "eq": "Edward"
+            }
+          },
+          "text": "Totodile scatta verso Edward appena appare. Lui arretra un passo e ride. «Okay. Energia ne abbiamo.»"
+        },
+        {
+          "id": "voice_fab",
+          "conditions": {
+            "not": {
+              "path": "player.name",
+              "eq": "Fab"
+            }
+          },
+          "text": "Fab resta fermo mentre Koffing gli fluttua vicino alla spalla. «Tranquillo. Non abbiamo fretta.»"
+        },
+        {
           "id": "player_space",
           "text": "Quando viene aperta la Poké Ball assegnata a te, il tuo starter compare a pochi passi. «Non correte a toccarli,» avverte l'istruttore. «Lasciate che vi vedano.» Poi si allontana."
         }
