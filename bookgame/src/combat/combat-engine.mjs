@@ -1,5 +1,6 @@
 import { attemptCapture } from "./capture.mjs";
 import { chooseNpcTurnPlan } from "./npc-tactics.mjs";
+import { createNpcKnowledge, npcPublicBattleView, updateNpcKnowledge } from "./npc-knowledge.mjs";
 import { applyItemToPokemon, findInventoryItemIndex } from "./item-rules.mjs";
 import {
   canonicalReactionTrigger,
@@ -2081,6 +2082,7 @@ export class Pokemon5eCombatEngine {
       opponent,
       opponentBench,
       opponentRegistered: Boolean(handoff.opponentRegistered),
+      npcKnowledge: null,
       sanctioned: Boolean(handoff.sanctioned),
       flee: {
         lastAttemptRound: null,
@@ -6732,11 +6734,14 @@ export class Pokemon5eCombatEngine {
 
     if (usable.length === 0) return endTurnInternal(next, "opponent", this.dice);
 
+    next.npcKnowledge = updateNpcKnowledge(next, next.npcKnowledge ?? createNpcKnowledge(next));
+    const publicView = npcPublicBattleView(next, next.npcKnowledge);
     const plan = chooseNpcTurnPlan({
       legalMoves: usable,
       bench: next.opponentBench ?? [],
-      active: next.opponent,
-      target: next.player,
+      active: publicView.opponent,
+      target: publicView.player,
+      knowledge: publicView,
       difficulty: next.opponent?.aiDifficulty ?? next.aiDifficulty ?? "hard"
     });
     if (plan.kind === "switch") return this.switchOpponent(next, plan.benchIndex);
