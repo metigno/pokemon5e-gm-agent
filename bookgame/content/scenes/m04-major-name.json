@@ -233,7 +233,7 @@
         },
         {
           "id": "ask_competition",
-          "text": "Chiedo come traduce resource management in una lotta ufficiale.",
+          "text": "Chiedo come traduce la gestione delle risorse in una lotta ufficiale.",
           "goto": "competition_context"
         },
         {
@@ -342,7 +342,7 @@
       "stitches": [
         {
           "id": "comp_1",
-          "text": "«In un match lungo, HP, PP, informazioni e switch sono infrastruttura. Se spendi tutto per vincere un turno, il turno dopo scopri cosa hai davvero comprato.» Il tema del Trial C→B smette di sembrare astratto."
+          "text": "«In una lotta lunga, HP, PP, informazioni e cambi sono la tua infrastruttura. Se spendi tutto per vincere un turno, quello dopo scopri cosa hai davvero comprato.» Il principio richiesto dal Trial C→B diventa molto più concreto."
         }
       ],
       "choices": [
