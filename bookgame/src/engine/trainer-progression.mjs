@@ -28,6 +28,9 @@ function abilityModifier(score){return Math.floor((Number(score??10)-10)/2);}
 function ensureProgression(state){
   state.player??={};
   const p=state.player;
+  if(Array.isArray(p.specializations)){
+    p.specializations=Object.fromEntries(TRAINER_SPECIALIZATIONS.map(type=>[type,0]));
+  }
   p.trainerProgression??={mode:"milestone",history:[],pendingChoices:[],resolvedChoices:[],targetLevel:p.trainerLevel??1,targetMilestoneId:null};
   p.trainerProgression.mode??="milestone";
   p.trainerProgression.history??=[];
