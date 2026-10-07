@@ -46,21 +46,21 @@
       "stitches": [
         {
           "id": "appears_1",
-          "text": "L'archivista chiude un cassetto e saluta con un cenno sommesso. «Buon pomeriggio, ingegnere.» Non è a te che si rivolge: dietro di te è entrato qualcuno in giacca grigia, cartella rigida sotto il braccio, aria di uno che è stato qui più volte senza farsi notare. Non si avvicina al banco subito — passa prima davanti allo scaffale aperto, controlla una collocazione, poi si ferma a un metro dalla tua spalla."
+          "text": "L'archivista chiude un cassetto e alza appena il mento. «Buon pomeriggio, Steven.» Dietro di te è entrato un uomo in giacca scura con una cartella rigida sotto il braccio. Prima di avvicinarsi controlla una collocazione sullo scaffale, come chi conosce già la stanza."
         },
         {
           "id": "appears_2",
-          "text": "«Vedo che hai estratto l'edizione 1987 anche tu. Buon segno — vuol dire che qualcuno a Ferravia legge ancora le cose scritte prima di questo trimestre.» Il tono è quello di un collega che non ha interesse ad imporre la conversazione: ti sta semplicemente riconoscendo come lettore attento, non come intruso."
+          "text": "Il suo sguardo cade sulla carta che hai appena consultato. «Edizione dell'87?» Un mezzo sorriso. «Pensavo di essere l'unico a far perdere tempo all'archivista con quelle vecchie mappe.»"
         },
         {
           "id": "appears_3",
-          "text": "Dall'archivista arriva un piccolo cenno di conferma: è normale che quest'uomo sia qui, e non è normale che un Rank D arrivi contemporaneamente allo stesso materiale. L'incontro è causalmente credibile — segnali tecnici convergenti, non orchestrati."
+          "text": "L'archivista non interrompe il lavoro. Steven appoggia la cartella sul tavolo vicino, abbastanza distante da non invadere il tuo spazio, e aspetta che tu finisca con la carta."
         }
       ],
       "choices": [
         {
           "id": "introduce_self",
-          "text": "Mi presento come trainer del Circuito, Rank D, interessato alla situazione tecnica.",
+          "text": "Mi presento e gli dico che sto cercando di capire cosa raccontano le vecchie mappe.",
           "timeCostMinutes": 10,
           "goto": "introduction_exchange",
           "effects": [
@@ -115,11 +115,11 @@
       "stitches": [
         {
           "id": "intro_1",
-          "text": "«Steven. Faccio consulenza tecnica per infrastrutture industriali regionali — oggi sono qui per leggere la stessa cartografia che hai in mano.» Non estrae tessere ufficiali, non pretende deferenza. Ti porge invece una domanda neutra: «Che cosa ti ha portato a chiedere l'edizione 1987 in particolare?»"
+          "text": "«Steven Stone.» Ti offre la mano, poi indica la mappa. «Sto dando una mano su alcuni sopralluoghi nella zona. Cosa ti ha portato proprio all'edizione dell'87?»"
         },
         {
           "id": "intro_2",
-          "text": "Steven ascolta fino alla fine prima di rispondere. Le sue domande tornano sempre alla qualità delle osservazioni: rocce, vuoti nel terreno, mappe e ciò che può essere verificato."
+          "text": "Mentre rispondi, Steven non ti interrompe. Quando replica, torna ai dettagli che possono essere controllati: rocce, cavità, revisioni delle mappe, date."
         }
       ],
       "choices": [
@@ -143,7 +143,7 @@
         },
         {
           "id": "answer_generic",
-          "text": "«Volevo capire come è messa l'industria di questa fascia prima di muovermi oltre.»",
+          "text": "«Volevo capire questa zona prima di spingermi più avanti.»",
           "goto": "steven_notes_generic"
         }
       ]
@@ -152,11 +152,11 @@
       "stitches": [
         {
           "id": "notes_old_maps_1",
-          "text": "«Hai letto il punto giusto. Le gallerie dismesse non sono una curiosità storica: sono una variabile tecnica. Se qualcuno riaprisse una diramazione per fretta operativa, il margine di sicurezza perderebbe un piano. Non è un allarme — è ingegneria.»"
+          "text": "Steven inclina la mappa verso la luce. «Esatto. Una galleria chiusa non smette di esistere.» Segue con un dito una delle vecchie diramazioni. «Il terreno conserva una memoria migliore dei nostri cartelli. Conviene ricordarselo prima di cambiare ciò che gli sta sopra.»"
         },
         {
           "id": "notes_old_maps_2",
-          "text": "Non ti chiede di agire, non ti consegna un dossier. Ti considera un lettore della stessa pagina. Prende nota mentale e termina la conversazione tecnica con una frase che non è né promessa né minaccia: «Se Ferravia dovesse chiedere competenza esterna, probabilmente sarò ancora in zona.»"
+          "text": "Richiude la carta senza fretta. «Non c'è motivo di correre alle conclusioni. Ma se qualcuno mi chiederà un altro sopralluogo, questa sarà una delle prime pagine che porterò con me.»"
         }
       ],
       "choices": [
@@ -184,11 +184,11 @@
       "stitches": [
         {
           "id": "notes_survey_1",
-          "text": "«Il rapporto di sopralluogo. Firma di un ingegnere che lavora bene. La nota a margine è un classico — competenza che si confronta con priorità trimestrali. Non è corruzione, è gestione. Però lascia uno spazio di rischio che qualcuno dovrà prima o poi colmare.»"
+          "text": "«Quel rapporto.» Steven annuisce una volta. «La raccomandazione è sensata. Anche la nota a margine è fin troppo normale.» Tocca la data con l'indice. «Il problema comincia quando due decisioni ragionevoli hanno tempi diversi.»"
         },
         {
           "id": "notes_survey_2",
-          "text": "Non ti chiede di esporti; non ti elogia nemmeno. Trattiene il tono di qualcuno che registra che hai saputo scegliere un documento rilevante da uno scaffale pieno. «Se ti ritroverò nella zona tecnica, immagino non per caso.»"
+          "text": "Riprende la cartella. «Hai scelto bene cosa leggere. Se ci incrociamo di nuovo vicino alle gallerie, almeno non dovrò cominciare spiegandoti da zero perché guardo le pareti.»"
         }
       ],
       "choices": [
@@ -216,11 +216,11 @@
       "stitches": [
         {
           "id": "notes_generic_1",
-          "text": "«Risposta corretta. La zona industriale non è un paesaggio di sfondo — è un sistema. Più la leggi come sistema, più ti torna utile.» Non ti consegna informazioni che non hai cercato. Riconosce la risposta come ragionevole, senza elogiarla."
+          "text": "«Ha senso.» Steven guarda per un momento le carte aperte sul tavolo. «Da lontano una cava è solo pietra e rumore. Da vicino ogni strato racconta cosa è successo prima. Io comincerei da lì.»"
         },
         {
           "id": "notes_generic_2",
-          "text": "La conversazione termina sobria. Steven annota qualcosa sulla cartella rigida, saluta l'archivista con un cenno, e torna allo scaffale — ha altro da fare. Non è stato un incontro drammatico. È stato un incontro reale."
+          "text": "Annota una collocazione sulla cartella e saluta l'archivista. La conversazione finisce senza cerimonie: Steven ha ancora documenti da consultare e non prova a trattenerti."
         }
       ],
       "choices": [
@@ -243,11 +243,11 @@
       "stitches": [
         {
           "id": "silent_1",
-          "text": "Resti vicino allo scaffale e osservi. Steven parla a bassa voce con l'archivista di una collocazione — chiede una cartella del 1991, prende un paio di note, non alza mai il tono. Non ti fissa, non ti ignora: ti registra come lettore presente, nulla di più."
+          "text": "Rimani vicino allo scaffale. Steven chiede all'archivista una cartella del 1991, confronta due numeri di revisione e prende poche note. Parla piano e non cerca di attirare l'attenzione."
         },
         {
           "id": "silent_2",
-          "text": "Prima di andarsene, prende dallo scaffale la stessa edizione 1987 che hai consultato tu, la sfoglia per trenta secondi, la rimette con cura. Esce con il saluto all'archivista. Niente scambio diretto con te — ma la tua presenza non gli è sfuggita."
+          "text": "Prima di uscire prende la stessa edizione 1987 che hai consultato, si ferma su due tavole e la rimette esattamente al suo posto. Ti rivolge un breve cenno prima di salutare l'archivista."
         }
       ],
       "choices": [
@@ -274,7 +274,7 @@
       "stitches": [
         {
           "id": "outside_1",
-          "text": "Fuori l'aria è più fresca. Steven è già a venti metri, direzione officina. Non si volta, ma rallenta leggermente in corrispondenza di un incrocio, come se lasciasse spazio a chi lo seguisse di decidere. Non ti chiama."
+          "text": "Fuori l'aria è più fresca. Steven è già avanti, diretto verso l'officina. All'incrocio si ferma un momento per controllare un cartello stradale e una nota sulla cartella; hai ancora il tempo di raggiungerlo, se vuoi."
         }
       ],
       "choices": [
@@ -351,11 +351,11 @@
       "stitches": [
         {
           "id": "deferred_contact_1",
-          "text": "L'archivista conferma che il consulente tecnico è ancora in zona e gli lascia un messaggio. Poco dopo Steven torna al banco con la stessa cartella rigida. Non sembra offeso dal fatto che tu abbia evitato il primo contatto: aveva lavoro da fare anche lui."
+          "text": "L'archivista conferma che Steven è ancora in zona e gli lascia un messaggio. Poco dopo torna con la stessa cartella sotto il braccio. «Mi hanno detto che mi cercavi.» Non accenna al fatto che la prima volta tu abbia preferito lasciarlo andare."
         },
         {
           "id": "deferred_contact_2",
-          "text": "Steven non insiste. Continua per la sua strada e lascia aperta la possibilità di riprendere la conversazione se vi incontrerete di nuovo a Ferravia."
+          "text": "Appoggia la cartella al banco e aspetta. «Se hai cambiato idea, ho qualche minuto.»"
         }
       ],
       "choices": [
