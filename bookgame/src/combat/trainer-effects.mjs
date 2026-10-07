@@ -1,3 +1,5 @@
+const TRAINER_COMBAT_EFFECTS=new Set(["damage-roll-advantage","ac-or-save-bonus","attack-or-damage-bonus","allied-attack-damage-or-ac","capture-check-advantage","leave-pokemon-at-1-hp"]);
+export function trainerCombatEffectSupported(effect){return TRAINER_COMBAT_EFFECTS.has(effect);}
 function push(combatant,key,entry){combatant.effects??={};combatant.effects[key]??=[];combatant.effects[key].push(entry);}
 export function applyTrainerCombatEffect(battle,{side,featureResult,targetSide=side,mode=null,roll=null}){
  if(!featureResult?.used)throw new Error("Trainer feature result must be successfully used");
