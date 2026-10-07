@@ -1,5 +1,5 @@
 function hpView(pokemon){
- return pokemon?{speciesId:pokemon.speciesId,types:structuredClone(pokemon.types??[]),hp:{current:pokemon.hp.current,max:pokemon.hp.max},statuses:structuredClone(pokemon.statuses??{}),setup:{attack:Number((pokemon.effects?.attackModifierSources??[]).reduce((s,x)=>s+Number(x.value??0),0)),ac:Number((pokemon.effects?.acModifierSources??[]).reduce((s,x)=>s+Number(x.value??0),0)),damage:Number((pokemon.effects?.damageModifierSources??[]).reduce((s,x)=>s+Number(x.value??0),0))}}:null;
+ return pokemon?{speciesId:pokemon.speciesId,types:structuredClone(pokemon.types??[]),hp:{current:pokemon.hp.current,max:pokemon.hp.max},statuses:structuredClone(pokemon.statuses??{}),level:Number(pokemon.level??1),setup:{attack:Number((pokemon.effects?.attackModifierSources??[]).reduce((s,x)=>s+Number(x.value??0),0)),ac:Number((pokemon.effects?.acModifierSources??[]).reduce((s,x)=>s+Number(x.value??0),0)),damage:Number((pokemon.effects?.damageModifierSources??[]).reduce((s,x)=>s+Number(x.value??0),0))}}:null;
 }
 export function createNpcKnowledge(battle){
  return {
