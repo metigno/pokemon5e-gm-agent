@@ -642,6 +642,11 @@
               "value": true
             },
             {
+              "type": "trainer_milestone_level",
+              "milestoneId": "M03_FERROX_OUTCOME",
+              "level": 6
+            },
+            {
               "type": "set_location",
               "locationId": "fer_city"
             }
