@@ -43,8 +43,9 @@ export function chooseNpcTurnPlan({legalMoves=[],bench=[],active,target,knowledg
   const stayScore=scoreNpcStay(active,{knowledge});
   const ranked=healthy.map(x=>({...x,score:scoreNpcSwitchCandidate(x.pokemon,{knowledge,active,bench})})).sort((a,b)=>b.score-a.score||a.index-b.index);
   const best=ranked[0];
+  const future=criticalDecisionLookahead({profile,stayScore,switchScore:best.score,active,candidate:best.pokemon,knowledge});
   const margin=profile.id==="very-hard"?4:10;
-  if(threat.score>=40&&best.score>=stayScore+margin) return {kind:"switch",benchIndex:best.index,reason:"switch_value",score:best.score,stayScore};
+  if(threat.score>=40&&future.switch>=future.stay+margin) return {kind:"switch",benchIndex:best.index,reason:"continuation_value",score:future.switch,stayScore:future.stay,lookahead:profile.lookahead};
  }
  return move?{kind:"move",moveId:move.id,reason:"best_legal_move"}:{kind:"end",reason:"no_legal_action"};
 }
@@ -119,4 +120,12 @@ export function reservePreservationCost(candidate,bench,{knowledge=null}={}){
  const best=Math.max(...values);
  const own=continuationValue(candidate,{knowledge});
  return own>=best&&values.length>1?12:0;
+}
+
+export function criticalDecisionLookahead({profile,stayScore,switchScore,active, candidate,knowledge}={}){
+ const depth=Number(profile?.lookahead??0);
+ if(depth<=0) return {stay:stayScore,switch:switchScore};
+ let stay=stayScore+continuationValue(active,{knowledge})*(depth===1?0.08:0.12);
+ let sw=switchScore+continuationValue(candidate,{knowledge})*(depth===1?0.10:0.16);
+ return {stay,switch:sw};
 }
