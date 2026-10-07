@@ -1,0 +1,431 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "INTRO",
+  "id": "intro-five",
+  "title": "The Five",
+  "locationId": "asteria_campus_entrance",
+  "entryNodeId": "before_doors",
+  "conditions": {
+    "path": "world.flags.intro_complete",
+    "eq": false
+  },
+  "nodes": {
+    "before_doors": {
+      "stitches": [
+        {
+          "id": "morning",
+          "text": "È mattina al Campus Licenze Interregionale di Asteria. I cinque amici aspettano insieme fuori dal centro: oggi possono iniziare, per la prima volta, un percorso da Trainer indipendenti."
+        },
+        {
+          "id": "names_called",
+          "text": "Lo staff prepara l'apertura e poco dopo chiama i cinque nomi insieme. Nessuno di voi ha ancora una carriera alle spalle: tutto quello che verrà comincia qui."
+        }
+      ],
+      "choices": [
+        {
+          "id": "look_around",
+          "text": "Osservo l'ingresso e chi sta aspettando con noi.",
+          "goto": "license_hall"
+        },
+        {
+          "id": "stay_with_friends",
+          "text": "Resto con gli altri quattro finché aprono le porte.",
+          "goto": "license_hall"
+        },
+        {
+          "id": "enter_when_called",
+          "text": "Entro quando lo staff chiama i nostri nomi.",
+          "goto": "license_hall"
+        }
+      ]
+    },
+    "license_hall": {
+      "stitches": [
+        {
+          "id": "applications",
+          "text": "Nella License Hall vengono controllate le cinque domande. Lo staff spiega diritti, responsabilità e limiti di una licenza da Trainer."
+        },
+        {
+          "id": "package",
+          "text": "Il pacchetto iniziale comprende Licenza, Pokédex, Poké Ball, una Potion, il proprio starter e le risorse previste dalle regole Pokémon 5e."
+        },
+        {
+          "id": "world_board",
+          "text": "Su una parete, un grande display mostra il circuito internazionale e il World Championship. Non promette che arriverai fin lì: mostra soltanto che quella strada esiste."
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue_to_starters",
+          "text": "Proseguo con la registrazione.",
+          "goto": "five_pokeballs"
+        }
+      ]
+    },
+    "five_pokeballs": {
+      "stitches": [
+        {
+          "id": "assignments",
+          "text": "Arriva il momento degli starter. Le assegnazioni sono già registrate: Luke con Hisuian Growlithe, Mattew con Eevee, Daniel con Gastly, Edward con Totodile e Fab con Koffing."
+        },
+        {
+          "id": "player_space",
+          "text": "Quando arriva il tuo turno, nessuno decide al posto tuo come stabilire il primo contatto. Il Pokémon viene lasciato libero di osservarti e reagire."
+        }
+      ],
+      "choices": [
+        {
+          "id": "approach_calmly",
+          "text": "Mi avvicino con calma e gli lascio spazio.",
+          "goto": "first_contact"
+        },
+        {
+          "id": "observe_first",
+          "text": "Prima lo osservo senza toccarlo.",
+          "goto": "first_contact"
+        },
+        {
+          "id": "speak_first",
+          "text": "Gli parlo e aspetto la sua reazione.",
+          "goto": "first_contact"
+        }
+      ]
+    },
+    "first_contact": {
+      "stitches": [
+        {
+          "id": "time_together",
+          "text": "Avete qualche minuto senza una prova da superare. Puoi semplicemente conoscere il tuo starter oppure provare un comando semplice e non pericoloso."
+        }
+      ],
+      "choices": [
+        {
+          "id": "bond_without_roll",
+          "text": "Non forzo niente: resto con lui e lascio che il primo contatto venga da sé.",
+          "goto": "field_certification"
+        },
+        {
+          "id": "gentle_command",
+          "text": "Provo un comando semplice. (Animal Handling)",
+          "check": {
+            "ability": "WIS",
+            "skill": "Animal Handling",
+            "dc": 10
+          },
+          "outcomes": {
+            "success": {
+              "goto": "contact_success",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "intro_first_contact",
+                  "value": "clear"
+                }
+              ]
+            },
+            "failure": {
+              "goto": "contact_misunderstanding",
+              "effects": [
+                {
+                  "type": "set_flag",
+                  "key": "intro_first_contact",
+                  "value": "uncertain"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "contact_success": {
+      "text": "Il comando viene capito senza difficoltà. Non significa che vi conosciate già: significa soltanto che avete trovato un primo modo per comunicare.",
+      "choices": [
+        {
+          "id": "to_certification_success",
+          "text": "Raggiungo gli altri per la certificazione sul campo.",
+          "goto": "field_certification"
+        }
+      ]
+    },
+    "contact_misunderstanding": {
+      "text": "Il primo tentativo non è chiarissimo. Lo starter reagisce in modo diverso da come ti aspettavi, ma lo staff non trasforma un piccolo fraintendimento in un giudizio sul vostro rapporto.",
+      "choices": [
+        {
+          "id": "to_certification_failure",
+          "text": "Riprovo con calma più tardi e raggiungo gli altri.",
+          "goto": "field_certification"
+        }
+      ]
+    },
+    "field_certification": {
+      "stitches": [
+        {
+          "id": "field_start",
+          "text": "La certificazione sul campo porta i Five in una zona controllata del Campus. Prima dovete orientarvi usando indicazioni ambientali, senza una freccia che risolva tutto al posto vostro."
+        },
+        {
+          "id": "wild_complication",
+          "text": "Durante l'esercizio un Wooloo entra sul percorso e rende impraticabile il passaggio più diretto. Non è automaticamente ostile: sta cercando di raggiungere l'altro lato del campo."
+        },
+        {
+          "id": "team_decision",
+          "text": "L'istruttore non chiede di sconfiggerlo. Vuole vedere una decisione sicura e legale."
+        }
+      ],
+      "choices": [
+        {
+          "id": "help_wooloo",
+          "text": "Aiuto Wooloo a liberare il passaggio senza costringerlo a combattere.",
+          "goto": "battle_selection",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "intro_field_solution",
+              "value": "help"
+            }
+          ]
+        },
+        {
+          "id": "wait_wooloo",
+          "text": "Aspetto che trovi spazio e passo solo quando la via è sicura.",
+          "goto": "battle_selection",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "intro_field_solution",
+              "value": "wait"
+            }
+          ]
+        },
+        {
+          "id": "alternate_route",
+          "text": "Cerco una deviazione sicura e continuo l'esercizio.",
+          "goto": "battle_selection",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "intro_field_solution",
+              "value": "avoid"
+            }
+          ]
+        }
+      ]
+    },
+    "battle_selection": {
+      "stitches": [
+        {
+          "id": "official_match",
+          "text": "Resta l'ultimo passaggio: un match supervisionato uno contro uno, starter contro starter. Il risultato non decide se meriti di esistere come Trainer; l'istruttore valuta comando, sicurezza e rispetto delle regole."
+        },
+        {
+          "id": "choose_friend",
+          "text": "Puoi scegliere uno degli altri quattro membri dei Five come avversario."
+        }
+      ],
+      "choices": [
+        {
+          "id": "battle_luke",
+          "text": "Scelgo Luke e Hisuian Growlithe.",
+          "conditions": {
+            "not": {
+              "path": "player.name",
+              "eq": "Luke"
+            }
+          },
+          "combat": {
+            "encounterId": "INTRO_FIVE_LUKE",
+            "goto": "battle_handoff",
+            "opponent": {
+              "species": "Growlithe",
+              "form": "Hisuian",
+              "level": 5,
+              "abilityId": "intimidate"
+            },
+            "opponentRegistered": true,
+            "returnNodes": {
+              "win": "battle_win",
+              "lose": "battle_loss"
+            }
+          }
+        },
+        {
+          "id": "battle_mattew",
+          "text": "Scelgo Mattew e Eevee.",
+          "conditions": {
+            "not": {
+              "path": "player.name",
+              "eq": "Mattew"
+            }
+          },
+          "combat": {
+            "encounterId": "INTRO_FIVE_MATTEW",
+            "goto": "battle_handoff",
+            "opponent": {
+              "species": "Eevee",
+              "form": "Standard",
+              "level": 5,
+              "abilityId": "run-away"
+            },
+            "opponentRegistered": true,
+            "returnNodes": {
+              "win": "battle_win",
+              "lose": "battle_loss"
+            }
+          }
+        },
+        {
+          "id": "battle_daniel",
+          "text": "Scelgo Daniel e Gastly.",
+          "conditions": {
+            "not": {
+              "path": "player.name",
+              "eq": "Daniel"
+            }
+          },
+          "combat": {
+            "encounterId": "INTRO_FIVE_DANIEL",
+            "goto": "battle_handoff",
+            "opponent": {
+              "species": "Gastly",
+              "form": "Standard",
+              "level": 5,
+              "abilityId": "levitate"
+            },
+            "opponentRegistered": true,
+            "returnNodes": {
+              "win": "battle_win",
+              "lose": "battle_loss"
+            }
+          }
+        },
+        {
+          "id": "battle_edward",
+          "text": "Scelgo Edward e Totodile.",
+          "conditions": {
+            "not": {
+              "path": "player.name",
+              "eq": "Edward"
+            }
+          },
+          "combat": {
+            "encounterId": "INTRO_FIVE_EDWARD",
+            "goto": "battle_handoff",
+            "opponent": {
+              "species": "Totodile",
+              "form": "Standard",
+              "level": 5,
+              "abilityId": "torrent"
+            },
+            "opponentRegistered": true,
+            "returnNodes": {
+              "win": "battle_win",
+              "lose": "battle_loss"
+            }
+          }
+        },
+        {
+          "id": "battle_fab",
+          "text": "Scelgo Fab e Koffing.",
+          "conditions": {
+            "not": {
+              "path": "player.name",
+              "eq": "Fab"
+            }
+          },
+          "combat": {
+            "encounterId": "INTRO_FIVE_FAB",
+            "goto": "battle_handoff",
+            "opponent": {
+              "species": "Koffing",
+              "form": "Standard",
+              "level": 5,
+              "abilityId": "levitate"
+            },
+            "opponentRegistered": true,
+            "returnNodes": {
+              "win": "battle_win",
+              "lose": "battle_loss"
+            }
+          }
+        }
+      ]
+    },
+    "battle_handoff": {
+      "text": "Il match passa al risolutore Pokémon 5e. La scena narrativa non stabilisce chi vince.",
+      "choices": []
+    },
+    "battle_win": {
+      "text": "Il match termina a tuo favore. L'istruttore registra il risultato, ma insiste soprattutto su ciò che hai fatto durante il combattimento: comandi legali, gestione del rischio e sicurezza.",
+      "choices": [
+        {
+          "id": "after_win",
+          "text": "Concludo la certificazione.",
+          "goto": "gate_opens",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "intro_first_battle_result",
+              "value": "win"
+            }
+          ]
+        }
+      ]
+    },
+    "battle_loss": {
+      "text": "Il match termina con una sconfitta. La certificazione non viene annullata per questo: l'istruttore controlla che tutti stiano bene e registra il combattimento come prima esperienza ufficiale.",
+      "choices": [
+        {
+          "id": "after_loss",
+          "text": "Accetto il risultato e concludo la certificazione.",
+          "goto": "gate_opens",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "intro_first_battle_result",
+              "value": "loss"
+            }
+          ]
+        }
+      ]
+    },
+    "gate_opens": {
+      "stitches": [
+        {
+          "id": "licenses_active",
+          "text": "Le licenze vengono attivate. Per l'ultima volta in modo garantito, i Five sono tutti nello stesso posto prima che le loro giornate inizino davvero a divergere."
+        },
+        {
+          "id": "no_forced_goodbye",
+          "text": "Nessuno ti impone un discorso d'addio. Potete restare insieme ancora un po', separarvi subito o ritrovarvi più avanti."
+        },
+        {
+          "id": "world_begins",
+          "text": "Oltre il cancello il mondo non aspetta una missione principale. Strade, lavori, altri Trainer e Pokémon hanno già i propri tempi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "leave_campus",
+          "text": "Esco dal Campus. Da qui scelgo io dove andare.",
+          "goto": "m01-release#free_roam",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "intro_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "free_roam",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "asteria_campus_exit"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
