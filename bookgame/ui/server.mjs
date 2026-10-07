@@ -117,6 +117,7 @@ async function battleView() {
       actionAvailable: Boolean(battle.player.turn?.actionAvailable),
       bonusActionAvailable: Boolean(battle.player.turn?.bonusActionAvailable)
     },
+    trainerActionAvailable: Boolean(battle.trainer?.actionAvailable),
     opponent: {
       name: battle.opponent.name,
       speciesId: battle.opponent.speciesId,
@@ -252,6 +253,23 @@ async function handleApi(req, res, url) {
       roll
     });
     if (!outcome.used) return sendJson(res, 409, { ok: false, error: outcome.reason });
+    await persist(engine.setCombatState(state, outcome.battle));
+    return sendJson(res, 200, await snapshot());
+  }
+
+  if (url.pathname === "/api/combat/item") {
+    await normalizeCombatFlow();
+    if (!state.pending?.battle) throw new Error("Nessun combattimento attivo");
+    const itemId = String(body.itemId ?? "");
+    if (!itemId) throw new Error("Item id richiesto");
+    const outcome = await combatEngine.useTrainerItem(state.pending.battle, itemId, {
+      targetSide: body.targetSide == null ? "player" : String(body.targetSide),
+      moveId: body.moveId == null || body.moveId === "" ? null : String(body.moveId)
+    });
+    if (!outcome.result.applied) {
+      return sendJson(res, 409, { ok: false, error: outcome.result.reason });
+    }
+    state.player.inventory = structuredClone(outcome.battle.trainer.inventory ?? []);
     await persist(engine.setCombatState(state, outcome.battle));
     return sendJson(res, 200, await snapshot());
   }
