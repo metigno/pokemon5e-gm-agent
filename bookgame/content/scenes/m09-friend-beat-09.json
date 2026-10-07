@@ -14,10 +14,6 @@
       {
         "path": "world.flags.friend_beat_09_available",
         "eq": true
-      },
-      {
-        "path": "world.flags.friend_beat_09_complete",
-        "ne": true
       }
     ]
   },

@@ -24,7 +24,7 @@ async function chooseProtagonist() {
 async function newGame() {
   const protagonist = await chooseProtagonist();
   const slot = (await rl.question("Slot di salvataggio [slot1]: ")).trim() || "slot1";
-  const state = createNewGameState({ protagonist, slot });
+  const state = createNewGameState({ protagonist, slot, startAtIntro: true });
   await saves.save(state);
   return state;
 }

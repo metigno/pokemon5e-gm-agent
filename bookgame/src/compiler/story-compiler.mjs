@@ -5,6 +5,7 @@ import { validateQuestEffect } from "../engine/quest-state.mjs";
 import { validateNpcEffect } from "../engine/npc-state.mjs";
 import { validateCompetitionEffect, validateCompetitionCombat } from "../engine/competition-state.mjs";
 import { compileEcologyCatalog } from "./ecology-compiler.mjs";
+import { specializationByType } from "../rules/trainer-2024.mjs";
 
 const ID_RE = /^[A-Za-z0-9_-]+$/;
 const TARGET_RE = /^[A-Za-z0-9_-]+(?:#[A-Za-z0-9_-]+)?$/;
@@ -13,6 +14,7 @@ const EFFECT_TYPES = new Set([
   "set_flag",
   "set_location",
   "trainer_milestone_level",
+  "trainer_specialization",
   "purchase_item",
   "quest_offer",
   "quest_start",
@@ -106,6 +108,11 @@ function validateEffects(effects, at, errors) {
     }
     if (effect.type === "set_location" && (typeof effect.locationId !== "string" || effect.locationId.length === 0)) {
       errors.push(diag("INVALID_SET_LOCATION", "set_location requires locationId", effectAt));
+    }
+    if (effect.type === "trainer_specialization") {
+      if (typeof effect.specialization !== "string" || !specializationByType(effect.specialization)) {
+        errors.push(diag("INVALID_TRAINER_SPECIALIZATION", "trainer_specialization requires a canonical 2024 specialization type", effectAt + ".specialization"));
+      }
     }
     if (effect.type === "trainer_milestone_level") {
       if (!Number.isInteger(effect.level) || effect.level < 1 || effect.level > 20) {

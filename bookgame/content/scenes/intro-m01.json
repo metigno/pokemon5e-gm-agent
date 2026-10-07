@@ -1,0 +1,313 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "M01",
+  "id": "intro-m01",
+  "title": "Prima della prima strada",
+  "locationId": "asteria_campus",
+  "entryNodeId": "trainer_specialization",
+  "nodes": {
+    "trainer_specialization": {
+      "stitches": [
+        {
+          "id": "trainer_identity",
+          "text": "La licenza davanti a te non decide che tipo di Trainer diventerai. Registra però il campo in cui hai già mostrato più familiarità nel lavorare con i Pokémon: è la tua prima Specialization."
+        },
+        {
+          "id": "trainer_rules",
+          "text": "La tua licenza viene registrata al livello iniziale. La Trainer Path arriverà più avanti, quando avrai abbastanza esperienza da scegliere una direzione precisa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "specialization_normal",
+          "text": "Poké Fan (Normal)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "normal"
+            }
+          ],
+          "goto": "tutorial_choice"
+        },
+        {
+          "id": "specialization_fighting",
+          "text": "Black Belt (Fighting)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "fighting"
+            }
+          ],
+          "goto": "tutorial_choice"
+        },
+        {
+          "id": "specialization_flying",
+          "text": "Bird Keeper (Flying)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "flying"
+            }
+          ],
+          "goto": "tutorial_choice"
+        },
+        {
+          "id": "specialization_poison",
+          "text": "Punk (Poison)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "poison"
+            }
+          ],
+          "goto": "tutorial_choice"
+        },
+        {
+          "id": "specialization_ground",
+          "text": "Camper (Ground)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "ground"
+            }
+          ],
+          "goto": "tutorial_choice"
+        },
+        {
+          "id": "specialization_rock",
+          "text": "Hiker (Rock)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "rock"
+            }
+          ],
+          "goto": "tutorial_choice"
+        },
+        {
+          "id": "specialization_bug",
+          "text": "Bug Maniac (Bug)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "bug"
+            }
+          ],
+          "goto": "tutorial_choice"
+        },
+        {
+          "id": "specialization_ghost",
+          "text": "Mystic (Ghost)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "ghost"
+            }
+          ],
+          "goto": "tutorial_choice"
+        },
+        {
+          "id": "specialization_steel",
+          "text": "Worker (Steel)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "steel"
+            }
+          ],
+          "goto": "tutorial_choice"
+        },
+        {
+          "id": "specialization_fire",
+          "text": "Kindler (Fire)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "fire"
+            }
+          ],
+          "goto": "tutorial_choice"
+        },
+        {
+          "id": "specialization_water",
+          "text": "Swimmer (Water)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "water"
+            }
+          ],
+          "goto": "tutorial_choice"
+        },
+        {
+          "id": "specialization_grass",
+          "text": "Gardener (Grass)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "grass"
+            }
+          ],
+          "goto": "tutorial_choice"
+        },
+        {
+          "id": "specialization_electric",
+          "text": "Engineer (Electric)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "electric"
+            }
+          ],
+          "goto": "tutorial_choice"
+        },
+        {
+          "id": "specialization_psychic",
+          "text": "Psychic (Psychic)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "psychic"
+            }
+          ],
+          "goto": "tutorial_choice"
+        },
+        {
+          "id": "specialization_ice",
+          "text": "Skier (Ice)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "ice"
+            }
+          ],
+          "goto": "tutorial_choice"
+        },
+        {
+          "id": "specialization_dragon",
+          "text": "Dragon Tamer (Dragon)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "dragon"
+            }
+          ],
+          "goto": "tutorial_choice"
+        },
+        {
+          "id": "specialization_dark",
+          "text": "Delinquent (Dark)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "dark"
+            }
+          ],
+          "goto": "tutorial_choice"
+        },
+        {
+          "id": "specialization_fairy",
+          "text": "Actor (Fairy)",
+          "effects": [
+            {
+              "type": "trainer_specialization",
+              "specialization": "fairy"
+            }
+          ],
+          "goto": "tutorial_choice"
+        }
+      ]
+    },
+    "tutorial_choice": {
+      "stitches": [
+        {
+          "id": "sheet_ready",
+          "text": "La licenza viene registrata. Prima di uscire dal Campus puoi seguire il briefing guidato oppure dichiarare di conoscere già le basi."
+        }
+      ],
+      "choices": [
+        {
+          "id": "play_tutorial",
+          "text": "Faccio il briefing guidato.",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "tutorial_skipped",
+              "value": false
+            }
+          ],
+          "goto": "tutorial_rules"
+        },
+        {
+          "id": "skip_tutorial",
+          "text": "Salto volontariamente il briefing.",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "tutorial_skipped",
+              "value": true
+            }
+          ],
+          "goto": "release"
+        }
+      ]
+    },
+    "tutorial_rules": {
+      "stitches": [
+        {
+          "id": "checks",
+          "text": "Quando una situazione richiede una prova, contano le tue caratteristiche, le competenze che possiedi e il tiro ottenuto. Non tutte le azioni riescono nello stesso modo."
+        },
+        {
+          "id": "combat",
+          "text": "Negli scontri dovrai rispettare iniziativa, azioni disponibili, movimento, PP, condizioni e regole di cattura. Ogni scelta ha conseguenze reali sul combattimento."
+        },
+        {
+          "id": "world",
+          "text": "Il tempo continua a passare anche quando scegli di occuparti d'altro. Persone, fauna, lavori e opportunità possono cambiare mentre sei altrove."
+        }
+      ],
+      "choices": [
+        {
+          "id": "finish_tutorial",
+          "text": "Ho capito. Esco nel mondo.",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "tutorial_complete",
+              "value": true
+            }
+          ],
+          "goto": "release"
+        }
+      ]
+    },
+    "release": {
+      "stitches": [
+        {
+          "id": "release",
+          "text": "Il cancello del Campus è davanti a te. Da questo momento le indicazioni finiscono: la prima strada la scegli tu."
+        }
+      ],
+      "choices": [
+        {
+          "id": "enter_m1",
+          "text": "Esco dal Campus.",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "intro_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "free_roam",
+              "value": true
+            }
+          ],
+          "goto": "m01-release#free_roam"
+        }
+      ]
+    }
+  }
+}

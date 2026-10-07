@@ -1276,6 +1276,7 @@ function recordWorldKnockoutOutcome(state, meta, outcome, resolvedAtMinutes, bat
 
   state.world.flags ??= {};
   state.world.flags.world_eliminated = outcome === "lose";
+  if (outcome === "lose") state.world.flags.world_champion = false;
 
   if (meta.worldKnockoutRound === "R16") {
     knockout.playerAdvancedToQf = outcome === "win";

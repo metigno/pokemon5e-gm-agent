@@ -8,10 +8,10 @@ const expected=[
   ["m08-accreditation",14,31],
   ["m08-medical-control",14,31],
   ["m08-registration",12,27],
-  ["m08-world-village",21,46]
+  ["m08-world-village",21,47]
 ];
 
-test("M8_00-M8_04 logical production budget is locked at 82 nodes / 181 meaningful choices",async()=>{
+test("M8_00-M8_04 logical production budget is locked at 82 nodes / 182 meaningful choices",async()=>{
   let nodes=0,choices=0;
   for(const [rel,n,c] of expected){
     const scene=JSON.parse(await readFile(fileURLToPath(new URL("../content/scenes/"+rel+".json",import.meta.url)),"utf8"));
@@ -22,7 +22,7 @@ test("M8_00-M8_04 logical production budget is locked at 82 nodes / 181 meaningf
     nodes+=actualNodes;choices+=actualChoices;
   }
   assert.equal(nodes,82);
-  assert.equal(choices,181);
+  assert.equal(choices,182);
 });
 
 test("M08 authored-surface manifest remains locked at 4400 stitches / 2500 choices",async()=>{
@@ -44,7 +44,7 @@ test("M08 first five block IDs remain the canonical production spine",async()=>{
 });
 
 test("M8 first cycle remains on the 190/418 logical trajectory",()=>{
-  assert.deepEqual({nodes:190-82,choices:418-181},{nodes:108,choices:237});
+  assert.deepEqual({nodes:190-82,choices:419-182},{nodes:108,choices:237});
 });
 
 test("M8_00-M8_04 authored nodes are all reachable from their cycle entry graph",async()=>{
@@ -137,7 +137,7 @@ test("M8_05-M8_09 logical production budget is locked at 76 nodes / 166 meaningf
   assert.equal(choices,166);
 });
 
-test("M8 first ten blocks consume exactly 158 nodes / 347 choices",async()=>{
+test("M8 first ten blocks consume exactly 158 nodes / 348 choices",async()=>{
   const all=[...expected,...cycle2];
   let nodes=0,choices=0;
   for(const [rel] of all){
@@ -146,8 +146,8 @@ test("M8 first ten blocks consume exactly 158 nodes / 347 choices",async()=>{
     choices+=Object.values(scene.nodes).reduce((sum,node)=>sum+(node.choices?.length??0),0);
   }
   assert.equal(nodes,158);
-  assert.equal(choices,347);
-  assert.deepEqual({nodes:190-nodes,choices:418-choices},{nodes:32,choices:71});
+  assert.equal(choices,348);
+  assert.deepEqual({nodes:190-nodes,choices:419-choices},{nodes:32,choices:71});
 });
 
 test("M8_05-M8_09 authored nodes are reachable and have no zero-incoming padding",async()=>{
@@ -211,7 +211,7 @@ test("M8_10-M8_11 logical production budget is locked at 32 nodes / 71 meaningfu
   assert.equal(choices,71);
 });
 
-test("M8 complete logical surface is exactly 190 nodes / 418 meaningful choices",async()=>{
+test("M8 complete logical surface is exactly 190 nodes / 419 meaningful choices",async()=>{
   const all=[...expected,...cycle2,...cycle3];
   let nodes=0,choices=0;
   for(const [rel] of all){
@@ -220,7 +220,7 @@ test("M8 complete logical surface is exactly 190 nodes / 418 meaningful choices"
     choices+=Object.values(scene.nodes).reduce((sum,node)=>sum+(node.choices?.length??0),0);
   }
   assert.equal(nodes,190);
-  assert.equal(choices,418);
+  assert.equal(choices,419);
 });
 
 test("M8_10-M8_11 authored nodes are reachable and have no zero-incoming padding",async()=>{

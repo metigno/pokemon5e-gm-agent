@@ -1,3 +1,4 @@
+import { trainerProgression2024 } from "../rules/trainer-2024.mjs";
 import { experienceNeededAtLevel } from "./state.mjs";
 
 export const TRAINER_PATHS = Object.freeze([
@@ -27,6 +28,9 @@ function abilityModifier(score){return Math.floor((Number(score??10)-10)/2);}
 function ensureProgression(state){
   state.player??={};
   const p=state.player;
+  if(Array.isArray(p.specializations)){
+    p.specializations=Object.fromEntries(TRAINER_SPECIALIZATIONS.map(type=>[type,0]));
+  }
   p.trainerProgression??={mode:"milestone",history:[],pendingChoices:[],resolvedChoices:[],targetLevel:p.trainerLevel??1,targetMilestoneId:null};
   p.trainerProgression.mode??="milestone";
   p.trainerProgression.history??=[];
@@ -87,6 +91,9 @@ export function advanceTrainerToLevel(state,targetLevel,{sourceMilestoneId="manu
     p.hitDice.die??="d6";
     p.hitDice.max=Math.max(level,Number(p.hitDice.max??fromLevel)+1);
     p.hitDice.current=Math.min(p.hitDice.max,Math.max(0,Number(p.hitDice.current??0)+1));
+    const p5e=trainerProgression2024(level);
+    p.pokeslots=p5e.pokeslots;
+    p.maxSr=p5e.maxSr;
     const record={sourceMilestoneId,fromLevel,level,trainerXp:p.trainerXp,hpGain:gain};
     progression.history.push(record);
     applied.push(record);

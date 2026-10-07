@@ -377,8 +377,8 @@
         },
         {
           "id": "complete_m",
-          "text": "Resto a Meridiana con M12 sbloccato.",
-          "goto": "m07-meridiana-arrival#city_hub",
+          "text": "Entro in M12 / WORLD_EXIT con Worlds Missed registrato.",
+          "goto": "m12-world-exit-branch#world_exit_entry",
           "conditions": {
             "path": "world.flags.m12_unlocked",
             "eq": true

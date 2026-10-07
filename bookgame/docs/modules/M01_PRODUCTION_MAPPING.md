@@ -14,7 +14,11 @@ This file maps the full production surface of M01. It does not replace the desig
 # 1. MACRO GRAPH
 
 ```text
-INTRO_FIVE
+INTRO_CANONICAL_5E
+   ↓
+Trainer Specialization (Lv1)
+   ↓
+Tutorial / explicit skip
    ↓
 M1_00 RELEASE
    ↓
@@ -182,7 +186,7 @@ Required for:
 ## M1_00_RELEASE
 
 **Target:** 150 stitches / 90 choices  
-**Entry:** `intro_complete=true`, Rank F, starter present  
+**Entry:** canonical Intro completed (`character_creation_complete=true`, explicit tutorial completion/skip), Rank F, starter present  
 **Reads:** intro completion, protagonist identity, starting location  
 **Writes:** `free_roam=true`  
 **Must provide:**
@@ -198,8 +202,10 @@ Required for:
 
 **Implementation lock:**
 
-- the post-onboarding state enters `m01-release#free_roam`;
-- `intro_complete=true` and `free_roam=true` are already durable at the release point;
+- a fresh save enters `intro-m01#trainer_specialization`, never free-roam;
+- Pokémon 5e Trainer creation must complete before release;
+- tutorial state is explicit: it is either completed or deliberately skipped by the player;
+- only `intro-m01#release -> m01-release#free_roam` sets `intro_complete=true` and `free_roam=true`;
 - no quest is auto-started;
 - Ginestre, Valedarsena and Fattoria are peer directions, not a forced main path;
 - waiting in place consumes normal world time, refreshes NPC schedules and permits world events to resolve;

@@ -370,6 +370,24 @@
           "goto": "complete"
         },
         {
+          "id": "committed_m12",
+          "text": "Entro nel WORLD_EXIT già sbloccato.",
+          "goto": "m12-world-exit-branch#world_exit_entry",
+          "conditions": {
+            "path": "world.flags.m12_unlocked",
+            "eq": true
+          }
+        },
+        {
+          "id": "committed_m11",
+          "text": "Entro nel Final Four già sbloccato.",
+          "goto": "m11-final-four-lock#final_four_entry",
+          "conditions": {
+            "path": "world.flags.m11_unlocked",
+            "eq": true
+          }
+        },
+        {
           "id": "committed_history",
           "text": "Rivedo ancora la history persistente.",
           "goto": "history"
@@ -388,6 +406,15 @@
           "id": "complete_state",
           "text": "Rileggo lo stato finale.",
           "goto": "state_audit"
+        },
+        {
+          "id": "complete_m11",
+          "text": "Entro nel Final Four.",
+          "goto": "m11-final-four-lock#final_four_entry",
+          "conditions": {
+            "path": "world.flags.m11_unlocked",
+            "eq": true
+          }
         },
         {
           "id": "complete_friend",

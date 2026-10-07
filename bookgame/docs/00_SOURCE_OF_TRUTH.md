@@ -2,12 +2,29 @@
 
 ## Project status
 
-This branch is a NEW project line derived from the existing Pokémon 5e GM Agent codebase.
+The Digital Bookgame is a distinct project line inside the existing Pokémon 5e GM Agent repository.
 
 - Repository: `metigno/pokemon5e-gm-agent`
-- Branch: `pokemon5e-digital-bookgame`
-- Base branch: `main`
-- Base commit: `0dcff595c2ba0753110ab4b980e1a29f4740c4c8`
+- Canonical Bookgame branch: `bookgame-canonical`
+- Integration work must target `bookgame-canonical` through reviewed branches/PRs.
+- `main` remains the Pokémon 5e GM Agent line and must not be used as the Bookgame gameplay baseline.
+
+## Authority hierarchy
+
+When documents overlap, use this order:
+
+1. `P5E_LIBROGAME_ENGINE_SOURCE_OF_TRUTH.md` — rules/runtime authority.
+2. `P5E_NARRATIVE_REFERENCE_MASTER_V1.md` — player-facing screenplay/narrative authority.
+3. `P5E_LIBROGAME_UI_UX_MASTER_SPEC_V1.md` — interaction and information-architecture authority.
+4. `P5E_LIBROGAME_VISUAL_DESIGN_SYSTEM_V1.md` — visual-system authority.
+5. module design + production mapping.
+6. validated runtime contracts, tests and authored content.
+
+Core separation:
+
+> **THE RUNTIME OWNS THE RULES. THE SCREENPLAY SHOWS THE WORLD. THE UI PRESENTS LEGAL STATE AND ACTIONS.**
+
+A narrative or visual improvement is never permission to duplicate, bypass or silently rewrite validated Pokémon 5e mechanics.
 
 ## Non-negotiable separation
 

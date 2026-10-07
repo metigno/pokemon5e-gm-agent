@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 
 const cycle1=[
   ["m12-world-exit-branch",19,42],["m12-return-asteria",13,28],["m12-valedarsena-callbacks",21,46],
-  ["m12-bruma-callbacks",21,46],["m12-ferrox-callbacks",21,47]
+  ["m12-bruma-callbacks",21,47],["m12-ferrox-callbacks",21,47]
 ];
 const cycle2=[
   ["m12-coast-callbacks",21,47],["m12-highlands-callbacks",21,47],
@@ -25,17 +25,17 @@ test("M12_05-M12_08 logical production budget is locked at 84 nodes / 188 meanin
   }
   assert.equal(nodes,84); assert.equal(choices,188);
 });
-test("M12 cumulative through M12_08 is exactly 179 nodes / 397 meaningful choices",async()=>{
+test("M12 cumulative through M12_08 is exactly 179 nodes / 398 meaningful choices",async()=>{
   let nodes=0,choices=0;
   for(const [rel] of [...cycle1,...cycle2]){
     const scene=await readScene(rel);
     nodes+=Object.keys(scene.nodes).length;
     choices+=Object.values(scene.nodes).reduce((sum,node)=>sum+(node.choices?.length??0),0);
   }
-  assert.equal(nodes,179); assert.equal(choices,397);
+  assert.equal(nodes,179); assert.equal(choices,398);
 });
 test("M12 residual for M12_09-M12_11 is exactly 49 nodes / 105 meaningful choices",()=>{
-  assert.deepEqual({nodes:228-179,choices:502-397},{nodes:49,choices:105});
+  assert.deepEqual({nodes:228-179,choices:503-398},{nodes:49,choices:105});
 });
 test("M12 Ferrox handoff enters Cycle 2 and all 84 Cycle-2 nodes are reachable with no zero-incoming padding",async()=>{
   const ferrox=await readScene("m12-ferrox-callbacks");

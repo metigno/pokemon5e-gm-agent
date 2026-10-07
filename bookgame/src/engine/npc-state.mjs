@@ -1,9 +1,41 @@
+import { isTrainerPath2024, trainerProgression2024 } from "../rules/trainer-2024.mjs";
 import { ensureWorldClock } from "./time.mjs";
 
 export const RELATIONSHIP_STATES = ["Hostile", "Distrustful", "Neutral", "Friendly", "Loyal"];
 export const NPC_AVAILABILITY = new Set(["available", "busy", "away", "traveling"]);
 export const FIVE_FRIEND_IDS = ["Luke", "Mattew", "Daniel", "Edward", "Fab"];
 const ID_RE = /^[A-Za-z0-9_-]+$/;
+
+export function createTrainerRulesState({
+  trainerLevel = 1,
+  specializations = [],
+  trainerPath = null
+} = {}) {
+  if (!Number.isInteger(trainerLevel) || trainerLevel < 1 || trainerLevel > 20) {
+    throw new RangeError("NPC Trainer level must be 1..20");
+  }
+  if (!Array.isArray(specializations)) {
+    throw new TypeError("NPC Trainer specializations must be an array");
+  }
+  const progression = trainerProgression2024(trainerLevel);
+  if (!progression.pathAvailable && trainerPath !== null) {
+    throw new Error("Pokemon 5e Trainer Path cannot be assigned before level 2");
+  }
+  if (trainerPath !== null && !isTrainerPath2024(trainerPath)) {
+    throw new Error("Unknown Pokemon 5e 2024 Trainer Path: " + trainerPath);
+  }
+  if (specializations.length > progression.specializationCount) {
+    throw new Error("Too many specializations for Trainer level " + trainerLevel);
+  }
+  return {
+    ruleset: "2024",
+    trainerClass: "Trainer",
+    trainerLevel,
+    trainerPath,
+    specializations: structuredClone(specializations),
+    ...progression
+  };
+}
 
 function requireId(value, label) {
   if (typeof value !== "string" || !ID_RE.test(value)) {
@@ -37,9 +69,18 @@ export function createPersistentNpc({
   if (!Number.isInteger(relationshipScore) || relationshipScore < -100 || relationshipScore > 100) {
     throw new RangeError("relationshipScore must be an integer from -100 to 100");
   }
+  const trainerLevel = Number.isInteger(state.trainerLevel) ? state.trainerLevel : 1;
+  const trainer = createTrainerRulesState({
+    trainerLevel,
+    specializations: state.specializations ?? [],
+    trainerPath: state.trainerPath ?? null
+  });
+
   return {
     id,
     name,
+    trainer,
+    abilities: structuredClone(state.abilities ?? {}),
     relationship: {
       score: relationshipScore,
       qualitative: relationshipStateForScore(relationshipScore)
