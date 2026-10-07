@@ -3,6 +3,12 @@ import { CryptoDice, rollD20 } from "./dice.mjs";
 import { evaluateCondition } from "./conditions.mjs";
 import { SceneRepository } from "./scene-repository.mjs";
 import { proficiencyBonus, touchState } from "./state.mjs";
+import {
+  getTrainerProgressionView,
+  hasPendingTrainerProgression,
+  resolveTrainerProgressionChoice,
+  syncCampaignTrainerProgression
+} from "./trainer-progression.mjs";
 import { advanceWorldTime, getWorldTimeView } from "./time.mjs";
 import { applyQuestEffect, getQuestJournal, processQuestDeadlines } from "./quest-state.mjs";
 import { applyNpcEffect, refreshNpcSchedules } from "./npc-state.mjs";
@@ -153,6 +159,23 @@ export class BookgameEngine {
   }
 
   async present(state) {
+    const trainerProgression = getTrainerProgressionView(state);
+    if (trainerProgression) {
+      return {
+        sceneId: "trainer-level-up",
+        sceneTitle: "Trainer Level Up",
+        moduleId: null,
+        nodeId: `level_${trainerProgression.level}_${trainerProgression.type}`,
+        text: trainerProgression.text,
+        stitches: null,
+        choices: clone(trainerProgression.choices),
+        trainerProgression: clone(trainerProgression),
+        worldTime: getWorldTimeView(state.world),
+        questJournal: getQuestJournal(state),
+        pending: null,
+        lastRoll: clone(state.lastRoll)
+      };
+    }
     refreshNpcSchedules(state);
     const scene = await this.scenes.load(state.story.sceneId);
     ensureSceneShops(state, scene.shops);
@@ -180,6 +203,28 @@ export class BookgameEngine {
   }
 
   async choose(state, choiceId) {
+    if (hasPendingTrainerProgression(state)) {
+      const next = clone(state);
+      const resolution = resolveTrainerProgressionChoice(next, choiceId);
+      const progression = syncCampaignTrainerProgression(next);
+      const worldEvents = await this.loadWorldEvents();
+      const firedWorldEvents = processWorldEvents(next, worldEvents, (eventState, effects) => {
+        applyEffects(eventState, effects);
+      });
+      const postEventProgression = syncCampaignTrainerProgression(next);
+      next.story.history.push({
+        sceneId: next.story.sceneId,
+        nodeId: next.story.nodeId,
+        subsystem: "trainer_progression",
+        choiceId,
+        resolution: clone(resolution),
+        progression: clone([...progression, ...postEventProgression]),
+        worldEvents: clone(firedWorldEvents)
+      });
+      touchState(next, this.now);
+      return next;
+    }
+
     if (state.pending) throw new Error("Cannot choose while a subsystem handoff is pending");
 
     const next = clone(state);
@@ -342,12 +387,17 @@ export class BookgameEngine {
       historyEntry.toNodeId = target.nodeId;
     }
 
+    const preEventProgression = syncCampaignTrainerProgression(next);
     const worldEvents = await this.loadWorldEvents();
     const firedWorldEvents = processWorldEvents(next, worldEvents, (eventState, effects) => {
       applyEffects(eventState, effects);
     });
+    const postEventProgression = syncCampaignTrainerProgression(next);
     if (firedWorldEvents.length > 0) {
       historyEntry.worldEvents = clone(firedWorldEvents);
+    }
+    if (preEventProgression.length > 0 || postEventProgression.length > 0) {
+      historyEntry.trainerProgression = clone([...preEventProgression, ...postEventProgression]);
     }
 
     next.story.history.push(historyEntry);
@@ -497,6 +547,7 @@ export class BookgameEngine {
 
     next.pending = null;
     const target = applyTarget(next, targetRef, sourceSceneId);
+    const trainerProgression = syncCampaignTrainerProgression(next);
     next.story.history.push({
       sceneId: sourceSceneId,
       subsystem: "pokemon5e_combat",
@@ -504,7 +555,8 @@ export class BookgameEngine {
       outcome,
       competition: competitionMeta,
       toSceneId: target.sceneId,
-      toNodeId: target.nodeId
+      toNodeId: target.nodeId,
+      trainerProgression: clone(trainerProgression)
     });
     touchState(next, this.now);
     return next;
