@@ -68,11 +68,6 @@
             {
               "type": "set_location",
               "locationId": "world_village"
-            },
-            {
-              "type": "set_flag",
-              "key": "m8_astrid_available",
-              "value": true
             }
           ]
         },
