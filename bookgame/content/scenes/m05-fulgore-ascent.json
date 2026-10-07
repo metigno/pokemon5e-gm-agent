@@ -460,6 +460,11 @@
               "value": true
             },
             {
+              "type": "trainer_milestone_level",
+              "milestoneId": "M05_FULGORE_ASCENT",
+              "level": 13
+            },
+            {
               "type": "set_location",
               "locationId": "ful_plateau"
             }
