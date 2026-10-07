@@ -185,6 +185,9 @@ function progressionScore(state, route, depth) {
   const f = state.world?.flags ?? {};
   let score = completedModuleCount(state) * 100000;
   score += Object.values(f).filter((value) => value === true).length * 20;
+  score += Object.entries(f).filter(([key, value]) => value === true && /_complete$/.test(key)).length * 500;
+  score += Object.entries(f).filter(([key, value]) => value === true && /_available$/.test(key)).length * 250;
+  score += Math.min(Number(state.world?.day ?? 0), 30) * 150;
   score += Number(state.competition?.rankOrder ?? 0) * 500;
   score += Number(state.player?.trainerLevel ?? 1) * 25;
 
@@ -467,10 +470,16 @@ async function completeCanonicalM2(engine, start) {
       maxExpansions: 4500
     },
     {
+      label: "M2 Friend News window",
+      goal: (s) => s.world.flags.a2_friend_news_available === true,
+      combatPolicy: "win",
+      maxExpansions: 5000
+    },
+    {
       label: "M2 Friend Beat 02",
       goal: (s) => s.world.flags.friend_beat_02_complete === true,
       combatPolicy: "win",
-      maxExpansions: 5000
+      maxExpansions: 1800
     },
     {
       label: "M2 third Pokémon",
@@ -485,10 +494,16 @@ async function completeCanonicalM2(engine, start) {
       maxExpansions: 5000
     },
     {
+      label: "M2 network outcome window",
+      goal: (s) => s.world.flags.a2_network_outcome_available === true,
+      combatPolicy: "win",
+      maxExpansions: 2200
+    },
+    {
       label: "M2 network outcome",
       goal: (s) => s.world.flags.network_outcome_complete === true,
       combatPolicy: "win",
-      maxExpansions: 4500
+      maxExpansions: 2200
     },
     {
       label: "M2 Promotion Trial and exit",
