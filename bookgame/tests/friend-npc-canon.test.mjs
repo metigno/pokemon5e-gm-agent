@@ -14,7 +14,7 @@ test("selected protagonist is never also generated as an NPC",()=>{
 
 test("each non-player friend follows its canonical final-team career",()=>{
  const s=createNewGameState({protagonist:"Luke"});
- const expected={Mattew:["electric","Ace Trainer"],Daniel:["ghost","Researcher"],Edward:["water","Ace Trainer"],Fab:["poison","Type Master"]};
+ const expected={Mattew:["electric","Poké Mentor"],Daniel:["ghost","Pokémon Collector"],Edward:["water","Ace Trainer"],Fab:["poison","Commander"]};
  for(const [name,[spec,path]] of Object.entries(expected)){
   assert.deepEqual(s.npcs[name].trainer.specializations,[spec]);
   const lv2=progressCanonicalFriendNpc(s.npcs[name],2);
