@@ -24,10 +24,6 @@
         "eq": true
       },
       {
-        "path": "world.flags.smuggling_state",
-        "exists": false
-      },
-      {
         "path": "competition.rank",
         "eq": "C"
       }
