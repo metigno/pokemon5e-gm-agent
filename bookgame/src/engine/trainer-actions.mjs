@@ -1,0 +1,41 @@
+// Shared Trainer gameplay actions for player and persistent NPC Trainers.
+function clone(v){return structuredClone(v);}
+function trainerRef(state,actor={kind:"player"}){
+ if(actor.kind==="player") return state.player;
+ if(actor.kind==="npc"){
+  const npc=state.npcs?.[actor.id]; if(!npc) throw new Error("Unknown NPC Trainer: "+actor.id);
+  return npc.trainer;
+ }
+ throw new Error("Unknown Trainer actor kind: "+actor.kind);
+}
+function findOwned(list,id){
+ return (list??[]).findIndex(x=>(typeof x==="string"?x:(x.id??x.itemId))===id);
+}
+export function equipTrainerGear(state,{actor={kind:"player"},gearId}){
+ const t=trainerRef(state,actor); t.trainerGear??=[]; t.equipment??=[];
+ const i=findOwned(t.trainerGear,gearId); if(i<0) throw new Error("Trainer Gear not owned: "+gearId);
+ const source=t.trainerGear[i]; const gear=typeof source==="string"?{id:source}:clone(source);
+ if(t.equipment.some(x=>(x.id??x.itemId)===gearId)) return {equipped:false,reason:"already_equipped"};
+ gear.equipped=true; t.equipment.push(gear);
+ return {equipped:true,gearId};
+}
+export function unequipTrainerGear(state,{actor={kind:"player"},gearId}){
+ const t=trainerRef(state,actor); t.equipment??=[];
+ const i=findOwned(t.equipment,gearId); if(i<0) return {equipped:false,reason:"not_equipped"};
+ t.equipment.splice(i,1); return {equipped:false,gearId};
+}
+export function spendTrainerResource(state,{actor={kind:"player"},resourceId,amount=1}){
+ if(!Number.isInteger(amount)||amount<1) throw new RangeError("Trainer resource amount must be a positive integer");
+ const t=trainerRef(state,actor); const r=t.classResources?.[resourceId];
+ if(!r) throw new Error("Unknown Trainer class resource: "+resourceId);
+ const current=Number(r.current??0); if(current<amount) return {spent:false,reason:"insufficient_resource",current};
+ r.current=current-amount; return {spent:true,resourceId,amount,current:r.current,max:Number(r.max??current)};
+}
+export function useTrainerFeature(state,{actor={kind:"player"},featureId,resourceId=null,cost=1}){
+ const t=trainerRef(state,actor); if(!(t.classFeatures??[]).includes(featureId)) throw new Error("Trainer feature not known: "+featureId);
+ t.featureUsage??={}; const usage=t.featureUsage[featureId]??{uses:0};
+ let resource=null; if(resourceId){resource=spendTrainerResource(state,{actor,resourceId,amount:cost});if(!resource.spent)return {used:false,reason:resource.reason,resource};}
+ usage.uses=Number(usage.uses??0)+1; t.featureUsage[featureId]=usage;
+ return {used:true,featureId,resource};
+}
+export function trainerRuntimeView(state,actor={kind:"player"}){return clone(trainerRef(state,actor));}
