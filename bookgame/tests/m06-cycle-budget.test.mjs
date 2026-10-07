@@ -20,7 +20,7 @@ const cycle2=[
 ];
 
 const cycle3=[
-  ["m06-first-lighthouse-return",13,29],
+  ["m06-first-lighthouse-return",13,30],
   ["m06-trial-registration",17,38],
   ["m06-promotion-trial-a-s",19,42],
   ["m06-world-cutoff",19,42],
@@ -59,9 +59,9 @@ test("M06 first five block IDs remain the canonical production spine",async()=>{
   ]);
 });
 
-test("M6 first cycle remains on the 220/484 logical trajectory",async()=>{
-  const remaining={nodes:220-64,choices:484-141};
-  assert.deepEqual(remaining,{nodes:156,choices:343});
+test("M6 first cycle remains on the 220/485 logical trajectory",async()=>{
+  const remaining={nodes:220-64,choices:485-141};
+  assert.deepEqual(remaining,{nodes:156,choices:344});
 });
 
 test("M6_00-M6_04 authored nodes are all reachable from their cycle entry graph",async()=>{
@@ -134,7 +134,7 @@ test("M6 first ten blocks consume exactly 140 nodes / 308 choices",async()=>{
   }
   assert.equal(nodes,140);
   assert.equal(choices,308);
-  assert.deepEqual({nodes:220-nodes,choices:484-choices},{nodes:80,choices:176});
+  assert.deepEqual({nodes:220-nodes,choices:485-choices},{nodes:80,choices:177});
 });
 
 test("M6_05-M6_09 authored nodes have no zero-incoming padding",async()=>{
@@ -167,7 +167,7 @@ test("M6_05-M6_09 authored nodes have no zero-incoming padding",async()=>{
   assert.deepEqual(Object.entries(incoming).filter(([,count])=>count===0).map(([key])=>key),[]);
 });
 
-test("M6_10-M6_14 logical production budget is locked at 80 nodes / 176 meaningful choices",async()=>{
+test("M6_10-M6_14 logical production budget is locked at 80 nodes / 177 meaningful choices",async()=>{
   let nodes=0,choices=0;
   for(const [rel,n,c] of cycle3){
     const scene=JSON.parse(await readFile(fileURLToPath(new URL("../content/scenes/"+rel+".json",import.meta.url)),"utf8"));
@@ -178,10 +178,10 @@ test("M6_10-M6_14 logical production budget is locked at 80 nodes / 176 meaningf
     nodes+=actualNodes;choices+=actualChoices;
   }
   assert.equal(nodes,80);
-  assert.equal(choices,176);
+  assert.equal(choices,177);
 });
 
-test("M6 complete runtime surface is exactly 220 nodes / 484 meaningful choices",async()=>{
+test("M6 complete runtime surface is exactly 220 nodes / 485 meaningful choices",async()=>{
   const all=[...expected,...cycle2,...cycle3];
   let nodes=0,choices=0;
   for(const [rel] of all){
@@ -190,7 +190,7 @@ test("M6 complete runtime surface is exactly 220 nodes / 484 meaningful choices"
     choices+=Object.values(scene.nodes).reduce((sum,node)=>sum+(node.choices?.length??0),0);
   }
   assert.equal(nodes,220);
-  assert.equal(choices,484);
+  assert.equal(choices,485);
 });
 
 test("M6_10-M6_14 authored nodes have no zero-incoming padding",async()=>{
