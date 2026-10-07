@@ -22,22 +22,18 @@ const AUTO_FEATURES=new Map([
   [15,["trainer-path-feature","pokeslot-increase"]],[17,["max-sr-increase"]],[20,["master-trainer"]]
 ]);
 
-const CAMPAIGN_MILESTONES=Object.freeze([
-  {id:"M01_COMPLETE",level:3,reached:s=>Boolean(s.world?.flags?.m1_complete||s.world?.flags?.m01_complete)},
-  {id:"M02_NETWORK_OUTCOME",level:4,reached:s=>Boolean(s.world?.flags?.network_outcome_complete)},
-  {id:"M02_COMPLETE",level:5,reached:s=>Boolean(s.world?.flags?.m2_complete||s.world?.flags?.m02_complete)}
-]);
-
 function abilityModifier(score){return Math.floor((Number(score??10)-10)/2);}
 
 function ensureProgression(state){
   state.player??={};
   const p=state.player;
-  p.trainerProgression??={mode:"milestone",history:[],pendingChoices:[],resolvedChoices:[]};
+  p.trainerProgression??={mode:"milestone",history:[],pendingChoices:[],resolvedChoices:[],targetLevel:p.trainerLevel??1,targetMilestoneId:null};
   p.trainerProgression.mode??="milestone";
   p.trainerProgression.history??=[];
   p.trainerProgression.pendingChoices??=[];
   p.trainerProgression.resolvedChoices??=[];
+  p.trainerProgression.targetLevel=Number.isInteger(p.trainerProgression.targetLevel)?p.trainerProgression.targetLevel:(p.trainerLevel??1);
+  p.trainerProgression.targetMilestoneId??=null;
   return p.trainerProgression;
 }
 
@@ -99,14 +95,23 @@ export function advanceTrainerToLevel(state,targetLevel,{sourceMilestoneId="manu
   return applied;
 }
 
-export function syncCampaignTrainerProgression(state){
-  ensureProgression(state);
-  let target=Number(state.player?.trainerLevel??1);
-  let source=null;
-  for(const milestone of CAMPAIGN_MILESTONES){
-    if(milestone.reached(state)&&milestone.level>target){target=milestone.level;source=milestone.id;}
+export function applyTrainerProgressionEffect(state,effect){
+  if(effect?.type!=="trainer_milestone_level") throw new Error("Unsupported Trainer progression effect");
+  if(!Number.isInteger(effect.level)||effect.level<1||effect.level>20) throw new RangeError("trainer_milestone_level requires level 1..20");
+  if(typeof effect.milestoneId!=="string"||effect.milestoneId.length===0) throw new Error("trainer_milestone_level requires milestoneId");
+  const progression=ensureProgression(state);
+  if(effect.level>progression.targetLevel){
+    progression.targetLevel=effect.level;
+    progression.targetMilestoneId=effect.milestoneId;
   }
-  return source?advanceTrainerToLevel(state,target,{sourceMilestoneId:source}):[];
+  return syncCampaignTrainerProgression(state);
+}
+
+export function syncCampaignTrainerProgression(state){
+  const progression=ensureProgression(state);
+  const target=Math.max(Number(state.player?.trainerLevel??1),Number(progression.targetLevel??1));
+  if(target<=Number(state.player?.trainerLevel??1)) return [];
+  return advanceTrainerToLevel(state,target,{sourceMilestoneId:progression.targetMilestoneId??"milestone"});
 }
 
 function asiChoices(state){
