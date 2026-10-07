@@ -35,8 +35,9 @@ test("RC lock: NPC trainer, forced replacement and fog state survive save/reload
 
     battle.opponent.hp.current=0;
     const beforeSpecies=battle.opponent.speciesId;
-    // Trigger the same forced-replacement path through the combat lifecycle.
-    battle=await combat.endOpponentTurn(battle);
+    // Put the fainted opponent on turn and let the real turn-preparation lifecycle force the replacement.
+    battle.turnIndex=battle.order.indexOf("opponent");
+    battle=await combat.prepareCurrentTurn(battle);
     assert.notEqual(battle.opponent.speciesId,beforeSpecies);
 
     const state={slot:"final-lock",pending:{type:"pokemon5e_combat",status:"in_progress",battle}};
