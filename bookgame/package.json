@@ -9,6 +9,7 @@
     "compile:story": "node src/compiler/cli.mjs",
     "build": "npm run validate:story && npm run compile:story",
     "test": "node --test tests/*.test.mjs",
-    "report:story": "node src/compiler/cli.mjs --report"
+    "report:story": "node src/compiler/cli.mjs --report",
+    "ui": "node ui/server.mjs"
   }
-}
+}\n
