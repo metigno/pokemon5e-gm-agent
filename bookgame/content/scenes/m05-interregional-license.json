@@ -89,7 +89,7 @@
       "stitches": [
         {
           "id": "rs1",
-          "text": "La licenza abilita prenotazioni e servizi interregionali del Circuito dove la geografia e il calendario li permettono. Non sblocca aree Rank A o S e non teletrasporta il player."
+          "text": "La licenza permette di prenotare collegamenti e servizi interregionali dove tratte e calendario lo consentono. Non apre le aree riservate ai Rank superiori e non elimina i tempi di viaggio."
         }
       ],
       "choices": [
@@ -116,7 +116,7 @@
       "stitches": [
         {
           "id": "r1",
-          "text": "L'assessment è un match ufficiale di calibrazione: serve a registrare il profilo competitivo per la rete interregionale, non a decidere il Rank. Il risultato resta persistente in entrambi i casi."
+          "text": "La prova serve a registrare il tuo profilo competitivo per la rete interregionale. Non decide il Rank: vittoria o sconfitta saranno comunque annotate come risultato ufficiale."
         }
       ],
       "choices": [
@@ -220,7 +220,7 @@
       "stitches": [
         {
           "id": "ah1",
-          "text": "Il risultato passa al resolver Pokémon 5e/E5. La scena non decide chi vince."
+          "text": "Il giudice richiama le squadre registrate e dà il segnale d'inizio."
         }
       ],
       "choices": [
@@ -272,7 +272,7 @@
       "stitches": [
         {
           "id": "aw1",
-          "text": "Il resolver registra una vittoria. È un dato utile per il profilo interregionale, non una promozione automatica."
+          "text": "Il tabellone registra la tua vittoria. Il risultato entra nel profilo interregionale, ma il tuo Rank resta invariato."
         }
       ],
       "choices": [
@@ -316,7 +316,7 @@
       "stitches": [
         {
           "id": "al1",
-          "text": "Il resolver registra una sconfitta. Il match ha comunque prodotto il profilo richiesto; non viene riscritto come vittoria e non abbassa il Rank."
+          "text": "Il tabellone registra la sconfitta. La prova ha comunque fornito il profilo richiesto e il tuo Rank non viene abbassato."
         }
       ],
       "choices": [
@@ -360,7 +360,7 @@
       "stitches": [
         {
           "id": "rr1",
-          "text": "Il profilo interregionale conserva il risultato senza confonderlo con RANK_B_TO_A. L'assessment misura e registra; il Promotion Trial promuove."
+          "text": "Il risultato della prova resta distinto dal Trial di promozione. Questa registrazione misura il tuo percorso competitivo; per ottenere il Rank A dovrai ancora vincere il Trial."
         }
       ],
       "choices": [
@@ -393,7 +393,7 @@
       "stitches": [
         {
           "id": "li1",
-          "text": "L'ufficio emette la licenza sullo stato persistente. Non cambia Rank, non apre le aree A/S e non crea risultati di competizioni future."
+          "text": "L'ufficio emette la licenza interregionale. Il documento amplia le tratte che puoi prenotare, ma non cambia il tuo Rank e non assegna risultati futuri."
         }
       ],
       "choices": [
@@ -470,7 +470,7 @@
       "stitches": [
         {
           "id": "lc1",
-          "text": "La licenza è attiva con il risultato reale dell'assessment. M5 può ora usare tratte interregionali senza alterare Rank B o anticipare il Masters Circuit."
+          "text": "La licenza è attiva e il risultato della prova compare nel tuo profilo. Resti Rank B finché non supererai il Trial di promozione."
         }
       ],
       "choices": [

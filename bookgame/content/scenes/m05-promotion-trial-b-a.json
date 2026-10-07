@@ -124,7 +124,7 @@
       "stitches": [
         {
           "id": "rd1",
-          "text": "E5 controllerà Rank B, registrazione attiva e almeno cinque Pokémon. La scena non cura HP/PP, non rimuove status e non crea sostituti se il roster reale non è pronto."
+          "text": "Prima dell'ingresso vengono controllati Rank B, registrazione attiva e almeno cinque Pokémon disponibili. Nessuno cura la squadra o sostituisce automaticamente un membro che non è pronto."
         }
       ],
       "choices": [
@@ -144,7 +144,7 @@
       "stitches": [
         {
           "id": "rr1",
-          "text": "Le risorse attuali sono parte dell'esame. Se scegli di entrare adesso, il match usa ciò che hai realmente; se non vuoi farlo, puoi uscire e tornare alla registrazione senza perdere il modulo."
+          "text": "Entrerai con le risorse e le condizioni attuali. Se non vuoi affrontare il Trial così, puoi uscire e tornare al banco senza perdere i progressi fatti altrove."
         }
       ],
       "choices": [
@@ -242,7 +242,7 @@
       "stitches": [
         {
           "id": "fc1",
-          "text": "Da qui non c'è esito narrativo predefinito. Se inizi, il resolver Pokémon 5e/E5 decide il match e registra il risultato ufficiale."
+          "text": "L'esaminatore prende posizione dall'altro lato del campo. Se confermi, il giudice darà il segnale e il risultato dipenderà dalla lotta."
         }
       ],
       "choices": [
@@ -346,7 +346,7 @@
       "stitches": [
         {
           "id": "tw1",
-          "text": "E5 registra la vittoria e completa `RANK_B_TO_A`: il Trial non è più disponibile, la registrazione viene consumata e il Rank strutturato diventa A."
+          "text": "Il tabellone registra la vittoria. Al banco aggiornano la tessera: il Trial è superato e il tuo Rank passa da B ad A."
         }
       ],
       "choices": [
@@ -371,7 +371,7 @@
       "stitches": [
         {
           "id": "wr1",
-          "text": "La promozione deriva dal match risolto, non dal flag di modulo, dalla licenza o dal soccorso. Tutti gli altri thread M5 restano nello stato in cui li hai lasciati."
+          "text": "La promozione arriva dalla vittoria appena ottenuta. Licenza, soccorso, Lance, i Five e le altre questioni della montagna restano esattamente dove le hai lasciate."
         }
       ],
       "choices": [
@@ -418,7 +418,7 @@
       "stitches": [
         {
           "id": "mc1",
-          "text": "Rank A è necessario ma non sempre sufficiente per aprire subito A5_MASTERS_ENTRY: serve anche il livello previsto o un invito reale. Il sistema non inventa l'accesso per chiudere M5 più in fretta."
+          "text": "Il Rank A è necessario per il circuito Masters, ma potrebbe non bastare per entrare subito: servono anche i requisiti previsti oppure un invito valido."
         }
       ],
       "choices": [
@@ -466,7 +466,7 @@
       "stitches": [
         {
           "id": "tl1",
-          "text": "E5 registra una sconfitta ufficiale. Il numero di tentativi aumenta, la registrazione viene rimossa e il checkpoint resta disponibile perché è retryable. Il Rank resta B."
+          "text": "Il tabellone assegna la vittoria all'esaminatore. Il tuo Rank resta B; l'iscrizione di questo tentativo si chiude, ma potrai registrarti di nuovo."
         }
       ],
       "choices": [
@@ -565,7 +565,7 @@
       "stitches": [
         {
           "id": "rc1",
-          "text": "Puoi riprovare subito dopo una nuova registrazione oppure tornare nel mondo. Nessuna delle due opzioni resetta M5."
+          "text": "Puoi tornare subito al banco oppure riprendere il viaggio e riprovare più avanti. La sconfitta non cancella ciò che hai già fatto sulla montagna."
         }
       ],
       "choices": [
@@ -585,7 +585,7 @@
       "stitches": [
         {
           "id": "rs1",
-          "text": "`RANK_B_TO_A` è ancora disponibile, `registered=false`, `completed=false`, Rank B invariato. Questo è l'unico stato corretto dopo una sconfitta retryable."
+          "text": "Sul registro compare la sconfitta di questo tentativo. Il Trial resta disponibile e il tuo Rank rimane B."
         }
       ],
       "choices": [

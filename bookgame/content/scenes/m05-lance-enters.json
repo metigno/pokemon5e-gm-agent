@@ -38,7 +38,7 @@
         },
         {
           "id": "crest_2",
-          "text": "Il nome sul registro è Lance. La sua carriera esiste indipendentemente dalla tua e la linea Dratini→Dragonair→Dragonite viene trattata come progressione persistente, non come forma concessa per la scena."
+          "text": "Il nome sul registro è Lance. Anche lui sta costruendo la propria carriera, e il legame con la sua linea Dratini, Dragonair e Dragonite cresce attraverso allenamento ed esperienza."
         }
       ],
       "choices": [
@@ -347,7 +347,7 @@
       "stitches": [
         {
           "id": "dragon_1",
-          "text": "Lance parla della sua linea drago come di una carriera parallela: allenamento, esperienza e trasformazioni arrivano quando realmente guadagnate. Nessuna forma futura viene anticipata per impressionare il player."
+          "text": "Quando parla dei suoi Pokémon drago, Lance lo fa come un allenatore che conosce il peso della crescita: allenamento, esperienza e trasformazioni arrivano con il tempo, non per impressionare qualcuno."
         }
       ],
       "choices": [
@@ -433,7 +433,7 @@
       "stitches": [
         {
           "id": "comp_1",
-          "text": "Lance è un avversario possibile nel mondo competitivo, non un gate mascherato. Incontrarlo, piacergli o batterlo in un eventuale match non può sostituire RANK_B_TO_A."
+          "text": "Lance può diventare un avversario nel Circuito, ma incontrarlo, ottenere il suo rispetto o persino batterlo non sostituisce il Trial necessario per il Rank A."
         }
       ],
       "choices": [
@@ -460,7 +460,7 @@
       "stitches": [
         {
           "id": "prior_1",
-          "text": "Se la tua storia precedente contiene Ferrox, Mareasale o competizioni rilevanti, Lance può riconoscerne gli effetti pubblici. Non attribuisce mai al player un'azione che il save non contiene."
+          "text": "Se Ferrox, Mareasale o le competizioni ti hanno dato una certa notorietà, Lance può averne sentito parlare. Non ti attribuisce però imprese che non hai compiuto."
         }
       ],
       "choices": [
@@ -492,7 +492,7 @@
       "stitches": [
         {
           "id": "state_1",
-          "text": "Il primo incontro lascia relazione, contesto e temi condivisi persistenti. Lance continuerà la propria schedule e i propri risultati anche quando non è in scena."
+          "text": "Quando vi separate, Lance riprende i propri impegni. Ciò che vi siete detti resta tra voi e potrà contare se le vostre strade torneranno a incrociarsi."
         }
       ],
       "choices": [
@@ -519,7 +519,7 @@
       "stitches": [
         {
           "id": "re_1",
-          "text": "Lance non ripete l'introduzione. Riparte dal contesto già persistente e da ciò che è cambiato da allora."
+          "text": "Lance ti riconosce. Non ripete le presentazioni: riprende la conversazione da ciò che avete già condiviso e da quello che nel frattempo è cambiato."
         }
       ],
       "choices": [
@@ -571,7 +571,7 @@
       "stitches": [
         {
           "id": "sched_1",
-          "text": "Lance non promette di restare finché il player non ha finito. La sua presenza futura dipenderà da schedule, carriera e condizioni del mondo."
+          "text": "Lance non promette di aspettarti. Ha i propri spostamenti, allenamenti e incontri; potreste ritrovarvi soltanto se le vostre strade torneranno davvero a coincidere."
         }
       ],
       "choices": [

@@ -314,7 +314,7 @@
       "stitches": [
         {
           "id": "rules_1",
-          "text": "Il Promotion Trial B→A richiede il checkpoint strutturato RANK_B_TO_A e il roster ufficiale previsto. Informarsi non registra il Trial e non crea un risultato."
+          "text": "Il Trial B→A richiede Rank B e la squadra prevista dal regolamento. Chiedere informazioni non equivale a iscriversi e non assegna alcun risultato."
         }
       ],
       "choices": [
@@ -371,7 +371,7 @@
       "stitches": [
         {
           "id": "shop_1",
-          "text": "Le scorte sono limitate e persistenti. Acquistare usa denaro reale e riduce lo stock; non esistono rifornimenti narrativi gratuiti."
+          "text": "Le scorte sono limitate. Ogni acquisto viene pagato al banco e riduce ciò che il negozio ha ancora disponibile."
         }
       ],
       "choices": [

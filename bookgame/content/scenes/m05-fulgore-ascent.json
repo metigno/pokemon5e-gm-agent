@@ -178,7 +178,7 @@
       "stitches": [
         {
           "id": "r1",
-          "text": "Sulla cresta il vento arriva a impulsi. Non c'è un evento scriptato che ti punisca perché hai scelto la via rapida: hai semplicemente meno tempo per decidere se insistere, deviare o arretrare."
+          "text": "Sulla cresta il vento arriva a impulsi e riduce il margine d'errore. Puoi insistere, deviare o arretrare, sapendo che la via più rapida lascia meno tempo per reagire."
         }
       ],
       "choices": [
@@ -320,7 +320,7 @@
       "stitches": [
         {
           "id": "rt1",
-          "text": "Arretrare non cancella la scelta di modulo e non conta come fallimento. Hai ancora Rank B e puoi riprovare quando il mondo offre un'altra finestra."
+          "text": "Arretrare non è una sconfitta. Conservi il Rank B e potrai cercare un'altra finestra per raggiungere Fulgore."
         }
       ],
       "choices": [
@@ -409,7 +409,7 @@
       "stitches": [
         {
           "id": "ac1",
-          "text": "La salita è registrata come completata soltanto dopo aver realmente raggiunto Fulgore. Il percorso scelto resta disponibile come callback."
+          "text": "Solo quando raggiungi davvero Fulgore puoi considerare conclusa la salita. La strada percorsa e le decisioni prese restano parte della tua esperienza della montagna."
         }
       ],
       "choices": [
@@ -448,7 +448,7 @@
       "stitches": [
         {
           "id": "pa1",
-          "text": "Sei sull'Altopiano Fulgore. Il cielo è più grande, il vento più netto e il rumore delle scariche arriva con ritardo. M5 può ora consumare questo luogo per A5_TRACE e gli altri eventi."
+          "text": "Sei sull'Altopiano Fulgore. Il cielo sembra più grande, il vento più netto e il rumore delle scariche arriva con un leggero ritardo. Tra rocce e quota c'è qualcosa che merita di essere osservato con attenzione."
         }
       ],
       "choices": [
@@ -490,7 +490,7 @@
       "choices": [
         {
           "id": "riolu_engage",
-          "text": "Ingaggio Riolu solo se resta nel corridoio naturale e lascio l'esito al resolver Pokémon 5e.",
+          "text": "Resto sul percorso e affronto Riolu.",
           "combat": {
             "encounterId": "M5_WILD_RIOLU_001",
             "opponent": {
@@ -543,7 +543,7 @@
       "choices": [
         {
           "id": "geodude_engage",
-          "text": "Ingaggio Geodude solo se resta nel corridoio naturale e lascio l'esito al resolver Pokémon 5e.",
+          "text": "Resto sul percorso e affronto Geodude.",
           "combat": {
             "encounterId": "M5_WILD_GEODUDE_001",
             "opponent": {
@@ -596,7 +596,7 @@
       "choices": [
         {
           "id": "machop_engage",
-          "text": "Ingaggio Machop solo se resta nel corridoio naturale e lascio l'esito al resolver Pokémon 5e.",
+          "text": "Resto sul percorso e affronto Machop.",
           "combat": {
             "encounterId": "M5_WILD_MACHOP_001",
             "opponent": {
@@ -640,13 +640,13 @@
       ]
     },
     "wild_combat_handoff": {
-      "text": "L'incontro passa al risolutore Pokémon 5e. Nessuna cattura o vittoria viene assegnata dalla narrazione."
+      "text": "Il Pokémon selvatico reagisce alla tua presenza e il confronto comincia."
     },
     "wild_win": {
       "stitches": [
         {
           "id": "ww1",
-          "text": "Il confronto si chiude con una vittoria meccanica. Lo stato reale della squadra resta persistente."
+          "text": "Il Pokémon selvatico cede. Quando il confronto termina, la tua squadra conserva ferite, energie e condizioni lasciate dallo scontro."
         }
       ],
       "choices": [
@@ -661,7 +661,7 @@
       "stitches": [
         {
           "id": "wl1",
-          "text": "Il confronto si chiude a tuo sfavore. HP e condizioni restano quelli prodotti dal resolver."
+          "text": "Il confronto termina a tuo sfavore. Ti allontani con la squadra nelle condizioni lasciate dalla lotta."
         }
       ],
       "choices": [
@@ -676,7 +676,7 @@
       "stitches": [
         {
           "id": "wc1",
-          "text": "La cattura è riuscita secondo le regole Pokémon 5e. Il Pokémon entra nel roster con il proprio stato persistente."
+          "text": "La Poké Ball si chiude. La cattura riesce e il Pokémon entra a far parte dei Pokémon sotto la tua responsabilità nelle condizioni in cui si è concluso l'incontro."
         }
       ],
       "choices": [

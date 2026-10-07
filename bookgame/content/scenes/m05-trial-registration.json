@@ -34,13 +34,13 @@
       "stitches": [
         {
           "id": "ti1",
-          "text": "La Sala della Cresta gestisce il Promotion Trial B→A come checkpoint E5 separato da licenza interregionale, Masters e altri risultati. Il formato canonico è Singles con Official Five e un solo esaminatore."
+          "text": "La Sala della Cresta gestisce il Trial B→A separatamente dalla licenza interregionale e dalle competizioni Masters. Il formato è Singles con cinque Pokémon dichiarati e un solo esaminatore."
         }
       ],
       "choices": [
         {
           "id": "info_audit",
-          "text": "Verifico eligibility e stato E5.",
+          "text": "Controllo se posso iscrivermi.",
           "goto": "eligibility_audit"
         },
         {
@@ -64,13 +64,13 @@
       "stitches": [
         {
           "id": "ea1",
-          "text": "L'idoneità deve esistere nel subsystem competitivo: Rank B reale, checkpoint disponibile, cinque Pokémon nel roster al momento della registrazione."
+          "text": "L'addetto controlla la tessera e la squadra. Per registrarti servono Rank B, accesso aperto al Trial e almeno cinque Pokémon disponibili."
         }
       ],
       "choices": [
         {
           "id": "audit_sync",
-          "text": "Sincronizzo il checkpoint B→A con E5.",
+          "text": "Presento tessera e squadra per il controllo.",
           "conditions": {
             "path": "competition.trials.RANK_B_TO_A.available",
             "ne": true
@@ -89,7 +89,7 @@
         },
         {
           "id": "audit_ready",
-          "text": "Il checkpoint E5 è già disponibile.",
+          "text": "L'idoneità è già stata confermata.",
           "conditions": {
             "path": "competition.trials.RANK_B_TO_A.available",
             "eq": true
@@ -107,7 +107,7 @@
       "stitches": [
         {
           "id": "td1",
-          "text": "Il banco legge lo stato E5 e il roster reale. Non clona un Official Five narrativo, non cura la squadra e non considera punti o reputazione come bypass."
+          "text": "Al banco controllano il Rank e i Pokémon realmente disponibili. Non curano la squadra e punti, reputazione o altri risultati non sostituiscono i requisiti."
         }
       ],
       "choices": [
@@ -159,7 +159,7 @@
       "stitches": [
         {
           "id": "rr1",
-          "text": "Il Trial richiede almeno cinque Pokémon nel roster. Questa schermata non riordina, cura o modifica alcun membro: verifica soltanto la capacità minima richiesta da E5."
+          "text": "Per il Trial devi poter dichiarare almeno cinque Pokémon. Il controllo non riordina né cura la squadra: verifica soltanto che tu possa presentarti con il numero richiesto."
         }
       ],
       "choices": [
@@ -250,13 +250,13 @@
       "stitches": [
         {
           "id": "ah1",
-          "text": "Il Trial è retryable. Ogni tentativo viene contato da E5; una sconfitta rimuove la registrazione ma lascia disponibile il checkpoint. Nessun altro stato M5 viene resettato."
+          "text": "Se hai già tentato il Trial, il risultato precedente resta sul registro. Una sconfitta non ti impedisce di riprovare e non cancella ciò che hai fatto altrove."
         }
       ],
       "choices": [
         {
           "id": "attempt_back",
-          "text": "Torno al banco sapendo che il retry non riscrive il modulo.",
+          "text": "Torno al banco sapendo che posso registrarmi di nuovo.",
           "goto": "trial_desk"
         }
       ]
@@ -286,7 +286,7 @@
       "choices": [
         {
           "id": "lance_ready",
-          "text": "Tengo il callback come prospettiva e torno al Trial.",
+          "text": "Tengo a mente il punto di vista di Lance e torno al Trial.",
           "goto": "registered_status",
           "effects": [
             {
@@ -307,7 +307,7 @@
       "stitches": [
         {
           "id": "reg1",
-          "text": "La registrazione E5 è attiva. Il Trial può iniziare subito o più tardi; uscire dalla Sala non annulla automaticamente la pratica."
+          "text": "L'addetto timbra la registrazione. Puoi entrare nell'Arena subito oppure tornare più tardi; uscire dalla Sala non annulla automaticamente l'iscrizione."
         }
       ],
       "choices": [
@@ -340,7 +340,7 @@
       "stitches": [
         {
           "id": "rgs1",
-          "text": "Checkpoint `RANK_B_TO_A`, Rank B attuale, Official Five richiesto, retry attivo. Nessun Masters result e nessun Rank A esistono ancora."
+          "text": "La registrazione è attiva. Sei ancora Rank B e dovrai affrontare il Trial con cinque Pokémon dichiarati; il Rank A arriverà soltanto con una vittoria."
         }
       ],
       "choices": [
@@ -386,13 +386,13 @@
       "stitches": [
         {
           "id": "rg1",
-          "text": "Punti, licenza interregionale, soccorso d'alta quota e Masters non possono promuoverti. Rank A esiste soltanto dopo una vittoria reale a `RANK_B_TO_A`."
+          "text": "Punti, licenza interregionale, soccorso d'alta quota e risultati Masters non possono promuoverti. Per ottenere il Rank A devi vincere questo Trial."
         }
       ],
       "choices": [
         {
           "id": "rank_back",
-          "text": "Torno all'audit E5.",
+          "text": "Torno al controllo d'iscrizione.",
           "goto": "eligibility_audit"
         }
       ]
