@@ -34,7 +34,7 @@
       "stitches": [
         {
           "id": "hall_1",
-          "text": "Lo sportello upper-regional dell'Arena del Molo gestisce iscrizione e calendario separatamente dal Promotion Trial C→B. Entrare qui non crea un match e non cambia il Rank."
+          "text": "Lo sportello tornei dell'Arena del Molo gestisce iscrizione e calendario separatamente dal Promotion Trial C→B. Presentarsi qui serve soltanto a informarsi o registrarsi: il Rank non cambia finché non viene conquistato sul campo."
         },
         {
           "id": "hall_2",
@@ -80,7 +80,7 @@
         },
         {
           "id": "review_upper_rules",
-          "text": "Leggo cosa l'upper-regional può e non può fare.",
+          "text": "Chiedo cosa può ottenere chi partecipa al torneo regionale.",
           "goto": "upper_rules"
         },
         {
@@ -105,7 +105,7 @@
       "stitches": [
         {
           "id": "rules_1",
-          "text": "L'upper-regional è opzionale e produce risultati competitivi reali quando i match vengono disputati. Può influenzare punti, reputazione e seeding; non sostituisce il checkpoint C→B e non promuove per narrazione."
+          "text": "L'impiegato è netto: il torneo è facoltativo. Le vittorie possono portare punti, reputazione e una posizione migliore nei tabelloni futuri, ma il Rank B si conquista soltanto superando il Promotion Trial."
         }
       ],
       "choices": [
@@ -137,7 +137,7 @@
       "stitches": [
         {
           "id": "calendar_1",
-          "text": "La registrazione apre una finestra competitiva nel Living World. Gli altri trainer continuano a disputare i propri match; il tuo bracket verrà creato solo quando M4_11 consumerà il vero stato di iscrizione."
+          "text": "L'iscrizione ti inserisce nel calendario del torneo. Gli altri Allenatori continuano a disputare i propri incontri; il tuo tabellone verrà definito quando la finestra d'iscrizione sarà chiusa."
         },
         {
           "id": "calendar_2",
@@ -164,7 +164,7 @@
         },
         {
           "id": "calendar_decline",
-          "text": "Rinuncio all'upper-regional per questa finestra.",
+          "text": "Rinuncio al torneo regionale per questa finestra.",
           "conditions": {
             "path": "world.flags.upper_regional_registration_complete",
             "ne": true
@@ -177,7 +177,7 @@
       "stitches": [
         {
           "id": "closed_1",
-          "text": "L'orario del banco è finito. Aspettare non è una scorciatoia: il tempo deve davvero avanzare e, con esso, quest, meteo, schedule e altri eventi."
+          "text": "L'orario del banco è finito. Per riaprirlo dovrà passare davvero del tempo; nel frattempo il meteo, le persone e le altre situazioni della città continueranno a cambiare."
         }
       ],
       "choices": [
@@ -205,7 +205,7 @@
       "stitches": [
         {
           "id": "desk_1",
-          "text": "Il banco legge Rank e stato della finestra. Non clona il tuo roster e non registra una formazione narrativa finta: il roster ufficiale verrà validato dal match system quando l'upper-regional inizierà."
+          "text": "L'impiegato controlla il Rank e la finestra d'iscrizione, poi registra il tuo nome. La formazione ufficiale verrà verificata prima dell'incontro, quando dovrai presentare i Pokémon realmente disponibili."
         }
       ],
       "choices": [
@@ -263,7 +263,7 @@
       "stitches": [
         {
           "id": "rank_1",
-          "text": "Rank C ti rende eleggibile alla fascia upper-regional. Rank B resta invece dietro `RANK_C_TO_B`: nessun numero di match opzionali può bypassare quel checkpoint."
+          "text": "Il Rank C ti rende eleggibile al torneo. Il Rank B resta invece legato al Promotion Trial C→B: nessun numero di incontri facoltativi sostituisce quella prova."
         }
       ],
       "choices": [
@@ -283,7 +283,7 @@
       "stitches": [
         {
           "id": "registered_1",
-          "text": "L'iscrizione è registrata. Il Living World può ora aprire `A4_REGIONAL_LEAGUE`; non hai ancora vinto, perso o disputato alcun match."
+          "text": "L'iscrizione è registrata. Il tuo nome compare tra i partecipanti, ma non hai ancora disputato alcun incontro."
         }
       ],
       "choices": [
@@ -303,7 +303,7 @@
         },
         {
           "id": "registered_prepare",
-          "text": "Registro una priorità di preparazione senza modificare il roster.",
+          "text": "Decido su cosa concentrare la preparazione, senza cambiare ora la formazione.",
           "goto": "prep_focus"
         },
         {
@@ -329,7 +329,7 @@
       "choices": [
         {
           "id": "schedule_note",
-          "text": "Registro che l'upper-regional è una pressione concorrente, non il nuovo unico obiettivo.",
+          "text": "Tengo il torneo tra i miei impegni senza trattarlo come l'unico obiettivo.",
           "goto": "registered",
           "effects": [
             {
@@ -356,7 +356,7 @@
       "stitches": [
         {
           "id": "prep_1",
-          "text": "Puoi decidere cosa osservare nei prossimi match, ma la scelta non assegna EV, HP, livelli o bonus invisibili."
+          "text": "Puoi decidere su cosa concentrare la preparazione per i prossimi incontri; non ottieni vantaggi automatici soltanto per aver dichiarato un'intenzione."
         }
       ],
       "choices": [

@@ -38,7 +38,7 @@
         },
         {
           "id": "weather_board_2",
-          "text": "Il tuo orologio di gioco è parte della scelta. Se aspetti, il mondo avanza: eventi, schedule, stock e altre finestre possono cambiare mentre il meteo viene riletto."
+          "text": "Aspettare ha un costo reale. Mentre passa il tempo, partenze, persone, negozi e altre opportunità possono cambiare insieme al meteo."
         }
       ],
       "choices": [
@@ -406,7 +406,7 @@
       "choices": [
         {
           "id": "departure_record",
-          "text": "Registro che la partenza è uno stato dinamico, non un flag permanente.",
+          "text": "Tengo presente che l'autorizzazione vale soltanto finché mare e vento restano entro i limiti di sicurezza.",
           "goto": "weather_board",
           "effects": [
             {

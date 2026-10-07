@@ -156,7 +156,7 @@
         },
         {
           "id": "upper_skipped",
-          "text": "Il risultato è skipped: il mondo ha proseguito senza inventare match.",
+          "text": "Non hai partecipato: il torneo è proseguito senza di te.",
           "conditions": {
             "path": "world.flags.upper_regional_result",
             "eq": "skipped"
@@ -188,7 +188,7 @@
         },
         {
           "id": "upper_forfeit",
-          "text": "Il risultato è forfeited: non viene convertito in un match mai giocato.",
+          "text": "Ti sei ritirato prima dell'incontro: il ritiro resta tale e non viene trasformato in una lotta mai disputata.",
           "conditions": {
             "path": "world.flags.upper_regional_result",
             "eq": "forfeited"

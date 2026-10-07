@@ -34,11 +34,11 @@
       "stitches": [
         {
           "id": "info_1",
-          "text": "Il Promotion Trial di Mareasale è il gate obbligatorio C→B. L'Upper Regional può averti dato esperienza, risultati o reputazione, ma nessun piazzamento può sostituire questo checkpoint."
+          "text": "Il Promotion Trial di Mareasale è la prova richiesta per passare dal Rank C al Rank B. Il torneo regionale può averti dato esperienza, risultati o reputazione, ma nessun piazzamento sostituisce questo esame."
         },
         {
           "id": "info_2",
-          "text": "Formato canonico: Singles, un esaminatore, roster ufficiale da quattro. Una sconfitta lascia Rank C e permette un nuovo tentativo."
+          "text": "L'addetta indica il regolamento: lotta in Singolo, un esaminatore e quattro Pokémon registrati per parte. Una sconfitta lascia invariato il Rank C; sarà possibile iscriversi a un nuovo tentativo."
         }
       ],
       "choices": [
@@ -129,13 +129,13 @@
       "stitches": [
         {
           "id": "format_1",
-          "text": "Il tema dell'esame è resource management e adattamento: non basta trovare una linea forte, devi sapere cosa conservare, cosa spendere e quando abbandonare un piano diventato obsoleto."
+          "text": "L'esame mette alla prova gestione delle risorse e adattamento: non basta trovare una linea forte, devi sapere cosa conservare, cosa spendere e quando abbandonare un piano che non funziona più."
         }
       ],
       "choices": [
         {
           "id": "format_roster",
-          "text": "Controllo cosa significa roster ufficiale da quattro.",
+          "text": "Chiedo come funziona la registrazione dei quattro Pokémon.",
           "goto": "roster_review"
         },
         {
@@ -206,7 +206,7 @@
         },
         {
           "id": "resource_prep",
-          "text": "Rivedo il tema resource management prima di firmare.",
+          "text": "Rivedo il principio di gestione delle risorse prima di firmare.",
           "goto": "strategy_review"
         },
         {
@@ -399,13 +399,13 @@
       "stitches": [
         {
           "id": "upper_1",
-          "text": "Il tuo piazzamento Upper Regional resta informazione utile, non un bonus nascosto. Vincere il bracket non abbassa la difficoltà; perderlo non aumenta il roster dell'esaminatrice."
+          "text": "Il tuo piazzamento nel torneo regionale resta nel record del Circuito, ma non modifica l'esame. Nerea userà lo stesso formato previsto per ogni candidato Rank C."
         }
       ],
       "choices": [
         {
           "id": "upper_note",
-          "text": "Registro la separazione fra bracket e gate.",
+          "text": "Tengo distinti il torneo e il Promotion Trial.",
           "goto": "format_review",
           "effects": [
             {
@@ -495,7 +495,7 @@
       "stitches": [
         {
           "id": "post_1",
-          "text": "Il gate resta aperto finché sei Rank C e il checkpoint è disponibile. Il mondo e gli altri thread continuano mentre rinvii."
+          "text": "Finché resti Rank C potrai tornare a iscriverti nelle finestre previste. Rinviare, però, non ferma il porto, gli altri Allenatori o le questioni che hai lasciato aperte."
         }
       ],
       "choices": [

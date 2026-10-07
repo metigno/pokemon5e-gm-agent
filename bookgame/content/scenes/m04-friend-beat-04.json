@@ -119,7 +119,7 @@
       "stitches": [
         {
           "id": "luke_contact_1",
-          "text": "Luke ti raggiunge con il solito tono competitivo. Il mare gli interessa soprattutto per una ragione: rende più difficile imporre il proprio ritmo e costringe a scegliere quando spingere davvero."
+          "text": "Luke arriva con il solito tono competitivo e una battuta sul fatto che persino il mare sembra voler decidere il ritmo al posto suo. Poi indica le partenze sospese. «È questo il punto: se non puoi imporre il piano, devi trovare il momento giusto per colpire comunque.»"
         }
       ],
       "choices": [
@@ -336,7 +336,7 @@
         },
         {
           "id": "luke_coast_walk",
-          "text": "Facciamo solo un tratto insieme, poi ognuno riprende la propria schedule.",
+          "text": "Facciamo solo un tratto insieme, poi ognuno riprende la propria strada.",
           "timeCostMinutes": 20,
           "goto": "friend_beat_close",
           "effects": [
@@ -358,7 +358,7 @@
       "stitches": [
         {
           "id": "luke_remote_1",
-          "text": "Luke risponde da una tratta diversa del circuito. Non può raggiungerti senza spezzare la propria schedule, quindi il contatto resta remoto."
+          "text": "Luke risponde da una tratta diversa del Circuito. È troppo lontano per raggiungerti senza abbandonare ciò che sta facendo, quindi il contatto resta una chiamata."
         }
       ],
       "choices": [
@@ -508,7 +508,7 @@
       "stitches": [
         {
           "id": "luke_league_1",
-          "text": "Luke parla del circuito come di un problema reale, non di una cutscene. Il suo stato competitivo resta indipendente dal tuo e nessuno dei due riceve plot armor."
+          "text": "Luke non ti regala informazioni né attenua la rivalità perché siete amici. Parlate di priorità e approccio; i vostri risultati restano affare vostro."
         }
       ],
       "choices": [
@@ -558,7 +558,7 @@
       "stitches": [
         {
           "id": "mattew_contact_1",
-          "text": "Mattew arriva già concentrato sui dettagli: orari, condizioni del mare, preparazione della squadra. Non gli interessa sembrare prudente; gli interessa capire cosa funziona davvero."
+          "text": "Mattew arriva con gli orari delle partenze già segnati e una domanda sulla preparazione della tua squadra. Prima guarda come cambia il vento, poi commenta: «Se non capisci perché una cosa funziona, non sai quando smetterà di funzionare.»"
         }
       ],
       "choices": [
@@ -696,7 +696,7 @@
       "stitches": [
         {
           "id": "mattew_harbor_1",
-          "text": "Mattew arriva con l'energia di chi vorrebbe trasformare anche una coincidenza portuale in una partenza. «Il problema dei ritardi? Che se aspetti troppo perdi il ritmo. Ma se forzi il ritmo sbagliato, perdi tutto il resto.»"
+          "text": "Mattew confronta gli orari di due partenze cancellate prima di parlare. «Il ritardo non è il problema. Il problema è allenarsi per una situazione e fingere che le condizioni non siano cambiate.» Poi alza gli occhi dal tabellone. «Quello sì che ti fa perdere il ritmo.»"
         }
       ],
       "choices": [
@@ -775,7 +775,7 @@
         },
         {
           "id": "mattew_coast_walk",
-          "text": "Facciamo solo un tratto insieme, poi ognuno riprende la propria schedule.",
+          "text": "Facciamo solo un tratto insieme, poi ognuno riprende la propria strada.",
           "timeCostMinutes": 20,
           "goto": "friend_beat_close",
           "effects": [
@@ -797,7 +797,7 @@
       "stitches": [
         {
           "id": "mattew_remote_1",
-          "text": "Mattew è già su un'altra tratta. La chiamata è rapida e diretta, coerente con una schedule che non può essere piegata solo per creare una scena."
+          "text": "Mattew è già su un'altra tratta. La chiamata è rapida: tra allenamento e spostamenti non può raggiungere Mareasale soltanto perché tu sei qui."
         }
       ],
       "choices": [
@@ -947,7 +947,7 @@
       "stitches": [
         {
           "id": "mattew_league_1",
-          "text": "Mattew parla del circuito come di un problema reale, non di una cutscene. Il suo stato competitivo resta indipendente dal tuo e nessuno dei due riceve plot armor."
+          "text": "Mattew confronta metodo e preparazione senza trasformare l'amicizia in un vantaggio competitivo. Il suo percorso resta distinto dal tuo."
         }
       ],
       "choices": [
@@ -997,7 +997,7 @@
       "stitches": [
         {
           "id": "daniel_contact_1",
-          "text": "Daniel ascolta il racconto del porto con attenzione ordinata. Documenti mancanti e responsabilità poco chiare gli danno visibilmente più fastidio del caos delle banchine."
+          "text": "Daniel ascolta senza interrompere e separa subito fatti, supposizioni e responsabilità. Il caos delle banchine lo disturba meno dei passaggi senza una firma chiara. «Se nessuno sa chi doveva controllare una cosa, prima o poi qualcuno scopre che può approfittarne.»"
         }
       ],
       "choices": [
@@ -1214,7 +1214,7 @@
         },
         {
           "id": "daniel_coast_walk",
-          "text": "Facciamo solo un tratto insieme, poi ognuno riprende la propria schedule.",
+          "text": "Facciamo solo un tratto insieme, poi ognuno riprende la propria strada.",
           "timeCostMinutes": 20,
           "goto": "friend_beat_close",
           "effects": [
@@ -1386,7 +1386,7 @@
       "stitches": [
         {
           "id": "daniel_league_1",
-          "text": "Daniel parla del circuito come di un problema reale, non di una cutscene. Il suo stato competitivo resta indipendente dal tuo e nessuno dei due riceve plot armor."
+          "text": "Daniel ragiona sui prossimi incontri senza offrirti scorciatoie o informazioni che non dovrebbe condividere. Il suo percorso resta distinto dal tuo."
         }
       ],
       "choices": [
@@ -1436,7 +1436,7 @@
       "stitches": [
         {
           "id": "edward_contact_1",
-          "text": "Edward guarda il porto come se stesse già decidendo quali parti gli piacciono e quali no. «Almeno qui nessuno può dire che manca lo spettacolo.» Poi torna subito a chiederti cosa è successo davvero."
+          "text": "Edward squadra gru, onde e barche con un mezzo sorriso. «Almeno qui nessuno può dire che manca lo spettacolo.» Quando il discorso torna alle lotte, però, è ancora più semplice: gli interessa sapere chi ha retto l'impatto e chi ha avuto il coraggio di spingere fino in fondo."
         }
       ],
       "choices": [
@@ -1653,7 +1653,7 @@
         },
         {
           "id": "edward_coast_walk",
-          "text": "Facciamo solo un tratto insieme, poi ognuno riprende la propria schedule.",
+          "text": "Facciamo solo un tratto insieme, poi ognuno riprende la propria strada.",
           "timeCostMinutes": 20,
           "goto": "friend_beat_close",
           "effects": [
@@ -1825,7 +1825,7 @@
       "stitches": [
         {
           "id": "edward_league_1",
-          "text": "Edward parla del circuito come di un problema reale, non di una cutscene. Il suo stato competitivo resta indipendente dal tuo e nessuno dei due riceve plot armor."
+          "text": "Edward parla dei prossimi incontri con il gusto di chi vuole vincerli a modo proprio. Essere amici non rende più facile il percorso di nessuno dei due."
         }
       ],
       "choices": [
@@ -1875,7 +1875,7 @@
       "stitches": [
         {
           "id": "fab_contact_1",
-          "text": "Fab ti saluta senza trasformare l'incontro in una riunione strategica. Prima chiede dei Pokémon, poi del resto. «Se stanno bene loro, possiamo parlare anche dei casini del porto.»"
+          "text": "Fab ti saluta come se vi foste separati ieri. Prima chiede dei Pokémon, uno per uno; solo dopo guarda il porto. «Se stanno bene loro, possiamo parlare anche dei casini del porto.»"
         }
       ],
       "choices": [
@@ -2092,7 +2092,7 @@
         },
         {
           "id": "fab_coast_walk",
-          "text": "Facciamo solo un tratto insieme, poi ognuno riprende la propria schedule.",
+          "text": "Facciamo solo un tratto insieme, poi ognuno riprende la propria strada.",
           "timeCostMinutes": 20,
           "goto": "friend_beat_close",
           "effects": [
@@ -2264,7 +2264,7 @@
       "stitches": [
         {
           "id": "fab_league_1",
-          "text": "Fab parla del circuito come di un problema reale, non di una cutscene. Il suo stato competitivo resta indipendente dal tuo e nessuno dei due riceve plot armor."
+          "text": "Fab non trasforma la conversazione in una riunione tattica. Vi scambiate impressioni e battute; poi ognuno resta responsabile del proprio percorso."
         }
       ],
       "choices": [

@@ -44,7 +44,7 @@
         },
         {
           "id": "approach_2",
-          "text": "MAR-CITY è un hub Rank C costruito intorno al traffico marittimo. Il Circuito è visibile ma non dominante: l'Arena del Molo occupa una banchina riadattata, mentre orari, vento e carichi decidono il ritmo della città."
+          "text": "Mareasale vive intorno al traffico marittimo. Il Circuito è visibile ma non dominante: l'Arena del Molo occupa una banchina riadattata, mentre orari, vento e carichi decidono il ritmo della città."
         },
         {
           "id": "approach_3",
@@ -54,7 +54,7 @@
       "choices": [
         {
           "id": "enter_mareasale",
-          "text": "Entro nel porto e registro Mareasale come hub.",
+          "text": "Entro nel porto e prendo confidenza con Mareasale.",
           "timeCostMinutes": 10,
           "goto": "city_hub",
           "effects": [
@@ -97,7 +97,7 @@
         },
         {
           "id": "board_2",
-          "text": "Un pannello del Circuito indica Arena del Molo, registrazione upper-regional quando disponibile e Promotion Trial C→B su finestra separata. Leggere il pannello non iscrive a nulla."
+          "text": "Un pannello del Circuito indica l'Arena del Molo, il prossimo torneo della fascia regionale superiore e, separatamente, le date utili per il Trial C→B. Per partecipare servirà presentarsi agli sportelli dedicati."
         }
       ],
       "choices": [
@@ -618,7 +618,7 @@
         },
         {
           "id": "arena_2",
-          "text": "Due sportelli sono distinti: upper-regional e Promotion Trial C→B. Nessuno dei due è attivato da questa visita."
+          "text": "Due sportelli hanno code separate: uno gestisce il torneo regionale, l'altro il Promotion Trial C→B. Informarsi non equivale a iscriversi."
         }
       ],
       "choices": [
@@ -629,7 +629,7 @@
         },
         {
           "id": "arena_upper",
-          "text": "Chiedo come funzionerà l'upper-regional quando la finestra sarà aperta.",
+          "text": "Chiedo come funzionerà il prossimo torneo regionale quando apriranno le iscrizioni.",
           "goto": "arena_upper"
         },
         {
@@ -714,7 +714,7 @@
       "stitches": [
         {
           "id": "arena_rules_1",
-          "text": "Il gate C→B usa Singles e quattro Pokémon ufficiali. La sfida valuta resource management e adattamento. Il banco non registra ancora nulla: questa è soltanto informazione pubblica."
+          "text": "Il Trial C→B si disputa in Singolo con quattro Pokémon registrati. La prova premia chi sa gestire le proprie risorse e adattarsi quando il piano iniziale smette di funzionare. Per ora stai soltanto leggendo il regolamento."
         }
       ],
       "choices": [
@@ -736,13 +736,13 @@
       "stitches": [
         {
           "id": "arena_upper_1",
-          "text": "L'upper-regional è una competizione separata dal gate. Può dare punti, premi e seeding, ma non apre Rank B e non sostituisce una vittoria al Trial."
+          "text": "L'addetto chiarisce che il torneo regionale assegna punti, premi e posizione nei tabelloni futuri, ma non concede il Rank B. Per quello serve comunque superare il Promotion Trial C→B."
         }
       ],
       "choices": [
         {
           "id": "arena_upper_note",
-          "text": "Registro la separazione fra bracket e promozione.",
+          "text": "Tengo distinti il torneo e la promozione.",
           "goto": "arena_lobby",
           "effects": [
             {
@@ -954,7 +954,7 @@
       "stitches": [
         {
           "id": "rest_done_1",
-          "text": "Passa un'ora mentre partenze, quest, stock e schedule continuano a essere processati dal mondo. La squadra resta nello stato meccanico reale."
+          "text": "Passa un'ora. Nel frattempo le partenze cambiano, i negozi continuano il loro turno e gli altri impegni della città vanno avanti. La squadra resta nelle condizioni in cui si trova davvero."
         }
       ],
       "choices": [
@@ -981,7 +981,7 @@
       "choices": [
         {
           "id": "overlook_note",
-          "text": "Registro il porto come sistema di vincoli, non come sfondo.",
+          "text": "Tengo a mente che qui vento, orari e traffico condizionano davvero ciò che puoi fare.",
           "goto": "city_hub",
           "effects": [
             {

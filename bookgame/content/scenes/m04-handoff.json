@@ -34,7 +34,7 @@
         },
         {
           "id": "coast_not_auto_started",
-          "text": "Davanti a te c'è Mareasale. Archie, le voci sul contrabbando, l'Upper Regional e il Trial C→B non ti aspettano in fila: porto, mare e Circuito seguono i propri tempi."
+          "text": "Davanti a te c'è Mareasale. Nel porto circolano già voci su carichi irregolari; l'Arena del Molo prepara i prossimi appuntamenti e il mare detta partenze e ritardi. Nessuno di questi eventi aspetterà il tuo arrivo per cominciare."
         }
       ],
       "choices": [
@@ -69,7 +69,7 @@
       "stitches": [
         {
           "id": "band_1",
-          "text": "Mareasale è il primo vero hub marittimo della carriera. Da Ferravia la direttrice scende verso il porto in diverse ore di viaggio; la Costa di Sale e la Barriera Azzurra restano invece contenuti da raggiungere attraverso accessi e finestre reali."
+          "text": "Mareasale è il primo grande porto che incontri nel Circuito. Da Ferravia la strada scende per ore verso il mare; oltre la città, la Costa di Sale e la Barriera Azzurra richiedono ancora trasporti, autorizzazioni e condizioni favorevoli."
         },
         {
           "id": "band_2",
@@ -151,7 +151,7 @@
       "stitches": [
         {
           "id": "access_1",
-          "text": "Le nuove aree non implicano libertà assoluta: FER-TUNNELS, FER-MOUNTAINS, MAR-CITY, SAL-COAST e MAR-REEF appartengono alla fascia C, ma singoli accessi possono richiedere meteo, trasporti o autorizzazioni locali."
+          "text": "Il Rank C rende valide nuove tratte, ma non annulla i limiti del territorio: gallerie, montagne, porto, costa e barriera possono ancora richiedere meteo favorevole, un mezzo adatto o un'autorizzazione locale."
         }
       ],
       "choices": [
