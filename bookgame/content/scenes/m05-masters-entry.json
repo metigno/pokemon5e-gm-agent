@@ -89,7 +89,7 @@
       "stitches": [
         {
           "id": "el1",
-          "text": "L'accesso deriva dal Rank A più la condizione Masters reale: livello previsto o invito persistente. Il match non viene aperto soltanto perché M5 deve finire."
+          "text": "L'addetto controlla il Rank A e gli altri requisiti d'ingresso. Il posto si apre soltanto se hai raggiunto il livello previsto oppure possiedi un invito valido."
         }
       ],
       "choices": [
@@ -153,7 +153,7 @@
       "stitches": [
         {
           "id": "rg1",
-          "text": "L'ingresso è registrato. Il prossimo risultato verrà dal resolver E5 e determinerà soltanto il seeding Masters di questa run."
+          "text": "L'iscrizione viene registrata. Il prossimo incontro servirà a determinare la tua posizione iniziale nel circuito Masters."
         }
       ],
       "choices": [
@@ -264,7 +264,7 @@
       "stitches": [
         {
           "id": "mc1",
-          "text": "Il match è ufficiale. Nessuna scelta successiva può assegnare manualmente l'esito: il resolver E5 registrerà win o lose nella history competitiva."
+          "text": "Il giudice conferma che si tratta di un incontro ufficiale. Quando entrerai in campo, vittoria o sconfitta saranno determinate dalla lotta."
         }
       ],
       "choices": [
@@ -300,7 +300,7 @@
       "stitches": [
         {
           "id": "mh1",
-          "text": "Il controllo passa al combattimento Pokémon 5e/E5. Il Rank A resta separato dal risultato di seeding."
+          "text": "Le squadre prendono posizione. Il giudice controlla le registrazioni e dà il segnale d'inizio."
         }
       ],
       "choices": [
@@ -364,7 +364,7 @@
       "stitches": [
         {
           "id": "mw1",
-          "text": "E5 registra una vittoria ufficiale. Non cambia Rank A; il risultato viene tradotto nel seeding Masters favorevole previsto per questa finestra."
+          "text": "Il tabellone registra la vittoria. Il Rank A non cambia; il risultato ti assegna una posizione iniziale più favorevole nel circuito Masters."
         }
       ],
       "choices": [
@@ -408,7 +408,7 @@
       "stitches": [
         {
           "id": "ml1",
-          "text": "E5 registra una sconfitta ufficiale. Non perdi Rank A e non vieni espulso dalla progressione: il risultato produce semplicemente una fascia Masters meno favorevole."
+          "text": "Il tabellone registra la sconfitta. Conservi il Rank A e resti nel percorso Masters, ma partirai da una posizione meno favorevole."
         }
       ],
       "choices": [
@@ -534,7 +534,7 @@
       "stitches": [
         {
           "id": "df1",
-          "text": "Rimandare il Masters Entry è legale. La finestra resta disponibile e il modulo può riconoscere che l'accesso esiste anche se scegli di non disputare subito il match."
+          "text": "Puoi rimandare l'incontro. Il diritto d'accesso resta valido finché la finestra prevista rimane aperta."
         }
       ],
       "choices": [
@@ -551,7 +551,7 @@
         },
         {
           "id": "defer_outcome",
-          "text": "L'exit contract è già soddisfatto: chiudo M5 senza disputare ora il seeding match.",
+          "text": "Per ora non disputo l'incontro e torno ad Altacima.",
           "conditions": {
             "path": "world.flags.m5_module_outcome_available",
             "eq": true
@@ -564,13 +564,13 @@
       "stitches": [
         {
           "id": "cl1",
-          "text": "Ingresso e seeding sono ora persistenti. Rank A, Trace, Five, Lance e licenza restano separati e invariati."
+          "text": "La tua posizione iniziale nel circuito Masters è ora registrata. Il Rank A, ciò che hai scoperto a Fulgore, Lance, i Five e la licenza interregionale restano questioni distinte."
         }
       ],
       "choices": [
         {
           "id": "close_outcome",
-          "text": "Passo al riepilogo finale di M5.",
+          "text": "Torno ad Altacima e faccio il punto sul viaggio.",
           "goto": "module_outcome_link"
         },
         {
@@ -590,13 +590,13 @@
       "stitches": [
         {
           "id": "mo1",
-          "text": "Se l'exit contract è soddisfatto, il riepilogo M5 può ora chiudere il modulo. Se manca altro stato, il gate resterà chiuso."
+          "text": "Con i requisiti principali ormai raggiunti puoi fare il punto prima di lasciare Altacima. Se manca ancora qualcosa di indispensabile, dovrai occupartene prima della partenza."
         }
       ],
       "choices": [
         {
           "id": "outcome_enter",
-          "text": "Verifico l'exit contract di M5.",
+          "text": "Controllo se posso proseguire il viaggio.",
           "goto": "m05-module-outcome#outcome_entry"
         }
       ]
