@@ -372,7 +372,7 @@
       "stitches": [
         {
           "id": "cb_1",
-          "text": "I rapporti citano ancora vecchi interventi nelle Gallerie Ferrox. Se hai partecipato agli eventi di M3, quelle conseguenze restano parte della reputazione locale; altrimenti il testo non ti attribuisce meriti."
+          "text": "Nei rapporti locali compaiono ancora vecchi interventi nelle Gallerie Ferrox. Se eri presente, qualcuno può ricordare ciò che hai fatto; altrimenti quelle storie appartengono ad altri."
         }
       ],
       "choices": [
@@ -483,7 +483,7 @@
       "stitches": [
         {
           "id": "ret_1",
-          "text": "Tornare indietro è una scelta valida. M5 resta attivo e la montagna non viene marcata come completata."
+          "text": "Tornare indietro è una scelta valida. La montagna resta lì e potrai tentare di nuovo la salita quando sarai pronto."
         }
       ],
       "choices": [
@@ -498,7 +498,7 @@
       "stitches": [
         {
           "id": "close_1",
-          "text": "La salita termina all'ingresso di Altacima. Il percorso scelto, il tempo speso e le informazioni raccolte restano persistenti; nessun rischio è stato convertito in una scorciatoia."
+          "text": "La salita termina all'ingresso di Altacima. Il percorso scelto, il tempo impiegato e ciò che hai scoperto restano parte del viaggio."
         }
       ],
       "choices": [
