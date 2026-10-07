@@ -56,7 +56,14 @@ test("Trainer UI -> runtime -> save/reload -> continue battle integration", asyn
   });
   battle.order = ["player", "opponent"];
   battle.turnIndex = 0;
-  state.pending = { type: "pokemon5e_combat", status: "in_progress", battle };
+  state.pending = {
+    type: "pokemon5e_combat",
+    status: "in_progress",
+    encounterId: battle.encounterId,
+    sceneId: state.story.sceneId,
+    returnNodes: { won: state.story.nodeId, lost: state.story.nodeId },
+    battle
+  };
   await new SaveStore(dir).save(state);
 
   const child = spawn(process.execPath, ["ui/server.mjs"], {
