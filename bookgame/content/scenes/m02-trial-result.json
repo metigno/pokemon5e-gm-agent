@@ -7,9 +7,18 @@
   "entryNodeId": "trial_win",
   "conditions": {
     "all": [
-      { "path": "world.flags.m1_complete", "eq": true },
-      { "path": "world.flags.m02_unlocked", "eq": true },
-      { "path": "world.flags.m2_active", "eq": true }
+      {
+        "path": "world.flags.m1_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m02_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m2_active",
+        "eq": true
+      }
     ]
   },
   "nodes": {
@@ -17,7 +26,7 @@
       "stitches": [
         {
           "id": "win_1",
-          "text": "Il tabellone registra la vittoria. Il Promotion Trial RANK_E_TO_D è risolto. La licenza passa realmente al Rank D — non è un titolo narrativo né un flag parallelo. Ines Varga annota il risultato senza aggiungere commenti inutili."
+          "text": "Il tabellone assegna la vittoria al tuo nome. Pochi secondi dopo, sul profilo del Circuito, la licenza cambia da Rank E a Rank D. Ines controlla il risultato e firma il registro."
         },
         {
           "id": "win_2",
@@ -25,40 +34,76 @@
         },
         {
           "id": "win_m2_check",
-          "text": "Il Rank D apre la fascia successiva. Prima di uscire dal Circuito Asteria, il sistema verifica se hai completato il quadro di M2: la rete di bracconaggio, N, il Friend Beat 02. Se tutto è in ordine, M2 si chiude formalmente."
+          "text": "Con il Rank D puoi raggiungere nuove aree del Circuito. Ma a Borgo Salice restano persone e questioni che potrebbero ancora richiedere la tua presenza prima di ripartire."
         }
       ],
       "choices": [
         {
           "id": "complete_m2_exit",
-          "text": "Il quadro è completo — chiudo M2 e accedo alla fascia successiva.",
+          "text": "Saluto Borgo Salice e preparo la partenza.",
           "conditions": {
             "all": [
-              { "path": "competition.rank", "eq": "D" },
-              { "path": "world.flags.n_met", "eq": true },
-              { "path": "world.flags.friend_beat_02_complete", "eq": true },
-              { "path": "world.flags.network_outcome_complete", "eq": true }
+              {
+                "path": "competition.rank",
+                "eq": "D"
+              },
+              {
+                "path": "world.flags.n_met",
+                "eq": true
+              },
+              {
+                "path": "world.flags.friend_beat_02_complete",
+                "eq": true
+              },
+              {
+                "path": "world.flags.network_outcome_complete",
+                "eq": true
+              }
             ]
           },
           "goto": "m2_exit_confirmed",
           "effects": [
-            { "type": "set_flag", "key": "m2_complete", "value": true },
-            { "type": "set_flag", "key": "m03_unlocked", "value": true },
-            { "type": "trainer_milestone_level", "milestoneId": "M02_COMPLETE", "level": 5 }
+            {
+              "type": "set_flag",
+              "key": "m2_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "m03_unlocked",
+              "value": true
+            },
+            {
+              "type": "trainer_milestone_level",
+              "milestoneId": "M02_COMPLETE",
+              "level": 5
+            }
           ]
         },
         {
           "id": "review_m2_pending",
-          "text": "Controllo cosa manca prima di chiudere formalmente M2.",
+          "text": "Prima di partire, controllo cosa ho ancora lasciato in sospeso.",
           "conditions": {
             "all": [
-              { "path": "competition.rank", "eq": "D" },
+              {
+                "path": "competition.rank",
+                "eq": "D"
+              },
               {
                 "not": {
                   "all": [
-                    { "path": "world.flags.n_met", "eq": true },
-                    { "path": "world.flags.friend_beat_02_complete", "eq": true },
-                    { "path": "world.flags.network_outcome_complete", "eq": true }
+                    {
+                      "path": "world.flags.n_met",
+                      "eq": true
+                    },
+                    {
+                      "path": "world.flags.friend_beat_02_complete",
+                      "eq": true
+                    },
+                    {
+                      "path": "world.flags.network_outcome_complete",
+                      "eq": true
+                    }
                   ]
                 }
               }
@@ -68,16 +113,15 @@
         }
       ]
     },
-
     "m2_exit_confirmed": {
       "stitches": [
         {
           "id": "exit_1",
-          "text": "M2 — Sotto la Nebbia è formalmente concluso. Il Rank D è registrato nel Circuito Asteria. Tutto ciò che hai lasciato aperto in questa fascia — relazioni, fauna, cronologia competitiva, conseguenze del mondo — resta persistente."
+          "text": "Quando lasci la Sala Verde, il Rank D è già sulla tua licenza. Bosco Bruma, Borgo Salice e Palude Mirto restano alle tue spalle senza cancellare ciò che è successo: persone, tracce e conseguenze rimangono dove le hai lasciate."
         },
         {
           "id": "exit_2",
-          "text": "Il sistema segnala una nuova finestra di accesso. M3 è disponibile. La strada continua."
+          "text": "Sul pannello delle partenze compare una nuova tratta autorizzata dalla tua licenza. Oltre Borgo Salice, la strada prosegue verso Ferravia."
         }
       ],
       "choices": [
@@ -90,7 +134,10 @@
           },
           "goto": "m03-handoff#m03_entry",
           "effects": [
-            { "type": "set_location", "locationId": "m03_entry_point" }
+            {
+              "type": "set_location",
+              "locationId": "m03_entry_point"
+            }
           ]
         },
         {
@@ -98,17 +145,19 @@
           "text": "Resto a Borgo Salice prima di partire.",
           "goto": "m02-borgo-salice#borough_hub",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
           ]
         }
       ]
     },
-
     "m2_pending_items": {
       "stitches": [
         {
           "id": "pending_1",
-          "text": "Il Rank D è confermato, ma M2 non si chiude formalmente finché non hai completato il quadro. Il sistema mostra i thread ancora aperti."
+          "text": "La licenza Rank D è tua, ma partire adesso significherebbe lasciare alcune questioni irrisolte a Borgo Salice. Sai ancora dove cercare le persone coinvolte."
         }
       ],
       "choices": [
@@ -121,7 +170,10 @@
           },
           "goto": "m02-borgo-salice#borough_hub",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
           ]
         },
         {
@@ -133,19 +185,25 @@
           },
           "goto": "m02-borgo-salice#borough_hub",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
           ]
         },
         {
           "id": "finish_friend_beat",
-          "text": "Devo ancora completare il Friend Beat 02.",
+          "text": "Prima di partire, cerco il mio amico.",
           "conditions": {
             "path": "world.flags.friend_beat_02_complete",
             "ne": true
           },
           "goto": "m02-borgo-salice#borough_hub",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
           ]
         },
         {
@@ -153,17 +211,19 @@
           "text": "Torno al borgo — finisco quello che manca.",
           "goto": "m02-borgo-salice#borough_hub",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
           ]
         }
       ]
     },
-
     "trial_loss": {
       "stitches": [
         {
           "id": "loss_1",
-          "text": "Il tabellone registra la sconfitta senza cancellare il tentativo. Resti Rank E — il Promotion Trial RANK_E_TO_D torna disponibile perché il checkpoint è retryable. La registrazione del tuo Official Three è ancora attiva."
+          "text": "Il tabellone assegna la vittoria a Ines. La tua licenza resta Rank E. Al banco ti confermano che potrai iscriverti di nuovo alla prova; per il prossimo tentativo dovrai presentare nuovamente la squadra."
         },
         {
           "id": "loss_2",
@@ -180,9 +240,18 @@
           "text": "Torno al banco per preparare un nuovo tentativo.",
           "conditions": {
             "all": [
-              { "path": "competition.rank", "eq": "E" },
-              { "path": "competition.trials.RANK_E_TO_D.available", "eq": true },
-              { "path": "competition.trials.RANK_E_TO_D.registered", "ne": true }
+              {
+                "path": "competition.rank",
+                "eq": "E"
+              },
+              {
+                "path": "competition.trials.RANK_E_TO_D.available",
+                "eq": true
+              },
+              {
+                "path": "competition.trials.RANK_E_TO_D.registered",
+                "ne": true
+              }
             ]
           },
           "goto": "m02-trial-registration#trial_desk"
@@ -192,7 +261,10 @@
           "text": "Ho bisogno di prepararmi meglio — torno alla Sala Verde.",
           "goto": "m02-borgo-salice#sala_verde",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice_sala_verde" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice_sala_verde"
+            }
           ]
         },
         {
@@ -200,7 +272,10 @@
           "text": "Torno al borgo — penso a cosa è andato storto.",
           "goto": "m02-borgo-salice#borough_hub",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
           ]
         }
       ]
