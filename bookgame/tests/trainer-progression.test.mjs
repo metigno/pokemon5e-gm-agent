@@ -4,6 +4,7 @@ import assert from "node:assert/strict";
 import { createNewGameState, experienceNeededAtLevel } from "../src/engine/state.mjs";
 import {
   advanceTrainerToLevel,
+  applyTrainerProgressionEffect,
   getTrainerProgressionView,
   resolveTrainerProgressionChoice,
   syncCampaignTrainerProgression
@@ -13,9 +14,7 @@ const fixedNow=()=> "2026-10-07T05:55:00.000Z";
 
 test("M1 milestone requires Trainer Path before level 3",()=>{
   const state=createNewGameState({protagonist:"Luke",now:fixedNow});
-  state.world.flags.m1_complete=true;
-
-  let applied=syncCampaignTrainerProgression(state);
+  let applied=applyTrainerProgressionEffect(state,{type:"trainer_milestone_level",milestoneId:"M01_COMPLETE",level:3});
   assert.equal(state.player.trainerLevel,2);
   assert.equal(state.player.trainerXp,experienceNeededAtLevel(2));
   assert.equal(state.player.hp.max,12);
@@ -28,7 +27,6 @@ test("M1 milestone requires Trainer Path before level 3",()=>{
 
   resolveTrainerProgressionChoice(state,"trainer_path_ace-trainer");
   applied=syncCampaignTrainerProgression(state);
-
   assert.equal(state.player.trainerPath,"ace-trainer");
   assert.equal(state.player.trainerLevel,3);
   assert.equal(state.player.trainerXp,experienceNeededAtLevel(3));
@@ -40,14 +38,11 @@ test("M1 milestone requires Trainer Path before level 3",()=>{
 
 test("M2 network milestone reaches level 4 and CON ASI retroactively raises HP",()=>{
   const state=createNewGameState({protagonist:"Luke",now:fixedNow});
-  state.world.flags.m1_complete=true;
-  syncCampaignTrainerProgression(state);
+  applyTrainerProgressionEffect(state,{type:"trainer_milestone_level",milestoneId:"M01_COMPLETE",level:3});
   resolveTrainerProgressionChoice(state,"trainer_path_tactician");
   syncCampaignTrainerProgression(state);
 
-  state.world.flags.network_outcome_complete=true;
-  syncCampaignTrainerProgression(state);
-
+  applyTrainerProgressionEffect(state,{type:"trainer_milestone_level",milestoneId:"M02_NETWORK_OUTCOME",level:4});
   assert.equal(state.player.trainerLevel,4);
   assert.equal(state.player.trainerXp,experienceNeededAtLevel(4));
   assert.equal(state.player.hp.max,20);
@@ -61,8 +56,7 @@ test("M2 network milestone reaches level 4 and CON ASI retroactively raises HP",
   assert.equal(state.player.hp.max,24);
   assert.equal(state.player.hp.current,24);
 
-  state.world.flags.m2_complete=true;
-  const applied=syncCampaignTrainerProgression(state);
+  const applied=applyTrainerProgressionEffect(state,{type:"trainer_milestone_level",milestoneId:"M02_COMPLETE",level:5});
   assert.equal(state.player.trainerLevel,5);
   assert.equal(state.player.trainerXp,experienceNeededAtLevel(5));
   assert.equal(state.player.hp.max,29);
