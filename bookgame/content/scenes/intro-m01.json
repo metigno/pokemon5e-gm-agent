@@ -10,11 +10,11 @@
       "stitches": [
         {
           "id": "trainer_identity",
-          "text": "La licenza davanti a te non definisce che tipo di persona devi essere. Registra però come hai imparato a lavorare con i Pokémon: è la tua Specialization iniziale da Trainer."
+          "text": "La licenza davanti a te non decide che tipo di Trainer diventerai. Registra però il campo in cui hai già mostrato più familiarità nel lavorare con i Pokémon: è la tua prima Specialization."
         },
         {
           "id": "trainer_rules",
-          "text": "Sei un Trainer di livello 1. Il Trainer Path non viene scelto qui: arriverà con la progressione prevista dalle regole Pokémon 5e."
+          "text": "La tua licenza viene registrata al livello iniziale. La Trainer Path arriverà più avanti, quando avrai abbastanza esperienza da scegliere una direzione precisa."
         }
       ],
       "choices": [
@@ -222,7 +222,7 @@
       "stitches": [
         {
           "id": "sheet_ready",
-          "text": "La licenza viene registrata. Prima di uscire dal Campus puoi completare il briefing guidato oppure dichiarare di conoscerne già le basi."
+          "text": "La licenza viene registrata. Prima di uscire dal Campus puoi seguire il briefing guidato oppure dichiarare di conoscere già le basi."
         }
       ],
       "choices": [
@@ -256,15 +256,15 @@
       "stitches": [
         {
           "id": "checks",
-          "text": "Quando una scelta richiede una prova, il runtime usa caratteristiche, competenze e dadi del Trainer: la narrazione non decide il risultato al posto delle regole."
+          "text": "Quando una situazione richiede una prova, contano le tue caratteristiche, le competenze che possiedi e il tiro ottenuto. Non tutte le azioni riescono nello stesso modo."
         },
         {
           "id": "combat",
-          "text": "Negli scontri, iniziativa, azioni, movimento, PP, condizioni, cattura e conseguenze appartengono al motore Pokémon 5e."
+          "text": "Negli scontri dovrai rispettare iniziativa, azioni disponibili, movimento, PP, condizioni e regole di cattura. Ogni scelta ha conseguenze reali sul combattimento."
         },
         {
           "id": "world",
-          "text": "Il tempo passa davvero. Persone, fauna, lavori e opportunità possono cambiare anche quando scegli di occuparti d'altro."
+          "text": "Il tempo continua a passare anche quando scegli di occuparti d'altro. Persone, fauna, lavori e opportunità possono cambiare mentre sei altrove."
         }
       ],
       "choices": [
