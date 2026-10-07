@@ -42,7 +42,7 @@
       "stitches": [
         {
           "id": "call_1",
-          "text": "La reunion comune lascia spazio a un solo confronto personale. Il selector ha già scelto l'amico compatibile con presenza, schedule e continuità: se è lontano, il beat resta remoto."
+          "text": "Dopo l'incontro comune riesci a ritagliarti un momento con uno degli altri Five. Se è ancora abbastanza vicino vi parlate di persona; se i suoi impegni lo hanno già portato altrove, resta una chiamata tra due percorsi diversi."
         }
       ],
       "choices": [
@@ -97,7 +97,7 @@
       "stitches": [
         {
           "id": "close_1",
-          "text": "Il quinto Friend Beat si chiude conservando chi, come e con quale esito hai condiviso questo momento. Nessuna carriera viene sincronizzata artificialmente."
+          "text": "La conversazione si chiude senza fermare la carriera di nessuno. Vi salutate e ciascuno torna ai propri impegni, con ciò che vi siete detti ancora fresco."
         }
       ],
       "choices": [
@@ -161,7 +161,7 @@
         },
         {
           "id": "luke_context",
-          "text": "Porto nel confronto ciò che M5 ha già reso concreto.",
+          "text": "Gli racconto cosa mi ha insegnato davvero questa salita.",
           "conditions": {
             "any": [
               {
@@ -282,7 +282,7 @@
       "choices": [
         {
           "id": "luke_deep_close",
-          "text": "Conservo questo momento come callback futuro.",
+          "text": "Tengo a mente quello che ci siamo detti.",
           "goto": "friend_beat_close",
           "effects": [
             {
@@ -364,7 +364,7 @@
         },
         {
           "id": "mattew_context",
-          "text": "Porto nel confronto ciò che M5 ha già reso concreto.",
+          "text": "Gli racconto cosa mi ha insegnato davvero questa salita.",
           "conditions": {
             "any": [
               {
@@ -485,7 +485,7 @@
       "choices": [
         {
           "id": "mattew_deep_close",
-          "text": "Conservo questo momento come callback futuro.",
+          "text": "Tengo a mente quello che ci siamo detti.",
           "goto": "friend_beat_close",
           "effects": [
             {
@@ -567,7 +567,7 @@
         },
         {
           "id": "daniel_context",
-          "text": "Porto nel confronto ciò che M5 ha già reso concreto.",
+          "text": "Gli racconto cosa mi ha insegnato davvero questa salita.",
           "conditions": {
             "any": [
               {
@@ -688,7 +688,7 @@
       "choices": [
         {
           "id": "daniel_deep_close",
-          "text": "Conservo questo momento come callback futuro.",
+          "text": "Tengo a mente quello che ci siamo detti.",
           "goto": "friend_beat_close",
           "effects": [
             {
@@ -748,7 +748,7 @@
         },
         {
           "id": "edward_context",
-          "text": "Porto nel confronto ciò che M5 ha già reso concreto.",
+          "text": "Gli racconto cosa mi ha insegnato davvero questa salita.",
           "conditions": {
             "any": [
               {
@@ -869,7 +869,7 @@
       "choices": [
         {
           "id": "edward_deep_close",
-          "text": "Conservo questo momento come callback futuro.",
+          "text": "Tengo a mente quello che ci siamo detti.",
           "goto": "friend_beat_close",
           "effects": [
             {
@@ -929,7 +929,7 @@
         },
         {
           "id": "fab_context",
-          "text": "Porto nel confronto ciò che M5 ha già reso concreto.",
+          "text": "Gli racconto cosa mi ha insegnato davvero questa salita.",
           "conditions": {
             "any": [
               {
@@ -1050,7 +1050,7 @@
       "choices": [
         {
           "id": "fab_deep_close",
-          "text": "Conservo questo momento come callback futuro.",
+          "text": "Tengo a mente quello che ci siamo detti.",
           "goto": "friend_beat_close",
           "effects": [
             {
