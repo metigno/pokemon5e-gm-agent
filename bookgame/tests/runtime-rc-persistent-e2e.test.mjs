@@ -988,14 +988,29 @@ async function captureCanonicalM5FifthPokemon(engine, start) {
     state = await searchTo({
       engine,
       start: state,
-      goal: (s) => s.story.sceneId === "m05-fulgore-ascent" && s.story.nodeId === "fauna_view",
-      label: `M5 Fulgore fauna viewpoint attempt ${attempt + 1}`,
+      goal: (s) => s.story.sceneId === "m05-fulgore-ascent" && s.story.nodeId === "ascent_gate",
+      label: `M5 Fulgore ascent gate attempt ${attempt + 1}`,
       route: "champion",
       combatPolicy: "win",
-      maxExpansions: 1600
+      maxExpansions: 1800
     });
+
+    let view = await engine.present(state);
+    const gateChoice = view.choices.find((choice) =>
+      choice.id === "gate_direct" || choice.id === "gate_sheltered"
+    );
+    assert.ok(gateChoice, "M5 ascent gate must expose the authored route selected in M5_04");
+    state = await engine.choose(state, gateChoice.id);
+
+    view = await engine.present(state);
+    const faunaChoice = view.choices.find((choice) =>
+      choice.id === "direct_fauna" || choice.id === "shelter_fauna"
+    );
+    assert.ok(faunaChoice, "M5 authored ascent route must expose the Fulgore fauna viewpoint");
+    state = await engine.choose(state, faunaChoice.id);
+
     state = await requireChoice(engine, state, "observe_fulgore_fauna", "M5 observe Fulgore fauna");
-    const view = await engine.present(state);
+    view = await engine.present(state);
     const engage = view.choices.find((choice) => choice.id.endsWith("_engage"));
     if (engage) {
       state = await engine.choose(state, engage.id);
@@ -1004,9 +1019,12 @@ async function captureCanonicalM5FifthPokemon(engine, start) {
       state = resolveAutoplayCombat(engine, state, "captured");
       break;
     }
+
     const continueChoice = view.choices.find((choice) => choice.id === "none_continue");
     assert.ok(continueChoice, "M5 no-sighting ecology result must remain traversable");
     state = await engine.choose(state, continueChoice.id);
+    state = await requireChoice(engine, state, "edge_retreat", "M5 fauna retry leaves the plateau edge");
+    state = await requireChoice(engine, state, "retreat_altacima", "M5 fauna retry returns to Altacima");
   }
 
   assert.ok((state.player.roster?.length ?? 0) >= 5, "M5 must obtain a fifth real Pokémon before Trial B→A");
