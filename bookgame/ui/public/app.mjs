@@ -259,6 +259,29 @@ function renderBattle(battle) {
     }
   }
 
+  if (battle.awaitingSwitch !== "player" && battle.actor === "player") {
+    for (const feature of snapshot.trainerGameplay?.features ?? []) {
+      if (!feature.executable) continue;
+      const button = document.createElement("button");
+      button.className = "move-button";
+      button.disabled = !feature.legal;
+      const resource = feature.resourceId
+        ? ` · ${feature.resource.current}/${feature.resource.max}`
+        : "";
+      button.innerHTML =
+        `<strong>Trainer · ${escapeHtml(feature.id.replaceAll("-", " "))}</strong>` +
+        `<small>${escapeHtml(feature.action ?? "")}${escapeHtml(resource)}${feature.legal ? "" : ` · ${escapeHtml(feature.reason ?? "non disponibile")}`}</small>`;
+      if (feature.legal) {
+        const mode = feature.id === "battle-master" || feature.id === "cheerleader" ? "attack" : null;
+        button.addEventListener("click", () => runCombatAction("/api/combat/trainer-feature", {
+          featureId: feature.id,
+          mode
+        }));
+      }
+      els.moveList.append(button);
+    }
+  }
+
   els.endTurn.hidden = battle.awaitingSwitch === "player";
   els.endTurn.disabled = battle.actor !== "player";
 
@@ -359,8 +382,28 @@ function renderTrainer() {
     </div>
     <div class="data-card">
       <h3>Feature e condizioni</h3>
-      <div class="data-row"><span>Feature</span><span>${(player.classFeatures ?? []).map(escapeHtml).join(" · ") || "—"}</span></div>
       <div class="data-row"><span>Condizioni</span><span>${conditions}</span></div>
+      <div class="data-row"><span>Stato</span><span>${escapeHtml(snapshot.trainerGameplay?.death?.state ?? "alive")}</span></div>
+      ${(snapshot.trainerGameplay?.features ?? []).map((feature) => `
+        <div class="data-row">
+          <span>${escapeHtml(feature.id.replaceAll("-", " "))}</span>
+          <span>${feature.resourceId ? `${escapeHtml(feature.resource.current)}/${escapeHtml(feature.resource.max)}` : (feature.executable ? "Runtime" : "Passiva/contestuale")}</span>
+        </div>
+      `).join("") || '<div class="data-row"><span>Feature</span><span>—</span></div>'}
+    </div>
+    <div class="data-card">
+      <h3>Risorse</h3>
+      ${Object.entries(snapshot.trainerGameplay?.classResources ?? {}).map(([id, resource]) => `
+        <div class="data-row"><span>${escapeHtml(resource.name ?? id)}</span><span>${escapeHtml(resource.current ?? 0)}/${escapeHtml(resource.max ?? 0)}</span></div>
+      `).join("") || '<div class="data-row"><span>Risorse</span><span>—</span></div>'}
+    </div>
+    <div class="data-card">
+      <h3>Trainer Gear ed equipaggiamento</h3>
+      ${(snapshot.trainerGameplay?.trainerGear ?? []).map((gear) => {
+        const id = typeof gear === "string" ? gear : gear.id ?? gear.itemId;
+        const equipped = (snapshot.trainerGameplay?.equipment ?? []).some((entry) => (entry.id ?? entry.itemId) === id);
+        return `<div class="data-row"><span>${escapeHtml(id)}</span><button type="button" class="gear-toggle" data-gear-id="${escapeHtml(id)}" data-equipped="${equipped ? "1" : "0"}">${equipped ? "Rimuovi" : "Equipaggia"}</button></div>`;
+      }).join("") || '<div class="data-row"><span>Trainer Gear</span><span>—</span></div>'}
     </div>
   `;
 }
@@ -455,6 +498,24 @@ function openDrawer(panel) {
   els.drawerBackdrop.hidden = false;
   els.drawer.classList.add("is-open");
   els.drawer.setAttribute("aria-hidden", "false");
+
+  for (const button of els.drawerContent.querySelectorAll(".gear-toggle")) {
+    button.addEventListener("click", async () => {
+      try {
+        snapshot = await api("/api/trainer/gear", {
+          method: "POST",
+          body: JSON.stringify({
+            gearId: button.dataset.gearId,
+            equipped: button.dataset.equipped !== "1"
+          })
+        });
+        els.drawerContent.innerHTML = renderTrainer();
+        openDrawer("trainer");
+      } catch (error) {
+        showInlineError(error.message);
+      }
+    });
+  }
 
   const speedSelect = $("#text-speed-setting");
   if (speedSelect) {
