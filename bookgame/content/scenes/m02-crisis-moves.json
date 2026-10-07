@@ -7,11 +7,26 @@
   "entryNodeId": "crisis_news_arrive",
   "conditions": {
     "all": [
-      { "path": "world.flags.m1_complete", "eq": true },
-      { "path": "world.flags.m02_unlocked", "eq": true },
-      { "path": "world.flags.m2_active", "eq": true },
-      { "path": "competition.rank", "eq": "E" },
-      { "path": "world.flags.a2_crisis_escalates_available", "eq": true }
+      {
+        "path": "world.flags.m1_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m02_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m2_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "E"
+      },
+      {
+        "path": "world.flags.a2_crisis_escalates_available",
+        "eq": true
+      }
     ]
   },
   "nodes": {
@@ -75,7 +90,11 @@
           "timeCostMinutes": 210,
           "goto": "crisis_investigate_move",
           "effects": [
-            { "type": "set_flag", "key": "crisis_response_type", "value": "investigate" }
+            {
+              "type": "set_flag",
+              "key": "crisis_response_type",
+              "value": "investigate"
+            }
           ]
         },
         {
@@ -83,7 +102,11 @@
           "text": "Non è ancora il mio problema diretto — aspetto che qualcun altro intervenga.",
           "goto": "crisis_defer_watch",
           "effects": [
-            { "type": "set_flag", "key": "local_problem_ignored", "value": true }
+            {
+              "type": "set_flag",
+              "key": "local_problem_ignored",
+              "value": true
+            }
           ]
         }
       ]
@@ -96,7 +119,7 @@
         },
         {
           "id": "silent_2",
-          "text": "Il fatto che non ci sia traccia ufficiale è sia un problema che un'opportunità: se apri la traccia adesso, la narrativa inizia da dove sei ora, non da dove avresti potuto essere prima."
+          "text": "Al presidio non c'è ancora un fascicolo che colleghi quei segnali. Se porti ciò che sai adesso, Elio partirà dalla situazione attuale; ciò che è già successo nel frattempo non tornerà indietro."
         }
       ],
       "choices": [
@@ -111,7 +134,11 @@
           "timeCostMinutes": 10,
           "goto": "crisis_ranger_report",
           "effects": [
-            { "type": "set_flag", "key": "crisis_response_type", "value": "ranger_report" }
+            {
+              "type": "set_flag",
+              "key": "crisis_response_type",
+              "value": "ranger_report"
+            }
           ]
         },
         {
@@ -119,7 +146,11 @@
           "text": "Non cambio approccio — non è ancora una mia priorità.",
           "goto": "crisis_defer_watch",
           "effects": [
-            { "type": "set_flag", "key": "local_problem_ignored", "value": true }
+            {
+              "type": "set_flag",
+              "key": "local_problem_ignored",
+              "value": true
+            }
           ]
         }
       ]
@@ -147,8 +178,16 @@
           "timeCostMinutes": 210,
           "goto": "crisis_investigate_move",
           "effects": [
-            { "type": "set_flag", "key": "crisis_response_type", "value": "investigate" },
-            { "type": "set_flag", "key": "crisis_intensified", "value": true }
+            {
+              "type": "set_flag",
+              "key": "crisis_response_type",
+              "value": "investigate"
+            },
+            {
+              "type": "set_flag",
+              "key": "crisis_intensified",
+              "value": true
+            }
           ]
         },
         {
@@ -172,7 +211,11 @@
           "timeCostMinutes": 210,
           "goto": "crisis_investigate_move",
           "effects": [
-            { "type": "set_flag", "key": "crisis_response_type", "value": "investigate" }
+            {
+              "type": "set_flag",
+              "key": "crisis_response_type",
+              "value": "investigate"
+            }
           ]
         },
         {
@@ -185,7 +228,11 @@
           },
           "goto": "crisis_ranger_report",
           "effects": [
-            { "type": "set_flag", "key": "crisis_response_type", "value": "ranger_report" }
+            {
+              "type": "set_flag",
+              "key": "crisis_response_type",
+              "value": "ranger_report"
+            }
           ]
         },
         {
@@ -198,7 +245,11 @@
           },
           "goto": "crisis_ranger_report",
           "effects": [
-            { "type": "set_flag", "key": "crisis_response_type", "value": "ranger_report" }
+            {
+              "type": "set_flag",
+              "key": "crisis_response_type",
+              "value": "ranger_report"
+            }
           ]
         },
         {
@@ -206,7 +257,11 @@
           "text": "Non agisco adesso — il problema è reale ma non è il momento.",
           "goto": "crisis_defer_watch",
           "effects": [
-            { "type": "set_flag", "key": "local_problem_ignored", "value": true }
+            {
+              "type": "set_flag",
+              "key": "local_problem_ignored",
+              "value": true
+            }
           ]
         }
       ]
@@ -228,7 +283,11 @@
           "text": "Documento quello che ho trovato e mi preparo a portarlo al presidio.",
           "goto": "crisis_evidence_documented",
           "effects": [
-            { "type": "set_flag", "key": "crisis_evidence_gathered", "value": true }
+            {
+              "type": "set_flag",
+              "key": "crisis_evidence_gathered",
+              "value": true
+            }
           ]
         },
         {
@@ -236,8 +295,16 @@
           "text": "Ho quello che mi serve — mi ritiro senza esporre la mia posizione.",
           "goto": "crisis_moves_close",
           "effects": [
-            { "type": "set_flag", "key": "crisis_evidence_gathered", "value": true },
-            { "type": "set_flag", "key": "crisis_moves_complete", "value": true }
+            {
+              "type": "set_flag",
+              "key": "crisis_evidence_gathered",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "crisis_moves_complete",
+              "value": true
+            }
           ]
         }
       ]
@@ -246,7 +313,7 @@
       "stitches": [
         {
           "id": "documented_1",
-          "text": "La documentazione è fatta: posizioni, tempi, caratteristiche dell'attrezzatura, pattern di movimento. Non è una relazione completa da inviare al Circuito — ma è il tipo di dato che un ranger può usare per avviare una procedura formale."
+          "text": "Segni posizione, ora e caratteristiche dell'attrezzatura, poi fotografi le tracce prima che il terreno le cancelli. Non basta ancora a ricostruire tutta l'operazione, ma Elio avrà qualcosa di concreto da confrontare."
         }
       ],
       "choices": [
@@ -256,7 +323,11 @@
           "timeCostMinutes": 210,
           "goto": "crisis_ranger_report",
           "effects": [
-            { "type": "set_flag", "key": "crisis_response_type", "value": "ranger_report" }
+            {
+              "type": "set_flag",
+              "key": "crisis_response_type",
+              "value": "ranger_report"
+            }
           ]
         },
         {
@@ -264,7 +335,11 @@
           "text": "Tengo la documentazione per il momento — decido dopo come usarla.",
           "goto": "crisis_moves_close",
           "effects": [
-            { "type": "set_flag", "key": "crisis_moves_complete", "value": true }
+            {
+              "type": "set_flag",
+              "key": "crisis_moves_complete",
+              "value": true
+            }
           ]
         }
       ]
@@ -287,8 +362,16 @@
           "timeCostMinutes": 20,
           "goto": "crisis_ranger_alerted_close",
           "effects": [
-            { "type": "set_flag", "key": "crisis_ranger_alerted", "value": true },
-            { "type": "set_flag", "key": "crisis_ranger_full_report", "value": true }
+            {
+              "type": "set_flag",
+              "key": "crisis_ranger_alerted",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "crisis_ranger_full_report",
+              "value": true
+            }
           ]
         },
         {
@@ -297,7 +380,11 @@
           "timeCostMinutes": 10,
           "goto": "crisis_ranger_alerted_close",
           "effects": [
-            { "type": "set_flag", "key": "crisis_ranger_alerted", "value": true }
+            {
+              "type": "set_flag",
+              "key": "crisis_ranger_alerted",
+              "value": true
+            }
           ]
         }
       ]
@@ -306,7 +393,7 @@
       "stitches": [
         {
           "id": "alerted_1",
-          "text": "Elio apre una procedura di monitoraggio formale basata sul tuo report. «Questo non si chiude in un giorno. Ma adesso è tracciato.» È la differenza tra qualcosa che esiste solo nella tua testa e qualcosa che esiste nel sistema."
+          "text": "Elio raccoglie fotografie, posizioni e orari in un fascicolo. «Non si chiude in un giorno.» Batte un dito sul numero di protocollo. «Ma da adesso, se ricompare, sappiamo dove guardare.»"
         }
       ],
       "choices": [
@@ -315,7 +402,11 @@
           "text": "Torno alle mie attività.",
           "goto": "crisis_moves_close",
           "effects": [
-            { "type": "set_flag", "key": "crisis_moves_complete", "value": true }
+            {
+              "type": "set_flag",
+              "key": "crisis_moves_complete",
+              "value": true
+            }
           ]
         }
       ]
@@ -337,8 +428,16 @@
           "text": "Resto attento a qualsiasi cambiamento nell'area — senza agire direttamente.",
           "goto": "crisis_moves_close",
           "effects": [
-            { "type": "set_flag", "key": "crisis_moves_complete", "value": true },
-            { "type": "set_flag", "key": "crisis_passive_monitor", "value": true }
+            {
+              "type": "set_flag",
+              "key": "crisis_moves_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "crisis_passive_monitor",
+              "value": true
+            }
           ]
         },
         {
@@ -346,8 +445,16 @@
           "text": "Mi allontano completamente dalla questione — non è più qualcosa che seguo.",
           "goto": "crisis_moves_close",
           "effects": [
-            { "type": "set_flag", "key": "crisis_moves_complete", "value": true },
-            { "type": "set_flag", "key": "local_problem_ignored", "value": true }
+            {
+              "type": "set_flag",
+              "key": "crisis_moves_complete",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "local_problem_ignored",
+              "value": true
+            }
           ]
         }
       ]
@@ -365,8 +472,15 @@
           "text": "Torno al borgo.",
           "goto": "m02-borgo-salice#borough_hub",
           "effects": [
-            { "type": "set_flag", "key": "crisis_moves_complete", "value": true },
-            { "type": "set_location", "locationId": "borgo_salice" }
+            {
+              "type": "set_flag",
+              "key": "crisis_moves_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
           ]
         }
       ]
