@@ -4086,13 +4086,7 @@ export class Pokemon5eCombatEngine {
 
     let save = null;
     if (move.save && target && move.range?.type !== "self") {
-      save = resolveSaveMove({
-        attacker: user,
-        defender: target,
-        move,
-        dice: this.dice,
-        round: next.round
-      }).save;
+      save = this.resolveSaveWithTrainerReaction(next,side,move,targetSide).save;
     }
     const failedSave = save ? !save.success : true;
     const applied = [];
@@ -5432,13 +5426,7 @@ export class Pokemon5eCombatEngine {
           immunityEffect: activeTypeImmunitySource(defender, move.type, next.round)
         });
       } else {
-        const result = resolveSaveMove({
-          attacker,
-          defender,
-          move,
-          dice: this.dice,
-          round: next.round
-        });
+        const result = this.resolveSaveWithTrainerReaction(next,side,move,targetSide);
         const applied = applySaveEffect(next, side, move, result);
         next.log.push({
           type: "save_move",
@@ -5468,13 +5456,7 @@ export class Pokemon5eCombatEngine {
           immunityEffect: activeTypeImmunitySource(defender, move.type, next.round)
         });
       } else {
-        const result = resolveSaveMove({
-          attacker,
-          defender,
-          move,
-          dice: this.dice,
-          round: next.round
-        });
+        const result = this.resolveSaveWithTrainerReaction(next,side,move,targetSide);
         const status = failedSaveStatus(move, result.save);
         const statusResult = applyMoveStatus(attacker, defender, status, next.round);
         next.log.push({
