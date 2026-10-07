@@ -10,6 +10,8 @@ import {
   migrateGameState
 } from "../src/engine/state.mjs";
 import { SaveStore } from "../src/engine/save-store.mjs";
+import { equipTrainerGear, useTrainerFeature } from "../src/engine/trainer-actions.mjs";
+import { applyTrainerCondition, applyTrainerDamage } from "../src/engine/trainer-survival.mjs";
 
 const fixedNow = () => "2026-10-06T20:40:00.000Z";
 
@@ -76,4 +78,36 @@ test("SaveStore migrates RC0 saves on reload and preserves the three-slot-compat
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
+});
+
+
+test("Trainer gameplay state survives save and reload for player and scripted NPC", async()=>{
+ const dir=await mkdtemp(path.join(os.tmpdir(),"p5e-bookgame-trainer-e2e-"));
+ try{
+  const store=new SaveStore(dir);
+  const s=createNewGameState({protagonist:"Luke",slot:"slot3",now:fixedNow});
+  s.player.trainerGear.push({id:"field-kit"});
+  s.player.classFeatures.push("test-feature");
+  s.player.classResources.test={current:1,max:1};
+  equipTrainerGear(s,{gearId:"field-kit"});
+  useTrainerFeature(s,{featureId:"test-feature",resourceId:"test"});
+  applyTrainerCondition(s,{condition:"poisoned"});
+  applyTrainerDamage(s,{amount:3});
+
+  s.npcs.Mattew.trainer.trainerGear.push({id:"mentor-kit"});
+  equipTrainerGear(s,{actor:{kind:"npc",id:"Mattew"},gearId:"mentor-kit"});
+  applyTrainerCondition(s,{actor:{kind:"npc",id:"Mattew"},condition:"restrained"});
+  applyTrainerDamage(s,{actor:{kind:"npc",id:"Mattew"},amount:2});
+
+  await store.save(s);
+  const loaded=await store.load("slot3");
+  assert.equal(loaded.player.equipment[0].id,"field-kit");
+  assert.equal(loaded.player.classResources.test.current,0);
+  assert.equal(loaded.player.featureUsage["test-feature"].uses,1);
+  assert.deepEqual(loaded.player.conditions,["poisoned"]);
+  assert.equal(loaded.player.hp.current,5);
+  assert.equal(loaded.npcs.Mattew.trainer.equipment[0].id,"mentor-kit");
+  assert.deepEqual(loaded.npcs.Mattew.trainer.conditions,["restrained"]);
+  assert.equal(loaded.npcs.Mattew.trainer.hp.current,6);
+ }finally{await rm(dir,{recursive:true,force:true});}
 });
