@@ -20,7 +20,7 @@ export function canonicalSpriteId(name){
     .replace(/-alolan$/,"-alola")
     .replace(/-galarian$/,"-galar")
     .replace(/-paldean$/,"-paldea")
-    .replace(/-rotom-w$/,"-rotom-wash");
+    .replace(/^rotom-w$/,"rotom-wash");
 }
 function slug(s){return s.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");}
 
@@ -28,7 +28,7 @@ function collectSpeciesFields(value,out,source){
   if(Array.isArray(value)){for(const v of value) collectSpeciesFields(v,out,source);return;}
   if(!value||typeof value!=="object") return;
   for(const [k,v] of Object.entries(value)){
-    if(k==="species"&&typeof v==="string") out.push({name:v,source});
+    if(k==="species"&&typeof v==="string"&&v.toLowerCase()!=="trainer") out.push({name:v,source});
     collectSpeciesFields(v,out,source);
   }
 }
