@@ -558,10 +558,11 @@ export function resolveAttack({
   const damageDice = multiplyDiceExpression(stats.damageDice, damageDiceMultiplier);
   const damageRoll = rollDamage(damageDice, dice, {
     critical: criticalDamage,
-    advantage: damageRollHasAdvantage(attacker, move),
+    advantage: damageRollHasAdvantage(attacker, move) || activeConditionalEffect(attacker.effects?.damageAdvantageSources ?? [], round, { move, target: defender }),
     disadvantage: damageHasDisadvantage(attacker)
   });
-  const effectiveDamageModifier = stats.damageModifier + gutsBonus + extraDamageModifier;
+  const effectDamageModifier = activeEffectModifier(attacker.effects?.damageModifierSources ?? [], round);
+  const effectiveDamageModifier = stats.damageModifier + gutsBonus + extraDamageModifier + effectDamageModifier;
   const rawDamage = Math.max(0, damageRoll.selected.total + effectiveDamageModifier);
   const {
     multiplier,
@@ -596,6 +597,7 @@ export function resolveAttack({
     damageRoll,
     damageDiceMultiplier,
     damageModifier: effectiveDamageModifier,
+    effectDamageModifier,
     gutsBonus,
     rawDamage,
     damage,
