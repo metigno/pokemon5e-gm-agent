@@ -1,4 +1,5 @@
 import { specializationByType } from "../rules/trainer-2024.mjs";
+import { friendNpcCanon } from "../rules/friend-npc-canon.mjs";
 import { getStartingBuild } from "../../../src/bridge/motor-to-poke5e.mjs";
 import { DEFAULT_START_MINUTE, daypartForMinute } from "./time.mjs";
 import { createPersistentNpc } from "./npc-state.mjs";
@@ -11,8 +12,9 @@ export function proficiencyBonus(level) {
 
 const FIVE_FRIEND_IDS = ["Luke", "Mattew", "Daniel", "Edward", "Fab"];
 
-function createRookieFriendNpc(name) {
+function createRookieFriendNpc(name, playerName) {
   const build = getStartingBuild(name);
+  const canon = friendNpcCanon(name, playerName);
   return createPersistentNpc({
     id: name,
     name,
@@ -24,8 +26,9 @@ function createRookieFriendNpc(name) {
       starterForm: build.starter.form,
       starterLevel: build.starter.level,
       recentResult: "none",
-      specializations: [],
-      trainerPath: null
+      specializations: [canon.specialization],
+      trainerPath: null,
+      canonicalCareer: canon
     }
   });
 }
@@ -40,7 +43,7 @@ export function createNewGameState({
   const friendNpcs = Object.fromEntries(
     FIVE_FRIEND_IDS
       .filter((name) => name !== protagonist)
-      .map((name) => [name, createRookieFriendNpc(name)])
+      .map((name) => [name, createRookieFriendNpc(name, protagonist)])
   );
 
   return {
