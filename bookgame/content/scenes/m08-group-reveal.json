@@ -393,9 +393,9 @@
       ],
       "choices": [
         {
-          "id": "complete_hub",
-          "text": "Resto nel World Village con M9 sbloccato.",
-          "goto": "m08-world-village#village_hub"
+          "id": "complete_groups",
+          "text": "Apro il World Group Stage.",
+          "goto": "m09-groups-open#groups_entry"
         }
       ]
     }
