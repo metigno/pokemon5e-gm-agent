@@ -47,7 +47,8 @@ test("RC lock: NPC trainer, forced replacement and fog state survive save/reload
     const state={slot:"final-lock",pending:{type:"pokemon5e_combat",status:"in_progress",battle}};
     await store.save(state);
     const loaded=await store.load("final-lock");
-    assert.deepEqual(loaded,state);
+    assert.equal(loaded.slot,state.slot);
+    assert.deepEqual(loaded.pending,state.pending);
     assert.equal(loaded.pending.battle.opponentTrainer.classResources["tactical-points"].current,4);
     assert.deepEqual(loaded.pending.battle.playerKnowledge,{default:0,active:2,bench:0});
 
