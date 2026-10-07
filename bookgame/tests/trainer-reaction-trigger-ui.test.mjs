@@ -20,6 +20,8 @@ test("Raise Your Defenses is offered only inside a real targeted-by-attack windo
     playerPokemon: { species: "Growlithe", form: "Hisuian", level: 5 },
     opponent: { species: "Houndour", level: 5 }
   });
+  battle.trainer.classFeatures.push("raise-your-defenses");
+  battle.trainer.classResources["tactical-points"] = { id: "tactical-points", current: 2, max: 4 };
   battle.order = ["opponent", "player"];
   battle.turnIndex = 0;
   battle = await combat.prepareCurrentTurn(battle);
@@ -27,7 +29,7 @@ test("Raise Your Defenses is offered only inside a real targeted-by-attack windo
   const before = trainerGameplayView(state, battle);
   const blocked = before.features.find((entry) => entry.id === "raise-your-defenses");
   assert.equal(blocked.legal, false);
-  assert.equal(blocked.reason, "reaction_trigger_required");
+  assert.equal(blocked.reason, "not_player_turn");
 
   battle = await combat.useOpponentTurn(battle);
   assert.equal(battle.pendingTrainerReaction?.trigger, "targeted_by_attack");
