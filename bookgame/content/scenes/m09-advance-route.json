@@ -299,6 +299,11 @@
           "goto": "summary"
         },
         {
+          "id": "complete_m10",
+          "text": "Apro il bracket degli ottavi.",
+          "goto": "m10-r16-bracket#bracket_entry"
+        },
+        {
           "id": "complete_hold",
           "text": "Resto nel Village con lo stato attuale.",
           "goto": "hold"
