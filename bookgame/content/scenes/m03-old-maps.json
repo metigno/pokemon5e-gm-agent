@@ -34,7 +34,7 @@
       "stitches": [
         {
           "id": "entry_1",
-          "text": "L'Archivio Tecnico di Ferravia è ospitato in un edificio basso dietro la stazione, con l'insegna sbiadita e un orario breve esposto sulla porta. Non è un posto turistico: è il deposito ordinato di tutta la cartografia operativa della regione industriale. Carte vecchie, carte recenti, verbali di sopralluogo, rapporti geologici."
+          "text": "L'Archivio Tecnico di Ferravia occupa un edificio basso dietro la stazione, con l'insegna sbiadita e poche ore d'apertura segnate sulla porta. Dentro, scaffali e cassettiere raccolgono carte vecchie e recenti, verbali di sopralluogo e rapporti geologici della regione industriale."
         },
         {
           "id": "entry_2",
@@ -42,7 +42,7 @@
         },
         {
           "id": "entry_3",
-          "text": "L'ambiente non è decorato per l'intrigo. È un archivio tecnico onesto: segnali di cantiere, piante di cava con stratigrafia aggiornata, mappe storiche delle Gallerie Ferrox che non coincidono del tutto con quelle attuali. La differenza non è nascosta — è semplicemente registrata."
+          "text": "Non c'è niente di misterioso nell'archivio. Piante di cava, segnali di cantiere e vecchie mappe delle Gallerie Ferrox sono catalogati con date e revisioni. Alcune linee delle carte più vecchie non compaiono più in quelle attuali."
         }
       ],
       "choices": [
@@ -125,11 +125,11 @@
       "stitches": [
         {
           "id": "tunnels_arch_1",
-          "text": "«Le Gallerie Ferrox sono un sistema tecnico più delicato. La cartografia ufficiale è aggiornata ai lavori recenti, ma lo storico — quello non si butta via. Alcune diramazioni antiche sono state chiuse decenni fa; non significa che non ci siano, significa che non le usiamo. Se qualcuno le riapre per fretta, succedono problemi.»"
+          "text": "«Le Gallerie Ferrox sono più delicate.» L'archivista sfiora con un dito le etichette di un cassetto. «Le carte di oggi seguono i lavori attuali, ma quelle vecchie restano qui. Alcune diramazioni sono state chiuse decenni fa. Chiuse, non cancellate dalla montagna.»"
         },
         {
           "id": "tunnels_arch_2",
-          "text": "Indica una mappa storica piegata male in un cassetto. «Questa è l'edizione 1987. Non la usiamo per il lavoro operativo, ma la teniamo per riferimento. Se un ingegnere nuovo arrivasse qui chiedendo di vederla, saprei perché. Non è un documento classificato — è un documento che dice la verità su un periodo diverso.»"
+          "text": "Estrae una mappa ingiallita. «Edizione 1987. Per lavorare oggi non basta, ma se devi capire cosa c'era prima è ancora utile. Le vecchie gallerie non diventano meno vere solo perché non le percorre più nessuno.»"
         }
       ],
       "choices": [
@@ -161,7 +161,7 @@
         },
         {
           "id": "hist_map_2",
-          "text": "L'archivista ti guarda con la stessa calma di prima quando riponi la mappa. «Non è segretezza — è manutenzione. Il presente dei lavori non ha bisogno delle gallerie vecchie; chi lavora sulla sicurezza, invece, dovrebbe conoscerle. Se qualcuno sta studiando la stessa mappa che hai in mano adesso, probabilmente sta facendo il suo mestiere.»"
+          "text": "Quando riponi la carta, l'archivista la riallinea con cura. «Le squadre di oggi guardano le mappe di oggi. Chi si occupa di sicurezza, ogni tanto, deve guardare anche quelle di ieri.»"
         }
       ],
       "choices": [
@@ -220,11 +220,11 @@
       "stitches": [
         {
           "id": "insight_1",
-          "text": "La lettura è chiara: tre diramazioni chiuse non sono state demolite, sono state solo murate con pareti leggere. Due di queste si avvicinano a settori di cava recenti. Se la produzione di cava accelera e qualcuno modifica un settore senza aggiornare la cartografia, una parete leggera può diventare un rischio reale."
+          "text": "Tre diramazioni segnate come chiuse terminano contro semplici setti di separazione, non contro roccia piena. Seguendo le scale, due corrono vicino a settori di cava scavati molto più di recente. Le linee che sulle due carte sembravano indipendenti quasi si toccano."
         },
         {
           "id": "insight_2",
-          "text": "Non è una scoperta spettacolare, ma il dettaglio è chiaro: le vecchie mappe descrivono davvero una geometria diversa da quella dei lavori recenti. Ora sai cosa cercare quando qualcuno parlerà delle gallerie."
+          "text": "Il dettaglio non dimostra che qualcosa stia per cedere. Dimostra però che sotto i lavori recenti esiste ancora una geometria più vecchia, e adesso sai riconoscerla."
         }
       ],
       "choices": [
@@ -256,7 +256,7 @@
       "stitches": [
         {
           "id": "partial_1",
-          "text": "Capisci che la mappa storica contiene informazioni rilevanti ma non riesci a comporle in una lettura unitaria. Rimane la sensazione che le vecchie gallerie non siano scomparse — solo tolte dall'uso quotidiano."
+          "text": "Le revisioni, le scale e le annotazioni si sovrappongono troppo. Riesci comunque a stabilire una cosa: le vecchie gallerie non sono scomparse; semplicemente, non fanno più parte dei percorsi usati ogni giorno."
         }
       ],
       "choices": [
@@ -271,7 +271,7 @@
       "stitches": [
         {
           "id": "shelf_1",
-          "text": "Lo scaffale aperto è ordinato per tipologia: carte di cava, piante di stazione, pianificazioni di manutenzione, rapporti geologici. Puoi leggere, non puoi uscire con niente. Nulla è classificato: è materiale operativo pubblico per chi ha un Rank adeguato."
+          "text": "Lo scaffale aperto è ordinato per argomento: carte di cava, piante della stazione, manutenzione, rapporti geologici. Puoi consultarli al tavolo, ma non portarli fuori. Una targhetta indica quali raccoglitori sono accessibili con la tua tessera."
         },
         {
           "id": "shelf_2",
@@ -310,7 +310,7 @@
         },
         {
           "id": "report_2",
-          "text": "La nota a margine è scritta a mano con un tratto diverso: «D'accordo tecnicamente. Priorità reale dipende dalla finestra produttiva — valuteremo a trimestre.» Non è un rifiuto né un'approvazione: sicurezza e produzione stanno tirando in direzioni diverse."
+          "text": "A margine, una seconda grafia aggiunge: «D'accordo tecnicamente. Priorità da valutare con la finestra produttiva del trimestre.» La raccomandazione è rimasta sulla carta; qualcuno ha rimandato la decisione."
         }
       ],
       "choices": [
@@ -428,13 +428,13 @@
       "stitches": [
         {
           "id": "safety_crosscheck_text",
-          "text": "Le procedure scritte confermano quello che l'officina ti ha detto: manutenzione e cartografia sono parte della stessa catena di sicurezza. Il punto fragile non è l'assenza di regole, ma il ritardo con cui un aggiornamento tecnico può raggiungere chi decide i turni."
+          "text": "Le procedure dell'archivio coincidono con quanto hai sentito in officina: manutenzione e cartografia vengono controllate insieme. Tra una revisione tecnica e il calendario dei turni, però, firme e date mostrano talvolta giorni di distanza."
         }
       ],
       "choices": [
         {
           "id": "record_safety_gap",
-          "text": "Registro il possibile ritardo tra informazione tecnica e decisione operativa.",
+          "text": "Tengo a mente il ritardo che compare tra revisioni e turni.",
           "goto": "open_shelf",
           "effects": [
             {
