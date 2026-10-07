@@ -94,6 +94,25 @@ test("M6_10 closes the real Faro return without granting Rank S",async()=>{
   assert.equal(s.competition.rank,"A");
 });
 
+test("M6_10 exposes the authored M7 handoff only after M6 completion",async()=>{
+  const {engine}=await makeEngine();
+  let s=baseA();
+  s.story.sceneId="m06-first-lighthouse-return";s.story.nodeId="ruins_boundary";
+  let view=await engine.present(s);
+  assert.equal(view.choices.some(c=>c.id==="advance_m7_handoff"),false);
+  s.competition.rank="S";
+  s.competition.rankOrder=6;
+  s.world.flags.m6_complete=true;
+  s.world.flags.m07_unlocked=true;
+  view=await engine.present(s);
+  assert.ok(view.choices.some(c=>c.id==="advance_m7_handoff"));
+  s=await engine.choose(s,"advance_m7_handoff");
+  assert.equal(s.story.sceneId,"m07-handoff");
+  assert.equal(s.story.nodeId,"m07_entry");
+  assert.equal(s.world.locationId,"far_ruins");
+  assert.equal(s.competition.rank,"S");
+});
+
 test("M6_11 syncs canonical RANK_A_TO_S and registers an Official Six",async()=>{
   const {engine}=await makeEngine();
   let s=await registerAS(engine,baseA());
