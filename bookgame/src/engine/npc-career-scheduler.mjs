@@ -4,17 +4,17 @@ import { moduleTrainerLevelBand } from "./module-progression-guard.mjs";
 
 export const FRIEND_CAREER_MODULE_MILESTONES={
  M01:{trainerLevel:2,acquireSlots:[]},
- M02:{trainerLevel:3,acquireSlots:[2]},
- M03:{trainerLevel:4,acquireSlots:[]},
- M04:{trainerLevel:5,acquireSlots:[3]},
- M05:{trainerLevel:7,acquireSlots:[4]},
- M06:{trainerLevel:9,acquireSlots:[]},
- M07:{trainerLevel:11,acquireSlots:[5]},
- M08:{trainerLevel:13,acquireSlots:[]},
- M09:{trainerLevel:14,acquireSlots:[6]},
- M10:{trainerLevel:15,acquireSlots:[]},
- M11:{trainerLevel:17,acquireSlots:[]},
- M12:{trainerLevel:18,acquireSlots:[]}
+ M02:{trainerLevel:4,acquireSlots:[2]},
+ M03:{trainerLevel:7,acquireSlots:[]},
+ M04:{trainerLevel:10,acquireSlots:[3]},
+ M05:{trainerLevel:13,acquireSlots:[4]},
+ M06:{trainerLevel:16,acquireSlots:[]},
+ M07:{trainerLevel:18,acquireSlots:[5]},
+ M08:{trainerLevel:18,acquireSlots:[]},
+ M09:{trainerLevel:19,acquireSlots:[6]},
+ M10:{trainerLevel:19,acquireSlots:[]},
+ M11:{trainerLevel:20,acquireSlots:[]},
+ M12:{trainerLevel:20,acquireSlots:[]}
 };
 
 export function applyFriendCareerModuleMilestone(state,moduleId,{pokemonLevels={},eventPrefix="NPC_CAREER"}={}){
