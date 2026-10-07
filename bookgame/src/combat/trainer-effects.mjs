@@ -1,4 +1,4 @@
-const TRAINER_COMBAT_EFFECTS=new Set(["damage-roll-advantage","ac-or-save-bonus","save-dc-bonus","attack-or-damage-bonus","allied-attack-damage-or-ac","capture-check-advantage","leave-pokemon-at-1-hp"]);
+const TRAINER_COMBAT_EFFECTS=new Set(["damage-roll-advantage","ac-or-save-bonus","save-dc-bonus","attack-or-damage-bonus","allied-attack-damage-or-ac","capture-check-advantage","leave-pokemon-at-1-hp","healing-bonus"]);
 export function trainerCombatEffectSupported(effect){return TRAINER_COMBAT_EFFECTS.has(effect);}
 function push(combatant,key,entry){combatant.effects??={};combatant.effects[key]??=[];combatant.effects[key].push(entry);}
 export function applyTrainerCombatEffect(battle,{side,featureResult,targetSide=side,mode=null,roll=null}){
@@ -6,7 +6,7 @@ export function applyTrainerCombatEffect(battle,{side,featureResult,targetSide=s
  const target=battle[targetSide]; if(!target)throw new Error("Unknown combat target side: "+targetSide);
  const source="trainer:"+featureResult.featureId;
  const round=battle.round??1;
- switch(featureResult.effect){
+ switch(featureResult.effect){\n  case "healing-bonus":\n   battle.trainerEffects??={}; battle.trainerEffects.tacticalHealing={source,usesRemaining:1,diceCount:featureResult.amount,die:featureResult.die??"d4",targetSide}; break;
   case "damage-roll-advantage":
    push(target,"damageAdvantageSources",{source,usesRemaining:1,expiresRound:round+1}); break;
   case "ac-or-save-bonus":
