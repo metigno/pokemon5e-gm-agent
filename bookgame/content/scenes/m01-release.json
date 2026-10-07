@@ -22,7 +22,7 @@
       "stitches": [
         {
           "id": "guided_part_ends",
-          "text": "L'ultima indicazione dell'onboarding finisce al cancello del Campus Licenze. Da qui nessuno ti assegna una strada: il tempo è tuo e il mondo continua a muoversi anche senza aspettarti."
+          "text": "Il cancello del Campus si richiude alle tue spalle. Davanti a te non c'è più nessuno con un taccuino a indicare il prossimo esercizio."
         },
         {
           "id": "intro_echo_contact_clear",
@@ -62,11 +62,11 @@
         },
         {
           "id": "trial_exists_not_order",
-          "text": "Sai che i Promotion Trial servono per salire di Rank, ma non hai ricevuto una missione principale da accettare. Puoi informarti, esplorare, allenarti, lavorare o semplicemente cambiare direzione."
+          "text": "Sul retro della licenza trovi le informazioni essenziali sui Promotion Trial e sui Rank. Non c'è però un appuntamento fissato per oggi: la strada davanti a te resta libera."
         },
         {
           "id": "persistent_world",
-          "text": "Allenatori, lavoratori, fauna e opportunità hanno i propri tempi. Restare qui, partire subito o ignorare una pista non congela ciò che accade altrove."
+          "text": "Un furgone imbocca la strada per Valedarsena mentre due lavoratori prendono la deviazione della fattoria. Più lontano, un Trainer scompare dietro il primo muretto di Via delle Ginestre."
         }
       ],
       "choices": [
