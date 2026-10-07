@@ -51,7 +51,7 @@ test("UI server can create a real M1 game through the same API used by the butto
   assert.ok(payload.story.choices.length >= 1);
 
   const pokemon = payload.player.roster[0];
-  assert.equal(pokemon.speciesId, "hisuian-growlithe");
+  assert.equal(pokemon.speciesId, "growlithe-hisui");
   assert.equal(pokemon.level, 5);
   assert.ok(Number.isFinite(pokemon.ac));
   assert.ok(pokemon.hp.current > 0 && pokemon.hp.max >= pokemon.hp.current);
