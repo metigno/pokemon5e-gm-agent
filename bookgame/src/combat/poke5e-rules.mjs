@@ -510,7 +510,7 @@ export function resolveAttack({
     { attribute: stats.attribute, move, target: defender }
   );
   const gutsBonus = gutsMeleeBonus(attacker, move);
-  const attackModifier = stats.toHit + extraAttackModifier + gutsBonus;
+  const effectAttackModifier = activeEffectModifier(attacker.effects?.attackModifierSources ?? [], round);\n  const attackModifier = stats.toHit + extraAttackModifier + gutsBonus + effectAttackModifier;
   const attackTotal = attackRoll.natural + attackModifier + effectDiceBonus.total;
   const criticalRangeBonus = activeEffectModifier(
     attacker.effects?.criticalRangeBonusSources ?? [],
@@ -531,6 +531,7 @@ export function resolveAttack({
       attackRoll,
       natural: attackRoll.natural,
       attackModifier,
+      effectAttackModifier,
       attackTotal,
       defenderAc: defender.ac,
       hit: false,
@@ -579,6 +580,7 @@ export function resolveAttack({
     attackRoll,
     natural: attackRoll.natural,
     attackModifier,
+    effectAttackModifier,
     attackTotal,
     defenderAc: defender.ac,
     hit: true,
