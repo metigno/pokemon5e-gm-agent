@@ -488,7 +488,11 @@
               "key": "m5_fulgore_departure_ready",
               "value": true
             }
-          ]
+          ],
+          "conditions": {
+            "path": "world.flags.m5_fulgore_route_plan",
+            "exists": true
+          }
         },
         {
           "id": "gate_cancel",
