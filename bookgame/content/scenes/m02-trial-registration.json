@@ -7,11 +7,26 @@
   "entryNodeId": "trial_info",
   "conditions": {
     "all": [
-      { "path": "world.flags.m1_complete", "eq": true },
-      { "path": "world.flags.m02_unlocked", "eq": true },
-      { "path": "world.flags.m2_active", "eq": true },
-      { "path": "competition.rank", "eq": "E" },
-      { "path": "world.flags.a2_rank_trial_e_d_available", "eq": true }
+      {
+        "path": "world.flags.m1_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m02_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m2_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "E"
+      },
+      {
+        "path": "world.flags.a2_rank_trial_e_d_available",
+        "eq": true
+      }
     ]
   },
   "nodes": {
@@ -19,7 +34,7 @@
       "stitches": [
         {
           "id": "info_1",
-          "text": "Il banco del Promotion Trial E→D è gestito da Ines Varga, esaminatrice certificata del Circuito Asteria. Il Trial usa formato Singles con tre Pokémon ufficiali — l'Official Three deve essere registrato prima di accedere all'arena. L'esaminatrice non cambia roster tra un tentativo e il successivo."
+          "text": "Il banco delle prove di promozione è gestito da Ines Varga, esaminatrice certificata del Circuito Asteria. Il regolamento prevede un incontro Singles con tre Pokémon dichiarati prima dell'ingresso in arena; la squadra dell'esaminatrice resta la stessa per tutta la sessione."
         },
         {
           "id": "info_2",
@@ -54,12 +69,11 @@
         }
       ]
     },
-
     "trial_desk": {
       "stitches": [
         {
           "id": "desk_1",
-          "text": "Al banco trovi il modulo di registrazione del Promotion Trial RANK_E_TO_D. Il sistema verifica eligibility in tempo reale: Rank E attivo, roster di almeno tre Pokémon, nessuna sospensione pendente. I tre Pokémon che usi adesso sono il tuo Official Three — non puoi cambiarli dopo la registrazione."
+          "text": "Sul banco c'è il modulo per la promozione da Rank E a Rank D. L'addetto controlla la tua licenza e il numero di Pokémon disponibili. Devi dichiararne tre prima dell'incontro; dopo la registrazione, la formazione non può essere cambiata per quel tentativo."
         }
       ],
       "choices": [
@@ -68,14 +82,26 @@
           "text": "Registro il roster per il Promotion Trial E→D.",
           "conditions": {
             "all": [
-              { "path": "competition.trials.RANK_E_TO_D.available", "eq": true },
-              { "path": "competition.trials.RANK_E_TO_D.registered", "ne": true },
-              { "path": "player.roster.length", "gte": 3 }
+              {
+                "path": "competition.trials.RANK_E_TO_D.available",
+                "eq": true
+              },
+              {
+                "path": "competition.trials.RANK_E_TO_D.registered",
+                "ne": true
+              },
+              {
+                "path": "player.roster.length",
+                "gte": 3
+              }
             ]
           },
           "goto": "trial_registered",
           "effects": [
-            { "type": "competition_trial_register", "checkpointId": "RANK_E_TO_D" }
+            {
+              "type": "competition_trial_register",
+              "checkpointId": "RANK_E_TO_D"
+            }
           ]
         },
         {
@@ -94,8 +120,14 @@
           "text": "Non ho abbastanza Pokémon — chiedo cosa mi manca.",
           "conditions": {
             "all": [
-              { "path": "competition.trials.RANK_E_TO_D.available", "eq": true },
-              { "path": "player.roster.length", "lt": 3 }
+              {
+                "path": "competition.trials.RANK_E_TO_D.available",
+                "eq": true
+              },
+              {
+                "path": "player.roster.length",
+                "lt": 3
+              }
             ]
           },
           "goto": "trial_roster_missing"
@@ -107,12 +139,11 @@
         }
       ]
     },
-
     "trial_format_info": {
       "stitches": [
         {
           "id": "format_1",
-          "text": "Singles a tre Pokémon: hai un Official Three, l'avversario ha il suo roster fisso. Il formato richiede che ogni mossa conti — non puoi portare un Pokémon di riserva, non puoi sostituire uno dei tuoi tre se viene sconfitto definitivamente. Lo switching è legale durante lo scontro."
+          "text": "«Singles, tre Pokémon dichiarati per parte», spiega l'addetto indicando il regolamento. «Un Pokémon in campo alla volta. I cambi sono consentiti. Quando registri i tuoi tre, quelli restano fino alla fine del tentativo.»"
         },
         {
           "id": "format_2",
@@ -138,7 +169,6 @@
         }
       ]
     },
-
     "trial_opponent_preview": {
       "stitches": [
         {
@@ -169,7 +199,6 @@
         }
       ]
     },
-
     "trial_examiner_detail": {
       "stitches": [
         {
@@ -196,12 +225,11 @@
         }
       ]
     },
-
     "trial_roster_check": {
       "stitches": [
         {
           "id": "roster_check_1",
-          "text": "Il sistema verifica il tuo roster attuale. Per il Promotion Trial E→D sono necessari almeno tre Pokémon registrati nel tuo profilo trainer. I tre che hai adesso diventano il tuo Official Three — non potrai aggiungerne altri dopo la registrazione."
+          "text": "L'addetto conta i Pokémon disponibili sulla tua licenza. «Per questa prova ne servono almeno tre. Se li dichiari adesso, saranno quelli ammessi in arena per questo tentativo.»"
         }
       ],
       "choices": [
@@ -210,14 +238,26 @@
           "text": "Il roster è sufficiente — procedo con la registrazione.",
           "conditions": {
             "all": [
-              { "path": "competition.trials.RANK_E_TO_D.available", "eq": true },
-              { "path": "competition.trials.RANK_E_TO_D.registered", "ne": true },
-              { "path": "player.roster.length", "gte": 3 }
+              {
+                "path": "competition.trials.RANK_E_TO_D.available",
+                "eq": true
+              },
+              {
+                "path": "competition.trials.RANK_E_TO_D.registered",
+                "ne": true
+              },
+              {
+                "path": "player.roster.length",
+                "gte": 3
+              }
             ]
           },
           "goto": "trial_registered",
           "effects": [
-            { "type": "competition_trial_register", "checkpointId": "RANK_E_TO_D" }
+            {
+              "type": "competition_trial_register",
+              "checkpointId": "RANK_E_TO_D"
+            }
           ]
         },
         {
@@ -236,7 +276,6 @@
         }
       ]
     },
-
     "trial_roster_missing": {
       "stitches": [
         {
@@ -257,12 +296,11 @@
         }
       ]
     },
-
     "trial_registered": {
       "stitches": [
         {
           "id": "registered_1",
-          "text": "Registrazione confermata. Il tuo Official Three è nel sistema — Ines Varga è disponibile in arena. Puoi affrontare il Trial ora o tornare quando sei pronto. La registrazione resta attiva fino all'esito del tentativo."
+          "text": "L'addetto timbra il modulo e ti restituisce la licenza. «Registrazione confermata. Ines è in arena. Puoi entrare adesso oppure tornare prima dell'inizio dell'incontro.»"
         }
       ],
       "choices": [
@@ -271,8 +309,14 @@
           "text": "Sono pronto — entro nel Promotion Trial E→D adesso.",
           "conditions": {
             "all": [
-              { "path": "competition.rank", "eq": "E" },
-              { "path": "competition.trials.RANK_E_TO_D.registered", "eq": true }
+              {
+                "path": "competition.rank",
+                "eq": "E"
+              },
+              {
+                "path": "competition.trials.RANK_E_TO_D.registered",
+                "eq": true
+              }
             ]
           },
           "goto": "m02-promotion-trial-e-d#trial_gate_call"
@@ -293,12 +337,14 @@
           "text": "Torno più tardi — la registrazione è confermata.",
           "goto": "m02-borgo-salice#sala_verde",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice_sala_verde" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice_sala_verde"
+            }
           ]
         }
       ]
     },
-
     "trial_prep_review": {
       "stitches": [
         {
@@ -333,12 +379,14 @@
           "text": "Ci vuole più tempo — torno domani.",
           "goto": "m02-borgo-salice#sala_verde",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice_sala_verde" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice_sala_verde"
+            }
           ]
         }
       ]
     },
-
     "trial_strategy_notes": {
       "stitches": [
         {
@@ -366,12 +414,14 @@
           "text": "Mi fermo qui — torno quando sono più sicuro.",
           "goto": "m02-borgo-salice#sala_verde",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice_sala_verde" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice_sala_verde"
+            }
           ]
         }
       ]
     },
-
     "trial_postponed": {
       "stitches": [
         {
@@ -385,7 +435,10 @@
           "text": "Torno alla Sala Verde.",
           "goto": "m02-borgo-salice#sala_verde",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice_sala_verde" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice_sala_verde"
+            }
           ]
         },
         {
@@ -393,17 +446,19 @@
           "text": "Torno al borgo.",
           "goto": "m02-borgo-salice#borough_hub",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
           ]
         }
       ]
     },
-
     "trial_return_registered": {
       "stitches": [
         {
           "id": "return_registered_1",
-          "text": "Sei già registrato al Promotion Trial E→D. Il tuo Official Three è nel sistema. Ines Varga è disponibile in arena. Puoi entrare adesso o continuare a prepararti."
+          "text": "Al banco riconoscono subito la tua registrazione. «Sei già in lista. Ines è in arena; quando vuoi iniziare, presentati al cancello laterale.»"
         }
       ],
       "choices": [
@@ -412,8 +467,14 @@
           "text": "Entro nel Trial — sono pronto.",
           "conditions": {
             "all": [
-              { "path": "competition.rank", "eq": "E" },
-              { "path": "competition.trials.RANK_E_TO_D.registered", "eq": true }
+              {
+                "path": "competition.rank",
+                "eq": "E"
+              },
+              {
+                "path": "competition.trials.RANK_E_TO_D.registered",
+                "eq": true
+              }
             ]
           },
           "goto": "m02-promotion-trial-e-d#trial_gate_call"
