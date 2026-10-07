@@ -309,6 +309,7 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
       validateEffects(choice.effects, choiceAt, errors);
 
       const hasCheck = isObject(choice.check);
+      const hasSave = isObject(choice.save);
       const hasCombat = isObject(choice.combat);
       const hasEcology = isObject(choice.ecology);
       const hasGoto = typeof choice.goto === "string";
