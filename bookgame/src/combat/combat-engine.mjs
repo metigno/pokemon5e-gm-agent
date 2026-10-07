@@ -1,4 +1,5 @@
 import { attemptCapture } from "./capture.mjs";
+import { chooseNpcMove } from "./npc-tactics.mjs";
 import { applyItemToPokemon, findInventoryItemIndex } from "./item-rules.mjs";
 import {
   canonicalReactionTrigger,
@@ -6689,16 +6690,13 @@ export class Pokemon5eCombatEngine {
 
     if (usable.length === 0) return endTurnInternal(next, "opponent", this.dice);
 
-    usable.sort((a, b) => {
-      const rank = (move) => {
-        const timeRank = move.time?.unit === "action" ? 0 : 10;
-        const directRank = move.attack && move.dice?.type === "damage" ? 0 : 1;
-        return timeRank + directRank;
-      };
-      return rank(a) - rank(b);
+    const chosen = chooseNpcMove(usable, {
+      difficulty: next.opponent?.aiDifficulty ?? next.aiDifficulty ?? "hard",
+      targetHpRatio: next.player.hp.max > 0 ? next.player.hp.current / next.player.hp.max : 0,
+      selfHpRatio: next.opponent.hp.max > 0 ? next.opponent.hp.current / next.opponent.hp.max : 0
     });
 
-    return this.useMove(next, "opponent", usable[0].id, {
+    return this.useMove(next, "opponent", chosen.id, {
       useDefenderIntimidate: usePlayerIntimidate
     });
   }
