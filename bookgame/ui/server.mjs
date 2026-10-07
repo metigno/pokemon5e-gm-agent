@@ -1,6 +1,8 @@
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
+import { join } from "node:path";
+import { normalizeSpriteId } from "../src/assets/sprite-runtime.mjs";
 import { BookgameEngine } from "../src/engine/bookgame-engine.mjs";
 import { Pokemon5eCombatEngine } from "../src/combat/combat-engine.mjs";
 import { CryptoDice } from "../src/engine/dice.mjs";
@@ -16,6 +18,9 @@ import {
 const HOST = process.env.P5E_UI_HOST ?? "127.0.0.1";
 const PORT = Number(process.env.P5E_UI_PORT ?? 4173);
 const PUBLIC_DIR = fileURLToPath(new URL("./public/", import.meta.url));
+const SPRITE_DIR = process.env.P5E_SPRITE_DIR ?? fileURLToPath(new URL("../assets/pokemon/files/", import.meta.url));
+const spriteMap = JSON.parse(await readFile(new URL("../assets/pokemon/sprite-runtime-map.json", import.meta.url), "utf8"));
+const SPRITE_ROLES = new Set(["battleFront", "battleBack", "icon", "overworld"]);
 
 const engine = new BookgameEngine();
 const dice = new CryptoDice();
@@ -367,6 +372,37 @@ async function handleApi(req, res, url) {
   return sendJson(res, 404, { ok: false, error: "API route not found" });
 }
 
+async function serveSprite(res, pathname) {
+  const match = pathname.match(/^\/sprites\/([^/]+)\/(battleFront|battleBack|icon|overworld)$/);
+  if (!match) return false;
+
+  const requestedId = decodeURIComponent(match[1]);
+  const role = match[2];
+  if (!SPRITE_ROLES.has(role)) return false;
+
+  const normalized = normalizeSpriteId(requestedId);
+  const spriteId = spriteMap.aliasIndex?.[normalized] ?? normalized;
+  const asset = spriteMap.sprites?.[spriteId]?.[role];
+  if (!asset) {
+    res.writeHead(404, { "content-type": "text/plain; charset=utf-8" });
+    res.end("Sprite asset not found");
+    return true;
+  }
+
+  try {
+    const content = await readFile(join(SPRITE_DIR, spriteId, asset));
+    res.writeHead(200, {
+      "content-type": "image/png",
+      "cache-control": "public, max-age=31536000, immutable"
+    });
+    res.end(content);
+  } catch {
+    res.writeHead(404, { "content-type": "text/plain; charset=utf-8" });
+    res.end("Sprite file missing");
+  }
+  return true;
+}
+
 async function serveStatic(res, pathname) {
   const entry = STATIC_FILES.get(pathname);
   if (!entry) {
@@ -391,6 +427,7 @@ const server = createServer(async (req, res) => {
       await handleApi(req, res, url);
       return;
     }
+    if (url.pathname.startsWith("/sprites/") && await serveSprite(res, url.pathname)) return;
     await serveStatic(res, url.pathname);
   } catch (error) {
     sendError(res, error, 500);

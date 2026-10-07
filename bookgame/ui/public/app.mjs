@@ -37,17 +37,21 @@ const els = {
   enemyLevel: $("#enemy-level"),
   enemyHpFill: $("#enemy-hp-fill"),
   enemyHpText: $("#enemy-hp-text"),
+  enemySprite: $("#enemy-sprite"),
   playerPokemonName: $("#player-pokemon-name"),
   playerPokemonLevel: $("#player-pokemon-level"),
   playerHpFill: $("#player-hp-fill"),
   playerHpText: $("#player-hp-text"),
+  playerSprite: $("#player-sprite"),
   moveList: $("#move-list"),
   endTurn: $("#end-turn"),
   combatLog: $("#combat-log"),
   evolutionOverlay: $("#evolution-overlay"),
   evolutionStatus: $("#evolution-status"),
   evolutionFrom: $("#evolution-from"),
-  evolutionTo: $("#evolution-to")
+  evolutionTo: $("#evolution-to"),
+  evolutionFromSprite: $("#evolution-from-sprite"),
+  evolutionToSprite: $("#evolution-to-sprite")
 };
 
 let snapshot = null;
@@ -206,6 +210,11 @@ function renderRoll() {
     `${roll.kind === "save" ? "TS" : "CT"} ${roll.skill ?? roll.ability ?? ""} · ${roll.notation ?? "d20"} — ${roll.passed ? "successo" : "fallimento"}`;
 }
 
+function spriteUrl(speciesId, role) {
+  if (!speciesId) return "";
+  return `/sprites/${encodeURIComponent(speciesId)}/${role}`;
+}
+
 function hpPercent(hp) {
   if (!hp?.max) return 0;
   return Math.max(0, Math.min(100, (hp.current / hp.max) * 100));
@@ -233,6 +242,7 @@ function renderBattle(battle) {
   els.battleRound.textContent = `Round ${battle.round}`;
 
   els.enemyName.textContent = battle.opponent.name;
+  els.enemySprite.src = spriteUrl(battle.opponent.speciesId, "battleFront");
   els.enemyLevel.textContent = `Lv. ${battle.opponent.level}`;
   els.enemyHpFill.style.width = `${hpPercent(battle.opponent.hp)}%`;
   els.enemyHpText.textContent =
@@ -240,6 +250,7 @@ function renderBattle(battle) {
     (battle.opponent.statuses.length ? ` · ${battle.opponent.statuses.join(", ")}` : "");
 
   els.playerPokemonName.textContent = battle.player.name;
+  els.playerSprite.src = spriteUrl(battle.player.speciesId, "battleBack");
   els.playerPokemonLevel.textContent = `Lv. ${battle.player.level}`;
   els.playerHpFill.style.width = `${hpPercent(battle.player.hp)}%`;
   els.playerHpText.textContent =
@@ -273,7 +284,7 @@ function renderBattle(battle) {
     for (const reserve of battle.playerBench.filter((entry) => entry.hp.current > 0)) {
       const button = document.createElement("button");
       button.className = "move-button";
-      button.innerHTML = `<strong>Cambia in ${escapeHtml(reserve.name)}</strong><small>HP ${reserve.hp.current}/${reserve.hp.max}</small>`;
+      button.innerHTML = `<img class="pokemon-icon" src="${spriteUrl(reserve.speciesId, "icon")}" alt=""><span><strong>Cambia in ${escapeHtml(reserve.name)}</strong><small>HP ${reserve.hp.current}/${reserve.hp.max}</small></span>`;
       button.addEventListener("click", () => runCombatAction("/api/combat/switch", { benchIndex: reserve.index }));
       els.moveList.append(button);
     }
@@ -367,6 +378,8 @@ async function playEvolution(presentation) {
   if (!presentation) return;
   els.evolutionFrom.dataset.species = presentation.from ?? "";
   els.evolutionTo.dataset.species = presentation.to ?? presentation.pokemon?.speciesId ?? "";
+  els.evolutionFromSprite.src = spriteUrl(presentation.from, "battleFront");
+  els.evolutionToSprite.src = spriteUrl(presentation.to ?? presentation.pokemon?.speciesId, "battleFront");
   els.evolutionOverlay.hidden = false;
   for (const phase of presentation.phases ?? []) {
     els.evolutionOverlay.dataset.phase = phase.id;
@@ -493,12 +506,14 @@ function renderTeam() {
     const hp = pokemon.hp ? `HP ${pokemon.hp.current}/${pokemon.hp.max}` : "HP —";
     const available = options.filter((entry) => entry.rosterIndex === index);
     return `
-      <div class="data-card">
-        <h3>${escapeHtml(name)} ${index === 0 ? "· Active" : ""}</h3>
+      <div class="data-card pokemon-card">
+        <img class="pokemon-icon pokemon-icon--team" src="${spriteUrl(pokemon.speciesId ?? pokemon.species, "icon")}" alt="">
+        <div class="pokemon-card__body"><h3>${escapeHtml(name)} ${index === 0 ? "· Active" : ""}</h3>
         <div class="data-row"><span>Specie</span><span>${escapeHtml(pokemon.speciesId ?? pokemon.species ?? "—")}</span></div>
         <div class="data-row"><span>Livello</span><span>${escapeHtml(pokemon.level ?? "—")}</span></div>
         <div class="data-row"><span>Stato</span><span>${escapeHtml(hp)}</span></div>
         ${available.map((entry) => `<button type="button" class="primary-button evolution-action" data-roster-index="${entry.rosterIndex}" data-evolution-id="${escapeHtml(entry.evolution.id)}">Evolvi → ${escapeHtml(entry.evolution.to)}</button>`).join("")}
+        </div>
       </div>
     `;
   }).join("") || '<div class="data-card">Nessun Pokémon nel roster.</div>';
