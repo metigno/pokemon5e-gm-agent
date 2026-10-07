@@ -43,7 +43,8 @@
           "goto": "m2_exit_confirmed",
           "effects": [
             { "type": "set_flag", "key": "m2_complete", "value": true },
-            { "type": "set_flag", "key": "m03_unlocked", "value": true }
+            { "type": "set_flag", "key": "m03_unlocked", "value": true },
+            { "type": "trainer_milestone_level", "milestoneId": "M02_COMPLETE", "level": 5 }
           ]
         },
         {
