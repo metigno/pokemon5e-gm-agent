@@ -64,6 +64,40 @@ test("M2 network milestone reaches level 4 and CON ASI retroactively raises HP",
   assert.equal(applied.length,1);
 });
 
+test("M3 milestones stop on level 7 Specialization and level 8 ASI before level 9",()=>{
+  const state=createNewGameState({protagonist:"Luke",now:fixedNow});
+  applyTrainerProgressionEffect(state,{type:"trainer_milestone_level",milestoneId:"M01_COMPLETE",level:3});
+  resolveTrainerProgressionChoice(state,"trainer_path_tactician");
+  syncCampaignTrainerProgression(state);
+  applyTrainerProgressionEffect(state,{type:"trainer_milestone_level",milestoneId:"M02_NETWORK_OUTCOME",level:4});
+  resolveTrainerProgressionChoice(state,"trainer_asi_con_2");
+  applyTrainerProgressionEffect(state,{type:"trainer_milestone_level",milestoneId:"M02_COMPLETE",level:5});
+
+  let applied=applyTrainerProgressionEffect(state,{type:"trainer_milestone_level",milestoneId:"M03_FERROX_OUTCOME",level:6});
+  assert.equal(state.player.trainerLevel,6);
+  assert.equal(applied.length,1);
+  assert.equal(getTrainerProgressionView(state),null);
+
+  applied=applyTrainerProgressionEffect(state,{type:"trainer_milestone_level",milestoneId:"M03_COMPLETE",level:9});
+  assert.equal(state.player.trainerLevel,7);
+  assert.equal(applied.length,1);
+  assert.equal(getTrainerProgressionView(state).type,"specialization");
+
+  resolveTrainerProgressionChoice(state,"trainer_specialization_fire");
+  applied=syncCampaignTrainerProgression(state);
+  assert.equal(state.player.trainerLevel,8);
+  assert.equal(applied.length,1);
+  assert.equal(getTrainerProgressionView(state).type,"asi_or_feat");
+
+  resolveTrainerProgressionChoice(state,"trainer_asi_dex_2");
+  applied=syncCampaignTrainerProgression(state);
+  assert.equal(state.player.trainerLevel,9);
+  assert.equal(state.player.trainerXp,experienceNeededAtLevel(9));
+  assert.equal(applied.length,1);
+  assert.equal(getTrainerProgressionView(state),null);
+  assert.ok(state.player.classFeatures.includes("trainer-path:tactician:level-9"));
+});
+
 test("Trainer progression never jumps across unresolved required choices",()=>{
   const state=createNewGameState({protagonist:"Fab",now:fixedNow});
   const applied=advanceTrainerToLevel(state,5,{sourceMilestoneId:"TEST"});
