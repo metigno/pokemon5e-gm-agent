@@ -506,10 +506,34 @@ async function completeCanonicalM2(engine, start) {
       maxExpansions: 2200
     },
     {
-      label: "M2 Promotion Trial and exit",
+      label: "M2 Promotion Trial window",
+      goal: (s) => s.world.flags.a2_rank_trial_e_d_available === true,
+      combatPolicy: "win",
+      maxExpansions: 1800
+    },
+    {
+      label: "M2 Promotion Trial available",
+      goal: (s) => s.competition.trials?.RANK_E_TO_D?.available === true,
+      combatPolicy: "win",
+      maxExpansions: 1400
+    },
+    {
+      label: "M2 Promotion Trial registered",
+      goal: (s) => s.competition.trials?.RANK_E_TO_D?.registered === true,
+      combatPolicy: "win",
+      maxExpansions: 900
+    },
+    {
+      label: "M2 Promotion Trial win",
+      goal: (s) => s.competition.rank === "D",
+      combatPolicy: "win",
+      maxExpansions: 900
+    },
+    {
+      label: "M2 Promotion Trial exit",
       goal: (s) => s.world.flags.m2_complete === true,
       combatPolicy: "win",
-      maxExpansions: 5000
+      maxExpansions: 500
     }
   ];
 
