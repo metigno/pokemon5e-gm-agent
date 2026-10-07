@@ -183,7 +183,7 @@ async function handleApi(req, res, url) {
   if (url.pathname === "/api/new-game") {
     const protagonist = String(body.protagonist ?? "Luke");
     const slot = String(body.slot ?? "slot1");
-    await persist(createNewGameState({ protagonist, slot }));
+    await persist(createNewGameState({ protagonist, slot, startAtIntro: true }));
     return sendJson(res, 200, await snapshot());
   }
 
