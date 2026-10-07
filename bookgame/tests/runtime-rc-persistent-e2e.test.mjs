@@ -982,9 +982,10 @@ async function completeCanonicalM5InterregionalLicense(engine, start) {
 
 async function captureCanonicalM5FifthPokemon(engine, start) {
   let state = structuredClone(start);
-  if ((state.player.roster?.length ?? 0) >= 5) return state;
+  const targetRosterSize = 6;
+  if ((state.player.roster?.length ?? 0) >= targetRosterSize) return state;
 
-  for (let attempt = 0; attempt < 4 && (state.player.roster?.length ?? 0) < 5; attempt += 1) {
+  for (let attempt = 0; attempt < 6 && (state.player.roster?.length ?? 0) < targetRosterSize; attempt += 1) {
     state = await searchTo({
       engine,
       start: state,
@@ -1017,7 +1018,12 @@ async function captureCanonicalM5FifthPokemon(engine, start) {
       assert.equal(state.pending?.opponentRegistered, false);
       assert.ok(state.pending?.returnNodes?.captured);
       state = resolveAutoplayCombat(engine, state, "captured");
-      break;
+      state = await requireChoice(engine, state, "wild_captured_continue", "M5 fauna capture continuation");
+      if ((state.player.roster?.length ?? 0) < targetRosterSize) {
+        state = await requireChoice(engine, state, "edge_retreat", "M5 fauna retry leaves the plateau edge");
+        state = await requireChoice(engine, state, "retreat_altacima", "M5 fauna retry returns to Altacima");
+      }
+      continue;
     }
 
     const continueChoice = view.choices.find((choice) => choice.id === "none_continue");
@@ -1027,7 +1033,10 @@ async function captureCanonicalM5FifthPokemon(engine, start) {
     state = await requireChoice(engine, state, "retreat_altacima", "M5 fauna retry returns to Altacima");
   }
 
-  assert.ok((state.player.roster?.length ?? 0) >= 5, "M5 must obtain a fifth real Pokémon before Trial B→A");
+  assert.ok(
+    (state.player.roster?.length ?? 0) >= targetRosterSize,
+    "M5 canonical lineage must leave Fulgore with six real Pokémon for the later A→S gate"
+  );
   return state;
 }
 
@@ -1105,6 +1114,51 @@ async function completeCanonicalM5(engine, start) {
   return state;
 }
 
+async function completeCanonicalM6(engine, start) {
+  let state = structuredClone(start);
+  const milestones = [
+    ["M6 activation", (s) => s.world.flags.m6_active === true, 1200],
+    ["M6 route selection", (s) => s.world.flags.m6_route_selection_complete === true, 1800],
+    ["M6 interregional travel", (s) => s.world.flags.m6_interregional_travel_complete === true, 2400],
+    ["M6 Red meeting", (s) => s.world.flags.red_met === true, 1800],
+    ["M6 Masters Circuit", (s) => s.world.flags.m6_masters_event_complete === true, 3000],
+    ["M6 Hidden Trajectories", (s) => s.world.flags.m6_hidden_trajectories_complete === true, 2600],
+    ["M6 Friend Beat 06", (s) => s.world.flags.friend_beat_06_complete === true, 2600],
+    ["M6 Continental Cup", (s) => s.world.flags.continental_complete === true, 4200],
+    ["M6 Ancient Layer Two", (s) => s.world.flags.ancient_mystery_layer_2 !== undefined, 2600],
+    ["M6 First Lighthouse return", (s) => s.world.flags.m6_first_lighthouse_return_complete === true, 2600],
+    ["M6 A to S trial available", (s) => s.competition.trials?.RANK_A_TO_S?.available === true, 1600],
+    ["M6 A to S trial registered", (s) => s.competition.trials?.RANK_A_TO_S?.registered === true, 2200],
+    ["M6 A to S trial win", (s) => s.competition.rank === "S", 3200],
+    ["M6 World cutoff review", (s) => s.world.flags.m6_world_cutoff_review_complete === true, 2600],
+    ["M6 outcome window", (s) => s.world.flags.m6_module_outcome_available === true, 1600],
+    ["M6 completion", (s) => s.world.flags.m6_complete === true, 2200]
+  ];
+
+  for (const [label, goal, maxExpansions] of milestones) {
+    if (goal(state)) continue;
+    state = await searchTo({
+      engine,
+      start: state,
+      goal,
+      label,
+      route: "champion",
+      combatPolicy: "win",
+      maxExpansions
+    });
+  }
+
+  assert.equal(state.competition.rank, "S");
+  assert.equal(state.world.flags.red_met, true);
+  assert.equal(state.world.flags.friend_beat_06_complete, true);
+  assert.ok(state.world.flags.ancient_mystery_layer_2 !== undefined);
+  assert.equal(state.world.flags.m6_first_lighthouse_return_complete, true);
+  assert.equal(state.world.flags.m6_world_cutoff_review_complete, true);
+  assert.equal(state.world.flags.m6_complete, true);
+  assert.equal(state.world.flags.m07_unlocked, true);
+  return state;
+}
+
 async function persistReload(store, state, slot, label) {
   const saved = structuredClone(state);
   saved.slot = slot;
@@ -1149,15 +1203,7 @@ test("RC persistent E2E traverses real authored M1→M12 and all three World out
     common = await completeCanonicalM5(engine, common);
     common = await persistReload(store, common, "rc-lineage", "M5");
 
-    common = await searchTo({
-      engine,
-      start: common,
-      goal: flag("m6_complete"),
-      label: "M6 completion",
-      route: "champion",
-      combatPolicy: "win",
-      maxExpansions: 12000
-    });
+    common = await completeCanonicalM6(engine, common);
     common = await persistReload(store, common, "rc-lineage", "M6");
 
     const postM6 = structuredClone(common);
