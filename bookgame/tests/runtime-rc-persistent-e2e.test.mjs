@@ -269,7 +269,7 @@ function m7MilestoneScore(state) {
 }
 
 function preferredChoices(choices) {
-  const positive = /trainer_|commit|complete|confirm|activate|continue|depart|travel|register|resolve|record|ready|open|advance|accept|enter|start|fight|win|audit|sync|lock|arrive|proceed|return/i;
+  const positive = /trainer_|commit|complete|confirm|activate|continue|depart|travel|register|resolve|record|relationship|close|ready|open|advance|accept|enter|start|fight|win|audit|sync|lock|arrive|proceed|return/i;
   const negative = /review|back|stay|repeat|defer|wait|existing|free_roam|inspect|listen|talk_again/i;
   return [...choices].sort((a, b) => {
     const score = (choice) =>
@@ -416,7 +416,7 @@ async function searchTo({
           return replayed;
         }
         const bias =
-          (/trainer_|commit|complete|confirm|activate|continue|advance|register|resolve|record|audit|lock/i.test(choice.id) ? 300 : 0) -
+          (/trainer_|commit|complete|confirm|activate|continue|advance|register|resolve|record|relationship|close|audit|lock/i.test(choice.id) ? 300 : 0) -
           (/review|back|stay|repeat|defer|wait|existing|free_roam/i.test(choice.id) ? 100 : 0);
         heap.push({
           state: next,
