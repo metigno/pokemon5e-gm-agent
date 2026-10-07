@@ -34,7 +34,7 @@
       "stitches": [
         {
           "id": "gate_1",
-          "text": "L'Officina Arena chiude l'area laterale e chiama il tuo nome. Questo è un checkpoint, non una cutscene: se perdi, resti Rank D."
+          "text": "L'area laterale dell'Officina Arena viene chiusa al pubblico e il giudice chiama il tuo nome. Dall'altro lato del campo l'esaminatrice è già in posizione. Una sconfitta oggi significa uscire ancora con il Rank D."
         }
       ],
       "choices": [
@@ -59,7 +59,7 @@
       "stitches": [
         {
           "id": "brief_1",
-          "text": "«Tre Pokémon. Singles. Voglio vedere se sai usare tempo, resistenze, coperture e switch senza bruciare il piano al primo turno.» Il roster dell'esaminatrice è quello fissato per il checkpoint; nessun scaling segue il tuo livello."
+          "text": "«Tre Pokémon. Singles.» L'esaminatrice aggancia le capsule alla cintura. «Non mi interessa un piano perfetto sulla carta. Voglio vedere cosa fai quando devi proteggere un vantaggio, cambiare senza regalare il ritmo e trovare una risposta quando la prima non basta.»"
         }
       ],
       "choices": [
@@ -116,12 +116,12 @@
         },
         {
           "id": "review_gate_identity",
-          "text": "Rileggo cosa questo checkpoint sta davvero valutando.",
+          "text": "Rileggo i criteri osservati dall'esaminatrice.",
           "goto": "identity_review"
         },
         {
           "id": "check_readiness",
-          "text": "Controllo se voglio iniziare con lo stato reale attuale.",
+          "text": "Controllo ancora una volta la squadra prima di iniziare.",
           "goto": "readiness_check"
         }
       ]
@@ -134,7 +134,7 @@
       "stitches": [
         {
           "id": "rules_1",
-          "text": "Il giudice conferma: Singles, tre Pokémon registrati, un solo incontro, vittoria necessaria. Pokémon dell'esaminatrice registrati e quindi non catturabili."
+          "text": "Il giudice conferma il regolamento: Singles, tre Pokémon registrati, un solo incontro e vittoria necessaria per la promozione. La squadra dell'esaminatrice è registrata all'Arena."
         }
       ],
       "choices": [
@@ -154,13 +154,13 @@
       "stitches": [
         {
           "id": "field_1",
-          "text": "L'Officina Arena ha spazio sufficiente per cambi e range senza elementi scenici che alterino arbitrariamente le regole. La geometria verrà gestita dal combattimento reale."
+          "text": "Il campo è un rettangolo ampio, segnato da linee bianche sul pavimento dell'Officina Arena. Non ci sono ostacoli fissi; entrambi i lati hanno spazio libero dietro la propria linea per richiamare e mandare in campo i Pokémon."
         }
       ],
       "choices": [
         {
           "id": "field_plan",
-          "text": "Tengo conto dello spazio senza inventare bonus.",
+          "text": "Osservo le distanze e torno a prepararmi.",
           "goto": "readiness_check",
           "effects": [
             {
@@ -181,13 +181,13 @@
       "stitches": [
         {
           "id": "ready_1",
-          "text": "Prima di partire puoi soltanto decidere se accettare lo stato reale della squadra o rinviare. Non esiste un reset pre-Trial."
+          "text": "Prima della chiamata definitiva controlli ancora una volta la squadra. I Pokémon portano con sé le condizioni con cui sei arrivato all'Arena; se non vuoi affrontare il Trial così, puoi rinviare."
         }
       ],
       "choices": [
         {
           "id": "ready_accept",
-          "text": "Accetto lo stato reale e torno al briefing.",
+          "text": "La squadra può affrontare il Trial: torno al briefing.",
           "goto": "examiner_briefing",
           "effects": [
             {
@@ -208,13 +208,13 @@
       "stitches": [
         {
           "id": "identity_1",
-          "text": "L'identità del gate è tecnica: tempo, resistenze, coperture e switch. L'esaminatrice non cambia roster per inseguire la tua build."
+          "text": "Sul foglio dell'Arena i criteri sono gli stessi annunciati al banco: gestione del ritmo, uso delle resistenze, copertura della squadra e qualità dei cambi. L'esaminatrice affronta ogni candidato con la squadra assegnata a questa fascia."
         }
       ],
       "choices": [
         {
           "id": "identity_focus",
-          "text": "Confermo il mio focus di preparazione.",
+          "text": "Tengo a mente questi criteri e torno dall'esaminatrice.",
           "goto": "examiner_briefing",
           "effects": [
             {
