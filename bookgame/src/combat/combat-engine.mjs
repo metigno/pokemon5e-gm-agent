@@ -2,7 +2,7 @@ import { attemptCapture } from "./capture.mjs";
 import { chooseNpcTurnPlan } from "./npc-tactics.mjs";
 import { chooseNpcTrainerFeature, trainerFeatureExecutionArgs } from "./npc-trainer-tactics.mjs";
 import { executeNpcTrainerFeatureInCombat } from "./npc-trainer-runtime.mjs";
-import { tryTrainerAcReaction } from "./trainer-reaction-window.mjs";
+import { tryTrainerAcReaction, tryTrainerSaveReaction } from "./trainer-reaction-window.mjs";
 import { legalTrainerFeatureActions } from "../engine/trainer-actions.mjs";
 import { createNpcKnowledge, npcPublicBattleView, updateNpcKnowledge } from "./npc-knowledge.mjs";
 import { applyItemToPokemon, findInventoryItemIndex } from "./item-rules.mjs";
@@ -34,6 +34,7 @@ import {
   resolveAttack,
   resolveAttackCheck,
   resolveSaveMove,
+  resolveSaveCheck,
   resolveSavingThrow,
   rollD20,
   rollExpression,
@@ -2872,17 +2873,21 @@ export class Pokemon5eCombatEngine {
     return next;
   }
 
+  resolveSaveWithTrainerReaction(next,side,move,defenderSide=otherSide(side)) {
+    const attacker=next[side],defender=next[defenderSide];
+    const saveCheck=resolveSaveCheck({attacker,defender,move,dice:this.dice,round:next.round});
+    const reaction=tryTrainerSaveReaction(next,{defenderSide,saveTotal:saveCheck.save.total,saveDc:saveCheck.stats.saveDc,natural:saveCheck.save.natural});
+    if(reaction.reacted) {
+      saveCheck.save={...saveCheck.save,total:reaction.saveTotal,success:reaction.saveTotal>=saveCheck.stats.saveDc,trainerReaction:reaction};
+    }
+    return resolveSaveMove({attacker,defender,move,dice:this.dice,round:next.round,saveCheck});
+  }
+
   async resolveMoveControlMove(next, side, move) {
     const targetSide = otherSide(side);
     const user = next[side];
     const target = next[targetSide];
-    const result = resolveSaveMove({
-      attacker: user,
-      defender: target,
-      move,
-      dice: this.dice,
-      round: next.round
-    });
+    const result = this.resolveSaveWithTrainerReaction(next,side,move,targetSide);
 
     let applied = null;
     if (!result.save.success) {
