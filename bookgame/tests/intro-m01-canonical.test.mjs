@@ -14,7 +14,7 @@ async function engine(){
 }
 
 test("fresh save starts in canonical Intro/M1 and not in free roam", async()=>{
- const e=await engine(); const s=createNewGameState({protagonist:"Luke"});
+ const e=await engine(); const s=createNewGameState({protagonist:"Luke",startAtIntro:true});
  assert.equal(s.story.sceneId,"intro-m01");
  assert.equal(s.story.nodeId,"trainer_specialization");
  assert.equal(s.world.flags.character_creation_complete,false);
@@ -25,7 +25,7 @@ test("fresh save starts in canonical Intro/M1 and not in free roam", async()=>{
 });
 
 test("specialization is persisted before tutorial choice", async()=>{
- const e=await engine(); let s=createNewGameState({protagonist:"Luke"});
+ const e=await engine(); let s=createNewGameState({protagonist:"Luke",startAtIntro:true});
  s=await e.choose(s,"specialization_fire");
  assert.equal(s.player.trainerClass,"pokemon-trainer");
  assert.equal(s.player.trainerPath,null);
@@ -37,7 +37,7 @@ test("specialization is persisted before tutorial choice", async()=>{
 });
 
 test("tutorial cannot be reported skipped unless player explicitly skips it", async()=>{
- const e=await engine(); let s=createNewGameState({protagonist:"Luke"});
+ const e=await engine(); let s=createNewGameState({protagonist:"Luke",startAtIntro:true});
  s=await e.choose(s,"specialization_fire");
  s=await e.choose(s,"play_tutorial");
  assert.equal(s.world.flags.tutorial_skipped,false);
@@ -51,7 +51,7 @@ test("tutorial cannot be reported skipped unless player explicitly skips it", as
 });
 
 test("explicit tutorial skip is durable and still requires release step", async()=>{
- const e=await engine(); let s=createNewGameState({protagonist:"Luke"});
+ const e=await engine(); let s=createNewGameState({protagonist:"Luke",startAtIntro:true});
  s=await e.choose(s,"specialization_fire");
  s=await e.choose(s,"skip_tutorial");
  assert.equal(s.world.flags.tutorial_skipped,true);
