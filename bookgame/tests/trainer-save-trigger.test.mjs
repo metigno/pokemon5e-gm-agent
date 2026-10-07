@@ -33,7 +33,7 @@ test("Not This Time raises the canonical save DC and spends Tactical Points", ()
       effects: {},
       level: 5,
       proficiencyBonus: 3,
-      abilities: { STR:10,DEX:10,CON:10,INT:10,WIS:10,CHA:16 },
+      attributes: { str:10,dex:10,con:10,int:10,wis:10,cha:16 },
       types: ["normal"]
     }
   };
@@ -42,7 +42,7 @@ test("Not This Time raises the canonical save DC and spends Tactical Points", ()
 
   const defender = {
     level: 5,
-    abilities: { STR:10,DEX:10,CON:10,INT:10,WIS:10,CHA:10 },
+    attributes: { str:10,dex:10,con:10,int:10,wis:10,cha:10 },
     savingThrows: [],
     effects: {},
     statuses: {},
@@ -50,7 +50,7 @@ test("Not This Time raises the canonical save DC and spends Tactical Points", ()
   };
   const move = {
     id: "test-save", name: "Test Save", type: "normal",
-    save: "DEX", dice: { type: "damage", amount: 1, value: 6 },
+    save: { attribute: "dex" }, dice: { type: "damage", class: "0" },
     time: { unit: "action" }
   };
   const result = resolveSaveMove({
