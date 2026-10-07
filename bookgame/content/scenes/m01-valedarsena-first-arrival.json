@@ -1200,7 +1200,7 @@
         },
         {
           "id": "no_forced_tutorial",
-          "text": "Puoi usare un servizio, cambiare quartiere o lasciare la città. Nessuna visita alla bacheca o all'Arena è necessaria per continuare il free-roam."
+          "text": "Puoi usare un servizio, cambiare quartiere o lasciare la città. La bacheca e l'Arena restano lì anche se decidi di occuparti d'altro."
         }
       ],
       "choices": [
@@ -1561,7 +1561,7 @@
         },
         {
           "id": "free_roam",
-          "text": "Continuo il free-roam prima di affrontare il Trial.",
+          "text": "Resto a Valedarsena e continuo per conto mio prima della prova.",
           "goto": "city_hub",
           "effects": [
             {
@@ -1824,7 +1824,7 @@
         },
         {
           "id": "free_roam",
-          "text": "Continuo il free-roam e tornerò quando voglio.",
+          "text": "Lascio il banco e torno alle mie attività.",
           "goto": "city_hub",
           "effects": [
             {
@@ -2008,13 +2008,13 @@
         },
         {
           "id": "m02_route",
-          "text": "La tratta verso Bosco Bruma è indicata come nuovo itinerario disponibile. È il punto di passaggio verso il Modulo 2 — Sotto la Nebbia; il modulo successivo non viene simulato dentro M1."
+          "text": "Tra le tratte ora accessibili compare Bosco Bruma. La strada lascia progressivamente le zone aperte di Asteria e si inoltra verso un territorio coperto da nebbia quasi permanente."
         }
       ],
       "choices": [
         {
           "id": "unlock_m02",
-          "text": "Segno Bosco Bruma come prossima destinazione e chiudo M1.",
+          "text": "Scelgo Bosco Bruma come prossima destinazione.",
           "conditions": {
             "all": [
               {
@@ -2051,7 +2051,7 @@
         },
         {
           "id": "review_m1_exit",
-          "text": "Controllo cosa manca prima di chiudere formalmente M1.",
+          "text": "Prima di partire, controllo se voglio ancora occuparmi di qualcosa ad Asteria.",
           "conditions": {
             "all": [
               {
@@ -2431,11 +2431,11 @@
       "stitches": [
         {
           "id": "promotion_is_valid",
-          "text": "La licenza è già Rank E, ma prima di lasciare Asteria senti di avere ancora incontri e questioni aperte qui."
+          "text": "La licenza mostra già Rank E, ma Asteria non è diventata vuota per questo. Ci sono ancora persone che continui a mancare per poco e strade che non hanno ancora preso direzioni diverse."
         },
         {
           "id": "no_fake_completion",
-          "text": "Ripensi alle persone incontrate dall'uscita del Campus. Alcuni incroci importanti devono ancora avvenire prima che questa prima tappa sia davvero alle spalle."
+          "text": "Se vuoi partire per Bosco Bruma senza lasciare questi incroci a metà, devi restare ancora un po' tra Valedarsena e le strade vicine."
         }
       ],
       "choices": [
@@ -2456,7 +2456,7 @@
         },
         {
           "id": "friend_pending",
-          "text": "Il primo beat con uno degli altri Four non è ancora concluso: torno al free-roam.",
+          "text": "Cerco di incrociare uno degli altri quattro prima che le nostre strade si separino del tutto.",
           "conditions": {
             "path": "world.flags.friend_beat_01_complete",
             "ne": true
