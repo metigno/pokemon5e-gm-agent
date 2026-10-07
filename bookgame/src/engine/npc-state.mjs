@@ -4,6 +4,22 @@ export const RELATIONSHIP_STATES = ["Hostile", "Distrustful", "Neutral", "Friend
 export const NPC_AVAILABILITY = new Set(["available", "busy", "away", "traveling"]);
 export const FIVE_FRIEND_IDS = ["Luke", "Mattew", "Daniel", "Edward", "Fab"];
 const ID_RE = /^[A-Za-z0-9_-]+$/;
+export function createTrainerRulesState({ trainerLevel = 1, specializations = [], trainerPath = null } = {}) {
+  if (!Number.isInteger(trainerLevel) || trainerLevel < 1) throw new RangeError("NPC Trainer level must be >= 1");
+  if (!Array.isArray(specializations)) throw new TypeError("NPC Trainer specializations must be an array");
+  if (trainerLevel < 2 && trainerPath !== null) throw new Error("Pokemon 5e Trainer Path cannot be assigned before level 2");
+  return {
+    ruleset: "2024",
+    trainerClass: "Trainer",
+    trainerLevel,
+    trainerPath,
+    specializations: structuredClone(specializations),
+    proficiencyBonus: 2 + Math.floor((trainerLevel - 1) / 4),
+    pokeslots: trainerLevel >= 18 ? 6 : trainerLevel >= 10 ? 5 : trainerLevel >= 5 ? 4 : 3,
+    maxSr: trainerLevel >= 17 ? 15 : trainerLevel >= 13 ? 12 : trainerLevel >= 9 ? 10 : trainerLevel >= 5 ? 8 : trainerLevel >= 3 ? 4 : 2
+  };
+}
+
 
 function requireId(value, label) {
   if (typeof value !== "string" || !ID_RE.test(value)) {
@@ -37,9 +53,12 @@ export function createPersistentNpc({
   if (!Number.isInteger(relationshipScore) || relationshipScore < -100 || relationshipScore > 100) {
     throw new RangeError("relationshipScore must be an integer from -100 to 100");
   }
+  const trainerLevel = Number.isInteger(state.trainerLevel) ? state.trainerLevel : 1;
+  const trainer = createTrainerRulesState({ trainerLevel, specializations: state.specializations ?? [], trainerPath: state.trainerPath ?? null });
   return {
     id,
     name,
+    trainer,
     relationship: {
       score: relationshipScore,
       qualitative: relationshipStateForScore(relationshipScore)
