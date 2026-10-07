@@ -32,14 +32,31 @@ export function chooseNpcMove(legalMoves,{difficulty="hard",targetHpRatio=1,self
  return scored[0].move;
 }
 
-export function chooseNpcTurnPlan({legalMoves=[],bench=[],active,target,difficulty="hard"}={}){
+export function chooseNpcTurnPlan({legalMoves=[],bench=[],active,target,knowledge=null,difficulty="hard"}={}){
  const move=chooseNpcMove(legalMoves,{difficulty,targetHpRatio:target?.hp?.max>0?target.hp.current/target.hp.max:1,selfHpRatio:active?.hp?.max>0?active.hp.current/active.hp.max:1});
  const profile=npcDifficultyProfile(difficulty);
+ const threat=assessPublicThreat(knowledge);
  const activeRatio=active?.hp?.max>0?active.hp.current/active.hp.max:1;
  const healthy=bench.map((pokemon,index)=>({pokemon,index})).filter(x=>x.pokemon?.hp?.current>0);
- if(profile.id!=="easy"&&activeRatio<=0.25&&healthy.length){
+ if(profile.id!=="easy"&&activeRatio<=0.25&&threat.score>=40&&healthy.length){
   const best=healthy.sort((a,b)=>(b.pokemon.hp.current/b.pokemon.hp.max)-(a.pokemon.hp.current/a.pokemon.hp.max))[0];
   if((best.pokemon.hp.current/best.pokemon.hp.max)>=activeRatio+0.35) return {kind:"switch",benchIndex:best.index,reason:"preserve_low_hp_active"};
  }
  return move?{kind:"move",moveId:move.id,reason:"best_legal_move"}:{kind:"end",reason:"no_legal_action"};
+}
+
+export function assessPublicThreat(view){
+ const target=view?.player;
+ if(!target?.hp?.max) return {score:0,reasons:[]};
+ let score=50;
+ const reasons=[];
+ const hpRatio=target.hp.current/target.hp.max;
+ if(hpRatio>0.7){score+=10;reasons.push("target_healthy");}
+ if(hpRatio<=0.3){score-=15;reasons.push("target_low_hp");}
+ const revealed=(view.revealedPlayerMoves??[]).length;
+ score+=Math.min(20,revealed*4);
+ if(revealed) reasons.push("revealed_moves");
+ const statusValues=Object.values(target.statuses??{});
+ if(statusValues.some(Boolean)){score-=8;reasons.push("target_statused");}
+ return {score:Math.max(0,Math.min(100,score)),reasons};
 }
