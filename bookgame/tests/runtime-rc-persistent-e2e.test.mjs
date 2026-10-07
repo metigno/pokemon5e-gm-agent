@@ -1159,6 +1159,215 @@ async function completeCanonicalM6(engine, start) {
   return state;
 }
 
+
+async function completeMilestoneSequence(engine, start, milestones, {
+  route = "champion",
+  combatPolicy = "win"
+} = {}) {
+  let state = structuredClone(start);
+  for (const [label, goal, maxExpansions = 2600] of milestones) {
+    if (goal(state)) continue;
+    state = await searchTo({
+      engine,
+      start: state,
+      goal,
+      label,
+      route,
+      combatPolicy,
+      maxExpansions
+    });
+  }
+  return state;
+}
+
+async function completeCanonicalM7Qualified(engine, start) {
+  const state = await completeMilestoneSequence(engine, start, [
+    ["M7 activation", flag("m7_active"), 1200],
+    ["M7 Meridiana arrival", flag("m7_meridiana_arrived"), 1800],
+    ["M7 Cynthia meeting", flag("cynthia_met"), 1800],
+    ["M7 sponsor/media review", flag("m7_media_sponsor_reviewed"), 2200],
+    ["M7 professional preparation", flag("m7_pro_preparation_complete"), 2200],
+    ["M7 Friend Beat 07", flag("friend_beat_07_complete"), 2600],
+    ["M7 qualifier registration", flag("m7_qualifier_registered"), 2200],
+    ["M7 qualifier complete", flag("m7_qualifier_complete"), 3200],
+    ["M7 qualifier result resolved", flag("m7_qualifier_result_resolved"), 2200],
+    ["M7 World qualification", (s) => s.world.flags.world_qualified === true, 2200],
+    ["M7 Before the Lights", flag("m7_before_lights_complete"), 2600],
+    ["M7 qualified completion", (s) => s.world.flags.m7_complete === true && s.world.flags.m08_unlocked === true, 2200]
+  ], { route: "champion", combatPolicy: "win" });
+
+  assert.equal(state.world.flags.world_qualified, true);
+  assert.equal(state.world.flags.m7_complete, true);
+  assert.equal(state.world.flags.m08_unlocked, true);
+  return state;
+}
+
+async function completeCanonicalM7Missed(engine, start) {
+  const state = await completeMilestoneSequence(engine, start, [
+    ["M7 missed activation", flag("m7_active"), 1200],
+    ["M7 missed Meridiana arrival", flag("m7_meridiana_arrived"), 1800],
+    ["M7 missed professional preparation", flag("m7_pro_preparation_complete"), 2600],
+    ["M7 missed Friend Beat 07", flag("friend_beat_07_complete"), 3000],
+    ["M7 missed qualifier registration", flag("m7_qualifier_registered"), 2400],
+    ["M7 missed qualifier complete", flag("m7_qualifier_complete"), 4200],
+    ["M7 initial elimination", (s) =>
+      s.world.flags.world_qualified === false &&
+      s.world.flags.last_chance_eligible === true &&
+      s.world.flags.a7_last_chance_available === true, 4200],
+    ["M7 last chance loss", (s) =>
+      s.world.flags.m7_last_chance_complete === true &&
+      s.world.flags.m7_last_chance_result === "lost" &&
+      s.world.flags.world_qualified === false, 4200],
+    ["M7 Worlds Missed resolution", (s) =>
+      s.world.flags.worlds_missed === true &&
+      s.world.flags.m7_worlds_missed_resolved === true, 2600],
+    ["M7 missed completion", (s) =>
+      s.world.flags.m7_complete === true &&
+      s.world.flags.m12_unlocked === true, 2200]
+  ], { route: "missed", combatPolicy: "branch" });
+
+  assert.equal(state.world.flags.worlds_missed, true);
+  assert.equal(state.world.flags.world_qualified, false);
+  assert.equal(state.world.flags.m12_unlocked, true);
+  return state;
+}
+
+async function completeCanonicalM8(engine, start) {
+  const state = await completeMilestoneSequence(engine, start, [
+    ["M8 activation", flag("m8_active"), 1200],
+    ["M8 World arrival", flag("m8_world_arrived"), 1800],
+    ["M8 accreditation", flag("m8_accreditation_complete"), 1800],
+    ["M8 medical control", flag("m8_medical_control_complete"), 1800],
+    ["M8 registration", flag("m8_world_registration_complete"), 2200],
+    ["M8 village arrival", flag("m8_world_village_arrived"), 1800],
+    ["M8 village orientation", flag("m8_world_village_orientation_complete"), 2200],
+    ["M8 Astrid meeting", flag("astrid_met"), 2200],
+    ["M8 Friend Beat 08", flag("friend_beat_08_complete"), 2600],
+    ["M8 training hall", flag("m8_training_hall_complete"), 2600],
+    ["M8 media day", flag("m8_media_day_complete"), 2200],
+    ["M8 opening ceremony", flag("m8_opening_ceremony_complete"), 2200],
+    ["M8 World draw", flag("world_draw_complete"), 3200],
+    ["M8 group reveal", flag("m8_group_reveal_complete"), 2200],
+    ["M8 completion", (s) => s.world.flags.m8_complete === true && s.world.flags.m09_unlocked === true, 1800]
+  ], { route: "champion", combatPolicy: "win" });
+
+  assert.equal(state.world.flags.world_draw_complete, true);
+  assert.equal(state.world.flags.m8_complete, true);
+  assert.equal(state.world.flags.m09_unlocked, true);
+  return state;
+}
+
+async function completeCanonicalM9Advanced(engine, start) {
+  const state = await completeMilestoneSequence(engine, start, [
+    ["M9 groups open", flag("m9_groups_open_complete"), 2200],
+    ["M9 matchday one", flag("m9_matchday_one_complete"), 2600],
+    ["M9 interday one", flag("m9_interday_one_complete"), 2200],
+    ["M9 Kaia thread", flag("m9_kaia_thread_complete"), 2200],
+    ["M9 matchday two", flag("m9_matchday_two_complete"), 2600],
+    ["M9 Friend Beat 09", flag("friend_beat_09_complete"), 2600],
+    ["M9 interday two", flag("m9_interday_two_complete"), 2200],
+    ["M9 matchday three", (s) => s.world.flags.world_group_md3_resolved === true, 2800],
+    ["M9 group resolution", (s) =>
+      s.competition.world?.groupStage?.resolved === true &&
+      s.world.flags.world_top16_locked === true, 3000],
+    ["M9 group advance", (s) => s.world.flags.world_group_advanced === true, 2200],
+    ["M9 advancing completion", (s) =>
+      s.world.flags.m9_complete === true &&
+      s.world.flags.m10_unlocked === true, 1800]
+  ], { route: "champion", combatPolicy: "win" });
+
+  assert.equal(state.world.flags.world_group_advanced, true);
+  assert.equal(state.world.flags.m10_unlocked, true);
+  return state;
+}
+
+async function completeCanonicalM9Eliminated(engine, start) {
+  const state = await completeMilestoneSequence(engine, start, [
+    ["M9 eliminated groups open", flag("m9_groups_open_complete"), 2200],
+    ["M9 eliminated matchday one", flag("m9_matchday_one_complete"), 3200],
+    ["M9 eliminated interday one", flag("m9_interday_one_complete"), 2200],
+    ["M9 eliminated Kaia thread", flag("m9_kaia_thread_complete"), 2200],
+    ["M9 eliminated matchday two", flag("m9_matchday_two_complete"), 3200],
+    ["M9 eliminated Friend Beat 09", flag("friend_beat_09_complete"), 3000],
+    ["M9 eliminated interday two", flag("m9_interday_two_complete"), 2200],
+    ["M9 eliminated matchday three", (s) => s.world.flags.world_group_md3_resolved === true, 3400],
+    ["M9 eliminated group resolution", (s) =>
+      s.competition.world?.groupStage?.resolved === true &&
+      s.world.flags.world_eliminated === true, 4200],
+    ["M9 eliminated completion", (s) =>
+      s.world.flags.m9_complete === true &&
+      s.world.flags.m12_unlocked === true, 2400]
+  ], { route: "eliminated", combatPolicy: "branch" });
+
+  assert.equal(state.world.flags.world_eliminated, true);
+  assert.equal(state.world.flags.m12_unlocked, true);
+  return state;
+}
+
+async function completeCanonicalM10FinalFour(engine, start) {
+  const state = await completeMilestoneSequence(engine, start, [
+    ["M10 R16 bracket", (s) => s.competition.world?.knockout?.opened === true, 2600],
+    ["M10 Silas thread", flag("m10_silas_thread_complete"), 2400],
+    ["M10 R16 prep", flag("m10_r16_prep_complete"), 2200],
+    ["M10 R16 win", (s) => s.world.flags.world_r16_won === true, 3000],
+    ["M10 top eight lock", flag("world_top8_locked"), 2600],
+    ["M10 Friend Beat 10", flag("friend_beat_10_complete"), 2800],
+    ["M10 QF prep", flag("m10_qf_prep_complete"), 2200],
+    ["M10 QF win", (s) => s.world.flags.world_qf_won === true, 3200],
+    ["M10 top four lock", flag("world_top4_locked"), 2600],
+    ["M10 final-four completion", (s) =>
+      s.world.flags.m10_complete === true &&
+      s.world.flags.m11_unlocked === true, 2200]
+  ], { route: "champion", combatPolicy: "win" });
+
+  assert.equal(state.world.flags.world_qf_won, true);
+  assert.equal(state.world.flags.m11_unlocked, true);
+  return state;
+}
+
+async function completeCanonicalM11Champion(engine, start) {
+  const state = await completeMilestoneSequence(engine, start, [
+    ["M11 Final Four lock", flag("m11_final_four_lock_complete"), 2600],
+    ["M11 Rei thread", flag("m11_rei_thread_complete"), 2400],
+    ["M11 semifinal prep", flag("m11_sf_prep_complete"), 2200],
+    ["M11 semifinal win", (s) => s.world.flags.world_sf_won === true, 3200],
+    ["M11 finalist lock", (s) => s.world.flags.world_finalist === true, 2600],
+    ["M11 Friend Beat 11", flag("friend_beat_11_complete"), 2800],
+    ["M11 final prep", flag("m11_final_prep_complete"), 2400],
+    ["M11 World Champion", (s) => s.world.flags.world_champion === true, 3600],
+    ["M11 champion completion", (s) =>
+      s.world.flags.m11_complete === true &&
+      s.world.flags.m12_unlocked === true, 2400]
+  ], { route: "champion", combatPolicy: "win" });
+
+  assert.equal(state.world.flags.world_champion, true);
+  assert.equal(state.world.flags.m12_unlocked, true);
+  return state;
+}
+
+async function completeCanonicalM12(engine, start, route) {
+  const combatPolicy = route === "champion" ? "win" : "branch";
+  const state = await completeMilestoneSequence(engine, start, [
+    ["M12 World exit branch", flag("m12_world_exit_branch_complete"), 2600],
+    ["M12 return to Asteria", flag("m12_return_asteria_complete"), 2600],
+    ["M12 Valedarsena callbacks", flag("m12_valedarsena_callbacks_complete"), 2400],
+    ["M12 Bruma callbacks", flag("m12_bruma_callbacks_complete"), 2400],
+    ["M12 Ferrox callbacks", flag("m12_ferrox_callbacks_complete"), 2400],
+    ["M12 coast callbacks", flag("m12_coast_callbacks_complete"), 2400],
+    ["M12 highlands callbacks", flag("m12_highlands_callbacks_complete"), 2400],
+    ["M12 interregional callbacks", flag("m12_interregional_callbacks_complete"), 2400],
+    ["M12 Meridiana callbacks", flag("m12_meridiana_callbacks_complete"), 2600],
+    ["M12 Friend Beat 12", flag("friend_beat_12_complete"), 2800],
+    ["M12 postgame hooks", flag("m12_postgame_hooks_complete"), 2400],
+    ["M12 main story complete", flag("main_story_complete"), 2600]
+  ], { route, combatPolicy });
+
+  assert.equal(state.world.flags.main_story_complete, true);
+  assert.equal(state.world.flags.m12_complete, true);
+  assert.equal(state.world.flags.postgame_free_roam, true);
+  return state;
+}
+
 async function persistReload(store, state, slot, label) {
   const saved = structuredClone(state);
   saved.slot = slot;
@@ -1210,111 +1419,45 @@ test("RC persistent E2E traverses real authored M1→M12 and all three World out
 
     let champion = structuredClone(postM6);
     champion.slot = "rc-champion";
-    champion = await searchTo({
-      engine,
-      start: champion,
-      goal: (s) => s.world.flags.m7_complete === true && s.world.flags.m08_unlocked === true,
-      label: "M7 qualified route",
-      route: "champion",
-      combatPolicy: "win"
-    });
+    champion = await completeCanonicalM7Qualified(engine, champion);
     champion = await persistReload(store, champion, champion.slot, "M7 qualified");
 
-    let postM8Champion;
-    for (const module of [8, 9, 10]) {
-      const nextUnlock = module === 8 ? "m09_unlocked" : module === 9 ? "m10_unlocked" : "m11_unlocked";
-      champion = await searchTo({
-        engine,
-        start: champion,
-        goal: (s) =>
-          s.world.flags[`m${module}_complete`] === true &&
-          s.world.flags[nextUnlock] === true,
-        label: `M${module} advancing route`,
-        route: "champion",
-        combatPolicy: "win"
-      });
-      champion = await persistReload(store, champion, champion.slot, `M${module}`);
-      if (module === 8) postM8Champion = structuredClone(champion);
-    }
+    champion = await completeCanonicalM8(engine, champion);
+    champion = await persistReload(store, champion, champion.slot, "M8");
+    const postM8Champion = structuredClone(champion);
 
-    champion = await searchTo({
-      engine,
-      start: champion,
-      goal: (s) => s.world.flags.m11_complete === true && s.world.flags.world_champion === true,
-      label: "M11 World Champion route",
-      route: "champion",
-      combatPolicy: "win"
-    });
+    champion = await completeCanonicalM9Advanced(engine, champion);
+    champion = await persistReload(store, champion, champion.slot, "M9");
+
+    champion = await completeCanonicalM10FinalFour(engine, champion);
+    champion = await persistReload(store, champion, champion.slot, "M10");
+
+    champion = await completeCanonicalM11Champion(engine, champion);
     champion = await persistReload(store, champion, champion.slot, "M11 champion");
-    champion = await searchTo({
-      engine,
-      start: champion,
-      goal: flag("main_story_complete"),
-      label: "M12 champion epilogue",
-      route: "champion",
-      combatPolicy: "win"
-    });
+
+    champion = await completeCanonicalM12(engine, champion, "champion");
     champion = await persistReload(store, champion, champion.slot, "M12 champion");
-    assert.equal(champion.world.flags.m12_complete, true);
-    assert.equal(champion.world.flags.postgame_free_roam, true);
     assert.equal(champion.world.flags.world_champion, true);
 
     let missed = structuredClone(postM6);
     missed.slot = "rc-worlds-missed";
-    missed = await searchTo({
-      engine,
-      start: missed,
-      goal: (s) =>
-        s.world.flags.m7_complete === true &&
-        s.world.flags.m12_unlocked === true &&
-        s.world.flags.worlds_missed === true,
-      label: "M7 Worlds Missed route",
-      route: "missed",
-      combatPolicy: "branch",
-      maxExpansions: 20000
-    });
+    missed = await completeCanonicalM7Missed(engine, missed);
     missed = await persistReload(store, missed, missed.slot, "M7 Worlds Missed");
-    missed = await searchTo({
-      engine,
-      start: missed,
-      goal: flag("main_story_complete"),
-      label: "M12 Worlds Missed epilogue",
-      route: "missed",
-      combatPolicy: "branch",
-      maxExpansions: 20000
-    });
+
+    missed = await completeCanonicalM12(engine, missed, "missed");
     missed = await persistReload(store, missed, missed.slot, "M12 Worlds Missed");
     assert.equal(missed.world.flags.worlds_missed, true);
     assert.equal(missed.world.flags.world_qualified, false);
-    assert.equal(missed.world.flags.m12_complete, true);
 
     let eliminated = structuredClone(postM8Champion);
     eliminated.slot = "rc-world-eliminated";
-    eliminated = await searchTo({
-      engine,
-      start: eliminated,
-      goal: (s) =>
-        s.world.flags.world_eliminated === true &&
-        s.world.flags.m12_unlocked === true,
-      label: "World Eliminated route",
-      route: "eliminated",
-      combatPolicy: "branch",
-      maxExpansions: 25000
-    });
+    eliminated = await completeCanonicalM9Eliminated(engine, eliminated);
     eliminated = await persistReload(store, eliminated, eliminated.slot, "World Eliminated");
-    eliminated = await searchTo({
-      engine,
-      start: eliminated,
-      goal: flag("main_story_complete"),
-      label: "M12 World Eliminated epilogue",
-      route: "eliminated",
-      combatPolicy: "branch",
-      maxExpansions: 20000
-    });
+
+    eliminated = await completeCanonicalM12(engine, eliminated, "eliminated");
     eliminated = await persistReload(store, eliminated, eliminated.slot, "M12 eliminated");
     assert.equal(eliminated.world.flags.world_eliminated, true);
     assert.equal(eliminated.world.flags.world_champion, false);
-    assert.equal(eliminated.world.flags.m12_complete, true);
 
     for (const finalState of [champion, missed, eliminated]) {
       assert.equal(finalState.world.flags.main_story_complete, true);
