@@ -151,6 +151,11 @@
               "type": "set_flag",
               "key": "m5_outcome_complete",
               "value": true
+            },
+            {
+              "type": "trainer_milestone_level",
+              "milestoneId": "M05_COMPLETE",
+              "level": 15
             }
           ]
         },
