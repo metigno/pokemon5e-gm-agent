@@ -130,6 +130,19 @@
     <div id="drawer-content" class="drawer-content"></div>
   </aside>
 
+  <div class="evolution-overlay" id="evolution-overlay" hidden aria-live="assertive">
+    <div class="evolution-stage">
+      <div class="eyebrow">EVOLUZIONE</div>
+      <h2 id="evolution-title">Il Pokémon si sta evolvendo!</h2>
+      <div class="evolution-visual" id="evolution-visual" aria-hidden="true">
+        <div class="evolution-sparkles"></div>
+        <div class="evolution-mon evolution-mon--from" id="evolution-from"></div>
+        <div class="evolution-mon evolution-mon--to" id="evolution-to"></div>
+      </div>
+      <p id="evolution-status"></p>
+    </div>
+  </div>
+
   <script type="module" src="/app.mjs"></script>
 </body>
 </html>
