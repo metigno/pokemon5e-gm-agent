@@ -40,3 +40,18 @@ export function tryTrainerAcReaction(battle,{defenderSide,attackTotal,defenderAc
  if(!result.used) return {reacted:false,defenderAc};
  return {reacted:true,defenderAc:defenderAc+needed,featureId:feature.featureId,cost:needed};
 }
+
+export function tryTrainerSaveReaction(battle,{defenderSide,saveTotal,saveDc,natural}={}){
+ if(natural===20||saveTotal>=saveDc) return {reacted:false,saveTotal};
+ const candidates=legalTrainerReactionsForSide(battle,{side:defenderSide,featureIds:["raise-your-defenses"]});
+ const feature=candidates.find(x=>x.featureId==="raise-your-defenses");
+ if(!feature) return {reacted:false,saveTotal};
+ const needed=saveDc-saveTotal;
+ const trainer=trainerForSide(battle,defenderSide);
+ const available=Number(trainer.classResources?.[feature.resourceId]?.current??0);
+ const max=Math.min(Number(feature.maxCost??needed),available);
+ if(needed>max) return {reacted:false,saveTotal};
+ const result=executeTrainerReactionForSide(battle,{side:defenderSide,featureId:feature.featureId,cost:needed,mode:"save"});
+ if(!result.used) return {reacted:false,saveTotal};
+ return {reacted:true,saveTotal:saveTotal+needed,featureId:feature.featureId,cost:needed};
+}
