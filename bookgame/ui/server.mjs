@@ -3,9 +3,11 @@ import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { BookgameEngine } from "../src/engine/bookgame-engine.mjs";
 import { Pokemon5eCombatEngine } from "../src/combat/combat-engine.mjs";
+import { Poke5eDataRepository } from "../src/combat/poke5e-data.mjs";
+import { scaledHp } from "../src/combat/poke5e-rules.mjs";
 import { CryptoDice } from "../src/engine/dice.mjs";
 import { SaveStore } from "../src/engine/save-store.mjs";
-import { createNewGameState } from "../src/engine/state.mjs";
+import { createNewGameState, EXPERIENCE_NEEDED_PER_LEVEL } from "../src/engine/state.mjs";
 import { applyPlayerEvolution, playerEvolutionOptions } from "../src/engine/player-evolution.mjs";
 import {
   setTrainerGearEquipped,
@@ -20,6 +22,7 @@ const PUBLIC_DIR = fileURLToPath(new URL("./public/", import.meta.url));
 const engine = new BookgameEngine();
 const dice = new CryptoDice();
 const combatEngine = new Pokemon5eCombatEngine({ dice });
+const poke5eData = new Poke5eDataRepository();
 const saves = new SaveStore(process.env.P5E_SAVE_DIR || undefined);
 
 let state = null;
@@ -149,6 +152,69 @@ async function battleView() {
   };
 }
 
+async function pokemonRosterView() {
+  const roster = state?.player?.roster ?? (state?.player?.starter ? [state.player.starter] : []);
+  return Promise.all(roster.map(async (pokemon, index) => {
+    const species = await poke5eData.getSpecies(pokemon);
+    const level = Number(pokemon.level ?? species.minLevel);
+    const abilityId = pokemon.abilityId ?? species.abilities.find((entry) => !entry.hidden)?.id ?? species.abilities[0]?.id ?? null;
+    const ability = abilityId ? await poke5eData.getAbility(abilityId) : null;
+    const moveIds = Array.isArray(pokemon.moveIds)
+      ? pokemon.moveIds
+      : await poke5eData.getLevelMoveIds(species, level).then((ids) => ids.slice(-4));
+    const moves = await Promise.all(moveIds.map(async (moveId) => {
+      const move = await poke5eData.getMove(moveId);
+      return {
+        id: move.id,
+        name: move.name,
+        type: move.type,
+        time: move.time,
+        range: move.range,
+        ppCurrent: Number.isFinite(pokemon.pp?.[move.id]) ? pokemon.pp[move.id] : move.pp,
+        ppMax: move.pp
+      };
+    }));
+    const maxHp = Number(pokemon.hp?.max ?? scaledHp(species, level));
+    const currentHp = Number(pokemon.hp?.current ?? maxHp);
+    const statuses = pokemon.statuses && typeof pokemon.statuses === "object"
+      ? statusList({ statuses: pokemon.statuses })
+      : Array.isArray(pokemon.conditions) ? pokemon.conditions : [];
+    const nextLevelXp = level < 20 ? Number(EXPERIENCE_NEEDED_PER_LEVEL[level]) : null;
+
+    return {
+      index,
+      nickname: pokemon.nickname ?? null,
+      speciesId: species.id,
+      name: species.name,
+      form: pokemon.form ?? null,
+      level,
+      xp: Number.isFinite(pokemon.xp) ? pokemon.xp : null,
+      nextLevelXp,
+      sr: species.sr,
+      size: species.size,
+      types: structuredClone(pokemon.types ?? pokemon.type ?? species.type ?? []),
+      ac: Number.isFinite(pokemon.ac) ? pokemon.ac : species.ac,
+      hp: { current: currentHp, max: maxHp },
+      attributes: structuredClone(pokemon.attributes ?? species.attributes ?? {}),
+      savingThrows: structuredClone(pokemon.savingThrows ?? species.savingThrows ?? []),
+      proficiencies: structuredClone(pokemon.proficiencies ?? species.skills ?? []),
+      hitDice: structuredClone(pokemon.hitDice ?? { die: species.hitDice, current: level, max: level }),
+      ability: ability ? { id: ability.id, name: ability.name, description: ability.description ?? null } : null,
+      moves,
+      statuses,
+      bond: structuredClone(pokemon.bond ?? null),
+      nature: pokemon.nature ?? null,
+      gender: pokemon.gender ?? null,
+      heldItemId: pokemon.heldItemId ?? pokemon.heldItem?.id ?? null,
+      pendingMoveLearning: structuredClone(pokemon.pendingMoveLearning ?? []),
+      pendingMoveChoices: structuredClone(pokemon.pendingMoveChoices ?? []),
+      pendingAsiChoices: structuredClone(pokemon.pendingAsiChoices ?? []),
+      pendingLevelUp: structuredClone(pokemon.pendingLevelUp ?? null),
+      death: structuredClone(pokemon.death ?? null)
+    };
+  }));
+}
+
 async function evolutionView() {
   if (!state) return [];
   return playerEvolutionOptions(state);
@@ -183,7 +249,7 @@ async function snapshot() {
       skills: state.player.skills,
       money: state.player.money,
       inventory: state.player.inventory ?? [],
-      roster: state.player.roster ?? [state.player.starter]
+      roster: await pokemonRosterView()
     },
     world: {
       day: state.world.day,
