@@ -2,27 +2,27 @@ const STANDARD_ARRAY=[15,14,13,12,10,8];
 
 export const FRIEND_STARTING_BUILDS={
   Luke:{
-    abilities:{STR:8,DEX:14,CON:10,INT:12,WIS:15,CHA:13},
+    abilities:{STR:13,DEX:14,CON:15,INT:12,WIS:8,CHA:10},
     skills:["Animal Handling","Insight","Survival"],
     starter:{species:"Growlithe",form:"Hisuian",level:5}
   },
   Mattew:{
-    abilities:{STR:8,DEX:15,CON:10,INT:14,WIS:13,CHA:12},
+    abilities:{STR:10,DEX:13,CON:12,INT:14,WIS:8,CHA:15},
     skills:["Animal Handling","Investigation","Perception"],
     starter:{species:"Eevee",form:"Standard",level:5}
   },
   Daniel:{
-    abilities:{STR:8,DEX:12,CON:10,INT:15,WIS:14,CHA:13},
+    abilities:{STR:8,DEX:13,CON:10,INT:12,WIS:15,CHA:14},
     skills:["Animal Handling","Investigation","Insight"],
     starter:{species:"Gastly",form:"Standard",level:5}
   },
   Edward:{
-    abilities:{STR:14,DEX:13,CON:15,INT:8,WIS:10,CHA:12},
+    abilities:{STR:14,DEX:15,CON:13,INT:8,WIS:10,CHA:12},
     skills:["Animal Handling","Athletics","Intimidation"],
     starter:{species:"Totodile",form:"Standard",level:5}
   },
   Fab:{
-    abilities:{STR:10,DEX:8,CON:14,INT:13,WIS:12,CHA:15},
+    abilities:{STR:8,DEX:10,CON:13,INT:12,WIS:14,CHA:15},
     skills:["Animal Handling","Nature","Medicine"],
     starter:{species:"Koffing",form:"Standard",level:5}
   }
