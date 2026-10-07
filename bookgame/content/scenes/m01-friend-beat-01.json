@@ -1077,11 +1077,11 @@
       "stitches": [
         {
           "id": "farm_mattew_voice",
-          "text": "Mattew prende nota dei dettagli e confronta tempi e sequenze. Non gli interessa sembrare preparato: vuole ridurre gli errori evitabili."
+          "text": "Mattew osserva come gli addetti guidano il branco e ripete i gesti con Eevee, correggendo distanza e ritmo. «Vedi? Se capisci cosa li fa muovere, non devi spingerli.»"
         },
         {
           "id": "farm_mattew_context",
-          "text": "Mattew è qui per un'attività propria. Lavoratori e Pokémon non smettono di muoversi perché vi conoscete: se collaborate, dovete inserirvi nel lavoro reale senza prenderne il controllo."
+          "text": "Poi ti guarda. «Sì, è più lento che lanciargli contro qualcosa. È anche meno stupido.»"
         }
       ],
       "choices": [
@@ -1761,11 +1761,11 @@
       "stitches": [
         {
           "id": "farm_daniel_voice",
-          "text": "Daniel osserva più a lungo di quanto parli. Cerca collegamenti, intenzioni e possibilità alternative prima di scegliere una linea."
+          "text": "Daniel ascolta tutte le istruzioni dell'addetto prima di avvicinarsi ai Pokémon. «Se ci hanno detto di non chiudere la via di fuga, non la chiudiamo.»"
         },
         {
           "id": "farm_daniel_context",
-          "text": "Daniel è qui per un'attività propria. Lavoratori e Pokémon non smettono di muoversi perché vi conoscete: se collaborate, dovete inserirvi nel lavoro reale senza prenderne il controllo."
+          "text": "Gastly compare alle sue spalle. Daniel gli lancia un'occhiata. «E vale anche per te.»"
         }
       ],
       "choices": [
@@ -2445,11 +2445,11 @@
       "stitches": [
         {
           "id": "farm_edward_voice",
-          "text": "Edward preferisce fare esperienza direttamente. Se c'è qualcosa da provare sul campo, tende a smettere presto di discuterne in astratto."
+          "text": "Edward guarda il branco disperso, poi Totodile. «No. Qui niente casino.» Si accorge che lo stai guardando. «Che c'è? So anche non distruggere le cose.»"
         },
         {
           "id": "farm_edward_context",
-          "text": "Edward è qui per un'attività propria. Lavoratori e Pokémon non smettono di muoversi perché vi conoscete: se collaborate, dovete inserirvi nel lavoro reale senza prenderne il controllo."
+          "text": "Fa un cenno verso il recinto. «Sistemiamo questa roba e poi troviamo qualcosa di più divertente.»"
         }
       ],
       "choices": [
@@ -3129,11 +3129,11 @@
       "stitches": [
         {
           "id": "farm_fab_voice",
-          "text": "Fab resta paziente e vicino al proprio Pokémon. Non ha fretta di forzare una situazione se può capirla e gestirla un passo alla volta."
+          "text": "Fab tiene Koffing abbastanza lontano dal branco da non agitarlo. «Non so se siamo bravi in questa cosa. Però possiamo evitare di peggiorarla.»"
         },
         {
           "id": "farm_fab_context",
-          "text": "Fab è qui per un'attività propria. Lavoratori e Pokémon non smettono di muoversi perché vi conoscete: se collaborate, dovete inserirvi nel lavoro reale senza prenderne il controllo."
+          "text": "Ti guarda. «Se hai un piano geniale, questo è il momento. Se non ce l'hai, facciamo con calma e fingiamo che fosse il piano.»"
         }
       ],
       "choices": [
