@@ -26,10 +26,6 @@
       {
         "path": "world.flags.a5_interregional_available",
         "eq": true
-      },
-      {
-        "path": "world.flags.interregional_license",
-        "ne": true
       }
     ]
   },
@@ -482,8 +478,16 @@
           "id": "close_reunion",
           "text": "La finestra dei Five è aperta: raggiungo la reunion.",
           "conditions": {
-            "path": "world.flags.a5_five_cross_available",
-            "eq": true
+            "all": [
+              {
+                "path": "world.flags.a5_five_cross_available",
+                "eq": true
+              },
+              {
+                "path": "world.flags.five_cross_complete",
+                "ne": true
+              }
+            ]
           },
           "goto": "m05-five-cross-again#reunion_entry",
           "effects": [
