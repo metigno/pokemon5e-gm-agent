@@ -79,7 +79,7 @@
       "choices": [
         {
           "id": "register_now",
-          "text": "Registro il roster per il Promotion Trial E→D.",
+          "text": "Dichiaro i tre Pokémon per il Trial E→D.",
           "conditions": {
             "all": [
               {
@@ -106,7 +106,7 @@
         },
         {
           "id": "check_roster_eligibility",
-          "text": "Controllo se il mio roster è sufficiente.",
+          "text": "Controllo se ho tre Pokémon disponibili.",
           "goto": "trial_roster_check"
         },
         {
@@ -235,7 +235,7 @@
       "choices": [
         {
           "id": "roster_ok_register",
-          "text": "Il roster è sufficiente — procedo con la registrazione.",
+          "text": "Ho tre Pokémon disponibili: procedo con la registrazione.",
           "conditions": {
             "all": [
               {
@@ -280,13 +280,13 @@
       "stitches": [
         {
           "id": "missing_1",
-          "text": "Il sistema rifiuta la registrazione: roster insufficiente. Per il Promotion Trial E→D sono necessari almeno tre Pokémon nel profilo. Attualmente il tuo profilo non soddisfa questo requisito. Non vengono aggiunti Pokémon artificialmente — devi completare il roster attraverso l'avanzamento regolare della campagna."
+          "text": "L'addetto ricontrolla la licenza e scuote la testa. «Te ne servono almeno tre disponibili per questo Trial. Torna quando puoi dichiararne tre.»"
         }
       ],
       "choices": [
         {
           "id": "acknowledge_missing_roster",
-          "text": "Capito — torno quando avrò un roster completo.",
+          "text": "Torno quando avrò tre Pokémon disponibili.",
           "goto": "trial_postponed"
         },
         {
