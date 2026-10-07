@@ -34,10 +34,6 @@
       {
         "path": "world.flags.m5_high_altitude_event_available",
         "eq": true
-      },
-      {
-        "path": "world.flags.m5_high_altitude_event_complete",
-        "ne": true
       }
     ]
   },
