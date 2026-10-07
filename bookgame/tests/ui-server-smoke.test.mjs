@@ -49,4 +49,19 @@ test("UI server can create a real M1 game through the same API used by the butto
   assert.equal(payload.story.nodeId, "trainer_specialization");
   assert.ok(Array.isArray(payload.story.choices));
   assert.ok(payload.story.choices.length >= 1);
+
+  const pokemon = payload.player.roster[0];
+  assert.equal(pokemon.speciesId, "growlithe-hisui");
+  assert.equal(pokemon.level, 5);
+  assert.ok(Number.isFinite(pokemon.ac));
+  assert.ok(pokemon.hp.current > 0 && pokemon.hp.max >= pokemon.hp.current);
+  assert.ok(Array.isArray(pokemon.types) && pokemon.types.length >= 1);
+  assert.ok(pokemon.attributes && Number.isFinite(pokemon.attributes.str));
+  assert.ok(pokemon.ability?.id);
+  assert.ok(Array.isArray(pokemon.moves) && pokemon.moves.length >= 1);
+  assert.ok(pokemon.moves.every((move) => Number.isFinite(move.ppCurrent) && Number.isFinite(move.ppMax)));
+  assert.ok(Array.isArray(pokemon.statuses));
+  assert.ok(Array.isArray(pokemon.pendingMoveLearning));
+  assert.ok(Array.isArray(pokemon.pendingMoveChoices));
+  assert.ok(Array.isArray(pokemon.pendingAsiChoices));
 });
