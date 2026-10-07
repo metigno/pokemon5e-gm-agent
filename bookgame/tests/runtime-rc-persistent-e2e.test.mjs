@@ -213,7 +213,34 @@ function progressionScore(state, route, depth) {
   if (route === "champion" && (f.world_eliminated || f.worlds_missed)) score -= 1000000;
   if (route === "missed" && f.world_qualified && !f.worlds_missed) score -= 2000;
   if (route === "eliminated" && f.worlds_missed) score -= 1000000;
+  score += m2MilestoneScore(state);
   return score - depth;
+}
+
+function m2MilestoneScore(state) {
+  const f = state.world?.flags ?? {};
+  const trial = state.competition?.trials?.RANK_E_TO_D ?? {};
+  const milestones = [
+    f.n_met === true,
+    f.local_problem_started === true,
+    f.a2_friend_news_available === true,
+    f.friend_beat_02_complete === true,
+    (state.player?.roster?.length ?? 0) >= 3,
+    f.poaching_network_state === "intervened",
+    f.a2_network_outcome_available === true,
+    f.network_outcome_complete === true,
+    f.a2_rank_trial_e_d_available === true,
+    trial.available === true,
+    trial.registered === true,
+    state.competition?.rank === "D",
+    f.m2_complete === true
+  ];
+  let score = 0;
+  for (let i = 0; i < milestones.length; i += 1) {
+    if (!milestones[i]) break;
+    score += 2500;
+  }
+  return score;
 }
 
 function preferredChoices(choices) {
