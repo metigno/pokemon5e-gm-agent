@@ -36,3 +36,36 @@ test("Pokemon 5e starting Trainer gear is represented in durable state", () => {
   assert.ok(state.player.inventory.includes("Trainer License"));
   assert.ok(state.player.inventory.includes("Pokedex"));
 });
+
+
+const FIVE_CANON = {
+  Luke: { abilities: { STR: 13, DEX: 14, CON: 15, INT: 12, WIS: 8, CHA: 10 }, npcPath: "Tactician", npcSpec: "fire" },
+  Mattew: { abilities: { STR: 10, DEX: 13, CON: 12, INT: 14, WIS: 8, CHA: 15 }, npcPath: "Poké Mentor", npcSpec: "electric" },
+  Daniel: { abilities: { STR: 8, DEX: 13, CON: 10, INT: 12, WIS: 15, CHA: 14 }, npcPath: "Pokémon Collector", npcSpec: "ghost" },
+  Edward: { abilities: { STR: 14, DEX: 15, CON: 13, INT: 8, WIS: 10, CHA: 12 }, npcPath: "Ace Trainer", npcSpec: "water" },
+  Fab: { abilities: { STR: 8, DEX: 10, CON: 13, INT: 12, WIS: 14, CHA: 15 }, npcPath: "Commander", npcSpec: "poison" }
+};
+
+test("choosing a Five locks identity and stats but never inherits the NPC scripted path", () => {
+  for (const [name, canon] of Object.entries(FIVE_CANON)) {
+    const state = createNewGameState({ protagonist: name, startAtIntro: true, now: fixedNow });
+    assert.deepEqual(state.player.abilities, canon.abilities, name);
+    assert.equal(state.player.trainerPath, null, name);
+    assert.equal(state.player.characterCreation.complete, false, name);
+  }
+});
+
+test("the four unchosen Five keep canonical NPC path and starter-type specialization", () => {
+  for (const protagonist of Object.keys(FIVE_CANON)) {
+    const state = createNewGameState({ protagonist, startAtIntro: true, now: fixedNow });
+    for (const [name, canon] of Object.entries(FIVE_CANON)) {
+      if (name === protagonist) {
+        assert.equal(state.npcs[name], undefined, name);
+        continue;
+      }
+      assert.deepEqual(state.npcs[name].state.abilities, canon.abilities, name);
+      assert.equal(state.npcs[name].state.canonicalCareer.path, canon.npcPath, name);
+      assert.deepEqual(state.npcs[name].state.specializations, [canon.npcSpec], name);
+    }
+  }
+});
