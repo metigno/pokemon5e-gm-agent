@@ -26,17 +26,17 @@
       "stitches": [
         {
           "id": "entry_1",
-          "text": "Il Circuito registra Rank B come stato già ottenuto, non come premio di M5. Mareasale, Ferrox, risultati competitivi, relazioni e stato dei Pokémon restano intatti mentre si apre la fascia alta regionale."
+          "text": "Il Circuito conferma il Rank B già conquistato. Mareasale, Ferrox, i risultati competitivi, i rapporti costruiti e le condizioni dei tuoi Pokémon restano parte del viaggio mentre si apre la fascia regionale più alta."
         },
         {
           "id": "entry_2",
-          "text": "M5 sposta la pressione verso Monti Ferrox, Altacima e Altopiano Fulgore. Nessuna partenza, incontro con Lance, licenza interregionale o Promotion Trial viene completato in automatico."
+          "text": "Le nuove destinazioni portano verso i Monti Ferrox, Altacima e l'Altopiano Fulgore. Nessun incontro, licenza o Trial è già risolto: davanti a te ci sono soltanto nuove possibilità."
         }
       ],
       "choices": [
         {
           "id": "activate_m5",
-          "text": "Attivo M5 mantenendo tutto lo stato precedente.",
+          "text": "Ritiro la tessera Rank B e controllo le nuove destinazioni.",
           "conditions": {
             "path": "world.flags.m5_active",
             "ne": true
@@ -52,7 +52,7 @@
         },
         {
           "id": "review_active_m5",
-          "text": "M5 è già attivo: rivedo la fascia Rank B.",
+          "text": "Controllo di nuovo le destinazioni consentite dal Rank B.",
           "conditions": {
             "path": "world.flags.m5_active",
             "eq": true
@@ -80,7 +80,7 @@
         },
         {
           "id": "band_review_carryover",
-          "text": "Controllo cosa M4 porta davvero con sé.",
+          "text": "Controllo le ultime notizie dalla costa.",
           "goto": "carryover"
         },
         {
@@ -105,7 +105,7 @@
       "stitches": [
         {
           "id": "carry_1",
-          "text": "Il riepilogo conserva l'esito dell'Upper Regional, la pista logistica, il rapporto con Archie, FRIEND_BEAT_04 e ogni risultato E5. Le parti opzionali non viste restano non viste."
+          "text": "Le notizie da Mareasale riflettono soltanto ciò che è realmente successo: l'Upper Regional, la pista logistica, Archie, l'ultimo incontro con uno dei Five e gli altri risultati ufficiali che hai ottenuto."
         },
         {
           "id": "carry_2",
@@ -120,7 +120,7 @@
         },
         {
           "id": "carry_callbacks",
-          "text": "Controllo quali callback costieri possono ancora contare.",
+          "text": "Controllo quali conseguenze della costa possono ancora raggiungermi.",
           "goto": "callbacks_coast"
         }
       ]
@@ -209,7 +209,7 @@
       "stitches": [
         {
           "id": "cb_1",
-          "text": "Gli esiti di Mareasale possono cambiare reputazione, informazioni e tono dei contatti futuri, ma M5 non li riscrive. Archie, il circuito e gli amici continuano dalle loro condizioni persistenti."
+          "text": "Gli esiti di Mareasale possono ancora cambiare reputazione, informazioni e tono dei futuri incontri. Archie, il Circuito e i tuoi amici hanno continuato le proprie strade nelle condizioni in cui li hai lasciati."
         }
       ],
       "choices": [
@@ -243,7 +243,7 @@
       "stitches": [
         {
           "id": "rules_1",
-          "text": "Nessun contenuto di M5 può cambiare Rank con un flag narrativo. La futura promozione B→A dovrà passare dal checkpoint E5 RANK_B_TO_A e da un combattimento realmente risolto."
+          "text": "Il Rank B sulla tessera non cambierà per reputazione o favori. Per arrivare al Rank A dovrai superare il Trial previsto dal Circuito e vincere davvero sul campo."
         }
       ],
       "choices": [
@@ -263,7 +263,7 @@
       "stitches": [
         {
           "id": "guard_1",
-          "text": "Il passaggio di modulo non assegna livelli, cure, denaro, Pokémon o risultati. Conserva soltanto ciò che esiste e apre nuove possibilità coerenti con Rank B."
+          "text": "La partenza verso la montagna non ti regala livelli, cure, denaro o nuovi Pokémon. Parti con ciò che hai e nelle condizioni in cui ti trovi."
         }
       ],
       "choices": [
@@ -361,7 +361,7 @@
       "stitches": [
         {
           "id": "close_1",
-          "text": "Il passaggio è pronto: M5 è attivo, Rank B resta strutturato e nessun contenuto successivo è stato anticipato."
+          "text": "La nuova fascia di viaggio è aperta. Il Rank resta B e tutto ciò che viene dopo dovrà ancora essere conquistato."
         }
       ],
       "choices": [
