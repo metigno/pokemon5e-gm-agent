@@ -368,8 +368,8 @@
       "choices": [
         {
           "id": "complete_q",
-          "text": "Resto a Meridiana con M8 sbloccato.",
-          "goto": "m07-meridiana-arrival#city_hub",
+          "text": "Proseguo verso il Mondiale con M8 sbloccato.",
+          "goto": "m08-world-arrival#world_entry",
           "conditions": {
             "path": "world.flags.m08_unlocked",
             "eq": true
