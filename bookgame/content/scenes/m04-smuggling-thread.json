@@ -38,7 +38,7 @@
         },
         {
           "id": "entry_2",
-          "text": "Non stai inseguendo bracconieri come in M2. Qui il problema è logistico: movimenti fisici che precedono documenti, approdi secondari, piccoli mezzi e carichi capaci di sparire dentro ritardi perfettamente normali."
+          "text": "Qui il problema non assomiglia a quello del Bosco Bruma. I segnali sono logistici: merci che si muovono prima dei documenti, approdi secondari, piccoli mezzi e carichi capaci di sparire dentro ritardi apparentemente normali."
         }
       ],
       "choices": [
@@ -901,7 +901,7 @@
       "stitches": [
         {
           "id": "docres_1",
-          "text": "La dogana riceve una catena documentata abbastanza precisa da cambiare controlli e pattugliamenti. Non hai bisogno di vedere ogni arresto perché l'esito resti persistente."
+          "text": "La dogana riceve una sequenza di movimenti abbastanza precisa da modificare controlli e pattugliamenti. Da qui in avanti saranno gli agenti del porto a seguire la pista."
         }
       ],
       "choices": [
@@ -987,7 +987,7 @@
       "choices": [
         {
           "id": "archie_out_close",
-          "text": "Registro il callback e chiudo la quest.",
+          "text": "Chiudo la questione e torno al porto.",
           "goto": "thread_close",
           "effects": [
             {
@@ -1030,7 +1030,7 @@
       "stitches": [
         {
           "id": "close_1",
-          "text": "Lo stato del contrabbando è ora persistente e separato dalla qualità iniziale del segnale. I moduli successivi potranno leggere se hai ottenuto un'intercettazione, documentato una rotta, attivato monitoraggio, trovato prove insufficienti o lasciato la storia al mondo."
+          "text": "La pista ha ormai un esito concreto: intercettazione, rotta documentata, sorveglianza rafforzata, prove insufficienti oppure una vicenda lasciata proseguire senza il tuo intervento. Mareasale reagirà di conseguenza."
         }
       ],
       "choices": [
