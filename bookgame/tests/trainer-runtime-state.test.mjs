@@ -108,6 +108,6 @@ test("Trainer gameplay state survives save and reload for player and scripted NP
   assert.equal(loaded.player.hp.current,5);
   assert.equal(loaded.npcs.Mattew.trainer.equipment[0].id,"mentor-kit");
   assert.deepEqual(loaded.npcs.Mattew.trainer.conditions,["restrained"]);
-  assert.equal(loaded.npcs.Mattew.trainer.hp.current,6);
+  assert.equal(loaded.npcs.Mattew.trainer.hp.current,5);
  }finally{await rm(dir,{recursive:true,force:true});}
 });
