@@ -14,7 +14,7 @@
         },
         {
           "id": "no_villain",
-          "text": "Tra recinti, moli, rumore e percorsi della fauna non emerge un singolo colpevole. Il problema è fatto di pressioni locali che si sommano e spostano gli animali dove prima passavano raramente."
+          "text": "Elio sposta tre puntine sulla mappa: recinti, moli, Ginestre. «Non cercare un colpevole unico. Qui stringono un passaggio, là fanno rumore, più avanti trovano cibo. Gli animali cambiano strada. Poi qualcuno si stupisce di trovarseli davanti.»"
         }
       ],
       "choices": [
@@ -216,11 +216,11 @@
       "stitches": [
         {
           "id": "farm_evidence_read",
-          "text": "Elio mette il rapporto della fattoria accanto alle segnalazioni delle Ginestre. I passaggi ripetuti vicino ai recinti hanno senso come deviazione di percorso, non come attacco deliberato."
+          "text": "Elio mette il rapporto della fattoria accanto alle segnalazioni delle Ginestre. «Se entrano vicino ai recinti più volte, non significa che vogliano attaccare. Potrebbero aver perso un passaggio più tranquillo.»"
         },
         {
           "id": "farm_not_solution",
-          "text": "Aver aiutato la fattoria ha ridotto un rischio locale, ma non ha cancellato la pressione che ha spinto la fauna fin lì."
+          "text": "Segna il punto con la matita. «Avete rimesso in sicurezza il branco. Bene. Adesso dobbiamo capire perché i selvatici sono arrivati fin lì.»"
         }
       ],
       "choices": [
@@ -235,11 +235,11 @@
       "stitches": [
         {
           "id": "warehouse_evidence_read",
-          "text": "Le reti spostate e i corridoi usati vicino ai moli coincidono con altre segnalazioni. Elio segna due punti sulla mappa e scarta una spiegazione troppo semplice."
+          "text": "Elio confronta il tuo racconto con due rapporti dei moli. «Reti spostate qui. Passaggi tra i depositi qui. Stessa settimana.» Traccia una linea, poi si ferma prima di unirla alle altre."
         },
         {
           "id": "warehouse_not_solution",
-          "text": "Una consegna riuscita non risolve il fenomeno; ciò che hai visto serve perché aggiunge un'altra fonte indipendente."
+          "text": "«Non basta per dire che è la stessa causa.» Picchietta la mappa. «Ma adesso abbiamo un posto in più da controllare.»"
         }
       ],
       "choices": [
@@ -254,11 +254,11 @@
       "stitches": [
         {
           "id": "pattern_connected",
-          "text": "Mettendo insieme le segnalazioni, Elio distingue almeno tre pressioni diverse: lavori e rumore vicino al fiume, passaggi agricoli più stretti e animali che cercano nuove vie tra le due zone."
+          "text": "Elio dispone i rapporti in tre gruppi. «Rumore e lavori vicino all'acqua. Passaggi agricoli diventati più stretti. Pokémon che provano vie nuove tra le due zone.»"
         },
         {
           "id": "investigated_state",
-          "text": "Non hai trovato una causa unica. Hai però trasformato voci sparse in un quadro abbastanza solido da scegliere interventi locali sensati."
+          "text": "Resta qualche secondo sulla mappa. «Questo basta per smettere di inseguire ogni segnalazione separatamente. Possiamo liberare i punti dove li stiamo stringendo di più.»"
         }
       ],
       "choices": [
@@ -273,11 +273,11 @@
       "stitches": [
         {
           "id": "houndour_callback",
-          "text": "Elio ascolta il resoconto senza trasformarlo in un voto morale. Per lui conta soprattutto il comportamento osservato: distanza, via di fuga, escalation e risposta dell'animale."
+          "text": "Elio ti interrompe solo per chiedere distanza, postura e possibilità di fuga dello Houndour. «Quello che hai pensato tu mi interessa meno di quello che ha fatto lui.»"
         },
         {
           "id": "ecology_callback",
-          "text": "«È lo stesso tipo di dato che ci serve adesso. Un incontro singolo non prova tutto, ma può dirci come la pressione cambia il comportamento.»"
+          "text": "«Se aveva spazio per andarsene e ha scelto di restare, è un dato. Se era bloccato, è un altro. Un incontro non spiega la zona, ma ci dice cosa cercare.»"
         }
       ],
       "choices": [
@@ -296,7 +296,7 @@
         },
         {
           "id": "partial_only",
-          "text": "La misura riduce la pressione in quel tratto ma non stabilizza l'intera area. Elio lascia il rapporto aperto per una verifica successiva."
+          "text": "Quando finite, due Pokémon che prima costeggiavano i depositi imboccano il passaggio liberato senza avvicinarsi ai lavoratori. Elio osserva finché spariscono. «Meglio. Adesso vediamo se dura.»"
         }
       ],
       "choices": [
@@ -322,11 +322,11 @@
       "stitches": [
         {
           "id": "verification",
-          "text": "Alla verifica successiva il corridoio è usato di nuovo senza spingere gli animali verso i recinti o i magazzini. Altri ranger stanno lavorando sugli altri tratti."
+          "text": "Alla verifica successiva trovi impronte fresche nel corridoio riaperto e nessun nuovo segno vicino ai recinti. Un piccolo gruppo attraversa la zona mantenendo distanza dagli uomini e prosegue verso l'acqua."
         },
         {
           "id": "local_not_global",
-          "text": "Elio chiude soltanto il caso locale. Il fenomeno più ampio resta qualcosa da monitorare: hai contribuito a una soluzione concreta, non risolto l'ecologia della regione in un pomeriggio."
+          "text": "Elio ripiega una delle mappe, non tutte. «Questo tratto è tornato utilizzabile. Gli altri li stanno controllando le squadre a nord e ai moli.»"
         }
       ],
       "choices": [
@@ -347,11 +347,11 @@
       "stitches": [
         {
           "id": "ignored_facts",
-          "text": "Mentre eri occupato altrove, le segnalazioni hanno continuato ad accumularsi. Alcuni passaggi sono stati chiusi temporaneamente e i ranger hanno iniziato a distribuire interventi tra fattoria, moli e vie secondarie."
+          "text": "Sulla mappa compaiono nuove note datate nei giorni in cui eri altrove. Una via è stata chiusa ai mezzi per qualche ora; alla fattoria hanno spostato il mangime; due ranger hanno riaperto un passaggio verso l'acqua."
         },
         {
           "id": "no_punishment",
-          "text": "Elio scorre i rapporti già firmati. «Non potevano aspettare te. Hanno fatto quello che serviva.» Non c'è rimprovero nel tono, solo il resoconto di ciò che è successo."
+          "text": "Elio scorre i rapporti già firmati. «Non potevano aspettare te. Hanno fatto quello che serviva.» Poi indica una traccia cancellata dalla mappa. «Qui, almeno, gli avvistamenti sono già diminuiti.»"
         }
       ],
       "choices": [
@@ -366,11 +366,11 @@
       "stitches": [
         {
           "id": "offscreen_facts",
-          "text": "I ranger e i lavoratori hanno stabilizzato i passaggi più critici senza aspettarti. Alcune rotte della fauna sono state riaperte, altre deviate con barriere temporanee."
+          "text": "Elio ti mostra le modifiche sulla mappa: un corridoio riaperto verso l'acqua, mangime spostato lontano dai margini e barriere temporanee vicino ai depositi. Le ultime segnalazioni arrivano di nuovo più lontano dalle zone abitate."
         },
         {
           "id": "no_unearned_credit",
-          "text": "Sul rapporto finale compaiono i nomi dei ranger e dei lavoratori intervenuti. Il tuo non c'è: quel lavoro lo hanno fatto loro."
+          "text": "Chiude il fascicolo. Sulla copertina ci sono i nomi delle squadre intervenute. «Hanno fatto un buon lavoro.» Il tuo nome non compare: quando è successo, eri altrove."
         }
       ],
       "choices": [
