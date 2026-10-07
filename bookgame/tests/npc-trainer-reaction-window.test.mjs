@@ -16,5 +16,5 @@ test("NPC does not react when required AC bonus exceeds available points",()=>{
  const b=battle(2),attackTotal=19,ac=15;
  const need=attackTotal-ac+1;
  const args=chooseNpcTrainerReaction(b,{trigger:"incoming_attack",neededBonus:need});
- assert.ok(args.cost<need);
+ assert.equal(args,null);
 });
