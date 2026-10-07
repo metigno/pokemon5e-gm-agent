@@ -953,7 +953,7 @@ function applyPendingSwitchEffect(battle, side, incoming) {
 
 function forceOpponentReplacement(battle) {
   const benchIndex = chooseForcedOpponentReplacement(battle);
-  if (benchIndex === undefined) return false;
+  if (benchIndex == null) return false;
 
   const outgoing = battle.opponent;
   const incoming = battle.opponentBench[benchIndex];
