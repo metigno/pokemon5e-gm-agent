@@ -336,7 +336,7 @@
         },
         {
           "id": "luke_coast_walk",
-          "text": "Facciamo solo un tratto insieme, poi ognuno riprende la propria schedule.",
+          "text": "Facciamo solo un tratto insieme, poi ognuno riprende la propria strada.",
           "timeCostMinutes": 20,
           "goto": "friend_beat_close",
           "effects": [
@@ -508,7 +508,7 @@
       "stitches": [
         {
           "id": "luke_league_1",
-          "text": "Luke parla del circuito come di un problema reale, non di una cutscene. Il suo stato competitivo resta indipendente dal tuo e nessuno dei due riceve plot armor."
+          "text": "Luke non ti regala informazioni né attenua la rivalità perché siete amici. Parlate di priorità e approccio; i vostri risultati restano affare vostro."
         }
       ],
       "choices": [
@@ -775,7 +775,7 @@
         },
         {
           "id": "mattew_coast_walk",
-          "text": "Facciamo solo un tratto insieme, poi ognuno riprende la propria schedule.",
+          "text": "Facciamo solo un tratto insieme, poi ognuno riprende la propria strada.",
           "timeCostMinutes": 20,
           "goto": "friend_beat_close",
           "effects": [
@@ -797,7 +797,7 @@
       "stitches": [
         {
           "id": "mattew_remote_1",
-          "text": "Mattew è già su un'altra tratta. La chiamata è rapida e diretta, coerente con una schedule che non può essere piegata solo per creare una scena."
+          "text": "Mattew è già su un'altra tratta. La chiamata è rapida: tra allenamento e spostamenti non può raggiungere Mareasale soltanto perché tu sei qui."
         }
       ],
       "choices": [
@@ -947,7 +947,7 @@
       "stitches": [
         {
           "id": "mattew_league_1",
-          "text": "Mattew parla del circuito come di un problema reale, non di una cutscene. Il suo stato competitivo resta indipendente dal tuo e nessuno dei due riceve plot armor."
+          "text": "Mattew confronta metodo e preparazione senza trasformare l'amicizia in un vantaggio competitivo. Il suo percorso resta distinto dal tuo."
         }
       ],
       "choices": [
@@ -1214,7 +1214,7 @@
         },
         {
           "id": "daniel_coast_walk",
-          "text": "Facciamo solo un tratto insieme, poi ognuno riprende la propria schedule.",
+          "text": "Facciamo solo un tratto insieme, poi ognuno riprende la propria strada.",
           "timeCostMinutes": 20,
           "goto": "friend_beat_close",
           "effects": [
@@ -1386,7 +1386,7 @@
       "stitches": [
         {
           "id": "daniel_league_1",
-          "text": "Daniel parla del circuito come di un problema reale, non di una cutscene. Il suo stato competitivo resta indipendente dal tuo e nessuno dei due riceve plot armor."
+          "text": "Daniel ragiona sui prossimi incontri senza offrirti scorciatoie o informazioni che non dovrebbe condividere. Il suo percorso resta distinto dal tuo."
         }
       ],
       "choices": [
@@ -1653,7 +1653,7 @@
         },
         {
           "id": "edward_coast_walk",
-          "text": "Facciamo solo un tratto insieme, poi ognuno riprende la propria schedule.",
+          "text": "Facciamo solo un tratto insieme, poi ognuno riprende la propria strada.",
           "timeCostMinutes": 20,
           "goto": "friend_beat_close",
           "effects": [
@@ -1825,7 +1825,7 @@
       "stitches": [
         {
           "id": "edward_league_1",
-          "text": "Edward parla del circuito come di un problema reale, non di una cutscene. Il suo stato competitivo resta indipendente dal tuo e nessuno dei due riceve plot armor."
+          "text": "Edward parla dei prossimi incontri con il gusto di chi vuole vincerli a modo proprio. Essere amici non rende più facile il percorso di nessuno dei due."
         }
       ],
       "choices": [
@@ -2092,7 +2092,7 @@
         },
         {
           "id": "fab_coast_walk",
-          "text": "Facciamo solo un tratto insieme, poi ognuno riprende la propria schedule.",
+          "text": "Facciamo solo un tratto insieme, poi ognuno riprende la propria strada.",
           "timeCostMinutes": 20,
           "goto": "friend_beat_close",
           "effects": [
@@ -2264,7 +2264,7 @@
       "stitches": [
         {
           "id": "fab_league_1",
-          "text": "Fab parla del circuito come di un problema reale, non di una cutscene. Il suo stato competitivo resta indipendente dal tuo e nessuno dei due riceve plot armor."
+          "text": "Fab non trasforma la conversazione in una riunione tattica. Vi scambiate impressioni e battute; poi ognuno resta responsabile del proprio percorso."
         }
       ],
       "choices": [
