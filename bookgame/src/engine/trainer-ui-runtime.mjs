@@ -29,6 +29,9 @@ function battleLegality(battle, def, reactionContext = null) {
   if (def.action === "action" && !battle.player?.turn?.actionAvailable) {
     return { legal: false, reason: "action_spent" };
   }
+  if (def.effect === "healing-bonus" && reactionContext?.trigger !== "pokemon_healing") {
+    return { legal: false, reason: "healing_trigger_required" };
+  }
   if (def.effect === "save-dc-bonus" && reactionContext?.trigger !== "player_save_move") {
     return { legal: false, reason: "save_trigger_required" };
   }
