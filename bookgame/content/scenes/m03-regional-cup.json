@@ -1518,7 +1518,7 @@
         },
         {
           "id": "public_result_history",
-          "text": "Confronto il tabellone con la competition history.",
+          "text": "Confronto il tabellone con il registro ufficiale dell'Arena.",
           "goto": "cup_history"
         }
       ]
