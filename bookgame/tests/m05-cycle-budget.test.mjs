@@ -44,7 +44,7 @@ test("M05 first five block IDs remain the canonical production spine",async()=>{
 
 test("M5_05-M5_09 logical production budget is locked per block",async()=>{
   const expected=[
-    ["m05-fulgore-ascent",15,34],
+    ["m05-fulgore-ascent",19,40],
     ["m05-ancient-trace",15,34],
     ["m05-interregional-license",15,34],
     ["m05-five-cross-again",15,33],
@@ -59,11 +59,11 @@ test("M5_05-M5_09 logical production budget is locked per block",async()=>{
     assert.equal(actualChoices,choices,rel+" choice budget");
     totalNodes+=actualNodes; totalChoices+=actualChoices;
   }
-  assert.equal(totalNodes,82);
-  assert.equal(totalChoices,183);
+  assert.equal(totalNodes,86);
+  assert.equal(totalChoices,189);
 });
 
-test("M5 first ten blocks remain on the 240/528 logical trajectory",async()=>{
+test("M5 first ten blocks include the canonical Fulgore capture expansion",async()=>{
   const rels=[
     "m05-handoff","m05-mountain-approach","m05-altacima","m05-lance-enters","m05-weather-decisions",
     "m05-fulgore-ascent","m05-ancient-trace","m05-interregional-license","m05-five-cross-again","m05-friend-beat-05"
@@ -74,10 +74,10 @@ test("M5 first ten blocks remain on the 240/528 logical trajectory",async()=>{
     nodes+=Object.keys(scene.nodes).length;
     choices+=Object.values(scene.nodes).reduce((sum,node)=>sum+(node.choices?.length??0),0);
   }
-  assert.equal(nodes,157);
-  assert.equal(choices,347);
-  assert.equal(240-nodes,83);
-  assert.equal(528-choices,181);
+  assert.equal(nodes,161);
+  assert.equal(choices,353);
+  assert.equal(244-nodes,83);
+  assert.equal(534-choices,181);
 });
 
 
@@ -102,7 +102,7 @@ test("M5_10-M5_14 logical production budget is locked per block",async()=>{
   assert.equal(totalChoices,181);
 });
 
-test("M5 complete logical production target is exactly 240 nodes / 528 choices",async()=>{
+test("M5 complete logical runtime surface is 244 nodes / 534 choices after canonical capture expansion",async()=>{
   const rels=[
     "m05-handoff","m05-mountain-approach","m05-altacima","m05-lance-enters","m05-weather-decisions",
     "m05-fulgore-ascent","m05-ancient-trace","m05-interregional-license","m05-five-cross-again","m05-friend-beat-05",
@@ -114,6 +114,6 @@ test("M5 complete logical production target is exactly 240 nodes / 528 choices",
     nodes+=Object.keys(scene.nodes).length;
     choices+=Object.values(scene.nodes).reduce((sum,node)=>sum+(node.choices?.length??0),0);
   }
-  assert.equal(nodes,240);
-  assert.equal(choices,528);
+  assert.equal(nodes,244);
+  assert.equal(choices,534);
 });
