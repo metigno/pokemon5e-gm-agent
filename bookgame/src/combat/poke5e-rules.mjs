@@ -486,61 +486,24 @@ export function resolveAttack({
   forceDisadvantage = false,
   forceHit = false,
   forceCritical = false,
-  round = null
+  round = null,
+  attackCheck = null
 }) {
   const stats = calculateMoveStats(attacker, move, round);
   if (stats.toHit == null || stats.damageDice == null) {
     throw new Error(`Move ${move.id} is not a supported damaging attack-roll move`);
   }
 
-  const effectAdvantage = activeConditionalEffect(
-    attacker.effects?.attackAdvantageSources ?? [],
-    round,
-    { attribute: stats.attribute, move, target: defender }
-  );
-  const effectDisadvantage = activeConditionalEffect(
-    attacker.effects?.attackDisadvantageSources ?? [],
-    round,
-    { attribute: stats.attribute, move, target: defender }
-  );
-  const incomingAttackAdvantage = activeConditionalEffect(
-    defender.effects?.incomingAttackAdvantageSources ?? [],
-    round,
-    { attribute: stats.attribute, move, target: defender }
-  );
-  const attackerRestrained = hasActiveEffect(
-    attacker.effects?.restrainedSources ?? [],
-    round
-  );
-  const defenderRestrained = hasActiveEffect(
-    defender.effects?.restrainedSources ?? [],
-    round
-  );
-  const attackRoll = rollD20(dice, {
-    advantage: effectAdvantage || incomingAttackAdvantage || defenderRestrained,
-    disadvantage:
-      forceDisadvantage ||
-      effectDisadvantage ||
-      attackHasDisadvantage(attacker) ||
-      attackerRestrained
+  const check = attackCheck ?? resolveAttackCheck({
+    attacker, defender, move, dice, extraAttackModifier,
+    forceDisadvantage, forceHit, forceCritical, round
   });
-  const effectDiceBonus = rollEffectDiceBonus(
-    attacker.effects?.attackRollDiceSources ?? [],
-    dice,
-    round,
-    { attribute: stats.attribute, move, target: defender }
-  );
-  const gutsBonus = gutsMeleeBonus(attacker, move);
-  // Effect sources are aggregated by combat-engine and passed as extraAttackModifier.
+  const {
+    attackRoll,effectAdvantage,effectDisadvantage,incomingAttackAdvantage,
+    attackerRestrained,defenderRestrained,effectDiceBonus,gutsBonus,
+    attackModifier,attackTotal,criticalRangeBonus,criticalThreshold,critical
+  } = check;
   const effectAttackModifier = 0;
-  const attackModifier = stats.toHit + extraAttackModifier + gutsBonus;
-  const attackTotal = attackRoll.natural + attackModifier + effectDiceBonus.total;
-  const criticalRangeBonus = activeEffectModifier(
-    attacker.effects?.criticalRangeBonusSources ?? [],
-    round
-  );
-  const criticalThreshold = Math.max(2, 20 - criticalRangeBonus);
-  const critical = forceCritical || attackRoll.natural >= criticalThreshold;
   const criticalDamage =
     critical &&
     !["battle-armor", "shell-armor"].includes(defender.abilityId);
