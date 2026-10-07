@@ -30,7 +30,7 @@
       "stitches": [
         {
           "id": "road_opens_industrial",
-          "text": "La strada che da Valedarsena porta nell'entroterra cambia carattere dopo i primi dieci chilometri. L'erba si fa più corta, i cespugli si diradano, e all'orizzonte compaiono due silhouette rettangolari che non sono alberi: una tramoggia di carico e un ponte-nastro. Il cartello del Circuito identifica l'area come AST-QUARRY — Cava Grigia, accesso Rank D."
+          "text": "La strada che da Valedarsena porta nell'entroterra cambia carattere dopo i primi dieci chilometri. L'erba si fa più corta, i cespugli si diradano e all'orizzonte compaiono due sagome rettangolari: una tramoggia di carico e un ponte-nastro. Poco oltre, un cartello indica Cava Grigia e ricorda che l'accesso ai visitatori richiede il Rank D."
         },
         {
           "id": "quarry_first_view",
@@ -87,7 +87,7 @@
         },
         {
           "id": "overview_signs",
-          "text": "I segnali di cantiere seguono una logica riconoscibile: aree a passaggio libero per visitatori Rank D, aree con restrizione per squadre tecniche, un paio di zone chiuse per lavori in corso. Non c'è nulla di spettacolare. C'è gestione."
+          "text": "I segnali di cantiere seguono una logica riconoscibile: percorso visitatori, passaggi riservati alle squadre tecniche, un paio di settori chiusi per lavori in corso. Non c'è niente di spettacolare nel modo in cui il posto protegge chi ci lavora. Proprio per questo ogni deviazione dalla routine risalta."
         },
         {
           "id": "overview_fauna_hints",
@@ -186,7 +186,7 @@
       "stitches": [
         {
           "id": "perimeter_desk",
-          "text": "L'ingresso visitatori è un prefabbricato basso con uno sportello aperto. Un addetto di sicurezza — tesserino al collo, giacca ad alta visibilità — controlla rapidamente la tessera Circuito e segna l'orario di ingresso. Rank D è registrato come autorizzato per il percorso visitatori; aree di squadra richiedono accompagnamento."
+          "text": "L'ingresso visitatori è un prefabbricato basso con uno sportello aperto. Un addetto alla sicurezza — tesserino al collo, giacca ad alta visibilità — passa la tua tessera sul lettore e annota l'orario. «Rank D, va bene. Percorso visitatori libero; per le aree di squadra serve un accompagnatore.»"
         },
         {
           "id": "perimeter_rules",
@@ -419,7 +419,7 @@
         },
         {
           "id": "glass_production_signal",
-          "text": "Nel riquadro in basso del secondo pannello una piccola nota mette in evidenza: «Produzione in salita questo trimestre. Rotazioni e verifiche di sicurezza invariate; cartellonistica delle aree chiuse aggiornata su base settimanale.» Non è un allarme — è l'inizio di un elemento che può diventare uno."
+          "text": "Nel riquadro in basso del secondo pannello una nota recente segnala un aumento della produzione nell'ultimo trimestre. Le rotazioni e le verifiche di sicurezza, invece, sono rimaste le stesse; la cartellonistica delle aree chiuse viene aggiornata ogni settimana. Non suona un allarme, ma i due ritmi non stanno crescendo insieme."
         }
       ],
       "choices": [
@@ -450,7 +450,7 @@
         },
         {
           "id": "tech_office_intro",
-          "text": "«Rank D, visita all'area. Posso darti dieci minuti. Se la tua domanda è generica, il pannello della vetrata basta. Se è specifica, posso rispondere su geologia, protocolli, fauna di cava, o rapporto con Ferravia.»"
+          "text": "L'ingegnere posa il carteggio sul bordo della scrivania. «Ho dieci minuti. Se vuoi sapere qualcosa di preciso, chiedi: geologia, sicurezza, Pokémon della cava o collegamenti con Ferravia. Per il resto, i pannelli fuori sono aggiornati.»"
         }
       ],
       "choices": [
@@ -556,7 +556,7 @@
         },
         {
           "id": "exit_2",
-          "text": "Cava Grigia ormai ha un volto preciso: terrazze di scavo, regole di cantiere, Pokémon che convivono con rumore e polvere, e una tensione crescente tra tempi di produzione e prudenza. Per ora, però, il lavoro continua."
+          "text": "Cava Grigia ormai ha un volto preciso: terrazze di scavo, regole di cantiere, Pokémon che hanno imparato i ritmi del rumore e della polvere. Sotto quella routine resta una domanda semplice: quanto può aumentare il lavoro prima che la prudenza debba aumentare con lui?"
         }
       ],
       "choices": [
@@ -586,7 +586,7 @@
         },
         {
           "id": "exit_back_to_handoff",
-          "text": "Torno al punto di ingresso della fascia Rank D per riorientarmi.",
+          "text": "Torno verso il bivio da cui ho raggiunto Cava Grigia.",
           "goto": "m03-handoff#access_band_open",
           "effects": [
             {
