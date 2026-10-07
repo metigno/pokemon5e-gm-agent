@@ -315,14 +315,52 @@ function renderTrainer() {
     .map(([key, value]) => `<div class="stat-tile"><small>${escapeHtml(key)}</small><strong>${escapeHtml(value)}</strong></div>`)
     .join("");
 
+  const specializationNames = (player.specializationDetails ?? [])
+    .map((entry) => entry.name ?? entry.type)
+    .filter(Boolean);
+
+  const fallbackSpecs = Object.entries(player.specializations ?? {})
+    .filter(([, ranks]) => Number(ranks) > 0)
+    .map(([type, ranks]) => ranks > 1 ? `${type} ×${ranks}` : type);
+
+  const specs = specializationNames.length ? specializationNames : fallbackSpecs;
+  const pathLabel = player.trainerPath
+    ? String(player.trainerPath).replaceAll("-", " ")
+    : "Non ancora scelta";
+
+  const hp = player.hp
+    ? `${escapeHtml(player.hp.current)}/${escapeHtml(player.hp.max)}`
+    : "—";
+
+  const conditions = (player.conditions ?? []).length
+    ? player.conditions.map(escapeHtml).join(" · ")
+    : "Nessuna";
+
   return `
     <div class="data-card">
-      <h3>${escapeHtml(player.name)} · Trainer Lv. ${player.trainerLevel}</h3>
+      <h3>${escapeHtml(player.name)} · Trainer Lv. ${escapeHtml(player.trainerLevel)}</h3>
+      <div class="data-row"><span>Classe</span><span>${escapeHtml(player.trainerClass ?? "Pokémon Trainer")}</span></div>
+      <div class="data-row"><span>Trainer Path</span><span>${escapeHtml(pathLabel)}</span></div>
+      <div class="data-row"><span>Specialization</span><span>${specs.map(escapeHtml).join(" · ") || "Da scegliere"}</span></div>
+      <div class="data-row"><span>HP</span><span>${hp}</span></div>
+      <div class="data-row"><span>AC</span><span>${escapeHtml(player.ac ?? "—")}</span></div>
+      <div class="data-row"><span>Pokéslots</span><span>${escapeHtml(player.pokeslots ?? "—")}</span></div>
+      <div class="data-row"><span>Max SR</span><span>${escapeHtml(player.maxSr ?? "—")}</span></div>
+    </div>
+    <div class="data-card">
+      <h3>Caratteristiche</h3>
       <div class="stat-grid">${stats}</div>
     </div>
     <div class="data-card">
-      <h3>Skills</h3>
-      <div>${(player.skills ?? []).map(escapeHtml).join(" · ") || "—"}</div>
+      <h3>Competenze</h3>
+      <div class="data-row"><span>Saving Throws</span><span>${(player.savingThrows ?? []).map(escapeHtml).join(" · ") || "—"}</span></div>
+      <div class="data-row"><span>Skills</span><span>${(player.skills ?? []).map(escapeHtml).join(" · ") || "—"}</span></div>
+      <div class="data-row"><span>Expertise</span><span>${(player.proficiencies?.expertise ?? []).map(escapeHtml).join(" · ") || "—"}</span></div>
+    </div>
+    <div class="data-card">
+      <h3>Feature e condizioni</h3>
+      <div class="data-row"><span>Feature</span><span>${(player.classFeatures ?? []).map(escapeHtml).join(" · ") || "—"}</span></div>
+      <div class="data-row"><span>Condizioni</span><span>${conditions}</span></div>
     </div>
   `;
 }
