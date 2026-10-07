@@ -54,7 +54,7 @@
         },
         {
           "id": "eligibility_audit",
-          "text": "Controllo lo stato E5 del Trial.",
+          "text": "Controllo la mia idoneità al Trial.",
           "goto": "eligibility_audit"
         },
         {
@@ -86,13 +86,13 @@
       "stitches": [
         {
           "id": "audit_1",
-          "text": "L'idoneità deve esistere nel subsystem E5, non soltanto come flag narrativo. Il checkpoint richiede Rank C e quattro Pokémon disponibili nel roster."
+          "text": "L'addetto controlla la tessera e la squadra. «Per il Trial C→B servono Rank C e almeno quattro Pokémon disponibili.»"
         }
       ],
       "choices": [
         {
           "id": "sync_trial_state",
-          "text": "Sincronizzo il checkpoint canonico C→B con E5.",
+          "text": "Presento tessera e squadra per il controllo.",
           "conditions": {
             "path": "competition.trials.RANK_C_TO_B.available",
             "ne": true
@@ -111,7 +111,7 @@
         },
         {
           "id": "audit_ready",
-          "text": "Il checkpoint E5 è già disponibile.",
+          "text": "L'idoneità è già stata confermata.",
           "conditions": {
             "path": "competition.trials.RANK_C_TO_B.available",
             "eq": true
@@ -163,7 +163,7 @@
       "stitches": [
         {
           "id": "desk_1",
-          "text": "Il banco legge lo stato E5 e il roster reale. Non crea quattro Pokémon narrativi e non considera punti o titoli come sostituti dell'idoneità."
+          "text": "Al banco controllano la tessera e i Pokémon realmente disponibili. Titoli e piazzamenti ottenuti altrove non sostituiscono i requisiti del Trial."
         }
       ],
       "choices": [
@@ -220,7 +220,7 @@
       "stitches": [
         {
           "id": "roster_1",
-          "text": "Il match userà i primi quattro membri del roster ufficiale secondo il contratto E5 corrente. Questa schermata non cura, non riordina e non modifica i Pokémon."
+          "text": "La scheda mostra i quattro Pokémon previsti per l'incontro. Il controllo non cura, non riordina e non modifica la squadra."
         }
       ],
       "choices": [
@@ -271,7 +271,7 @@
       "stitches": [
         {
           "id": "examiner_1",
-          "text": "Nerea Voss è personale di gate persistente dell'Arena del Molo. Il suo roster C→B è fisso per questa fascia: nessun rubber-banding invisibile dopo ogni tuo tentativo."
+          "text": "Nerea Voss è l'esaminatrice assegnata al Trial C→B. La sua squadra per questa fascia è già registrata e non cambia in base ai tuoi tentativi."
         }
       ],
       "choices": [
@@ -421,7 +421,7 @@
       "stitches": [
         {
           "id": "registered_1",
-          "text": "La registrazione E5 è attiva. Il Trial può iniziare ora o più tardi; lasciare l'Arena non cancella automaticamente la registrazione."
+          "text": "L'addetto timbra l'iscrizione. Puoi entrare nell'Arena adesso oppure tornare più tardi; lasciare l'edificio non annulla la registrazione."
         }
       ],
       "choices": [
@@ -461,7 +461,7 @@
       "stitches": [
         {
           "id": "attempt_1",
-          "text": "E5 conserva tentativi e miglior risultato. Una sconfitta precedente non viene cancellata da una nuova registrazione."
+          "text": "Sul registro restano anche gli eventuali tentativi precedenti. Una nuova iscrizione non cancella una sconfitta già avvenuta."
         }
       ],
       "choices": [

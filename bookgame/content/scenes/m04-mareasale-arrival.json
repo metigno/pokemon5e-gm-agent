@@ -464,7 +464,7 @@
         },
         {
           "id": "hub_after_league",
-          "text": "Rivedo le conseguenze di fine M4.",
+          "text": "Controllo ciò che resta da sistemare prima di lasciare Mareasale.",
           "conditions": {
             "any": [
               {
@@ -789,7 +789,7 @@
       "stitches": [
         {
           "id": "shop_1",
-          "text": "Il banco usa denaro e inventario persistenti. Nessun credito, nessun acquisto narrativo finto."
+          "text": "Il negoziante indica prezzi e quantità disponibili. Si paga subito e ciò che acquisti finisce direttamente nel tuo zaino."
         }
       ],
       "choices": [

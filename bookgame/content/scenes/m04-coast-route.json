@@ -987,13 +987,13 @@
       ]
     },
     "wild_combat_handoff": {
-      "text": "La scena passa al risolutore Pokémon 5e. La fauna costiera non viene catturata dalla narrazione: HP, condizioni, risorse e cattura dipendono solo dalle regole meccaniche."
+      "text": "Il Pokémon selvatico reagisce alla tua presenza e il confronto comincia."
     },
     "wild_win": {
       "stitches": [
         {
           "id": "wild_win_1",
-          "text": "Il confronto si chiude con il Pokémon selvatico sconfitto. Il risultato meccanico resta persistente e la costa non assegna ricompense artificiali."
+          "text": "Il Pokémon selvatico cede e il confronto termina. La costa torna a riempirsi del rumore del vento e dell'acqua."
         }
       ],
       "choices": [
@@ -1014,7 +1014,7 @@
       "stitches": [
         {
           "id": "wild_loss_1",
-          "text": "Il confronto finisce a tuo sfavore. HP, condizioni e altre conseguenze restano quelle prodotte dal resolver Pokémon 5e."
+          "text": "Il confronto finisce a tuo sfavore. La tua squadra porta con sé le conseguenze dello scontro mentre ti allontani."
         }
       ],
       "choices": [
@@ -1035,7 +1035,7 @@
       "stitches": [
         {
           "id": "wild_captured_1",
-          "text": "La cattura è riuscita secondo le regole Pokémon 5e. Il Pokémon entra nel roster persistente con il proprio stato reale; non era un premio garantito dalla scena."
+          "text": "La Poké Ball si chiude. La cattura riesce e il Pokémon entra a far parte dei Pokémon sotto la tua responsabilità nelle condizioni in cui hai concluso l'incontro."
         }
       ],
       "choices": [

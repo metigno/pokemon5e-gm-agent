@@ -38,7 +38,7 @@
       "stitches": [
         {
           "id": "board_1",
-          "text": "Il tabellone Upper Regional è una competizione opzionale vera. Ogni lotta entra nella cronologia E5; il piazzamento può diventare seeding/reputazione futura, ma non può sbloccare Rank B al posto del Promotion Trial."
+          "text": "L'Upper Regional è una competizione separata dal Trial di promozione. Il tabellone registra ogni incontro e il piazzamento può pesare sulla tua reputazione competitiva, ma non sostituisce la vittoria necessaria per ottenere il Rank B."
         }
       ],
       "choices": [
@@ -250,7 +250,7 @@
       "stitches": [
         {
           "id": "qf_handoff_1",
-          "text": "Il giudice chiama i roster ufficiali da quattro. Da qui l'esito appartiene al motore Pokémon 5e/E5."
+          "text": "Il giudice chiama i quattro Pokémon dichiarati da ciascun allenatore. Quando entrambi siete in posizione, dà il segnale d'inizio."
         }
       ],
       "choices": [
@@ -554,7 +554,7 @@
       "stitches": [
         {
           "id": "sf_handoff_1",
-          "text": "La semifinale passa al motore di combattimento ufficiale."
+          "text": "Il giudice richiama le squadre registrate per la semifinale e dà il segnale d'inizio."
         }
       ],
       "choices": [
@@ -841,7 +841,7 @@
       "stitches": [
         {
           "id": "final_handoff_1",
-          "text": "La finale passa interamente al motore Pokémon 5e/E5."
+          "text": "Per l'ultima volta il giudice controlla le squadre registrate. Il pubblico si abbassa di tono; poi arriva il segnale d'inizio."
         }
       ],
       "choices": [
@@ -1119,7 +1119,7 @@
       "stitches": [
         {
           "id": "withdrawn_1",
-          "text": "Il risultato persistente è `withdrew`. Non vengono creati match che non hai disputato."
+          "text": "Comunichi il ritiro prima dell'incontro successivo. Il tabellone registra la rinuncia e prosegue senza assegnarti una lotta che non hai disputato."
         }
       ],
       "choices": [
@@ -1134,7 +1134,7 @@
       "stitches": [
         {
           "id": "forfeit_1",
-          "text": "Il bracket registra la concessione come esito narrativo della partecipazione, senza falsificare un record E5 per una lotta mai iniziata."
+          "text": "La concessione viene registrata sul tabellone. Non compare alcun incontro disputato, perché la lotta non è mai iniziata."
         }
       ],
       "choices": [

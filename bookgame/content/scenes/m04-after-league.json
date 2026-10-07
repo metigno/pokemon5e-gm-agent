@@ -30,7 +30,7 @@
       "stitches": [
         {
           "id": "entry_1",
-          "text": "Mareasale non chiude M4 con una singola premiazione. Il riepilogo legge ciò che è davvero successo: risultato Upper Regional, stato della rete logistica, rapporto con Archie, Friend Beat e soprattutto il Rank strutturato."
+          "text": "Prima di lasciare Mareasale puoi ricostruire ciò che è davvero successo: l'Upper Regional, la pista logistica, Archie, l'ultimo incontro con uno dei Five e soprattutto il Rank che hai conquistato."
         }
       ],
       "choices": [
@@ -63,7 +63,7 @@
         },
         {
           "id": "review_friend",
-          "text": "Rivedo il FRIEND_BEAT_04.",
+          "text": "Ripenso all'ultimo incontro con uno dei Five.",
           "conditions": {
             "path": "world.flags.friend_beat_04_complete",
             "eq": true
@@ -77,7 +77,7 @@
         },
         {
           "id": "audit_exit",
-          "text": "Controllo se M4 può essere chiuso formalmente.",
+          "text": "Controllo se posso lasciare Mareasale.",
           "goto": "exit_audit"
         }
       ]
@@ -86,7 +86,7 @@
       "stitches": [
         {
           "id": "upper_1",
-          "text": "Il risultato del circuito opzionale resta distinto dalla promozione. Vincitore, finalista, eliminato, ritirato, forfait o skipped sono tutti esiti persistenti validi se derivano da ciò che hai realmente fatto."
+          "text": "Il risultato dell'Upper Regional resta separato dalla promozione. Puoi aver vinto, raggiunto la finale, essere stato eliminato, esserti ritirato, aver concesso un incontro o non esserti iscritto affatto."
         }
       ],
       "choices": [
@@ -230,7 +230,7 @@
       "stitches": [
         {
           "id": "archie_1",
-          "text": "Archie resta una persona persistente, non un trofeo di modulo. Le differenze di principio, il contesto del porto e gli eventuali callback rimangono disponibili per il futuro."
+          "text": "Archie non è un trofeo da spuntare. Qualunque rapporto abbiate costruito, riprende la propria strada con le sue convinzioni e può tornare a incrociare la tua in futuro."
         }
       ],
       "choices": [
@@ -252,13 +252,13 @@
       "stitches": [
         {
           "id": "friend_1",
-          "text": "Il quarto Friend Beat conserva chi hai incontrato o chiamato, il tipo di contatto e il risultato. Non viene sostituito da un generico 'gli amici stanno bene'."
+          "text": "L'ultimo contatto con uno dei Five ha avuto un volto, un luogo e una conversazione precisa. Non viene ridotto a un generico messaggio di gruppo."
         }
       ],
       "choices": [
         {
           "id": "friend_record",
-          "text": "Conservo il beat per i callback futuri.",
+          "text": "Tengo a mente la conversazione e torno al riepilogo.",
           "goto": "after_entry",
           "effects": [
             {
@@ -274,13 +274,13 @@
       "stitches": [
         {
           "id": "rank_1",
-          "text": "Se sei Rank B, lo sei perché E5 ha registrato una vittoria nel checkpoint C→B. Se sei ancora C, nessun titolo, personaggio famoso o flag narrativo può aprire l'access band interregionale."
+          "text": "Se sulla tessera compare Rank B, lo hai ottenuto vincendo il Trial C→B. Titoli, conoscenze o piazzamenti in altre competizioni non possono sostituire quella prova."
         }
       ],
       "choices": [
         {
           "id": "rank_b_note",
-          "text": "Rank B è attivo: il prossimo modulo potrà consumarlo.",
+          "text": "Controllo le nuove autorizzazioni del Rank B.",
           "conditions": {
             "path": "competition.rank",
             "eq": "B"
@@ -315,13 +315,13 @@
       "stitches": [
         {
           "id": "audit_1",
-          "text": "M4 si chiude soltanto quando Rank B, Archie, FRIEND_BEAT_04, risultato Upper Regional e stato del contrabbando esistono tutti nello stato persistente. L'unlock M5 è una conseguenza di questo audit."
+          "text": "Prima della partenza controlli che non restino questioni indispensabili aperte: Rank B ottenuto, incontro con Archie, contatto con uno dei Five, esito dell'Upper Regional e conclusione della pista sul contrabbando."
         }
       ],
       "choices": [
         {
           "id": "complete_m4",
-          "text": "Tutti i requisiti sono soddisfatti: chiudo M4 e sblocco M5.",
+          "text": "È tutto sistemato. Preparo la partenza da Mareasale.",
           "conditions": {
             "all": [
               {
@@ -407,7 +407,7 @@
         },
         {
           "id": "missing_friend",
-          "text": "FRIEND_BEAT_04 non è ancora chiuso.",
+          "text": "Prima di partire, devo ancora sentire uno dei miei amici.",
           "conditions": {
             "path": "world.flags.friend_beat_04_complete",
             "ne": true
@@ -462,7 +462,7 @@
         },
         {
           "id": "missing_smuggling",
-          "text": "La pista logistica non ha ancora un esito persistente.",
+          "text": "Prima di partire, devo ancora chiarire come si è conclusa la pista logistica.",
           "conditions": {
             "path": "world.flags.smuggling_state",
             "exists": false
@@ -475,7 +475,7 @@
       "stitches": [
         {
           "id": "smug_missing_1",
-          "text": "Il thread può essere ancora attivo, non ancora aperto o vicino alla scadenza. L'audit non inventa un esito per chiudere il modulo."
+          "text": "La pista può essere ancora aperta, non essersi ancora presentata oppure essere vicina a una svolta. Non puoi darle una conclusione soltanto per poter partire."
         }
       ],
       "choices": [
@@ -520,13 +520,13 @@
       "stitches": [
         {
           "id": "complete_1",
-          "text": "M4 è formalmente completo. Il save conserva Rank B, stato dei Pokémon, inventario, denaro, risultati, relazioni, ecology e tutti i callback M1–M4. `m05_unlocked=true` apre ora il passaggio canonico verso M5 senza alterare lo stato persistente."
+          "text": "Con il Rank B sulla tessera e le questioni di Mareasale alle spalle, puoi proseguire. La squadra, ciò che possiedi, i risultati ottenuti e i rapporti costruiti viaggiano con te."
         }
       ],
       "choices": [
         {
           "id": "complete_m5",
-          "text": "Proseguo verso M5 mantenendo tutto lo stato della carriera.",
+          "text": "Parto verso la prossima tappa della carriera.",
           "goto": "m05-handoff#m05_entry",
           "effects": [
             {
@@ -537,7 +537,7 @@
         },
         {
           "id": "complete_hub",
-          "text": "Resto a Mareasale con M5 sbloccato.",
+          "text": "Resto ancora un po' a Mareasale.",
           "goto": "m04-mareasale-arrival#city_hub",
           "effects": [
             {

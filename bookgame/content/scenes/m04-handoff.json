@@ -30,17 +30,17 @@
         },
         {
           "id": "m3_state_intact",
-          "text": "Ferrox, Steven, FRIEND_BEAT_03, Regional Cup, competition history, roster, HP, PP, condizioni, inventario, denaro, EXP, relazioni e tentativi del Trial D→C restano esattamente nello stato raggiunto in M3."
+          "text": "Ferravia resta alle tue spalle senza essere cancellata: il rapporto Ferrox, Steven, l'ultimo incontro con uno dei Five, la Coppa Regionale e il risultato del Trial fanno ormai parte del tuo percorso. La squadra e ciò che porti con te sono esattamente nelle condizioni in cui li hai lasciati."
         },
         {
           "id": "coast_not_auto_started",
-          "text": "M4 non apre automaticamente Archie, contrabbando, Upper Regional o Trial C→B. Il mare e il porto esistono già; gli eventi diventano rilevanti solo quando tempo, luogo e stato li rendono plausibili."
+          "text": "Davanti a te c'è Mareasale. Archie, le voci sul contrabbando, l'Upper Regional e il Trial C→B non ti aspettano in fila: porto, mare e Circuito seguono i propri tempi."
         }
       ],
       "choices": [
         {
           "id": "activate_m4",
-          "text": "Registro ufficialmente l'apertura della fascia Rank C e avvio M4.",
+          "text": "Ritiro la tessera aggiornata e controllo le destinazioni del Rank C.",
           "conditions": {
             "path": "world.flags.m4_active",
             "ne": true
@@ -56,7 +56,7 @@
         },
         {
           "id": "m4_already_active",
-          "text": "M4 è già attivo. Rivedo la fascia Rank C.",
+          "text": "Controllo di nuovo le destinazioni consentite dal Rank C.",
           "conditions": {
             "path": "world.flags.m4_active",
             "eq": true
@@ -73,7 +73,7 @@
         },
         {
           "id": "band_2",
-          "text": "Rank C amplia il circuito competitivo ma non sostituisce la geografia: Arena del Molo, registrazioni upper-regional e Trial C→B saranno servizi separati, con stato E5 proprio."
+          "text": "Il Rank C amplia anche le opportunità competitive. All'Arena del Molo, iscrizioni all'Upper Regional e Trial C→B restano attività distinte, ciascuna con le proprie regole."
         },
         {
           "id": "band_3",
@@ -106,7 +106,7 @@
         },
         {
           "id": "review_m3_state",
-          "text": "Rileggo ciò che M3 porta davvero nella nuova fascia.",
+          "text": "Prima di partire, controllo le ultime notizie da Ferravia.",
           "goto": "m3_carryover"
         },
         {
@@ -120,11 +120,11 @@
       "stitches": [
         {
           "id": "carry_1",
-          "text": "Il riepilogo legge lo stato reale: esito Ferrox, eventuale piazzamento nella Regional Cup, relazione con Steven, FRIEND_BEAT_03 e risultato del Trial D→C. Nessuno di questi elementi viene normalizzato in un percorso 'canonico' unico."
+          "text": "Le notizie che porti con te dipendono da ciò che hai davvero vissuto: Ferrox, l'eventuale Coppa Regionale, Steven, i tuoi amici e il Trial D→C non hanno avuto lo stesso esito per forza."
         },
         {
           "id": "carry_2",
-          "text": "Se una parte opzionale di M3 non è stata vista, M4 non finge che sia successa. Se è stata vista, resta disponibile soltanto dove un callback ha senso causale."
+          "text": "Ciò che non hai vissuto non compare improvvisamente nei racconti degli altri. Ciò che invece è successo può ancora avere conseguenze quando persone e luoghi coinvolti tornano a incrociare la tua strada."
         }
       ],
       "choices": [
