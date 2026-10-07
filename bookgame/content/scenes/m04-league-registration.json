@@ -164,7 +164,7 @@
         },
         {
           "id": "calendar_decline",
-          "text": "Rinuncio all'upper-regional per questa finestra.",
+          "text": "Rinuncio al torneo regionale per questa finestra.",
           "conditions": {
             "path": "world.flags.upper_regional_registration_complete",
             "ne": true
@@ -177,7 +177,7 @@
       "stitches": [
         {
           "id": "closed_1",
-          "text": "L'orario del banco è finito. Aspettare non è una scorciatoia: il tempo deve davvero avanzare e, con esso, quest, meteo, schedule e altri eventi."
+          "text": "L'orario del banco è finito. Per riaprirlo dovrà passare davvero del tempo; nel frattempo il meteo, le persone e le altre situazioni della città continueranno a cambiare."
         }
       ],
       "choices": [
