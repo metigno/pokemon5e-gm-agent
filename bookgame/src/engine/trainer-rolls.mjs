@@ -3,7 +3,7 @@ import { proficiencyBonus } from "./state.mjs";
 const ABILITIES=new Set(["STR","DEX","CON","INT","WIS","CHA"]);
 function actorTrainer(state,actor={kind:"player"}){
  if(actor.kind==="player") return state.player;
- if(actor.kind==="npc"){const npc=state.npcs?.[actor.id];if(!npc)throw new Error("Unknown NPC Trainer: "+actor.id);return npc.trainer;}
+ if(actor.kind==="npc"){const npc=state.npcs?.[actor.id];if(!npc)throw new Error("Unknown NPC Trainer: "+actor.id);return {...npc.trainer,abilities:npc.trainer?.abilities??npc.abilities};}
  throw new Error("Unknown Trainer actor kind: "+actor.kind);
 }
 function mod(score){return Math.floor((Number(score??10)-10)/2);}
@@ -23,8 +23,8 @@ export function trainerCheckModifier(state,{actor={kind:"player"},ability,skill=
 export function resolveTrainerCheck(state,{actor={kind:"player"},ability,skill=null,dc=null,advantage=false,disadvantage=false,dice}){
  if(!dice?.roll) throw new Error("Trainer check requires dice");
  const mode=advantage===disadvantage?"normal":advantage?"advantage":"disadvantage";
- const m=trainerCheckModifier(state,{actor,ability,skill}); const rolled=d20(dice,mode); const total=rolled.natural+m.modifier;
- return {...rolled,mode,ability:String(ability).toUpperCase(),skill,modifier:m.modifier,total,dc:Number.isFinite(dc)?dc:null,passed:Number.isFinite(dc)?total>=dc:null};
+ const m=trainerCheckModifier(state,{actor,ability,skill}); const rolled=d20(dice,mode); const total=rolled.natural+m.modifier; const sign=m.modifier>=0?"+":"";
+ return {...rolled,mode,ability:String(ability).toUpperCase(),skill,modifier:m.modifier,total,notation:`d20${sign}${m.modifier}=${total}`,dc:Number.isFinite(dc)?dc:null,passed:Number.isFinite(dc)?total>=dc:null};
 }
 export function trainerSavingThrowModifier(state,{actor={kind:"player"},ability}){
  const t=actorTrainer(state,actor); const key=String(ability).toUpperCase();
@@ -35,6 +35,6 @@ export function trainerSavingThrowModifier(state,{actor={kind:"player"},ability}
 }
 export function resolveTrainerSavingThrow(state,{actor={kind:"player"},ability,dc=null,advantage=false,disadvantage=false,dice}){
  if(!dice?.roll) throw new Error("Trainer saving throw requires dice");
- const mode=advantage===disadvantage?"normal":advantage?"advantage":"disadvantage"; const m=trainerSavingThrowModifier(state,{actor,ability}); const rolled=d20(dice,mode); const total=rolled.natural+m.modifier;
- return {...rolled,mode,ability:String(ability).toUpperCase(),modifier:m.modifier,total,dc:Number.isFinite(dc)?dc:null,passed:Number.isFinite(dc)?total>=dc:null,proficient:m.proficient};
+ const mode=advantage===disadvantage?"normal":advantage?"advantage":"disadvantage"; const m=trainerSavingThrowModifier(state,{actor,ability}); const rolled=d20(dice,mode); const total=rolled.natural+m.modifier; const sign=m.modifier>=0?"+":"";
+ return {...rolled,mode,ability:String(ability).toUpperCase(),modifier:m.modifier,total,notation:`d20${sign}${m.modifier}=${total}`,dc:Number.isFinite(dc)?dc:null,passed:Number.isFinite(dc)?total>=dc:null,proficient:m.proficient};
 }
