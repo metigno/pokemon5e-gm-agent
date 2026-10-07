@@ -184,7 +184,11 @@ async function snapshot() {
       minuteOfDay: state.world.minuteOfDay,
       locationId: state.world.locationId
     },
-    trainerGameplay: trainerGameplayView(state, state.pending?.battle ?? null),
+    trainerGameplay: trainerGameplayView(
+      state,
+      state.pending?.battle ?? null,
+      state.pending?.battle?.pendingTrainerReaction ?? null
+    ),
     battle: await battleView()
   };
 }
@@ -254,6 +258,29 @@ async function handleApi(req, res, url) {
     });
     if (!outcome.used) return sendJson(res, 409, { ok: false, error: outcome.reason });
     await persist(engine.setCombatState(state, outcome.battle));
+    return sendJson(res, 200, await snapshot());
+  }
+
+  if (url.pathname === "/api/combat/trainer-reaction") {
+    await normalizeCombatFlow();
+    if (!state.pending?.battle?.pendingTrainerReaction) throw new Error("Nessuna reaction Trainer in attesa");
+    const pending = state.pending.battle.pendingTrainerReaction;
+    let battle = state.pending.battle;
+    if (body.useReaction) {
+      const outcome = usePlayerTrainerCombatFeature(state, battle, {
+        featureId: pending.featureId,
+        cost: body.cost == null ? null : Number(body.cost),
+        mode: pending.mode,
+        targetSide: pending.targetSide,
+        reactionContext: pending
+      });
+      if (!outcome.used) return sendJson(res, 409, { ok: false, error: outcome.reason });
+      battle = outcome.battle;
+    }
+    battle = await combatEngine.resolvePendingTrainerReaction(battle, {
+      useReaction: Boolean(body.useReaction)
+    });
+    await persist(engine.setCombatState(state, battle));
     return sendJson(res, 200, await snapshot());
   }
 
