@@ -108,6 +108,14 @@ test("M5_06 unresolved trace creates a persistent mystery layer without changing
   assert.deepEqual(s.player.roster,roster);
 });
 
+test("M5_06 completion remains traversable to the interregional handoff",async()=>{
+  const {engine}=await makeEngine();let s=legal();s.world.flags.fulgore_visited=true;s.story.sceneId="m05-ancient-trace";s.story.nodeId="trace_entry";
+  s=await engine.choose(s,"trace_leave");s=await engine.choose(s,"unresolved_layer");s=await engine.choose(s,"layer_complete");
+  let v=await engine.present(s);assert.equal(v.nodeId,"trace_close");assert.ok(v.choices.some(c=>c.id==="close_after"));
+  s=await engine.choose(s,"close_after");v=await engine.present(s);assert.equal(v.nodeId,"after_trace");assert.ok(v.choices.some(c=>c.id==="after_license"));
+  s=await engine.choose(s,"after_license");assert.equal(s.story.sceneId,"m05-interregional-license");assert.equal(s.story.nodeId,"license_entry");
+});
+
 test("M5_06 strong trace still records only an unexplained layer",async()=>{
   const {engine}=await makeEngine();let s=legal();s.world.flags.fulgore_visited=true;s.story.sceneId="m05-ancient-trace";s.story.nodeId="strong_trace";
   s=await engine.choose(s,"strong_layer");assert.equal(s.world.flags.ancient_mystery_layer_1,"convergent_ancient_trace");
