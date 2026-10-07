@@ -1,4 +1,5 @@
 import { isTrainerPath2024, trainerProgression2024 } from "../rules/trainer-2024.mjs";
+import { trainerCoreFeaturesAtLevel, trainerStartingInventory } from "../rules/trainer-class-2024-canon.mjs";
 
 function abilityModifier(score) { return Math.floor((Number(score ?? 10) - 10) / 2); }
 function npcMaxHp(level, abilities) { const con = abilityModifier(abilities?.CON); return Math.max(1, 6 + con + Math.max(0, level - 1) * Math.max(1, 4 + con)); }
@@ -13,9 +14,9 @@ function npcRuntimeFields(level, abilities = {}, state = {}) {
     savingThrows: structuredClone(state.savingThrows ?? ["CHA"]),
     equipment: structuredClone(state.equipment ?? []),
     trainerGear: structuredClone(state.trainerGear ?? []),
-    inventory: structuredClone(state.inventory ?? []),
+    inventory: structuredClone(state.inventory ?? trainerStartingInventory()),
     classResources: structuredClone(state.classResources ?? {}),
-    classFeatures: structuredClone(state.classFeatures ?? ["command-pokemon"]),
+    classFeatures: structuredClone(state.classFeatures ?? trainerCoreFeaturesAtLevel(level)),
     featureUsage: structuredClone(state.featureUsage ?? {}),
     conditions: structuredClone(state.conditions ?? []),
     persistentEffects: structuredClone(state.persistentEffects ?? []),
