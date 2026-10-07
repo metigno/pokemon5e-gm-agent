@@ -18,11 +18,11 @@
         },
         {
           "id": "arrival_choice",
-          "text": "Non ricevi una lista di cose da fare. La città è già in movimento e devi decidere dove entrare per primo."
+          "text": "Nessuno ti aspetta all'ingresso. Davanti a te la città continua a lavorare: puoi scegliere dove andare per primo."
         },
         {
           "id": "arrival_persistent",
-          "text": "Essere arrivato qui è già parte del tuo stato di viaggio: Valedarsena resta una destinazione conosciuta anche se decidi di voltarti subito."
+          "text": "Adesso conosci la strada fino a Valedarsena. Anche voltandoti subito, sapresti come tornarci."
         }
       ],
       "choices": [
@@ -210,7 +210,7 @@
       "stitches": [
         {
           "id": "board_noise",
-          "text": "La bacheca non è una lista congelata di missioni. I cartellini hanno orari, contatti e timbri: DISPONIBILE, PRESO, CHIUSO. Se lasci passare il tempo, qualcun altro può muoversi prima di te."
+          "text": "Sulla bacheca i cartellini portano orari, contatti e timbri: DISPONIBILE, PRESO, CHIUSO. Un addetto ne stacca uno appena arrivi; qualcuno ha già accettato quel lavoro."
         },
         {
           "id": "sera_board",
@@ -844,7 +844,7 @@
       "choices": [
         {
           "id": "friend_beat_01_arena",
-          "text": "Uno degli altri Five è davvero all'Arena: posso fermarmi a confrontarmi con lui.",
+          "text": "Tra i Trainer davanti all'Arena riconosco uno degli altri quattro.",
           "conditions": {
             "all": [
               {
@@ -1206,7 +1206,7 @@
       "choices": [
         {
           "id": "friend_beat_01",
-          "text": "Incrocio uno degli altri Five impegnato nel proprio programma in città.",
+          "text": "Tra la folla riconosco uno degli altri quattro, occupato per conto suo.",
           "conditions": {
             "all": [
               {
@@ -1485,7 +1485,7 @@
       "stitches": [
         {
           "id": "trial_registration_confirmed",
-          "text": "Il sistema accetta l'iscrizione al Promotion Trial F→E perché Rank e roster soddisfano davvero i requisiti. La registrazione resta attiva anche se esci dall'Arena per prepararti."
+          "text": "Il terminale conferma l'iscrizione al Promotion Trial F→E. Il tuo nome compare nell'elenco dei candidati."
         },
         {
           "id": "trial_battle_not_story_result",
@@ -1493,7 +1493,7 @@
         },
         {
           "id": "trial_no_forced_start",
-          "text": "Non sei costretto a iniziare subito la prova: puoi curarti, sistemare la squadra o continuare a muoverti nel mondo prima di tornare."
+          "text": "L'orario della prova resta aperto. Puoi allontanarti dall'Arena e tornare quando sei pronto."
         }
       ],
       "choices": [
@@ -1572,7 +1572,7 @@
         },
         {
           "id": "review",
-          "text": "Rileggo lo stato della registrazione.",
+          "text": "Controllo di nuovo la mia iscrizione.",
           "goto": "arena_front"
         }
       ]
@@ -1677,7 +1677,7 @@
       "stitches": [
         {
           "id": "official_loss",
-          "text": "Il tabellone registra la sconfitta nello storico ufficiale. A1_FIRST_OFFICIAL è comunque risolto: resti Rank F, non perdi accesso alle attività e puoi continuare a prepararti per il Promotion Trial."
+          "text": "Sul tabellone compare la sconfitta accanto al tuo nome. La licenza resta Rank F e le porte dell'Arena rimangono aperte."
         }
       ],
       "choices": [
@@ -1700,7 +1700,7 @@
         },
         {
           "id": "roster_capture",
-          "text": "Il secondo Pokémon entra nel roster solo se il resolver Pokémon 5e produce davvero un esito di cattura valido con specie, livello, HP, condizioni e risorse persistenti."
+          "text": "Per presentarti con un secondo Pokémon devi averlo davvero catturato e averlo ancora con te."
         },
         {
           "id": "roster_choice",
@@ -1911,11 +1911,11 @@
       "stitches": [
         {
           "id": "trial_win_recorded",
-          "text": "Il risultato viene registrato come vittoria del checkpoint RANK_F_TO_E. La licenza passa realmente al Rank E: non è un titolo narrativo né un flag parallelo."
+          "text": "Il terminale aggiorna la licenza. Dove prima compariva Rank F, adesso leggi Rank E."
         },
         {
           "id": "trial_win_persistence",
-          "text": "La promozione apre la fascia successiva senza ripulire ciò che hai lasciato dietro di te. Rapporti, lavori, fauna, cronologia competitiva, secondo Pokémon e conseguenze del mondo restano persistenti."
+          "text": "Fuori dall'Arena ritrovi la stessa città che hai lasciato prima della prova. Persone, lavori e strade non si sono azzerati per la tua promozione."
         },
         {
           "id": "trial_win_next_road",
@@ -1953,11 +1953,11 @@
         },
         {
           "id": "trial_loss_condition",
-          "text": "La squadra non viene ripristinata dalla scena. HP, PP e condizioni restano quelli prodotti dal combattimento finché non usi servizi o regole che li modificano davvero."
+          "text": "Quando lasci il campo, sui tuoi Pokémon restano la fatica e le conseguenze dello scontro. Se vuoi rimetterli in sesto, dovrai occupartene."
         },
         {
           "id": "trial_loss_world",
-          "text": "Fuori dal campo il mondo non torna indietro: lavori, relazioni, schedule, fauna e risultati precedenti conservano lo stato raggiunto."
+          "text": "Fuori dall'Arena ritrovi ciò che avevi lasciato: lavori conclusi o ancora aperti, persone già incontrate e strade già percorse."
         }
       ],
       "choices": [
@@ -2004,7 +2004,7 @@
       "stitches": [
         {
           "id": "rank_e_confirmed",
-          "text": "La licenza mostra Rank E. I contenuti della fascia precedente non vengono cancellati: puoi ancora muoverti nel mondo, ma ora la strada di progressione successiva è legalmente aperta."
+          "text": "La licenza mostra Rank E. Le vecchie strade restano accessibili, ma ora puoi presentarti anche dove prima il Rank F non bastava."
         },
         {
           "id": "m02_route",
@@ -2095,13 +2095,13 @@
       "stitches": [
         {
           "id": "m02_handoff_text",
-          "text": "M1 è formalmente chiuso con Rank E. Bosco Bruma è sbloccato come prossimo percorso; quando M02 viene caricato, deve ricevere lo stato carriera esistente senza reset."
+          "text": "Con il Rank E sulla licenza, compare una nuova destinazione tra quelle accessibili: Bosco Bruma."
         }
       ],
       "choices": [
         {
           "id": "return_city",
-          "text": "Per ora resto nel mondo di M1.",
+          "text": "Per ora resto ad Asteria.",
           "goto": "city_hub",
           "effects": [
             {
@@ -2124,7 +2124,7 @@
         },
         {
           "id": "rookie_budget",
-          "text": "Gli acquisti entrano nell'inventario persistente e le Poké Ball comprate qui sono le stesse che il combat core può consumare durante una cattura."
+          "text": "Il negoziante mette gli acquisti sul banco. Quello che compri qui finisce nello zaino e sarà quello che avrai davvero con te sulla strada."
         }
       ],
       "choices": [
@@ -2259,7 +2259,7 @@
         },
         {
           "id": "no_frozen_job",
-          "text": "Non ricevi credito né ricompense per un problema risolto senza di te. Resta soltanto l'informazione che il mondo ha continuato a muoversi."
+          "text": "Il cartellino della fattoria porta già il timbro PRESO. Il compenso andrà a chi ha accettato il lavoro."
         }
       ],
       "choices": [
@@ -2431,17 +2431,17 @@
       "stitches": [
         {
           "id": "promotion_is_valid",
-          "text": "La promozione a Rank E è già valida e non viene annullata. Però M1 non si chiude formalmente finché i beat obbligatori rimasti nel mondo non sono realmente avvenuti."
+          "text": "La licenza è già Rank E, ma prima di lasciare Asteria senti di avere ancora incontri e questioni aperte qui."
         },
         {
           "id": "no_fake_completion",
-          "text": "Il terminale non sostituisce eventi mancanti con flag narrativi: Blue deve essere stato introdotto, almeno un FRIEND_BEAT_01 deve essere concluso e le strade dei Five devono essersi realmente separate."
+          "text": "Ripensi alle persone incontrate dall'uscita del Campus. Alcuni incroci importanti devono ancora avvenire prima che questa prima tappa sia davvero alle spalle."
         }
       ],
       "choices": [
         {
           "id": "blue_pending",
-          "text": "Blue non è ancora stato introdotto: torno al free-roam e lascio che il suo incontro avvenga causalmente.",
+          "text": "C'è ancora qualcuno che non hai incrociato. Torni in città e continui a muoverti.",
           "conditions": {
             "path": "world.flags.blue_met",
             "ne": true
@@ -2471,7 +2471,7 @@
         },
         {
           "id": "split_pending",
-          "text": "Le schedule dei Five non si sono ancora separate: lascio scorrere il mondo e continuo la carriera.",
+          "text": "Le strade degli altri quattro non si sono ancora davvero separate dalla tua. Resti ad Asteria ancora un po'.",
           "conditions": {
             "path": "world.flags.friends_split",
             "ne": true
