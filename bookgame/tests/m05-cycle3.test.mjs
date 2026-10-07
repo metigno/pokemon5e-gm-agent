@@ -223,6 +223,12 @@ test("M5_14 closes M5 and unlocks M6 without resetting persistent state",async()
   assert.deepEqual(s.player.inventory,{poke_ball:7});
 });
 
+test("M5_14 completed handoff enters the real M6 entry without changing location",async()=>{
+  const {engine}=await makeEngine();let s=base();s.competition.rank="A";s.competition.rankOrder=5;s.world.flags.a5_masters_entry_available=true;s.world.flags.m5_module_outcome_available=true;s.story.sceneId="m05-module-outcome";s.story.nodeId="contract_audit";
+  s=await engine.choose(s,"audit_complete");s=await engine.choose(s,"complete_handoff");s=await engine.choose(s,"handoff_hub");
+  assert.equal(s.story.sceneId,"m06-handoff");assert.equal(s.story.nodeId,"m06_entry");assert.equal(s.world.locationId,"alt_town");assert.equal(s.world.flags.m5_complete,true);assert.equal(s.world.flags.m06_unlocked,true);
+});
+
 test("M5 final state survives save and reload",async()=>{
   let dir;try{
     dir=await mkdtemp(path.join(os.tmpdir(),"m5c3-"));const store=new SaveStore(dir);const {engine}=await makeEngine();
