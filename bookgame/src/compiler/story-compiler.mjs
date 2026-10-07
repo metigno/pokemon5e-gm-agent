@@ -312,10 +312,10 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
       const hasCombat = isObject(choice.combat);
       const hasEcology = isObject(choice.ecology);
       const hasGoto = typeof choice.goto === "string";
-      const modeCount = Number(hasCheck) + Number(hasCombat) + Number(hasEcology) + Number(hasGoto);
+      const modeCount = Number(hasCheck) + Number(hasSave) + Number(hasCombat) + Number(hasEcology) + Number(hasGoto);
 
       if (modeCount !== 1) {
-        errors.push(diag("TRANSITION_MODE", "Choice must use exactly one transition mode: goto, check, combat, or ecology", choiceAt));
+        errors.push(diag("TRANSITION_MODE", "Choice must use exactly one transition mode: goto, check, save, combat, or ecology", choiceAt));
         continue;
       }
 
@@ -408,6 +408,38 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
               if (!knownNodes.has(parsed.nodeId)) {
                 errors.push(diag("MISSING_TARGET", "Transition points to missing node: " + outcome.goto, outcomeAt + ".goto"));
               }
+            }
+            collectTarget(targets, outcome.goto, outcomeAt + ".goto", scene.id);
+          }
+        }
+        continue;
+      }
+
+      if (hasSave) {
+        const save = choice.save;
+        if (!ABILITIES.has(save.ability)) {
+          errors.push(diag("INVALID_ABILITY", "Unknown ability code: " + save.ability, choiceAt + ".save"));
+        }
+        if (!Number.isInteger(save.dc) || save.dc < 1) {
+          errors.push(diag("INVALID_DC", "save.dc must be a positive integer", choiceAt + ".save"));
+        }
+        if (!isObject(choice.outcomes)) {
+          errors.push(diag("INVALID_OUTCOMES", "Save choice requires outcomes", choiceAt));
+          continue;
+        }
+        for (const outcomeKey of ["success", "failure"]) {
+          const outcome = choice.outcomes[outcomeKey];
+          const outcomeAt = choiceAt + ".outcomes." + outcomeKey;
+          if (!isObject(outcome)) {
+            errors.push(diag("MISSING_OUTCOME", "Save requires " + outcomeKey + " outcome", outcomeAt));
+            continue;
+          }
+          validateEffects(outcome.effects, outcomeAt, errors);
+          if (validateTargetShape(outcome.goto, outcomeAt + ".goto", errors)) {
+            const parsed = parseTarget(outcome.goto, scene.id);
+            if (parsed.sceneId === scene.id) {
+              adjacency.get(nodeId).add(parsed.nodeId);
+              if (!knownNodes.has(parsed.nodeId)) errors.push(diag("MISSING_TARGET", "Transition points to missing node: " + outcome.goto, outcomeAt + ".goto"));
             }
             collectTarget(targets, outcome.goto, outcomeAt + ".goto", scene.id);
           }
