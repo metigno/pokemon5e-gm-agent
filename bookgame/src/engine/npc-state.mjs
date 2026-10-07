@@ -1,10 +1,12 @@
 import { isTrainerPath2024, trainerProgression2024 } from "../rules/trainer-2024.mjs";
 import { trainerCoreFeaturesAtLevel, trainerStartingInventory } from "../rules/trainer-class-2024-canon.mjs";
+import { trainerPathRuntime } from "../rules/trainer-path-runtime-2024.mjs";
 
 function abilityModifier(score) { return Math.floor((Number(score ?? 10) - 10) / 2); }
 function npcMaxHp(level, abilities) { const con = abilityModifier(abilities?.CON); return Math.max(1, 6 + con + Math.max(0, level - 1) * Math.max(1, 4 + con)); }
 function npcRuntimeFields(level, abilities = {}, state = {}) {
   const maxHp = npcMaxHp(level, abilities);
+  const pathRuntime = trainerPathRuntime(state.trainerPath, { level, abilities });
   return {
     hp: structuredClone(state.hp ?? { current: maxHp, max: maxHp }),
     ac: Number(state.ac ?? 10),
@@ -15,8 +17,8 @@ function npcRuntimeFields(level, abilities = {}, state = {}) {
     equipment: structuredClone(state.equipment ?? []),
     trainerGear: structuredClone(state.trainerGear ?? []),
     inventory: structuredClone(state.inventory ?? trainerStartingInventory()),
-    classResources: structuredClone(state.classResources ?? {}),
-    classFeatures: structuredClone(state.classFeatures ?? trainerCoreFeaturesAtLevel(level)),
+    classResources: structuredClone(state.classResources ?? pathRuntime.resources),
+    classFeatures: structuredClone(state.classFeatures ?? [...trainerCoreFeaturesAtLevel(level), ...pathRuntime.features]),
     featureUsage: structuredClone(state.featureUsage ?? {}),
     conditions: structuredClone(state.conditions ?? []),
     persistentEffects: structuredClone(state.persistentEffects ?? []),
