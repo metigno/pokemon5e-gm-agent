@@ -26,19 +26,19 @@
       "stitches": [
         {
           "id": "rank_d_registered",
-          "text": "Il Circuito Asteria aggiorna la tessera e conferma il Rank D. Sul nuovo pannello compaiono Cava Grigia, Ferravia e le Gallerie Ferrox, oltre alle destinazioni che avevi già ottenuto con i Rank precedenti."
+          "text": "Al banco del Circuito, l'addetto passa la tua tessera sul lettore. Una luce verde accompagna la nuova sigla: Rank D. Sul pannello delle partenze si accendono Cava Grigia, Ferravia e le Gallerie Ferrox, insieme alle destinazioni che conosci già."
         },
         {
           "id": "m2_history_intact",
-          "text": "Nel tuo zaino c'è ciò che avevi prima di partire; la squadra porta ancora addosso fatica, ferite e condizioni rimaste dal viaggio. Anche a Borgo Salice e Valedarsena le persone continuano a ricordare ciò che hai fatto."
+          "text": "Il cambio di rango non rimette a nuovo né te né la squadra. Nello zaino c'è quello che hai portato fin qui; fatica, ferite e condizioni non svaniscono davanti a un timbro. A Borgo Salice e Valedarsena, intanto, ciò che hai fatto continua ad avere conseguenze."
         },
         {
           "id": "world_still_moving",
-          "text": "Mentre consulti le nuove destinazioni, gli altri allenatori continuano a muoversi e i tabelloni vengono aggiornati. Da qualche parte nella stessa regione viaggia anche Steven Stone, ma nessun annuncio dice che le vostre strade debbano incrociarsi oggi."
+          "text": "Alle tue spalle il banco continua a chiamare numeri e i tabelloni cambiano partenze. Gli altri allenatori hanno le proprie strade. Tra i nomi che circolano nella regione c'è anche Steven Stone, ma nessun itinerario promette che il suo incroci il tuo."
         },
         {
           "id": "no_premature_m3",
-          "text": "Per ora il pannello mostra soltanto le nuove tratte autorizzate. Ferrox continua a lavorare, la Coppa Regionale segue il proprio calendario e l'Arena di Ferravia mantiene aperte le sue normali attività."
+          "text": "Per ora hai soltanto nuove strade davanti. Ferrox continua i suoi turni, la Coppa Regionale segue il calendario affisso all'Arena e Ferravia lavora come ogni altro giorno."
         }
       ],
       "choices": [
@@ -73,15 +73,15 @@
       "stitches": [
         {
           "id": "band_summary",
-          "text": "La tessera Rank D viene accettata sui collegamenti verso Cava Grigia, Ferravia e le Gallerie Ferrox. Ogni tratta ha i propri orari e tempi di viaggio; nessuna destinazione è dietro l'angolo."
+          "text": "La tessera Rank D apre i collegamenti per Cava Grigia, Ferravia e le Gallerie Ferrox. Accanto a ogni destinazione sono indicati partenza e durata: il territorio che si apre davanti a te richiede tempo per essere attraversato."
         },
         {
           "id": "available_destinations",
-          "text": "Da qui puoi orientarti verso Cava Grigia per vedere il primo paesaggio industriale della regione, oppure restare a Borgo Salice e Valedarsena per chiudere thread aperti, allenarti, usare servizi e consolidare la squadra prima di spingere oltre."
+          "text": "Cava Grigia è la prima deviazione verso l'interno industriale. In alternativa puoi restare a Valedarsena o tornare a Borgo Salice: allenamento, servizi e faccende lasciate aperte non spariscono solo perché sulla tessera è comparsa una lettera nuova."
         },
         {
           "id": "callbacks_available",
-          "text": "Sul territorio restano anche le conseguenze del tuo passaggio precedente: la situazione nel Bosco Bruma, i rapporti costruiti a Borgo Salice, gli incontri avuti lungo la strada e i risultati registrati dal Circuito."
+          "text": "Le notizie dai luoghi già attraversati continuano ad arrivare. Bosco Bruma, Borgo Salice, gli incontri lungo la strada e i risultati ufficiali conservano le conseguenze che hai lasciato dietro di te."
         }
       ],
       "choices": [
@@ -110,7 +110,7 @@
         },
         {
           "id": "back_to_borgo_d",
-          "text": "Torno a Borgo Salice per chiudere o rivedere thread della fascia precedente.",
+          "text": "Torno a Borgo Salice per rivedere ciò che ho lasciato in sospeso.",
           "timeCostMinutes": 210,
           "goto": "m02-borgo-salice#borough_hub",
           "effects": [
@@ -122,7 +122,7 @@
         },
         {
           "id": "review_m2_summary",
-          "text": "Prima di partire, controllo le notizie arrivate da Borgo Salice.",
+          "text": "Prima di partire, controllo le ultime notizie da Borgo Salice.",
           "goto": "m2_summary"
         }
       ]
@@ -131,19 +131,19 @@
       "stitches": [
         {
           "id": "summary_header",
-          "text": "Il sistema offre un riepilogo di lettura — non una ri-attribuzione di premi — su ciò che la fascia Rank E ha prodotto nella tua run. È uno specchio dello stato, non un canone imposto."
+          "text": "Sul pannello laterale scorrono le ultime notizie da Borgo Salice e dai territori della fascia precedente. Non sono premi nuovi: è semplicemente ciò che è successo dopo il tuo passaggio."
         },
         {
           "id": "summary_network",
-          "text": "Dal Bosco Bruma arrivano notizie coerenti con ciò che hai lasciato dietro di te: pattuglie più tranquille dove la rete è stata spezzata, controlli ancora tesi dove il problema è rimasto aperto, oppure interventi condotti da altri mentre eri lontano."
+          "text": "Dal Bosco Bruma arrivano rapporti diversi a seconda di come hai lasciato la zona: pattuglie più tranquille dove il problema è stato contenuto, controlli ancora tesi dove è rimasto aperto, oppure notizie di interventi condotti da altri mentre eri altrove."
         },
         {
           "id": "summary_relations",
-          "text": "Se hai incontrato N, sai che potrebbe ricomparire lungo il viaggio senza seguirti come un compagno fisso. Anche i tuoi amici hanno ripreso le proprie strade: l'ultimo incontro non li ha messi in pausa."
+          "text": "Se hai incrociato N, sai soltanto che ha ripreso il proprio cammino. Lo stesso vale per i tuoi amici: l'ultima volta che li hai visti non li ha congelati in quel posto."
         },
         {
           "id": "summary_career",
-          "text": "Carriera: Rank D è attivo. Il Trial E→D è nella cronologia competitiva. Il Rookie Invitational, se disputato, è registrato con il suo risultato reale. Niente è stato ri-giocato dietro le quinte."
+          "text": "La tessera mostra Rank D. Nel registro del Circuito rimane il risultato del Trial E→D e, se hai partecipato al Rookie Invitational, anche quello compare esattamente come si è concluso."
         }
       ],
       "choices": [
