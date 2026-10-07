@@ -144,6 +144,21 @@
           ]
         },
         {
+          "id": "hub_fulgore_gate",
+          "text": "Raggiungo il controllo per l'Altopiano Fulgore.",
+          "conditions": {
+            "path": "world.flags.m5_fulgore_departure_ready",
+            "eq": true
+          },
+          "goto": "m05-fulgore-ascent#ascent_gate",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "alt_town_gate"
+            }
+          ]
+        },
+        {
           "id": "hub_lance",
           "text": "Cerco il trainer drago di cui stanno parlando.",
           "conditions": {
