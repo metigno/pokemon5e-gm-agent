@@ -18,9 +18,23 @@ import { processWorldEvents } from "./world-events.mjs";
 import { applyCompetitionEffect, beginCompetitionMatch, prepareWorldGroupMatch, prepareWorldKnockoutMatch, resolveCompetitionMatch } from "./competition-state.mjs";
 import { recordWildEncounter, selectOrdinaryEncounter } from "./ecology.mjs";
 import { applyPurchaseItem, ensureSceneShops } from "./shop-state.mjs";
+import { applyFriendCareerModuleMilestone, FRIEND_CAREER_MODULE_MILESTONES } from "./npc-career-scheduler.mjs";
 
 function clone(value) {
   return structuredClone(value);
+}
+
+const FRIEND_CAREER_ACQUISITION_LEVELS = Object.freeze({ 2: 6, 3: 8, 4: 9, 5: 10, 6: 11 });
+
+function applyFriendCareerProgressionForScene(state, scene) {
+  const moduleId = scene?.moduleId;
+  if (!FRIEND_CAREER_MODULE_MILESTONES[moduleId]) return;
+  const pokemonLevels = {};
+  for (const [name, npc] of Object.entries(state.npcs ?? {})) {
+    if (!npc?.canonicalCareer) continue;
+    pokemonLevels[name] = { ...FRIEND_CAREER_ACQUISITION_LEVELS };
+  }
+  applyFriendCareerModuleMilestone(state, moduleId, { pokemonLevels });
 }
 
 function applyEffects(state, effects = []) {
@@ -230,6 +244,7 @@ export class BookgameEngine {
     const next = clone(state);
     refreshNpcSchedules(next);
     const scene = await this.scenes.load(next.story.sceneId);
+    applyFriendCareerProgressionForScene(next, scene);
     ensureSceneShops(next, scene.shops);
     const node = scene.nodes[next.story.nodeId];
     if (!node) throw new Error(`Unknown node: ${next.story.nodeId}`);
