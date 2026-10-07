@@ -2084,6 +2084,7 @@ export class Pokemon5eCombatEngine {
       opponent,
       opponentBench,
       opponentRegistered: Boolean(handoff.opponentRegistered),
+      playerKnowledge: clone(handoff.playerKnowledge ?? { default: 0, active: 0, bench: 0 }),
       sanctioned: Boolean(handoff.sanctioned),
       flee: {
         lastAttemptRound: null,
