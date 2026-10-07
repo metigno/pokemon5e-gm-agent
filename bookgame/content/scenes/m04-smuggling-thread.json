@@ -34,7 +34,7 @@
       "stitches": [
         {
           "id": "entry_1",
-          "text": "Le anomalie non sono più soltanto un'impressione: il tuo stato registra quanto forte sia il segnale, ma la finestra operativa è reale. Se aspetti troppo, chi usa i punti deboli del porto può cambiare rotta senza di te."
+          "text": "Le anomalie non sono più soltanto un'impressione. Hai appunti, orari e discrepanze di qualità diversa, ma la finestra per verificarli è reale: se aspetti troppo, chi sfrutta i punti deboli del porto può cambiare rotta."
         },
         {
           "id": "entry_2",
@@ -155,7 +155,7 @@
       "stitches": [
         {
           "id": "signal_1",
-          "text": "La classificazione non cambia da sola: strong significa più fonti convergenti; partial significa anomalie vere ma incomplete; low significa vulnerabilità del sistema senza una pista affidabile."
+          "text": "Rileggi ciò che hai raccolto. Più fonti indipendenti possono sostenersi a vicenda; poche anomalie isolate restano incomplete; semplici vulnerabilità procedurali, da sole, non bastano a indicare una pista affidabile."
         }
       ],
       "choices": [
