@@ -6549,12 +6549,15 @@ export class Pokemon5eCombatEngine {
         ...context,
         restrained:
           Boolean(context.restrained) ||
-          hasActiveSource(next.opponent.effects?.restrainedSources ?? [], next.round)
+          hasActiveSource(next.opponent.effects?.restrainedSources ?? [], next.round),
+        trainerFeatureAdvantage: (next.trainerEffects?.captureAdvantage?.usesRemaining ?? 0) > 0
       },
       dice: this.dice
     });
 
     if (!result.legal) return { battle: next, result };
+
+    if ((next.trainerEffects?.captureAdvantage?.usesRemaining ?? 0) > 0) next.trainerEffects.captureAdvantage.usesRemaining -= 1;
 
     next.trainer.inventory.splice(inventoryIndex, 1);
     next.trainer.actionAvailable = false;
