@@ -30,10 +30,6 @@
       {
         "path": "world.flags.a5_trace_available",
         "eq": true
-      },
-      {
-        "path": "world.flags.m5_ancient_trace_complete",
-        "ne": true
       }
     ]
   },
