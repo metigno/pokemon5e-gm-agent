@@ -292,7 +292,7 @@
       "stitches": [
         {
           "id": "local_work",
-          "text": "Per un'ora aiuti a spostare segnaletica temporanea, liberare un corridoio vicino all'acqua e coordinare due passaggi con i lavoratori. È manutenzione, non una boss fight."
+          "text": "Per un'ora aiuti a spostare segnaletica temporanea, liberare un corridoio vicino all'acqua e coordinare due passaggi con i lavoratori. Elio lavora quasi sempre in silenzio e interviene solo quando vede qualcosa che può spaventare la fauna."
         },
         {
           "id": "partial_only",
@@ -351,7 +351,7 @@
         },
         {
           "id": "no_punishment",
-          "text": "Non c'è una punizione personale per non esserti occupato del problema. Semplicemente, non hai il merito di interventi fatti da altri."
+          "text": "Elio scorre i rapporti già firmati. «Non potevano aspettare te. Hanno fatto quello che serviva.» Non c'è rimprovero nel tono, solo il resoconto di ciò che è successo."
         }
       ],
       "choices": [
@@ -370,7 +370,7 @@
         },
         {
           "id": "no_unearned_credit",
-          "text": "Il caso locale risulta chiuso dall'intervento collettivo. Il tuo stato non registra ricompense o reputazione per un lavoro che non hai svolto."
+          "text": "Sul rapporto finale compaiono i nomi dei ranger e dei lavoratori intervenuti. Il tuo non c'è: quel lavoro lo hanno fatto loro."
         }
       ],
       "choices": [
