@@ -12,6 +12,12 @@ import { SaveStore } from "../src/engine/save-store.mjs";
 import { createNewGameState, EXPERIENCE_NEEDED_PER_LEVEL } from "../src/engine/state.mjs";
 import { applyPlayerEvolution, playerEvolutionOptions } from "../src/engine/player-evolution.mjs";
 import {
+  applyPokemonAsiChoice,
+  learnPokemonMove,
+  resolvePendingPokemonLevelUp,
+  resolvePokemonMoveReplacement
+} from "../src/engine/pokemon-progression.mjs";
+import {
   setTrainerGearEquipped,
   trainerGameplayView,
   usePlayerTrainerCombatFeature
@@ -220,6 +226,30 @@ async function pokemonRosterView() {
   }));
 }
 
+function rosterPokemon(rosterIndex) {
+  const index = Number(rosterIndex);
+  if (!Number.isInteger(index) || index < 0) throw new Error("Indice Pokémon non valido");
+  const roster = state?.player?.roster;
+  if (!Array.isArray(roster) || !roster[index]) throw new Error("Pokémon non trovato nel roster");
+  return { index, pokemon: roster[index] };
+}
+
+async function persistRosterPokemon(index, pokemon) {
+  const next = structuredClone(state);
+  next.player.roster[index] = structuredClone(pokemon);
+  if (index === 0 && next.player.starter) next.player.starter = structuredClone(pokemon);
+  await persist(next);
+}
+
+function pokemonProgressionContext() {
+  return {
+    inventory: structuredClone(state.player.inventory ?? []),
+    money: Number(state.player.money ?? 0),
+    timeOfDay: state.world?.time,
+    world: structuredClone(state.world ?? {})
+  };
+}
+
 async function evolutionView() {
   if (!state) return [];
   return playerEvolutionOptions(state);
@@ -339,6 +369,60 @@ async function handleApi(req, res, url) {
       },
       snapshot: await snapshot()
     });
+  }
+
+  if (url.pathname === "/api/pokemon/level-up") {
+    const { index, pokemon } = rosterPokemon(body.rosterIndex);
+    const context = pokemonProgressionContext();
+    const result = await resolvePendingPokemonLevelUp(pokemon, {
+      evolutionId: body.evolutionId == null || body.evolutionId === "" ? null : String(body.evolutionId),
+      declineEvolution: Boolean(body.declineEvolution),
+      asiDistribution: body.asiDistribution ?? null,
+      context,
+      data: poke5eData
+    });
+    if (result.status === "choice_required" && result.choice?.type === "evolution_asi") {
+      return sendJson(res, 200, { ok: true, progression: result, snapshot: await snapshot() });
+    }
+    await persistRosterPokemon(index, result.pokemon);
+    if (result.context) {
+      state.player.inventory = structuredClone(result.context.inventory ?? state.player.inventory ?? []);
+      state.player.money = Number(result.context.money ?? state.player.money ?? 0);
+      await persist(state);
+    }
+    return sendJson(res, 200, { ok: true, progression: result, snapshot: await snapshot() });
+  }
+
+  if (url.pathname === "/api/pokemon/learn-move") {
+    const { index, pokemon } = rosterPokemon(body.rosterIndex);
+    const moveId = String(body.moveId ?? "");
+    if (!moveId) throw new Error("Move id richiesto");
+    const next = learnPokemonMove(pokemon, moveId, {
+      forgetMoveId: body.forgetMoveId == null || body.forgetMoveId === "" ? null : String(body.forgetMoveId)
+    });
+    await persistRosterPokemon(index, next);
+    return sendJson(res, 200, await snapshot());
+  }
+
+  if (url.pathname === "/api/pokemon/replace-move") {
+    const { index, pokemon } = rosterPokemon(body.rosterIndex);
+    const level = Number(body.level);
+    const moveId = String(body.moveId ?? "");
+    if (!Number.isInteger(level) || !moveId) throw new Error("Livello e move id richiesti");
+    const next = resolvePokemonMoveReplacement(pokemon, level, moveId, {
+      forgetMoveId: body.forgetMoveId == null || body.forgetMoveId === "" ? null : String(body.forgetMoveId)
+    });
+    await persistRosterPokemon(index, next);
+    return sendJson(res, 200, await snapshot());
+  }
+
+  if (url.pathname === "/api/pokemon/asi") {
+    const { index, pokemon } = rosterPokemon(body.rosterIndex);
+    const level = Number(body.level);
+    if (!Number.isInteger(level)) throw new Error("Livello ASI richiesto");
+    const next = applyPokemonAsiChoice(pokemon, level, body.distribution ?? {});
+    await persistRosterPokemon(index, next);
+    return sendJson(res, 200, await snapshot());
   }
 
   if (url.pathname === "/api/trainer/gear") {
