@@ -737,6 +737,24 @@
       ],
       "choices": [
         {
+          "id": "wingull_engage",
+          "text": "Porto avanti il mio Pokémon e provo a ingaggiare Wingull senza inseguirlo fuori dal suo habitat.",
+          "combat": {
+            "encounterId": "M4_WILD_WINGULL_001",
+            "opponent": {
+              "species": "Wingull",
+              "level": 8
+            },
+            "opponentRegistered": false,
+            "goto": "wild_combat_handoff",
+            "returnNodes": {
+              "win": "wild_win",
+              "lose": "wild_loss",
+              "captured": "wild_captured"
+            }
+          }
+        },
+        {
           "id": "wingull_back",
           "text": "Lo lascio proseguire e torno al percorso.",
           "goto": "coast_gate",
@@ -800,6 +818,24 @@
       ],
       "choices": [
         {
+          "id": "binacle_engage",
+          "text": "Porto avanti il mio Pokémon e provo a ingaggiare Binacle senza inseguirlo fuori dal suo habitat.",
+          "combat": {
+            "encounterId": "M4_WILD_BINACLE_001",
+            "opponent": {
+              "species": "Binacle",
+              "level": 8
+            },
+            "opponentRegistered": false,
+            "goto": "wild_combat_handoff",
+            "returnNodes": {
+              "win": "wild_win",
+              "lose": "wild_loss",
+              "captured": "wild_captured"
+            }
+          }
+        },
+        {
           "id": "binacle_back",
           "text": "Li lascio sulla roccia e torno al percorso.",
           "goto": "coast_gate",
@@ -842,6 +878,24 @@
       ],
       "choices": [
         {
+          "id": "krabby_engage",
+          "text": "Porto avanti il mio Pokémon e provo a ingaggiare Krabby senza inseguirlo fuori dal suo habitat.",
+          "combat": {
+            "encounterId": "M4_WILD_KRABBY_001",
+            "opponent": {
+              "species": "Krabby",
+              "level": 8
+            },
+            "opponentRegistered": false,
+            "goto": "wild_combat_handoff",
+            "returnNodes": {
+              "win": "wild_win",
+              "lose": "wild_loss",
+              "captured": "wild_captured"
+            }
+          }
+        },
+        {
           "id": "krabby_back",
           "text": "Lo lascio al suo percorso e torno alla costa.",
           "goto": "coast_gate",
@@ -862,6 +916,24 @@
         }
       ],
       "choices": [
+        {
+          "id": "tentacool_engage",
+          "text": "Porto avanti il mio Pokémon e provo a ingaggiare Tentacool senza inseguirlo fuori dal suo habitat.",
+          "combat": {
+            "encounterId": "M4_WILD_TENTACOOL_001",
+            "opponent": {
+              "species": "Tentacool",
+              "level": 8
+            },
+            "opponentRegistered": false,
+            "goto": "wild_combat_handoff",
+            "returnNodes": {
+              "win": "wild_win",
+              "lose": "wild_loss",
+              "captured": "wild_captured"
+            }
+          }
+        },
         {
           "id": "tentacool_back",
           "text": "Mantengo distanza e torno al percorso.",
@@ -884,8 +956,92 @@
       ],
       "choices": [
         {
+          "id": "chinchou_engage",
+          "text": "Porto avanti il mio Pokémon e provo a ingaggiare Chinchou senza inseguirlo fuori dal suo habitat.",
+          "combat": {
+            "encounterId": "M4_WILD_CHINCHOU_001",
+            "opponent": {
+              "species": "Chinchou",
+              "level": 8
+            },
+            "opponentRegistered": false,
+            "goto": "wild_combat_handoff",
+            "returnNodes": {
+              "win": "wild_win",
+              "lose": "wild_loss",
+              "captured": "wild_captured"
+            }
+          }
+        },
+        {
           "id": "chinchou_back",
           "text": "Non lo disturbo e torno al percorso.",
+          "goto": "coast_gate",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "sal_coast"
+            }
+          ]
+        }
+      ]
+    },
+    "wild_combat_handoff": {
+      "text": "La scena passa al risolutore Pokémon 5e. La fauna costiera non viene catturata dalla narrazione: HP, condizioni, risorse e cattura dipendono solo dalle regole meccaniche."
+    },
+    "wild_win": {
+      "stitches": [
+        {
+          "id": "wild_win_1",
+          "text": "Il confronto si chiude con il Pokémon selvatico sconfitto. Il risultato meccanico resta persistente e la costa non assegna ricompense artificiali."
+        }
+      ],
+      "choices": [
+        {
+          "id": "wild_win_back",
+          "text": "Torno al percorso costiero.",
+          "goto": "coast_gate",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "sal_coast"
+            }
+          ]
+        }
+      ]
+    },
+    "wild_loss": {
+      "stitches": [
+        {
+          "id": "wild_loss_1",
+          "text": "Il confronto finisce a tuo sfavore. HP, condizioni e altre conseguenze restano quelle prodotte dal resolver Pokémon 5e."
+        }
+      ],
+      "choices": [
+        {
+          "id": "wild_loss_back",
+          "text": "Quando posso muovermi di nuovo, torno al percorso.",
+          "goto": "coast_gate",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "sal_coast"
+            }
+          ]
+        }
+      ]
+    },
+    "wild_captured": {
+      "stitches": [
+        {
+          "id": "wild_captured_1",
+          "text": "La cattura è riuscita secondo le regole Pokémon 5e. Il Pokémon entra nel roster persistente con il proprio stato reale; non era un premio garantito dalla scena."
+        }
+      ],
+      "choices": [
+        {
+          "id": "wild_captured_back",
+          "text": "Torno al percorso costiero.",
           "goto": "coast_gate",
           "effects": [
             {
