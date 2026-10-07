@@ -20,7 +20,9 @@ export function chooseNpcTrainerReaction(battle,{trigger,neededBonus=1}={}){
  const candidate=candidates[0];
  if(candidate.featureId==="raise-your-defenses"){
   const max=Math.min(candidate.maxCost??1,Number(battle.opponentTrainer.classResources?.["tactical-points"]?.current??0));
-  const cost=Math.max(candidate.minCost??1,Math.min(max,Math.max(1,Math.ceil(neededBonus))));
+  const required=Math.max(1,Math.ceil(neededBonus));
+  if(required>max) return null;
+  const cost=Math.max(candidate.minCost??1,required);
   return {featureId:candidate.featureId,cost,mode:trigger==="incoming_save"?"save":"ac"};
  }
  return {featureId:candidate.featureId};
