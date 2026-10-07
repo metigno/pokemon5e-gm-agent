@@ -41,7 +41,7 @@ export function chooseNpcTurnPlan({legalMoves=[],bench=[],active,target,knowledg
  const healthy=bench.map((pokemon,index)=>({pokemon,index})).filter(x=>x.pokemon?.hp?.current>0);
  if(profile.id!=="easy"&&healthy.length){
   const stayScore=scoreNpcStay(active,{knowledge});
-  const ranked=healthy.map(x=>({...x,score:scoreNpcSwitchCandidate(x.pokemon,{knowledge,active})})).sort((a,b)=>b.score-a.score||a.index-b.index);
+  const ranked=healthy.map(x=>({...x,score:scoreNpcSwitchCandidate(x.pokemon,{knowledge,active,bench})})).sort((a,b)=>b.score-a.score||a.index-b.index);
   const best=ranked[0];
   const margin=profile.id==="very-hard"?4:10;
   if(threat.score>=40&&best.score>=stayScore+margin) return {kind:"switch",benchIndex:best.index,reason:"switch_value",score:best.score,stayScore};
@@ -72,7 +72,7 @@ function setupValue(pokemon){
  const s=pokemon?.setup??{};
  return Math.max(0,Number(s.attack??0))*5+Math.max(0,Number(s.ac??0))*5+Math.max(0,Number(s.damage??0))*5;
 }
-export function scoreNpcSwitchCandidate(candidate,{knowledge=null,active=null}={}){
+export function scoreNpcSwitchCandidate(candidate,{knowledge=null,active=null,bench=[]}={}){
  if(!candidate?.hp?.max||candidate.hp.current<=0) return -Infinity;
  let score=50+(candidate.hp.current/candidate.hp.max)*25-statusPenalty(candidate.statuses);
  const revealed=knowledge?.revealedPlayerMoves??[];
@@ -86,10 +86,37 @@ export function scoreNpcSwitchCandidate(candidate,{knowledge=null,active=null}={
   else if(mult===2) score-=20;
  }
  score-=setupValue(active);
+ score-=reservePreservationCost(candidate,bench,{knowledge});
+ score+=continuationValue(candidate,{knowledge})*0.2;
  if(targetTypes.length&&candidate.types?.length) score+=0;
  return score;
 }
 export function scoreNpcStay(active,{knowledge=null}={}){
  if(!active?.hp?.max) return -Infinity;
  return 45+(active.hp.current/active.hp.max)*30+setupValue(active)-statusPenalty(active.statuses);
+}
+
+export function continuationValue(pokemon,{knowledge=null}={}){
+ if(!pokemon?.hp?.max||pokemon.hp.current<=0) return 0;
+ const hpRatio=pokemon.hp.current/pokemon.hp.max;
+ let value=hpRatio*35+Math.min(20,Number(pokemon.level??1));
+ value-=statusPenalty(pokemon.statuses);
+ const revealed=knowledge?.revealedPlayerMoves??[];
+ let defensiveEdge=0;
+ for(const move of revealed){
+  const type=typeof move==="object"?move.type:null;
+  if(!type) continue;
+  const mult=typeMultiplier(type,pokemon.types??[]);
+  if(mult===0) defensiveEdge=Math.max(defensiveEdge,18);
+  else if(mult===0.5) defensiveEdge=Math.max(defensiveEdge,10);
+  else if(mult===2) defensiveEdge=Math.min(defensiveEdge,-12);
+ }
+ return Math.max(0,value+defensiveEdge);
+}
+export function reservePreservationCost(candidate,bench,{knowledge=null}={}){
+ const values=(bench??[]).filter(p=>p?.hp?.current>0).map(p=>continuationValue(p,{knowledge}));
+ if(!values.length) return 0;
+ const best=Math.max(...values);
+ const own=continuationValue(candidate,{knowledge});
+ return own>=best&&values.length>1?12:0;
 }
