@@ -29,6 +29,10 @@ function legal(){
 
 test("M5_04 compiles at 15 nodes and 34 choices",async()=>{const {bundle}=await makeEngine();const s=bundle.scenes["m05-weather-decisions"];assert.equal(Object.keys(s.nodes).length,15);assert.equal(Object.values(s.nodes).reduce((n,node)=>n+(node.choices?.length??0),0),34);});
 
+test("M5_04 departure cannot be confirmed without a route plan",async()=>{
+  const {engine}=await makeEngine();let s=legal();s=await engine.choose(s,"read_morning");s=await engine.choose(s,"morning_assess");s=await engine.choose(s,"clear_gate");const v=await engine.present(s);assert.equal(v.choices.some(c=>c.id==="gate_confirm"),false);assert.ok(v.choices.some(c=>c.id==="gate_cancel"));
+});
+
 test("M5_04 morning exposes only the morning window",async()=>{
   const {engine}=await makeEngine();const v=await engine.present(legal());assert.ok(v.choices.some(c=>c.id==="read_morning"));assert.equal(v.choices.some(c=>c.id==="read_afternoon"),false);assert.equal(v.choices.some(c=>c.id==="read_evening"),false);assert.equal(v.choices.some(c=>c.id==="read_night"),false);
 });
