@@ -1,5 +1,6 @@
 import { trainerProgression2024 } from "../rules/trainer-2024.mjs";
 import { experienceNeededAtLevel } from "./state.mjs";
+import { moduleTrainerLevelCap, normalizeModuleId } from "./module-progression-guard.mjs";
 
 export const TRAINER_PATHS = Object.freeze([
   ["ace-trainer","Ace Trainer"],["hobbyist","Hobbyist"],["poke-mentor","Poké Mentor"],
@@ -107,6 +108,8 @@ export function applyTrainerProgressionEffect(state,effect){
   if(!Number.isInteger(effect.level)||effect.level<1||effect.level>20) throw new RangeError("trainer_milestone_level requires level 1..20");
   if(typeof effect.milestoneId!=="string"||effect.milestoneId.length===0) throw new Error("trainer_milestone_level requires milestoneId");
   const progression=ensureProgression(state);
+  const moduleId=normalizeModuleId(effect.moduleId??effect.milestoneId);
+  if(moduleId&&effect.level>moduleTrainerLevelCap(moduleId)) throw new RangeError(`Trainer milestone ${effect.milestoneId} requests level ${effect.level} above ${moduleId} cap ${moduleTrainerLevelCap(moduleId)}`);
   if(effect.level>progression.targetLevel){
     progression.targetLevel=effect.level;
     progression.targetMilestoneId=effect.milestoneId;
