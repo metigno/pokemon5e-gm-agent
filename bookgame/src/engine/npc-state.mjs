@@ -1,3 +1,4 @@
+import { isTrainerPath2024, trainerProgression2024 } from "../rules/trainer-2024.mjs";
 import { ensureWorldClock } from "./time.mjs";
 
 export const RELATIONSHIP_STATES = ["Hostile", "Distrustful", "Neutral", "Friendly", "Loyal"];
@@ -7,17 +8,11 @@ const ID_RE = /^[A-Za-z0-9_-]+$/;
 export function createTrainerRulesState({ trainerLevel = 1, specializations = [], trainerPath = null } = {}) {
   if (!Number.isInteger(trainerLevel) || trainerLevel < 1) throw new RangeError("NPC Trainer level must be >= 1");
   if (!Array.isArray(specializations)) throw new TypeError("NPC Trainer specializations must be an array");
-  if (trainerLevel < 2 && trainerPath !== null) throw new Error("Pokemon 5e Trainer Path cannot be assigned before level 2");
-  return {
-    ruleset: "2024",
-    trainerClass: "Trainer",
-    trainerLevel,
-    trainerPath,
-    specializations: structuredClone(specializations),
-    proficiencyBonus: 2 + Math.floor((trainerLevel - 1) / 4),
-    pokeslots: trainerLevel >= 15 ? 6 : trainerLevel >= 10 ? 5 : trainerLevel >= 5 ? 4 : 3,
-    maxSr: trainerLevel >= 17 ? 15 : trainerLevel >= 14 ? 14 : trainerLevel >= 11 ? 12 : trainerLevel >= 8 ? 10 : trainerLevel >= 6 ? 8 : trainerLevel >= 3 ? 5 : 2
-  };
+  const progression=trainerProgression2024(trainerLevel);
+  if (!progression.pathAvailable && trainerPath !== null) throw new Error("Pokemon 5e Trainer Path cannot be assigned before level 2");
+  if (trainerPath !== null && !isTrainerPath2024(trainerPath)) throw new Error("Unknown Pokemon 5e 2024 Trainer Path: "+trainerPath);
+  if (specializations.length > progression.specializationCount) throw new Error("Too many specializations for Trainer level "+trainerLevel);
+  return { ruleset:"2024",trainerClass:"Trainer",trainerLevel,trainerPath,specializations:structuredClone(specializations),...progression };
 }
 
 
