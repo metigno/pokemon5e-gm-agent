@@ -100,3 +100,38 @@ export function runNpcTrainerTurnFeatures({ battle, trainer, dice }) {
   }
   return { battle, trainer, used };
 }
+
+
+export function useNpcRaiseYourDefensesReaction({ battle, trainer, targetSide = "opponent", cost = 1 }) {
+  if (!trainer || battle.outcome || battle.awaitingSwitch) return { battle, trainer, used: false, reason: "combat_unavailable" };
+  if (!knows(trainer, "raise-your-defenses")) return { battle, trainer, used: false, reason: "feature_not_known" };
+  if (!resourceAvailable(trainer, "tactical-points", cost)) return { battle, trainer, used: false, reason: "insufficient_resource" };
+  if (!trainer.reactionAvailable) return { battle, trainer, used: false, reason: "reaction_spent" };
+
+  const state = featureState(trainer);
+  const result = executeTrainerFeature(state, {
+    actor: { kind: "npc", id: "opponent" },
+    featureId: "raise-your-defenses",
+    cost,
+    mode: "ac"
+  });
+  if (!result.used) return { battle, trainer, used: false, result };
+
+  applyTrainerCombatEffect(battle, {
+    side: "opponent",
+    targetSide,
+    featureResult: result,
+    mode: "ac"
+  });
+  trainer.reactionAvailable = false;
+  battle.log.push({
+    type: "npc_trainer_ai_reaction",
+    round: battle.round,
+    actor: "opponent_trainer",
+    featureId: "raise-your-defenses",
+    trigger: "targeted_by_attack",
+    targetSide,
+    cost
+  });
+  return { battle, trainer, used: true, result };
+}

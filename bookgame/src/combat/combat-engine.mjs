@@ -1,6 +1,6 @@
 import { attemptCapture } from "./capture.mjs";
 import { chooseForcedOpponentReplacement } from "./forced-switch-ai.mjs";
-import { runNpcTrainerTurnFeatures } from "./npc-trainer-ai.mjs";
+import { runNpcTrainerTurnFeatures, useNpcRaiseYourDefensesReaction } from "./npc-trainer-ai.mjs";
 import { applyItemToPokemon, findInventoryItemIndex } from "./item-rules.mjs";
 import {
   canonicalReactionTrigger,
@@ -2078,7 +2078,7 @@ export class Pokemon5eCombatEngine {
         opponent: opponentInitiative
       },
       trainer: normalizeTrainer(handoff.trainer, handoff.trainerPosition),
-      opponentTrainer: handoff.opponentTrainer ? clone(handoff.opponentTrainer) : null,
+      opponentTrainer: handoff.opponentTrainer ? normalizeTrainer(handoff.opponentTrainer, handoff.opponentTrainerPosition ?? { x: 5, y: 0 }) : null,
       player,
       playerBench,
       opponent,
@@ -5283,6 +5283,20 @@ export class Pokemon5eCombatEngine {
       }
     }
     attacker.turn[slot] = false;
+
+    if (
+      side === "player" &&
+      move.attack &&
+      move.dice?.type === "damage" &&
+      next.opponentTrainer
+    ) {
+      useNpcRaiseYourDefensesReaction({
+        battle: next,
+        trainer: next.opponentTrainer,
+        targetSide: "opponent",
+        cost: 1
+      });
+    }
 
     let intimidateUsed = false;
     if (
