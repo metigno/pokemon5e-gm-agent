@@ -450,6 +450,78 @@ async function completeCanonicalM1(engine, start) {
   return state;
 }
 
+async function completeCanonicalM2(engine, start) {
+  let state = structuredClone(start);
+
+  const milestones = [
+    {
+      label: "M2 meet N",
+      goal: (s) => s.world.flags.n_met === true,
+      combatPolicy: "win",
+      maxExpansions: 3500
+    },
+    {
+      label: "M2 open local problem",
+      goal: (s) => s.world.flags.local_problem_started === true,
+      combatPolicy: "win",
+      maxExpansions: 4500
+    },
+    {
+      label: "M2 Friend Beat 02",
+      goal: (s) => s.world.flags.friend_beat_02_complete === true,
+      combatPolicy: "win",
+      maxExpansions: 5000
+    },
+    {
+      label: "M2 third Pokémon",
+      goal: (s) => (s.player.roster?.length ?? 0) >= 3,
+      combatPolicy: "branch",
+      maxExpansions: 4500
+    },
+    {
+      label: "M2 intervene in poaching network",
+      goal: (s) => s.world.flags.poaching_network_state === "intervened",
+      combatPolicy: "win",
+      maxExpansions: 5000
+    },
+    {
+      label: "M2 network outcome",
+      goal: (s) => s.world.flags.network_outcome_complete === true,
+      combatPolicy: "win",
+      maxExpansions: 4500
+    },
+    {
+      label: "M2 Promotion Trial and exit",
+      goal: (s) => s.world.flags.m2_complete === true,
+      combatPolicy: "win",
+      maxExpansions: 5000
+    }
+  ];
+
+  for (const milestone of milestones) {
+    if (milestone.goal(state)) continue;
+    state = await searchTo({
+      engine,
+      start: state,
+      goal: milestone.goal,
+      label: milestone.label,
+      route: "champion",
+      combatPolicy: milestone.combatPolicy,
+      maxExpansions: milestone.maxExpansions
+    });
+  }
+
+  assert.equal(state.world.flags.n_met, true);
+  assert.equal(state.world.flags.local_problem_started, true);
+  assert.equal(state.world.flags.friend_beat_02_complete, true);
+  assert.ok((state.player.roster?.length ?? 0) >= 3);
+  assert.equal(state.world.flags.network_outcome_complete, true);
+  assert.equal(state.competition.rank, "D");
+  assert.equal(state.world.flags.m2_complete, true);
+  assert.equal(state.world.flags.m03_unlocked, true);
+  return state;
+}
+
 async function persistReload(store, state, slot, label) {
   const saved = structuredClone(state);
   saved.slot = slot;
@@ -482,7 +554,10 @@ test("RC persistent E2E traverses real authored M1→M12 and all three World out
     common = await completeCanonicalM1(engine, common);
     common = await persistReload(store, common, "rc-lineage", "M1");
 
-    for (let module = 2; module <= 6; module += 1) {
+    common = await completeCanonicalM2(engine, common);
+    common = await persistReload(store, common, "rc-lineage", "M2");
+
+    for (let module = 3; module <= 6; module += 1) {
       common = await searchTo({
         engine,
         start: common,
