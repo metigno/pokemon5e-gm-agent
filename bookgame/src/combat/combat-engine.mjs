@@ -2077,6 +2077,7 @@ export class Pokemon5eCombatEngine {
       },
       trainer: normalizeTrainer(handoff.trainer, handoff.trainerPosition),
       opponentTrainer: normalizeTrainer(handoff.opponentTrainer ?? {}, handoff.opponentTrainerPosition ?? { x: 5, y: 0 }),
+      opponentTrainerId: handoff.opponentTrainerId ?? null,
       player,
       playerBench,
       opponent,
