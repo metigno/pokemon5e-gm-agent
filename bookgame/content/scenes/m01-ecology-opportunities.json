@@ -39,6 +39,30 @@
     "gin_wooloo": {
       "stitches": [
         {
+          "id": "intro_wooloo_help_echo",
+          "conditions": {
+            "path": "world.flags.intro_field_solution",
+            "eq": "help"
+          },
+          "text": "Il modo in cui il gruppo si compatta ti ricorda il Wooloo del Campus: anche questo branco cerca spazio prima di tutto, non uno scontro."
+        },
+        {
+          "id": "intro_wooloo_wait_echo",
+          "conditions": {
+            "path": "world.flags.intro_field_solution",
+            "eq": "wait"
+          },
+          "text": "Riconosci qualcosa già visto al Campus: quando hanno una via libera, i Wooloo tendono a scegliere distanza e movimento prima dello scontro."
+        },
+        {
+          "id": "intro_wooloo_avoid_echo",
+          "conditions": {
+            "path": "world.flags.intro_field_solution",
+            "eq": "avoid"
+          },
+          "text": "Come al Campus, non hai bisogno di entrare nel loro spazio per proseguire. Il gruppo occupa una fascia d'erba; la strada resta libera poco più in là."
+        },
+        {
           "id": "wooloo_scene",
           "text": "Tre Wooloo avanzano lungo una fascia d'erba parallela alla strada, mangiando e spostandosi insieme. Quello più vicino si ferma quando nota il movimento del tuo Pokémon."
         },
@@ -249,7 +273,7 @@
       ]
     },
     "wild_combat_handoff": {
-      "text": "La scena passa al risolutore Pokémon 5e. Danni, AC, HP, PP, condizioni, movimento e cattura vengono determinati soltanto dalle regole meccaniche."
+      "text": "Il Pokémon selvatico reagisce alla tua avanzata. Il tuo Pokémon prende posizione e la distanza tra voi si chiude: da questo momento ogni colpo, movimento e tentativo di cattura conta."
     },
     "gin_peaceful_return": {
       "stitches": [
@@ -282,7 +306,7 @@
       ]
     },
     "gin_wild_win": {
-      "text": "Il confronto si chiude con il Pokémon selvatico fuori combattimento. Il risultato meccanico resta registrato; la strada continua.",
+      "text": "Il Pokémon selvatico non riesce più a continuare il confronto. Attorno a voi, il resto della fauna mantiene le distanze mentre la strada resta aperta.",
       "choices": [
         {
           "id": "back",
@@ -292,7 +316,7 @@
       ]
     },
     "gin_wild_loss": {
-      "text": "Il confronto si chiude a tuo sfavore. Le conseguenze meccaniche restano quelle prodotte dal combattimento; nessun testo le annulla.",
+      "text": "Il confronto gira a tuo sfavore. Quando riesci di nuovo a occuparti della strada, il Pokémon selvatico ha ripreso spazio e la zona resta tutt'altro che addomesticata.",
       "choices": [
         {
           "id": "back",
@@ -302,7 +326,7 @@
       ]
     },
     "gin_wild_captured": {
-      "text": "La cattura è riuscita secondo le regole Pokémon 5e. Il nuovo Pokémon entra nello stato persistente del roster; non era un premio garantito dalla scena.",
+      "text": "La Poké Ball si chiude e resta ferma. Il Pokémon che pochi minuti fa faceva parte della fauna di Ginestre adesso viaggia con te.",
       "choices": [
         {
           "id": "back",
