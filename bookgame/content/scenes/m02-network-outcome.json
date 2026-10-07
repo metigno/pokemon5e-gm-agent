@@ -7,12 +7,30 @@
   "entryNodeId": "network_outcome_review",
   "conditions": {
     "all": [
-      {"path": "world.flags.m1_complete", "eq": true},
-      {"path": "world.flags.m02_unlocked", "eq": true},
-      {"path": "world.flags.m2_active", "eq": true},
-      {"path": "competition.rank", "eq": "E"},
-      {"path": "world.flags.a2_network_outcome_available", "eq": true},
-      {"path": "world.flags.network_outcome_complete", "ne": true}
+      {
+        "path": "world.flags.m1_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m02_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m2_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "E"
+      },
+      {
+        "path": "world.flags.a2_network_outcome_available",
+        "eq": true
+      },
+      {
+        "path": "world.flags.network_outcome_complete",
+        "ne": true
+      }
     ]
   },
   "nodes": {
@@ -33,14 +51,27 @@
           "text": "L'operazione è stata effettivamente interrotta — c'è documentazione formale e Elio ha una traccia ufficiale.",
           "conditions": {
             "all": [
-              {"path": "world.flags.poaching_network_state", "eq": "intervened"},
-              {"path": "world.flags.crisis_ranger_alerted", "eq": true},
-              {"path": "world.flags.crisis_ranger_full_report", "eq": true}
+              {
+                "path": "world.flags.poaching_network_state",
+                "eq": "intervened"
+              },
+              {
+                "path": "world.flags.crisis_ranger_alerted",
+                "eq": true
+              },
+              {
+                "path": "world.flags.crisis_ranger_full_report",
+                "eq": true
+              }
             ]
           },
           "goto": "outcome_context_resolved",
           "effects": [
-            {"type": "set_flag", "key": "poaching_network_state", "value": "resolved"}
+            {
+              "type": "set_flag",
+              "key": "poaching_network_state",
+              "value": "resolved"
+            }
           ]
         },
         {
@@ -50,18 +81,39 @@
             "all": [
               {
                 "any": [
-                  {"path": "world.flags.poaching_network_state", "eq": "intervened"},
-                  {"path": "world.flags.poaching_network_state", "eq": "investigating"},
-                  {"path": "world.flags.poaching_network_disrupted", "eq": true},
-                  {"path": "world.flags.crisis_ranger_alerted", "eq": true}
+                  {
+                    "path": "world.flags.poaching_network_state",
+                    "eq": "intervened"
+                  },
+                  {
+                    "path": "world.flags.poaching_network_state",
+                    "eq": "investigating"
+                  },
+                  {
+                    "path": "world.flags.poaching_network_disrupted",
+                    "eq": true
+                  },
+                  {
+                    "path": "world.flags.crisis_ranger_alerted",
+                    "eq": true
+                  }
                 ]
               },
               {
                 "not": {
                   "all": [
-                    {"path": "world.flags.poaching_network_state", "eq": "intervened"},
-                    {"path": "world.flags.crisis_ranger_alerted", "eq": true},
-                    {"path": "world.flags.crisis_ranger_full_report", "eq": true}
+                    {
+                      "path": "world.flags.poaching_network_state",
+                      "eq": "intervened"
+                    },
+                    {
+                      "path": "world.flags.crisis_ranger_alerted",
+                      "eq": true
+                    },
+                    {
+                      "path": "world.flags.crisis_ranger_full_report",
+                      "eq": true
+                    }
                   ]
                 }
               }
@@ -69,7 +121,11 @@
           },
           "goto": "outcome_context_partial",
           "effects": [
-            {"type": "set_flag", "key": "poaching_network_state", "value": "partial"}
+            {
+              "type": "set_flag",
+              "key": "poaching_network_state",
+              "value": "partial"
+            }
           ]
         },
         {
@@ -77,14 +133,29 @@
           "text": "Ho scelto di non intervenire direttamente — e il problema ha continuato a muoversi senza risposta.",
           "conditions": {
             "all": [
-              {"path": "world.flags.local_problem_ignored", "eq": true},
+              {
+                "path": "world.flags.local_problem_ignored",
+                "eq": true
+              },
               {
                 "not": {
                   "any": [
-                    {"path": "world.flags.poaching_network_state", "eq": "intervened"},
-                    {"path": "world.flags.poaching_network_state", "eq": "investigating"},
-                    {"path": "world.flags.poaching_network_disrupted", "eq": true},
-                    {"path": "world.flags.crisis_ranger_alerted", "eq": true}
+                    {
+                      "path": "world.flags.poaching_network_state",
+                      "eq": "intervened"
+                    },
+                    {
+                      "path": "world.flags.poaching_network_state",
+                      "eq": "investigating"
+                    },
+                    {
+                      "path": "world.flags.poaching_network_disrupted",
+                      "eq": true
+                    },
+                    {
+                      "path": "world.flags.crisis_ranger_alerted",
+                      "eq": true
+                    }
                   ]
                 }
               }
@@ -92,7 +163,11 @@
           },
           "goto": "outcome_context_escalated",
           "effects": [
-            {"type": "set_flag", "key": "poaching_network_state", "value": "escalated"}
+            {
+              "type": "set_flag",
+              "key": "poaching_network_state",
+              "value": "escalated"
+            }
           ]
         },
         {
@@ -100,14 +175,31 @@
           "text": "Non ho interagito in modo significativo con il problema — è rimasto aperto senza traccia mia nel sistema.",
           "conditions": {
             "all": [
-              {"not": {"path": "world.flags.local_problem_ignored", "eq": true}},
+              {
+                "not": {
+                  "path": "world.flags.local_problem_ignored",
+                  "eq": true
+                }
+              },
               {
                 "not": {
                   "any": [
-                    {"path": "world.flags.poaching_network_state", "eq": "intervened"},
-                    {"path": "world.flags.poaching_network_state", "eq": "investigating"},
-                    {"path": "world.flags.poaching_network_disrupted", "eq": true},
-                    {"path": "world.flags.crisis_ranger_alerted", "eq": true}
+                    {
+                      "path": "world.flags.poaching_network_state",
+                      "eq": "intervened"
+                    },
+                    {
+                      "path": "world.flags.poaching_network_state",
+                      "eq": "investigating"
+                    },
+                    {
+                      "path": "world.flags.poaching_network_disrupted",
+                      "eq": true
+                    },
+                    {
+                      "path": "world.flags.crisis_ranger_alerted",
+                      "eq": true
+                    }
                   ]
                 }
               }
@@ -115,12 +207,15 @@
           },
           "goto": "outcome_context_ignored",
           "effects": [
-            {"type": "set_flag", "key": "poaching_network_state", "value": "ignored"}
+            {
+              "type": "set_flag",
+              "key": "poaching_network_state",
+              "value": "ignored"
+            }
           ]
         }
       ]
     },
-
     "outcome_context_resolved": {
       "stitches": [
         {
@@ -151,7 +246,6 @@
         }
       ]
     },
-
     "outcome_n_impact_resolved": {
       "stitches": [
         {
@@ -178,7 +272,6 @@
         }
       ]
     },
-
     "outcome_ranger_debrief": {
       "stitches": [
         {
@@ -209,7 +302,6 @@
         }
       ]
     },
-
     "outcome_register_resolved": {
       "stitches": [
         {
@@ -225,7 +317,6 @@
         }
       ]
     },
-
     "outcome_context_partial": {
       "stitches": [
         {
@@ -256,7 +347,6 @@
         }
       ]
     },
-
     "outcome_partial_assess": {
       "stitches": [
         {
@@ -288,7 +378,6 @@
         }
       ]
     },
-
     "outcome_register_partial": {
       "stitches": [
         {
@@ -304,7 +393,6 @@
         }
       ]
     },
-
     "outcome_context_escalated": {
       "stitches": [
         {
@@ -335,7 +423,6 @@
         }
       ]
     },
-
     "outcome_escalated_assess": {
       "stitches": [
         {
@@ -367,7 +454,6 @@
         }
       ]
     },
-
     "outcome_register_escalated": {
       "stitches": [
         {
@@ -383,7 +469,6 @@
         }
       ]
     },
-
     "outcome_context_ignored": {
       "stitches": [
         {
@@ -413,7 +498,6 @@
         }
       ]
     },
-
     "outcome_ignored_assess": {
       "stitches": [
         {
@@ -445,7 +529,6 @@
         }
       ]
     },
-
     "outcome_register_ignored": {
       "stitches": [
         {
@@ -461,12 +544,11 @@
         }
       ]
     },
-
     "outcome_network_close": {
       "stitches": [
         {
           "id": "close_1",
-          "text": "Qualunque cosa sia successa nel Bosco Bruma — qualunque scelta tu abbia fatto o evitato — è adesso parte della storia di questo posto. E parte della tua. Quello che hai registrato oggi rimarrà come dato permanente per il resto di M2 e oltre."
+          "text": "Qualunque cosa sia successa nel Bosco Bruma, il posto ne porta ancora i segni. Alcuni sono evidenti, altri li conoscono soltanto i Ranger e le persone coinvolte. Anche le tue scelte fanno ormai parte di ciò che è accaduto qui."
         }
       ],
       "choices": [
@@ -475,9 +557,20 @@
           "text": "Torno al borgo.",
           "goto": "m02-borgo-salice#borough_hub",
           "effects": [
-            {"type": "set_flag", "key": "network_outcome_complete", "value": true},
-            {"type": "set_location", "locationId": "borgo_salice"},
-            {"type": "trainer_milestone_level", "milestoneId": "M02_NETWORK_OUTCOME", "level": 4}
+            {
+              "type": "set_flag",
+              "key": "network_outcome_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            },
+            {
+              "type": "trainer_milestone_level",
+              "milestoneId": "M02_NETWORK_OUTCOME",
+              "level": 4
+            }
           ]
         }
       ]
