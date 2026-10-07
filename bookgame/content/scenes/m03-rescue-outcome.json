@@ -34,7 +34,7 @@
       "stitches": [
         {
           "id": "outcome_1",
-          "text": "Il rapporto Ferrox arriva quando le squadre hanno finito di contare persone, sezioni isolate e danni verificati. Questa è la prima volta in M3 in cui il gioco può trasformare il tuo rescue state in un bilancio complessivo."
+          "text": "Il rapporto Ferrox arriva quando le squadre hanno finito di contare persone, sezioni isolate e danni verificati. Il quadro finale mette insieme ciò che è successo dentro e fuori dalle gallerie."
         },
         {
           "id": "outcome_2",
@@ -557,7 +557,7 @@
       "stitches": [
         {
           "id": "rep_1",
-          "text": "Ferravia non possiede ancora un subsystem di reputazione separato nel runtime. M3 registra quindi soltanto un esito qualitativo locale, senza inventare punti reputazione o un nuovo effect type."
+          "text": "A Ferravia il tuo nome circola soprattutto tra chi ha lavorato all'emergenza. Il tono cambia in base a ciò che hai fatto: riconoscenza, rispetto prudente o semplice distanza professionale."
         }
       ],
       "choices": [
@@ -627,7 +627,7 @@
       "stitches": [
         {
           "id": "close_1",
-          "text": "Il bilancio Ferrox è ora persistente: persone, danni, responsabilità e riconoscimento locale possono essere letti dai moduli successivi senza riaprire l'incidente."
+          "text": "Il rapporto viene archiviato, ma le conseguenze restano visibili: persone coinvolte, danni, responsabilità e il modo in cui Ferravia parla dell'incidente."
         }
       ],
       "choices": [
@@ -710,7 +710,7 @@
       "stitches": [
         {
           "id": "access_consequence_1",
-          "text": "Finché il ramo nord non supera i nuovi controlli, alcune tratte tecniche restano chiuse. Questo non blocca il player in M3, ma diventa stato leggibile dai moduli successivi."
+          "text": "Finché il ramo nord non supera i nuovi controlli, alcune tratte tecniche restano chiuse. Le altre vie di Ferravia rimangono percorribili."
         }
       ],
       "choices": [
