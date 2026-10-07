@@ -20,6 +20,7 @@ function createRookieFriendNpc(name, playerName) {
     name,
     state: {
       trainerLevel: 1,
+      abilities: build.abilities,
       rankState: "F",
       teamStage: "rookie",
       starterSpecies: build.starter.species,
