@@ -2046,6 +2046,11 @@
               "type": "set_flag",
               "key": "m02_unlocked",
               "value": true
+            },
+            {
+              "type": "trainer_milestone_level",
+              "milestoneId": "M01_COMPLETE",
+              "level": 3
             }
           ]
         },
