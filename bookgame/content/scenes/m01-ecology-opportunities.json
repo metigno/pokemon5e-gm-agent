@@ -336,7 +336,7 @@
       ]
     },
     "farm_wild_win": {
-      "text": "Il confronto finisce senza che la narrazione sostituisca il risultato del resolver. Il Pokémon selvatico è stato sconfitto e la fattoria resta davanti a te.",
+      "text": "Il Pokémon selvatico rompe il confronto e si ritira verso il margine del pascolo. Gli animali della fattoria restano più lontani, inquieti per il rumore.",
       "choices": [
         {
           "id": "back",
@@ -346,7 +346,7 @@
       ]
     },
     "farm_wild_loss": {
-      "text": "Il confronto si chiude a tuo sfavore. HP, condizioni e altre conseguenze restano quelle determinate dal resolver Pokémon 5e.",
+      "text": "Devi arretrare. Il Pokémon selvatico non trasforma il vantaggio in un inseguimento: recupera spazio e resta libero di allontanarsi quando vuole.",
       "choices": [
         {
           "id": "back",
@@ -356,7 +356,7 @@
       ]
     },
     "farm_wild_captured": {
-      "text": "La cattura riesce soltanto perché il resolver Pokémon 5e l'ha resa valida. Il Pokémon viene aggiunto al roster persistente.",
+      "text": "La Poké Ball si chiude e resta ferma nell'erba. Oltre il recinto, gli animali della fattoria continuano a muoversi mentre il nuovo Pokémon resta con te.",
       "choices": [
         {
           "id": "back",
@@ -716,7 +716,7 @@
         },
         {
           "id": "val_pidgey_mechanical_gate",
-          "text": "Questa specie è valida nel catalogo ecologico, ma il combat pack offline M1 non espone ancora un set meccanico completo per ingaggiarla: l'incontro resta osservativo e non viene trasformato in una cattura fittizia."
+          "text": "Pidgey continua a beccare finché un rumore dalla strada lo fa irrigidire. Un attimo dopo è di nuovo sul cornicione, fuori portata."
         }
       ],
       "choices": [
@@ -739,7 +739,7 @@
         },
         {
           "id": "val_burmy_mechanical_gate",
-          "text": "Questa specie è valida nel catalogo ecologico, ma il combat pack offline M1 non espone ancora un set meccanico completo per ingaggiarla: l'incontro resta osservativo e non viene trasformato in una cattura fittizia."
+          "text": "Burmy si stringe al materiale che lo ricopre. Quando smetti di avvicinarti, torna quasi indistinguibile dalle foglie e dai detriti della struttura."
         }
       ],
       "choices": [
@@ -762,7 +762,7 @@
         },
         {
           "id": "val_tandemaus_mechanical_gate",
-          "text": "Tandemaus, invece, ha uno stat block Pokémon 5e M1 eseguibile nel combat pack locale: se scegli di ingaggiarlo, battaglia e cattura possono essere risolte davvero."
+          "text": "I due Tandemaus restano vicini e cercano insieme il passaggio più riparato. Se continui ad avanzare, dovrai confrontarti con loro come un unico incontro."
         }
       ],
       "choices": [
@@ -803,7 +803,7 @@
         },
         {
           "id": "val_purrloin_mechanical_gate",
-          "text": "Questa specie è valida nel catalogo ecologico, ma il combat pack offline M1 non espone ancora un set meccanico completo per ingaggiarla: l'incontro resta osservativo e non viene trasformato in una cattura fittizia."
+          "text": "Purrloin ti lascia avvicinare soltanto fino a una certa distanza. Poi sale con un balzo sul muro e scompare dall'altro lato prima che tu possa chiudergli la strada."
         }
       ],
       "choices": [
@@ -836,7 +836,7 @@
       ]
     },
     "val_wild_win": {
-      "text": "Il confronto si chiude con il Pokémon selvatico sconfitto. Nessuna vittoria lo aggiunge automaticamente al tuo roster.",
+      "text": "Il Pokémon selvatico cede terreno e interrompe il confronto. Le strade di Valedarsena restano aperte attorno a voi, indifferenti al risultato.",
       "choices": [
         {
           "id": "back",
@@ -852,7 +852,7 @@
       ]
     },
     "val_wild_loss": {
-      "text": "Il confronto si chiude a tuo sfavore. HP, PP, condizioni e altre conseguenze restano quelle prodotte dal resolver Pokémon 5e.",
+      "text": "Devi interrompere il confronto e occuparti del tuo Pokémon. Il selvatico sfrutta lo spazio che gli lasci e torna a muoversi per la città.",
       "choices": [
         {
           "id": "back",
@@ -868,7 +868,7 @@
       ]
     },
     "val_wild_captured": {
-      "text": "La cattura è valida perché il resolver Pokémon 5e l'ha realmente prodotta. Il Pokémon entra nel roster con il proprio stato persistente; la scena non concede nulla da sola.",
+      "text": "La Poké Ball si chiude e resta ferma. In mezzo ai rumori di Valedarsena, per un momento senti soltanto il piccolo scatto della cattura.",
       "choices": [
         {
           "id": "back",
