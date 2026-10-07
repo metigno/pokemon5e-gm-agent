@@ -102,8 +102,8 @@ export function createNewGameState({
       })
     },
     story: {
-      sceneId: "m01-release",
-      nodeId: "free_roam",
+      sceneId: "intro-m01",
+      nodeId: "trainer_specialization",
       history: []
     },
     pending: null,
@@ -128,8 +128,7 @@ export function completeTrainerCreation(state, { specialization } = {}) {
   next.player.characterCreation.complete = true;
   next.player.characterCreation.completed = ["specialization"];
   next.world.flags.character_creation_complete = true;
-  next.world.flags.intro_complete = true;
-  next.world.flags.free_roam = true;
+  next.world.flags.character_creation_complete = true;
   return next;
 }
 
