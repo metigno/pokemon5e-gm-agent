@@ -24,7 +24,7 @@
       "choices": [
         {
           "id": "friend_beat_01",
-          "text": "Incrocio uno degli altri Five che sta seguendo davvero questa strada.",
+          "text": "Riconosco uno degli altri quattro poco più avanti lungo la strada.",
           "conditions": {
             "all": [
               {
@@ -637,7 +637,7 @@
       ]
     },
     "houndour_captured_context": {
-      "text": "Houndour non è più una presenza irrisolta sulla strada: è nel tuo roster con lo stato reale lasciato dalla cattura. Questo può cambiare la preparazione della tua squadra, ma non decide dove devi andare adesso.",
+      "text": "La Poké Ball di Houndour è con te. Il tratto della pozzanghera, invece, è rimasto indietro.",
       "choices": [
         {
           "id": "back",
@@ -702,7 +702,7 @@
       ]
     },
     "houndour_fled_context": {
-      "text": "Houndour ha lasciato il tratto della pozzanghera. Non sai dove sia andato, ma sai che la sua posizione nel mondo è cambiata: non è corretto trattarlo come se fosse ancora fermo lì ad aspettarti.",
+      "text": "Alla pozzanghera non c'è più traccia di Houndour. Da qui non puoi sapere dove si sia spostato.",
       "choices": [
         {
           "id": "back",
@@ -719,7 +719,7 @@
       ]
     },
     "houndour_battle_context": {
-      "text": "Lo scontro ha modificato la situazione concreta: Houndour è stato scacciato oppure ha mantenuto il terreno. Il bivio non trasforma questo fatto in una penalità morale automatica.",
+      "text": "Il tratto alle tue spalle porta ancora i segni dello scontro con Houndour. Al bivio, però, le due strade restano aperte.",
       "choices": [
         {
           "id": "back",
@@ -858,7 +858,7 @@
       ]
     },
     "time_night": {
-      "text": "Di notte il bivio non scompare, ma diventa più quieto. Le luci lontane indicano ancora le due direzioni mentre attività e disponibilità del mondo cambiano con l'orario.",
+      "text": "Di notte il bivio è quasi vuoto. Alcune finestre della fattoria sono ancora accese; verso Valedarsena, le luci della costa segnano la strada.",
       "choices": [
         {
           "id": "back",
