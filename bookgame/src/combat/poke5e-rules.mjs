@@ -510,8 +510,9 @@ export function resolveAttack({
     { attribute: stats.attribute, move, target: defender }
   );
   const gutsBonus = gutsMeleeBonus(attacker, move);
-  const effectAttackModifier = activeEffectModifier(attacker.effects?.attackModifierSources ?? [], round);
-  const attackModifier = stats.toHit + extraAttackModifier + gutsBonus + effectAttackModifier;
+  // Effect sources are aggregated by combat-engine and passed as extraAttackModifier.
+  const effectAttackModifier = 0;
+  const attackModifier = stats.toHit + extraAttackModifier + gutsBonus;
   const attackTotal = attackRoll.natural + attackModifier + effectDiceBonus.total;
   const criticalRangeBonus = activeEffectModifier(
     attacker.effects?.criticalRangeBonusSources ?? [],
@@ -563,8 +564,9 @@ export function resolveAttack({
     advantage: damageRollHasAdvantage(attacker, move) || activeConditionalEffect(attacker.effects?.damageAdvantageSources ?? [], round, { move, target: defender }),
     disadvantage: damageHasDisadvantage(attacker)
   });
-  const effectDamageModifier = activeEffectModifier(attacker.effects?.damageModifierSources ?? [], round);
-  const effectiveDamageModifier = stats.damageModifier + gutsBonus + extraDamageModifier + effectDamageModifier;
+  // Effect sources are aggregated by combat-engine and passed as extraDamageModifier.
+  const effectDamageModifier = 0;
+  const effectiveDamageModifier = stats.damageModifier + gutsBonus + extraDamageModifier;
   const rawDamage = Math.max(0, damageRoll.selected.total + effectiveDamageModifier);
   const {
     multiplier,
