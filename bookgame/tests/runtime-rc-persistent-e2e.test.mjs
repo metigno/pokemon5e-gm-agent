@@ -945,6 +945,41 @@ async function completeCanonicalM4(engine, start) {
   return state;
 }
 
+async function completeCanonicalM5InterregionalLicense(engine, start) {
+  let state = structuredClone(start);
+  if (state.world.flags.interregional_license === true) return state;
+
+  if (!(state.story.sceneId === "m05-interregional-license" && state.story.nodeId === "license_entry")) {
+    state = await searchTo({
+      engine,
+      start: state,
+      goal: (s) => s.story.sceneId === "m05-interregional-license" && s.story.nodeId === "license_entry",
+      label: "M5 Interregional License entry",
+      route: "champion",
+      combatPolicy: "win",
+      maxExpansions: 1200
+    });
+  }
+
+  state = await requireChoice(engine, state, "entry_eligibility", "M5 license eligibility");
+  state = await requireChoice(engine, state, "eligible_register", "M5 license registration");
+  state = await requireChoice(engine, state, "register_now", "M5 license register");
+  state = await requireChoice(engine, state, "prep_assess", "M5 license assessment prep");
+  state = await requireChoice(engine, state, "assessment_begin", "M5 license assessment start");
+  state = await requireChoice(engine, state, "fight_assessment", "M5 license assessment combat");
+  assert.equal(state.pending?.competition?.matchId, "A5_INTERREGIONAL_ASSESSMENT");
+  state = resolveAutoplayCombat(engine, state, "win");
+  state = await requireChoice(engine, state, "win_record", "M5 license assessment result");
+  state = await requireChoice(engine, state, "result_issue", "M5 license issue review");
+  state = await requireChoice(engine, state, "issue_license", "M5 license issue");
+
+  assert.equal(state.world.flags.interregional_registration_complete, true);
+  assert.equal(state.world.flags.interregional_assessment_complete, true);
+  assert.equal(state.world.flags.interregional_license, true);
+  assert.equal(state.competition.rank, "B");
+  return state;
+}
+
 async function captureCanonicalM5FifthPokemon(engine, start) {
   let state = structuredClone(start);
   if ((state.player.roster?.length ?? 0) >= 5) return state;
@@ -1020,6 +1055,9 @@ async function completeCanonicalM5(engine, start) {
   ];
 
   for (const [label, goal, maxExpansions] of milestones) {
+    if (label === "M5 interregional license" && !goal(state)) {
+      state = await completeCanonicalM5InterregionalLicense(engine, state);
+    }
     if (label === "M5 fifth Pokémon" && !goal(state)) {
       state = await captureCanonicalM5FifthPokemon(engine, state);
     }
