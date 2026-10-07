@@ -38,7 +38,7 @@
         },
         {
           "id": "info_2",
-          "text": "Formato canonico: Singles, un esaminatore, roster ufficiale da quattro. Una sconfitta lascia Rank C e permette un nuovo tentativo."
+          "text": "L'addetta indica il regolamento: lotta in Singolo, un esaminatore e quattro Pokémon registrati per parte. Una sconfitta lascia invariato il Rank C; sarà possibile iscriversi a un nuovo tentativo."
         }
       ],
       "choices": [
@@ -135,7 +135,7 @@
       "choices": [
         {
           "id": "format_roster",
-          "text": "Controllo cosa significa roster ufficiale da quattro.",
+          "text": "Chiedo come funziona la registrazione dei quattro Pokémon.",
           "goto": "roster_review"
         },
         {
@@ -399,7 +399,7 @@
       "stitches": [
         {
           "id": "upper_1",
-          "text": "Il tuo piazzamento Upper Regional resta informazione utile, non un bonus nascosto. Vincere il bracket non abbassa la difficoltà; perderlo non aumenta il roster dell'esaminatrice."
+          "text": "Il tuo piazzamento nel torneo regionale resta nel record del Circuito, ma non modifica l'esame. Nerea userà lo stesso formato previsto per ogni candidato Rank C."
         }
       ],
       "choices": [
@@ -495,7 +495,7 @@
       "stitches": [
         {
           "id": "post_1",
-          "text": "Il gate resta aperto finché sei Rank C e il checkpoint è disponibile. Il mondo e gli altri thread continuano mentre rinvii."
+          "text": "Finché resti Rank C potrai tornare a iscriverti nelle finestre previste. Rinviare, però, non ferma il porto, gli altri Allenatori o le questioni che hai lasciato aperte."
         }
       ],
       "choices": [
