@@ -48,13 +48,13 @@ function addFriend(s,id,locationId="alt_town"){
   return s;
 }
 
-test("M5_05-M5_09 lock exactly 82 logical nodes and 183 meaningful choices",async()=>{
+test("M5_05-M5_09 lock 86 logical nodes and 189 choices with Fulgore capture",async()=>{
   const {bundle}=await makeEngine();
   const ids=["m05-fulgore-ascent","m05-ancient-trace","m05-interregional-license","m05-five-cross-again","m05-friend-beat-05"];
   const nodes=ids.reduce((n,id)=>n+Object.keys(bundle.scenes[id].nodes).length,0);
   const choices=ids.reduce((n,id)=>n+Object.values(bundle.scenes[id].nodes).reduce((s,node)=>s+(node.choices?.length??0),0),0);
-  assert.equal(nodes,82);
-  assert.equal(choices,183);
+  assert.equal(nodes,86);
+  assert.equal(choices,189);
 });
 
 test("M5 cycle-two canonical event windows compile",async()=>{
