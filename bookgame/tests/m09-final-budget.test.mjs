@@ -7,14 +7,14 @@ const all=[
   ["m09-groups-open",11,25],["m09-matchday-one",20,43],["m09-interday-one",13,30],
   ["m09-kaia-thread",13,29],["m09-matchday-two",20,43],["m09-friend-beat-09",20,43],
   ["m09-interday-two",13,30],["m09-matchday-three",20,42],["m09-group-resolution",13,30],
-  ["m09-eliminated-route",13,29],["m09-advance-route",14,30]
+  ["m09-eliminated-route",13,29],["m09-advance-route",14,31]
 ];
 
 async function readScene(rel){
   return JSON.parse(await readFile(fileURLToPath(new URL("../content/scenes/"+rel+".json",import.meta.url)),"utf8"));
 }
 
-test("M09 final logical budget is exactly 170 nodes / 374 meaningful choices",async()=>{
+test("M09 final logical budget is exactly 170 nodes / 375 meaningful choices",async()=>{
   let nodes=0,choices=0;
   for(const [rel,n,c] of all){
     const scene=await readScene(rel);
@@ -24,13 +24,13 @@ test("M09 final logical budget is exactly 170 nodes / 374 meaningful choices",as
     assert.equal(actualChoices,c,rel+" choices");
     nodes+=actualNodes;choices+=actualChoices;
   }
-  assert.deepEqual({nodes,choices},{nodes:170,choices:374});
+  assert.deepEqual({nodes,choices},{nodes:170,choices:375});
 });
 
-test("M9_10 owns the exact 14 / 30 residual budget",async()=>{
+test("M9_10 owns the exact 14 / 31 residual budget",async()=>{
   const scene=await readScene("m09-advance-route");
   assert.equal(Object.keys(scene.nodes).length,14);
-  assert.equal(Object.values(scene.nodes).reduce((sum,node)=>sum+(node.choices?.length??0),0),30);
+  assert.equal(Object.values(scene.nodes).reduce((sum,node)=>sum+(node.choices?.length??0),0),31);
 });
 
 test("all M09 nodes have an incoming authored route and both terminal routes are connected",async()=>{
