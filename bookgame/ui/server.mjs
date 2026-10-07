@@ -6,14 +6,20 @@ import { Pokemon5eCombatEngine } from "../src/combat/combat-engine.mjs";
 import { CryptoDice } from "../src/engine/dice.mjs";
 import { SaveStore } from "../src/engine/save-store.mjs";
 import { createNewGameState } from "../src/engine/state.mjs";
+import {
+  setTrainerGearEquipped,
+  trainerGameplayView,
+  usePlayerTrainerCombatFeature
+} from "../src/engine/trainer-ui-runtime.mjs";
 
 const HOST = process.env.P5E_UI_HOST ?? "127.0.0.1";
 const PORT = Number(process.env.P5E_UI_PORT ?? 4173);
 const PUBLIC_DIR = fileURLToPath(new URL("./public/", import.meta.url));
 
 const engine = new BookgameEngine();
-const combatEngine = new Pokemon5eCombatEngine({ dice: new CryptoDice() });
-const saves = new SaveStore();
+const dice = new CryptoDice();
+const combatEngine = new Pokemon5eCombatEngine({ dice });
+const saves = new SaveStore(process.env.P5E_SAVE_DIR || undefined);
 
 let state = null;
 
@@ -177,6 +183,7 @@ async function snapshot() {
       minuteOfDay: state.world.minuteOfDay,
       locationId: state.world.locationId
     },
+    trainerGameplay: trainerGameplayView(state, state.pending?.battle ?? null),
     battle: await battleView()
   };
 }
@@ -216,6 +223,36 @@ async function handleApi(req, res, url) {
   if (url.pathname === "/api/choose") {
     const choiceId = String(body.choiceId ?? "");
     await persist(await engine.choose(state, choiceId));
+    return sendJson(res, 200, await snapshot());
+  }
+
+  if (url.pathname === "/api/trainer/gear") {
+    const gearId = String(body.gearId ?? "");
+    if (!gearId) throw new Error("Trainer Gear id richiesto");
+    setTrainerGearEquipped(state, { gearId, equipped: Boolean(body.equipped) });
+    await persist(state);
+    return sendJson(res, 200, await snapshot());
+  }
+
+  if (url.pathname === "/api/combat/trainer-feature") {
+    await normalizeCombatFlow();
+    if (!state.pending?.battle) throw new Error("Nessun combattimento attivo");
+    const featureId = String(body.featureId ?? "");
+    if (!featureId) throw new Error("Trainer feature id richiesto");
+    const resource = state.player.classResources?.["battle-dice"];
+    const roll = featureId === "battle-master"
+      ? dice.roll(Number(String(resource?.die ?? "d6").replace(/^d/i, "")))
+      : null;
+    const targetSide = featureId === "disciplined-strikes" ? "opponent" : "player";
+    const outcome = usePlayerTrainerCombatFeature(state, state.pending.battle, {
+      featureId,
+      cost: body.cost == null ? null : Number(body.cost),
+      mode: body.mode == null ? null : String(body.mode),
+      targetSide,
+      roll
+    });
+    if (!outcome.used) return sendJson(res, 409, { ok: false, error: outcome.reason });
+    await persist(engine.setCombatState(state, outcome.battle));
     return sendJson(res, 200, await snapshot());
   }
 
