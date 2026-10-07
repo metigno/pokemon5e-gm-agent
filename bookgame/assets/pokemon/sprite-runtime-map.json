@@ -1,0 +1,4296 @@
+{
+  "format": "p5e-librogame-sprite-runtime-map",
+  "schemaVersion": 1,
+  "policy": {
+    "gigantamax": "excluded",
+    "overworld": "required only when rendered in exploration or narrative scenes",
+    "battleFront": "required",
+    "battleBack": "required",
+    "icon": "required"
+  },
+  "counts": {
+    "sprites": 608,
+    "aliases": 628,
+    "aliasCollisions": 0
+  },
+  "aliasIndex": {
+    "abra": "abra",
+    "accelgor": "accelgor",
+    "aegislash": "aegislash",
+    "aerodactyl": "aerodactyl",
+    "aggron": "aggron",
+    "aipom": "aipom",
+    "alakazam": "alakazam",
+    "alcremie": "alcremie",
+    "alolan-diglett": "alolan-diglett",
+    "alolan-dugtrio": "alolan-dugtrio",
+    "alolan-exeggutor": "alolan-exeggutor",
+    "alolan-geodude": "alolan-geodude",
+    "alolan-golem": "alolan-golem",
+    "alolan-graveler": "alolan-graveler",
+    "alolan-grimer": "alolan-grimer",
+    "alolan-raichu": "alolan-raichu",
+    "alolan-raticate": "alolan-raticate",
+    "alolan-rattata": "alolan-rattata",
+    "ambipom": "ambipom",
+    "amoonguss": "amoonguss",
+    "ampharos": "ampharos",
+    "applin": "applin",
+    "araquanid": "araquanid",
+    "arbok": "arbok",
+    "arboliva": "arboliva",
+    "arcanine": "arcanine",
+    "arcanine-hisui": "arcanine-hisui",
+    "arcanine-hisuian": "arcanine-hisui",
+    "archaludon": "archaludon",
+    "armarouge": "armarouge",
+    "aromatisse": "aromatisse",
+    "aron": "aron",
+    "azumarill": "azumarill",
+    "azurill": "azurill",
+    "bagon": "bagon",
+    "baltoy": "baltoy",
+    "barbaracle": "barbaracle",
+    "barboach": "barboach",
+    "basculegion-m": "basculegion-m",
+    "baxcalibur": "baxcalibur",
+    "beautifly": "beautifly",
+    "beedrill": "beedrill",
+    "beheeyem": "beheeyem",
+    "beldum": "beldum",
+    "bellossom": "bellossom",
+    "bellsprout": "bellsprout",
+    "bewear": "bewear",
+    "bidoof": "bidoof",
+    "binacle": "binacle",
+    "blastoise": "blastoise",
+    "blipbug": "blipbug",
+    "blissey": "blissey",
+    "blitzle": "blitzle",
+    "boldore": "boldore",
+    "braixen": "braixen",
+    "brambleghast": "brambleghast",
+    "bramblin": "bramblin",
+    "bronzong": "bronzong",
+    "bronzor": "bronzor",
+    "bruxish": "bruxish",
+    "budew": "budew",
+    "buizel": "buizel",
+    "bulbasaur": "bulbasaur",
+    "bunnelby": "bunnelby",
+    "burmy": "burmy",
+    "butterfree": "butterfree",
+    "cacnea": "cacnea",
+    "cacturne": "cacturne",
+    "calyrex-shadow": "calyrex-shadow",
+    "camerupt": "camerupt",
+    "capsakid": "capsakid",
+    "carbink": "carbink",
+    "carnivine": "carnivine",
+    "carvanha": "carvanha",
+    "cascoon": "cascoon",
+    "castform": "castform",
+    "caterpie": "caterpie",
+    "ceruledge": "ceruledge",
+    "chansey": "chansey",
+    "charcadet": "charcadet",
+    "charizard": "charizard",
+    "charjabug": "charjabug",
+    "charmander": "charmander",
+    "charmeleon": "charmeleon",
+    "cherubi": "cherubi",
+    "chewtle": "chewtle",
+    "chimchar": "chimchar",
+    "chimecho": "chimecho",
+    "chinchou": "chinchou",
+    "chingling": "chingling",
+    "cinderace": "cinderace",
+    "clamperl": "clamperl",
+    "clauncher": "clauncher",
+    "clawitzer": "clawitzer",
+    "claydol": "claydol",
+    "clobbopus": "clobbopus",
+    "clodsire": "clodsire",
+    "cofagrigus": "cofagrigus",
+    "combee": "combee",
+    "copperajah": "copperajah",
+    "corphish": "corphish",
+    "corsola": "corsola",
+    "corviknight": "corviknight",
+    "corvisquire": "corvisquire",
+    "crabrawler": "crabrawler",
+    "cramorant": "cramorant",
+    "cresselia": "cresselia",
+    "croagunk": "croagunk",
+    "crocalor": "crocalor",
+    "croconaw": "croconaw",
+    "crustle": "crustle",
+    "cubone": "cubone",
+    "cufant": "cufant",
+    "cutiefly": "cutiefly",
+    "cyndaquil": "cyndaquil",
+    "dachsbun": "dachsbun",
+    "darmanitan": "darmanitan",
+    "dartrix": "dartrix",
+    "darumaka": "darumaka",
+    "decidueye": "decidueye",
+    "decidueye-hisui": "decidueye-hisui",
+    "decidueye-hisuian": "decidueye-hisui",
+    "deino": "deino",
+    "delcatty": "delcatty",
+    "delphox": "delphox",
+    "deoxys-speed": "deoxys-speed",
+    "dewpider": "dewpider",
+    "diglett": "diglett",
+    "ditto": "ditto",
+    "dodrio": "dodrio",
+    "doduo": "doduo",
+    "dolliv": "dolliv",
+    "dottler": "dottler",
+    "doublade": "doublade",
+    "dragapult": "dragapult",
+    "dragonite": "dragonite",
+    "drakloak": "drakloak",
+    "drifloon": "drifloon",
+    "drilbur": "drilbur",
+    "drowzee": "drowzee",
+    "druddigon": "druddigon",
+    "dubwool": "dubwool",
+    "ducklett": "ducklett",
+    "dudunsparce": "dudunsparce",
+    "dugtrio": "dugtrio",
+    "dunsparce": "dunsparce",
+    "duosion": "duosion",
+    "dwebble": "dwebble",
+    "eelektrik": "eelektrik",
+    "eelektross": "eelektross",
+    "eevee": "eevee",
+    "ekans": "ekans",
+    "eldegoss": "eldegoss",
+    "electabuzz": "electabuzz",
+    "electivire": "electivire",
+    "electrike": "electrike",
+    "electrode": "electrode",
+    "electrode-hisui": "electrode-hisui",
+    "electrode-hisuian": "electrode-hisui",
+    "elekid": "elekid",
+    "elgyem": "elgyem",
+    "emolga": "emolga",
+    "espathra": "espathra",
+    "espeon": "espeon",
+    "espurr": "espurr",
+    "excadrill": "excadrill",
+    "exeggcute": "exeggcute",
+    "exeggutor": "exeggutor",
+    "farfetchd": "farfetchd",
+    "fearow": "fearow",
+    "fennekin": "fennekin",
+    "feraligatr": "feraligatr",
+    "ferroseed": "ferroseed",
+    "ferrothorn": "ferrothorn",
+    "fidough": "fidough",
+    "finizen": "finizen",
+    "flaaffy": "flaaffy",
+    "flabebe": "flabebe",
+    "fletchling": "fletchling",
+    "flittle": "flittle",
+    "floatzel": "floatzel",
+    "floette": "floette",
+    "floragato": "floragato",
+    "florges": "florges",
+    "flutter-mane": "flutter-mane",
+    "flygon": "flygon",
+    "foongus": "foongus",
+    "fraxure": "fraxure",
+    "frillish": "frillish",
+    "froakie": "froakie",
+    "frogadier": "frogadier",
+    "fuecoco": "fuecoco",
+    "furfrou": "furfrou",
+    "gabite": "gabite",
+    "galarian-farfetchd": "galarian-farfetchd",
+    "galarian-mr-mime": "galarian-mr-mime",
+    "galarian-ponyta": "galarian-ponyta",
+    "galarian-rapidash": "galarian-rapidash",
+    "galarian-slowpoke": "galarian-slowpoke",
+    "galarian-weezing": "galarian-weezing",
+    "galarian-yamask": "galarian-yamask",
+    "galarian-zigzagoon": "galarian-zigzagoon",
+    "galvantula": "galvantula",
+    "garchomp": "garchomp",
+    "gardevoir": "gardevoir",
+    "garganacl": "garganacl",
+    "gastly": "gastly",
+    "gengar": "gengar",
+    "geodude": "geodude",
+    "gholdengo": "gholdengo",
+    "gible": "gible",
+    "gigalith": "gigalith",
+    "gimmighoul": "gimmighoul",
+    "gimmighoul-roaming": "gimmighoul-roaming",
+    "giratina-origin": "giratina-origin",
+    "glameow": "glameow",
+    "gligar": "gligar",
+    "glimmet": "glimmet",
+    "glimmora": "glimmora",
+    "gliscor": "gliscor",
+    "gloom": "gloom",
+    "golbat": "golbat",
+    "goldeen": "goldeen",
+    "golem": "golem",
+    "golett": "golett",
+    "golurk": "golurk",
+    "goomy": "goomy",
+    "gorebyss": "gorebyss",
+    "gossifleur": "gossifleur",
+    "gothita": "gothita",
+    "gothitelle": "gothitelle",
+    "gothorita": "gothorita",
+    "granbull": "granbull",
+    "graveler": "graveler",
+    "great-tusk": "great-tusk",
+    "greninja": "greninja",
+    "grimmsnarl": "grimmsnarl",
+    "grovyle": "grovyle",
+    "growlithe": "growlithe",
+    "growlithe-hisui": "growlithe-hisui",
+    "growlithe-hisuian": "growlithe-hisui",
+    "grubbin": "grubbin",
+    "gulpin": "gulpin",
+    "happiny": "happiny",
+    "hatenna": "hatenna",
+    "hattrem": "hattrem",
+    "haunter": "haunter",
+    "haxorus": "haxorus",
+    "heatmor": "heatmor",
+    "heliolisk": "heliolisk",
+    "helioptile": "helioptile",
+    "hippopotas": "hippopotas",
+    "hippowdon": "hippowdon",
+    "honedge": "honedge",
+    "hoothoot": "hoothoot",
+    "hoppip": "hoppip",
+    "horsea": "horsea",
+    "houndoom": "houndoom",
+    "houndour": "houndour",
+    "hydreigon": "hydreigon",
+    "hypno": "hypno",
+    "igglybuff": "igglybuff",
+    "impidimp": "impidimp",
+    "incineroar": "incineroar",
+    "indeedee-m": "indeedee-m",
+    "infernape": "infernape",
+    "inkay": "inkay",
+    "ivysaur": "ivysaur",
+    "jigglypuff": "jigglypuff",
+    "jolteon": "jolteon",
+    "joltik": "joltik",
+    "jumpluff": "jumpluff",
+    "kadabra": "kadabra",
+    "kakuna": "kakuna",
+    "karrablast": "karrablast",
+    "kilowattrel": "kilowattrel",
+    "kirlia": "kirlia",
+    "klink": "klink",
+    "koffing": "koffing",
+    "koraidon": "koraidon",
+    "krabby": "krabby",
+    "kricketot": "kricketot",
+    "kricketune": "kricketune",
+    "krokorok": "krokorok",
+    "krookodile": "krookodile",
+    "kyogre": "kyogre",
+    "kyurem-black": "kyurem-black",
+    "lairon": "lairon",
+    "lanturn": "lanturn",
+    "lapras": "lapras",
+    "larvesta": "larvesta",
+    "larvitar": "larvitar",
+    "lechonk": "lechonk",
+    "ledyba": "ledyba",
+    "litleo": "litleo",
+    "litten": "litten",
+    "litwick": "litwick",
+    "lokix": "lokix",
+    "lotad": "lotad",
+    "loudred": "loudred",
+    "lugia": "lugia",
+    "lunatone": "lunatone",
+    "luvdisc": "luvdisc",
+    "luxio": "luxio",
+    "machamp": "machamp",
+    "machoke": "machoke",
+    "machop": "machop",
+    "magby": "magby",
+    "magcargo": "magcargo",
+    "magikarp": "magikarp",
+    "magmar": "magmar",
+    "magmortar": "magmortar",
+    "magnemite": "magnemite",
+    "magneton": "magneton",
+    "magnezone": "magnezone",
+    "malamar": "malamar",
+    "mandibuzz": "mandibuzz",
+    "maractus": "maractus",
+    "mareanie": "mareanie",
+    "mareep": "mareep",
+    "marill": "marill",
+    "marshtomp": "marshtomp",
+    "maschiff": "maschiff",
+    "maushold": "maushold",
+    "mawile": "mawile",
+    "meditite": "meditite",
+    "mega-blastoise": "mega-blastoise",
+    "blastoise-mega": "mega-blastoise",
+    "mega-excadrill": "mega-excadrill",
+    "excadrill-mega": "mega-excadrill",
+    "mega-gengar": "mega-gengar",
+    "gengar-mega": "mega-gengar",
+    "mega-houndoom": "mega-houndoom",
+    "houndoom-mega": "mega-houndoom",
+    "mega-lucario": "mega-lucario",
+    "lucario-mega": "mega-lucario",
+    "mega-mawile": "mega-mawile",
+    "mawile-mega": "mega-mawile",
+    "mega-metagross": "mega-metagross",
+    "metagross-mega": "mega-metagross",
+    "mega-salamence": "mega-salamence",
+    "salamence-mega": "mega-salamence",
+    "mega-scizor": "mega-scizor",
+    "scizor-mega": "mega-scizor",
+    "mega-sharpedo": "mega-sharpedo",
+    "sharpedo-mega": "mega-sharpedo",
+    "meowscarada": "meowscarada",
+    "meowstic-f": "meowstic-f",
+    "meowstic-m": "meowstic-m",
+    "metagross": "metagross",
+    "metang": "metang",
+    "metapod": "metapod",
+    "mewtwo": "mewtwo",
+    "mienshao": "mienshao",
+    "mightyena": "mightyena",
+    "milcery": "milcery",
+    "milotic": "milotic",
+    "mime-jr": "mime-jr",
+    "minccino": "minccino",
+    "minior-meteor-form": "minior-meteor-form",
+    "monferno": "monferno",
+    "morelull": "morelull",
+    "morgrem": "morgrem",
+    "morpeko": "morpeko",
+    "mothim": "mothim",
+    "mr-mime": "mr-mime",
+    "mudkip": "mudkip",
+    "munna": "munna",
+    "nacli": "nacli",
+    "naclstack": "naclstack",
+    "natu": "natu",
+    "nickit": "nickit",
+    "nidoking": "nidoking",
+    "nidoran-f": "nidoran-f",
+    "nidoran-m": "nidoran-m",
+    "nidorino": "nidorino",
+    "nincada": "nincada",
+    "ninetales": "ninetales",
+    "ninjask": "ninjask",
+    "noibat": "noibat",
+    "noivern": "noivern",
+    "nosepass": "nosepass",
+    "numel": "numel",
+    "nymble": "nymble",
+    "obstagoon": "obstagoon",
+    "oddish": "oddish",
+    "oinkologne-female": "oinkologne-female",
+    "oinkologne-male": "oinkologne-male",
+    "onix": "onix",
+    "orbeetle": "orbeetle",
+    "oricorio-baile-style": "oricorio-baile-style",
+    "oricorio-pau-style": "oricorio-pau-style",
+    "oricorio-sensu-style": "oricorio-sensu-style",
+    "orthworm": "orthworm",
+    "overqwil": "overqwil",
+    "pachirisu": "pachirisu",
+    "palkia-origin": "palkia-origin",
+    "palpitoad": "palpitoad",
+    "pancham": "pancham",
+    "panpour": "panpour",
+    "pansage": "pansage",
+    "pansear": "pansear",
+    "paras": "paras",
+    "patrat": "patrat",
+    "pawmi": "pawmi",
+    "pawmo": "pawmo",
+    "pawniard": "pawniard",
+    "pelipper": "pelipper",
+    "phanpy": "phanpy",
+    "phantump": "phantump",
+    "pichu": "pichu",
+    "pidgeot": "pidgeot",
+    "pidgey": "pidgey",
+    "pidove": "pidove",
+    "pikachu": "pikachu",
+    "pincurchin": "pincurchin",
+    "pineco": "pineco",
+    "plusle": "plusle",
+    "politoed": "politoed",
+    "poliwag": "poliwag",
+    "poliwhirl": "poliwhirl",
+    "poliwrath": "poliwrath",
+    "poltchageist": "poltchageist",
+    "ponyta": "ponyta",
+    "poochyena": "poochyena",
+    "probopass": "probopass",
+    "psyduck": "psyduck",
+    "pupitar": "pupitar",
+    "purrloin": "purrloin",
+    "purugly": "purugly",
+    "pyukumuku": "pyukumuku",
+    "quaquaval": "quaquaval",
+    "quaxly": "quaxly",
+    "quaxwell": "quaxwell",
+    "quilava": "quilava",
+    "qwilfish": "qwilfish",
+    "qwilfish-hisui": "qwilfish-hisui",
+    "qwilfish-hisuian": "qwilfish-hisui",
+    "raboot": "raboot",
+    "rabsca": "rabsca",
+    "raichu": "raichu",
+    "rainy-castform": "rainy-castform",
+    "ralts": "ralts",
+    "rapidash": "rapidash",
+    "raticate": "raticate",
+    "rattata": "rattata",
+    "rayquaza": "rayquaza",
+    "registeel": "registeel",
+    "rellor": "rellor",
+    "reshiram": "reshiram",
+    "rhydon": "rhydon",
+    "rhyhorn": "rhyhorn",
+    "rhyperior": "rhyperior",
+    "ribombee": "ribombee",
+    "roggenrola": "roggenrola",
+    "rolycoly": "rolycoly",
+    "rookidee": "rookidee",
+    "roselia": "roselia",
+    "roserade": "roserade",
+    "rotom": "rotom",
+    "rotom-fan": "rotom-fan",
+    "rotom-mow": "rotom-mow",
+    "rotom-wash": "rotom-wash",
+    "rowlet": "rowlet",
+    "rufflet": "rufflet",
+    "runerigus": "runerigus",
+    "sableye": "sableye",
+    "salamence": "salamence",
+    "salandit": "salandit",
+    "salazzle": "salazzle",
+    "samurott-hisui": "samurott-hisui",
+    "samurott-hisuian": "samurott-hisui",
+    "sandaconda": "sandaconda",
+    "sandile": "sandile",
+    "sandshrew": "sandshrew",
+    "sandygast": "sandygast",
+    "sawk": "sawk",
+    "sceptile": "sceptile",
+    "scorbunny": "scorbunny",
+    "scovillain": "scovillain",
+    "scrafty": "scrafty",
+    "scraggy": "scraggy",
+    "seaking": "seaking",
+    "seedot": "seedot",
+    "seismitoad": "seismitoad",
+    "sentret": "sentret",
+    "sewaddle": "sewaddle",
+    "shedinja": "shedinja",
+    "shelgon": "shelgon",
+    "shelmet": "shelmet",
+    "shinx": "shinx",
+    "shroodle": "shroodle",
+    "shroomish": "shroomish",
+    "sigilyph": "sigilyph",
+    "silcoon": "silcoon",
+    "silicobra": "silicobra",
+    "sinistea": "sinistea",
+    "sirfetchd": "sirfetchd",
+    "sizzlipede": "sizzlipede",
+    "skarmory": "skarmory",
+    "skeledirge": "skeledirge",
+    "skiddo": "skiddo",
+    "skiploom": "skiploom",
+    "skitty": "skitty",
+    "skorupi": "skorupi",
+    "skrelp": "skrelp",
+    "skwovet": "skwovet",
+    "slaking": "slaking",
+    "slakoth": "slakoth",
+    "slugma": "slugma",
+    "smoliv": "smoliv",
+    "sneasler": "sneasler",
+    "snowy-castform": "snowy-castform",
+    "snubbull": "snubbull",
+    "solosis": "solosis",
+    "spearow": "spearow",
+    "spinarak": "spinarak",
+    "spinda": "spinda",
+    "spiritomb": "spiritomb",
+    "spoink": "spoink",
+    "sprigatito": "sprigatito",
+    "spritzee": "spritzee",
+    "squawkabilly": "squawkabilly",
+    "squirtle": "squirtle",
+    "starly": "starly",
+    "staryu": "staryu",
+    "steelix": "steelix",
+    "stonjourner": "stonjourner",
+    "stoutland": "stoutland",
+    "stufful": "stufful",
+    "stunky": "stunky",
+    "sunkern": "sunkern",
+    "surskit": "surskit",
+    "swablu": "swablu",
+    "swadloon": "swadloon",
+    "swampert": "swampert",
+    "swanna": "swanna",
+    "swellow": "swellow",
+    "swirlix": "swirlix",
+    "swoobat": "swoobat",
+    "tadbulb": "tadbulb",
+    "taillow": "taillow",
+    "tandemaus": "tandemaus",
+    "tangela": "tangela",
+    "tangrowth": "tangrowth",
+    "tarountula": "tarountula",
+    "tauros": "tauros",
+    "teddiursa": "teddiursa",
+    "tentacool": "tentacool",
+    "tinkatink": "tinkatink",
+    "tinkaton": "tinkaton",
+    "tinkatuff": "tinkatuff",
+    "toedscool": "toedscool",
+    "togedemaru": "togedemaru",
+    "togekiss": "togekiss",
+    "togepi": "togepi",
+    "torkoal": "torkoal",
+    "torracat": "torracat",
+    "totodile": "totodile",
+    "toxel": "toxel",
+    "toxicroak": "toxicroak",
+    "toxtricity-amped": "toxtricity-amped",
+    "toxtricity-low-key": "toxtricity-low-key",
+    "trapinch": "trapinch",
+    "treecko": "treecko",
+    "tympole": "tympole",
+    "tynamo": "tynamo",
+    "typhlosion": "typhlosion",
+    "typhlosion-hisui": "typhlosion-hisui",
+    "typhlosion-hisuian": "typhlosion-hisui",
+    "tyranitar": "tyranitar",
+    "umbreon": "umbreon",
+    "unown": "unown",
+    "ursaluna": "ursaluna",
+    "veluza": "veluza",
+    "venipede": "venipede",
+    "venonat": "venonat",
+    "venusaur": "venusaur",
+    "vibrava": "vibrava",
+    "vigoroth": "vigoroth",
+    "vikavolt": "vikavolt",
+    "vileplume": "vileplume",
+    "volbeat": "volbeat",
+    "volcarona": "volcarona",
+    "voltorb": "voltorb",
+    "voltorb-hisui": "voltorb-hisui",
+    "voltorb-hisuian": "voltorb-hisui",
+    "vullaby": "vullaby",
+    "vulpix": "vulpix",
+    "wailmer": "wailmer",
+    "walking-wake": "walking-wake",
+    "wartortle": "wartortle",
+    "watchog": "watchog",
+    "wattrel": "wattrel",
+    "weedle": "weedle",
+    "weezing": "weezing",
+    "whiscash": "whiscash",
+    "whismur": "whismur",
+    "wigglytuff": "wigglytuff",
+    "wiglett": "wiglett",
+    "wimpod": "wimpod",
+    "wingull": "wingull",
+    "wishiwashi-school-form": "wishiwashi-school-form",
+    "wishiwashi-solo-form": "wishiwashi-solo-form",
+    "wobbuffet": "wobbuffet",
+    "woobat": "woobat",
+    "wooloo": "wooloo",
+    "wooper-paldea": "wooper-paldea",
+    "wurmple": "wurmple",
+    "wynaut": "wynaut",
+    "xerneas": "xerneas",
+    "yamask": "yamask",
+    "yamper": "yamper",
+    "yanma": "yanma",
+    "yanmega": "yanmega",
+    "yungoos": "yungoos",
+    "zacian-crowned": "zacian-crowned",
+    "zangoose": "zangoose",
+    "zapdos": "zapdos",
+    "zebstrika": "zebstrika",
+    "zigzagoon": "zigzagoon",
+    "zoroark": "zoroark",
+    "zoroark-hisui": "zoroark-hisui",
+    "zoroark-hisuian": "zoroark-hisui",
+    "zorua": "zorua",
+    "zubat": "zubat",
+    "zweilous": "zweilous",
+    "wooper-paldean": "wooper-paldea"
+  },
+  "sprites": {
+    "abra": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "accelgor": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "aegislash": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "aerodactyl": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "aggron": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "aipom": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "alakazam": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "alcremie": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": null
+    },
+    "alolan-diglett": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "alolan-dugtrio": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "alolan-exeggutor": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "alolan-geodude": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "alolan-golem": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "alolan-graveler": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "alolan-grimer": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "alolan-raichu": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "alolan-raticate": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "alolan-rattata": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "ambipom": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "amoonguss": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "ampharos": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "applin": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "araquanid": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "arbok": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "arboliva": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "arcanine": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "arcanine-hisui": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "archaludon": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "armarouge": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "aromatisse": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "aron": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "azumarill": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "azurill": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "bagon": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "baltoy": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "barbaracle": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "barboach": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "basculegion-m": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "baxcalibur": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "beautifly": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "beedrill": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "beheeyem": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "beldum": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "bellossom": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "bellsprout": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "bewear": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "bidoof": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "binacle": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "blastoise": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "blipbug": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "blissey": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "blitzle": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "boldore": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "braixen": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "brambleghast": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "bramblin": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "bronzong": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "bronzor": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "bruxish": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "budew": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "buizel": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "bulbasaur": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "bunnelby": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "burmy": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "butterfree": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "cacnea": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "cacturne": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "calyrex-shadow": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "camerupt": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "capsakid": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "carbink": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "carnivine": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "carvanha": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "cascoon": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "castform": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "caterpie": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "ceruledge": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "chansey": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "charcadet": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "charizard": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "charjabug": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "charmander": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "charmeleon": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "cherubi": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "chewtle": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "chimchar": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "chimecho": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "chinchou": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "chingling": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "cinderace": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "clamperl": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "clauncher": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "clawitzer": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "claydol": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "clobbopus": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "clodsire": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "cofagrigus": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "combee": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "copperajah": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "corphish": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "corsola": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "corviknight": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "corvisquire": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "crabrawler": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "cramorant": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "cresselia": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "croagunk": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "crocalor": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "croconaw": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "crustle": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "cubone": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "cufant": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "cutiefly": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "cyndaquil": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "dachsbun": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "darmanitan": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "dartrix": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "darumaka": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "decidueye": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "decidueye-hisui": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "deino": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "delcatty": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "delphox": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "deoxys-speed": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "dewpider": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "diglett": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "ditto": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "dodrio": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "doduo": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "dolliv": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "dottler": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "doublade": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "dragapult": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "dragonite": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "drakloak": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "drifloon": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "drilbur": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "drowzee": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "druddigon": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "dubwool": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "ducklett": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "dudunsparce": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "dugtrio": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "dunsparce": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "duosion": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "dwebble": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "eelektrik": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "eelektross": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "eevee": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "ekans": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "eldegoss": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "electabuzz": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "electivire": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "electrike": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "electrode": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "electrode-hisui": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "elekid": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "elgyem": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "emolga": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "espathra": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "espeon": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "espurr": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "excadrill": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "exeggcute": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "exeggutor": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "farfetchd": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "fearow": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "fennekin": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "feraligatr": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "ferroseed": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "ferrothorn": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "fidough": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "finizen": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "flaaffy": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "flabebe": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "fletchling": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "flittle": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "floatzel": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "floette": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "floragato": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "florges": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "flutter-mane": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "flygon": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "foongus": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "fraxure": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "frillish": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "froakie": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "frogadier": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "fuecoco": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "furfrou": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "gabite": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "galarian-farfetchd": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "galarian-mr-mime": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "galarian-ponyta": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "galarian-rapidash": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "galarian-slowpoke": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "galarian-weezing": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "galarian-yamask": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "galarian-zigzagoon": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "galvantula": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "garchomp": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "gardevoir": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "garganacl": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "gastly": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "gengar": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "geodude": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "gholdengo": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "gible": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "gigalith": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "gimmighoul": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "gimmighoul-roaming": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": null
+    },
+    "giratina-origin": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "glameow": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "gligar": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "glimmet": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "glimmora": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "gliscor": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "gloom": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "golbat": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "goldeen": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "golem": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "golett": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "golurk": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "goomy": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "gorebyss": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "gossifleur": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "gothita": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "gothitelle": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "gothorita": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "granbull": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "graveler": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "great-tusk": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "greninja": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "grimmsnarl": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "grovyle": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "growlithe": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "growlithe-hisui": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "grubbin": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "gulpin": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "happiny": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "hatenna": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "hattrem": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "haunter": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "haxorus": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "heatmor": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "heliolisk": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "helioptile": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "hippopotas": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "hippowdon": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "honedge": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "hoothoot": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "hoppip": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "horsea": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "houndoom": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "houndour": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "hydreigon": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "hypno": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "igglybuff": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "impidimp": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "incineroar": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "indeedee-m": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "infernape": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "inkay": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "ivysaur": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "jigglypuff": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "jolteon": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "joltik": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "jumpluff": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "kadabra": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "kakuna": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "karrablast": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "kilowattrel": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "kirlia": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "klink": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "koffing": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "koraidon": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "krabby": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "kricketot": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "kricketune": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "krokorok": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "krookodile": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "kyogre": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "kyurem-black": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "lairon": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "lanturn": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "lapras": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "larvesta": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "larvitar": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "lechonk": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "ledyba": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "litleo": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "litten": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "litwick": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "lokix": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "lotad": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "loudred": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "lugia": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "lunatone": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "luvdisc": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "luxio": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "machamp": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "machoke": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "machop": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "magby": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "magcargo": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "magikarp": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "magmar": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "magmortar": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "magnemite": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "magneton": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "magnezone": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "malamar": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "mandibuzz": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "maractus": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "mareanie": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "mareep": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "marill": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "marshtomp": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "maschiff": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "maushold": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "mawile": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "meditite": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "mega-blastoise": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "mega-excadrill": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": null
+    },
+    "mega-gengar": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "mega-houndoom": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "mega-lucario": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "mega-mawile": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "mega-metagross": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "mega-salamence": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "mega-scizor": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "mega-sharpedo": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "meowscarada": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "meowstic-f": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "meowstic-m": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "metagross": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "metang": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "metapod": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "mewtwo": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "mienshao": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "mightyena": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "milcery": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "milotic": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "mime-jr": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "minccino": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "minior-meteor-form": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "monferno": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "morelull": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "morgrem": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "morpeko": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "mothim": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "mr-mime": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "mudkip": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "munna": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "nacli": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "naclstack": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "natu": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "nickit": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "nidoking": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "nidoran-f": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "nidoran-m": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "nidorino": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "nincada": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "ninetales": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "ninjask": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "noibat": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "noivern": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "nosepass": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "numel": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "nymble": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "obstagoon": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "oddish": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "oinkologne-female": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "oinkologne-male": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "onix": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "orbeetle": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "oricorio-baile-style": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "oricorio-pau-style": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "oricorio-sensu-style": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "orthworm": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "overqwil": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "pachirisu": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "palkia-origin": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "palpitoad": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "pancham": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "panpour": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "pansage": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "pansear": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "paras": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "patrat": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "pawmi": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "pawmo": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "pawniard": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "pelipper": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "phanpy": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "phantump": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "pichu": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "pidgeot": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "pidgey": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "pidove": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "pikachu": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "pincurchin": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "pineco": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "plusle": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "politoed": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "poliwag": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "poliwhirl": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "poliwrath": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "poltchageist": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "ponyta": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "poochyena": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "probopass": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "psyduck": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "pupitar": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "purrloin": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "purugly": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "pyukumuku": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "quaquaval": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "quaxly": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "quaxwell": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "quilava": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "qwilfish": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "qwilfish-hisui": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "raboot": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "rabsca": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "raichu": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "rainy-castform": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "ralts": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "rapidash": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "raticate": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "rattata": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "rayquaza": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "registeel": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "rellor": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "reshiram": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "rhydon": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "rhyhorn": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "rhyperior": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "ribombee": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "roggenrola": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "rolycoly": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "rookidee": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "roselia": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "roserade": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "rotom": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "rotom-fan": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "rotom-mow": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "rotom-wash": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "rowlet": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "rufflet": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "runerigus": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "sableye": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "salamence": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "salandit": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "salazzle": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "samurott-hisui": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "sandaconda": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "sandile": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "sandshrew": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "sandygast": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "sawk": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "sceptile": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "scorbunny": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "scovillain": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "scrafty": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "scraggy": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "seaking": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "seedot": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "seismitoad": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "sentret": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "sewaddle": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "shedinja": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "shelgon": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "shelmet": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "shinx": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "shroodle": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "shroomish": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "sigilyph": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "silcoon": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "silicobra": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "sinistea": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "sirfetchd": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "sizzlipede": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "skarmory": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "skeledirge": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "skiddo": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "skiploom": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "skitty": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "skorupi": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "skrelp": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "skwovet": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "slaking": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "slakoth": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "slugma": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "smoliv": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "sneasler": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "snowy-castform": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "snubbull": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "solosis": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "spearow": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "spinarak": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "spinda": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "spiritomb": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "spoink": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "sprigatito": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "spritzee": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "squawkabilly": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "squirtle": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "starly": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "staryu": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "steelix": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "stonjourner": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "stoutland": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "stufful": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "stunky": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "sunkern": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "surskit": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "swablu": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "swadloon": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "swampert": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "swanna": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "swellow": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "swirlix": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "swoobat": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "tadbulb": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "taillow": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "tandemaus": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "tangela": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "tangrowth": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "tarountula": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "tauros": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "teddiursa": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "tentacool": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "tinkatink": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "tinkaton": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "tinkatuff": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "toedscool": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "togedemaru": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "togekiss": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "togepi": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "torkoal": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "torracat": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "totodile": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "toxel": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "toxicroak": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "toxtricity-amped": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "toxtricity-low-key": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "trapinch": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "treecko": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "tympole": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "tynamo": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "typhlosion": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "typhlosion-hisui": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "tyranitar": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "umbreon": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "unown": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "ursaluna": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "veluza": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "venipede": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "venonat": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "venusaur": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "vibrava": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "vigoroth": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "vikavolt": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "vileplume": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "volbeat": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "volcarona": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "voltorb": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "voltorb-hisui": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "vullaby": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "vulpix": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "wailmer": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "walking-wake": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "wartortle": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "watchog": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "wattrel": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "weedle": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "weezing": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "whiscash": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "whismur": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "wigglytuff": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "wiglett": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "wimpod": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "wingull": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "wishiwashi-school-form": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": null
+    },
+    "wishiwashi-solo-form": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "wobbuffet": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "woobat": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "wooloo": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "wooper-paldea": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "wurmple": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "wynaut": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "xerneas": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "yamask": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "yamper": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "yanma": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "yanmega": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "yungoos": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "zacian-crowned": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "zangoose": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "zapdos": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "zebstrika": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "zigzagoon": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "zoroark": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "zoroark-hisui": {
+      "battleFront": "front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "zorua": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "zubat": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    },
+    "zweilous": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png",
+      "overworld": "overworld.png"
+    }
+  }
+}
