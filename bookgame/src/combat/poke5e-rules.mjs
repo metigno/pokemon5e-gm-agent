@@ -637,7 +637,12 @@ export function resolveSaveMove({
     { attribute: stats.saveAttribute, move, target: defender }
   );
 
-  const saveDcBonus = activeModifier(attacker.effects?.saveDcModifierSources ?? [], round);\n  const effectiveSaveDc = stats.saveDc + saveDcBonus;\n  const save = resolveSavingThrow({\n    defender,\n    attribute: stats.saveAttribute,\n    dc: effectiveSaveDc,
+  const saveDcBonus = activeEffectModifier(attacker.effects?.saveDcModifierSources ?? [], round);
+  const effectiveSaveDc = stats.saveDc + saveDcBonus;
+  const save = resolveSavingThrow({
+    defender,
+    attribute: stats.saveAttribute,
+    dc: effectiveSaveDc,
     dice,
     advantage: targetAdvantage,
     disadvantage: targetDisadvantage,
@@ -648,5 +653,9 @@ export function resolveSaveMove({
     moveId: move.id,
     moveName: move.name,
     save,
-    saveDc: effectiveSaveDc,\n    baseSaveDc: stats.saveDc,\n    saveDcBonus,\n    saveAttribute: stats.saveAttribute\n  };
+    saveDc: effectiveSaveDc,
+    baseSaveDc: stats.saveDc,
+    saveDcBonus,
+    saveAttribute: stats.saveAttribute
+  };
 }
