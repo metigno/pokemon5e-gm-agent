@@ -90,8 +90,7 @@ export function createTrainerRuntime(build, {
     classResources: {},
     classFeatures: ["command-pokemon"],
     feats: [],
-    // Player progression starts unassigned. NPC scripted specializations live only in the Four NPC states.
-    specializations: [],
+    specializations: defaultSpecializations(),
     specializationDetails: [],
     pokeslots: p5eProgression.pokeslots,
     maxSr: p5eProgression.maxSr,
@@ -182,10 +181,12 @@ export function migrateGameState(input) {
   player.classResources = ensureObject(player.classResources);
   player.classFeatures = ensureArray(player.classFeatures, ["command-pokemon"]);
   player.feats = ensureArray(player.feats);
-  player.specializations = {
-    ...defaultSpecializations(),
-    ...ensureObject(player.specializations)
-  };
+  player.specializations = Array.isArray(player.specializations)
+    ? []
+    : {
+        ...defaultSpecializations(),
+        ...ensureObject(player.specializations)
+      };
   player.specializationDetails = ensureArray(player.specializationDetails);
   const migratedProgression = trainerProgression2024(level);
   player.pokeslots = Number.isInteger(player.pokeslots) ? player.pokeslots : migratedProgression.pokeslots;
@@ -290,6 +291,9 @@ export function createNewGameState({
   if (!startAtIntro) {
     trainer.characterCreation.complete = true;
     trainer.characterCreation.completed = ["legacy-bootstrap"];
+    // Legacy/bootstrap entry has no player-selected specialization yet. Keep it explicitly unassigned;
+    // canonical scripted specializations belong only to the Four non-player friends.
+    trainer.specializations = [];
   }
 
   return {
