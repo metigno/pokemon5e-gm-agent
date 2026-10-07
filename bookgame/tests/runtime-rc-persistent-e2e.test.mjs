@@ -569,6 +569,102 @@ async function completeCanonicalM2(engine, start) {
   return state;
 }
 
+async function completeCanonicalM3(engine, start) {
+  let state = structuredClone(start);
+
+  const milestones = [
+    {
+      label: "M3 activation",
+      goal: (s) => s.world.flags.m3_active === true,
+      combatPolicy: "win",
+      maxExpansions: 700
+    },
+    {
+      label: "M3 Steven meeting",
+      goal: (s) => s.world.flags.steven_met === true,
+      combatPolicy: "win",
+      maxExpansions: 2200
+    },
+    {
+      label: "M3 Friend Beat 03",
+      goal: (s) => s.world.flags.friend_beat_03_complete === true,
+      combatPolicy: "win",
+      maxExpansions: 2400
+    },
+    {
+      label: "M3 tunnel warnings",
+      goal: (s) => s.world.flags.tunnel_warnings_complete === true,
+      combatPolicy: "win",
+      maxExpansions: 2600
+    },
+    {
+      label: "M3 Ferrox rescue state",
+      goal: (s) => typeof s.world.flags.ferrox_rescue_state === "string",
+      combatPolicy: "win",
+      maxExpansions: 3200
+    },
+    {
+      label: "M3 Ferrox rescue outcome",
+      goal: (s) => s.world.flags.ferrox_rescue_outcome_complete === true,
+      combatPolicy: "win",
+      maxExpansions: 2600
+    },
+    {
+      label: "M3 Trial D to C window",
+      goal: (s) => s.world.flags.a3_rank_trial_d_c_available === true,
+      combatPolicy: "win",
+      maxExpansions: 1200
+    },
+    {
+      label: "M3 Trial D to C available",
+      goal: (s) => s.competition.trials?.RANK_D_TO_C?.available === true,
+      combatPolicy: "win",
+      maxExpansions: 1000
+    },
+    {
+      label: "M3 Trial D to C registered",
+      goal: (s) => s.competition.trials?.RANK_D_TO_C?.registered === true,
+      combatPolicy: "win",
+      maxExpansions: 900
+    },
+    {
+      label: "M3 Trial D to C win",
+      goal: (s) => s.competition.rank === "C",
+      combatPolicy: "win",
+      maxExpansions: 900
+    },
+    {
+      label: "M3 completion",
+      goal: (s) => s.world.flags.m3_complete === true,
+      combatPolicy: "win",
+      maxExpansions: 900
+    }
+  ];
+
+  for (const milestone of milestones) {
+    if (milestone.goal(state)) continue;
+    state = await searchTo({
+      engine,
+      start: state,
+      goal: milestone.goal,
+      label: milestone.label,
+      route: "champion",
+      combatPolicy: milestone.combatPolicy,
+      maxExpansions: milestone.maxExpansions
+    });
+  }
+
+  assert.equal(state.world.flags.steven_met, true);
+  assert.equal(state.world.flags.friend_beat_03_complete, true);
+  assert.ok(typeof state.world.flags.ferrox_rescue_state === "string");
+  assert.equal(state.world.flags.ferrox_rescue_outcome_complete, true);
+  assert.equal(state.competition.rank, "C");
+  assert.equal(state.world.flags.m3_complete, true);
+  assert.equal(state.world.flags.m04_unlocked, true);
+  assert.ok(state.player.trainerLevel >= 7);
+  return state;
+}
+
 async function persistReload(store, state, slot, label) {
   const saved = structuredClone(state);
   saved.slot = slot;
@@ -604,7 +700,10 @@ test("RC persistent E2E traverses real authored M1→M12 and all three World out
     common = await completeCanonicalM2(engine, common);
     common = await persistReload(store, common, "rc-lineage", "M2");
 
-    for (let module = 3; module <= 6; module += 1) {
+    common = await completeCanonicalM3(engine, common);
+    common = await persistReload(store, common, "rc-lineage", "M3");
+
+    for (let module = 4; module <= 6; module += 1) {
       common = await searchTo({
         engine,
         start: common,
