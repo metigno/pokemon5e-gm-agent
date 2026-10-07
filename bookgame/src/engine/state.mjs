@@ -145,7 +145,7 @@ export function migrateGameState(input) {
   player.trainerProgression.pendingChoices = ensureArray(player.trainerProgression.pendingChoices);
   player.trainerProgression.resolvedChoices = ensureArray(player.trainerProgression.resolvedChoices);
   player.trainerProgression.targetLevel = Number.isInteger(player.trainerProgression.targetLevel)
-    ? Math.max(level, player.trainerProgression.targetLevel)
+    ? player.trainerProgression.targetLevel
     : level;
   player.trainerProgression.targetMilestoneId ??= null;
   player.abilities = abilities;
