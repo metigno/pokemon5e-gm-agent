@@ -5,11 +5,11 @@ import { validateSpriteMap } from "../src/assets/sprite-runtime.mjs";
 
 const map=JSON.parse(fs.readFileSync(new URL("../assets/pokemon/sprite-runtime-map.json",import.meta.url),"utf8"));
 
-test("canonical sprite manifest contains the audited 608 non-Gmax entries",()=>{
-  assert.equal(Object.keys(map.sprites).length,608);
-  assert.equal(map.counts.sprites,608);
+test("canonical sprite manifest contains the audited 619 non-Gmax entries",()=>{
+  assert.equal(Object.keys(map.sprites).length,619);
+  assert.equal(map.counts.sprites,619);
   assert.equal(map.counts.aliasCollisions,0);
-  assert.equal(map.counts.aliases,628);
+  assert.equal(map.counts.aliases,639);
   assert.ok(!Object.keys(map.sprites).some(id=>/gmax|gigantamax/i.test(id)));
 });
 
