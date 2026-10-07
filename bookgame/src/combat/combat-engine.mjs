@@ -2442,6 +2442,13 @@ export class Pokemon5eCombatEngine {
     result.damage = reducedAttackDamage.damage;
 
     defender.hp.current = Math.max(0, defender.hp.current - hpDamageAfterTemporaryHp(defender, result.damage));
+    const disciplined = next.trainerEffects?.disciplinedStrikes;
+    let disciplinedStrikesConsumed = false;
+    if (defender.hp.current <= 0 && disciplined?.usesRemaining > 0 && disciplined.targetSide === targetSide) {
+      defender.hp.current = 1;
+      disciplined.usesRemaining -= 1;
+      disciplinedStrikesConsumed = true;
+    }
     if (!duplicateInterception?.avoided) {
       checkConcentrationAfterDamage(next, targetSide, result.damage, this.dice);
       applyCanonicalDamageShare(next, targetSide, result.damage);
@@ -2488,7 +2495,8 @@ export class Pokemon5eCombatEngine {
       secondaryStatus: secondary,
       statusResult,
       thawed,
-      targetHpAfter: defender.hp.current
+      targetHpAfter: defender.hp.current,
+      disciplinedStrikesConsumed
     });
 
     if (move.id === "spit-up") {
