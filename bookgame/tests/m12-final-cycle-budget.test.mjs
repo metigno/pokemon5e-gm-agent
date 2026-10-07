@@ -7,7 +7,7 @@ const all=[
   ["m12-world-exit-branch",19,42],
   ["m12-return-asteria",13,28],
   ["m12-valedarsena-callbacks",21,46],
-  ["m12-bruma-callbacks",21,46],
+  ["m12-bruma-callbacks",21,47],
   ["m12-ferrox-callbacks",21,47],
   ["m12-coast-callbacks",21,47],
   ["m12-highlands-callbacks",21,47],
@@ -37,7 +37,7 @@ test("M12_09-M12_11 final cycle is exactly 49 nodes / 105 meaningful choices",as
   assert.equal(choices,105);
 });
 
-test("M12 complete runtime surface is exactly 228 nodes / 502 meaningful choices",async()=>{
+test("M12 complete runtime surface is exactly 228 nodes / 503 meaningful choices",async()=>{
   let nodes=0,choices=0;
   for(const [rel] of all){
     const scene=await readScene(rel);
@@ -45,7 +45,7 @@ test("M12 complete runtime surface is exactly 228 nodes / 502 meaningful choices
     choices+=Object.values(scene.nodes).reduce((sum,node)=>sum+(node.choices?.length??0),0);
   }
   assert.equal(nodes,228);
-  assert.equal(choices,502);
+  assert.equal(choices,503);
 });
 
 test("M12 authored-surface manifest remains locked at 4753 stitches / 1884 choices",async()=>{
