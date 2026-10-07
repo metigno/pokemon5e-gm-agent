@@ -30,14 +30,14 @@ test("New Game creates a standalone persistent bookgame state", () => {
 });
 
 test("authored Animal Handling check selects success branch deterministically", async () => {
-  const engine = new BookgameEngine({ dice: new SequenceDice([12]), now: fixedNow });
+  const engine = new BookgameEngine({ dice: new SequenceDice([15]), now: fixedNow });
   const state = firstRoadState();
   const next = await engine.choose(state, "approach");
 
-  assert.equal(next.lastRoll.natural, 12);
-  assert.equal(next.lastRoll.modifier, 4);
+  assert.equal(next.lastRoll.natural, 15);
+  assert.equal(next.lastRoll.modifier, 1);
   assert.equal(next.lastRoll.total, 16);
-  assert.equal(next.lastRoll.notation, "d20+4=16");
+  assert.equal(next.lastRoll.notation, "d20+1=16");
   assert.equal(next.lastRoll.passed, true);
   assert.equal(next.story.nodeId, "trust");
   assert.equal(next.world.flags.houndour_ginestre_disposition, "calm");
@@ -48,7 +48,7 @@ test("same authored check selects failure branch when the roll misses DC", async
   const state = firstRoadState();
   const next = await engine.choose(state, "approach");
 
-  assert.equal(next.lastRoll.total, 6);
+  assert.equal(next.lastRoll.total, 3);
   assert.equal(next.lastRoll.passed, false);
   assert.equal(next.story.nodeId, "warning");
   assert.equal(next.world.flags.houndour_ginestre_disposition, "defensive");
