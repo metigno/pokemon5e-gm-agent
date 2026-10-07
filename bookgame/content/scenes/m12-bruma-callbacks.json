@@ -409,6 +409,31 @@
       ],
       "choices": [
         {
+          "id": "class_intervened",
+          "text": "Registro il mio intervento reale sulla rete senza trasformarlo retroattivamente in una risoluzione totale.",
+          "goto": "complete",
+          "conditions": {
+            "path": "world.flags.poaching_network_state",
+            "eq": "intervened"
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m12_bruma_callback_state",
+              "value": "intervened"
+            },
+            {
+              "type": "set_flag",
+              "key": "m12_bruma_callbacks_complete",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "fer_city"
+            }
+          ]
+        },
+        {
           "id": "class_resolved",
           "text": "Registro la rete come risolta nel mio storico M2.",
           "goto": "complete",
