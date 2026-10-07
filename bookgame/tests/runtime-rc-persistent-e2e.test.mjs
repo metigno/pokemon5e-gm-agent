@@ -1287,7 +1287,7 @@ async function completeCanonicalM7Missed(engine, start) {
 }
 
 async function completeCanonicalM8(engine, start) {
-  const state = await completeMilestoneSequence(engine, start, [
+  let state = await completeMilestoneSequence(engine, start, [
     ["M8 activation", flag("m8_active"), 1200],
     ["M8 World arrival", flag("m8_world_arrived"), 1800],
     ["M8 accreditation", flag("m8_accreditation_complete"), 1800],
@@ -1296,8 +1296,13 @@ async function completeCanonicalM8(engine, start) {
     ["M8 village arrival", flag("m8_world_village_arrived"), 1800],
     ["M8 village orientation", flag("m8_world_village_orientation_complete"), 2200],
     ["M8 Astrid availability", flag("m8_astrid_available"), 400],
-    ["M8 Astrid scene", (s) => s.story?.sceneId === "m08-astrid-enters", 2200],
-    ["M8 Astrid meeting", flag("astrid_met"), 200],
+    ["M8 Astrid scene", (s) => s.story?.sceneId === "m08-astrid-enters", 2200]
+  ], { route: "champion", combatPolicy: "win" });
+
+  state = await requireChoice(engine, state, "astrid_introduce", "M8 Astrid introduction");
+  assert.equal(state.world.flags.astrid_met, true);
+
+  state = await completeMilestoneSequence(engine, state, [
     ["M8 Friend Beat 08", flag("friend_beat_08_complete"), 2600],
     ["M8 training hall", flag("m8_training_hall_complete"), 2600],
     ["M8 media day", flag("m8_media_day_complete"), 2200],
