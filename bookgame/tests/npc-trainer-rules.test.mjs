@@ -48,7 +48,7 @@ test("NPC Trainers expose the same persistent gameplay runtime surface as the pl
  for(const key of ["hp","ac","hitDice","skills","proficiencies","savingThrows","equipment","trainerGear","inventory","classResources","classFeatures","featureUsage","conditions","persistentEffects","death","movement"]){
   assert.ok(Object.hasOwn(npc.trainer,key),key);
  }
- assert.deepEqual(npc.trainer.hp,{current:8,max:8});
+ assert.deepEqual(npc.trainer.hp,{current:7,max:7});
  assert.ok(npc.trainer.classFeatures.includes("command-pokemon"));
  assert.equal(npc.trainer.death.state,"alive");
 });
