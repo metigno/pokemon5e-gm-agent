@@ -513,7 +513,7 @@
       "choices": [
         {
           "id": "schedule_personal",
-          "text": "Chiudo la reunion comune e lascio spazio al FRIEND_BEAT_05.",
+          "text": "Saluto il gruppo e cerco un momento per parlare con uno di loro.",
           "goto": "friend_beat_gate",
           "effects": [
             {
