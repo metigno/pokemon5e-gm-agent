@@ -2078,7 +2078,7 @@ export class Pokemon5eCombatEngine {
         opponent: opponentInitiative
       },
       trainer: normalizeTrainer(handoff.trainer, handoff.trainerPosition),
-      opponentTrainer: handoff.opponentTrainer ? clone(handoff.opponentTrainer) : null,
+      opponentTrainer: handoff.opponentTrainer ? normalizeTrainer(handoff.opponentTrainer, handoff.opponentTrainerPosition ?? { x: 5, y: 0 }) : null,
       player,
       playerBench,
       opponent,
