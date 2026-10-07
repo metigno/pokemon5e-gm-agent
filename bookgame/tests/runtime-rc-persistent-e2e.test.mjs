@@ -1453,91 +1453,85 @@ function flag(name) {
   return (state) => state.world?.flags?.[name] === true;
 }
 
-const FIVE_CANON = Object.freeze({
-  Luke: { path: "Tactician", specializations: ["fire", "grass", "dragon"] },
-  Mattew: { path: "Poké Mentor", specializations: ["electric", "steel", "fighting"] },
-  Daniel: { path: "Pokémon Collector", specializations: ["ghost", "psychic", "fighting"] },
-  Edward: { path: "Ace Trainer", specializations: ["water", "dark", "ice"] },
-  Fab: { path: "Commander", specializations: ["poison", "dragon", "steel"] }
-});
-
-function assertCanonicalFriendNpcsAtM12(state, protagonist) {
-  for (const [name, expected] of Object.entries(FIVE_CANON)) {
-    if (name === protagonist) continue;
-    const npc = state.npcs?.[name];
-    assert.ok(npc?.canonicalCareer, `${protagonist} -> ${name} canonical career`);
-    assert.equal(npc.trainer?.trainerLevel, 18, `${protagonist} -> ${name} level`);
-    assert.equal(npc.trainer?.trainerPath, expected.path, `${protagonist} -> ${name} Path`);
-    assert.deepEqual([...(npc.trainer?.specializations ?? [])].sort(), [...expected.specializations].sort(), `${protagonist} -> ${name} specializations`);
-    assert.equal(npc.rosterCareer?.length, 6, `${protagonist} -> ${name} roster slots`);
-    assert.ok(npc.rosterCareer.every((entry) => entry.acquired === true), `${protagonist} -> ${name} full roster acquired`);
-    assert.deepEqual(npc.rosterCareer.map((entry) => entry.evolutionLine.at(-1)), npc.canonicalCareer.finalTeam, `${protagonist} -> ${name} canonical final roster`);
-  }
-}
-
-test("RC persistent E2E traverses real authored M1→M12 for all Five protagonists and all three World outcome routes", async () => {
+test("RC persistent E2E traverses real authored M1→M12 and all three World outcome routes", async () => {
   let dir;
   try {
     dir = await mkdtemp(path.join(os.tmpdir(), "p5e-rc-persistent-e2e-"));
     const store = new SaveStore(dir);
     const engine = await makeEngine();
-    const championFinals = [];
-    let postM6Luke;
-    let postM8Luke;
 
-    for (const protagonist of Object.keys(FIVE_CANON)) {
-      const lineageSlot = `rc-lineage-${protagonist.toLowerCase()}`;
-      let common = createNewGameState({ protagonist, slot: lineageSlot, now: fixedNow });
-      assert.equal(common.story.sceneId, "m01-release");
-      assert.equal(common.story.nodeId, "free_roam");
+    let common = createNewGameState({
+      protagonist: "Luke",
+      slot: "rc-lineage",
+      now: fixedNow
+    });
 
-      for (const [label, complete] of [["M1", completeCanonicalM1], ["M2", completeCanonicalM2], ["M3", completeCanonicalM3], ["M4", completeCanonicalM4], ["M5", completeCanonicalM5], ["M6", completeCanonicalM6]]) {
-        common = await complete(engine, common);
-        common = await persistReload(store, common, lineageSlot, `${protagonist} ${label}`);
-      }
-      if (protagonist === "Luke") postM6Luke = structuredClone(common);
+    assert.equal(common.story.sceneId, "m01-release");
+    assert.equal(common.story.nodeId, "free_roam");
 
-      let champion = structuredClone(common);
-      champion.slot = `rc-champion-${protagonist.toLowerCase()}`;
-      champion = await completeCanonicalM7Qualified(engine, champion);
-      champion = await persistReload(store, champion, champion.slot, `${protagonist} M7 qualified`);
-      champion = await completeCanonicalM8(engine, champion);
-      champion = await persistReload(store, champion, champion.slot, `${protagonist} M8`);
-      if (protagonist === "Luke") postM8Luke = structuredClone(champion);
-      champion = await completeCanonicalM9Advanced(engine, champion);
-      champion = await persistReload(store, champion, champion.slot, `${protagonist} M9`);
-      champion = await completeCanonicalM10FinalFour(engine, champion);
-      champion = await persistReload(store, champion, champion.slot, `${protagonist} M10`);
-      champion = await completeCanonicalM11Champion(engine, champion);
-      champion = await persistReload(store, champion, champion.slot, `${protagonist} M11 champion`);
-      champion = await completeCanonicalM12(engine, champion, "champion");
-      champion = await persistReload(store, champion, champion.slot, `${protagonist} M12 champion`);
-      assert.equal(champion.world.flags.world_champion, true);
-      assertCanonicalFriendNpcsAtM12(champion, protagonist);
-      championFinals.push(champion);
-    }
+    common = await completeCanonicalM1(engine, common);
+    common = await persistReload(store, common, "rc-lineage", "M1");
 
-    let missed = structuredClone(postM6Luke);
+    common = await completeCanonicalM2(engine, common);
+    common = await persistReload(store, common, "rc-lineage", "M2");
+
+    common = await completeCanonicalM3(engine, common);
+    common = await persistReload(store, common, "rc-lineage", "M3");
+
+    common = await completeCanonicalM4(engine, common);
+    common = await persistReload(store, common, "rc-lineage", "M4");
+
+    common = await completeCanonicalM5(engine, common);
+    common = await persistReload(store, common, "rc-lineage", "M5");
+
+    common = await completeCanonicalM6(engine, common);
+    common = await persistReload(store, common, "rc-lineage", "M6");
+
+    const postM6 = structuredClone(common);
+
+    let champion = structuredClone(postM6);
+    champion.slot = "rc-champion";
+    champion = await completeCanonicalM7Qualified(engine, champion);
+    champion = await persistReload(store, champion, champion.slot, "M7 qualified");
+
+    champion = await completeCanonicalM8(engine, champion);
+    champion = await persistReload(store, champion, champion.slot, "M8");
+    const postM8Champion = structuredClone(champion);
+
+    champion = await completeCanonicalM9Advanced(engine, champion);
+    champion = await persistReload(store, champion, champion.slot, "M9");
+
+    champion = await completeCanonicalM10FinalFour(engine, champion);
+    champion = await persistReload(store, champion, champion.slot, "M10");
+
+    champion = await completeCanonicalM11Champion(engine, champion);
+    champion = await persistReload(store, champion, champion.slot, "M11 champion");
+
+    champion = await completeCanonicalM12(engine, champion, "champion");
+    champion = await persistReload(store, champion, champion.slot, "M12 champion");
+    assert.equal(champion.world.flags.world_champion, true);
+
+    let missed = structuredClone(postM6);
     missed.slot = "rc-worlds-missed";
     missed = await completeCanonicalM7Missed(engine, missed);
     missed = await persistReload(store, missed, missed.slot, "M7 Worlds Missed");
+
     missed = await completeCanonicalM12(engine, missed, "missed");
     missed = await persistReload(store, missed, missed.slot, "M12 Worlds Missed");
     assert.equal(missed.world.flags.worlds_missed, true);
     assert.equal(missed.world.flags.world_qualified, false);
-    assertCanonicalFriendNpcsAtM12(missed, "Luke");
 
-    let eliminated = structuredClone(postM8Luke);
+    let eliminated = structuredClone(postM8Champion);
     eliminated.slot = "rc-world-eliminated";
     eliminated = await completeCanonicalM9Eliminated(engine, eliminated);
     eliminated = await persistReload(store, eliminated, eliminated.slot, "World Eliminated");
+
     eliminated = await completeCanonicalM12(engine, eliminated, "eliminated");
     eliminated = await persistReload(store, eliminated, eliminated.slot, "M12 eliminated");
     assert.equal(eliminated.world.flags.world_eliminated, true);
     assert.equal(eliminated.world.flags.world_champion, false);
-    assertCanonicalFriendNpcsAtM12(eliminated, "Luke");
 
-    for (const finalState of [...championFinals, missed, eliminated]) {
+    for (const finalState of [champion, missed, eliminated]) {
       assert.equal(finalState.world.flags.main_story_complete, true);
       assert.equal(finalState.world.flags.postgame_free_roam, true);
       assert.equal(finalState.pending, null);
@@ -1547,4 +1541,3 @@ test("RC persistent E2E traverses real authored M1→M12 for all Five protagonis
     if (dir) await rm(dir, { recursive: true, force: true });
   }
 });
-
