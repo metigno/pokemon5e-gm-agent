@@ -2817,8 +2817,16 @@ export class Pokemon5eCombatEngine {
         ? 0.5
         : 1;
     const adjustedHealing = Math.floor(rawHealing * environmentalMultiplier);
+    const tacticalHealing = side === "player" ? next.trainerEffects?.tacticalHealing : null;
+    let tacticalHealingBonus = 0;
+    if (tacticalHealing?.usesRemaining > 0 && tacticalHealing.targetSide === targetSide) {
+      for (let i = 0; i < Number(tacticalHealing.diceCount ?? 0); i += 1) {
+        tacticalHealingBonus += rollExpression(tacticalHealing.die ?? "d4", this.dice).total;
+      }
+      tacticalHealing.usesRemaining -= 1;
+    }
     const before = target.hp.current;
-    target.hp.current = Math.min(target.hp.max, target.hp.current + adjustedHealing);
+    target.hp.current = Math.min(target.hp.max, target.hp.current + adjustedHealing + tacticalHealingBonus);
 
     const curedStatuses = [];
     if (move.id === "jungle-healing") {
@@ -2837,6 +2845,7 @@ export class Pokemon5eCombatEngine {
       healingRoll,
       healingModifier: stats.damageModifier,
       environmentalMultiplier,
+      tacticalHealingBonus,
       healing: target.hp.current - before,
       hpBefore: before,
       hpAfter: target.hp.current,
