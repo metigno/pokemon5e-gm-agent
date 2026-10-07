@@ -45,8 +45,8 @@ test("UI server can create a real M1 game through the same API used by the butto
   assert.equal(payload.ok, true);
   assert.equal(payload.hasSession, true);
   assert.equal(payload.player.name, "Luke");
-  assert.equal(payload.story.sceneId, "m01-release");
-  assert.equal(payload.story.nodeId, "free_roam");
+  assert.equal(payload.story.sceneId, "intro-five");
+  assert.equal(payload.story.nodeId, "before_doors");
   assert.ok(Array.isArray(payload.story.choices));
   assert.ok(payload.story.choices.length >= 1);
 });
