@@ -190,6 +190,23 @@
           "id": "boundary_cutoff",
           "text": "Controllo come il cutoff mondiale entra nel quadro.",
           "goto": "cutoff_context"
+        },
+        {
+          "id": "advance_m7_handoff",
+          "text": "M6 è completo: apro il passaggio verso M7.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.m6_complete",
+                "eq": true
+              },
+              {
+                "path": "world.flags.m07_unlocked",
+                "eq": true
+              }
+            ]
+          },
+          "goto": "m07-handoff#m07_entry"
         }
       ]
     },
