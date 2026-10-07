@@ -13,7 +13,7 @@ test("RC lock: NPC trainer, forced replacement and fog state survive save/reload
   const dir=await mkdtemp(path.join(os.tmpdir(),"p5e-final-lock-"));
   try {
     const store=new SaveStore(dir);
-    const combat=new Pokemon5eCombatEngine({dice:new SequenceDice([10,10,10,10,10,10])});
+    const combat=new Pokemon5eCombatEngine({dice:new SequenceDice([10,10,10,10,10,10,1,1,1,1,1,1])});
     let battle=await combat.createBattle({
       encounterId:"FINAL_LOCK",
       playerPokemon:{species:"Growlithe",form:"Hisuian",level:5},
