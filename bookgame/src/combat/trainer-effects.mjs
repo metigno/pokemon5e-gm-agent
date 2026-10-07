@@ -1,4 +1,4 @@
-const TRAINER_COMBAT_EFFECTS=new Set(["damage-roll-advantage","ac-or-save-bonus","attack-or-damage-bonus","allied-attack-damage-or-ac","capture-check-advantage","leave-pokemon-at-1-hp"]);
+const TRAINER_COMBAT_EFFECTS=new Set(["damage-roll-advantage","ac-or-save-bonus","save-dc-bonus","attack-or-damage-bonus","allied-attack-damage-or-ac","capture-check-advantage","leave-pokemon-at-1-hp"]);
 export function trainerCombatEffectSupported(effect){return TRAINER_COMBAT_EFFECTS.has(effect);}
 function push(combatant,key,entry){combatant.effects??={};combatant.effects[key]??=[];combatant.effects[key].push(entry);}
 export function applyTrainerCombatEffect(battle,{side,featureResult,targetSide=side,mode=null,roll=null}){
@@ -14,6 +14,8 @@ export function applyTrainerCombatEffect(battle,{side,featureResult,targetSide=s
    else if(mode==="save")push(target,"saveModifierSources",{source,value:featureResult.amount,expiresRound:round+1});
    else throw new Error("Raise Your Defenses requires mode ac or save");
    break;
+  case "save-dc-bonus":
+   push(target,"saveDcModifierSources",{source,value:featureResult.amount,usesRemaining:1,expiresRound:round+1}); break;
   case "attack-or-damage-bonus": {
    const value=Number(roll); if(!Number.isFinite(value)||value<1)throw new Error("Battle Die roll is required");
    const key=mode==="attack"?"attackModifierSources":mode==="damage"?"damageModifierSources":null;

@@ -29,6 +29,9 @@ function battleLegality(battle, def, reactionContext = null) {
   if (def.action === "action" && !battle.player?.turn?.actionAvailable) {
     return { legal: false, reason: "action_spent" };
   }
+  if (def.effect === "save-dc-bonus" && reactionContext?.trigger !== "player_save_move") {
+    return { legal: false, reason: "save_trigger_required" };
+  }
   if (def.action === "reaction") {
     if (!reactionContext) return { legal: false, reason: "reaction_trigger_required" };
     if (!battle.trainer?.reactionAvailable) return { legal: false, reason: "reaction_spent" };
