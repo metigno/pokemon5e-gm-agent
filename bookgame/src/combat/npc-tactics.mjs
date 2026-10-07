@@ -1,3 +1,4 @@
+import { typeMultiplier } from "./type-chart.mjs";
 const PROFILES=Object.freeze({
  easy:Object.freeze({id:"easy",lookahead:0,preferDamage:false,useStatus:false,preserveResources:false}),
  medium:Object.freeze({id:"medium",lookahead:0,preferDamage:true,useStatus:true,preserveResources:false}),
@@ -38,9 +39,12 @@ export function chooseNpcTurnPlan({legalMoves=[],bench=[],active,target,knowledg
  const threat=assessPublicThreat(knowledge);
  const activeRatio=active?.hp?.max>0?active.hp.current/active.hp.max:1;
  const healthy=bench.map((pokemon,index)=>({pokemon,index})).filter(x=>x.pokemon?.hp?.current>0);
- if(profile.id!=="easy"&&activeRatio<=0.25&&threat.score>=40&&healthy.length){
-  const best=healthy.sort((a,b)=>(b.pokemon.hp.current/b.pokemon.hp.max)-(a.pokemon.hp.current/a.pokemon.hp.max))[0];
-  if((best.pokemon.hp.current/best.pokemon.hp.max)>=activeRatio+0.35) return {kind:"switch",benchIndex:best.index,reason:"preserve_low_hp_active"};
+ if(profile.id!=="easy"&&healthy.length){
+  const stayScore=scoreNpcStay(active,{knowledge});
+  const ranked=healthy.map(x=>({...x,score:scoreNpcSwitchCandidate(x.pokemon,{knowledge,active})})).sort((a,b)=>b.score-a.score||a.index-b.index);
+  const best=ranked[0];
+  const margin=profile.id==="very-hard"?4:10;
+  if(threat.score>=40&&best.score>=stayScore+margin) return {kind:"switch",benchIndex:best.index,reason:"switch_value",score:best.score,stayScore};
  }
  return move?{kind:"move",moveId:move.id,reason:"best_legal_move"}:{kind:"end",reason:"no_legal_action"};
 }
@@ -59,4 +63,33 @@ export function assessPublicThreat(view){
  const statusValues=Object.values(target.statuses??{});
  if(statusValues.some(Boolean)){score-=8;reasons.push("target_statused");}
  return {score:Math.max(0,Math.min(100,score)),reasons};
+}
+
+function statusPenalty(statuses={}){
+ return Object.values(statuses).some(Boolean)?10:0;
+}
+function setupValue(pokemon){
+ const s=pokemon?.setup??{};
+ return Math.max(0,Number(s.attack??0))*5+Math.max(0,Number(s.ac??0))*5+Math.max(0,Number(s.damage??0))*5;
+}
+export function scoreNpcSwitchCandidate(candidate,{knowledge=null,active=null}={}){
+ if(!candidate?.hp?.max||candidate.hp.current<=0) return -Infinity;
+ let score=50+(candidate.hp.current/candidate.hp.max)*25-statusPenalty(candidate.statuses);
+ const revealed=knowledge?.revealedPlayerMoves??[];
+ const targetTypes=knowledge?.player?.types??[];
+ for(const move of revealed){
+  const attackType=typeof move==="object"?move.type:null;
+  if(!attackType) continue;
+  const mult=typeMultiplier(attackType,candidate.types??[]);
+  if(mult===0) score+=22;
+  else if(mult===0.5) score+=12;
+  else if(mult===2) score-=20;
+ }
+ score-=setupValue(active);
+ if(targetTypes.length&&candidate.types?.length) score+=0;
+ return score;
+}
+export function scoreNpcStay(active,{knowledge=null}={}){
+ if(!active?.hp?.max) return -Infinity;
+ return 45+(active.hp.current/active.hp.max)*30+setupValue(active)-statusPenalty(active.statuses);
 }
