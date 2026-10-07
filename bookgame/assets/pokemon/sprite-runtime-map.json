@@ -9,8 +9,8 @@
     "icon": "required"
   },
   "counts": {
-    "sprites": 608,
-    "aliases": 628,
+    "sprites": 619,
+    "aliases": 639,
     "aliasCollisions": 0
   },
   "aliasIndex": {
@@ -641,7 +641,18 @@
     "zorua": "zorua",
     "zubat": "zubat",
     "zweilous": "zweilous",
-    "wooper-paldean": "wooper-paldea"
+    "wooper-paldean": "wooper-paldea",
+    "slowpoke": "slowpoke",
+    "mimikyu": "mimikyu",
+    "riolu": "riolu",
+    "noctowl": "noctowl",
+    "crobat": "crobat",
+    "scizor": "scizor",
+    "starmie": "starmie",
+    "donphan": "donphan",
+    "snorlax": "snorlax",
+    "gyarados": "gyarados",
+    "lucario": "lucario"
   },
   "sprites": {
     "abra": {
@@ -4291,6 +4302,61 @@
       "battleBack": "back.png",
       "icon": "icon.png",
       "overworld": "overworld.png"
+    },
+    "slowpoke": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png"
+    },
+    "mimikyu": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png"
+    },
+    "riolu": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png"
+    },
+    "noctowl": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png"
+    },
+    "crobat": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png"
+    },
+    "scizor": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png"
+    },
+    "starmie": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png"
+    },
+    "donphan": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png"
+    },
+    "snorlax": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png"
+    },
+    "gyarados": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png"
+    },
+    "lucario": {
+      "battleFront": "anim_front.png",
+      "battleBack": "back.png",
+      "icon": "icon.png"
     }
   }
 }
