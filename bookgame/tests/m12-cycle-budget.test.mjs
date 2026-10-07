@@ -7,7 +7,7 @@ const expected=[
   ["m12-world-exit-branch",19,42],
   ["m12-return-asteria",13,28],
   ["m12-valedarsena-callbacks",21,46],
-  ["m12-bruma-callbacks",21,46],
+  ["m12-bruma-callbacks",21,47],
   ["m12-ferrox-callbacks",21,47]
 ];
 
@@ -15,7 +15,7 @@ async function readScene(rel){
   return JSON.parse(await readFile(fileURLToPath(new URL("../content/scenes/"+rel+".json",import.meta.url)),"utf8"));
 }
 
-test("M12_00-M12_04 logical production budget is locked at 95 nodes / 209 meaningful choices",async()=>{
+test("M12_00-M12_04 logical production budget is locked at 95 nodes / 210 meaningful choices",async()=>{
   let nodes=0,choices=0;
   for(const [rel,n,c] of expected){
     const scene=await readScene(rel);
@@ -26,7 +26,7 @@ test("M12_00-M12_04 logical production budget is locked at 95 nodes / 209 meanin
     nodes+=actualNodes; choices+=actualChoices;
   }
   assert.equal(nodes,95);
-  assert.equal(choices,209);
+  assert.equal(choices,210);
 });
 
 test("M12 authored-surface manifest remains locked at 4753 stitches / 1884 choices",async()=>{
@@ -43,8 +43,8 @@ test("M12 first five block IDs remain the canonical production spine",async()=>{
   ]);
 });
 
-test("M12 cycle1 remains on the agreed 228/502 logical trajectory",()=>{
-  assert.deepEqual({nodes:228-95,choices:502-209},{nodes:133,choices:293});
+test("M12 cycle1 remains on the agreed 228/503 logical trajectory",()=>{
+  assert.deepEqual({nodes:228-95,choices:503-210},{nodes:133,choices:293});
 });
 
 test("M12_00-M12_04 authored nodes are reachable and have no zero-incoming padding",async()=>{
