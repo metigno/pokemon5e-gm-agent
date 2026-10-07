@@ -73,3 +73,17 @@ export function rechargeTrainerResources(state,{actor={kind:"player"},rest}){
  }
  return restored;
 }
+
+export function legalTrainerFeatureActions(state,{actor={kind:"player"},allowedActions=null}={}){
+ const t=trainerRef(state,actor);
+ const out=[];
+ for(const featureId of t.classFeatures??[]){
+  const def=trainerFeatureRuntimeDefinition(featureId); if(!def) continue;
+  if(allowedActions&&!(allowedActions.includes(def.action))) continue;
+  const resource=def.resourceId?t.classResources?.[def.resourceId]:null;
+  const minCost=def.cost??def.minCost??0;
+  if(def.resourceId&&(!resource||Number(resource.current??0)<minCost)) continue;
+  out.push({featureId,action:def.action,effect:def.effect,resourceId:def.resourceId??null,minCost,maxCost:def.maxCost??minCost});
+ }
+ return out;
+}
