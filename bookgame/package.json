@@ -12,4 +12,4 @@
     "report:story": "node src/compiler/cli.mjs --report",
     "ui": "node ui/server.mjs"
   }
-}\n
+}
