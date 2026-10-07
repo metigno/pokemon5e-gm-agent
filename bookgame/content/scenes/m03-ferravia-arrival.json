@@ -524,7 +524,7 @@
         },
         {
           "id": "ferrox_rumor_2",
-          "text": "L'operaio non pronuncia il nome ma la descrizione è precisa. È un segnale ambientale, non una rivelazione: un tecnico esterno sta leggendo lo stesso territorio con occhio diverso. Il tuo motore di gioco registra l'indizio senza forzare Steven Stone sulla scena."
+          "text": "L'operaio non pronuncia il nome, ma la descrizione è precisa: qualcuno con esperienza di pietre e terreno sta osservando gli stessi lavori da un punto di vista diverso."
         }
       ],
       "choices": [
@@ -550,11 +550,11 @@
       "stitches": [
         {
           "id": "sala_verde_1",
-          "text": "La Sala Verde di Ferravia è un punto di riposo e consulto del Circuito: panche, area tranquilla per i Pokémon, un medico di turno e un banco informazioni. Il motore del librogame non inventa una guarigione automatica: HP, PP e condizioni restano proprietà delle vere regole Pokémon 5e e dei relativi sottosistemi."
+          "text": "La Sala Verde di Ferravia è un punto di riposo e consulto del Circuito: panche, un'area tranquilla per i Pokémon, un medico di turno e un banco informazioni."
         },
         {
           "id": "sala_verde_2",
-          "text": "Puoi fermarti con la squadra e lasciare scorrere il tempo, oppure chiedere un consulto descrittivo sullo stato dei tuoi Pokémon. Finché non esiste un effetto medico canonico nel runtime, nessuna di queste azioni modifica di nascosto HP, PP o status."
+          "text": "Puoi fermarti con la squadra e lasciare scorrere un po' di tempo, oppure chiedere al medico un parere sulle condizioni dei tuoi Pokémon. Il consulto non sostituisce cure o strumenti medici."
         }
       ],
       "choices": [
@@ -626,7 +626,7 @@
         },
         {
           "id": "arena_2",
-          "text": "La bacheca mostra risultati di trainer locali e di passaggio. Non tutti vincono: alcune sconfitte sono registrate accanto a nomi che ritroverai durante il modulo. È un segnale sano — l'Arena non è un palcoscenico truccato."
+          "text": "La bacheca mostra risultati di allenatori locali e di passaggio. Vittorie e sconfitte compaiono una accanto all'altra, con alcuni nomi che hai già visto in città."
         },
         {
           "id": "arena_3",
@@ -663,11 +663,11 @@
       "stitches": [
         {
           "id": "trial_rules_1",
-          "text": "«Trial D→C: formato ufficiale tre contro tre, roster registrato all'iscrizione. Prerequisito tecnico Rank D attivo — che hai — e aver completato il quadro di contenuto M3 richiesto dal Circuito. Quest'ultimo controllo lo faremo al momento dell'iscrizione, non prima. Non c'è una scadenza stretta; se vuoi aspettare per preparare meglio la squadra, aspetta.»"
+          "text": "«Trial D→C: tre contro tre, squadra dichiarata all'iscrizione. Serve il Rank D e l'autorizzazione del Circuito. Quando vorrai iscriverti controlleremo tutto al banco. Non c'è bisogno di correre: preparati e torna quando sei pronto.»"
         },
         {
           "id": "trial_rules_2",
-          "text": "L'addetto non ti vende urgenza. Il Trial resterà disponibile; il contenuto che il Circuito richiede farà parte del percorso naturale di M3. L'iscrizione concreta è compito di M3_12, non di questo blocco."
+          "text": "L'addetto rimette il modulo sotto il banco. «L'iscrizione resta qui. Quando decidi, vieni con la squadra pronta.»"
         }
       ],
       "choices": [
@@ -715,11 +715,11 @@
       "stitches": [
         {
           "id": "shop_1",
-          "text": "Il negozio di Ferravia usa lo stesso sistema economico reale già attivo a Valedarsena e Borgo Salice: denaro persistente, inventario persistente e stock finito. Nessun credito e nessun acquisto narrativo finto."
+          "text": "Dietro il bancone sono esposti consumabili comuni del Circuito. Il negoziante accetta solo pagamento immediato e indica sul listino le quantità ancora disponibili."
         },
         {
           "id": "shop_2",
-          "text": "Il listino standard disponibile qui è Poké Ball ₽250, Potion ₽200 e Antidote ₽200. Lo stock si rifornisce ogni tre giorni di gioco; gli oggetti comprati sono gli stessi consumabili usati dal resto del motore."
+          "text": "Il listino segna Poké Ball ₽250, Potion ₽200 e Antidote ₽200. Un cartello informa che le consegne ordinarie arrivano ogni tre giorni."
         }
       ],
       "choices": [

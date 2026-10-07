@@ -119,7 +119,7 @@
         },
         {
           "id": "intro_2",
-          "text": "Il suo modo di parlare è quello di qualcuno che valuta la qualità delle domande, non la grandezza dei risultati. Non c'è nessun test di valore in corso — solo un'osservazione reciproca. Il tuo motore registra: Steven è ora un contatto noto, non un boss attivo."
+          "text": "Steven ascolta fino alla fine prima di rispondere. Le sue domande tornano sempre alla qualità delle osservazioni: rocce, vuoti nel terreno, mappe e ciò che può essere verificato."
         }
       ],
       "choices": [
@@ -330,7 +330,7 @@
       "stitches": [
         {
           "id": "post_1",
-          "text": "L'archivista chiude il registro delle consultazioni e ti saluta. Fuori Ferravia continua la sua giornata: officine aperte, Arena operativa, treni che portano materiale verso la cava. L'incontro — avvenuto o declinato — è registrato nel tuo stato di gioco e condizionerà il modo in cui M3 continuerà a leggerti."
+          "text": "L'archivista chiude il registro delle consultazioni e ti saluta. Fuori, Ferravia continua la sua giornata: officine aperte, Arena operativa e treni merci diretti verso la cava."
         }
       ],
       "choices": [
@@ -355,7 +355,7 @@
         },
         {
           "id": "deferred_contact_2",
-          "text": "La seconda occasione esiste perché la sua traiettoria è indipendente ma ancora causalmente compatibile con la tua. Rimandare una conversazione non può rendere impossibile il contratto di uscita del modulo."
+          "text": "Steven non insiste. Continua per la sua strada e lascia aperta la possibilità di riprendere la conversazione se vi incontrerete di nuovo a Ferravia."
         }
       ],
       "choices": [

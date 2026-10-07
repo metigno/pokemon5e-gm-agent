@@ -42,7 +42,7 @@
       "stitches": [
         {
           "id": "friend_call_1",
-          "text": "Uno degli altri Five ti contatta mentre Ferravia continua a muoversi intorno a te. Il nome non viene scelto per comodità narrativa: è quello fissato dall'evento A3_FRIEND_CALL usando stato e disponibilità persistenti."
+          "text": "Uno degli altri Five ti contatta mentre Ferravia continua a muoversi intorno a te. È quello che, tra viaggi e impegni del Circuito, riesce davvero a raggiungerti in questo momento."
         }
       ],
       "choices": [
@@ -171,13 +171,13 @@
       "stitches": [
         {
           "id": "luke_physical_text",
-          "text": "Luke parla soprattutto di distanza e scelta delle rotte. Non ti chiede se stai 'vincendo' M3; vuole sapere se hai iniziato a distinguere il rischio reale dal rumore del mondo. Essere nello stesso posto cambia il ritmo della conversazione: potete leggere reazioni e silenzi senza ridurre tutto a un messaggio."
+          "text": "Luke guarda per un momento la strada alle tue spalle. «Allora? Hai capito quali rischi sono veri o stai ancora litigando con ogni cartello che incontri?» Il tono è quello di sempre: provocatorio abbastanza da farti capire che la domanda gli interessa davvero."
         }
       ],
       "choices": [
         {
           "id": "luke_physical_deep",
-          "text": "Gli racconto una scelta di M3 che mi ha fatto cambiare idea.",
+          "text": "Gli racconto una scelta recente che mi ha fatto cambiare idea.",
           "goto": "luke_personal_result",
           "effects": [
             {
@@ -215,7 +215,7 @@
       "stitches": [
         {
           "id": "luke_remote_text",
-          "text": "Luke parla soprattutto di distanza e scelta delle rotte. Non ti chiede se stai 'vincendo' M3; vuole sapere se hai iniziato a distinguere il rischio reale dal rumore del mondo. La distanza resta reale: non potete trasformare la chiamata in un incontro fisico se la schedule non lo permette."
+          "text": "La voce di Luke arriva tra rumore di strada e una protesta rivolta a qualcuno fuori campo. «Dimmi solo che hai imparato a distinguere un rischio vero da uno che fa scena.» Poi aggiunge, quasi subito: «E no, non vale rispondere 'li affronto tutti'. Quella è la mia risposta.»"
         }
       ],
       "choices": [
@@ -355,7 +355,7 @@
       "stitches": [
         {
           "id": "luke_personal_result_text",
-          "text": "La conversazione non assegna un premio. Cambia una relazione persistente e lascia un pezzo di contesto che potrà riemergere quando le strade dei Five si incroceranno di nuovo."
+          "text": "Luke ti prende in giro ancora una volta prima di salutarvi. Quando la comunicazione si chiude, la conversazione resta tra voi senza bisogno di premi o annunci."
         }
       ],
       "choices": [
@@ -458,7 +458,7 @@
       "choices": [
         {
           "id": "mattew_physical_deep",
-          "text": "Gli racconto una scelta di M3 che mi ha fatto cambiare idea.",
+          "text": "Gli racconto una scelta recente che mi ha fatto cambiare idea.",
           "goto": "mattew_personal_result",
           "effects": [
             {
@@ -636,7 +636,7 @@
       "stitches": [
         {
           "id": "mattew_personal_result_text",
-          "text": "La conversazione non assegna un premio. Cambia una relazione persistente e lascia un pezzo di contesto che potrà riemergere quando le strade dei Five si incroceranno di nuovo."
+          "text": "Mattew torna sui dettagli ancora per qualche minuto, poi sorride. «La prossima volta portami qualcosa di più difficile da smontare.» Vi salutate e ciascuno riprende la propria strada."
         }
       ],
       "choices": [
@@ -739,7 +739,7 @@
       "choices": [
         {
           "id": "daniel_physical_deep",
-          "text": "Gli racconto una scelta di M3 che mi ha fatto cambiare idea.",
+          "text": "Gli racconto una scelta recente che mi ha fatto cambiare idea.",
           "goto": "daniel_personal_result",
           "effects": [
             {
@@ -917,7 +917,7 @@
       "stitches": [
         {
           "id": "daniel_personal_result_text",
-          "text": "La conversazione non assegna un premio. Cambia una relazione persistente e lascia un pezzo di contesto che potrà riemergere quando le strade dei Five si incroceranno di nuovo."
+          "text": "Daniel ascolta la conclusione senza interromperti. Poi sistema le sue cose con la solita precisione. «Non sono certo che avrei fatto lo stesso. Ma almeno so perché l'hai fatto.»"
         }
       ],
       "choices": [
@@ -1020,7 +1020,7 @@
       "choices": [
         {
           "id": "edward_physical_deep",
-          "text": "Gli racconto una scelta di M3 che mi ha fatto cambiare idea.",
+          "text": "Gli racconto una scelta recente che mi ha fatto cambiare idea.",
           "goto": "edward_personal_result",
           "effects": [
             {
@@ -1198,7 +1198,7 @@
       "stitches": [
         {
           "id": "edward_personal_result_text",
-          "text": "La conversazione non assegna un premio. Cambia una relazione persistente e lascia un pezzo di contesto che potrà riemergere quando le strade dei Five si incroceranno di nuovo."
+          "text": "Edward scrolla le spalle con un mezzo sorriso. «Basta che alla fine sia stata una scelta tua. Se devo sbagliare, preferisco farlo con stile.» La battuta chiude la parte seria della conversazione."
         }
       ],
       "choices": [
@@ -1301,7 +1301,7 @@
       "choices": [
         {
           "id": "fab_physical_deep",
-          "text": "Gli racconto una scelta di M3 che mi ha fatto cambiare idea.",
+          "text": "Gli racconto una scelta recente che mi ha fatto cambiare idea.",
           "goto": "fab_personal_result",
           "effects": [
             {
@@ -1479,7 +1479,7 @@
       "stitches": [
         {
           "id": "fab_personal_result_text",
-          "text": "La conversazione non assegna un premio. Cambia una relazione persistente e lascia un pezzo di contesto che potrà riemergere quando le strade dei Five si incroceranno di nuovo."
+          "text": "Fab annuisce come se la questione fosse molto più semplice di quanto tutti cerchino di renderla. «Io provo a fare la cosa giusta con i Pokémon che ho. Se poi vinco pure, meglio.»"
         }
       ],
       "choices": [

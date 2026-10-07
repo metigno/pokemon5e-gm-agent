@@ -26,13 +26,13 @@
       "stitches": [
         {
           "id": "win_1",
-          "text": "E5 ha registrato una vittoria: il Rank è ora C e la fascia successiva è legalmente aperta. M3, però, si chiude solo se i suoi contratti narrativi obbligatori sono realmente soddisfatti."
+          "text": "Il tabellone registra la vittoria e la tua tessera passa al Rank C. Le nuove autorizzazioni sono valide, ma Ferravia non smette di esistere soltanto perché hai superato l'esame."
         }
       ],
       "choices": [
         {
           "id": "close_m3",
-          "text": "Il quadro M3 è completo: chiudo il modulo.",
+          "text": "Ritiro la tessera Rank C e preparo la partenza.",
           "conditions": {
             "all": [
               {
@@ -90,7 +90,7 @@
         },
         {
           "id": "review_pending",
-          "text": "Controllo cosa manca prima di chiudere M3.",
+          "text": "Prima di partire, controllo cosa ho ancora lasciato in sospeso.",
           "conditions": {
             "all": [
               {
@@ -146,7 +146,7 @@
       "stitches": [
         {
           "id": "pending_1",
-          "text": "La promozione non cancella contenuti obbligatori lasciati aperti. Il modulo ti rimanda soltanto ai thread che mancano davvero."
+          "text": "La promozione è valida, ma alcune questioni a Ferravia richiedono ancora la tua presenza prima della partenza."
         }
       ],
       "choices": [
@@ -167,7 +167,7 @@
         },
         {
           "id": "pending_friend",
-          "text": "Devo ancora completare FRIEND_BEAT_03.",
+          "text": "Prima di partire, cerco il mio amico.",
           "conditions": {
             "path": "world.flags.friend_beat_03_complete",
             "ne": true
@@ -182,7 +182,7 @@
         },
         {
           "id": "pending_rescue",
-          "text": "Devo ancora avere uno stato persistente del rescue Ferrox.",
+          "text": "Controllo il rapporto conclusivo sull'emergenza Ferrox.",
           "conditions": {
             "path": "world.flags.ferrox_rescue_state",
             "exists": false
@@ -246,7 +246,7 @@
         },
         {
           "id": "pending_review_steven",
-          "text": "Rileggo il callback di Steven prima dell'uscita.",
+          "text": "Ripenso all'ultimo incontro con Steven prima di partire.",
           "conditions": {
             "path": "world.flags.steven_met",
             "eq": true
@@ -286,11 +286,11 @@
       "stitches": [
         {
           "id": "exit_1",
-          "text": "M3 è chiuso. Il gioco conserva integralmente Rank C, history competitiva, roster, condizioni, denaro, relazioni, bilancio Ferrox, risultato Cup se disputata e tutti i callback precedenti."
+          "text": "Con il Rank C sulla tessera puoi lasciare Ferravia. La squadra, il denaro, i rapporti costruiti, il bilancio di Ferrox e l'eventuale risultato della Coppa restano parte del tuo viaggio."
         },
         {
           "id": "exit_2",
-          "text": "`m04_unlocked` apre il contratto del modulo successivo quando M4 verrà implementato; M3 non inventa oggi contenuti futuri per riempire il vuoto."
+          "text": "Sul pannello delle partenze compare una nuova direttrice autorizzata dal Rank C. Il percorso prosegue oltre la regione industriale."
         }
       ],
       "choices": [
@@ -307,7 +307,7 @@
         },
         {
           "id": "review_module_continuity",
-          "text": "Rivedo cosa M3 porta realmente nel modulo successivo.",
+          "text": "Controllo un'ultima volta ciò che lascio a Ferravia.",
           "conditions": {
             "path": "world.flags.m3_continuity_reviewed",
             "ne": true
@@ -341,7 +341,7 @@
       "stitches": [
         {
           "id": "loss_1",
-          "text": "E5 ha registrato una sconfitta. Il Rank resta D, il checkpoint torna disponibile e la registrazione è stata consumata. Tutto il resto di M3 resta intatto."
+          "text": "Il tabellone assegna la vittoria all'esaminatore. Il tuo Rank resta D; al banco ti confermano che potrai registrarti di nuovo per un altro tentativo."
         }
       ],
       "choices": [
@@ -424,7 +424,7 @@
       "stitches": [
         {
           "id": "win_debrief_1",
-          "text": "La vittoria ha aperto Rank C, ma il valore del risultato sta anche nel modo in cui il modulo arriva qui: Ferravia, Ferrox, Steven, i Five e l'eventuale Cup restano parte dello stesso stato persistente."
+          "text": "La vittoria apre le destinazioni del Rank C. Dietro di te restano Ferravia, Ferrox, Steven, i tuoi amici e l'eventuale Coppa, ciascuno con le conseguenze che hai lasciato."
         }
       ],
       "choices": [
@@ -440,7 +440,7 @@
         },
         {
           "id": "win_back",
-          "text": "Torno alla schermata di chiusura M3.",
+          "text": "Torno al banco delle partenze.",
           "goto": "trial_win"
         }
       ]
@@ -455,7 +455,7 @@
       "choices": [
         {
           "id": "rank_access_back",
-          "text": "Torno alla chiusura M3.",
+          "text": "Torno al banco delle partenze.",
           "goto": "trial_win",
           "effects": [
             {
@@ -467,7 +467,7 @@
         },
         {
           "id": "rank_access_pending",
-          "text": "Controllo prima se ho thread M3 ancora aperti.",
+          "text": "Controllo prima se ho ancora questioni aperte a Ferravia.",
           "goto": "pending_items"
         }
       ]
@@ -482,7 +482,7 @@
       "choices": [
         {
           "id": "history_back_win",
-          "text": "Torno alla chiusura M3.",
+          "text": "Torno al banco delle partenze.",
           "conditions": {
             "path": "competition.rank",
             "eq": "C"
@@ -563,7 +563,7 @@
       "stitches": [
         {
           "id": "ferrox_callback_1",
-          "text": "Il bilancio Ferrox non scompare perché hai vinto un match. Danni, responsabilità e riconoscimento locale restano esattamente nello stato registrato da M3_11."
+          "text": "Il bilancio Ferrox non scompare dopo la vittoria al Trial. Danni, responsabilità e riconoscimento locale restano quelli riportati nel rapporto conclusivo."
         }
       ],
       "choices": [
@@ -607,7 +607,7 @@
       "stitches": [
         {
           "id": "retry_analysis_1",
-          "text": "La sconfitta dice qualcosa sul tentativo, non sull'intero modulo. Puoi guardare il focus che avevi scelto, lo stato del roster e il numero di attempts senza ricevere un vantaggio gratis."
+          "text": "La sconfitta riguarda questo tentativo. Puoi rivedere come avevi preparato l'incontro, controllare la squadra e decidere se ripresentarti."
         }
       ],
       "choices": [
@@ -638,7 +638,7 @@
       "stitches": [
         {
           "id": "retry_ready_1",
-          "text": "Il checkpoint è retryable, ma la nuova registrazione deve avvenire di nuovo tramite E5. Il tentativo precedente resta nella history e non viene cancellato."
+          "text": "Per un nuovo tentativo devi tornare al banco e registrarti di nuovo. Il risultato precedente resta nello storico del Circuito."
         }
       ],
       "choices": [
@@ -658,7 +658,7 @@
       "stitches": [
         {
           "id": "continuity_1",
-          "text": "Prima dell'uscita, M3 conserva quattro linee indipendenti: progressione competitiva, bilancio Ferrox, relazioni/Steven e risultato Cup se disputata. Nessuna viene compressa in un unico punteggio."
+          "text": "Prima di partire puoi ricontrollare quattro aspetti distinti del tuo passaggio a Ferravia: il Rank raggiunto, il bilancio Ferrox, i rapporti costruiti e l'eventuale risultato della Coppa."
         }
       ],
       "choices": [

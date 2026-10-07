@@ -7,9 +7,18 @@
   "entryNodeId": "m03_entry",
   "conditions": {
     "all": [
-      { "path": "world.flags.m2_complete", "eq": true },
-      { "path": "world.flags.m03_unlocked", "eq": true },
-      { "path": "competition.rank", "eq": "D" }
+      {
+        "path": "world.flags.m2_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m03_unlocked",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "D"
+      }
     ]
   },
   "nodes": {
@@ -17,37 +26,41 @@
       "stitches": [
         {
           "id": "rank_d_registered",
-          "text": "Il Circuito Asteria aggiorna la tessera e conferma Rank D. L'uscita formale da M2 non è un intermezzo narrativo: è un cambio reale di fascia di accesso. La nuova fascia include Cava Grigia (AST-QUARRY), Ferravia (FER-CITY), le Gallerie Ferrox (FER-TUNNELS) e la direttrice che le collega oltre Valedarsena, insieme a tutti i nodi Rank E e F già aperti."
+          "text": "Il Circuito Asteria aggiorna la tessera e conferma il Rank D. Sul nuovo pannello compaiono Cava Grigia, Ferravia e le Gallerie Ferrox, oltre alle destinazioni che avevi già ottenuto con i Rank precedenti."
         },
         {
           "id": "m2_history_intact",
-          "text": "Lo stato accumulato in M1 e M2 resta integro. Roster, HP, PP, condizioni, inventario, denaro, quest, cronologia competitiva, relazioni NPC, orari, FRIEND_BEAT_01 e FRIEND_BEAT_02, l'esito della rete di bracconaggio nel Mistwood, la relazione con N e qualsiasi callback ambientale di Borgo Salice o Valedarsena viaggiano intatti nella nuova fascia."
+          "text": "Nel tuo zaino c'è ciò che avevi prima di partire; la squadra porta ancora addosso fatica, ferite e condizioni rimaste dal viaggio. Anche a Borgo Salice e Valedarsena le persone continuano a ricordare ciò che hai fatto."
         },
         {
           "id": "world_still_moving",
-          "text": "Il mondo non si ferma mentre consulti la nuova fascia. Gli altri Four continuano le proprie carriere, le competizioni non-player si risolvono, le quest con scadenza avanzano, e Steven Stone — l'Anchor di questa fascia — è una presenza possibile ma non obbligatoria: comparirà quando la causalità del tuo stato lo renderà plausibile, non perché sei entrato in M3."
+          "text": "Mentre consulti le nuove destinazioni, gli altri allenatori continuano a muoversi e i tabelloni vengono aggiornati. Da qualche parte nella stessa regione viaggia anche Steven Stone, ma nessun annuncio dice che le vostre strade debbano incrociarsi oggi."
         },
         {
           "id": "no_premature_m3",
-          "text": "Nessun contenuto di M3 è stato attivato automaticamente. L'incidente di Ferrox, il soccorso, FRIEND_BEAT_03, il Crossroads, la Regional Cup e il Trial D→C non sono registrati. La fauna industriale e tunnel non viene forzata nei pool, e il Rookie Invitational di M2 resta chiuso nel suo blocco canonico."
+          "text": "Per ora il pannello mostra soltanto le nuove tratte autorizzate. Ferrox continua a lavorare, la Coppa Regionale segue il proprio calendario e l'Arena di Ferravia mantiene aperte le sue normali attività."
         }
       ],
       "choices": [
         {
           "id": "confirm_rank_d_active",
-          "text": "Registro ufficialmente l'apertura della fascia Rank D e avvio M3.",
+          "text": "Ritiro la tessera Rank D e controllo le nuove destinazioni.",
           "conditions": {
             "path": "world.flags.m3_active",
             "ne": true
           },
           "goto": "access_band_open",
           "effects": [
-            { "type": "set_flag", "key": "m3_active", "value": true }
+            {
+              "type": "set_flag",
+              "key": "m3_active",
+              "value": true
+            }
           ]
         },
         {
           "id": "already_active_m3",
-          "text": "M3 è già attivo. Rivedo la fascia di accesso confermata.",
+          "text": "Controllo di nuovo le destinazioni consentite dal Rank D.",
           "conditions": {
             "path": "world.flags.m3_active",
             "eq": true
@@ -60,7 +73,7 @@
       "stitches": [
         {
           "id": "band_summary",
-          "text": "Fascia Rank D confermata e registrata nel Circuito. I nodi industriali — Cava Grigia come porta d'ingresso, Ferravia come hub, Gallerie Ferrox come profondità tecnica — sono raggiungibili con viaggio esplicito. Nessun teletrasporto narrativo: il tempo in gioco scorre con il viaggio, come in M1 e M2."
+          "text": "La tessera Rank D viene accettata sui collegamenti verso Cava Grigia, Ferravia e le Gallerie Ferrox. Ogni tratta ha i propri orari e tempi di viaggio; nessuna destinazione è dietro l'angolo."
         },
         {
           "id": "available_destinations",
@@ -68,7 +81,7 @@
         },
         {
           "id": "callbacks_available",
-          "text": "I callback della fascia precedente — esito della rete di bracconaggio (risolta/parziale/ignorata/escalata), relazione con N, FRIEND_BEAT_02, cronologia del Rookie Invitational, risultato del Trial E→D — restano leggibili da ogni nodo di M3. Non attribuiscono ricompense mai guadagnate; cambiano dialogo, prezzo, informazione o accesso quando è causalmente coerente."
+          "text": "Sul territorio restano anche le conseguenze del tuo passaggio precedente: la situazione nel Bosco Bruma, i rapporti costruiti a Borgo Salice, gli incontri avuti lungo la strada e i risultati registrati dal Circuito."
         }
       ],
       "choices": [
@@ -78,7 +91,10 @@
           "timeCostMinutes": 60,
           "goto": "m03-cava-grigia#approach",
           "effects": [
-            { "type": "set_location", "locationId": "ast_quarry" }
+            {
+              "type": "set_location",
+              "locationId": "ast_quarry"
+            }
           ]
         },
         {
@@ -86,7 +102,10 @@
           "text": "Per ora resto in base a Valedarsena.",
           "goto": "m01-valedarsena-first-arrival#city_hub",
           "effects": [
-            { "type": "set_location", "locationId": "valedarsena_city" }
+            {
+              "type": "set_location",
+              "locationId": "valedarsena_city"
+            }
           ]
         },
         {
@@ -95,12 +114,15 @@
           "timeCostMinutes": 210,
           "goto": "m02-borgo-salice#borough_hub",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
           ]
         },
         {
           "id": "review_m2_summary",
-          "text": "Rileggo il quadro di M2 prima di muovermi — voglio verificare cosa è persistente.",
+          "text": "Prima di partire, controllo le notizie arrivate da Borgo Salice.",
           "goto": "m2_summary"
         }
       ]
@@ -113,11 +135,11 @@
         },
         {
           "id": "summary_network",
-          "text": "Rete di bracconaggio: lo stato persistente determina come la regione reagisce. Risolta significa minor pressione e Ranger più disponibili; parziale significa tensione aperta; ignorata significa che altri hanno agito senza di te; escalata significa che il mondo si è mosso contro il thread quando lo hai lasciato correre troppo."
+          "text": "Dal Bosco Bruma arrivano notizie coerenti con ciò che hai lasciato dietro di te: pattuglie più tranquille dove la rete è stata spezzata, controlli ancora tesi dove il problema è rimasto aperto, oppure interventi condotti da altri mentre eri lontano."
         },
         {
           "id": "summary_relations",
-          "text": "N: se incontrato, resta un contatto possibile ma non un compagno fisso. FRIEND_BEAT_02: l'amico scelto dal selector M2 e il tipo di beat (combat/conversation/intelligence_share/remote_brief) sono registrati e potranno essere richiamati da M3 se la causalità lo consente — ma non vengono usati come plot armor."
+          "text": "Se hai incontrato N, sai che potrebbe ricomparire lungo il viaggio senza seguirti come un compagno fisso. Anche i tuoi amici hanno ripreso le proprie strade: l'ultimo incontro non li ha messi in pausa."
         },
         {
           "id": "summary_career",

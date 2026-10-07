@@ -107,7 +107,7 @@
       "stitches": [
         {
           "id": "desk_1",
-          "text": "Il banco legge direttamente lo stato E5. Se il checkpoint non è disponibile o il roster non raggiunge tre Pokémon, la registrazione non viene simulata da un flag narrativo."
+          "text": "L'addetto passa la tessera nel lettore, poi conta i Pokémon disponibili. «Rank D confermato. Per iscriverti devi poterne dichiarare almeno tre.»"
         }
       ],
       "choices": [
@@ -293,7 +293,7 @@
       "stitches": [
         {
           "id": "registered_1",
-          "text": "E5 conferma la registrazione. Il roster ufficiale richiesto è tre; il rank resta D finché il resolver non restituisce una vittoria reale."
+          "text": "L'addetto timbra il modulo e ti restituisce la ricevuta. «Registrazione confermata. Tre Pokémon dichiarati; il Rank resta D finché non vinci il Trial.»"
         }
       ],
       "choices": [
@@ -332,7 +332,7 @@
         },
         {
           "id": "audit_registration",
-          "text": "Controllo i dati della registrazione E5.",
+          "text": "Controllo i dati della registrazione.",
           "goto": "registration_audit"
         }
       ]
@@ -376,7 +376,7 @@
       "stitches": [
         {
           "id": "postpone_1",
-          "text": "Il Trial resta disponibile secondo lo stato E5. Rimandare non promuove, non consuma un tentativo e non resetta M3."
+          "text": "Lasci il banco senza iniziare il Trial. L'iscrizione resta disponibile e nessun tentativo viene segnato finché non entri in campo."
         }
       ],
       "choices": [
@@ -402,7 +402,7 @@
       "stitches": [
         {
           "id": "elig_1",
-          "text": "L'idoneità non è un flag narrativo: Rank D, checkpoint disponibile e roster reale da almeno tre sono letti direttamente dallo stato E5 e dal roster."
+          "text": "L'addetto ricontrolla tessera, autorizzazione e squadra. «Rank D, accesso al Trial e almeno tre Pokémon disponibili: sono questi i requisiti.»"
         }
       ],
       "choices": [
@@ -535,7 +535,7 @@
       "stitches": [
         {
           "id": "rescue_condition_1",
-          "text": "Ferrox può aver consumato tempo o lasciato la squadra in uno stato specifico. La registrazione non guarisce HP, PP o condizioni: controlli ciò che il motore conserva davvero."
+          "text": "Prima di confermare, controlli la squadra dopo gli eventi di Ferrox. L'iscrizione non cura ferite, non recupera energie e non rimuove condizioni."
         }
       ],
       "choices": [
@@ -597,7 +597,7 @@
       "stitches": [
         {
           "id": "attempt_history_1",
-          "text": "Se hai già perso un tentativo, E5 conserva attempts e lastResult. La nuova registrazione non cancella quella storia e non aumenta la difficoltà per punirti."
+          "text": "Sul registro compare anche il tentativo precedente, se ne hai già disputato uno. Una sconfitta resta nello storico, ma non modifica le regole del nuovo incontro."
         }
       ],
       "choices": [

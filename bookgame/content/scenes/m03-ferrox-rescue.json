@@ -564,7 +564,7 @@
       "stitches": [
         {
           "id": "priority_1",
-          "text": "La squadra può ancora concentrare il contributo su una sola priorità principale. Le conseguenze finali verranno registrate più avanti da M3_11; qui decidi che cosa tentare mentre la deadline è viva."
+          "text": "La squadra può concentrare il proprio contributo su una sola priorità principale. Il tempo continua a scorrere mentre decidi dove essere più utile."
         }
       ],
       "choices": [
@@ -658,7 +658,7 @@
       "stitches": [
         {
           "id": "checkpoint_1",
-          "text": "Prima di dichiarare un esito, il motore ricontrolla la quest. Se una delle azioni ha consumato gli ultimi minuti disponibili, non puoi completare il soccorso come se la deadline non fosse esistita."
+          "text": "Un caposquadra controlla l'orologio e le comunicazioni dalle gallerie. Se il tempo utile è finito, nessuno può fingere che la finestra di soccorso sia ancora aperta."
         }
       ],
       "choices": [
@@ -813,7 +813,7 @@
       "stitches": [
         {
           "id": "rescue_success_1",
-          "text": "Il caposquadra chiude il tuo nome nel registro operativo e continua a lavorare. Il tuo stato di soccorso è persistente, ma M3_11 determinerà il bilancio complessivo di persone, danni e responsabilità usando ciò che è realmente accaduto."
+          "text": "Il caposquadra segna il tuo nome e ciò che hai fatto nel registro operativo, poi torna subito al lavoro. Il bilancio completo arriverà soltanto quando tutte le squadre saranno rientrate e i danni verificati."
         }
       ],
       "choices": [
@@ -828,7 +828,7 @@
       "stitches": [
         {
           "id": "rescue_declined_1",
-          "text": "Comunichi che non parteciperai. La quest viene chiusa come scelta del player; il mondo continua e le squadre Ferrox lavorano senza il tuo contributo."
+          "text": "Comunichi che non parteciperai. Le squadre Ferrox partono senza il tuo contributo e l'emergenza continua anche mentre ti allontani."
         }
       ],
       "choices": [
@@ -858,7 +858,7 @@
       "stitches": [
         {
           "id": "rescue_close_1",
-          "text": "Ferravia torna a essere il punto di raccolta. Il soccorso non è un minigioco isolato: ciò che hai fatto resta disponibile a relazioni, Friend Beat, Crossroads e outcome successivi."
+          "text": "Ferravia torna a essere il punto di raccolta. Quello che hai fatto nelle gallerie comincia già a circolare tra soccorritori, tecnici e persone che aspettano notizie."
         }
       ],
       "choices": [
