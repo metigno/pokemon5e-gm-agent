@@ -1,3 +1,4 @@
+import { trainerProgression2024 } from "../rules/trainer-2024.mjs";
 import { experienceNeededAtLevel } from "./state.mjs";
 
 export const TRAINER_PATHS = Object.freeze([
@@ -87,6 +88,9 @@ export function advanceTrainerToLevel(state,targetLevel,{sourceMilestoneId="manu
     p.hitDice.die??="d6";
     p.hitDice.max=Math.max(level,Number(p.hitDice.max??fromLevel)+1);
     p.hitDice.current=Math.min(p.hitDice.max,Math.max(0,Number(p.hitDice.current??0)+1));
+    const p5e=trainerProgression2024(level);
+    p.pokeslots=p5e.pokeslots;
+    p.maxSr=p5e.maxSr;
     const record={sourceMilestoneId,fromLevel,level,trainerXp:p.trainerXp,hpGain:gain};
     progression.history.push(record);
     applied.push(record);
