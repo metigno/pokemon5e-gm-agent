@@ -182,6 +182,29 @@
           ]
         },
         {
+          "id": "hub_high_altitude",
+          "text": "Torno a Fulgore per l'emergenza d'alta quota.",
+          "conditions": {
+            "all": [
+              {
+                "path": "world.flags.m5_high_altitude_event_available",
+                "eq": true
+              },
+              {
+                "path": "world.flags.m5_high_altitude_event_complete",
+                "ne": true
+              }
+            ]
+          },
+          "goto": "m05-high-altitude-event#event_entry",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "ful_plateau"
+            }
+          ]
+        },
+        {
           "id": "hub_return_mountains",
           "text": "Torno verso i Monti Ferrox.",
           "goto": "mountain_return"
