@@ -178,6 +178,51 @@
           "id": "speak_first",
           "text": "Gli parlo e aspetto la sua reazione.",
           "goto": "first_contact"
+        },
+        {
+          "id": "luke_starter_specific",
+          "text": "Gli faccio capire che non deve impressionare nessuno: voglio vedere fin dove possiamo arrivare insieme.",
+          "conditions": {
+            "path": "player.name",
+            "eq": "Luke"
+          },
+          "goto": "first_contact"
+        },
+        {
+          "id": "mattew_starter_specific",
+          "text": "Osservo postura, attenzione e reazioni: voglio capire subito come comunica.",
+          "conditions": {
+            "path": "player.name",
+            "eq": "Mattew"
+          },
+          "goto": "first_contact"
+        },
+        {
+          "id": "daniel_starter_specific",
+          "text": "Prima di chiedergli qualcosa, provo a capire quali limiti accetta e come reagisce alla mia presenza.",
+          "conditions": {
+            "path": "player.name",
+            "eq": "Daniel"
+          },
+          "goto": "first_contact"
+        },
+        {
+          "id": "edward_starter_specific",
+          "text": "Lo guardo bene. Voglio capire subito che tipo di presenza avrà quando saremo in campo.",
+          "conditions": {
+            "path": "player.name",
+            "eq": "Edward"
+          },
+          "goto": "first_contact"
+        },
+        {
+          "id": "fab_starter_specific",
+          "text": "Mi metto alla sua altezza e gli do tempo. Prima diventiamo una squadra; al resto penseremo dopo.",
+          "conditions": {
+            "path": "player.name",
+            "eq": "Fab"
+          },
+          "goto": "first_contact"
         }
       ]
     },
