@@ -505,8 +505,16 @@
           "id": "after_license",
           "text": "La finestra interregionale è aperta: torno ad Altacima per la pratica.",
           "conditions": {
-            "path": "world.flags.a5_interregional_available",
-            "eq": true
+            "all": [
+              {
+                "path": "world.flags.a5_interregional_available",
+                "eq": true
+              },
+              {
+                "path": "world.flags.interregional_license",
+                "ne": true
+              }
+            ]
           },
           "goto": "m05-interregional-license#license_entry",
           "effects": [
