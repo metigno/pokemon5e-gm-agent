@@ -214,6 +214,7 @@ function progressionScore(state, route, depth) {
   if (route === "missed" && f.world_qualified && !f.worlds_missed) score -= 2000;
   if (route === "eliminated" && f.worlds_missed) score -= 1000000;
   score += m2MilestoneScore(state);
+  score += m7MilestoneScore(state);
   return score - depth;
 }
 
@@ -238,6 +239,30 @@ function m2MilestoneScore(state) {
   let score = 0;
   for (let i = 0; i < milestones.length; i += 1) {
     if (!milestones[i]) break;
+    score += 2500;
+  }
+  return score;
+}
+
+function m7MilestoneScore(state) {
+  const f = state.world?.flags ?? {};
+  const milestones = [
+    f.m7_active === true,
+    f.m7_meridiana_arrived === true,
+    f.cynthia_met === true,
+    f.m7_media_sponsor_reviewed === true,
+    f.m7_pro_preparation_complete === true,
+    f.friend_beat_07_complete === true,
+    f.m7_qualifier_registered === true,
+    f.m7_qualifier_complete === true,
+    f.m7_qualifier_result_resolved === true,
+    f.world_qualified === true,
+    f.m7_before_lights_complete === true,
+    f.m7_complete === true && f.m08_unlocked === true
+  ];
+  let score = 0;
+  for (const reached of milestones) {
+    if (!reached) break;
     score += 2500;
   }
   return score;
