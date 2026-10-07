@@ -930,11 +930,11 @@
       "stitches": [
         {
           "id": "exp_mattew_voice",
-          "text": "Mattew prende nota dei dettagli e confronta tempi e sequenze. Non gli interessa sembrare preparato: vuole ridurre gli errori evitabili."
+          "text": "Mattew è accovacciato vicino a una serie di impronte; Eevee gli resta accanto. Alza gli occhi. «Prima che tu dica qualcosa: no, non mi sono perso. Sto cercando di capire cosa è passato di qui.»"
         },
         {
           "id": "exp_mattew_context",
-          "text": "Mattew sta seguendo il tratto di strada per conto proprio. Potete confrontare osservazioni, percorrere insieme un segmento oppure separarvi subito: nessuna opzione crea un party permanente."
+          "text": "Guarda le tue scarpe e sorride. «Tu invece potresti essere la variabile che rovina tutto. Vieni, ma non calpestare le tracce.»"
         }
       ],
       "choices": [
@@ -1614,11 +1614,11 @@
       "stitches": [
         {
           "id": "exp_daniel_voice",
-          "text": "Daniel osserva più a lungo di quanto parli. Cerca collegamenti, intenzioni e possibilità alternative prima di scegliere una linea."
+          "text": "Daniel sta confrontando i segni sul terreno con una mappa piegata con fin troppa precisione. Quando ti vede sospira. «Prima domanda: hai toccato qualcosa?»"
         },
         {
           "id": "exp_daniel_context",
-          "text": "Daniel sta seguendo il tratto di strada per conto proprio. Potete confrontare osservazioni, percorrere insieme un segmento oppure separarvi subito: nessuna opzione crea un party permanente."
+          "text": "Aspetta mezzo secondo. «Era una domanda seria. Il fatto che io debba specificarlo dice molto sul nostro gruppo.»"
         }
       ],
       "choices": [
@@ -2298,11 +2298,11 @@
       "stitches": [
         {
           "id": "exp_edward_voice",
-          "text": "Edward preferisce fare esperienza direttamente. Se c'è qualcosa da provare sul campo, tende a smettere presto di discuterne in astratto."
+          "text": "Edward cammina con Totodile al fianco e si ferma quando ti vede. «Dimmi che hai trovato qualcosa di interessante.»"
         },
         {
           "id": "exp_edward_context",
-          "text": "Edward sta seguendo il tratto di strada per conto proprio. Potete confrontare osservazioni, percorrere insieme un segmento oppure separarvi subito: nessuna opzione crea un party permanente."
+          "text": "Totodile apre la bocca in un sorriso enorme. Edward indica lui. «Vedi? Almeno uno qui ha capito il programma.»"
         }
       ],
       "choices": [
@@ -2982,11 +2982,11 @@
       "stitches": [
         {
           "id": "exp_fab_voice",
-          "text": "Fab resta paziente e vicino al proprio Pokémon. Non ha fretta di forzare una situazione se può capirla e gestirla un passo alla volta."
+          "text": "Fab è seduto sul muretto mentre Koffing fluttua poco sopra l'erba. Ti vede arrivare. «Io stavo andando da un'altra parte.» Guarda la strada, poi Koffing. «Credo.»"
         },
         {
           "id": "exp_fab_context",
-          "text": "Fab sta seguendo il tratto di strada per conto proprio. Potete confrontare osservazioni, percorrere insieme un segmento oppure separarvi subito: nessuna opzione crea un party permanente."
+          "text": "Ride e scende dal muro. «Vabbè. Se hai trovato qualcosa, vengo a vedere. Lui sembra più convinto di me.»"
         }
       ],
       "choices": [
