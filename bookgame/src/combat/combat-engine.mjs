@@ -1,5 +1,8 @@
 import { attemptCapture } from "./capture.mjs";
 import { chooseNpcTurnPlan } from "./npc-tactics.mjs";
+import { chooseNpcTrainerFeature, trainerFeatureExecutionArgs } from "./npc-trainer-tactics.mjs";
+import { executeNpcTrainerFeatureInCombat } from "./npc-trainer-runtime.mjs";
+import { legalTrainerFeatureActions } from "../engine/trainer-actions.mjs";
 import { createNpcKnowledge, npcPublicBattleView, updateNpcKnowledge } from "./npc-knowledge.mjs";
 import { applyItemToPokemon, findInventoryItemIndex } from "./item-rules.mjs";
 import {
@@ -6750,6 +6753,18 @@ export class Pokemon5eCombatEngine {
       knowledge: publicView,
       difficulty: next.opponent?.aiDifficulty ?? next.aiDifficulty ?? "hard"
     });
+    const trainerState={npcs:{__combat_opponent__:{trainer:next.opponentTrainer}}};
+    const trainerCandidates=legalTrainerFeatureActions(trainerState,{actor:{kind:"npc",id:"__combat_opponent__"},allowedActions:["trigger","bonus-action"]});
+    const trainerChoice=chooseNpcTrainerFeature(trainerCandidates,{
+      activeHpRatio:next.opponent.hp.max>0?next.opponent.hp.current/next.opponent.hp.max:0,
+      targetHpRatio:next.player.hp.max>0?next.player.hp.current/next.player.hp.max:0
+    });
+    const trainerArgs=trainerFeatureExecutionArgs(trainerChoice,{
+      activeHpRatio:next.opponent.hp.max>0?next.opponent.hp.current/next.opponent.hp.max:0
+    });
+    if(trainerArgs){
+      executeNpcTrainerFeatureInCombat(next,trainerArgs);
+    }
     if (plan.kind === "switch") return this.switchOpponent(next, plan.benchIndex);
     if (plan.kind === "end") return endTurnInternal(next, "opponent", this.dice);
     return this.useMove(next, "opponent", plan.moveId, {
