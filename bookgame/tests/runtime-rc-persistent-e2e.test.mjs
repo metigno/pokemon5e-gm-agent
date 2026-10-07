@@ -232,7 +232,7 @@ function combatOutcomes(state, policy) {
   const canCapture =
     keys.includes("captured") &&
     state.pending?.opponentRegistered !== true &&
-    (state.player?.roster?.length ?? 0) < 3;
+    (state.player?.roster?.length ?? 0) < 6;
   const legal = keys.filter((key) => key !== "captured" || canCapture);
   if (canCapture) {
     const rest = legal.filter((key) => key !== "captured");
@@ -768,6 +768,7 @@ async function completeCanonicalM4(engine, start) {
     ["M4 Friend Beat 04", s => s.world.flags.friend_beat_04_complete === true, 3000],
     ["M4 Upper Regional registration", s => s.world.flags.upper_regional_registration_complete === true || typeof s.world.flags.upper_regional_result === "string", 2400],
     ["M4 Upper Regional result", s => typeof s.world.flags.upper_regional_result === "string", 3600],
+    ["M4 fourth Pokémon", s => (s.player.roster?.length ?? 0) >= 4, 4200],
     ["M4 Trial C to B window", s => s.world.flags.a4_rank_trial_c_b_available === true, 1800],
     ["M4 Trial C to B available", s => s.competition.trials?.RANK_C_TO_B?.available === true, 1400],
     ["M4 Trial C to B registered", s => s.competition.trials?.RANK_C_TO_B?.registered === true, 1200],
