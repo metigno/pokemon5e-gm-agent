@@ -34,17 +34,17 @@
       "stitches": [
         {
           "id": "incident_alert_1",
-          "text": "Il dispaccio arriva senza musica né sirene teatrali: «Ferrox, ramo tecnico nord. Cedimento locale e interruzione della ventilazione secondaria. Squadre interne in verifica. Accesso civile sospeso.»"
+          "text": "Il dispaccio arriva asciutto, senza sirene: «Ferrox, ramo tecnico nord. Cedimento locale. Ventilazione secondaria interrotta. Squadre interne in verifica. Accesso civile sospeso.»"
         },
         {
           "id": "incident_alert_2",
-          "text": "La parte importante è il timestamp. La finestra di soccorso è già in corso nel mondo reale del gioco; il timer non è nato quando hai aperto questo messaggio."
+          "text": "Sotto il testo lampeggia l'ora di emissione. Sono già passati alcuni minuti."
         }
       ],
       "choices": [
         {
           "id": "read_live_incident",
-          "text": "Leggo il dispaccio mentre la finestra operativa è ancora aperta.",
+          "text": "Chiedo subito un aggiornamento al centro operativo.",
           "conditions": {
             "path": "quests.M3_FERROX_RESCUE.status",
             "eq": "active"
@@ -53,7 +53,7 @@
         },
         {
           "id": "read_late_incident",
-          "text": "Leggo il dispaccio dopo che la finestra operativa si è chiusa.",
+          "text": "Chiedo cosa è successo dopo l'emissione del dispaccio.",
           "conditions": {
             "path": "quests.M3_FERROX_RESCUE.status",
             "eq": "failed"
@@ -66,7 +66,7 @@
       "stitches": [
         {
           "id": "incident_live_1",
-          "text": "Il centro operativo di Ferravia non ti assegna il comando. Sei un trainer Rank D presente in zona: puoi offrire supporto, raccogliere informazioni utili o arrivare al perimetro. Le squadre professionali continuano a lavorare con o senza di te."
+          "text": "Al centro operativo nessuno ti mette al comando. Un dispatcher raccoglie chiamate mentre le squadre Ferrox lavorano sul posto. Puoi offrire supporto, chiedere cosa serve o raggiungere il perimetro, ma l'intervento non aspetta te."
         }
       ],
       "choices": [
@@ -139,7 +139,7 @@
         },
         {
           "id": "return_hub_prepare",
-          "text": "Torno nel centro di Ferravia per prepararmi; il timer continuerà a scorrere.",
+          "text": "Passo dal centro di Ferravia per prepararmi prima di raggiungere Ferrox.",
           "timeCostMinutes": 15,
           "goto": "m03-ferravia-arrival#city_hub",
           "effects": [
@@ -230,13 +230,13 @@
       "stitches": [
         {
           "id": "people_status_1",
-          "text": "«Tre badge risultano ancora nel settore isolato, ma il sistema non distingue chi è bloccato da chi sta già uscendo per un'altra via.» È un dato operativo, non una sentenza su tre vittime."
+          "text": "Il dispatcher controlla il terminale. «Tre badge risultano ancora nel settore isolato. Potrebbero essere bloccati oppure già in movimento lungo una via che qui non vediamo. Finché una squadra non li conta di persona, sono tre persone da localizzare.»"
         }
       ],
       "choices": [
         {
           "id": "people_record",
-          "text": "Registro il numero come dato incerto, non come bilancio.",
+          "text": "Tengo a mente il numero, sapendo che non è ancora un bilancio.",
           "goto": "dispatch_detail",
           "effects": [
             {
@@ -268,7 +268,7 @@
       "stitches": [
         {
           "id": "steven_incident_1",
-          "text": "Steven risponde dal lato opposto della zona tecnica. «Sto seguendo la cartografia e le letture delle paratie. Non entro senza il coordinamento del sito. Se vai al perimetro, porta informazioni precise: posizione, aria, tempi. Non eroismo.»"
+          "text": "Steven risponde con rumore di passi e voci alle spalle. «Sono sul lato est. Sto confrontando le mappe con le letture delle paratie, ma non entro finché il caposquadra non dà il via.» Una pausa. «Se arrivi prima di me, porta posizione, aria e orari. Il resto viene dopo.»"
         }
       ],
       "choices": [
@@ -311,7 +311,7 @@
       "stitches": [
         {
           "id": "steven_strong_1",
-          "text": "«Allora porta quella sequenza al caposquadra. Non perché avevi 'ragione', ma perché riduce il tempo necessario a ricostruire cosa è cambiato.» La tua informazione precedente diventa utilità operativa, non profezia."
+          "text": "«Allora riferisci al caposquadra l'ordine in cui li hai osservati.» Steven parla più in fretta del solito. «Non serve stabilire chi avesse ragione. Serve capire cosa è cambiato e quando.»"
         }
       ],
       "choices": [
@@ -342,7 +342,7 @@
       "stitches": [
         {
           "id": "steven_neutral_1",
-          "text": "Steven non forza una conclusione: «Va bene. Le osservazioni parziali servono se restano parziali. Ci vediamo quando il sito avrà un quadro verificato.»"
+          "text": "«Digli esattamente quello che hai visto, senza riempire i vuoti.» Dall'altra parte senti qualcuno chiamare Steven. «Quando avremo le letture dal sito sapremo di più.»"
         }
       ],
       "choices": [
@@ -374,7 +374,7 @@
       "choices": [
         {
           "id": "site_note_protocol",
-          "text": "Registro i limiti del perimetro e li rispetto.",
+          "text": "Confermo che rispetterò i limiti del perimetro.",
           "goto": "incident_live",
           "effects": [
             {
@@ -407,7 +407,7 @@
       "stitches": [
         {
           "id": "incident_late_1",
-          "text": "Il timestamp è ormai oltre la finestra operativa prevista dalla quest. Le squadre del sito hanno continuato senza di te. Puoi ancora raggiungere Ferrox e capire cosa è successo, ma non puoi fingere di essere arrivato in tempo."
+          "text": "L'ora sul dispaccio è vecchia. Quando chiedi un aggiornamento, il centro operativo ti informa che la fase urgente dell'intervento è già terminata: le squadre del sito sono entrate e il perimetro è passato alla verifica. Puoi ancora raggiungere Ferrox e sapere com'è andata, ma non partecipare a un soccorso già concluso."
         }
       ],
       "choices": [
