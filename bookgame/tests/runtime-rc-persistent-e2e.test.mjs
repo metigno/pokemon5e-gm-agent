@@ -158,6 +158,12 @@ function signature(state) {
     quests,
     events,
     trainerLevel: state.player?.trainerLevel ?? null,
+    trainerPath: state.player?.trainerPath ?? null,
+    trainerAbilities: state.player?.abilities ?? null,
+    trainerProgressionPending: (state.player?.trainerProgression?.pendingChoices ?? []).map((entry) => ({
+      level: entry.level,
+      type: entry.type
+    })),
     rosterSize: state.player?.roster?.length ?? 0,
     money: state.player?.money ?? null,
     worldCompetition: {
@@ -211,7 +217,7 @@ function progressionScore(state, route, depth) {
 }
 
 function preferredChoices(choices) {
-  const positive = /commit|complete|confirm|activate|continue|depart|travel|register|resolve|record|ready|open|advance|accept|enter|start|fight|win|audit|sync|lock|arrive|proceed|return/i;
+  const positive = /trainer_|commit|complete|confirm|activate|continue|depart|travel|register|resolve|record|ready|open|advance|accept|enter|start|fight|win|audit|sync|lock|arrive|proceed|return/i;
   const negative = /review|back|stay|repeat|defer|wait|existing|free_roam|inspect|listen|talk_again/i;
   return [...choices].sort((a, b) => {
     const score = (choice) =>
@@ -358,7 +364,7 @@ async function searchTo({
           return replayed;
         }
         const bias =
-          (/commit|complete|confirm|activate|continue|advance|register|resolve|record|audit|lock/i.test(choice.id) ? 200 : 0) -
+          (/trainer_|commit|complete|confirm|activate|continue|advance|register|resolve|record|audit|lock/i.test(choice.id) ? 300 : 0) -
           (/review|back|stay|repeat|defer|wait|existing|free_roam/i.test(choice.id) ? 100 : 0);
         heap.push({
           state: next,
@@ -450,6 +456,7 @@ async function completeCanonicalM1(engine, start) {
   assert.ok(state.player.roster.length >= 2);
   assert.equal(state.competition.rank, "E");
   assert.equal(state.world.flags.m02_unlocked, true);
+  assert.ok(state.player.trainerLevel >= 2);
   return state;
 }
 
@@ -555,6 +562,7 @@ async function completeCanonicalM2(engine, start) {
   assert.equal(state.world.flags.friend_beat_02_complete, true);
   assert.ok((state.player.roster?.length ?? 0) >= 3);
   assert.equal(state.world.flags.network_outcome_complete, true);
+  assert.ok(state.player.trainerLevel >= 4);
   assert.equal(state.competition.rank, "D");
   assert.equal(state.world.flags.m2_complete, true);
   assert.equal(state.world.flags.m03_unlocked, true);
