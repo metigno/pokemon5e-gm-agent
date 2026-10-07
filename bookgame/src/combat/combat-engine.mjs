@@ -1,4 +1,5 @@
 import { attemptCapture } from "./capture.mjs";
+import { chooseForcedOpponentReplacement } from "./forced-switch-ai.mjs";
 import { runNpcTrainerTurnFeatures } from "./npc-trainer-ai.mjs";
 import { applyItemToPokemon, findInventoryItemIndex } from "./item-rules.mjs";
 import {
@@ -951,8 +952,8 @@ function applyPendingSwitchEffect(battle, side, incoming) {
 }
 
 function forceOpponentReplacement(battle) {
-  const benchIndex = healthyBenchIndices(battle, "opponent")[0];
-  if (benchIndex === undefined) return false;
+  const benchIndex = chooseForcedOpponentReplacement(battle);
+  if (benchIndex == null) return false;
 
   const outgoing = battle.opponent;
   const incoming = battle.opponentBench[benchIndex];
@@ -984,7 +985,9 @@ function forceOpponentReplacement(battle) {
     out: outgoing.speciesId,
     in: incoming.speciesId,
     releasePosition,
-    provokesOpportunity: false
+    provokesOpportunity: false,
+    aiSelected: true,
+    benchIndex
   });
   return true;
 }
