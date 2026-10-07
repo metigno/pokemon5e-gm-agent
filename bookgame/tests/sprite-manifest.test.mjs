@@ -9,6 +9,7 @@ test("canonical sprite manifest contains the audited 608 non-Gmax entries",()=>{
   assert.equal(Object.keys(map.sprites).length,608);
   assert.equal(map.counts.sprites,608);
   assert.equal(map.counts.aliasCollisions,0);
+  assert.equal(map.counts.aliases,628);
   assert.ok(!Object.keys(map.sprites).some(id=>/gmax|gigantamax/i.test(id)));
 });
 
