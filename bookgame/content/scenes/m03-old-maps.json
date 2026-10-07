@@ -167,7 +167,7 @@
       "choices": [
         {
           "id": "hist_map_investigate",
-          "text": "Studio attentamente le incongruenze tra storia e stato attuale. (CT Investigation)",
+          "text": "Studio attentamente le incongruenze tra storia e stato attuale.",
           "timeCostMinutes": 20,
           "check": {
             "ability": "INT",
@@ -362,7 +362,7 @@
       "choices": [
         {
           "id": "quarry_crosscheck_investigate",
-          "text": "Cerco una corrispondenza precisa tra terrazze moderne e cavità storiche. (CT Investigation)",
+          "text": "Cerco una corrispondenza precisa tra terrazze moderne e cavità storiche.",
           "timeCostMinutes": 15,
           "check": {
             "ability": "INT",
