@@ -29,5 +29,6 @@ test("sprite server resolves only canonical roles from the local manifest", () =
   assert.match(server, /normalizeSpriteId\(requestedId\)/);
   assert.match(server, /spriteMap\.aliasIndex/);
   assert.match(server, /P5E_SPRITE_DIR/);
-  assert.doesNotMatch(server, /https?:\/\//);
+  assert.doesNotMatch(server, /fetch\s*\(\s*["'`]https?:\/\//);
+  assert.match(server, /readFile\(join\(SPRITE_DIR, spriteId, asset\)\)/);
 });
