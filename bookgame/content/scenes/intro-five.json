@@ -71,7 +71,7 @@
         },
         {
           "id": "world_board",
-          "text": "Sulla parete opposta, un display scorre città, circuiti e classifiche fino al World Championship. L'addetta segue per un attimo il vostro sguardo. «Quello viene dopo. Molto dopo. Adesso: starter.» Indica la porta successiva."
+          "text": "Sulla parete opposta, un display scorre città, circuiti e classifiche fino al World Championship. L'addetta segue per un attimo il vostro sguardo. «Il calendario pubblico è sul display. Per voi, adesso, c'è la sala starter.» Indica la porta successiva."
         },
         {
           "id": "group_banter_daniel",
@@ -283,7 +283,7 @@
       ]
     },
     "contact_misunderstanding": {
-      "text": "Il tuo starter parte nella direzione sbagliata e poi si ferma, confuso. Ti guarda di nuovo. «Non ripetere più forte la stessa cosa,» dice l'istruttore. «Prova a farti capire meglio la prossima volta.»",
+      "text": "Il tuo starter parte nella direzione sbagliata e poi si ferma, confuso. Ti guarda di nuovo. L'istruttore osserva la scena dal bordo della sala. «Non ha seguito il comando. Hai ancora tempo per capire perché.»",
       "choices": [
         {
           "id": "to_certification_failure",
