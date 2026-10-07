@@ -242,7 +242,7 @@
       "stitches": [
         {
           "id": "win_1",
-          "text": "La lotta termina e E5 registra la vittoria. Il checkpoint segna `completed=true`, il Trial non è più disponibile e il Rank diventa B: nessun flag narrativo ha effettuato la promozione."
+          "text": "Il giudice conferma la vittoria. Al banco aggiornano la tessera: il tuo Rank passa da C a B e il Trial risulta superato."
         }
       ],
       "choices": [
@@ -253,7 +253,7 @@
         },
         {
           "id": "win_after",
-          "text": "Passo alle conseguenze di fine modulo.",
+          "text": "Torno a Mareasale e controllo cosa resta da sistemare.",
           "goto": "m04-after-league#after_entry"
         }
       ]
@@ -268,7 +268,7 @@
       "choices": [
         {
           "id": "win_review_after",
-          "text": "Chiudo la review e passo al riepilogo M4.",
+          "text": "Chiudo il riepilogo e torno a Mareasale.",
           "goto": "m04-after-league#after_entry",
           "effects": [
             {
@@ -284,7 +284,7 @@
       "stitches": [
         {
           "id": "loss_1",
-          "text": "La sconfitta resta una sconfitta ufficiale. E5 aumenta il numero di tentativi, rimuove la registrazione e lascia il checkpoint disponibile perché il Trial è retryable. Il Rank resta C."
+          "text": "Il giudice assegna la vittoria all'esaminatrice. Il tuo Rank resta C; per tentare di nuovo dovrai registrarti un'altra volta."
         }
       ],
       "choices": [
@@ -361,7 +361,7 @@
       "stitches": [
         {
           "id": "retry_1",
-          "text": "Il modulo non viene resettato. Archie, Friend Beat, smuggling, Upper Regional, inventario, roster e stato dei Pokémon restano esattamente come sono."
+          "text": "La sconfitta non cancella ciò che hai già vissuto a Mareasale. Archie, i tuoi amici, la pista del contrabbando, l'Upper Regional, la squadra e ciò che possiedi restano come sono."
         }
       ],
       "choices": [
