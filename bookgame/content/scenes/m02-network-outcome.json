@@ -38,7 +38,7 @@
       "stitches": [
         {
           "id": "review_1",
-          "text": "Il Bosco Bruma è lo stesso di prima. La rete che hai trovato non è scomparsa con una decisione o un'azione isolata — le reti non funzionano così. Ma quello che hai fatto o non fatto ha lasciato una traccia nel sistema, nei dati, nelle relazioni tra i pezzi visibili e quelli nascosti."
+          "text": "Bosco Bruma non cambia aspetto quando torni a guardarlo. La nebbia passa ancora tra gli stessi tronchi. Quello che cambia è quanto spazio ha ancora la rete che hai incontrato: dipende da ciò che hai documentato, da chi hai avvisato e da quanto tempo le hai lasciato."
         },
         {
           "id": "review_2",
@@ -172,7 +172,7 @@
         },
         {
           "id": "enter_ignored",
-          "text": "Non ho interagito in modo significativo con il problema — è rimasto aperto senza traccia mia nel sistema.",
+          "text": "Non sono intervenuto in modo significativo e nessuna mia segnalazione è arrivata al presidio.",
           "conditions": {
             "all": [
               {
@@ -220,11 +220,11 @@
       "stitches": [
         {
           "id": "resolved_1",
-          "text": "Hai documentato l'attività, hai allertato Elio con un rapporto completo. La procedura formale è aperta, le coordinate sono nel sistema del Servizio Ranger. Non è un'operazione smantellata nel senso pieno — ma è stata interrotta nella sua configurazione attuale, e i punti di raccordo sono tracciati."
+          "text": "Hai consegnato a Elio un rapporto completo. Il presidio possiede coordinate, orari e prove sufficienti per seguire i punti di raccolta; la configurazione che hai scoperto non può più operare nello stesso modo senza attirare l'attenzione dei Ranger."
         },
         {
           "id": "resolved_2",
-          "text": "Elio lo ha detto in modo diretto: «Questo è abbastanza per andare avanti. Non chiudiamo le reti clandestine in una settimana — ma adesso questa ha un'identità nel sistema.» Non è un elogio. È un aggiornamento professionale."
+          "text": "Elio chiude il fascicolo. «Questo basta per andare avanti. Non chiudiamo una rete clandestina in una settimana, ma adesso sappiamo dove guardare quando si muove.»"
         }
       ],
       "choices": [
@@ -321,7 +321,7 @@
       "stitches": [
         {
           "id": "partial_1",
-          "text": "Hai fatto qualcosa. Un sopralluogo, una traccia aperta, un rapporto consegnato — o una combinazione di questi. Ma non è abbastanza per dire che il problema sia risolto. Il sistema ha ricevuto un input, non una risposta definitiva."
+          "text": "Hai lasciato qualcosa al presidio: una segnalazione, una posizione, forse un rapporto incompleto. Elio sa che il problema esiste, ma non ha ancora abbastanza per intervenire su tutta l'operazione."
         },
         {
           "id": "partial_2",
@@ -331,7 +331,7 @@
       "choices": [
         {
           "id": "review_partial_evidence",
-          "text": "Rivedo quello che ho raccolto — cosa c'è nel sistema e cosa manca.",
+          "text": "Rivedo quello che ho raccolto e ciò che manca ancora.",
           "goto": "outcome_partial_assess"
         },
         {
@@ -351,7 +351,7 @@
       "stitches": [
         {
           "id": "partial_assess_1",
-          "text": "Quello che esiste nel sistema: una o più segnalazioni, forse dati di posizione, forse un rapporto ranger incompleto. Abbastanza per aprire un file — non abbastanza per avviare un'operazione di sequestro. Elio ha qualcosa con cui lavorare, ma non è sufficiente a chiudere il caso in questa fase."
+          "text": "Nel fascicolo ci sono alcuni elementi utili, ma restano vuoti importanti: collegamenti, persone coinvolte o prove sufficienti per un sequestro. Elio può continuare a osservare; non può ancora chiudere il caso."
         }
       ],
       "choices": [
@@ -397,7 +397,7 @@
       "stitches": [
         {
           "id": "escalated_1",
-          "text": "Hai ignorato il problema — o lo hai lasciato ignorare senza risposta. Nel frattempo, la rete ha continuato a muoversi. I punti di raccolta si sono spostati, i contatti si sono adattati, il pattern ha preso forma più solida. Non è colpa tua nel senso legale. È colpa tua nel senso pratico."
+          "text": "Hai lasciato correre il problema. Nel frattempo i punti di raccolta si sono spostati, i passaggi sono diventati più cauti e le tracce più difficili da seguire. La rete non ti aspettava."
         },
         {
           "id": "escalated_2",
@@ -533,7 +533,7 @@
       "stitches": [
         {
           "id": "register_ignored_1",
-          "text": "La rete di bracconaggio nel settore est del Bosco Bruma: nessuna risposta formale registrata. L'operazione esiste — non è nel sistema a nome tuo. Resta un problema aperto, non contenuto, senza una traccia che ti riguardi."
+          "text": "Al presidio non risulta alcuna tua segnalazione sulla rete nel settore est. L'operazione continua senza essere stata contenuta e ciò che farà dopo dipenderà da chi riuscirà a individuarla."
         }
       ],
       "choices": [
