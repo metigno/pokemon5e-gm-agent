@@ -102,6 +102,7 @@ test("M6_10 exposes the authored M7 handoff only after M6 completion",async()=>{
   assert.equal(view.choices.some(c=>c.id==="advance_m7_handoff"),false);
   s.competition.rank="S";
   s.competition.rankOrder=6;
+  s.world.locationId="far_ruins";
   s.world.flags.m6_complete=true;
   s.world.flags.m07_unlocked=true;
   view=await engine.present(s);
