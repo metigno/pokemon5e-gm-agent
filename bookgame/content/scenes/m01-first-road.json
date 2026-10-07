@@ -22,11 +22,11 @@
       "stitches": [
         {
           "id": "road_is_place",
-          "text": "Via delle Ginestre non è un corridoio tra due scene. Contadini, rookie, mezzi di lavoro e Pokémon selvatici la usano nello stesso momento, ognuno per ragioni proprie."
+          "text": "Via delle Ginestre scorre tra campi, muretti bassi e accessi alle proprietà. Contadini e mezzi di lavoro condividono la strada con rookie in viaggio; oltre le pietre, l'erba alta si muove a tratti."
         },
         {
           "id": "travel_clock",
-          "text": "Dal Campus a questo tratto servono circa venti minuti a piedi. Il tempo di viaggio è già passato: ciò che accade altrove non resta fermo mentre cammini."
+          "text": "Hai camminato per circa venti minuti dal Campus. Nel frattempo il traffico è cambiato: alcuni mezzi sono già spariti verso la costa e altri stanno arrivando dai campi."
         },
         {
           "id": "visible_life",
@@ -187,7 +187,7 @@
         },
         {
           "id": "trial_not_order",
-          "text": "Il Promotion Trial esiste, certo, ma ne parla come di una tappa da preparare, non come di un ordine da eseguire oggi."
+          "text": "«Il Promotion Trial? Sì, prima o poi.» Il rookie sistema una cinghia dello zaino. «Io non ci vado oggi. Prima voglio capire cosa so fare fuori dal Campus.»"
         }
       ],
       "choices": [
@@ -288,7 +288,7 @@
       ]
     },
     "sparring_handoff": {
-      "text": "Lo sparring passa al risolutore Pokémon 5e. Il risultato non è deciso dalla scena narrativa.",
+      "text": "Il rookie porta Wooloo oltre il margine della strada e aspetta che il tuo Pokémon sia in posizione. Quando entrambi siete pronti, lo sparring comincia.",
       "choices": []
     },
     "sparring_win": {
