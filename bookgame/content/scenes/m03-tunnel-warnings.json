@@ -44,7 +44,7 @@
       "choices": [
         {
           "id": "inspect_notice",
-          "text": "Leggo con attenzione gli avvisi e le date di revisione. (CT Investigation)",
+          "text": "Leggo con attenzione gli avvisi e le date di revisione.",
           "timeCostMinutes": 10,
           "check": {
             "ability": "INT",
@@ -82,7 +82,7 @@
         },
         {
           "id": "walk_permitted_route",
-          "text": "Percorro il tratto visitabile e osservo supporti, rumori e flussi d'aria. (CT Perception)",
+          "text": "Percorro il tratto visitabile e osservo supporti, rumori e flussi d'aria.",
           "timeCostMinutes": 15,
           "check": {
             "ability": "WIS",
@@ -228,7 +228,7 @@
       "choices": [
         {
           "id": "worker_persuade",
-          "text": "Gli chiedo un esempio concreto, senza chiedergli di violare procedure. (CT Persuasion)",
+          "text": "Gli chiedo un esempio concreto, senza chiedergli di violare procedure.",
           "timeCostMinutes": 10,
           "check": {
             "ability": "CHA",
