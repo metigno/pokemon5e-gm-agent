@@ -244,7 +244,28 @@ function renderBattle(battle) {
 
   els.moveList.replaceChildren();
 
-  if (battle.awaitingSwitch === "player") {
+  if (battle.pendingTrainerReaction) {
+    const pending = battle.pendingTrainerReaction;
+    const feature = (snapshot.trainerGameplay?.features ?? []).find((entry) => entry.id === pending.featureId);
+    if (feature?.legal) {
+      const use = document.createElement("button");
+      use.className = "move-button";
+      use.innerHTML =
+        `<strong>Reaction · ${escapeHtml(pending.featureId.replaceAll("-", " "))}</strong>` +
+        `<small>${escapeHtml(pending.trigger.replaceAll("_", " "))} · costo ${escapeHtml(feature.resource?.cost ?? 1)}</small>`;
+      use.addEventListener("click", () => runCombatAction("/api/combat/trainer-reaction", {
+        useReaction: true
+      }));
+      els.moveList.append(use);
+    }
+    const decline = document.createElement("button");
+    decline.className = "move-button";
+    decline.innerHTML = "<strong>Non usare la Reaction</strong><small>Continua la risoluzione dell'attacco</small>";
+    decline.addEventListener("click", () => runCombatAction("/api/combat/trainer-reaction", {
+      useReaction: false
+    }));
+    els.moveList.append(decline);
+  } else if (battle.awaitingSwitch === "player") {
     for (const reserve of battle.playerBench.filter((entry) => entry.hp.current > 0)) {
       const button = document.createElement("button");
       button.className = "move-button";
@@ -264,7 +285,7 @@ function renderBattle(battle) {
     }
   }
 
-  if (battle.awaitingSwitch !== "player" && battle.actor === "player") {
+  if (!battle.pendingTrainerReaction && battle.awaitingSwitch !== "player" && battle.actor === "player") {
     for (const feature of snapshot.trainerGameplay?.features ?? []) {
       if (!feature.executable) continue;
       const button = document.createElement("button");
@@ -287,7 +308,7 @@ function renderBattle(battle) {
     }
   }
 
-  els.endTurn.hidden = battle.awaitingSwitch === "player";
+  els.endTurn.hidden = battle.awaitingSwitch === "player" || Boolean(battle.pendingTrainerReaction);
   els.endTurn.disabled = battle.actor !== "player";
 
   els.combatLog.replaceChildren();
