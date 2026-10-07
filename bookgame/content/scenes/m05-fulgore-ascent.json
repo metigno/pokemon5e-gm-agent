@@ -417,8 +417,16 @@
           "id": "close_trace",
           "text": "L'anomalia di Fulgore è attiva: la seguo.",
           "conditions": {
-            "path": "world.flags.a5_trace_available",
-            "eq": true
+            "all": [
+              {
+                "path": "world.flags.a5_trace_available",
+                "eq": true
+              },
+              {
+                "path": "world.flags.m5_ancient_trace_complete",
+                "ne": true
+              }
+            ]
           },
           "goto": "m05-ancient-trace#trace_entry"
         },
