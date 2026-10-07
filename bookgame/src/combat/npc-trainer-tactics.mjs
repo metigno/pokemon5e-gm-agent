@@ -26,3 +26,12 @@ export function chooseNpcTrainerFeature(candidates,context={}){
  return candidates.map((candidate,index)=>({candidate,index,score:scoreNpcTrainerFeature(candidate,context)}))
   .sort((a,b)=>b.score-a.score||a.index-b.index)[0].candidate;
 }
+
+export function trainerFeatureExecutionArgs(candidate,{activeHpRatio=1}={}){
+ if(!candidate) return null;
+ if(candidate.featureId==="battle-master") return {featureId:candidate.featureId,mode:"attack",roll:1};
+ if(candidate.featureId==="cheerleader") return {featureId:candidate.featureId,mode:activeHpRatio<0.4?"ac":"attack"};
+ if(candidate.featureId==="disciplined-strikes") return {featureId:candidate.featureId};
+ if(candidate.featureId==="directed-strike") return {featureId:candidate.featureId};
+ return null;
+}
