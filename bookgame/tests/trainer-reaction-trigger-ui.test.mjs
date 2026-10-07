@@ -67,6 +67,8 @@ test("declining the Trainer reaction spends neither reaction nor Tactical Points
     playerPokemon: { species: "Growlithe", form: "Hisuian", level: 5 },
     opponent: { species: "Houndour", level: 5 }
   });
+  battle.trainer.classFeatures.push("raise-your-defenses");
+  battle.trainer.classResources["tactical-points"] = { id: "tactical-points", current: 2, max: 4 };
   battle.order = ["opponent", "player"];
   battle.turnIndex = 0;
   battle = await combat.prepareCurrentTurn(battle);
