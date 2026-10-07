@@ -2417,6 +2417,9 @@ export class Pokemon5eCombatEngine {
       defender,
       next.round
     );
+    const trainerAttackModifierConsumed = consumeOneShotAttackSource(attacker, "attackModifierSources", next.round, defender);
+    const trainerDamageModifierConsumed = result.hit ? consumeOneShotAttackSource(attacker, "damageModifierSources", next.round, defender) : null;
+    const trainerDamageAdvantageConsumed = result.hit ? consumeOneShotAttackSource(attacker, "damageAdvantageSources", next.round, defender) : null;
 
     if (
       forcedCriticalConsumed === "laser-focus" &&
@@ -2442,6 +2445,13 @@ export class Pokemon5eCombatEngine {
     result.damage = reducedAttackDamage.damage;
 
     defender.hp.current = Math.max(0, defender.hp.current - hpDamageAfterTemporaryHp(defender, result.damage));
+    const disciplined = next.trainerEffects?.disciplinedStrikes;
+    let disciplinedStrikesConsumed = false;
+    if (defender.hp.current <= 0 && disciplined?.usesRemaining > 0 && disciplined.targetSide === targetSide) {
+      defender.hp.current = 1;
+      disciplined.usesRemaining -= 1;
+      disciplinedStrikesConsumed = true;
+    }
     if (!duplicateInterception?.avoided) {
       checkConcentrationAfterDamage(next, targetSide, result.damage, this.dice);
       applyCanonicalDamageShare(next, targetSide, result.damage);
@@ -2478,6 +2488,9 @@ export class Pokemon5eCombatEngine {
       target: targetSide,
       ...result,
       attackAdvantageConsumed,
+      trainerAttackModifierConsumed,
+      trainerDamageModifierConsumed,
+      trainerDamageAdvantageConsumed,
       forcedHitConsumed,
       forcedCriticalConsumed,
       weather: move.id === "weather-ball" ? weatherProfile.kind : null,
@@ -2488,7 +2501,8 @@ export class Pokemon5eCombatEngine {
       secondaryStatus: secondary,
       statusResult,
       thawed,
-      targetHpAfter: defender.hp.current
+      targetHpAfter: defender.hp.current,
+      disciplinedStrikesConsumed
     });
 
     if (move.id === "spit-up") {
@@ -6549,12 +6563,15 @@ export class Pokemon5eCombatEngine {
         ...context,
         restrained:
           Boolean(context.restrained) ||
-          hasActiveSource(next.opponent.effects?.restrainedSources ?? [], next.round)
+          hasActiveSource(next.opponent.effects?.restrainedSources ?? [], next.round),
+        trainerFeatureAdvantage: (next.trainerEffects?.captureAdvantage?.usesRemaining ?? 0) > 0
       },
       dice: this.dice
     });
 
     if (!result.legal) return { battle: next, result };
+
+    if ((next.trainerEffects?.captureAdvantage?.usesRemaining ?? 0) > 0) next.trainerEffects.captureAdvantage.usesRemaining -= 1;
 
     next.trainer.inventory.splice(inventoryIndex, 1);
     next.trainer.actionAvailable = false;

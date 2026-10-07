@@ -39,3 +39,37 @@ export function useTrainerFeature(state,{actor={kind:"player"},featureId,resourc
  return {used:true,featureId,resource};
 }
 export function trainerRuntimeView(state,actor={kind:"player"}){return clone(trainerRef(state,actor));}
+
+const FIVE_FEATURE_ACTIONS=Object.freeze({
+ "tactical-healing":{resourceId:"tactical-points",minCost:1,action:"trigger",effect:"healing-bonus",die:"d4"},
+ "directed-strike":{resourceId:"tactical-points",cost:2,action:"trigger",effect:"damage-roll-advantage"},
+ "raise-your-defenses":{resourceId:"tactical-points",minCost:1,maxCost:5,action:"reaction",effect:"ac-or-save-bonus"},
+ "not-this-time":{resourceId:"tactical-points",minCost:1,maxCost:5,action:"trigger",effect:"save-dc-bonus"},
+ "battle-master":{resourceId:"battle-dice",cost:1,action:"trigger",effect:"attack-or-damage-bonus"},
+ "cheerleader":{resourceId:"cheerleader",cost:1,action:"bonus-action",effect:"allied-attack-damage-or-ac"},
+ "gotta-catch-em-all":{resourceId:"gotta-catch-em-all",cost:1,action:"trigger",effect:"capture-check-advantage"},
+ "disciplined-strikes":{action:"trigger",effect:"leave-pokemon-at-1-hp"},
+ "show-me-what-youve-got":{action:"pokemon-resource",effect:"spend-bond-point-higher-tier-move"},
+ "were-a-team":{action:"reaction",effect:"ally-uses-pokemon-bond-point"}
+});
+export function executeTrainerFeature(state,{actor={kind:"player"},featureId,cost=null,mode=null}){
+ const def=FIVE_FEATURE_ACTIONS[featureId]; if(!def) throw new Error("Trainer feature has no executable runtime definition: "+featureId);
+ let amount=cost??def.cost??def.minCost??0;
+ if(def.minCost!=null&&amount<def.minCost) throw new RangeError("Trainer feature resource cost below minimum");
+ if(def.maxCost!=null&&amount>def.maxCost) throw new RangeError("Trainer feature resource cost above maximum");
+ const used=useTrainerFeature(state,{actor,featureId,resourceId:def.resourceId??null,cost:amount||1});
+ if(!used.used)return used;
+ return {...used,action:def.action,effect:def.effect,amount,mode,die:def.die??null};
+}
+export function trainerFeatureRuntimeDefinition(featureId){return FIVE_FEATURE_ACTIONS[featureId]??null;}
+export function rechargeTrainerResources(state,{actor={kind:"player"},rest}){
+ if(!["short-rest","long-rest"].includes(rest))throw new Error("Unknown Trainer rest: "+rest);
+ const t=trainerRef(state,actor); const restored={};
+ for(const [id,r] of Object.entries(t.classResources??{})){
+  const recharge=r.recharge;
+  if(recharge==="short-rest"||recharge==="long-rest"&&rest==="long-rest"){
+   r.current=Number(r.max??0); restored[id]=r.current;
+  }
+ }
+ return restored;
+}

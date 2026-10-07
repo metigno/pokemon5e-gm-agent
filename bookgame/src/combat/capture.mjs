@@ -49,7 +49,8 @@ export function captureAdvantage(target, context = {}) {
   return ["Poisoned","BadlyPoisoned","Asleep","Burned","Paralysis","Frozen"].includes(target.statuses?.nonVolatile)
     || (target.statuses?.confusedRounds ?? 0) > 0
     || Boolean(context.restrained)
-    || Boolean(context.confused);
+    || Boolean(context.confused)
+    || Boolean(context.trainerFeatureAdvantage);
 }
 
 export function calculateCaptureDc({ trainer, target, ball = "pokeball", activePokemon, round = 1, context = {} }) {

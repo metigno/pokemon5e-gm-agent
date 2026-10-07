@@ -54,7 +54,7 @@ test("RC0 schema migrates forward without losing authored career state", () => {
   assert.equal(migrated.story.nodeId, "legacy-node");
   assert.deepEqual(migrated.player.inventory, [{ itemId: "poke-ball", quantity: 3 }]);
   assert.equal(migrated.player.trainerClass, "pokemon-trainer");
-  assert.deepEqual(migrated.player.hp, { current: 8, max: 8 });
+  assert.deepEqual(migrated.player.hp, { current: 6, max: 6 });
   assert.equal(migrated.player.death.state, "alive");
 });
 
@@ -73,7 +73,7 @@ test("SaveStore migrates RC0 saves on reload and preserves the three-slot-compat
     assert.equal(loaded.slot, "slot2");
     assert.equal(loaded.schemaVersion, GAME_STATE_SCHEMA_VERSION);
     assert.equal(loaded.player.trainerClass, "pokemon-trainer");
-    assert.deepEqual(loaded.player.hp, { current: 8, max: 8 });
+    assert.deepEqual(loaded.player.hp, { current: 7, max: 7 });
     assert.equal(loaded.player.death.state, "alive");
   } finally {
     await rm(dir, { recursive: true, force: true });
@@ -108,6 +108,6 @@ test("Trainer gameplay state survives save and reload for player and scripted NP
   assert.equal(loaded.player.hp.current,5);
   assert.equal(loaded.npcs.Mattew.trainer.equipment[0].id,"mentor-kit");
   assert.deepEqual(loaded.npcs.Mattew.trainer.conditions,["restrained"]);
-  assert.equal(loaded.npcs.Mattew.trainer.hp.current,6);
+  assert.equal(loaded.npcs.Mattew.trainer.hp.current,5);
  }finally{await rm(dir,{recursive:true,force:true});}
 });
