@@ -68,6 +68,11 @@
             {
               "type": "set_location",
               "locationId": "world_village"
+            },
+            {
+              "type": "set_flag",
+              "key": "m8_astrid_available",
+              "value": true
             }
           ]
         },
@@ -516,6 +521,15 @@
         }
       ],
       "choices": [
+        {
+          "id": "complete_astrid",
+          "text": "Proseguo verso l'incontro disponibile con Astrid.",
+          "goto": "m08-astrid-enters#astrid_entry",
+          "conditions": {
+            "path": "world.flags.m8_astrid_available",
+            "eq": true
+          }
+        },
         {
           "id": "complete_hub",
           "text": "Resto libero nel World Village.",
