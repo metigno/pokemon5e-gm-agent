@@ -7,10 +7,22 @@
   "entryNodeId": "thread_open",
   "conditions": {
     "all": [
-      { "path": "world.flags.m1_complete", "eq": true },
-      { "path": "world.flags.m02_unlocked", "eq": true },
-      { "path": "world.flags.m2_active", "eq": true },
-      { "path": "competition.rank", "eq": "E" }
+      {
+        "path": "world.flags.m1_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m02_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m2_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "E"
+      }
     ]
   },
   "nodes": {
@@ -29,14 +41,20 @@
         {
           "id": "describe_evidence_detail",
           "text": "Gli descrivo nel dettaglio il materiale fisico che ho trovato.",
-          "conditions": { "path": "world.flags.capture_evidence_held", "eq": true },
+          "conditions": {
+            "path": "world.flags.capture_evidence_held",
+            "eq": true
+          },
           "timeCostMinutes": 15,
           "goto": "elio_evidence_analysis"
         },
         {
           "id": "describe_signs_detail",
           "text": "Gli racconto con precisione i segni che ho notato nel bosco.",
-          "conditions": { "path": "world.flags.capture_signs_investigated", "eq": true },
+          "conditions": {
+            "path": "world.flags.capture_signs_investigated",
+            "eq": true
+          },
           "timeCostMinutes": 10,
           "goto": "elio_signs_analysis"
         },
@@ -56,18 +74,25 @@
         },
         {
           "id": "evidence_analysis_2",
-          "text": "È la prima volta che nomina una struttura esplicitamente. Fino ad ora parlava di segnalazioni; adesso parla di un pattern operativo."
+          "text": "Elio sposta la mappa verso di te e unisce due punti con la matita. «Questo non è qualcuno passato una volta. Hanno scelto il posto, sono tornati e sapevano cosa cercavano.»"
         }
       ],
       "choices": [
         {
           "id": "mention_m1_pressure",
           "text": "Ho visto qualcosa di simile già a Valedarsena — pressioni anomale sulla fauna nel settore portuale.",
-          "conditions": { "path": "world.flags.m1_world_pressure_known", "eq": true },
+          "conditions": {
+            "path": "world.flags.m1_world_pressure_known",
+            "eq": true
+          },
           "timeCostMinutes": 10,
           "goto": "elio_m1_connection",
           "effects": [
-            { "type": "set_flag", "key": "ranger_m1_m2_connected", "value": true }
+            {
+              "type": "set_flag",
+              "key": "ranger_m1_m2_connected",
+              "value": true
+            }
           ]
         },
         {
@@ -82,8 +107,16 @@
           "timeCostMinutes": 5,
           "goto": "elio_formal_track",
           "effects": [
-            { "type": "set_flag", "key": "ranger_thread_opened", "value": true },
-            { "type": "set_flag", "key": "local_problem_started", "value": true }
+            {
+              "type": "set_flag",
+              "key": "ranger_thread_opened",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "local_problem_started",
+              "value": true
+            }
           ]
         }
       ]
@@ -103,11 +136,18 @@
         {
           "id": "mention_m1_pressure_signs",
           "text": "Ho incrociato qualcosa di simile a Valedarsena — segnalazioni sul comportamento anomalo della fauna portuale.",
-          "conditions": { "path": "world.flags.m1_world_pressure_known", "eq": true },
+          "conditions": {
+            "path": "world.flags.m1_world_pressure_known",
+            "eq": true
+          },
           "timeCostMinutes": 10,
           "goto": "elio_m1_connection",
           "effects": [
-            { "type": "set_flag", "key": "ranger_m1_m2_connected", "value": true }
+            {
+              "type": "set_flag",
+              "key": "ranger_m1_m2_connected",
+              "value": true
+            }
           ]
         },
         {
@@ -122,8 +162,16 @@
           "timeCostMinutes": 5,
           "goto": "elio_formal_track",
           "effects": [
-            { "type": "set_flag", "key": "ranger_thread_opened", "value": true },
-            { "type": "set_flag", "key": "local_problem_started", "value": true }
+            {
+              "type": "set_flag",
+              "key": "ranger_thread_opened",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "local_problem_started",
+              "value": true
+            }
           ]
         }
       ]
@@ -161,7 +209,7 @@
         },
         {
           "id": "m1_connection_2",
-          "text": "«Questo cambia la valutazione dell'ampiezza.» Non dice di più, ma la conseguenza è chiara: un problema che attraversa settori diversi richiede una risposta diversa da un'anomalia locale. Elio apre un nuovo file nel sistema."
+          "text": "Elio resta con la matita sospesa sulla mappa. «Valedarsena e Bosco Bruma.» Apre un nuovo fascicolo e trascrive entrambe le località sulla prima riga. «Adesso guardiamo anche fuori da questo settore.»"
         }
       ],
       "choices": [
@@ -171,9 +219,21 @@
           "timeCostMinutes": 5,
           "goto": "elio_formal_track",
           "effects": [
-            { "type": "set_flag", "key": "ranger_thread_opened", "value": true },
-            { "type": "set_flag", "key": "local_problem_started", "value": true },
-            { "type": "npc_relationship_adjust", "npcId": "ElioMar", "delta": 1 }
+            {
+              "type": "set_flag",
+              "key": "ranger_thread_opened",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "local_problem_started",
+              "value": true
+            },
+            {
+              "type": "npc_relationship_adjust",
+              "npcId": "ElioMar",
+              "delta": 1
+            }
           ]
         },
         {
@@ -181,8 +241,16 @@
           "text": "Prendo nota e aspetto di capire meglio la situazione prima di impegnarmi.",
           "goto": "elio_formal_track",
           "effects": [
-            { "type": "set_flag", "key": "ranger_thread_opened", "value": true },
-            { "type": "set_flag", "key": "local_problem_started", "value": true }
+            {
+              "type": "set_flag",
+              "key": "ranger_thread_opened",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "local_problem_started",
+              "value": true
+            }
           ]
         }
       ]
@@ -205,8 +273,16 @@
           "timeCostMinutes": 5,
           "goto": "elio_formal_track",
           "effects": [
-            { "type": "set_flag", "key": "ranger_thread_opened", "value": true },
-            { "type": "set_flag", "key": "local_problem_started", "value": true }
+            {
+              "type": "set_flag",
+              "key": "ranger_thread_opened",
+              "value": true
+            },
+            {
+              "type": "set_flag",
+              "key": "local_problem_started",
+              "value": true
+            }
           ]
         },
         {
@@ -214,7 +290,11 @@
           "text": "Prendo nota del contesto e lascio che sia il presidio a gestirlo.",
           "goto": "thread_close",
           "effects": [
-            { "type": "set_flag", "key": "ranger_thread_opened", "value": true }
+            {
+              "type": "set_flag",
+              "key": "ranger_thread_opened",
+              "value": true
+            }
           ]
         }
       ]
@@ -223,7 +303,7 @@
       "stitches": [
         {
           "id": "formal_track_1",
-          "text": "Elio apre un file operativo nel sistema del presidio. Non è ancora un'indagine ufficiale — è un tracciamento che permette di raccogliere segnalazioni successive e confrontarle. Ha un numero di protocollo. Ha una data di apertura."
+          "text": "Elio prende un fascicolo nuovo, gli assegna un numero di protocollo e annota la data. «Da questo momento le segnalazioni compatibili finiscono qui. Se due cose si somigliano, possiamo accorgercene.»"
         },
         {
           "id": "formal_track_2",
@@ -295,7 +375,10 @@
           "text": "Torno al borgo.",
           "goto": "m02-borgo-salice#borough_hub",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
           ]
         }
       ]
