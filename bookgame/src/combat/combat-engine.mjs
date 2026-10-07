@@ -6763,7 +6763,7 @@ export class Pokemon5eCombatEngine {
       activeHpRatio:next.opponent.hp.max>0?next.opponent.hp.current/next.opponent.hp.max:0
     });
     if(trainerArgs){
-      executeNpcTrainerFeatureInCombat(next,trainerArgs);
+      executeNpcTrainerFeatureInCombat(next,{...trainerArgs,dice:this.dice});
     }
     if (plan.kind === "switch") return this.switchOpponent(next, plan.benchIndex);
     if (plan.kind === "end") return endTurnInternal(next, "opponent", this.dice);
