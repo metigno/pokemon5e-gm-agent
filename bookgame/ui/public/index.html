@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#1c2b43">
+  <title>Pokémon 5e Digital Bookgame</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow" id="module-label">POKÉMON 5e DIGITAL BOOKGAME</div>
+        <h1 id="scene-title">Vertical Slice M1</h1>
+      </div>
+      <div class="topbar-status">
+        <span class="status-chip" id="world-day">Giorno 1</span>
+        <span class="status-chip" id="world-time">Mattina</span>
+      </div>
+    </header>
+
+    <main id="main-view" class="main-view" aria-live="polite">
+      <section class="scene-card" id="story-screen">
+        <div class="scene-art" aria-hidden="true">
+          <div class="scene-art__sun"></div>
+          <div class="scene-art__ridge scene-art__ridge--far"></div>
+          <div class="scene-art__ridge scene-art__ridge--near"></div>
+          <div class="scene-art__road"></div>
+          <div class="scene-art__label" id="location-label">Asteria</div>
+        </div>
+
+        <div class="story-panel">
+          <div class="story-kicker">
+            <span id="story-speaker">Narratore</span>
+            <button class="ghost-button" id="skip-text" type="button" hidden>Mostra tutto</button>
+          </div>
+          <div id="story-text" class="story-text"></div>
+          <div id="reveal-hint" class="reveal-hint" hidden>Tocca il testo per completarlo subito.</div>
+          <div id="last-roll" class="roll-result" hidden></div>
+          <div id="choice-list" class="choice-list" aria-label="Scelte"></div>
+        </div>
+      </section>
+
+      <section class="battle-card" id="battle-screen" hidden>
+        <div class="battle-header">
+          <div>
+            <div class="eyebrow">COMBATTIMENTO POKÉMON 5e</div>
+            <h2 id="battle-title">Encounter</h2>
+          </div>
+          <span class="status-chip status-chip--gold" id="battle-round">Turno 1</span>
+        </div>
+
+        <div class="combatant combatant--enemy">
+          <div class="combatant__line">
+            <strong id="enemy-name">Avversario</strong>
+            <span id="enemy-level">Lv. 1</span>
+          </div>
+          <div class="hp-track"><div class="hp-fill" id="enemy-hp-fill"></div></div>
+          <div class="combatant__meta" id="enemy-hp-text"></div>
+        </div>
+
+        <div class="battle-stage" aria-hidden="true">
+          <div class="battle-orb battle-orb--enemy"></div>
+          <div class="battle-orb battle-orb--player"></div>
+        </div>
+
+        <div class="combatant">
+          <div class="combatant__line">
+            <strong id="player-pokemon-name">Pokémon</strong>
+            <span id="player-pokemon-level">Lv. 1</span>
+          </div>
+          <div class="hp-track"><div class="hp-fill" id="player-hp-fill"></div></div>
+          <div class="combatant__meta" id="player-hp-text"></div>
+        </div>
+
+        <div class="battle-actions">
+          <div id="move-list" class="move-grid"></div>
+          <button class="secondary-button" id="end-turn" type="button">Termina turno</button>
+        </div>
+        <details class="combat-log">
+          <summary>Combat Log</summary>
+          <div id="combat-log"></div>
+        </details>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Navigazione">
+      <button data-panel="team" type="button"><span>◉</span>Team</button>
+      <button data-panel="trainer" type="button"><span>◆</span>Trainer</button>
+      <button data-panel="bag" type="button"><span>▣</span>Bag</button>
+      <button data-panel="journal" type="button"><span>▤</span>Journal</button>
+      <button data-panel="settings" type="button"><span>⚙</span>Menu</button>
+    </nav>
+  </div>
+
+  <div class="start-screen" id="start-screen">
+    <div class="start-card">
+      <div class="brand-mark">P5E</div>
+      <div class="eyebrow">OFFLINE-FIRST VERTICAL SLICE</div>
+      <h2>Inizia da M1</h2>
+      <p>La storia e le regole arrivano direttamente dal runtime locale.</p>
+      <label class="field-label" for="protagonist">Protagonista</label>
+      <select id="protagonist">
+        <option>Luke</option>
+        <option>Mattew</option>
+        <option>Daniel</option>
+        <option>Edward</option>
+        <option>Fab</option>
+      </select>
+      <label class="field-label" for="slot">Slot</label>
+      <input id="slot" value="slot1" autocomplete="off">
+      <div class="start-actions">
+        <button class="primary-button" id="new-game" type="button">Nuova partita</button>
+        <button class="secondary-button" id="load-game" type="button">Continua</button>
+      </div>
+      <div class="error-box" id="start-error" hidden></div>
+    </div>
+  </div>
+
+  <div class="drawer-backdrop" id="drawer-backdrop" hidden></div>
+  <aside class="drawer" id="drawer" aria-hidden="true">
+    <div class="drawer-header">
+      <div>
+        <div class="eyebrow">PANNELLO</div>
+        <h2 id="drawer-title">Trainer</h2>
+      </div>
+      <button class="icon-button" id="close-drawer" aria-label="Chiudi" type="button">×</button>
+    </div>
+    <div id="drawer-content" class="drawer-content"></div>
+  </aside>
+
+  <script type="module" src="/app.mjs"></script>
+</body>
+</html>
