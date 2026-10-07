@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "INTRO",
+  "title": "The Five",
+  "targets": {
+    "stitches": 21,
+    "choices": 22
+  },
+  "progressionRole": "shared-intro-and-licensing",
+  "designDocument": "../campaign/events/INTRO_CHAIN.md",
+  "blocks": [
+    {
+      "id": "INTRO_FIVE",
+      "title": "The Five",
+      "targets": {
+        "stitches": 21,
+        "choices": 22
+      }
+    }
+  ]
+}
