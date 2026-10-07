@@ -26,7 +26,7 @@ function legal(){
   s.story.sceneId="m05-altacima";s.story.nodeId="town_entry";s.world.locationId="alt_town";return s;
 }
 
-test("M5_02 compiles at 16 nodes and 35 choices",async()=>{const {bundle}=await makeEngine();const s=bundle.scenes["m05-altacima"];assert.equal(Object.keys(s.nodes).length,16);assert.equal(Object.values(s.nodes).reduce((n,node)=>n+(node.choices?.length??0),0),35);});
+test("M5_02 compiles at 16 nodes and 36 choices",async()=>{const {bundle}=await makeEngine();const s=bundle.scenes["m05-altacima"];assert.equal(Object.keys(s.nodes).length,16);assert.equal(Object.values(s.nodes).reduce((n,node)=>n+(node.choices?.length??0),0),36);});
 
 test("M5_02 registers Altacima as a reusable Rank B hub",async()=>{
   const {engine}=await makeEngine();let s=legal();s=await engine.choose(s,"entry_register");assert.equal(s.world.flags.altacima_discovered,true);assert.equal(s.story.nodeId,"town_hub");assert.equal(s.world.locationId,"alt_town");
@@ -66,4 +66,12 @@ test("M5_02 weather reading is information, not Fulgore authorization",async()=>
 
 test("M5_02 save/reload preserves hub and shop state",async()=>{
   let dir;try{dir=await mkdtemp(path.join(os.tmpdir(),"m502-"));const store=new SaveStore(dir);const {engine}=await makeEngine();let s=legal();s.player.money=1000;s=await engine.choose(s,"entry_register");s=await engine.choose(s,"hub_market");s=await engine.choose(s,"market_shop");s=await engine.choose(s,"buy_potion");s.slot="slot1";await store.save(s);const l=await store.load("slot1");assert.deepEqual(l,s);assert.equal(l.shops.altacima_supply.stock.potion,3);}finally{if(dir)await rm(dir,{recursive:true,force:true});}
+});
+
+
+test("M5_02 exposes the high-altitude handoff only while its event is unresolved",async()=>{
+  const {engine}=await makeEngine();let s=legal();s.world.flags.altacima_discovered=true;s.world.flags.m5_high_altitude_event_available=true;s.world.flags.friend_beat_05_complete=true;s.world.flags.fulgore_visited=true;s.story.nodeId="town_hub";
+  let v=await engine.present(s);assert.ok(v.choices.some(c=>c.id==="hub_high_altitude"));
+  s=await engine.choose(s,"hub_high_altitude");assert.equal(s.story.sceneId,"m05-high-altitude-event");assert.equal(s.story.nodeId,"event_entry");assert.equal(s.world.locationId,"ful_plateau");
+  s.story.sceneId="m05-altacima";s.story.nodeId="town_hub";s.world.locationId="alt_town";s.world.flags.m5_high_altitude_event_complete=true;v=await engine.present(s);assert.equal(v.choices.some(c=>c.id==="hub_high_altitude"),false);
 });
