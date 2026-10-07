@@ -6,6 +6,7 @@ import { Pokemon5eCombatEngine } from "../src/combat/combat-engine.mjs";
 import { CryptoDice } from "../src/engine/dice.mjs";
 import { SaveStore } from "../src/engine/save-store.mjs";
 import { createNewGameState } from "../src/engine/state.mjs";
+import { applyPlayerEvolution, playerEvolutionOptions } from "../src/engine/player-evolution.mjs";
 import {
   setTrainerGearEquipped,
   trainerGameplayView,
@@ -148,6 +149,11 @@ async function battleView() {
   };
 }
 
+async function evolutionView() {
+  if (!state) return [];
+  return playerEvolutionOptions(state);
+}
+
 async function snapshot() {
   if (!state) return { ok: true, hasSession: false };
 
@@ -185,6 +191,7 @@ async function snapshot() {
       minuteOfDay: state.world.minuteOfDay,
       locationId: state.world.locationId
     },
+    evolutions: await evolutionView(),
     trainerGameplay: trainerGameplayView(
       state,
       state.pending?.battle ?? null,
@@ -230,6 +237,37 @@ async function handleApi(req, res, url) {
     const choiceId = String(body.choiceId ?? "");
     await persist(await engine.choose(state, choiceId));
     return sendJson(res, 200, await snapshot());
+  }
+
+  if (url.pathname === "/api/evolution/apply") {
+    const rosterIndex = Number(body.rosterIndex);
+    const evolutionId = String(body.evolutionId ?? "");
+    if (!evolutionId) throw new Error("Evolution id richiesto");
+    const outcome = await applyPlayerEvolution(state, {
+      rosterIndex,
+      evolutionId,
+      asiDistribution: body.asiDistribution ?? null,
+      reducedMotion: Boolean(body.reducedMotion)
+    });
+    if (outcome.result.status === "choice_required") {
+      return sendJson(res, 200, {
+        ok: true,
+        evolution: {
+          result: outcome.result,
+          presentation: null
+        },
+        snapshot: await snapshot()
+      });
+    }
+    await persist(outcome.state);
+    return sendJson(res, 200, {
+      ok: true,
+      evolution: {
+        result: outcome.result,
+        presentation: outcome.presentation
+      },
+      snapshot: await snapshot()
+    });
   }
 
   if (url.pathname === "/api/trainer/gear") {
