@@ -11,7 +11,7 @@ const files=[
   "../content/scenes/m05-weather-decisions.json"
 ];
 
-test("M5_00-M5_04 logical production budget is locked at 75 nodes / 164 meaningful choices",async()=>{
+test("M5_00-M5_04 logical production budget is locked at 75 nodes / 165 meaningful choices",async()=>{
   let nodes=0;
   let choices=0;
   for(const rel of files){
@@ -20,7 +20,7 @@ test("M5_00-M5_04 logical production budget is locked at 75 nodes / 164 meaningf
     choices+=Object.values(scene.nodes).reduce((sum,node)=>sum+(node.choices?.length??0),0);
   }
   assert.equal(nodes,75);
-  assert.equal(choices,164);
+  assert.equal(choices,165);
 });
 
 test("M05 authored-surface manifest remains locked at 5700 stitches / 3600 choices",async()=>{
@@ -75,9 +75,9 @@ test("M5 first ten blocks include the canonical Fulgore capture expansion",async
     choices+=Object.values(scene.nodes).reduce((sum,node)=>sum+(node.choices?.length??0),0);
   }
   assert.equal(nodes,161);
-  assert.equal(choices,353);
+  assert.equal(choices,354);
   assert.equal(244-nodes,83);
-  assert.equal(534-choices,181);
+  assert.equal(535-choices,181);
 });
 
 
@@ -102,7 +102,7 @@ test("M5_10-M5_14 logical production budget is locked per block",async()=>{
   assert.equal(totalChoices,181);
 });
 
-test("M5 complete logical runtime surface is 244 nodes / 534 choices after canonical capture expansion",async()=>{
+test("M5 complete logical runtime surface is 244 nodes / 535 choices after canonical capture expansion",async()=>{
   const rels=[
     "m05-handoff","m05-mountain-approach","m05-altacima","m05-lance-enters","m05-weather-decisions",
     "m05-fulgore-ascent","m05-ancient-trace","m05-interregional-license","m05-five-cross-again","m05-friend-beat-05",
@@ -115,5 +115,5 @@ test("M5 complete logical runtime surface is 244 nodes / 534 choices after canon
     choices+=Object.values(scene.nodes).reduce((sum,node)=>sum+(node.choices?.length??0),0);
   }
   assert.equal(nodes,244);
-  assert.equal(choices,534);
+  assert.equal(choices,535);
 });
