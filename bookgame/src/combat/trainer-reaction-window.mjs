@@ -25,3 +25,18 @@ export function executeTrainerReactionForSide(battle,{side,featureId,cost=null,m
  battle.log.push({type:"trainer_reaction",round:battle.round,actor:side,featureId,cost:cost??null,mode});
  return result;
 }
+
+export function tryTrainerAcReaction(battle,{defenderSide,attackTotal,defenderAc,natural,critical=false,forcedHit=false}={}){
+ if(forcedHit||critical||natural===20||natural===1||attackTotal<defenderAc) return {reacted:false,defenderAc};
+ const candidates=legalTrainerReactionsForSide(battle,{side:defenderSide,featureIds:["raise-your-defenses"]});
+ const feature=candidates.find(x=>x.featureId==="raise-your-defenses");
+ if(!feature) return {reacted:false,defenderAc};
+ const needed=attackTotal-defenderAc+1;
+ const trainer=trainerForSide(battle,defenderSide);
+ const available=Number(trainer.classResources?.[feature.resourceId]?.current??0);
+ const max=Math.min(Number(feature.maxCost??needed),available);
+ if(needed>max) return {reacted:false,defenderAc};
+ const result=executeTrainerReactionForSide(battle,{side:defenderSide,featureId:feature.featureId,cost:needed,mode:"ac"});
+ if(!result.used) return {reacted:false,defenderAc};
+ return {reacted:true,defenderAc:defenderAc+needed,featureId:feature.featureId,cost:needed};
+}
