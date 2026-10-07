@@ -24,7 +24,7 @@
       "choices": [
         {
           "id": "friend_beat_01",
-          "text": "Uno degli altri Five è qui per un'attività propria: posso incrociare il suo lavoro.",
+          "text": "Tra le voci oltre i recinti ne riconosco una: uno degli altri quattro è qui.",
           "conditions": {
             "all": [
               {
@@ -828,7 +828,7 @@
       "stitches": [
         {
           "id": "resolved_context",
-          "text": "Il lavoro ai recinti non è più aperto come prima. La fattoria ha registrato l'esito e il mondo è andato avanti."
+          "text": "Il cancello è di nuovo assicurato e il bestiame è rientrato. Qualunque cosa sia successa ai recinti, il lavoro urgente è finito."
         }
       ],
       "choices": [
