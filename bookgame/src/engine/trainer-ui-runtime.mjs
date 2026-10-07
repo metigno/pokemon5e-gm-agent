@@ -19,7 +19,10 @@ function battleLegality(battle, def, reactionContext = null) {
   if (!battle) return { legal: false, reason: "combat_required" };
   if (battle.outcome) return { legal: false, reason: "combat_ended" };
   if (battle.awaitingSwitch) return { legal: false, reason: "switch_required" };
-  if (battle.order?.[battle.turnIndex] !== "player") return { legal: false, reason: "not_player_turn" };
+  if (
+    battle.order?.[battle.turnIndex] !== "player" &&
+    !(def.action === "reaction" && reactionContext)
+  ) return { legal: false, reason: "not_player_turn" };
   if (def.action === "bonus-action" && !battle.player?.turn?.bonusActionAvailable) {
     return { legal: false, reason: "bonus_action_spent" };
   }
