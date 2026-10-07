@@ -362,6 +362,11 @@
               "type": "set_flag",
               "key": "m4_outcome_complete",
               "value": true
+            },
+            {
+              "type": "trainer_milestone_level",
+              "milestoneId": "M04_COMPLETE",
+              "level": 12
             }
           ]
         },
