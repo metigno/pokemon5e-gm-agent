@@ -665,6 +665,37 @@ async function completeCanonicalM3(engine, start) {
   return state;
 }
 
+async function completeCanonicalM4(engine, start) {
+  let state = structuredClone(start);
+  const milestones = [
+    ["M4 activation", s => s.world.flags.m4_active === true, 800],
+    ["M4 Mareasale arrival", s => s.world.flags.mareasale_discovered === true, 1600],
+    ["M4 Archie meeting", s => s.world.flags.archie_met === true, 2400],
+    ["M4 port pressure", s => s.world.flags.port_pressure_complete === true, 3000],
+    ["M4 smuggling outcome", s => typeof s.world.flags.smuggling_state === "string", 3600],
+    ["M4 Friend Beat 04", s => s.world.flags.friend_beat_04_complete === true, 3000],
+    ["M4 Upper Regional registration", s => s.world.flags.upper_regional_registration_complete === true || typeof s.world.flags.upper_regional_result === "string", 2400],
+    ["M4 Upper Regional result", s => typeof s.world.flags.upper_regional_result === "string", 3600],
+    ["M4 Trial C to B window", s => s.world.flags.a4_rank_trial_c_b_available === true, 1800],
+    ["M4 Trial C to B available", s => s.competition.trials?.RANK_C_TO_B?.available === true, 1400],
+    ["M4 Trial C to B registered", s => s.competition.trials?.RANK_C_TO_B?.registered === true, 1200],
+    ["M4 Trial C to B win", s => s.competition.rank === "B", 1200],
+    ["M4 completion", s => s.world.flags.m4_complete === true, 1200]
+  ];
+  for (const [label, goal, maxExpansions] of milestones) {
+    if (goal(state)) continue;
+    state = await searchTo({engine,start:state,goal,label,route:"champion",combatPolicy:"win",maxExpansions});
+  }
+  assert.equal(state.world.flags.archie_met, true);
+  assert.equal(state.world.flags.friend_beat_04_complete, true);
+  assert.ok(typeof state.world.flags.upper_regional_result === "string");
+  assert.ok(typeof state.world.flags.smuggling_state === "string");
+  assert.equal(state.competition.rank, "B");
+  assert.equal(state.world.flags.m4_complete, true);
+  assert.equal(state.world.flags.m05_unlocked, true);
+  return state;
+}
+
 async function persistReload(store, state, slot, label) {
   const saved = structuredClone(state);
   saved.slot = slot;
@@ -703,7 +734,10 @@ test("RC persistent E2E traverses real authored M1→M12 and all three World out
     common = await completeCanonicalM3(engine, common);
     common = await persistReload(store, common, "rc-lineage", "M3");
 
-    for (let module = 4; module <= 6; module += 1) {
+    common = await completeCanonicalM4(engine, common);
+    common = await persistReload(store, common, "rc-lineage", "M4");
+
+    for (let module = 5; module <= 6; module += 1) {
       common = await searchTo({
         engine,
         start: common,
