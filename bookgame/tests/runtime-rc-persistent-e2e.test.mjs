@@ -1546,3 +1546,4 @@ test("RC persistent E2E traverses real authored M1→M12 for all Five protagonis
     if (dir) await rm(dir, { recursive: true, force: true });
   }
 });
+
