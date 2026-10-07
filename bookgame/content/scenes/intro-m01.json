@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "M01",
+  "id": "intro-m01",
+  "title": "Prima della prima strada",
+  "locationId": "asteria_campus",
+  "entryNodeId": "trainer_specialization",
+  "nodes": {
+    "trainer_specialization": {
+      "stitches": [
+        {"id":"trainer_identity","text":"La licenza davanti a te non definisce che tipo di persona devi essere. Registra però come hai imparato a lavorare con i Pokémon: è la tua Specialization iniziale da Trainer."},
+        {"id":"trainer_rules","text":"Sei un Trainer di livello 1. Il Trainer Path non viene scelto qui: arriverà con la progressione prevista dalle regole Pokémon 5e."}
+      ],
+      "choices": [
+        {"id":"specialization_fire","text":"Specialization: Fire.","effects":[{"type":"trainer_specialization","specialization":"Fire"}],"goto":"tutorial_choice"},
+        {"id":"specialization_water","text":"Specialization: Water.","effects":[{"type":"trainer_specialization","specialization":"Water"}],"goto":"tutorial_choice"},
+        {"id":"specialization_grass","text":"Specialization: Grass.","effects":[{"type":"trainer_specialization","specialization":"Grass"}],"goto":"tutorial_choice"},
+        {"id":"specialization_normal","text":"Specialization: Normal.","effects":[{"type":"trainer_specialization","specialization":"Normal"}],"goto":"tutorial_choice"}
+      ]
+    },
+    "tutorial_choice": {
+      "stitches":[
+        {"id":"sheet_ready","text":"La licenza viene registrata. Prima di uscire dal Campus puoi completare il briefing guidato oppure dichiarare di conoscerne già le basi."}
+      ],
+      "choices":[
+        {"id":"play_tutorial","text":"Faccio il briefing guidato.","effects":[{"type":"set_flag","key":"tutorial_skipped","value":false}],"goto":"tutorial_rules"},
+        {"id":"skip_tutorial","text":"Salto volontariamente il briefing.","effects":[{"type":"set_flag","key":"tutorial_skipped","value":true}],"goto":"release"}
+      ]
+    },
+    "tutorial_rules": {
+      "stitches":[
+        {"id":"checks","text":"Quando una scelta richiede una prova, il runtime usa caratteristiche, competenze e dadi del Trainer: la narrazione non decide il risultato al posto delle regole."},
+        {"id":"combat","text":"Negli scontri, iniziativa, azioni, movimento, PP, condizioni, cattura e conseguenze appartengono al motore Pokémon 5e."},
+        {"id":"world","text":"Il tempo passa davvero. Persone, fauna, lavori e opportunità possono cambiare anche quando scegli di occuparti d'altro."}
+      ],
+      "choices":[
+        {"id":"finish_tutorial","text":"Ho capito. Esco nel mondo.","effects":[{"type":"set_flag","key":"tutorial_complete","value":true}],"goto":"release"}
+      ]
+    },
+    "release": {
+      "stitches":[{"id":"release","text":"Il cancello del Campus è davanti a te. Da questo momento le indicazioni finiscono: la prima strada la scegli tu."}],
+      "choices":[
+        {"id":"enter_m1","text":"Esco dal Campus.","effects":[{"type":"set_flag","key":"intro_complete","value":true},{"type":"set_flag","key":"free_roam","value":true}],"goto":"m01-release#free_roam"}
+      ]
+    }
+  }
+}
