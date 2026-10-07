@@ -34,13 +34,13 @@
       "stitches": [
         {
           "id": "ti1",
-          "text": "La Sala della Cresta gestisce il Promotion Trial B→A come checkpoint E5 separato da licenza interregionale, Masters e altri risultati. Il formato canonico è Singles con Official Five e un solo esaminatore."
+          "text": "Alla Sala della Cresta il Promotion Trial B→A ha un banco dedicato, separato dalla licenza interregionale e dal Masters. Il regolamento prevede un Singles con cinque Pokémon registrati e un solo esaminatore."
         }
       ],
       "choices": [
         {
           "id": "info_audit",
-          "text": "Verifico eligibility e stato E5.",
+          "text": "Verifico se posso iscrivermi.",
           "goto": "eligibility_audit"
         },
         {
@@ -50,7 +50,7 @@
         },
         {
           "id": "info_identity",
-          "text": "Rivedo cosa valuta questo gate.",
+          "text": "Rivedo cosa valuta questo esame.",
           "goto": "endurance_identity"
         },
         {
@@ -64,13 +64,13 @@
       "stitches": [
         {
           "id": "ea1",
-          "text": "L'idoneità deve esistere nel subsystem competitivo: Rank B reale, checkpoint disponibile, cinque Pokémon nel roster al momento della registrazione."
+          "text": "L'addetta controlla tre cose: Rank B valido, Trial ancora da superare e almeno cinque Pokémon disponibili al momento dell'iscrizione."
         }
       ],
       "choices": [
         {
           "id": "audit_sync",
-          "text": "Sincronizzo il checkpoint B→A con E5.",
+          "text": "Faccio verificare la mia posizione per il Trial B→A.",
           "conditions": {
             "path": "competition.trials.RANK_B_TO_A.available",
             "ne": true
@@ -89,7 +89,7 @@
         },
         {
           "id": "audit_ready",
-          "text": "Il checkpoint E5 è già disponibile.",
+          "text": "Il Trial B→A risulta già disponibile.",
           "conditions": {
             "path": "competition.trials.RANK_B_TO_A.available",
             "eq": true
@@ -98,7 +98,7 @@
         },
         {
           "id": "audit_rank",
-          "text": "Rivedo perché nessun risultato opzionale può sostituire il checkpoint.",
+          "text": "Rivedo perché nessun altro risultato può sostituire il Trial.",
           "goto": "rank_gate_review"
         }
       ]
@@ -107,7 +107,7 @@
       "stitches": [
         {
           "id": "td1",
-          "text": "Il banco legge lo stato E5 e il roster reale. Non clona un Official Five narrativo, non cura la squadra e non considera punti o reputazione come bypass."
+          "text": "Il banco verifica la squadra che possiedi davvero. Non fornisce Pokémon di prova, non cura i tuoi e non accetta punti o reputazione al posto dei requisiti."
         }
       ],
       "choices": [
@@ -250,7 +250,7 @@
       "stitches": [
         {
           "id": "ah1",
-          "text": "Il Trial è retryable. Ogni tentativo viene contato da E5; una sconfitta rimuove la registrazione ma lascia disponibile il checkpoint. Nessun altro stato M5 viene resettato."
+          "text": "Puoi ripetere il Trial dopo una sconfitta, ma ogni tentativo resta registrato. Dovrai iscriverti di nuovo; il resto del tuo viaggio non viene cancellato."
         }
       ],
       "choices": [
@@ -307,7 +307,7 @@
       "stitches": [
         {
           "id": "reg1",
-          "text": "La registrazione E5 è attiva. Il Trial può iniziare subito o più tardi; uscire dalla Sala non annulla automaticamente la pratica."
+          "text": "La tua iscrizione è attiva. Puoi entrare nell'arena subito oppure tornare più tardi senza dover firmare di nuovo, finché la pratica resta valida."
         }
       ],
       "choices": [
@@ -340,13 +340,13 @@
       "stitches": [
         {
           "id": "rgs1",
-          "text": "Checkpoint `RANK_B_TO_A`, Rank B attuale, Official Five richiesto, retry attivo. Nessun Masters result e nessun Rank A esistono ancora."
+          "text": "La pratica riporta Rank B, cinque Pokémon richiesti e possibilità di un nuovo tentativo in caso di sconfitta. Il Rank A, per ora, non c'è."
         }
       ],
       "choices": [
         {
           "id": "status_enter",
-          "text": "Lo stato è corretto: vado al gate.",
+          "text": "È tutto in regola: vado all'arena.",
           "goto": "trial_ready"
         },
         {
@@ -392,7 +392,7 @@
       "choices": [
         {
           "id": "rank_back",
-          "text": "Torno all'audit E5.",
+          "text": "Torno al controllo dei requisiti.",
           "goto": "eligibility_audit"
         }
       ]
@@ -401,7 +401,7 @@
       "stitches": [
         {
           "id": "tr1",
-          "text": "La registrazione è pronta per essere consumata dal match system. Da qui il controllo passa al blocco M5_12 senza anticipare alcun risultato."
+          "text": "La registrazione è pronta. Da qui in poi parlerà il combattimento: nessun risultato è già scritto."
         }
       ],
       "choices": [
