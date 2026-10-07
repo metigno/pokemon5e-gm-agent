@@ -602,6 +602,58 @@ async function completeCanonicalM3TunnelWarnings(engine, start) {
   return state;
 }
 
+async function completeCanonicalM3RescueOutcome(engine, start) {
+  let state = structuredClone(start);
+  if (state.world.flags.ferrox_rescue_outcome_complete === true) return state;
+
+  let view = await engine.present(state);
+  const leaveRescue = ["success_to_close", "declined_close", "missed_close"]
+    .find((id) => view.choices.some((choice) => choice.id === id));
+  if (leaveRescue) {
+    state = await engine.choose(state, leaveRescue);
+    state = await requireChoice(engine, state, "close_to_hub", "M3 Ferrox rescue return");
+  }
+
+  view = await engine.present(state);
+  if (view.choices.some((choice) => choice.id === "hub_rescue_outcome")) {
+    state = await requireChoice(engine, state, "hub_rescue_outcome", "M3 Ferrox outcome entry");
+  } else if (!(state.story.sceneId === "m03-rescue-outcome" && state.story.nodeId === "outcome_board")) {
+    state = await searchTo({
+      engine,
+      start: state,
+      goal: (s) =>
+        s.story.sceneId === "m03-rescue-outcome" &&
+        s.story.nodeId === "outcome_board",
+      label: "M3 Ferrox outcome entry",
+      route: "champion",
+      combatPolicy: "win",
+      maxExpansions: 800
+    });
+  }
+
+  view = await engine.present(state);
+  const outcome = view.choices.find((choice) => /^outcome_/.test(choice.id));
+  assert.ok(outcome, "M3 Ferrox outcome must expose the authored rescue-state branch");
+  state = await engine.choose(state, outcome.id);
+
+  view = await engine.present(state);
+  const register = view.choices.find((choice) => /_register$/.test(choice.id));
+  assert.ok(register, "M3 Ferrox outcome must expose a verified report registration");
+  state = await engine.choose(state, register.id);
+
+  state = await requireChoice(engine, state, "resp_systemic", "M3 Ferrox responsibility review");
+
+  view = await engine.present(state);
+  const reputation = ["rep_high", "rep_neutral", "rep_none"]
+    .find((id) => view.choices.some((choice) => choice.id === id));
+  assert.ok(reputation, "M3 Ferrox outcome must expose the matching local reputation result");
+  state = await engine.choose(state, reputation);
+
+  state = await requireChoice(engine, state, "close_hub", "M3 Ferrox outcome close");
+  assert.equal(state.world.flags.ferrox_rescue_outcome_complete, true);
+  return state;
+}
+
 async function completeCanonicalM3FriendBeat(engine, start) {
   let state = structuredClone(start);
   if (state.world.flags.friend_beat_03_complete === true) return state;
@@ -726,6 +778,9 @@ async function completeCanonicalM3(engine, start) {
   for (const milestone of milestones) {
     if (milestone.label === "M3 tunnel warnings" && state.world.flags.tunnel_warnings_complete !== true) {
       state = await completeCanonicalM3TunnelWarnings(engine, state);
+    }
+    if (milestone.label === "M3 Ferrox rescue outcome" && state.world.flags.ferrox_rescue_outcome_complete !== true) {
+      state = await completeCanonicalM3RescueOutcome(engine, state);
     }
     if (milestone.label === "M3 Trial D to C window" && state.world.flags.friend_beat_03_complete !== true) {
       state = await completeCanonicalM3FriendBeat(engine, state);
