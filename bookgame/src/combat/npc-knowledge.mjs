@@ -8,14 +8,14 @@ export function createNpcKnowledge(battle){
   lastObservedLogIndex:0
  };
 }
-export function updateNpcKnowledge(battle,knowledge){
+export function updateNpcKnowledge(battle,knowledge,{revealedMoveTypes={}}={}){
  const next=structuredClone(knowledge??createNpcKnowledge(battle));
  next.seenPlayerPokemon[battle.player.speciesId]=hpView(battle.player);
  next.revealedPlayerMoves[battle.player.speciesId]??=[];
  for(const event of (battle.log??[]).slice(next.lastObservedLogIndex)){
   if(event.actor!=="player"||!event.moveId) continue;
   const list=next.revealedPlayerMoves[battle.player.speciesId]??=[];
-  if(!list.includes(event.moveId)) list.push(event.moveId);
+  if(!list.some(x=>(typeof x==="string"?x:x.id)===event.moveId)) list.push({id:event.moveId,type:revealedMoveTypes[event.moveId]??event.moveType??null});
   next.revealedPlayerMoves[battle.player.speciesId]=list;
  }
  next.lastObservedLogIndex=(battle.log??[]).length;
