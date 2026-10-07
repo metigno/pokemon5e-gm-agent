@@ -390,6 +390,15 @@
           "goto": "state_audit"
         },
         {
+          "id": "complete_m11",
+          "text": "Entro nel Final Four.",
+          "goto": "m11-final-four-lock#final_four_entry",
+          "conditions": {
+            "path": "world.flags.m11_unlocked",
+            "eq": true
+          }
+        },
+        {
           "id": "complete_friend",
           "text": "Rileggo il Friend Beat persistente.",
           "goto": "friend_closure"
