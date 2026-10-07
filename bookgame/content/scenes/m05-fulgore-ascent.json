@@ -481,6 +481,24 @@
       ],
       "choices": [
         {
+          "id": "riolu_engage",
+          "text": "Ingaggio Riolu solo se resta nel corridoio naturale e lascio l'esito al resolver Pokémon 5e.",
+          "combat": {
+            "encounterId": "M5_WILD_RIOLU_001",
+            "opponent": {
+              "species": "Riolu",
+              "level": 11
+            },
+            "opponentRegistered": false,
+            "goto": "wild_combat_handoff",
+            "returnNodes": {
+              "win": "wild_win",
+              "lose": "wild_loss",
+              "captured": "wild_captured"
+            }
+          }
+        },
+        {
           "id": "riolu_leave",
           "text": "Lo lascio tranquillo e continuo.",
           "goto": "plateau_edge",
@@ -515,6 +533,24 @@
         }
       ],
       "choices": [
+        {
+          "id": "geodude_engage",
+          "text": "Ingaggio Geodude solo se resta nel corridoio naturale e lascio l'esito al resolver Pokémon 5e.",
+          "combat": {
+            "encounterId": "M5_WILD_GEODUDE_001",
+            "opponent": {
+              "species": "Geodude",
+              "level": 11
+            },
+            "opponentRegistered": false,
+            "goto": "wild_combat_handoff",
+            "returnNodes": {
+              "win": "wild_win",
+              "lose": "wild_loss",
+              "captured": "wild_captured"
+            }
+          }
+        },
         {
           "id": "geodude_leave",
           "text": "Non lo disturbo e proseguo.",
@@ -551,6 +587,24 @@
       ],
       "choices": [
         {
+          "id": "machop_engage",
+          "text": "Ingaggio Machop solo se resta nel corridoio naturale e lascio l'esito al resolver Pokémon 5e.",
+          "combat": {
+            "encounterId": "M5_WILD_MACHOP_001",
+            "opponent": {
+              "species": "Machop",
+              "level": 11
+            },
+            "opponentRegistered": false,
+            "goto": "wild_combat_handoff",
+            "returnNodes": {
+              "win": "wild_win",
+              "lose": "wild_loss",
+              "captured": "wild_captured"
+            }
+          }
+        },
+        {
           "id": "machop_leave",
           "text": "Lo lascio andare e continuo.",
           "goto": "plateau_edge",
@@ -574,6 +628,54 @@
               "value": "machop"
             }
           ]
+        }
+      ]
+    },
+    "wild_combat_handoff": {
+      "text": "L'incontro passa al risolutore Pokémon 5e. Nessuna cattura o vittoria viene assegnata dalla narrazione."
+    },
+    "wild_win": {
+      "stitches": [
+        {
+          "id": "ww1",
+          "text": "Il confronto si chiude con una vittoria meccanica. Lo stato reale della squadra resta persistente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "wild_win_continue",
+          "text": "Continuo verso l'altopiano.",
+          "goto": "plateau_edge"
+        }
+      ]
+    },
+    "wild_loss": {
+      "stitches": [
+        {
+          "id": "wl1",
+          "text": "Il confronto si chiude a tuo sfavore. HP e condizioni restano quelli prodotti dal resolver."
+        }
+      ],
+      "choices": [
+        {
+          "id": "wild_loss_continue",
+          "text": "Quando posso riprendere il percorso, continuo verso l'altopiano.",
+          "goto": "plateau_edge"
+        }
+      ]
+    },
+    "wild_captured": {
+      "stitches": [
+        {
+          "id": "wc1",
+          "text": "La cattura è riuscita secondo le regole Pokémon 5e. Il Pokémon entra nel roster con il proprio stato persistente."
+        }
+      ],
+      "choices": [
+        {
+          "id": "wild_captured_continue",
+          "text": "Continuo verso l'altopiano.",
+          "goto": "plateau_edge"
         }
       ]
     }
