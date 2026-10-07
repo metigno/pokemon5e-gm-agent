@@ -5,7 +5,7 @@
   "locationId": "asteria_ginestre",
   "nodes": {
     "arrival": {
-      "text": "La strada lascia Valedarsena e si stringe tra muretti bassi e ginestre. Poco avanti, un giovane Houndour sta bevendo da una pozzanghera ai margini del sentiero. Ha già percepito la tua presenza: non attacca, ma irrigidisce le zampe e ti segue con gli occhi.",
+      "text": "La strada si stringe tra muretti bassi e ginestre. Poco avanti, un giovane Houndour beve da una pozzanghera raccolta nell'ombra del muro. Quando ti sente arrivare alza subito la testa, si mette di traverso tra te e l'acqua e resta immobile a osservarti.",
       "choices": [
         {
           "id": "observe",
@@ -99,7 +99,7 @@
       ]
     },
     "observed": {
-      "text": "Non sta cacciando. Beve in fretta e controlla spesso il pendio alle sue spalle. Il ringhio basso che senti quando muovi un piede sembra un avvertimento, non un invito allo scontro.",
+      "text": "Houndour beve in fretta, poi controlla il pendio alle sue spalle e torna a guardarti. Non prova ad avvicinarsi. Quando sposti un piede verso di lui, il ringhio arriva basso e immediato: vuole distanza.",
       "choices": [
         {
           "id": "approach",
@@ -188,7 +188,7 @@
       ]
     },
     "trust": {
-      "text": "Houndour tende il muso verso di te. Per qualche secondo resta pronto a scattare, poi le spalle si abbassano. Torna a bere senza smettere di controllarti: non si fida ancora, ma ha deciso che non sei una minaccia immediata.",
+      "text": "Ti fermi abbastanza lontano da lasciargli una via libera. Houndour annusa l'aria, tiene gli occhi su di te ancora qualche secondo e infine abbassa le spalle. Torna all'acqua. Non ti invita ad avvicinarti; semplicemente, smette di considerarti un pericolo immediato.",
       "choices": [
         {
           "id": "continue",
@@ -215,7 +215,7 @@
       ]
     },
     "warning": {
-      "text": "Hai ridotto la distanza troppo in fretta. Houndour arretra di mezzo passo, scopre i denti e lascia uscire un ringhio più netto. Ti sta dando la possibilità di fermarti.",
+      "text": "Un passo di troppo basta. Houndour arretra verso le ginestre, scopre i denti e irrigidisce la coda. Dietro di lui resta ancora un varco libero sul pendio. Non è partito all'attacco: ti sta avvertendo.",
       "choices": [
         {
           "id": "back_away",
@@ -277,7 +277,7 @@
       "choices": []
     },
     "combat_win": {
-      "text": "Lo scontro si chiude a tuo favore. Houndour cerca una via di fuga invece di continuare a rischiare ferite inutili. Il sentiero torna silenzioso.",
+      "text": "Quando capisce di non riuscire più a tenere la posizione, Houndour cerca il varco tra le ginestre invece di continuare a farsi colpire. Per qualche secondo senti rami spezzarsi sul pendio, poi più nulla.",
       "choices": [
         {
           "id": "continue",
@@ -304,7 +304,7 @@
       ]
     },
     "combat_loss": {
-      "text": "Sei costretto a cedere terreno. Houndour non insegue oltre il necessario: mantiene la distanza che voleva e lascia che tu ti ritiri.",
+      "text": "Devi cedere terreno. Houndour avanza soltanto quanto basta a riaprire la distanza tra voi; quando ti allontani, non ti segue. Resta vicino all'acqua, ansimando e tenendoti d'occhio.",
       "choices": [
         {
           "id": "retreat",
@@ -331,7 +331,7 @@
       ]
     },
     "houndour_fled": {
-      "text": "Houndour trova un varco tra le ginestre e scompare sul pendio. Non hai vinto né perso: l'animale ha semplicemente scelto di uscire dalla situazione.",
+      "text": "Appena la distanza glielo permette, Houndour scatta nel varco tra le ginestre e risale il pendio. I rami si muovono ancora per qualche secondo, poi torna il silenzio.",
       "choices": [
         {
           "id": "continue",
@@ -358,7 +358,7 @@
       ]
     },
     "road_continue": {
-      "text": "Il tratto della pozzanghera resta alle spalle. Qualunque cosa sia successa con Houndour, la strada continua e il mondo conserva quell'esito invece di ricreare l'incontro.",
+      "text": "La pozzanghera resta alle tue spalle. Davanti, la strada continua tra i muretti fino al primo bivio.",
       "choices": [
         {
           "id": "reach_first_fork",
@@ -368,7 +368,7 @@
       ]
     },
     "houndour_captured": {
-      "text": "La Pokéball si richiude e resta immobile sull'erba. La cattura è stata risolta dal motore Pokémon 5e: livello, HP, condizioni e risorse consumate sono già nello stato persistente quando la storia riprende.",
+      "text": "La Poké Ball scatta una volta, poi resta ferma nell'erba. Il rumore delle ginestre torna a riempire il silenzio attorno a te. Houndour adesso è con te.",
       "choices": [
         {
           "id": "continue",
