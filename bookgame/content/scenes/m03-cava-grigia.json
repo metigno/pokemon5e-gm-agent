@@ -97,7 +97,7 @@
       "choices": [
         {
           "id": "ridge_wis_check",
-          "text": "Studio attentamente la disposizione delle terrazze e dei cartelli. (CT Perception)",
+          "text": "Studio attentamente la disposizione delle terrazze e dei cartelli.",
           "timeCostMinutes": 10,
           "check": {
             "ability": "WIS",
@@ -611,7 +611,7 @@
       "choices": [
         {
           "id": "pressure_probe_details",
-          "text": "Provo a farmi spiegare dove il margine operativo è più stretto. (CT Persuasion)",
+          "text": "Provo a farmi spiegare dove il margine operativo è più stretto.",
           "timeCostMinutes": 10,
           "check": {
             "ability": "CHA",
