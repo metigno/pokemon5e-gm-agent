@@ -501,11 +501,6 @@
               "value": true
             },
             {
-              "type": "set_flag",
-              "key": "m8_astrid_available",
-              "value": true
-            },
-            {
               "type": "set_location",
               "locationId": "world_village"
             }
