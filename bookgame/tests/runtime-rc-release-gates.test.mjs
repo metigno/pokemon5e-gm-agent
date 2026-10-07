@@ -77,7 +77,7 @@ test("RC semantic gate certifies every canonical ability and item with owned rul
   assert.deepEqual(canonical.items.unresolved, []);
 });
 
-test("RC warning gate triages exactly the known 117 compiler warnings and rejects drift", async () => {
+test("RC warning gate triages exactly the known 118 compiler warnings and rejects drift", async () => {
   const allowlist = JSON.parse(fs.readFileSync(warningAllowlistFile, "utf8"));
   const bundle = await compileStory({ scenesDir });
   const actual = bundle.diagnostics.warnings.map(warningIdentity).sort();
@@ -85,12 +85,12 @@ test("RC warning gate triages exactly the known 117 compiler warnings and reject
 
   assert.equal(allowlist.schemaVersion, 1);
   assert.deepEqual(allowlist.expectedCounts, {
-    total: 117,
-    TERMINAL_NODE: 14,
+    total: 118,
+    TERMINAL_NODE: 15,
     UNREACHABLE_NODE_LOCAL: 103
   });
-  assert.equal(allowlist.entries.length, 117);
-  assert.equal(new Set(expected).size, 117, "warning allowlist identities must be unique");
+  assert.equal(allowlist.entries.length, 118);
+  assert.equal(new Set(expected).size, 118, "warning allowlist identities must be unique");
   assert.ok(
     allowlist.entries.every((entry) => typeof entry.reason === "string" && entry.reason.length > 0),
     "every accepted warning must have a triage reason"
@@ -106,6 +106,6 @@ test("RC warning gate triages exactly the known 117 compiler warnings and reject
   const unreachable = bundle.diagnostics.warnings.filter(
     (entry) => entry.code === "UNREACHABLE_NODE_LOCAL"
   );
-  assert.equal(terminal.length, 14);
+  assert.equal(terminal.length, 15);
   assert.equal(unreachable.length, 103);
 });
