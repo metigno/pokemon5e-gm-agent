@@ -6712,6 +6712,8 @@ export class Pokemon5eCombatEngine {
     if (
       selected.attack &&
       selected.dice?.type === "damage" &&
+      next.trainer?.classFeatures?.includes("raise-your-defenses") &&
+      Number(next.trainer?.classResources?.["tactical-points"]?.current ?? 0) >= 1 &&
       next.trainer?.reactionAvailable &&
       !next.pendingTrainerReaction
     ) {
