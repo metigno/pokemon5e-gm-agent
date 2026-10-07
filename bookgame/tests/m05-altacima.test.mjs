@@ -26,14 +26,18 @@ function legal(){
   s.story.sceneId="m05-altacima";s.story.nodeId="town_entry";s.world.locationId="alt_town";return s;
 }
 
-test("M5_02 compiles at 16 nodes and 34 choices",async()=>{const {bundle}=await makeEngine();const s=bundle.scenes["m05-altacima"];assert.equal(Object.keys(s.nodes).length,16);assert.equal(Object.values(s.nodes).reduce((n,node)=>n+(node.choices?.length??0),0),34);});
+test("M5_02 compiles at 16 nodes and 35 choices",async()=>{const {bundle}=await makeEngine();const s=bundle.scenes["m05-altacima"];assert.equal(Object.keys(s.nodes).length,16);assert.equal(Object.values(s.nodes).reduce((n,node)=>n+(node.choices?.length??0),0),35);});
 
 test("M5_02 registers Altacima as a reusable Rank B hub",async()=>{
   const {engine}=await makeEngine();let s=legal();s=await engine.choose(s,"entry_register");assert.equal(s.world.flags.altacima_discovered,true);assert.equal(s.story.nodeId,"town_hub");assert.equal(s.world.locationId,"alt_town");
 });
 
-test("M5_02 hub exposes distinct services and hides Lance before causal context",async()=>{
-  const {engine}=await makeEngine();let s=legal();s=await engine.choose(s,"entry_register");const v=await engine.present(s);for(const id of ["hub_medical","hub_logistics","hub_crest","hub_market","hub_weather","hub_return_mountains"])assert.ok(v.choices.some(c=>c.id===id));assert.equal(v.choices.some(c=>c.id==="hub_lance"),false);
+test("M5_02 hub exposes distinct services and hides gated routes before causal context",async()=>{
+  const {engine}=await makeEngine();let s=legal();s=await engine.choose(s,"entry_register");const v=await engine.present(s);for(const id of ["hub_medical","hub_logistics","hub_crest","hub_market","hub_weather","hub_return_mountains"])assert.ok(v.choices.some(c=>c.id===id));assert.equal(v.choices.some(c=>c.id==="hub_lance"),false);assert.equal(v.choices.some(c=>c.id==="hub_fulgore_gate"),false);
+});
+
+test("M5_02 exposes the real Fulgore ascent handoff only after departure is ready",async()=>{
+  const {engine}=await makeEngine();let s=legal();s.world.flags.m5_fulgore_departure_ready=true;s.world.flags.m5_fulgore_route_plan="direct";s=await engine.choose(s,"entry_register");const v=await engine.present(s);assert.ok(v.choices.some(c=>c.id==="hub_fulgore_gate"));s=await engine.choose(s,"hub_fulgore_gate");assert.equal(s.story.sceneId,"m05-fulgore-ascent");assert.equal(s.story.nodeId,"ascent_gate");assert.equal(s.world.locationId,"alt_town_gate");
 });
 
 test("M5_02 market uses persistent money and finite stock",async()=>{
