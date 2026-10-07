@@ -223,7 +223,7 @@ function combatOutcomes(state, policy) {
   const canCapture =
     keys.includes("captured") &&
     state.pending?.opponentRegistered !== true &&
-    (state.player?.roster?.length ?? 0) < 2;
+    (state.player?.roster?.length ?? 0) < 3;
   const legal = keys.filter((key) => key !== "captured" || canCapture);
   if (canCapture) {
     const rest = legal.filter((key) => key !== "captured");
