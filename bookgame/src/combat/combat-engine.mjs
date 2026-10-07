@@ -4316,7 +4316,7 @@ export class Pokemon5eCombatEngine {
     }
     if (move.id === "final-gambit" && target) {
       const amount = user.hp.current;
-      const result = save ?? resolveSaveMove({ attacker: user, defender: target, move, dice: this.dice, round: next.round }).save;
+      const result = save ?? this.resolveSaveWithTrainerReaction(next,side,move,targetSide).save;
       const damage = result.success ? Math.floor(amount / 2) : amount;
       user.hp.current = 0;
       target.hp.current = Math.max(0, target.hp.current - damage);
@@ -4622,13 +4622,7 @@ export class Pokemon5eCombatEngine {
         if (candidateSide === side) continue;
         const candidate = next[candidateSide];
         if (!candidate?.position || distance(user.position, candidate.position) > 20 + 1e-9) continue;
-        const result = resolveSaveMove({
-          attacker: user,
-          defender: candidate,
-          move,
-          dice: this.dice,
-          round: next.round
-        });
+        const result = this.resolveSaveWithTrainerReaction(next,side,move,candidateSide);
         if (!result.save.success) {
           candidate.effects.blindedSources ??= [];
           candidate.effects.blindedSources.push({
@@ -4997,13 +4991,7 @@ export class Pokemon5eCombatEngine {
         if (!candidate?.position || distance(user.position, candidate.position) > 20 + 1e-9) continue;
         let candidateSave = null;
         if (candidateSide !== side) {
-          candidateSave = resolveSaveMove({
-            attacker: user,
-            defender: candidate,
-            move,
-            dice: this.dice,
-            round: next.round
-          }).save;
+          candidateSave = this.resolveSaveWithTrainerReaction(next,side,move,candidateSide).save;
         }
         if (candidateSave?.success) continue;
         pushEffect(candidate, "attackAdvantageSources", { source: move.id, expiresRound });
@@ -5562,13 +5550,7 @@ export class Pokemon5eCombatEngine {
 
     let save = null;
     if (move.save && target) {
-      save = resolveSaveMove({
-        attacker: reactor,
-        defender: target,
-        move,
-        dice: this.dice,
-        round: next.round
-      }).save;
+      save = this.resolveSaveWithTrainerReaction(next,reactorSide,move,targetSide).save;
     }
     const failedSave = save ? !save.success : true;
     const result = {
@@ -5836,13 +5818,7 @@ export class Pokemon5eCombatEngine {
     }
 
     if (REACTION_STATUS_MOVES.has(move.id)) {
-      const result = resolveSaveMove({
-        attacker: reactor,
-        defender: target,
-        move,
-        dice: this.dice,
-        round: next.round
-      });
+      const result = this.resolveSaveWithTrainerReaction(next,reactorSide,move,targetSide);
       const status = failedSaveStatus(move, result.save);
       const statusResult = applyMoveStatus(
         reactor,
