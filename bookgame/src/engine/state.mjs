@@ -49,12 +49,27 @@ export function createNewGameState({
     player: {
       name: protagonist,
       trainerLevel: 1,
+      trainerClass: "Trainer",
+      trainerPath: null,
+      specializations: [],
+      characterCreation: {
+        ruleset: "2024",
+        complete: false,
+        required: ["specialization"],
+        completed: []
+      },
+      proficiencies: {
+        savingThrows: ["CHA"],
+        tools: ["Pokeballs"]
+      },
+      pokeslots: 3,
+      maxSr: 2,
       abilities: build.abilities,
       skills: build.skills,
       starter: build.starter,
       roster: [structuredClone(build.starter)],
       money: 0,
-      inventory: []
+      inventory: ["Pokeball", "Pokeball", "Pokeball", "Pokeball", "Pokeball", "Potion", "Trainer License", "Pokedex"]
     },
     world: {
       day: 1,
@@ -63,8 +78,9 @@ export function createNewGameState({
       time: daypartForMinute(DEFAULT_START_MINUTE),
       locationId: "asteria_campus_exit",
       flags: {
-        intro_complete: true,
-        free_roam: true
+        character_creation_complete: false,
+        intro_complete: false,
+        free_roam: false
       }
     },
     quests: {},
@@ -99,4 +115,27 @@ export function touchState(state, now = () => new Date().toISOString()) {
   state.revision += 1;
   state.updatedAt = now();
   return state;
+}
+
+export function completeTrainerCreation(state, { specialization } = {}) {
+  if (!specialization || typeof specialization !== "string") {
+    throw new Error("Pokemon 5e level-1 Trainer creation requires a specialization");
+  }
+  const next = structuredClone(state);
+  next.player.trainerClass = "Trainer";
+  next.player.trainerPath = null;
+  next.player.specializations = [specialization];
+  next.player.characterCreation.complete = true;
+  next.player.characterCreation.completed = ["specialization"];
+  next.world.flags.character_creation_complete = true;
+  next.world.flags.intro_complete = true;
+  next.world.flags.free_roam = true;
+  return next;
+}
+
+export function assertTrainerCreationComplete(state) {
+  if (!state.player?.characterCreation?.complete || !state.world?.flags?.character_creation_complete) {
+    throw new Error("Trainer character creation is incomplete: choose the level-1 Pokemon 5e specialization before starting M1");
+  }
+  return true;
 }
