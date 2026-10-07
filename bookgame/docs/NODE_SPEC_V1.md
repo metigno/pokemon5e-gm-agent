@@ -637,7 +637,26 @@ v1 ability codes:
 
 The UI may reveal the check type. The authored DC remains engine data and is not required to be shown to the player.
 
-### 4.3 Pokémon 5e combat handoff
+### 4.3 Saving throw transition
+
+A contextual Trainer saving throw uses the same authored success/failure flow as a check, but delegates mechanics to `resolveTrainerSavingThrow()`:
+
+    {
+      "id": "hold_ground",
+      "text": "Resisto all'impatto.",
+      "save": {
+        "ability": "CON",
+        "dc": 12
+      },
+      "outcomes": {
+        "success": { "goto": "steady" },
+        "failure": { "goto": "staggered" }
+      }
+    }
+
+The UI exposes that a TS is required only on this authored choice. It must not offer free-form saving throws outside a real trigger. Advantage/disadvantage, proficiency and the final result remain runtime-owned.
+
+### 4.4 Pokémon 5e combat handoff
 
     {
       "id": "fight",

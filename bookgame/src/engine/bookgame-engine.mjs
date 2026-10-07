@@ -1,6 +1,6 @@
 import { abilityModifier } from "../../../src/bridge/motor-to-poke5e.mjs";
 import { CryptoDice } from "./dice.mjs";
-import { resolveTrainerCheck } from "./trainer-rolls.mjs";
+import { resolveTrainerCheck, resolveTrainerSavingThrow } from "./trainer-rolls.mjs";
 import { evaluateCondition } from "./conditions.mjs";
 import { SceneRepository } from "./scene-repository.mjs";
 import { completeTrainerCreation, proficiencyBonus, touchState } from "./state.mjs";
@@ -284,13 +284,22 @@ export class BookgameEngine {
       const target = applyTarget(next, targetRef, scene.id);
       historyEntry.toSceneId = target.sceneId;
       historyEntry.toNodeId = target.nodeId;
-    } else if (choice.check) {
-      const roll = resolveTrainerCheck(next, {
-        ability: choice.check.ability,
-        skill: choice.check.skill ?? null,
-        dc: choice.check.dc,
-        advantage: choice.check.advantage === true,
-        disadvantage: choice.check.disadvantage === true,
+    } else if (choice.check || choice.save) {
+      const request = choice.check ?? choice.save;
+      const roll = choice.save
+        ? resolveTrainerSavingThrow(next, {
+            ability: request.ability,
+            dc: request.dc,
+            advantage: request.advantage === true,
+            disadvantage: request.disadvantage === true,
+            dice: this.dice
+          })
+        : resolveTrainerCheck(next, {
+        ability: request.ability,
+        skill: request.skill ?? null,
+        dc: request.dc,
+        advantage: request.advantage === true,
+        disadvantage: request.disadvantage === true,
         dice: this.dice
       });
       const passed = roll.passed;
@@ -300,9 +309,10 @@ export class BookgameEngine {
 
       next.lastRoll = {
         ...roll,
-        ability: choice.check.ability,
-        skill: choice.check.skill ?? null,
-        dc: choice.check.dc,
+        kind: choice.save ? "save" : "check",
+        ability: request.ability,
+        skill: request.skill ?? null,
+        dc: request.dc,
         passed
       };
       historyEntry.roll = clone(next.lastRoll);
