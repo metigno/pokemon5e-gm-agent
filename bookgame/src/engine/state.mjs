@@ -30,6 +30,7 @@ function createRookieFriendNpc(name) {
 export function createNewGameState({
   protagonist = "Luke",
   slot = "slot1",
+  startAtIntro = false,
   now = () => new Date().toISOString()
 } = {}) {
   const build = getStartingBuild(protagonist);
@@ -63,8 +64,8 @@ export function createNewGameState({
       time: daypartForMinute(DEFAULT_START_MINUTE),
       locationId: "asteria_campus_exit",
       flags: {
-        intro_complete: true,
-        free_roam: true
+        intro_complete: !startAtIntro,
+        free_roam: !startAtIntro
       }
     },
     quests: {},
@@ -86,8 +87,8 @@ export function createNewGameState({
       })
     },
     story: {
-      sceneId: "m01-release",
-      nodeId: "free_roam",
+      sceneId: startAtIntro ? "intro-five" : "m01-release",
+      nodeId: startAtIntro ? "before_doors" : "free_roam",
       history: []
     },
     pending: null,
