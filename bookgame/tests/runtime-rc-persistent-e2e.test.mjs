@@ -569,6 +569,39 @@ async function completeCanonicalM2(engine, start) {
   return state;
 }
 
+async function completeCanonicalM3TunnelWarnings(engine, start) {
+  let state = structuredClone(start);
+  if (state.world.flags.tunnel_warnings_complete === true) return state;
+
+  let view = await engine.present(state);
+  if (view.choices.some((choice) => choice.id === "hub_tunnel_warnings")) {
+    state = await requireChoice(engine, state, "hub_tunnel_warnings", "M3 Tunnel Warnings entry");
+  } else if (!(state.story.sceneId === "m03-tunnel-warnings" && state.story.nodeId === "warning_board")) {
+    state = await searchTo({
+      engine,
+      start: state,
+      goal: (s) => s.story.sceneId === "m03-tunnel-warnings" && s.story.nodeId === "warning_board",
+      label: "M3 Tunnel Warnings entry",
+      route: "champion",
+      combatPolicy: "win",
+      maxExpansions: 1000
+    });
+  }
+
+  view = await engine.present(state);
+  if (view.choices.some((choice) => choice.id === "synthesize_now")) {
+    state = await requireChoice(engine, state, "synthesize_now", "M3 Tunnel Warnings synthesis");
+  }
+
+  view = await engine.present(state);
+  const record = ["record_strong_warning", "record_partial_warning", "record_low_confidence"]
+    .find((id) => view.choices.some((choice) => choice.id === id));
+  assert.ok(record, "M3 Tunnel Warnings synthesis must expose one authored confidence result");
+  state = await engine.choose(state, record);
+  assert.equal(state.world.flags.tunnel_warnings_complete, true);
+  return state;
+}
+
 async function completeCanonicalM3FriendBeat(engine, start) {
   let state = structuredClone(start);
   if (state.world.flags.friend_beat_03_complete === true) return state;
@@ -691,6 +724,9 @@ async function completeCanonicalM3(engine, start) {
   ];
 
   for (const milestone of milestones) {
+    if (milestone.label === "M3 tunnel warnings" && state.world.flags.tunnel_warnings_complete !== true) {
+      state = await completeCanonicalM3TunnelWarnings(engine, state);
+    }
     if (milestone.label === "M3 Trial D to C window" && state.world.flags.friend_beat_03_complete !== true) {
       state = await completeCanonicalM3FriendBeat(engine, state);
     }
