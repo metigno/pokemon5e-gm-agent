@@ -12,6 +12,7 @@ const ABILITIES = new Set(["STR", "DEX", "CON", "INT", "WIS", "CHA"]);
 const EFFECT_TYPES = new Set([
   "set_flag",
   "set_location",
+  "trainer_milestone_level",
   "purchase_item",
   "quest_offer",
   "quest_start",
@@ -105,6 +106,14 @@ function validateEffects(effects, at, errors) {
     }
     if (effect.type === "set_location" && (typeof effect.locationId !== "string" || effect.locationId.length === 0)) {
       errors.push(diag("INVALID_SET_LOCATION", "set_location requires locationId", effectAt));
+    }
+    if (effect.type === "trainer_milestone_level") {
+      if (!Number.isInteger(effect.level) || effect.level < 1 || effect.level > 20) {
+        errors.push(diag("INVALID_TRAINER_MILESTONE_LEVEL", "trainer_milestone_level requires level 1..20", effectAt + ".level"));
+      }
+      if (typeof effect.milestoneId !== "string" || !ID_RE.test(effect.milestoneId)) {
+        errors.push(diag("INVALID_TRAINER_MILESTONE_ID", "trainer_milestone_level requires a stable milestoneId", effectAt + ".milestoneId"));
+      }
     }
     if (effect.type === "purchase_item") {
       if (typeof effect.itemId !== "string" || !ID_RE.test(effect.itemId)) {
