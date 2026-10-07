@@ -945,6 +945,110 @@ async function completeCanonicalM4(engine, start) {
   return state;
 }
 
+async function captureCanonicalM5FifthPokemon(engine, start) {
+  let state = structuredClone(start);
+  if ((state.player.roster?.length ?? 0) >= 5) return state;
+
+  for (let attempt = 0; attempt < 4 && (state.player.roster?.length ?? 0) < 5; attempt += 1) {
+    state = await searchTo({
+      engine,
+      start: state,
+      goal: (s) => s.story.sceneId === "m05-fulgore-ascent" && s.story.nodeId === "fauna_view",
+      label: `M5 Fulgore fauna viewpoint attempt ${attempt + 1}`,
+      route: "champion",
+      combatPolicy: "win",
+      maxExpansions: 1600
+    });
+    state = await requireChoice(engine, state, "observe_fulgore_fauna", "M5 observe Fulgore fauna");
+    const view = await engine.present(state);
+    const engage = view.choices.find((choice) => choice.id.endsWith("_engage"));
+    if (engage) {
+      state = await engine.choose(state, engage.id);
+      assert.equal(state.pending?.opponentRegistered, false);
+      assert.ok(state.pending?.returnNodes?.captured);
+      state = resolveAutoplayCombat(engine, state, "captured");
+      break;
+    }
+    const continueChoice = view.choices.find((choice) => choice.id === "none_continue");
+    assert.ok(continueChoice, "M5 no-sighting ecology result must remain traversable");
+    state = await engine.choose(state, continueChoice.id);
+  }
+
+  assert.ok((state.player.roster?.length ?? 0) >= 5, "M5 must obtain a fifth real Pokémon before Trial B→A");
+  return state;
+}
+
+async function completeCanonicalM5TrialWin(engine, start) {
+  let state = structuredClone(start);
+  if (state.competition.rank === "A") return state;
+
+  state = await searchTo({
+    engine,
+    start: state,
+    goal: (s) => s.pending?.type === "pokemon5e_combat" && s.pending?.competition?.checkpointId === "RANK_B_TO_A",
+    label: "M5 Trial B to A combat handoff",
+    route: "champion",
+    combatPolicy: "win",
+    maxExpansions: 1400
+  });
+  state = resolveAutoplayCombat(engine, state, "win");
+  assert.equal(state.competition.rank, "A");
+  return state;
+}
+
+async function completeCanonicalM5(engine, start) {
+  let state = structuredClone(start);
+  const milestones = [
+    ["M5 activation", s => s.world.flags.m5_active === true, 700],
+    ["M5 Altacima arrival", s => s.world.flags.altacima_discovered === true, 1800],
+    ["M5 Lance meeting", s => s.world.flags.lance_met === true, 1800],
+    ["M5 interregional license", s => s.world.flags.interregional_license === true, 2600],
+    ["M5 Fulgore departure", s => s.world.flags.m5_fulgore_departure_ready === true, 2200],
+    ["M5 fifth Pokémon", s => (s.player.roster?.length ?? 0) >= 5, 1800],
+    ["M5 Fulgore arrival", s => s.world.flags.fulgore_visited === true, 1800],
+    ["M5 Ancient Trace", s => s.world.flags.ancient_mystery_layer_1 !== undefined, 2200],
+    ["M5 Five Cross", s => s.world.flags.five_cross_complete === true, 1800],
+    ["M5 Friend Beat 05", s => s.world.flags.friend_beat_05_complete === true, 1800],
+    ["M5 high altitude event", s => s.world.flags.m5_high_altitude_event_complete === true, 2200],
+    ["M5 Trial B to A window", s => s.world.flags.a5_rank_trial_b_a_available === true, 1200],
+    ["M5 Trial B to A available", s => s.competition.trials?.RANK_B_TO_A?.available === true, 900],
+    ["M5 Trial B to A registered", s => s.competition.trials?.RANK_B_TO_A?.registered === true, 1200],
+    ["M5 Trial B to A win", s => s.competition.rank === "A", 1400],
+    ["M5 Masters window", s => s.world.flags.a5_masters_entry_available === true, 1400],
+    ["M5 outcome window", s => s.world.flags.m5_module_outcome_available === true, 1200],
+    ["M5 completion", s => s.world.flags.m5_complete === true, 1200]
+  ];
+
+  for (const [label, goal, maxExpansions] of milestones) {
+    if (label === "M5 fifth Pokémon" && !goal(state)) {
+      state = await captureCanonicalM5FifthPokemon(engine, state);
+    }
+    if (label === "M5 Trial B to A win" && !goal(state)) {
+      state = await completeCanonicalM5TrialWin(engine, state);
+    }
+    if (goal(state)) continue;
+    state = await searchTo({
+      engine,
+      start: state,
+      goal,
+      label,
+      route: "champion",
+      combatPolicy: "win",
+      maxExpansions
+    });
+  }
+
+  assert.equal(state.competition.rank, "A");
+  assert.equal(state.world.flags.lance_met, true);
+  assert.equal(state.world.flags.friend_beat_05_complete, true);
+  assert.equal(state.world.flags.interregional_license, true);
+  assert.ok(state.world.flags.ancient_mystery_layer_1 !== undefined);
+  assert.ok((state.player.roster?.length ?? 0) >= 5);
+  assert.equal(state.world.flags.m5_complete, true);
+  assert.equal(state.world.flags.m06_unlocked, true);
+  return state;
+}
+
 async function persistReload(store, state, slot, label) {
   const saved = structuredClone(state);
   saved.slot = slot;
@@ -986,18 +1090,19 @@ test("RC persistent E2E traverses real authored M1→M12 and all three World out
     common = await completeCanonicalM4(engine, common);
     common = await persistReload(store, common, "rc-lineage", "M4");
 
-    for (let module = 5; module <= 6; module += 1) {
-      common = await searchTo({
-        engine,
-        start: common,
-        goal: flag(`m${module}_complete`),
-        label: `M${module} completion`,
-        route: "champion",
-        combatPolicy: "win",
-        maxExpansions: 12000
-      });
-      common = await persistReload(store, common, "rc-lineage", `M${module}`);
-    }
+    common = await completeCanonicalM5(engine, common);
+    common = await persistReload(store, common, "rc-lineage", "M5");
+
+    common = await searchTo({
+      engine,
+      start: common,
+      goal: flag("m6_complete"),
+      label: "M6 completion",
+      route: "champion",
+      combatPolicy: "win",
+      maxExpansions: 12000
+    });
+    common = await persistReload(store, common, "rc-lineage", "M6");
 
     const postM6 = structuredClone(common);
 
