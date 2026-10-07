@@ -586,12 +586,6 @@ async function completeCanonicalM3(engine, start) {
       maxExpansions: 2200
     },
     {
-      label: "M3 Friend Beat 03",
-      goal: (s) => s.world.flags.friend_beat_03_complete === true,
-      combatPolicy: "win",
-      maxExpansions: 2400
-    },
-    {
       label: "M3 tunnel warnings",
       goal: (s) => s.world.flags.tunnel_warnings_complete === true,
       combatPolicy: "win",
@@ -608,6 +602,24 @@ async function completeCanonicalM3(engine, start) {
       goal: (s) => s.world.flags.ferrox_rescue_outcome_complete === true,
       combatPolicy: "win",
       maxExpansions: 2600
+    },
+    {
+      label: "M3 Friend Call window",
+      goal: (s) => s.world.flags.a3_friend_call_available === true,
+      combatPolicy: "win",
+      maxExpansions: 800
+    },
+    {
+      label: "M3 Friend Beat entry",
+      goal: (s) => s.story.sceneId === "m03-friend-beat-03",
+      combatPolicy: "win",
+      maxExpansions: 1200
+    },
+    {
+      label: "M3 Friend Beat 03",
+      goal: (s) => s.world.flags.friend_beat_03_complete === true,
+      combatPolicy: "win",
+      maxExpansions: 900
     },
     {
       label: "M3 Trial D to C window",
