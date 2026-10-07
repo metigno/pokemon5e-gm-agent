@@ -59,7 +59,9 @@ export function createTrainerRuntime(build, {
       mode: "milestone",
       history: [],
       pendingChoices: [],
-      resolvedChoices: []
+      resolvedChoices: [],
+      targetLevel: level,
+      targetMilestoneId: null
     },
     abilities: structuredClone(build.abilities),
     skills: structuredClone(build.skills),
@@ -134,12 +136,18 @@ export function migrateGameState(input) {
     mode: "milestone",
     history: [],
     pendingChoices: [],
-    resolvedChoices: []
+    resolvedChoices: [],
+    targetLevel: level,
+    targetMilestoneId: null
   });
   player.trainerProgression.mode ??= "milestone";
   player.trainerProgression.history = ensureArray(player.trainerProgression.history);
   player.trainerProgression.pendingChoices = ensureArray(player.trainerProgression.pendingChoices);
   player.trainerProgression.resolvedChoices = ensureArray(player.trainerProgression.resolvedChoices);
+  player.trainerProgression.targetLevel = Number.isInteger(player.trainerProgression.targetLevel)
+    ? Math.max(level, player.trainerProgression.targetLevel)
+    : level;
+  player.trainerProgression.targetMilestoneId ??= null;
   player.abilities = abilities;
   player.skills = skills;
   player.proficiencies = ensureObject(player.proficiencies, {
