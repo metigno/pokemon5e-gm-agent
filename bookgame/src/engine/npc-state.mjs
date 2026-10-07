@@ -15,8 +15,8 @@ export function createTrainerRulesState({ trainerLevel = 1, specializations = []
     trainerPath,
     specializations: structuredClone(specializations),
     proficiencyBonus: 2 + Math.floor((trainerLevel - 1) / 4),
-    pokeslots: trainerLevel >= 18 ? 6 : trainerLevel >= 10 ? 5 : trainerLevel >= 5 ? 4 : 3,
-    maxSr: trainerLevel >= 17 ? 15 : trainerLevel >= 13 ? 12 : trainerLevel >= 9 ? 10 : trainerLevel >= 5 ? 8 : trainerLevel >= 3 ? 4 : 2
+    pokeslots: trainerLevel >= 15 ? 6 : trainerLevel >= 10 ? 5 : trainerLevel >= 5 ? 4 : 3,
+    maxSr: trainerLevel >= 17 ? 15 : trainerLevel >= 14 ? 14 : trainerLevel >= 11 ? 12 : trainerLevel >= 8 ? 10 : trainerLevel >= 6 ? 8 : trainerLevel >= 3 ? 5 : 2
   };
 }
 
