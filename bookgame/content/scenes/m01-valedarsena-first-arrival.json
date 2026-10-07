@@ -1485,11 +1485,11 @@
       "stitches": [
         {
           "id": "trial_registration_confirmed",
-          "text": "Il terminale conferma l'iscrizione al Promotion Trial F→E. Il tuo nome compare nell'elenco dei candidati."
+          "text": "Il terminale conferma l'iscrizione al Promotion Trial F→E. Il tuo nome compare nell'elenco dei candidati, accanto all'orario disponibile per la prova."
         },
         {
           "id": "trial_battle_not_story_result",
-          "text": "L'iscrizione non vale come vittoria. Quando entrerai in campo, il risultato arriverà dal risolutore Pokémon 5e e verrà registrato sulla licenza."
+          "text": "Sotto il tuo nome compare soltanto REGISTRATO. Il campo deciderà il resto."
         },
         {
           "id": "trial_no_forced_start",
@@ -1748,15 +1748,15 @@
       "stitches": [
         {
           "id": "trial_desk_header",
-          "text": "Il banco del Promotion Trial non valuta intenzioni: controlla licenza, Rank e roster. Il checkpoint F→E è aperto, ma l'iscrizione viene accettata soltanto se i requisiti meccanici sono reali."
+          "text": "L'addetto prende la licenza, la passa sul lettore e apre la schermata del Trial. «Rank F. Adesso controllo il roster.»"
         },
         {
           "id": "trial_desk_roster",
-          "text": "Il formato richiede un roster ufficiale di due Pokémon. Registrarsi non cura la squadra, non assegna Pokémon e non modifica il risultato della prova."
+          "text": "Due spazi compaiono sul modulo di registrazione. «Servono due Pokémon di tua proprietà. Quelli che registri qui saranno la tua squadra per la prova.»"
         },
         {
           "id": "trial_desk_choice",
-          "text": "Puoi registrarti adesso, rimandare, passare prima dal Centro Pokémon oppure tornare alla carriera libera."
+          "text": "L'addetto lascia il modulo aperto davanti a te. «Puoi registrarti adesso oppure tornare quando sei pronto.»"
         }
       ],
       "choices": [
@@ -1839,15 +1839,15 @@
       "stitches": [
         {
           "id": "gate_staff_intro",
-          "text": "Quando il tuo numero viene chiamato, ad attenderti non c'è Blue né uno dei tuoi amici. Il gate F→E è affidato all'istruttrice dell'Arena Nara Voss, la stessa esaminatrice prevista per ogni tentativo di questa fascia."
+          "text": "Quando chiamano il tuo numero, Nara Voss ti aspetta già oltre il gate. Divisa dell'Arena, tablet in mano, nessuna cerimonia. Controlla il tuo nome e poi i due Pokémon registrati."
         },
         {
           "id": "gate_staff_roster",
-          "text": "Sul registro compaiono due Pokémon fissi: Eevee e Shinx. Nessuno dei due cambia livello in base alla tua squadra; il Trial usa un roster autoriale stabile e una difficoltà HARD per questa fascia."
+          "text": "Nara gira il tablet quanto basta per mostrarti il proprio roster: Eevee e Shinx. «Questi sono i miei due. Non cambiano perché sei più forte o più debole del candidato precedente.»"
         },
         {
           "id": "gate_focus",
-          "text": "«Non mi interessa vedere una vittoria elegante. Voglio vedere comando, sicurezza e gestione reale di due Pokémon.» Il formato è Singles: un Pokémon attivo per volta, con sostituzioni dal roster ufficiale."
+          "text": "Riprende il tablet. «Singles. Uno attivo alla volta, sostituzioni consentite. Non mi interessa una vittoria elegante. Voglio vedere comando, sicurezza e gestione di entrambi i Pokémon.»"
         }
       ],
       "choices": [
@@ -1902,7 +1902,7 @@
       "stitches": [
         {
           "id": "trial_handoff",
-          "text": "L'arbitro chiude il gate e passa il controllo al risolutore Pokémon 5e. Il tuo roster ufficiale di due Pokémon e quello fisso di Nara vengono usati realmente: nessun vincitore è deciso dallo script."
+          "text": "Il gate si chiude alle tue spalle. Nara prende posizione dall'altra parte del campo e posa una mano sulla prima Poké Ball. L'arbitro controlla i due roster, alza il braccio e dà il via alla prova."
         }
       ],
       "choices": []
@@ -1911,11 +1911,11 @@
       "stitches": [
         {
           "id": "trial_win_recorded",
-          "text": "Il terminale aggiorna la licenza. Dove prima compariva Rank F, adesso leggi Rank E."
+          "text": "Quando rientri nell'atrio, Nara è già davanti al terminale. Conferma il risultato senza aggiungere cerimonie. La licenza si aggiorna: dove prima compariva Rank F, adesso leggi Rank E."
         },
         {
           "id": "trial_win_persistence",
-          "text": "Fuori dall'Arena ritrovi la stessa città che hai lasciato prima della prova. Persone, lavori e strade non si sono azzerati per la tua promozione."
+          "text": "Fuori dall'Arena Valedarsena continua come prima: il Job Board viene aggiornato, i negozi restano aperti secondo l'orario e le persone che hai incontrato stanno ancora seguendo le proprie giornate."
         },
         {
           "id": "trial_win_next_road",
@@ -1949,7 +1949,7 @@
       "stitches": [
         {
           "id": "trial_loss_recorded",
-          "text": "Il tabellone registra la sconfitta senza cancellare il tentativo. Resti Rank F; il Promotion Trial F→E torna disponibile perché il checkpoint è retryable."
+          "text": "Nara registra il risultato e ti restituisce la licenza. Rank F. «Il tentativo resta nel tuo storico. Quando vuoi riprovare, registrati di nuovo.»"
         },
         {
           "id": "trial_loss_condition",
@@ -1957,7 +1957,7 @@
         },
         {
           "id": "trial_loss_world",
-          "text": "Fuori dall'Arena ritrovi ciò che avevi lasciato: lavori conclusi o ancora aperti, persone già incontrate e strade già percorse."
+          "text": "Quando esci dall'Arena, Valedarsena non si è fermata ad aspettarti: i lavori hanno continuato a scadere, le persone a spostarsi e le strade a riempirsi e svuotarsi."
         }
       ],
       "choices": [
