@@ -47,7 +47,7 @@
         },
         {
           "id": "package",
-          "text": "Accanto a ciascuna licenza ci sono un Pokédex, Poké Ball, una Potion e il materiale iniziale previsto per un nuovo Trainer."
+          "text": "Accanto a ciascuna licenza ci sono un Pokédex, alcune Poké Ball, una Potion e il resto del materiale consegnato ai nuovi Trainer."
         },
         {
           "id": "world_board",
@@ -95,7 +95,7 @@
       "stitches": [
         {
           "id": "time_together",
-          "text": "Per qualche minuto nessuno vi mette alla prova. Il tuo starter resta davanti a te, libero di osservare ciò che fai: puoi dargli tempo oppure provare un comando semplice."
+          "text": "Il tuo starter resta davanti a te. Inclina appena il capo, attento a ogni movimento: puoi aspettare oppure provare a farti capire."
         }
       ],
       "choices": [
@@ -138,7 +138,7 @@
       ]
     },
     "contact_success": {
-      "text": "Il tuo starter segue il comando. Per un istante la sua attenzione resta su di te, come se avesse appena riconosciuto qualcosa di comprensibile nel tuo modo di comunicare.",
+      "text": "Al tuo gesto, lo starter esegue il comando. Subito dopo torna a guardarti, in attesa.",
       "choices": [
         {
           "id": "to_certification_success",
@@ -148,7 +148,7 @@
       ]
     },
     "contact_misunderstanding": {
-      "text": "Il tuo starter reagisce, ma non come avevi previsto. Nessuno interviene: avete ancora tempo per capire come comunicarvi meglio.",
+      "text": "Il tuo starter parte nella direzione sbagliata e poi si ferma, confuso. Ti guarda di nuovo: il messaggio non è arrivato come volevi.",
       "choices": [
         {
           "id": "to_certification_failure",
@@ -161,7 +161,7 @@
       "stitches": [
         {
           "id": "field_start",
-          "text": "Fuori dalla Hall, un sentiero delimitato da paletti attraversa il campo di certificazione. I cartelli indicano soltanto punti di riferimento: il percorso dovete leggerlo voi."
+          "text": "Fuori dalla Hall, un sentiero delimitato da paletti attraversa il campo di certificazione. I cartelli mostrano pochi punti di riferimento; davanti a voi, il tracciato si perde tra siepi basse e recinzioni."
         },
         {
           "id": "wild_complication",
@@ -169,7 +169,7 @@
         },
         {
           "id": "team_decision",
-          "text": "L'istruttore resta indietro. Il passaggio è bloccato, ma Wooloo non vi sta attaccando."
+          "text": "L'istruttore resta qualche metro indietro con il taccuino abbassato. Davanti a voi, Wooloo continua a cercare un'uscita."
         }
       ],
       "choices": [
@@ -215,7 +215,7 @@
       "stitches": [
         {
           "id": "official_match",
-          "text": "Alla fine del percorso vi aspetta un campo segnato a calce. Resta una prova: un match supervisionato, uno contro uno, con i vostri starter."
+          "text": "Alla fine del percorso vi aspetta un campo segnato a calce. Un assistente apre il cancelletto e indica due lati opposti: manca soltanto il match uno contro uno."
         },
         {
           "id": "choose_friend",
@@ -392,7 +392,7 @@
       "stitches": [
         {
           "id": "licenses_active",
-          "text": "Sul banco, le cinque licenze mostrano finalmente lo stato ATTIVA. Poco dopo, il cancello esterno del Campus scorre di lato."
+          "text": "Sul banco, le cinque licenze cambiano insieme: ATTIVA. Poco dopo, il cancello esterno del Campus scorre di lato."
         },
         {
           "id": "no_forced_goodbye",
