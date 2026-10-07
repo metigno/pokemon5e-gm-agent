@@ -468,6 +468,23 @@ export class BookgameEngine {
       }
     }
 
+    if (resolvedBattle?.opponentTrainer && resolvedBattle.opponentTrainerId) {
+      const npc = next.npcs?.[resolvedBattle.opponentTrainerId];
+      if (npc?.trainer) {
+        for (const field of [
+          "trainerClass", "trainerPath", "trainerXp", "abilities", "skills", "proficiencies",
+          "savingThrows", "hp", "ac", "hitDice", "classResources", "classFeatures",
+          "feats", "specializations", "equipment", "trainerGear", "conditions", "movement",
+          "inventory", "money", "featureUsage", "persistentEffects", "death"
+        ]) {
+          if (resolvedBattle.opponentTrainer[field] !== undefined) npc.trainer[field] = clone(resolvedBattle.opponentTrainer[field]);
+        }
+        if (Number.isInteger(resolvedBattle.opponentTrainer.trainerLevel ?? resolvedBattle.opponentTrainer.level)) {
+          npc.trainer.trainerLevel = resolvedBattle.opponentTrainer.trainerLevel ?? resolvedBattle.opponentTrainer.level;
+        }
+      }
+    }
+
     if (resolvedBattle?.player) {
       const combatants = [resolvedBattle.player, ...(resolvedBattle.playerBench ?? [])];
       next.player.roster ??= [clone(next.player.starter)];
