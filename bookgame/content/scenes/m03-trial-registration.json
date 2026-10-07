@@ -93,7 +93,7 @@
         },
         {
           "id": "format_roster",
-          "text": "Controllo prima il mio roster reale.",
+          "text": "Controllo prima la mia squadra.",
           "goto": "roster_review"
         },
         {
@@ -408,7 +408,7 @@
       "choices": [
         {
           "id": "elig_to_roster",
-          "text": "Controllo il roster reale.",
+          "text": "Controllo la mia squadra.",
           "goto": "roster_review"
         },
         {
