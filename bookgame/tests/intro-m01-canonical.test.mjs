@@ -29,7 +29,7 @@ test("specialization is persisted before tutorial choice", async()=>{
  s=await e.choose(s,"specialization_fire");
  assert.equal(s.player.trainerClass,"Trainer");
  assert.equal(s.player.trainerPath,null);
- assert.deepEqual(s.player.specializations,["Fire"]);
+ assert.deepEqual(s.player.specializations,["fire"]);
  assert.equal(s.player.characterCreation.complete,true);
  assert.equal(s.world.flags.character_creation_complete,true);
  assert.equal(s.story.nodeId,"tutorial_choice");
