@@ -105,6 +105,7 @@ async function battleView() {
     round: battle.round,
     actor,
     awaitingSwitch: battle.awaitingSwitch,
+    pendingTrainerReaction: battle.pendingTrainerReaction ?? null,
     initiative: battle.initiative,
     player: {
       name: battle.player.name,
