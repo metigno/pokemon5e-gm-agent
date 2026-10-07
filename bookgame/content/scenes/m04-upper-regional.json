@@ -352,7 +352,7 @@
       "stitches": [
         {
           "id": "qf_loss_1",
-          "text": "La sconfitta chiude il tuo bracket. Non annulla l'iscrizione, non modifica il Rank e non viene riscritta da una cutscene."
+          "text": "La sconfitta ti elimina dal torneo. Resta nel record ufficiale e non modifica il tuo Rank."
         }
       ],
       "choices": [
@@ -1149,7 +1149,7 @@
       "stitches": [
         {
           "id": "result_1",
-          "text": "L'Upper Regional è risolto. Il risultato resta disponibile per seeding, inviti e dialoghi futuri; Rank C/B continua a dipendere soltanto dal checkpoint canonico."
+          "text": "Il torneo è concluso. Il risultato entrerà nei criteri per futuri tabelloni, inviti e conversazioni; il passaggio dal Rank C al Rank B continua invece a dipendere dal Promotion Trial."
         }
       ],
       "choices": [
