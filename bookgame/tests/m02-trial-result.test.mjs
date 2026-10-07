@@ -9,6 +9,11 @@ import { BookgameEngine } from "../src/engine/bookgame-engine.mjs";
 import { compileStory } from "../src/compiler/story-compiler.mjs";
 import { SaveStore } from "../src/engine/save-store.mjs";
 import { createNewGameState } from "../src/engine/state.mjs";
+import {
+  applyTrainerProgressionEffect,
+  resolveTrainerProgressionChoice,
+  syncCampaignTrainerProgression
+} from "../src/engine/trainer-progression.mjs";
 import { SequenceDice } from "../src/engine/dice.mjs";
 
 const scenesDir = fileURLToPath(new URL("../content/scenes/", import.meta.url));
@@ -45,6 +50,21 @@ function legalM2State(protagonist = "Luke") {
   state.world.flags.m1_complete = true;
   state.world.flags.m02_unlocked = true;
   state.world.flags.m2_active = true;
+
+  applyTrainerProgressionEffect(state, {
+    type: "trainer_milestone_level",
+    milestoneId: "M01_COMPLETE",
+    level: 3
+  });
+  resolveTrainerProgressionChoice(state, "trainer_path_tactician");
+  syncCampaignTrainerProgression(state);
+  applyTrainerProgressionEffect(state, {
+    type: "trainer_milestone_level",
+    milestoneId: "M02_NETWORK_OUTCOME",
+    level: 4
+  });
+  resolveTrainerProgressionChoice(state, "trainer_asi_wis_cha");
+
   state.world.locationId = "valedarsena_city";
   state.story.sceneId = "m01-valedarsena-first-arrival";
   state.story.nodeId = "city_hub";
