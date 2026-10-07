@@ -520,10 +520,21 @@
       "stitches": [
         {
           "id": "complete_1",
-          "text": "M4 è formalmente completo. Il save conserva Rank B, stato dei Pokémon, inventario, denaro, risultati, relazioni, ecology e tutti i callback M1–M4. `m05_unlocked=true` prepara l'entry contract di M5 senza teletrasportarti in contenuto non ancora prodotto."
+          "text": "M4 è formalmente completo. Il save conserva Rank B, stato dei Pokémon, inventario, denaro, risultati, relazioni, ecology e tutti i callback M1–M4. `m05_unlocked=true` apre ora il passaggio canonico verso M5 senza alterare lo stato persistente."
         }
       ],
       "choices": [
+        {
+          "id": "complete_m5",
+          "text": "Proseguo verso M5 mantenendo tutto lo stato della carriera.",
+          "goto": "m05-handoff#m05_entry",
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "mar_city"
+            }
+          ]
+        },
         {
           "id": "complete_hub",
           "text": "Resto a Mareasale con M5 sbloccato.",
