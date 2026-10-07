@@ -62,7 +62,7 @@ export function createNewGameState({
       elapsedMinutes: DEFAULT_START_MINUTE,
       minuteOfDay: DEFAULT_START_MINUTE,
       time: daypartForMinute(DEFAULT_START_MINUTE),
-      locationId: "asteria_campus_exit",
+      locationId: startAtIntro ? "asteria_campus_entrance" : "asteria_campus_exit",
       flags: {
         intro_complete: !startAtIntro,
         free_roam: !startAtIntro
