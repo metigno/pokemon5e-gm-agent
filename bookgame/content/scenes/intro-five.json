@@ -76,7 +76,7 @@
               "eq": "Luke"
             }
           },
-          "text": "Luke lascia che Hisuian Growlithe gli giri attorno una volta. «Prima vediamo cosa vuole fare lui. Poi ci muoviamo.»"
+          "text": "Luke trattiene Hisuian Growlithe quando punta subito verso gli altri starter. Sorride, ostinato. «Piano. Tanto non ti cambierei con nessuno. Dobbiamo solo capire come diventare forti insieme.»"
         },
         {
           "id": "voice_mattew",
@@ -86,7 +86,7 @@
               "eq": "Mattew"
             }
           },
-          "text": "Mattew aspetta che Eevee smetta di guardare la stanza. «Prima osserva. Bene. Almeno partiamo dallo stesso punto.»"
+          "text": "Mattew segue ogni movimento di Eevee senza staccargli gli occhi di dosso. «Non mi interessa soltanto quanto sei forte. Voglio capire come lavori.» Poi guarda gli altri. «E sì, meglio di voi.»"
         },
         {
           "id": "voice_daniel",
@@ -96,7 +96,7 @@
               "eq": "Daniel"
             }
           },
-          "text": "Gastly compare alle spalle di Daniel invece che davanti. Lui si volta con mezzo sorriso. «Oppure possiamo iniziare così. Va bene.»"
+          "text": "Daniel osserva Gastly per qualche secondo prima di avvicinarsi. «Prima capiamo cosa considera accettabile lui. Poi cosa è accettabile fare noi.» Guarda gli altri. «Qualcuno dovrà pur impedirvi di fare sciocchezze entro pranzo.»"
         },
         {
           "id": "voice_edward",
@@ -106,7 +106,7 @@
               "eq": "Edward"
             }
           },
-          "text": "Totodile scatta verso Edward appena appare. Lui arretra un passo e ride. «Okay. Energia ne abbiamo.»"
+          "text": "Edward squadra Totodile dalla testa ai piedi e annuisce, soddisfatto. «Sì. Tu hai la faccia giusta.» Si volta verso gli altri. «E se a voi non piace, me ne farò una ragione.»"
         },
         {
           "id": "voice_fab",
@@ -116,7 +116,7 @@
               "eq": "Fab"
             }
           },
-          "text": "Fab resta fermo mentre Koffing gli fluttua vicino alla spalla. «Tranquillo. Non abbiamo fretta.»"
+          "text": "Koffing gli fluttua davanti al viso. Fab lo guarda, poi alza le spalle con un sorriso. «Va bene, siamo noi due. Come si vince lo scopriamo dopo.»"
         },
         {
           "id": "player_space",
