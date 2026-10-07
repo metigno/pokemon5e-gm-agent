@@ -273,7 +273,7 @@
       ]
     },
     "combat_handoff": {
-      "text": "Il momento passa dalla scena narrativa al risolutore Pokémon 5e. Il Bookgame conserva il contesto, ma non decide danni, HP, condizioni o risultato del combattimento.",
+      "text": "Il tuo Pokémon prende posizione. Houndour abbassa il corpo e non arretra più: lo scontro comincia.",
       "choices": []
     },
     "combat_win": {
