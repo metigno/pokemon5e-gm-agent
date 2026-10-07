@@ -2075,6 +2075,7 @@ export class Pokemon5eCombatEngine {
         opponent: opponentInitiative
       },
       trainer: normalizeTrainer(handoff.trainer, handoff.trainerPosition),
+      opponentTrainer: normalizeTrainer(handoff.opponentTrainer ?? {}, handoff.opponentTrainerPosition ?? { x: 5, y: 0 }),
       player,
       playerBench,
       opponent,
@@ -2174,11 +2175,12 @@ export class Pokemon5eCombatEngine {
     combatant.turn.movementRemaining = movementSpeedForType(combatant, combatant.movementMode, next.round).value;
     combatant.reactionAvailable = !reactionsDisabled(combatant);
 
-    if (side === "player") {
-      next.trainer.actionAvailable = true;
-      next.trainer.bonusActionAvailable = true;
-      next.trainer.reactionAvailable = true;
-      next.trainer.movementRemaining = next.trainer.speed;
+    const actingTrainer = side === "player" ? next.trainer : next.opponentTrainer;
+    if (actingTrainer) {
+      actingTrainer.actionAvailable = true;
+      actingTrainer.bonusActionAvailable = true;
+      actingTrainer.reactionAvailable = true;
+      actingTrainer.movementRemaining = actingTrainer.speed;
     }
 
     next.log.push({ type: "turn_start", round: next.round, actor: side });
@@ -6093,6 +6095,46 @@ export class Pokemon5eCombatEngine {
 
     if (!forced) return endTurnInternal(next, "player", this.dice);
     return next;
+  }
+
+  async switchOpponent(battle, benchIndex, { releasePosition = null } = {}) {
+    if (battle.outcome) return clone(battle);
+    let next = clone(battle);
+    if (this.actor(next) !== "opponent") throw new Error("A voluntary opponent switch can only be made on the opponent turn");
+    if (!Number.isInteger(benchIndex) || benchIndex < 0 || benchIndex >= next.opponentBench.length) throw new Error("Invalid opponent bench index");
+    const incoming = next.opponentBench[benchIndex];
+    if (incoming.hp.current <= 0) throw new Error("Cannot switch to a fainted Pokémon");
+    const outgoing = next.opponent;
+    const switchLock = (outgoing.effects?.switchLockSources ?? []).find(entry => entry.expiresRound == null || next.round < entry.expiresRound);
+    if (switchLock) throw new Error((switchLock.source ?? "Effect") + " prevents voluntary switching");
+    next = await this.prepareCurrentTurn(next);
+    if (this.actor(next) !== "opponent") return next;
+    const trainer = next.opponentTrainer;
+    if (!trainer || !next.opponent.turn.actionAvailable || !trainer.actionAvailable) throw new Error("Opponent switching requires the trainer's action");
+    if (!withinLineOfSightDistance(trainer.position, outgoing.position, 60)) throw new Error("Opponent active Pokémon is more than 60ft from its trainer");
+    const release = defaultPosition(releasePosition, trainer.position);
+    if (!withinLineOfSightDistance(trainer.position, release, 15)) throw new Error("Opponent switched-in Pokémon must be released within 15ft of its trainer");
+    next.opponent.turn.actionAvailable = false;
+    trainer.actionAvailable = false;
+    endConcentrationState(next, "opponent", "switch");
+    clearTransientEffects(outgoing);
+    outgoing.position = null;
+    outgoing.turn.started = false;
+    outgoing.turn.movementRemaining = 0;
+    next.opponentBench[benchIndex] = outgoing;
+    incoming.position = release;
+    releasePokemonFromBall(incoming);
+    incoming.switchedInRound = next.round;
+    incoming.reactionAvailable = false;
+    incoming.turn.started = true;
+    incoming.turn.actionAvailable = false;
+    incoming.turn.bonusActionAvailable = false;
+    incoming.turn.disengaged = false;
+    incoming.turn.movementRemaining = 0;
+    next.opponent = incoming;
+    applyPendingSwitchEffect(next, "opponent", incoming);
+    next.log.push({type:"switch",round:next.round,actor:"opponent",forced:false,out:outgoing.speciesId,in:incoming.speciesId,releasePosition:clone(release),provokesOpportunity:false});
+    return endTurnInternal(next, "opponent", this.dice);
   }
 
   fleeBlockedReason(battle) {
