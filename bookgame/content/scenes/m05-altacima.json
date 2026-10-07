@@ -44,13 +44,13 @@
         },
         {
           "id": "entry_2",
-          "text": "La Sala della Cresta ospita il circuito locale. Clinica, logistica, mercato e ufficio meteo sono separati: nessun servizio narrativo sostituisce le regole strutturate di squadra o competizione."
+          "text": "La Sala della Cresta ospita il circuito locale; clinica, logistica, mercato e ufficio meteo occupano invece edifici distinti, ognuno con personale, orari e funzioni proprie."
         }
       ],
       "choices": [
         {
           "id": "entry_register",
-          "text": "Registro Altacima come hub Rank B.",
+          "text": "Entro ad Altacima e mi oriento tra i servizi della città.",
           "goto": "town_hub",
           "effects": [
             {
@@ -215,7 +215,7 @@
       "stitches": [
         {
           "id": "med_1",
-          "text": "La clinica tratta problemi legati a quota, freddo e affaticamento, ma la reception non altera HP, PP o condizioni con una riga di dialogo. Le cure reali restano di competenza del sistema medico applicabile."
+          "text": "La clinica tratta problemi legati a quota, freddo e affaticamento. La receptionist può valutare la situazione e indirizzarti, ma soltanto cure realmente ricevute cambieranno le condizioni della squadra."
         }
       ],
       "choices": [
@@ -267,7 +267,7 @@
       "stitches": [
         {
           "id": "log_1",
-          "text": "L'ufficio logistico gestisce tempi di salita, corde di servizio, chiusure e partenze verso Fulgore. Le autorizzazioni dipendono dal momento, non da un flag permanente ottenuto una volta."
+          "text": "L'ufficio logistico gestisce tempi di salita, corde di servizio, chiusure e partenze verso Fulgore. Un'autorizzazione vale per le condizioni in cui viene concessa: se vento, visibilità o percorso cambiano, gli addetti possono fermare di nuovo le partenze."
         }
       ],
       "choices": [
@@ -314,7 +314,7 @@
       "stitches": [
         {
           "id": "rules_1",
-          "text": "Il Promotion Trial B→A richiede il checkpoint strutturato RANK_B_TO_A e il roster ufficiale previsto. Informarsi non registra il Trial e non crea un risultato."
+          "text": "Il Promotion Trial B→A richiede Rank B e la squadra prevista dal regolamento. Leggere i requisiti non equivale a iscriversi, né tantomeno a superare l'esame."
         }
       ],
       "choices": [
@@ -371,7 +371,7 @@
       "stitches": [
         {
           "id": "shop_1",
-          "text": "Le scorte sono limitate e persistenti. Acquistare usa denaro reale e riduce lo stock; non esistono rifornimenti narrativi gratuiti."
+          "text": "Dietro il banco le casse non sono infinite: ciò che compri viene pagato e tolto dalle scorte disponibili."
         }
       ],
       "choices": [
@@ -550,7 +550,7 @@
       "stitches": [
         {
           "id": "ret_1",
-          "text": "La via di ritorno resta aperta. Lasciare Altacima non cancella l'accesso né completa contenuti non risolti."
+          "text": "La via di ritorno resta aperta. Scendere da Altacima non chiude ciò che hai lasciato in sospeso. Potrai tornare finché strada e condizioni lo permetteranno."
         }
       ],
       "choices": [
