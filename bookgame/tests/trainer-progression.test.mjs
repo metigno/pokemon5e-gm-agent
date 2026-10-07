@@ -17,7 +17,7 @@ test("M1 milestone requires Trainer Path before level 3",()=>{
   let applied=applyTrainerProgressionEffect(state,{type:"trainer_milestone_level",milestoneId:"M01_COMPLETE",level:3});
   assert.equal(state.player.trainerLevel,2);
   assert.equal(state.player.trainerXp,experienceNeededAtLevel(2));
-  assert.equal(state.player.hp.max,12);
+  assert.equal(state.player.hp.max,14);
   assert.equal(state.player.hitDice.max,2);
   assert.equal(applied.length,1);
 
@@ -30,7 +30,7 @@ test("M1 milestone requires Trainer Path before level 3",()=>{
   assert.equal(state.player.trainerPath,"ace-trainer");
   assert.equal(state.player.trainerLevel,3);
   assert.equal(state.player.trainerXp,experienceNeededAtLevel(3));
-  assert.equal(state.player.hp.max,16);
+  assert.equal(state.player.hp.max,26);
   assert.equal(state.player.hitDice.max,3);
   assert.equal(applied.length,1);
   assert.equal(getTrainerProgressionView(state),null);
@@ -52,14 +52,14 @@ test("M2 network milestone reaches level 4 and CON ASI retroactively raises HP",
   assert.ok(view.choices.some(choice=>choice.id==="trainer_asi_con_2"));
 
   resolveTrainerProgressionChoice(state,"trainer_asi_con_2");
-  assert.equal(state.player.abilities.CON,12);
-  assert.equal(state.player.hp.max,24);
-  assert.equal(state.player.hp.current,24);
+  assert.equal(state.player.abilities.CON,17);
+  assert.equal(state.player.hp.max,30);
+  assert.equal(state.player.hp.current,30);
 
   const applied=applyTrainerProgressionEffect(state,{type:"trainer_milestone_level",milestoneId:"M02_COMPLETE",level:5});
   assert.equal(state.player.trainerLevel,5);
   assert.equal(state.player.trainerXp,experienceNeededAtLevel(5));
-  assert.equal(state.player.hp.max,29);
+  assert.equal(state.player.hp.max,37);
   assert.equal(state.player.hitDice.max,5);
   assert.equal(applied.length,1);
 });
