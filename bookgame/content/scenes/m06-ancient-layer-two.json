@@ -398,6 +398,11 @@
               "type": "set_flag",
               "key": "m6_lighthouse_return_ready",
               "value": true
+            },
+            {
+              "type": "trainer_milestone_level",
+              "milestoneId": "M06_ANCIENT_LAYER_TWO",
+              "level": 17
             }
           ]
         },
