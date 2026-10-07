@@ -31,3 +31,15 @@ export function chooseNpcMove(legalMoves,{difficulty="hard",targetHpRatio=1,self
  scored.sort((a,b)=>b.score-a.score||a.index-b.index);
  return scored[0].move;
 }
+
+export function chooseNpcTurnPlan({legalMoves=[],bench=[],active,target,difficulty="hard"}={}){
+ const move=chooseNpcMove(legalMoves,{difficulty,targetHpRatio:target?.hp?.max>0?target.hp.current/target.hp.max:1,selfHpRatio:active?.hp?.max>0?active.hp.current/active.hp.max:1});
+ const profile=npcDifficultyProfile(difficulty);
+ const activeRatio=active?.hp?.max>0?active.hp.current/active.hp.max:1;
+ const healthy=bench.map((pokemon,index)=>({pokemon,index})).filter(x=>x.pokemon?.hp?.current>0);
+ if(profile.id!=="easy"&&activeRatio<=0.25&&healthy.length){
+  const best=healthy.sort((a,b)=>(b.pokemon.hp.current/b.pokemon.hp.max)-(a.pokemon.hp.current/a.pokemon.hp.max))[0];
+  if((best.pokemon.hp.current/best.pokemon.hp.max)>=activeRatio+0.35) return {kind:"switch",benchIndex:best.index,reason:"preserve_low_hp_active"};
+ }
+ return move?{kind:"move",moveId:move.id,reason:"best_legal_move"}:{kind:"end",reason:"no_legal_action"};
+}
