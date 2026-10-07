@@ -1,4 +1,5 @@
 import { attemptCapture } from "./capture.mjs";
+import { runNpcTrainerTurnFeatures } from "./npc-trainer-ai.mjs";
 import { applyItemToPokemon, findInventoryItemIndex } from "./item-rules.mjs";
 import {
   canonicalReactionTrigger,
@@ -2074,6 +2075,7 @@ export class Pokemon5eCombatEngine {
         opponent: opponentInitiative
       },
       trainer: normalizeTrainer(handoff.trainer, handoff.trainerPosition),
+      opponentTrainer: handoff.opponentTrainer ? clone(handoff.opponentTrainer) : null,
       player,
       playerBench,
       opponent,
@@ -6661,6 +6663,10 @@ export class Pokemon5eCombatEngine {
 
     let next = await this.prepareCurrentTurn(battle);
     if (this.actor(next) !== "opponent") return next;
+
+    if (next.opponentTrainer) {
+      runNpcTrainerTurnFeatures({ battle: next, trainer: next.opponentTrainer, dice: this.dice });
+    }
 
     let usable = await this.legalMoves(next, "opponent");
     if (usable.length === 0 && next.opponent.turn.movementRemaining > 0) {
