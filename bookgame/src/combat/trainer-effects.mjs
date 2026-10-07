@@ -6,7 +6,9 @@ export function applyTrainerCombatEffect(battle,{side,featureResult,targetSide=s
  const target=battle[targetSide]; if(!target)throw new Error("Unknown combat target side: "+targetSide);
  const source="trainer:"+featureResult.featureId;
  const round=battle.round??1;
- switch(featureResult.effect){\n  case "healing-bonus":\n   battle.trainerEffects??={}; battle.trainerEffects.tacticalHealing={source,usesRemaining:1,diceCount:featureResult.amount,die:featureResult.die??"d4",targetSide}; break;
+ switch(featureResult.effect){
+  case "healing-bonus":
+   battle.trainerEffects??={}; battle.trainerEffects.tacticalHealing={source,usesRemaining:1,diceCount:featureResult.amount,die:featureResult.die??"d4",targetSide}; break;
   case "damage-roll-advantage":
    push(target,"damageAdvantageSources",{source,usesRemaining:1,expiresRound:round+1}); break;
   case "ac-or-save-bonus":
