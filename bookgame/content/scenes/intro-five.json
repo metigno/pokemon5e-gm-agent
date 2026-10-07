@@ -47,7 +47,7 @@
         },
         {
           "id": "package",
-          "text": "Accanto a ciascuna licenza ci sono un Pokédex, alcune Poké Ball, una Potion e il resto del materiale consegnato ai nuovi Trainer."
+          "text": "Accanto a ciascuna licenza ci sono un Pokédex, alcune Poké Ball, una Potion e il resto del materiale consegnato ai nuovi Trainer. «Contate tutto adesso,» aggiunge l'addetta. «Fuori da qui sarà responsabilità vostra.»"
         },
         {
           "id": "world_board",
@@ -392,7 +392,7 @@
       "stitches": [
         {
           "id": "licenses_active",
-          "text": "Sul banco, le cinque licenze cambiano insieme: ATTIVA. Poco dopo, il cancello esterno del Campus scorre di lato."
+          "text": "Sul banco, le cinque licenze cambiano insieme: ATTIVA. L'addetta le spinge verso di voi. «Da questo momento rispondete delle vostre scelte e dei vostri Pokémon.» Poco dopo, il cancello esterno del Campus scorre di lato."
         },
         {
           "id": "no_forced_goodbye",
