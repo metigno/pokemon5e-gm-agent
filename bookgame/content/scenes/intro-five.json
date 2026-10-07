@@ -18,7 +18,7 @@
         },
         {
           "id": "names_called",
-          "text": "Siete arrivati insieme. Poi una porta laterale si apre e i vostri cinque nomi risuonano dall'ingresso."
+          "text": "Siete arrivati insieme. «The Five?» chiama una voce dall'ingresso quando la porta laterale si apre. «Luke, Mattew, Daniel, Edward, Fab. Dentro.»"
         }
       ],
       "choices": [
@@ -43,7 +43,7 @@
       "stitches": [
         {
           "id": "applications",
-          "text": "La License Hall odora di carta nuova e disinfettante. Le vostre domande passano una dopo l'altra sotto lo scanner; sul banco vi aspettano cinque licenze ancora inattive."
+          "text": "La License Hall odora di carta nuova e disinfettante. Le vostre domande passano una dopo l'altra sotto lo scanner. «Controllate il nome prima di firmare,» dice l'addetta, facendo scorrere cinque licenze ancora inattive sul banco."
         },
         {
           "id": "package",
@@ -51,7 +51,7 @@
         },
         {
           "id": "world_board",
-          "text": "Sulla parete opposta, un display scorre città, circuiti e classifiche fino al World Championship. Un addetto indica la porta successiva: gli starter vi aspettano dall'altra parte."
+          "text": "Sulla parete opposta, un display scorre città, circuiti e classifiche fino al World Championship. L'addetta segue per un attimo il vostro sguardo. «Quello viene dopo. Molto dopo. Adesso: starter.» Indica la porta successiva."
         }
       ],
       "choices": [
@@ -70,7 +70,7 @@
         },
         {
           "id": "player_space",
-          "text": "Quando viene aperta la Poké Ball assegnata a te, il tuo starter compare a pochi passi. Lo staff si ritira abbastanza da lasciarvi spazio."
+          "text": "Quando viene aperta la Poké Ball assegnata a te, il tuo starter compare a pochi passi. «Non correte a toccarli,» avverte l'istruttore. «Lasciate che vi vedano.» Poi si allontana."
         }
       ],
       "choices": [
@@ -95,7 +95,7 @@
       "stitches": [
         {
           "id": "time_together",
-          "text": "Il tuo starter resta davanti a te. Inclina appena il capo, attento a ogni movimento: puoi aspettare oppure provare a farti capire."
+          "text": "Il tuo starter resta davanti a te. Inclina appena il capo, attento a ogni movimento. «Avete qualche minuto,» dice l'istruttore da lontano. «Usatelo come volete.»"
         }
       ],
       "choices": [
@@ -138,7 +138,7 @@
       ]
     },
     "contact_success": {
-      "text": "Al tuo gesto, lo starter esegue il comando. Subito dopo torna a guardarti, in attesa.",
+      "text": "Al tuo gesto, lo starter esegue il comando. Subito dopo torna a guardarti, in attesa. L'istruttore fa un cenno. «Bene. Non aggiungere altro solo per impressionarmi.»",
       "choices": [
         {
           "id": "to_certification_success",
@@ -148,7 +148,7 @@
       ]
     },
     "contact_misunderstanding": {
-      "text": "Il tuo starter parte nella direzione sbagliata e poi si ferma, confuso. Ti guarda di nuovo: il messaggio non è arrivato come volevi.",
+      "text": "Il tuo starter parte nella direzione sbagliata e poi si ferma, confuso. Ti guarda di nuovo. «Non ripetere più forte la stessa cosa,» dice l'istruttore. «Prova a farti capire meglio la prossima volta.»",
       "choices": [
         {
           "id": "to_certification_failure",
@@ -169,7 +169,7 @@
         },
         {
           "id": "team_decision",
-          "text": "L'istruttore resta qualche metro indietro con il taccuino abbassato. Davanti a voi, Wooloo continua a cercare un'uscita."
+          "text": "L'istruttore resta qualche metro indietro con il taccuino abbassato. Wooloo continua a cercare un'uscita. «Il percorso è davanti a voi,» dice soltanto."
         }
       ],
       "choices": [
@@ -215,11 +215,11 @@
       "stitches": [
         {
           "id": "official_match",
-          "text": "Alla fine del percorso vi aspetta un campo segnato a calce. Un assistente apre il cancelletto e indica due lati opposti: manca soltanto il match uno contro uno."
+          "text": "Alla fine del percorso vi aspetta un campo segnato a calce. Un assistente apre il cancelletto. «Ultima prova. Uno contro uno. Fermatevi al mio segnale.»"
         },
         {
           "id": "choose_friend",
-          "text": "Gli altri quattro si dispongono lungo il bordo del campo. Devi scegliere chi affrontare."
+          "text": "Gli altri quattro si dispongono lungo il bordo del campo. L'assistente guarda verso di te. «Scegli l'avversario.»"
         }
       ],
       "choices": [
@@ -351,11 +351,11 @@
       ]
     },
     "battle_handoff": {
-      "text": "Il campo si libera. Il tuo avversario prende posizione dall'altra parte e il suo starter avanza oltre la linea bianca. Al segnale dell'istruttore, il match comincia.",
+      "text": "Il campo si libera. Il tuo avversario prende posizione dall'altra parte e il suo starter avanza oltre la linea bianca. L'istruttore alza una mano. «Trainer pronti?» La abbassa. «Via.»",
       "choices": []
     },
     "battle_win": {
-      "text": "Il segnale di fine match arriva con il tuo Pokémon ancora in piedi. L'istruttore controlla entrambi gli starter, annota il risultato e vi richiama verso il banco delle licenze.",
+      "text": "Il segnale di fine match arriva con il tuo Pokémon ancora in piedi. L'istruttore controlla entrambi gli starter e annota il risultato. «Basta così. Tutti e due al banco delle licenze.»",
       "choices": [
         {
           "id": "after_win",
@@ -372,7 +372,7 @@
       ]
     },
     "battle_loss": {
-      "text": "Il segnale di fine match arriva con la vittoria dall'altra parte del campo. L'istruttore controlla entrambi gli starter, annota il risultato e vi richiama verso il banco delle licenze.",
+      "text": "Il segnale di fine match arriva con la vittoria dall'altra parte del campo. L'istruttore controlla entrambi gli starter e annota il risultato. «Basta così. Tutti e due al banco delle licenze.»",
       "choices": [
         {
           "id": "after_loss",
