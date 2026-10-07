@@ -1602,15 +1602,15 @@
       "stitches": [
         {
           "id": "official_desk",
-          "text": "Al banco incontri c'è uno slot sanzionato per rookie: Singles, un solo Pokémon registrato per parte. Anche se possiedi altri Pokémon, questo match usa soltanto lo slot ufficiale registrato."
+          "text": "Al banco incontri si è liberato uno slot per rookie. «Singles. Un Pokémon per parte», dice l'addetto, facendo scorrere il modulo verso di te. «Quello che registri è quello che porti in campo.»"
         },
         {
           "id": "official_not_trial",
-          "text": "L'addetto lo distingue subito dal Promotion Trial F→E: questo match entra nello storico ufficiale, ma non cambia il Rank e non soddisfa il gate del Trial."
+          "text": "Prima di consegnarti il modulo, l'addetto indica il tabellone del Promotion Trial. «Questo è un incontro ufficiale, non un esame di Rank. Finirà nel tuo storico, ma per salire da F a E devi passare da lì.»"
         },
         {
           "id": "official_opponent",
-          "text": "L'avversario assegnato è il rookie registrato VALE_ROOKIE_001 con uno Shinx. Il pairing è STANDARD e il risultato non è scritto: il resolver Pokémon 5e decide vittoria o sconfitta."
+          "text": "Sul monitor compare il tuo abbinamento: un altro rookie di Valedarsena. Accanto al suo nome è registrato uno Shinx. Poco dopo lo vedi arrivare al lato opposto del campo, controllare la Poké Ball alla cintura e salutarti con un cenno."
         }
       ],
       "choices": [
@@ -1653,7 +1653,7 @@
       "stitches": [
         {
           "id": "official_handoff",
-          "text": "L'arbitro verifica i Pokémon registrati e apre il campo. Da qui il risultato appartiene al combattimento Pokémon 5e, non allo script."
+          "text": "L'arbitro controlla entrambe le registrazioni. «Un Pokémon ciascuno. Il match termina quando uno dei due non può continuare o viene dichiarata la resa.» Alza una mano; dall'altra parte, il rookie manda avanti Shinx."
         }
       ],
       "choices": []
@@ -1662,7 +1662,7 @@
       "stitches": [
         {
           "id": "official_win",
-          "text": "Il tabellone registra la vittoria nello storico ufficiale. Hai completato A1_FIRST_OFFICIAL, ma resti Rank F: il Promotion Trial è una prova separata con requisiti propri."
+          "text": "Shinx non riesce più a continuare. L'arbitro chiude l'incontro e, pochi secondi dopo, sul tabellone compare una V accanto al tuo nome. Più in alto, la riga del Promotion Trial F→E resta separata e invariata."
         }
       ],
       "choices": [
@@ -1677,7 +1677,7 @@
       "stitches": [
         {
           "id": "official_loss",
-          "text": "Sul tabellone compare la sconfitta accanto al tuo nome. La licenza resta Rank F e le porte dell'Arena rimangono aperte."
+          "text": "L'arbitro chiude l'incontro a tuo sfavore. Sul tabellone compare la sconfitta accanto al tuo nome; sopra, il Promotion Trial F→E resta ancora disponibile quando ne soddisferai i requisiti."
         }
       ],
       "choices": [
