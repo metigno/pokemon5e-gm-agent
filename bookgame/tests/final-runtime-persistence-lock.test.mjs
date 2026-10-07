@@ -33,12 +33,16 @@ test("RC lock: NPC trainer, forced replacement and fog state survive save/reload
       playerKnowledge:{default:0,active:2,bench:0}
     });
 
-    battle.opponent.hp.current=0;
+    // Drive the forced replacement through a real KO, which is the lifecycle that calls markDowned().
+    battle=await combat.advanceToPlayerOrEnd(battle);
+    battle.opponent.hp.current=1;
     const beforeSpecies=battle.opponent.speciesId;
-    // Put the fainted opponent on turn and let the real turn-preparation lifecycle force the replacement.
-    battle.turnIndex=battle.order.indexOf("opponent");
-    battle=await combat.prepareCurrentTurn(battle);
+    const moves=await combat.availablePlayerMoves(battle);
+    const damagingMove=moves.find(move=>move.attack && move.dice?.type==="damage");
+    assert.ok(damagingMove,"player must have a legal damaging move for the forced-switch lock");
+    battle=await combat.usePlayerMove(battle,damagingMove.id);
     assert.notEqual(battle.opponent.speciesId,beforeSpecies);
+    assert.equal(battle.outcome,null);
 
     const state={slot:"final-lock",pending:{type:"pokemon5e_combat",status:"in_progress",battle}};
     await store.save(state);
