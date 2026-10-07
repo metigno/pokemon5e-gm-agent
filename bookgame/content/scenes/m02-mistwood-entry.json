@@ -80,7 +80,7 @@
         },
         {
           "id": "fauna_is_context",
-          "text": "La fauna non compare come una fila di incontri obbligatori. Puoi fermarti a osservare, continuare sul tracciato o rinunciare e tornare in città; un avvistamento dipende dal catalogo ecologico reale di Bosco Bruma e dall'orario corrente."
+          "text": "Tra i richiami non c'è un ritmo regolare. A volte qualcosa si muove tra le felci, altre volte il bosco resta immobile per minuti interi. Puoi fermarti a guardare senza inseguire nulla, oppure continuare lungo il sentiero."
         }
       ],
       "choices": [
@@ -224,11 +224,11 @@
       "stitches": [
         {
           "id": "entry_block_complete",
-          "text": "Hai superato il margine di Bosco Bruma: il luogo è ormai una destinazione conosciuta e il primo ingresso è stato compiuto senza attivare automaticamente alcun crimine, Anchor, competizione o incontro obbligatorio."
+          "text": "Superato il margine, il sentiero si stringe e la nebbia rimane più a lungo tra i tronchi. Alle tue spalle il cartello del Circuito sparisce già alla vista."
         },
         {
           "id": "next_pressure_not_forced",
-          "text": "Più avanti il sentiero si divide tra terreno più umido, tracce recenti e vie verso Borgo Salice. Quelle informazioni appartengono ai blocchi successivi: M2_01 si limita a rendere reale il viaggio, la nebbia e l'ecologia d'ingresso."
+          "text": "Più avanti il terreno si fa umido e compaiono tracce recenti vicino a una deviazione. Un'altra via prosegue verso Borgo Salice."
         }
       ],
       "choices": [
