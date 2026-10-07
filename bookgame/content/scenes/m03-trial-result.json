@@ -80,6 +80,11 @@
               "type": "set_flag",
               "key": "m04_unlocked",
               "value": true
+            },
+            {
+              "type": "trainer_milestone_level",
+              "milestoneId": "M03_COMPLETE",
+              "level": 9
             }
           ]
         },
