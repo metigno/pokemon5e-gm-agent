@@ -25,6 +25,38 @@
           "text": "L'ultima indicazione dell'onboarding finisce al cancello del Campus Licenze. Da qui nessuno ti assegna una strada: il tempo è tuo e il mondo continua a muoversi anche senza aspettarti."
         },
         {
+          "id": "intro_echo_contact_clear",
+          "conditions": {
+            "path": "world.flags.intro_first_contact",
+            "eq": "clear"
+          },
+          "text": "Quando sistemi lo zaino, il tuo starter segue il gesto senza esitazione. È un dettaglio piccolo, ma diverso da quando vi siete trovati davanti per la prima volta."
+        },
+        {
+          "id": "intro_echo_contact_uncertain",
+          "conditions": {
+            "path": "world.flags.intro_first_contact",
+            "eq": "uncertain"
+          },
+          "text": "Il tuo starter ti osserva mentre sistemi lo zaino. Il primo comando al Campus non era andato come volevi; adesso avete una strada intera per imparare a capirvi."
+        },
+        {
+          "id": "intro_echo_battle_win",
+          "conditions": {
+            "path": "world.flags.intro_first_battle_result",
+            "eq": "win"
+          },
+          "text": "La prima battaglia ufficiale del Campus è già alle spalle. Hai vinto, ma fuori dal cancello nessuno sembra interessato al risultato."
+        },
+        {
+          "id": "intro_echo_battle_loss",
+          "conditions": {
+            "path": "world.flags.intro_first_battle_result",
+            "eq": "loss"
+          },
+          "text": "La prima battaglia ufficiale del Campus è già alle spalle. Hai perso, e fuori dal cancello il mondo non si è fermato ad aspettare che tu ci pensassi."
+        },
+        {
           "id": "three_directions",
           "text": "I cartelli mostrano tre direzioni immediate. Via delle Ginestre scende tra campi e muretti; Valedarsena è raggiungibile proseguendo verso la costa; una deviazione porta alla Fattoria del Vento."
         },
