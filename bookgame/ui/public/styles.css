@@ -1,3 +1,5 @@
+[hidden] { display: none !important; }
+
 :root {
   --ink: #1c2b43;
   --ink-soft: #34455e;
