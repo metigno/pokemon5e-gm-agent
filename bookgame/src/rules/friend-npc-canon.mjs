@@ -4,35 +4,35 @@
 // player-controlled characters always make their own legal Pokemon 5e choices.
 export const FRIEND_NPC_CANON={
  Luke:{
-  specialization:"fire",path:"Tactician",
+  path:"Tactician",
   finalTeam:["Arcanine-Hisui","Venusaur","Kyurem-Black","Great Tusk","Aerodactyl","Blastoise"],
   rosterPlan:[["Growlithe-Hisui","Arcanine-Hisui"],["Bulbasaur","Ivysaur","Venusaur"],["Kyurem-Black"],["Great Tusk"],["Aerodactyl"],["Squirtle","Wartortle","Blastoise"]],
   additionalSpecializations:{7:"grass",18:"dragon"},
   identity:"adaptive bulky pressure; Arcanine ace; attrition and tactical control"
  },
  Mattew:{
-  specialization:"electric",path:"Ace Trainer",
+  path:"Poké Mentor",
   finalTeam:["Jolteon","Infernape","Gardevoir","Swampert","Corviknight","Zacian-Crowned"],
   rosterPlan:[["Eevee","Jolteon"],["Chimchar","Monferno","Infernape"],["Ralts","Kirlia","Gardevoir"],["Mudkip","Marshtomp","Swampert"],["Rookidee","Corvisquire","Corviknight"],["Zacian-Crowned"]],
   additionalSpecializations:{7:"steel",18:"fighting"},
   identity:"technical training, optimization and direct competitive execution"
  },
  Daniel:{
-  specialization:"ghost",path:"Researcher",
+  path:"Pokémon Collector",
   finalTeam:["Gengar","Machamp","Mewtwo","Charizard","Aggron","Poliwrath"],
   rosterPlan:[["Gastly","Haunter","Gengar"],["Machop","Machoke","Machamp"],["Mewtwo"],["Charmander","Charmeleon","Charizard"],["Aron","Lairon","Aggron"],["Poliwag","Poliwhirl","Poliwrath"]],
   additionalSpecializations:{7:"psychic",18:"fighting"},
   identity:"analysis, information and broad matchup knowledge"
  },
  Edward:{
-  specialization:"water",path:"Ace Trainer",
+  path:"Ace Trainer",
   finalTeam:["Feraligatr","Lapras","Jolteon","Houndoom","Lugia","Tyranitar"],
   rosterPlan:[["Totodile","Croconaw","Feraligatr"],["Lapras"],["Eevee","Jolteon"],["Houndour","Houndoom"],["Lugia"],["Larvitar","Pupitar","Tyranitar"]],
   additionalSpecializations:{7:"dark",18:"ice"},
   identity:"physical pressure and battle-first execution around Feraligatr"
  },
  Fab:{
-  specialization:"poison",path:"Type Master",
+  path:"Commander",
   finalTeam:["Weezing","Rayquaza","Electivire","Skarmory","Sceptile","Alakazam"],
   rosterPlan:[["Koffing","Weezing"],["Rayquaza"],["Elekid","Electabuzz","Electivire"],["Skarmory"],["Treecko","Grovyle","Sceptile"],["Abra","Kadabra","Alakazam"]],
   additionalSpecializations:{7:"dragon",18:"steel"},

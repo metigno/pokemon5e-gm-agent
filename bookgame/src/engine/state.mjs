@@ -245,6 +245,21 @@ export function migrateGameState(input) {
 
 const FIVE_FRIEND_IDS = ["Luke", "Mattew", "Daniel", "Edward", "Fab"];
 
+const STARTER_SPECIALIZATION_BY_FRIEND = Object.freeze({
+  Luke: "fire",
+  Mattew: "electric",
+  Daniel: "ghost",
+  Edward: "water",
+  Fab: "poison"
+});
+
+function starterSpecializationForFriend(name, build) {
+  const specialization = STARTER_SPECIALIZATION_BY_FRIEND[name];
+  if (!specialization) throw new Error("Missing starter specialization for canonical friend: " + name);
+  if (!build?.starter?.species) throw new Error("Missing canonical starter for friend: " + name);
+  return specialization;
+}
+
 function createRookieFriendNpc(name, playerName) {
   const build = getStartingBuild(name);
   const canon = friendNpcCanon(name, playerName);
@@ -260,7 +275,7 @@ function createRookieFriendNpc(name, playerName) {
       starterForm: build.starter.form,
       starterLevel: build.starter.level,
       recentResult: "none",
-      specializations: [canon.specialization],
+      specializations: [starterSpecializationForFriend(name, build)],
       trainerPath: null,
       canonicalCareer: canon
     }
