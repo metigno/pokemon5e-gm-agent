@@ -15,7 +15,7 @@ function resourceStatus(trainer, def) {
   return { available: current >= cost, current, max: Number(resource?.max ?? 0), cost };
 }
 
-function battleLegality(battle, def) {
+function battleLegality(battle, def, reactionContext = null) {
   if (!battle) return { legal: false, reason: "combat_required" };
   if (battle.outcome) return { legal: false, reason: "combat_ended" };
   if (battle.awaitingSwitch) return { legal: false, reason: "switch_required" };
@@ -26,11 +26,17 @@ function battleLegality(battle, def) {
   if (def.action === "action" && !battle.player?.turn?.actionAvailable) {
     return { legal: false, reason: "action_spent" };
   }
-  if (def.action === "reaction") return { legal: false, reason: "reaction_trigger_required" };
+  if (def.action === "reaction") {
+    if (!reactionContext) return { legal: false, reason: "reaction_trigger_required" };
+    if (!battle.trainer?.reactionAvailable) return { legal: false, reason: "reaction_spent" };
+    if (reactionContext.featureId && reactionContext.featureId !== "raise-your-defenses") {
+      return { legal: false, reason: "reaction_trigger_mismatch" };
+    }
+  }
   return { legal: true, reason: null };
 }
 
-export function trainerGameplayView(state, battle = null) {
+export function trainerGameplayView(state, battle = null, reactionContext = null) {
   const trainer = trainerRuntimeView(state);
   const features = (trainer.classFeatures ?? []).map((featureId) => {
     const def = trainerFeatureRuntimeDefinition(featureId);
@@ -39,7 +45,7 @@ export function trainerGameplayView(state, battle = null) {
       return { id: featureId, executable: false, legal: false, reason: "runtime_effect_not_bridged", action: def.action };
     }
     const resource = resourceStatus(trainer, def);
-    const combat = battleLegality(battle, def);
+    const combat = battleLegality(battle, def, reactionContext);
     return {
       id: featureId,
       executable: true,
@@ -76,9 +82,10 @@ export function usePlayerTrainerCombatFeature(state, battle, {
   cost = null,
   mode = null,
   targetSide = "player",
-  roll = null
+  roll = null,
+  reactionContext = null
 }) {
-  const view = trainerGameplayView(state, battle);
+  const view = trainerGameplayView(state, battle, reactionContext);
   const action = view.features.find((entry) => entry.id === featureId);
   if (!action) throw new Error("Trainer feature not known: " + featureId);
   if (!action.executable) throw new Error("Trainer feature is not executable in this runtime context: " + action.reason);
@@ -96,6 +103,7 @@ export function usePlayerTrainerCombatFeature(state, battle, {
   });
 
   if (result.action === "bonus-action") battle.player.turn.bonusActionAvailable = false;
+  if (result.action === "reaction") battle.trainer.reactionAvailable = false;
   if (result.action === "action") battle.player.turn.actionAvailable = false;
   battle.log ??= [];
   battle.log.push({
