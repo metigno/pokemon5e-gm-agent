@@ -39,11 +39,9 @@ function defaultSpecializations() {
 }
 
 function defaultTrainerHp(level, abilities) {
-  // The pinned 2024 source creates trainers at 8 HP with a d6 hit die.
-  // Legacy RC0 saves had no Trainer HP at all, so only level 1 can be
-  // reconstructed losslessly. Higher-level legacy states retain the same
-  // safe floor and are marked by migration metadata instead of inventing rolls.
-  const base = Math.max(1, 8 + Math.max(0, abilityModifier(abilities?.CON)) * Math.max(0, level - 1));
+  // Pinned Pokémon 5e 2024: level 1 = 6 + CON; higher levels use fixed 4 + CON.
+  const con = abilityModifier(abilities?.CON);
+  const base = Math.max(1, 6 + con + Math.max(0, level - 1) * Math.max(1, 4 + con));
   return { current: base, max: base };
 }
 
