@@ -5,7 +5,7 @@ import { assertTrainerCreationComplete, completeTrainerCreation, createNewGameSt
 const fixedNow = () => "2026-10-07T10:55:00.000Z";
 
 test("new game cannot silently skip Pokemon 5e Trainer creation", () => {
-  const state = createNewGameState({ protagonist: "Luke", now: fixedNow });
+  const state = createNewGameState({ protagonist: "Luke", startAtIntro: true, now: fixedNow });
   assert.equal(state.player.trainerClass, "pokemon-trainer");
   assert.equal(state.player.trainerLevel, 1);
   assert.equal(state.player.trainerPath, null);
@@ -19,7 +19,7 @@ test("new game cannot silently skip Pokemon 5e Trainer creation", () => {
 });
 
 test("level 1 completion requires specialization and does not invent a Trainer Path", () => {
-  const state = createNewGameState({ protagonist: "Luke", now: fixedNow });
+  const state = createNewGameState({ protagonist: "Luke", startAtIntro: true, now: fixedNow });
   assert.throws(() => completeTrainerCreation(state, {}), /specialization/i);
   const ready = completeTrainerCreation(state, { specialization: "fire" });
   assert.equal(ready.player.specializations.fire, 1);
@@ -30,7 +30,7 @@ test("level 1 completion requires specialization and does not invent a Trainer P
 });
 
 test("Pokemon 5e starting Trainer gear is represented in durable state", () => {
-  const state = createNewGameState({ protagonist: "Luke", now: fixedNow });
+  const state = createNewGameState({ protagonist: "Luke", startAtIntro: true, now: fixedNow });
   assert.equal(state.player.inventory.filter((x) => x === "Pokeball").length, 5);
   assert.ok(state.player.inventory.includes("Potion"));
   assert.ok(state.player.inventory.includes("Trainer License"));
