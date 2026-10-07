@@ -569,6 +569,61 @@ async function completeCanonicalM2(engine, start) {
   return state;
 }
 
+async function completeCanonicalM3FriendBeat(engine, start) {
+  let state = structuredClone(start);
+  if (state.world.flags.friend_beat_03_complete === true) return state;
+
+  if (state.world.flags.a3_friend_call_available !== true) {
+    state = await searchTo({
+      engine,
+      start: state,
+      goal: (s) => s.world.flags.a3_friend_call_available === true,
+      label: "M3 Friend Call window",
+      route: "champion",
+      combatPolicy: "win",
+      maxExpansions: 800
+    });
+  }
+
+  let view = await engine.present(state);
+  if (view.choices.some((choice) => choice.id === "hub_friend_beat_03")) {
+    state = await requireChoice(engine, state, "hub_friend_beat_03", "M3 Friend Beat entry");
+  } else if (!(state.story.sceneId === "m03-friend-beat-03" && state.story.nodeId === "friend_call")) {
+    state = await searchTo({
+      engine,
+      start: state,
+      goal: (s) =>
+        s.story.sceneId === "m03-friend-beat-03" &&
+        s.story.nodeId === "friend_call",
+      label: "M3 Friend Beat entry",
+      route: "champion",
+      combatPolicy: "win",
+      maxExpansions: 900
+    });
+  }
+
+  view = await engine.present(state);
+  const dispatch = view.choices.find((choice) => /^dispatch_/.test(choice.id));
+  assert.ok(dispatch, "M3 Friend Beat must expose the event-selected friend");
+  state = await engine.choose(state, dispatch.id);
+
+  view = await engine.present(state);
+  const contact = view.choices.find((choice) => /_answer_remote$/.test(choice.id))
+    ?? view.choices.find((choice) => /_meet_physical$/.test(choice.id));
+  assert.ok(contact, "M3 Friend Beat must respect the selected remote/physical contact mode");
+  state = await engine.choose(state, contact.id);
+
+  view = await engine.present(state);
+  const brief = view.choices.find((choice) => /_remote_brief$/.test(choice.id))
+    ?? view.choices.find((choice) => /_physical_brief$/.test(choice.id));
+  assert.ok(brief, "M3 Friend Beat must provide a short authored completion branch");
+  state = await engine.choose(state, brief.id);
+
+  state = await requireChoice(engine, state, "close_friend_beat_03", "M3 Friend Beat close");
+  assert.equal(state.world.flags.friend_beat_03_complete, true);
+  return state;
+}
+
 async function completeCanonicalM3(engine, start) {
   let state = structuredClone(start);
 
@@ -604,24 +659,6 @@ async function completeCanonicalM3(engine, start) {
       maxExpansions: 2600
     },
     {
-      label: "M3 Friend Call window",
-      goal: (s) => s.world.flags.a3_friend_call_available === true,
-      combatPolicy: "win",
-      maxExpansions: 800
-    },
-    {
-      label: "M3 Friend Beat entry",
-      goal: (s) => s.story.sceneId === "m03-friend-beat-03",
-      combatPolicy: "win",
-      maxExpansions: 1200
-    },
-    {
-      label: "M3 Friend Beat 03",
-      goal: (s) => s.world.flags.friend_beat_03_complete === true,
-      combatPolicy: "win",
-      maxExpansions: 900
-    },
-    {
       label: "M3 Trial D to C window",
       goal: (s) => s.world.flags.a3_rank_trial_d_c_available === true,
       combatPolicy: "win",
@@ -654,6 +691,9 @@ async function completeCanonicalM3(engine, start) {
   ];
 
   for (const milestone of milestones) {
+    if (milestone.label === "M3 Trial D to C window" && state.world.flags.friend_beat_03_complete !== true) {
+      state = await completeCanonicalM3FriendBeat(engine, state);
+    }
     if (milestone.goal(state)) continue;
     state = await searchTo({
       engine,
@@ -664,6 +704,10 @@ async function completeCanonicalM3(engine, start) {
       combatPolicy: milestone.combatPolicy,
       maxExpansions: milestone.maxExpansions
     });
+  }
+
+  if (state.world.flags.friend_beat_03_complete !== true) {
+    state = await completeCanonicalM3FriendBeat(engine, state);
   }
 
   assert.equal(state.world.flags.steven_met, true);
