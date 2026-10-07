@@ -489,17 +489,48 @@ function renderTeam() {
   const roster = snapshot.player.roster ?? [];
   const options = snapshot.evolutions ?? [];
   return roster.map((pokemon, index) => {
-    const name = pokemon.nickname ?? pokemon.name ?? pokemon.species ?? pokemon.speciesId ?? `Pokémon ${index + 1}`;
-    const hp = pokemon.hp ? `HP ${pokemon.hp.current}/${pokemon.hp.max}` : "HP —";
+    const name = pokemon.nickname ?? pokemon.name ?? pokemon.speciesId ?? `Pokémon ${index + 1}`;
     const available = options.filter((entry) => entry.rosterIndex === index);
+    const attrs = Object.entries(pokemon.attributes ?? {})
+      .map(([key, value]) => `<span><strong>${escapeHtml(key.toUpperCase())}</strong> ${escapeHtml(value)}</span>`)
+      .join(" · ");
+    const moves = (pokemon.moves ?? []).map((move) => `
+      <div class="data-row">
+        <span>${escapeHtml(move.name)} · ${escapeHtml(move.type ?? "—")}</span>
+        <span>PP ${escapeHtml(move.ppCurrent)}/${escapeHtml(move.ppMax)}</span>
+      </div>
+    `).join("");
+    const pending = [
+      ...(pokemon.pendingLevelUp ? [`Level-up: ${pokemon.pendingLevelUp.stage ?? "decisione richiesta"}`] : []),
+      ...(pokemon.pendingAsiChoices ?? []).map((choice) => `ASI Lv.${choice.level}: ${choice.points} punti`),
+      ...(pokemon.pendingMoveLearning ?? []).map((choice) => `Mossa apprendibile: ${choice.moveId}`),
+      ...(pokemon.pendingMoveChoices ?? []).map((choice) => `Scelta mossa Lv.${choice.level}`)
+    ];
+    const xp = pokemon.xp == null
+      ? "—"
+      : pokemon.nextLevelXp == null ? `${pokemon.xp} · livello massimo` : `${pokemon.xp}/${pokemon.nextLevelXp}`;
+
     return `
       <div class="data-card">
         <h3>${escapeHtml(name)} ${index === 0 ? "· Active" : ""}</h3>
-        <div class="data-row"><span>Specie</span><span>${escapeHtml(pokemon.speciesId ?? pokemon.species ?? "—")}</span></div>
-        <div class="data-row"><span>Livello</span><span>${escapeHtml(pokemon.level ?? "—")}</span></div>
-        <div class="data-row"><span>Stato</span><span>${escapeHtml(hp)}</span></div>
-        ${available.map((entry) => `<button type="button" class="primary-button evolution-action" data-roster-index="${entry.rosterIndex}" data-evolution-id="${escapeHtml(entry.evolution.id)}">Evolvi → ${escapeHtml(entry.evolution.to)}</button>`).join("")}
+        <div class="data-row"><span>Specie</span><span>${escapeHtml(pokemon.name ?? pokemon.speciesId ?? "—")}${pokemon.form ? ` · ${escapeHtml(pokemon.form)}` : ""}</span></div>
+        <div class="data-row"><span>Livello / XP</span><span>${escapeHtml(pokemon.level ?? "—")} · ${escapeHtml(xp)}</span></div>
+        <div class="data-row"><span>Tipo</span><span>${(pokemon.types ?? []).map(escapeHtml).join(" / ") || "—"}</span></div>
+        <div class="data-row"><span>HP / AC</span><span>${escapeHtml(pokemon.hp?.current ?? "—")}/${escapeHtml(pokemon.hp?.max ?? "—")} · AC ${escapeHtml(pokemon.ac ?? "—")}</span></div>
+        <div class="data-row"><span>SR / Taglia</span><span>${escapeHtml(pokemon.sr ?? "—")} · ${escapeHtml(pokemon.size ?? "—")}</span></div>
+        <div class="data-row"><span>Statistiche</span><span>${attrs || "—"}</span></div>
+        <div class="data-row"><span>Ability</span><span>${escapeHtml(pokemon.ability?.name ?? pokemon.ability?.id ?? "—")}</span></div>
+        <div class="data-row"><span>Hit Dice</span><span>${escapeHtml(pokemon.hitDice?.current ?? "—")}/${escapeHtml(pokemon.hitDice?.max ?? "—")} ${escapeHtml(pokemon.hitDice?.die ?? "")}</span></div>
+        <div class="data-row"><span>Condizioni</span><span>${(pokemon.statuses ?? []).map(escapeHtml).join(" · ") || "Nessuna"}</span></div>
+        ${pokemon.nature ? `<div class="data-row"><span>Natura</span><span>${escapeHtml(pokemon.nature)}</span></div>` : ""}
+        ${pokemon.heldItemId ? `<div class="data-row"><span>Oggetto</span><span>${escapeHtml(pokemon.heldItemId)}</span></div>` : ""}
       </div>
+      <div class="data-card">
+        <h3>Mosse · ${escapeHtml(name)}</h3>
+        ${moves || '<div class="data-row"><span>Mosse</span><span>—</span></div>'}
+      </div>
+      ${pending.length ? `<div class="data-card"><h3>Progressione pendente</h3>${pending.map((entry) => `<div class="data-row"><span>${escapeHtml(entry)}</span></div>`).join("")}</div>` : ""}
+      ${available.map((entry) => `<button type="button" class="primary-button evolution-action" data-roster-index="${entry.rosterIndex}" data-evolution-id="${escapeHtml(entry.evolution.id)}">Evolvi → ${escapeHtml(entry.evolution.to)}</button>`).join("")}
     `;
   }).join("") || '<div class="data-card">Nessun Pokémon nel roster.</div>';
 }
