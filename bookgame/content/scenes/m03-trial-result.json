@@ -307,7 +307,7 @@
         },
         {
           "id": "review_module_continuity",
-          "text": "Controllo un'ultima volta ciò che lascio a Ferravia.",
+          "text": "Prima di partire, controllo un'ultima volta ciò che lascio a Ferravia.",
           "conditions": {
             "path": "world.flags.m3_continuity_reviewed",
             "ne": true
@@ -393,7 +393,7 @@
       "stitches": [
         {
           "id": "loss_review_1",
-          "text": "La history registra il match come loss e il Trial incrementa gli attempts. Nessuna scelta narrativa può cambiare quell'esito; puoi soltanto usarlo per il tentativo successivo."
+          "text": "Sul registro dell'Arena compare la sconfitta contro l'esaminatrice. Il risultato resta lì insieme alla data dell'incontro; puoi usarlo per prepararti diversamente quando deciderai di ripresentarti."
         }
       ],
       "choices": [
@@ -435,7 +435,7 @@
         },
         {
           "id": "win_history",
-          "text": "Controllo il record del Trial nella competition history.",
+          "text": "Controllo come l'Arena ha registrato il Trial.",
           "goto": "trial_history"
         },
         {
@@ -449,7 +449,7 @@
       "stitches": [
         {
           "id": "rank_access_1",
-          "text": "Rank C apre la fascia avanzata prevista da RANK_CHECKPOINTS. Non completa automaticamente missioni arretrate e non assegna punti come sostituto del gate appena vinto."
+          "text": "Sul pannello delle partenze, la tessera Rank C rende disponibili collegamenti che prima risultavano riservati. Le questioni lasciate aperte a Ferravia, però, restano dove le hai lasciate."
         }
       ],
       "choices": [
@@ -476,7 +476,7 @@
       "stitches": [
         {
           "id": "trial_history_1",
-          "text": "La competition history conserva matchId, outcome, formato, roster ufficiale, difficoltà e avversario. Il record non viene sostituito da un riassunto narrativo."
+          "text": "Nel registro ufficiale trovi data, formato dell'incontro, esaminatrice e risultato. È la stessa voce che l'Arena conserverà quando controllerà i tuoi precedenti."
         }
       ],
       "choices": [
@@ -518,7 +518,7 @@
       "stitches": [
         {
           "id": "steven_callback_1",
-          "text": "Steven non trasforma la promozione in una cerimonia personale. Se lo hai incontrato, riconosce che hai attraversato lo stesso sistema tecnico che avevi osservato fuori dall'Arena."
+          "text": "Se incroci Steven prima di partire, nota la nuova lettera sulla tessera. «C, allora.» Il suo sguardo torna quasi subito verso il lato industriale. «Immagino che adesso avrai altre strade da scegliere. Le rocce, purtroppo, continueranno a essere qui quando torni.»"
         }
       ],
       "choices": [
@@ -541,13 +541,13 @@
       "stitches": [
         {
           "id": "friend_callback_1",
-          "text": "Il Friend Beat completato resta distinto dal Trial: la relazione non è una ricompensa per la vittoria. Puoi soltanto riconoscere che le vostre strade continuano da stati diversi."
+          "text": "Il tuo amico ha ancora la propria strada, qualunque sia stato il risultato del Trial. Il contatto precedente non diventa più o meno vero perché sulla tua tessera ora compare una C."
         }
       ],
       "choices": [
         {
           "id": "friend_callback_note",
-          "text": "Registro la continuità con gli altri Five.",
+          "text": "Chiudo il contatto e torno alle ultime cose da sistemare.",
           "goto": "pending_items",
           "effects": [
             {
@@ -585,13 +585,13 @@
       "stitches": [
         {
           "id": "cup_callback_1",
-          "text": "Se hai disputato la Regional Cup, il suo risultato resta un record parallelo. Vincere la Cup non era promozione; vincere il Trial non riscrive la Cup."
+          "text": "Il tabellone della Regional Cup conserva il proprio risultato e quello del Trial compare nel registro accanto. Sono due competizioni diverse, con due esiti separati."
         }
       ],
       "choices": [
         {
           "id": "cup_callback_note",
-          "text": "Registro i due risultati separatamente.",
+          "text": "Tengo distinti i risultati della Coppa e del Trial.",
           "goto": "pending_items",
           "effects": [
             {
@@ -613,7 +613,7 @@
       "choices": [
         {
           "id": "retry_history",
-          "text": "Controllo il record ufficiale del tentativo.",
+          "text": "Controllo il risultato ufficiale dell'incontro.",
           "goto": "trial_history"
         },
         {
@@ -623,7 +623,7 @@
         },
         {
           "id": "retry_hub",
-          "text": "Torno a Ferravia e cambio priorità prima del retry.",
+          "text": "Torno a Ferravia e mi preparo prima di riprovare.",
           "goto": "m03-ferravia-arrival#city_hub",
           "effects": [
             {
@@ -638,7 +638,7 @@
       "stitches": [
         {
           "id": "retry_ready_1",
-          "text": "Per un nuovo tentativo devi tornare al banco e registrarti di nuovo. Il risultato precedente resta nello storico del Circuito."
+          "text": "Per affrontare di nuovo l'esaminatrice devi tornare al banco e presentare una nuova richiesta. Il risultato di oggi resta nel registro dell'Arena."
         }
       ],
       "choices": [
@@ -664,7 +664,7 @@
       "choices": [
         {
           "id": "continuity_exit",
-          "text": "Il quadro è coerente: torno alla chiusura.",
+          "text": "Ho finito qui: torno al punto di partenza.",
           "goto": "m3_exit_confirmed",
           "effects": [
             {
