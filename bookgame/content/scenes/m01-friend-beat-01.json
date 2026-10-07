@@ -1229,11 +1229,11 @@
       "stitches": [
         {
           "id": "city_mattew_voice",
-          "text": "Mattew prende nota dei dettagli e confronta tempi e sequenze. Non gli interessa sembrare preparato: vuole ridurre gli errori evitabili."
+          "text": "Mattew esce da un negozio con materiale da allenamento sotto il braccio. «Ho trovato un posto decente. E no, non ti dirò che allenarsi conta più del talento.»"
         },
         {
           "id": "city_mattew_context",
-          "text": "Mattew ha già un proprio programma a Valedarsena. Il fatto che vi siate incontrati non significa che debba seguirti al prossimo nodo."
+          "text": "Fa una pausa. «Perché dovresti saperlo già.» Eevee gli gira intorno alle gambe e Mattew abbassa subito lo sguardo verso di lui."
         }
       ],
       "choices": [
@@ -1375,11 +1375,11 @@
       "stitches": [
         {
           "id": "arena_mattew_voice",
-          "text": "Mattew prende nota dei dettagli e confronta tempi e sequenze. Non gli interessa sembrare preparato: vuole ridurre gli errori evitabili."
+          "text": "Mattew segue un incontro dal bordo campo con Eevee seduto accanto. «Hai visto il secondo cambio di distanza? Lì ha perso il turno prima ancora di prendere il colpo.»"
         },
         {
           "id": "arena_mattew_context",
-          "text": "Mattew è all'Arena con Eevee. Potete parlare di tecnica oppure fare uno sparring 1v1. Se combattete, nessun risultato è deciso dalla scena."
+          "text": "Si volta verso di te. «Se vuoi proviamo. Però dopo riguardiamo cosa abbiamo sbagliato. Anche se vinco io.»"
         }
       ],
       "choices": [
@@ -1913,11 +1913,11 @@
       "stitches": [
         {
           "id": "city_daniel_voice",
-          "text": "Daniel osserva più a lungo di quanto parli. Cerca collegamenti, intenzioni e possibilità alternative prima di scegliere una linea."
+          "text": "Daniel ti trova davanti alla bacheca e legge per intero il cartellino che stavi guardando. «C'è una scadenza. E delle condizioni.»"
         },
         {
           "id": "city_daniel_context",
-          "text": "Daniel ha già un proprio programma a Valedarsena. Il fatto che vi siate incontrati non significa che debba seguirti al prossimo nodo."
+          "text": "Ti restituisce il foglio con un mezzo sorriso. «Lo so, leggere tutto è una mia debolezza.»"
         }
       ],
       "choices": [
@@ -2059,11 +2059,11 @@
       "stitches": [
         {
           "id": "arena_daniel_voice",
-          "text": "Daniel osserva più a lungo di quanto parli. Cerca collegamenti, intenzioni e possibilità alternative prima di scegliere una linea."
+          "text": "Daniel osserva il regolamento affisso prima del campo. Gastly gli fluttua accanto. «Uno contro uno, area delimitata, stop dell'arbitro vincolante. Perfetto.»"
         },
         {
           "id": "arena_daniel_context",
-          "text": "Daniel è all'Arena con Gastly. Potete parlare di tecnica oppure fare uno sparring 1v1. Se combattete, nessun risultato è deciso dalla scena."
+          "text": "Ti guarda. «Ora puoi prendermi in giro. Dopo, però, non dire che non sapevi le regole.»"
         }
       ],
       "choices": [
@@ -2597,11 +2597,11 @@
       "stitches": [
         {
           "id": "city_edward_voice",
-          "text": "Edward preferisce fare esperienza direttamente. Se c'è qualcosa da provare sul campo, tende a smettere presto di discuterne in astratto."
+          "text": "Edward si è fermato davanti a una vetrina più per guardare l'equipaggiamento che i prezzi. «Quello è bello. Non so ancora se serve. Ma è bello.»"
         },
         {
           "id": "city_edward_context",
-          "text": "Edward ha già un proprio programma a Valedarsena. Il fatto che vi siate incontrati non significa che debba seguirti al prossimo nodo."
+          "text": "Ti guarda di lato. «Non iniziare. Tu scegli i Pokémon con criteri anche peggiori.»"
         }
       ],
       "choices": [
@@ -2743,11 +2743,11 @@
       "stitches": [
         {
           "id": "arena_edward_voice",
-          "text": "Edward preferisce fare esperienza direttamente. Se c'è qualcosa da provare sul campo, tende a smettere presto di discuterne in astratto."
+          "text": "Edward è già a bordo campo con Totodile. Non guarda il tabellone: guarda i colpi. «Ecco. Questo è un posto serio.»"
         },
         {
           "id": "arena_edward_context",
-          "text": "Edward è all'Arena con Totodile. Potete parlare di tecnica oppure fare uno sparring 1v1. Se combattete, nessun risultato è deciso dalla scena."
+          "text": "Fa un cenno verso di te. «Se vuoi parlare di strategie, parla. Se vuoi vedere se funzionano, ancora meglio.»"
         }
       ],
       "choices": [
@@ -3281,11 +3281,11 @@
       "stitches": [
         {
           "id": "city_fab_voice",
-          "text": "Fab resta paziente e vicino al proprio Pokémon. Non ha fretta di forzare una situazione se può capirla e gestirla un passo alla volta."
+          "text": "Fab ti incrocia con Koffing che gli galleggia dietro. «Ho fatto tre commissioni e non ricordo quale fosse quella importante.»"
         },
         {
           "id": "city_fab_context",
-          "text": "Fab ha già un proprio programma a Valedarsena. Il fatto che vi siate incontrati non significa che debba seguirti al prossimo nodo."
+          "text": "Sorride. «Koffing invece è ancora con me, quindi direi che la giornata sta andando bene.»"
         }
       ],
       "choices": [
@@ -3427,11 +3427,11 @@
       "stitches": [
         {
           "id": "arena_fab_voice",
-          "text": "Fab resta paziente e vicino al proprio Pokémon. Non ha fretta di forzare una situazione se può capirla e gestirla un passo alla volta."
+          "text": "Fab osserva Koffing prima ancora del campo. «Possiamo provare, se ti va. Non aspettarti il grande piano tattico, però.»"
         },
         {
           "id": "arena_fab_context",
-          "text": "Fab è all'Arena con Koffing. Potete parlare di tecnica oppure fare uno sparring 1v1. Se combattete, nessun risultato è deciso dalla scena."
+          "text": "Koffing ondeggia soddisfatto. Fab sorride. «Noi facciamo quello che sappiamo fare. Se basta, bene. Se non basta, impariamo.»"
         }
       ],
       "choices": [
