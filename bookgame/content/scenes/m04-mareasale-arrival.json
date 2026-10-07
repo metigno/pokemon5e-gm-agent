@@ -714,7 +714,7 @@
       "stitches": [
         {
           "id": "arena_rules_1",
-          "text": "Il gate C→B usa Singles e quattro Pokémon ufficiali. La sfida valuta resource management e adattamento. Il banco non registra ancora nulla: questa è soltanto informazione pubblica."
+          "text": "Il Trial C→B si disputa in Singolo con quattro Pokémon registrati. La prova premia chi sa gestire le proprie risorse e adattarsi quando il piano iniziale smette di funzionare. Per ora stai soltanto leggendo il regolamento."
         }
       ],
       "choices": [
@@ -742,7 +742,7 @@
       "choices": [
         {
           "id": "arena_upper_note",
-          "text": "Registro la separazione fra bracket e promozione.",
+          "text": "Tengo distinti il torneo e la promozione.",
           "goto": "arena_lobby",
           "effects": [
             {
@@ -981,7 +981,7 @@
       "choices": [
         {
           "id": "overlook_note",
-          "text": "Registro il porto come sistema di vincoli, non come sfondo.",
+          "text": "Tengo a mente che qui vento, orari e traffico condizionano davvero ciò che puoi fare.",
           "goto": "city_hub",
           "effects": [
             {
