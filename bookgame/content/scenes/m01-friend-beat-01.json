@@ -250,7 +250,7 @@
         },
         {
           "id": "exp_luke_context",
-          "text": "Luke sta seguendo il tratto di strada per conto proprio. Potete confrontare osservazioni, percorrere insieme un segmento oppure separarvi subito: nessuna opzione crea un party permanente."
+          "text": "Growlithe punta l'erba oltre il muro. Luke segue lo sguardo. «Io vado a vedere. Se vieni, cerca almeno di non rallentarmi.»"
         }
       ],
       "choices": [
@@ -695,7 +695,7 @@
         },
         {
           "id": "arena_luke_context",
-          "text": "Luke è all'Arena con Growlithe. Potete parlare di tecnica oppure fare uno sparring 1v1. Se combattete, nessun risultato è deciso dalla scena."
+          "text": "Luke è a bordo campo con Growlithe, già troppo interessato a ogni colpo che fa rumore. «Finalmente. Qui almeno nessuno ci chiede di essere delicati.» Ti indica il campo libero. «Parliamo oppure vediamo chi deve inventarsi una scusa.»"
         }
       ],
       "choices": [
@@ -813,7 +813,7 @@
       "stitches": [
         {
           "id": "spar_luke_pending",
-          "text": "Lo sparring con Luke passa al resolver Pokémon 5e. Vengono usati il tuo roster reale e il suo Ace rookie canonico, senza buff o risultato scritto in anticipo."
+          "text": "Luke manda Growlithe in campo e sorride come se aspettasse questo momento dal Campus. «Adesso niente teoria.» Quando sei pronto, comincia."
         }
       ],
       "choices": []
@@ -1497,7 +1497,7 @@
       "stitches": [
         {
           "id": "spar_mattew_pending",
-          "text": "Lo sparring con Mattew passa al resolver Pokémon 5e. Vengono usati il tuo roster reale e il suo Ace rookie canonico, senza buff o risultato scritto in anticipo."
+          "text": "Mattew si abbassa accanto a Eevee per un'ultima indicazione, poi prende posizione. «Dopo analizziamo gli errori. Prima facciamoli.» Lo sparring comincia."
         }
       ],
       "choices": []
@@ -2181,7 +2181,7 @@
       "stitches": [
         {
           "id": "spar_daniel_pending",
-          "text": "Lo sparring con Daniel passa al resolver Pokémon 5e. Vengono usati il tuo roster reale e il suo Ace rookie canonico, senza buff o risultato scritto in anticipo."
+          "text": "Daniel controlla ancora una volta i limiti del campo; Gastly gli fluttua accanto. «Tutto chiaro? Bene.» Al segnale, comincia lo sparring."
         }
       ],
       "choices": []
@@ -2865,7 +2865,7 @@
       "stitches": [
         {
           "id": "spar_edward_pending",
-          "text": "Lo sparring con Edward passa al resolver Pokémon 5e. Vengono usati il tuo roster reale e il suo Ace rookie canonico, senza buff o risultato scritto in anticipo."
+          "text": "Edward fa avanzare Totodile con un sorriso. «Finalmente.» Totodile batte le zampe a terra e lo sparring comincia."
         }
       ],
       "choices": []
@@ -3549,7 +3549,7 @@
       "stitches": [
         {
           "id": "spar_fab_pending",
-          "text": "Lo sparring con Fab passa al resolver Pokémon 5e. Vengono usati il tuo roster reale e il suo Ace rookie canonico, senza buff o risultato scritto in anticipo."
+          "text": "Fab guarda Koffing. «Beh, siamo arrivati fin qui.» Koffing ondeggia verso il campo. Fab ride e prende posizione. Lo sparring comincia."
         }
       ],
       "choices": []
