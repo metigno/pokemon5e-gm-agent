@@ -129,7 +129,7 @@
       "stitches": [
         {
           "id": "format_1",
-          "text": "Il tema dell'esame è resource management e adattamento: non basta trovare una linea forte, devi sapere cosa conservare, cosa spendere e quando abbandonare un piano diventato obsoleto."
+          "text": "L'esame mette alla prova gestione delle risorse e adattamento: non basta trovare una linea forte, devi sapere cosa conservare, cosa spendere e quando abbandonare un piano che non funziona più."
         }
       ],
       "choices": [
@@ -206,7 +206,7 @@
         },
         {
           "id": "resource_prep",
-          "text": "Rivedo il tema resource management prima di firmare.",
+          "text": "Rivedo il principio di gestione delle risorse prima di firmare.",
           "goto": "strategy_review"
         },
         {
@@ -405,7 +405,7 @@
       "choices": [
         {
           "id": "upper_note",
-          "text": "Registro la separazione fra bracket e gate.",
+          "text": "Tengo distinti il torneo e il Promotion Trial.",
           "goto": "format_review",
           "effects": [
             {
