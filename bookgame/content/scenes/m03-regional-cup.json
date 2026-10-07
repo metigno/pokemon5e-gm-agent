@@ -132,7 +132,7 @@
       "stitches": [
         {
           "id": "cup_reg_1",
-          "text": "La registrazione fissa la tua presenza nel bracket, non una squadra narrativa separata. Il match userà il roster reale che il motore possiede in questo momento."
+          "text": "L'addetto inserisce il tuo nome nel tabellone e controlla la squadra con cui ti presenti. Da questo momento sei ufficialmente iscritto alla Coppa Regionale."
         }
       ],
       "choices": [
@@ -291,7 +291,7 @@
       "stitches": [
         {
           "id": "qf_handoff_1",
-          "text": "Il giudice chiama i roster. Da questo punto il risultato appartiene al resolver Pokémon 5e e a E5."
+          "text": "Il giudice chiama entrambi gli allenatori sul campo. Controlla le squadre registrate, alza una mano e dà il segnale d'inizio."
         }
       ],
       "choices": [
@@ -343,7 +343,7 @@
       "stitches": [
         {
           "id": "qf_win_1",
-          "text": "Il risultato ufficiale è una vittoria. Sei in semifinale; il record E5 esiste indipendentemente dalla narrazione."
+          "text": "Il tabellone registra la tua vittoria. Il tuo nome sale in semifinale mentre gli addetti preparano il campo per l'incontro successivo."
         }
       ],
       "choices": [
@@ -605,7 +605,7 @@
       "stitches": [
         {
           "id": "final_1",
-          "text": "Finale. Sena Volta ha attraversato l'altra metà del tabellone. Il pubblico conosce il nome; il motore conosce soltanto ciò che il match deve conoscere."
+          "text": "Finale. Sena Volta ha attraversato l'altra metà del tabellone e ora aspetta dall'altro lato del campo. Dagli spalti il suo nome viene accolto da un brusio riconoscibile."
         }
       ],
       "choices": [
@@ -669,7 +669,7 @@
       "stitches": [
         {
           "id": "final_handoff_1",
-          "text": "L'ultimo match parte con un nuovo record ufficiale E5. Nessun flag decide il vincitore."
+          "text": "Il giudice richiama le squadre registrate un'ultima volta. Quando entrambi siete in posizione, dà il segnale per la finale."
         }
       ],
       "choices": [
@@ -985,7 +985,7 @@
       "stitches": [
         {
           "id": "cup_declined_1",
-          "text": "La Cup resta opzionale. Rifiutarla non blocca il Promotion Trial né M3."
+          "text": "Lasci scadere l'iscrizione senza mettere il tuo nome sul tabellone. L'Arena continua con gli altri partecipanti; il banco del Trial resta aperto."
         }
       ],
       "choices": [
@@ -1224,7 +1224,7 @@
       "stitches": [
         {
           "id": "qf_team_1",
-          "text": "La scheda squadra mostra ciò che il resolver ha realmente lasciato: nessun HP, PP o status viene riscritto da questa scena."
+          "text": "Prima del turno successivo controlli la squadra così com'è uscita dall'incontro: ferite, energie e condizioni sono ancora quelle lasciate dal campo."
         }
       ],
       "choices": [
