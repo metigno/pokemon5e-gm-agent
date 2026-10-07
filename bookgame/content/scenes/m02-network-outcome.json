@@ -476,7 +476,8 @@
           "goto": "m02-borgo-salice#borough_hub",
           "effects": [
             {"type": "set_flag", "key": "network_outcome_complete", "value": true},
-            {"type": "set_location", "locationId": "borgo_salice"}
+            {"type": "set_location", "locationId": "borgo_salice"},
+            {"type": "trainer_milestone_level", "milestoneId": "M02_NETWORK_OUTCOME", "level": 4}
           ]
         }
       ]
