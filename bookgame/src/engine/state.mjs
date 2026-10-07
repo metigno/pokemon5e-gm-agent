@@ -3,7 +3,7 @@ import { DEFAULT_START_MINUTE, daypartForMinute } from "./time.mjs";
 import { createPersistentNpc } from "./npc-state.mjs";
 import { createCompetitionState } from "./competition-state.mjs";
 
-export const GAME_STATE_SCHEMA_VERSION = 2;
+export const GAME_STATE_SCHEMA_VERSION = 3;
 
 export const EXPERIENCE_NEEDED_PER_LEVEL = Object.freeze([
   0, 200, 800, 2000, 6000, 12000, 20000, 30000, 44000, 62000,
@@ -55,6 +55,12 @@ export function createTrainerRuntime(build, {
     trainerPath: null,
     trainerLevel: level,
     trainerXp: experienceNeededAtLevel(level),
+    trainerProgression: {
+      mode: "milestone",
+      history: [],
+      pendingChoices: [],
+      resolvedChoices: []
+    },
     abilities: structuredClone(build.abilities),
     skills: structuredClone(build.skills),
     proficiencies: {
@@ -124,6 +130,16 @@ export function migrateGameState(input) {
   player.trainerXp = Number.isFinite(player.trainerXp)
     ? Math.max(0, player.trainerXp)
     : experienceNeededAtLevel(level);
+  player.trainerProgression = ensureObject(player.trainerProgression, {
+    mode: "milestone",
+    history: [],
+    pendingChoices: [],
+    resolvedChoices: []
+  });
+  player.trainerProgression.mode ??= "milestone";
+  player.trainerProgression.history = ensureArray(player.trainerProgression.history);
+  player.trainerProgression.pendingChoices = ensureArray(player.trainerProgression.pendingChoices);
+  player.trainerProgression.resolvedChoices = ensureArray(player.trainerProgression.resolvedChoices);
   player.abilities = abilities;
   player.skills = skills;
   player.proficiencies = ensureObject(player.proficiencies, {
