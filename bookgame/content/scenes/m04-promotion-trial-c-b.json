@@ -50,7 +50,7 @@
         },
         {
           "id": "review_plan",
-          "text": "Rivedo la priorità di resource management.",
+          "text": "Rivedo la priorità di gestione delle risorse.",
           "goto": "plan_review"
         },
         {
