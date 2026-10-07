@@ -57,7 +57,7 @@ test("all Five keep free player progression across save/reload while the other f
       const otherNames = Object.keys(FIVE).filter((other) => other !== name);
       assert.equal(otherNames.length, 4);
       for (const other of otherNames) {
-        assert.equal(state.npcs[other]?.canonicalCareer, true, `${name} -> ${other}`);
+        assert.ok(state.npcs[other]?.canonicalCareer, `${name} -> ${other}`);
         assert.equal(
           state.npcs[other]?.state?.canonicalCareer?.path,
           FIVE[other].npcPath,
