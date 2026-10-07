@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { createPersistentNpc, createTrainerRulesState } from "../src/engine/npc-state.mjs";
 import { createNewGameState } from "../src/engine/state.mjs";
+import { progressCanonicalFriendNpc } from "../src/engine/npc-progression.mjs";
 
 test("player friends and Blue use the universal Pokemon 5e Trainer schema",()=>{
  const s=createNewGameState({protagonist:"Luke"});
@@ -38,4 +39,43 @@ test("generic persistent trainers also receive a rules state",()=>{
  assert.equal(npc.trainer.trainerLevel,3);
  assert.equal(npc.trainer.trainerPath,"Ranger");
  assert.deepEqual(npc.trainer.specializations,["Water"]);
+});
+
+
+test("NPC Trainers expose the same persistent gameplay runtime surface as the player",()=>{
+ const s=createNewGameState({protagonist:"Luke"});
+ const npc=s.npcs.Mattew;
+ for(const key of ["hp","ac","hitDice","skills","proficiencies","savingThrows","equipment","trainerGear","inventory","classResources","classFeatures","featureUsage","conditions","persistentEffects","death","movement"]){
+  assert.ok(Object.hasOwn(npc.trainer,key),key);
+ }
+ assert.deepEqual(npc.trainer.hp,{current:8,max:8});
+ assert.ok(npc.trainer.classFeatures.includes("command-pokemon"));
+ assert.equal(npc.trainer.death.state,"alive");
+});
+
+test("scripted friend NPC runtime scales to the level where the NPC appears",()=>{
+ const s=createNewGameState({protagonist:"Luke"});
+ const mattew=progressCanonicalFriendNpc(s.npcs.Mattew,10);
+ assert.equal(mattew.trainer.trainerLevel,10);
+ assert.equal(mattew.trainer.trainerPath,"Poké Mentor");
+ assert.ok(mattew.trainer.hp.max>8);
+ assert.equal(mattew.trainer.hitDice.max,10);
+ assert.equal(mattew.trainer.pokeslots,5);
+ assert.equal(mattew.trainer.maxSr,10);
+ assert.ok(mattew.trainer.classFeatures.includes("trainer-resolve"));
+ assert.ok(mattew.trainer.classFeatures.includes("trainer-path:Poké Mentor:level-5"));
+ assert.ok(mattew.trainer.classFeatures.includes("trainer-path:Poké Mentor:level-9"));
+});
+
+test("NPC level progression preserves spent resources, equipment and conditions",()=>{
+ const s=createNewGameState({protagonist:"Luke"});
+ s.npcs.Daniel.trainer.equipment.push({id:"field-kit",equipped:true});
+ s.npcs.Daniel.trainer.classResources.collectorFocus={current:0,max:1};
+ s.npcs.Daniel.trainer.conditions.push("poisoned");
+ s.npcs.Daniel.trainer.hp.current=3;
+ const daniel=progressCanonicalFriendNpc(s.npcs.Daniel,5);
+ assert.equal(daniel.trainer.equipment[0].id,"field-kit");
+ assert.equal(daniel.trainer.classResources.collectorFocus.current,0);
+ assert.ok(daniel.trainer.conditions.includes("poisoned"));
+ assert.ok(daniel.trainer.hp.current<daniel.trainer.hp.max);
 });
