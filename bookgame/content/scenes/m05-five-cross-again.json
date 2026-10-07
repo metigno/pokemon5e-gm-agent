@@ -26,10 +26,6 @@
       {
         "path": "world.flags.a5_five_cross_available",
         "eq": true
-      },
-      {
-        "path": "world.flags.five_cross_complete",
-        "ne": true
       }
     ]
   },
