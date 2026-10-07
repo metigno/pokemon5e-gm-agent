@@ -90,7 +90,8 @@ export function createTrainerRuntime(build, {
     classResources: {},
     classFeatures: ["command-pokemon"],
     feats: [],
-    specializations: defaultSpecializations(),
+    // Player progression starts unassigned. NPC scripted specializations live only in the Four NPC states.
+    specializations: [],
     specializationDetails: [],
     pokeslots: p5eProgression.pokeslots,
     maxSr: p5eProgression.maxSr,
@@ -360,7 +361,9 @@ export function completeTrainerCreation(state, { specialization } = {}) {
   if (!spec) throw new Error("Unknown Pokemon 5e 2024 specialization: " + specialization);
 
   const next = structuredClone(state);
-  next.player.specializations ??= defaultSpecializations();
+  if (!next.player.specializations || Array.isArray(next.player.specializations)) {
+    next.player.specializations = defaultSpecializations();
+  }
   for (const key of SPECIALIZATION_TYPES) next.player.specializations[key] ??= 0;
   next.player.specializations[spec.type] = Math.max(1, Number(next.player.specializations[spec.type] ?? 0));
   next.player.specializationDetails ??= [];
