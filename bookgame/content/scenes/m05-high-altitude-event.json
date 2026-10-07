@@ -468,6 +468,11 @@
               "type": "set_flag",
               "key": "m5_high_altitude_event_complete",
               "value": true
+            },
+            {
+              "type": "trainer_milestone_level",
+              "milestoneId": "M05_HIGH_ALTITUDE_EVENT",
+              "level": 14
             }
           ]
         },
@@ -500,6 +505,11 @@
               "type": "set_flag",
               "key": "m5_high_altitude_event_complete",
               "value": true
+            },
+            {
+              "type": "trainer_milestone_level",
+              "milestoneId": "M05_HIGH_ALTITUDE_EVENT",
+              "level": 14
             }
           ]
         },
