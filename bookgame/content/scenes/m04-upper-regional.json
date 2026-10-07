@@ -135,7 +135,7 @@
       "stitches": [
         {
           "id": "qf_1",
-          "text": "Quarti di finale. Juno Reef usa un roster ufficiale da quattro e prova a togliere valore agli switch facili. Il match è HARD, non un esame di promozione."
+          "text": "Quarti di finale. Juno Reef presenta quattro Pokémon e costruisce il suo gioco per punire i cambi troppo prevedibili. È un incontro di torneo, non un esame di promozione."
         }
       ],
       "choices": [
@@ -211,7 +211,7 @@
       "stitches": [
         {
           "id": "qf_plan_1",
-          "text": "Un piano di bracket deve sopravvivere anche al match successivo: il gioco non ti regala cure invisibili né resetta automaticamente il roster fra scene."
+          "text": "Il tabellone non concede recuperi immaginari tra un incontro e l'altro. Ferite, risorse e condizioni restano quelle realmente lasciate dal match precedente finché non fai qualcosa per cambiarle."
         }
       ],
       "choices": [
