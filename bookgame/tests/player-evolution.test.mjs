@@ -27,7 +27,7 @@ test("player evolution bridge applies runtime result to roster and returns prese
     const resolved = await applyPlayerEvolution(state, {
       rosterIndex: 0,
       evolutionId: target.evolution.id,
-      asiDistribution: { con: points }
+      asiDistribution: points <= 4 ? { con: points } : { con: 4, str: points - 4 }
     });
     assert.equal(resolved.state.player.roster[0].speciesId, "haunter");
     assert.equal(resolved.presentation.to, "haunter");
