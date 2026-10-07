@@ -19,6 +19,26 @@
         {
           "id": "names_called",
           "text": "Siete arrivati insieme. «The Five?» chiama una voce dall'ingresso quando la porta laterale si apre. «Luke, Mattew, Daniel, Edward, Fab. Dentro.»"
+        },
+        {
+          "id": "group_banter_mattew",
+          "conditions": {
+            "not": {
+              "path": "player.name",
+              "eq": "Mattew"
+            }
+          },
+          "text": "Mattew guarda gli altri quattro. «Vi ricordo che essere chiamati insieme non significa che dobbiamo farci cacciare insieme.»"
+        },
+        {
+          "id": "group_banter_edward",
+          "conditions": {
+            "not": {
+              "path": "player.name",
+              "eq": "Edward"
+            }
+          },
+          "text": "Edward si avvia verso la porta. «Parla per te. Io punto almeno al pomeriggio.»"
         }
       ],
       "choices": [
@@ -52,6 +72,26 @@
         {
           "id": "world_board",
           "text": "Sulla parete opposta, un display scorre città, circuiti e classifiche fino al World Championship. L'addetta segue per un attimo il vostro sguardo. «Quello viene dopo. Molto dopo. Adesso: starter.» Indica la porta successiva."
+        },
+        {
+          "id": "group_banter_daniel",
+          "conditions": {
+            "not": {
+              "path": "player.name",
+              "eq": "Daniel"
+            }
+          },
+          "text": "Daniel controlla la propria licenza due volte. «Se uno di voi ha scritto male il proprio nome, io non vi conosco.»"
+        },
+        {
+          "id": "group_banter_fab",
+          "conditions": {
+            "not": {
+              "path": "player.name",
+              "eq": "Fab"
+            }
+          },
+          "text": "Fab prende il Pokédex e lo gira tra le mani. «Perfetto. Adesso sembriamo ufficialmente persone che sanno cosa stanno facendo.»"
         }
       ],
       "choices": [
@@ -451,6 +491,16 @@
         {
           "id": "world_begins",
           "text": "Oltre il cancello passano già corrieri, Trainer e mezzi diretti fuori dal Campus. Per la prima volta, non c'è un istruttore davanti a voi."
+        },
+        {
+          "id": "group_banter_luke",
+          "conditions": {
+            "not": {
+              "path": "player.name",
+              "eq": "Luke"
+            }
+          },
+          "text": "Luke infila la licenza in tasca e guarda gli altri. «Bene. Adesso vediamo chi di noi torna qui per primo a vantarsi.»"
         }
       ],
       "choices": [
