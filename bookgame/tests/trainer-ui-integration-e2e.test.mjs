@@ -88,7 +88,7 @@ test("Trainer UI -> runtime -> save/reload -> continue battle integration", asyn
 
   result = await post("/api/combat/trainer-feature", { featureId: "directed-strike" });
   assert.equal(result.response.status, 200, JSON.stringify(result.payload));
-  assert.equal(result.payload.trainerGameplay.classResources["tactical-points"].current, 2);
+  assert.equal(result.payload.trainerGameplay.classResources["tactical-points"].current, 0);
   assert.equal(result.payload.battle.actor, "player");
 
   result = await post("/api/combat/trainer-feature", { featureId: "directed-strike" });
