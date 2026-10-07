@@ -135,7 +135,7 @@
         },
         {
           "id": "assess_access",
-          "text": "Valuto quale ingresso offre il miglior rapporto fra tempo e sicurezza. (CT Investigation)",
+          "text": "Valuto quale ingresso sembra più sicuro e rapido.",
           "timeCostMinutes": 15,
           "check": {
             "ability": "INT",
@@ -167,7 +167,7 @@
         },
         {
           "id": "coordinate_workers",
-          "text": "Mi coordino con gli operai prima di muovermi. (CT Persuasion)",
+          "text": "Mi coordino con gli operai prima di muovermi.",
           "timeCostMinutes": 15,
           "check": {
             "ability": "CHA",
@@ -438,7 +438,7 @@
         },
         {
           "id": "push_direct",
-          "text": "Mi muovo verso il corridoio ostruito e cerco una finestra sicura. (CT Perception)",
+          "text": "Mi muovo verso il corridoio ostruito e cerco un passaggio sicuro.",
           "timeCostMinutes": 20,
           "check": {
             "ability": "WIS",
