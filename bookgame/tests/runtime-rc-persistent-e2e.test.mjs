@@ -269,7 +269,7 @@ function m7MilestoneScore(state) {
 }
 
 function preferredChoices(choices) {
-  const positive = /trainer_|commit|complete|confirm|activate|continue|depart|travel|register|resolve|record|relationship|close|ready|open|advance|accept|enter|start|fight|win|audit|sync|lock|arrive|proceed|return/i;
+  const positive = /trainer_|commit|complete|confirm|activate|continue|depart|travel|register|resolve|record|relationship|close|ready|open|advance|accept|enter|start|fight|win|audit|sync|lock|arrive|proceed|return|introduce|intro/i;
   const negative = /review|back|stay|repeat|defer|wait|existing|free_roam|inspect|listen|talk_again/i;
   return [...choices].sort((a, b) => {
     const score = (choice) =>
