@@ -38,7 +38,7 @@
       "stitches": [
         {
           "id": "friend_call_1",
-          "text": "Uno degli altri Five entra nella tua giornata senza fermare il resto del mondo. Il selector M4 ha già scelto chi è causalmente disponibile: se la schedule permette un incontro fisico lo vedrai; altrimenti il contatto resta remoto."
+          "text": "Uno degli altri Five riesce a raggiungerti mentre Mareasale continua a lavorare intorno a te. Se si trova abbastanza vicino vi incontrate di persona; altrimenti resta una chiamata tra due viaggi diversi."
         }
       ],
       "choices": [
@@ -93,7 +93,7 @@
       "stitches": [
         {
           "id": "close_1",
-          "text": "Il contatto si chiude senza congelare la carriera di nessuno dei due. Tipo, amico e risultato restano persistenti per i callback futuri."
+          "text": "Vi salutate e ciascuno torna ai propri impegni. Quello che vi siete detti resta tra voi e potrà pesare quando le vostre strade si incroceranno di nuovo."
         }
       ],
       "choices": [
@@ -119,7 +119,7 @@
       "stitches": [
         {
           "id": "luke_contact_1",
-          "text": "Luke è il contatto selezionato per questo beat. La scena può usare soltanto modalità compatibili con il suo stato reale e con ciò che hai vissuto in M4."
+          "text": "Luke ti raggiunge con il solito tono competitivo. Il mare gli interessa soprattutto per una ragione: rende più difficile imporre il proprio ritmo e costringe a scegliere quando spingere davvero."
         }
       ],
       "choices": [
@@ -437,7 +437,7 @@
         },
         {
           "id": "luke_smug_result",
-          "text": "Parlo soltanto dell'esito persistente raggiunto.",
+          "text": "Gli racconto soltanto come si è conclusa la faccenda.",
           "goto": "friend_beat_close",
           "effects": [
             {
@@ -558,7 +558,7 @@
       "stitches": [
         {
           "id": "mattew_contact_1",
-          "text": "Mattew è il contatto selezionato per questo beat. La scena può usare soltanto modalità compatibili con il suo stato reale e con ciò che hai vissuto in M4."
+          "text": "Mattew arriva già concentrato sui dettagli: orari, condizioni del mare, preparazione della squadra. Non gli interessa sembrare prudente; gli interessa capire cosa funziona davvero."
         }
       ],
       "choices": [
@@ -876,7 +876,7 @@
         },
         {
           "id": "mattew_smug_result",
-          "text": "Parlo soltanto dell'esito persistente raggiunto.",
+          "text": "Gli racconto soltanto come si è conclusa la faccenda.",
           "goto": "friend_beat_close",
           "effects": [
             {
@@ -997,7 +997,7 @@
       "stitches": [
         {
           "id": "daniel_contact_1",
-          "text": "Daniel è il contatto selezionato per questo beat. La scena può usare soltanto modalità compatibili con il suo stato reale e con ciò che hai vissuto in M4."
+          "text": "Daniel ascolta il racconto del porto con attenzione ordinata. Documenti mancanti e responsabilità poco chiare gli danno visibilmente più fastidio del caos delle banchine."
         }
       ],
       "choices": [
@@ -1315,7 +1315,7 @@
         },
         {
           "id": "daniel_smug_result",
-          "text": "Parlo soltanto dell'esito persistente raggiunto.",
+          "text": "Gli racconto soltanto come si è conclusa la faccenda.",
           "goto": "friend_beat_close",
           "effects": [
             {
@@ -1436,7 +1436,7 @@
       "stitches": [
         {
           "id": "edward_contact_1",
-          "text": "Edward è il contatto selezionato per questo beat. La scena può usare soltanto modalità compatibili con il suo stato reale e con ciò che hai vissuto in M4."
+          "text": "Edward guarda il porto come se stesse già decidendo quali parti gli piacciono e quali no. «Almeno qui nessuno può dire che manca lo spettacolo.» Poi torna subito a chiederti cosa è successo davvero."
         }
       ],
       "choices": [
@@ -1754,7 +1754,7 @@
         },
         {
           "id": "edward_smug_result",
-          "text": "Parlo soltanto dell'esito persistente raggiunto.",
+          "text": "Gli racconto soltanto come si è conclusa la faccenda.",
           "goto": "friend_beat_close",
           "effects": [
             {
@@ -1875,7 +1875,7 @@
       "stitches": [
         {
           "id": "fab_contact_1",
-          "text": "Fab è il contatto selezionato per questo beat. La scena può usare soltanto modalità compatibili con il suo stato reale e con ciò che hai vissuto in M4."
+          "text": "Fab ti saluta senza trasformare l'incontro in una riunione strategica. Prima chiede dei Pokémon, poi del resto. «Se stanno bene loro, possiamo parlare anche dei casini del porto.»"
         }
       ],
       "choices": [
@@ -2193,7 +2193,7 @@
         },
         {
           "id": "fab_smug_result",
-          "text": "Parlo soltanto dell'esito persistente raggiunto.",
+          "text": "Gli racconto soltanto come si è conclusa la faccenda.",
           "goto": "friend_beat_close",
           "effects": [
             {
