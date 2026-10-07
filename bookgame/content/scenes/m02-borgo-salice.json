@@ -275,11 +275,11 @@
       "stitches": [
         {
           "id": "elio_recognizes",
-          "text": "Elio Mar è seduto alla scrivania con una mappa piegata. Ti riconosce senza sorpresa — il Circuito tiene traccia degli spostamenti dei trainer attivi, e il Bosco Bruma fa parte del suo perimetro. «Sei arrivato da Valedarsena o dal bosco?»"
+          "text": "Elio Mar è seduto alla scrivania con una mappa piegata e una tazza ormai fredda accanto. Alza gli occhi appena entri. «Valedarsena o bosco?» È il suo modo di salutarti: prima vuole sapere da dove arrivi."
         },
         {
           "id": "elio_context",
-          "text": "La sua posizione a Borgo Salice non è permanente: ruota tra i presidi dell'area, compreso quello di Valedarsena che hai già visto. Sa cosa succede nel bosco meglio di quanto lasci trasparire."
+          "text": "Una seconda giacca Ranger è appesa dietro la porta e sulla mappa ci sono segni a matita che non avevi visto a Valedarsena. Elio lavora anche da qui, abbastanza spesso da conoscere sentieri e abitudini locali."
         }
       ],
       "choices": [
@@ -323,11 +323,11 @@
       "stitches": [
         {
           "id": "elio_intro_borgo",
-          "text": "Il ranger alza lo sguardo dalla scrivania. «Elio Mar, Servizio Ranger del settore Asteria-Centro.» Non è ostile, ma è preciso: ti chiede da dove arrivi, dove stai andando e se hai un roster attivo. Informazioni operative, non conversazione."
+          "text": "Il ranger alza lo sguardo dalla scrivania. «Elio Mar, Asteria-Centro.» Prima ancora delle formalità ti chiede da dove arrivi, dove stai andando e con quanti Pokémon stai viaggiando."
         },
         {
           "id": "elio_check",
-          "text": "Verifica la tua licenza Circuito nel terminale portatile, aggiorna lo status di presenza nel settore e ti rimanda un'occhiata diretta. «Bosco Bruma ti ha già fatto notare qualcosa?»"
+          "text": "Passa la tua licenza sul terminale portatile, poi la posa sul banco. «Bosco Bruma ti ha già fatto notare qualcosa?» La domanda arriva senza suggerirti quale risposta si aspetti."
         }
       ],
       "choices": [
@@ -400,7 +400,7 @@
         },
         {
           "id": "elio_response",
-          "text": "La sua risposta è contenuta: conferma la ricezione dell'informazione, non offre interpretazioni né ti chiede di fare nulla. Il presidio ha i propri protocolli per verificare segnalazioni come questa."
+          "text": "Quando hai finito, Elio segna ora e posizione sul registro. «Va bene. Prima verifichiamo, poi diamo un nome alle cose.» Non ti manda a cercare altro e non anticipa conclusioni."
         }
       ],
       "choices": [
@@ -510,7 +510,7 @@
         },
         {
           "id": "sala_bulletin",
-          "text": "Una bacheca vicino all'ingresso mostra lo stato del Trial di promozione E→D: attivo nella fascia di livello 4–5, formato Singles con tre Pokémon ufficiali. L'esaminatore è presente a orari fissi. La registrazione richiede eligibility verificata dal sistema."
+          "text": "Sulla bacheca sono affissi i requisiti del Trial E→D: fascia indicata, Singles, tre Pokémon dichiarati. Accanto, gli orari dell'esaminatore e del banco iscrizioni."
         }
       ],
       "choices": [
@@ -589,11 +589,11 @@
       "stitches": [
         {
           "id": "reqs_panel",
-          "text": "L'addetto alla Sala Verde spiega i requisiti standard: roster di almeno tre Pokémon con livello idoneo alla fascia, nessuna sospensione del codice trainer, Rank E attivo registrato nel sistema del Circuito. Il Trial usa formato Singles a tre; l'avversario è un esaminatore certificato, non un trainer scelto dal player."
+          "text": "L'addetto indica il regolamento affisso: «Rank E attivo, almeno tre Pokémon idonei e nessuna sospensione. Il Trial è Singles, tre dichiarati. Dall'altra parte trovi un esaminatore certificato.»"
         },
         {
           "id": "reqs_not_now",
-          "text": "La registrazione apre quando il sistema registra l'eligibility automaticamente — non è una scelta manuale. Non c'è nulla da fare qui finché i requisiti non sono soddisfatti nel sistema."
+          "text": "Controlla la tua licenza. «Quando rispetti tutti i requisiti, il banco può accettare l'iscrizione. Prima no.»"
         }
       ],
       "choices": [

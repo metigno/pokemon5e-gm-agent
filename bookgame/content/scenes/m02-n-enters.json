@@ -7,11 +7,26 @@
   "entryNodeId": "zorua_encounter",
   "conditions": {
     "all": [
-      { "path": "world.flags.m1_complete", "eq": true },
-      { "path": "world.flags.m02_unlocked", "eq": true },
-      { "path": "world.flags.m2_active", "eq": true },
-      { "path": "competition.rank", "eq": "E" },
-      { "path": "world.flags.mistwood_entry_complete", "eq": true }
+      {
+        "path": "world.flags.m1_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m02_unlocked",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m2_active",
+        "eq": true
+      },
+      {
+        "path": "competition.rank",
+        "eq": "E"
+      },
+      {
+        "path": "world.flags.mistwood_entry_complete",
+        "eq": true
+      }
     ]
   },
   "nodes": {
@@ -47,8 +62,12 @@
             "dc": 11
           },
           "outcomes": {
-            "success": { "goto": "zorua_shield_seen" },
-            "failure": { "goto": "zorua_obscured" }
+            "success": {
+              "goto": "zorua_shield_seen"
+            },
+            "failure": {
+              "goto": "zorua_obscured"
+            }
           }
         },
         {
@@ -57,7 +76,11 @@
           "timeCostMinutes": 5,
           "goto": "zorua_left",
           "effects": [
-            { "type": "set_flag", "key": "n_encounter_avoided", "value": true }
+            {
+              "type": "set_flag",
+              "key": "n_encounter_avoided",
+              "value": true
+            }
           ]
         }
       ]
@@ -105,7 +128,11 @@
           "text": "Mi ritiro senza disturbare.",
           "goto": "zorua_left",
           "effects": [
-            { "type": "set_flag", "key": "n_encounter_avoided", "value": true }
+            {
+              "type": "set_flag",
+              "key": "n_encounter_avoided",
+              "value": true
+            }
           ]
         }
       ]
@@ -129,9 +156,16 @@
               "npcId": "N",
               "name": "N",
               "relationshipScore": 0,
-              "state": { "introduced": true, "zorua_context": "mistwood" }
+              "state": {
+                "introduced": true,
+                "zorua_context": "mistwood"
+              }
             },
-            { "type": "set_flag", "key": "n_met", "value": true }
+            {
+              "type": "set_flag",
+              "key": "n_met",
+              "value": true
+            }
           ]
         },
         {
@@ -149,7 +183,7 @@
         },
         {
           "id": "n_focus",
-          "text": "Ti guarda con attenzione che non è ostilità. Sta valutando qualcosa — non ti, forse: il modo in cui ti muovi, il tuo rapporto con lo spazio intorno a lui."
+          "text": "Ti guarda una volta, poi abbassa gli occhi verso il Zorua quando questo cambia posizione. Non prova ad attirarlo a sé e non gli ordina di restare."
         }
       ],
       "choices": [
@@ -168,9 +202,16 @@
               "npcId": "N",
               "name": "N",
               "relationshipScore": 0,
-              "state": { "introduced": true, "zorua_context": "mistwood" }
+              "state": {
+                "introduced": true,
+                "zorua_context": "mistwood"
+              }
             },
-            { "type": "set_flag", "key": "n_met", "value": true }
+            {
+              "type": "set_flag",
+              "key": "n_met",
+              "value": true
+            }
           ]
         },
         {
@@ -194,9 +235,16 @@
               "npcId": "N",
               "name": "N",
               "relationshipScore": 0,
-              "state": { "introduced": true, "zorua_context": "mistwood" }
+              "state": {
+                "introduced": true,
+                "zorua_context": "mistwood"
+              }
             },
-            { "type": "set_flag", "key": "n_met", "value": true }
+            {
+              "type": "set_flag",
+              "key": "n_met",
+              "value": true
+            }
           ]
         }
       ]
@@ -205,7 +253,7 @@
       "stitches": [
         {
           "id": "n_speaks",
-          "text": "N parla per primo. «Il Zorua era qui ieri sera. Qualcuno aveva usato quest'area per qualcosa che non avrebbe dovuto; lui non si è spostato da quando la struttura è stata smontata.» Non ti chiede se lo sai già. Forse lo deduce."
+          "text": "N parla per primo. «Era qui ieri sera.» Indica il terreno smosso, non il Zorua. «Qualcuno ha portato via quasi tutto. Lui è rimasto.»"
         },
         {
           "id": "n_posture",
@@ -262,11 +310,11 @@
       "stitches": [
         {
           "id": "n_account",
-          "text": "N non teorizza: descrive quello che ha visto. Il sito era usato per stoccare Pokémon in attesa di trasporto. Il Zorua era probabilmente destinato a far parte del carico — il suo mimetismo lo rende utile per certe operazioni. Quando la struttura è sparita, lui è rimasto."
+          "text": "N indica i segni lasciati dalle casse e una cinghia spezzata tra le radici. «Li tenevano qui prima di spostarli. Lui era uno di quelli.» Il Zorua gira il muso verso il bosco, ma non se ne va."
         },
         {
           "id": "n_position",
-          "text": "N non sta pianificando di catturarlo o di portarlo via. «Non è una questione di dove starebbe meglio. È che non mi appartiene.» Lo dice come se la cosa fosse ovvia e non abbastanza discussa."
+          "text": "Quando chiedi cosa intenda fare, N scuote appena la testa. «Perché dovrei decidere io dove deve andare? Non è mio.»"
         }
       ],
       "choices": [
@@ -294,11 +342,11 @@
       "stitches": [
         {
           "id": "agree_response",
-          "text": "N accoglie l'accordo senza espanderlo in un principio. «Sì. È quello.» Il Zorua non ha seguito la conversazione — stava facendo qualcos'altro vicino alla radice — ma ora si ferma come se avesse sentito qualcosa di rilevante."
+          "text": "N annuisce una volta. «Sì.» Il Zorua, che nel frattempo stava annusando una radice, alza le orecchie e poi torna a occuparsi del terreno."
         },
         {
           "id": "agree_complication",
-          "text": "«Il problema è che stare qui e non farlo stare qui sono entrambe scelte che qualcuno fa per lui,» aggiunge N, quasi tra sé. Non è una critica alla tua posizione — è il problema che ha in testa lui."
+          "text": "Dopo qualche secondo N aggiunge: «Però anche restare qui a impedirgli certe scelte sarebbe decidere per lui.» Guarda il sentiero aperto dietro il Zorua. «È questo il problema.»"
         }
       ],
       "choices": [
@@ -344,11 +392,11 @@
       "stitches": [
         {
           "id": "n_thinks",
-          "text": "N non risponde subito. Guarda il Zorua, poi guarda la zona del sito smantellato, poi torna a guardarti. «Proteggere qualcosa senza includere la sua capacità di scegliere non è protezione — è solo un'altra forma di controllo con motivazioni diverse.» Non sembra un'intuizione nuova: sembra qualcosa che stava elaborando da prima che tu arrivassi."
+          "text": "N guarda il Zorua, poi il sito smantellato. «Se lo proteggi togliendogli ogni scelta, hai cambiato la ragione. Non il gesto.»"
         },
         {
           "id": "n_shift",
-          "text": "Non cambia nulla di pratico nell'immediato. Ma qualcosa si è chiarito, o almeno è diventato più pronunciato. Il Zorua, nel frattempo, si è spostato da solo di qualche metro — la sua scelta, non la tua né quella di N."
+          "text": "Il Zorua si sposta da solo di qualche metro, annusa l'imboccatura del sentiero e resta lì. N non lo richiama."
         }
       ],
       "choices": [
@@ -376,7 +424,11 @@
           "text": "Accetto.",
           "goto": "n_parted_ways",
           "effects": [
-            { "type": "set_flag", "key": "n_relationship_positive", "value": true }
+            {
+              "type": "set_flag",
+              "key": "n_relationship_positive",
+              "value": true
+            }
           ]
         },
         {
@@ -390,11 +442,11 @@
       "stitches": [
         {
           "id": "offer_heard",
-          "text": "N ti guarda. Non è ostilità, ma non è neanche gratitudine. «Il Zorua non ha bisogno di essere curato — ha bisogno che nessuno prenda decisioni su di lui per le prossime ore.»"
+          "text": "N guarda prima quello che stai offrendo, poi il Zorua. «Non è ferito.» Fa un piccolo gesto verso il sentiero. «Per qualche ora forse gli serve soltanto che nessuno scelga al posto suo.»"
         },
         {
           "id": "offer_context",
-          "text": "Non sta dicendo che il tuo aiuto è inutile in assoluto. Sta dicendo che questo non è il momento e che la forma che hai proposto non è quella giusta per questo specifico Pokémon in questo specifico momento."
+          "text": "Il Zorua resta libero di allontanarsi. N non prova a trattenerlo mentre ti risponde."
         }
       ],
       "choices": [
@@ -414,7 +466,7 @@
       "stitches": [
         {
           "id": "ball_no",
-          "text": "N non risponde all'ipotesi con un rifiuto esplicito — la lascia cadere come se non fosse una domanda reale. «Un trainer che considera 'al sicuro' qualcosa equivalente a 'in una Poké Ball' probabilmente non ha ancora risolto alcune cose fondamentali.» Non è un insulto — è una diagnosi."
+          "text": "N ti fissa per un momento. «Essere al sicuro e stare dentro una Poké Ball non sono la stessa cosa.» Poi torna a guardare il Zorua. «Almeno non sempre.»"
         }
       ],
       "choices": [
@@ -497,7 +549,7 @@
         },
         {
           "id": "combat_win_weight",
-          "text": "Hai vinto un combattimento contro un Pokémon selvatico che non stava attaccando per istinto territoriale. Stava proteggendo qualcosa che aveva scelto di proteggere. Il peso di quella differenza è tuo da gestire."
+          "text": "Il Zorua arretra tra le radici, ancora rivolto verso il punto che aveva scelto di difendere. N segue con gli occhi la sua ritirata e non commenta la tua vittoria."
         }
       ],
       "choices": [
@@ -506,7 +558,11 @@
           "text": "Saluto N senza aggiungere altro.",
           "goto": "n_parted_tense",
           "effects": [
-            { "type": "set_flag", "key": "n_relationship_tension", "value": true }
+            {
+              "type": "set_flag",
+              "key": "n_relationship_tension",
+              "value": true
+            }
           ]
         }
       ]
@@ -599,7 +655,7 @@
       "stitches": [
         {
           "id": "done_state",
-          "text": "La zona intorno al sito non è cambiata strutturalmente. Quello che è cambiato — o non è cambiato — è nella tua lista di dati su quello che sta succedendo in questo bosco e su chi, oltre a te, ci sta facendo caso."
+          "text": "Il sito resta vuoto a parte dalle tracce sul terreno. Ora però sai che qualcun altro ha visto ciò che sta succedendo nel bosco, e che per N la domanda non è soltanto chi stia catturando quei Pokémon, ma chi abbia il diritto di decidere per loro."
         },
         {
           "id": "done_options",
@@ -619,7 +675,10 @@
           "timeCostMinutes": 210,
           "goto": "m02-borgo-salice#borough_hub",
           "effects": [
-            { "type": "set_location", "locationId": "borgo_salice" }
+            {
+              "type": "set_location",
+              "locationId": "borgo_salice"
+            }
           ]
         },
         {
@@ -628,7 +687,10 @@
           "timeCostMinutes": 20,
           "goto": "m02-mistwood-entry#threshold",
           "effects": [
-            { "type": "set_location", "locationId": "asteria_mistwood" }
+            {
+              "type": "set_location",
+              "locationId": "asteria_mistwood"
+            }
           ]
         }
       ]

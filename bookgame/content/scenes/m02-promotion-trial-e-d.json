@@ -58,7 +58,7 @@
       "stitches": [
         {
           "id": "briefing_1",
-          "text": "Ines Varga non sorride. Ti osserva mentre ti avvicini con l'attenzione di chi sta già valutando. «Il tuo Official Three è nel sistema. Io ho il mio roster. Niente di tutto questo cambia tra un tentativo e il successivo.»"
+          "text": "Ines Varga non sorride. Ti osserva mentre ti avvicini, poi controlla i tre nomi dichiarati sul registro. «Questi sono i tuoi tre. I miei sono già fissati. Se tornerai per un altro tentativo, io sarò qui con la stessa prova.»"
         },
         {
           "id": "briefing_2",
@@ -72,7 +72,7 @@
       "choices": [
         {
           "id": "begin_trial",
-          "text": "Confermo il roster e inizio il Promotion Trial E→D.",
+          "text": "Confermo i tre Pokémon e inizio il Trial E→D.",
           "combat": {
             "encounterId": "A2_RANK_TRIAL_E_D",
             "opponentTrainerId": "SAL_GATE_E_D_INES_VARGA",
