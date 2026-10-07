@@ -6734,7 +6734,12 @@ export class Pokemon5eCombatEngine {
 
     if (usable.length === 0) return endTurnInternal(next, "opponent", this.dice);
 
-    next.npcKnowledge = updateNpcKnowledge(next, next.npcKnowledge ?? createNpcKnowledge(next));
+    const revealedMoveTypes={};
+    for(const event of next.log??[]){
+      if(event.actor!=="player"||!event.moveId) continue;
+      try { const knownMove=await this.data.getMove(event.moveId); revealedMoveTypes[event.moveId]=knownMove.type; } catch {}
+    }
+    next.npcKnowledge = updateNpcKnowledge(next, next.npcKnowledge ?? createNpcKnowledge(next),{revealedMoveTypes});
     const publicView = npcPublicBattleView(next, next.npcKnowledge);
     const plan = chooseNpcTurnPlan({
       legalMoves: usable,
