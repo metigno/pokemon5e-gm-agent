@@ -141,7 +141,7 @@
         },
         {
           "id": "calendar_2",
-          "text": "Rimandare è legale. Rinunciare definitivamente, invece, produce un risultato persistente `skipped` e il circuito prosegue senza di te."
+          "text": "Puoi rimandare senza perdere il posto disponibile. Se invece rinunci definitivamente, il Circuito procederà con gli altri partecipanti."
         }
       ],
       "choices": [
@@ -323,7 +323,7 @@
       "stitches": [
         {
           "id": "schedule_1",
-          "text": "La finestra competitiva è ora reale e può convivere con costa, contrabbando, Friend Beat e Trial. Nessuno di questi thread viene congelato solo perché ti sei iscritto."
+          "text": "L'iscrizione entra nel calendario. Costa, porto, persone e altre questioni aperte continueranno comunque a muoversi mentre aspetti la competizione."
         }
       ],
       "choices": [
@@ -428,7 +428,7 @@
       "stitches": [
         {
           "id": "decline_1",
-          "text": "Rinunciare è diverso da rimandare. Il circuito continuerà senza di te e M4 conserverà `skipped` come risultato reale della competizione opzionale."
+          "text": "Rinunciare è diverso da rimandare. Se confermi, il Circuito assegnerà il posto a qualcun altro e proseguirà senza di te."
         }
       ],
       "choices": [
@@ -460,7 +460,7 @@
       "stitches": [
         {
           "id": "declined_1",
-          "text": "Il tuo nome non entra nel bracket di questa finestra. Non ottieni match, punti o piazzamenti immaginari; il risultato persistente è semplicemente `skipped`."
+          "text": "Il tuo nome non entra nel tabellone di questa edizione. Non disputerai incontri e il Circuito prosegue con gli altri iscritti."
         }
       ],
       "choices": [
