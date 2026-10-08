@@ -40,7 +40,7 @@
       "choices": [
         {
           "id": "enter_champion",
-          "text": "Entro nel WORLD_EXIT da campione.",
+          "text": "Lascio lo stadio con il titolo mondiale.",
           "goto": "route_champion",
           "conditions": {
             "path": "world.flags.world_champion",
@@ -49,7 +49,7 @@
         },
         {
           "id": "enter_eliminated",
-          "text": "Entro nel WORLD_EXIT dal mio vero punto di eliminazione.",
+          "text": "Lascio lo stadio ripensando alla partita che mi ha fermato.",
           "goto": "route_eliminated",
           "conditions": {
             "path": "world.flags.world_eliminated",
@@ -58,7 +58,7 @@
         },
         {
           "id": "enter_missed",
-          "text": "Entro nel WORLD_EXIT dopo aver mancato il Mondiale.",
+          "text": "Riparto dopo aver mancato la qualificazione.",
           "goto": "route_missed",
           "conditions": {
             "path": "world.flags.worlds_missed",
@@ -413,7 +413,7 @@
       "choices": [
         {
           "id": "commit_now",
-          "text": "Registro WORLD_EXIT e apro il viaggio di ritorno.",
+          "text": "Riconsegno l'accredito e preparo il viaggio di ritorno.",
           "goto": "committed",
           "conditions": {
             "path": "world.flags.m12_world_exit_branch_complete",
@@ -439,7 +439,7 @@
         },
         {
           "id": "commit_existing",
-          "text": "WORLD_EXIT è già registrato; non lo duplico.",
+          "text": "Ho già riconsegnato l'accredito: posso partire.",
           "goto": "committed",
           "conditions": {
             "path": "world.flags.m12_world_exit_branch_complete",
@@ -463,7 +463,7 @@
         },
         {
           "id": "audit_resources",
-          "text": "Controllo ancora lo stato persistente.",
+          "text": "Ripenso alle conseguenze delle mie scelte.",
           "goto": "resource_state"
         }
       ]
@@ -483,7 +483,7 @@
         },
         {
           "id": "last_world_review",
-          "text": "Rileggo un'ultima volta il contratto WORLD_EXIT.",
+          "text": "Ripercorro un'ultima volta il congedo dal Mondiale.",
           "goto": "result_integrity"
         }
       ]
