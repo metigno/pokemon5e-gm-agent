@@ -360,7 +360,10 @@ export class BookgameEngine {
         opponent: clone(dynamicWorldOpponent?.[0] ?? choice.combat.opponent),
         opponentBench: clone(dynamicWorldOpponent ? dynamicWorldOpponent.slice(1) : (choice.combat.opponentBench ?? [])),
         playerPokemon: clone(playerRoster?.[0] ?? stateRoster[0] ?? next.player.starter),
-        playerBench: clone(playerRoster ? playerRoster.slice(1) : (choice.combat.playerBench ?? [])),
+        // Prefer the persistent player party in every battle. Older authored
+        // one-Pokémon scenarios can still supply an explicit tutorial bench.
+        playerBench: clone(playerRoster ? playerRoster.slice(1) :
+          (stateRoster.length > 1 ? stateRoster.slice(1) : (choice.combat.playerBench ?? []))),
         trainer: {
           name: next.player.name,
           trainerClass: next.player.trainerClass,
