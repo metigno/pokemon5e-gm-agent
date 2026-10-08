@@ -54,7 +54,8 @@ export function validateCanonicalSpriteCoverage(){
       const id=canonicalSpriteId(ref.name);
       if(!id||seen.has(id+"|"+ref.source)) continue;
       seen.add(id+"|"+ref.source);
-      if(!map.sprites[id]) missing.push({...ref,id});
+      const mappedId=map.aliasIndex?.[id]??id;
+      if(!map.sprites[mappedId]) missing.push({...ref,id});
     }catch(error){forbidden.push({...ref,error:error.message});}
   }
   return {valid:missing.length===0&&forbidden.length===0,missing,forbidden};
