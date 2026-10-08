@@ -67,3 +67,15 @@ Borgo Salice, Valedarsena, trial hall and transition road).
 No battle range, actual geographical location or authored scene path is
 inferred from the art. As with M01/M02, these are offline decorative
 visuals for the existing schematic, clickable navigation only.
+
+## M04 authored-location illustrations
+
+The 15 real playable M04 coastal scene files define **14** distinct
+canonical location IDs. Nine original, self-contained SVG pixel-map
+vignettes cover Mareasale, coastal road, port, weather facility, market,
+reef approach, shoreline, cliffs and jetty. Existing approved M01/M03
+art is reused for the regional arena, resting station and Ferravia.
+
+All files are offline; no unverified-license source asset is embedded.
+These are purely illustrations within the existing clickable schematic
+navigation, not navigable geometric overworld maps.

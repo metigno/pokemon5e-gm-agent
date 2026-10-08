@@ -38,7 +38,20 @@ const BY_LOCATION = Object.freeze({
   "fer_city_station": "m03-station",
   "fer_city_workshop": "m03-workshop",
   "ferrox_access": "m03-ferrox",
-  "ferrox_rescue_perimeter": "m03-ferrox-rescue"
+  "ferrox_rescue_perimeter": "m03-ferrox-rescue",
+  "mar_city": "m04-mareasale",
+  "mar_city_approach": "m04-coastal-road",
+  "mar_city_arena": "m01-arena",
+  "mar_city_cargo": "m04-docks",
+  "mar_city_dock_office": "m04-docks",
+  "mar_city_market": "m04-market",
+  "mar_city_rest": "m01-center",
+  "mar_city_weather": "m04-weather",
+  "mar_reef_approach": "m04-reef",
+  "sal_coast": "m04-coast",
+  "sal_coast_high": "m04-cliffs",
+  "sal_coast_jetty": "m04-jetty",
+  "sal_coast_shore": "m04-coast"
 });
 
 export const APPROVED_MAP_ILLUSTRATION_IDS = new Set(["m01-ginestre","m01-valedarsena"]);
@@ -67,7 +80,16 @@ export const APPROVED_MAP_SVG_IDS = new Set([
   "m03-quarry",
   "m03-quarry-approach",
   "m03-station",
-  "m03-workshop"
+  "m03-workshop",
+  "m04-cliffs",
+  "m04-coast",
+  "m04-coastal-road",
+  "m04-docks",
+  "m04-jetty",
+  "m04-mareasale",
+  "m04-market",
+  "m04-reef",
+  "m04-weather"
 ]);
 
 export function mapIllustrationForLocation(locationId) {
