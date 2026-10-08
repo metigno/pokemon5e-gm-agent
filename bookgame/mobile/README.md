@@ -17,7 +17,7 @@ pipeline only. Device airplane-mode acceptance is still mandatory.
 
 ## Prepare on a build workstation
 
-Install JDK 17+, Android SDK / Android Studio, Node.js 22+, npm, and the
+Install JDK 21+, Android SDK / Android Studio, Node.js 22+, npm, and the
 Android build tools compatible with Capacitor 8. Then at checkout root:
 
 ```sh
