@@ -10,3 +10,11 @@ test("sprite package importer reuses the canonical runtime map and rejects Gigan
   assert.match(source, /missingRequiredAssets/);
   assert.doesNotMatch(source, /https?:\/\//);
 });
+
+test("strict sprite import preflights required assets before copying", async () => {
+  const source = await readFile(new URL("../scripts/import-sprite-package.mjs", import.meta.url), "utf8");
+  const preflight = source.indexOf("if (strict && missing.length)");
+  const copy = source.indexOf("await cp(from, to)");
+  assert.ok(preflight !== -1 && copy !== -1 && preflight < copy);
+  assert.match(source, /filesToCopy\.push/);
+});
