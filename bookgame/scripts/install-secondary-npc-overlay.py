@@ -74,7 +74,7 @@ def expected(catalog):
     return paths
 
 
-def install(archive, destination, archive_hash=APPROVED_ARCHIVE):
+def install(archive, destination, archive_hash=APPROVED_ARCHIVE, catalog_hash=APPROVED_CATALOG):
     archive = Path(archive).resolve(strict=True)
     target = Path(destination)
     if target.is_symlink():
@@ -87,7 +87,7 @@ def install(archive, destination, archive_hash=APPROVED_ARCHIVE):
         if len(members) != len([i for i in z.infolist() if not i.is_dir()]):
             raise ValueError("Duplicate ZIP member names")
         catalog_name = ROOT_PREFIX + "catalog.json"
-        if catalog_name not in members or sha(z.read(catalog_name)) != APPROVED_CATALOG:
+        if catalog_name not in members or sha(z.read(catalog_name)) != catalog_hash:
             raise ValueError("Unapproved secondary NPC sprite catalog")
         catalog_bytes = z.read(catalog_name)
         paths = expected(json.loads(catalog_bytes))
