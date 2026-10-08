@@ -374,6 +374,17 @@ async function handleApi(req, res, url) {
   if (req.method === "GET" && url.pathname === "/api/slots") {
     return sendJson(res, 200, { ok: true, slots: await saves.listCareers(), activeSlot: state?.slot ?? null });
   }
+  if (req.method === "GET" && url.pathname === "/api/slot-hall") {
+    const slot = assertCareerSlot(url.searchParams.get("slot"));
+    try {
+      // Read a selected career without changing the currently loaded session.
+      const saved = await saves.load(slot);
+      return sendJson(res, 200, { ok: true, entries: informationPanelsView(saved).hallOfFame });
+    } catch (error) {
+      if (error.code === "ENOENT") return sendJson(res, 200, { ok: true, entries: [] });
+      return sendError(res, new Error("Impossibile consultare la Hall of Fame di questo slot."), 422);
+    }
+  }
 
   if (req.method !== "POST") {
     return sendJson(res, 405, { ok: false, error: "Method not allowed" });
