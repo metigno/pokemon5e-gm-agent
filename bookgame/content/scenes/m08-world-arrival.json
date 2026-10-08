@@ -30,7 +30,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M8 parte soltanto da una run realmente qualificata. Rank S, qualifier history, roster, risorse e conseguenze restano quelli salvati; il Mondiale non ricostruisce la carriera."
+          "text": "Hai conquistato un posto al Mondiale e ora puoi presentarti al grande complesso internazionale. Al valico controllano la tua licenza e il documento di qualificazione."
         }
       ],
       "choices": [
@@ -65,7 +65,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il viaggio verso il World Championship venue è un cambio di luogo e pressione, non un reset. Prima di partire puoi controllare ciò che stai portando con te."
+          "text": "Prima di partire guardi il calendario, i bagagli e le condizioni della squadra. Il nuovo viaggio porterà emozioni diverse, non una squadra nuova."
         }
       ],
       "choices": [
@@ -90,7 +90,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Pokémon, HP, PP, condizioni, EXP, inventario, denaro, relazioni, schedule e competition history restano persistenti."
+          "text": "Le Poké Ball, gli oggetti e i referti precedenti sono ancora con te. Nulla si rimette a posto soltanto attraversando il confine."
         }
       ],
       "choices": [
@@ -110,7 +110,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La qualificazione è già un fatto E5. M8 può leggerla e reagire, ma non riscrive Qualifier o Last Chance."
+          "text": "Nel dossier è riportato il modo in cui hai ottenuto il pass mondiale: Qualifier oppure ultima selezione. Non puoi scegliere una versione diversa della storia."
         }
       ],
       "choices": [
@@ -130,7 +130,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il roster reale viaggia con te. Nessun membro viene curato, sostituito o reso disponibile dal semplice cambio di modulo."
+          "text": "Controlli i Pokémon preparati per il viaggio. Chi è stanco o infortunato lo è ancora, anche lontano da Meridiana."
         }
       ],
       "choices": [
@@ -150,7 +150,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "world_qualified=true è requisito di ingresso, non una promessa di risultato nel torneo. Field, draw e match restano irrisolti."
+          "text": "La qualificazione ti concede l'ingresso fra i partecipanti. Non ti indica ancora il gruppo né promette una vittoria."
         }
       ],
       "choices": [
@@ -170,7 +170,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La qualifica concede il diritto di presentarsi al venue. Accredito, controllo medico e registrazione restano passaggi separati."
+          "text": "L'organizzazione annuncia i controlli d'ingresso, la visita medica e la registrazione. Dovrai affrontarli come gli altri concorrenti."
         }
       ],
       "choices": [
@@ -190,7 +190,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il trasferimento consuma tempo reale e lascia continuare schedule, eventi e carriere NPC."
+          "text": "La strada attraversa stazioni e trasferimenti. Nel frattempo gli allenatori, gli amici e le città continuano con i propri impegni."
         }
       ],
       "choices": [
@@ -216,7 +216,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Prima dell'arrivo non esistono ancora gruppo, seed o avversari assegnati al player. Quelle informazioni arriveranno dal WORLD_DRAW canonico."
+          "text": "Prima del sorteggio non puoi conoscere con certezza il gruppo o l'ordine degli avversari. Le bacheche mostrano soltanto i nomi ammessi."
         }
       ],
       "choices": [
@@ -236,7 +236,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rinviare è legale, ma il mondo continua. Il torneo non aspetta il player fuori dalle finestre previste."
+          "text": "Puoi rimandare la partenza, sapendo che gli appuntamenti del torneo hanno scadenze che non dipendono da te."
         }
       ],
       "choices": [
@@ -257,7 +257,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "È trascorsa un'ora nel calendario persistente. Nessun accredito o sorteggio è stato completato dall'attesa."
+          "text": "Trascorre un'ora. I viaggiatori cambiano e alcuni servizi chiudono, ma nessuno ti consegna un sorteggio prima della cerimonia prevista."
         }
       ],
       "choices": [
@@ -277,7 +277,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il venue riunisce ingressi atleti, Village, medicina, training, media e arena in un'unica area internazionale."
+          "text": "Il complesso riunisce arena, villaggio atleti, sale stampa, allenamento e servizi sanitari. Segnali multilingue indicano le diverse aree."
         }
       ],
       "choices": [
@@ -302,7 +302,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Gli ingressi separano pubblico, staff e partecipanti. Essere qualificati non equivale ad avere già completato l'accredito."
+          "text": "Personale e atleti passano attraverso ingressi diversi. La qualifica ti apre il controllo, non tutte le porte senza accredito."
         }
       ],
       "choices": [
@@ -322,7 +322,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Village è un luogo di convivenza tra trainer qualificati, non una lobby che congela schedule o relazioni."
+          "text": "Oltre le vetrate scorrono gruppi di allenatori con bagagli e Pokémon. Il Village è già pieno di persone con orari e abitudini proprie."
         }
       ],
       "choices": [
@@ -342,7 +342,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Le aree riservate dipendono dalle credenziali e dalla timeline del torneo. Nessuna scelta narrativa apre zone prima dell'accredito."
+          "text": "Un addetto controlla il pass prima di lasciarti attraversare un corridoio riservato. Alcune zone resteranno chiuse fino agli appuntamenti previsti."
         }
       ],
       "choices": [
@@ -362,7 +362,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il primo desk del venue controllerà identità, accessi e calendario; non assegnerà gruppi né risultati."
+          "text": "La prima tappa è il banco accrediti, dove verificheranno identità e accessi. Il tuo gruppo sarà annunciato soltanto più avanti."
         }
       ],
       "choices": [
@@ -382,7 +382,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il successivo controllo medico leggerà lo stato reale della squadra. L'arrivo non ripristina HP, PP, condizioni o infortuni."
+          "text": "Le condizioni della squadra devono ancora essere valutate. L'arrivo non ha riparato ferite o restituito energie."
         }
       ],
       "choices": [
@@ -402,7 +402,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il commit di arrivo registra solo il luogo e l'ingresso nella fase World. La qualificazione resta quella già ottenuta."
+          "text": "Al varco un addetto timbra l'ingresso. Sei arrivato fisicamente alla sede mondiale, non hai ancora disputato alcuna partita."
         }
       ],
       "choices": [
@@ -422,7 +422,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'arrivo fisico viene scritto nello stato del mondo; nessun altro sistema competitivo viene anticipato."
+          "text": "Consegni il documento al controllo e ricevi indicazioni per gli accrediti. Il viaggio si conclude davvero qui."
         }
       ],
       "choices": [
@@ -458,7 +458,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Sei nel venue come partecipante qualificato. Il prossimo passo è l'accredito, ancora separato da controllo medico, registrazione e draw."
+          "text": "Ti trovi fra i partecipanti qualificati. Ora dovrai completare le procedure prima del sorteggio."
         }
       ],
       "choices": [
@@ -478,7 +478,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'atrio del venue collega accrediti, ingressi e indicazioni per il Village senza forzare la sequenza oltre i gate reali."
+          "text": "Nell'atrio segui i cartelli per accrediti, servizi e Village. Ogni area ha il proprio personale e le proprie regole."
         }
       ],
       "choices": [
