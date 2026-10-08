@@ -5,6 +5,7 @@ import { validateQuestEffect } from "../engine/quest-state.mjs";
 import { validateNpcEffect } from "../engine/npc-state.mjs";
 import { validateCompetitionEffect, validateCompetitionCombat } from "../engine/competition-state.mjs";
 import { compileEcologyCatalog } from "./ecology-compiler.mjs";
+import { validateAuthoredOpponentLevels } from "../engine/encounter-level-balance.mjs";
 import { specializationByType } from "../rules/trainer-2024.mjs";
 
 const ID_RE = /^[A-Za-z0-9_-]+$/;
@@ -484,6 +485,17 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
       }
 
       errors.push(...validateCompetitionCombat(combat.competition, choiceAt + ".combat.competition"));
+
+      for (const violation of validateAuthoredOpponentLevels(scene.moduleId, combat)) {
+        errors.push(diag(
+          "ENCOUNTER_LEVEL_OUT_OF_BAND",
+          String(violation.species) + " Lv" + String(violation.level) +
+            " violates " + scene.moduleId + " max Lv" + violation.limit +
+            " (" + violation.reason + ")",
+          choiceAt + ".combat." + (violation.index === 0
+            ? "opponent.level" : "opponentBench[" + (violation.index - 1) + "].level")
+        ));
+      }
 
       if (combat.competition && !dynamicWorldOpponent) {
         const opponentRosterSize = 1 + (Array.isArray(combat.opponentBench) ? combat.opponentBench.length : 0);
