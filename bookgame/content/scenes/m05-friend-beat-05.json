@@ -123,7 +123,7 @@
       "stitches": [
         {
           "id": "luke_c1",
-          "text": "Luke è il contatto selezionato. Il tema che emerge è adattamento sotto pressione; modalità e profondità dipendono da ciò che è realmente possibile in questo momento."
+          "text": "Luke ti risponde con il tono di chi stava già discutendo con qualcuno. «Dimmi che non mi chiami solo per vantarti del Rank.» Poi ride: ha comunque trovato il tempo di ascoltarti."
         }
       ],
       "choices": [
@@ -326,7 +326,7 @@
       "stitches": [
         {
           "id": "mattew_c1",
-          "text": "Mattew è il contatto selezionato. Il tema che emerge è preparazione e precisione; modalità e profondità dipendono da ciò che è realmente possibile in questo momento."
+          "text": "Mattew apre la conversazione con una domanda precisa sul tuo ultimo incontro. Non è un interrogatorio: è il suo modo di capire quanto hai imparato."
         }
       ],
       "choices": [
@@ -529,7 +529,7 @@
       "stitches": [
         {
           "id": "daniel_c1",
-          "text": "Daniel è il contatto selezionato. Il tema che emerge è costo delle scelte; modalità e profondità dipendono da ciò che è realmente possibile in questo momento."
+          "text": "Daniel vuole sapere come hai preso una decisione difficile, non soltanto come è andata a finire. Ti lascia parlare fino in fondo prima di esprimere un giudizio."
         }
       ],
       "choices": [
@@ -710,7 +710,7 @@
       "stitches": [
         {
           "id": "edward_c1",
-          "text": "Edward è il contatto selezionato. Il tema che emerge è continuità e recupero; modalità e profondità dipendono da ciò che è realmente possibile in questo momento."
+          "text": "Edward ti saluta come se foste già in competizione. «Spero tu ti stia allenando. Non vorrai farmi vincere troppo facilmente.» Il sorriso tradisce quanto gli faccia piacere sentirti."
         }
       ],
       "choices": [
@@ -891,7 +891,7 @@
       "stitches": [
         {
           "id": "fab_c1",
-          "text": "Fab è il contatto selezionato. Il tema che emerge è lettura del mondo fuori arena; modalità e profondità dipendono da ciò che è realmente possibile in questo momento."
+          "text": "Fab risponde con una storia che non c'entra apparentemente nulla con il Circuito. Poi arriva al punto: «Comunque, tu come stai? Non il tuo Rank. Tu.»"
         }
       ],
       "choices": [
