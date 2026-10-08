@@ -371,77 +371,121 @@
           "goto": "social_crossroads"
         },
         {
-          "id": "callback_legendary",
-          "text": "Rileggo la pista personale raccolta prima del Mondiale, senza inseguire alcun Pokémon.",
+          "id": "callback_legendary_luke",
+          "text": "Kyurem Nero: confronto la traccia del drago incompleto con la storia di Zekrom; non posso presumere che la fusione sia disponibile.",
           "goto": "social_crossroads",
           "conditions": {
-            "any": [
+            "all": [
               {
-                "all": [
-                  {
-                    "path": "player.name",
-                    "eq": "Luke"
-                  },
-                  {
-                    "path": "world.flags.legendary_m08_qualified_luke",
-                    "eq": true
-                  }
-                ]
+                "path": "player.name",
+                "eq": "Luke"
               },
               {
-                "all": [
-                  {
-                    "path": "player.name",
-                    "eq": "Mattew"
-                  },
-                  {
-                    "path": "world.flags.legendary_m08_qualified_mattew",
-                    "eq": true
-                  }
-                ]
-              },
-              {
-                "all": [
-                  {
-                    "path": "player.name",
-                    "eq": "Daniel"
-                  },
-                  {
-                    "path": "world.flags.legendary_m08_qualified_daniel",
-                    "eq": true
-                  }
-                ]
-              },
-              {
-                "all": [
-                  {
-                    "path": "player.name",
-                    "eq": "Edward"
-                  },
-                  {
-                    "path": "world.flags.legendary_m08_qualified_edward",
-                    "eq": true
-                  }
-                ]
-              },
-              {
-                "all": [
-                  {
-                    "path": "player.name",
-                    "eq": "Fab"
-                  },
-                  {
-                    "path": "world.flags.legendary_m08_qualified_fab",
-                    "eq": true
-                  }
-                ]
+                "path": "world.flags.legendary_m08_qualified_luke",
+                "eq": true
               }
             ]
           },
           "effects": [
             {
               "type": "set_flag",
-              "key": "legendary_m08_village_reflection",
+              "key": "legendary_m08_reflection_luke",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "callback_legendary_mattew",
+          "text": "Zacian: verifico la testimonianza sulla Spada Rovinata senza dichiararla trovata.",
+          "goto": "social_crossroads",
+          "conditions": {
+            "all": [
+              {
+                "path": "player.name",
+                "eq": "Mattew"
+              },
+              {
+                "path": "world.flags.legendary_m08_qualified_mattew",
+                "eq": true
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "legendary_m08_reflection_mattew",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "callback_legendary_daniel",
+          "text": "Mewtwo: seguo le cancellature del fascicolo e rispetto la volontà del Pokémon.",
+          "goto": "social_crossroads",
+          "conditions": {
+            "all": [
+              {
+                "path": "player.name",
+                "eq": "Daniel"
+              },
+              {
+                "path": "world.flags.legendary_m08_qualified_daniel",
+                "eq": true
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "legendary_m08_reflection_daniel",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "callback_legendary_edward",
+          "text": "Lugia: incrocio le anomalie meteorologiche con le rotte marine, senza forzare un incontro.",
+          "goto": "social_crossroads",
+          "conditions": {
+            "all": [
+              {
+                "path": "player.name",
+                "eq": "Edward"
+              },
+              {
+                "path": "world.flags.legendary_m08_qualified_edward",
+                "eq": true
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "legendary_m08_reflection_edward",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "callback_legendary_fab",
+          "text": "Rayquaza: confronto le rilevazioni del cielo; una futura Megaevoluzione non è garantita.",
+          "goto": "social_crossroads",
+          "conditions": {
+            "all": [
+              {
+                "path": "player.name",
+                "eq": "Fab"
+              },
+              {
+                "path": "world.flags.legendary_m08_qualified_fab",
+                "eq": true
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "legendary_m08_reflection_fab",
               "value": true
             }
           ]
