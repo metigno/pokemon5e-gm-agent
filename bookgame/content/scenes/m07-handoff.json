@@ -26,7 +26,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M7 eredita Rank S, risultati reali di M6, cutoff, roster, risorse e conseguenze. Rank S apre Meridiana ma non concede automaticamente la qualificazione mondiale."
+          "text": "La licenza Rank S ti apre le porte del circuito professionale. Sul biglietto per Meridiana è stampata la data di partenza; il Mondiale, per ora, è soltanto una possibilità."
         }
       ],
       "choices": [
@@ -61,7 +61,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La fascia Rank S separa prestigio, accesso e qualificazione. Il World Qualifier resta un evento E5 successivo con esito reale."
+          "text": "Un addetto controlla la tua licenza e ti indica gli sportelli riservati ai professionisti. «Per il Mondiale dovrai comunque passare dalle qualificazioni.»"
         }
       ],
       "choices": [
@@ -91,7 +91,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "HP, PP, condizioni, inventario, denaro, EXP, evoluzioni, infortuni, relazioni, ranking e history restano quelli reali di fine M6."
+          "text": "Prima di partire controlli la squadra, lo zaino e le note degli incontri precedenti. Ogni risultato e ogni fatica del viaggio sono ancora con te."
         }
       ],
       "choices": [
@@ -111,7 +111,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il cutoff di M6 è uno snapshot persistente della carriera al momento stabilito. M7 può leggerlo, ma non può riscriverlo retroattivamente."
+          "text": "Sul giornale sportivo è pubblicata la classifica alla data di chiusura. Le partite successive non cambiano ciò che era stato deciso allora."
         }
       ],
       "choices": [
@@ -131,7 +131,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il guardrail è esplicito: current_rank=S non equivale a world_qualified=true. Qualifier e Last Chance restano separati."
+          "text": "Il tuo nome compare fra i professionisti Rank S, non ancora fra i partecipanti al Mondiale. Le due liste sono affisse su bacheche diverse."
         }
       ],
       "choices": [
@@ -158,7 +158,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Red, Lance, gli altri Anchor, Friend Beat e risultati competitivi precedenti possono cambiare reputazione e dialoghi, mai inventare vittorie o ricompense."
+          "text": "Un messaggio o una vecchia conoscenza possono accompagnare la partenza. Gli incontri con Red, Lance e gli altri allenatori hanno lasciato ricordi diversi, secondo il percorso vissuto."
         }
       ],
       "choices": [
@@ -185,7 +185,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Meridiana è il nodo professionale Rank S: Grand Hall, arena, media, sponsor, università, stazione internazionale e medicina sportiva."
+          "text": "La guida di Meridiana mostra il Grand Hall, l'arena, l'università, la clinica sportiva e la stazione internazionale. Il distretto stampa occupa un intero isolato."
         }
       ],
       "choices": [
@@ -205,7 +205,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Essere Candidate Mondiale significa avere accesso al percorso, non un posto garantito. Ranking, registrazione, roster e bracket restano autorità strutturate."
+          "text": "Sul manifesto della stagione compare la parola «candidati». Il posto al Mondiale sarà deciso dagli incontri, non dal prestigio della licenza."
         }
       ],
       "choices": [
@@ -225,7 +225,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rimandare è legale. Non chiude M7 e non ferma gli altri trainer, i media, gli sponsor o le finestre competitive."
+          "text": "Il convoglio successivo partirà più tardi. Mentre aspetti, gli altri allenatori continuano a viaggiare e a gareggiare."
         }
       ],
       "choices": [
@@ -246,7 +246,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il tempo è trascorso nel calendario reale. Nessuna qualificazione viene prodotta dalla sola attesa."
+          "text": "L'orologio della stazione segna un'ora più tardi. Alcuni passeggeri sono partiti; altri si mettono in fila per il prossimo treno."
         }
       ],
       "choices": [
@@ -266,7 +266,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il passaggio è pronto quando il player sceglie di partire. L'arrivo è un'azione distinta e non altera Rank, ranking o world_qualified."
+          "text": "Il controllore apre il varco per Meridiana. Il viaggio comincia soltanto quando decidi di salire."
         }
       ],
       "choices": [
@@ -286,7 +286,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La chiusura del handoff conserva ogni stato precedente e lascia solo a M7 il proprio flag di attività."
+          "text": "Il biglietto viene convalidato. Tutto ciò che hai conquistato fin qui ti accompagna verso la città professionale."
         }
       ],
       "choices": [
