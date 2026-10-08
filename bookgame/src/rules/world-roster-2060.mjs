@@ -90,12 +90,17 @@ export function canonicalWorldTeam(name, { npc = null, trainerId, regulation = "
     if (career.length !== 6 || career.some((pokemon) => !pokemon.acquired)) {
       throw new Error("World participant " + name + " has not acquired a full persistent roster");
     }
-    entries = career.map((pokemon, index) => {
+    // Preserve the NPC's acquired slot identities; final canon specifies a
+    // six-species set, not the ordering of the saved career slots (Luke's
+    // Blastoise and Kilowattrel occupy opposite listed positions).
+    const key = (descriptor) => descriptor.species + "|" + (descriptor.form ?? "");
+    const expectedKeys = expected.map((species) => key(pokemon5eWorldSpeciesDescriptor(species))).sort();
+    const careerKeys = career.map((pokemon) => key(pokemon5eWorldSpeciesDescriptor(pokemon.species))).sort();
+    if (JSON.stringify(expectedKeys) !== JSON.stringify(careerKeys)) {
+      throw new Error("Canonical World species mismatch for " + name);
+    }
+    entries = career.map((pokemon) => {
       const descriptor = pokemon5eWorldSpeciesDescriptor(pokemon.species);
-      const reference = pokemon5eWorldSpeciesDescriptor(expected[index]);
-      if (descriptor.species !== reference.species || descriptor.form !== reference.form) {
-        throw new Error("Canonical World species mismatch for " + name + " slot " + (index + 1));
-      }
       if (!Number.isInteger(pokemon.pokemonLevel) || pokemon.pokemonLevel < 1 || pokemon.pokemonLevel > 20) {
         throw new Error("Illegal persistent NPC Pokemon level for " + name);
       }
