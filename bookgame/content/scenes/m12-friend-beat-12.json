@@ -14,7 +14,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Dopo aver attraversato i grandi callback di Asteria, FRIEND_BEAT_12 chiude il filo relazionale senza fingere che tutti siano nello stesso posto."
+          "text": "Rientrato ad Asteria, riguardi i vecchi messaggi del gruppo. I cinque nomi sono gli stessi di quando tutto è cominciato; le strade che avete seguito, invece, sono cambiate."
         }
       ],
       "choices": [
@@ -39,7 +39,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "E4 seleziona un contatto primario tra gli amici reali, ruotando rispetto a FRIEND_BEAT_11 e rispettando lo stato World e gli schedule correnti."
+          "text": "Tra i messaggi ancora aperti ne arriva uno da {{world.flags.friend_beat_12_friend_id}}. Potreste essere vicini o separarvi ancora per centinaia di chilometri, ma il modo di salutarvi è familiare."
         }
       ],
       "choices": [
@@ -75,7 +75,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il contatto primario garantisce che il beat abbia sempre almeno una persona causalmente raggiungibile, fisicamente o da remoto."
+          "text": "Puoi finalmente rispondere a qualcuno che conosce sia le tue prime figuracce sia il peso delle ultime gare. Non serve fingere che siate tutti nello stesso posto."
         }
       ],
       "choices": [
@@ -103,7 +103,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Da quel contatto nasce un invito di gruppo: chi è davvero disponibile può essere presente; gli altri partecipano a distanza oppure non vengono descritti come fisicamente presenti."
+          "text": "Da quel primo contatto parte una proposta per sentirvi anche con gli altri. Alcuni rispondono subito, altri più tardi, seguendo gli impegni che li hanno portati altrove."
         }
       ],
       "choices": [
@@ -123,7 +123,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La scena non è una foto di gruppo obbligatoria. Presenza fisica, messaggi, chiamate e partenze possono convivere nello stesso beat."
+          "text": "Fra voci dal telefono, rumori di strada e qualche possibile incontro di persona, ritrovi il vecchio modo di interrompervi a vicenda. Non è la riunione perfetta che una fotografia vorrebbe mostrare."
         }
       ],
       "choices": [
@@ -143,7 +143,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Ognuno porta con sé il proprio vero risultato: campione, eliminato, non qualificato o percorso esterno al Mondiale."
+          "text": "I vostri percorsi hanno prodotto classifiche diverse. Ognuno può scherzare sui propri errori, restare orgoglioso di una vittoria o tacere su un'eliminazione che brucia ancora."
         }
       ],
       "choices": [
@@ -163,7 +163,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Nessun amico riceve un risultato diverso perché la storia sta finendo."
+          "text": "Non tutti hanno avuto la stessa fortuna. La familiarità delle voci non cambia il fatto che qualcuno abbia vinto e qualcun altro sia stato fermato prima."
         }
       ],
       "choices": [
@@ -183,7 +183,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "FRIEND_BEAT_01→11 resta storia persistente: il dodicesimo beat non cancella tensioni, distanze o rapporti costruiti prima."
+          "text": "Fra una battuta e l'altra tornano promesse, discussioni e incontri delle prime strade. Dove qualcosa è rimasto irrisolto, nessuno può cancellarlo con una frase comoda."
         }
       ],
       "choices": [
@@ -203,7 +203,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Congratulazioni o festa sono possibili senza imporre al player come debba sentirsi rispetto al proprio risultato."
+          "text": "Se c'è qualcosa da festeggiare, qualcuno alza la voce prima degli altri e un Pokémon reagisce al rumore. Non devi unirti all'entusiasmo solo perché ti conoscono."
         }
       ],
       "choices": [
@@ -223,7 +223,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Una relazione meno semplice può chiudersi con tensione o confronto senza trasformarsi automaticamente in riconciliazione."
+          "text": "Una battuta trova una risposta più secca del previsto. Può bastare a ricordare un vecchio attrito: l'amicizia non impone una riconciliazione immediata."
         }
       ],
       "choices": [
@@ -243,7 +243,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Gli amici possono parlare di ciò che viene dopo: viaggi, circuito, allenamento o separazioni, senza fissare un futuro obbligatorio."
+          "text": "Il discorso salta dai Pokémon agli allenamenti, da una città ancora da visitare a un torneo futuro. Nessuno ha bisogno di promettere un destino comune."
         }
       ],
       "choices": [
@@ -263,7 +263,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La chiusura può anche essere una nuova partenza: restare amici non significa restare nello stesso luogo."
+          "text": "Quando la conversazione volge al termine, ognuno torna ai propri impegni. La distanza non rende finti i legami che avete costruito."
         }
       ],
       "choices": [
@@ -283,7 +283,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un eventuale rematch resta opzionale, usa roster e condizioni reali e non sostituisce WORLD_FINAL come final boss."
+          "text": "Se qualcuno propone una rivincita, puoi prenderla come una sfida per un altro giorno. La finale del Mondiale è già stata giocata e non ha bisogno di un sostituto."
         }
       ],
       "choices": [
@@ -303,7 +303,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Friend Beat non cura, ricostruisce o normalizza la squadra del player."
+          "text": "Accanto a te i Pokémon si sistemano per il viaggio successivo. Le loro condizioni sono quelle lasciate dagli ultimi incontri, non quelle di una fotografia di gruppo."
         }
       ],
       "choices": [
@@ -323,7 +323,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se il contatto primario è fisico, E4 deve aver verificato una presenza reale nella stessa location."
+          "text": "Il vostro incontro è reale: puoi leggere sul volto dell'amico la reazione che sul telefono sarebbe rimasta nascosta."
         }
       ],
       "choices": [
@@ -350,7 +350,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se il contatto primario è remoto, la distanza viene rispettata invece di teletrasportare l'amico."
+          "text": "La voce arriva da un altro luogo, accompagnata dai suoi rumori. Potete ridere e litigare lo stesso, ma non fingere una presenza che non c'è."
         }
       ],
       "choices": [
@@ -377,7 +377,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il record finale deve conservare l'elenco degli amici coinvolti nel contatto di gruppo, oltre al primary contact scelto da E4."
+          "text": "Scorri i messaggi del gruppo per ricordare chi è riuscito a esserci e chi ha soltanto risposto da lontano. Non ogni assenza è un rifiuto."
         }
       ],
       "choices": [
@@ -542,7 +542,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il significato del beat cambia con WORLD_EXIT, ma campione, eliminato e Worlds Missed restano percorsi egualmente validi."
+          "text": "C'è chi torna con una coppa, chi con una sconfitta e chi ha vissuto il Mondiale da fuori. Le vostre battute non rendono uguali quelle esperienze."
         }
       ],
       "choices": [
@@ -562,7 +562,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "FRIEND_BEAT_12 si chiude soltanto quando primary contact, friend_ids, tipo e risultato sono persistenti."
+          "text": "Ditevi dove sarete nei prossimi giorni, senza promesse impossibili. Il prossimo incontro dipenderà dai vostri viaggi, non dalla voglia di chiudere tutto con una festa."
         }
       ],
       "choices": [
@@ -614,7 +614,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La chiusura relazionale è registrata. Gli amici continuano a esistere nel mondo dopo la main story."
+          "text": "L'ultima risposta arriva e il gruppo torna silenzioso. Gli amici non smettono di esistere soltanto perché questa storia ha raggiunto la sua ultima pagina."
         }
       ],
       "choices": [
@@ -634,7 +634,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il prossimo passo non è un altro boss: sono gli hook del postgame e le possibilità rimaste aperte nel save."
+          "text": "Riponi il telefono. Restano strade da percorrere, Pokémon da allenare e persone che non hai ancora incontrato."
         }
       ],
       "choices": [
