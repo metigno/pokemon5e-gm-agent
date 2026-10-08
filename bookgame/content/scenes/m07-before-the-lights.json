@@ -46,7 +46,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La qualificazione cambia il rumore intorno al player: il Mondiale è ora concreto. Before the Lights usa soltanto amici e Anchor realmente disponibili."
+          "text": "Il nome del Mondiale comincia a comparire su ogni bacheca. Fra gli annunci arrivano anche messaggi e saluti da persone che hai conosciuto lungo il circuito."
         }
       ],
       "choices": [
@@ -71,7 +71,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'evento si apre dopo world_qualified e con partenza imminente o livello sufficiente. Non è un premio narrativo separato dalla qualificazione."
+          "text": "La partenza si avvicina. Puoi dedicare quest'ultima finestra a una conversazione, prima di lasciare Meridiana."
         }
       ],
       "choices": [
@@ -91,7 +91,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Ogni contatto compare solo se quell'amico è presente nel proprio schedule. Nessuno viene spostato a Meridiana per produrre la scena."
+          "text": "Controlli se uno degli amici è abbastanza vicino per vedervi. Altrimenti restano una chiamata o un messaggio: ognuno ha proseguito il proprio viaggio."
         }
       ],
       "choices": [
@@ -186,7 +186,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Luke non tratta il Mondiale come un finale già scritto: parla di adattamento e di quanto sarà diverso il prossimo field."
+          "text": "Luke alza un sopracciglio. «Il Mondiale? Bene. Vediamo chi riesce a fermarmi senza pretendere che abbandoni i Pokémon che mi piacciono.»"
         }
       ],
       "choices": [
@@ -228,7 +228,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Mattew separa il tuo posto al Mondiale dal proprio percorso. Il rapporto non sincronizza risultati o seed."
+          "text": "Mattew chiude l'agenda degli allenamenti. «Non ho intenzione di giudicare il tuo percorso dal mio. Però spero tu sappia finalmente leggere un programma senza chiedere aiuto.»"
         }
       ],
       "choices": [
@@ -270,7 +270,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Daniel prova a leggere il Mondiale senza fingere di conoscere già sorteggio e avversari."
+          "text": "Daniel osserva il tabellone ancora incompleto. «Non inventarti gli avversari prima del sorteggio. È un ottimo modo per prendere decisioni su cose che non sai.»"
         }
       ],
       "choices": [
@@ -312,7 +312,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Edward insiste sulla continuità: il viaggio non cancella fatica, infortuni o ciò che il team ha speso per arrivare fin qui."
+          "text": "Edward controlla Totodile, poi sorride. «Puoi pure diventare famoso, ma voglio vedere almeno un bel colpo. Altrimenti che ti abbiamo lasciato partire a fare?»"
         }
       ],
       "choices": [
@@ -354,7 +354,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Fab ricorda che essere qualificati non rende improvvisamente gratuite medicine, oggetti o preparazione."
+          "text": "Fab controlla Koffing, che tenta di curiosare fra i bagagli. «Un consiglio: dormi e mangia qualcosa. E nascondi bene le tue cose, almeno se c'è lui nei paraggi.»"
         }
       ],
       "choices": [
@@ -396,7 +396,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Cynthia osserva la partenza come un cambio di scala, non come la fine della carriera. Il suo rapporto resta disponibile per futuri callback."
+          "text": "Se Cynthia è raggiungibile, il suo saluto è misurato. «Il Mondiale non annulla ciò che hai imparato qui. Ricordati che dopo un incontro ne arriva un altro.»"
         }
       ],
       "choices": [
@@ -416,7 +416,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Sponsor e media possono leggere la qualificazione, ma non decidono roster World, draw o risultati futuri."
+          "text": "Le telecamere si affollano vicino agli accrediti. Puoi decidere quanto parlare: nessuna intervista ha il potere di giocare le partite al posto tuo."
         }
       ],
       "choices": [
@@ -436,7 +436,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Roster, HP, PP, condizioni, inventario, denaro, livelli, EXP e infortuni proseguono esattamente nello stato corrente. M8 non è un reset."
+          "text": "Prima di partire controlli i tuoi Pokémon e le risorse disponibili. Nessuna cerimonia elimina la stanchezza degli incontri già affrontati."
         }
       ],
       "choices": [
@@ -456,7 +456,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La prossima tappa sarà il venue mondiale, ma questo blocco non teletrasporta ancora il player né genera il draw."
+          "text": "Al banco partenze compare la sede mondiale. Il viaggio richiederà ancora tempo; Meridiana rimane alle tue spalle soltanto quando scegli di partire."
         }
       ],
       "choices": [
@@ -483,7 +483,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il saluto non assegna bonus. Registra soltanto una relazione e un momento coerente con schedule e posizione reali."
+          "text": "Un saluto può restare impresso più a lungo di una fotografia. Le parole dette qui contano nei rapporti, non nei risultati futuri."
         }
       ],
       "choices": [
@@ -503,7 +503,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Before the Lights è completo: il Mondiale è imminente, ma M7 deve ancora eseguire il proprio exit contract."
+          "text": "Le ultime luci del Grand Hall si accendono. L'appuntamento mondiale è davanti a te, ma il viaggio non è ancora cominciato."
         }
       ],
       "choices": [
