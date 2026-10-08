@@ -8,6 +8,8 @@ import { informationRenderers } from "/information-renderers.mjs";
 const $ = (selector) => document.querySelector(selector);
 
 const els = {
+  appShell: $(".app-shell"),
+  appAlert: $("#app-alert"),
   sceneTitle: $("#scene-title"),
   moduleLabel: $("#module-label"),
   worldDay: $("#world-day"),
@@ -82,6 +84,8 @@ let careerSlots = [];
 let revealRun = 0;
 let revealActive = false;
 let revealFinish = null;
+let drawerReturnFocus = null;
+let referenceReturnFocus = null;
 
 function escapeHtml(value) {
   return String(value ?? "")
@@ -101,6 +105,9 @@ function chooseTouchOption({ title, description = "", options }) {
   return new Promise((resolve) => {
     const overlay = els.choiceOverlay;
     const oldFocus = document.activeElement;
+    const background = [els.appShell, els.drawer, els.startScreen];
+    const backgroundInert = background.map((element) => element.inert);
+    background.forEach((element) => { element.inert = true; });
     els.choiceTitle.textContent = title;
     els.choiceDescription.textContent = description;
     els.choiceOptions.replaceChildren();
@@ -112,7 +119,9 @@ function chooseTouchOption({ title, description = "", options }) {
       overlay.removeEventListener("click", onBackdrop);
       els.choiceCancel.removeEventListener("click", onCancel);
       els.choiceOptions.replaceChildren();
-      oldFocus?.focus?.();
+      background.forEach((element, index) => { element.inert = backgroundInert[index]; });
+      if (oldFocus?.isConnected) oldFocus?.focus?.();
+      else if (els.drawer.classList.contains("is-open")) els.closeDrawer.focus();
       resolve(value);
     };
     const onCancel = () => finish(null);
@@ -336,8 +345,9 @@ function renderChoices(choices) {
 }
 
 function showInlineError(message) {
-  els.lastRoll.hidden = false;
-  els.lastRoll.textContent = message;
+  // Battle and Team live outside the story roll panel: errors must be visible everywhere.
+  els.appAlert.textContent = String(message || "Operazione non riuscita.");
+  els.appAlert.hidden = false;
 }
 
 function formatTime(world) {
@@ -673,12 +683,15 @@ async function renderStory() {
 }
 
 async function renderSnapshot() {
+  els.appAlert.hidden = true;
   if (!snapshot?.hasSession) {
+    els.appShell.inert = true;
     els.startScreen.hidden = false;
     return;
   }
 
   els.startScreen.hidden = true;
+  els.appShell.inert = els.drawer.classList.contains("is-open");
   renderHeader();
 
   if (snapshot.battle) {
@@ -1016,6 +1029,8 @@ function openDrawer(panel) {
   };
 
   if (!renderers[panel]) return;
+  const wasOpen = els.drawer.classList.contains("is-open");
+  if (!wasOpen) drawerReturnFocus = document.activeElement;
   els.drawerTitle.textContent = titles[panel];
   els.drawer.dataset.panel = panel;
   const shortcuts = infoPages.shortcuts()[panel] ?? "";
@@ -1026,6 +1041,9 @@ function openDrawer(panel) {
   els.drawerBackdrop.hidden = false;
   els.drawer.classList.add("is-open");
   els.drawer.setAttribute("aria-hidden", "false");
+  els.drawer.inert = false;
+  els.appShell.inert = true;
+  if (!wasOpen || !els.drawer.contains(document.activeElement)) els.closeDrawer.focus();
 
   for (const button of els.drawerContent.querySelectorAll(".map-travel")) {
     button.addEventListener("click", async () => {
@@ -1230,10 +1248,20 @@ function openDrawer(panel) {
 }
 
 function closeDrawer() {
+  const wasOpen = els.drawer.classList.contains("is-open");
   els.drawer.classList.remove("is-open");
   els.drawer.setAttribute("aria-hidden", "true");
+  els.drawer.inert = true;
   els.drawerBackdrop.hidden = true;
+  els.appShell.inert = !snapshot?.hasSession;
   delete els.drawer.dataset.panel;
+  if (wasOpen) {
+    const target = drawerReturnFocus;
+    drawerReturnFocus = null;
+    if (!els.startScreen.hidden) els.slot.focus();
+    else if (target?.isConnected && !target.closest("[inert]")) target.focus();
+    else document.querySelector(".bottom-nav button")?.focus();
+  }
 }
 
 async function start(mode) {
@@ -1283,8 +1311,10 @@ async function deleteCareer() {
 }
 
 function openStartReference(title, content) {
+  referenceReturnFocus = document.activeElement;
   els.referenceTitle.textContent = title;
   els.referenceContent.innerHTML = content;
+  els.startScreen.inert = true;
   els.referenceOverlay.hidden = false;
   els.referenceClose.focus();
 }
@@ -1292,7 +1322,10 @@ function openStartReference(title, content) {
 function closeStartReference() {
   els.referenceOverlay.hidden = true;
   els.referenceContent.replaceChildren();
-  els.startCodex.focus();
+  els.startScreen.inert = false;
+  const target = referenceReturnFocus;
+  referenceReturnFocus = null;
+  if (target?.isConnected) target.focus();
 }
 
 els.startCodex.addEventListener("click", () => {
@@ -1375,6 +1408,26 @@ els.positionForm.addEventListener("submit", async (event) => {
       unit: kind, destination,
       ...(kind === "pokemon" ? { movementType: els.positionMode.value } : {})
     });
+  }
+});
+document.addEventListener("keydown", (event) => {
+  if (!els.drawer.classList.contains("is-open") || !els.choiceOverlay.hidden || !els.referenceOverlay.hidden) return;
+  if (event.key === "Escape") {
+    event.preventDefault();
+    closeDrawer();
+    return;
+  }
+  if (event.key !== "Tab") return;
+  const targets = [...els.drawer.querySelectorAll('a[href], button:not(:disabled), input:not(:disabled), select:not(:disabled), textarea:not(:disabled), summary, [tabindex]:not([tabindex="-1"])')]
+    .filter((element) => !element.hidden && !element.closest("[hidden]") && element.getClientRects().length > 0);
+  if (!targets.length) return;
+  const active = targets.indexOf(document.activeElement);
+  if (event.shiftKey && active <= 0) {
+    event.preventDefault();
+    targets.at(-1).focus();
+  } else if (!event.shiftKey && (active === targets.length - 1 || active === -1)) {
+    event.preventDefault();
+    targets[0].focus();
   }
 });
 els.closeDrawer.addEventListener("click", closeDrawer);
