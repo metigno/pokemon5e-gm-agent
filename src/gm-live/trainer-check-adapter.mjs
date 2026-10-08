@@ -11,6 +11,8 @@ export function createTrainerCheckAdapter() {
    if (!['STR','DEX','CON','INT','WIS','CHA'].includes(intent.ability)) return {allowed:false,reason:'Invalid ability'};
    if (!Number.isSafeInteger(intent.dc) || intent.dc < 0) return {allowed:false,reason:'Invalid DC'};
    if (!campaign?.character?.abilities) return {allowed:false,reason:'Trainer sheet missing'};
+   if (!Number.isSafeInteger(campaign.character.abilities[intent.ability])) return {allowed:false,reason:'Ability score missing'};
+   if (intent.proficient === true && !Number.isSafeInteger(intent.proficiencyBonus)) return {allowed:false,reason:'Proficiency bonus required'};
    return {allowed:true};
   },
   async resolveAction({campaign,intent}) {
