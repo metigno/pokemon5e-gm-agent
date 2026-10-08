@@ -14,7 +14,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Ferrox è il luogo in cui lavoro, infrastrutture e rescue di M3 diventano conseguenze visibili, non una scena ripetuta."
+          "text": "A Ferrox il rumore delle officine copre a tratti quello dei treni. L'incidente delle gallerie non è una leggenda: basta guardare i percorsi del personale e le aree ancora segnate."
         }
       ],
       "choices": [
@@ -39,7 +39,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La città industriale mostra il tempo trascorso attraverso traffico ferroviario, turni e aree ancora segnate dall'incidente."
+          "text": "I turni sono cambiati e alcune deviazioni sembrano ormai abituali. La città ha continuato a lavorare mentre tu eri lontano."
         }
       ],
       "choices": [
@@ -64,7 +64,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M12 legge ferrox_outcome_class e gli altri indicatori prodotti dall'esito reale del rescue."
+          "text": "All'ufficio tecnico ritrovi il fascicolo dell'incidente. Ogni nome, ferita e sezione isolata corrisponde alle scelte e ai soccorsi di quel giorno."
         }
       ],
       "choices": [
@@ -89,7 +89,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un esito best_contained permette un callback di fiducia, ma non cancella il fatto che l'incidente sia avvenuto."
+          "text": "Il rapporto ricorda che le squadre riuscirono a contenere gran parte del danno. Le ferite e le interruzioni subite, però, non spariscono dal ricordo dei lavoratori."
         }
       ],
       "choices": [
@@ -109,7 +109,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un esito people_first valorizza vite salvate e costi infrastrutturali realmente registrati."
+          "text": "La priorità data all'evacuazione è ricordata da chi uscì dalle gallerie. Una parte delle strutture ne pagò il prezzo e richiese lavori successivi."
         }
       ],
       "choices": [
@@ -129,7 +129,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un esito structure_first conserva il compromesso fra stabilizzazione e conseguenze umane."
+          "text": "Le squadre rallentarono per mettere in sicurezza i supporti. Le persone furono recuperate, ma chi c'era ricorda le ore e la tensione di quell'attesa."
         }
       ],
       "choices": [
@@ -149,7 +149,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un supporto limitato resta tale; il callback non lo trasforma retroattivamente in intervento pieno."
+          "text": "Il tuo contributo aiutò a orientare il lavoro degli specialisti. Furono le squadre interne a operare nei tunnel: il rapporto distingue i ruoli."
         }
       ],
       "choices": [
@@ -169,7 +169,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Una finestra mancata produce memoria, responsabilità e infrastrutture coerenti con il ritardo."
+          "text": "Quando arrivasti, la finestra utile era già chiusa. In città il lavoro di ripristino racconta anche ciò che non hai potuto fare."
         }
       ],
       "choices": [
@@ -189,7 +189,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se il player rifiutò l'intervento, la città può essere cambiata comunque senza attribuirgli meriti."
+          "text": "Non prendesti parte all'intervento. Le squadre locali andarono avanti comunque, affrontando feriti e danni senza la tua presenza."
         }
       ],
       "choices": [
@@ -209,7 +209,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "I report sulle persone restano distinti dal danno materiale e possono essere verificati separatamente."
+          "text": "Il registro del personale elenca soccorsi, feriti e rientri al lavoro. Non tutte le conseguenze per le persone coincidono con quelle delle infrastrutture."
         }
       ],
       "choices": [
@@ -229,7 +229,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Chiusure, deviazioni e riparazioni derivano dal vero damage_state, non da un finale standard."
+          "text": "Una mappa tecnica mostra i settori ripristinati e quelli ancora sotto controllo. I tratti segnati non diventano aperti per il tuo ritorno."
         }
       ],
       "choices": [
@@ -249,7 +249,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La ferrovia riflette service diversions e ripristini compatibili con il tempo trascorso."
+          "text": "Gli annunci ferroviari ricordano le deviazioni e gli orari modificati. Dove il servizio è stato ripristinato, il tabellone lo mostra."
         }
       ],
       "choices": [
@@ -269,7 +269,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'economia locale può aver rallentato o recuperato attraverso E6, senza un reset di modulo."
+          "text": "Fra i magazzini si parla di turni persi, merci in ritardo e recuperi graduali. La città ha pagato i danni nel tempo, non soltanto il giorno dell'incidente."
         }
       ],
       "choices": [
@@ -289,7 +289,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "I lavoratori ricordano l'esito e la responsabilità in modo coerente con reputazione e debrief registrati."
+          "text": "Un operaio ti osserva mentre sfogli il rapporto. Il suo modo di salutarti dipende da ciò che ricorda del tuo intervento, non dalla tua fama sportiva."
         }
       ],
       "choices": [
@@ -309,7 +309,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Mappe, segnali e report precedenti restano parte della catena causale quando erano stati realmente scoperti."
+          "text": "Nell'archivio ritrovi le vecchie carte industriali. Se le avevi consultate allora, alcuni dettagli acquistano un significato nuovo."
         }
       ],
       "choices": [
@@ -329,7 +329,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Steven può essere richiamato solo se la sua traiettoria e lo stato NPC lo permettono; non è un premio di chiusura."
+          "text": "Steven potrebbe essere impegnato altrove. Se lo incontri davvero, la conversazione può tornare sulle mappe e sulle responsabilità tecniche, non su un trofeo."
         }
       ],
       "choices": [
@@ -349,7 +349,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il callback conserva responsabilità sistemica, pressioni produttive e manutenzione come assi distinti."
+          "text": "Fra gli addetti si discute ancora di manutenzione, urgenze produttive e decisioni prese troppo tardi. Nessun singolo gesto assolve l'intero sistema."
         }
       ],
       "choices": [
@@ -369,7 +369,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se erano richieste ispezioni future, il postgame può mostrarne l'esito invece di cancellare il flag."
+          "text": "Gli ispettori possono aver lasciato nuovi rapporti e nuove prescrizioni. Leggi soltanto gli atti disponibili, senza inventare una revisione mai effettuata."
         }
       ],
       "choices": [
@@ -389,7 +389,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Le restrizioni residue a Ferrox restano accessi reali del mondo persistente."
+          "text": "Una porta sbarrata ferma chiunque non sia autorizzato. Se il settore è stato riaperto, è il personale a indicarlo."
         }
       ],
       "choices": [
@@ -409,7 +409,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M12 sintetizza il callback Ferrox dal vero outcome class e registra soltanto ciò che può essere dedotto dal save."
+          "text": "Lasci il fascicolo sul banco e torni in strada. A Ferrox, il passato è scritto nei turni di lavoro e nei percorsi che la città può ancora permettersi."
         }
       ],
       "choices": [
@@ -530,7 +530,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "I primi cinque blocchi di M12 sono completi: WORLD_EXIT, ritorno ad Asteria e callback di Valedarsena, Bruma e Ferrox sono ora parte del runtime."
+          "text": "Dopo Ferrox puoi proseguire verso la costa. Sono luoghi diversi, ciascuno segnato dalle proprie decisioni e dal tempo trascorso."
         }
       ],
       "choices": [
