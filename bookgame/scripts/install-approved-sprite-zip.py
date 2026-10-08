@@ -2,6 +2,7 @@
 """Install the approved Pokémon 5e sprite ZIP using the canonical Node importer."""
 import argparse
 import hashlib
+import json
 from pathlib import Path, PurePosixPath
 import subprocess
 import tempfile
@@ -37,6 +38,22 @@ def main():
                     parser.error(f"Unsafe ZIP entry: {name!r}")
                 if path.parts[0] != PACKAGE_ROOT:
                     parser.error(f"Unexpected ZIP root: {name!r}")
+            if args.strict:
+                mapping_path = importer.parent.parent / "assets/pokemon/sprite-runtime-map.json"
+                mapping = json.loads(mapping_path.read_text(encoding="utf-8"))
+                names = {entry.filename for entry in entries if not entry.is_dir()}
+                missing = [
+                    f"{sprite_id}/{asset}"
+                    for sprite_id, roles in mapping["sprites"].items()
+                    for role in ("battleFront", "battleBack", "icon")
+                    if (asset := roles.get(role))
+                    and f"{PACKAGE_ROOT}/{sprite_id}/{asset}" not in names
+                ]
+                if missing:
+                    parser.error(
+                        f"Missing {len(missing)} required mapped sprite files; "
+                        f"nothing extracted or installed. Examples: {missing[:12]}"
+                    )
             z.extractall(root)
         cmd = ["node", str(importer), str(root / PACKAGE_ROOT)]
         if args.strict:
