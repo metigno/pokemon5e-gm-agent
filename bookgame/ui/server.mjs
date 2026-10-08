@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { join } from "node:path";
 import { normalizeSpriteId } from "../src/assets/sprite-runtime.mjs";
-import { APPROVED_MAP_ILLUSTRATION_IDS } from "../src/assets/map-illustrations.mjs";
+import { APPROVED_MAP_ILLUSTRATION_IDS, APPROVED_MAP_SVG_IDS } from "../src/assets/map-illustrations.mjs";
 import { verifyOfflineSpriteAssets } from "../scripts/verify-offline-sprites.mjs";
 import { BookgameEngine } from "../src/engine/bookgame-engine.mjs";
 import { buildTravelMap } from "../src/engine/map-view.mjs";
@@ -832,15 +832,17 @@ async function serveSprite(res, pathname) {
 async function serveMapIllustration(res, pathname) {
   if (!pathname.startsWith("/map-art/")) return false;
   const filename = pathname.slice("/map-art/".length);
-  const id = filename.endsWith(".png") ? filename.slice(0, -4) : null;
-  if (!id || filename !== id + ".png" || !APPROVED_MAP_ILLUSTRATION_IDS.has(id)) {
+  const extension = filename.endsWith(".png") ? "png" : filename.endsWith(".svg") ? "svg" : null;
+  const id = extension ? filename.slice(0, -(extension.length + 1)) : null;
+  const approved = extension === "png" ? APPROVED_MAP_ILLUSTRATION_IDS : APPROVED_MAP_SVG_IDS;
+  if (!id || filename !== id + "." + extension || !approved.has(id)) {
     res.writeHead(404, { "content-type": "text/plain; charset=utf-8" });
     res.end("Map illustration not found");
     return true;
   }
   try {
-    const image = await readFile(join(MAP_ART_DIR, id + ".png"));
-    res.writeHead(200, { "content-type": "image/png", "cache-control": "public, max-age=3600" });
+    const image = await readFile(join(MAP_ART_DIR, filename));
+    res.writeHead(200, { "content-type": extension === "svg" ? "image/svg+xml; charset=utf-8" : "image/png", "cache-control": "public, max-age=3600", "x-content-type-options": "nosniff", "content-security-policy": "default-src 'none'; img-src 'self'; style-src 'unsafe-inline'; sandbox" });
     res.end(image);
   } catch {
     res.writeHead(404, { "content-type": "text/plain; charset=utf-8" });

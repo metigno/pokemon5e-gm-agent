@@ -931,7 +931,7 @@ function renderMap() {
         <section class="map-site ${node.current ? "map-site--current" : ""} ${node.routes.length ? "map-site--reachable" : ""}">
           <span class="map-pin" aria-hidden="true">●</span>
           <div class="map-site__body">
-            ${node.illustrationId ? `<img class="map-site__art" src="/map-art/${encodeURIComponent(node.illustrationId)}.png" alt="Illustrazione pixel art di ${escapeHtml(node.label)}" loading="lazy" decoding="async">` : ""}
+            ${node.illustrationId ? `<img class="map-site__art" src="/map-art/${encodeURIComponent(node.illustrationId)}.${node.illustrationFormat === "svg" ? "svg" : "png"}" alt="Illustrazione pixel art di ${escapeHtml(node.label)}" loading="lazy" decoding="async">` : ""}
             <strong>${escapeHtml(node.label)}</strong>
             <small>${node.current ? "Sei qui" : node.routes.length ? "Raggiungibile ora" : "Già visitato · nessun percorso disponibile da qui"}</small>
             ${(revealActive ? [] : node.routes).map((route) => `

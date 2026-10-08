@@ -1,13 +1,13 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { mkdtemp, readFile, rm } from "node:fs/promises";
+import { mkdtemp, readFile, readdir, rm } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 
 import { BookgameEngine } from "../src/engine/bookgame-engine.mjs";
 import { buildTravelMap } from "../src/engine/map-view.mjs";
-import { APPROVED_MAP_ILLUSTRATION_IDS, mapIllustrationForLocation } from "../src/assets/map-illustrations.mjs";
+import { APPROVED_MAP_ILLUSTRATION_IDS, APPROVED_MAP_SVG_IDS, mapIllustrationForLocation, mapIllustrationFormat } from "../src/assets/map-illustrations.mjs";
 import { SaveStore } from "../src/engine/save-store.mjs";
 import { createNewGameState } from "../src/engine/state.mjs";
 
@@ -147,4 +147,61 @@ test("M01 artwork is local, verified PNG and never replaces scene navigation", a
   assert.match(server, /APPROVED_MAP_ILLUSTRATION_IDS/);
   assert.match(server, /serveMapIllustration/);
   assert.ok(server.includes('"/map-art/"'));
+});
+
+test("M01 location art covers every authored scene origin and set_location effect", async () => {
+  const directory = new URL("../content/scenes/", import.meta.url);
+  const entries = (await readdir(directory)).filter((name) => name.startsWith("m01-") && name.endsWith(".json"));
+  assert.ok(entries.length >= 10);
+  const locationIds = new Set();
+  const collect = (node) => {
+    if (Array.isArray(node)) return node.forEach(collect);
+    if (!node || typeof node !== "object") return;
+    if (node.type === "set_location") locationIds.add(node.locationId);
+    for (const value of Object.values(node)) if (value && typeof value === "object") collect(value);
+  };
+  for (const entry of entries) {
+    const data = JSON.parse(await readFile(new URL(entry, directory), "utf8"));
+    if (data.locationId) locationIds.add(data.locationId);
+    collect(data.nodes);
+  }
+  assert.ok(locationIds.size >= 16, "M01 map audit cannot silently shrink");
+  for (const locationId of locationIds) {
+    assert.equal(typeof locationId, "string");
+    const illustrationId = mapIllustrationForLocation(locationId);
+    const ext = mapIllustrationFormat(illustrationId);
+    assert.ok(illustrationId && ext, `Unmapped authored M01 location: ${locationId}`);
+    const bytes = await readFile(new URL(`../assets/maps/illustrations/${illustrationId}.${ext}`, import.meta.url));
+    if (ext === "svg") {
+      const svg = bytes.toString("utf8");
+      assert.ok(svg.includes('<svg xmlns="http://www.w3.org/2000/svg"'));
+      assert.ok(svg.trimEnd().endsWith("</svg>"));
+      assert.doesNotMatch(svg, /<script|<foreignObject|onload=|javascript:/i);
+    } else {
+      assert.equal(bytes.subarray(0, 8).toString("hex"), "89504e470d0a1a0a");
+    }
+  }
+  assert.equal(APPROVED_MAP_SVG_IDS.size, 13);
+  assert.equal(mapIllustrationForLocation("unwritten_new_town"), null);
+  assert.equal(mapIllustrationFormat("unapproved"), null);
+
+  const state = ginestreState();
+  const story = { choices: [
+    { id: "test_travel", goto: "crossroads", text: "Raggiungi fattoria",
+      effects: [{ type: "set_location", locationId: "asteria_farm" }], timeCostMinutes: 55 }
+  ] };
+  const map = buildTravelMap(state, story);
+  const farm = map.nodes.find((node) => node.id === "asteria_farm");
+  assert.equal(farm.illustrationId, "m01-farm");
+  assert.equal(farm.illustrationFormat, "svg");
+  assert.equal(farm.routes[0].timeCostMinutes, 55);
+  assert.equal(map.nodes.some((node) => node.id === "unwritten_new_town"), false);
+
+  const [server, app] = await Promise.all([
+    readFile(new URL("../ui/server.mjs", import.meta.url), "utf8"),
+    readFile(new URL("../ui/public/app.mjs", import.meta.url), "utf8")
+  ]);
+  assert.match(server, /APPROVED_MAP_SVG_IDS/);
+  assert.ok(server.includes("image/svg+xml"));
+  assert.match(app, /illustrationFormat/);
 });

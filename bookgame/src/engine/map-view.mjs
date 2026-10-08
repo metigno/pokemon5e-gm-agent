@@ -1,5 +1,5 @@
 import { evaluateCondition } from "./conditions.mjs";
-import { mapIllustrationForLocation } from "../assets/map-illustrations.mjs";
+import { mapIllustrationForLocation, mapIllustrationFormat } from "../assets/map-illustrations.mjs";
 
 // Schematic map of authored locations only. No new world graph, distances or shortcuts.
 const LOCATION_LABELS = Object.freeze({
@@ -36,7 +36,8 @@ export function buildTravelMap(state, story) {
   function add(id, visited = false) {
     if (typeof id !== "string" || !id || id.length > 120) return;
     if (!locations.has(id)) {
-      locations.set(id, { id, label: locationLabel(id), illustrationId: mapIllustrationForLocation(id), visited, current: id === currentLocationId, routes: [] });
+      const illustrationId = mapIllustrationForLocation(id);
+      locations.set(id, { id, label: locationLabel(id), illustrationId, illustrationFormat: mapIllustrationFormat(illustrationId), visited, current: id === currentLocationId, routes: [] });
     } else if (visited) {
       locations.get(id).visited = true;
     }
