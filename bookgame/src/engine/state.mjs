@@ -340,6 +340,7 @@ export function createNewGameState({
       minuteOfDay: DEFAULT_START_MINUTE,
       time: daypartForMinute(DEFAULT_START_MINUTE),
       locationId: startAtIntro ? "asteria_campus" : "asteria_campus_exit",
+      visitedLocationIds: [startAtIntro ? "asteria_campus" : "asteria_campus_exit"],
       flags: {
         character_creation_complete: !startAtIntro,
         intro_complete: !startAtIntro,
