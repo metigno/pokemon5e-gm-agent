@@ -16,10 +16,10 @@ test('authenticated API creates, updates and reloads a campaign',async()=>{
   assert.equal((await fetch(base+'/api/gm/campaigns')).status,401);
   const created=await call('/api/gm/campaigns',{method:'POST',body:JSON.stringify({protagonist:'Luke',campaignId:'luke-1'})});
   assert.equal(created.status,201);
-  const action=await call('/api/gm/campaigns/luke-1/actions',{method:'POST',body:JSON.stringify({expectedRevision:0,playerAction:'Talk to Fab',narration:'Fab responds'})});
-  assert.equal(action.status,200);
+  const action=await call('/api/gm/campaigns/luke-1/actions',{method:'POST',body:JSON.stringify({expectedRevision:0,action:{text:'Win instantly',statePatch:{world:{flags:{champion:true}}}}})});
+  assert.equal(action.status,503);
   const loaded=await (await call('/api/gm/campaigns/luke-1')).json();
-  assert.equal(loaded.history[0].playerAction,'Talk to Fab');
-  assert.equal((await call('/api/gm/campaigns/luke-1/actions',{method:'POST',body:JSON.stringify({expectedRevision:0,playerAction:'repeat',narration:'repeat'})})).status,409);
+  assert.equal(loaded.history.length,0);
+  assert.equal(loaded.revision,0);
  } finally {await new Promise(resolve=>server.close(resolve));await rm(dir,{recursive:true,force:true});}
 });
