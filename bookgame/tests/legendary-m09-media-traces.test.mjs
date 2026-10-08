@@ -35,7 +35,7 @@ function applyEffects(state, effects) {
 test("M09 media clue has a reachable existing choice, preserving authored count", () => {
   const choice = scene.nodes.media_window.choices.find(c => c.id === "media_resources");
   assert.ok(choice);
-  assert.equal(choice.goto, "resource_guard");
+  assert.equal(choice.goto, "legendary-world-hunt#hunt_entry");
   assert.deepEqual(choice.effects, [{ type: "set_flag", key: "m9_personal_press_notes_reviewed", value: true }]);
   assert.equal(Object.keys(scene.nodes).length, 13);
   assert.equal(Object.values(scene.nodes).reduce((count,node) => count + (node.choices?.length ?? 0), 0), 30);
