@@ -26,7 +26,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La main story può finire solo ora: WORLD_EXIT è risolto, FRIEND_BEAT_12 è completo e gli hook del postgame sono registrati."
+          "text": "Hai attraversato di nuovo Asteria, visto che cosa è diventato dei luoghi conosciuti e parlato con chi era ancora raggiungibile. Il percorso iniziato fuori dal Campus arriva qui a una conclusione, non alla fine della tua vita da allenatore."
         }
       ],
       "choices": [
@@ -51,7 +51,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "WORLD_EXIT resta il risultato reale della stagione, non un epilogo riscritto."
+          "text": "Il risultato del Mondiale rimane scritto nei registri. Ora puoi guardarlo insieme a tutto ciò che è accaduto prima e dopo il torneo."
         }
       ],
       "choices": [
@@ -71,7 +71,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "FRIEND_BEAT_12 conserva contatti e relazioni senza congelare il cast."
+          "text": "Gli amici hanno risposto come potevano. Qualcuno sarà vicino, qualcuno lontano; nessuna fotografia li obbliga a restare insieme per sempre."
         }
       ],
       "choices": [
@@ -91,7 +91,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Gli hook residui restano giocabili nello stesso save dopo la chiusura."
+          "text": "Sulla mappa rimangono luoghi da visitare, persone da cercare e questioni a cui non hai ancora dato una risposta."
         }
       ],
       "choices": [
@@ -111,7 +111,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "E5 conserva ranking, bracket, campione e history esattamente come prima del commit finale."
+          "text": "Gli albi sportivi conservano titoli, incontri e avversari. La prossima competizione partirà da una storia che esiste già."
         }
       ],
       "choices": [
@@ -131,7 +131,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Roster, livelli, EXP, HP, PP, status e infortuni non vengono resettati."
+          "text": "Apri la custodia delle Poké Ball. I Pokémon che viaggiano con te hanno ancora i livelli, le condizioni e le ferite del cammino reale."
         }
       ],
       "choices": [
@@ -151,7 +151,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Quest e Living World conservano il loro stato; il commit non completa né fallisce nulla retroattivamente."
+          "text": "Alcune pagine del diario hanno una conclusione; altre raccontano possibilità mancate o problemi che hanno continuato a vivere fuori dal tuo sguardo."
         }
       ],
       "choices": [
@@ -171,7 +171,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "NPC, relazioni e schedule restano persistenti e possono continuare a cambiare nel postgame."
+          "text": "Le persone conosciute non smettono di avere orari, impegni e scelte proprie perché hai concluso questa parte della carriera."
         }
       ],
       "choices": [
@@ -191,7 +191,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "MAIN_STORY_COMPLETE significa soltanto che l'arco principale è chiuso, non che il salvataggio è read-only."
+          "text": "Il viaggio principale ha una sua ultima pagina. Il quaderno, però, ne contiene molte ancora bianche."
         }
       ],
       "choices": [
@@ -211,7 +211,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il commit finale abilita esplicitamente il free roam postgame e marca M12 completo una sola volta."
+          "text": "Chiudi il diario sul capitolo del Mondiale e lo riponi nello zaino. Quando lo riaprirai, sarà per scegliere che cosa fare adesso."
         }
       ],
       "choices": [
@@ -266,7 +266,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La main story è completa. Il torneo è finito; la vita del save continua."
+          "text": "La storia di questa stagione è completa. La strada davanti a te è ancora aperta."
         }
       ],
       "choices": [
@@ -286,7 +286,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il postgame resta libero: esplorazione, relazioni, quest residue, training, catture e hook ancora legali possono continuare."
+          "text": "Puoi riprendere a viaggiare, allenarti, prenderti cura dei Pokémon, cercare vecchi conoscenti o scoprire opportunità nuove."
         }
       ],
       "choices": [
@@ -306,7 +306,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Puoi rileggere il percorso concluso senza trasformarlo in un nuovo atto obbligatorio."
+          "text": "Se torni a leggere le tappe passate, non ci trovi una versione più facile delle tue scelte: trovi la strada che hai davvero percorso."
         }
       ],
       "choices": [
