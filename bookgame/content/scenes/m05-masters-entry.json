@@ -325,32 +325,32 @@
             "opponentTrainerId": "ALT_MASTERS_MARA_VENN",
             "opponent": {
               "species": "Mareanie",
-              "level": 14,
+              "level": 13,
               "abilityId": "merciless",
               "trainerId": "ALT_MASTERS_MARA_VENN"
             },
             "opponentBench": [
               {
                 "species": "Mimikyu",
-                "level": 14,
+                "level": 13,
                 "abilityId": "disguise",
                 "trainerId": "ALT_MASTERS_MARA_VENN"
               },
               {
                 "species": "Carvanha",
-                "level": 14,
+                "level": 13,
                 "abilityId": "rough-skin",
                 "trainerId": "ALT_MASTERS_MARA_VENN"
               },
               {
                 "species": "Staryu",
-                "level": 14,
+                "level": 13,
                 "abilityId": "natural-cure",
                 "trainerId": "ALT_MASTERS_MARA_VENN"
               },
               {
                 "species": "Growlithe",
-                "level": 14,
+                "level": 13,
                 "abilityId": "intimidate",
                 "trainerId": "ALT_MASTERS_MARA_VENN"
               }
