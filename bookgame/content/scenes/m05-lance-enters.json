@@ -38,7 +38,7 @@
         },
         {
           "id": "crest_2",
-          "text": "Il nome sul registro è Lance. La sua carriera esiste indipendentemente dalla tua e la linea Dratini→Dragonair→Dragonite viene trattata come progressione persistente, non come forma concessa per la scena."
+          "text": "Il nome sul registro è Lance. Anche lui sta costruendo la propria carriera, e il legame con la sua linea Dratini, Dragonair e Dragonite cresce attraverso allenamento ed esperienza."
         }
       ],
       "choices": [
@@ -347,7 +347,7 @@
       "stitches": [
         {
           "id": "dragon_1",
-          "text": "Quando parla dei suoi Pokémon drago, Lance non elenca traguardi futuri. Parla di tempo, disciplina e fiducia conquistata: ogni evoluzione deve arrivare quando il Pokémon è pronto, non quando farebbe più scena."
+          "text": "Quando parla dei suoi Pokémon drago, Lance lo fa come un allenatore che conosce il peso della crescita: allenamento, esperienza e trasformazioni arrivano con il tempo, non per impressionare qualcuno."
         }
       ],
       "choices": [
@@ -433,7 +433,7 @@
       "stitches": [
         {
           "id": "comp_1",
-          "text": "Lance può diventare un avversario del Circuito, ma non è un esaminatore. Conoscerlo, impressionarlo o perfino batterlo non vale una promozione: il Rank A passa comunque dal Trial ufficiale."
+          "text": "Lance può diventare un avversario nel Circuito, ma incontrarlo, ottenere il suo rispetto o persino batterlo non sostituisce il Trial necessario per il Rank A."
         }
       ],
       "choices": [
@@ -460,7 +460,7 @@
       "stitches": [
         {
           "id": "prior_1",
-          "text": "Lance conosce le notizie che hanno davvero viaggiato fin quassù: risultati pubblici, incidenti e interventi di cui esiste traccia. Non ti attribuisce imprese che non hai compiuto."
+          "text": "Se Ferrox, Mareasale o le competizioni ti hanno dato una certa notorietà, Lance può averne sentito parlare. Non ti attribuisce però imprese che non hai compiuto."
         }
       ],
       "choices": [
@@ -492,7 +492,7 @@
       "stitches": [
         {
           "id": "state_1",
-          "text": "Quando vi separate, Lance non resta ad aspettarti. Ha allenamenti, spostamenti e incontri propri; ciò che vi siete detti, invece, resta tra voi."
+          "text": "Quando vi separate, Lance riprende i propri impegni. Ciò che vi siete detti resta tra voi e potrà contare se le vostre strade torneranno a incrociarsi."
         }
       ],
       "choices": [
@@ -519,7 +519,7 @@
       "stitches": [
         {
           "id": "re_1",
-          "text": "Lance non ripete l'introduzione. Riparte dal contesto già persistente e da ciò che è cambiato da allora."
+          "text": "Lance ti riconosce. Non ripete le presentazioni: riprende la conversazione da ciò che avete già condiviso e da quello che nel frattempo è cambiato."
         }
       ],
       "choices": [
@@ -539,7 +539,7 @@
       "stitches": [
         {
           "id": "close_1",
-          "text": "Lance torna alle proprie attività. L'incontro non assegna Rank, licenza, vittorie o nuove forme alla sua squadra; registra soltanto ciò che è realmente avvenuto."
+          "text": "Lance richiama il suo Pokémon e riprende la strada verso gli allenamenti. Prima di allontanarsi ti saluta con un cenno: «Ci rivedremo più in alto.»"
         }
       ],
       "choices": [
@@ -571,7 +571,7 @@
       "stitches": [
         {
           "id": "sched_1",
-          "text": "«Non contare di trovarmi qui al ritorno.» Lance guarda la cresta prima di aggiungere: «La montagna cambia programma più in fretta di noi.»"
+          "text": "Lance non promette di aspettarti. Ha i propri spostamenti, allenamenti e incontri; potreste ritrovarvi soltanto se le vostre strade torneranno davvero a coincidere."
         }
       ],
       "choices": [
