@@ -227,3 +227,49 @@ test("FASE 3: NPC Trainer level is separate from Pokémon level in live battle s
   assert.equal(battle.opponentTrainerLevel, 2);
   assert.equal(battle.opponentTrainerId, "NPC_TEST");
 });
+
+test("FASE 3: captured Pokémon above the checkpoint cap is rejected before save mutation", () => {
+  const engine = new BookgameEngine({ now });
+  const state = createNewGameState({ protagonist: "Luke", now });
+  state.story.sceneId = "first-road";
+  state.pending = {
+    type: "pokemon5e_combat",
+    encounterId: "CAP_GUARD_PHASE3",
+    moduleId: "M01",
+    sceneId: "first-road",
+    opponentRegistered: false,
+    returnNodes: { captured: "first-road#arrival" },
+    battle: { opponent: { speciesId: "wooloo", level: 6 } }
+  };
+  const original = structuredClone(state);
+  assert.throws(
+    () => engine.resolveCombatHandoff(state, "captured"),
+    /exceeds the current Pokémon level cap 5/
+  );
+  assert.deepEqual(state, original, "An invalid capture must not mutate the active game state");
+});
+
+test("FASE 3: authored scene compiler rejects registered catches and above-cap catches", async () => {
+  const { validateScene } = await import("../src/compiler/story-compiler.mjs");
+  const sample = (registered, level) => ({
+    id: "test-capture-guard", moduleId: "M01", title: "Capture guard", locationId: "test-zone",
+    entryNodeId: "start", nodes: {
+      start: { text: "Encounter", choices: [{
+        id: "engage",
+        combat: {
+          encounterId: "CAPTURE_GUARD", opponent: { species: "Wooloo", level },
+          opponentRegistered: registered, goto: "handoff",
+          returnNodes: { win: "win", lose: "lose", captured: "caught" }
+        }
+      }] },
+      handoff: { text: "Battle", choices: [] },
+      win: { text: "Win", choices: [] },
+      lose: { text: "Lose", choices: [] },
+      caught: { text: "Caught", choices: [] }
+    }
+  });
+  const invalidRegistered = validateScene(sample(true, 4));
+  const invalidLevel = validateScene(sample(false, 6));
+  assert.ok(invalidRegistered.errors.some(e => e.code === "REGISTERED_OPPONENT_CAPTURABLE"));
+  assert.ok(invalidLevel.errors.some(e => e.code === "WILD_CAPTURE_EXCEEDS_CAP"));
+});
