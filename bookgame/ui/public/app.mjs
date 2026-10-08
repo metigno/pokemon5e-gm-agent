@@ -544,7 +544,16 @@ function renderTeam() {
         <h3>Mosse · ${escapeHtml(name)}</h3>
         ${moves || '<div class="data-row"><span>Mosse</span><span>—</span></div>'}
       </div>
-      ${pending.length ? `<div class="data-card"><h3>Progressione pendente</h3>${pending.map((entry) => `<div class="data-row"><span>${escapeHtml(entry)}</span></div>`).join("")}</div>` : ""}
+      ${pending.length ? `<div class="data-card"><h3>Progressione pendente</h3>
+        ${pending.map((entry) => `<div class="data-row"><span>${escapeHtml(entry)}</span></div>`).join("")}
+        ${pokemon.pendingLevelUp?.stage === "evolution_decision" ? `
+          ${(pokemon.pendingLevelUp.evolutionIds ?? []).map((id) => `<button type="button" class="primary-button levelup-evolution" data-roster-index="${index}" data-evolution-id="${escapeHtml(id)}">Evolvi → ${escapeHtml(id)}</button>`).join("")}
+          <button type="button" class="levelup-decline" data-roster-index="${index}">Rimanda evoluzione</button>
+        ` : ""}
+        ${(pokemon.pendingMoveLearning ?? []).map((choice) => `<button type="button" class="pokemon-learn-move" data-roster-index="${index}" data-move-id="${escapeHtml(choice.moveId)}">Impara ${escapeHtml(choice.moveId)}</button>`).join("")}
+        ${(pokemon.pendingMoveChoices ?? []).map((choice) => `<button type="button" class="pokemon-replace-move" data-roster-index="${index}" data-level="${choice.level}" data-move-ids="${escapeHtml((choice.availableMoveIds ?? []).join(","))}">Scegli mossa Lv.${choice.level}</button>`).join("")}
+        ${(pokemon.pendingAsiChoices ?? []).map((choice) => `<button type="button" class="pokemon-asi" data-roster-index="${index}" data-level="${choice.level}" data-points="${choice.points}">Assegna ASI Lv.${choice.level}</button>`).join("")}
+      </div>` : ""}
       ${available.map((entry) => `<button type="button" class="primary-button evolution-action" data-roster-index="${entry.rosterIndex}" data-evolution-id="${escapeHtml(entry.evolution.id)}">Evolvi → ${escapeHtml(entry.evolution.to)}</button>`).join("")}
     `;
   }).join("") || '<div class="data-card">Nessun Pokémon nel roster.</div>';
@@ -670,6 +679,102 @@ function openDrawer(panel) {
         entry.evolution.id === button.dataset.evolutionId
       );
       if (option) runEvolution(option);
+    });
+  }
+
+  for (const button of els.drawerContent.querySelectorAll(".levelup-evolution, .levelup-decline")) {
+    button.addEventListener("click", async () => {
+      try {
+        let payload = await api("/api/pokemon/level-up", {
+          method: "POST",
+          body: JSON.stringify({
+            rosterIndex: Number(button.dataset.rosterIndex),
+            evolutionId: button.classList.contains("levelup-evolution") ? button.dataset.evolutionId : null,
+            declineEvolution: button.classList.contains("levelup-decline")
+          })
+        });
+        if (payload.progression?.status === "choice_required" && payload.progression.choice?.type === "evolution_asi") {
+          const points = Number(payload.progression.choice.points);
+          const stat = window.prompt(`Evoluzione: assegna ${points} punti ASI a STR, DEX, CON, INT, WIS o CHA`, "CON");
+          if (!stat) return;
+          payload = await api("/api/pokemon/level-up", {
+            method: "POST",
+            body: JSON.stringify({
+              rosterIndex: Number(button.dataset.rosterIndex),
+              evolutionId: button.dataset.evolutionId,
+              asiDistribution: { [stat.toLowerCase()]: points }
+            })
+          });
+        }
+        snapshot = payload.snapshot;
+        openDrawer("team");
+      } catch (error) {
+        showInlineError(error.message);
+      }
+    });
+  }
+
+  for (const button of els.drawerContent.querySelectorAll(".pokemon-learn-move")) {
+    button.addEventListener("click", async () => {
+      try {
+        const pokemon = snapshot.player.roster[Number(button.dataset.rosterIndex)];
+        let forgetMoveId = null;
+        if ((pokemon.moves ?? []).length >= 4) {
+          forgetMoveId = window.prompt("Quale move id vuoi dimenticare?", pokemon.moves[0]?.id ?? "");
+          if (!forgetMoveId) return;
+        }
+        snapshot = await api("/api/pokemon/learn-move", {
+          method: "POST",
+          body: JSON.stringify({ rosterIndex: Number(button.dataset.rosterIndex), moveId: button.dataset.moveId, forgetMoveId })
+        });
+        openDrawer("team");
+      } catch (error) {
+        showInlineError(error.message);
+      }
+    });
+  }
+
+  for (const button of els.drawerContent.querySelectorAll(".pokemon-replace-move")) {
+    button.addEventListener("click", async () => {
+      try {
+        const choices = String(button.dataset.moveIds ?? "").split(",").filter(Boolean);
+        const moveId = window.prompt("Quale move id vuoi imparare?", choices[0] ?? "");
+        if (!moveId) return;
+        const pokemon = snapshot.player.roster[Number(button.dataset.rosterIndex)];
+        let forgetMoveId = null;
+        if ((pokemon.moves ?? []).length >= 4 && !(pokemon.moves ?? []).some((move) => move.id === moveId)) {
+          forgetMoveId = window.prompt("Quale move id vuoi dimenticare?", pokemon.moves[0]?.id ?? "");
+          if (!forgetMoveId) return;
+        }
+        snapshot = await api("/api/pokemon/replace-move", {
+          method: "POST",
+          body: JSON.stringify({ rosterIndex: Number(button.dataset.rosterIndex), level: Number(button.dataset.level), moveId, forgetMoveId })
+        });
+        openDrawer("team");
+      } catch (error) {
+        showInlineError(error.message);
+      }
+    });
+  }
+
+  for (const button of els.drawerContent.querySelectorAll(".pokemon-asi")) {
+    button.addEventListener("click", async () => {
+      try {
+        const points = Number(button.dataset.points);
+        const stat = window.prompt(`Assegna ${points} punti a STR, DEX, CON, INT, WIS o CHA`, "CON");
+        if (!stat) return;
+        snapshot = await api("/api/pokemon/asi", {
+          method: "POST",
+          body: JSON.stringify({
+            rosterIndex: Number(button.dataset.rosterIndex),
+            level: Number(button.dataset.level),
+            distribution: { [stat.toLowerCase()]: points }
+          })
+        });
+        openDrawer("team");
+      } catch (error) {
+        showInlineError(error.message);
+      }
     });
   }
 
