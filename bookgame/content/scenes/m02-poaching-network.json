@@ -325,12 +325,12 @@
           "combat": {
             "encounterId": "M2_POACHING_NETWORK_01",
             "opponent": {
-              "species": "trainer",
-              "level": 4,
+              "species": "Houndour",
+              "level": 5,
               "trainerId": "PoacherCampo01",
               "motive": "protect_operation"
             },
-            "opponentRegistered": false,
+            "opponentRegistered": true,
             "goto": "network_combat_handoff",
             "returnNodes": {
               "win": "network_combat_win",
