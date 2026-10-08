@@ -613,8 +613,10 @@ async function applyNormalPokemonLevelBenefits(
   const hpIncrease = Math.max(1, rawHitDie + conMod);
 
   next.level = toLevel;
+  const wasFainted = next.hp.current <= 0;
   next.hp.max += hpIncrease;
-  next.hp.current += hpIncrease;
+  // Gaining a level does not revive a Pokémon fainted at the end of battle.
+  if (!wasFainted) next.hp.current += hpIncrease;
   const existingHitDice = next.hitDice ?? { die: species.hitDice, current: fromLevel, max: fromLevel };
   next.hitDice = {
     die: species.hitDice,
@@ -670,17 +672,23 @@ async function continuePokemonLevelUps(
     data,
     evolutions,
     hpRolls = {},
-    context = {}
+    context = {},
+    maxLevel = 20
   }
 ) {
+  if (!Number.isInteger(maxLevel) || maxLevel < 1 || maxLevel > 20) {
+    throw new RangeError("Invalid Pokémon checkpoint level cap");
+  }
   let next = clone(pokemon);
+  // Excess XP never banks past the current checkpoint cap.
+  next.xp = Math.min(next.xp, experienceNeededAtLevel(maxLevel));
   const levelUps = [];
 
   if (next.pendingLevelUp) {
     return { pokemon: next, levelUps, pendingLevelUp: clone(next.pendingLevelUp) };
   }
 
-  while (next.level < 20 && next.xp >= EXPERIENCE_NEEDED_PER_LEVEL[next.level]) {
+  while (next.level < maxLevel && next.xp >= EXPERIENCE_NEEDED_PER_LEVEL[next.level]) {
     const fromLevel = next.level;
     const toLevel = fromLevel + 1;
     const candidate = { ...clone(next), level: toLevel };
@@ -720,14 +728,18 @@ export async function awardPokemonXp(
   {
     data = new Poke5eDataRepository(),
     hpRolls = {},
-    context = {}
+    context = {},
+    maxLevel = 20
   } = {}
 ) {
   if (!Number.isFinite(amount) || amount < 0) throw new RangeError("Pokémon XP award must be non-negative");
+  if (!Number.isInteger(maxLevel) || maxLevel < 1 || maxLevel > 20) {
+    throw new RangeError("Invalid Pokémon checkpoint level cap");
+  }
   let next = await initializePokemonRuntime(pokemon, data);
-  next.xp += amount;
+  next.xp = Math.min(next.xp + amount, experienceNeededAtLevel(maxLevel));
   const evolutions = await data.listEvolutions();
-  return continuePokemonLevelUps(next, { data, evolutions, hpRolls, context });
+  return continuePokemonLevelUps(next, { data, evolutions, hpRolls, context, maxLevel });
 }
 
 export async function resolvePendingPokemonLevelUp(
@@ -738,10 +750,15 @@ export async function resolvePendingPokemonLevelUp(
     asiDistribution = null,
     context = {},
     data = new Poke5eDataRepository(),
-    hpRolls = {}
+    hpRolls = {},
+    maxLevel = 20
   } = {}
 ) {
+  if (!Number.isInteger(maxLevel) || maxLevel < 1 || maxLevel > 20) {
+    throw new RangeError("Invalid Pokémon checkpoint level cap");
+  }
   let next = await initializePokemonRuntime(pokemon, data);
+  next.xp = Math.min(next.xp, experienceNeededAtLevel(maxLevel));
   const pending = next.pendingLevelUp;
   if (!pending || pending.stage !== "evolution_decision") {
     throw new Error("No pending Pokémon evolution decision during level-up");
@@ -803,7 +820,8 @@ export async function resolvePendingPokemonLevelUp(
     data,
     evolutions,
     hpRolls,
-    context
+    context,
+    maxLevel
   });
   return {
     status: continued.pendingLevelUp ? "choice_required" : "complete",
