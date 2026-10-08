@@ -292,7 +292,7 @@
       "stitches": [
         {
           "id": "df1",
-          "text": "La raffica ti costringe a interrompere prima della parte più esposta. Il fallimento cambia la tattica, non inventa una caduta: ora sai che la linea diretta non è affidabile."
+          "text": "Una raffica ti costringe a fermarti prima del tratto più esposto. La via diretta è troppo instabile: dovrai cercare un altro modo per aiutare i tecnici."
         }
       ],
       "choices": [
@@ -446,7 +446,7 @@
       "stitches": [
         {
           "id": "or1",
-          "text": "I due tecnici rientrano con te e con la squadra di risposta. Il risultato registra che sei entrato fisicamente nella parte esposta e hai completato l'evacuazione."
+          "text": "I due tecnici tornano al sicuro accanto a te e alla squadra di soccorso. Uno di loro si ferma a riprendere fiato, poi ti stringe la mano senza trovare subito le parole."
         }
       ],
       "choices": [
@@ -483,7 +483,7 @@
       "stitches": [
         {
           "id": "os1",
-          "text": "I tecnici rientrano attraverso l'intervento della squadra, aiutata dalle informazioni o dal corridoio che hai preparato. Il merito resta distinto: supporto reale, non un soccorso inventato."
+          "text": "I tecnici raggiungono il riparo guidati dalla squadra di soccorso. Le indicazioni che hai raccolto hanno aiutato a trovare un passaggio sicuro; i soccorritori ti ringraziano prima di ripartire."
         }
       ],
       "choices": [
@@ -520,7 +520,7 @@
       "stitches": [
         {
           "id": "ec1",
-          "text": "L'evento d'alta quota è chiuso senza modificare Rank, roster, HP o risultati competitivi. La Sala della Cresta resta il prossimo snodo per il Trial B→A."
+          "text": "Quando il vento si placa, la squadra smonta il posto di emergenza. Ad Altacima la Sala della Cresta è ancora aperta: il Trial B→A ti aspetta quando sarai pronto."
         }
       ],
       "choices": [
