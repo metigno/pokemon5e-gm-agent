@@ -174,7 +174,7 @@ async function build(trainerZip = null, secondaryZip = null) {
     const esbuild = await import("esbuild");
     await esbuild.build({
       entryPoints: [join(MOBILE, "src/bootstrap.mjs")], bundle: true, platform: "browser",
-      target: "es2020", format: "esm", minify: true, outfile: join(stage, "bootstrap.mjs")
+      target: "es2022", format: "esm", minify: true, outfile: join(stage, "bootstrap.mjs")
     });
     await rm(OUT, { recursive: true, force: true });
     await rename(stage, OUT);
