@@ -127,7 +127,7 @@ test("Real HTTP UI resolves a seventh capture via touch choices and persists the
   const port = 4218;
   const base = `http://127.0.0.1:${port}`;
   const dir = await mkdtemp(path.join(os.tmpdir(), "p5e-capture-ui-"));
-  const slot = "six-ui";
+  const slot = "slot1";
   const store = new SaveStore(dir);
   await store.save(sixPokemonBattleState(slot));
   const child = spawn(process.execPath, ["ui/server.mjs"], {
