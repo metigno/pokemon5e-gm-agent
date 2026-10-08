@@ -34,7 +34,7 @@
       "stitches": [
         {
           "id": "e1",
-          "text": "Per la prima volta da molte tappe, le traiettorie dei Five tornano abbastanza vicine da creare una reunion. Non significa che tutti siano fisicamente ad Altacima: partecipano soltanto quelli che schedule e distanza rendono plausibili."
+          "text": "Ad Altacima ritrovi notizie degli altri quattro. Alcuni potrebbero essere abbastanza vicini da incontrarti in piazza; altri rispondono soltanto fra un viaggio e l'altro. Per una volta i vostri percorsi si sfiorano di nuovo."
         }
       ],
       "choices": [
@@ -54,7 +54,7 @@
       "stitches": [
         {
           "id": "p1",
-          "text": "La piazza e la rete del Circuito mostrano presenze reali. Un amico può essere qui, in viaggio o raggiungibile soltanto da remoto; nessuno viene spostato per riempire la scena."
+          "text": "Davanti alla bacheca del Circuito confronti orari, messaggi e partenze. C'è chi può raggiungerti prima di sera e chi è già lontano, con soltanto qualche minuto per rispondere."
         }
       ],
       "choices": [
@@ -189,7 +189,7 @@
       "stitches": [
         {
           "id": "l1",
-          "text": "Luke arriva con un programma più ampio del semplice evento del giorno. Parla di adattamento, pressione e di quanto una carriera lunga renda costoso innamorarsi di un solo piano."
+          "text": "Luke difende ancora i Pokémon a cui si è affezionato. «Cambiare squadra ogni volta che perdi? Troppo facile.» Poi, quasi a sfidarti, aggiunge che preferisce trovare un modo per far funzionare anche l'abbinamento più difficile."
         }
       ],
       "choices": [
@@ -225,7 +225,7 @@
       "stitches": [
         {
           "id": "m1",
-          "text": "Mattew arriva con appunti di match e una tabella di preparazione piena di correzioni. La sua traiettoria resta metodica, ma le finestre più ampie lo costringono a gestire più variabili."
+          "text": "Mattew ha il taccuino pieno di appunti. «Non basta dire che avevi un piano. Devi sapere perché ha smesso di funzionare.» Ti mostra una sequenza di turni, poi aspetta che tu trovi l'errore."
         }
       ],
       "choices": [
@@ -261,7 +261,7 @@
       "stitches": [
         {
           "id": "d1",
-          "text": "Daniel racconta un percorso meno lineare: lavoro, match e tappe tecniche si sono sovrapposti. Non lo presenta come svantaggio; è il modo in cui ha imparato a leggere pressione e opportunità."
+          "text": "Daniel ascolta prima di rispondere. Quando qualcuno minimizza una scelta discutibile, si irrigidisce: «Il risultato non cancella il modo in cui ci sei arrivato.» Poi racconta quanto gli sia costato restare fedele a quella regola."
         }
       ],
       "choices": [
@@ -297,7 +297,7 @@
       "stitches": [
         {
           "id": "ed1",
-          "text": "Edward arriva parlando soprattutto di continuità: allenare, recuperare, ripetere. La sua crescita non dipende da un singolo evento spettacolare ma dalla somma di settimane reali."
+          "text": "Edward arriva con la sicurezza di chi sa farsi notare. «Se devo vincere, almeno che sia una bella vittoria.» Sorride, ma dietro la battuta ci sono settimane di allenamento e sconfitte che non racconta volentieri."
         }
       ],
       "choices": [
@@ -333,7 +333,7 @@
       "stitches": [
         {
           "id": "f1",
-          "text": "Fab porta storie di fauna, percorsi e deviazioni. Anche lui ha risultati propri, alcuni ottenuti senza che tu fossi presente, e il gioco li conserva come suoi."
+          "text": "Fab comincia a raccontare di un Pokémon incontrato fuori sentiero e finisce per descrivere mezz'ora passata a osservarlo. «Non l'ho catturato. Stava bene dov'era.» Poi cambia argomento con una battuta."
         }
       ],
       "choices": [
@@ -369,7 +369,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La reunion non cancella le distanze: chi è presente parla di persona, chi è altrove lascia messaggi o entra per qualche minuto. Per una volta, però, le cinque traiettorie sono visibili nello stesso quadro."
+          "text": "Chi riesce a esserci si stringe attorno a un tavolo; dagli altri arrivano messaggi e chiamate brevi, interrotte dal rumore dei viaggi. Le prese in giro ripartono quasi subito, come se vi foste lasciati ieri."
         }
       ],
       "choices": [
@@ -402,7 +402,7 @@
       "stitches": [
         {
           "id": "c1",
-          "text": "Nessuno dei Five ha una traiettoria identica. Rank, risultati, lavoro, catture e sconfitte non vengono normalizzati per rendere la reunion simmetrica."
+          "text": "Confrontate i risultati senza riuscire a stabilire chi abbia avuto il percorso più difficile. Ognuno ricorda una vittoria, una sconfitta e almeno una scelta che gli altri non avrebbero fatto."
         }
       ],
       "choices": [
@@ -534,7 +534,7 @@
       "stitches": [
         {
           "id": "fg1",
-          "text": "Il mondo seleziona il contatto personale usando presenza, schedule e fallback remoto. Non scegli un NPC impossibile soltanto perché sarebbe narrativamente comodo."
+          "text": "Fra saluti frettolosi e orari di partenza, trovi un momento per parlare con uno degli amici che puoi davvero raggiungere. Gli altri hanno già un treno, un allenamento o una chiamata da chiudere."
         }
       ],
       "choices": [
@@ -562,7 +562,7 @@
       "stitches": [
         {
           "id": "rc1",
-          "text": "La reunion comune è chiusa. Chi era presente riparte secondo la propria schedule; chi era remoto non viene materializzato ad Altacima."
+          "text": "La piazza si svuota poco alla volta. Qualcuno riparte, qualcuno spegne la chiamata promettendo di risentirsi. Restano una battuta non finita e la sensazione che il prossimo incontro non sarà così semplice da organizzare."
         }
       ],
       "choices": [
