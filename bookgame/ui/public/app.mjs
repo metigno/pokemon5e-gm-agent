@@ -516,7 +516,7 @@ function renderBattle(battle) {
   const spatial = battle.spatial;
   els.positionMeta.textContent = spatial
     ? `Pokémon ${formatPosition(battle.player.position)} · Nemico ${formatPosition(spatial.opponentPosition)}
-Distanza ${spatial.distance.toFixed(1)} ft · Trainer ${formatPosition(spatial.trainerPosition)}
+Distanza ${spatial.distance == null ? "—" : spatial.distance.toFixed(1)} ft · Trainer ${formatPosition(spatial.trainerPosition)}
 Movimento Pokémon ${battle.player.movementRemaining} ft · Trainer ${spatial.trainerMovementRemaining} ft
 Azione ${battle.player.actionAvailable ? "libera" : "usata"} · Bonus ${battle.player.bonusActionAvailable ? "libero" : "usato"}${battle.player.disengaged ? " · Disengage attivo" : ""}`
     : "";
