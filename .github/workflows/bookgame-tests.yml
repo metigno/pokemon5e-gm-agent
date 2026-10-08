@@ -43,3 +43,5 @@ jobs:
         run: npm --prefix bookgame run validate:story
       - name: Run Bookgame tests
         run: npm --prefix bookgame test
+      - name: Test offline sprite packaging
+        run: python3 -m unittest discover -s bookgame/tests -p 'test_sprite_overlay.py' -v

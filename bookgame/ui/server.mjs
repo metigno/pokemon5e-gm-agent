@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { join } from "node:path";
 import { normalizeSpriteId } from "../src/assets/sprite-runtime.mjs";
+import { verifyOfflineSpriteAssets } from "../scripts/verify-offline-sprites.mjs";
 import { BookgameEngine } from "../src/engine/bookgame-engine.mjs";
 import { Pokemon5eCombatEngine } from "../src/combat/combat-engine.mjs";
 import { captureBallsInInventory } from "../src/combat/capture.mjs";
@@ -32,6 +33,14 @@ const PUBLIC_DIR = fileURLToPath(new URL("./public/", import.meta.url));
 const SPRITE_DIR = process.env.P5E_SPRITE_DIR ?? fileURLToPath(new URL("../assets/pokemon/files/", import.meta.url));
 const spriteMap = JSON.parse(await readFile(new URL("../assets/pokemon/sprite-runtime-map.json", import.meta.url), "utf8"));
 const SPRITE_ROLES = new Set(["battleFront", "battleBack", "icon", "overworld"]);
+
+// Packaged releases refuse to run if even one mapped physical PNG is missing.
+if (process.env.P5E_REQUIRE_OFFLINE_SPRITES === "1") {
+  const report = await verifyOfflineSpriteAssets(spriteMap, SPRITE_DIR);
+  if (!report.valid) {
+    throw new Error(`Offline sprite release incomplete: ${report.verifiedPng} valid PNG, ${report.missing.length} missing, ${report.invalid.length} invalid; expected 619 mapped species. Run sprites:verify before shipping.`);
+  }
+}
 
 const engine = new BookgameEngine();
 const dice = new CryptoDice();

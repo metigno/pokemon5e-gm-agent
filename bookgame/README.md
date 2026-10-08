@@ -37,3 +37,7 @@ Useful commands:
     npm --prefix bookgame test
 
 A Story Builder Agent may assist content production later, but the compiler and tests remain the gatekeepers. The shipped runtime does not need the agent, an LLM, an API key, or an internet connection.
+
+## Offline sprite assets
+
+Before releasing the offline UI, install the [approved sprite package](assets/pokemon/SPRITE_BUNDLE.md), extract the self-contained overlay at the project root, and run `npm --prefix bookgame run sprites:verify`. The release server must use `P5E_REQUIRE_OFFLINE_SPRITES=1` to reject incomplete assets at startup. This does not create a native Android/iOS app.
