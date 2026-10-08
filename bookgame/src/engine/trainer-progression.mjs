@@ -1,5 +1,6 @@
 import { trainerProgression2024 } from "../rules/trainer-2024.mjs";
 import { experienceNeededAtLevel } from "./state.mjs";
+import { trainerLevelCapForState } from "./trainer-xp-balance.mjs";
 
 export const TRAINER_PATHS = Object.freeze([
   ["ace-trainer","Ace Trainer"],["hobbyist","Hobbyist"],["poke-mentor","Poké Mentor"],
@@ -36,6 +37,7 @@ function ensureProgression(state){
   p.trainerProgression.history??=[];
   p.trainerProgression.pendingChoices??=[];
   p.trainerProgression.resolvedChoices??=[];
+  p.trainerProgression.xpRewards??=[];
   p.trainerProgression.targetLevel=Number.isInteger(p.trainerProgression.targetLevel)?p.trainerProgression.targetLevel:(p.trainerLevel??1);
   p.trainerProgression.targetMilestoneId??=null;
   return p.trainerProgression;
@@ -70,7 +72,7 @@ function hpGain(player){return Math.max(1,4+abilityModifier(player.abilities?.CO
 export function pendingTrainerProgression(state){return ensureProgression(state).pendingChoices[0]??null;}
 export function hasPendingTrainerProgression(state){return Boolean(pendingTrainerProgression(state));}
 
-export function advanceTrainerToLevel(state,targetLevel,{sourceMilestoneId="manual"}={}){
+export function advanceTrainerToLevel(state,targetLevel,{sourceMilestoneId="manual",preserveXp=false}={}){
   if(!Number.isInteger(targetLevel)||targetLevel<1||targetLevel>20) throw new RangeError("Trainer target level must be 1..20");
   const p=state.player;
   const progression=ensureProgression(state);
@@ -85,7 +87,9 @@ export function advanceTrainerToLevel(state,targetLevel,{sourceMilestoneId="manu
     const level=fromLevel+1;
     const gain=hpGain(p);
     p.trainerLevel=level;
-    p.trainerXp=experienceNeededAtLevel(level);
+    p.trainerXp=preserveXp
+      ? Math.max(p.trainerXp,experienceNeededAtLevel(level))
+      : experienceNeededAtLevel(level);
     p.hp.max=Math.max(1,Number(p.hp.max??1)+gain);
     p.hp.current=Math.min(p.hp.max,Math.max(0,Number(p.hp.current??0)+gain));
     p.hitDice.die??="d6";
@@ -117,8 +121,42 @@ export function applyTrainerProgressionEffect(state,effect){
 export function syncCampaignTrainerProgression(state){
   const progression=ensureProgression(state);
   const target=Math.max(Number(state.player?.trainerLevel??1),Number(progression.targetLevel??1));
-  if(target<=Number(state.player?.trainerLevel??1)) return [];
-  return advanceTrainerToLevel(state,target,{sourceMilestoneId:progression.targetMilestoneId??"milestone"});
+  const applied=target>Number(state.player?.trainerLevel??1)
+    ? advanceTrainerToLevel(state,target,{sourceMilestoneId:progression.targetMilestoneId??"milestone"})
+    : [];
+  const cap=trainerLevelCapForState(state);
+  while(state.player.trainerLevel<cap &&
+      progression.pendingChoices.length===0 &&
+      state.player.trainerXp>=experienceNeededAtLevel(state.player.trainerLevel+1)){
+    applied.push(...advanceTrainerToLevel(state,state.player.trainerLevel+1,{
+      sourceMilestoneId:"TRAINER_XP",preserveXp:true
+    }));
+  }
+  return applied;
+}
+
+// Earned XP can reach the current checkpoint threshold, but never the next
+// one. Excess is discarded immediately, including while a level-up choice
+// is pending. Reward identifiers make authored one-time accomplishments safe
+// to revisit without granting the reward again.
+export function awardTrainerXp(state,amount,{rewardId=null}={}){
+  if(!Number.isSafeInteger(amount)||amount<0) throw new RangeError("Trainer XP award must be a non-negative integer");
+  const progression=ensureProgression(state);
+  const player=state.player;
+  const cap=Math.max(player.trainerLevel,trainerLevelCapForState(state));
+  const floor=experienceNeededAtLevel(player.trainerLevel);
+  const ceiling=experienceNeededAtLevel(cap);
+  player.trainerXp=Math.min(ceiling,Math.max(floor,
+    Number.isFinite(player.trainerXp)?Math.floor(player.trainerXp):floor));
+  if(rewardId!==null && (typeof rewardId!=="string"||!rewardId)) throw new Error("Invalid Trainer XP reward identifier");
+  if(rewardId && progression.xpRewards.includes(rewardId)){
+    return {awarded:0,discarded:amount,duplicate:true,cap,levelUps:[]};
+  }
+  const awarded=Math.min(amount,Math.max(0,ceiling-player.trainerXp));
+  player.trainerXp+=awarded;
+  if(rewardId) progression.xpRewards.push(rewardId);
+  const levelUps=syncCampaignTrainerProgression(state);
+  return {awarded,discarded:amount-awarded,duplicate:false,cap,levelUps};
 }
 
 function asiChoices(state){
