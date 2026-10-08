@@ -7,7 +7,10 @@ import subprocess
 import tempfile
 import zipfile
 
-EXPECTED_SHA256 = "61d97f4109cc976930c26a72c19aa15ebf5b8e0cb687297838d8d3af1223e3b8"
+APPROVED_SHA256 = {
+    "61d97f4109cc976930c26a72c19aa15ebf5b8e0cb687297838d8d3af1223e3b8",  # original 608
+    "282212aef3a5eda96dcc6bd32e93583aae477689ed7402fd0f6fa646767330e0",  # completed 619
+}
 PACKAGE_ROOT = "P5E_M01-M12_EmeraldExpansion_Sprites"
 
 def main():
@@ -17,7 +20,7 @@ def main():
     args = parser.parse_args()
     archive = args.archive.resolve()
     digest = hashlib.sha256(archive.read_bytes()).hexdigest()
-    if digest != EXPECTED_SHA256:
+    if digest not in APPROVED_SHA256:
         parser.error(f"Unapproved archive (SHA-256 {digest}); no files installed")
     importer = Path(__file__).resolve().with_name("import-sprite-package.mjs")
     with tempfile.TemporaryDirectory(prefix="p5e-sprites-") as tmp:

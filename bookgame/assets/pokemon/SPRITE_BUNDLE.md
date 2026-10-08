@@ -34,3 +34,22 @@ python3 bookgame/scripts/install-approved-sprite-zip.py /path/to/P5E_M01-M12_Eme
 ```
 
 The installer verifies the pinned SHA-256, rejects unsafe ZIP paths, extracts to a temporary directory, and delegates to the existing canonical importer. The archive itself is **not** committed to this repository. The approved archive is incomplete for 11 mapped species, so `--strict` intentionally fails without copying until those assets are supplied.
+
+## Completed 619-species approved bundle
+
+The original archive is retained for provenance. The separately prepared complete archive combines it with the user-provided 11-species/33-sprite supplement without overwriting existing files:
+
+- File: `P5E_M01-M12_619_Pokemon_Complete_Sprites.zip`
+- SHA-256: `282212aef3a5eda96dcc6bd32e93583aae477689ed7402fd0f6fa646767330e0`
+- Size: 3,202,604 bytes
+- Species directories: 619
+- PNG entries: 3,356
+- Gigantamax: excluded
+
+To install the completed bundle with mandatory asset checks:
+
+```sh
+python3 bookgame/scripts/install-approved-sprite-zip.py /path/to/P5E_M01-M12_619_Pokemon_Complete_Sprites.zip --strict
+```
+
+The ZIP is distributed separately; it is not embedded in Git. The original 11-species gap documented above applies only to the *original* 608-species archive. The full runtime mapping and strict importer remain authoritative for end-to-end coverage.
