@@ -7,14 +7,14 @@
 - 19 canonical named NPC assets are preserved under `assets/characters/files`.
 - The **35** named competitors in `src/rules/world-roster-2060.mjs` include **17** of those 19; the supplementary catalog therefore covers the **18 remaining** World competitors.
 - The supplementary catalog also defines **24** visually neutral, scene-scoped functional archetypes, with battle/front 64×64 and authentic 16×32 overworld frames. Different frame counts are stored per source, not fabricated.
-- **36 scene+node-specific placements in 15 independently verified existing scene files**, across M01–M11. M12 reuses prior cast; no new named persistent NPCs are created.
+- **35 scene+node-specific placements in 15 independently verified existing scene files**, across M01–M11. M12 reuses prior cast; no new named persistent NPCs are created.
 - This does **not** assert that every incidental, unnamed person mentioned in all authored prose now has a separate displayed portrait. Those are intentionally *not* registered as new persistent NPCs or assigned art by guessing at text.
 
 **Actual physical offline asset archive:** `P5E_NPC_Secondary_Functional_Offline.zip`, SHA-256
-`f87e063447d9e79d5f1ba55ba1d1233250bcf7e4d2adb96aecb191dae0d9488a`.
+`2fa94f30ef69956c04c8d0f18a65be06c41c1bfd68021621a13d22e5c8b729a2`.
 
 The archive contains 84 PNG files, `bookgame/assets/npc-sprites/catalog.json` (SHA-256
-`07c8339f149556e5b82dce2b68efa79688fe96f07ba6a8bf3db73bc4d29cbab3`),
+`f173d2322a7224271923acb9a178cfef3783c36e3ad93ef76778c142b756ae3a`),
 and detailed physical asset audit information.
 
 ## World entrants added (18)
