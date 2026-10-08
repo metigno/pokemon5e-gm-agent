@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
+  <a class="skip-link" href="#main-view">Vai al contenuto</a>
   <div class="app-shell">
     <header class="topbar">
       <div>
@@ -20,7 +21,7 @@
       </div>
     </header>
 
-    <main id="main-view" class="main-view" aria-live="polite">
+    <main id="main-view" class="main-view" tabindex="-1">
       <section class="scene-card" id="story-screen">
         <div class="scene-art" aria-hidden="true">
           <div class="scene-art__sun"></div>
@@ -37,8 +38,8 @@
           </div>
           <div id="story-text" class="story-text"></div>
           <div id="reveal-hint" class="reveal-hint" hidden>Tocca il testo per completarlo subito.</div>
-          <div id="last-roll" class="roll-result" hidden></div>
-          <div id="choice-list" class="choice-list" aria-label="Scelte"></div>
+          <div id="last-roll" class="roll-result" role="status" hidden></div>
+          <div id="choice-list" class="choice-list" role="group" aria-label="Scelte disponibili"></div>
         </div>
       </section>
 
@@ -117,6 +118,8 @@
     </nav>
   </div>
 
+  <div id="app-alert" class="app-alert" role="alert" aria-live="assertive" hidden></div>
+
   <div class="start-screen" id="start-screen">
     <div class="start-card">
       <div class="brand-mark">P5E</div>
@@ -147,12 +150,12 @@
         <button id="start-codex" class="secondary-button" type="button">Codex e regole</button>
         <button id="start-hall" class="secondary-button" type="button">Hall of Fame</button>
       </div>
-      <div class="error-box" id="start-error" hidden></div>
+      <div class="error-box" id="start-error" role="alert" hidden></div>
     </div>
   </div>
 
   <div class="drawer-backdrop" id="drawer-backdrop" hidden></div>
-  <aside class="drawer" id="drawer" aria-hidden="true">
+  <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" aria-hidden="true">
     <div class="drawer-header">
       <div>
         <div class="eyebrow">PANNELLO</div>
