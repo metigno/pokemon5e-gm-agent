@@ -4,7 +4,7 @@ import { createNewGameState, experienceNeededAtLevel, migrateGameState } from ".
 import { BookgameEngine } from "../src/engine/bookgame-engine.mjs";
 import { SequenceDice } from "../src/engine/dice.mjs";
 import {
-  awardTrainerXp, resolveTrainerProgressionChoice, syncCampaignTrainerProgression
+  awardTrainerXp, getTrainerProgressionView, resolveTrainerProgressionChoice, syncCampaignTrainerProgression
 } from "../src/engine/trainer-progression.mjs";
 import {
   TRAINER_LEVEL_CAPS_BY_MODULE, trainerLevelCapForState,
@@ -110,4 +110,28 @@ test("The real story choice pipeline awards a check only once and survives a rep
   const twice=await engine.choose(once,"inspect");
   assert.equal(twice.player.trainerXp,16);
   assert.equal(twice.story.history.at(-1).trainerXp.duplicate,true);
+});
+
+test("M07 Trainer level 19 offers a rules-legal feat instead of blocking M08",()=>{
+  const state=create();
+  state.world.flags.m6_complete=true;
+  state.story.sceneId="m07-module-outcome";
+  state.player.trainerLevel=18;
+  state.player.trainerXp=experienceNeededAtLevel(18);
+  state.player.trainerProgression.targetLevel=18;
+  const earned=awardTrainerXp(state,9999999);
+  assert.equal(earned.cap,20);
+  assert.equal(state.player.trainerLevel,19);
+  assert.equal(state.player.trainerXp,experienceNeededAtLevel(20));
+  const view=getTrainerProgressionView(state);
+  assert.equal(view.type,"epic_boon");
+  assert.ok(view.choices.some(choice=>choice.id==="trainer_asi_dex_2"));
+  assert.equal(state.player.abilities.DEX <= 18,true);
+  resolveTrainerProgressionChoice(state,"trainer_asi_dex_2");
+  assert.ok(state.player.abilities.DEX>=12);
+  syncCampaignTrainerProgression(state);
+  assert.equal(state.player.trainerLevel,20);
+  assert.equal(state.player.trainerXp,experienceNeededAtLevel(20));
+  assert.equal(getTrainerProgressionView(state),null);
+  assert.equal(awardTrainerXp(state,99999999).awarded,0);
 });
