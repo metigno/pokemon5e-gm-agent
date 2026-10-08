@@ -347,7 +347,7 @@
       "stitches": [
         {
           "id": "dragon_1",
-          "text": "Lance parla della sua linea drago come di una carriera parallela: allenamento, esperienza e trasformazioni arrivano quando realmente guadagnate. Nessuna forma futura viene anticipata per impressionare il player."
+          "text": "Quando parla dei suoi Pokémon drago, Lance non elenca traguardi futuri. Parla di tempo, disciplina e fiducia conquistata: ogni evoluzione deve arrivare quando il Pokémon è pronto, non quando farebbe più scena."
         }
       ],
       "choices": [
@@ -433,7 +433,7 @@
       "stitches": [
         {
           "id": "comp_1",
-          "text": "Lance è un avversario possibile nel mondo competitivo, non un gate mascherato. Incontrarlo, piacergli o batterlo in un eventuale match non può sostituire RANK_B_TO_A."
+          "text": "Lance può diventare un avversario del Circuito, ma non è un esaminatore. Conoscerlo, impressionarlo o perfino batterlo non vale una promozione: il Rank A passa comunque dal Trial ufficiale."
         }
       ],
       "choices": [
@@ -460,7 +460,7 @@
       "stitches": [
         {
           "id": "prior_1",
-          "text": "Se la tua storia precedente contiene Ferrox, Mareasale o competizioni rilevanti, Lance può riconoscerne gli effetti pubblici. Non attribuisce mai al player un'azione che il save non contiene."
+          "text": "Lance conosce le notizie che hanno davvero viaggiato fin quassù: risultati pubblici, incidenti e interventi di cui esiste traccia. Non ti attribuisce imprese che non hai compiuto."
         }
       ],
       "choices": [
@@ -492,7 +492,7 @@
       "stitches": [
         {
           "id": "state_1",
-          "text": "Il primo incontro lascia relazione, contesto e temi condivisi persistenti. Lance continuerà la propria schedule e i propri risultati anche quando non è in scena."
+          "text": "Quando vi separate, Lance non resta ad aspettarti. Ha allenamenti, spostamenti e incontri propri; ciò che vi siete detti, invece, resta tra voi."
         }
       ],
       "choices": [
@@ -571,7 +571,7 @@
       "stitches": [
         {
           "id": "sched_1",
-          "text": "Lance non promette di restare finché il player non ha finito. La sua presenza futura dipenderà da schedule, carriera e condizioni del mondo."
+          "text": "«Non contare di trovarmi qui al ritorno.» Lance guarda la cresta prima di aggiungere: «La montagna cambia programma più in fretta di noi.»"
         }
       ],
       "choices": [

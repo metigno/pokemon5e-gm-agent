@@ -279,7 +279,7 @@
       "stitches": [
         {
           "id": "risk_1",
-          "text": "Prima di partire puoi trattare la scelta come una scommessa cieca oppure spendere tempo per leggere meglio il margine. Il sistema conserva entrambe le possibilità senza premiare automaticamente l'opzione più prudente."
+          "text": "Prima di partire puoi trattare la scelta come una scommessa cieca oppure spendere tempo per leggere meglio il margine. Entrambe sono scelte reali: prudenza e velocità hanno costi diversi, e nessuna delle due garantisce da sola un buon esito."
         }
       ],
       "choices": [
@@ -413,7 +413,7 @@
       "stitches": [
         {
           "id": "post_1",
-          "text": "Il rinvio fa avanzare davvero il mondo. Schedule, eventi e disponibilità possono cambiare; la decisione non viene congelata in attesa del player."
+          "text": "Rimandare ha un costo reale: le ore passano, le partenze cambiano e persone o opportunità disponibili adesso potrebbero non esserlo più tardi."
         }
       ],
       "choices": [
@@ -424,7 +424,7 @@
         },
         {
           "id": "post_hub",
-          "text": "Uso il tempo per tornare nel hub.",
+          "text": "Uso il tempo per tornare ad Altacima.",
           "goto": "m05-altacima#town_hub",
           "effects": [
             {
@@ -505,7 +505,7 @@
       "stitches": [
         {
           "id": "record_1",
-          "text": "La scelta conserva momento, rotta e qualità dell'informazione. Nessun flag dichiara che hai raggiunto Fulgore prima che M5_05 risolva davvero la tratta."
+          "text": "Hai scelto quando partire, quale rotta tentare e quanto fidarti delle informazioni raccolte. Fulgore, però, è ancora davanti a te: dovrai raggiungerlo davvero."
         }
       ],
       "choices": [

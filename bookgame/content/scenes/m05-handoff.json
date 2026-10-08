@@ -26,7 +26,7 @@
       "stitches": [
         {
           "id": "entry_1",
-          "text": "Il Circuito registra Rank B come stato già ottenuto, non come premio di M5. Mareasale, Ferrox, risultati competitivi, relazioni e stato dei Pokémon restano intatti mentre si apre la fascia alta regionale."
+          "text": "La tessera del Circuito porta già il Rank B conquistato a Mareasale. Non è un nuovo premio: è il punto da cui riparti. Mareasale, Ferrox, risultati competitivi, relazioni e stato dei Pokémon restano intatti mentre si apre la fascia alta regionale."
         },
         {
           "id": "entry_2",
@@ -105,7 +105,7 @@
       "stitches": [
         {
           "id": "carry_1",
-          "text": "Il riepilogo conserva l'esito dell'Upper Regional, la pista logistica, il rapporto con Archie, FRIEND_BEAT_04 e ogni risultato E5. Le parti opzionali non viste restano non viste."
+          "text": "Da Mareasale porti soltanto ciò che hai davvero vissuto: l'esito dell'Upper Regional, la pista sui carichi, l'eventuale rapporto con Archie, l'ultimo contatto con uno dei Five e il risultato del Trial. Ciò che hai lasciato inesplorato non compare per magia."
         },
         {
           "id": "carry_2",
@@ -120,7 +120,7 @@
         },
         {
           "id": "carry_callbacks",
-          "text": "Controllo quali callback costieri possono ancora contare.",
+          "text": "Controllo quali conseguenze di Mareasale possono ancora seguirmi.",
           "goto": "callbacks_coast"
         }
       ]
@@ -243,7 +243,7 @@
       "stitches": [
         {
           "id": "rules_1",
-          "text": "Nessun contenuto di M5 può cambiare Rank con un flag narrativo. La futura promozione B→A dovrà passare dal checkpoint E5 RANK_B_TO_A e da un combattimento realmente risolto."
+          "text": "Nessun incontro sulle montagne può regalarti il Rank A. Per ottenerlo dovrai iscriverti al Promotion Trial B→A e vincere davvero l'esame."
         }
       ],
       "choices": [
@@ -308,7 +308,7 @@
       "stitches": [
         {
           "id": "wait_1",
-          "text": "Un'ora passa davvero. Orari, schedule e world events possono avanzare; il rinvio non congela la regione."
+          "text": "Passa un'ora. Le partenze cambiano, le persone proseguono i propri impegni e il tempo sulle montagne continua a muoversi anche senza di te."
         }
       ],
       "choices": [

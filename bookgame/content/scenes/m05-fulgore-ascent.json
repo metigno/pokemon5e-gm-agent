@@ -409,7 +409,7 @@
       "stitches": [
         {
           "id": "ac1",
-          "text": "La salita è registrata come completata soltanto dopo aver realmente raggiunto Fulgore. Il percorso scelto resta disponibile come callback."
+          "text": "Solo quando metti piede sull'Altopiano Fulgore la salita può dirsi conclusa. La rotta scelta e ciò che è successo lungo il percorso restano parte del viaggio."
         }
       ],
       "choices": [
@@ -490,7 +490,7 @@
       "choices": [
         {
           "id": "riolu_engage",
-          "text": "Ingaggio Riolu solo se resta nel corridoio naturale e lascio l'esito al resolver Pokémon 5e.",
+          "text": "Mi avvicino a Riolu solo se non devo inseguirlo fuori dal suo corridoio naturale.",
           "combat": {
             "encounterId": "M5_WILD_RIOLU_001",
             "opponent": {
@@ -543,7 +543,7 @@
       "choices": [
         {
           "id": "geodude_engage",
-          "text": "Ingaggio Geodude solo se resta nel corridoio naturale e lascio l'esito al resolver Pokémon 5e.",
+          "text": "Mi avvicino a Geodude solo se non devo deviare nel suo habitat per forzare l'incontro.",
           "combat": {
             "encounterId": "M5_WILD_GEODUDE_001",
             "opponent": {
@@ -596,7 +596,7 @@
       "choices": [
         {
           "id": "machop_engage",
-          "text": "Ingaggio Machop solo se resta nel corridoio naturale e lascio l'esito al resolver Pokémon 5e.",
+          "text": "Mi avvicino a Machop solo se l'incontro nasce sul percorso e non devo inseguirlo.",
           "combat": {
             "encounterId": "M5_WILD_MACHOP_001",
             "opponent": {
@@ -661,7 +661,7 @@
       "stitches": [
         {
           "id": "wl1",
-          "text": "Il confronto si chiude a tuo sfavore. HP e condizioni restano quelli prodotti dal resolver."
+          "text": "Il confronto si chiude a tuo sfavore. La squadra porta con sé le conseguenze reali dello scontro mentre riprendi fiato."
         }
       ],
       "choices": [

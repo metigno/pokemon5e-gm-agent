@@ -89,7 +89,7 @@
       "stitches": [
         {
           "id": "rs1",
-          "text": "La licenza abilita prenotazioni e servizi interregionali del Circuito dove la geografia e il calendario li permettono. Non sblocca aree Rank A o S e non teletrasporta il player."
+          "text": "La licenza permette di prenotare servizi e trasferte interregionali compatibili con il tuo Rank e con il calendario. Non apre zone riservate ai Rank superiori e, naturalmente, non elimina distanze o tempi di viaggio."
         }
       ],
       "choices": [
@@ -136,7 +136,7 @@
       "stitches": [
         {
           "id": "reg1",
-          "text": "L'addetta crea una pratica separata dal Promotion Trial B→A. Nessun checkpoint di Rank viene toccato."
+          "text": "L'addetta apre una pratica distinta dal Promotion Trial B→A: ottenere questa licenza non cambia il tuo Rank."
         }
       ],
       "choices": [
@@ -220,7 +220,7 @@
       "stitches": [
         {
           "id": "ah1",
-          "text": "Il risultato passa al resolver Pokémon 5e/E5. La scena non decide chi vince."
+          "text": "Il combattimento viene registrato secondo le normali regole del Circuito. Nessuno al banco può deciderne l'esito in anticipo."
         }
       ],
       "choices": [
@@ -272,7 +272,7 @@
       "stitches": [
         {
           "id": "aw1",
-          "text": "Il resolver registra una vittoria. È un dato utile per il profilo interregionale, non una promozione automatica."
+          "text": "La vittoria entra nel tuo profilo interregionale. È un risultato utile, ma non vale una promozione di Rank."
         }
       ],
       "choices": [
@@ -316,7 +316,7 @@
       "stitches": [
         {
           "id": "al1",
-          "text": "Il resolver registra una sconfitta. Il match ha comunque prodotto il profilo richiesto; non viene riscritto come vittoria e non abbassa il Rank."
+          "text": "La sconfitta resta tale, ma il combattimento ha comunque fornito la valutazione richiesta. Il tuo Rank non cambia."
         }
       ],
       "choices": [
@@ -425,7 +425,7 @@
       "stitches": [
         {
           "id": "tr1",
-          "text": "La licenza permette di usare servizi interregionali disponibili al tuo Rank e nel calendario corrente. Le singole destinazioni restano soggette a Rank, tempo, trasporti e world state."
+          "text": "Con la licenza puoi usare i servizi interregionali disponibili per il tuo Rank e nel calendario corrente. Ogni destinazione continua però ad avere requisiti, tempi di viaggio e condizioni proprie."
         }
       ],
       "choices": [

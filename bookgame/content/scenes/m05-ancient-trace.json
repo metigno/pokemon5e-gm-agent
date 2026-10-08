@@ -380,7 +380,7 @@
       "choices": [
         {
           "id": "partial_layer",
-          "text": "Registro il layer come traccia incompleta.",
+          "text": "Registro la traccia come incompleta.",
           "goto": "layer_record",
           "effects": [
             {
@@ -450,7 +450,7 @@
       "stitches": [
         {
           "id": "lr1",
-          "text": "Il primo layer è persistente e volutamente incompleto. Moduli successivi potranno confrontarlo con nuove prove senza retroattivamente inventare ciò che hai visto qui."
+          "text": "La prima traccia resta volutamente incompleta. Se in futuro troverai altre prove, potrai confrontarle con queste senza trasformare retroattivamente un dubbio in una certezza."
         }
       ],
       "choices": [
@@ -482,13 +482,13 @@
       "stitches": [
         {
           "id": "tc1",
-          "text": "La scena termina con una domanda meglio definita, non con una risposta. Nessun Pokémon raro viene aggiunto al roster e nessun incontro futuro è garantito."
+          "text": "Te ne vai con una domanda più precisa, non con una risposta. Non hai visto abbastanza da identificare una creatura, e nulla promette che il fenomeno si ripeterà."
         }
       ],
       "choices": [
         {
           "id": "close_after",
-          "text": "Torno all'altopiano con il layer registrato.",
+          "text": "Torno sull'altopiano con ciò che ho documentato.",
           "goto": "after_trace"
         }
       ]
@@ -497,7 +497,7 @@
       "stitches": [
         {
           "id": "a1",
-          "text": "Fulgore torna a essere un luogo aperto. Il mistero resta nel save insieme a rotta, meteo, Lance e carriera, pronto per callback futuri."
+          "text": "Fulgore torna a essere soprattutto vento, pietra e cielo aperto. L'anomalia rimane nei tuoi appunti, accanto alle osservazioni sul percorso e alle parole di Lance: abbastanza concreta da ricordarla, non abbastanza chiara da darle un nome."
         }
       ],
       "choices": [

@@ -34,7 +34,7 @@
       "stitches": [
         {
           "id": "e1",
-          "text": "Per la prima volta da molte tappe, le traiettorie dei Five tornano abbastanza vicine da creare una reunion. Non significa che tutti siano fisicamente ad Altacima: partecipano soltanto quelli che schedule e distanza rendono plausibili."
+          "text": "Per la prima volta da molte tappe, le strade dei Five tornano abbastanza vicine da permettere una reunion. Non tutti devono essere ad Altacima: chi è lontano può farsi sentire soltanto a distanza, e nessuno interrompe il proprio viaggio per comparire al momento giusto."
         }
       ],
       "choices": [
@@ -189,7 +189,7 @@
       "stitches": [
         {
           "id": "l1",
-          "text": "Luke arriva con un programma più ampio del semplice evento del giorno. Parla di adattamento, pressione e di quanto una carriera lunga renda costoso innamorarsi di un solo piano."
+          "text": "Luke non parla di cambiare i Pokémon che ama per inseguire la soluzione più facile. Parla invece di costringere un piano a funzionare: adattare ritmo, pressione e ingressi finché la squadra che ha scelto trova il modo di colpire."
         }
       ],
       "choices": [
@@ -225,7 +225,7 @@
       "stitches": [
         {
           "id": "m1",
-          "text": "Mattew arriva con appunti di match e una tabella di preparazione piena di correzioni. La sua traiettoria resta metodica, ma le finestre più ampie lo costringono a gestire più variabili."
+          "text": "Mattew arriva con appunti ordinati, orari annotati e correzioni ai margini. Prima di parlare di risultati vuole capire perché una scelta ha funzionato: per lui una soluzione che non sai spiegare è una soluzione che non saprai ripetere."
         }
       ],
       "choices": [
@@ -261,7 +261,7 @@
       "stitches": [
         {
           "id": "d1",
-          "text": "Daniel racconta un percorso meno lineare: lavoro, match e tappe tecniche si sono sovrapposti. Non lo presenta come svantaggio; è il modo in cui ha imparato a leggere pressione e opportunità."
+          "text": "Daniel ha già separato sul suo taccuino risultati, costi e cose ancora da verificare. Quando racconta il proprio percorso distingue ciò che possiede, ciò che gli manca e ciò che vale davvero la pena inseguire."
         }
       ],
       "choices": [
@@ -297,7 +297,7 @@
       "stitches": [
         {
           "id": "ed1",
-          "text": "Edward arriva parlando soprattutto di continuità: allenare, recuperare, ripetere. La sua crescita non dipende da un singolo evento spettacolare ma dalla somma di settimane reali."
+          "text": "Edward parte dai momenti che fanno rumore — un colpo decisivo, una rimonta, qualcuno che non arretra — ma quando il discorso si allunga ammette che quei momenti esistono solo perché prima ci sono state settimane di allenamento e recupero."
         }
       ],
       "choices": [
@@ -333,7 +333,7 @@
       "stitches": [
         {
           "id": "f1",
-          "text": "Fab porta storie di fauna, percorsi e deviazioni. Anche lui ha risultati propri, alcuni ottenuti senza che tu fossi presente, e il gioco li conserva come suoi."
+          "text": "Fab arriva con storie che cominciano quasi sempre fuori dalle arene: un sentiero sbagliato, un Pokémon osservato troppo a lungo, una deviazione diventata la parte migliore del viaggio. Solo dopo, quasi per inciso, racconta anche i suoi risultati."
         }
       ],
       "choices": [
@@ -417,7 +417,7 @@
         },
         {
           "id": "career_schedule",
-          "text": "Guardiamo dove ci porteranno le prossime schedule.",
+          "text": "Guardiamo dove ci porteranno i prossimi impegni.",
           "goto": "schedule_split"
         }
       ]
@@ -459,7 +459,7 @@
       "choices": [
         {
           "id": "ancient_record",
-          "text": "Registro che gli amici conoscono il layer, non la sua soluzione.",
+          "text": "Tengo chiaro che gli altri conoscono la traccia, non la sua spiegazione.",
           "goto": "schedule_split",
           "effects": [
             {
@@ -534,7 +534,7 @@
       "stitches": [
         {
           "id": "fg1",
-          "text": "Il mondo seleziona il contatto personale usando presenza, schedule e fallback remoto. Non scegli un NPC impossibile soltanto perché sarebbe narrativamente comodo."
+          "text": "Quando la conversazione comune si scioglie, resta spazio per parlare davvero con uno solo di loro: qualcuno presente ad Altacima oppure, se necessario, raggiungibile a distanza."
         }
       ],
       "choices": [
@@ -562,7 +562,7 @@
       "stitches": [
         {
           "id": "rc1",
-          "text": "La reunion comune è chiusa. Chi era presente riparte secondo la propria schedule; chi era remoto non viene materializzato ad Altacima."
+          "text": "La reunion finisce senza cerimonie. Chi era ad Altacima torna ai propri impegni; chi era lontano saluta dal canale comune e resta dov'era."
         }
       ],
       "choices": [

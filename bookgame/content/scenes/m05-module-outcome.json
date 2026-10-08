@@ -175,7 +175,7 @@
       "stitches": [
         {
           "id": "rr1",
-          "text": "Rank A è arrivato soltanto dalla vittoria reale a `RANK_B_TO_A`. La licenza, l'evento d'alta quota e il Masters Entry non hanno sostituito il checkpoint."
+          "text": "Il Rank A è arrivato soltanto dalla vittoria nel Promotion Trial B→A. La licenza, il soccorso d'alta quota e il Masters Entry non hanno potuto sostituire quell'esame."
         }
       ],
       "choices": [
@@ -226,7 +226,7 @@
         },
         {
           "id": "friend_continuity",
-          "text": "Controllo come questi callback passano a M6.",
+          "text": "Controllo quali conseguenze potranno seguirmi oltre Altacima.",
           "goto": "continuity_review"
         }
       ]
@@ -235,7 +235,7 @@
       "stitches": [
         {
           "id": "tr1",
-          "text": "`ancient_mystery_layer_1` è ancora un layer incompleto: osservato, parziale o convergente a seconda della run. M5 non gli assegna retroattivamente una causa o una cattura."
+          "text": "La traccia antica resta incompleta: potresti averla appena notata, studiata solo in parte oppure documentata con più indizi convergenti. Nulla di ciò che accade ora le assegna retroattivamente una causa."
         }
       ],
       "choices": [
@@ -306,7 +306,7 @@
         },
         {
           "id": "altitude_continuity",
-          "text": "Conservo il callback per il Living World.",
+          "text": "Conservo queste informazioni per quando il fenomeno tornerà rilevante.",
           "goto": "continuity_review"
         }
       ]
@@ -315,7 +315,7 @@
       "stitches": [
         {
           "id": "cr1",
-          "text": "Roster, HP, PP, status, inventario, denaro, livelli, risultati ufficiali, relazioni, schedule, ecology e history non vengono resettati al confine M5→M6."
+          "text": "Lasciando M5 non perdi nulla di ciò che esiste davvero: squadra, condizioni, risorse, denaro, livelli, risultati, relazioni e conseguenze nel mondo continuano con te."
         }
       ],
       "choices": [
@@ -379,7 +379,7 @@
       "stitches": [
         {
           "id": "mc1",
-          "text": "M5 — Sopra le Nuvole è formalmente completo. `m06_unlocked=true` prepara il prossimo modulo conservando tutto lo stato plurimodulo senza reset."
+          "text": "La tappa di Altacima è conclusa. La strada successiva si apre senza cancellare ciò che hai costruito fin qui."
         }
       ],
       "choices": [
@@ -399,7 +399,7 @@
       "stitches": [
         {
           "id": "ho1",
-          "text": "L'handoff non teletrasporta il personaggio in contenuto non ancora consumato. Resti ad Altacima con M6 sbloccato e con il mondo ancora attivo."
+          "text": "Non vieni trascinato altrove soltanto perché la tappa è conclusa. Resti ad Altacima finché decidi davvero di partire, mentre la città e le montagne continuano la propria giornata."
         }
       ],
       "choices": [
