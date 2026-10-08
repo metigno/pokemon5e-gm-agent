@@ -409,12 +409,27 @@ async function snapshot() {
   const battle = await battleView();
   const knownNames = new Set((information.people ?? []).map(person => person.name));
   const currentOpponent = battle?.opponentTrainerId;
+  // Official World battle IDs are c2060_XX_slug, NOT a Trainer's display name.
+  // Resolve strictly through the persistent, locked World draw to avoid aliases
+  // accidentally showing the wrong NPC.
+  const worldParticipant = state.competition?.world?.field?.find(
+    participant => participant.id === currentOpponent);
+  const opponentName = worldParticipant?.name ?? currentOpponent;
+  const registeredCharacter = [
+    ...characterRegistry.five, ...characterRegistry.moduleAnchors,
+    ...characterRegistry.verifiedAdditionalCharacters
+  ].find(entry => entry.id && (entry.id === currentOpponent || entry.name === opponentName));
+  const namedOpponentId = registeredCharacter?.id ?? null;
+  const supplementaryOpponentId = battle ? npcWorldSpriteId(secondaryNpcs, opponentName) : null;
+  const battleTrainerSprite = namedOpponentId && availableNativeCharacters[namedOpponentId]
+    ? "/characters/" + namedOpponentId + "/battleFront"
+    : supplementaryOpponentId ? "/npc-sprites/world/" + supplementaryOpponentId + "/battleFront" : null;
   const visibleNativeCharacters = Object.fromEntries(
     Object.entries(availableNativeCharacters).filter(([id]) =>
       knownNames.has(characterRegistry.five.find(c => c.id === id)?.name ?? id) ||
       knownNames.has(characterRegistry.moduleAnchors.find(c => c.id === id)?.name ?? id) ||
       knownNames.has(characterRegistry.verifiedAdditionalCharacters.find(c => c.id === id)?.name ?? id) ||
-      id === currentOpponent
+      id === currentOpponent || id === namedOpponentId
     ).map(([id, asset]) => [id, { frames: asset.frames }])
   );
   return {
@@ -464,7 +479,8 @@ async function snapshot() {
       .map(person => [person.name, characterPortraits.byName[person.name]])
       .filter(([, id]) => Boolean(id))), characterNative: visibleNativeCharacters,
       sceneNpcRoles: battle ? [] : npcSceneRoles(secondaryNpcs, story.sceneId, story.nodeId),
-      worldOpponentSprite: battle ? npcWorldSpriteId(secondaryNpcs, battle.opponentTrainerId) : null,
+      worldOpponentSprite: supplementaryOpponentId,
+      battleTrainerSprite,
       worldPeopleSprites: Object.fromEntries((information.people ?? [])
         .map(person => [person.name, npcWorldSpriteId(secondaryNpcs, person.name)])
         .filter(([, id]) => Boolean(id))) },
