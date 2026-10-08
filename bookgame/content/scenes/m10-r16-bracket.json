@@ -170,7 +170,7 @@
         },
         {
           "id": "opponent_commit",
-          "text": "Vado verso il commit del bracket.",
+          "text": "Vado verso il passaggio conclusivo del bracket.",
           "goto": "commit_guard"
         }
       ]
@@ -250,7 +250,7 @@
         },
         {
           "id": "schedule_commit",
-          "text": "Passo al commit guard.",
+          "text": "Passo al passaggio conclusivo.",
           "goto": "commit_guard"
         }
       ]
@@ -270,7 +270,7 @@
         },
         {
           "id": "integrity_commit",
-          "text": "Procedo al commit guard.",
+          "text": "Procedo al passaggio conclusivo.",
           "goto": "commit_guard"
         }
       ]
@@ -310,7 +310,7 @@
         },
         {
           "id": "commit_existing",
-          "text": "Il bracket è già lockato: leggo lo stato persistente.",
+          "text": "Il bracket è già lockato: leggo lo conseguenze delle scelte.",
           "goto": "bracket_locked",
           "conditions": {
             "path": "competition.world.knockout.opened",

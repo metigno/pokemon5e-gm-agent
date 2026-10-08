@@ -210,7 +210,7 @@
         },
         {
           "id": "opponent_readiness_alt",
-          "text": "Confronto le informazioni disponibili, inclusi gli eventuali indizi personali, prima del commit.",
+          "text": "Confronto le informazioni disponibili, inclusi gli eventuali indizi personali, prima del passaggio conclusivo.",
           "goto": "commit",
           "effects": [
             {
@@ -232,7 +232,7 @@
       "choices": [
         {
           "id": "save_state_next",
-          "text": "Proseguo verso Commit.",
+          "text": "Proseguo verso passaggio conclusivo.",
           "goto": "commit"
         },
         {

@@ -32,7 +32,7 @@
       "choices": [
         {
           "id": "audit_exit",
-          "text": "Verifico WORLD_EXIT.",
+          "text": "Ripercorro la conclusione del Mondiale.",
           "goto": "world_exit_audit"
         },
         {
@@ -42,7 +42,7 @@
         },
         {
           "id": "audit_postgame",
-          "text": "Verifico il postgame prima del commit.",
+          "text": "Guardo cosa mi aspetta dopo il Mondiale.",
           "goto": "postgame_audit"
         }
       ]
@@ -217,7 +217,7 @@
       "choices": [
         {
           "id": "commit_final",
-          "text": "Chiudo la main story e lascio il save in free roam.",
+          "text": "Concludo questa storia e riprendo il viaggio in libertà.",
           "goto": "complete",
           "conditions": {
             "path": "world.flags.main_story_complete",
@@ -253,7 +253,7 @@
         },
         {
           "id": "commit_existing",
-          "text": "La main story è già completa; non duplico il commit.",
+          "text": "La storia è già conclusa: posso continuare il viaggio.",
           "goto": "complete",
           "conditions": {
             "path": "world.flags.main_story_complete",

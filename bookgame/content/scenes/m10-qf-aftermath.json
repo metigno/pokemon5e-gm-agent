@@ -226,7 +226,7 @@
         },
         {
           "id": "friend_commit",
-          "text": "Porto lo stato al commit.",
+          "text": "Porto lo stato al passaggio conclusivo.",
           "goto": "commit"
         }
       ]

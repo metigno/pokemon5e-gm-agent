@@ -178,7 +178,7 @@
         },
         {
           "id": "friend_resource",
-          "text": "Controllo lo stato persistente.",
+          "text": "Controllo lo conseguenze delle scelte.",
           "goto": "resource"
         }
       ]
@@ -213,7 +213,7 @@
       "choices": [
         {
           "id": "m11_commit",
-          "text": "Passo al commit guard.",
+          "text": "Passo al passaggio conclusivo.",
           "goto": "commit_guard",
           "conditions": {
             "all": [
@@ -249,7 +249,7 @@
       "choices": [
         {
           "id": "m12_commit",
-          "text": "Passo al commit guard.",
+          "text": "Passo al passaggio conclusivo.",
           "goto": "commit_guard",
           "conditions": {
             "path": "world.flags.world_eliminated",
@@ -320,7 +320,7 @@
         },
         {
           "id": "commit_m12",
-          "text": "Chiudo M10 e sblocco M12/WORLD_EXIT.",
+          "text": "Concludo questa tappa e preparo il ritorno.",
           "goto": "committed",
           "conditions": {
             "path": "world.flags.world_eliminated",
@@ -371,7 +371,7 @@
         },
         {
           "id": "committed_m12",
-          "text": "Entro nel WORLD_EXIT già sbloccato.",
+          "text": "Riprendo il viaggio di ritorno.",
           "goto": "m12-world-exit-branch#world_exit_entry",
           "conditions": {
             "path": "world.flags.m12_unlocked",
