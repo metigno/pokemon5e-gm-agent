@@ -37,6 +37,8 @@ import {
 } from "../src/engine/trainer-ui-runtime.mjs";
 
 const HOST = process.env.P5E_UI_HOST ?? "127.0.0.1";
+// Enabled only by the embedded mobile runtime. Desktop/local UI stays unchanged.
+const MOBILE_TOKEN = process.env.P5E_UI_TOKEN || null;
 const PORT = Number(process.env.P5E_UI_PORT ?? 4173);
 const PUBLIC_DIR = fileURLToPath(new URL("./public/", import.meta.url));
 // Audio is opt-in and installed privately; strict release builds can require its integrity.
@@ -964,6 +966,24 @@ function serialApi(operation) {
 const server = createServer(async (req, res) => {
   try {
     const url = new URL(req.url ?? "/", `http://${req.headers.host ?? HOST}`);
+    // Other apps on the device must not read or overwrite private career slots
+    // merely because the embedded Node server is reachable on loopback.
+    if (MOBILE_TOKEN) {
+      if (req.method === "GET" && url.pathname === "/" &&
+          url.searchParams.get("entry") === MOBILE_TOKEN) {
+        res.writeHead(303, {
+          "location": "/",
+          "set-cookie": `p5e_mobile_session=${MOBILE_TOKEN}; Path=/; HttpOnly; SameSite=Strict`,
+          "cache-control": "no-store"
+        });
+        res.end();
+        return;
+      }
+      const cookies = String(req.headers.cookie || "").split(";").map(value => value.trim());
+      if (!cookies.includes(`p5e_mobile_session=${MOBILE_TOKEN}`)) {
+        return sendError(res, new Error("Sessione mobile non autorizzata"), 403);
+      }
+    }
     if (url.pathname.startsWith("/api/")) {
       await serialApi(() => handleApi(req, res, url));
       return;
