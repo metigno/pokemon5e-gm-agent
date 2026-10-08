@@ -122,7 +122,7 @@ export function syncCampaignTrainerProgression(state){
   const progression=ensureProgression(state);
   const target=Math.max(Number(state.player?.trainerLevel??1),Number(progression.targetLevel??1));
   const applied=target>Number(state.player?.trainerLevel??1)
-    ? advanceTrainerToLevel(state,target,{sourceMilestoneId:progression.targetMilestoneId??"milestone"})
+    ? advanceTrainerToLevel(state,target,{sourceMilestoneId:progression.targetMilestoneId??"milestone",preserveXp:true})
     : [];
   const cap=trainerLevelCapForState(state);
   while(state.player.trainerLevel<cap &&
