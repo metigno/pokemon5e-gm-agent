@@ -341,6 +341,9 @@ async function handleApi(req, res, url) {
   }
 
   if (url.pathname === "/api/evolution/apply") {
+    if (state.pending?.type === "pokemon5e_combat") {
+      return sendError(res, new Error("Evoluzione non disponibile durante il combattimento"), 409);
+    }
     const rosterIndex = Number(body.rosterIndex);
     const evolutionId = String(body.evolutionId ?? "");
     if (!evolutionId) throw new Error("Evolution id richiesto");
@@ -390,12 +393,16 @@ async function handleApi(req, res, url) {
     if (result.status === "choice_required" && result.choice?.type === "evolution_asi") {
       return sendJson(res, 200, { ok: true, progression: result, snapshot: await snapshot() });
     }
-    await persistRosterPokemon(index, result.pokemon);
-    if (result.context) {
-      state.player.inventory = structuredClone(result.context.inventory ?? state.player.inventory ?? []);
-      state.player.money = Number(result.context.money ?? state.player.money ?? 0);
-      await persist(state);
+    const nextState = structuredClone(state);
+    nextState.player.roster[index] = structuredClone(result.pokemon);
+    if (index === 0 && nextState.player.starter) {
+      nextState.player.starter = structuredClone(result.pokemon);
     }
+    if (result.context) {
+      nextState.player.inventory = structuredClone(result.context.inventory ?? nextState.player.inventory ?? []);
+      nextState.player.money = Number(result.context.money ?? nextState.player.money ?? 0);
+    }
+    await persist(nextState);
     return sendJson(res, 200, { ok: true, progression: result, snapshot: await snapshot() });
   }
 
