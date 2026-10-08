@@ -13,6 +13,27 @@ export const POSTGAME_WORLD_INTERVAL_MINUTES = POSTGAME_YEAR_MINUTES * 4;
 const HOME_SCENE = "m12-main-story-complete";
 const HOME_NODE = "free_roam";
 
+// Postgame can enter only a canonical, previously visited location. 120
+// minutes reuses the authored M12 return-to-Asteria travel cost.
+const VALEDARSENA_GATE = Object.freeze({
+  from: "meridiana_city", to: "valedarsena_city", minutes: 120,
+  sceneId: "m01-valedarsena-first-arrival", nodeId: "city_hub"
+});
+
+// Authored repeatable activities do not invent rewards or resurrect completed
+// quests. Each execution has a stable save-backed event record.
+const REPEATABLE_TEMPLATES = Object.freeze({
+  postgame_patrol: Object.freeze({
+    id: "PGR_PATROL", text: "Ronda completata: hai verificato strade e avvistamenti già accessibili. Nessun incontro o cattura viene assegnato automaticamente."
+  }),
+  postgame_research: Object.freeze({
+    id: "PGR_ARCHIVE", text: "Hai consultato le piste già scoperte: il diario conserva i vecchi indizi senza sbloccare luoghi o Leggendari mai incontrati."
+  }),
+  postgame_training: Object.freeze({
+    id: "PGR_PREPARATION", text: "Giornata di preparazione completata: le risorse restano quelle reali del Trainer e dei Pokémon. Non vengono attribuiti livelli gratuiti."
+  })
+});
+
 function worldFlags(state) {
   state.world ??= {};
   state.world.flags ??= {};
@@ -107,6 +128,14 @@ export function isPostgameHome(state) {
     state.pending == null;
 }
 
+export function isPostgameExploring(state) {
+  return state?.world?.flags?.main_story_complete === true &&
+    state?.postgame?.phase === "between" &&
+    state?.postgame?.exploring === true &&
+    state?.pending == null &&
+    !isPostgameHome(state);
+}
+
 export function isPostgameWorldExit(state) {
   return state?.world?.flags?.main_story_complete === true &&
     state.competition?.world?.edition > 1 &&
@@ -126,6 +155,20 @@ export function getPostgameChoices(state) {
     { id: "postgame_year", text: "Faccio trascorrere un anno di carriera (365 giorni)" },
     { id: "postgame_history", text: "Consulto la cronologia dei Mondiali" },
     ...(postgame.phase === "between" &&
+      postgame.resume &&
+      postgame.resume.locationId === state.world.locationId
+      ? [{ id: "postgame_resume_exploration", text: "Riprendo l'esplorazione dal punto in cui l'ho lasciata" }]
+      : []),
+    ...(postgame.phase === "between" &&
+      state.world.locationId === VALEDARSENA_GATE.from &&
+      (state.world.visitedLocationIds ?? []).includes(VALEDARSENA_GATE.to)
+      ? [{ id: "postgame_visit_valedarsena", text: "Torno a Valedarsena attraverso il tragitto di M12 (120 minuti)" }]
+      : []),
+    ...(postgame.phase === "between" &&
+      state.world.locationId === VALEDARSENA_GATE.to
+      ? [{ id: "postgame_return_meridiana", text: "Ritorno a Meridiana con il trasporto interregionale (120 minuti)" }]
+      : []),
+    ...(postgame.phase === "between" &&
       state.world.elapsedMinutes >= postgame.nextWorldAtMinutes &&
       state.competition?.rank === "S"
       ? [{ id: "postgame_qualifier", text: "Mi iscrivo alle qualificazioni del prossimo Mondiale" }]
@@ -143,7 +186,11 @@ export function getPostgameText(state) {
   const minutes = Math.max(0, postgame.nextWorldAtMinutes - state.world.elapsedMinutes);
   const days = Math.ceil(minutes / DAY_MINUTES);
   const nextEdition = ensureCompetition(state).world.edition + (postgame.phase === "between" ? 1 : 0);
-  return `La carriera continua. Sei a ${state.world.locationId}. Il mondo, i Pokémon, gli NPC e le conseguenze delle scelte rimangono gli stessi.\n\nProssimo Mondiale: edizione ${nextEdition}, fra ${days} giorni di gioco. Le attività scandiscono il tempo senza distribuire ricompense immotivate.`;
+  const recent = postgame.activities.at(-1);
+  const activityReport = recent?.description
+    ? `\n\nUltimo evento: ${recent.description} (${recent.year})`
+    : "";
+  return `La carriera continua. Sei a ${state.world.locationId}. Il mondo, i Pokémon, gli NPC e le conseguenze delle scelte rimangono gli stessi.\n\nProssimo Mondiale: edizione ${nextEdition}, fra ${days} giorni di gioco. Puoi riprendere le scene esplorative dei luoghi già visitati senza aprire nuove mappe.${activityReport}`;
 }
 
 // Competition-only reset: NEVER clear unrelated world/quest/Legendary flags.
@@ -181,14 +228,51 @@ export function applyPostgameChoice(state, choiceId) {
     return { action: "panel" };
   }
   if (postgame.panel !== "main") throw new Error("Finish reading the Hall of Fame first");
+  if (choiceId === "postgame_resume_exploration") {
+    if (postgame.phase !== "between" || !postgame.resume ||
+        postgame.resume.locationId !== state.world.locationId) {
+      throw new Error("No safe postgame exploration checkpoint at this location");
+    }
+    state.story.sceneId = postgame.resume.sceneId;
+    state.story.nodeId = postgame.resume.nodeId;
+    postgame.exploring = true;
+    return { action: "resume", sceneId: state.story.sceneId, nodeId: state.story.nodeId };
+  }
+  if (choiceId === "postgame_visit_valedarsena") {
+    if (postgame.phase !== "between" ||
+        state.world.locationId !== VALEDARSENA_GATE.from ||
+        !(state.world.visitedLocationIds ?? []).includes(VALEDARSENA_GATE.to)) {
+      throw new Error("Valedarsena must have been visited before the postgame trip");
+    }
+    advanceWorldTime(state.world, VALEDARSENA_GATE.minutes);
+    state.world.locationId = VALEDARSENA_GATE.to;
+    state.story.sceneId = VALEDARSENA_GATE.sceneId;
+    state.story.nodeId = VALEDARSENA_GATE.nodeId;
+    postgame.exploring = true;
+    return { action: "travel", minutes: VALEDARSENA_GATE.minutes, locationId: VALEDARSENA_GATE.to };
+  }
+  if (choiceId === "postgame_return_meridiana") {
+    if (postgame.phase !== "between" || state.world.locationId !== VALEDARSENA_GATE.to) {
+      throw new Error("Postgame return trip requires Valedarsena");
+    }
+    advanceWorldTime(state.world, VALEDARSENA_GATE.minutes);
+    state.world.locationId = VALEDARSENA_GATE.from;
+    postgame.resume = null;
+    return { action: "travel", minutes: VALEDARSENA_GATE.minutes, locationId: VALEDARSENA_GATE.from };
+  }
   const activity = ACTIVITIES[choiceId];
   if (activity || choiceId === "postgame_week" || choiceId === "postgame_year") {
     if (postgame.phase !== "between") throw new Error("World Championship in progress");
     const minutes = activity?.minutes ??
       (choiceId === "postgame_week" ? 7 * DAY_MINUTES : POSTGAME_YEAR_MINUTES);
     advanceWorldTime(state.world, minutes);
+    const template = REPEATABLE_TEMPLATES[choiceId] ?? null;
     postgame.activities.push({
+      id: `postgame_event_${postgame.activities.length + 1}`,
       kind: activity?.kind ?? (choiceId === "postgame_week" ? "week" : "year"),
+      templateId: template?.id ?? null,
+      description: template?.text ?? null,
+      year: 2060 + Math.floor((state.world.elapsedMinutes - postgame.startedAtMinutes) / POSTGAME_YEAR_MINUTES),
       atMinutes: state.world.elapsedMinutes,
       locationId: state.world.locationId
     });
@@ -219,6 +303,20 @@ export function applyPostgameChoice(state, choiceId) {
   state.story.nodeId = "qualifier_entry";
   state.world.locationId = "meridiana_grand_arena";
   return { action: "qualifier", edition: nextWorld.edition };
+}
+
+export function leavePostgameExploration(state) {
+  if (!isPostgameExploring(state)) throw new Error("Not in a safe postgame exploration scene");
+  const postgame = ensurePostgame(state);
+  postgame.resume = {
+    sceneId: state.story.sceneId, nodeId: state.story.nodeId,
+    locationId: state.world.locationId
+  };
+  postgame.exploring = false;
+  state.story.sceneId = HOME_SCENE;
+  state.story.nodeId = HOME_NODE;
+  // Do NOT move the player: this returns to the journal at the present location.
+  return { action: "journal", locationId: state.world.locationId };
 }
 
 export function finishPostgameEdition(state) {

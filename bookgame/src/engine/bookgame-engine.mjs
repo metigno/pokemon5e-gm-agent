@@ -27,7 +27,8 @@ import { Poke5eDataRepository } from "../combat/poke5e-data.mjs";
 import { applyPurchaseItem, ensureSceneShops } from "./shop-state.mjs";
 import {
   applyPostgameChoice, ensurePostgame, finishPostgameEdition, getPostgameChoices,
-  getPostgameText, isPostgameHome, isPostgameWorldExit
+  getPostgameText, isPostgameHome, isPostgameWorldExit,
+  isPostgameExploring, leavePostgameExploration
 } from "./postgame-cycle.mjs";
 
 function clone(value) {
@@ -290,6 +291,12 @@ export class BookgameEngine {
       const extra = getPostgameChoices(state);
       visibleChoices = state.postgame.panel === "history" ? extra : [...visibleChoices, ...extra];
     }
+    if (isPostgameExploring(state)) {
+      visibleChoices.push({
+        id: "postgame_open_journal",
+        text: "Apro il diario postgame senza cambiare la mia posizione"
+      });
+    }
 
     return {
       sceneId: scene.id,
@@ -307,6 +314,16 @@ export class BookgameEngine {
   }
 
   async choose(state, choiceId) {
+    if (choiceId === "postgame_open_journal" && isPostgameExploring(state)) {
+      const next = clone(state);
+      const details = leavePostgameExploration(next);
+      next.story.history.push({
+        sceneId: state.story.sceneId, nodeId: state.story.nodeId, choiceId,
+        postgame: clone(details)
+      });
+      touchState(next, this.now);
+      return next;
+    }
     if (isPostgameWorldExit(state) && choiceId === "postgame_finish_edition") {
       const next = clone(state);
       const entry = finishPostgameEdition(next);
@@ -320,7 +337,7 @@ export class BookgameEngine {
     if (isPostgameHome(state) && choiceId.startsWith("postgame_")) {
       const next = clone(state);
       const details = applyPostgameChoice(next, choiceId);
-      if (details.action === "time") {
+      if (details.action === "time" || details.action === "travel") {
         processQuestDeadlines(next);
         refreshNpcSchedules(next);
       }
