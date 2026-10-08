@@ -19,7 +19,8 @@ export async function verifyOfflineAudioAssets(audioDir) {
       if (typeof manifest[kind] !== "object" || manifest[kind] === null) throw Error("invalid section: " + kind);
       for (const [name, entry] of Object.entries(manifest[kind])) {
         if (!FILE_NAME.test(name)) throw Error("unsafe audio cue");
-        const relative = kind === "cries" ? "cries/" + name + ".wav" : name + ".ogg";
+        const relative = kind === "cries" ? "cries/" + name + ".wav" :
+          name + (entry?.file?.endsWith(".mp3") ? ".mp3" : ".ogg");
         if (entry?.file !== "audio/" + relative || !/^[0-9a-f]{64}$/.test(entry.sha256) ||
             !Number.isSafeInteger(entry.bytes) || entry.bytes <= 0 || entry.bytes > 12 * 1024 * 1024)
           throw Error("invalid metadata for " + name);
@@ -30,8 +31,10 @@ export async function verifyOfflineAudioAssets(audioDir) {
           const bytes = await readFile(path);
           if (createHash("sha256").update(bytes).digest("hex") !== entry.sha256)
             throw Error("bad checksum");
-          if (!bytes.subarray(0, 4).equals(Buffer.from(kind === "cries" ? "RIFF" : "OggS")))
-            throw Error("invalid audio format");
+          const magic = bytes.subarray(0, 4);
+          if (kind === "cries" ? !magic.equals(Buffer.from("RIFF")) :
+              relative.endsWith(".mp3") ? !magic.subarray(0, 3).equals(Buffer.from("ID3")) && magic[0] !== 0xff :
+              !magic.equals(Buffer.from("OggS"))) throw Error("invalid audio format");
           checked++;
         } catch (error) { errors.push(relative + ": " + error.message); }
       }
