@@ -29,6 +29,12 @@ const els = {
   newGame: $("#new-game"),
   loadGame: $("#load-game"),
   deleteGame: $("#delete-game"),
+  startCodex: $("#start-codex"),
+  startHall: $("#start-hall"),
+  referenceOverlay: $("#reference-overlay"),
+  referenceTitle: $("#reference-title"),
+  referenceContent: $("#reference-content"),
+  referenceClose: $("#reference-close"),
   drawer: $("#drawer"),
   drawerBackdrop: $("#drawer-backdrop"),
   drawerTitle: $("#drawer-title"),
@@ -1088,6 +1094,56 @@ async function deleteCareer() {
     els.startError.textContent = error.message;
   }
 }
+
+function openStartReference(title, content) {
+  els.referenceTitle.textContent = title;
+  els.referenceContent.innerHTML = content;
+  els.referenceOverlay.hidden = false;
+  els.referenceClose.focus();
+}
+
+function closeStartReference() {
+  els.referenceOverlay.hidden = true;
+  els.referenceContent.replaceChildren();
+  els.startCodex.focus();
+}
+
+els.startCodex.addEventListener("click", () => {
+  const pages = informationRenderers({ player: {}, information: {} }, { escapeHtml, spriteUrl, playerFacingLabel });
+  openStartReference("Codex e regole", pages.codex());
+});
+els.startHall.addEventListener("click", async () => {
+  try {
+    const result = await api("/api/slot-hall?slot=" + encodeURIComponent(els.slot.value));
+    const pages = informationRenderers(
+      { player: {}, information: { hallOfFame: result.entries } },
+      { escapeHtml, spriteUrl, playerFacingLabel }
+    );
+    openStartReference("Hall of Fame", pages.hall());
+  } catch (error) {
+    openStartReference("Hall of Fame", `<div class="data-card">${escapeHtml(error.message)}</div>`);
+  }
+});
+els.referenceClose.addEventListener("click", closeStartReference);
+els.referenceOverlay.addEventListener("click", (event) => {
+  if (event.target === els.referenceOverlay) closeStartReference();
+});
+els.referenceOverlay.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    event.preventDefault();
+    closeStartReference();
+  } else if (event.key === "Tab") {
+    const targets = [...els.referenceOverlay.querySelectorAll("a[href], button:not(:disabled)")];
+    const current = targets.indexOf(document.activeElement);
+    if (event.shiftKey && current <= 0) {
+      event.preventDefault();
+      targets.at(-1)?.focus();
+    } else if (!event.shiftKey && current === targets.length - 1) {
+      event.preventDefault();
+      targets[0]?.focus();
+    }
+  }
+});
 
 els.storyText.addEventListener("click", () => {
   if (revealActive) finishRevealNow();
