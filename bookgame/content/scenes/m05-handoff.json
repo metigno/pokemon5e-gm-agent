@@ -69,7 +69,7 @@
         },
         {
           "id": "band_2",
-          "text": "La licenza interregionale e il Trial B→A restano sistemi distinti. Essere Rank B apre opportunità; non fabbrica registrazioni, vittorie o autorizzazioni non ancora ottenute."
+          "text": "Il Rank B ti apre nuove porte, ma ogni prova ha il proprio regolamento. Per viaggiare fra regioni e puntare al Rank A dovrai ancora presentarti agli uffici e affrontare gli esami previsti."
         }
       ],
       "choices": [
@@ -149,7 +149,7 @@
       "stitches": [
         {
           "id": "inter_1",
-          "text": "La rete interregionale compare ora nei materiali del Circuito, ma l'attivazione effettiva avverrà soltanto quando l'evento canonico A5_INTERREGIONAL e le sue condizioni saranno soddisfatti."
+          "text": "Fra gli avvisi del Circuito compaiono le nuove tratte interregionali. Accanto agli orari, una nota spiega quali documenti serviranno prima di poter prenotare."
         }
       ],
       "choices": [
