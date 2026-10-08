@@ -1,15 +1,16 @@
 import { cp, mkdir, readFile, stat } from "node:fs/promises";
 import { basename, join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const map = JSON.parse(await readFile(new URL("../assets/pokemon/sprite-runtime-map.json", import.meta.url), "utf8"));
-const source = resolve(process.argv[2] ?? "");
-const destination = resolve(process.argv[3] ?? new URL("../assets/pokemon/files/", import.meta.url).pathname);
 const strict = process.argv.includes("--strict");
-
-if (!process.argv[2]) {
+const positional = process.argv.slice(2).filter(arg => arg !== "--strict");
+if (positional.length < 1 || positional.length > 2) {
   console.error("Usage: node scripts/import-sprite-package.mjs <extracted-package-dir> [destination] [--strict]");
   process.exit(2);
 }
+const source = resolve(positional[0]);
+const destination = resolve(positional[1] ?? fileURLToPath(new URL("../assets/pokemon/files/", import.meta.url)));
 
 const requiredRoles = ["battleFront", "battleBack", "icon"];
 const optionalRoles = ["overworld"];

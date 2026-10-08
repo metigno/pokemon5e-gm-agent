@@ -8,9 +8,13 @@ import subprocess
 import tempfile
 import zipfile
 
+COMPLETE_SHA256 = {
+    "282212aef3a5eda96dcc6bd32e93583aae477689ed7402fd0f6fa646767330e0",  # original completed 619
+    "6dbb206fb3deafcd9f4524e27d52f88110623f38f8eb0551bd11d2b1ef69954d",  # verified 619 rebuild
+}
 APPROVED_SHA256 = {
     "61d97f4109cc976930c26a72c19aa15ebf5b8e0cb687297838d8d3af1223e3b8",  # original 608
-    "282212aef3a5eda96dcc6bd32e93583aae477689ed7402fd0f6fa646767330e0",  # completed 619
+    *COMPLETE_SHA256,
 }
 PACKAGE_ROOT = "P5E_M01-M12_EmeraldExpansion_Sprites"
 
@@ -23,6 +27,7 @@ def main():
     digest = hashlib.sha256(archive.read_bytes()).hexdigest()
     if digest not in APPROVED_SHA256:
         parser.error(f"Unapproved archive (SHA-256 {digest}); no files installed")
+    strict = args.strict or digest in COMPLETE_SHA256
     importer = Path(__file__).resolve().with_name("import-sprite-package.mjs")
     with tempfile.TemporaryDirectory(prefix="p5e-sprites-") as tmp:
         root = Path(tmp)
@@ -38,7 +43,7 @@ def main():
                     parser.error(f"Unsafe ZIP entry: {name!r}")
                 if path.parts[0] != PACKAGE_ROOT:
                     parser.error(f"Unexpected ZIP root: {name!r}")
-            if args.strict:
+            if strict:
                 mapping_path = importer.parent.parent / "assets/pokemon/sprite-runtime-map.json"
                 mapping = json.loads(mapping_path.read_text(encoding="utf-8"))
                 names = {entry.filename for entry in entries if not entry.is_dir()}
@@ -56,7 +61,7 @@ def main():
                     )
             z.extractall(root)
         cmd = ["node", str(importer), str(root / PACKAGE_ROOT)]
-        if args.strict:
+        if strict:
             cmd.append("--strict")
         raise SystemExit(subprocess.call(cmd))
 
