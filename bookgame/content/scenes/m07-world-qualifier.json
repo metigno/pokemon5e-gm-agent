@@ -65,12 +65,12 @@
       "choices": [
         {
           "id": "rules_bracket",
-          "text": "Torno al bracket.",
+          "text": "Torno al tabellone.",
           "goto": "bracket"
         },
         {
           "id": "rules_field",
-          "text": "Controllo cosa è pubblico del field.",
+          "text": "Controllo cosa è pubblico del elenco degli avversari.",
           "goto": "field"
         }
       ]
@@ -90,7 +90,7 @@
         },
         {
           "id": "bracket_field",
-          "text": "Rivedo il field pubblico.",
+          "text": "Rivedo il elenco degli avversari pubblico.",
           "goto": "field"
         },
         {
@@ -130,7 +130,7 @@
       "choices": [
         {
           "id": "round1_roster",
-          "text": "Rileggo l'Official Six richiesto.",
+          "text": "Rileggo l'squadra di sei Pokémon richiesto.",
           "goto": "round1_confirm"
         },
         {
@@ -140,7 +140,7 @@
         },
         {
           "id": "round1_back",
-          "text": "Torno al bracket.",
+          "text": "Torno al tabellone.",
           "goto": "bracket"
         }
       ]
@@ -269,7 +269,7 @@
         },
         {
           "id": "round1_win_review",
-          "text": "Registro la vittoria e rivedo il bracket.",
+          "text": "Registro la vittoria e rivedo il tabellone.",
           "goto": "bracket_review",
           "effects": [
             {
@@ -313,7 +313,7 @@
         },
         {
           "id": "round1_loss_review",
-          "text": "Registro la sconfitta e rivedo la history.",
+          "text": "Registro la sconfitta e rivedo la registro degli incontri.",
           "goto": "exit_loss",
           "effects": [
             {
@@ -355,7 +355,7 @@
         },
         {
           "id": "between_bracket",
-          "text": "Rivedo la lane.",
+          "text": "Rivedo la percorso di gara.",
           "goto": "bracket_review"
         }
       ]
@@ -388,7 +388,7 @@
         },
         {
           "id": "qual_review",
-          "text": "Rivedo la lane prima di entrare.",
+          "text": "Rivedo la percorso di gara prima di entrare.",
           "goto": "bracket_review"
         }
       ]
@@ -509,7 +509,7 @@
       "choices": [
         {
           "id": "qual_win_result",
-          "text": "Registro la lane vinta e passo alla classificazione.",
+          "text": "Registro la percorso di gara vinta e passo alla classificazione.",
           "goto": "m07-qualifier-result#result_entry",
           "effects": [
             {
@@ -531,7 +531,7 @@
         },
         {
           "id": "qual_win_review",
-          "text": "Registro la vittoria e rivedo il bracket.",
+          "text": "Registro la vittoria e rivedo il tabellone.",
           "goto": "exit_win",
           "effects": [
             {
@@ -585,7 +585,7 @@
         },
         {
           "id": "qual_loss_review",
-          "text": "Registro la sconfitta e rivedo il bracket.",
+          "text": "Registro la sconfitta e rivedo il tabellone.",
           "goto": "exit_loss",
           "effects": [
             {
@@ -635,7 +635,7 @@
         },
         {
           "id": "review_exit",
-          "text": "Se la lane è chiusa, passo all'uscita.",
+          "text": "Se la percorso di gara è chiusa, passo all'uscita.",
           "goto": "close",
           "conditions": {
             "path": "world.flags.m7_qualifier_complete",
@@ -659,7 +659,7 @@
         },
         {
           "id": "history_review",
-          "text": "Torno al bracket review.",
+          "text": "Torno al tabellone.",
           "goto": "bracket_review"
         }
       ]
@@ -679,7 +679,7 @@
         },
         {
           "id": "exit_win_review",
-          "text": "Rivedo la history prima di uscire.",
+          "text": "Rivedo la registro degli incontri prima di uscire.",
           "goto": "history_guard"
         }
       ]
@@ -699,7 +699,7 @@
         },
         {
           "id": "exit_loss_review",
-          "text": "Rivedo il bracket chiuso.",
+          "text": "Rivedo il tabellone chiuso.",
           "goto": "bracket_review"
         }
       ]
@@ -719,7 +719,7 @@
         },
         {
           "id": "close_history",
-          "text": "Rivedo la history.",
+          "text": "Rivedo la registro degli incontri.",
           "goto": "history_guard"
         }
       ]
