@@ -4,6 +4,7 @@ import { createNewGameState } from "../src/engine/state.mjs";
 import { applyFriendCareerModuleMilestone } from "../src/engine/npc-career-scheduler.mjs";
 import { openWorldGroupStage, prepareWorldGroupMatch } from "../src/engine/competition-state.mjs";
 import { WORLD_2060_SPECIES, canonicalWorldTeam, pokemon5eWorldSpeciesDescriptor } from "../src/rules/world-roster-2060.mjs";
+import { Poke5eDataRepository } from "../src/combat/poke5e-data.mjs";
 
 function groupState() {
   const s=createNewGameState({protagonist:"Luke"});
@@ -66,4 +67,19 @@ test("unacquired Five team cannot be replaced by made-up Lv20 opponents",()=>{
   const s=groupState();
   assert.throws(()=>canonicalWorldTeam("Mattew",{npc:s.npcs.Mattew,trainerId:"c2060_02_mattew"}),
     /full persistent roster/);
+});
+test("every World species resolves against the actual offline Pokémon 5e 2024 pack",async()=>{
+  const data=new Poke5eDataRepository();
+  const missing=[];
+  for(const name of Object.keys(WORLD_2060_SPECIES)){
+    for(const pokemon of canonicalWorldTeam(name,{trainerId:name})){
+      try {
+        const species=await data.getSpecies(pokemon);
+        assert.ok(species.id, name);
+      } catch(error) {
+        missing.push(name+": "+pokemon.species+(pokemon.form?" ("+pokemon.form+")":"")+" - "+error.message);
+      }
+    }
+  }
+  assert.deepEqual(missing,[]);
 });
