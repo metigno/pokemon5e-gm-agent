@@ -49,7 +49,7 @@
         },
         {
           "id": "entry_eligibility",
-          "text": "Non sono qualificato: controllo l'requisiti.",
+          "text": "Controllo se posso iscrivermi all'ultima occasione.",
           "goto": "eligibility",
           "conditions": {
             "path": "world.flags.world_qualified",
@@ -95,7 +95,7 @@
         },
         {
           "id": "qualified_history",
-          "text": "Rivedo la registro degli incontri.",
+          "text": "Rileggo i referti degli incontri.",
           "goto": "qualifier_history"
         }
       ]
@@ -169,7 +169,7 @@
         },
         {
           "id": "available_open",
-          "text": "Apro formalmente la percorso Last Chance.",
+          "text": "Chiedo di iscrivermi all'ultima occasione.",
           "goto": "gate_open"
         }
       ]
@@ -328,7 +328,7 @@
       "choices": [
         {
           "id": "open_record",
-          "text": "Registro la percorso pronta.",
+          "text": "Confermo che posso partecipare.",
           "goto": "close",
           "effects": [
             {
@@ -377,7 +377,7 @@
         },
         {
           "id": "closed_history",
-          "text": "Rivedo la registro degli incontri.",
+          "text": "Rileggo i referti degli incontri.",
           "goto": "qualifier_history"
         }
       ]
