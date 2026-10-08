@@ -26,7 +26,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Kaia Solari è nel Mondiale perché il suo stato competitivo la colloca realmente nel field. Il thread non la sposta: controlla il suo schedule prima di trasformare la presenza in un incontro."
+          "text": "Il nome di Kaia Solari compare nel programma del Village insieme a quello degli altri partecipanti. La intravedi mentre studia un campo d'allenamento: il passo è rapido, l'attenzione già rivolta alla prossima apertura."
         }
       ],
       "choices": [
@@ -105,7 +105,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il programma di Kaia la colloca nel World Village durante questa finestra. Se tu sei altrove, l'informazione resta pubblica ma non diventa magicamente una conversazione faccia a faccia."
+          "text": "Il programma pubblico indica quando Kaia è al Village. Se sei altrove puoi leggere soltanto gli aggiornamenti; nessun allenatore compare di colpo accanto a te."
         }
       ],
       "choices": [
@@ -130,7 +130,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il sorteggio E5 conserva se Kaia appartiene o meno al tuo Gruppo. In entrambi i casi la sua traiettoria competitiva resta autonoma."
+          "text": "Sul tabellone vedi se Kaia appartiene al tuo gruppo oppure a un altro. Lei segue il proprio calendario, indipendentemente dalla vostra conoscenza."
         }
       ],
       "choices": [
@@ -150,7 +150,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Kaia ti tratta come un altro partecipante del Mondiale, non come il centro della sua storia. La sua aggressività nasce da ciò che vede e da ciò che ha realmente vissuto nel torneo."
+          "text": "Kaia osserva la tua squadra con un sorriso acceso. «Se aspetti troppo, l'occasione ti passa davanti. Se parti senza guardare, finisci contro un muro. Io sto imparando a riconoscere la differenza.»"
         }
       ],
       "choices": [
@@ -175,7 +175,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il rapporto riparte dallo stato persistente già costruito. Nessun nuovo incontro cancella la relazione precedente o assegna un risultato futuro."
+          "text": "Kaia ti riconosce senza perdere il ritmo. «Allora, hai trovato una risposta alla mia ultima domanda o vieni a farmene un'altra?»"
         }
       ],
       "choices": [
@@ -195,7 +195,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Tre partite lasciano poco spazio per correggere errori. Kaia parla di pressione come gestione del tempo e delle risorse, non come bonus statistico."
+          "text": "«Tre partite», commenta Kaia. «Non puoi passare tutto il tempo ad aspettare la situazione perfetta. Ma nemmeno bruciarti per fare scena al primo turno.»"
         }
       ],
       "choices": [
@@ -215,7 +215,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Kaia cerca iniziativa e adattamento, ma non legge mosse non rivelate. Il suo profilo guida le decisioni future senza trasformarsi in onniscienza."
+          "text": "Kaia parla con entusiasmo delle aperture veloci e del modo in cui un avversario le costringe a cambiare. Non pretende di conoscere mosse o piani che non ha ancora visto."
         }
       ],
       "choices": [
@@ -235,7 +235,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Essere Anchor non le concede plot armor. Dal draw in poi Kaia può perdere, scendere in classifica o essere eliminata come ogni altro partecipante."
+          "text": "Fra gli altri partecipanti c'è chi la considera una favorita e chi la ritiene vulnerabile. Kaia si stringe nelle spalle: «Vedremo sul campo chi aveva ragione.»"
         }
       ],
       "choices": [
@@ -255,7 +255,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Cynthia, Astrid e gli altri incontri precedenti possono cambiare ciò che noti in Kaia. Non trasferiscono automaticamente fiducia, rivalità o risultati."
+          "text": "Se le racconti di altri allenatori conosciuti, Kaia ascolta soprattutto ciò che hai visto in battaglia. Non si attribuisce esperienze o rapporti che non ha vissuto."
         }
       ],
       "choices": [
@@ -275,7 +275,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La conversazione può costruire rispetto o tensione, ma non modifica il draw né la classifica. Il prossimo Matchday resta contro il secondo nome già lockato."
+          "text": "«Puoi anche non essere d'accordo con me», replica Kaia, divertita. «Basta che tu sappia perché.» La conversazione non sposta di un posto il tabellone."
         }
       ],
       "choices": [
@@ -295,7 +295,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Non cerchi Kaia. Il suo schedule e la sua carriera continuano comunque; rinunciare alla scena fisica non la congela."
+          "text": "Non cerchi Kaia e prosegui per i tuoi impegni. Lei continua con allenamenti e partite senza aspettarti."
         }
       ],
       "choices": [
@@ -315,7 +315,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La chiusura registra soltanto che il thread M9 ha avuto una forma coerente con lo stato reale: incontro se possibile, osservazione pubblica se non lo era."
+          "text": "La vostra conversazione, oppure soltanto le notizie pubbliche sulla sua corsa, rimane una parte di questa giornata. Nessun risultato è stato deciso da un saluto."
         }
       ],
       "choices": [
@@ -342,7 +342,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il thread di Kaia è completo. Nessuna sua partita è stata decisa; il Matchday 2 resta un confronto contro {{competition.world.playerOpponents.1.name}}."
+          "text": "L'altoparlante richiama gli allenatori alla prossima fase. Il secondo avversario del tuo girone è {{competition.world.playerOpponents.1.name}}."
         }
       ],
       "choices": [
