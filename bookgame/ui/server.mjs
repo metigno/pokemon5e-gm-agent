@@ -916,7 +916,7 @@ async function serveCharacterPortrait(res, pathname) {
 async function serveAudio(res, pathname) {
   if (!pathname.startsWith("/audio/")) return false;
   const relative = pathname.slice("/audio/".length);
-  if (!/^(?:[a-z0-9_]+\.ogg|manifest\.json|cries\/[a-z0-9_]+\.wav)$/.test(relative)) {
+  if (!/^(?:[a-z0-9_]+\.(?:ogg|mp3)|manifest\.json|cries\/[a-z0-9_]+\.wav)$/.test(relative)) {
     res.writeHead(404, { "content-type": "text/plain" });
     res.end("Audio unavailable");
     return true;
@@ -924,7 +924,7 @@ async function serveAudio(res, pathname) {
   try {
     const content = await readFile(join(PUBLIC_DIR, "audio", relative));
     res.writeHead(200, {
-      "content-type": relative.endsWith(".ogg") ? "audio/ogg" : relative.endsWith(".wav") ? "audio/wav" : "application/json; charset=utf-8",
+      "content-type": relative.endsWith(".ogg") ? "audio/ogg" : relative.endsWith(".mp3") ? "audio/mpeg" : relative.endsWith(".wav") ? "audio/wav" : "application/json; charset=utf-8",
       "cache-control": "private, max-age=3600",
       "x-content-type-options": "nosniff"
     });
