@@ -14,7 +14,6 @@ import { SaveStore } from "../src/engine/save-store.mjs";
 
 const now = () => "2026-10-08T10:00:00.000Z";
 const book = new BookgameEngine({ now });
-const combat = new Pokemon5eCombatEngine({ dice: new SequenceDice([15, 8, 10, 10, 10]) });
 
 function firstRoadState({ afterM01 = false, withBench = false } = {}) {
   const state = createNewGameState({ protagonist: "Luke", now });
@@ -35,6 +34,7 @@ function firstRoadState({ afterM01 = false, withBench = false } = {}) {
 
 async function resolvedBattle({ afterM01 = true, withBench = false, outcome = "win", switchPokemon = false } = {}) {
   let state = await book.choose(firstRoadState({ afterM01, withBench }), "send_starter");
+  const combat = new Pokemon5eCombatEngine({ dice: new SequenceDice([15, 8, 10, 10, 10]) });
   let battle = await combat.createBattle(state.pending);
   state = book.setCombatState(state, battle);
   if (switchPokemon) {
