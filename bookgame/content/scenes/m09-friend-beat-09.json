@@ -22,7 +22,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "FRIEND_BEAT_09 non sceglie un amico per fanservice: legge il draw, lo stato di qualificazione, lo schedule, la relazione e il Friend Beat precedente."
+          "text": "Fra una giornata del girone e l'altra, il telefono vibra. È uno dei nomi che ti accompagnano da molto prima del Mondiale."
         }
       ],
       "choices": [
@@ -47,7 +47,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il selector ha già fissato identità, modalità e contesto. Se l'amico è nel tuo gruppo, il solo match valido è quello previsto dal calendario E5."
+          "text": "Il contatto arriva da {{world.flags.friend_beat_09_friend_id}}. Potrebbe essere un prossimo avversario, uno già affrontato o un amico che segue il torneo da fuori."
         }
       ],
       "choices": [
@@ -102,7 +102,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Luke parla in termini di adattamento: conoscere un amico non rende leggibile la prossima scelta. Nel Mondiale il rapporto non sostituisce il match."
+          "text": "Luke non perde tempo. «Mi hai visto combattere? No, non voglio sapere cosa ne pensano i commentatori. Guarda i miei Pokémon e dimmi se qualcuno di loro aveva voglia di fermarsi.»"
         }
       ],
       "choices": [
@@ -124,7 +124,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Mattew tratta il girone come un problema tecnico: punti, risorse e informazioni reali prima di ogni altra cosa."
+          "text": "Mattew fa scorrere una pagina piena di annotazioni. «Tre partite non sono tre occasioni per fare lo stesso errore.» Poi sorride: «Anche se tu probabilmente ci riusciresti.»"
         }
       ],
       "choices": [
@@ -146,7 +146,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Daniel ragiona sui pattern ma non finge onniscienza. Essere amici significa avere più storia, non più dati nascosti."
+          "text": "Daniel ha già ricontrollato gli orari. «Non basarti sulle voci del Village», dice. «E, qualunque cosa succeda, evita di scambiare una cattiva decisione per un cattivo carattere.»"
         }
       ],
       "choices": [
@@ -168,7 +168,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Edward guarda alla tenuta: due partite hanno già consumato qualcosa, indipendentemente dal punteggio."
+          "text": "«Hai visto che facce sugli spalti?» ride Edward. «Vale quasi il prezzo del viaggio. Certo, preferirei che guardassero un bel KO dei miei, ma non sono schizzinoso.»"
         }
       ],
       "choices": [
@@ -190,7 +190,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Fab misura il Mondiale nel modo più concreto: chip, risorse e pressione si accumulano anche quando il pubblico guarda soltanto il risultato."
+          "text": "Fab guarda il proprio Pokémon fuori dall'inquadratura. «Koffing non sa quanti punti ci servono. Secondo me è più rilassato per quello.» Poi ti chiede come stanno davvero i tuoi."
         }
       ],
       "choices": [
@@ -212,7 +212,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il bracket decide il tipo di Friend Beat. Nessuna scelta qui può creare una quarta partita o sostituire un avversario sorteggiato."
+          "text": "Parlate sapendo che i calendari esistono già: un incontro fra amici si gioca soltanto quando è previsto dal tabellone."
         }
       ],
       "choices": [
@@ -258,7 +258,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se questo amico è il terzo avversario, il fight ufficiale avverrà soltanto in M9_07. Un secondo combat qui falsificherebbe il calendario."
+          "text": "Se vi affronterete nell'ultima giornata, le battute diventano più appuntite. La sfida ufficiale, però, deve ancora arrivare."
         }
       ],
       "choices": [
@@ -305,7 +305,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se vi siete già affrontati al Matchday 1 o 2, il risultato E5 esiste già. Il Friend Beat può elaborarlo, non rifarlo."
+          "text": "Se vi siete già affrontati, nessuno dei due può cambiare il risultato con una rivincita improvvisata nel corridoio."
         }
       ],
       "choices": [
@@ -352,7 +352,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Siete nello stesso Mondiale ma non nello stesso gruppo. Il bracket non autorizza un match extra: potete soltanto incrociarvi o sentirvi tra le giornate."
+          "text": "Siete nello stesso torneo ma in gruppi diversi. Potete confrontare impressioni, non inventare una partita aggiuntiva."
         }
       ],
       "choices": [
@@ -394,7 +394,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'amico non è nel field. Il torneo continua senza riscriverne la qualificazione: il contatto può essere supporto, frustrazione o semplice presenza."
+          "text": "L'amico segue la corsa mondiale da fuori. La sua assenza dal tabellone non cancella la voglia di parlare con te."
         }
       ],
       "choices": [
@@ -436,7 +436,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La presenza fisica è valida solo perché gli schedule coincidono davvero. Non significa che condividiate gruppo, risultato o futuro bracket."
+          "text": "Se vi vedete di persona, il Village vi concede un angolo tranquillo per qualche minuto. Gli altri allenatori continuano a passare."
         }
       ],
       "choices": [
@@ -461,7 +461,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il contatto remoto conserva la distanza reale. Nessun NPC viene teletrasportato nel Village per rendere la scena più comoda."
+          "text": "La voce arriva con un lieve ritardo. L'amico è altrove, impegnato nel proprio percorso."
         }
       ],
       "choices": [
@@ -486,7 +486,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il terzo Matchday può valere qualificazione o eliminazione, ma nessuno dei due riceve un bonus perché la scena è emotivamente importante."
+          "text": "Il terzo incontro pesa diversamente a seconda dei risultati precedenti. Nessuna battuta può spostare i punti già guadagnati."
         }
       ],
       "choices": [
@@ -506,7 +506,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La relazione cambia perché vi siete cercati in un momento difficile. Non cambia punti, roster, HP o pairing."
+          "text": "Ciò che dici può avvicinarvi o urtarvi. Il vostro rapporto ha memoria, anche quando la classifica non vi riguarda entrambi."
         }
       ],
       "choices": [
@@ -526,7 +526,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il selector prova a non riciclare automaticamente l'amico di FRIEND_BEAT_08 quando esiste un'alternativa equivalente. Il draw e la qualificazione hanno però priorità sulla rotazione."
+          "text": "Un episodio della conversazione precedente ritorna in forma di scherzo. Non siete diventati estranei soltanto perché vi siete separati."
         }
       ],
       "choices": [
@@ -546,7 +546,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Aspettare un'ora può cambiare schedule e Living World. Non cambia l'amico già selezionato né il calendario del gruppo."
+          "text": "Se rimandi, l'ora passa e gli impegni dell'amico non smettono di esistere."
         }
       ],
       "choices": [
@@ -567,7 +567,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il beat conserva amico, modalità, contesto e tipo di interazione. Non crea un risultato competitivo."
+          "text": "La chiamata si conclude. Sul tabellone le partite sono ancora quelle fissate dal sorteggio."
         }
       ],
       "choices": [
@@ -589,7 +589,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il rapporto torna sullo sfondo. Restano gestione delle risorse e il terzo Matchday."
+          "text": "Rimane da affrontare l'ultima giornata del girone. La voce dell'amico non sostituirà quella dell'arbitro."
         }
       ],
       "choices": [
