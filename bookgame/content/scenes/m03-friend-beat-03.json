@@ -97,7 +97,7 @@
       "stitches": [
         {
           "id": "luke_root_text",
-          "text": "Luke chiama da una tratta più lunga del circuito. Il suo percorso non si è riavvolto per incontrarti: se è a Ferravia, lo è perché la schedule lo permette; altrimenti il contatto resta remoto."
+          "text": "Luke chiama da una tratta più lunga del circuito. Dietro di lui si sente il vento e un Growlithe che reclama attenzione. «Hai visto? C'è gente che ti vende un itinerario come se fosse l'unico modo di vincere. Io mi tengo il mio.»"
         }
       ],
       "choices": [
@@ -1221,7 +1221,7 @@
       "stitches": [
         {
           "id": "fab_root_text",
-          "text": "Fab entra nel contatto senza preamboli. La rotta Ranger le ha lasciato un modo asciutto di parlare di rischio: chi è sul posto, chi ha autorità, chi può peggiorare la situazione anche con buone intenzioni."
+          "text": "Fab risponde con Koffing che ronza vicino al microfono. «Non cercavo certo di fare il Ranger a tempo pieno. Però se vedo dei Pokémon in pericolo non faccio finta di niente.»"
         }
       ],
       "choices": [
@@ -1295,7 +1295,7 @@
       "stitches": [
         {
           "id": "fab_physical_text",
-          "text": "Fab ti aggiorna sul proprio percorso senza farne un racconto eroico. Per lei essere utile significa spesso non occupare lo spazio di chi ha competenza migliore. Essere nello stesso posto cambia il ritmo della conversazione: potete leggere reazioni e silenzi senza ridurre tutto a un messaggio."
+          "text": "Fab ti mostra il sentiero e poi richiama Koffing, che era sul punto di curiosare nello zaino di un passante. «Ehi! Prima chiedi il permesso.» Torna a te con un mezzo sorriso. «Vedi? Anche senza un piano perfetto qualcosa impariamo.»"
         }
       ],
       "choices": [
@@ -1339,7 +1339,7 @@
       "stitches": [
         {
           "id": "fab_remote_text",
-          "text": "Fab ti aggiorna sul proprio percorso senza farne un racconto eroico. Per lei essere utile significa spesso non occupare lo spazio di chi ha competenza migliore. La distanza resta reale: non potete trasformare la chiamata in un incontro fisico se la schedule non lo permette."
+          "text": "La chiamata con Fab si interrompe due volte perché Koffing si avvicina al telefono. «Lui voleva salutare. O rubarmi il pranzo. Comunque non sono a Ferravia: ci vediamo quando ci incrociamo davvero.»"
         }
       ],
       "choices": [
@@ -1384,7 +1384,7 @@
       "stitches": [
         {
           "id": "fab_rescue_text",
-          "text": "Ferrox le interessa subito. Ti chiede se il perimetro aveva regole chiare e se le hai rispettate. La differenza fra intervento e intralcio, dice, è spesso una singola decisione."
+          "text": "Fab ascolta il racconto di Ferrox con attenzione. «I soccorritori sanno il mestiere, io no. Ma se potevi fare qualcosa per aiutare un Pokémon senza intralciarli, capisco perché ci hai provato.»"
         }
       ],
       "choices": [
@@ -1434,7 +1434,7 @@
       "stitches": [
         {
           "id": "fab_competition_text",
-          "text": "Sulla competizione non è disinteressata: semplicemente rifiuta l'idea che una coppa o un Rank possano assorbire ogni altra priorità del mondo."
+          "text": "«Mi piace vincere, mica sono qui per perdere apposta», ride Fab. «Solo che non cambio Koffing per fare contento un tizio con una classifica in mano.»"
         }
       ],
       "choices": [
@@ -1479,7 +1479,7 @@
       "stitches": [
         {
           "id": "fab_personal_result_text",
-          "text": "Fab annuisce come se la questione fosse molto più semplice di quanto tutti cerchino di renderla. «Io provo a fare la cosa giusta con i Pokémon che ho. Se poi vinco pure, meglio.»"
+          "text": "Fab accarezza Koffing. «Se perdo ci rimango male. Se vinco offro da bere. In entrambi i casi lui viene con me, che gli piaccia o no.»"
         }
       ],
       "choices": [
