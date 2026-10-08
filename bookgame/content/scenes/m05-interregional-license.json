@@ -89,7 +89,7 @@
       "stitches": [
         {
           "id": "rs1",
-          "text": "La licenza permette di prenotare servizi e trasferte interregionali compatibili con il tuo Rank e con il calendario. Non apre zone riservate ai Rank superiori e, naturalmente, non elimina distanze o tempi di viaggio."
+          "text": "La licenza permette di prenotare collegamenti e servizi interregionali dove tratte e calendario lo consentono. Non apre le aree riservate ai Rank superiori e non elimina i tempi di viaggio."
         }
       ],
       "choices": [
@@ -116,7 +116,7 @@
       "stitches": [
         {
           "id": "r1",
-          "text": "L'assessment è un match ufficiale di calibrazione: serve a registrare il profilo competitivo per la rete interregionale, non a decidere il Rank. Il risultato resta persistente in entrambi i casi."
+          "text": "Il regolamento descrive una prova ufficiale utile per viaggiare e competere fra regioni. Il risultato comparirà sul tuo profilo; per salire di Rank, invece, servirà un esame diverso."
         }
       ],
       "choices": [
@@ -136,7 +136,7 @@
       "stitches": [
         {
           "id": "reg1",
-          "text": "L'addetta apre una pratica distinta dal Promotion Trial B→A: ottenere questa licenza non cambia il tuo Rank."
+          "text": "L'addetta apre una pratica per la licenza interregionale e ti consegna un numero. «Per la promozione di Rank dovrai rivolgerti al banco del Trial», precisa."
         }
       ],
       "choices": [
@@ -200,7 +200,7 @@
       "stitches": [
         {
           "id": "ao1",
-          "text": "Mira, ufficiale del Circuito, conferma un Singles di calibrazione. Vincere o perdere cambia il risultato registrato; completare il match chiude l'assessment."
+          "text": "Mira, ufficiale del Circuito, ti indica il campo assegnato. «Un incontro Singles. Mi interessa vedere come affronti un avversario vero, non soltanto il punteggio finale.»"
         }
       ],
       "choices": [
@@ -220,7 +220,7 @@
       "stitches": [
         {
           "id": "ah1",
-          "text": "Il combattimento viene registrato secondo le normali regole del Circuito. Nessuno al banco può deciderne l'esito in anticipo."
+          "text": "Il giudice richiama le squadre registrate e dà il segnale d'inizio."
         }
       ],
       "choices": [
@@ -272,7 +272,7 @@
       "stitches": [
         {
           "id": "aw1",
-          "text": "La vittoria entra nel tuo profilo interregionale. È un risultato utile, ma non vale una promozione di Rank."
+          "text": "Il tabellone registra la tua vittoria. Il risultato entra nel profilo interregionale, ma il tuo Rank resta invariato."
         }
       ],
       "choices": [
@@ -316,7 +316,7 @@
       "stitches": [
         {
           "id": "al1",
-          "text": "La sconfitta resta tale, ma il combattimento ha comunque fornito la valutazione richiesta. Il tuo Rank non cambia."
+          "text": "Il tabellone registra la sconfitta. La prova ha comunque fornito il profilo richiesto e il tuo Rank non viene abbassato."
         }
       ],
       "choices": [
@@ -360,7 +360,7 @@
       "stitches": [
         {
           "id": "rr1",
-          "text": "Il profilo interregionale conserva il risultato senza confonderlo con RANK_B_TO_A. L'assessment misura e registra; il Promotion Trial promuove."
+          "text": "Il risultato della prova resta distinto dal Trial di promozione. Questa registrazione misura il tuo percorso competitivo; per ottenere il Rank A dovrai ancora vincere il Trial."
         }
       ],
       "choices": [
@@ -393,7 +393,7 @@
       "stitches": [
         {
           "id": "li1",
-          "text": "L'ufficio emette la licenza sullo stato persistente. Non cambia Rank, non apre le aree A/S e non crea risultati di competizioni future."
+          "text": "L'impiegata posa sul banco la licenza interregionale, ancora fresca di timbro. Sul retro trovi le tratte e gli uffici presso cui potrai presentarla."
         }
       ],
       "choices": [
@@ -425,7 +425,7 @@
       "stitches": [
         {
           "id": "tr1",
-          "text": "Con la licenza puoi usare i servizi interregionali disponibili per il tuo Rank e nel calendario corrente. Ogni destinazione continua però ad avere requisiti, tempi di viaggio e condizioni proprie."
+          "text": "La licenza permette di usare servizi interregionali disponibili al tuo Rank e nel calendario corrente. Le singole destinazioni restano soggette a Rank, tempo, trasporti e world state."
         }
       ],
       "choices": [
@@ -470,7 +470,7 @@
       "stitches": [
         {
           "id": "lc1",
-          "text": "La licenza è attiva con il risultato reale dell'assessment. M5 può ora usare tratte interregionali senza alterare Rank B o anticipare il Masters Circuit."
+          "text": "La licenza è attiva e il risultato della prova compare nel tuo profilo. Resti Rank B finché non supererai il Trial di promozione."
         }
       ],
       "choices": [

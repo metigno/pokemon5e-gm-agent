@@ -62,7 +62,7 @@
       "stitches": [
         {
           "id": "oe1",
-          "text": "M5 non si chiude con una singola premiazione. Il riepilogo legge il Rank A reale, Lance, Five, licenza interregionale, Ancient Trace e lo stato Masters già disponibile o risolto."
+          "text": "Prima di lasciare Altacima, apri il diario di viaggio. Ci sono tappe già superate e altre ancora da completare: la promozione, la licenza, i legami con Lance e gli amici, le tracce di Fulgore e la strada verso i Masters."
         }
       ],
       "choices": [
@@ -78,7 +78,7 @@
         },
         {
           "id": "entry_people",
-          "text": "Rivedo Lance e FRIEND_BEAT_05.",
+          "text": "Ripenso a Lance e all'ultimo incontro con uno dei Five.",
           "goto": "lance_review"
         },
         {
@@ -92,13 +92,13 @@
       "stitches": [
         {
           "id": "ca1",
-          "text": "Tutti i requisiti necessari sono presenti nello stato persistente. Il modulo può chiudersi senza riscrivere nessun risultato e senza forzare il Masters se la sua finestra è soltanto disponibile."
+          "text": "Ripensi al percorso compiuto: il Rank A, la licenza interregionale e le strade aperte oltre Altacima. Ci sono ancora incontri da affrontare, ma questa tappa ti ha portato più lontano."
         }
       ],
       "choices": [
         {
           "id": "audit_complete",
-          "text": "Chiudo formalmente M5 e sblocco M6.",
+          "text": "Confermo la partenza verso la prossima tappa.",
           "conditions": {
             "all": [
               {
@@ -161,12 +161,12 @@
         },
         {
           "id": "audit_continuity",
-          "text": "Prima controllo cosa resta persistente entrando in M6.",
+          "text": "Prima controllo cosa porto con me.",
           "goto": "continuity_review"
         },
         {
           "id": "audit_preview",
-          "text": "Prima controllo cosa apre M6.",
+          "text": "Prima controllo quali nuove strade si aprono.",
           "goto": "m6_preview"
         }
       ]
@@ -175,7 +175,7 @@
       "stitches": [
         {
           "id": "rr1",
-          "text": "Il Rank A è arrivato soltanto dalla vittoria nel Promotion Trial B→A. La licenza, il soccorso d'alta quota e il Masters Entry non hanno potuto sostituire quell'esame."
+          "text": "Rileggi il regolamento del Trial B→A: soltanto una vittoria in quella prova permette di ottenere il Rank A. Né la licenza né gli altri risultati possono sostituirla."
         }
       ],
       "choices": [
@@ -195,7 +195,7 @@
       "stitches": [
         {
           "id": "lr1",
-          "text": "Lance resta un Anchor con stato, relazione e carriera propri. Il suo tema sul margine può tornare più avanti, ma non è stato convertito in bonus o chiave per vincere il Trial."
+          "text": "Ripensi a ciò che sai di Lance e al suo modo di valutare il rischio. Se vi siete incontrati, ricordi le sue parole; altrimenti resta una figura di cui potresti ancora incrociare la strada."
         }
       ],
       "choices": [
@@ -215,7 +215,7 @@
       "stitches": [
         {
           "id": "fr1",
-          "text": "FRIEND_BEAT_05 conserva amico selezionato, modalità fisica/remota e risultato. La reunion non ha sincronizzato artificialmente le carriere dei Five."
+          "text": "Scorri i messaggi degli altri quattro. Se hai avuto modo di parlare a lungo con uno di loro, ricordi il tono di quella conversazione; gli altri proseguono comunque le proprie carriere."
         }
       ],
       "choices": [
@@ -226,7 +226,7 @@
         },
         {
           "id": "friend_continuity",
-          "text": "Controllo quali conseguenze potranno seguirmi oltre Altacima.",
+          "text": "Penso a quando potremmo incontrarci di nuovo.",
           "goto": "continuity_review"
         }
       ]
@@ -235,7 +235,7 @@
       "stitches": [
         {
           "id": "tr1",
-          "text": "La traccia antica resta incompleta: potresti averla appena notata, studiata solo in parte oppure documentata con più indizi convergenti. Nulla di ciò che accade ora le assegna retroattivamente una causa."
+          "text": "Ripensi alle notizie e alle osservazioni su Fulgore. Se hai visto i segni anomali, sai che qualcosa non torna, ma non hai ancora una spiegazione certa."
         }
       ],
       "choices": [
@@ -255,7 +255,7 @@
       "stitches": [
         {
           "id": "li1",
-          "text": "La licenza interregionale resta un diritto di rete compatibile con il Rank, non un Rank aggiuntivo. Le destinazioni future continuano a rispettare access band, calendario e geografia."
+          "text": "Controlli le condizioni della rete interregionale. La licenza, una volta ottenuta, amplia i viaggi consentiti; non è una promozione di Rank."
         }
       ],
       "choices": [
@@ -275,7 +275,7 @@
       "stitches": [
         {
           "id": "mr1",
-          "text": "Per l'exit contract basta che A5_MASTERS_ENTRY sia realmente disponibile oppure già risolto. Se hai giocato il match, il seed deriva dal risultato; se hai rimandato, nessun seed viene inventato."
+          "text": "Il calendario Masters indica quando potrai partecipare e quali risultati contano per il sorteggio. Se hai già giocato l'incontro, trovi la tua posizione; se l'hai rinviato, il posto non è ancora assegnato."
         }
       ],
       "choices": [
@@ -295,7 +295,7 @@
       "stitches": [
         {
           "id": "ha1",
-          "text": "Il soccorso d'alta quota resta registrato secondo ciò che hai davvero fatto: intervento diretto o supporto alla risposta. Non produce merito immaginario né modifica il Rank."
+          "text": "Rileggi il rapporto dell'emergenza in quota. Se hai partecipato al soccorso, il documento distingue l'ingresso nella zona esposta dal supporto prestato alla squadra di risposta."
         }
       ],
       "choices": [
@@ -306,7 +306,7 @@
         },
         {
           "id": "altitude_continuity",
-          "text": "Conservo queste informazioni per quando il fenomeno tornerà rilevante.",
+          "text": "Tengo a mente ciò che è successo per il futuro.",
           "goto": "continuity_review"
         }
       ]
@@ -315,7 +315,7 @@
       "stitches": [
         {
           "id": "cr1",
-          "text": "Lasciando M5 non perdi nulla di ciò che esiste davvero: squadra, condizioni, risorse, denaro, livelli, risultati, relazioni e conseguenze nel mondo continuano con te."
+          "text": "Parti con la stessa squadra, le stesse condizioni, gli stessi oggetti, il denaro, i risultati ufficiali e i rapporti costruiti fino a questo momento. Il cambio di tappa non azzera nulla."
         }
       ],
       "choices": [
@@ -335,7 +335,7 @@
       "stitches": [
         {
           "id": "m61",
-          "text": "M6 verrà aperto da `m06_unlocked=true`. Il passaggio non assegna Rank S, non risolve il futuro Trial A→S e non altera il Masters seeding esistente."
+          "text": "Oltre Altacima si aprono nuove direttrici per chi possiede il Rank e i documenti richiesti. Il Rank S resta un traguardo da conquistare; gli incontri non ancora disputati attendono il loro turno."
         }
       ],
       "choices": [
@@ -355,7 +355,7 @@
       "stitches": [
         {
           "id": "fa1",
-          "text": "Il salvataggio contiene tutti gli elementi richiesti per lasciare M5: Rank A, Lance, FRIEND_BEAT_05, licenza, Ancient Trace e Masters disponibile o risolto."
+          "text": "Prima di partire, controlli le condizioni per proseguire: promozione, incontro con Lance, confronto con uno degli amici, licenza, osservazioni di Fulgore e accesso al circuito Masters."
         }
       ],
       "choices": [
@@ -379,18 +379,18 @@
       "stitches": [
         {
           "id": "mc1",
-          "text": "La tappa di Altacima è conclusa. La strada successiva si apre senza cancellare ciò che hai costruito fin qui."
+          "text": "La tappa di Altacima è conclusa. Le nuove direttrici sono disponibili e tutto ciò che hai costruito fin qui continua con te."
         }
       ],
       "choices": [
         {
           "id": "complete_handoff",
-          "text": "Registro il punto di handoff verso M6.",
+          "text": "Controllo la prossima direttrice di viaggio.",
           "goto": "handoff"
         },
         {
           "id": "complete_review",
-          "text": "Rileggo il riepilogo M5.",
+          "text": "Rileggo il riepilogo di Altacima.",
           "goto": "final_audit"
         }
       ]
@@ -399,13 +399,13 @@
       "stitches": [
         {
           "id": "ho1",
-          "text": "Non vieni trascinato altrove soltanto perché la tappa è conclusa. Resti ad Altacima finché decidi davvero di partire, mentre la città e le montagne continuano la propria giornata."
+          "text": "Non vieni spostato automaticamente. Resti ad Altacima con le nuove destinazioni disponibili e il mondo che continua a muoversi intorno a te."
         }
       ],
       "choices": [
         {
           "id": "handoff_hub",
-          "text": "Resto ad Altacima e apro l'handoff di M6.",
+          "text": "Resto ad Altacima e controllo la prossima destinazione.",
           "goto": "m06-handoff#m06_entry",
           "effects": [
             {

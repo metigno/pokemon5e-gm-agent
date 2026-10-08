@@ -34,7 +34,7 @@
       "stitches": [
         {
           "id": "e1",
-          "text": "Per la prima volta da molte tappe, le strade dei Five tornano abbastanza vicine da permettere una reunion. Non tutti devono essere ad Altacima: chi è lontano può farsi sentire soltanto a distanza, e nessuno interrompe il proprio viaggio per comparire al momento giusto."
+          "text": "Ad Altacima ritrovi notizie degli altri quattro amici. Alcuni potrebbero essere abbastanza vicini da incontrarti in piazza; altri rispondono soltanto fra un viaggio e l'altro. Per una volta i vostri percorsi si sfiorano di nuovo."
         }
       ],
       "choices": [
@@ -54,13 +54,13 @@
       "stitches": [
         {
           "id": "p1",
-          "text": "La piazza e la rete del Circuito mostrano presenze reali. Un amico può essere qui, in viaggio o raggiungibile soltanto da remoto; nessuno viene spostato per riempire la scena."
+          "text": "Davanti alla bacheca del Circuito confronti orari, messaggi e partenze. C'è chi può raggiungerti prima di sera e chi è già lontano, con soltanto qualche minuto per rispondere."
         }
       ],
       "choices": [
         {
           "id": "presence_luke",
-          "text": "Luke è fisicamente in zona.",
+          "text": "Cerco Luke tra gli allenatori arrivati ad Altacima.",
           "conditions": {
             "all": [
               {
@@ -84,7 +84,7 @@
         },
         {
           "id": "presence_mattew",
-          "text": "Mattew è fisicamente in zona.",
+          "text": "Cerco Mattew vicino alla bacheca delle gare.",
           "conditions": {
             "all": [
               {
@@ -108,7 +108,7 @@
         },
         {
           "id": "presence_daniel",
-          "text": "Daniel è fisicamente in zona.",
+          "text": "Cerco Daniel tra gli iscritti di oggi.",
           "conditions": {
             "all": [
               {
@@ -132,7 +132,7 @@
         },
         {
           "id": "presence_edward",
-          "text": "Edward è fisicamente in zona.",
+          "text": "Cerco Edward nella piazza del Circuito.",
           "conditions": {
             "all": [
               {
@@ -156,7 +156,7 @@
         },
         {
           "id": "presence_fab",
-          "text": "Fab è fisicamente in zona.",
+          "text": "Cerco Fab prima che riparta.",
           "conditions": {
             "all": [
               {
@@ -189,7 +189,7 @@
       "stitches": [
         {
           "id": "l1",
-          "text": "Luke non parla di cambiare i Pokémon che ama per inseguire la soluzione più facile. Parla invece di costringere un piano a funzionare: adattare ritmo, pressione e ingressi finché la squadra che ha scelto trova il modo di colpire."
+          "text": "Luke non ha perso il vizio di difendere i Pokémon a cui si è affezionato. «Cambiare squadra ogni volta che perdi? Troppo facile.» Poi aggiunge, quasi a sfidarti, che preferisce trovare un modo per far funzionare anche l'abbinamento più difficile."
         }
       ],
       "choices": [
@@ -225,7 +225,7 @@
       "stitches": [
         {
           "id": "m1",
-          "text": "Mattew arriva con appunti ordinati, orari annotati e correzioni ai margini. Prima di parlare di risultati vuole capire perché una scelta ha funzionato: per lui una soluzione che non sai spiegare è una soluzione che non saprai ripetere."
+          "text": "Mattew ha il taccuino pieno di appunti. «Non basta dire che avevi un piano. Devi sapere perché ha smesso di funzionare.» Ti mostra una sequenza di turni, poi aspetta che tu trovi l'errore."
         }
       ],
       "choices": [
@@ -261,7 +261,7 @@
       "stitches": [
         {
           "id": "d1",
-          "text": "Daniel ha già separato sul suo taccuino risultati, costi e cose ancora da verificare. Quando racconta il proprio percorso distingue ciò che possiede, ciò che gli manca e ciò che vale davvero la pena inseguire."
+          "text": "Daniel ascolta prima di rispondere. Quando qualcuno minimizza una scelta discutibile, si irrigidisce: «Il risultato non cancella il modo in cui ci sei arrivato.» Poi racconta quanto gli sia costato restare fedele a quella regola."
         }
       ],
       "choices": [
@@ -297,7 +297,7 @@
       "stitches": [
         {
           "id": "ed1",
-          "text": "Edward parte dai momenti che fanno rumore — un colpo decisivo, una rimonta, qualcuno che non arretra — ma quando il discorso si allunga ammette che quei momenti esistono solo perché prima ci sono state settimane di allenamento e recupero."
+          "text": "Edward arriva con la sicurezza di chi sa farsi notare. «Se devo vincere, almeno che sia una bella vittoria.» Sorride, ma dietro la battuta ci sono settimane di allenamento e sconfitte che non racconta volentieri."
         }
       ],
       "choices": [
@@ -333,7 +333,7 @@
       "stitches": [
         {
           "id": "f1",
-          "text": "Fab arriva con storie che cominciano quasi sempre fuori dalle arene: un sentiero sbagliato, un Pokémon osservato troppo a lungo, una deviazione diventata la parte migliore del viaggio. Solo dopo, quasi per inciso, racconta anche i suoi risultati."
+          "text": "Fab comincia a raccontare di un Pokémon incontrato fuori sentiero e finisce per descrivere mezz'ora passata a osservarlo. «Non l'ho catturato. Stava bene dov'era.» Poi cambia argomento con una battuta."
         }
       ],
       "choices": [
@@ -369,7 +369,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La reunion non cancella le distanze: chi è presente parla di persona, chi è altrove lascia messaggi o entra per qualche minuto. Per una volta, però, le cinque traiettorie sono visibili nello stesso quadro."
+          "text": "Chi riesce a esserci si stringe attorno a un tavolo; dagli altri arrivano messaggi e chiamate brevi, interrotte dal rumore dei viaggi. Le prese in giro ripartono quasi subito, come se vi foste lasciati ieri."
         }
       ],
       "choices": [
@@ -402,7 +402,7 @@
       "stitches": [
         {
           "id": "c1",
-          "text": "Nessuno dei Five ha una traiettoria identica. Rank, risultati, lavoro, catture e sconfitte non vengono normalizzati per rendere la reunion simmetrica."
+          "text": "Confrontate i risultati senza riuscire a stabilire chi abbia avuto il percorso più difficile. Ognuno ricorda una vittoria, una sconfitta e almeno una scelta che gli altri non avrebbero fatto."
         }
       ],
       "choices": [
@@ -453,13 +453,13 @@
       "stitches": [
         {
           "id": "a1",
-          "text": "La traccia antica suscita curiosità, ma nessuno dei Five possiede una risposta magica. Il gruppo distingue ciò che hai visto da ciò che state soltanto ipotizzando."
+          "text": "Quando racconti dei segni trovati in quota, le battute si interrompono per un momento. Ognuno propone una spiegazione diversa, ma nessuno sa ancora dire che cosa li abbia lasciati."
         }
       ],
       "choices": [
         {
           "id": "ancient_record",
-          "text": "Tengo chiaro che gli altri conoscono la traccia, non la sua spiegazione.",
+          "text": "Condivido soltanto ciò che ho visto, senza trarre conclusioni.",
           "goto": "schedule_split",
           "effects": [
             {
@@ -486,7 +486,7 @@
       "choices": [
         {
           "id": "license_record",
-          "text": "Registriamo la possibilità di futuri incroci.",
+          "text": "Parliamo di quando potremmo incrociarci di nuovo.",
           "goto": "schedule_split",
           "effects": [
             {
@@ -513,7 +513,7 @@
       "choices": [
         {
           "id": "schedule_personal",
-          "text": "Chiudo la reunion comune e lascio spazio al FRIEND_BEAT_05.",
+          "text": "Saluto il gruppo e cerco un momento per parlare con uno di loro.",
           "goto": "friend_beat_gate",
           "effects": [
             {
@@ -534,13 +534,13 @@
       "stitches": [
         {
           "id": "fg1",
-          "text": "Quando la conversazione comune si scioglie, resta spazio per parlare davvero con uno solo di loro: qualcuno presente ad Altacima oppure, se necessario, raggiungibile a distanza."
+          "text": "Fra saluti frettolosi e orari di partenza, trovi un momento per parlare con uno degli amici che puoi davvero raggiungere. Gli altri hanno già un treno, un allenamento o una chiamata da chiudere."
         }
       ],
       "choices": [
         {
           "id": "friend_gate_continue",
-          "text": "Apro il contatto personale selezionato.",
+          "text": "Provo a contattare uno degli amici.",
           "conditions": {
             "path": "world.flags.friend_beat_05_available",
             "eq": true
@@ -549,7 +549,7 @@
         },
         {
           "id": "friend_gate_close",
-          "text": "Il contatto personale non è ancora disponibile: torno alla piazza.",
+          "text": "Non riesco a raggiungerli ora: torno alla piazza.",
           "conditions": {
             "path": "world.flags.friend_beat_05_available",
             "ne": true
@@ -562,7 +562,7 @@
       "stitches": [
         {
           "id": "rc1",
-          "text": "La reunion finisce senza cerimonie. Chi era ad Altacima torna ai propri impegni; chi era lontano saluta dal canale comune e resta dov'era."
+          "text": "La piazza si svuota poco alla volta. Qualcuno riparte, qualcuno spegne la chiamata promettendo di risentirsi. Restano una battuta non finita e la sensazione che il prossimo incontro non sarà così semplice da organizzare."
         }
       ],
       "choices": [
