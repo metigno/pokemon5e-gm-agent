@@ -85,7 +85,7 @@ export async function readVerifiedSecondaryNpcSprite(group, id, role, available,
   }
 }
 
-export async function verifyOfflineSecondaryNpcAssets(npcRegistry, base) {
+export async function verifyOfflineSecondaryNpcAssets(npcRegistry, base, expectedCatalogSha256 = NPC_SECONDARY_CATALOG_SHA256) {
   const path = join(base, "catalog.json");
   let raw;
   try { raw = await readFile(path); }
@@ -94,7 +94,7 @@ export async function verifyOfflineSecondaryNpcAssets(npcRegistry, base) {
     return { valid: false, verified: 0, expected: 84, missing: ["catalog.json"],
       available: { world: Object.create(null), role: Object.create(null) }, catalog: null };
   }
-  if (digest(raw) !== NPC_SECONDARY_CATALOG_SHA256) throw new Error("Secondary NPC catalog is not approved");
+  if (digest(raw) !== expectedCatalogSha256) throw new Error("Secondary NPC catalog is not approved");
   const catalog = JSON.parse(raw.toString("utf8"));
   const inventory = validateSecondaryCatalog(catalog, npcRegistry);
   const available = { world: Object.create(null), role: Object.create(null) };
