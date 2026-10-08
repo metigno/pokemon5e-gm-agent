@@ -371,6 +371,12 @@ async function handleApi(req, res, url) {
     });
   }
 
+  if (url.pathname.startsWith("/api/pokemon/")) {
+    if (state.pending?.type === "pokemon5e_combat") {
+      return sendError(res, new Error("Progressione Pokémon non disponibile durante il combattimento"), 409);
+    }
+  }
+
   if (url.pathname === "/api/pokemon/level-up") {
     const { index, pokemon } = rosterPokemon(body.rosterIndex);
     const context = pokemonProgressionContext();
@@ -397,6 +403,9 @@ async function handleApi(req, res, url) {
     const { index, pokemon } = rosterPokemon(body.rosterIndex);
     const moveId = String(body.moveId ?? "");
     if (!moveId) throw new Error("Move id richiesto");
+    if (!(pokemon.pendingMoveLearning ?? []).some((entry) => entry.moveId === moveId)) {
+      return sendError(res, new Error("Nessun apprendimento pendente per questa mossa"), 409);
+    }
     const next = learnPokemonMove(pokemon, moveId, {
       forgetMoveId: body.forgetMoveId == null || body.forgetMoveId === "" ? null : String(body.forgetMoveId)
     });
