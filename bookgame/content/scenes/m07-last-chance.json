@@ -234,38 +234,38 @@
             "opponentTrainerId": "LC_FINAL_IRIS_KADE",
             "opponent": {
               "species": "Metagross",
-              "level": 19,
+              "level": 17,
               "abilityId": "clear-body",
               "trainerId": "LC_FINAL_IRIS_KADE"
             },
             "opponentBench": [
               {
                 "species": "Rotom-Wash",
-                "level": 19,
+                "level": 17,
                 "abilityId": "levitate",
                 "trainerId": "LC_FINAL_IRIS_KADE"
               },
               {
                 "species": "Tyranitar",
-                "level": 19,
+                "level": 17,
                 "abilityId": "sand-stream",
                 "trainerId": "LC_FINAL_IRIS_KADE"
               },
               {
                 "species": "Togekiss",
-                "level": 19,
+                "level": 17,
                 "abilityId": "serene-grace",
                 "trainerId": "LC_FINAL_IRIS_KADE"
               },
               {
                 "species": "Excadrill",
-                "level": 19,
+                "level": 17,
                 "abilityId": "mold-breaker",
                 "trainerId": "LC_FINAL_IRIS_KADE"
               },
               {
                 "species": "Infernape",
-                "level": 19,
+                "level": 17,
                 "abilityId": "blaze",
                 "trainerId": "LC_FINAL_IRIS_KADE"
               }
