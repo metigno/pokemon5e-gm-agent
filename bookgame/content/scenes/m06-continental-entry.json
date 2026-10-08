@@ -34,7 +34,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La Continental Cup è un evento elite per ranking e reputazione. Essere Rank A consente di presentarsi al desk; l'effettiva finestra dipende dall'evento canonico A6_CONTINENTAL."
+          "text": "Davanti allo sportello della Continental Cup, gli allenatori aspettano sotto una grande insegna. L'addetta controlla la tua licenza di grado A. «Puoi chiedere l'iscrizione, ma devo prima verificare i risultati richiesti dal torneo»."
         }
       ],
       "choices": [
@@ -59,7 +59,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'eligibility deriva dal trigger canonico: Rank A più livello/risultato Masters sufficiente. La scena non può aprire la Cup solo perché il modulo la prevede."
+          "text": "L'addetta consulta il registro Masters e confronta il tuo nome con i requisiti esposti. «La licenza da sola non basta. Serve anche una qualificazione valida», spiega, senza anticipare il responso."
         }
       ],
       "choices": [
@@ -83,7 +83,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La Continental Cup può dare risultati e ranking reali, ma non sostituisce RANK_A_TO_S. Anche vincere la Cup lascia Rank A finché il Gate del Faro non viene vinto."
+          "text": "Un arbitro indica il regolamento affisso accanto all'ingresso. «Questa coppa assegna un titolo e un piazzamento. La promozione al grado S si ottiene in una prova diversa, al Faro»."
         }
       ],
       "choices": [
@@ -103,7 +103,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il torneo convive con Friend Beat, mistero antico e Gate del Faro. Rimandare può cambiare schedule; rinunciare produce uno stato persistente `skipped`."
+          "text": "Sul calendario sono segnate le giornate della coppa, insieme ad altri appuntamenti del circuito. L'addetta avverte: «Puoi aspettare, ma le iscrizioni non resteranno aperte per sempre»."
         }
       ],
       "choices": [
@@ -127,7 +127,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il desk registra partecipazione, non vittorie. Il roster ufficiale verrà validato quando il primo match verrà consegnato a E5."
+          "text": "Al banco ti porgono il modulo d'iscrizione. L'addetta ricontrolla il nominativo e indica l'area dove, prima dell'incontro, verrà verificata la squadra ammessa."
         }
       ],
       "choices": [
@@ -176,7 +176,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'iscrizione è persistente. Nessun avversario viene sostituito per fanservice e nessun risultato viene precompilato."
+          "text": "L'addetta appone un timbro sul modulo. «Iscrizione confermata. Gli accoppiamenti saranno quelli del tabellone ufficiale». Dietro di lei, altri allenatori attendono il proprio turno."
         }
       ],
       "choices": [
@@ -196,7 +196,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La preparazione può orientare le tue decisioni, non cambiare statistiche o curare il roster."
+          "text": "Nell'area riservata, un allenatore ripassa appunti mentre un altro controlla le Poké Ball. Hai tempo per studiare il formato e decidere come affrontare gli avversari."
         }
       ],
       "choices": [
@@ -230,7 +230,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il field contiene trainer elite registrati. Gli accoppiamenti che affronterai sono quelli del bracket della run, non nomi scelti per creare una scena speciale."
+          "text": "Sul tabellone compaiono gli iscritti alla Continental Cup. I nomi sono quelli degli allenatori qualificati; gli abbinamenti seguono il sorteggio esposto dagli organizzatori."
         }
       ],
       "choices": [
@@ -250,7 +250,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rimandare lascia l'evento aperto quando il calendario lo consente. Non vengono assegnati punti o piazzamenti."
+          "text": "Ti sposti fuori dalla fila senza consegnare il modulo. Gli sportelli restano aperti per il momento, ma il calendario continua ad avanzare."
         }
       ],
       "choices": [
@@ -270,7 +270,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rinunciare è definitivo per questa finestra: il mondo continua senza il player nel bracket."
+          "text": "Restituisci il modulo non compilato. L'addetta prende nota della rinuncia e chiama il prossimo allenatore. La coppa andrà avanti anche senza di te."
         }
       ],
       "choices": [
@@ -307,7 +307,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La registrazione o la rinuncia sono ora persistenti e restano separate dal Rank A→S."
+          "text": "All'uscita trovi due cartelli distinti: uno indica la Continental Cup, l'altro la prova di promozione al Faro. Nessuno dei due sostituisce l'altro."
         }
       ],
       "choices": [
@@ -335,7 +335,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La Continental Cup resta una pressione concorrente. Puoi tornare al Masters Circuit senza consumare l'iscrizione."
+          "text": "Dalla piazza puoi tornare all'arena Masters. Gli annunci della Continental Cup continuano a risuonare dagli altoparlanti, ma non sei obbligato a entrare subito."
         }
       ],
       "choices": [

@@ -34,7 +34,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il circuito rende visibile un fatto che la carriera ha già prodotto: mentre tu viaggiavi, anche gli altri Four hanno continuato a muoversi. M6 mostra un payoff reale senza rivelare catture o obiettivi futuri ancora nascosti."
+          "text": "Davanti alla bacheca del circuito, riconosci nomi familiari fra le notizie arrivate da altre città. Mentre eri in viaggio, anche i tuoi amici hanno continuato la propria strada."
         }
       ],
       "choices": [
@@ -59,7 +59,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il sistema seleziona un amico diverso dal player e, quando possibile, diverso dal Friend Beat precedente. Il nome deriva dallo stato persistente, non da una comparsa forzata."
+          "text": "Sul pannello delle notizie spicca il nome di uno dei tuoi amici. Accanto ci sono soltanto informazioni rese pubbliche dal circuito; per sapere di più dovrai cercare un contatto diretto."
         }
       ],
       "choices": [
@@ -114,7 +114,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il dato pubblico può essere un piazzamento, una nuova presenza in un circuito o un cambio di fascia. Se il dettaglio non esiste nello stato dell'NPC, la scena non lo inventa."
+          "text": "Un aggiornamento del circuito riporta una presenza o un risultato recente. Il resto della scheda è ancora incompleto: i dettagli che non sono stati pubblicati rimangono sconosciuti."
         }
       ],
       "choices": [
@@ -141,7 +141,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Una traiettoria può diventare visibile anche perché cambia il luogo in cui un amico compete o si allena. Il cambio resta quello del suo schedule reale."
+          "text": "Una nota accanto al nome segnala una nuova tappa del suo viaggio. La data è recente; forse siete più vicini di quanto pensassi, forse ormai vi separano diverse tratte."
         }
       ],
       "choices": [
@@ -161,7 +161,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il payoff non deve essere per forza una nuova evoluzione. Può essere una scelta di carriera, un nuovo evento o un risultato che modifica la direzione dell'amico."
+          "text": "Le notizie non parlano soltanto di vittorie. Un'iscrizione, una rinuncia o una nuova direzione possono raccontare quanto stia cambiando la carriera di un allenatore."
         }
       ],
       "choices": [
@@ -188,7 +188,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il nome selezionato non viene trasformato in un premio narrativo. Vedi abbastanza da capire che la sua carriera sta avanzando, non abbastanza da conoscere target futuri o Legendary chain."
+          "text": "Rileggi il nome familiare. Non sai ancora tutto quello che gli è successo, ma abbastanza da capire che non è rimasto fermo ad aspettarti."
         }
       ],
       "choices": [
@@ -208,7 +208,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Red offre un contrasto utile solo se lo hai già incontrato: lui tende a leggere i cambiamenti di traiettoria come adattamenti, non come deviazioni da un percorso ideale."
+          "text": "Se ripensi al breve incontro con Red, ti torna in mente il modo in cui osservava chi cambiava strategia dopo una sconfitta. Sul tabellone, ogni percorso sembra avere svolte diverse."
         }
       ],
       "choices": [
@@ -239,7 +239,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Sono vietati spoiler automatici su catture future, Legendary target o roster finali. La scena può mostrare solo ciò che il world state rende già visibile."
+          "text": "Il tabellone mostra risultati pubblici e brevi comunicazioni ufficiali. Nessuno ha accesso ai progetti privati degli allenatori o a ciò che non hanno ancora raccontato."
         }
       ],
       "choices": [
@@ -259,7 +259,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se l'amico è lontano, distanza e tempi restano reali. Una chiamata può dare un payoff personale senza fingere presenza fisica."
+          "text": "Il nome sulla bacheca è legato a una città lontana. Puoi provare a chiamare, ma per incontrarvi dovreste prima trovare il modo di raggiungere lo stesso posto."
         }
       ],
       "choices": [
@@ -286,7 +286,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un incontro fisico sarà possibile solo se schedule e posizione coincidono davvero al momento del Friend Beat. Questa scena non teletrasporta nessuno."
+          "text": "Controlli le indicazioni e gli orari. Se il tuo amico si trova davvero nei dintorni, potresti raggiungerlo; altrimenti resta soltanto la possibilità di sentirlo a distanza."
         }
       ],
       "choices": [
@@ -313,7 +313,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il payoff è stato reso visibile senza modificare artificialmente roster, livelli o risultati dell'amico. Ora il Friend Beat può consumare questo contesto."
+          "text": "Lasci la bacheca con una notizia concreta sul tuo amico. Non hai bisogno di conoscere ogni dettaglio per capire che, alla prossima occasione, avrete qualcosa di nuovo da raccontarvi."
         }
       ],
       "choices": [
@@ -345,7 +345,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rimandare non cancella la traiettoria dell'amico. Il mondo continua e l'evento resta un fatto già avvenuto."
+          "text": "Ti allontani senza cercarlo subito. Le notizie rimangono sul tabellone mentre altre gare e altri viaggi continuano."
         }
       ],
       "choices": [
@@ -365,7 +365,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La traiettoria è ora un callback persistente. Il prossimo blocco decide se l'interazione sarà fisica o remota usando posizione e schedule reali."
+          "text": "Il nome del tuo amico resta in cima ai tuoi pensieri mentre lasci la bacheca. Puoi cercarlo di persona, se è nei paraggi, oppure provare a contattarlo."
         }
       ],
       "choices": [

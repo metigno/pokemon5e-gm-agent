@@ -34,7 +34,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Gate del Faro gestisce RANK_A_TO_S come checkpoint E5 separato da Masters, Continental Cup e World Cutoff. Il formato canonico è Singles con Official Six."
+          "text": "Al banco del Faro, un arbitro indica il regolamento della prova per il grado S. «Incontro singolo, sei Pokémon ufficiali. Qui si decide la promozione, non nella Continental Cup»."
         }
       ],
       "choices": [
@@ -64,7 +64,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'idoneità richiede Rank A reale, checkpoint disponibile e almeno sei Pokémon nel roster al momento della registrazione."
+          "text": "L'addetta confronta la tua licenza con l'elenco dei candidati e controlla la squadra. «Per iscriverti devi avere il grado A e sei Pokémon disponibili»."
         }
       ],
       "choices": [
@@ -107,7 +107,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il desk legge il roster reale e lo stato E5. Non cura, non clona una squadra e non usa i punti come scorciatoia."
+          "text": "Lo sportello è sobrio: un registro, un orologio e un elenco di turni. L'addetta verifica la squadra senza toccare le Poké Ball. «Presentati nelle condizioni in cui intendi combattere»."
         }
       ],
       "choices": [
@@ -159,7 +159,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Trial richiede almeno sei Pokémon nel roster. Questo controllo non riordina, cura o modifica alcun membro."
+          "text": "Conti i Pokémon che puoi schierare. Il personale ne verifica il numero, ma non interviene sulle loro condizioni o sull'ordine della squadra."
         }
       ],
       "choices": [
@@ -210,7 +210,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'esaminatore del Faro usa un Official Six fisso per questa fascia. Il team non si adatta al tuo roster e non scala invisibilmente."
+          "text": "Sul cartellone è esposto il nome dell'esaminatore e la sua squadra ufficiale di sei Pokémon. «Affronterai quella squadra», precisa l'arbitro. «Non una scelta costruita apposta per te»."
         }
       ],
       "choices": [
@@ -230,7 +230,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "A→S misura la gestione completa di sei Pokémon: profondità, ritmo, preservazione delle risorse, adattamento e chiusura del match."
+          "text": "Un veterano in attesa accanto al banco scuote la testa. «Sei Pokémon sono tanti quando inizi a perdere risorse. Non basta avere una buona apertura»."
         }
       ],
       "choices": [
@@ -250,7 +250,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Gate è retryable. E5 conta i tentativi: una sconfitta rimuove la registrazione ma lascia disponibile il checkpoint."
+          "text": "L'addetta mostra il registro dei tentativi. «Se perdi, potrai ripresentarti. Ma il tempo passato e gli incontri disputati non spariscono»."
         }
       ],
       "choices": [
@@ -270,7 +270,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "HP, PP, status, inventario e roster restano quelli reali. Registrarsi non ripristina nulla."
+          "text": "Prima di iscriverti, controlli la squadra e gli oggetti che porti. Il banco non offre cure né rifornimenti: ciò che hai adesso sarà ciò con cui dovrai fare i conti."
         }
       ],
       "choices": [
@@ -285,7 +285,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il cutoff può congelare lo stato stagionale, ma non cambia le regole del Gate. Se arrivi tardi, il risultato temporale resta persistente."
+          "text": "Accanto al calendario degli esami compare la data di chiusura della classifica stagionale. L'addetta la indica: «La prova resta la stessa, ma il calendario non aspetta nessuno»."
         }
       ],
       "choices": [
@@ -305,7 +305,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Red può offrire una lettura sull'adattamento solo se già incontrato. Il callback non concede reroll, bonus o informazioni private."
+          "text": "Ti tornano in mente le parole asciutte di Red sui piani che non funzionano. Davanti all'esame, non offrono risposte facili: sta a te decidere cosa cambiare."
         }
       ],
       "choices": [
@@ -336,7 +336,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La registrazione E5 è attiva. Uscire dal desk non annulla automaticamente il tentativo; il match inizierà solo quando entrerai nel Gate."
+          "text": "L'addetta firma il modulo e lo inserisce nel registro. «Iscrizione confermata. Quando entrerai nell'arena, l'esaminatore ti aspetterà»."
         }
       ],
       "choices": [
@@ -369,7 +369,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Checkpoint RANK_A_TO_S, Rank A attuale, Official Six richiesto, retry attivo. Rank S non esiste ancora."
+          "text": "Il tuo nome compare fra i candidati iscritti. Sul cartello della prova sono riportati grado A, squadra di sei Pokémon e possibilità di ripresentarsi dopo un esito negativo."
         }
       ],
       "choices": [
@@ -389,7 +389,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rimandare non consuma il checkpoint. Masters, Continental, Friend Beat, mistero e cutoff continuano nel loro stato reale."
+          "text": "Lasci il banco senza iniziare la prova. Il vento continua a battere sulle rovine e gli annunci degli altri eventi arrivano da lontano."
         }
       ],
       "choices": [
@@ -409,7 +409,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rank S esiste soltanto dopo una vittoria reale a RANK_A_TO_S. Nessun titolo Continental, seed Masters o rapporto con Red può bypassarlo."
+          "text": "L'arbitro indica il sigillo del grado S sopra l'ingresso. «Per ottenerlo devi vincere contro l'esaminatore. I titoli conquistati altrove non sostituiscono questa prova»."
         }
       ],
       "choices": [
@@ -429,7 +429,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La registrazione è pronta per essere consumata dal match system. Nessun risultato è ancora scritto."
+          "text": "L'arbitro apre la porta dell'arena. La registrazione è stata accettata, ma l'incontro deve ancora cominciare."
         }
       ],
       "choices": [
@@ -444,7 +444,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Le Rovine sono sia luogo narrativo sia venue del checkpoint. I due ruoli condividono spazio ma non state ownership."
+          "text": "Dietro lo sportello, le mura antiche del Faro portano ancora i segni del tempo. Poco più in là, l'arena degli esami è pronta ad accogliere i candidati."
         }
       ],
       "choices": [
@@ -459,7 +459,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Puoi scegliere cosa osservare nel match, ma questa preferenza non modifica statistiche o probabilità."
+          "text": "Ti fermi a osservare il campo. Puoi riflettere sui cambi, sul ritmo e sulle risorse della squadra prima di entrare, senza sapere come agirà l'esaminatore."
         }
       ],
       "choices": [

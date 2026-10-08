@@ -34,7 +34,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La partenza interregionale usa lo stesso tempo persistente della carriera. Non esistono salti gratuiti fra città: il viaggio può consumare ore, subire ritardi o essere rinviato."
+          "text": "Nella sala partenze di Altacima, una fila di allenatori avanza sotto l'orologio. L'impiegato controlla i biglietti e indica il tabellone: «Per attraversare la regione serviranno alcune coincidenze. Se preferisci aspettare, verifica l'ultima corsa»."
         }
       ],
       "choices": [
@@ -60,7 +60,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il banco mostra la destinazione registrata e le alternative ancora legalmente disponibili. Solo la tratta scelta produce l'arrivo corrispondente."
+          "text": "Sul monitor compaiono la destinazione annotata e le tratte ancora disponibili. Due sportelli chiamano i passeggeri per Solaria e Luminara; nessuno può salire senza presentarsi al controllo."
         }
       ],
       "choices": [
@@ -128,7 +128,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il trasferimento verso Solaria attraversa più reti locali. Il tempo è già passato: il viaggio non viene compresso in una riga narrativa senza costo."
+          "text": "Il convoglio lascia Altacima alle spalle. Fuori dal finestrino si alternano campi, ponti e piccole stazioni; a ogni coincidenza, viaggiatori e Pokémon cambiano carrozza. Il tragitto richiede pazienza, non soltanto un biglietto."
         }
       ],
       "choices": [
@@ -149,7 +149,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La tratta per Luminara è più lunga e affollata. L'arrivo dipende da connessioni reali, non da un flag di destinazione."
+          "text": "La carrozza diretta a Luminara è gremita di allenatori con custodie e zaini da viaggio. Una voce annuncia la prossima coincidenza, mentre la folla si stringe verso le porte."
         }
       ],
       "choices": [
@@ -170,7 +170,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il controllo verifica licenza e stato della tratta. Non modifica Rank, roster o risultati; serve solo a mantenere causale l'accesso interregionale."
+          "text": "Al controllo interregionale, un'agente confronta il biglietto con la licenza. Ti restituisce i documenti e fa cenno di procedere: «Benvenuto. Tieni a portata di mano il titolo di viaggio fino all'uscita»."
         }
       ],
       "choices": [
@@ -198,7 +198,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un ritardo può cambiare orari e schedule senza annullare la carriera. Il piano resta persistente finché non lo cambi esplicitamente."
+          "text": "Un annuncio segnala un ritardo. Alcuni passeggeri si lamentano; altri cercano nuove coincidenze. Sul tabellone gli orari cambiano, e devi decidere se attendere o tornare allo sportello."
         }
       ],
       "choices": [
@@ -219,7 +219,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Solaria ti accoglie come trainer Rank A in trasferta. Essere arrivato non significa aver vinto nulla: il circuito locale deve ancora essere affrontato."
+          "text": "L'aria di Solaria è calda e la piazza davanti alla stazione vibra di voci. Manifesti di incontri imminenti coprono i muri; allenatori sconosciuti confrontano gli orari senza badare alla tua licenza."
         }
       ],
       "choices": [
@@ -262,7 +262,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Luminara rende visibile la densità del circuito avanzato: molti trainer, poche finestre buone e nessun vantaggio per chi presume che Rank A basti da solo."
+          "text": "Luminara ti accoglie con una stazione immensa e corridoi affollati. Sugli schermi si alternano partenze e annunci del circuito Masters. Un gruppo di allenatori corre verso la registrazione."
         }
       ],
       "choices": [
@@ -305,7 +305,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La route persistente è un dato di viaggio, non un risultato competitivo. Puoi ancora tornare alla selezione finché non completi la partenza."
+          "text": "Allo sportello ritrovi la destinazione annotata sul tuo itinerario. «Finché non sali a bordo, possiamo cambiare il biglietto», dice l'impiegato, indicando le alternative."
         }
       ],
       "choices": [
@@ -331,7 +331,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Fra i nomi che ricorrono nei risultati compare Red: poche dichiarazioni, molte presenze ad alto livello, spostamenti coerenti con il circuito. Il rumor non vale come incontro."
+          "text": "Davanti al monitor dei risultati, due allenatori parlano a bassa voce. «Red era qui l'altro giorno», dice uno. L'altro indica una riga del tabellone: «Non rilascia quasi mai interviste, ma guarda dove continua a comparire»."
         }
       ],
       "choices": [
@@ -358,7 +358,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il viaggio è concluso e la nuova area entra nello stato persistente. Il prossimo passo può essere l'incontro con Red oppure l'esplorazione del circuito."
+          "text": "Oltre le porte della stazione, il circuito ti aspetta. Puoi seguire le notizie su Red oppure prendere tempo per conoscere la città e i suoi allenatori."
         }
       ],
       "choices": [
@@ -378,7 +378,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Tornare indietro resta possibile quando il calendario lo consente, ma ogni viaggio futuro dovrà consumare tempo reale a sua volta."
+          "text": "Alla biglietteria trovi già nuovi orari di ritorno. Alcune coincidenze richiedono un'attesa lunga; l'impiegato ti invita a controllare bene prima di partire."
         }
       ],
       "choices": [
@@ -398,7 +398,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'attesa aggiorna il mondo condiviso. Non assegna un arrivo, non incontra Red e non altera il Rank."
+          "text": "Un'ora dopo, l'orologio segna un nuovo orario e il tabellone è cambiato. Qualcuno è partito, altri sono arrivati. Il tuo biglietto è ancora sul banco."
         }
       ],
       "choices": [

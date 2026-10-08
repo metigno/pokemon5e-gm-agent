@@ -30,7 +30,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Masters Circuit tratta Rank A come requisito d'accesso, non come prova di superiorità. Ogni evento ha avversari registrati, risultato reale e conseguenze sul profilo competitivo."
+          "text": "All'ingresso del Masters, una fila di allenatori mostra la licenza al personale. L'addetta controlla il tuo grado A e ti lascia passare. «Qui non bastano i risultati della tua regione. Ogni incontro ricomincia da zero»."
         }
       ],
       "choices": [
@@ -55,7 +55,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Bacheche, desk di registrazione e profili pubblici sono separati dal resolver. Puoi prepararti, leggere l'avversario, registrarti o lasciare la finestra aperta."
+          "text": "L'atrio del circuito si divide fra bacheche, sportelli e un'area di preparazione. Sul grande monitor scorrono nomi e orari; gli allenatori studiano gli avversari o aspettano il proprio turno."
         }
       ],
       "choices": [
@@ -71,7 +71,7 @@
         },
         {
           "id": "hub_prep",
-          "text": "Definisco un focus di preparazione.",
+          "text": "Mi fermo a studiare la squadra.",
           "goto": "prep"
         },
         {
@@ -85,7 +85,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il layer narrativo non assegna manualmente punti Masters. E5 registra il match; M6 può soltanto leggere il risultato e conservarne il contesto per ranking e cutoff futuri."
+          "text": "Sul monitor della classifica, ogni risultato compare accanto alla data dell'incontro. Un arbitro indica il tabellone: «I punti arrivano dalle gare ufficiali, non dalle iscrizioni»."
         }
       ],
       "choices": [
@@ -105,7 +105,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La finestra corrente è un match ufficiale di circuito. Vittoria e sconfitta sono entrambe stati validi; nessuna delle due cambia direttamente Rank A."
+          "text": "Lo sportello annuncia la prossima finestra Masters. Sul cartellone compare un avversario già registrato; l'arbitro ricorda che soltanto il combattimento stabilirà il risultato."
         }
       ],
       "choices": [
@@ -125,13 +125,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il focus serve alla decisione del giocatore, non concede EV, livelli, cure o modificatori invisibili."
+          "text": "Nell'area di riscaldamento, alcuni allenatori provano cambi e coperture. Puoi dedicare qualche minuto a ragionare sulla pressione offensiva oppure sulla tenuta della squadra, senza sostituire l'allenamento vero."
         }
       ],
       "choices": [
         {
           "id": "prep_pressure",
-          "text": "Focus: pressione e gestione dello stato.",
+          "text": "Mi concentro su pressione e condizioni.",
           "goto": "match_confirm",
           "effects": [
             {
@@ -143,7 +143,7 @@
         },
         {
           "id": "prep_switch",
-          "text": "Focus: profondità degli switch e coperture.",
+          "text": "Rivedo cambi e coperture.",
           "goto": "match_confirm",
           "effects": [
             {
@@ -159,7 +159,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Kira Novak registra un Official Five bilanciato: Pidgeot, Raichu, Gyarados, Arcanine e Venusaur. Il roster è pubblico; decisioni e ordine restano coperti dal fog of war."
+          "text": "Sul profilo pubblico di Kira Novak compaiono cinque Pokémon: Pidgeot, Raichu, Gyarados, Arcanine e Venusaur. Non c'è alcuna indicazione su chi scenderà in campo per primo."
         }
       ],
       "choices": [
@@ -179,7 +179,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il desk registra solo la partecipazione alla finestra corrente. Nessun risultato viene creato prima del combattimento."
+          "text": "L'addetta verifica la tua iscrizione e sposta una scheda nella colonna degli incontri in programma. «Quando sarai pronto, presentati all'arbitro»."
         }
       ],
       "choices": [
@@ -210,7 +210,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il match può iniziare solo con una registrazione reale e un roster sufficiente. Il Rank A resta invariato prima e dopo il resolver."
+          "text": "L'arbitro controlla i partecipanti e il numero di Pokémon ammessi. «La gara comincia soltanto quando entrambi sarete pronti. Puoi ancora attendere»."
         }
       ],
       "choices": [
@@ -246,7 +246,7 @@
       "stitches": [
         {
           "id": "mh1",
-          "text": "Il controllo passa al combattimento Pokémon 5e/E5. Il risultato verrà scritto dal resolver e rientrerà in uno dei due nodi di esito."
+          "text": "L'arbitro alza il braccio e chiama i due allenatori ai lati del campo. Il brusio degli spalti si abbassa mentre prepari la prima Poké Ball."
         }
       ],
       "choices": [
@@ -310,13 +310,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "E5 registra una vittoria ufficiale. M6 conserva il fatto senza fabbricare punti, Rank o seed ulteriori nel layer narrativo."
+          "text": "L'arbitro segnala la fine dell'incontro a tuo favore. Kira richiama il suo ultimo Pokémon; sul tabellone compare il risultato ufficiale, mentre il pubblico applaude."
         }
       ],
       "choices": [
         {
           "id": "win_record",
-          "text": "Registro il contesto della vittoria.",
+          "text": "Rileggo il referto della vittoria.",
           "goto": "result_review",
           "effects": [
             {
@@ -354,13 +354,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "E5 registra una sconfitta ufficiale. Il circuito continua: nessuna riscrittura in vittoria e nessuna retrocessione narrativa del Rank."
+          "text": "L'arbitro dichiara concluso l'incontro. Kira richiama il suo ultimo Pokémon e il tabellone registra la tua sconfitta. Il circuito prosegue con il match successivo."
         }
       ],
       "choices": [
         {
           "id": "loss_record",
-          "text": "Registro il contesto della sconfitta.",
+          "text": "Rileggo il referto della sconfitta.",
           "goto": "result_review",
           "effects": [
             {
@@ -398,7 +398,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il risultato verrà letto dai futuri sistemi di ranking/cutoff attraverso lo stato competitivo. M6 registra soltanto che questa finestra è stata affrontata."
+          "text": "Al banco risultati, un'impiegata verifica il referto appena arrivato dall'arena. «Lo troverai nella classifica aggiornata», dice, indicando il monitor."
         }
       ],
       "choices": [
@@ -418,7 +418,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La prima finestra Masters di M6 è conclusa o rimandata senza alterare Rank A. La carriera può proseguire verso traiettorie degli amici e Continental Cup."
+          "text": "La finestra Masters si chiude alle tue spalle. Nell'atrio si preparano già altri incontri, e tra le voci degli allenatori circolano notizie sui partecipanti arrivati da lontano."
         }
       ],
       "choices": [
@@ -449,7 +449,7 @@
       "stitches": [
         {
           "id": "rl1",
-          "text": "Da qui puoi tornare al circuito interregionale. Nessuna uscita assegna automaticamente Friend Beat, Continental Cup o Trial A→S."
+          "text": "Fuori dall'arena, le indicazioni riportano verso la stazione e le altre sedi del circuito. Puoi tornare sui tuoi passi prima di scegliere il prossimo impegno."
         }
       ],
       "choices": [

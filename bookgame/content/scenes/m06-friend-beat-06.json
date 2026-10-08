@@ -38,7 +38,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "FRIEND_BEAT_06 usa l'amico selezionato dalla traiettoria visibile e la modalità calcolata dal Living World. Nessun membro dei Five compare per obbligo scenico."
+          "text": "Tra i nomi comparsi sul tabellone ce n'è uno che conosci fin troppo bene. Hai un'occasione per cercarlo, ma non sai ancora se riuscirete a vedervi di persona."
         }
       ],
       "choices": [
@@ -89,7 +89,7 @@
         },
         {
           "id": "friend_defer",
-          "text": "Rimando il contatto senza cambiare chi è stato selezionato.",
+          "text": "Rimando la chiamata.",
           "goto": "defer"
         }
       ]
@@ -98,7 +98,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Luke è il contatto selezionato. Il payoff di Hidden Trajectories entra ora in una conversazione reale; modalità e profondità dipendono dalla presenza effettiva."
+          "text": "Luke risponde con un tono di sfida che conosci bene. «Hai visto? E non ho nemmeno dovuto cambiare i miei Pokémon preferiti». Dopo una pausa aggiunge: «Tu come te la passi, campione?»"
         }
       ],
       "choices": [
@@ -172,7 +172,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Mattew è il contatto selezionato. Il payoff di Hidden Trajectories entra ora in una conversazione reale; modalità e profondità dipendono dalla presenza effettiva."
+          "text": "Mattew arriva al punto con precisione, ma non rinuncia a punzecchiarti. «Ho rivisto il modo in cui preparo gli incontri. Prima che tu lo chieda: sì, mi alleno ancora più di te»."
         }
       ],
       "choices": [
@@ -246,7 +246,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Daniel è il contatto selezionato. Il payoff di Hidden Trajectories entra ora in una conversazione reale; modalità e profondità dipendono dalla presenza effettiva."
+          "text": "Daniel controlla l'orario prima di rispondere. «Sto cercando di fare le cose con criterio. Non tutte le occasioni meritano di sacrificare il resto». Poi sorride: «Lo so, sembra una predica. Ma almeno ascoltami fino alla fine»."
         }
       ],
       "choices": [
@@ -320,7 +320,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Edward è il contatto selezionato. Il payoff di Hidden Trajectories entra ora in una conversazione reale; modalità e profondità dipendono dalla presenza effettiva."
+          "text": "Edward ride appena sente la tua voce. «Spero tu abbia visto che razza di incontro». Non sembra preoccuparsi del giudizio degli altri: «Se devo vincere, voglio farlo con una squadra che mi piace davvero»."
         }
       ],
       "choices": [
@@ -394,7 +394,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Fab è il contatto selezionato. Il payoff di Hidden Trajectories entra ora in una conversazione reale; modalità e profondità dipendono dalla presenza effettiva."
+          "text": "Fab ti saluta con una risata. «Io volevo solo fare un paio di incontri, e guarda dove siamo finiti». Si sente un Pokémon muoversi vicino a lui. «Aspetta, non mordere quello. Dicevo: come va?»"
         }
       ],
       "choices": [
@@ -468,7 +468,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'incontro fisico mantiene il peso del luogo condiviso: si vede lo stato della giornata, le partenze imminenti e il fatto che entrambi avete impegni reali."
+          "text": "Vi ritrovate nello stesso posto, fra allenatori di passaggio e annunci di partenze. Il tempo per parlare non è infinito, ma basta a riconoscere quanto siete cambiati dall'ultima volta."
         }
       ],
       "choices": [
@@ -488,7 +488,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La distanza resta esplicita. La chiamata non finge una presenza comune, ma può essere abbastanza importante da lasciare una conseguenza relazionale persistente."
+          "text": "La voce arriva dall'altro capo della linea, con rumori di una città diversa sullo sfondo. Non potete vedervi adesso, ma il tono familiare rende la distanza meno ingombrante."
         }
       ],
       "choices": [
@@ -510,13 +510,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Con Luke il confronto tende alla pressione adattiva: cambiare ritmo senza perdere il controllo di ciò che conta davvero."
+          "text": "Luke sbuffa. «Cambiare ritmo? Certo. Cambiare squadra ogni volta che qualcuno mi mette in difficoltà? Neanche per sogno». Si sente il sorriso nella voce. «Preferisco trovare il modo di farli colpire più forte»."
         }
       ],
       "choices": [
         {
           "id": "luke_deep_record",
-          "text": "Conservo il confronto come callback futuro.",
+          "text": "Gli rispondo senza lasciargli l'ultima parola.",
           "goto": "career_context",
           "effects": [
             {
@@ -543,13 +543,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Con Mattew il discorso diventa metodo: distinguere una buona preparazione da una preparazione troppo rigida quando gli avversari cambiano continuamente."
+          "text": "Mattew riflette prima di rispondere. «Se una strategia funziona soltanto contro un avversario, non l'hai capita abbastanza». Poi ti provoca: «Vuoi che te lo spieghi con calma o fai finta di aver già capito?»"
         }
       ],
       "choices": [
         {
           "id": "mattew_deep_record",
-          "text": "Conservo il metodo condiviso.",
+          "text": "Gli chiedo di spiegarmi il suo metodo.",
           "goto": "career_context",
           "effects": [
             {
@@ -576,13 +576,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Daniel riporta il discorso ai costi reali della carriera: trasferte, opportunità perse e quanto vale inseguire una finestra competitiva."
+          "text": "Daniel abbassa la voce. «Ogni trasferta costa tempo. E ogni scelta chiude qualche altra porta». Esita un istante. «Non voglio arrivare in cima scoprendo di aver ignorato tutto il resto»."
         }
       ],
       "choices": [
         {
           "id": "daniel_deep_record",
-          "text": "Conservo il confronto sul costo delle scelte.",
+          "text": "Gli chiedo cosa ha dovuto rinunciare a fare.",
           "goto": "career_context",
           "effects": [
             {
@@ -609,13 +609,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Edward legge il cambiamento attraverso continuità e tenuta: non tutto ciò che funziona in una regione sopravvive allo stesso modo fuori casa."
+          "text": "Edward si appoggia allo schienale. «Fuori regione cambia tutto, tranne una cosa: non userò Pokémon che non mi piacciono solo per fare bella figura». Sorride. «E se qualcuno ha da ridire, venga a sfidarmi»."
         }
       ],
       "choices": [
         {
           "id": "edward_deep_record",
-          "text": "Conservo il confronto sulla continuità.",
+          "text": "Gli dico cosa penso della sua scelta.",
           "goto": "career_context",
           "effects": [
             {
@@ -642,13 +642,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Fab tratta la traiettoria come un problema di identità competitiva: cosa conservare del proprio stile quando il contesto premia altro."
+          "text": "Fab guarda il proprio Pokémon prima di rispondere. «Mi dicono sempre cosa dovrei cambiare per vincere. Magari hanno ragione, eh». Gli gratta la testa. «Ma voglio riuscirci insieme a loro, non sostituirli al primo ostacolo»."
         }
       ],
       "choices": [
         {
           "id": "fab_deep_record",
-          "text": "Conservo il confronto sull'identità di gioco.",
+          "text": "Gli chiedo come stanno i suoi Pokémon.",
           "goto": "career_context",
           "effects": [
             {
@@ -675,7 +675,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il confronto non altera punti o bracket. Serve a rendere personale la corsa internazionale e può cambiare relazione, informazione e priorità future."
+          "text": "Il discorso scivola sugli avversari incontrati e su quelli che potrebbero arrivare. Vi prendete in giro sui rispettivi risultati, ma nessuno dei due sa ancora come andrà il prossimo incontro."
         }
       ],
       "choices": [
@@ -695,13 +695,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il cambiamento dell'amico resta suo. Il player può riconoscerlo, sostenerlo o confrontarsi con esso senza ricevere automaticamente lo stesso percorso."
+          "text": "Il tuo amico racconta ciò che è disposto a condividere del proprio percorso. Puoi essere d'accordo, discutere o semplicemente ascoltare: la scelta resta sua."
         }
       ],
       "choices": [
         {
           "id": "career_result",
-          "text": "Porto il momento alla sua conseguenza persistente.",
+          "text": "Gli chiedo cosa significhi per lui questa novità.",
           "goto": "result_context"
         }
       ]
@@ -710,13 +710,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "FRIEND_BEAT_06 ha ora un amico, una modalità e un risultato contestuale persistenti. Nessun fight viene creato se il bracket o la scena non lo rendono legale."
+          "text": "La conversazione si avvia alla fine. Rimane una notizia concreta, qualche battuta e la sensazione che il prossimo incontro non sarà identico a questo."
         }
       ],
       "choices": [
         {
           "id": "result_close",
-          "text": "Chiudo il Friend Beat.",
+          "text": "Lo saluto e torno ai miei impegni.",
           "goto": "close",
           "effects": [
             {
@@ -732,13 +732,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il rapporto prosegue da questo stato. La Continental Cup può ora entrare nel calendario se i requisiti canonici la rendono disponibile."
+          "text": "Vi salutate promettendo di sentirvi quando gli impegni lo permetteranno. Intanto, sui monitor del circuito compaiono nuovi annunci per la Continental Cup."
         }
       ],
       "choices": [
         {
           "id": "close_route",
-          "text": "Passo alla finestra Continental.",
+          "text": "Vado a informarmi sulla Continental Cup.",
           "goto": "route_link"
         }
       ]
@@ -747,7 +747,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rimandare non cambia il friend selezionato né trasforma un contatto remoto in presenza fisica."
+          "text": "Non riesci a parlare adesso. Il contatto resta disponibile quando gli orari e gli impegni vi permetteranno di riprovarci."
         }
       ],
       "choices": [
@@ -762,13 +762,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il prossimo blocco verifica l'eligibility della Continental Cup senza confonderla con il Promotion Trial A→S."
+          "text": "All'ingresso del circuito, un cartello indica lo sportello della Continental Cup. La fila avanza lentamente sotto gli occhi degli addetti."
         }
       ],
       "choices": [
         {
           "id": "route_continental",
-          "text": "Vado all'entry della Continental Cup.",
+          "text": "Mi avvicino allo sportello della Continental Cup.",
           "goto": "m06-continental-entry#continental_entry"
         }
       ]

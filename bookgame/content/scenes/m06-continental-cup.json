@@ -34,7 +34,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La Continental Cup usa un bracket vero: perdere termina la corsa, vincere apre il round successivo. Nessun avversario viene sostituito per produrre un incontro narrativamente conveniente."
+          "text": "Nell'atrio della Continental Cup, il tabellone degli scontri occupa un'intera parete. Un arbitro segue con il dito le linee che portano alla finale: a ogni turno, soltanto il vincitore prosegue."
         }
       ],
       "choices": [
@@ -59,7 +59,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "I match sono Singles ufficiali con Official Five in questa Cup. La vittoria della competizione non sostituisce il Gate del Faro A→S."
+          "text": "L'arbitro richiama l'attenzione degli iscritti. «Incontri ufficiali uno contro uno, cinque Pokémon per allenatore. Il titolo Continental è separato dalla promozione al grado S»."
         }
       ],
       "choices": [
@@ -79,7 +79,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il percorso previsto per questa istanza passa da quarti, semifinale e finale. Ogni round esiste solo se hai vinto quello precedente."
+          "text": "Quarti di finale, semifinali, finale. Le caselle ancora vuote attendono risultati che nessuno può conoscere in anticipo. Il personale aggiorna il tabellone soltanto dopo ogni incontro."
         }
       ],
       "choices": [
@@ -104,7 +104,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il quarto oppone un roster elite fisso e pubblico. Ordine, scelte e linee di gioco restano coperte dal fog of war."
+          "text": "Il profilo pubblico del tuo avversario ai quarti è esposto vicino al campo. Puoi studiare i Pokémon registrati, ma non sai quale sceglierà per iniziare."
         }
       ],
       "choices": [
@@ -129,7 +129,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il match non parte finché il roster del player non contiene almeno cinque Pokémon utilizzabili dal sistema ufficiale."
+          "text": "Prima di aprire il campo, l'arbitro verifica che la tua squadra abbia almeno cinque Pokémon utilizzabili. «Presentati quando sei pronto», dice, lasciando libera l'area di attesa."
         }
       ],
       "choices": [
@@ -161,7 +161,7 @@
       "stitches": [
         {
           "id": "qfh1",
-          "text": "Il controllo passa al combattimento Pokémon 5e/E5. Solo il resolver decide se il bracket continua."
+          "text": "Le luci dell'arena si accendono. L'arbitro chiama entrambi gli allenatori in posizione e porta il fischietto alle labbra."
         }
       ],
       "choices": [
@@ -225,7 +225,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La vittoria è registrata da E5 e apre la semifinale. Non modifica Rank A."
+          "text": "L'arbitro assegna la vittoria. Sul tabellone il tuo nome avanza verso la semifinale, mentre il pubblico commenta già gli accoppiamenti successivi."
         }
       ],
       "choices": [
@@ -259,7 +259,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La sconfitta ai quarti chiude il bracket del player. Il risultato non viene riscritto e non abbassa il Rank."
+          "text": "Il tuo percorso si ferma ai quarti. L'arbitro registra il risultato e la linea del tabellone prosegue con il nome dell'avversario."
         }
       ],
       "choices": [
@@ -303,7 +303,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La semifinale presenta un secondo roster elite. Arrivarci richiede una vittoria QF reale, non una scelta narrativa."
+          "text": "La semifinale attira più spettatori. Il nuovo avversario aspetta dall'altro lato del campo; sul monitor compare la sua squadra registrata, non il piano che userà."
         }
       ],
       "choices": [
@@ -336,7 +336,7 @@
       "stitches": [
         {
           "id": "sfh1",
-          "text": "E5 prende in carico la semifinale. Il risultato precedente resta nella history e non viene consumato o sostituito."
+          "text": "L'arbitro controlla il referto dei quarti, poi fa cenno ai semifinalisti di avvicinarsi. Dagli spalti sale un applauso mentre prepari la prima Poké Ball."
         }
       ],
       "choices": [
@@ -400,7 +400,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La vittoria in semifinale apre la finale e garantisce almeno il piazzamento da finalista."
+          "text": "Il pubblico si alza quando l'arbitro conferma il risultato. Il tuo nome raggiunge la casella della finale: manca un solo incontro al titolo."
         }
       ],
       "choices": [
@@ -434,7 +434,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La sconfitta in semifinale produce un piazzamento reale da semifinalista. Nessun retry viene inventato dentro la stessa Cup."
+          "text": "L'arbitro alza il braccio verso il vincitore. Sul tabellone il tuo percorso si arresta in semifinale; gli organizzatori registrano il piazzamento."
         }
       ],
       "choices": [
@@ -478,7 +478,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La finale è l'ultimo match del bracket, non il Gate A→S. Anche una vittoria qui resta un titolo Continental separato dal Rank."
+          "text": "Il campo della finale è illuminato più degli altri. L'ultimo avversario attende oltre la linea centrale, mentre lo speaker ricorda che qui si assegna il titolo Continental."
         }
       ],
       "choices": [
@@ -511,7 +511,7 @@
       "stitches": [
         {
           "id": "fh1",
-          "text": "La finale passa al resolver Pokémon 5e/E5. Il campione della Cup è chi vince realmente questo match."
+          "text": "Lo speaker annuncia i finalisti. Il brusio si spegne quando l'arbitro li invita a schierarsi: la coppa aspetta ancora il proprio vincitore."
         }
       ],
       "choices": [
@@ -575,7 +575,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Hai vinto realmente la Continental Cup. Il titolo e il risultato restano persistenti, ma Rank A non cambia."
+          "text": "Il segnale dell'arbitro scatena gli applausi. Sul tabellone compare il tuo nome come vincitore della Continental Cup; il trofeo ti attende al centro del campo."
         }
       ],
       "choices": [
@@ -624,7 +624,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La finale termina con una sconfitta reale. Sei finalista; il gioco non trasforma la corsa in vittoria per esigenze di trama."
+          "text": "L'arbitro proclama il campione. Hai raggiunto la finale, ma il trofeo va al tuo avversario. Il pubblico applaude entrambi mentre gli organizzatori registrano il piazzamento."
         }
       ],
       "choices": [
@@ -673,7 +673,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il tabellone resta quello prodotto dai risultati reali. Puoi rivedere il percorso, non cambiare gli esiti."
+          "text": "Il tabellone completo resta esposto nell'atrio. Puoi seguire il percorso di ogni incontro, dai quarti alla finale, senza cambiare ciò che è accaduto."
         }
       ],
       "choices": [
@@ -762,7 +762,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La Continental Cup è ora uno storico competitivo persistente. Il mistero antico può proseguire senza trasformare il titolo in una chiave narrativa gratuita."
+          "text": "Fuori dall'arena, i manifesti della coppa lasciano spazio ad annunci più antichi, legati al Faro. Il circuito continua, ma un'altra strada comincia a richiamare la tua attenzione."
         }
       ],
       "choices": [
@@ -782,7 +782,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Anche prima del primo match il field continua a muoversi: gli altri trainer hanno schedule e risultati propri. Osservarli non modifica il bracket."
+          "text": "Dalle tribune osservi gli altri allenatori prepararsi e disputare i propri incontri. Il tabellone cambia mentre il torneo prosegue, anche quando non sei tu a combattere."
         }
       ],
       "choices": [

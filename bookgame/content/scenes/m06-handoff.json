@@ -26,13 +26,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M6 eredita Rank A, licenza interregionale, risultati Masters già realmente ottenuti e tutto lo stato persistente. Nessun punto, incontro con Red o promozione A→S viene concesso all'ingresso."
+          "text": "Ad Altacima, il timbro della licenza interregionale è ancora fresco. Dietro il vetro dell'ufficio, un addetto fa scorrere i risultati del circuito: ciò che hai conquistato resta agli atti. Sul tabellone, invece, le prossime gare aspettano ancora un nome."
         }
       ],
       "choices": [
         {
           "id": "activate_m6",
-          "text": "Attivo M6 senza riscrivere la carriera.",
+          "text": "Presento la licenza allo sportello.",
           "goto": "rank_a_band",
           "conditions": {
             "path": "world.flags.m6_active",
@@ -48,7 +48,7 @@
         },
         {
           "id": "review_active_m6",
-          "text": "M6 è già attivo: rivedo la fascia Rank A.",
+          "text": "Ricontrollo le opportunità del grado A.",
           "goto": "rank_a_band",
           "conditions": {
             "path": "world.flags.m6_active",
@@ -61,7 +61,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rank A apre il circuito interregionale avanzato. La forza locale non equivale a risultato fuori regione: viaggio, calendario, seed Masters e disponibilità reale restano vincoli separati."
+          "text": "La sala partenze di Altacima è piena di valigie, custodie per Poké Ball e allenatori che discutono davanti agli orari. Il tuo grado A ti apre nuove tratte, ma nessuno qui sembra impressionato da un risultato ottenuto altrove."
         }
       ],
       "choices": [
@@ -72,17 +72,17 @@
         },
         {
           "id": "band_masters",
-          "text": "Controllo cosa eredito davvero dal Masters Entry.",
+          "text": "Controllo i risultati del Masters.",
           "goto": "masters_state"
         },
         {
           "id": "band_license",
-          "text": "Controllo i limiti della licenza interregionale.",
+          "text": "Chiedo informazioni sulla licenza.",
           "goto": "license_state"
         },
         {
           "id": "band_wait",
-          "text": "Resto ad Altacima e lascio scorrere il mondo.",
+          "text": "Rimango ad Altacima.",
           "goto": "stay_altacima"
         }
       ]
@@ -91,7 +91,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Roster, HP, PP, condizioni, denaro, inventario, EXP, relazioni, ranking e risultati E5 restano quelli reali di fine M5. Le parti opzionali non viste non vengono inventate."
+          "text": "Nella tua documentazione figurano i risultati già registrati, le gare disputate e i contatti raccolti lungo il cammino. L'addetto non aggiunge nulla: ogni casella vuota rimane vuota."
         }
       ],
       "choices": [
@@ -111,13 +111,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Masters Entry di M5 può avere un risultato persistente oppure essere ancora una finestra aperta. M6 non trasforma uno stato mancante in una vittoria o in un seed favorevole."
+          "text": "Sul monitor del Masters compaiono soltanto risultati e iscrizioni ufficialmente registrati. Un impiegato indica la colonna delle teste di serie: «Qui contano le gare disputate. Le intenzioni non fanno classifica»."
         }
       ],
       "choices": [
         {
           "id": "masters_record",
-          "text": "Registro che il seed esistente verrà soltanto letto.",
+          "text": "Prendo nota dei risultati esposti.",
           "goto": "guard_state",
           "effects": [
             {
@@ -138,7 +138,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La licenza interregionale consente di usare tratte legali, non di ignorare orari, costi temporali, accessi locali o Rank. Solaria e Luminara sono opzioni, non tappe obbligatorie entrambe."
+          "text": "L'impiegata passa la licenza sotto il lettore. «Solaria e Luminara sono entrambe raggiungibili. Controlla gli orari: la licenza apre le porte, non ferma i treni»."
         }
       ],
       "choices": [
@@ -158,13 +158,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Gli esiti di Ferrox, Mareasale, Fulgore, Lance e dei Friend Beat precedenti possono cambiare contesto e tono, ma M6 li legge senza attribuire ricompense mai guadagnate."
+          "text": "Tra i nominativi e i luoghi segnati nei tuoi documenti riconosci tracce del viaggio precedente: Ferrox, Mareasale, Fulgore, Lance. Alcuni contatti potrebbero tornare utili; altri non hanno lasciato che un ricordo."
         }
       ],
       "choices": [
         {
           "id": "callbacks_note",
-          "text": "Registro il principio di continuità.",
+          "text": "Segno i contatti che potrei ritrovare.",
           "goto": "guard_state",
           "effects": [
             {
@@ -185,7 +185,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il terminale interregionale mostra più tratte. Puoi scegliere una destinazione coerente con calendario e licenza, rimandare oppure restare nel circuito locale senza perdere M6."
+          "text": "Sul tabellone lampeggiano due destinazioni: Solaria e Luminara. Una coppia di allenatori discute sui collegamenti; un terzo ripiega la mappa e si allontana. Puoi decidere adesso o aspettare."
         }
       ],
       "choices": [
@@ -224,7 +224,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rimanere ad Altacima è una scelta legale. Il mondo continua e nessun evento interregionale viene considerato completato solo perché è disponibile."
+          "text": "Fuori dalla stazione, Altacima prosegue la sua giornata. I negozi aprono, i viaggiatori partono e il tabellone continua ad aggiornarsi anche mentre rimani in città."
         }
       ],
       "choices": [
@@ -251,13 +251,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La barriera di stato è esplicita: M6 non cambia Rank A, non incontra Red e non assegna risultati Masters attraverso flag narrativi di riepilogo."
+          "text": "L'addetto ti restituisce i documenti. «Il grado è confermato. Per il resto, saranno i prossimi incontri a parlare». Dietro di lui, il tabellone delle partenze cambia ancora."
         }
       ],
       "choices": [
         {
           "id": "guard_routes",
-          "text": "Ora scelgo una tratta.",
+          "text": "Consulto le partenze.",
           "goto": "route_preview"
         },
         {
@@ -271,13 +271,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La scelta della prima tratta è una preferenza di viaggio, non un teletrasporto. La partenza reale appartiene al blocco successivo."
+          "text": "L'addetto segna la destinazione che stai valutando e ti porge gli orari. «Questo non è ancora un biglietto. Puoi cambiare idea finché non confermi la partenza»."
         }
       ],
       "choices": [
         {
           "id": "commit_route",
-          "text": "Confermo che voglio passare alla selezione operativa.",
+          "text": "Vado allo sportello per organizzare il viaggio.",
           "goto": "m06-route-selection#route_entry"
         },
         {
@@ -291,13 +291,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Aspettare consuma tempo reale e può cambiare schedule, finestre e disponibilità. Non genera automaticamente progressione competitiva."
+          "text": "Dopo un'ora, le lancette sopra la biglietteria avanzano e alcune partenze spariscono dal tabellone. Altri viaggiatori prendono il loro posto in fila."
         }
       ],
       "choices": [
         {
           "id": "wait_hour",
-          "text": "Aspetto un'ora e torno alla fascia Rank A.",
+          "text": "Aspetto ancora un'ora.",
           "goto": "rank_a_band",
           "timeCostMinutes": 60
         },

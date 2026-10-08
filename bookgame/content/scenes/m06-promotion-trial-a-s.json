@@ -30,7 +30,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Gate del Faro chiama il tuo checkpoint. È un Singles con Official Six; la vittoria promuove a Rank S, la sconfitta lascia Rank A e riapre il retry."
+          "text": "Dall'arena del Faro chiamano il tuo nome. L'arbitro indica il campo: «Sei Pokémon ufficiali, incontro singolo. Il grado S si conquista qui»."
         }
       ],
       "choices": [
@@ -55,7 +55,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'esaminatore usa sempre lo stesso Official Six di fascia. Il test non cambia composizione in base al tuo team."
+          "text": "L'esaminatore ti attende al centro del campo. «Questa è la mia squadra ufficiale. Non cambierà in base alla tua. Mostrami come combatti»."
         }
       ],
       "choices": [
@@ -80,7 +80,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Metagross, Gyarados, Arcanine, Venusaur, Jolteon e Snorlax coprono ritmi e risorse differenti. L'ordine decisionale resta sotto fog of war."
+          "text": "Sul pannello sono elencati Metagross, Gyarados, Arcanine, Venusaur, Jolteon e Snorlax. L'ordine di schieramento non è indicato."
         }
       ],
       "choices": [
@@ -100,7 +100,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Gate verifica se il tuo piano resta coerente quando deve attraversare un intero Official Six senza una singola scorciatoia dominante."
+          "text": "Un veterano sugli spalti osserva le sei Poké Ball. «Non basta partire forte. Devi avere risposte anche quando il combattimento si allunga»."
         }
       ],
       "choices": [
@@ -120,7 +120,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "E5 controllerà registrazione attiva e almeno sei Pokémon. La scena non cura HP/PP, non rimuove status e non crea sostituti."
+          "text": "L'arbitro controlla il modulo e il numero dei Pokémon ammessi. «Quando sei pronto, avvicinati». Nessuno interviene sulle condizioni della squadra."
         }
       ],
       "choices": [
@@ -140,7 +140,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Le risorse correnti fanno parte del tentativo. Puoi entrare ora oppure tornare alla registrazione senza perdere il modulo."
+          "text": "Controlli la squadra e le scorte rimaste. Puoi ancora tornare al banco prima che l'incontro cominci."
         }
       ],
       "choices": [
@@ -160,7 +160,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Gestire sei slot significa decidere quali risposte non puoi spendere troppo presto e quali matchup puoi assorbire senza inseguire il KO immediato."
+          "text": "Osservi i sei nomi sul pannello. Alcune risposte della tua squadra potrebbero servirti soltanto più avanti; dovrai scegliere quando impiegarle."
         }
       ],
       "choices": [
@@ -199,7 +199,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il ritmo del Gate cambia quando il match entra nel quarto, quinto e sesto slot. Preparazione non significa sapere in anticipo le scelte dell'esaminatore."
+          "text": "L'arena è ancora silenziosa. Immagini un incontro lungo, senza conoscere l'ordine o le scelte dell'esaminatore."
         }
       ],
       "choices": [
@@ -238,7 +238,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Red può offrire una cornice sull'adattamento, ma il Gate resta interamente nelle mani del player e del resolver."
+          "text": "Ti torna in mente la domanda di Red: «Quando un piano non funziona, cosa cambi?». Fra poco dovrai rispondere sul campo."
         }
       ],
       "choices": [
@@ -269,7 +269,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il cutoff non cambia chi devi battere. Può cambiare il contesto stagionale del risultato, non il risultato stesso."
+          "text": "Un avviso ricorda la chiusura della classifica stagionale. La scadenza si avvicina, ma l'esaminatore e le regole della prova rimangono gli stessi."
         }
       ],
       "choices": [
@@ -289,7 +289,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La prossima scelta consegna il controllo a Pokémon 5e/E5. Nessun nodo successivo può assegnare manualmente la vittoria."
+          "text": "L'arbitro alza una mano. «Ultima chiamata. Se entri, la prova comincia». L'esaminatore è già in posizione."
         }
       ],
       "choices": [
@@ -334,7 +334,7 @@
       "stitches": [
         {
           "id": "bh1",
-          "text": "Il controllo passa al combattimento Pokémon 5e/E5. Solo win/lose del resolver possono modificare il checkpoint."
+          "text": "L'arbitro dà il segnale. L'esaminatore afferra una Poké Ball e il pubblico si fa silenzioso."
         }
       ],
       "choices": [
@@ -408,7 +408,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "E5 ha registrato la vittoria e promosso realmente il trainer a Rank S. La scena può solo leggere questo stato."
+          "text": "L'arbitro conferma la tua vittoria. L'esaminatore richiama l'ultimo Pokémon e ti stringe la mano. «Prova superata». Sul registro compare il tuo nuovo grado S."
         }
       ],
       "choices": [
@@ -428,7 +428,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "E5 ha registrato la sconfitta. Rank A resta invariato e il checkpoint torna disponibile secondo la regola retryable."
+          "text": "L'arbitro dichiara concluso l'incontro. L'esaminatore annuisce. «Potrai ripresentarti». La tua licenza resta di grado A."
         }
       ],
       "choices": [
@@ -448,7 +448,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Ogni retry conserva history, risorse persistenti e conseguenze temporali. Non esiste reset del modulo dopo una sconfitta."
+          "text": "Al banco, l'addetta consulta il registro. «Puoi tentare ancora. Controlla le condizioni della squadra e gli orari prima di tornare»."
         }
       ],
       "choices": [
@@ -468,7 +468,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La vittoria cambia esclusivamente il checkpoint canonico: Rank S e access band successiva. Non qualifica automaticamente al Mondiale."
+          "text": "L'addetta aggiorna la licenza. «Ora sei di grado S. Per partecipare al Mondiale dovrai comunque superare le qualificazioni»."
         }
       ],
       "choices": [
@@ -488,7 +488,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rank S significa Candidato Mondiale. Il World Qualifier appartiene a M7 e resta un evento separato."
+          "text": "La licenza riporta il grado S, candidato mondiale. Il tabellone annuncia le prossime qualificazioni: nessun posto è già assegnato."
         }
       ],
       "choices": [
@@ -508,7 +508,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Gate è superato. Il prossimo blocco congela il contesto stagionale reale senza riscrivere risultati Masters o Continental."
+          "text": "Lasci l'arena con la promozione registrata. Le classifiche Masters e Continental conservano i risultati ottenuti nei rispettivi incontri."
         }
       ],
       "choices": [
@@ -528,7 +528,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Faro resta visitabile dopo il Gate e conserva anche il thread antico ancora irrisolto."
+          "text": "Oltre il campo, il sentiero riconduce alle rovine. Il vento passa fra le pietre del Faro e le sue antiche tracce restano da comprendere."
         }
       ],
       "choices": [
