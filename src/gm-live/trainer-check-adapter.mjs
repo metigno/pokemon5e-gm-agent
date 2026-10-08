@@ -12,13 +12,16 @@ export function createTrainerCheckAdapter() {
    if (!Number.isSafeInteger(intent.dc) || intent.dc < 0) return {allowed:false,reason:'Invalid DC'};
    if (!campaign?.character?.abilities) return {allowed:false,reason:'Trainer sheet missing'};
    if (!Number.isSafeInteger(campaign.character.abilities[intent.ability])) return {allowed:false,reason:'Ability score missing'};
-   if (intent.proficient === true && !Number.isSafeInteger(intent.proficiencyBonus)) return {allowed:false,reason:'Proficiency bonus required'};
+   if (intent.proficient === true || intent.proficiencyBonus !== undefined) return {allowed:false,reason:'Client cannot grant proficiency; use a canonical trained skill'};
+   if (intent.skill !== undefined && (!Array.isArray(campaign.character.skills) || !campaign.character.skills.includes(intent.skill))) return {allowed:false,reason:'Skill not trained on canonical sheet'};
    return {allowed:true};
   },
   async resolveAction({campaign,intent}) {
    const score=campaign.character.abilities[intent.ability];
-   const result=abilityCheck({score,dc:intent.dc,proficient:intent.proficient===true,
-    proficiencyBonus:intent.proficiencyBonus??0,advantage:intent.advantage??'normal'});
+   const trained=typeof intent.skill === 'string';
+   const bonus=trained ? (campaign.character.proficiencyBonus ?? 2) : 0;
+   const result=abilityCheck({score,dc:intent.dc,proficient:trained,
+    proficiencyBonus:bonus,advantage:intent.advantage??'normal'});
    return {
     narration:result.success?'Ability check succeeds':'Ability check fails',
     statePatch:{world:{...campaign.world,flags:{...campaign.world.flags,lastTrainerCheck:{
