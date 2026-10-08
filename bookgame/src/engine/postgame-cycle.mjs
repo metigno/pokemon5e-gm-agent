@@ -1,5 +1,6 @@
 import {
-  createWorldCompetitionState, ensureCompetition, resolveUnattendedWorldChampionship
+  createWorldCompetitionState, ensureCompetition, resolveUnattendedWorldChampionship,
+  resolveEliminatedWorldChampionship
 } from "./competition-state.mjs";
 import { advanceWorldTime, ensureWorldClock } from "./time.mjs";
 
@@ -76,8 +77,10 @@ function recordEdition(state) {
   if (edition !== season.championships.length + 1) {
     throw new Error("Postgame history must contain consecutive championship editions");
   }
-  if (qualifiedResult(state) === "missed" && !world.currentWorldChampion) {
-    resolveUnattendedWorldChampionship(state);
+  if (!world.currentWorldChampion) {
+    const playerResult = qualifiedResult(state);
+    if (playerResult === "missed") resolveUnattendedWorldChampionship(state);
+    if (playerResult === "eliminated") resolveEliminatedWorldChampionship(state);
   }
   const outcome = summary(state, edition);
   if (outcome.result === "undetermined") {
