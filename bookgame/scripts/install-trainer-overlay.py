@@ -98,6 +98,9 @@ def verify_png(data: bytes, expected_size):
 
 def install(archive_path: Path, root: Path, destination: Path, approved_zip_hash=BUNDLE_SHA256):
     root = root.resolve()
+    # Check the *unresolved* path first; Path.resolve() would hide a symlink.
+    if destination.is_symlink():
+        raise ValueError('Refusing symlink destination')
     destination = destination.resolve()
     archive_path = archive_path.resolve(strict=True)
     if not archive_path.is_file():
@@ -105,8 +108,6 @@ def install(archive_path: Path, root: Path, destination: Path, approved_zip_hash
     if digest(archive_path.read_bytes()) != approved_zip_hash:
         raise ValueError('Approved Trainer overlay ZIP SHA-256 mismatch')
     required = expected_files(root)
-    if destination.exists() and destination.is_symlink():
-        raise ValueError('Refusing symlink destination')
     destination.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(archive_path) as bundle:
         observed = set()
