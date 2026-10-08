@@ -16,7 +16,7 @@ const hunt = await load("../content/scenes/legendary-world-hunt.json");
 const interday = await load("../content/scenes/m09-interday-one.json");
 const trainerSpecies = [
   ["Luke", "luke", "black-kyurem", 20],
-  ["Mattew", "mattew", "zacian", 20],
+  ["Mattew", "mattew", "zacian-crowned", 20],
   ["Daniel", "daniel", "mewtwo", 20],
   ["Edward", "edward", "lugia", 20],
   ["Fab", "fab", "rayquaza", 18]
@@ -79,6 +79,26 @@ test("Every trainer has one catchable wild Pokémon with legal species minimum a
     assert.equal(evaluateCondition(stateFor(name, id, encounterLevel, { qualified: false }), hunt.conditions), false);
     assert.equal(pokemonLevelCapForState(stateFor(name, id, encounterLevel)), 20);
   }
+});
+
+test("Mattew encounters true Crowned Zacian at Lv20, with its distinct Fairy/Steel rules and no awarded sword", async () => {
+  const data = new Poke5eDataRepository();
+  const crowned = await data.getSpecies("zacian-crowned");
+  const ordinary = await data.getSpecies("zacian");
+  assert.equal(crowned.id, "zacian-crowned");
+  assert.equal(crowned.minLevel, 20);
+  assert.deepEqual(crowned.type, ["fairy", "steel"]);
+  assert.deepEqual(ordinary.type, ["fairy"]);
+  assert.ok(crowned.moves.start.includes("behemoth-blade"));
+  const combat = hunt.nodes.mattew_approach.choices.find(c => c.id === "challenge_mattew").combat;
+  assert.deepEqual(combat.opponent, { species: "zacian-crowned", level: 20 });
+  assert.equal(combat.opponentRegistered, false);
+  const captureChoice = hunt.nodes.mattew_captured.choices[0];
+  assert.equal(captureChoice.effects.some(effect => effect.type === "add_item" ||
+    effect.type === "give_item" || effect.type === "purchase_item"), false,
+    "The player does not receive the Rusted Sword item");
+  assert.match(hunt.nodes.mattew_approach.stitches[0].text, /forma incoronata/);
+  assert.match(hunt.nodes.mattew_approach.stitches[0].text, /non era stata recuperata da te/i);
 });
 
 test("Captured legendary can replace a reserve into the first six, without losing starter or duplicating Pokémon", () => {

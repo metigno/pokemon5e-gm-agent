@@ -15,7 +15,7 @@ Each encounter is a **real** Pokémon 5e wild battle using the existing `choice.
 | Trainer | Pokémon 5e species ID | Encounter level | Species minimum | Trainer required |
 |---|---|---:|---:|---:|
 | Luke | `black-kyurem` | 20 | 20 | 20 |
-| Mattew | `zacian` | 20 | 20 | 20 |
+| Mattew | `zacian-crowned` | 20 | 20 | 20 |
 | Daniel | `mewtwo` | 20 | 20 | 20 |
 | Edward | `lugia` | 20 | 20 | 20 |
 | Fab | `rayquaza` | 18 | 15 | 18 |
@@ -24,7 +24,7 @@ The **M09 Pokémon cap is 20**, explicitly specified in `POKEMON_LEVEL_CAPS_BY_M
 
 Lore:
 - Black Kyurem is already the result of **willing** Kyurem + Zekrom Absofusion mediated by a DNA Splicer in the authored site. The player is not granted Zekrom or a Splicer. The captured species is `black-kyurem`, which exists separately in the offline 2024 pack.
-- Zacian is its ordinary form. Crowned Zacian is not automatically unlocked and the Rusted Sword is not granted.
+- Zacian is encountered **already Crowned**, with the sword it carries itself. Mattew has not found or been awarded the Rusted Sword: the clue now resolves when the actual guardian appears, and the captured Pokémon is the existing offline Pokémon 5e `zacian-crowned` species (Fairy/Steel; Behemoth Blade). No separate sword item, form toggle or guaranteed capture is introduced.
 - Mewtwo retains agency. It is not gifted by a scientist or an admin.
 - Lugia is encountered through the grounded coastal weather lead, not ordinary ecology.
 - Rayquaza is ordinary `rayquaza`, not Mega Rayquaza. No Gigamax references or mechanics are involved.
@@ -37,7 +37,7 @@ If an official-registration freeze on *species substitutions* is added to E5 in 
 
 ## Sprite asset compatibility
 
-The offline Pokémon 5e species ID `black-kyurem` maps to the installed `kyurem-black` sprite (same form, alternate naming order). The installed sprite package currently has **only Zacian Crowned artwork**, not ordinary Zacian artwork. The `zacian` sprite alias temporarily shows that available illustration as a **visual placeholder only**: the actual captured species remains `zacian`, Fairy-type base form, without the Rusted Sword, Crowned typing, or any transformation mechanics. Import a proper Hero of Many Battles sprite and repoint the alias before final visual release. Sprite coverage validates actual resolved assets rather than silently hiding missing references.
+The offline Pokémon 5e species ID `black-kyurem` maps to the installed `kyurem-black` sprite (same form, alternate naming order). **Zacian is now actually `zacian-crowned` in the Pokémon 5e battle and captured roster**, not just drawn as Crowned. The existing `zacian-crowned` artwork therefore matches its Fairy/Steel type and Behemoth Blade mechanics. The former temporary `zacian` → Crowned sprite alias is removed so an ordinary Zacian cannot be visually misidentified. Sprite coverage validates actual resolved assets rather than silently hiding missing references.
 
 ## Limitations
 
