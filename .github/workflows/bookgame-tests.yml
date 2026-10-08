@@ -89,7 +89,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: "17"
+          java-version: "21"
       - name: Install Android host dependencies
         working-directory: bookgame/mobile
         run: npm install --ignore-scripts --no-audit --no-fund
