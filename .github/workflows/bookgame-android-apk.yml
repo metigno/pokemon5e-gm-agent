@@ -1,0 +1,71 @@
+name: Android offline APK (private assets)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: android-actions/setup-android@v3
+      - name: Require privately hosted offline asset bundle
+        env:
+          ASSET_URL: ${{ secrets.P5E_OFFLINE_ASSETS_URL }}
+        run: |
+          test -n "$ASSET_URL" || { echo "::error::Configure P5E_OFFLINE_ASSETS_URL secret with an expiring HTTPS download URL for the approved ZIP overlay bundle"; exit 1; }
+          python3 - <<'PY'
+          import os, urllib.request
+          from urllib.parse import urlsplit
+          u=os.environ['ASSET_URL']
+          if urlsplit(u).scheme != 'https': raise SystemExit('HTTPS asset URL required')
+          urllib.request.urlretrieve(u, '/tmp/p5e-offline-assets.zip')
+          PY
+      - name: Install approved offline overlays
+        run: |
+          python3 - <<'PY'
+          import zipfile, pathlib
+          root=pathlib.Path.cwd().resolve()
+          with zipfile.ZipFile('/tmp/p5e-offline-assets.zip') as z:
+            for item in z.infolist():
+              path=pathlib.PurePosixPath(item.filename)
+              if path.is_absolute() or '..' in path.parts or not item.filename.startswith('bookgame/'):
+                raise SystemExit('Invalid overlay member: '+item.filename)
+              if (item.external_attr >> 16) & 0o170000 == 0o120000:
+                raise SystemExit('Symlink forbidden')
+              target=root.joinpath(*path.parts)
+              if not target.resolve().is_relative_to(root): raise SystemExit('Escaping overlay')
+              if item.is_dir(): target.mkdir(parents=True,exist_ok=True); continue
+              target.parent.mkdir(parents=True,exist_ok=True)
+              with z.open(item) as src, target.open('wb') as dst:
+                import shutil; shutil.copyfileobj(src,dst)
+          PY
+      - name: Verify assets and compile story
+        run: |
+          npm --prefix bookgame run sprites:verify
+          npm --prefix bookgame run sprites:verify:characters
+          npm --prefix bookgame run sprites:verify:npc-secondary
+          npm --prefix bookgame run audio:verify
+          npm --prefix bookgame run build
+          npm --prefix bookgame test
+      - name: Build Android debug APK
+        run: |
+          cd bookgame/mobile
+          npm install
+          npm run android:init
+          npm run android:debug
+      - name: Upload installable debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Librogame5e-android-debug
+          path: bookgame/mobile/android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 7
