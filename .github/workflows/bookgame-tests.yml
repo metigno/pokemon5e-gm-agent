@@ -71,5 +71,6 @@ jobs:
       - name: Test mobile host and actual local Story/Save/UI paths
         run: |
           node --test bookgame/tests/mobile-offline-host.test.mjs
+          node --test bookgame/tests/mobile-local-auth.test.mjs
           node --test bookgame/tests/ui-server-smoke.test.mjs
           node --test bookgame/tests/compiled-catalogs-live-ui.test.mjs
