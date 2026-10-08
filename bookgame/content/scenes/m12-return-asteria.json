@@ -329,7 +329,7 @@
         },
         {
           "id": "review_world_exit",
-          "text": "Ricollego il ritorno al mio vero WORLD_EXIT.",
+          "text": "Ripenso a come si è concluso il mio Mondiale.",
           "goto": "world_history"
         }
       ]
