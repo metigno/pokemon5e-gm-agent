@@ -46,7 +46,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Astrid Vahl compare perché il suo schedule la colloca realmente nel World Village. È la campionessa in carica, non un final boss protetto dal copione."
+          "text": "Nel World Village, Astrid Vahl ripassa gli orari con un membro dello staff. La campionessa in carica ringrazia, chiude l'agenda e soltanto allora si concede un momento per guardare chi le sta intorno."
         }
       ],
       "choices": [
@@ -101,7 +101,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Astrid tratta il titolo come una posizione da difendere, non come una garanzia. Il suo prossimo risultato sarà deciso dagli stessi sistemi competitivi degli altri."
+          "text": "«Il titolo resta mio fino al prossimo vincitore», osserva Astrid. «Ma non serve a niente se scambio ciò che ero capace di fare ieri per ciò che saprò fare domani.»"
         }
       ],
       "choices": [
@@ -126,7 +126,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Astrid non ti parla come a un aspirante esterno: sei già dentro il field qualificato. Questo non rende nessuno favorito per decreto."
+          "text": "Astrid ti porge la mano senza atteggiamenti di superiorità. «Ti sei qualificato. Questo significa che hai meritato di esserci. Adesso comincia un altro lavoro.»"
         }
       ],
       "choices": [
@@ -151,7 +151,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La vedi interrompere una conversazione mediatica per rispettare il proprio programma. Essere campionessa non la rende onnipresente."
+          "text": "Durante un'intervista Astrid interrompe con gentilezza una domanda ripetuta. «Mi perdoni, devo recuperare prima della prossima sessione.» Il suo staff non sembra sorpreso."
         }
       ],
       "choices": [
@@ -201,7 +201,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il titolo descrive il Mondiale precedente. Non assegna bye, seed segreti o immunità alla sconfitta in questa edizione."
+          "text": "Sulla parete c'è la fotografia della sua vittoria precedente. Astrid passa davanti all'immagine senza fermarsi: il prossimo incontro richiederà ancora tutta la sua attenzione."
         }
       ],
       "choices": [
@@ -221,7 +221,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Astrid separa reputazione e risultato: il pubblico può aspettarsi una vittoria, ma il bracket non è obbligato a produrla."
+          "text": "«Il pubblico può chiedere una seconda coppa», dice Astrid. «Io posso soltanto prepararmi per chi incontrerò davvero.»"
         }
       ],
       "choices": [
@@ -241,7 +241,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Prima del draw, recupero, informazioni e tempo valgono più di una dimostrazione spettacolare. Nessuna frase le restituisce HP o PP."
+          "text": "Astrid passa in rassegna le finestre di allenamento e riposo. «Se sprechi oggi ciò che ti servirà domani, lo spettacolo dura un solo incontro.»"
         }
       ],
       "choices": [
@@ -261,7 +261,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Astrid non finge di conoscere gruppi non ancora sorteggiati. Valuta il field come insieme di minacce possibili, non come tabellone già scritto."
+          "text": "Prima del sorteggio Astrid non pretende di conoscere chi troverà nel gruppo. «Prepararsi a tutti non significa prevedere tutto», precisa."
         }
       ],
       "choices": [
@@ -281,7 +281,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Cynthia, Red, Lance e gli altri Anchor possono aver lasciato metodi diversi. Astrid reagisce al tuo percorso reale senza ereditarne relazioni o risultati."
+          "text": "Quando nomini un allenatore incontrato durante il circuito, Astrid domanda cosa tu abbia davvero osservato. Non tratta i loro insegnamenti come se fossero già suoi."
         }
       ],
       "choices": [
@@ -308,7 +308,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il rapporto con Astrid nasce dal confronto fra due partecipanti del Mondiale. Non concede un bonus contro di lei o contro il field."
+          "text": "Astrid ascolta il tuo punto di vista e accenna un sorriso. Può nascere rispetto fra due concorrenti senza che nessuno dei due rinunci a voler vincere."
         }
       ],
       "choices": [
@@ -340,7 +340,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se lasci passare il momento, Astrid non viene ricreata altrove. Il suo schedule resta quello persistente del mondo."
+          "text": "La lasci riprendere il suo programma. Astrid si allontana con lo staff e non promette un altro incontro soltanto per cortesia."
         }
       ],
       "choices": [
@@ -394,7 +394,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un secondo contatto parte dalla relazione già salvata. L'introduzione non viene ripetuta e il titolo non cambia i prerequisiti del torneo."
+          "text": "Quando vi ritrovate, Astrid ricorda la conversazione precedente. «Mi interessa sapere se hai cambiato qualcosa nel modo di prepararti, non il modo in cui la racconti.»"
         }
       ],
       "choices": [
@@ -414,7 +414,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Astrid divide media, preparazione e recupero. Anche il suo calendario può renderla non disponibile più avanti."
+          "text": "Fra recupero, allenamento e richieste della stampa rimane poco spazio per le visite. Astrid controlla l'orario prima di accettare un altro impegno."
         }
       ],
       "choices": [
@@ -441,7 +441,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Astrid resta un'Anchor persistente e una concorrente reale. Il prossimo beat riguarda uno dei Four, senza sincronizzarne automaticamente la carriera con la tua."
+          "text": "Astrid ti saluta e torna verso le sale di preparazione. Oltre la vetrata altri allenatori attraversano il Village, ognuno con il proprio Mondiale davanti."
         }
       ],
       "choices": [
