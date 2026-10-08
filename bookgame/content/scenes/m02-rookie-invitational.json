@@ -208,7 +208,7 @@
             "encounterId": "M2_ROOKIE_CUP_R1",
             "opponent": {
               "type": "trainer",
-              "level": 4,
+              "level": 5,
               "trainerId": "TomasFerri",
               "species": "Rattata",
               "motive": "bracket_competition"
@@ -332,7 +332,7 @@
             "encounterId": "M2_ROOKIE_CUP_R2",
             "opponent": {
               "type": "trainer",
-              "level": 4,
+              "level": 5,
               "trainerId": "VeraConti",
               "species": "Slowpoke",
               "motive": "bracket_competition"
