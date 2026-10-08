@@ -13,6 +13,7 @@ import { CryptoDice } from "../src/engine/dice.mjs";
 import { SaveStore, assertCareerSlot } from "../src/engine/save-store.mjs";
 import { trainerCareerEnded } from "../src/engine/trainer-survival.mjs";
 import { createNewGameState, EXPERIENCE_NEEDED_PER_LEVEL } from "../src/engine/state.mjs";
+import { informationPanelsView } from "../src/engine/information-panels.mjs";
 import { pokemonLevelCapForState } from "../src/engine/pokemon-xp-balance.mjs";
 import { applyPlayerEvolution, playerEvolutionOptions } from "../src/engine/player-evolution.mjs";
 import {
@@ -353,6 +354,7 @@ async function snapshot() {
       minuteOfDay: state.world.minuteOfDay,
       locationId: state.world.locationId
     },
+    information: informationPanelsView(state),
     evolutions: await evolutionView(),
     trainerGameplay: trainerGameplayView(
       state,
