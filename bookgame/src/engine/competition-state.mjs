@@ -1662,11 +1662,15 @@ export function resolveUnattendedWorldChampionship(state) {
   })).filter((entry) => entry.name !== state.player.name);
   if (entrants.length !== 34) throw new Error("Unattended World pool is incomplete");
 
+  // Same four macro-anchor guarantees authored in m08-world-draw.json.
+  // An explicit NPC career disqualification still takes precedence.
+  const guaranteed = new Set(["Rei", "Astrid Vahl", "Silas Crowe", "Kaia Solari"]);
   const lockedIn = [];
   const unresolved = [];
   for (const entry of entrants) {
     const status = worldQualificationState(state, entry);
-    if (status.qualified === true) lockedIn.push(entry);
+    if (status.qualified === true ||
+        (status.qualified === null && guaranteed.has(entry.name))) lockedIn.push(entry);
     else if (status.qualified !== false) unresolved.push(entry);
   }
   const qualifierSeed = [
