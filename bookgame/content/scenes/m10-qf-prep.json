@@ -30,7 +30,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il quarto esiste perché hai vinto l'ottavo. La preparazione usa il Top8 già lockato e non crea un nuovo pairing."
+          "text": "La preparazione per l'quarto comincia dalle condizioni in cui hai lasciato il campo precedente. Non tutte le fatiche sono state cancellate dal calendario."
         }
       ],
       "choices": [
@@ -55,7 +55,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il roster è quello persistente dopo R16 e Friend Beat. Nessun reset gratuito precede il quarto."
+          "text": "Dopo gli ottavi controlli i sei Pokémon e ciò che hanno consumato. Una nuova giornata non li rende automaticamente guariti."
         }
       ],
       "choices": [
@@ -75,7 +75,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Informazione medica e recupero sono cose diverse: questa scena può leggere HP/PP/status, non cambiarli."
+          "text": "Un medico può leggere il referto degli ottavi e suggerire cure, ma recuperare richiede tempo e servizi reali."
         }
       ],
       "choices": [
@@ -95,7 +95,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il tempo continua a muovere schedule e mondo, mentre il pairing QF resta immutabile."
+          "text": "Gli appuntamenti continuano a scorrere mentre ti prepari per l'quarto. Il nome del tuo avversario è già sul tabellone."
         }
       ],
       "choices": [
@@ -122,7 +122,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il prossimo avversario è {{competition.world.knockout.playerQfOpponent.name}}. Arriva dal bracket, non dal copione."
+          "text": "Il tuo prossimo avversario è {{competition.world.knockout.playerQfOpponent.name}}. Puoi esaminare informazioni pubbliche, senza fingere di conoscere le scelte che farà."
         }
       ],
       "choices": [
@@ -142,7 +142,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Friend Beat, rivalità e incontri passati possono cambiare il contesto. Non rivelano un moveset sconosciuto e non cambiano stats."
+          "text": "Se vi siete già affrontati, la memoria dell'incontro può suggerire domande utili. Non svela mosse tenute segrete."
         }
       ],
       "choices": [
@@ -162,7 +162,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Pressione, controllo, aggressione e conservazione delle risorse restano decisioni di gioco, non bonus custom."
+          "text": "Puoi decidere di attaccare subito, studiare il campo o conservare risorse per i momenti decisivi. Nessun piano vale come un colpo già riuscito."
         }
       ],
       "choices": [
@@ -182,7 +182,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Nel QF una sconfitta chiude il World; una vittoria ti porta nel Final Four. Nessuna probabilità viene alterata dal testo."
+          "text": "Una sconfitta nell'quarto ti eliminerebbe. Puoi prepararti con prudenza o correre rischi, ma sarà il combattimento a decidere."
         }
       ],
       "choices": [
@@ -202,7 +202,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Formato Singles, sei Pokémon, risultato dal battle bridge Pokémon 5e. Nessun retry narrativo."
+          "text": "L'arbitro ricorda il formato: Singles e sei Pokémon ufficiali. Non ci sarà una seconda partita per cancellare una sconfitta."
         }
       ],
       "choices": [
@@ -222,7 +222,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La verifica finale richiede Top8 reale, player QF match irrisolto e roster sufficiente."
+          "text": "Prima della chiamata finale verifichi l'accredito e i Pokémon. La tua preparazione non ha ancora prodotto un risultato."
         }
       ],
       "choices": [
@@ -247,7 +247,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Chiudere la prep non modifica bracket o squadra: abilita soltanto il passaggio al match ufficiale."
+          "text": "Il personale conferma la tua presenza per l'quarto. La squadra è ancora quella che hai deciso di portare in campo."
         }
       ],
       "choices": [
@@ -274,7 +274,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il QF è pronto. Il battle bridge userà il matchId e l'avversario E5 già lockati."
+          "text": "Il corridoio conduce al campo dove ti aspetta {{competition.world.knockout.playerQfOpponent.name}}. Fra poco l'arbitro darà il segnale."
         }
       ],
       "choices": [
