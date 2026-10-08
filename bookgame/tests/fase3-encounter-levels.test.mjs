@@ -31,8 +31,12 @@ test("FASE 3: every playable M01-M12 combat has valid, fixed Pokemon levels", as
 
   for (const file of files) {
     const scene = await loadScene(file);
-    const moduleCap = POKEMON_LEVEL_CAPS_BY_MODULE[scene.moduleId];
     for (const { combat } of allCombatEntries(scene)) {
+      // Some authored World hunt scenes have no moduleId but declare their
+      // canonical M09 milestone in the encounter identifier.
+      const milestone = combat.encounterId?.match(/(?:^|[_-])m(0?[1-9]|1[0-2])(?:$|[_-])/i);
+      const inferredModule = milestone ? `M${String(Number(milestone[1])).padStart(2, "0")}` : null;
+      const moduleCap = POKEMON_LEVEL_CAPS_BY_MODULE[scene.moduleId ?? inferredModule];
       const dynamicWorld = Number.isInteger(combat.competition?.worldOpponentIndex) ||
         ["R16", "QF", "SF", "FINAL"].includes(combat.competition?.worldKnockoutRound);
       if (dynamicWorld) {
