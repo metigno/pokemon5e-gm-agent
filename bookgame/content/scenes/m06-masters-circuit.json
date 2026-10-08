@@ -271,32 +271,32 @@
             "opponentTrainerId": "INT_MASTERS_KIRA_NOVAK",
             "opponent": {
               "species": "Pidgeot",
-              "level": 15,
+              "level": 14,
               "abilityId": "keen-eye",
               "trainerId": "INT_MASTERS_KIRA_NOVAK"
             },
             "opponentBench": [
               {
                 "species": "Raichu",
-                "level": 15,
+                "level": 14,
                 "abilityId": "static",
                 "trainerId": "INT_MASTERS_KIRA_NOVAK"
               },
               {
                 "species": "Gyarados",
-                "level": 15,
+                "level": 14,
                 "abilityId": "intimidate",
                 "trainerId": "INT_MASTERS_KIRA_NOVAK"
               },
               {
                 "species": "Arcanine",
-                "level": 15,
+                "level": 14,
                 "abilityId": "intimidate",
                 "trainerId": "INT_MASTERS_KIRA_NOVAK"
               },
               {
                 "species": "Venusaur",
-                "level": 15,
+                "level": 14,
                 "abilityId": "overgrow",
                 "trainerId": "INT_MASTERS_KIRA_NOVAK"
               }
