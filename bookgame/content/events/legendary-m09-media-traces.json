@@ -1,0 +1,271 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "M09",
+  "events": [
+    {
+      "id": "legendary_m09_media_trace_luke",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Luke"
+          },
+          {
+            "path": "world.flags.world_qualified",
+            "eq": true
+          },
+          {
+            "path": "world.flags.legendary_m08_qualified_luke",
+            "eq": true
+          },
+          {
+            "path": "world.flags.m9_matchday_one_complete",
+            "eq": true
+          },
+          {
+            "path": "world.flags.m9_personal_press_notes_reviewed",
+            "eq": true
+          },
+          {
+            "path": "quests.legendary_m08_lead_luke.status",
+            "in": [
+              "available",
+              "active"
+            ]
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "trace",
+          "effects": [
+            {
+              "type": "quest_start",
+              "questId": "legendary_m08_lead_luke",
+              "title": "Kyurem Nero — le testimonianze in conflitto",
+              "objective": "Mettere a confronto le fonti su Kyurem, Zekrom e il drago originario. Nessuna fusione può essere presunta."
+            },
+            {
+              "type": "set_flag",
+              "key": "legendary_m09_clue_luke",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "legendary_m09_media_trace_mattew",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Mattew"
+          },
+          {
+            "path": "world.flags.world_qualified",
+            "eq": true
+          },
+          {
+            "path": "world.flags.legendary_m08_qualified_mattew",
+            "eq": true
+          },
+          {
+            "path": "world.flags.m9_matchday_one_complete",
+            "eq": true
+          },
+          {
+            "path": "world.flags.m9_personal_press_notes_reviewed",
+            "eq": true
+          },
+          {
+            "path": "quests.legendary_m08_lead_mattew.status",
+            "in": [
+              "available",
+              "active"
+            ]
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "trace",
+          "effects": [
+            {
+              "type": "quest_start",
+              "questId": "legendary_m08_lead_mattew",
+              "title": "Zacian — le due versioni della leggenda",
+              "objective": "Distinguere il racconto della spada dai fatti documentati. La Spada Rovinata non è stata recuperata."
+            },
+            {
+              "type": "set_flag",
+              "key": "legendary_m09_clue_mattew",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "legendary_m09_media_trace_daniel",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Daniel"
+          },
+          {
+            "path": "world.flags.world_qualified",
+            "eq": true
+          },
+          {
+            "path": "world.flags.legendary_m08_qualified_daniel",
+            "eq": true
+          },
+          {
+            "path": "world.flags.m9_matchday_one_complete",
+            "eq": true
+          },
+          {
+            "path": "world.flags.m9_personal_press_notes_reviewed",
+            "eq": true
+          },
+          {
+            "path": "quests.legendary_m08_lead_daniel.status",
+            "in": [
+              "available",
+              "active"
+            ]
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "trace",
+          "effects": [
+            {
+              "type": "quest_start",
+              "questId": "legendary_m08_lead_daniel",
+              "title": "Mewtwo — la testimonianza cancellata",
+              "objective": "Rintracciare l'origine delle pagine oscurate rispettando l'autonomia di Mewtwo."
+            },
+            {
+              "type": "set_flag",
+              "key": "legendary_m09_clue_daniel",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "legendary_m09_media_trace_edward",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Edward"
+          },
+          {
+            "path": "world.flags.world_qualified",
+            "eq": true
+          },
+          {
+            "path": "world.flags.legendary_m08_qualified_edward",
+            "eq": true
+          },
+          {
+            "path": "world.flags.m9_matchday_one_complete",
+            "eq": true
+          },
+          {
+            "path": "world.flags.m9_personal_press_notes_reviewed",
+            "eq": true
+          },
+          {
+            "path": "quests.legendary_m08_lead_edward.status",
+            "in": [
+              "available",
+              "active"
+            ]
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "trace",
+          "effects": [
+            {
+              "type": "quest_start",
+              "questId": "legendary_m08_lead_edward",
+              "title": "Lugia — le carte delle tempeste",
+              "objective": "Confrontare rotte e perturbazioni registrate senza supporre la presenza di Lugia."
+            },
+            {
+              "type": "set_flag",
+              "key": "legendary_m09_clue_edward",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "legendary_m09_media_trace_fab",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Fab"
+          },
+          {
+            "path": "world.flags.world_qualified",
+            "eq": true
+          },
+          {
+            "path": "world.flags.legendary_m08_qualified_fab",
+            "eq": true
+          },
+          {
+            "path": "world.flags.m9_matchday_one_complete",
+            "eq": true
+          },
+          {
+            "path": "world.flags.m9_personal_press_notes_reviewed",
+            "eq": true
+          },
+          {
+            "path": "quests.legendary_m08_lead_fab.status",
+            "in": [
+              "available",
+              "active"
+            ]
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "trace",
+          "effects": [
+            {
+              "type": "quest_start",
+              "questId": "legendary_m08_lead_fab",
+              "title": "Rayquaza — i dati del cielo",
+              "objective": "Verificare i rilevamenti atmosferici: né avvistamento né Megaevoluzione sono acquisiti."
+            },
+            {
+              "type": "set_flag",
+              "key": "legendary_m09_clue_fab",
+              "value": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
