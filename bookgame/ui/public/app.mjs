@@ -797,8 +797,9 @@ function renderJournal() {
 
 
 function renderMap() {
-  const nodes = snapshot.map?.nodes ?? [];
-  const routes = nodes.reduce((total, node) => total + node.routes.length, 0);
+  // Keep future choices hidden until the narrated text has finished revealing.
+  const nodes = (snapshot.map?.nodes ?? []).filter((node) => !revealActive || node.visited);
+  const routes = revealActive ? 0 : nodes.reduce((total, node) => total + node.routes.length, 0);
   const blocked = Boolean(snapshot.battle || snapshot.careerEnded || revealActive);
   return `
     <p class="map-intro">Schema dei luoghi conosciuti. I collegamenti non indicano distanze reali: puoi viaggiare solo lungo le strade offerte dalla scena attuale.</p>
@@ -809,7 +810,7 @@ function renderMap() {
           <div class="map-site__body">
             <strong>${escapeHtml(node.label)}</strong>
             <small>${node.current ? "Sei qui" : node.routes.length ? "Raggiungibile ora" : "Già visitato · nessun percorso disponibile da qui"}</small>
-            ${node.routes.map((route) => `
+            ${(revealActive ? [] : node.routes).map((route) => `
               <button type="button" class="map-travel" data-map-choice="${escapeHtml(route.choiceId)}" ${blocked ? "disabled" : ""}>
                 ${escapeHtml(route.label)}
                 <small>${route.timeCostMinutes === null ? "Durata non indicata" : `${route.timeCostMinutes} min`}</small>
