@@ -623,3 +623,10 @@ button { -webkit-tap-highlight-color: transparent; }
 .info-person > div { flex: 1; min-width: 0; }
 .character-portrait { width: 104px; height: 124px; flex: 0 0 104px; object-fit: contain; image-rendering: pixelated; }
 @media (max-width: 420px) { .character-portrait { width: 80px; height: 106px; flex-basis: 80px; } }
+
+/* Trainer native sprites: first overworld frame only (including stationary Lance). */
+.battle-trainer-header { display: flex; align-items: center; gap: 8px; }
+.trainer-front-icon { width: 64px; height: 64px; object-fit: contain; image-rendering: pixelated; }
+.character-overworld-frame { width: 32px; height: 64px; overflow: hidden; flex: 0 0 32px; display: block; }
+.character-overworld-frame img { max-width: none; image-rendering: pixelated; display: block; }
+@media (max-width: 420px) { .trainer-front-icon { width: 48px; height: 48px; } }
