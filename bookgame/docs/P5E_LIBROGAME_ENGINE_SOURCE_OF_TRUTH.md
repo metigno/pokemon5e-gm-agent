@@ -1061,7 +1061,16 @@ Trainer XP may be awarded for:
 - major checkpoints;
 - other significant scripted accomplishments.
 
-Exact XP values are **TBD / BALANCE PHASE**.
+**Trainer XP balance V1:** rewards are independent of Pokémon XP. A successful
+Trainer battle gives 25% of the XP gap between the Trainer's current level and
+the next level; completing an authored quest gives 25%; meaningful scripted
+exploration gives 10%; a successful check or saving throw gives 8%; a meaningful
+NPC relationship/dialogue resolution gives 6%. Each result uses the floor of
+its percentage with a minimum of 1 XP for levels below 20. At Trainer level
+20 all grants yield 0. An authored one-time story reward uses its
+scene/node/choice identity so revisiting the node cannot farm it. Failed
+checks, empty navigation, losses, fleeing and captures do not award battle XP.
+These budgets do not change Pokémon XP awards.
 
 ---
 
@@ -1079,7 +1088,33 @@ When the Trainer reaches the current cap:
 
 Completing the required checkpoint raises the available cap.
 
-Exact cap values per checkpoint are **TBD** and must be balanced against the campaign.
+**Trainer cap balance V1 (independent of the Pokémon table below):**
+
+| Module / checkpoint band | Maximum Trainer level |
+| --- | ---: |
+| M01 — F→E / M01_COMPLETE | 3 |
+| M02 — E→D / M02_NETWORK_OUTCOME, M02_COMPLETE | 5 |
+| M03 — D→C / M03_FERROX_OUTCOME, M03_COMPLETE | 9 |
+| M04 — C→B / M04_COMPLETE | 12 |
+| M05 — B→A / M05_COMPLETE | 15 |
+| M06 — A→S / M06_COMPLETE | 18 |
+| M07 — World Qualifier | 20 |
+| M08–M12 — World Championship and postgame | 20 |
+
+The cap is unlocked by campaign-module progression and cannot be lowered by
+revisiting earlier authored scenes. The existing explicit Trainer milestone
+effects remain authoritative guaranteed level rewards, including M02 level 4
+and M03 level 6 intermediate checkpoints; earned activity XP can level the
+Trainer earlier within the current module band. Required Trainer Path, ASI,
+specialization and level-19 feat choices still pause level-up advancement until
+resolved. At level 19 the Pokémon 5e 2024 rule also permits **another feat for
+which the Trainer qualifies** instead of an Epic Boon; the current mobile
+selector offers the implemented repeatable Ability Score Improvement (General
+Feat) option. It applies real ability increases and resolves the pending
+choice; an unimplemented Epic Boon is never silently selected or granted.
+Other feat/boon options require their own verified mechanics before exposure. XP granted after a cap is reached is immediately discarded and
+never restored when the cap rises. The cap uses the **exact experience
+threshold of the capped level**, not the next level's threshold.
 
 ---
 
@@ -1635,9 +1670,7 @@ Minimum automated coverage should validate:
 
 The following are intentionally not yet fixed:
 
-- exact Trainer level caps by checkpoint;
 - exact Pokémon level caps by checkpoint;
-- exact XP values per activity;
 - exact Trainer roster choices;
 - exact Legendary mapping per Trainer;
 - exact map graph;

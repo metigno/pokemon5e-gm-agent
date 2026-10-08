@@ -1,5 +1,6 @@
 import { trainerProgression2024 } from "../rules/trainer-2024.mjs";
 import { experienceNeededAtLevel } from "./state.mjs";
+import { trainerLevelCapForState } from "./trainer-xp-balance.mjs";
 
 export const TRAINER_PATHS = Object.freeze([
   ["ace-trainer","Ace Trainer"],["hobbyist","Hobbyist"],["poke-mentor","Poké Mentor"],
@@ -36,6 +37,7 @@ function ensureProgression(state){
   p.trainerProgression.history??=[];
   p.trainerProgression.pendingChoices??=[];
   p.trainerProgression.resolvedChoices??=[];
+  p.trainerProgression.xpRewards??=[];
   p.trainerProgression.targetLevel=Number.isInteger(p.trainerProgression.targetLevel)?p.trainerProgression.targetLevel:(p.trainerLevel??1);
   p.trainerProgression.targetMilestoneId??=null;
   return p.trainerProgression;
@@ -70,7 +72,7 @@ function hpGain(player){return Math.max(1,4+abilityModifier(player.abilities?.CO
 export function pendingTrainerProgression(state){return ensureProgression(state).pendingChoices[0]??null;}
 export function hasPendingTrainerProgression(state){return Boolean(pendingTrainerProgression(state));}
 
-export function advanceTrainerToLevel(state,targetLevel,{sourceMilestoneId="manual"}={}){
+export function advanceTrainerToLevel(state,targetLevel,{sourceMilestoneId="manual",preserveXp=false}={}){
   if(!Number.isInteger(targetLevel)||targetLevel<1||targetLevel>20) throw new RangeError("Trainer target level must be 1..20");
   const p=state.player;
   const progression=ensureProgression(state);
@@ -85,7 +87,9 @@ export function advanceTrainerToLevel(state,targetLevel,{sourceMilestoneId="manu
     const level=fromLevel+1;
     const gain=hpGain(p);
     p.trainerLevel=level;
-    p.trainerXp=experienceNeededAtLevel(level);
+    p.trainerXp=preserveXp
+      ? Math.max(p.trainerXp,experienceNeededAtLevel(level))
+      : experienceNeededAtLevel(level);
     p.hp.max=Math.max(1,Number(p.hp.max??1)+gain);
     p.hp.current=Math.min(p.hp.max,Math.max(0,Number(p.hp.current??0)+gain));
     p.hitDice.die??="d6";
@@ -117,8 +121,42 @@ export function applyTrainerProgressionEffect(state,effect){
 export function syncCampaignTrainerProgression(state){
   const progression=ensureProgression(state);
   const target=Math.max(Number(state.player?.trainerLevel??1),Number(progression.targetLevel??1));
-  if(target<=Number(state.player?.trainerLevel??1)) return [];
-  return advanceTrainerToLevel(state,target,{sourceMilestoneId:progression.targetMilestoneId??"milestone"});
+  const applied=target>Number(state.player?.trainerLevel??1)
+    ? advanceTrainerToLevel(state,target,{sourceMilestoneId:progression.targetMilestoneId??"milestone",preserveXp:true})
+    : [];
+  const cap=trainerLevelCapForState(state);
+  while(state.player.trainerLevel<cap &&
+      progression.pendingChoices.length===0 &&
+      state.player.trainerXp>=experienceNeededAtLevel(state.player.trainerLevel+1)){
+    applied.push(...advanceTrainerToLevel(state,state.player.trainerLevel+1,{
+      sourceMilestoneId:"TRAINER_XP",preserveXp:true
+    }));
+  }
+  return applied;
+}
+
+// Earned XP can reach the current checkpoint threshold, but never the next
+// one. Excess is discarded immediately, including while a level-up choice
+// is pending. Reward identifiers make authored one-time accomplishments safe
+// to revisit without granting the reward again.
+export function awardTrainerXp(state,amount,{rewardId=null}={}){
+  if(!Number.isSafeInteger(amount)||amount<0) throw new RangeError("Trainer XP award must be a non-negative integer");
+  const progression=ensureProgression(state);
+  const player=state.player;
+  const cap=Math.max(player.trainerLevel,trainerLevelCapForState(state));
+  const floor=experienceNeededAtLevel(player.trainerLevel);
+  const ceiling=experienceNeededAtLevel(cap);
+  player.trainerXp=Math.min(ceiling,Math.max(floor,
+    Number.isFinite(player.trainerXp)?Math.floor(player.trainerXp):floor));
+  if(rewardId!==null && (typeof rewardId!=="string"||!rewardId)) throw new Error("Invalid Trainer XP reward identifier");
+  if(rewardId && progression.xpRewards.includes(rewardId)){
+    return {awarded:0,discarded:amount,duplicate:true,cap,levelUps:[]};
+  }
+  const awarded=Math.min(amount,Math.max(0,ceiling-player.trainerXp));
+  player.trainerXp+=awarded;
+  if(rewardId) progression.xpRewards.push(rewardId);
+  const levelUps=syncCampaignTrainerProgression(state);
+  return {awarded,discarded:amount-awarded,duplicate:false,cap,levelUps};
 }
 
 function asiChoices(state){
@@ -140,7 +178,7 @@ export function getTrainerProgressionView(state){
   if(pending.type==="trainer_path") return {level:pending.level,type:pending.type,text:"Trainer Level 2: scegli la Trainer Path prima di continuare.",choices:TRAINER_PATHS.map(([id,name])=>({id:`trainer_path_${id}`,text:name}))};
   if(pending.type==="asi_or_feat") return {level:pending.level,type:pending.type,text:`Trainer Level ${pending.level}: risolvi Ability Score Improvement o Feat prima di continuare.`,choices:asiChoices(state),acceptsProgrammaticFeatSelection:true};
   if(pending.type==="specialization") return {level:pending.level,type:pending.type,text:`Trainer Level ${pending.level}: scegli una Specialization aggiuntiva.`,choices:TRAINER_SPECIALIZATIONS.map(type=>({id:`trainer_specialization_${type}`,text:`Specialization: ${type}`}))};
-  if(pending.type==="epic_boon") return {level:pending.level,type:pending.type,text:"Trainer Level 19: scegli l'Epic Boon.",choices:[],acceptsProgrammaticFeatSelection:true};
+  if(pending.type==="epic_boon") return {level:pending.level,type:pending.type,text:"Livello Trainer 19: scegli un talento. Puoi usare Miglioramento delle Caratteristiche come alternativa all'Epic Boon.",choices:asiChoices(state),acceptsProgrammaticFeatSelection:true};
   throw new Error(`Unsupported Trainer progression choice: ${pending.type}`);
 }
 
@@ -178,7 +216,10 @@ export function resolveTrainerProgressionChoice(state,choiceId){
     resolvePending(state,pending,{kind:"trainer_path",pathId});
     return {level:pending.level,type:pending.type,pathId};
   }
-  if(pending.type==="asi_or_feat"){
+  // Pokémon 5e 2024 permits another qualifying feat at level 19 instead
+  // of an Epic Boon. The already implemented, repeatable ASI general feat
+  // gives a fully functional touch-friendly option without faking boon effects.
+  if(pending.type==="asi_or_feat" || pending.type==="epic_boon"){
     const single=/^trainer_asi_([a-z]+)_2$/.exec(choiceId);
     const split=/^trainer_asi_([a-z]+)_([a-z]+)$/.exec(choiceId);
     if(single){

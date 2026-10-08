@@ -10,6 +10,7 @@ import { SequenceDice } from "../src/engine/dice.mjs";
 import { createNewGameState, experienceNeededAtLevel } from "../src/engine/state.mjs";
 import { awardPokemonXp, resolvePendingPokemonLevelUp } from "../src/engine/pokemon-progression.mjs";
 import { POKEMON_LEVEL_CAPS_BY_MODULE, battlePokemonXpPool, pokemonLevelCapForState } from "../src/engine/pokemon-xp-balance.mjs";
+import { trainerActivityXp } from "../src/engine/trainer-xp-balance.mjs";
 import { SaveStore } from "../src/engine/save-store.mjs";
 
 const now = () => "2026-10-08T10:00:00.000Z";
@@ -129,6 +130,9 @@ test("real battle handoff grants XP only to the deployed member, and persists af
   const expectedPool = battlePokemonXpPool(battle);
   assert.ok(expectedPool > 0);
   const resolved = await book.resolveCombatHandoffWithXp(state, "win");
+  assert.equal(resolved.player.trainerXp, trainerActivityXp(state, "battle"),
+    "Trainer battle XP is independent from the Pokémon pool");
+  assert.equal(resolved.story.history.at(-1).trainerXp.awarded, resolved.player.trainerXp);
   assert.equal(resolved.player.roster[0].xp, experienceNeededAtLevel(5) + expectedPool);
   assert.equal(resolved.player.roster[1].xp, experienceNeededAtLevel(5));
   assert.equal(resolved.player.starter.xp, resolved.player.roster[0].xp);
@@ -140,6 +144,7 @@ test("real battle handoff grants XP only to the deployed member, and persists af
     const reloaded = await saves.load(resolved.slot);
     assert.deepEqual(reloaded.player.roster, resolved.player.roster);
     assert.deepEqual(reloaded.player.starter, resolved.player.starter);
+    assert.equal(reloaded.player.trainerXp, resolved.player.trainerXp);
   } finally {
     await rm(directory, { recursive: true, force: true });
   }
@@ -160,6 +165,7 @@ test("no win reward for a defeat, fleeing or capture; M01 rewards stop at cap 5"
     const { state } = await resolvedBattle({ outcome });
     const resolved = await book.resolveCombatHandoffWithXp(state, outcome);
     assert.equal(resolved.player.roster[0].xp, experienceNeededAtLevel(5));
+    assert.equal(resolved.player.trainerXp, 0);
   }
   const { state } = await resolvedBattle({ afterM01: false });
   const capped = await book.resolveCombatHandoffWithXp(state, "win");

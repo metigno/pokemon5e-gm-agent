@@ -206,7 +206,8 @@ function progressionScore(state, route, depth) {
   score += Object.entries(f).filter(([key, value]) => value === true && /_available$/.test(key)).length * 250;
   score += Math.min(Number(state.world?.day ?? 0), 30) * 150;
   score += Number(state.competition?.rankOrder ?? 0) * 500;
-  score += Number(state.player?.trainerLevel ?? 1) * 25;
+  // Keep this pathfinder focused on story gates: earned XP now produces
+  // legitimate intermediate Trainer levels that should not bias route search.
 
   for (const [key, value] of [
     ["world_qualified", 4000],
@@ -836,7 +837,7 @@ async function completeCanonicalM3(engine, start) {
       label: "M3 Steven meeting",
       goal: (s) => s.world.flags.steven_met === true,
       combatPolicy: "win",
-      maxExpansions: 2200
+      maxExpansions: 5000
     },
     {
       label: "M3 tunnel warnings",
