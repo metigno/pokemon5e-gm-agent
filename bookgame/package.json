@@ -4,12 +4,15 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "preplay": "npm run compile:story",
     "play": "node src/cli.mjs",
     "validate:story": "node src/compiler/cli.mjs --check",
     "compile:story": "node src/compiler/cli.mjs",
     "build": "npm run validate:story && npm run compile:story",
+    "pretest": "npm run compile:story",
     "test": "node --test tests/*.test.mjs",
     "report:story": "node src/compiler/cli.mjs --report",
+    "preui": "npm run compile:story",
     "ui": "node ui/server.mjs",
     "sprites:import": "node scripts/import-sprite-package.mjs"
   }
