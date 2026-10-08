@@ -30,7 +30,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Meridiana è costruita attorno alla vita professionale: il Grand Hall domina la piazza, mentre arena, clinica sportiva, università e stazione si distribuiscono sugli assi principali."
+          "text": "Meridiana si apre intorno al Grand Hall, una facciata di vetro attraversata dal continuo movimento di allenatori. Attorno si distribuiscono arena, università, clinica sportiva e stazione internazionale."
         }
       ],
       "choices": [
@@ -71,7 +71,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Grand Hall non è una stanza del boss: è il centro amministrativo del circuito Rank S, con bacheche, accrediti e accessi separati."
+          "text": "Nel Grand Hall il personale gestisce licenze e accrediti. Sulle pareti ci sono programmi e classifiche, non il trono di un campione da sfidare."
         }
       ],
       "choices": [
@@ -102,7 +102,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Dalla piazza puoi raggiungere medicina sportiva, università e distretto sponsor. Nessun servizio cura, allena o qualifica con una semplice riga di dialogo."
+          "text": "Dalla piazza partono strade verso servizi medici, uffici e laboratori. Ogni visita richiede tempo e alcune prestazioni vanno prenotate."
         }
       ],
       "choices": [
@@ -127,7 +127,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La reception valuta disponibilità e rischio, ma lo stato di HP, PP, condizioni e infortuni resta del sistema medico reale."
+          "text": "Alla clinica un'infermiera ti chiede delle condizioni della squadra prima di indicare servizi e disponibilità. Nessuno promette una guarigione senza visita."
         }
       ],
       "choices": [
@@ -153,7 +153,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Readiness significa combinare recupero, calendario e carico reale. Rank S non rende automaticamente sana una squadra stanca o incompleta."
+          "text": "«Conta il tempo fra una gara e l'altra», spiega un medico. «E conta come sono arrivati qui i tuoi Pokémon, non soltanto il nome sulla licenza.»"
         }
       ],
       "choices": [
@@ -184,7 +184,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La stazione internazionale collega Meridiana alle sedi del circuito. Accesso, orari e finestre restano vincoli reali: nessun viaggio viene anticipato dalla UI."
+          "text": "I tabelloni della stazione elencano collegamenti internazionali e orari precisi. Un viaggio richiede un biglietto e un posto reale."
         }
       ],
       "choices": [
@@ -211,7 +211,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'università ospita analisi di match, fisiologia e studio tattico. Le informazioni possono guidare decisioni, ma non sostituiscono statistiche o feature Pokémon 5e."
+          "text": "All'università si discutono tattiche, fisiologia e registrazioni di incontri. Studiare può aiutarti a scegliere, ma non trasforma da solo la squadra."
         }
       ],
       "choices": [
@@ -238,7 +238,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La grande arena ospita scrim e finestre ufficiali diverse. Vedere il campo non significa essere registrati a un evento."
+          "text": "Nella grande arena si alternano allenamenti e partite ufficiali. Per entrare in campo serve la registrazione prevista per ogni evento."
         }
       ],
       "choices": [
@@ -258,7 +258,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Agenzie, sponsor e media occupano lo stesso asse ma hanno obiettivi diversi. Un contratto può imporre tempo e obblighi, mai bonus di combattimento illegali."
+          "text": "Negli uffici degli sponsor si parla di contratti, presenza pubblica e obblighi. Una firma può occupare il tuo tempo anche quando preferiresti allenarti."
         }
       ],
       "choices": [
@@ -278,7 +278,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Telecamere, interviste e panel rendono visibile ogni risultato. La pressione è narrativa e di agenda, non un modificatore nascosto ai dadi."
+          "text": "Le telecamere seguono gli atleti nei corridoi degli accrediti. Una domanda insistente può costarti attenzione, non cambiare di nascosto i tuoi Pokémon."
         }
       ],
       "choices": [
@@ -298,7 +298,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Meridiana concentra opportunità, ma tutte competono per lo stesso tempo. Prepararsi meglio in un asse può significare rinunciare a un altro."
+          "text": "Il Grand Hall raccoglie opportunità diverse. Il tempo che dedichi a una visita non sarà disponibile per tutte le altre."
         }
       ],
       "choices": [
@@ -318,7 +318,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un'ora in piazza cambia turni, schedule e disponibilità. Il mondo professionale non aspetta il player."
+          "text": "Passi un'ora nella piazza osservando i viaggiatori. Alcuni uffici cambiano turno e altri allenatori si allontanano per i propri impegni."
         }
       ],
       "choices": [
@@ -345,7 +345,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Più persone citano Cynthia non come celebrità da inseguire, ma come trainer capace di proteggere risorse e piano gara per periodi molto lunghi."
+          "text": "Nei discorsi dei preparatori torna il nome di Cynthia. Non per qualche privilegio segreto, ma per la cura con cui conserva risorse e lucidità fra incontri ravvicinati."
         }
       ],
       "choices": [
@@ -372,7 +372,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Ora conosci la struttura essenziale di Meridiana. Il prossimo incontro resta subordinato alla presenza reale dell'Anchor, non a un teletrasporto narrativo."
+          "text": "Ora sai orientarti a Meridiana. Se vuoi cercare Cynthia, dovrai farlo quando i suoi impegni la porteranno davvero in un luogo raggiungibile."
         }
       ],
       "choices": [

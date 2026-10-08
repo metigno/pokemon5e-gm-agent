@@ -26,7 +26,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il terzo Matchday consuma l'indice 2 del draw lockato. Oggi giochi contro {{competition.world.playerOpponents.2.name}} e nessun risultato precedente viene cancellato."
+          "text": "È il giorno della terza partita del girone. Il tabellone indica {{competition.world.playerOpponents.2.name}} come tuo avversario: le porte dell'arena si stanno aprendo."
         }
       ],
       "choices": [
@@ -51,7 +51,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "{{competition.world.playerOpponents.2.name}} è il terzo e ultimo pairing del round robin. Se è l'amico del Friend Beat, questo è l'unico fight ufficiale valido."
+          "text": "{{competition.world.playerOpponents.2.name}} entra nella zona riservata agli allenatori. Puoi consultare i dati pubblici della sua squadra, non anticipare le scelte che farà."
         }
       ],
       "choices": [
@@ -71,7 +71,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Formato Singles, sei Pokémon registrati, risultato dal motore Pokémon 5e. Dopo questo match E5 avrà tre risultati player reali."
+          "text": "L'arbitro ricorda il formato: Singles, sei Pokémon registrati e verdetto sul campo. Non sono previsti incontri ripetuti per cambiare risultato."
         }
       ],
       "choices": [
@@ -96,7 +96,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "WORLD_GROUP_MD3 è legato al terzo avversario del draw. Se è già risolto, il sistema rifiuta un secondo avvio."
+          "text": "L'orario della terza giornata è fissato. Se hai già disputato questa partita, sul tabellone compare il referto, non una nuova convocazione."
         }
       ],
       "choices": [
@@ -116,7 +116,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "I punti mostrati prima del match derivano dalle prime due giornate. Nessuna posizione qui è ancora il verdetto finale."
+          "text": "Le giornate precedenti hanno già prodotto punti che nessuna nuova gara cancellerà. Guardi la classifica prima di entrare: il verdetto definitivo arriverà soltanto alla fine del girone."
         }
       ],
       "choices": [
@@ -136,7 +136,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La squadra entra con tutto il costo accumulato nei primi due Matchday e negli Interday. Non viene ricostruita per il climax."
+          "text": "Controlli i sei Pokémon disponibili. Nessun addetto ti presta membri mancanti o elimina le conseguenze degli incontri precedenti."
         }
       ],
       "choices": [
@@ -156,7 +156,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Eventuali cure devono essere già state eseguite legalmente. Il match non concede un reset automatico."
+          "text": "Se un Pokémon è stanco o ferito, devi considerarlo prima del match. Le eventuali cure richiedono servizi e tempi reali."
         }
       ],
       "choices": [
@@ -176,7 +176,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La conferma richiede che il terzo risultato sia ancora assente. Da qui il battle bridge risolve l'avversario E5 con indice 2."
+          "text": "Alla chiamata dell'arbitro mostri l'accredito e la squadra. Una volta verificata la presenza, raggiungi la tua postazione."
         }
       ],
       "choices": [
@@ -196,7 +196,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il bridge usa il terzo avversario persistente del draw e il suo roster regolamentato. Nessuna scena può sostituirlo per dramma."
+          "text": "{{competition.world.playerOpponents.2.name}} si dispone dall'altro lato del campo. L'arbitro alza il braccio e dà il segnale d'inizio."
         }
       ],
       "choices": [
@@ -232,7 +232,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La terza vittoria è entrata nella history E5. Il gruppo non è ancora formalmente chiuso finché non viene risolto anche il quadro completo."
+          "text": "Il segnale finale conferma la vittoria contro {{competition.world.playerOpponents.2.name}}. Il risultato entrerà nella classifica insieme a quello dell'altra gara del gruppo."
         }
       ],
       "choices": [
@@ -266,7 +266,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La terza sconfitta è definitiva come risultato, ma qualificazione ed eliminazione appartengono ancora alla risoluzione E5 del gruppo."
+          "text": "La partita contro {{competition.world.playerOpponents.2.name}} è finita con una sconfitta. Non puoi cancellarla, ma il piazzamento definitivo dipende ancora dalla classifica completa."
         }
       ],
       "choices": [
@@ -300,7 +300,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "E5 conserva ora tre match player e tre match off-screen del tuo gruppo. Mancano soltanto tiebreak e risoluzione globale."
+          "text": "L'addetto registra il risultato della terza giornata con il nome del tuo avversario. Le gare precedenti rimangono nel referto."
         }
       ],
       "choices": [
@@ -325,7 +325,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'altro incontro del Matchday 3 è stato risolto una sola volta. Il suo esito può cambiare il tuo piazzamento senza essere scritto per favorirti."
+          "text": "Nel frattempo si è disputata anche l'altra partita del gruppo. I suoi allenatori hanno avuto un risultato proprio, che può influenzare la classifica."
         }
       ],
       "choices": [
@@ -345,7 +345,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Tutte e sei le partite del tuo gruppo hanno ora un esito. La tabella visibile è completa nei punti, ma E5 deve ancora applicare il tiebreak finale."
+          "text": "Il terzo risultato si aggiunge agli altri due: ora tutte le gare del gruppo possono essere conteggiate. Il tabellone si aggiorna davanti al pubblico; il conteggio finale delle parità deve ancora essere confermato."
         }
       ],
       "choices": [
@@ -370,7 +370,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "HP, PP, status e infortuni restano quelli reali dopo tre partite. La fine del girone non li azzera."
+          "text": "Fuori dal campo ritrovi i Pokémon nelle condizioni lasciate dallo scontro. Una vittoria non restituisce automaticamente energie, una sconfitta non le cancella."
         }
       ],
       "choices": [
@@ -390,7 +390,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se l'ultimo avversario è un amico o un Anchor, quella relazione cambia il contesto, non il risultato appena giocato."
+          "text": "Se conoscevi già l'avversario, un saluto o una reazione può ricordare quel rapporto. L'incontro appena giocato mantiene comunque il proprio verdetto."
         }
       ],
       "choices": [
@@ -410,7 +410,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Negli altri gruppi il torneo continua. La risoluzione globale userà gli stessi principi deterministici, senza plot armor."
+          "text": "Mentre tu giocavi, negli altri gironi sono continuate gare e carriere. Il Mondiale non è rimasto in attesa del tuo prossimo passo."
         }
       ],
       "choices": [
@@ -430,7 +430,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il combat è finito; il prossimo blocco non giocherà altre partite. Calcolerà soltanto classifiche e Top16 dal risultato esistente."
+          "text": "Hai giocato tutte e tre le partite. Il prossimo passo è consultare le classifiche, non affrontare un quarto avversario."
         }
       ],
       "choices": [
@@ -450,7 +450,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M9_08 può partire soltanto quando il terzo risultato e il terzo match off-screen esistono davvero."
+          "text": "Gli addetti attendono anche il referto dell'altra gara della giornata. Solo allora potranno chiudere la classifica ufficiale."
         }
       ],
       "choices": [
@@ -470,7 +470,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Tre partite sono state giocate. Nessuna quarta partita verrà aggiunta: ora E5 deve chiudere il gruppo e il Top16."
+          "text": "La terza giornata è conclusa. Il risultato rimane sul tabellone e la squadra conserva ciò che ha consumato."
         }
       ],
       "choices": [

@@ -14,7 +14,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Mareasale e la Costa di Sale riportano a galla porto, meteo, Barriera e contrabbando di M4. Il callback legge ciò che accadde davvero, non una versione epilogo standard."
+          "text": "Mareasale odora ancora di sale, legno bagnato e olio dei motori. Sulle banchine si continua a parlare di maree, merci e rotte non sempre limpide."
         }
       ],
       "choices": [
@@ -39,7 +39,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il porto è ancora un sistema vivo di turni, dogana, ritardi e rotte. Le conseguenze dipendono dai segnali e dagli esiti già registrati."
+          "text": "La dogana lavora fra container e registri di arrivo. Alcune rotte sono cambiate, altre continuano a richiedere controlli serrati."
         }
       ],
       "choices": [
@@ -59,7 +59,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Mismatch di manifesti, sigilli, reroute e trasferimenti notturni restano prove distinte quando furono realmente osservate."
+          "text": "Nei vecchi rapporti trovi annotazioni su sigilli, manifesti di carico e trasferimenti notturni, ma soltanto se li avevi osservati allora."
         }
       ],
       "choices": [
@@ -79,7 +79,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Le finestre meteo di M4 restano parte della memoria operativa della costa: aspettare, partire o rinunciare ebbero costi di tempo reali."
+          "text": "Le previsioni di allora sono conservate accanto ai registri del porto. Una partenza rimandata o una finestra ignorata ebbero conseguenze concrete."
         }
       ],
       "choices": [
@@ -99,7 +99,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La Barriera conserva soltanto accessi e osservazioni realmente ottenuti; M12 non retroattivamente concede una visita mai fatta."
+          "text": "La Barriera rimane al largo. Puoi ricordare ciò che hai visto davvero, non un'immersione che non hai mai compiuto."
         }
       ],
       "choices": [
@@ -119,7 +119,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "smuggling_state è l'asse principale del callback criminale: intercetto, documentazione, monitoraggio, prove insufficienti o problema ignorato rimangono diversi."
+          "text": "La dogana conserva una pratica sul traffico sospetto. Il contenuto dipende dalle prove raccolte, dagli interventi compiuti e da ciò che venne lasciato proseguire."
         }
       ],
       "choices": [
@@ -139,7 +139,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un coordinated_intercept o customs_intercept può aver ridotto la pressione, ma non cancella la rete logistica che l'aveva resa possibile."
+          "text": "Se il carico fu intercettato, gli agenti ricordano il fermo e i documenti sequestrati. Un singolo mezzo bloccato non ha cancellato ogni rotta possibile."
         }
       ],
       "choices": [
@@ -159,7 +159,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Una route documentata produce conoscenza persistente anche quando non coincide con un arresto o una chiusura completa."
+          "text": "Le carte che avevi consegnato restano utilizzabili. Documentare una rotta ha dato agli agenti una pista, anche senza portare subito a un arresto."
         }
       ],
       "choices": [
@@ -179,7 +179,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il monitoraggio doganale resta un esito incompleto ma concreto: altri possono aver continuato l'indagine mentre eri lontano."
+          "text": "Al banco doganale trovi i segni di controlli prolungati nel tempo. Il monitoraggio non è una vittoria totale, ma nemmeno un gesto privo di conseguenze."
         }
       ],
       "choices": [
@@ -199,7 +199,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Prove insufficienti non diventano sufficienti solo perché la storia principale è avanzata."
+          "text": "Alcuni sospetti rimasero senza prove sufficienti. Non basta ripassare in porto perché un'accusa incompleta diventi una certezza."
         }
       ],
       "choices": [
@@ -219,7 +219,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un problema ignorato viene affidato al Living World: può essersi mosso, peggiorato o trasformato senza aspettarti."
+          "text": "Non avevi seguito quella pista. Le banchine hanno continuato a lavorare; eventuali nuove segnalazioni appartengono a chi le ha raccolte dopo."
         }
       ],
       "choices": [
@@ -239,7 +239,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Dogana e autorità sono lette attraverso ciò che avevi davvero segnalato e documentato."
+          "text": "Un funzionario ti mostra soltanto gli atti che avevi motivo di conoscere. Dove le indagini proseguono, alcuni dettagli restano riservati."
         }
       ],
       "choices": [
@@ -259,7 +259,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Archie può essere richiamato solo se il suo stato, la relazione e la schedule lo rendono plausibile; M12 non lo teletrasporta sulla costa."
+          "text": "Se Archie ha motivo di trovarsi qui, potresti riconoscerlo vicino alle carte marine, ancora intento a discutere correnti e scelte di rotta. Altrimenti rimane un nome nei tuoi ricordi."
         }
       ],
       "choices": [
@@ -279,7 +279,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Mare, costa e reef continuano a usare E7 per fauna e incontri. Il callback non crea una seconda ecologia postgame."
+          "text": "Fra scogli e correnti si muovono Pokémon diversi da quelli dell'entroterra. Prima di avvicinarti puoi studiarne distanza, abitudini e possibili vie di fuga."
         }
       ],
       "choices": [
@@ -299,7 +299,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La reputazione di Mareasale resta separata dalla fama del Mondiale: chi ti riconosce può comunque ricordare cosa facesti qui."
+          "text": "Un lavoratore del porto può ricordare quanto fosti utile, oppure quanto poco sapesse di te. Il titolo sportivo non sostituisce quella memoria."
         }
       ],
       "choices": [
@@ -319,7 +319,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "E6 può aver modificato pattuglie, traffici o sicurezza sulla base dell'esito M4 senza attribuire al player interventi off-screen."
+          "text": "I controlli delle banchine e le rotte commerciali non hanno aspettato il tuo ritorno. Ciò che trovi oggi deriva anche dalle decisioni prese dagli altri."
         }
       ],
       "choices": [
@@ -339,7 +339,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rotte e servizi postgame rispettano accessi, tempo e condizioni reali già possedute."
+          "text": "La tabella delle partenze indica quali imbarcazioni possono salpare e quando. Non ogni molo è aperto a ogni visitatore."
         }
       ],
       "choices": [
@@ -359,7 +359,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Eventuali residui M4 vengono letti nel loro vero stato; una quest conclusa non viene riaperta per produrre nostalgia."
+          "text": "Fra gli avvisi doganali, alcune pratiche sono concluse e altre no. Tornare qui non riapre automaticamente un caso chiuso."
         }
       ],
       "choices": [
@@ -379,7 +379,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Prima di chiudere il callback, M12 separa ciò che il player sapeva da ciò che il mondo ha fatto successivamente."
+          "text": "Puoi distinguere le informazioni ottenute di persona da quelle apprese soltanto dopo. Il porto ha avuto una storia anche mentre eri lontano."
         }
       ],
       "choices": [
@@ -399,7 +399,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La sintesi della Costa classifica l'esito del filo contrabbando senza modificare smuggling_state."
+          "text": "Lasci il fascicolo sul banco. Un intervento, una segnalazione e una rinuncia non raccontano la stessa Mareasale."
         }
       ],
       "choices": [
@@ -567,7 +567,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Mareasale e la Costa sono registrate nel postgame. Il percorso può salire verso Altacima e Fulgore."
+          "text": "La costa resta alle tue spalle. Più avanti la strada comincia a salire verso Altacima."
         }
       ],
       "choices": [

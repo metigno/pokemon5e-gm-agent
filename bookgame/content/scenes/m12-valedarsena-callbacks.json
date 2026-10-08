@@ -14,7 +14,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Valedarsena non è congelata al tuo primo arrivo. M12 legge ciò che hai realmente fatto in M1 e mostra una città che ha continuato a vivere."
+          "text": "A Valedarsena ritrovi il profilo delle banchine e i muretti della strada. La città ha continuato a correre anche quando la tua carriera ti ha portato lontano."
         }
       ],
       "choices": [
@@ -39,7 +39,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Le strade, il Centro e l'Arena sono familiari, ma il contesto locale dipende dagli esiti registrati mesi prima."
+          "text": "Il Centro Pokémon e l'Arena sono ancora punti di riferimento. Davanti ai loro ingressi vedi persone nuove e vecchie abitudini."
         }
       ],
       "choices": [
@@ -64,7 +64,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La vecchia pressione ecologica e logistica viene riletta attraverso gli indicatori M1 già persistenti."
+          "text": "Le notizie dei primi giorni tornano attraverso i turni dei magazzini e le segnalazioni sulla fauna. Ora puoi confrontarle con ciò che accadde davvero."
         }
       ],
       "choices": [
@@ -89,7 +89,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se hai contribuito a una risoluzione locale, il callback può riconoscerla senza trasformarla in una soluzione globale retroattiva."
+          "text": "In un settore che avevi aiutato a mettere in sicurezza qualcuno ricorda il tuo intervento. Altri problemi, però, non sono stati cancellati da quell'unico gesto."
         }
       ],
       "choices": [
@@ -109,7 +109,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se sei intervenuto solo in parte, il mondo conserva sia il contributo sia ciò che era rimasto aperto."
+          "text": "Avevi dato una mano senza chiudere tutto. Restano i segni del contributo e quelli del lavoro che altri hanno dovuto continuare."
         }
       ],
       "choices": [
@@ -129,7 +129,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se non sei intervenuto, E6 può mostrare cosa hanno fatto NPC e comunità senza attribuirti meriti inesistenti."
+          "text": "Le persone del posto raccontano come hanno affrontato il problema in tua assenza. Nessuno ti attribuisce il lavoro che non hai svolto."
         }
       ],
       "choices": [
@@ -149,7 +149,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La Fattoria resta un punto concreto del passato, collegato alle scelte su mandria, aiuto e abbandono."
+          "text": "La strada della Fattoria del Vento attraversa ancora campi e recinti. Il paesaggio può farti ricordare l'occasione che avevi davanti allora."
         }
       ],
       "choices": [
@@ -169,7 +169,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un aiuto registrato può cambiare tono, accesso o riconoscimento, non riscrivere il resto di M1."
+          "text": "Chi lavora alla Fattoria può ricordare il giorno in cui aiutasti. È un ricordo concreto, non la garanzia che ogni difficoltà sia sparita."
         }
       ],
       "choices": [
@@ -189,7 +189,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un'occasione lasciata andare può essere stata risolta, peggiorata o trasformata da altri mentre eri via."
+          "text": "Se lasciasti passare l'occasione, trovi il seguito che altri hanno costruito. Non puoi trasformare quella scelta passata in un aiuto mai dato."
         }
       ],
       "choices": [
@@ -209,7 +209,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Ginestre ricorda le prime deviazioni e conserva soltanto i fatti realmente avvenuti."
+          "text": "Le Ginestre conservano il sentiero dei primi passi. Se incontrasti Houndour, sai esattamente quale spazio gli avevi concesso o sottratto."
         }
       ],
       "choices": [
@@ -229,7 +229,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il filo Ranger può collegare prove M1 e conseguenze successive senza duplicare un nuovo sistema d'indagine."
+          "text": "Il presidio conserva soltanto le osservazioni e le segnalazioni che gli consegnasti. Una voce non basta a diventare prova."
         }
       ],
       "choices": [
@@ -249,7 +249,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "I servizi di Valedarsena sono ancora quelli del mondo persistente; M12 non crea versioni epilogo separate."
+          "text": "Puoi tornare al Centro, all'Arena e ai negozi negli orari in cui sono davvero disponibili."
         }
       ],
       "choices": [
@@ -269,7 +269,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La fauna locale può essere diversa per il Living World, ma E7 resta l'unica autorità per distribuzione e incontri."
+          "text": "Ai bordi della città i Pokémon cercano ancora acqua, riparo e cibo. Non tutti reagiscono allo stesso modo alla presenza umana."
         }
       ],
       "choices": [
@@ -289,7 +289,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La reputazione locale è distinta dal risultato mondiale: fama e fiducia non sono la stessa variabile."
+          "text": "Una persona può riconoscere il nome del finalista o del campione e ricordare, invece, soprattutto quello che avevi fatto per il suo quartiere."
         }
       ],
       "choices": [
@@ -309,7 +309,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Eventuali ricordi degli amici vengono mostrati solo se compatibili con la loro traiettoria e disponibilità attuali."
+          "text": "Un messaggio o un luogo può riportarti a un vecchio incontro con gli amici, se era davvero avvenuto. Le loro vite intanto sono proseguite."
         }
       ],
       "choices": [
@@ -329,7 +329,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Cambiamenti urbani o logistici sono callback del tempo trascorso, non premi automatici per aver completato moduli."
+          "text": "Magazzini, strade e turni hanno seguito esigenze proprie. Non tutto ciò che è cambiato è una ricompensa per il tuo percorso."
         }
       ],
       "choices": [
@@ -349,7 +349,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Le quest residue vengono lette dal loro vero stato: complete, fallite, ignorate o ancora trasformabili."
+          "text": "Alla bacheca alcuni annunci portano il timbro «CHIUSO». Altri sono scaduti o ancora attivi, secondo il tempo trascorso."
         }
       ],
       "choices": [
@@ -369,7 +369,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Quando il player non ha chiuso un problema, E6 può averlo mosso in avanti senza aspettarlo."
+          "text": "Se non intervenisti, potrebbe essere stato qualcun altro a prendere in carico il problema. Il quartiere ne porta i segni."
         }
       ],
       "choices": [
@@ -389,7 +389,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il postgame può riaprire esplorazione e servizi già legali, rispettando rank, condizioni e accessi reali."
+          "text": "Rimani libero di esplorare i luoghi accessibili e usare i servizi effettivamente aperti."
         }
       ],
       "choices": [
@@ -409,7 +409,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M12 sintetizza un esito Valedarsena coerente con M1 senza creare una nuova verità sopra quella salvata."
+          "text": "Guardando le banchine, vedi una città che conserva memoria senza trasformare tutto in un omaggio a te."
         }
       ],
       "choices": [
@@ -502,7 +502,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il callback di Valedarsena è registrato. Il viaggio può proseguire verso Bruma e Borgo Salice."
+          "text": "La strada verso Bosco Bruma è ancora lì. Puoi rimetterti in cammino."
         }
       ],
       "choices": [

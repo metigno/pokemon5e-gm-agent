@@ -22,7 +22,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rei entra nel modulo come trainer con una corsa propria. Prima di parlarci, il gioco controlla se è davvero nel Top4."
+          "text": "Rei compare fra i nomi che il pubblico segue con maggiore attenzione. Non cerca di occupare il centro della scena: osserva i combattimenti e controlla il comportamento dei propri Pokémon prima di parlare."
         }
       ],
       "choices": [
@@ -47,7 +47,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il suo stato competitivo proviene dal Top4 E5: presente o eliminato sono entrambi risultati validi."
+          "text": "Alcuni cartelloni mostrano chi ha raggiunto le semifinali; altri riportano chi è già stato eliminato. Per sapere dove sia arrivato Rei basta consultare il tabellone, non ascoltare le leggende sul suo passato."
         }
       ],
       "choices": [
@@ -72,7 +72,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un incontro fisico con Rei è legale solo se è ancora nel Top4 e il suo schedule lo colloca nello stesso venue del player."
+          "text": "Se Rei è ancora nel torneo e vi trovate nello stesso settore, puoi provare a scambiare due parole. Altrimenti rimangono le notizie pubbliche e la possibilità di lasciarlo ai suoi impegni."
         }
       ],
       "choices": [
@@ -130,7 +130,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se Rei non è raggiungibile, restano informazioni pubbliche sul suo percorso e sul suo Samurott-Hisui, senza accesso a dati segreti."
+          "text": "Le cronache ricordano il Samurott di Hisui e gli scambi rapidi che Rei usa per aprirsi spazio. Nessun articolo, però, svela in anticipo tutte le scelte che farà domani."
         }
       ],
       "choices": [
@@ -155,7 +155,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il roster di Rei è stage-aware e persistente. Nessuna scena gli assegna un team costruito apposta per battere il player."
+          "text": "Rei non ha cambiato i propri compagni soltanto per incrociare il tuo cammino. Li conosce da tempo; osservandoli, capisci quanto gli interessi farli agire insieme senza sprecare un'apertura."
         }
       ],
       "choices": [
@@ -175,7 +175,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La relazione può cambiare tono, fiducia e callback; non può cambiare il risultato della sua semifinale."
+          "text": "Rei ascolta la tua osservazione prima di rispondere. Se avete già parlato, può ricordare il tono del vostro ultimo incontro; non ti promette favori sul campo."
         }
       ],
       "choices": [
@@ -195,7 +195,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Essere tra gli ultimi quattro alza la pressione, non concede bonus invisibili né svantaggi automatici."
+          "text": "Davanti all'arena Rei resta pratico. «Quando cambia il terreno, cambia il modo di entrarci.» Non si concede una posa eroica: torna subito a controllare i propri Pokémon."
         }
       ],
       "choices": [
@@ -215,7 +215,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se Rei è il tuo avversario lo decide playerSfOpponent; se è nell'altra semifinale, può ancora perdere prima della finale."
+          "text": "Il tabellone mostra in quale semifinale è inserito Rei, se è ancora in gara. Potreste affrontarvi, ritrovarvi in un'altra fase oppure non combattere affatto."
         }
       ],
       "choices": [
@@ -235,7 +235,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rei non ha plot armor. Il resolver e l'eventuale combattimento ufficiale sono autorità sul risultato."
+          "text": "Il nome di Rei attira gli sguardi, non tiene in piedi un Pokémon sconfitto. Qui anche un favorito deve guadagnare ogni turno."
         }
       ],
       "choices": [
@@ -255,7 +255,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Gli incontri precedenti con Rei possono cambiare il dialogo, mai attribuire ricompense o vittorie non ottenute."
+          "text": "Se hai già incontrato Rei, qualche parola può suonare familiare. Non è un modo per cancellare ciò che avete fatto o per fingere un'intimità che non c'è stata."
         }
       ],
       "choices": [
@@ -275,7 +275,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Parlare con Rei può modificare relazione e informazione, lasciando intatto WORLD_SF."
+          "text": "«Non cerco sempre il colpo più forte», dice Rei, guardando le postazioni. «Mi interessa capire quale mossa mi lascerà giocare anche quella dopo.» Poi aspetta davvero la tua risposta."
         }
       ],
       "choices": [
@@ -295,7 +295,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se il contatto fisico non è plausibile, il modulo conserva soltanto il contesto remoto/pubblico consentito."
+          "text": "Se non potete incontrarvi, ricevi soltanto le informazioni che circolano fra staff, stampa e pubblico. Rei non compare davanti a te per comodità del racconto."
         }
       ],
       "choices": [
@@ -315,7 +315,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il thread si chiude registrando soltanto il fatto che il player ha attraversato questo beat, non un esito competitivo."
+          "text": "Il contatto termina e Rei torna ai suoi impegni. Nessuna conversazione prende il posto della semifinale."
         }
       ],
       "choices": [
@@ -342,7 +342,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La semifinale resta davanti al player con lo stesso avversario e lo stesso stato squadra."
+          "text": "Davanti a te resta il prossimo avversario indicato dal tabellone, con le difficoltà che ti sei portato fin qui."
         }
       ],
       "choices": [
@@ -362,7 +362,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rei è stato trattato come competitor reale, presente o assente secondo lo stato del Mondiale."
+          "text": "Di Rei rimane ciò che hai potuto davvero vedere o sentire. Il torneo non si ferma per il suo nome."
         }
       ],
       "choices": [

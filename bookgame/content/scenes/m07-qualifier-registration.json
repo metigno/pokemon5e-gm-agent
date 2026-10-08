@@ -34,7 +34,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La registrazione WORLD_QUALIFIER è un gate amministrativo separato dal match: Rank S consente l'accesso, ma servono finestra aperta e Official Six reale."
+          "text": "Davanti al banco del Qualifier una fila di allenatori attende l'accredito. La segretaria controlla licenze, iscrizioni e squadre una persona alla volta."
         }
       ],
       "choices": [
@@ -59,7 +59,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Tre condizioni sono distinte: Rank S, finestra A7 aperta e roster sufficiente. Nessuna può essere sostituita da reputazione o sponsor."
+          "text": "«Rank S, finestra d'iscrizione aperta e sei Pokémon idonei», ripete l'addetta indicando i requisiti. Non basta soddisfarne soltanto uno."
         }
       ],
       "choices": [
@@ -84,7 +84,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rank S è necessario e già posseduto per entrare in questa scena; resta però soltanto l'accesso al percorso."
+          "text": "La tua tessera Rank S supera il primo controllo. «Adesso vediamo il resto», aggiunge la segretaria."
         }
       ],
       "choices": [
@@ -104,7 +104,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il desk legge il roster strutturato del player. Non crea un sesto Pokémon e non sostituisce indisponibilità reali con un flag narrativo."
+          "text": "Gli addetti contano i Pokémon disponibili. Se ne manca uno, nessun modulo da firmare può sostituirlo."
         }
       ],
       "choices": [
@@ -137,7 +137,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Sei membri reali rendono possibile la registrazione; il match userà comunque lo stato effettivo della squadra quando inizierà."
+          "text": "Hai sei Pokémon idonei per presentare domanda. Le loro condizioni effettive continueranno a contare quando scenderai in campo."
         }
       ],
       "choices": [
@@ -157,7 +157,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il gate non viene aggirato. Puoi tornare alla preparazione o restare a Meridiana finché il roster reale non soddisfa il formato."
+          "text": "«Non posso accettare una squadra incompleta.» L'addetta ti indica l'uscita verso la zona preparazione e i servizi disponibili."
         }
       ],
       "choices": [
@@ -177,7 +177,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "A7_WORLD_QUALIFIER apre una finestra di partecipazione; non assegna un posto nel Mondiale."
+          "text": "Un orologio sopra lo sportello mostra la scadenza delle registrazioni. Il tempo non rimarrà fermo finché deciderai."
         }
       ],
       "choices": [
@@ -201,7 +201,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Formato: Singles, Official Six, field ELITE. Il Qualifier è una competizione distinta dal Rank S e non usa il Promotion Trial A→S."
+          "text": "L'ufficiale ti consegna il regolamento: Singles, sei Pokémon registrati, avversari di fascia Elite. Il titolo mondiale si conquista in un'altra sede."
         }
       ],
       "choices": [
@@ -221,7 +221,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il desk può registrare soltanto questa istanza del Qualifier. Registrarsi non produce né vittoria né world_qualified."
+          "text": "La segretaria apre il registro dell'unica selezione a cui puoi iscriverti. «Firmare significa partecipare, non vincere.»"
         }
       ],
       "choices": [
@@ -258,7 +258,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La firma blocca l'intenzione di partecipare alla finestra corrente; il roster effettivo resta letto dal motore al momento dei match."
+          "text": "Prima di apporre la firma controlli il nome e l'appuntamento. L'arbitro verificherà ancora la squadra quando inizierà il combattimento."
         }
       ],
       "choices": [
@@ -294,7 +294,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La registrazione è persistente. Il bracket successivo resta irrisolto finché i combattimenti E5 non producono risultati reali."
+          "text": "L'addetta timbra l'accredito. Hai un posto nella selezione; ora devi ancora superare gli avversari."
         }
       ],
       "choices": [
@@ -319,7 +319,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rimandare non crea un risultato e lascia scorrere il mondo. La finestra può essere sensibile al calendario."
+          "text": "Ti allontani senza completare l'iscrizione. La fila continua a muoversi e la scadenza si avvicina."
         }
       ],
       "choices": [
@@ -340,7 +340,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "FRIEND_BEAT_07 può cambiare il tono della registrazione, non l'eligibility. Un amico non presta Rank, roster o seed."
+          "text": "Un messaggio di uno degli amici può arrivare mentre aspetti. Il suo incoraggiamento non può prestarti una licenza o un sesto Pokémon."
         }
       ],
       "choices": [
@@ -360,7 +360,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Cynthia resta un benchmark di gestione. Il rapporto con lei non altera il field o il requisito Official Six."
+          "text": "Ripensi al consiglio di Cynthia mentre controlli la squadra. Anche lei dovette imparare a prepararsi, non a saltare i requisiti."
         }
       ],
       "choices": [
@@ -380,7 +380,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Sponsor e media possono occupare tempo, ma non possono comprare una registrazione illegale o modificare il roster richiesto."
+          "text": "Un addetto di uno sponsor ti cerca per un'intervista. Il tuo posto in fila dipende comunque dalle stesse regole degli altri."
         }
       ],
       "choices": [
@@ -400,7 +400,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La history del Qualifier deve provenire dai match ufficiali. Flag narrativi possono classificare il percorso, non sostituire E5."
+          "text": "La segretaria indica i referti ufficiali. Ogni risultato dovrà essere firmato dagli arbitri, non raccontato prima che esista."
         }
       ],
       "choices": [
@@ -420,7 +420,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Tutto ciò che è stato fatto fin qui è preparazione. Solo il bracket successivo può produrre il risultato che porterà o meno al Mondiale."
+          "text": "La registrazione è completata. Davanti a te ci sono due possibili incontri da vincere, non una qualificazione già assegnata."
         }
       ],
       "choices": [
@@ -444,7 +444,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La registrazione resta salvata senza inventare alcun esito."
+          "text": "Ricevi il numero di gara e lasci il banco. Il primo avversario ti attende al momento previsto."
         }
       ],
       "choices": [

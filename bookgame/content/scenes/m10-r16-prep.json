@@ -22,7 +22,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Tra gironi e ottavi non esiste un reset gratuito: roster, HP, PP, status e infortuni restano quelli realmente persistiti."
+          "text": "La preparazione per l'ottavo comincia dalle condizioni in cui hai lasciato il campo precedente. Non tutte le fatiche sono state cancellate dal calendario."
         }
       ],
       "choices": [
@@ -47,7 +47,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La registrazione ufficiale richiede sei Pokémon disponibili. Questa scena non cura, non sostituisce e non ricrea nessun membro del roster."
+          "text": "Controlli i sei Pokémon disponibili. Un membro affaticato o assente non può essere sostituito con un nome scritto su un modulo."
         }
       ],
       "choices": [
@@ -67,7 +67,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Una valutazione può dirti che un Pokémon è in cattive condizioni; cambiare HP, PP o status richiede il sottosistema appropriato, non una frase di preparazione."
+          "text": "Un medico può valutare le condizioni della squadra e indicare cure. Una semplice visita non modifica le ferite o le energie rimaste."
         }
       ],
       "choices": [
@@ -87,7 +87,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Ogni minuto speso prima del match muove anche schedule e mondo. Il pairing R16 resta lockato per la stessa edizione."
+          "text": "Gli appuntamenti continuano a scorrere mentre ti prepari per l'ottavo. Il nome del tuo avversario è già sul tabellone."
         }
       ],
       "choices": [
@@ -114,7 +114,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'avversario resta {{competition.world.knockout.playerR16Opponent.name}}. Precedenti e reputazione possono cambiare cosa sai, mai chi occupa lo slot."
+          "text": "Il tuo prossimo avversario è {{competition.world.knockout.playerR16Opponent.name}}. Puoi esaminare informazioni pubbliche, senza fingere di conoscere le scelte che farà."
         }
       ],
       "choices": [
@@ -134,7 +134,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "I callback possono aggiungere contesto su abitudini osservate o incontri passati. Non rivelano un moveset non conosciuto e non modificano stats."
+          "text": "Se vi siete già affrontati, la memoria dell'incontro può suggerire domande utili. Non svela mosse tenute segrete."
         }
       ],
       "choices": [
@@ -161,7 +161,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Puoi scegliere aggressione, controllo, protezione delle risorse o scouting iniziale, ma nessuna postura diventa un bonus custom fuori dalle regole Pokémon 5e."
+          "text": "Puoi decidere di attaccare subito, studiare il campo o conservare risorse per i momenti decisivi. Nessun piano vale come un colpo già riuscito."
         }
       ],
       "choices": [
@@ -181,7 +181,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "In un ottavo non esiste partita successiva che compensi un errore: il rischio è competitivo, non una modifica artificiale alle probabilità."
+          "text": "Una sconfitta nell'ottavo ti eliminerebbe. Puoi prepararti con prudenza o correre rischi, ma sarà il combattimento a decidere."
         }
       ],
       "choices": [
@@ -201,7 +201,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Formato Singles, sei Pokémon, risultato reale del battle bridge. Nessun retry narrativo e nessun esito precompilato."
+          "text": "L'arbitro ricorda il formato: Singles e sei Pokémon ufficiali. Non ci sarà una seconda partita per cancellare una sconfitta."
         }
       ],
       "choices": [
@@ -221,7 +221,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La readiness controlla soltanto che tu sia pronto a consegnare il controllo al battle bridge; non altera lo stato del team."
+          "text": "Prima della chiamata finale verifichi l'accredito e i Pokémon. La tua preparazione non ha ancora prodotto un risultato."
         }
       ],
       "choices": [
@@ -241,7 +241,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Chiudere M10_02 conserva tutte le risorse correnti e rende disponibile il match ufficiale R16."
+          "text": "Il personale conferma la tua presenza per l'ottavo. La squadra è ancora quella che hai deciso di portare in campo."
         }
       ],
       "choices": [
@@ -273,7 +273,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La preparazione è chiusa. Il prossimo blocco usa direttamente il matchId e l'avversario prodotti da E5."
+          "text": "Il corridoio conduce al campo dove ti aspetta {{competition.world.knockout.playerR16Opponent.name}}. Fra poco l'arbitro darà il segnale."
         }
       ],
       "choices": [

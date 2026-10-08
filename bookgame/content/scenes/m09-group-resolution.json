@@ -26,7 +26,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La fase gruppi non si chiude con una frase. E5 deve verificare sei risultati nel tuo gruppo, risolvere gli altri sette gruppi e costruire sedici qualificati."
+          "text": "L'ultima partita del tuo gruppo è finita. Gli ufficiali raccolgono i sei referti, mentre negli altri gironi le classifiche si chiudono."
         }
       ],
       "choices": [
@@ -51,7 +51,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Tre match player più tre match off-screen formano il round robin completo. Se ne manca uno, la risoluzione E5 viene rifiutata."
+          "text": "Nel tuo girone ciascuno ha affrontato tutti gli altri una volta. Senza i risultati di tutte e sei le gare la classifica non può essere firmata."
         }
       ],
       "choices": [
@@ -71,7 +71,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "E5 ordina per punti, poi risultati diretti fra i pari merito; se la parità resta irrisolta usa l'ordine del draw come ultimo criterio stabile. Il layer narrativo non decide nulla."
+          "text": "La commissione ordina i partecipanti per punti, poi confronta gli scontri diretti in caso di parità. Se rimane equilibrio, applica l'ultimo criterio previsto dal regolamento."
         }
       ],
       "choices": [
@@ -91,7 +91,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il commit è idempotente: simula una sola volta i gruppi NPC, calcola tutte le classifiche e locka esattamente due qualificati per gruppo."
+          "text": "Gli addetti confermano i risultati di ogni gruppo e compilano l'elenco dei due allenatori ammessi per ciascuno."
         }
       ],
       "choices": [
@@ -135,7 +135,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "WORLD_GROUPS è chiuso. La posizione finale del player e il Top16 ora vivono nello stato competitivo e sopravvivono a save/reload."
+          "text": "Le classifiche sono complete. Sedici nomi compaiono sulla bacheca degli ottavi; il tuo piazzamento è ormai ufficiale."
         }
       ],
       "choices": [
@@ -160,7 +160,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La posizione finale è {{competition.world.groupStage.finalPosition}}. Non è un flag scelto dalla scena: deriva dai sei match e dal tiebreak E5."
+          "text": "Accanto al tuo nome compare il piazzamento {{competition.world.groupStage.finalPosition}}. È quello guadagnato nelle partite del gruppo."
         }
       ],
       "choices": [
@@ -185,7 +185,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Top16 contiene esattamente i primi due di ciascuno degli otto gruppi. Nessun nome viene aggiunto per fanservice o storia."
+          "text": "Dagli otto gruppi sono passati i primi due. Gli altri partecipanti rimangono fuori dalla fase a eliminazione diretta."
         }
       ],
       "choices": [
@@ -210,7 +210,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "E5 ha fissato world_group_advanced. Le scene successive possono soltanto separare il percorso Top16 dal WORLD_EXIT."
+          "text": "Guardi se il tuo nome compare fra i sedici. Qualunque sia il risultato, non puoi cambiarlo con un nuovo discorso all'ufficiale."
         }
       ],
       "choices": [
@@ -235,7 +235,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Amici e Anchor possono essere dentro o fuori dal Top16 in base ai risultati del loro gruppo. Il loro nome non li protegge."
+          "text": "Fra qualificati ed eliminati riconosci amici e allenatori famosi. Nessuno ha ricevuto un posto soltanto per la propria notorietà."
         }
       ],
       "choices": [
@@ -255,7 +255,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La biforcazione è meccanica: posizione 1–2 avanza; posizione 3–4 è eliminata. Non esiste una scelta del player per cambiare verdetto."
+          "text": "I primi due di ogni girone avanzano; terzo e quarto concludono qui la propria corsa. È il regolamento che tutti hanno accettato."
         }
       ],
       "choices": [
@@ -283,7 +283,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'eliminazione è già nello stato E5. M9_09 gestirà soltanto le conseguenze e l'handoff verso WORLD_EXIT."
+          "text": "Se sei fuori dai primi due, dovrai lasciare la parte competitiva del torneo e affrontare il ritorno."
         }
       ],
       "choices": [
@@ -298,7 +298,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La qualificazione è già nello stato E5. M9_10 userà il Top16 reale per preparare il bracket degli ottavi."
+          "text": "Se sei fra i primi due, ti aspettano gli ottavi e un nuovo tabellone a eliminazione diretta."
         }
       ],
       "choices": [
@@ -320,7 +320,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La risoluzione del gruppo è completa e immutabile. Il prossimo blocco dipende soltanto da advanced=true/false."
+          "text": "La commissione archivia i risultati. Le prossime indicazioni dipendono dal piazzamento davvero ottenuto."
         }
       ],
       "choices": [

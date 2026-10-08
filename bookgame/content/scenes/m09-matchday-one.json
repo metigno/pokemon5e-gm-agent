@@ -26,7 +26,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il primo Matchday non sceglie un avversario: legge l'indice 0 del draw lockato. Oggi giochi contro {{competition.world.playerOpponents.0.name}}."
+          "text": "È il giorno della prima partita del girone. Il tabellone indica {{competition.world.playerOpponents.0.name}} come tuo avversario: le porte dell'arena si stanno aprendo."
         }
       ],
       "choices": [
@@ -51,7 +51,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "{{competition.world.playerOpponents.0.name}} entra come partecipante reale del gruppo. Il roster regolamentato viene materializzato una volta e persiste; non cambia perché ricarichi o perdi."
+          "text": "{{competition.world.playerOpponents.0.name}} entra nella zona riservata agli allenatori. Puoi consultare i dati pubblici della sua squadra, non anticipare le scelte che farà."
         }
       ],
       "choices": [
@@ -76,7 +76,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Formato ufficiale: Singles, sei Pokémon registrati, risultato deciso dal motore Pokémon 5e. Non c'è retry del Matchday e una sconfitta non resetta il girone."
+          "text": "L'arbitro ricorda il formato: Singles, sei Pokémon registrati e verdetto sul campo. Non sono previsti incontri ripetuti per cambiare risultato."
         }
       ],
       "choices": [
@@ -101,7 +101,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "E5 associa WORLD_GROUP_MD1 al primo avversario del draw. Se il match è già risolto, il sistema rifiuta un secondo avvio invece di duplicare punti o history."
+          "text": "L'orario della prima giornata è fissato. Se hai già disputato questa partita, sul tabellone compare il referto, non una nuova convocazione."
         }
       ],
       "choices": [
@@ -121,7 +121,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Prima del fischio d'inizio la classifica legge lo stato strutturato del gruppo: nessun testo può assegnare punti in anticipo."
+          "text": "Prima della partita tutti partono da zero. Guardi la classifica prima di entrare: il verdetto definitivo arriverà soltanto alla fine del girone."
         }
       ],
       "choices": [
@@ -141,7 +141,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il player deve presentare almeno sei Pokémon reali. Il Matchday non cura, non sostituisce e non ricrea nessun membro del roster."
+          "text": "Controlli i sei Pokémon disponibili. Nessun addetto ti presta membri mancanti o elimina le conseguenze degli incontri precedenti."
         }
       ],
       "choices": [
@@ -161,7 +161,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "HP, PP, status e infortuni restano quelli persistenti. Eventuali servizi di recupero devono essere usati davvero fuori da questa frase."
+          "text": "Se un Pokémon è stanco o ferito, devi considerarlo prima del match. Le eventuali cure richiedono servizi e tempi reali."
         }
       ],
       "choices": [
@@ -181,7 +181,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La conferma finale controlla roster, calendario e assenza di un risultato precedente. Da qui il controllo passa al battle bridge."
+          "text": "Alla chiamata dell'arbitro mostri l'accredito e la squadra. Una volta verificata la presenza, raggiungi la tua postazione."
         }
       ],
       "choices": [
@@ -201,7 +201,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il bridge risolve dinamicamente l'avversario dal draw E5. Non esiste un nome hardcoded in questa scena."
+          "text": "{{competition.world.playerOpponents.0.name}} si dispone dall'altro lato del campo. L'arbitro alza il braccio e dà il segnale d'inizio."
         }
       ],
       "choices": [
@@ -237,7 +237,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La vittoria è stata registrata da E5. Tre punti derivano dal risultato reale del combat, non dal nodo narrativo."
+          "text": "Il segnale finale conferma la vittoria contro {{competition.world.playerOpponents.0.name}}. Il risultato entrerà nella classifica insieme a quello dell'altra gara del gruppo."
         }
       ],
       "choices": [
@@ -271,7 +271,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La sconfitta resta nel girone. Non esiste reload narrativo, promozione automatica o eliminazione prematura: restano due partite."
+          "text": "La partita contro {{competition.world.playerOpponents.0.name}} è finita con una sconfitta. Non puoi cancellarla, ma restano ancora giornate da disputare prima del verdetto finale."
         }
       ],
       "choices": [
@@ -305,7 +305,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il risultato player e l'altro match del gruppo sono ormai persistenti. La scena può leggerli, non modificarli."
+          "text": "L'addetto registra il risultato della prima giornata con il nome del tuo avversario. Le gare precedenti rimangono nel referto."
         }
       ],
       "choices": [
@@ -330,7 +330,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "E5 ha risolto anche l'altro incontro del Matchday 1 con seed della carriera. Nessun Anchor o amico riceve protezione dal risultato."
+          "text": "Nel frattempo si è disputata anche l'altra partita del gruppo. I suoi allenatori hanno avuto un risultato proprio, che può influenzare la classifica."
         }
       ],
       "choices": [
@@ -350,7 +350,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La posizione provvisoria e i punti vengono calcolati dai due match del giorno. Le parità definitive non vengono ancora sciolte come se il gruppo fosse finito."
+          "text": "Il risultato della prima giornata si aggiunge ai precedenti senza cancellarli. Il tabellone si aggiorna davanti al pubblico; il piazzamento rimane provvisorio."
         }
       ],
       "choices": [
@@ -375,7 +375,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Matchday può averti lasciato Pokémon affaticati o danneggiati. M9 non azzera nulla all'uscita dall'arena."
+          "text": "Fuori dal campo ritrovi i Pokémon nelle condizioni lasciate dallo scontro. Una vittoria non restituisce automaticamente energie, una sconfitta non le cancella."
         }
       ],
       "choices": [
@@ -395,7 +395,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se avevi già incontrato questo trainer, quella storia può cambiare il tono. Non cambia l'identità sorteggiata, il roster persistente o l'esito."
+          "text": "Se conoscevi già l'avversario, un saluto o una reazione può ricordare quel rapporto. L'incontro appena giocato mantiene comunque il proprio verdetto."
         }
       ],
       "choices": [
@@ -415,7 +415,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Mentre sei in campo, gli altri gruppi e le carriere NPC continuano. Il Mondiale non aspetta che tu apra ogni scena opzionale."
+          "text": "Mentre tu giocavi, negli altri gironi sono continuate gare e carriere. Il Mondiale non è rimasto in attesa del tuo prossimo passo."
         }
       ],
       "choices": [
@@ -435,7 +435,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Tra Matchday 1 e 2 esiste tempo reale per recupero, servizi, media e vita del Village. Lasciarlo passare muove anche il resto del mondo."
+          "text": "Fra la prima e la seconda giornata avrai tempo per valutare recupero, servizi e impegni. Anche il resto del Village continuerà a muoversi."
         }
       ],
       "choices": [
@@ -455,7 +455,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'interday si apre soltanto dopo che E5 possiede il risultato del Matchday 1. Una semplice visita alla scena non basta."
+          "text": "Il personale apre la finestra fra le partite soltanto dopo aver ricevuto il referto della prima gara."
         }
       ],
       "choices": [
@@ -475,7 +475,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il primo Matchday è chiuso. Il torneo passa alla gestione tra le partite senza cancellare il risultato o le risorse residue."
+          "text": "La prima giornata è conclusa. Il risultato rimane sul tabellone e la squadra conserva ciò che ha consumato."
         }
       ],
       "choices": [

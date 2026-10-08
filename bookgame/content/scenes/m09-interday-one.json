@@ -26,7 +26,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Matchday 1 è finito, ma la squadra non viene ripristinata dal cambio di scena. Il tempo tra le partite è una risorsa: puoi spenderlo, conservarlo o lasciarlo scorrere."
+          "text": "La prima giornata è finita. Nel Village il rumore delle partite lascia spazio a infermerie, sale allenamento e chiacchiere sulle classifiche."
         }
       ],
       "choices": [
@@ -58,7 +58,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Recupero significa leggere HP, PP, status e infortuni reali, poi decidere se usare servizi esistenti. M9 non applica un heal narrativo gratuito."
+          "text": "Controlli come stanno i Pokémon dopo il match. Riposo e cure, quando disponibili, richiedono tempo e attenzione reale."
         }
       ],
       "choices": [
@@ -83,7 +83,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il centro medico può essere raggiunto come servizio del mondo, ma questa scena non modifica direttamente lo stato Pokémon. Il costo in tempo resta reale."
+          "text": "Alla clinica il personale può indicare trattamenti e costi. Chiedere informazioni non equivale ad aver già curato qualcuno."
         }
       ],
       "choices": [
@@ -103,7 +103,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Allenarsi è possibile, ma non esiste una ricompensa automatica per aver scelto la parola 'training'. Ogni ora spesa riduce la finestra prima del Matchday 2."
+          "text": "La sala allenamento è aperta. Puoi dedicarvi tempo, ma i miglioramenti richiedono esercizio e il prossimo incontro si avvicina."
         }
       ],
       "choices": [
@@ -123,7 +123,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Media e sponsor reagiscono al risultato reale del primo Matchday. La postura pubblica può creare callback, non punti né guarigione."
+          "text": "Un giornalista ti chiede del primo risultato. Puoi rispondere oppure concentrarti sulla squadra; i punti sono già sul tabellone."
         }
       ],
       "choices": [
@@ -155,7 +155,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Gli altri gruppi continuano mentre ti occupi del tuo. Vittorie, sconfitte e carriere NPC non vengono congelate finché non le guardi."
+          "text": "Negli altri gironi le partite proseguono. Un amico potrebbe aver vinto o perso senza averti ancora scritto."
         }
       ],
       "choices": [
@@ -180,7 +180,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La classifica dopo il Matchday 1 è provvisoria. I punti arrivano da E5; una posizione momentanea non equivale né a qualificazione né a eliminazione."
+          "text": "Dopo la prima giornata la classifica è provvisoria. Non basta essere momentaneamente primo per avere già un posto negli ottavi."
         }
       ],
       "choices": [
@@ -200,7 +200,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Nel Village puoi raggiungere aree di recupero, training e socialità senza che gli NPC vengano teletrasportati verso di te."
+          "text": "Puoi passare dalla zona recupero, dagli allenamenti o dalle aree comuni del Village. Nessuno è garantito nello stesso luogo alla tua ora."
         }
       ],
       "choices": [
@@ -220,7 +220,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Lasciare passare tempo è una scelta vera: schedule, quest e Living World continuano. Il Matchday 2 non si resetta se aspetti."
+          "text": "Aspettare fa trascorrere un'ora. I turni del personale e gli appuntamenti degli altri allenatori continuano a cambiare."
         }
       ],
       "choices": [
@@ -241,7 +241,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Prima di chiudere l'interday controlli ciò che il primo match ha consumato. Nessuna variabile di squadra viene riscritta da questo blocco."
+          "text": "Prima di proseguire ricontrolli la squadra. Oggetti consumati e ferite del primo match non sono stati cancellati."
         }
       ],
       "choices": [
@@ -261,7 +261,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il tempo trascorso ha conseguenze oltre il player. Kaia, gli amici e gli altri qualificati seguono schedule e risultati propri."
+          "text": "Fra notizie e messaggi vedi che Kaia e gli altri partecipanti hanno giornate proprie, anche lontano dal tuo sguardo."
         }
       ],
       "choices": [
@@ -281,7 +281,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Chiudere l'Interday 1 registra soltanto che hai terminato questa finestra di gestione. Non assegna esiti futuri al Matchday 2."
+          "text": "Chiudi gli appunti della prima giornata. La seconda partita rimane da affrontare, con tutti i risultati precedenti al loro posto."
         }
       ],
       "choices": [
@@ -308,7 +308,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'Interday 1 è chiuso. Kaia può entrare nel prossimo thread soltanto se il suo stato World e il suo schedule rendono l'incontro plausibile."
+          "text": "La finestra fra le prime due partite si chiude. Potresti ancora incrociare Kaia, se i vostri impegni vi porteranno davvero nello stesso luogo."
         }
       ],
       "choices": [

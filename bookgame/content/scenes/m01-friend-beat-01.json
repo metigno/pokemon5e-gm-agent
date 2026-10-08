@@ -10,11 +10,11 @@
       "stitches": [
         {
           "id": "dispatch_exploration_arrival",
-          "text": "L'incrocio nasce dal programma reale di uno degli altri Five, non da una convocazione. Siete nello stesso tratto delle Ginestre per motivi indipendenti."
+          "text": "Sul sentiero delle Ginestre riconosci una voce dietro una curva. Anche uno degli amici è uscito ad esplorare per conto proprio."
         },
         {
           "id": "dispatch_exploration_selector",
-          "text": "Il motore ha già scelto chi è davvero presente qui in base a schedule, posizione, compatibilità dell'attività, risultato recente e relazione."
+          "text": "Vi incontrate accanto al muretto, mentre un Pokémon selvatico attraversa l'erba e sparisce prima che possiate avvicinarvi."
         }
       ],
       "choices": [
@@ -69,11 +69,11 @@
       "stitches": [
         {
           "id": "dispatch_farm_arrival",
-          "text": "L'incrocio nasce dal programma reale di uno degli altri Five, non da una convocazione. Siete alla Fattoria del Vento mentre il lavoro continua attorno a voi."
+          "text": "Alla Fattoria del Vento qualcuno chiama il tuo nome sopra il rumore del lavoro."
         },
         {
           "id": "dispatch_farm_selector",
-          "text": "Il motore ha già scelto chi è davvero presente qui in base a schedule, posizione, compatibilità dell'attività, risultato recente e relazione."
+          "text": "Uno degli amici sta aiutando nei recinti. Prima di parlare dovrete aspettare che i Pokémon smettano di agitarsi."
         }
       ],
       "choices": [
@@ -128,11 +128,11 @@
       "stitches": [
         {
           "id": "dispatch_city_arrival",
-          "text": "L'incrocio nasce dal programma reale di uno degli altri Five, non da una convocazione. Vi incrociate a Valedarsena durante due giornate che non erano state organizzate insieme."
+          "text": "Tra le botteghe di Valedarsena ti arriva una provocazione familiare."
         },
         {
           "id": "dispatch_city_selector",
-          "text": "Il motore ha già scelto chi è davvero presente qui in base a schedule, posizione, compatibilità dell'attività, risultato recente e relazione."
+          "text": "L'amico che hai incrociato ha già un impegno in città; riuscite a scambiare qualche parola senza cambiare i vostri programmi."
         }
       ],
       "choices": [
@@ -187,11 +187,11 @@
       "stitches": [
         {
           "id": "dispatch_arena_arrival",
-          "text": "L'incrocio nasce dal programma reale di uno degli altri Five, non da una convocazione. Siete entrambi all'Arena Civica e il confronto può restare tecnico oppure diventare uno sparring."
+          "text": "Nell'atrio dell'Arena Civica senti una risata conosciuta fra gli annunci degli incontri."
         },
         {
           "id": "dispatch_arena_selector",
-          "text": "Il motore ha già scelto chi è davvero presente qui in base a schedule, posizione, compatibilità dell'attività, risultato recente e relazione."
+          "text": "Un amico è arrivato per allenarsi con il proprio Pokémon. Potete parlare o decidere di sfidarvi sul campo libero."
         }
       ],
       "choices": [
@@ -246,11 +246,11 @@
       "stitches": [
         {
           "id": "exp_luke_voice",
-          "text": "Luke si muove d'istinto e guarda prima la strada che il programma: vuole capire cosa cambia davvero quando si passa dalla teoria al campo."
+          "text": "Luke sorride con aria di sfida. «Scommetto che stavi per scegliere la strada facile. Io no: Growlithe ed io vogliamo vedere quanto regge questo posto.»"
         },
         {
           "id": "exp_luke_context",
-          "text": "Luke sta seguendo il tratto di strada per conto proprio. Potete confrontare osservazioni, percorrere insieme un segmento oppure separarvi subito: nessuna opzione crea un party permanente."
+          "text": "Il sentiero prosegue in due direzioni. Potete farne un tratto insieme, poi ognuno tornerà alla propria strada."
         }
       ],
       "choices": [
@@ -393,11 +393,11 @@
       "stitches": [
         {
           "id": "farm_luke_voice",
-          "text": "Luke si muove d'istinto e guarda prima la strada che il programma: vuole capire cosa cambia davvero quando si passa dalla teoria al campo."
+          "text": "Luke sorride con aria di sfida. «Scommetto che stavi per scegliere la strada facile. Io no: Growlithe ed io vogliamo vedere quanto regge questo posto.»"
         },
         {
           "id": "farm_luke_context",
-          "text": "Luke è qui per un'attività propria. Lavoratori e Pokémon non smettono di muoversi perché vi conoscete: se collaborate, dovete inserirvi nel lavoro reale senza prenderne il controllo."
+          "text": "Il lavoro della Fattoria continua attorno a voi. Potete dare una mano oppure lasciar lavorare chi già se ne occupa."
         }
       ],
       "choices": [
@@ -545,11 +545,11 @@
       "stitches": [
         {
           "id": "city_luke_voice",
-          "text": "Luke si muove d'istinto e guarda prima la strada che il programma: vuole capire cosa cambia davvero quando si passa dalla teoria al campo."
+          "text": "Luke sorride con aria di sfida. «Scommetto che stavi per scegliere la strada facile. Io no: Growlithe ed io vogliamo vedere quanto regge questo posto.»"
         },
         {
           "id": "city_luke_context",
-          "text": "Luke ha già un proprio programma a Valedarsena. Il fatto che vi siate incontrati non significa che debba seguirti al prossimo nodo."
+          "text": "Gli orari di Valedarsena non aspettano la fine delle vostre battute. Dopo il saluto tornerete ai rispettivi impegni."
         }
       ],
       "choices": [
@@ -691,11 +691,11 @@
       "stitches": [
         {
           "id": "arena_luke_voice",
-          "text": "Luke si muove d'istinto e guarda prima la strada che il programma: vuole capire cosa cambia davvero quando si passa dalla teoria al campo."
+          "text": "Luke sorride con aria di sfida. «Scommetto che stavi per scegliere la strada facile. Io no: Growlithe ed io vogliamo vedere quanto regge questo posto.»"
         },
         {
           "id": "arena_luke_context",
-          "text": "Luke è all'Arena con Growlithe. Potete parlare di tecnica oppure fare uno sparring 1v1. Se combattete, nessun risultato è deciso dalla scena."
+          "text": "Growlithe è pronto vicino al campo. Uno sparring uno contro uno è possibile, ma soltanto se scegliete davvero di combattere."
         }
       ],
       "choices": [
@@ -813,7 +813,7 @@
       "stitches": [
         {
           "id": "spar_luke_pending",
-          "text": "Lo sparring con Luke passa al resolver Pokémon 5e. Vengono usati il tuo roster reale e il suo Ace rookie canonico, senza buff o risultato scritto in anticipo."
+          "text": "L'arbitro vi indica il campo. Growlithe prende posizione davanti al tuo Pokémon; al segnale lo sparring comincia."
         }
       ],
       "choices": []
@@ -822,7 +822,7 @@
       "stitches": [
         {
           "id": "spar_luke_win_text",
-          "text": "Lo sparring contro Luke finisce a tuo favore. Il risultato resta quello prodotto dal combattimento, non una prova di superiorità permanente."
+          "text": "Luke si stringe nelle spalle dopo la sconfitta, poi guarda Growlithe. «La prossima volta ti toccherà faticare di più. Non cambio squadra per uno sparring perso.»"
         }
       ],
       "choices": [
@@ -876,7 +876,7 @@
       "stitches": [
         {
           "id": "spar_luke_loss_text",
-          "text": "Lo sparring contro Luke finisce a suo favore. La sconfitta non blocca il modulo e non cambia retroattivamente il vostro rapporto."
+          "text": "Luke festeggia la vittoria con Growlithe e ti lancia un'occhiata soddisfatta. «Visto? Non avevamo bisogno dei consigli di nessuno.»"
         }
       ],
       "choices": [
@@ -930,11 +930,11 @@
       "stitches": [
         {
           "id": "exp_mattew_voice",
-          "text": "Mattew prende nota dei dettagli e confronta tempi e sequenze. Non gli interessa sembrare preparato: vuole ridurre gli errori evitabili."
+          "text": "Mattew controlla come Eevee appoggia le zampe. «Puoi chiamarlo allenamento noioso, se vuoi. Io lo chiamo non dover improvvisare ogni volta che qualcosa va storto.»"
         },
         {
           "id": "exp_mattew_context",
-          "text": "Mattew sta seguendo il tratto di strada per conto proprio. Potete confrontare osservazioni, percorrere insieme un segmento oppure separarvi subito: nessuna opzione crea un party permanente."
+          "text": "Il sentiero prosegue in due direzioni. Potete farne un tratto insieme, poi ognuno tornerà alla propria strada."
         }
       ],
       "choices": [
@@ -1077,11 +1077,11 @@
       "stitches": [
         {
           "id": "farm_mattew_voice",
-          "text": "Mattew prende nota dei dettagli e confronta tempi e sequenze. Non gli interessa sembrare preparato: vuole ridurre gli errori evitabili."
+          "text": "Mattew controlla come Eevee appoggia le zampe. «Puoi chiamarlo allenamento noioso, se vuoi. Io lo chiamo non dover improvvisare ogni volta che qualcosa va storto.»"
         },
         {
           "id": "farm_mattew_context",
-          "text": "Mattew è qui per un'attività propria. Lavoratori e Pokémon non smettono di muoversi perché vi conoscete: se collaborate, dovete inserirvi nel lavoro reale senza prenderne il controllo."
+          "text": "Il lavoro della Fattoria continua attorno a voi. Potete dare una mano oppure lasciar lavorare chi già se ne occupa."
         }
       ],
       "choices": [
@@ -1229,11 +1229,11 @@
       "stitches": [
         {
           "id": "city_mattew_voice",
-          "text": "Mattew prende nota dei dettagli e confronta tempi e sequenze. Non gli interessa sembrare preparato: vuole ridurre gli errori evitabili."
+          "text": "Mattew controlla come Eevee appoggia le zampe. «Puoi chiamarlo allenamento noioso, se vuoi. Io lo chiamo non dover improvvisare ogni volta che qualcosa va storto.»"
         },
         {
           "id": "city_mattew_context",
-          "text": "Mattew ha già un proprio programma a Valedarsena. Il fatto che vi siate incontrati non significa che debba seguirti al prossimo nodo."
+          "text": "Gli orari di Valedarsena non aspettano la fine delle vostre battute. Dopo il saluto tornerete ai rispettivi impegni."
         }
       ],
       "choices": [
@@ -1375,11 +1375,11 @@
       "stitches": [
         {
           "id": "arena_mattew_voice",
-          "text": "Mattew prende nota dei dettagli e confronta tempi e sequenze. Non gli interessa sembrare preparato: vuole ridurre gli errori evitabili."
+          "text": "Mattew controlla come Eevee appoggia le zampe. «Puoi chiamarlo allenamento noioso, se vuoi. Io lo chiamo non dover improvvisare ogni volta che qualcosa va storto.»"
         },
         {
           "id": "arena_mattew_context",
-          "text": "Mattew è all'Arena con Eevee. Potete parlare di tecnica oppure fare uno sparring 1v1. Se combattete, nessun risultato è deciso dalla scena."
+          "text": "Eevee è pronto vicino al campo. Uno sparring uno contro uno è possibile, ma soltanto se scegliete davvero di combattere."
         }
       ],
       "choices": [
@@ -1497,7 +1497,7 @@
       "stitches": [
         {
           "id": "spar_mattew_pending",
-          "text": "Lo sparring con Mattew passa al resolver Pokémon 5e. Vengono usati il tuo roster reale e il suo Ace rookie canonico, senza buff o risultato scritto in anticipo."
+          "text": "L'arbitro vi indica il campo. Eevee prende posizione davanti al tuo Pokémon; al segnale lo sparring comincia."
         }
       ],
       "choices": []
@@ -1506,7 +1506,7 @@
       "stitches": [
         {
           "id": "spar_mattew_win_text",
-          "text": "Lo sparring contro Mattew finisce a tuo favore. Il risultato resta quello prodotto dal combattimento, non una prova di superiorità permanente."
+          "text": "Mattew osserva Eevee dopo la sconfitta. «Ora so almeno su cosa dobbiamo lavorare. Non farne subito una leggenda.»"
         }
       ],
       "choices": [
@@ -1560,7 +1560,7 @@
       "stitches": [
         {
           "id": "spar_mattew_loss_text",
-          "text": "Lo sparring contro Mattew finisce a suo favore. La sconfitta non blocca il modulo e non cambia retroattivamente il vostro rapporto."
+          "text": "Mattew accarezza Eevee dopo la vittoria. «Preparazione», dice soddisfatto, poi sorride. «Lo so, è una parola che ti fa paura.»"
         }
       ],
       "choices": [
@@ -1614,11 +1614,11 @@
       "stitches": [
         {
           "id": "exp_daniel_voice",
-          "text": "Daniel osserva più a lungo di quanto parli. Cerca collegamenti, intenzioni e possibilità alternative prima di scegliere una linea."
+          "text": "Daniel si sistema gli appunti, mentre Gastly gli gira intorno. «Prima di decidere, vorrei capire se ciò che stiamo facendo è giusto. E no, non è un modo elegante per perdere tempo.»"
         },
         {
           "id": "exp_daniel_context",
-          "text": "Daniel sta seguendo il tratto di strada per conto proprio. Potete confrontare osservazioni, percorrere insieme un segmento oppure separarvi subito: nessuna opzione crea un party permanente."
+          "text": "Il sentiero prosegue in due direzioni. Potete farne un tratto insieme, poi ognuno tornerà alla propria strada."
         }
       ],
       "choices": [
@@ -1761,11 +1761,11 @@
       "stitches": [
         {
           "id": "farm_daniel_voice",
-          "text": "Daniel osserva più a lungo di quanto parli. Cerca collegamenti, intenzioni e possibilità alternative prima di scegliere una linea."
+          "text": "Daniel si sistema gli appunti, mentre Gastly gli gira intorno. «Prima di decidere, vorrei capire se ciò che stiamo facendo è giusto. E no, non è un modo elegante per perdere tempo.»"
         },
         {
           "id": "farm_daniel_context",
-          "text": "Daniel è qui per un'attività propria. Lavoratori e Pokémon non smettono di muoversi perché vi conoscete: se collaborate, dovete inserirvi nel lavoro reale senza prenderne il controllo."
+          "text": "Il lavoro della Fattoria continua attorno a voi. Potete dare una mano oppure lasciar lavorare chi già se ne occupa."
         }
       ],
       "choices": [
@@ -1913,11 +1913,11 @@
       "stitches": [
         {
           "id": "city_daniel_voice",
-          "text": "Daniel osserva più a lungo di quanto parli. Cerca collegamenti, intenzioni e possibilità alternative prima di scegliere una linea."
+          "text": "Daniel si sistema gli appunti, mentre Gastly gli gira intorno. «Prima di decidere, vorrei capire se ciò che stiamo facendo è giusto. E no, non è un modo elegante per perdere tempo.»"
         },
         {
           "id": "city_daniel_context",
-          "text": "Daniel ha già un proprio programma a Valedarsena. Il fatto che vi siate incontrati non significa che debba seguirti al prossimo nodo."
+          "text": "Gli orari di Valedarsena non aspettano la fine delle vostre battute. Dopo il saluto tornerete ai rispettivi impegni."
         }
       ],
       "choices": [
@@ -2059,11 +2059,11 @@
       "stitches": [
         {
           "id": "arena_daniel_voice",
-          "text": "Daniel osserva più a lungo di quanto parli. Cerca collegamenti, intenzioni e possibilità alternative prima di scegliere una linea."
+          "text": "Daniel si sistema gli appunti, mentre Gastly gli gira intorno. «Prima di decidere, vorrei capire se ciò che stiamo facendo è giusto. E no, non è un modo elegante per perdere tempo.»"
         },
         {
           "id": "arena_daniel_context",
-          "text": "Daniel è all'Arena con Gastly. Potete parlare di tecnica oppure fare uno sparring 1v1. Se combattete, nessun risultato è deciso dalla scena."
+          "text": "Gastly è pronto vicino al campo. Uno sparring uno contro uno è possibile, ma soltanto se scegliete davvero di combattere."
         }
       ],
       "choices": [
@@ -2181,7 +2181,7 @@
       "stitches": [
         {
           "id": "spar_daniel_pending",
-          "text": "Lo sparring con Daniel passa al resolver Pokémon 5e. Vengono usati il tuo roster reale e il suo Ace rookie canonico, senza buff o risultato scritto in anticipo."
+          "text": "L'arbitro vi indica il campo. Gastly prende posizione davanti al tuo Pokémon; al segnale lo sparring comincia."
         }
       ],
       "choices": []
@@ -2190,7 +2190,7 @@
       "stitches": [
         {
           "id": "spar_daniel_win_text",
-          "text": "Lo sparring contro Daniel finisce a tuo favore. Il risultato resta quello prodotto dal combattimento, non una prova di superiorità permanente."
+          "text": "Daniel accetta il risultato e lo annota senza protestare. «Ho sbagliato una scelta. Non ho bisogno di riscriverla per correggerla.»"
         }
       ],
       "choices": [
@@ -2244,7 +2244,7 @@
       "stitches": [
         {
           "id": "spar_daniel_loss_text",
-          "text": "Lo sparring contro Daniel finisce a suo favore. La sconfitta non blocca il modulo e non cambia retroattivamente il vostro rapporto."
+          "text": "Daniel annuisce dopo la vittoria. «Una buona decisione non rende giuste tutte quelle precedenti. Però questa la rivendico.»"
         }
       ],
       "choices": [
@@ -2298,11 +2298,11 @@
       "stitches": [
         {
           "id": "exp_edward_voice",
-          "text": "Edward preferisce fare esperienza direttamente. Se c'è qualcosa da provare sul campo, tende a smettere presto di discuterne in astratto."
+          "text": "Edward arriva con Totodile già carico di energia. «Guarda che stile! Se combattiamo voglio che si ricordino almeno un colpo. Non mi importa se qualcuno storce il naso.»"
         },
         {
           "id": "exp_edward_context",
-          "text": "Edward sta seguendo il tratto di strada per conto proprio. Potete confrontare osservazioni, percorrere insieme un segmento oppure separarvi subito: nessuna opzione crea un party permanente."
+          "text": "Il sentiero prosegue in due direzioni. Potete farne un tratto insieme, poi ognuno tornerà alla propria strada."
         }
       ],
       "choices": [
@@ -2445,11 +2445,11 @@
       "stitches": [
         {
           "id": "farm_edward_voice",
-          "text": "Edward preferisce fare esperienza direttamente. Se c'è qualcosa da provare sul campo, tende a smettere presto di discuterne in astratto."
+          "text": "Edward arriva con Totodile già carico di energia. «Guarda che stile! Se combattiamo voglio che si ricordino almeno un colpo. Non mi importa se qualcuno storce il naso.»"
         },
         {
           "id": "farm_edward_context",
-          "text": "Edward è qui per un'attività propria. Lavoratori e Pokémon non smettono di muoversi perché vi conoscete: se collaborate, dovete inserirvi nel lavoro reale senza prenderne il controllo."
+          "text": "Il lavoro della Fattoria continua attorno a voi. Potete dare una mano oppure lasciar lavorare chi già se ne occupa."
         }
       ],
       "choices": [
@@ -2597,11 +2597,11 @@
       "stitches": [
         {
           "id": "city_edward_voice",
-          "text": "Edward preferisce fare esperienza direttamente. Se c'è qualcosa da provare sul campo, tende a smettere presto di discuterne in astratto."
+          "text": "Edward arriva con Totodile già carico di energia. «Guarda che stile! Se combattiamo voglio che si ricordino almeno un colpo. Non mi importa se qualcuno storce il naso.»"
         },
         {
           "id": "city_edward_context",
-          "text": "Edward ha già un proprio programma a Valedarsena. Il fatto che vi siate incontrati non significa che debba seguirti al prossimo nodo."
+          "text": "Gli orari di Valedarsena non aspettano la fine delle vostre battute. Dopo il saluto tornerete ai rispettivi impegni."
         }
       ],
       "choices": [
@@ -2743,11 +2743,11 @@
       "stitches": [
         {
           "id": "arena_edward_voice",
-          "text": "Edward preferisce fare esperienza direttamente. Se c'è qualcosa da provare sul campo, tende a smettere presto di discuterne in astratto."
+          "text": "Edward arriva con Totodile già carico di energia. «Guarda che stile! Se combattiamo voglio che si ricordino almeno un colpo. Non mi importa se qualcuno storce il naso.»"
         },
         {
           "id": "arena_edward_context",
-          "text": "Edward è all'Arena con Totodile. Potete parlare di tecnica oppure fare uno sparring 1v1. Se combattete, nessun risultato è deciso dalla scena."
+          "text": "Totodile è pronto vicino al campo. Uno sparring uno contro uno è possibile, ma soltanto se scegliete davvero di combattere."
         }
       ],
       "choices": [
@@ -2865,7 +2865,7 @@
       "stitches": [
         {
           "id": "spar_edward_pending",
-          "text": "Lo sparring con Edward passa al resolver Pokémon 5e. Vengono usati il tuo roster reale e il suo Ace rookie canonico, senza buff o risultato scritto in anticipo."
+          "text": "L'arbitro vi indica il campo. Totodile prende posizione davanti al tuo Pokémon; al segnale lo sparring comincia."
         }
       ],
       "choices": []
@@ -2874,7 +2874,7 @@
       "stitches": [
         {
           "id": "spar_edward_win_text",
-          "text": "Lo sparring contro Edward finisce a tuo favore. Il risultato resta quello prodotto dal combattimento, non una prova di superiorità permanente."
+          "text": "Edward ride della sconfitta mentre Totodile protesta. «Va bene, questa te la concedo. Ma la prossima sarà molto più rumorosa.»"
         }
       ],
       "choices": [
@@ -2928,7 +2928,7 @@
       "stitches": [
         {
           "id": "spar_edward_loss_text",
-          "text": "Lo sparring contro Edward finisce a suo favore. La sconfitta non blocca il modulo e non cambia retroattivamente il vostro rapporto."
+          "text": "Edward si inchina teatralmente alla fine dello sparring. «Un incontro con stile, te l'avevo detto.» Totodile sembra d'accordo."
         }
       ],
       "choices": [
@@ -2982,11 +2982,11 @@
       "stitches": [
         {
           "id": "exp_fab_voice",
-          "text": "Fab resta paziente e vicino al proprio Pokémon. Non ha fretta di forzare una situazione se può capirla e gestirla un passo alla volta."
+          "text": "Fab si china per recuperare Koffing, che stava già curiosando in qualcosa che non doveva. «Stiamo facendo progressi. Oggi non ha ancora rubato niente.»"
         },
         {
           "id": "exp_fab_context",
-          "text": "Fab sta seguendo il tratto di strada per conto proprio. Potete confrontare osservazioni, percorrere insieme un segmento oppure separarvi subito: nessuna opzione crea un party permanente."
+          "text": "Il sentiero prosegue in due direzioni. Potete farne un tratto insieme, poi ognuno tornerà alla propria strada."
         }
       ],
       "choices": [
@@ -3129,11 +3129,11 @@
       "stitches": [
         {
           "id": "farm_fab_voice",
-          "text": "Fab resta paziente e vicino al proprio Pokémon. Non ha fretta di forzare una situazione se può capirla e gestirla un passo alla volta."
+          "text": "Fab si china per recuperare Koffing, che stava già curiosando in qualcosa che non doveva. «Stiamo facendo progressi. Oggi non ha ancora rubato niente.»"
         },
         {
           "id": "farm_fab_context",
-          "text": "Fab è qui per un'attività propria. Lavoratori e Pokémon non smettono di muoversi perché vi conoscete: se collaborate, dovete inserirvi nel lavoro reale senza prenderne il controllo."
+          "text": "Il lavoro della Fattoria continua attorno a voi. Potete dare una mano oppure lasciar lavorare chi già se ne occupa."
         }
       ],
       "choices": [
@@ -3281,11 +3281,11 @@
       "stitches": [
         {
           "id": "city_fab_voice",
-          "text": "Fab resta paziente e vicino al proprio Pokémon. Non ha fretta di forzare una situazione se può capirla e gestirla un passo alla volta."
+          "text": "Fab si china per recuperare Koffing, che stava già curiosando in qualcosa che non doveva. «Stiamo facendo progressi. Oggi non ha ancora rubato niente.»"
         },
         {
           "id": "city_fab_context",
-          "text": "Fab ha già un proprio programma a Valedarsena. Il fatto che vi siate incontrati non significa che debba seguirti al prossimo nodo."
+          "text": "Gli orari di Valedarsena non aspettano la fine delle vostre battute. Dopo il saluto tornerete ai rispettivi impegni."
         }
       ],
       "choices": [
@@ -3427,11 +3427,11 @@
       "stitches": [
         {
           "id": "arena_fab_voice",
-          "text": "Fab resta paziente e vicino al proprio Pokémon. Non ha fretta di forzare una situazione se può capirla e gestirla un passo alla volta."
+          "text": "Fab si china per recuperare Koffing, che stava già curiosando in qualcosa che non doveva. «Stiamo facendo progressi. Oggi non ha ancora rubato niente.»"
         },
         {
           "id": "arena_fab_context",
-          "text": "Fab è all'Arena con Koffing. Potete parlare di tecnica oppure fare uno sparring 1v1. Se combattete, nessun risultato è deciso dalla scena."
+          "text": "Koffing è pronto vicino al campo. Uno sparring uno contro uno è possibile, ma soltanto se scegliete davvero di combattere."
         }
       ],
       "choices": [
@@ -3549,7 +3549,7 @@
       "stitches": [
         {
           "id": "spar_fab_pending",
-          "text": "Lo sparring con Fab passa al resolver Pokémon 5e. Vengono usati il tuo roster reale e il suo Ace rookie canonico, senza buff o risultato scritto in anticipo."
+          "text": "L'arbitro vi indica il campo. Koffing prende posizione davanti al tuo Pokémon; al segnale lo sparring comincia."
         }
       ],
       "choices": []
@@ -3558,7 +3558,7 @@
       "stitches": [
         {
           "id": "spar_fab_win_text",
-          "text": "Lo sparring contro Fab finisce a tuo favore. Il risultato resta quello prodotto dal combattimento, non una prova di superiorità permanente."
+          "text": "Fab controlla che Koffing stia bene dopo la sconfitta. «Pazienza. Ci siamo divertiti, almeno finché non hai deciso di vincere.»"
         }
       ],
       "choices": [
@@ -3612,7 +3612,7 @@
       "stitches": [
         {
           "id": "spar_fab_loss_text",
-          "text": "Lo sparring contro Fab finisce a suo favore. La sconfitta non blocca il modulo e non cambia retroattivamente il vostro rapporto."
+          "text": "Fab guarda Koffing quasi stupito dalla vittoria. «Ehi, hai visto? Noi due sappiamo fare anche questo!»"
         }
       ],
       "choices": [

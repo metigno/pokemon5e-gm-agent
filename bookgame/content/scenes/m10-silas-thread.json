@@ -22,7 +22,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Silas Crowe viene trattato come un partecipante reale del Mondiale: il thread parte dal suo stato nel Top16 e non gli assegna automaticamente un incontro col player."
+          "text": "Il nome di Silas Crowe torna nei resoconti degli ottavi. Nelle immagini della sua ultima gara sorride appena, mentre gli altri allenatori cercano di capire da dove arriverà la pressione successiva."
         }
       ],
       "choices": [
@@ -47,7 +47,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il pubblico lo descrive come un trainer che punisce esitazioni e turni passivi. È informazione di stile, non accesso a mosse o dati segreti."
+          "text": "Un commentatore descrive Silas come un allenatore che non perdona un'esitazione. È un'impressione nata dalle partite viste, non il segreto del suo prossimo piano."
         }
       ],
       "choices": [
@@ -67,7 +67,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La sua qualificazione pre-World non vale come protezione: soltanto il Top16 E5 decide se Silas è ancora in gara in M10."
+          "text": "Il tabellone degli ottavi mostra se Silas è ancora in corsa. I pronostici fatti prima del Mondiale non possono riportarlo in gara se è stato eliminato."
         }
       ],
       "choices": [
@@ -87,7 +87,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se Silas è nel Top16 ha un match R16 reale; se è fuori, il torneo prosegue senza reinserirlo. Se è il tuo avversario, lo determina il pairing e basta."
+          "text": "Controlli in quale coppia è inserito Silas, se compare ancora tra i sedici. Il tuo incontro con lui dipenderà dal tabellone, non dalla sua reputazione."
         }
       ],
       "choices": [
@@ -107,7 +107,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un incontro personale richiede che Silas sia ancora nel Top16 e che il suo schedule E4 lo collochi realmente nel venue. Altrimenti resta soltanto il contesto pubblico."
+          "text": "Un incontro di persona è possibile soltanto se Silas è ancora presente nel torneo e vi trovate davvero nello stesso settore. Altrimenti resta la sua immagine sugli schermi."
         }
       ],
       "choices": [
@@ -166,7 +166,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Silas costruisce pressione mentale: concede poco tempo, forza decisioni rapide e considera l'inazione una risorsa dell'avversario."
+          "text": "Silas si sofferma sulla parola «prudenza» come se fosse un'offesa da valutare. «C'è un momento per aspettare», dice. «Il problema è riconoscerlo prima che io decida per te.»"
         }
       ],
       "choices": [
@@ -186,7 +186,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il suo vantaggio narrativo non è un bonus statistico. In battaglia valgono soltanto Pokémon 5e, roster reale, azioni legali e decisioni effettive."
+          "text": "Non rivela ciò che preparerà. Ti lascia invece con una domanda: «Quanto del tuo piano sopravvive al primo turno che va storto?»"
         }
       ],
       "choices": [
@@ -206,7 +206,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un turno prudente può essere corretto oppure costoso: il modulo non trasforma lo stile di Silas in una penalità automatica per il player."
+          "text": "«Un passo indietro può salvarti», ammette Silas. «Due, se non sai perché li fai, diventano un invito.» La provocazione non è una regola: è il modo in cui cerca di farti reagire."
         }
       ],
       "choices": [
@@ -226,7 +226,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se lo incontri, la relazione è persistente e può cambiare il tono futuro. Non cambia il bracket né il risultato del suo match."
+          "text": "Silas registra il tono della tua risposta. Un confronto può lasciare rispetto o irritazione, ma quando si gioca nessuna parola sostituisce una scelta."
         }
       ],
       "choices": [
@@ -246,7 +246,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "competition.world.knockout.silasIsPlayerOpponent è una conseguenza del bracket. Se è falso, il testo non crea un duello; se è vero, M10_03 userà quel pairing."
+          "text": "Se il tabellone vi oppone davvero, Silas abbassa la voce. «Allora vediamo quanto resta della tua preparazione quando comincia il rumore.»"
         }
       ],
       "choices": [
@@ -266,7 +266,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il venue è condiviso da più ottavi, ma condividere l'arena non significa che due trainer debbano incontrarsi. Lo schedule resta il gate causale."
+          "text": "Nell'area comune passano molti allenatori. Condividere il corridoio non obbliga nessuno a fermarsi per una conversazione."
         }
       ],
       "choices": [
@@ -286,7 +286,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Silas non prova a impressionarti. Ti chiede soltanto quanto del tuo piano resterà in piedi quando un singolo errore significherà eliminazione."
+          "text": "Silas ti squadra un momento e sorride senza calore. «Mi dicono che hai un piano. Ottimo. Sarà più interessante vedere che cosa farai quando te ne rimane metà.»"
         }
       ],
       "choices": [
@@ -306,7 +306,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Non c'è bisogno di inventare una conversazione. Il suo risultato, o la sua assenza dal Top16, resta comunque parte del World state visibile."
+          "text": "Non incontrando Silas, rimani con le sole notizie disponibili e i suoi risultati ufficiali. Non devi inventare una frase che non ti ha rivolto."
         }
       ],
       "choices": [
@@ -326,7 +326,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il thread può chiudersi con o senza incontro personale. L'unico requisito è non aver spostato Silas, non aver cambiato il bracket e aver conservato il suo stato reale."
+          "text": "La conversazione, se avvenuta, termina senza risolvere alcun incontro. Silas torna al proprio programma."
         }
       ],
       "choices": [
@@ -353,7 +353,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il bracket è intatto e il thread di Silas è chiuso. Ora la preparazione all'ottavo deve leggere il roster reale lasciato dai gironi."
+          "text": "Gli ottavi sono davanti a te. Il tuo avversario sarà quello segnato sul tabellone, con i Pokémon che potrà davvero schierare."
         }
       ],
       "choices": [

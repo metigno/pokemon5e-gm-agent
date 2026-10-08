@@ -14,7 +14,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il viaggio verso Asteria comincia dal luogo in cui la tua stagione si è davvero fermata. Nessun teletrasporto narrativo cancella il tempo del rientro."
+          "text": "Il viaggio di ritorno comincia dove si è fermata la tua stagione. Fuori dalla stazione gli allenatori continuano ad andare e venire, ognuno con la propria destinazione."
         }
       ],
       "choices": [
@@ -39,7 +39,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Biglietti, trasferimenti e attese fanno avanzare il calendario mentre il mondo continua a muoversi."
+          "text": "Il tabellone delle partenze cambia mentre controlli biglietti e bagagli. Per tornare a casa servono trasferimenti e attese vere."
         }
       ],
       "choices": [
@@ -59,7 +59,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il tempo di viaggio è tempo di gioco: schedule NPC, quest residue e Living World restano attivi."
+          "text": "Dal finestrino scorrono strade e campi. Il tempo passa anche per chi non viaggia con te: qualcuno termina un turno, qualcun altro parte."
         }
       ],
       "choices": [
@@ -81,7 +81,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La notorietà del ritorno dipende dal percorso reale, non da una reputazione globale sostitutiva di tutte le altre."
+          "text": "Fra i passeggeri c'è chi riconosce il tuo volto e chi è troppo occupato per accorgersene. Il tuo risultato non racconta tutto ciò che sanno di te."
         }
       ],
       "choices": [
@@ -139,7 +139,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un campione del mondo viene riconosciuto più spesso, ma non ottiene automaticamente fiducia in luoghi dove ha lasciato problemi irrisolti."
+          "text": "Alcuni viaggiatori guardano la coppa e ti chiedono della finale. Non sai se, arrivato a casa, gli stessi applausi ti aspettino da chi ricorda altri episodi della tua carriera."
         }
       ],
       "choices": [
@@ -159,7 +159,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un eliminato al Mondiale torna con un risultato pubblico preciso e con tutto ciò che aveva costruito prima della sconfitta."
+          "text": "Qualcuno cita la partita che ti ha eliminato; altri ricordano piuttosto quanto lontano eri arrivato. Nessuna opinione modifica il risultato."
         }
       ],
       "choices": [
@@ -179,7 +179,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Chi ha mancato il Mondiale torna comunque da professionista con Rank, relazioni e storia locale intatti."
+          "text": "Sei tornato senza aver giocato il Mondiale. Chi ti conosce come allenatore può avere domande sul perché; i rapporti nati prima della qualificazione non scompaiono."
         }
       ],
       "choices": [
@@ -199,7 +199,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Durante il viaggio la squadra non viene curata per script. Qualunque recupero futuro dovrà passare dai sistemi esistenti."
+          "text": "Nello scompartimento sistemi le Poké Ball con attenzione. Il viaggio da solo non cura una ferita né restituisce le energie consumate in battaglia."
         }
       ],
       "choices": [
@@ -219,7 +219,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "E5 conserva l'edizione mondiale; M12 la consulta ma non la ricrea."
+          "text": "Un notiziario ripropone le immagini dell'ultima edizione mondiale. Il campione rimane quello annunciato sul campo, che tu abbia partecipato o no."
         }
       ],
       "choices": [
@@ -239,7 +239,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Asteria riappare come un mondo già conosciuto e trasformato dal tempo trascorso."
+          "text": "Le prime indicazioni per Asteria appaiono lungo la strada. Riconosci i paesaggi, ma non sai ancora che cosa sia cambiato durante la tua assenza."
         }
       ],
       "choices": [
@@ -259,7 +259,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il rientro porta a Valedarsena, primo nodo dei callback locali."
+          "text": "Quando arrivi a Valedarsena, il viavai della città ti accoglie senza fermarsi. Da qui puoi ripercorrere luoghi già conosciuti."
         }
       ],
       "choices": [
@@ -279,7 +279,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il ritorno viene registrato una sola volta con il contesto di reputazione già derivato dal percorso."
+          "text": "L'addetto controlla il titolo di viaggio e ti lascia passare. Metti piede ad Asteria con la stessa squadra con cui sei partito."
         }
       ],
       "choices": [
@@ -318,7 +318,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Sei di nuovo ad Asteria. Il prossimo passo è vedere cosa è diventata Valedarsena dopo tutto quello che è successo."
+          "text": "Sei di nuovo a Valedarsena. Il prossimo incontro non sarà una cerimonia: sarà con il mondo che hai lasciato andare avanti."
         }
       ],
       "choices": [

@@ -34,7 +34,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il risultato del Qualifier viene classificato soltanto a partire dalla lane realmente risolta. Qui non si combatte e non si corregge il bracket."
+          "text": "Dopo gli incontri torni al grande tabellone del Qualifier. Il personale aggiorna i risultati davanti a tutti i partecipanti."
         }
       ],
       "choices": [
@@ -59,7 +59,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La lane ammette tre esiti narrativi: qualificato, eliminato al Round 1, eliminato nel Qualifying Match."
+          "text": "Sul registro puoi vedere se hai conquistato il posto mondiale, perso al primo turno oppure raggiunto senza successo la partita decisiva."
         }
       ],
       "choices": [
@@ -96,7 +96,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Due vittorie ufficiali nella lane soddisfano la condizione di qualificazione di questa istanza. Non sono sponsor, Rank o reputazione a produrre l'esito."
+          "text": "Hai vinto entrambe le partite della selezione. L'addetta prepara il documento che conferma il posto conquistato al Mondiale."
         }
       ],
       "choices": [
@@ -121,7 +121,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La sconfitta nel primo match chiude il percorso principale. La classificazione conserva il punto esatto di eliminazione."
+          "text": "La sconfitta al primo turno è accanto al tuo nome. L'avversario è passato avanti; la tua prima corsa si chiude qui."
         }
       ],
       "choices": [
@@ -148,7 +148,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Hai superato il primo match ma perso quello decisivo. La qualificazione non viene concessa per essere arrivato vicino."
+          "text": "Hai superato un avversario, ma il secondo incontro ti ha fermato. Arrivare vicino alla qualificazione non equivale a conquistarla."
         }
       ],
       "choices": [
@@ -175,7 +175,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "competition.history resta la fonte del risultato dei combattimenti. I flag di modulo classificano soltanto quale ramo è ormai legale."
+          "text": "I referti mostrano incontri, avversari e verdetti. Non puoi cambiare una sconfitta correggendo il racconto che ne fai."
         }
       ],
       "choices": [
@@ -200,7 +200,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "world_qualified può diventare true soltanto dopo una lane realmente vinta. Rank S e registrazione, da soli, non soddisfano il gate."
+          "text": "L'accredito mondiale viene consegnato soltanto a chi ha vinto il percorso previsto. Una buona licenza non sostituisce le due vittorie."
         }
       ],
       "choices": [
@@ -224,7 +224,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Cynthia non protegge il risultato. Il suo metodo può cambiare la lettura del percorso, non il bracket."
+          "text": "Se ripensi a Cynthia, forse consideri quali risorse sono rimaste e quali hai speso. Il suo consiglio non muta il tabellone."
         }
       ],
       "choices": [
@@ -244,7 +244,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'amico del Friend Beat può essere avanti, indietro o fuori. Il tuo risultato non viene sincronizzato al suo."
+          "text": "Un amico può averti scritto dopo la gara. La sua stagione può essere più fortunata, meno fortunata o semplicemente diversa dalla tua."
         }
       ],
       "choices": [
@@ -264,7 +264,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Media e sponsor reagiscono al risultato reale. Nessun contratto modifica il fatto che il bracket sia stato vinto o perso."
+          "text": "Le telecamere chiedono un commento al verdetto. Le tue parole saranno pubbliche; il risultato è già stato registrato."
         }
       ],
       "choices": [
@@ -284,7 +284,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La registrazione finale trasforma il risultato reale in stato mondiale persistente."
+          "text": "Un funzionario controlla i referti e firma l'ammissione al Mondiale. Ora il tuo nome entra fra i partecipanti."
         }
       ],
       "choices": [
@@ -330,7 +330,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'eliminazione principale non viene cancellata. Può soltanto aprire, se previsto, la route finita del Last Chance."
+          "text": "La segretaria archivia l'eliminazione della prima selezione. Se esiste un'ultima possibilità, verrà annunciata separatamente."
         }
       ],
       "choices": [
@@ -367,7 +367,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Last Chance è un evento separato, una sola volta. Non è un replay del World Qualifier e non cancella la sconfitta precedente."
+          "text": "Sulla bacheca compare un avviso per una selezione straordinaria riservata agli aventi diritto. Non ripeterà le partite che hai già giocato."
         }
       ],
       "choices": [
@@ -387,7 +387,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Vittoria o sconfitta diventano pubbliche senza modificatori nascosti. Il player sceglie come reagire, non quale risultato ricordare."
+          "text": "Attorno a te alcuni festeggiano, altri lasciano l'arena in silenzio. Puoi decidere come presentarti agli altri senza essere obbligato a sentirti in un certo modo."
         }
       ],
       "choices": [
@@ -407,7 +407,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Una volta risolto, il risultato non deve duplicare ricompense né riaprire il bracket sulla stessa run."
+          "text": "Il referto porta data, firme e nomi degli arbitri. Una seconda consultazione non cambia quanto è accaduto."
         }
       ],
       "choices": [
@@ -427,7 +427,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La qualificazione è reale e persistente. Il Last Chance non è disponibile per una run già qualificata."
+          "text": "La qualificazione è ufficiale. Un altro tentativo riservato agli esclusi non ti riguarda."
         }
       ],
       "choices": [
@@ -447,7 +447,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La corsa principale è chiusa. Se A7_LAST_CHANCE è disponibile, il prossimo gate potrà aprire quella sola route."
+          "text": "La selezione principale è terminata. Se il tuo nome comparirà nell'ultima convocazione potrai giocare ancora una volta."
         }
       ],
       "choices": [
@@ -467,7 +467,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il risultato resta quello già registrato. Da qui si procede soltanto verso una route legalmente disponibile."
+          "text": "Lasci il tabellone con un esito reale. La prossima strada dipende da quel verdetto."
         }
       ],
       "choices": [

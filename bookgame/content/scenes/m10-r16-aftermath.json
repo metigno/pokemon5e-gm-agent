@@ -26,7 +26,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il risultato del player è già definitivo. Ora E5 deve chiudere gli altri sette ottavi senza cambiare il tuo match."
+          "text": "Il tuo ottavo è finito. Sugli altri campi si disputano ancora partite decisive per stabilire chi raggiungerà i quarti."
         }
       ],
       "choices": [
@@ -51,7 +51,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La risoluzione R16 usa il risultato reale del player e seed deterministico per gli altri match. È idempotente: lo stesso round non viene rigiocato al reload."
+          "text": "Gli ufficiali aggiungono i referti degli altri sette incontri. Il risultato del tuo campo rimane quello già firmato."
         }
       ],
       "choices": [
@@ -90,7 +90,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il tuo match resta source=player_pokemon5e_combat; gli altri riportano source=deterministic_offscreen_world_resolution. Le due fonti non si confondono."
+          "text": "Il tuo nome compare soltanto nell'incontro che hai giocato; gli altri referti appartengono ai rispettivi allenatori."
         }
       ],
       "choices": [
@@ -110,7 +110,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Top8 contiene esattamente i vincitori degli otto R16. Se il player ha perso, il suo avversario occupa quel posto; non esiste ripescaggio."
+          "text": "Ai quarti passano otto vincitori. Se sei stato sconfitto, il posto spetta all'avversario che ti ha eliminato."
         }
       ],
       "choices": [
@@ -130,7 +130,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Round of 16 è chiuso e E5 ha prodotto otto quarterfinalist unici. L'eventuale QF del player deriva ora dai vincitori adiacenti."
+          "text": "Il grande schermo annuncia gli otto rimasti. Ogni nome appare una sola volta."
         }
       ],
       "choices": [
@@ -150,7 +150,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "world_r16_won distingue soltanto due realtà: vittoria e accesso alla linea QF, oppure eliminazione e futuro handoff verso WORLD_EXIT dopo FRIEND_BEAT_10."
+          "text": "Se hai vinto, il prossimo turno ti riguarda ancora. Se hai perso, dovrai seguire gli incontri da fuori."
         }
       ],
       "choices": [
@@ -170,7 +170,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "competition.world.top8 è un lock E5 di otto nomi. Non viene ricostruito dal testo e sopravvive a save/reload."
+          "text": "Sul tabellone dei quarti ora ci sono otto nomi ufficiali. Le posizioni non cambiano perché torni a leggere l'elenco."
         }
       ],
       "choices": [
@@ -195,7 +195,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se il player ha vinto, competition.world.knockout.playerQfOpponent identifica il prossimo avversario dal bracket; se ha perso resta null."
+          "text": "Se sei ancora in gara, puoi osservare il nome del prossimo avversario. Altrimenti quel posto è occupato da chi ti ha battuto."
         }
       ],
       "choices": [
@@ -215,7 +215,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un amico nel Top16 può essere nel Top8, eliminato oppure perfino essere stato il tuo avversario. FRIEND_BEAT_10 userà questo stato reale nel blocco successivo."
+          "text": "Gli amici possono essere fra gli otto o aver terminato il torneo. La vicinanza fra voi non li protegge da una sconfitta."
         }
       ],
       "choices": [
@@ -235,7 +235,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Silas non è protetto: knockout.silasAdvancedToQf deriva dal suo ottavo. Lo stesso principio vale per ogni Anchor ancora nel tabellone."
+          "text": "Anche Silas e gli altri allenatori famosi dipendono dal proprio risultato agli ottavi."
         }
       ],
       "choices": [
@@ -255,7 +255,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il quarto non viene giocato qui. M10_04 deve soltanto lasciare un Top8 coerente, un pairing derivato e tutte le risorse del player intatte."
+          "text": "Il prossimo turno richiede nuova preparazione. Per ora non è stato giocato nessun quarto di finale."
         }
       ],
       "choices": [
@@ -275,7 +275,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Nessun risultato off-screen cura il player. HP, PP, status, inventario e roster restano esattamente quelli usciti dal battle bridge."
+          "text": "Controlli la squadra come è uscita dagli ottavi. I risultati degli altri campi non restituiscono energie ai tuoi Pokémon."
         }
       ],
       "choices": [
@@ -295,7 +295,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M10_00–M10_04 sono chiusi quando bracket, ottavo del player e Top8 sono persistenti. FRIEND_BEAT_10 resta volutamente al ciclo successivo."
+          "text": "La segreteria archivia gli otto referti e prepara i documenti per la fase successiva."
         }
       ],
       "choices": [
@@ -327,7 +327,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il primo ciclo M10 è completo: R16 chiuso, Top8 lockato e nessuna scorciatoia verso QF o WORLD_EXIT è stata creata."
+          "text": "Gli ottavi sono chiusi e il programma dei quarti può essere pubblicato. Prima rimane una conversazione possibile con uno degli amici."
         }
       ],
       "choices": [
@@ -347,7 +347,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il prossimo blocco di produzione sarà FRIEND_BEAT_10 e consumerà questo World state senza riscriverlo."
+          "text": "Cerchi il telefono o qualcuno fra il pubblico. La prossima pausa sarà un'occasione per sentire un amico, senza cambiare i risultati."
         }
       ],
       "choices": [

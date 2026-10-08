@@ -34,7 +34,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il World Qualifier usa una lane a due match in questa istanza: vincere il primo apre il match di qualificazione; perdere chiude il percorso principale."
+          "text": "Il Qualifier ti mette davanti a due incontri. Devi vincere il primo per raggiungere quello decisivo; una sconfitta interrompe il percorso."
         }
       ],
       "choices": [
@@ -59,7 +59,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Entrambi i match sono Singles Official Six ELITE. Non esistono retry interni: una sconfitta passa al risultato e, se previsto, al Last Chance."
+          "text": "L'arbitro espone il regolamento: Singles, sei Pokémon ufficiali, un percorso senza ripetizioni dello stesso turno."
         }
       ],
       "choices": [
@@ -79,7 +79,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La lane mostra Round 1 e Qualifying Match. Il secondo nodo è accessibile solo dopo una vittoria reale nel primo."
+          "text": "Sul tabellone sono segnate due tappe. La seconda resta vuota per te finché non avrai vinto la prima."
         }
       ],
       "choices": [
@@ -104,7 +104,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il roster avversario pubblico è noto, ma ordine, tattiche e decisioni restano coperte. Nessun matchup viene riscritto per favorire la trama."
+          "text": "Gli addetti mostrano i roster registrati. Conoscere le specie degli avversari non significa conoscerne le decisioni future."
         }
       ],
       "choices": [
@@ -124,7 +124,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il primo avversario è registrato nel field reale della lane. Il player deve presentarsi con almeno sei Pokémon nel roster corrente."
+          "text": "Leggi il nome del primo avversario. Prima dell'accesso l'arbitro controllerà che tu possa presentare sei Pokémon."
         }
       ],
       "choices": [
@@ -149,7 +149,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il match parte soltanto se la registrazione è valida, il roster contiene almeno sei Pokémon e non esiste già un risultato Round 1."
+          "text": "All'ingresso la commissione verifica accredito, squadra e orario. Se il match è già stato disputato non puoi ricominciare soltanto per cambiarne il risultato."
         }
       ],
       "choices": [
@@ -181,7 +181,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il controllo passa a Pokémon 5e/E5. Soltanto il resolver decide se la lane continua."
+          "text": "L'arbitro chiama i due allenatori. Il primo scontro comincia quando entrambi si schierano."
         }
       ],
       "choices": [
@@ -251,7 +251,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La vittoria E5 apre il Qualifying Match. Non assegna ancora world_qualified."
+          "text": "La tua vittoria compare sul tabellone e apre la strada alla partita decisiva. Non sei ancora qualificato."
         }
       ],
       "choices": [
@@ -285,7 +285,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La sconfitta E5 chiude la lane principale. Il risultato resta eliminazione Round 1; nessun retry viene creato qui."
+          "text": "Il verdetto del primo turno ti elimina da questa selezione. Non c'è un altro incontro nella stessa corsa."
         }
       ],
       "choices": [
@@ -339,7 +339,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Fra i due match non c'è reset narrativo della squadra. HP, PP, condizioni e risorse seguono il ciclo reale applicabile."
+          "text": "Fra una gara e l'altra ti occupi davvero dei Pokémon. Ferite e risorse consumate non scompaiono per il semplice passaggio di turno."
         }
       ],
       "choices": [
@@ -364,7 +364,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Qualifying Match è l'ultimo incontro della lane. Solo una vittoria reale qui può produrre una route classificabile come qualificata."
+          "text": "La partita che ti aspetta assegnerà il posto mondiale a chi riuscirà a vincerla."
         }
       ],
       "choices": [
@@ -397,7 +397,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il secondo match richiede ancora Official Six reale. La vittoria Round 1 non protegge da una sconfitta qui."
+          "text": "Il secondo arbitro controlla di nuovo i sei Pokémon. Aver vinto il turno precedente non garantisce nulla oggi."
         }
       ],
       "choices": [
@@ -433,7 +433,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "E5 prende in carico il match decisivo. La narrativa riceverà soltanto win o lose dal resolver."
+          "text": "Il pubblico prende posto mentre l'arbitro alza la mano. L'incontro decisivo ha inizio."
         }
       ],
       "choices": [
@@ -503,7 +503,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Hai vinto realmente il match decisivo. Il bracket può ora essere classificato come qualificato, ma il flag mondiale viene scritto nel blocco risultato."
+          "text": "Il segnale di fine gara conferma la tua vittoria. Il personale ti indirizza al banco che emette gli accrediti mondiali."
         }
       ],
       "choices": [
@@ -557,7 +557,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La sconfitta nel match decisivo è una vera eliminazione dalla lane principale. Il Last Chance, se disponibile, resta un evento separato."
+          "text": "L'avversario conquista il posto in palio. Hai vinto una partita ma perso quella decisiva: la selezione principale è finita."
         }
       ],
       "choices": [
@@ -611,7 +611,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il bracket è una lettura della history: non può trasformare una loss in win o saltare un match."
+          "text": "Sul tabellone è riportato il percorso effettivamente disputato. Non c'è un turno saltato o una partita riscritta."
         }
       ],
       "choices": [
@@ -648,7 +648,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Ogni match ufficiale viene conservato in competition.history da E5. I flag M7 servono solo a ricostruire il ramo narrativo."
+          "text": "I referti firmati riportano il risultato di ciascuna gara. Gli addetti li conservano insieme agli altri incontri ufficiali."
         }
       ],
       "choices": [
@@ -668,7 +668,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La lane è stata vinta. Il passaggio successivo classifica il risultato e aggiorna la qualificazione persistente."
+          "text": "Hai vinto entrambi gli incontri. L'ufficio qualificazioni può ora confermare il tuo accesso al Mondiale."
         }
       ],
       "choices": [
@@ -688,7 +688,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La lane è terminata con una sconfitta reale. Il sistema non crea un replay interno."
+          "text": "Il tuo percorso termina con la partita che hai perso. Non è prevista una ripetizione di questa selezione."
         }
       ],
       "choices": [
@@ -708,7 +708,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La lane è chiusa e il suo risultato è persistente. La classificazione successiva decide World Qualified o Last Chance eligibility."
+          "text": "Il tabellone del Qualifier è ormai completo per te. Dovrai ritirare il verdetto ufficiale prima di sapere quale strada seguire."
         }
       ],
       "choices": [

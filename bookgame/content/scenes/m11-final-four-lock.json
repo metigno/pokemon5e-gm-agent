@@ -38,7 +38,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Final Four non viene sorteggiato di nuovo: M11 consuma i quattro semifinalisti e i due incroci già prodotti dal QF reale."
+          "text": "I quattro semifinalisti sono già sul grande tabellone. Ogni nome è arrivato qui vincendo un quarto di finale; le coppie non cambiano per rendere la storia più semplice."
         }
       ],
       "choices": [
@@ -63,7 +63,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Top4 deve contenere quattro partecipanti unici e il player deve comparire in una sola semifinale."
+          "text": "Controlli i quattro nomi e i due incontri. Il tuo compare in una sola semifinale, accanto all'avversario che dovrai davvero affrontare."
         }
       ],
       "choices": [
@@ -88,7 +88,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il lock M11 può soltanto aprire WORLD_SF sul bracket persistente. Nessun nome può essere sostituito per creare una semifinale più spettacolare."
+          "text": "Un addetto confronta gli accrediti con il tabellone dei quarti. Nessuno può prendere il posto di un semifinalista soltanto perché è più famoso."
         }
       ],
       "choices": [
@@ -144,7 +144,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Le due semifinali restano quelle generate da E5; friend, Rei e rivali mantengono il posto guadagnato o l'eliminazione subita."
+          "text": "Amici, rivali e campioni conosciuti occupano soltanto i posti guadagnati sul campo. Chi è stato eliminato segue il torneo da fuori."
         }
       ],
       "choices": [
@@ -164,7 +164,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il match del player è identificato dal playerSfMatchId già derivato dal Top4."
+          "text": "La segnaletica indica il tuo campo e l'orario dell'incontro. La tua semifinale è fissata."
         }
       ],
       "choices": [
@@ -184,7 +184,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'avversario della semifinale è {{competition.world.knockout.playerSfOpponent.name}}. Il dossier può cambiare informazione, non il pairing."
+          "text": "Sul cartellone leggi il nome di {{competition.world.knockout.playerSfOpponent.name}}. Il materiale pubblico racconta alcune sue partite, non le decisioni che prenderà contro di te."
         }
       ],
       "choices": [
@@ -204,7 +204,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rei può essere nel Top4, fuori dal torneo oppure dall'altro lato del bracket. Nessuna traiettoria narrativa lo rende finalista per diritto."
+          "text": "Cerchi Rei fra i quattro nomi. Se non c'è, ha già perso; se compare, deve ancora guadagnarsi la finale come tutti."
         }
       ],
       "choices": [
@@ -224,7 +224,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un amico ancora vivo nel Mondiale conserva il proprio slot reale; Player vs Friend esiste solo se il bracket lo produce."
+          "text": "Cerchi anche gli amici. Qualcuno potrebbe essere qui, qualcuno fuori: una rivalità nata anni fa non sostituisce gli incontri previsti."
         }
       ],
       "choices": [
@@ -244,7 +244,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il venue e gli schedule possono creare incontri plausibili prima della semifinale, senza teletrasportare nessuno."
+          "text": "Nei corridoi incroci allenatori e staff occupati. Non puoi contare di incontrare chiunque tu voglia prima di scendere in campo."
         }
       ],
       "choices": [
@@ -264,7 +264,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "HP, PP, status, roster, inventario, EXP e infortuni arrivano dal QF senza reset di modulo."
+          "text": "Rivedi le condizioni della squadra dopo i quarti. I Pokémon non tornano in forma soltanto perché siete arrivati fra gli ultimi quattro."
         }
       ],
       "choices": [
@@ -284,7 +284,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "WORLD_SF è aperto sullo stesso Top4. L'avversario del player resta {{competition.world.knockout.playerSfOpponent.name}}."
+          "text": "Gli addetti affiggono la versione definitiva degli incontri. La tua semifinale sarà contro {{competition.world.knockout.playerSfOpponent.name}}."
         }
       ],
       "choices": [
@@ -304,7 +304,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Con il bracket verificato, M11 può osservare Rei come competitor reale prima della preparazione alla semifinale."
+          "text": "Lasci il tabellone e ti dirigi verso la preparazione. Se incontrerai Rei, sarà lungo il suo percorso reale."
         }
       ],
       "choices": [
@@ -324,7 +324,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Final Four lock è leggibile e persistente; rientrare nella scena non deve generare un nuovo bracket."
+          "text": "Le due semifinali sono fissate. La prossima pagina verrà scritta sul campo."
         }
       ],
       "choices": [

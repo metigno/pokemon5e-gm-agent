@@ -30,7 +30,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il secondo Matchday legge l'indice 1 dello stesso draw lockato. Oggi giochi contro {{competition.world.playerOpponents.1.name}}; il primo risultato resta nello storico."
+          "text": "È il giorno della seconda partita del girone. Il tabellone indica {{competition.world.playerOpponents.1.name}} come tuo avversario: le porte dell'arena si stanno aprendo."
         }
       ],
       "choices": [
@@ -55,7 +55,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "{{competition.world.playerOpponents.1.name}} è il secondo avversario persistente del tuo gruppo. Il roster regolamentato viene materializzato una volta e conserva la propria identità di match."
+          "text": "{{competition.world.playerOpponents.1.name}} entra nella zona riservata agli allenatori. Puoi consultare i dati pubblici della sua squadra, non anticipare le scelte che farà."
         }
       ],
       "choices": [
@@ -80,7 +80,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Formato ancora Singles Official Six. La prima giornata non concede retry né vantaggi nascosti: il secondo match parte dallo stato che hai realmente conservato."
+          "text": "L'arbitro ricorda il formato: Singles, sei Pokémon registrati e verdetto sul campo. Non sono previsti incontri ripetuti per cambiare risultato."
         }
       ],
       "choices": [
@@ -105,7 +105,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "E5 associa WORLD_GROUP_MD2 al secondo nome del draw. WORLD_GROUP_MD1 rimane intatto e un doppio avvio del Matchday 2 viene rifiutato."
+          "text": "L'orario della seconda giornata è fissato. Se hai già disputato questa partita, sul tabellone compare il referto, non una nuova convocazione."
         }
       ],
       "choices": [
@@ -125,7 +125,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "I punti prima del Matchday 2 includono entrambi i match della prima giornata. La posizione è provvisoria e non concede ancora accesso agli ottavi."
+          "text": "Le giornate precedenti hanno già prodotto punti che nessuna nuova gara cancellerà. Guardi la classifica prima di entrare: il verdetto definitivo arriverà soltanto alla fine del girone."
         }
       ],
       "choices": [
@@ -145,7 +145,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La squadra entra con lo stato realmente lasciato da Matchday 1 e Interday 1. Nessuna scelta qui aggiunge HP, PP o Pokémon."
+          "text": "Controlli i sei Pokémon disponibili. Nessun addetto ti presta membri mancanti o elimina le conseguenze degli incontri precedenti."
         }
       ],
       "choices": [
@@ -165,7 +165,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Eventuale recupero deve essere già avvenuto tramite i sistemi appropriati. Il gate del Matchday legge il roster, non lo corregge."
+          "text": "Se un Pokémon è stanco o ferito, devi considerarlo prima del match. Le eventuali cure richiedono servizi e tempi reali."
         }
       ],
       "choices": [
@@ -185,7 +185,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Matchday 2 richiede sei Pokémon e un secondo risultato ancora assente. Da qui il battle bridge risolve il partecipante E5 con indice 1."
+          "text": "Alla chiamata dell'arbitro mostri l'accredito e la squadra. Una volta verificata la presenza, raggiungi la tua postazione."
         }
       ],
       "choices": [
@@ -205,7 +205,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il bridge usa il secondo avversario del draw e il suo roster persistente; nessun nome o team alternativo viene selezionato dalla scena."
+          "text": "{{competition.world.playerOpponents.1.name}} si dispone dall'altro lato del campo. L'arbitro alza il braccio e dà il segnale d'inizio."
         }
       ],
       "choices": [
@@ -241,7 +241,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La seconda vittoria viene aggiunta alla history E5 senza riscrivere il Matchday 1. La nuova classifica include quattro match complessivi del gruppo."
+          "text": "Il segnale finale conferma la vittoria contro {{competition.world.playerOpponents.1.name}}. Il risultato entrerà nella classifica insieme a quello dell'altra gara del gruppo."
         }
       ],
       "choices": [
@@ -275,7 +275,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La sconfitta del Matchday 2 resta insieme al primo risultato. Non elimina automaticamente il player: il terzo incontro deve ancora essere giocato."
+          "text": "La partita contro {{competition.world.playerOpponents.1.name}} è finita con una sconfitta. Non puoi cancellarla, ma restano ancora giornate da disputare prima del verdetto finale."
         }
       ],
       "choices": [
@@ -309,7 +309,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "E5 conserva ora due risultati player e due match off-screen. La scena legge questa storia, ma non può editarne punti o avversari."
+          "text": "L'addetto registra il risultato della seconda giornata con il nome del tuo avversario. Le gare precedenti rimangono nel referto."
         }
       ],
       "choices": [
@@ -334,7 +334,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Anche l'altro incontro del Matchday 2 viene risolto una sola volta dal seed della carriera. Nessun partecipante viene favorito perché è famoso o narrativamente importante."
+          "text": "Nel frattempo si è disputata anche l'altra partita del gruppo. I suoi allenatori hanno avuto un risultato proprio, che può influenzare la classifica."
         }
       ],
       "choices": [
@@ -354,7 +354,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Dopo due giornate la classifica è più stretta, ma non è ancora finale. Un vantaggio o uno svantaggio può cambiare al Matchday 3."
+          "text": "Il risultato della seconda giornata si aggiunge ai precedenti senza cancellarli. Il tabellone si aggiorna davanti al pubblico; il piazzamento rimane provvisorio."
         }
       ],
       "choices": [
@@ -379,7 +379,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Le conseguenze meccaniche del secondo match restano sul roster. Il modulo non crea un reset speciale perché il girone è quasi finito."
+          "text": "Fuori dal campo ritrovi i Pokémon nelle condizioni lasciate dallo scontro. Una vittoria non restituisce automaticamente energie, una sconfitta non le cancella."
         }
       ],
       "choices": [
@@ -399,7 +399,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un precedente incontro con questo trainer può cambiare dialogo o reputazione, non il pairing né l'esito. Il draw resta la source of truth."
+          "text": "Se conoscevi già l'avversario, un saluto o una reazione può ricordare quel rapporto. L'incontro appena giocato mantiene comunque il proprio verdetto."
         }
       ],
       "choices": [
@@ -419,7 +419,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Gli altri gruppi e gli altri partecipanti continuano a muoversi. Due giornate non congelano il mondo in attesa del tuo Friend Beat."
+          "text": "Mentre tu giocavi, negli altri gironi sono continuate gare e carriere. Il Mondiale non è rimasto in attesa del tuo prossimo passo."
         }
       ],
       "choices": [
@@ -439,7 +439,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Tra Matchday 2 e 3 cresceranno pressione, Friend Beat e scenari di classifica. Questi scenari descrivono possibilità, non risultati futuri."
+          "text": "Fra la seconda e la terza giornata restano possibili incontri con amici e scelte di recupero. I punti già ottenuti non si possono negoziare."
         }
       ],
       "choices": [
@@ -459,7 +459,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il blocco successivo potrà selezionare un amico secondo stato reale e schedule. Non viene creato o teletrasportato da questo Matchday."
+          "text": "Puoi provare a contattare un amico che sia davvero raggiungibile, prima dell'ultima partita del gruppo."
         }
       ],
       "choices": [
@@ -479,7 +479,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M9_04 è chiuso: due partite sono reali e persistenti. Il ciclo successivo partirà da FRIEND_BEAT_09 senza alterare la classifica già prodotta."
+          "text": "La seconda giornata è conclusa. Il risultato rimane sul tabellone e la squadra conserva ciò che ha consumato."
         }
       ],
       "choices": [

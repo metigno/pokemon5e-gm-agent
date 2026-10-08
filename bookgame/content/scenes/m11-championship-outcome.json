@@ -50,7 +50,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M11 si chiude classificando soltanto ciò che il bracket reale ha prodotto: campione, runner-up oppure eliminato in semifinale."
+          "text": "Dopo l'ultima partita, il personale prepara tre percorsi diversi: chi ha vinto la coppa, chi ha perso la finale e chi ha visto sfumare il sogno in semifinale. Il tuo è quello scritto dai risultati, non dalle aspettative."
         }
       ],
       "choices": [
@@ -75,7 +75,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se il player è uscito in semifinale, E5 deve comunque risolvere WORLD_FINAL off-screen prima del WORLD_EXIT."
+          "text": "Se la tua corsa è terminata in semifinale, l'arena non si è fermata con te. Gli altri due finalisti disputano comunque il loro incontro; il nome del campione arriverà dal campo."
         }
       ],
       "choices": [
@@ -117,7 +117,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il player è campione solo se playerWonFinal=true e currentWorldChampion coincide col player."
+          "text": "Il tuo nome appare nell'albo d'oro accanto a questa edizione del Mondiale. Il titolo non deriva dalle interviste o dai pronostici: lo hai conquistato vincendo l'ultima partita."
         }
       ],
       "choices": [
@@ -137,7 +137,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il player è runner-up solo se ha giocato e perso WORLD_FINAL."
+          "text": "Il tabellone conserva anche chi è arrivato a un passo dal titolo. Hai giocato la finale e l'hai persa: qualcuno te ne chiederà conto, altri ricorderanno quanto hai fatto per arrivarci."
         }
       ],
       "choices": [
@@ -157,7 +157,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Una sconfitta in semifinale resta tale; la finale continua senza reinserire il player."
+          "text": "La semifinale ha chiuso il tuo percorso. Da spettatore puoi seguire la finale, ma non rientrare nel tabellone senza aver vinto l'incontro che ti è costato l'eliminazione."
         }
       ],
       "choices": [
@@ -177,7 +177,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "competition.history conserva i match giocati dal player; la finale off-screen non inventa una sua partecipazione."
+          "text": "Sfogli il riepilogo ufficiale: gli incontri a cui hai partecipato portano il tuo nome. Le altre partite appartengono a chi le ha giocate."
         }
       ],
       "choices": [
@@ -197,7 +197,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "FRIEND_BEAT_11 deve essere completo su tutti i rami prima del World Exit."
+          "text": "Prima di partire rimane un ultimo contatto con gli amici. Non tutti hanno avuto lo stesso cammino e non tutti possono trovarsi qui: ciò che vi direte deve fare i conti con entrambe le cose."
         }
       ],
       "choices": [
@@ -217,7 +217,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Nessun esito di campionato ripristina automaticamente la squadra."
+          "text": "Il personale offre indicazioni sui servizi disponibili, ma non promette di cancellare con una cerimonia la fatica dei Pokémon."
         }
       ],
       "choices": [
@@ -237,7 +237,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "WORLD_EXIT diventa disponibile solo dopo che esiste un campione reale dell'edizione."
+          "text": "Solo dopo che il torneo ha un campione ufficiale l'organizzazione apre i passaggi per il rientro degli allenatori."
         }
       ],
       "choices": [
@@ -257,7 +257,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il ramo Champion registra il titolo senza duplicare il risultato del combat."
+          "text": "Il nome inciso sulla coppa è il tuo. Intorno ci sono voci diverse e molte domande, ma la vittoria non ha bisogno di essere riscritta perché esista."
         }
       ],
       "choices": [
@@ -277,7 +277,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il ramo Runner-up conserva il campione avversario effettivo."
+          "text": "Sul podio sali da secondo classificato. La coppa passa ad altre mani; resta a te decidere che cosa portare con te di questa notte."
         }
       ],
       "choices": [
@@ -297,7 +297,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il ramo SF eliminated conserva il campione deciso dalla finale off-screen."
+          "text": "Puoi sapere chi ha vinto la finale anche se non vi hai partecipato. La notizia non modifica la semifinale che ti ha eliminato."
         }
       ],
       "choices": [
@@ -317,7 +317,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il commit apre soltanto M12/WORLD_EXIT e non modifica il bracket."
+          "text": "L'addetto consegna i documenti per lasciare il torneo. I risultati sono già firmati; il viaggio di ritorno non li cambierà."
         }
       ],
       "choices": [
@@ -463,7 +463,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M11 è completo e il campione corrente è già nello stato E5."
+          "text": "Le classifiche vengono archiviate e il nome del nuovo campione entra nell'albo ufficiale. Per te si apre la strada verso Asteria."
         }
       ],
       "choices": [
@@ -483,7 +483,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La carriera può entrare in Dopo il Mondo con tutta la history persistente."
+          "text": "Il rumore dell'arena rimane alle spalle. Parti con la stessa squadra, gli stessi legami e tutte le conseguenze del cammino fatto."
         }
       ],
       "choices": [
@@ -503,7 +503,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Per Diventare Campione è concluso: il titolo appartiene a chi ha realmente vinto WORLD_FINAL."
+          "text": "Il Mondiale ha un vincitore. Che il titolo sia tuo o di qualcun altro, questa stagione ha cambiato la tua storia."
         }
       ],
       "choices": [

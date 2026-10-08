@@ -26,7 +26,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il quarto è single elimination e usa il QF match del player già creato da E5."
+          "text": "È il giorno dei quarti. L'arena si prepara a un incontro senza ripescaggio: chi perde dovrà abbandonare la corsa al titolo."
         }
       ],
       "choices": [
@@ -51,7 +51,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Avversario QF: {{competition.world.knockout.playerQfOpponent.name}}. Il nome viene dal bracket Top8 persistente."
+          "text": "Sul tabellone è scritto il tuo avversario: {{competition.world.knockout.playerQfOpponent.name}}. È il nome uscito dagli incontri precedenti, non quello scelto per creare uno spettacolo."
         }
       ],
       "choices": [
@@ -76,7 +76,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un precedente può cambiare il tono, mai il roster regolamentato, il matchId o l'esito."
+          "text": "Se vi siete già incontrati, potreste riconoscere gesti e abitudini. Il passato può rendere il saluto più teso, non cambiare il verdetto."
         }
       ],
       "choices": [
@@ -96,7 +96,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Formato ufficiale: Singles, sei Pokémon, nessun replay dopo il risultato. Vittoria = Final Four; sconfitta = eliminazione."
+          "text": "L'arbitro ricorda il formato Singles, sei Pokémon ufficiali. Una vittoria apre la strada alle semifinali; una sconfitta chiude il percorso."
         }
       ],
       "choices": [
@@ -121,7 +121,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il bridge usa i sei Pokémon reali del roster. Nessun membro viene guarito dalla transizione."
+          "text": "Prima di entrare conti i sei Pokémon idonei. Nessuno viene sostituito o guarito per il solo fatto di essere arrivato fin qui."
         }
       ],
       "choices": [
@@ -141,7 +141,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Le risorse sono quelle lasciate da R16, servizi reali e prep. Nessun recupero nascosto."
+          "text": "La squadra conserva la fatica delle gare precedenti e delle cure effettivamente fatte. Controlli cosa puoi ancora usare."
         }
       ],
       "choices": [
@@ -161,7 +161,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Top8 riduce il margine d'errore, ma la pressione non modifica tiri, AC o danni."
+          "text": "Gli spalti sono pieni e il margine d'errore è minimo. La pressione si sente nei gesti e nelle scelte, non cambia magicamente la forza dei Pokémon."
         }
       ],
       "choices": [
@@ -181,7 +181,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Gli altri tre QF esistono indipendentemente dal player e saranno risolti da E5 soltanto dopo il tuo risultato."
+          "text": "Sugli altri campi sono previsti anche gli altri incontri dei quarti. Le loro vittorie e sconfitte non aspettano il tuo consenso."
         }
       ],
       "choices": [
@@ -201,7 +201,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "E5 rifiuta un secondo avvio se il QF del player possiede già un outcome. History deve contenere un solo record ufficiale."
+          "text": "L'ufficiale controlla il referto. Se questa partita è già stata giocata non può essere ripetuta per ottenere un risultato diverso."
         }
       ],
       "choices": [
@@ -221,7 +221,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La readiness finale verifica QF bracket, match irrisolto e roster. Poi il controllo passa al motore Pokémon 5e."
+          "text": "Alla chiamata dell'arbitro confermi accredito e squadra. Il prossimo passo è presentarti sul terreno di gara."
         }
       ],
       "choices": [
@@ -246,7 +246,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il bridge risolve dinamicamente matchId, trainerId e roster dal QF E5."
+          "text": "{{competition.world.knockout.playerQfOpponent.name}} si schiera dall'altra parte. L'arbitro solleva il braccio: lo scontro comincia."
         }
       ],
       "choices": [
@@ -286,7 +286,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La vittoria è stata scritta sul QF reale. Prima del Final Four E5 deve chiudere gli altri tre quarti."
+          "text": "Hai vinto. Gli spalti reagiscono e il tabellone ti avvicina alle semifinali, mentre gli altri incontri devono ancora concludersi."
         }
       ],
       "choices": [
@@ -320,7 +320,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La sconfitta è eliminazione reale. Non esiste ripescaggio o percorso alternativo verso M11."
+          "text": "Hai perso ai quarti. Il verdetto chiude la tua corsa al titolo in questa edizione; i tuoi amici e gli altri allenatori proseguiranno secondo i propri risultati."
         }
       ],
       "choices": [
@@ -354,7 +354,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "competition.history contiene ora il WORLD_QF_n reale e il bracket possiede playerOutcome."
+          "text": "Il personale firma il referto della partita, con entrambi i nomi e il risultato effettivo."
         }
       ],
       "choices": [
@@ -379,7 +379,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Vittoria significa candidato Top4; sconfitta significa world_eliminated=true. Il testo non può ribaltare lo stato."
+          "text": "Se hai vinto puoi prepararti per il Final Four; se hai perso, il torneo continuerà senza di te. Nessun commento della stampa cambia l'esito."
         }
       ],
       "choices": [
@@ -399,7 +399,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "HP, PP e status del combat sono già tornati nel roster persistente tramite il battle bridge."
+          "text": "Al termine controlli i Pokémon. Le ferite e le risorse consumate rimangono reali, qualunque sia il risultato."
         }
       ],
       "choices": [
@@ -419,7 +419,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Gli altri quarti non proteggono amici o Anchor. M10_08 li risolverà con il seed della carriera."
+          "text": "Gli altri tre quarti si giocano senza protezioni per nomi famosi o amicizie. Ogni partecipante deve conquistare la semifinale."
         }
       ],
       "choices": [
@@ -439,7 +439,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se un amico era in un altro QF, può vincere o perdere indipendentemente dal Friend Beat. Se era il tuo avversario, il suo destino coincide col risultato reale del match."
+          "text": "Un amico ancora in gara potrà avanzare o fermarsi secondo il suo incontro. Se l'avversario sei stato tu, conta il risultato appena ottenuto."
         }
       ],
       "choices": [
@@ -459,7 +459,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'audit richiede un solo record QF ufficiale e nessun reset di competition.history all'uscita."
+          "text": "Rileggi il referto conservato dall'organizzazione. La partita compare una volta sola, accanto agli incontri già disputati."
         }
       ],
       "choices": [
@@ -479,7 +479,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M10_08 può aprirsi soltanto dopo il risultato reale del QF."
+          "text": "La segreteria attende il verdetto di questa partita prima di chiudere tutti gli incontri dei quarti."
         }
       ],
       "choices": [
@@ -499,7 +499,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il tuo quarto è concluso. Ora E5 deve chiudere l'intero Top8 prima di produrre il Final Four."
+          "text": "Il tuo incontro dei quarti è terminato. Restano i risultati sugli altri campi prima dell'annuncio del turno successivo."
         }
       ],
       "choices": [

@@ -14,7 +14,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il circuito interregionale concentra Masters, Continental Cup, Red, cutoff mondiale e Primo Faro. M12 li rilegge come carriera persistente, non come un unico trofeo finale."
+          "text": "Tornando lungo le rotte del circuito, ritrovi cartelloni di tornei, treni pieni di allenatori e il ricordo dei giorni passati al Primo Faro."
         }
       ],
       "choices": [
@@ -39,7 +39,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il circuito continua anche dopo il Mondiale: calendari e carriere NPC non si fermano alla conclusione della main story."
+          "text": "Le arene cambiano programmi e gli allenatori continuano a salire e scendere di posizione. La stagione passata non ha chiuso il calendario degli altri."
         }
       ],
       "choices": [
@@ -59,7 +59,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "continental_result conserva il vero piazzamento alla Continental Cup e non viene sostituito dalla fama mondiale successiva."
+          "text": "Riguardi il tabellone della Continental Cup. Il tuo piazzamento è ancora lì, accanto agli avversari affrontati."
         }
       ],
       "choices": [
@@ -79,7 +79,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Una vittoria continentale resta un risultato proprio, distinto dal Mondiale."
+          "text": "Se vincesti la Continental Cup, l'albo conserva il tuo nome. È un successo distinto dal percorso mondiale."
         }
       ],
       "choices": [
@@ -99,7 +99,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Essere finalista o semifinalista conserva valore e storia senza essere convertito in vittoria morale."
+          "text": "La finale o semifinale raggiunta rimane una tappa importante, ma non diventa una coppa che non hai sollevato."
         }
       ],
       "choices": [
@@ -119,7 +119,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un quarto di finale resta esattamente quello, con gli avversari e gli esiti già registrati."
+          "text": "Il tuo percorso si fermò ai quarti. Guardando il tabellone ricordi chi passò al turno successivo."
         }
       ],
       "choices": [
@@ -139,7 +139,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "m6_masters_result conserva il match reale del Masters Circuit e le sue conseguenze."
+          "text": "I risultati del Masters Circuit sono raccolti accanto alle classifiche dell'epoca. Ritrovi il tuo incontro così come fu giocato."
         }
       ],
       "choices": [
@@ -159,7 +159,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Una vittoria al Masters resta parte della progressione che portò al cutoff mondiale."
+          "text": "La vittoria al Masters rimane nel registro; ti aprì porte e aspettative che dovesti comunque affrontare in seguito."
         }
       ],
       "choices": [
@@ -179,7 +179,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Una sconfitta al Masters resta nel record senza essere cancellata dai risultati successivi."
+          "text": "La sconfitta al Masters non è scomparsa sotto i risultati successivi. Fa parte del cammino che ti ha portato fino a qui."
         }
       ],
       "choices": [
@@ -199,7 +199,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Red può riapparire solo se la sua traiettoria e la schedule lo rendono plausibile; nessun Anchor è convocato per l'epilogo."
+          "text": "Se Red è presente per i propri impegni, potresti rivedere il berretto rosso vicino ai tabelloni. Se è altrove, i suoi risultati continuano a circolare senza di lui."
         }
       ],
       "choices": [
@@ -219,7 +219,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Le traiettorie nascoste viste in M6 ricordano che gli altri trainer continuarono carriere autonome."
+          "text": "Fra i nomi del circuito ce ne sono alcuni che non incrociasti mai. Anche loro hanno disputato incontri e preso decisioni mentre tu eri impegnato altrove."
         }
       ],
       "choices": [
@@ -239,7 +239,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il world cutoff è un checkpoint di carriera già consumato: M12 può ricordarlo, non rigiocarlo."
+          "text": "Un vecchio annuncio ricorda la scadenza per qualificarsi al Mondiale. Quella finestra si è chiusa e nessuna visita la riaprirà."
         }
       ],
       "choices": [
@@ -259,7 +259,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Primo Faro resta un hook postgame se il suo filo è davvero aperto o visitato."
+          "text": "Il Primo Faro appare ancora sulla mappa. Se ne avevi seguito la pista, riconosci i riferimenti annotati nel diario."
         }
       ],
       "choices": [
@@ -279,7 +279,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rotte interregionali e viaggi restano accessi reali del mondo, non menu epilogo separati."
+          "text": "Le rotte collegano gli stessi luoghi, con gli orari e gli accessi in vigore adesso. Nessuna scorciatoia nasce per accompagnare il tuo epilogo."
         }
       ],
       "choices": [
@@ -299,7 +299,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rank e circuit points restano engine-owned e non vengono rimappati in base al finale."
+          "text": "La licenza e i punti ottenuti restano leggibili sulla tessera. Il tuo risultato mondiale non li sostituisce con un numero diverso."
         }
       ],
       "choices": [
@@ -319,7 +319,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "E6 continua a risolvere eventi e carriere NPC anche dopo la fine della main story."
+          "text": "I treni arrivano con altri allenatori e altre notizie. Il circuito non ha smesso di muoversi quando hai lasciato l'arena."
         }
       ],
       "choices": [
@@ -339,7 +339,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Una futura stagione può partire dallo stesso stato senza reset, perché M12 non crea un secondo modello di carriera."
+          "text": "Fra gli annunci compare già il calendario futuro. Potrai affrontarlo con i Pokémon e le esperienze che possiedi, non da un inizio fittizio."
         }
       ],
       "choices": [
@@ -359,7 +359,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La prima sintesi registra il piazzamento continentale realmente disponibile."
+          "text": "La vecchia classifica continentale racconta dove arrivasti davvero. Conservarla significa poterla rileggere senza correggerla."
         }
       ],
       "choices": [
@@ -436,7 +436,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La seconda sintesi registra il vero esito Masters senza modificarlo."
+          "text": "Accanto compare il referto del Masters, vittoria o sconfitta. Nessuno dei due risultati viene sostituito da una formula celebrativa."
         }
       ],
       "choices": [
@@ -554,7 +554,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Red, Primo Faro e cutoff restano hook separati dalle classificazioni competitive."
+          "text": "Red, il Primo Faro e le vecchie qualificazioni sono fili differenti della carriera. Puoi riprenderli soltanto dove la tua storia lo permette."
         }
       ],
       "choices": [
@@ -574,7 +574,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il callback interregionale è registrato. Il viaggio torna a Meridiana, dove qualificazione, media e status professionale possono essere riletti."
+          "text": "Il circuito rimane attivo alle tue spalle. La strada verso Meridiana è di nuovo aperta."
         }
       ],
       "choices": [

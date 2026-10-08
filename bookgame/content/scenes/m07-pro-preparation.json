@@ -38,7 +38,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La preparazione Rank S coordina roster, training, scouting, recupero e agenda. La scena sceglie priorità, ma non modifica direttamente statistiche Pokémon 5e."
+          "text": "Nella sala preparazione sistemi l'agenda in vista delle qualificazioni: Pokémon disponibili, allenamento, informazioni e recupero richiedono tutti attenzione."
         }
       ],
       "choices": [
@@ -58,7 +58,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Quattro assi competono per il tempo disponibile: Official Six, training, scouting e medicina sportiva. Nessuno viene risolto automaticamente."
+          "text": "Sul tavolo ci sono quattro pile di appunti: squadra, allenamenti, avversari e salute. Il tempo non basterà per dedicarsi a tutto allo stesso modo."
         }
       ],
       "choices": [
@@ -88,7 +88,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La preparazione legge il roster strutturato. Avere Rank S non crea il sesto Pokémon né rende disponibile chi è realmente indisponibile."
+          "text": "Conti i Pokémon effettivamente disponibili. La licenza professionale non sostituisce i compagni che mancano né rende abile al combattimento chi non lo è."
         }
       ],
       "choices": [
@@ -119,7 +119,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il training può essere tecnico o di rifinitura, ma gli incrementi reali devono passare dai sistemi Pokémon 5e esistenti. Qui si decide soltanto l'agenda."
+          "text": "Un tecnico propone esercizi mirati. «Possiamo lavorare sulla precisione, ma i progressi veri richiedono pratica», ti ricorda."
         }
       ],
       "choices": [
@@ -155,7 +155,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Scouting significa raccogliere informazione o cercare opportunità reali; non genera automaticamente Pokémon, IV, mosse o counter perfetti."
+          "text": "Puoi cercare notizie pubbliche sugli avversari o dedicare tempo all'esplorazione. Un indizio non è una cattura, e una voce non è un dato certo."
         }
       ],
       "choices": [
@@ -189,7 +189,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La medicina sportiva può valutare readiness, ma la reception non ripristina HP, PP o infortuni con un flag narrativo."
+          "text": "Alla clinica puoi chiedere una valutazione delle condizioni dei Pokémon. Le cure richiedono servizi effettivamente disponibili."
         }
       ],
       "choices": [
@@ -216,7 +216,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Ogni ora spesa qui è sottratta ad altro. L'agenda deve convivere con sponsor, media e finestre competitive."
+          "text": "Mentre ordini gli appuntamenti, noti che un'ora di allenamento coincide con un evento dello sponsor. Non potrai essere in due posti contemporaneamente."
         }
       ],
       "choices": [
@@ -236,7 +236,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La preparazione è valida se conserva opzioni per il Qualifier, non se massimizza una singola giornata."
+          "text": "Il calendario delle qualificazioni è fitto. Forse conviene arrivare con più di una soluzione anziché consumare oggi tutte le energie."
         }
       ],
       "choices": [
@@ -256,7 +256,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il benchmark di Cynthia ricorda di non spendere tutte le risorse per sentirsi pronti oggi. Il consiglio non modifica nessuna statistica."
+          "text": "Ti torna alla mente Cynthia: «Conservare una possibilità può essere importante quanto sfruttarne una.» Il consiglio non cancella il bisogno di allenarti."
         }
       ],
       "choices": [
@@ -287,7 +287,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Gli obblighi scelti nel blocco precedente restano reali. Cambiare priorità qui non cancella retroattivamente la postura sponsor o media."
+          "text": "Gli accordi firmati hanno appuntamenti e orari. Puoi rivedere le priorità, non fingere che quei contratti non siano mai esistiti."
         }
       ],
       "choices": [
@@ -314,7 +314,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il readiness check non registra ancora il World Qualifier. Verifica soltanto se il piano è abbastanza maturo da entrare nel prossimo blocco."
+          "text": "Ricontrolli la preparazione prima di andare agli accrediti. Un piano può darti sicurezza, ma non è ancora una vittoria."
         }
       ],
       "choices": [
@@ -345,7 +345,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M7_04 termina con un piano persistente, non con una qualificazione. FRIEND_BEAT_07 e registrazione al Qualifier restano blocchi successivi."
+          "text": "Chiudi gli appunti. Restano i contatti con gli amici e la registrazione ufficiale, ciascuno con il proprio momento."
         }
       ],
       "choices": [
