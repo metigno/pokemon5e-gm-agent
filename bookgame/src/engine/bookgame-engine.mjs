@@ -17,6 +17,9 @@ import { applyNpcEffect, refreshNpcSchedules } from "./npc-state.mjs";
 import { processWorldEvents } from "./world-events.mjs";
 import { applyCompetitionEffect, beginCompetitionMatch, prepareWorldGroupMatch, prepareWorldKnockoutMatch, resolveCompetitionMatch } from "./competition-state.mjs";
 import { recordWildEncounter, selectOrdinaryEncounter } from "./ecology.mjs";
+import { awardPokemonXp } from "./pokemon-progression.mjs";
+import { battlePokemonXpPool, pokemonLevelCapForState } from "./pokemon-xp-balance.mjs";
+import { Poke5eDataRepository } from "../combat/poke5e-data.mjs";
 import { applyPurchaseItem, ensureSceneShops } from "./shop-state.mjs";
 
 function clone(value) {
@@ -350,6 +353,8 @@ export class BookgameEngine {
         authority: "pokemon5e_rules",
         status: "awaiting_resolution",
         encounterId: choice.combat.encounterId,
+        moduleId: scene.moduleId ?? "M01",
+        participatingRosterIndices: [0],
         sceneId: scene.id,
         sourceNodeId: next.story.nodeId,
         opponent: clone(dynamicWorldOpponent?.[0] ?? choice.combat.opponent),
@@ -431,8 +436,57 @@ export class BookgameEngine {
 
     const next = clone(state);
     next.pending.battle = clone(battle);
+    // Track every deployed Pokémon, including the original active after a
+    // switch. Never award XP to unused bench Pokémon.
+    const indices = new Set(next.pending.participatingRosterIndices ?? [0]);
+    if (Number.isInteger(battle.player?.rosterIndex)) indices.add(battle.player.rosterIndex);
+    next.pending.participatingRosterIndices = [...indices];
     next.pending.status = battle.outcome ? "resolved" : "in_progress";
     touchState(next, this.now);
+    return next;
+  }
+
+  async resolveCombatHandoffWithXp(state, outcome, { data = new Poke5eDataRepository() } = {}) {
+    // The existing synchronous handoff remains available to historical
+    // runtime callers; gameplay entrypoints use this atomic XP-aware path.
+    const next = this.resolveCombatHandoff(state, outcome);
+    const battle = state.pending?.battle;
+    const pool = battlePokemonXpPool(battle);
+    if (outcome !== "win" || battle?.outcome !== "win" || pool <= 0) return next;
+
+    const indices = [...new Set(state.pending.participatingRosterIndices ?? [0])]
+      .filter((index) => Number.isInteger(index) && index >= 0 && index < next.player.roster.length);
+    if (indices.length === 0) return next;
+    const amount = Math.floor(pool / indices.length);
+    const maxLevel = pokemonLevelCapForState(state);
+    const awarded = [];
+    for (const index of indices) {
+      const original = next.player.roster[index];
+      if (!original) continue;
+      const result = await awardPokemonXp(original, amount, {
+        data,
+        maxLevel,
+        context: {
+          timeOfDay: state.world?.time,
+          inventory: next.player.inventory,
+          money: next.player.money
+        }
+      });
+      next.player.roster[index] = result.pokemon;
+      if (index === 0 && next.player.starter) next.player.starter = clone(result.pokemon);
+      awarded.push({
+        rosterIndex: index,
+        speciesId: result.pokemon.speciesId,
+        xpBefore: original.xp ?? null,
+        xpAfter: result.pokemon.xp,
+        levelsGained: result.levelUps.map((entry) => entry.to),
+        pendingLevelUp: Boolean(result.pendingLevelUp)
+      });
+    }
+    const event = next.story.history.at(-1);
+    if (event?.subsystem === "pokemon5e_combat") {
+      event.pokemonXp = { pool, share: amount, maxLevel, awarded };
+    }
     return next;
   }
 
