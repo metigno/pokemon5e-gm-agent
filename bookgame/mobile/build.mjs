@@ -8,6 +8,7 @@ import { spawnSync } from "node:child_process";
 import { verifyOfflineSpriteAssets } from "../scripts/verify-offline-sprites.mjs";
 import { verifyOfflineCharacterSprites } from "../scripts/verify-offline-character-sprites.mjs";
 import { verifyOfflineNativeCharacterSprites } from "../src/assets/native-character-sprites.mjs";
+import { verifyOfflineSecondaryNpcAssets } from "../src/assets/npc-secondary-assets.mjs";
 import { verifyOfflineAudioAssets } from "../src/assets/audio-pack.mjs";
 import { APPROVED_MAP_ILLUSTRATION_IDS, APPROVED_MAP_SVG_IDS } from "../src/assets/map-illustrations.mjs";
 
@@ -81,6 +82,10 @@ async function verifyMandatoryAssets(root = BOOKGAME) {
   if (!characters.valid || !native.valid) {
     throw new Error(`Mobile release BLOCKED: Trainer sprites ${characters.verified}/${characters.expected} portraits, ${native.verified}/${native.expected} native sprites. No placeholders allowed.`);
   }
+  const secondary = await verifyOfflineSecondaryNpcAssets(registry, join(root, "assets/npc-sprites"));
+  if (!secondary.valid) {
+    throw new Error(`Mobile release BLOCKED: secondary NPC sprites ${secondary.verified}/${secondary.expected} (18 World entrants + 24 functional roles). No network fallback.`);
+  }
 
   // Map visuals do not invent new locations. Every approved physical visual must ship.
   const mapDir = join(root, "assets/maps/illustrations");
@@ -102,7 +107,7 @@ async function verifyMandatoryAssets(root = BOOKGAME) {
       + audio.errors.slice(0, 3).join("; "));
   }
   return { pokemon: sprite.verifiedPng, portraits: characters.verified,
-    nativeSprites: native.verified, audio: audio.verified };
+    nativeSprites: native.verified, secondarySprites: secondary.verified, audio: audio.verified };
 }
 
 function compileStory() {
@@ -129,9 +134,18 @@ function importOfflineTrainerOverlay(archive) {
   if (result.status !== 0) throw new Error("Approved local Trainer ZIP import failed");
 }
 
-async function build(trainerZip = null) {
+function importSecondaryNpcOverlay(archive) {
+  if (!archive) return;
+  const result = spawnSync("python3", ["scripts/install-secondary-npc-overlay.py", "--zip", resolve(archive)], {
+    cwd: BOOKGAME, stdio: "inherit"
+  });
+  if (result.status !== 0) throw new Error("Approved secondary NPC ZIP import failed");
+}
+
+async function build(trainerZip = null, secondaryZip = null) {
   await contract();
   importOfflineTrainerOverlay(trainerZip);
+  importSecondaryNpcOverlay(secondaryZip);
   compileStory();
   await assertBundle();
   const report = await verifyMandatoryAssets();
@@ -149,7 +163,8 @@ async function build(trainerZip = null) {
     // A copied or mutated PNG must fail before dist/ is published.
     const shipped = await verifyMandatoryAssets(target);
     if (shipped.pokemon !== report.pokemon || shipped.portraits !== report.portraits ||
-        shipped.nativeSprites !== report.nativeSprites || shipped.audio !== report.audio) {
+        shipped.nativeSprites !== report.nativeSprites ||
+        shipped.secondarySprites !== report.secondarySprites || shipped.audio !== report.audio) {
       throw new Error("Packaged offline asset counts do not match verified sources");
     }
     await cp(join(MOBILE, "runtime/index.cjs"), join(nodeRoot, "index.cjs"));
@@ -174,12 +189,17 @@ if (command === "--contract") {
   console.log("Mobile offline host contract: PASS (physical asset coverage not tested)");
 } else if (command === "--package") {
   const args = process.argv.slice(3);
-  if (args.length !== 0 && (args.length !== 2 || args[0] !== "--characters-zip" || !args[1])) {
-    throw new Error("Usage: build.mjs --package [--characters-zip /path/to/approved.zip]");
+  const paths = {};
+  if (args.length % 2) throw new Error("Offline assets must be supplied as --option path pairs");
+  for (let i = 0; i < args.length; i += 2) {
+    const flag = args[i], file = args[i + 1];
+    if (!["--characters-zip", "--secondary-npcs-zip"].includes(flag) || !file || paths[flag]) {
+      throw new Error("Invalid or duplicate offline sprite archive flag");
+    }
+    paths[flag] = file;
   }
-  // npm run android:debug invokes build:web without CLI arguments, so an explicit
-  // environment path is supported without changing Capacitor's build command.
-  await build(args[1] ?? process.env.P5E_TRAINER_OVERLAY_ZIP ?? null);
+  await build(paths["--characters-zip"] ?? process.env.P5E_TRAINER_OVERLAY_ZIP ?? null,
+    paths["--secondary-npcs-zip"] ?? process.env.P5E_NPC_SECONDARY_OVERLAY_ZIP ?? null);
 } else {
-  throw new Error("Usage: node bookgame/mobile/build.mjs [--contract|--package [--characters-zip path]]");
+  throw new Error("Usage: build.mjs [--contract|--package [--characters-zip path] [--secondary-npcs-zip path]]");
 }
