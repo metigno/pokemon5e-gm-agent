@@ -59,6 +59,15 @@ function recordEdition(state) {
   if (outcome.result !== "missed" && (!outcome.champion || !state.competition.world.finalResolved)) {
     throw new Error("Cannot invent a World Champion: resolve the official final first");
   }
+  // The Step-8 Hall of Fame is the canonical global winners archive.
+  // The postgame journal additionally stores the player's route and date.
+  world.hallOfFame ??= [];
+  if (outcome.champion && !world.hallOfFame.some((entry) => entry.edition === edition)) {
+    world.hallOfFame.push({
+      edition, champion: structuredClone(outcome.champion),
+      runnerUp: structuredClone(outcome.runnerUp)
+    });
+  }
   season.championships.push(outcome);
 }
 
@@ -200,6 +209,7 @@ export function applyPostgameChoice(state, choiceId) {
   // Only the competitive draw/bracket resets. NPC careers, captured Pokémon,
   // economy, reputation, quests and earlier winner history stay persistent.
   nextWorld.canonicalRosters = structuredClone(previous.canonicalRosters ?? {});
+  nextWorld.hallOfFame = structuredClone(previous.hallOfFame ?? []);
   competition.world = nextWorld;
   resetForQualifier(state);
   postgame.phase = "qualifying";
