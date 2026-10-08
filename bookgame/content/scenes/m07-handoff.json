@@ -26,7 +26,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M7 eredita Rank S, risultati reali di M6, cutoff, roster, risorse e conseguenze. Rank S apre Meridiana ma non concede automaticamente la qualificazione mondiale."
+          "text": "La licenza Rank S ti apre le porte dei circuiti più prestigiosi. Porti con te risultati, Pokémon, contatti e fatiche dell'ultima stagione: nulla viene lasciato alla stazione."
         }
       ],
       "choices": [
@@ -61,7 +61,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La fascia Rank S separa prestigio, accesso e qualificazione. Il World Qualifier resta un evento E5 successivo con esito reale."
+          "text": "La tessera Rank S attira uno sguardo rispettoso al banco informazioni. «Per il Mondiale, però, la qualificazione è un'altra cosa», ti ricorda l'addetto."
         }
       ],
       "choices": [
@@ -91,7 +91,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "HP, PP, condizioni, inventario, denaro, EXP, evoluzioni, infortuni, relazioni, ranking e history restano quelli reali di fine M6."
+          "text": "Sistema l'inventario e controlli la squadra. Gli incontri e i viaggi passati hanno lasciato segni concreti: è da qui che riparti."
         }
       ],
       "choices": [
@@ -111,7 +111,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il cutoff di M6 è uno snapshot persistente della carriera al momento stabilito. M7 può leggerlo, ma non può riscriverlo retroattivamente."
+          "text": "Sul terminale è ancora visibile la classifica registrata alla chiusura delle iscrizioni precedenti. La scadenza è passata; non puoi cambiare oggi i risultati di ieri."
         }
       ],
       "choices": [
@@ -131,7 +131,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il guardrail è esplicito: current_rank=S non equivale a world_qualified=true. Qualifier e Last Chance restano separati."
+          "text": "«Può presentare domanda per il Qualifier», spiega la segretaria, «ma il suo Rank non equivale a un posto già assegnato nel Mondiale.»"
         }
       ],
       "choices": [
@@ -158,7 +158,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Red, Lance, gli altri Anchor, Friend Beat e risultati competitivi precedenti possono cambiare reputazione e dialoghi, mai inventare vittorie o ricompense."
+          "text": "Ripensi a Red, Lance e agli altri allenatori incontrati. Alcuni consigli o vecchi contrasti potrebbero influenzare le prossime conversazioni, non concederti una vittoria."
         }
       ],
       "choices": [
@@ -185,7 +185,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Meridiana è il nodo professionale Rank S: Grand Hall, arena, media, sponsor, università, stazione internazionale e medicina sportiva."
+          "text": "Una pianta della città indica Grand Hall, arena, università, clinica sportiva e stazione internazionale. Vicino ai grandi viali compaiono anche sedi di media e sponsor."
         }
       ],
       "choices": [
@@ -205,7 +205,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Essere Candidate Mondiale significa avere accesso al percorso, non un posto garantito. Ranking, registrazione, roster e bracket restano autorità strutturate."
+          "text": "Sei un candidato autorizzato a cercare la qualificazione. Il tabellone degli iscritti è ancora diverso da quello dei partecipanti al Mondiale."
         }
       ],
       "choices": [
@@ -225,7 +225,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rimandare è legale. Non chiude M7 e non ferma gli altri trainer, i media, gli sponsor o le finestre competitive."
+          "text": "Puoi rimandare la partenza, ma la città e gli altri allenatori continueranno con le proprie giornate."
         }
       ],
       "choices": [
@@ -246,7 +246,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il tempo è trascorso nel calendario reale. Nessuna qualificazione viene prodotta dalla sola attesa."
+          "text": "Mentre aspetti cambiano i turni e le partenze. Nessuna semplice attesa ti consegna un accredito mondiale."
         }
       ],
       "choices": [
@@ -266,7 +266,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il passaggio è pronto quando il player sceglie di partire. L'arrivo è un'azione distinta e non altera Rank, ranking o world_qualified."
+          "text": "Il biglietto per Meridiana è disponibile. Quando scegli di partire, sarà un viaggio vero, non un passaggio istantaneo oltre gli impegni che hai."
         }
       ],
       "choices": [
@@ -286,7 +286,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La chiusura del handoff conserva ogni stato precedente e lascia solo a M7 il proprio flag di attività."
+          "text": "Rimetti la tessera in tasca. Tutto ciò che hai fatto ti accompagna verso Meridiana."
         }
       ],
       "choices": [
