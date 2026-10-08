@@ -8,7 +8,7 @@ import { GmSession } from './session.mjs';
 export function openingState(protagonist) {
  const build = getStartingBuild(protagonist);
  return {
-  character: { name:protagonist, trainerLevel:1, abilities:build.abilities, skills:build.skills },
+  character: { name:protagonist, trainerLevel:1, proficiencyBonus:2, abilities:build.abilities, skills:build.skills },
   team: [{ species:build.starter.species, form:build.starter.form, level:build.starter.level,
     status:'starter-pending-intro', stats:null, moves:[], pp:null }],
   world: {day:1,time:'morning',location:'Valedarsena',flags:{introFive:'pending'}},
