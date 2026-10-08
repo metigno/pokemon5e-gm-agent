@@ -5,6 +5,18 @@ import { ecologicalLevelBand } from "../engine/encounter-level-balance.mjs";
 
 const ID_RE = /^[A-Za-z0-9_-]+$/;
 
+// CompileStory is called frequently by tests; the pinned offline species
+// minimum-level index never changes during the process.
+let canonicalPokemonMinLevelsPromise;
+function canonicalPokemonMinLevels() {
+  canonicalPokemonMinLevelsPromise ??= readFile(
+    new URL("../../data/poke5e/2024/species.json", import.meta.url), "utf8"
+  ).then(JSON.parse).then(document => new Map(
+    (document.items ?? []).map(entry => [entry.id, entry.minLevel])
+  ));
+  return canonicalPokemonMinLevelsPromise;
+}
+
 function isObject(value) {
   return value !== null && typeof value === "object" && !Array.isArray(value);
 }
@@ -31,11 +43,11 @@ export async function compileEcologyCatalog({
   faunaIndexFile
 }) {
   const errors = [];
-  const [zonePools, distribution, faunaIndex, pokemonSpecies] = await Promise.all([
+  const [zonePools, distribution, faunaIndex, minLevelById] = await Promise.all([
     readFile(zonePoolsFile, "utf8").then(JSON.parse),
     readFile(distributionFile, "utf8").then(JSON.parse),
     readFile(faunaIndexFile, "utf8").then(JSON.parse),
-    readFile(new URL("../../data/poke5e/2024/species.json", import.meta.url), "utf8").then(JSON.parse)
+    canonicalPokemonMinLevels()
   ]);
 
   if (!isObject(zonePools.zones) || !isObject(zonePools.rules?.weights)) {
@@ -50,7 +62,6 @@ export async function compileEcologyCatalog({
   if (errors.length) return { valid: false, errors, catalog: null };
 
   const distById = new Map(distribution.species.map((entry) => [entry.id, entry]));
-  const minLevelById = new Map((pokemonSpecies.items ?? []).map((entry) => [entry.id, entry.minLevel]));
   const habitatById = new Map(faunaIndex.entries.map((entry) => [
     entry.id,
     entry.source_habitat?.biomes ?? []
