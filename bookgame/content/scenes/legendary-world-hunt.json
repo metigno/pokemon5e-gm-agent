@@ -350,17 +350,17 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Una traccia affidabile porta al sentiero di una vecchia torre fuori Meridiana. Zacian compare nella sua forma ordinaria: la Spada Rovinata non è stata trovata, e la sua forma incoronata non viene promessa."
+          "text": "I documenti conducono alla vecchia torre fuori Meridiana. La Spada Rovinata non era stata recuperata da te: ora scopri perché. Zacian ti appare già nella forma incoronata, con la lama che porta con sé. Non è un premio né un oggetto da raccogliere: il guardiano decide autonomamente se affrontarti."
         }
       ],
       "choices": [
         {
           "id": "challenge_mattew",
-          "text": "Affronto zacian con la squadra reale; la cattura non è garantita.",
+          "text": "Affronto Zacian nella forma incoronata (Lv20), senza garanzia di cattura.",
           "combat": {
             "encounterId": "legendary_world_m09_mattew",
             "opponent": {
-              "species": "zacian",
+              "species": "zacian-crowned",
               "level": 20
             },
             "opponentRegistered": false,
@@ -405,7 +405,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La Poké Ball è scattata: zacian è stato catturato con le regole Pokémon 5e. Il Pokémon è già persistito nel roster; il Mondiale non concede automaticamente uno slot nei sei schierabili. Puoi gestire la squadra dal Team prima del prossimo match."
+          "text": "La Poké Ball è scattata: Zacian nella forma incoronata è stato catturato secondo le regole Pokémon 5e, con la lama che già portava. Nessuna Spada Rovinata viene aggiunta al tuo inventario. Zacian è nel roster persistente: dalla schermata Team puoi schierarlo nei sei prima del prossimo incontro del Mondiale."
         }
       ],
       "choices": [
