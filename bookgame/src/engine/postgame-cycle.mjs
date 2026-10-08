@@ -136,11 +136,14 @@ export function getPostgameText(state) {
   return `La carriera continua. Sei a ${state.world.locationId}. Il mondo, i Pokémon, gli NPC e le conseguenze delle scelte rimangono gli stessi.\n\nProssimo Mondiale: edizione ${nextEdition}, fra ${days} giorni di gioco. Le attività scandiscono il tempo senza distribuire ricompense immotivate.`;
 }
 
-const CURRENT_EDITION_FLAGS = /^(?:m0?[7-9]_|m1[01]_|world_|worlds_)/;
+// Competition-only reset: NEVER clear unrelated world/quest/Legendary flags.
+// One-shot NPC schedule events do not fire twice; preserve their registrations.
+const CURRENT_EDITION_FLAGS =
+  /^(?:m0?[7-9]_|m1[01]_|worlds_missed$|world_(?:qualified$|champion$|eliminated$|exit_available$|draw|group|top|r16|qf|sf|final|knockout|current_))/;
 const PRESERVED_FLAGS = new Set([
   "m07_unlocked", "m7_active", "m7_complete", "m7_before_lights_complete",
-  "m7_qualifier_registered", "world_venue_discovered", "world_village_discovered",
-  "world_record_discovered"
+  "m7_qualifier_registered", "m8_astrid_available", "m9_kaia_available",
+  "m10_silas_available", "m11_rei_available"
 ]);
 function resetForQualifier(state) {
   const flags = worldFlags(state);
