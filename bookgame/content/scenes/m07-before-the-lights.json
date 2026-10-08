@@ -509,7 +509,7 @@
       "choices": [
         {
           "id": "close_outcome",
-          "text": "Passo all'outcome di M7.",
+          "text": "Passo all'outcome di questa tappa.",
           "goto": "m07-module-outcome#outcome_entry"
         }
       ]
