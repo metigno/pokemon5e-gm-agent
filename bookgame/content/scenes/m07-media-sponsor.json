@@ -38,7 +38,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "A Meridiana la carriera ha una seconda arena: telecamere, interviste e contratti competono per tempo e attenzione senza cambiare le regole di battaglia."
+          "text": "Appena entri nel distretto, una troupe trascina cavi sul marciapiede e un agente cerca riparo dal rumore per parlare al telefono. Sopra la porta della sala stampa lampeggia l'orario delle prossime interviste."
         }
       ],
       "choices": [
@@ -63,7 +63,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Press room, desk sponsor e agenda obblighi sono separati. Il player può scegliere esposizione e impegni, ma nessuna firma aggiunge statistiche ai Pokémon."
+          "text": "Una receptionist ti consegna una pianta del piano. A sinistra ci sono gli uffici degli sponsor; a destra, la sala stampa. Sulla bacheca, gli appuntamenti occupano già buona parte della giornata."
         }
       ],
       "choices": [
@@ -88,7 +88,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il desk presenta tre posture: indipendente, partner locale, partner maggiore. Cambiano visibilità e agenda; non concedono vantaggi meccanici occulti."
+          "text": "La responsabile apre tre cartelline. «Nessun accordo, una collaborazione locale oppure un contratto con più eventi pubblici. Leggi bene gli orari: gli sponsor vogliono vederti anche fuori dall'arena.»"
         }
       ],
       "choices": [
@@ -113,7 +113,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un media trainer ti prepara a domande su sconfitte, roster e aspettative. La risposta può definire il profilo pubblico, non il tiro di dado successivo."
+          "text": "Un consulente ti fa accomodare davanti a un microfono spento. «Ti chiederanno delle sconfitte, dei Pokémon che scegli e di cosa pensi del Mondiale. Non devi raccontare tutto, ma devi sapere cosa vuoi dire.»"
         }
       ],
       "choices": [
@@ -133,7 +133,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "I termini scelti vengono registrati come vincolo narrativo/di agenda. Denaro o beni eventuali dovranno passare dai sistemi economici reali, non da questa scena."
+          "text": "La responsabile gira il contratto verso di te e sottolinea gli appuntamenti obbligatori. «Prima di firmare, guarda quali giorni ti chiediamo. Un'intervista non aspetta perché hai deciso di allenarti.»"
         }
       ],
       "choices": [
@@ -160,7 +160,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Restare indipendente riduce gli obblighi sponsor ma non elimina la pressione mediatica del circuito."
+          "text": "«Nessuna firma, allora», dice la responsabile, richiudendo le cartelline. Fuori dall'ufficio, però, una troupe continua a cercare allenatori da intervistare."
         }
       ],
       "choices": [
@@ -187,7 +187,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un partner locale offre supporto di visibilità e appuntamenti limitati. Nessun vantaggio di combattimento entra nel contratto."
+          "text": "La responsabile ti mostra un calendario con poche apparizioni nella città. «Preferiamo che la gente ti conosca davvero, non che ti veda su ogni schermo.»"
         }
       ],
       "choices": [
@@ -214,7 +214,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un partner maggiore porta più esposizione e più finestre obbligatorie. Il costo principale qui è l'agenda, non un buff."
+          "text": "Il contratto più spesso contiene interviste, fotografie e appuntamenti in giorni già affollati. «Più pubblico», dice l'agente, «ma dovrai trovare il tempo per esserci.»"
         }
       ],
       "choices": [
@@ -241,7 +241,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La sessione dura mezz'ora e serve a preparare messaggi e limiti. Non modifica Carisma, skill o statistiche della scheda."
+          "text": "Per mezz'ora il consulente ti rivolge domande sempre più incalzanti. Quando una risposta si allunga, alza una mano. «Fermati qui. Lascia che siano loro a chiedere il resto.»"
         }
       ],
       "choices": [
@@ -269,7 +269,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Puoi essere aperto sui tuoi obiettivi o mantenere un profilo selettivo. Entrambe le posture hanno conseguenze di esposizione, non bonus numerici."
+          "text": "La luce rossa della telecamera si accende. «Sei arrivato fino al Rank S», dice la giornalista. «Che cosa vuoi dimostrare adesso?» Il microfono resta puntato verso di te."
         }
       ],
       "choices": [
@@ -305,7 +305,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Ogni postura occupa tempo diverso e può entrare in conflitto con preparazione, recupero o scouting. La scelta resta visibile nelle scene future."
+          "text": "Sulla tua agenda, gli orari degli sponsor si sovrappongono a quelli della preparazione. Un assistente indica due caselle: «Una delle due dovrà aspettare.»"
         }
       ],
       "choices": [
@@ -325,7 +325,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Prestigio, sconfitte e relazioni precedenti possono cambiare tono e interesse dei media, ma non trasformano un contratto in una ricompensa mai guadagnata."
+          "text": "La giornalista sfoglia i risultati pubblicati sul suo tablet. Alcuni nomi le sono familiari; su altri chiede conferma prima di formulare la domanda successiva."
         }
       ],
       "choices": [
@@ -352,7 +352,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Aspettare consuma un'ora e lascia correre schedule e opportunità. Non completa nessun Qualifier."
+          "text": "Passa un'ora. La troupe cambia turno, un agente richiama un appuntamento saltato e sul monitor compare un nuovo ordine delle interviste."
         }
       ],
       "choices": [
@@ -373,7 +373,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Media e sponsor sono ora una parte persistente della carriera. La preparazione professionale deve tenere conto di questi impegni senza duplicare i sistemi di squadra."
+          "text": "Lasci la sala stampa con un'agenda più piena o con qualche spazio difeso. Nel corridoio, altri allenatori aspettano il proprio turno davanti alle telecamere."
         }
       ],
       "choices": [

@@ -30,7 +30,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Meridiana è costruita attorno alla vita professionale: il Grand Hall domina la piazza, mentre arena, clinica sportiva, università e stazione si distribuiscono sugli assi principali."
+          "text": "Appena scendi a Meridiana, un annuncio copre il rumore dei trolley. Oltre la piazza, la facciata vetrata del Grand Hall riflette le luci dell'arena. Allenatori con le borse da viaggio attraversano la folla; davanti alla clinica sportiva, un'infermiera accompagna un Pokémon zoppicante all'interno."
         }
       ],
       "choices": [
@@ -71,7 +71,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Grand Hall non è una stanza del boss: è il centro amministrativo del circuito Rank S, con bacheche, accrediti e accessi separati."
+          "text": "Sotto il soffitto alto del Grand Hall, i monitor scorrono nomi e orari. Una fila aspetta gli accrediti; un addetto indica ingressi diversi per atleti, stampa e pubblico. Nessuno sembra avere tempo per chi sbaglia sportello."
         }
       ],
       "choices": [
@@ -102,7 +102,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Dalla piazza puoi raggiungere medicina sportiva, università e distretto sponsor. Nessun servizio cura, allena o qualifica con una semplice riga di dialogo."
+          "text": "Dalla piazza arrivano tre suoni distinti: le porte automatiche della clinica, le voci degli studenti davanti all'università e il richiamo di un giornalista nel distretto degli sponsor. Il tabellone dell'arena cambia programma mentre lo osservi."
         }
       ],
       "choices": [
@@ -127,7 +127,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La reception valuta disponibilità e rischio, ma lo stato di HP, PP, condizioni e infortuni resta del sistema medico reale."
+          "text": "Dietro il banco, una dottoressa controlla una cartella e chiede a un allenatore quando abbia combattuto l'ultima volta. Lui guarda il Pokémon al suo fianco prima di rispondere. La fila avanza lentamente."
         }
       ],
       "choices": [
@@ -153,7 +153,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Readiness significa combinare recupero, calendario e carico reale. Rank S non rende automaticamente sana una squadra stanca o incompleta."
+          "text": "«Non basta essere arrivati in cima alla classifica», dice la dottoressa, indicando una tabella di recupero. «Conta anche in che condizioni arrivate al prossimo incontro. Se hai dubbi, falli valutare prima di entrare in campo.»"
         }
       ],
       "choices": [
@@ -184,7 +184,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La stazione internazionale collega Meridiana alle sedi del circuito. Accesso, orari e finestre restano vincoli reali: nessun viaggio viene anticipato dalla UI."
+          "text": "Un convoglio lascia la stazione internazionale. Sul pannello delle partenze, alcune tratte hanno ancora posti; altre mostrano l'ultimo accesso già chiuso. Un allenatore arriva di corsa al controllo e viene fermato."
         }
       ],
       "choices": [
@@ -211,7 +211,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'università ospita analisi di match, fisiologia e studio tattico. Le informazioni possono guidare decisioni, ma non sostituiscono statistiche o feature Pokémon 5e."
+          "text": "Dalle finestre dell'università si vede una sala piena di lavagne tattiche. Due studenti discutono una sequenza di mosse; uno cancella la propria previsione quando l'altro gli fa notare un dettaglio nel filmato."
         }
       ],
       "choices": [
@@ -238,7 +238,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La grande arena ospita scrim e finestre ufficiali diverse. Vedere il campo non significa essere registrati a un evento."
+          "text": "Dall'ingresso laterale dell'arena senti il colpo secco di un attacco contro una barriera di allenamento. Un addetto ferma i visitatori prima del corridoio riservato agli incontri ufficiali."
         }
       ],
       "choices": [
@@ -258,7 +258,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Agenzie, sponsor e media occupano lo stesso asse ma hanno obiettivi diversi. Un contratto può imporre tempo e obblighi, mai bonus di combattimento illegali."
+          "text": "Nel distretto sponsor, un agente parla fitto al telefono mentre una troupe prepara le luci. Su una vetrina sono esposti i volti di tre allenatori; accanto, un cartello annuncia le prossime interviste."
         }
       ],
       "choices": [
@@ -278,7 +278,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Telecamere, interviste e panel rendono visibile ogni risultato. La pressione è narrativa e di agenda, non un modificatore nascosto ai dadi."
+          "text": "Un cameraman chiede di rifare un'inquadratura. Poco più in là, una cronista interrompe un'intervista quando arriva la notizia di un risultato inatteso. Il nome sul suo taccuino viene barrato e sostituito."
         }
       ],
       "choices": [
@@ -298,7 +298,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Meridiana concentra opportunità, ma tutte competono per lo stesso tempo. Prepararsi meglio in un asse può significare rinunciare a un altro."
+          "text": "Dalla piazza riesci a vedere quasi tutto: clinica, università, arena, stazione. Ma gli orologi sopra gli ingressi non segnano tutti lo stesso appuntamento. Scegliere dove andare significa lasciar scorrere il resto della giornata."
         }
       ],
       "choices": [
@@ -318,7 +318,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un'ora in piazza cambia turni, schedule e disponibilità. Il mondo professionale non aspetta il player."
+          "text": "Il sole si sposta dietro il Grand Hall. Cambiano i volti alle biglietterie, le troupe ripiegano i cavalletti e nuovi allenatori attraversano la piazza con passo svelto."
         }
       ],
       "choices": [
@@ -345,7 +345,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Più persone citano Cynthia non come celebrità da inseguire, ma come trainer capace di proteggere risorse e piano gara per periodi molto lunghi."
+          "text": "Davanti all'arena, due allenatori discutono di Cynthia. «Non spreca una mossa», dice il primo. L'altro scuote la testa: «Non spreca un'occasione. È diverso.» Sul monitor passa per un istante il suo nome."
         }
       ],
       "choices": [
@@ -372,7 +372,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Ora conosci la struttura essenziale di Meridiana. Il prossimo incontro resta subordinato alla presenza reale dell'Anchor, non a un teletrasporto narrativo."
+          "text": "Hai visto come si muove Meridiana: ogni porta conduce a un impegno diverso e il calendario non aspetta nessuno. Il nome di Cynthia ricorre fra i corridoi dell'arena, ma incontrarla dipenderà anche dai suoi spostamenti."
         }
       ],
       "choices": [

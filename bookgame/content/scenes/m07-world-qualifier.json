@@ -34,13 +34,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il World Qualifier usa una lane a due match in questa istanza: vincere il primo apre il match di qualificazione; perdere chiude il percorso principale."
+          "text": "Il tabellone mostra due incontri sulla tua strada. Una linea collega il primo al secondo: soltanto vincendo la sfida iniziale raggiungerai quella decisiva."
         }
       ],
       "choices": [
         {
           "id": "entry_bracket",
-          "text": "Apro la mia lane del bracket.",
+          "text": "Controllo il tabellone degli incontri.",
           "goto": "bracket"
         },
         {
@@ -59,18 +59,18 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Entrambi i match sono Singles Official Six ELITE. Non esistono retry interni: una sconfitta passa al risultato e, se previsto, al Last Chance."
+          "text": "L'arbitro riunisce gli allenatori. «Due incontri singoli, sei Pokémon per parte. Chi perde esce da questo percorso. Non ci sono rivincite immediate.»"
         }
       ],
       "choices": [
         {
           "id": "rules_bracket",
-          "text": "Torno al bracket.",
+          "text": "Torno al tabellone.",
           "goto": "bracket"
         },
         {
           "id": "rules_field",
-          "text": "Controllo cosa è pubblico del field.",
+          "text": "Controllo cosa è pubblico del elenco degli avversari.",
           "goto": "field"
         }
       ]
@@ -79,7 +79,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La lane mostra Round 1 e Qualifying Match. Il secondo nodo è accessibile solo dopo una vittoria reale nel primo."
+          "text": "Sul monitor si illuminano il primo turno e l'incontro di qualificazione. Il secondo spazio attende ancora il nome di chi avanzerà."
         }
       ],
       "choices": [
@@ -90,7 +90,7 @@
         },
         {
           "id": "bracket_field",
-          "text": "Rivedo il field pubblico.",
+          "text": "Rivedo il elenco degli avversari pubblico.",
           "goto": "field"
         },
         {
@@ -104,7 +104,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il roster avversario pubblico è noto, ma ordine, tattiche e decisioni restano coperte. Nessun matchup viene riscritto per favorire la trama."
+          "text": "Accanto al tabellone sono pubblicati i Pokémon iscritti dagli avversari. Nessuno rivela l'ordine di entrata o le tattiche che useranno."
         }
       ],
       "choices": [
@@ -124,13 +124,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il primo avversario è registrato nel field reale della lane. Il player deve presentarsi con almeno sei Pokémon nel roster corrente."
+          "text": "Il primo avversario attende vicino all'ingresso degli atleti. Un addetto controlla la tua lista di sei Pokémon prima di aprire il passaggio."
         }
       ],
       "choices": [
         {
           "id": "round1_roster",
-          "text": "Rileggo l'Official Six richiesto.",
+          "text": "Rileggo l'squadra di sei Pokémon richiesto.",
           "goto": "round1_confirm"
         },
         {
@@ -140,7 +140,7 @@
         },
         {
           "id": "round1_back",
-          "text": "Torno al bracket.",
+          "text": "Torno al tabellone.",
           "goto": "bracket"
         }
       ]
@@ -149,7 +149,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il match parte soltanto se la registrazione è valida, il roster contiene almeno sei Pokémon e non esiste già un risultato Round 1."
+          "text": "L'arbitro controlla i documenti e il risultato ancora vuoto sul monitor. «Quando entrate, questo incontro conta davvero.»"
         }
       ],
       "choices": [
@@ -181,7 +181,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il controllo passa a Pokémon 5e/E5. Soltanto il resolver decide se la lane continua."
+          "text": "Le porte dell'arena si aprono. Il pubblico si alza mentre l'arbitro chiama i due allenatori al centro del campo."
         }
       ],
       "choices": [
@@ -251,13 +251,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La vittoria E5 apre il Qualifying Match. Non assegna ancora world_qualified."
+          "text": "Il segnale di fine incontro risuona nell'arena. Il tuo nome avanza sul tabellone, fino alla casella dell'ultima sfida."
         }
       ],
       "choices": [
         {
           "id": "round1_win_continue",
-          "text": "Registro la vittoria e passo all'intervallo.",
+          "text": "Raggiungo l'area di attesa del prossimo incontro.",
           "goto": "between_rounds",
           "effects": [
             {
@@ -269,7 +269,7 @@
         },
         {
           "id": "round1_win_review",
-          "text": "Registro la vittoria e rivedo il bracket.",
+          "text": "Registro la vittoria e rivedo il tabellone.",
           "goto": "bracket_review",
           "effects": [
             {
@@ -285,13 +285,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La sconfitta E5 chiude la lane principale. Il risultato resta eliminazione Round 1; nessun retry viene creato qui."
+          "text": "Il tabellone si aggiorna con la tua sconfitta. L'avversario prosegue; un addetto ti indica l'uscita riservata agli eliminati."
         }
       ],
       "choices": [
         {
           "id": "round1_loss_result",
-          "text": "Registro l'eliminazione e passo al risultato.",
+          "text": "Vado al banco per conoscere il risultato ufficiale.",
           "goto": "m07-qualifier-result#result_entry",
           "effects": [
             {
@@ -313,7 +313,7 @@
         },
         {
           "id": "round1_loss_review",
-          "text": "Registro la sconfitta e rivedo la history.",
+          "text": "Registro la sconfitta e rivedo la registro degli incontri.",
           "goto": "exit_loss",
           "effects": [
             {
@@ -339,7 +339,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Fra i due match non c'è reset narrativo della squadra. HP, PP, condizioni e risorse seguono il ciclo reale applicabile."
+          "text": "Fra gli incontri, gli addetti ripuliscono il campo. I tuoi Pokémon portano ancora i segni dello scontro appena concluso."
         }
       ],
       "choices": [
@@ -355,7 +355,7 @@
         },
         {
           "id": "between_bracket",
-          "text": "Rivedo la lane.",
+          "text": "Rivedo la percorso di gara.",
           "goto": "bracket_review"
         }
       ]
@@ -364,7 +364,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Qualifying Match è l'ultimo incontro della lane. Solo una vittoria reale qui può produrre una route classificabile come qualificata."
+          "text": "Resta un solo avversario sulla tua strada. Sul monitor, accanto al suo nome, compare la scritta «Incontro di qualificazione»."
         }
       ],
       "choices": [
@@ -388,7 +388,7 @@
         },
         {
           "id": "qual_review",
-          "text": "Rivedo la lane prima di entrare.",
+          "text": "Rivedo la percorso di gara prima di entrare.",
           "goto": "bracket_review"
         }
       ]
@@ -397,7 +397,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il secondo match richiede ancora Official Six reale. La vittoria Round 1 non protegge da una sconfitta qui."
+          "text": "L'arbitro verifica di nuovo la squadra. «La vittoria precedente ti ha portato qui. Non giocherà al posto tuo.»"
         }
       ],
       "choices": [
@@ -433,7 +433,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "E5 prende in carico il match decisivo. La narrativa riceverà soltanto win o lose dal resolver."
+          "text": "L'arbitro alza la mano e richiama il silenzio. Il campo è pronto per l'incontro decisivo."
         }
       ],
       "choices": [
@@ -503,13 +503,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Hai vinto realmente il match decisivo. Il bracket può ora essere classificato come qualificato, ma il flag mondiale viene scritto nel blocco risultato."
+          "text": "Il segnale finale attraversa l'arena. Sul tabellone compaiono due vittorie accanto al tuo nome; gli ufficiali verificano l'esito."
         }
       ],
       "choices": [
         {
           "id": "qual_win_result",
-          "text": "Registro la lane vinta e passo alla classificazione.",
+          "text": "Registro la percorso di gara vinta e passo alla classificazione.",
           "goto": "m07-qualifier-result#result_entry",
           "effects": [
             {
@@ -531,7 +531,7 @@
         },
         {
           "id": "qual_win_review",
-          "text": "Registro la vittoria e rivedo il bracket.",
+          "text": "Registro la vittoria e rivedo il tabellone.",
           "goto": "exit_win",
           "effects": [
             {
@@ -557,7 +557,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La sconfitta nel match decisivo è una vera eliminazione dalla lane principale. Il Last Chance, se disponibile, resta un evento separato."
+          "text": "Il risultato dell'ultima sfida appare sul monitor. Hai superato il primo turno, ma il posto in palio va all'avversario."
         }
       ],
       "choices": [
@@ -585,7 +585,7 @@
         },
         {
           "id": "qual_loss_review",
-          "text": "Registro la sconfitta e rivedo il bracket.",
+          "text": "Registro la sconfitta e rivedo il tabellone.",
           "goto": "exit_loss",
           "effects": [
             {
@@ -611,7 +611,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il bracket è una lettura della history: non può trasformare una loss in win o saltare un match."
+          "text": "Riguardi il tabellone: nomi, avversari e risultati corrispondono agli incontri disputati. Le caselle già chiuse non cambiano."
         }
       ],
       "choices": [
@@ -635,7 +635,7 @@
         },
         {
           "id": "review_exit",
-          "text": "Se la lane è chiusa, passo all'uscita.",
+          "text": "Se la percorso di gara è chiusa, passo all'uscita.",
           "goto": "close",
           "conditions": {
             "path": "world.flags.m7_qualifier_complete",
@@ -648,7 +648,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Ogni match ufficiale viene conservato in competition.history da E5. I flag M7 servono solo a ricostruire il ramo narrativo."
+          "text": "L'ufficiale apre il registro delle partite concluse. Ogni risultato riporta l'incontro e i due allenatori che lo hanno disputato."
         }
       ],
       "choices": [
@@ -659,7 +659,7 @@
         },
         {
           "id": "history_review",
-          "text": "Torno al bracket review.",
+          "text": "Torno al tabellone.",
           "goto": "bracket_review"
         }
       ]
@@ -668,7 +668,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La lane è stata vinta. Il passaggio successivo classifica il risultato e aggiorna la qualificazione persistente."
+          "text": "Gli addetti ti indirizzano al banco dei risultati. Le due vittorie sono visibili sul monitor; manca soltanto la conferma ufficiale."
         }
       ],
       "choices": [
@@ -679,7 +679,7 @@
         },
         {
           "id": "exit_win_review",
-          "text": "Rivedo la history prima di uscire.",
+          "text": "Rivedo la registro degli incontri prima di uscire.",
           "goto": "history_guard"
         }
       ]
@@ -688,7 +688,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La lane è terminata con una sconfitta reale. Il sistema non crea un replay interno."
+          "text": "La tua parte del tabellone è chiusa. L'arbitro consegna il risultato al banco: non è previsto un altro tentativo in questo percorso."
         }
       ],
       "choices": [
@@ -699,7 +699,7 @@
         },
         {
           "id": "exit_loss_review",
-          "text": "Rivedo il bracket chiuso.",
+          "text": "Rivedo il tabellone chiuso.",
           "goto": "bracket_review"
         }
       ]
@@ -708,7 +708,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La lane è chiusa e il suo risultato è persistente. La classificazione successiva decide World Qualified o Last Chance eligibility."
+          "text": "Le luci del tabellone restano accese sui risultati conclusi. Gli addetti preparano la comunicazione ufficiale."
         }
       ],
       "choices": [
@@ -719,7 +719,7 @@
         },
         {
           "id": "close_history",
-          "text": "Rivedo la history.",
+          "text": "Rivedo la registro degli incontri.",
           "goto": "history_guard"
         }
       ]

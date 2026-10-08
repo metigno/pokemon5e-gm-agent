@@ -34,7 +34,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Cynthia compare dove il suo schedule professionale la rende plausibile: fra Grand Hall, arena e spazi di analisi. Non viene presentata come boss obbligatorio."
+          "text": "Fra il Grand Hall e l'arena, Cynthia si ferma davanti a un monitor con gli orari degli incontri. Ha una cartella sotto il braccio e ascolta un assistente senza distogliere lo sguardo dal tabellone. Quando lui termina, annota qualcosa e gli restituisce la penna."
         }
       ],
       "choices": [
@@ -89,7 +89,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il suo tratto distintivo non è una frase ad effetto: valuta quante risorse stai spendendo oggi per non arrivare vuoto al match che conta davvero."
+          "text": "Cynthia osserva il programma della giornata, poi il tuo equipaggiamento. «Puoi vincere oggi e presentarti domani senza nulla da spendere», dice. «Quale delle due partite stai preparando?»"
         }
       ],
       "choices": [
@@ -114,7 +114,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Cynthia tratta un Rank S come un trainer completo ma non finito. Il Mondiale è ancora una probabilità da guadagnare, non una ricompensa per il titolo."
+          "text": "«Il Rank S ti apre certe porte», dice Cynthia, spostando la cartella sul tavolo. «Non decide cosa troverai dall'altra parte. Al Mondiale nessuno ti deve una vittoria.»"
         }
       ],
       "choices": [
@@ -139,7 +139,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La vedi interrompere una sessione prima di spremere l'ultima risorsa. Il punto sembra essere arrivare al giorno decisivo con opzioni ancora disponibili."
+          "text": "Cynthia interrompe una sessione mentre il Pokémon davanti a lei è ancora pronto a muoversi. Gli porge dell'acqua, controlla l'orologio e richiama l'assistente. Non aspetta che la stanchezza diventi evidente."
         }
       ],
       "choices": [
@@ -189,7 +189,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rinviare non crea una seconda Cynthia in un altro luogo. Il contatto potrà riaprirsi solo quando schedule e contesto lo consentono."
+          "text": "Cynthia richiude la cartella e si dirige verso l'uscita riservata agli atleti. Un addetto ti indica che il corridoio deve restare libero."
         }
       ],
       "choices": [
@@ -236,7 +236,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Per Cynthia una serie competitiva si perde anche vincendo troppo caro: HP, PP, informazioni e prevedibilità sono risorse che si consumano."
+          "text": "«Un incontro può costarti più di una sconfitta», dice Cynthia. «Se consumi tutto per vincere adesso, che cosa ti resta quando arriva quello decisivo?»"
         }
       ],
       "choices": [
@@ -256,7 +256,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Proteggere una risorsa non significa giocare passivi: significa sapere quale rischio serve adesso e quale appartiene a un turno o a un match futuro."
+          "text": "Cynthia fa scorrere due registrazioni dello stesso avversario. «Attaccare subito non è sempre coraggio. A volte è soltanto mostrargli il tuo piano prima che serva.»"
         }
       ],
       "choices": [
@@ -276,7 +276,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Gible, Gabite e Garchomp sono tappe di una carriera reale, non una trasformazione concessa dalla scena. L'ace è diventato affidabile perché il piano è cresciuto con lui."
+          "text": "Sul bordo della cartella spunta una vecchia fotografia: Cynthia accanto a un Gible impolverato. «All'inizio non avevamo tutte queste opzioni», racconta. «Abbiamo imparato a riconoscere quando insistere e quando fermarci.»"
         }
       ],
       "choices": [
@@ -303,7 +303,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Red, Lance e gli altri Anchor possono avere lasciato metodi diversi. Cynthia reagisce al percorso reale del player senza ereditare automaticamente rapporti o risultati altrui."
+          "text": "«Ogni allenatore ti lascia un'abitudine», osserva Cynthia. «La domanda è quali hai scelto di tenere.» Aspetta la tua risposta senza presumere che tu abbia incontrato qualcuno in particolare."
         }
       ],
       "choices": [
@@ -330,7 +330,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il rapporto nasce dal modo in cui discuti il rischio, non da un bonus segreto. Una convergenza di metodo può restare come relazione persistente."
+          "text": "Cynthia ascolta la tua posizione senza interromperti. Poi chiude la cartella. «Non dobbiamo pensarla allo stesso modo per prendere sul serio le scelte dell'altro.»"
         }
       ],
       "choices": [
@@ -362,7 +362,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Cynthia divide preparazione, recupero e osservazione. Nessuna di queste finestre ferma gli eventi degli altri trainer."
+          "text": "Un assistente si avvicina e indica l'orario sul monitor. Cynthia annuisce: «Ho ancora un'analisi da finire prima della prossima sessione.»"
         }
       ],
       "choices": [
@@ -389,7 +389,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il benchmark non stabilisce chi vincerà: mostra soltanto quanto è alto il livello di gestione richiesto prima del Qualifier."
+          "text": "Cynthia indica il calendario fitto dietro di lei. «La parte difficile non è avere una buona idea. È riuscire a usarla quando la settimana non va come avevi previsto.»"
         }
       ],
       "choices": [
@@ -409,7 +409,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un secondo contatto parte dalla relazione già esistente; l'introduzione non viene ricreata e Cynthia conserva il suo stato persistente."
+          "text": "Cynthia ti riconosce e sposta la cartella per farti posto. «Riprendiamo da dove eravamo rimasti. Hai cambiato qualcosa nel tuo piano?»"
         }
       ],
       "choices": [
@@ -429,7 +429,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'incontro lascia un benchmark e una relazione, non una vittoria. La pressione pubblica di Meridiana resta il prossimo problema concreto."
+          "text": "Cynthia si congeda con un cenno e torna verso l'arena. Dall'atrio arriva il brusio della stampa: qualcuno sta già chiamando gli allenatori per la prossima intervista."
         }
       ],
       "choices": [

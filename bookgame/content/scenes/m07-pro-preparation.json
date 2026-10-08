@@ -38,7 +38,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La preparazione Rank S coordina roster, training, scouting, recupero e agenda. La scena sceglie priorità, ma non modifica direttamente statistiche Pokémon 5e."
+          "text": "Nella sala di preparazione, un grande orologio domina la parete. Sul tavolo hai gli orari degli incontri, gli appuntamenti presi a Meridiana e lo spazio ancora libero per lavorare con i tuoi Pokémon."
         }
       ],
       "choices": [
@@ -58,7 +58,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Quattro assi competono per il tempo disponibile: Official Six, training, scouting e medicina sportiva. Nessuno viene risolto automaticamente."
+          "text": "Quattro fogli sono disposti davanti a te: squadra, allenamento, osservazione degli avversari e recupero. Alcuni orari coincidono. Non riuscirai a occupartene tutti nello stesso momento."
         }
       ],
       "choices": [
@@ -88,7 +88,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La preparazione legge il roster strutturato. Avere Rank S non crea il sesto Pokémon né rende disponibile chi è realmente indisponibile."
+          "text": "Riguardi i Pokémon a tua disposizione, uno per uno. Per entrare in campo con sei compagni devi poter contare su sei presenze reali, non soltanto su sei nomi annotati."
         }
       ],
       "choices": [
@@ -119,7 +119,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il training può essere tecnico o di rifinitura, ma gli incrementi reali devono passare dai sistemi Pokémon 5e esistenti. Qui si decide soltanto l'agenda."
+          "text": "Nell'area di allenamento una sessione breve sta per finire. Il responsabile indica due finestre libere sul registro: una di un'ora e una di due. «Decidi quanto tempo vuoi dedicarci.»"
         }
       ],
       "choices": [
@@ -155,7 +155,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Scouting significa raccogliere informazione o cercare opportunità reali; non genera automaticamente Pokémon, IV, mosse o counter perfetti."
+          "text": "Sulla bacheca degli osservatori compaiono rapporti incompleti e appunti sugli incontri precedenti. Alcuni dati potrebbero aiutarti; per verificarli dovresti rinunciare a un'altra parte della giornata."
         }
       ],
       "choices": [
@@ -189,7 +189,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La medicina sportiva può valutare readiness, ma la reception non ripristina HP, PP o infortuni con un flag narrativo."
+          "text": "Davanti alla clinica, un addetto controlla gli appuntamenti. «Se qualcuno della squadra non sta bene, serve una visita», ti ricorda. «Non basta segnare che siete pronti.»"
         }
       ],
       "choices": [
@@ -216,7 +216,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Ogni ora spesa qui è sottratta ad altro. L'agenda deve convivere con sponsor, media e finestre competitive."
+          "text": "Stendi il calendario sul tavolo. Le caselle già occupate da interviste e impegni pubblici lasciano meno spazio di quanto sembrasse all'inizio."
         }
       ],
       "choices": [
@@ -236,7 +236,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La preparazione è valida se conserva opzioni per il Qualifier, non se massimizza una singola giornata."
+          "text": "L'orologio continua a muoversi. Una sessione in più oggi potrebbe lasciarti meno tempo per recuperare prima dell'incontro che conta."
         }
       ],
       "choices": [
@@ -247,7 +247,7 @@
         },
         {
           "id": "pressure_ready",
-          "text": "Passo al readiness check.",
+          "text": "Passo al controllo della preparazione.",
           "goto": "ready_check"
         }
       ]
@@ -256,7 +256,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il benchmark di Cynthia ricorda di non spendere tutte le risorse per sentirsi pronti oggi. Il consiglio non modifica nessuna statistica."
+          "text": "Ti torna in mente Cynthia mentre interrompeva una sessione ancora produttiva. Non sembrava avere fretta di dimostrare qualcosa: aveva già deciso quando fermarsi."
         }
       ],
       "choices": [
@@ -287,13 +287,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Gli obblighi scelti nel blocco precedente restano reali. Cambiare priorità qui non cancella retroattivamente la postura sponsor o media."
+          "text": "Una notifica ricorda l'appuntamento concordato con gli sponsor. L'orario coincide con parte del lavoro che avevi previsto; sul calendario le due caselle si sovrappongono."
         }
       ],
       "choices": [
         {
           "id": "sponsor_ready",
-          "text": "Accetto il vincolo e passo al readiness check.",
+          "text": "Accetto il vincolo e passo al controllo della preparazione.",
           "goto": "ready_check",
           "effects": [
             {
@@ -314,7 +314,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il readiness check non registra ancora il World Qualifier. Verifica soltanto se il piano è abbastanza maturo da entrare nel prossimo blocco."
+          "text": "Sul tavolo restano la lista dei sei Pokémon e il programma della giornata. Puoi presentarti allo sportello delle iscrizioni soltanto quando la squadra rispetta i requisiti richiesti."
         }
       ],
       "choices": [
@@ -345,13 +345,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M7_04 termina con un piano persistente, non con una qualificazione. FRIEND_BEAT_07 e registrazione al Qualifier restano blocchi successivi."
+          "text": "Ripieghi il programma e lasci la sala. Fuori, gli allenatori continuano ad arrivare a Meridiana. Prima dell'iscrizione resta ancora il tempo per sentire uno dei tuoi amici."
         }
       ],
       "choices": [
         {
           "id": "close_hub",
-          "text": "Passo al Friend Beat 07 quando il selector ha trovato un contatto reale.",
+          "text": "Passo al incontro con un amico quando il calendario ha trovato un contatto reale.",
           "goto": "m07-friend-beat-07#friend_entry"
         },
         {

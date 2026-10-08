@@ -46,7 +46,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La qualificazione cambia il rumore intorno al player: il Mondiale è ora concreto. Before the Lights usa soltanto amici e Anchor realmente disponibili."
+          "text": "Meridiana ha un suono diverso dopo la qualificazione: più telecamere, più persone che ti riconoscono, più domande sulla partenza imminente."
         }
       ],
       "choices": [
@@ -71,7 +71,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'evento si apre dopo world_qualified e con partenza imminente o livello sufficiente. Non è un premio narrativo separato dalla qualificazione."
+          "text": "Sul tabellone delle partenze compare il periodo del Mondiale. L'accredito è confermato, ma il viaggio e la preparazione restano da organizzare."
         }
       ],
       "choices": [
@@ -91,7 +91,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Ogni contatto compare solo se quell'amico è presente nel proprio schedule. Nessuno viene spostato a Meridiana per produrre la scena."
+          "text": "Controlli i messaggi degli amici. Qualcuno è in viaggio, qualcuno è impegnato; soltanto chi è davvero disponibile può fermarsi a salutarti."
         }
       ],
       "choices": [
@@ -186,7 +186,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Luke non tratta il Mondiale come un finale già scritto: parla di adattamento e di quanto sarà diverso il prossimo field."
+          "text": "Luke sorride di traverso. «Adesso non iniziare a cambiare i Pokémon che ti hanno portato fin qui. Semmai trova un modo più cattivo di farli lavorare insieme.»"
         }
       ],
       "choices": [
@@ -228,7 +228,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Mattew separa il tuo posto al Mondiale dal proprio percorso. Il rapporto non sincronizza risultati o seed."
+          "text": "Mattew incrocia le braccia. «Quando arrivi, guarda come si allenano gli altri. Non per copiarli: per capire cosa fanno meglio di noi.» Poi aggiunge: «E cerca di dormire, ogni tanto.»"
         }
       ],
       "choices": [
@@ -270,7 +270,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Daniel prova a leggere il Mondiale senza fingere di conoscere già sorteggio e avversari."
+          "text": "Daniel osserva il programma provvisorio. «Non conosci ancora gli avversari. Evita di fare promesse che dipendono da un sorteggio che nessuno ha visto.»"
         }
       ],
       "choices": [
@@ -312,7 +312,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Edward insiste sulla continuità: il viaggio non cancella fatica, infortuni o ciò che il team ha speso per arrivare fin qui."
+          "text": "Edward si sistema la giacca e sorride. «Almeno al Mondiale avranno telecamere decenti. Fai vedere cosa sanno fare i tuoi Pokémon, non soltanto la tua faccia.»"
         }
       ],
       "choices": [
@@ -354,7 +354,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Fab ricorda che essere qualificati non rende improvvisamente gratuite medicine, oggetti o preparazione."
+          "text": "Fab accarezza il Pokémon accanto a sé. «Goditela, ma ricordati di far riposare la squadra. Il biglietto per il Mondiale non cura nessuno.»"
         }
       ],
       "choices": [
@@ -396,7 +396,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Cynthia osserva la partenza come un cambio di scala, non come la fine della carriera. Il suo rapporto resta disponibile per futuri callback."
+          "text": "Cynthia ti incontra per un momento fra due appuntamenti. «La qualificazione è un inizio», dice. «Ora devi capire come arrivare pronto al primo incontro.»"
         }
       ],
       "choices": [
@@ -416,7 +416,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Sponsor e media possono leggere la qualificazione, ma non decidono roster World, draw o risultati futuri."
+          "text": "I giornalisti chiedono nomi e pronostici. Il tabellone dei partecipanti, però, non mostra ancora gli abbinamenti."
         }
       ],
       "choices": [
@@ -436,7 +436,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Roster, HP, PP, condizioni, inventario, denaro, livelli, EXP e infortuni proseguono esattamente nello stato corrente. M8 non è un reset."
+          "text": "Riguardi la tua squadra prima di partire. Ogni Pokémon porta con sé la propria esperienza, la propria fatica e le cure eventualmente ancora necessarie."
         }
       ],
       "choices": [
@@ -456,7 +456,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La prossima tappa sarà il venue mondiale, ma questo blocco non teletrasporta ancora il player né genera il draw."
+          "text": "Alla stazione internazionale, gli addetti preparano le partenze dei prossimi giorni. Il luogo del Mondiale è la prossima destinazione, non ancora il posto in cui ti trovi."
         }
       ],
       "choices": [
@@ -483,7 +483,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il saluto non assegna bonus. Registra soltanto una relazione e un momento coerente con schedule e posizione reali."
+          "text": "Un ultimo saluto dura pochi minuti, quanto basta per una battuta e una promessa di risentirsi quando gli impegni lo permetteranno."
         }
       ],
       "choices": [
@@ -503,13 +503,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Before the Lights è completo: il Mondiale è imminente, ma M7 deve ancora eseguire il proprio exit contract."
+          "text": "Le luci del Grand Hall si spengono una fila alla volta. Il Mondiale si avvicina; prima di partire, resta da chiudere gli ultimi impegni a Meridiana."
         }
       ],
       "choices": [
         {
           "id": "close_outcome",
-          "text": "Passo all'outcome di M7.",
+          "text": "Passo all'outcome di questa tappa.",
           "goto": "m07-module-outcome#outcome_entry"
         }
       ]

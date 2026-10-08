@@ -34,7 +34,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il gate distingue due casi: una run già qualificata bypassa il Last Chance; una run eliminata può aprirlo solo se l'eligibility canonica è presente."
+          "text": "Davanti allo sportello dell'ultima occasione, un addetto controlla la tua situazione. Non tutti gli allenatori eliminati possono iscriversi."
         }
       ],
       "choices": [
@@ -49,7 +49,7 @@
         },
         {
           "id": "entry_eligibility",
-          "text": "Non sono qualificato: controllo l'eligibility.",
+          "text": "Controllo se posso iscrivermi all'ultima occasione.",
           "goto": "eligibility",
           "conditions": {
             "path": "world.flags.world_qualified",
@@ -67,7 +67,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Una run qualificata non può consumare un Last Chance. Il gate viene chiuso come bypass."
+          "text": "L'addetto vede la tua qualificazione e richiude il modulo. «Hai già il tuo posto. Questo evento è per chi ha ancora una possibilità da giocare.»"
         }
       ],
       "choices": [
@@ -95,7 +95,7 @@
         },
         {
           "id": "qualified_history",
-          "text": "Rivedo la history.",
+          "text": "Rileggo i referti degli incontri.",
           "goto": "qualifier_history"
         }
       ]
@@ -104,7 +104,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'accesso richiede sia last_chance_eligible sia l'apertura A7_LAST_CHANCE prodotta dal Living World."
+          "text": "L'addetto confronta l'esito del Qualifier con l'elenco degli ammessi e con l'orario esposto sulla porta."
         }
       ],
       "choices": [
@@ -127,7 +127,7 @@
         },
         {
           "id": "eligibility_closed",
-          "text": "Non esiste una route legale disponibile.",
+          "text": "Non esiste una percorso legale disponibile.",
           "goto": "unavailable",
           "conditions": {
             "any": [
@@ -153,7 +153,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La route è finita: una sola istanza Last Chance, con risultati propri. Non riapre il bracket principale."
+          "text": "«Sei nell'elenco», dice l'addetto. «Un solo incontro, un'unica possibilità. La sconfitta precedente resta registrata.»"
         }
       ],
       "choices": [
@@ -169,7 +169,7 @@
         },
         {
           "id": "available_open",
-          "text": "Apro formalmente la route Last Chance.",
+          "text": "Chiedo di iscrivermi all'ultima occasione.",
           "goto": "gate_open"
         }
       ]
@@ -178,7 +178,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Senza eligibility reale il gioco non crea un torneo sostitutivo. La carriera dovrà seguire l'uscita prevista dal suo stato."
+          "text": "L'addetto scuote la testa. «Non risulti fra gli ammessi. Non posso aggiungere un incontro fuori programma.»"
         }
       ],
       "choices": [
@@ -198,7 +198,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "A7_LAST_CHANCE è once=true: una volta consumato non può diventare una catena di retry fino alla vittoria."
+          "text": "Sul regolamento una riga è sottolineata: una sola partecipazione. Dopo l'incontro, il risultato è definitivo."
         }
       ],
       "choices": [
@@ -218,13 +218,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La sconfitta del Qualifier resta in history anche quando il Last Chance apre una nuova possibilità. La qualificazione già ottenuta, invece, chiude questa route."
+          "text": "Nel registro compare ancora la sconfitta del Qualifier. La nuova iscrizione, quando consentita, occupa una pagina diversa."
         }
       ],
       "choices": [
         {
           "id": "history_eligibility",
-          "text": "Torno al controllo eligibility.",
+          "text": "Torno al controllo requisiti.",
           "goto": "eligibility",
           "conditions": {
             "path": "world.flags.world_qualified",
@@ -246,7 +246,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "FRIEND_BEAT_07 non concede accesso, ma può cambiare il significato personale di un'ultima possibilità."
+          "text": "Un messaggio del tuo amico ti raggiunge mentre aspetti. Per un momento la possibilità di giocarti tutto in un solo incontro pesa diversamente."
         }
       ],
       "choices": [
@@ -257,7 +257,7 @@
         },
         {
           "id": "friend_open",
-          "text": "Torno all'apertura della route.",
+          "text": "Torno all'apertura della percorso.",
           "goto": "available"
         }
       ]
@@ -266,7 +266,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il principio di Cynthia resta coerente: Last Chance non è una scusa per ignorare risorse, recupero e rischio."
+          "text": "Il consiglio di Cynthia torna a farsi sentire: arrivare all'ultima sfida con risorse da spendere è importante quanto volerla vincere."
         }
       ],
       "choices": [
@@ -281,7 +281,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il calendario continua a scorrere. Aspettare è legale soltanto finché la finestra resta realmente disponibile."
+          "text": "L'orologio sopra lo sportello avanza. Gli addetti richiamano gli ultimi nomi prima di chiudere le iscrizioni."
         }
       ],
       "choices": [
@@ -293,7 +293,7 @@
         },
         {
           "id": "schedule_open",
-          "text": "Entro nella route senza altra attesa.",
+          "text": "Entro nella percorso senza altra attesa.",
           "goto": "gate_open"
         }
       ]
@@ -302,13 +302,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La sosta non resetta il Qualifier e non crea una seconda eligibility. Al ritorno il gate rilegge lo stato attuale."
+          "text": "Ti allontani dal banco. Quando tornerai, l'addetto controllerà di nuovo orario e disponibilità."
         }
       ],
       "choices": [
         {
           "id": "defer_check",
-          "text": "Ricontrollo l'eligibility.",
+          "text": "Ricontrollo l'requisiti.",
           "goto": "eligibility"
         },
         {
@@ -322,13 +322,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Last Chance è autorizzato ma non ancora combattuto. Il blocco M7_10 consumerà questa route una sola volta."
+          "text": "L'addetto ti consegna il foglio d'accesso. «Se decidi di entrare, sarà l'ultima partita di questo percorso.»"
         }
       ],
       "choices": [
         {
           "id": "open_record",
-          "text": "Registro la route pronta.",
+          "text": "Confermo che posso partecipare.",
           "goto": "close",
           "effects": [
             {
@@ -354,7 +354,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il gate resta chiuso. Non viene fabbricata una qualificazione alternativa."
+          "text": "La finestra di iscrizione resta chiusa per te. Il tabellone non aggiunge alcun incontro."
         }
       ],
       "choices": [
@@ -377,7 +377,7 @@
         },
         {
           "id": "closed_history",
-          "text": "Rivedo la history.",
+          "text": "Rileggo i referti degli incontri.",
           "goto": "qualifier_history"
         }
       ]
@@ -386,7 +386,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il routing è persistente: qualificato, Last Chance pronto oppure nessuna route. Nessun risultato viene modificato qui."
+          "text": "Lasci lo sportello con la situazione chiarita: posto già ottenuto, ultima occasione disponibile oppure percorso concluso."
         }
       ],
       "choices": [
@@ -401,7 +401,7 @@
         },
         {
           "id": "close_last_chance",
-          "text": "La route Last Chance è pronta: la consumo adesso.",
+          "text": "La percorso Last Chance è pronta: la consumo adesso.",
           "goto": "m07-last-chance#last_chance_entry",
           "conditions": {
             "all": [
@@ -418,7 +418,7 @@
         },
         {
           "id": "close_worlds_missed",
-          "text": "Non esiste una route qualificante residua: affronto Worlds Missed.",
+          "text": "Non esiste una percorso qualificante residua: affronto Worlds Missed.",
           "goto": "m07-worlds-missed#missed_entry",
           "conditions": {
             "all": [

@@ -70,7 +70,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M7 chiude soltanto dopo Cynthia, FRIEND_BEAT_07 e una risoluzione reale della corsa al Mondiale. Il ramo successivo dipende dallo stato competitivo, non da una scelta cosmetica."
+          "text": "Prima di lasciare Meridiana, riguardi gli incontri disputati e le persone che hai incontrato. Il prossimo viaggio dipende dal risultato ufficiale."
         }
       ],
       "choices": [
@@ -86,7 +86,7 @@
         },
         {
           "id": "entry_complete",
-          "text": "M7 è già chiuso: rivedo il punto di handoff.",
+          "text": "questa tappa è già chiuso: rivedo il punto di handoff.",
           "goto": "complete",
           "conditions": {
             "path": "world.flags.m7_complete",
@@ -99,7 +99,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il contract richiede Anchor, Friend Beat, qualifier history e uno fra world_qualified o worlds_missed. Non può esistere un terzo esito implicito."
+          "text": "Sul banco sono raccolti la conferma dell'incontro con Cynthia, le notizie degli amici e il registro delle gare concluse. L'addetto controlla che la pratica sia completa."
         }
       ],
       "choices": [
@@ -110,7 +110,7 @@
         },
         {
           "id": "contract_friend",
-          "text": "Controllo FRIEND_BEAT_07.",
+          "text": "Rileggo l'ultimo messaggio del mio amico.",
           "goto": "friend"
         },
         {
@@ -124,7 +124,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Cynthia è stata realmente incontrata e rimane nello stato NPC persistente."
+          "text": "Il nome di Cynthia resta nei tuoi contatti. La sua carriera prosegue secondo il proprio calendario, indipendentemente dal tuo prossimo viaggio."
         }
       ],
       "choices": [
@@ -144,7 +144,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "FRIEND_BEAT_07 conserva amico, modalità e conseguenze senza sincronizzare le carriere."
+          "text": "Sul telefono resta la conversazione con il tuo amico. Avete parlato davvero, anche se ora potreste prendere strade diverse."
         }
       ],
       "choices": [
@@ -164,7 +164,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Qualifier e, se usato, il Last Chance restano nella competition.history. M7 non crea un risultato parallelo."
+          "text": "Il registro conserva ogni incontro del Qualifier e, se disputato, dell'ultima occasione. I risultati sono già firmati."
         }
       ],
       "choices": [
@@ -184,13 +184,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "world_qualified=true apre M8 — Il Mondo nello Stesso Posto. Worlds Missed non viene scritto su questa route."
+          "text": "La conferma del posto al Mondiale è pronta. L'addetto indica il banco degli accrediti internazionali e il programma della partenza."
         }
       ],
       "choices": [
         {
           "id": "qualified_commit",
-          "text": "Applico l'unlock M8.",
+          "text": "Confermo la partenza per il Mondiale.",
           "goto": "commit_qualified"
         },
         {
@@ -204,7 +204,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "worlds_missed=true salta il torneo come partecipante e apre M12 — Dopo il Mondo. M8 non viene sbloccato."
+          "text": "L'elenco dei qualificati è definitivo e non comprende il tuo nome. L'addetto indica le destinazioni di ritorno e gli impegni ancora aperti."
         }
       ],
       "choices": [
@@ -224,7 +224,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Roster, Pokémon, EXP, condizioni, inventario, denaro, relazioni, schedule, Rank e history non vengono resettati al confine M7."
+          "text": "Controlli lo zaino e richiami la squadra. Nessun oggetto, ferita, esperienza o legame sparisce perché stai lasciando la città."
         }
       ],
       "choices": [
@@ -244,7 +244,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il router legge soltanto lo stato già risolto: qualificato verso M8, mancato Mondiale verso M12."
+          "text": "L'addetto legge il risultato ufficiale e ti indirizza verso il banco appropriato. Non ti chiede di scegliere quale esito preferisci."
         }
       ],
       "choices": [
@@ -288,13 +288,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il commit non modifica il risultato: registra M7 completo e rende M8 accessibile."
+          "text": "L'ufficiale chiude la pratica di Meridiana e ti consegna le indicazioni per raggiungere la sede mondiale."
         }
       ],
       "choices": [
         {
           "id": "commit_q_now",
-          "text": "Chiudo M7 sul ramo qualificato.",
+          "text": "Chiudo questa tappa sul ramo qualificato.",
           "goto": "complete",
           "effects": [
             {
@@ -325,13 +325,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il commit conserva la mancata qualificazione e rende accessibile il ramo WORLD_EXIT/M12."
+          "text": "L'ufficiale chiude la pratica di Meridiana. La tua carriera continua lungo le strade che restano aperte."
         }
       ],
       "choices": [
         {
           "id": "commit_m_now",
-          "text": "Chiudo M7 sul ramo Worlds Missed.",
+          "text": "Chiudo questa tappa sul ramo Worlds Missed.",
           "goto": "complete",
           "effects": [
             {
@@ -362,13 +362,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M7 — Sotto i Riflettori è formalmente completo. Il prossimo modulo è conseguenza diretta del risultato salvato."
+          "text": "Le porte del Grand Hall si richiudono alle tue spalle. Meridiana resta al lavoro, mentre tu riparti con il risultato che hai ottenuto."
         }
       ],
       "choices": [
         {
           "id": "complete_q",
-          "text": "Proseguo verso il Mondiale con M8 sbloccato.",
+          "text": "Parto per il Mondiale.",
           "goto": "m08-world-arrival#world_entry",
           "conditions": {
             "path": "world.flags.m08_unlocked",
@@ -377,7 +377,7 @@
         },
         {
           "id": "complete_m",
-          "text": "Entro in M12 / WORLD_EXIT con Worlds Missed registrato.",
+          "text": "Riprendo il viaggio dopo la mancata qualificazione.",
           "goto": "m12-world-exit-branch#world_exit_entry",
           "conditions": {
             "path": "world.flags.m12_unlocked",

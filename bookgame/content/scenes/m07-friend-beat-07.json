@@ -38,18 +38,18 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Uno dei Four interseca la corsa al Mondiale secondo stato, posizione e rotazione reali. Il blocco non teletrasporta nessuno e non forza un match fra amici."
+          "text": "Il telefono vibra mentre attraversi Meridiana. Sullo schermo compare il nome di uno dei tuoi amici. Anche lui ha una giornata piena: per ora, questo è il momento in cui le vostre strade riescono a incrociarsi."
         }
       ],
       "choices": [
         {
           "id": "entry_status",
-          "text": "Controllo chi è stato selezionato e perché.",
+          "text": "Rileggo gli ultimi messaggi prima di rispondere.",
           "goto": "selector_status"
         },
         {
           "id": "entry_contact",
-          "text": "Apro il contatto disponibile.",
+          "text": "Rispondo al messaggio.",
           "goto": "dispatch"
         }
       ]
@@ -58,23 +58,23 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il selector evita il protagonista e, quando possibile, il Friend Beat precedente. Un incontro fisico esiste solo se player e amico condividono davvero la stessa posizione."
+          "text": "Scorri gli ultimi messaggi del gruppo. Non tutti sono nella stessa città, e qualcuno è impegnato in una gara. Il contatto che hai davanti è quello a cui puoi rispondere adesso."
         }
       ],
       "choices": [
         {
           "id": "status_dispatch",
-          "text": "Passo al contatto selezionato.",
+          "text": "Apro la conversazione.",
           "goto": "dispatch"
         },
         {
           "id": "status_callback",
-          "text": "Rivedo come i Friend Beat precedenti pesano sulla rotazione.",
+          "text": "Ripenso agli ultimi incontri con gli amici.",
           "goto": "callback"
         },
         {
           "id": "status_wait",
-          "text": "Se il contatto è remoto, posso comunque scegliere quando rispondere.",
+          "text": "Aspetto un momento prima di rispondere.",
           "goto": "wait_contact"
         }
       ]
@@ -83,7 +83,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il sistema mantiene l'identità dell'amico selezionato. Ogni ramo usa la relazione persistente di quella persona e non sostituisce il suo stato competitivo."
+          "text": "Apri la conversazione. Per un istante rivedi le battute scambiate negli anni, poi arriva un nuovo messaggio: «Allora, campione, sei ancora vivo?»"
         }
       ],
       "choices": [
@@ -138,7 +138,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Luke tratta la pressione come un problema di adattamento: non vuole arrivare al Qualifier con una sola linea di gioco."
+          "text": "Luke compare sullo schermo con un sorriso di sfida. «Tutti a dirmi quali Pokémon dovrei cambiare. Figurati. Piuttosto trovo il modo di farli funzionare insieme. E quando attacco, voglio che se ne accorgano.»"
         }
       ],
       "choices": [
@@ -180,7 +180,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Mattew misura il momento rispetto al proprio percorso, non al tuo: il suo ranking e la sua preparazione restano indipendenti."
+          "text": "Mattew ha un quaderno aperto accanto a sé. «Ho rivisto l'ultimo incontro tre volte», dice. «Non per copiarlo. Voglio capire dove ho sbagliato.» Poi sorride: «Tu quante volte l'hai rivisto, una mezza?»"
         }
       ],
       "choices": [
@@ -222,7 +222,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Daniel legge il field come un problema di informazioni incomplete. Non rivela roster futuri che non ha realmente scoperto."
+          "text": "Daniel risponde dopo aver finito di parlare con un addetto. «Prima di discutere il tabellone, voglio essere sicuro che tutti abbiano ricevuto le stesse informazioni», dice. Poi aggiunge: «Sì, lo so. Sono sempre quello divertente del gruppo.»"
         }
       ],
       "choices": [
@@ -264,7 +264,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Edward mette al centro continuità e tenuta: arrivare al Qualifier significa anche accettare che un risultato possa chiudere la corsa."
+          "text": "Edward si sistema il colletto davanti alla telecamera. «Se devo finire sui manifesti, almeno che scelgano una foto decente.» Ride, poi indica il suo Pokémon: «E in campo voglio far parlare lui.»"
         }
       ],
       "choices": [
@@ -306,7 +306,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Fab affronta la pressione con pragmatismo: recupero, risorse e margine d'errore contano quanto il prestigio del tabellone."
+          "text": "Fab risponde con un Pokémon accoccolato vicino. «Stavamo facendo una pausa», dice. «Non so come andrà il Qualifier, ma finché siamo qui ci proviamo. E tu non montarti la testa, eh.»"
         }
       ],
       "choices": [
@@ -348,7 +348,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Siete nello stesso luogo. Questo permette un confronto reale ma non autorizza uno sparring automatico: Player vs Friend avviene solo se un bracket o una scena legale lo produce."
+          "text": "Vi incontrate fra il viavai degli allenatori. Il tuo amico si ferma abbastanza vicino da poter parlare senza alzare la voce. Sul tabellone scorrono i prossimi appuntamenti."
         }
       ],
       "choices": [
@@ -394,7 +394,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il contatto resta remoto: l'amico non viene spostato a Meridiana. La distanza stessa può essere una conseguenza della sua carriera."
+          "text": "Dall'altro capo della chiamata arrivano rumori diversi da quelli di Meridiana. Il tuo amico si sposta per sentirti meglio: oggi siete lontani, ma avete trovato qualche minuto per parlare."
         }
       ],
       "choices": [
@@ -440,7 +440,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Nessuno dei due può garantire l'esito. Se l'amico è già qualificato, eliminato o ancora in corsa, quel fatto deve provenire dal suo stato reale e non da questo dialogo."
+          "text": "«Nessuno di noi sa già come finirà», dice il tuo amico. Per un momento il tono si fa serio. Poi arriva la battuta inevitabile: «Però se fai una figuraccia, questa te la ricordo per anni.»"
         }
       ],
       "choices": [
@@ -460,7 +460,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Una sconfitta non viene riscritta in una lezione obbligatoria. Può cambiare tono, relazione e prossime decisioni, ma resta una sconfitta."
+          "text": "Il tuo amico resta in silenzio per qualche secondo. Non cerca una frase eroica per cancellare la sconfitta. «È andata così», dice infine. «Domani vedrò cosa fare.»"
         }
       ],
       "choices": [
@@ -480,7 +480,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Essere avanti non significa poter trascinare l'altro con sé. La qualificazione resta individuale e il bracket non viene piegato per creare una sfida fra amici."
+          "text": "Il tuo amico guarda il programma dei prossimi incontri. «Essere passato non significa che sia finita», dice. «E non posso giocare la tua partita al posto tuo.»"
         }
       ],
       "choices": [
@@ -500,7 +500,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Quando il suo stato non è pubblico o non è ancora risolto, la scena mantiene l'incertezza invece di anticipare informazioni future."
+          "text": "«Non so ancora come andrà», ammette il tuo amico. Si sente qualcuno chiamarlo in lontananza. «Appena ho notizie vere, te lo dico.»"
         }
       ],
       "choices": [
@@ -520,7 +520,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La parte più difficile è convivere con l'idea che una singola giornata possa cambiare mesi di lavoro. Nessun bonus nascosto compensa questa pressione."
+          "text": "Per qualche secondo smettete di scherzare. Basta guardare il calendario per capire quanto può pesare una sola giornata. Poi uno dei due rompe il silenzio con una battuta."
         }
       ],
       "choices": [
@@ -531,7 +531,7 @@
         },
         {
           "id": "pressure_callback",
-          "text": "Ricollego questo momento ai Friend Beat precedenti.",
+          "text": "Ricollego questo momento ai incontro con un amico precedenti.",
           "goto": "callback"
         }
       ]
@@ -540,7 +540,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il rapporto cambia perché vi siete confrontati davvero, non perché il gioco deve premiarvi prima del Qualifier."
+          "text": "La conversazione prende una piega più personale. Il tuo amico ascolta, ribatte e non ti lascia passare una provocazione senza restituirla."
         }
       ],
       "choices": [
@@ -560,7 +560,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "I Friend Beat precedenti restano parte della relazione e della rotazione. M7 non cancella né duplica quei momenti."
+          "text": "Una vecchia battuta del gruppo torna fuori nel momento meno opportuno. Ridete, ma sotto la presa in giro resta il ricordo delle strade diverse che avete percorso."
         }
       ],
       "choices": [
@@ -571,7 +571,7 @@
         },
         {
           "id": "callback_record",
-          "text": "Chiudo il callback e registro il beat.",
+          "text": "Chiudo il ricordo e registro il incontro.",
           "goto": "result_record"
         }
       ]
@@ -580,7 +580,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Aspettare un'ora può cambiare schedule e disponibilità, ma non teletrasporta l'amico selezionato e non modifica il suo risultato competitivo."
+          "text": "Passa un'ora. La città cambia ritmo e sul telefono arrivano nuove notifiche. Non tutti gli impegni degli altri possono aspettare una tua risposta."
         }
       ],
       "choices": [
@@ -601,13 +601,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il beat conserva amico, modalità e relazione. Non produce punti, ranking o qualificazione."
+          "text": "La conversazione si chiude con un'ultima battuta. Sullo schermo resta il nome del tuo amico e, per un momento, il rumore del circuito sembra più lontano."
         }
       ],
       "choices": [
         {
           "id": "record_complete",
-          "text": "Segno FRIEND_BEAT_07 come completato.",
+          "text": "Saluto il mio amico e chiudo la conversazione.",
           "goto": "friend_close",
           "effects": [
             {
@@ -623,13 +623,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La corsa al Mondiale torna al centro. Il prossimo passo è la registrazione ufficiale, separata dal risultato del Qualifier."
+          "text": "Riponi il telefono. Davanti a te, il Grand Hall continua ad accogliere allenatori per le iscrizioni al Qualifier."
         }
       ],
       "choices": [
         {
           "id": "close_registration",
-          "text": "Passo alla registrazione del World Qualifier.",
+          "text": "Raggiungo lo sportello delle iscrizioni.",
           "goto": "m07-qualifier-registration#registration_entry"
         }
       ]
