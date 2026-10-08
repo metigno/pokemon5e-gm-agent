@@ -17,3 +17,23 @@ Only locations already authored in M01 are bound to these vignettes.
 All navigation, time, conditional access and return travel remains exclusively
 under the canonical scene engine. Places without a vetted PNG retain the
 schematic presentation; **full M01–M12 graphical composition is not yet complete**.
+
+## M01 complete authored-location image coverage (next pass)
+
+The M01 scene and `set_location` audit enumerates 16 distinct authored
+location IDs, all mapped to a bundled offline file. Thirteen new SVG maps
+use **original authored tile-like vector compositions** (no third-party
+sprite copying or disputed license assumptions); two earlier PNGs derive
+from the audited OpenRPG CC0 sheet. The image mappings may deliberately
+reuse a shared road vignette, as permitted by the environment-class rule.
+
+The SVGs are static decor at 320×192 logical grid coordinates (640×384
+output), with nearest-neighbour / crisp edges. They do **not** define
+physical travel distances, scene nodes, biomes, or story reachability.
+Neither the game engine nor existing playable scene JSON was modified for
+this pass. The UI remains a click-to-travel **schematic** map until a
+separately audited world atlas with verified position data exists.
+
+No other unverified source raster or archive is embedded in this release.
+M02–M12 will reuse this same allowlisted offline route for their own
+canonical locations, in separate audited steps.
