@@ -2,7 +2,7 @@
 // Build an immutable, self-contained runtime inside the native app.
 // NEVER produce a shippable dist tree when mandatory physical assets are missing.
 import { cp, lstat, mkdir, mkdtemp, readFile, readdir, rename, rm, writeFile } from "node:fs/promises";
-import { join, dirname } from "node:path";
+import { join, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 import { verifyOfflineSpriteAssets } from "../scripts/verify-offline-sprites.mjs";
@@ -128,7 +128,7 @@ async function assertBundle() {
 function importOfflineTrainerOverlay(archive) {
   if (!archive) return;
   // Explicit local input only: do not download approved art or silently substitute it.
-  const result = spawnSync("python3", ["scripts/install-trainer-overlay.py", "--zip", archive], {
+  const result = spawnSync("python3", ["scripts/install-trainer-overlay.py", "--zip", resolve(archive)], {
     cwd: BOOKGAME, stdio: "inherit"
   });
   if (result.status !== 0) throw new Error("Approved local Trainer ZIP import failed");
