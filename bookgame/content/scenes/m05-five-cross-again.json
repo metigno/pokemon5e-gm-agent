@@ -60,7 +60,7 @@
       "choices": [
         {
           "id": "presence_luke",
-          "text": "Luke è fisicamente in zona.",
+          "text": "Cerco Luke tra gli allenatori arrivati ad Altacima.",
           "conditions": {
             "all": [
               {
@@ -84,7 +84,7 @@
         },
         {
           "id": "presence_mattew",
-          "text": "Mattew è fisicamente in zona.",
+          "text": "Cerco Mattew vicino alla bacheca delle gare.",
           "conditions": {
             "all": [
               {
@@ -108,7 +108,7 @@
         },
         {
           "id": "presence_daniel",
-          "text": "Daniel è fisicamente in zona.",
+          "text": "Cerco Daniel tra gli iscritti di oggi.",
           "conditions": {
             "all": [
               {
@@ -132,7 +132,7 @@
         },
         {
           "id": "presence_edward",
-          "text": "Edward è fisicamente in zona.",
+          "text": "Cerco Edward nella piazza del Circuito.",
           "conditions": {
             "all": [
               {
@@ -156,7 +156,7 @@
         },
         {
           "id": "presence_fab",
-          "text": "Fab è fisicamente in zona.",
+          "text": "Cerco Fab prima che riparta.",
           "conditions": {
             "all": [
               {
@@ -417,7 +417,7 @@
         },
         {
           "id": "career_schedule",
-          "text": "Guardiamo dove ci porteranno le prossime schedule.",
+          "text": "Guardiamo dove ci porteranno i prossimi impegni.",
           "goto": "schedule_split"
         }
       ]
@@ -459,7 +459,7 @@
       "choices": [
         {
           "id": "ancient_record",
-          "text": "Registro che gli amici conoscono il layer, non la sua soluzione.",
+          "text": "Condivido soltanto ciò che ho visto, senza trarre conclusioni.",
           "goto": "schedule_split",
           "effects": [
             {
@@ -486,7 +486,7 @@
       "choices": [
         {
           "id": "license_record",
-          "text": "Registriamo la possibilità di futuri incroci.",
+          "text": "Parliamo di quando potremmo incrociarci di nuovo.",
           "goto": "schedule_split",
           "effects": [
             {
@@ -540,7 +540,7 @@
       "choices": [
         {
           "id": "friend_gate_continue",
-          "text": "Apro il contatto personale selezionato.",
+          "text": "Provo a contattare uno degli amici.",
           "conditions": {
             "path": "world.flags.friend_beat_05_available",
             "eq": true
@@ -549,7 +549,7 @@
         },
         {
           "id": "friend_gate_close",
-          "text": "Il contatto personale non è ancora disponibile: torno alla piazza.",
+          "text": "Non riesco a raggiungerli ora: torno alla piazza.",
           "conditions": {
             "path": "world.flags.friend_beat_05_available",
             "ne": true
