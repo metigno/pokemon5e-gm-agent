@@ -1,0 +1,181 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "M07",
+  "events": [
+    {
+      "id": "legendary_m07_investigate_luke",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Luke"
+          },
+          {
+            "path": "quests.legendary_luke_kyurem_black.status",
+            "in": [
+              "available",
+              "active"
+            ]
+          },
+          {
+            "path": "world.flags.m7_pro_preparation_complete",
+            "eq": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "clue",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "legendary_m07_clue_luke",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "legendary_m07_investigate_mattew",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Mattew"
+          },
+          {
+            "path": "quests.legendary_mattew_zacian.status",
+            "in": [
+              "available",
+              "active"
+            ]
+          },
+          {
+            "path": "world.flags.m7_pro_preparation_complete",
+            "eq": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "clue",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "legendary_m07_clue_mattew",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "legendary_m07_investigate_daniel",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Daniel"
+          },
+          {
+            "path": "quests.legendary_daniel_mewtwo.status",
+            "in": [
+              "available",
+              "active"
+            ]
+          },
+          {
+            "path": "world.flags.m7_pro_preparation_complete",
+            "eq": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "clue",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "legendary_m07_clue_daniel",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "legendary_m07_investigate_edward",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Edward"
+          },
+          {
+            "path": "quests.legendary_edward_lugia.status",
+            "in": [
+              "available",
+              "active"
+            ]
+          },
+          {
+            "path": "world.flags.m7_pro_preparation_complete",
+            "eq": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "clue",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "legendary_m07_clue_edward",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "legendary_m07_investigate_fab",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Fab"
+          },
+          {
+            "path": "quests.legendary_fab_rayquaza.status",
+            "in": [
+              "available",
+              "active"
+            ]
+          },
+          {
+            "path": "world.flags.m7_pro_preparation_complete",
+            "eq": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "clue",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "legendary_m07_clue_fab",
+              "value": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
