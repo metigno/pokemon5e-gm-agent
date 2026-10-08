@@ -108,12 +108,18 @@
         <option>Edward</option>
         <option>Fab</option>
       </select>
-      <label class="field-label" for="slot">Slot</label>
-      <input id="slot" value="slot1" autocomplete="off">
+      <label class="field-label" for="slot">Scegli una delle tre carriere</label>
+      <select id="slot" aria-describedby="slot-status">
+        <option value="slot1">Slot 1</option>
+        <option value="slot2">Slot 2</option>
+        <option value="slot3">Slot 3</option>
+      </select>
+      <p class="slot-status" id="slot-status" aria-live="polite">Caricamento dei salvataggi…</p>
       <div class="start-actions">
         <button class="primary-button" id="new-game" type="button">Nuova partita</button>
         <button class="secondary-button" id="load-game" type="button">Continua</button>
       </div>
+      <button class="delete-career-button" id="delete-game" type="button">Elimina carriera selezionata</button>
       <div class="error-box" id="start-error" hidden></div>
     </div>
   </div>

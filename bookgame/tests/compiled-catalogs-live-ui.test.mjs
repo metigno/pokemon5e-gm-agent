@@ -66,7 +66,7 @@ test("standard runtime and real UI load compiled ecology/world events across sav
   });
 
   // Ecology: enter an existing, authored wildlife choice through the real UI API.
-  const wild = createNewGameState({ protagonist: "Luke", slot: "ecology-ui", now });
+  const wild = createNewGameState({ protagonist: "Luke", slot: "slot1", now });
   wild.story.sceneId = "m01-ginestre-crossroads";
   wild.story.nodeId = "crossroads";
   wild.world.locationId = "asteria_ginestre";
@@ -97,7 +97,7 @@ test("standard runtime and real UI load compiled ecology/world events across sav
   assert.equal((await store.load(wild.slot)).ecology.history.length, 1);
 
   // World event: the real UI choice triggers the canonical compiled M01 catalog.
-  const world = createNewGameState({ protagonist: "Luke", slot: "world-ui", now });
+  const world = createNewGameState({ protagonist: "Luke", slot: "slot2", now });
   world.story.sceneId = "m01-valedarsena-first-arrival";
   world.story.nodeId = "city_hub";
   world.world.locationId = "valedarsena_city";

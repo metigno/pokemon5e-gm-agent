@@ -1,6 +1,9 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
+import { mkdtemp, rm } from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
 
 const PORT = 4197;
@@ -19,17 +22,19 @@ async function waitForServer(timeoutMs = 8000) {
 }
 
 test("UI server can create a real M1 game through the same API used by the button", async (t) => {
+  const dir = await mkdtemp(path.join(os.tmpdir(), "p5e-ui-smoke-"));
   const child = spawn(process.execPath, ["ui/server.mjs"], {
     cwd: new URL("../", import.meta.url),
-    env: { ...process.env, P5E_UI_PORT: String(PORT) },
+    env: { ...process.env, P5E_UI_PORT: String(PORT), P5E_SAVE_DIR: dir },
     stdio: ["ignore", "pipe", "pipe"]
   });
 
   let stderr = "";
   child.stderr.on("data", (chunk) => { stderr += chunk.toString(); });
 
-  t.after(() => {
+  t.after(async () => {
     child.kill("SIGTERM");
+    await rm(dir, { recursive: true, force: true });
   });
 
   await waitForServer();
@@ -37,7 +42,7 @@ test("UI server can create a real M1 game through the same API used by the butto
   const response = await fetch(`${BASE}/api/new-game`, {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify({ protagonist: "Luke", slot: "ui-smoke" })
+    body: JSON.stringify({ protagonist: "Luke", slot: "slot1" })
   });
 
   const payload = await response.json();

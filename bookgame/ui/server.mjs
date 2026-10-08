@@ -9,7 +9,8 @@ import { captureBallsInInventory } from "../src/combat/capture.mjs";
 import { Poke5eDataRepository } from "../src/combat/poke5e-data.mjs";
 import { scaledHp } from "../src/combat/poke5e-rules.mjs";
 import { CryptoDice } from "../src/engine/dice.mjs";
-import { SaveStore } from "../src/engine/save-store.mjs";
+import { SaveStore, assertCareerSlot } from "../src/engine/save-store.mjs";
+import { trainerCareerEnded } from "../src/engine/trainer-survival.mjs";
 import { createNewGameState, EXPERIENCE_NEEDED_PER_LEVEL } from "../src/engine/state.mjs";
 import { pokemonLevelCapForState } from "../src/engine/pokemon-xp-balance.mjs";
 import { applyPlayerEvolution, playerEvolutionOptions } from "../src/engine/player-evolution.mjs";
@@ -76,8 +77,9 @@ async function readJson(req) {
 }
 
 async function persist(nextState) {
+  // Keep the old in-memory snapshot if disk persistence fails.
+  await saves.save(nextState);
   state = nextState;
-  await saves.save(state);
 }
 
 async function normalizeCombatFlow() {
@@ -291,12 +293,29 @@ async function evolutionView() {
 async function snapshot() {
   if (!state) return { ok: true, hasSession: false };
 
-  await normalizeCombatFlow();
-  const story = await engine.present(state);
+  if (!trainerCareerEnded(state)) await normalizeCombatFlow();
+  const ended = trainerCareerEnded(state);
+  const story = ended
+    ? {
+        sceneId: "career-ended",
+        sceneTitle: "Carriera conclusa",
+        moduleId: null,
+        nodeId: "finale",
+        text: "Il Trainer è morto. Questa carriera è conclusa definitivamente. Puoi conservare il ricordo del viaggio o iniziare una nuova partita in un altro slot.",
+        stitches: null,
+        choices: [],
+        questJournal: [],
+        worldTime: null,
+        pending: null,
+        lastRoll: null
+      }
+    : await engine.present(state);
 
   return {
     ok: true,
     hasSession: true,
+    slot: state.slot,
+    careerEnded: ended,
     story,
     player: {
       name: state.player.name,
@@ -339,6 +358,9 @@ async function handleApi(req, res, url) {
   if (req.method === "GET" && url.pathname === "/api/snapshot") {
     return sendJson(res, 200, await snapshot());
   }
+  if (req.method === "GET" && url.pathname === "/api/slots") {
+    return sendJson(res, 200, { ok: true, slots: await saves.listCareers(), activeSlot: state?.slot ?? null });
+  }
 
   if (req.method !== "POST") {
     return sendJson(res, 405, { ok: false, error: "Method not allowed" });
@@ -348,24 +370,64 @@ async function handleApi(req, res, url) {
 
   if (url.pathname === "/api/new-game") {
     const protagonist = String(body.protagonist ?? "Luke");
-    const slot = String(body.slot ?? "slot1");
-    await persist(createNewGameState({ protagonist, slot, startAtIntro: true }));
+    const slot = assertCareerSlot(body.slot ?? "slot1");
+    const occupied = await saves.exists(slot);
+    if (occupied && body.confirmOverwrite !== true) {
+      return sendError(res, new Error("Questo slot contiene già una carriera. Conferma la sovrascrittura per ricominciare."), 409);
+    }
+    const next = createNewGameState({ protagonist, slot, startAtIntro: true });
+    await saves.save(next, { createOnly: !occupied });
+    state = next;
     return sendJson(res, 200, await snapshot());
   }
 
   if (url.pathname === "/api/load") {
-    const slot = String(body.slot ?? "slot1");
+    const slot = assertCareerSlot(body.slot ?? "slot1");
     try {
-      state = await saves.load(slot);
+      const loaded = await saves.load(slot);
+      state = loaded;
     } catch (error) {
-      if (error?.code === "ENOENT") return sendError(res, new Error(`Salvataggio "${slot}" non trovato.`), 404);
-      return sendError(res, error, 409);
+      if (error.code === "ENOENT") return sendError(res, new Error("Nessuna carriera salvata in questo slot."), 404);
+      return sendError(res, new Error("Questo salvataggio non può essere letto. Non è stato sovrascritto."), 422);
     }
     return sendJson(res, 200, await snapshot());
   }
 
+  if (url.pathname === "/api/delete-slot") {
+    const slot = assertCareerSlot(body.slot);
+    if (body.confirmDelete !== true) return sendError(res, new Error("Conferma l'eliminazione permanente della carriera."), 409);
+    try {
+      await saves.delete(slot);
+    } catch (error) {
+      if (error.code === "ENOENT") return sendError(res, new Error("Questo slot è già vuoto."), 404);
+      throw error;
+    }
+    if (state?.slot === slot) state = null;
+    return sendJson(res, 200, { ok: true, slots: await saves.listCareers() });
+  }
+
+  if (url.pathname === "/api/leave") {
+    state = null; // All changes are saved before the API responds to each action.
+    return sendJson(res, 200, { ok: true, hasSession: false });
+  }
+
   if (!state) {
     return sendError(res, new Error("Nessuna partita attiva"), 409);
+  }
+
+  // Prevent a stale browser tab from mutating the career selected in another tab.
+  const expectedSlot = req.headers["x-career-slot"] ?? body.expectedSlot;
+  if (expectedSlot != null && expectedSlot !== state.slot) {
+    return sendError(res, new Error("È stata aperta un'altra carriera. Torna alla selezione degli slot."), 409);
+  }
+
+  if (url.pathname === "/api/save") {
+    await persist(state);
+    return sendJson(res, 200, { ok: true, slot: state.slot });
+  }
+
+  if (trainerCareerEnded(state)) {
+    return sendError(res, new Error("Carriera conclusa: non puoi più compiere azioni."), 409);
   }
 
   if (state.pending?.type === "pokemon_capture_replacement" && url.pathname !== "/api/choose") {
@@ -653,17 +715,26 @@ async function serveStatic(res, pathname) {
   res.end(content);
 }
 
+// Serialize API operations, including snapshot combat handoffs and slot switches.
+ // This prevents two concurrent actions from overwriting each other's save.
+let apiQueue = Promise.resolve();
+function serialApi(operation) {
+  const next = apiQueue.then(operation, operation);
+  apiQueue = next.catch(() => {});
+  return next;
+}
+
 const server = createServer(async (req, res) => {
   try {
     const url = new URL(req.url ?? "/", `http://${req.headers.host ?? HOST}`);
     if (url.pathname.startsWith("/api/")) {
-      await handleApi(req, res, url);
+      await serialApi(() => handleApi(req, res, url));
       return;
     }
     if (url.pathname.startsWith("/sprites/") && await serveSprite(res, url.pathname)) return;
     await serveStatic(res, url.pathname);
   } catch (error) {
-    sendError(res, error, 500);
+    sendError(res, error, /slot di carriera/.test(error?.message ?? "") ? 400 : 500);
   }
 });
 
