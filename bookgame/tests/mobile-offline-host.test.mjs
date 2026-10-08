@@ -40,6 +40,8 @@ test("Step 13 packaging checks physical canonical assets and copies compiled cat
   assert.match(builder, /install-trainer-overlay\.py/, "explicit approved ZIP must be imported by offline build");
   assert.match(builder, /P5E_TRAINER_OVERLAY_ZIP/, "Android debug uses the same local artwork");
   assert.match(builder, /verifyMandatoryAssets\(target\)/, "post-copy native APK asset checks required");
+  assert.match(builder, /verifyOfflineSecondaryNpcAssets/, "strict secondary NPC mobile gate");
+  assert.match(builder, /P5E_NPC_SECONDARY_OVERLAY_ZIP/, "local supplementary ZIP import");
   const stdout = execFileSync(process.execPath, [new URL("build.mjs", base).pathname, "--contract"], {
     cwd: new URL("../", base), encoding: "utf8"
   });

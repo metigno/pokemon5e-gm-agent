@@ -20,6 +20,7 @@ const els = {
   battleScreen: $("#battle-screen"),
   storyText: $("#story-text"),
   storySpeaker: $("#story-speaker"),
+  sceneNpcArt: $("#scene-npc-art"),
   skipText: $("#skip-text"),
   revealHint: $("#reveal-hint"),
   lastRoll: $("#last-roll"),
@@ -531,9 +532,13 @@ function renderBattle(battle) {
   els.battleScreen.hidden = false;
   els.battleTitle.textContent = battle.encounterId;
   const opponentId = battle.opponentTrainerId;
-  const hasTrainerArt = Boolean(opponentId && snapshot?.assets?.characterNative?.[opponentId]);
-  els.opponentTrainerSprite.hidden = !hasTrainerArt;
-  if (hasTrainerArt) els.opponentTrainerSprite.src = `/characters/${encodeURIComponent(opponentId)}/battleFront`;
+  const namedTrainerArt = Boolean(opponentId && snapshot?.assets?.characterNative?.[opponentId]);
+  const worldId = snapshot?.assets?.worldOpponentSprite;
+  const approvedBattleUrl = snapshot?.assets?.battleTrainerSprite;
+  els.opponentTrainerSprite.hidden = !approvedBattleUrl && !namedTrainerArt && !worldId;
+  if (approvedBattleUrl) els.opponentTrainerSprite.src = approvedBattleUrl;
+  else if (namedTrainerArt) els.opponentTrainerSprite.src = `/characters/${encodeURIComponent(opponentId)}/battleFront`;
+  else if (worldId) els.opponentTrainerSprite.src = `/npc-sprites/world/${encodeURIComponent(worldId)}/battleFront`;
   else els.opponentTrainerSprite.removeAttribute("src");
   els.battleRound.textContent = `Round ${battle.round}`;
 
@@ -694,9 +699,35 @@ async function runCombatAction(path, body) {
   }
 }
 
+function renderSceneNpcArt() {
+  const panel = els.sceneNpcArt;
+  panel.replaceChildren();
+  const actors = snapshot.assets?.sceneNpcRoles ?? [];
+  for (const actor of actors) {
+    // These role IDs come from the verified, fixed scene+node manifest, never prose parsing.
+    if (!/^[a-z][a-z0-9_]*$/.test(actor.id)) continue;
+    const figure = document.createElement("span");
+    figure.className = "scene-npc-actor";
+    const frame = document.createElement("span");
+    frame.className = "scene-npc-frame";
+    const image = document.createElement("img");
+    image.alt = "";
+    image.loading = "lazy";
+    image.src = `/npc-sprites/role/${encodeURIComponent(actor.id)}/overworld`;
+    image.style.width = `${Number(actor.frames) * 32}px`;
+    frame.append(image);
+    const caption = document.createElement("small");
+    caption.textContent = actor.label;
+    figure.append(frame, caption);
+    panel.append(figure);
+  }
+  panel.hidden = panel.childElementCount === 0;
+}
+
 async function renderStory() {
   els.battleScreen.hidden = true;
   els.storyScreen.hidden = false;
+  renderSceneNpcArt();
   renderRoll();
   await revealStory(snapshot.story);
 }

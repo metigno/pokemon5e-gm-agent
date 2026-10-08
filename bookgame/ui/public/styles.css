@@ -763,3 +763,10 @@ summary:focus-visible, a:focus-visible {
 @media (max-width: 530px) {
   .topbar-status .sound-toggle { flex-basis: 100%; padding: 8px; }
 }
+
+/* Additional NPC art is strictly local, scene-scoped and visible only when present. */
+.scene-npc-art { display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-end; margin: 6px 0 12px; }
+.scene-npc-actor { display: flex; flex-direction: column; align-items: center; gap: 3px; min-width: 54px; }
+.scene-npc-actor small { font-size: 10px; color: var(--muted, #a8acb6); text-align: center; max-width: 92px; }
+.scene-npc-frame { display: block; position: relative; width: 32px; height: 64px; overflow: hidden; }
+.scene-npc-frame img { display: block; height: 64px; max-width: none; image-rendering: pixelated; }
