@@ -53,6 +53,14 @@ const els = {
   playerHpText: $("#player-hp-text"),
   playerSprite: $("#player-sprite"),
   moveList: $("#move-list"),
+  positionMeta: $("#battle-position-meta"),
+  positionForm: $("#battle-position-form"),
+  positionTitle: $("#battle-position-title"),
+  positionMode: $("#battle-position-mode"),
+  positionX: $("#battle-position-x"),
+  positionY: $("#battle-position-y"),
+  positionZ: $("#battle-position-z"),
+  positionCancel: $("#battle-position-cancel"),
   endTurn: $("#end-turn"),
   combatLog: $("#combat-log"),
   choiceOverlay: $("#choice-overlay"),
@@ -289,6 +297,7 @@ async function revealStory(story) {
   els.skipText.hidden = true;
   els.revealHint.hidden = true;
   renderChoices(story.choices ?? []);
+  if (els.drawer.dataset.panel === "map") openDrawer("map");
 }
 
 function renderChoices(choices) {
@@ -402,6 +411,92 @@ function formatLog(entry) {
   return entry.type.replaceAll("_", " ");
 }
 
+const POSITIONED_MOVES = new Set(["teleport", "smog", "poison-gas", "hail", "sandstorm", "smokescreen"]);
+const ATTRIBUTE_MOVES = new Set(["power-shift", "power-split", "power-swap", "power-trick"]);
+const ABILITY_LABELS = { str: "Forza", dex: "Destrezza", con: "Costituzione", int: "Intelligenza", wis: "Saggezza", cha: "Carisma" };
+
+function formatPosition(position) {
+  if (!position) return "—";
+  return `(${position.x}, ${position.y}${position.z == null ? "" : `, ${position.z}`}) ft`;
+}
+
+function addBattleAction(title, detail, run) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "move-button";
+  const strong = document.createElement("strong");
+  strong.textContent = title;
+  const small = document.createElement("small");
+  small.textContent = detail;
+  button.append(strong, small);
+  button.addEventListener("click", run);
+  els.moveList.append(button);
+}
+
+function openBattlePositionForm(kind, options = {}) {
+  const battle = snapshot?.battle;
+  if (!battle) return;
+  const initial = kind === "trainer" || kind === "switch"
+    ? battle.spatial.trainerPosition : battle.player.position;
+  els.positionForm.dataset.kind = kind;
+  els.positionForm.dataset.benchIndex = options.benchIndex ?? "";
+  els.positionForm.dataset.moveId = options.moveId ?? "";
+  els.positionTitle.textContent = kind === "pokemon" ? "Destinazione Pokémon (ft)"
+    : kind === "trainer" ? "Destinazione Trainer (ft)"
+    : kind === "switch" ? "Punto di ingresso del Pokémon (entro 15 ft dal Trainer)"
+    : "Centro o destinazione della mossa (ft)";
+  els.positionX.value = String(initial.x);
+  els.positionY.value = String(initial.y);
+  els.positionZ.value = initial.z == null ? "" : String(initial.z);
+  const moveModeLabel = els.positionMode.parentElement;
+  moveModeLabel.hidden = kind !== "pokemon";
+  els.positionMode.replaceChildren();
+  if (kind === "pokemon") {
+    for (const mode of battle.spatial.pokemonMovementModes) {
+      const option = document.createElement("option");
+      option.value = mode.type;
+      option.textContent = `${mode.type} · ${mode.remaining} ft rimasti`;
+      els.positionMode.append(option);
+    }
+  }
+  els.positionForm.hidden = false;
+  els.positionX.focus();
+}
+
+async function useBattleMove(move) {
+  if (POSITIONED_MOVES.has(move.id)) {
+    openBattlePositionForm("move", { moveId: move.id });
+    return;
+  }
+  if (ATTRIBUTE_MOVES.has(move.id)) {
+    const valid = move.id === "power-split" ? ["str", "dex", "wis"]
+      : move.id === "power-trick" ? ["str", "dex", "int", "wis", "cha"]
+      : ["str", "dex", "con", "int", "wis", "cha"];
+    const chosen = await chooseTouchOption({
+      title: `${move.name} — caratteristica`,
+      options: valid.map((id) => ({ value: id, label: ABILITY_LABELS[id] }))
+    });
+    if (chosen) await runCombatAction("/api/combat/move", {
+      moveId: move.id, canonicalChoice: { attribute: chosen }
+    });
+    return;
+  }
+  if (move.id === "psycho-shift") {
+    const chosen = await chooseTouchOption({
+      title: "Psycho Shift — origine dello stato",
+      options: [
+        { value: "player", label: "Il tuo Pokémon" },
+        { value: "opponent", label: "Pokémon avversario" }
+      ]
+    });
+    if (chosen) await runCombatAction("/api/combat/move", {
+      moveId: move.id, canonicalChoice: { sourceSide: chosen }
+    });
+    return;
+  }
+  await runCombatAction("/api/combat/move", { moveId: move.id });
+}
+
 function renderBattle(battle) {
   els.storyScreen.hidden = true;
   els.battleScreen.hidden = false;
@@ -425,6 +520,14 @@ function renderBattle(battle) {
     (battle.player.statuses.length ? ` · ${battle.player.statuses.join(", ")}` : "");
 
   els.moveList.replaceChildren();
+  els.positionForm.hidden = true;
+  const spatial = battle.spatial;
+  els.positionMeta.textContent = spatial
+    ? `Pokémon ${formatPosition(battle.player.position)} · Nemico ${formatPosition(spatial.opponentPosition)}
+Distanza ${spatial.distance == null ? "—" : spatial.distance.toFixed(1)} ft · Trainer ${formatPosition(spatial.trainerPosition)}
+Movimento Pokémon ${battle.player.movementRemaining} ft · Trainer ${spatial.trainerMovementRemaining} ft
+Azione ${battle.player.actionAvailable ? "libera" : "usata"} · Bonus ${battle.player.bonusActionAvailable ? "libero" : "usato"}${battle.player.disengaged ? " · Disengage attivo" : ""}`
+    : "";
 
   if (battle.pendingTrainerReaction) {
     const pending = battle.pendingTrainerReaction;
@@ -454,6 +557,8 @@ function renderBattle(battle) {
       button.innerHTML = `<img class="pokemon-icon" src="${spriteUrl(reserve.speciesId, "icon")}" alt=""><span><strong>Cambia in ${escapeHtml(reserve.name)}</strong><small>HP ${reserve.hp.current}/${reserve.hp.max}</small></span>`;
       button.addEventListener("click", () => runCombatAction("/api/combat/switch", { benchIndex: reserve.index }));
       els.moveList.append(button);
+      addBattleAction(`Posiziona ${reserve.name}`, "Scegli il punto di ingresso entro 15 ft dal Trainer",
+        () => openBattlePositionForm("switch", { benchIndex: reserve.index }));
     }
   } else {
     for (const move of battle.moves) {
@@ -462,12 +567,32 @@ function renderBattle(battle) {
       button.innerHTML =
         `<strong>${escapeHtml(move.name)}</strong>` +
         `<small>${escapeHtml(move.time?.unit ?? "")} · PP ${move.ppCurrent}/${move.ppMax}</small>`;
-      button.addEventListener("click", () => runCombatAction("/api/combat/move", { moveId: move.id }));
+      button.addEventListener("click", () => useBattleMove(move));
       els.moveList.append(button);
     }
   }
 
   if (!battle.pendingTrainerReaction && battle.awaitingSwitch !== "player" && battle.actor === "player") {
+    if (spatial?.pokemonMovementModes?.length) {
+      const modes = spatial.pokemonMovementModes.map((entry) => `${entry.type} ${entry.remaining} ft`).join(", ");
+      addBattleAction("Muovi Pokémon", modes, () => openBattlePositionForm("pokemon"));
+    }
+    if (spatial?.trainerMovementRemaining > 0) {
+      addBattleAction("Muovi Trainer", `${spatial.trainerMovementRemaining} ft rimasti`,
+        () => openBattlePositionForm("trainer"));
+    }
+    if (spatial?.disengageAvailable) {
+      addBattleAction("Disengage", "1 Azione Pokémon · movimento senza attacchi di opportunità",
+        () => runCombatAction("/api/combat/disengage", {}));
+    }
+    if (spatial?.voluntarySwitchAvailable) {
+      for (const reserve of battle.playerBench.filter((entry) => entry.hp.current > 0)) {
+        addBattleAction(`Cambia in ${reserve.name}`, `HP ${reserve.hp.current}/${reserve.hp.max} · Azione Trainer + Pokémon`,
+          () => runCombatAction("/api/combat/switch", { benchIndex: reserve.index }));
+        addBattleAction(`Posiziona ${reserve.name}`, "Cambio con punto di ingresso personalizzato",
+          () => openBattlePositionForm("switch", { benchIndex: reserve.index }));
+      }
+    }
     for (const feature of snapshot.trainerGameplay?.features ?? []) {
       if (!feature.executable) continue;
       const button = document.createElement("button");
@@ -794,6 +919,38 @@ function renderJournal() {
   }).join("");
 }
 
+function renderMap() {
+  // Keep future choices hidden until the narrated text has finished revealing.
+  const nodes = (snapshot.map?.nodes ?? []).filter((node) => !revealActive || node.visited);
+  const routes = revealActive ? 0 : nodes.reduce((total, node) => total + node.routes.length, 0);
+  const blocked = Boolean(snapshot.battle || snapshot.careerEnded || revealActive);
+  return `
+    <p class="map-intro">Schema dei luoghi conosciuti. I collegamenti non indicano distanze reali: puoi viaggiare solo lungo le strade offerte dalla scena attuale.</p>
+    <div class="travel-map" role="group" aria-label="Mappa schematica dei luoghi conosciuti">
+      ${nodes.map((node) => `
+        <section class="map-site ${node.current ? "map-site--current" : ""} ${node.routes.length ? "map-site--reachable" : ""}">
+          <span class="map-pin" aria-hidden="true">●</span>
+          <div class="map-site__body">
+            <strong>${escapeHtml(node.label)}</strong>
+            <small>${node.current ? "Sei qui" : node.routes.length ? "Raggiungibile ora" : "Già visitato · nessun percorso disponibile da qui"}</small>
+            ${(revealActive ? [] : node.routes).map((route) => `
+              <button type="button" class="map-travel" data-map-choice="${escapeHtml(route.choiceId)}" ${blocked ? "disabled" : ""}>
+                ${escapeHtml(route.label)}
+                <small>${route.timeCostMinutes === null ? "Durata non indicata" : `${route.timeCostMinutes} min`}</small>
+              </button>
+            `).join("")}
+          </div>
+        </section>
+      `).join("")}
+    </div>
+    <p class="map-footnote" role="status" id="map-status">${snapshot.battle ? "Viaggio non disponibile durante un combattimento." :
+      snapshot.careerEnded ? "Carriera conclusa: la mappa è consultabile." :
+      revealActive ? "Completa il testo della scena prima di partire." :
+      routes ? "Tocca una destinazione raggiungibile per seguire la scelta prevista dalla storia." :
+      "Da questa scena non ci sono collegamenti di viaggio disponibili. Prosegui con le scelte della storia."}</p>
+  `;
+}
+
 function renderSettings() {
   const speed = currentTextSpeed();
   return `
@@ -817,8 +974,8 @@ function renderSettings() {
 
 function openDrawer(panel) {
   if (!snapshot?.hasSession) return;
-
   const infoPages = informationRenderers(snapshot, { escapeHtml, spriteUrl, playerFacingLabel });
+
   const titles = {
     pokedex: "Pokédex",
     people: "Persone importanti",
@@ -831,6 +988,7 @@ function openDrawer(panel) {
     team: "Pokémon",
     bag: "Inventario",
     journal: "Journal",
+    map: "Mappa",
     settings: "Impostazioni"
   };
 
@@ -846,11 +1004,13 @@ function openDrawer(panel) {
     team: renderTeam,
     bag: renderBag,
     journal: renderJournal,
+    map: renderMap,
     settings: renderSettings
   };
 
   if (!renderers[panel]) return;
   els.drawerTitle.textContent = titles[panel];
+  els.drawer.dataset.panel = panel;
   const shortcuts = infoPages.shortcuts()[panel] ?? "";
   els.drawerContent.innerHTML = shortcuts + renderers[panel]();
   for (const button of els.drawerContent.querySelectorAll("[data-info-panel]")) {
@@ -859,6 +1019,25 @@ function openDrawer(panel) {
   els.drawerBackdrop.hidden = false;
   els.drawer.classList.add("is-open");
   els.drawer.setAttribute("aria-hidden", "false");
+
+  for (const button of els.drawerContent.querySelectorAll(".map-travel")) {
+    button.addEventListener("click", async () => {
+      if (button.disabled || revealActive) return;
+      const choiceId = button.dataset.mapChoice;
+      // Client controls never invent a navigation action; server revalidates it.
+      if (!(snapshot.story.choices ?? []).some((choice) => choice.id === choiceId)) return;
+      for (const travel of els.drawerContent.querySelectorAll(".map-travel")) travel.disabled = true;
+      try {
+        snapshot = await api("/api/choose", { method: "POST", body: JSON.stringify({ choiceId }) });
+        closeDrawer();
+        await renderSnapshot();
+      } catch (error) {
+        for (const travel of els.drawerContent.querySelectorAll(".map-travel")) travel.disabled = false;
+        const status = els.drawerContent.querySelector("#map-status");
+        if (status) status.textContent = error.message;
+      }
+    });
+  }
 
   for (const button of els.drawerContent.querySelectorAll(".gear-toggle")) {
     button.addEventListener("click", async () => {
@@ -1047,6 +1226,7 @@ function closeDrawer() {
   els.drawer.classList.remove("is-open");
   els.drawer.setAttribute("aria-hidden", "true");
   els.drawerBackdrop.hidden = true;
+  delete els.drawer.dataset.panel;
 }
 
 async function start(mode) {
@@ -1154,6 +1334,42 @@ els.loadGame.addEventListener("click", () => start("load"));
 els.deleteGame.addEventListener("click", deleteCareer);
 els.slot.addEventListener("change", showSelectedSlot);
 els.endTurn.addEventListener("click", () => runCombatAction("/api/combat/end-turn", {}));
+els.positionCancel.addEventListener("click", () => { els.positionForm.hidden = true; });
+for (const button of document.querySelectorAll("#battle-position-shortcuts button")) {
+  button.addEventListener("click", () => {
+    const x = Number(els.positionX.value);
+    const y = Number(els.positionY.value);
+    els.positionX.value = String(x + Number(button.dataset.offsetX));
+    els.positionY.value = String(y + Number(button.dataset.offsetY));
+  });
+}
+els.positionForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const kind = els.positionForm.dataset.kind;
+  const destination = {
+    x: Number(els.positionX.value), y: Number(els.positionY.value)
+  };
+  if (els.positionZ.value.trim() !== "") destination.z = Number(els.positionZ.value);
+  if (!Number.isFinite(destination.x) || !Number.isFinite(destination.y) ||
+      (destination.z !== undefined && !Number.isFinite(destination.z))) {
+    showInlineError("Coordinate non valide");
+    return;
+  }
+  if (kind === "switch") {
+    await runCombatAction("/api/combat/switch", {
+      benchIndex: Number(els.positionForm.dataset.benchIndex), releasePosition: destination
+    });
+  } else if (kind === "move") {
+    await runCombatAction("/api/combat/move", {
+      moveId: els.positionForm.dataset.moveId, targetPoint: destination
+    });
+  } else {
+    await runCombatAction("/api/combat/movement", {
+      unit: kind, destination,
+      ...(kind === "pokemon" ? { movementType: els.positionMode.value } : {})
+    });
+  }
+});
 els.closeDrawer.addEventListener("click", closeDrawer);
 els.drawerBackdrop.addEventListener("click", closeDrawer);
 for (const button of document.querySelectorAll(".bottom-nav button")) {

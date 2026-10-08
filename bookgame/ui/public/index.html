@@ -76,6 +76,28 @@
 
         <div class="battle-actions">
           <div id="move-list" class="move-grid"></div>
+          <div id="battle-position-meta" class="battle-position-meta" aria-live="polite"></div>
+          <form id="battle-position-form" class="battle-position-form" hidden>
+            <strong id="battle-position-title">Posizione (ft)</strong>
+            <label>Modalità di movimento
+              <select id="battle-position-mode"></select>
+            </label>
+            <div class="battle-position-coordinates">
+              <label>X (ft)<input id="battle-position-x" type="number" step="any" required inputmode="decimal"></label>
+              <label>Y (ft)<input id="battle-position-y" type="number" step="any" required inputmode="decimal"></label>
+              <label>Z (ft, opzionale)<input id="battle-position-z" type="number" step="any" inputmode="decimal"></label>
+            </div>
+            <div class="battle-position-shortcuts" id="battle-position-shortcuts">
+              <button type="button" data-offset-x="0" data-offset-y="5">↑ 5 ft</button>
+              <button type="button" data-offset-x="-5" data-offset-y="0">← 5 ft</button>
+              <button type="button" data-offset-x="5" data-offset-y="0">→ 5 ft</button>
+              <button type="button" data-offset-x="0" data-offset-y="-5">↓ 5 ft</button>
+            </div>
+            <div class="battle-position-footer">
+              <button type="submit" class="primary-button">Conferma posizione</button>
+              <button type="button" id="battle-position-cancel" class="secondary-button">Annulla</button>
+            </div>
+          </form>
           <button class="secondary-button" id="end-turn" type="button">Termina turno</button>
         </div>
         <details class="combat-log">
@@ -90,6 +112,7 @@
       <button data-panel="trainer" type="button"><span>◆</span>Trainer</button>
       <button data-panel="bag" type="button"><span>▣</span>Bag</button>
       <button data-panel="journal" type="button"><span>▤</span>Journal</button>
+      <button data-panel="map" type="button" aria-label="Apri mappa"><span>⌾</span>Mappa</button>
       <button data-panel="settings" type="button"><span>⚙</span>Menu</button>
     </nav>
   </div>

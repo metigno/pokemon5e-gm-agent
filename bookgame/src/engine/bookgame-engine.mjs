@@ -42,6 +42,11 @@ function applyEffects(state, effects = []) {
       continue;
     }
     if (effect.type === "set_location") {
+      // Remember only places actually reached through authored effects.
+      const visited = Array.isArray(state.world.visitedLocationIds)
+        ? state.world.visitedLocationIds : [state.world.locationId];
+      state.world.visitedLocationIds = visited;
+      if (!visited.includes(effect.locationId)) visited.push(effect.locationId);
       state.world.locationId = effect.locationId;
       continue;
     }
