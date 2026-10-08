@@ -206,38 +206,38 @@
             "opponentTrainerId": "WQ_R1_MIRA_VOSS",
             "opponent": {
               "species": "Gengar",
-              "level": 18,
+              "level": 16,
               "abilityId": "cursed-body",
               "trainerId": "WQ_R1_MIRA_VOSS"
             },
             "opponentBench": [
               {
                 "species": "Gyarados",
-                "level": 18,
+                "level": 16,
                 "abilityId": "intimidate",
                 "trainerId": "WQ_R1_MIRA_VOSS"
               },
               {
                 "species": "Venusaur",
-                "level": 18,
+                "level": 16,
                 "abilityId": "overgrow",
                 "trainerId": "WQ_R1_MIRA_VOSS"
               },
               {
                 "species": "Arcanine",
-                "level": 18,
+                "level": 16,
                 "abilityId": "intimidate",
                 "trainerId": "WQ_R1_MIRA_VOSS"
               },
               {
                 "species": "Alakazam",
-                "level": 18,
+                "level": 16,
                 "abilityId": "synchronize",
                 "trainerId": "WQ_R1_MIRA_VOSS"
               },
               {
                 "species": "Lapras",
-                "level": 18,
+                "level": 16,
                 "abilityId": "water-absorb",
                 "trainerId": "WQ_R1_MIRA_VOSS"
               }
@@ -458,38 +458,38 @@
             "opponentTrainerId": "WQ_FINAL_TARO_VENN",
             "opponent": {
               "species": "Dragonite",
-              "level": 19,
+              "level": 17,
               "abilityId": "inner-focus",
               "trainerId": "WQ_FINAL_TARO_VENN"
             },
             "opponentBench": [
               {
                 "species": "Scizor",
-                "level": 19,
+                "level": 17,
                 "abilityId": "technician",
                 "trainerId": "WQ_FINAL_TARO_VENN"
               },
               {
                 "species": "Milotic",
-                "level": 19,
+                "level": 17,
                 "abilityId": "marvel-scale",
                 "trainerId": "WQ_FINAL_TARO_VENN"
               },
               {
                 "species": "Houndoom",
-                "level": 19,
+                "level": 17,
                 "abilityId": "flash-fire",
                 "trainerId": "WQ_FINAL_TARO_VENN"
               },
               {
                 "species": "Jolteon",
-                "level": 19,
+                "level": 17,
                 "abilityId": "volt-absorb",
                 "trainerId": "WQ_FINAL_TARO_VENN"
               },
               {
                 "species": "Snorlax",
-                "level": 19,
+                "level": 17,
                 "abilityId": "thick-fat",
                 "trainerId": "WQ_FINAL_TARO_VENN"
               }
