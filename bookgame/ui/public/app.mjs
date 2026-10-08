@@ -229,6 +229,13 @@ function formatLog(entry) {
   if (entry.type === "save_move") return `${entry.moveName ?? entry.moveId}: tiro salvezza risolto.`;
   if (entry.type === "status_damage") return `${entry.actor}: ${entry.damage} danni da ${entry.status}.`;
   if (entry.type === "fainted") return `${entry.actor} non è più in grado di combattere.`;
+  if (entry.type === "capture_attempt") {
+    return `${entry.ballId ?? "Poké Ball"}: ${entry.captured ? "cattura riuscita" : "il Pokémon è rimasto libero"}` +
+      (Number.isFinite(entry.total) ? ` · ${entry.total} vs DC ${entry.dc}` : "") + ".";
+  }
+  if (entry.type === "flee_attempt") {
+    return entry.escaped ? "Fuga riuscita." : "Tentativo di fuga non riuscito.";
+  }
   if (entry.type === "combat_end") return `Combattimento concluso: ${entry.outcome}.`;
   if (entry.type === "switch") return `Cambio: ${entry.out} → ${entry.in}.`;
   if (entry.type === "movement") return `${entry.actor} si muove di ${Math.round(entry.feet)} ft.`;
@@ -321,6 +328,26 @@ function renderBattle(battle) {
       }
       els.moveList.append(button);
     }
+  }
+
+  if (battle.capture?.available) {
+    for (const ball of battle.capture.balls ?? []) {
+      const button = document.createElement("button");
+      button.className = "move-button";
+      button.innerHTML =
+        `<strong>Lancia ${escapeHtml(ball.id)}</strong>` +
+        `<small>Poké Ball disponibile: ${escapeHtml(ball.count)} · tiro di cattura Pokémon 5e</small>`;
+      button.addEventListener("click", () => runCombatAction("/api/combat/capture", { ball: ball.id }));
+      els.moveList.append(button);
+    }
+  }
+
+  if (battle.flee?.available) {
+    const button = document.createElement("button");
+    button.className = "move-button";
+    button.innerHTML = "<strong>Tenta la fuga</strong><small>Prova di fuga Pokémon 5e · niente cattura automatica</small>";
+    button.addEventListener("click", () => runCombatAction("/api/combat/flee", {}));
+    els.moveList.append(button);
   }
 
   els.endTurn.hidden = battle.awaitingSwitch === "player" || Boolean(battle.pendingTrainerReaction);
@@ -526,7 +553,7 @@ function renderTeam() {
     return `
       <div class="data-card pokemon-card">
         <img class="pokemon-icon pokemon-icon--team" src="${spriteUrl(pokemon.speciesId ?? pokemon.species, "icon")}" alt="">
-        <div class="pokemon-card__body"><h3>${escapeHtml(name)} ${index === 0 ? "· Active" : ""}</h3>
+        <div class="pokemon-card__body"><h3>${escapeHtml(name)} · ${index < 6 ? "Sei schierabili" : "Riserva"}</h3>
         <div class="data-row"><span>Specie</span><span>${escapeHtml(pokemon.name ?? pokemon.speciesId ?? "—")}${pokemon.form ? ` · ${escapeHtml(pokemon.form)}` : ""}</span></div>
         <div class="data-row"><span>Livello / XP</span><span>${escapeHtml(pokemon.level ?? "—")} · ${escapeHtml(xp)}</span></div>
         <div class="data-row"><span>Tipo</span><span>${(pokemon.types ?? []).map(escapeHtml).join(" / ") || "—"}</span></div>
@@ -555,6 +582,7 @@ function renderTeam() {
         ${(pokemon.pendingAsiChoices ?? []).map((choice) => `<button type="button" class="pokemon-asi" data-roster-index="${index}" data-level="${choice.level}" data-points="${choice.points}">Assegna ASI Lv.${choice.level}</button>`).join("")}
       </div>` : ""}
       ${available.map((entry) => `<button type="button" class="primary-button evolution-action" data-roster-index="${entry.rosterIndex}" data-evolution-id="${escapeHtml(entry.evolution.id)}">Evolvi → ${escapeHtml(entry.evolution.to)}</button>`).join("")}
+      ${roster.length > 6 && index >= 6 ? `<button type="button" class="primary-button roster-promote" data-reserve-index="${index}">Schiera nei sei (sostituisci slot 2–6)</button>` : ""}
     `;
   }).join("") || '<div class="data-card">Nessun Pokémon nel roster.</div>';
 }
@@ -653,6 +681,30 @@ function openDrawer(panel) {
   els.drawerBackdrop.hidden = false;
   els.drawer.classList.add("is-open");
   els.drawer.setAttribute("aria-hidden", "false");
+
+  for (const button of els.drawerContent.querySelectorAll(".roster-promote")) {
+    button.addEventListener("click", async () => {
+      try {
+        const raw = window.prompt("Quale slot dei sei sostituire? Inserisci 2, 3, 4, 5 o 6.", "6");
+        if (raw === null) return;
+        const slot = Number(raw);
+        if (!Number.isInteger(slot) || slot < 2 || slot > 6) {
+          showInlineError("Scegli uno slot valido fra 2 e 6.");
+          return;
+        }
+        snapshot = await api("/api/pokemon/roster-swap", {
+          method: "POST",
+          body: JSON.stringify({
+            reserveIndex: Number(button.dataset.reserveIndex),
+            officialIndex: slot - 1
+          })
+        });
+        openDrawer("team");
+      } catch (error) {
+        showInlineError(error.message);
+      }
+    });
+  }
 
   for (const button of els.drawerContent.querySelectorAll(".gear-toggle")) {
     button.addEventListener("click", async () => {

@@ -1,0 +1,786 @@
+{
+  "schemaVersion": 1,
+  "id": "legendary-world-hunt",
+  "title": "Piste leggendarie — Interday mondiale",
+  "locationId": "meridiana_city",
+  "entryNodeId": "hunt_entry",
+  "conditions": {
+    "all": [
+      {
+        "path": "world.flags.world_qualified",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m9_matchday_one_complete",
+        "eq": true
+      },
+      {
+        "path": "world.flags.m8_world_registration_complete",
+        "eq": true
+      }
+    ]
+  },
+  "nodes": {
+    "hunt_entry": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Fra il primo e il secondo Matchday trovi soltanto gli indizi che hai davvero raccolto. Nessun Leggendario compare per il prestigio del Mondiale: ogni pista ha un luogo reale, un viaggio e un rischio. Le tue partite non attendono."
+        }
+      ],
+      "choices": [
+        {
+          "id": "review_personal_lead",
+          "text": "Controllo se la mia indagine ha una traccia concreta da seguire.",
+          "goto": "hunt_leads",
+          "timeCostMinutes": 10
+        },
+        {
+          "id": "return_to_interday",
+          "text": "Torno alla preparazione del Matchday 2.",
+          "goto": "m09-interday-one#resource_guard"
+        }
+      ]
+    },
+    "hunt_leads": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Se la pista è completa e il tuo livello è sufficiente, puoi organizzare un viaggio e rischiare un incontro Pokémon 5e. Altrimenti le informazioni rimangono nel diario; nessun Leggendario viene assegnato."
+        }
+      ],
+      "choices": [
+        {
+          "id": "follow_luke",
+          "text": "Seguo la pista personale: Il drago e il Patto.",
+          "goto": "luke_approach",
+          "conditions": {
+            "all": [
+              {
+                "path": "player.name",
+                "eq": "Luke"
+              },
+              {
+                "path": "player.trainerLevel",
+                "gte": 20
+              },
+              {
+                "path": "world.flags.legendary_m09_clue_luke",
+                "eq": true
+              },
+              {
+                "path": "world.flags.legendary_world_captured_luke",
+                "ne": true
+              },
+              {
+                "path": "quests.legendary_m08_lead_luke.status",
+                "eq": "active"
+              }
+            ]
+          },
+          "timeCostMinutes": 90,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "meridiana_city"
+            }
+          ]
+        },
+        {
+          "id": "follow_mattew",
+          "text": "Seguo la pista personale: La sentinella senza lama.",
+          "goto": "mattew_approach",
+          "conditions": {
+            "all": [
+              {
+                "path": "player.name",
+                "eq": "Mattew"
+              },
+              {
+                "path": "player.trainerLevel",
+                "gte": 20
+              },
+              {
+                "path": "world.flags.legendary_m09_clue_mattew",
+                "eq": true
+              },
+              {
+                "path": "world.flags.legendary_world_captured_mattew",
+                "ne": true
+              },
+              {
+                "path": "quests.legendary_m08_lead_mattew.status",
+                "eq": "active"
+              }
+            ]
+          },
+          "timeCostMinutes": 90,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "meridiana_city"
+            }
+          ]
+        },
+        {
+          "id": "follow_daniel",
+          "text": "Seguo la pista personale: La porta senza proprietario.",
+          "goto": "daniel_approach",
+          "conditions": {
+            "all": [
+              {
+                "path": "player.name",
+                "eq": "Daniel"
+              },
+              {
+                "path": "player.trainerLevel",
+                "gte": 20
+              },
+              {
+                "path": "world.flags.legendary_m09_clue_daniel",
+                "eq": true
+              },
+              {
+                "path": "world.flags.legendary_world_captured_daniel",
+                "ne": true
+              },
+              {
+                "path": "quests.legendary_m08_lead_daniel.status",
+                "eq": "active"
+              }
+            ]
+          },
+          "timeCostMinutes": 90,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "meridiana_city"
+            }
+          ]
+        },
+        {
+          "id": "follow_edward",
+          "text": "Seguo la pista personale: Il respiro della corrente.",
+          "goto": "edward_approach",
+          "conditions": {
+            "all": [
+              {
+                "path": "player.name",
+                "eq": "Edward"
+              },
+              {
+                "path": "player.trainerLevel",
+                "gte": 20
+              },
+              {
+                "path": "world.flags.legendary_m09_clue_edward",
+                "eq": true
+              },
+              {
+                "path": "world.flags.legendary_world_captured_edward",
+                "ne": true
+              },
+              {
+                "path": "quests.legendary_m08_lead_edward.status",
+                "eq": "active"
+              }
+            ]
+          },
+          "timeCostMinutes": 90,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "meridiana_city"
+            }
+          ]
+        },
+        {
+          "id": "follow_fab",
+          "text": "Seguo la pista personale: La linea fra cielo e terra.",
+          "goto": "fab_approach",
+          "conditions": {
+            "all": [
+              {
+                "path": "player.name",
+                "eq": "Fab"
+              },
+              {
+                "path": "player.trainerLevel",
+                "gte": 18
+              },
+              {
+                "path": "world.flags.legendary_m09_clue_fab",
+                "eq": true
+              },
+              {
+                "path": "world.flags.legendary_world_captured_fab",
+                "ne": true
+              },
+              {
+                "path": "quests.legendary_m08_lead_fab.status",
+                "eq": "active"
+              }
+            ]
+          },
+          "timeCostMinutes": 90,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "meridiana_city"
+            }
+          ]
+        },
+        {
+          "id": "defer_hunt",
+          "text": "Rimando l'indagine e torno al World Village.",
+          "goto": "m09-interday-one#resource_guard"
+        }
+      ]
+    },
+    "luke_approach": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La pista conduce a un antico osservatorio oltre Meridiana. Kyurem e Zekrom hanno già scelto volontariamente l'Absofusione mediante un DNA Splicer custodito in loco. Non ne possiedi uno e il drago non ti deve nulla."
+        }
+      ],
+      "choices": [
+        {
+          "id": "challenge_luke",
+          "text": "Affronto black-kyurem con la squadra reale; la cattura non è garantita.",
+          "combat": {
+            "encounterId": "legendary_world_m09_luke",
+            "opponent": {
+              "species": "black-kyurem",
+              "level": 20
+            },
+            "opponentRegistered": false,
+            "trainerPosition": {
+              "x": 0,
+              "y": 0
+            },
+            "playerPosition": {
+              "x": 0,
+              "y": 0
+            },
+            "opponentPosition": {
+              "x": 5,
+              "y": 0
+            },
+            "goto": "luke_approach",
+            "returnNodes": {
+              "captured": "luke_captured",
+              "win": "luke_uncaught",
+              "lose": "luke_uncaught",
+              "fled": "luke_uncaught",
+              "career_ended": "luke_uncaught"
+            }
+          },
+          "timeCostMinutes": 20
+        },
+        {
+          "id": "withdraw_luke",
+          "text": "Lascio il luogo senza combattere e torno al Village.",
+          "goto": "m09-interday-one#resource_guard",
+          "timeCostMinutes": 90,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "world_village"
+            }
+          ]
+        }
+      ]
+    },
+    "luke_captured": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La Poké Ball è scattata: black-kyurem è stato catturato con le regole Pokémon 5e. Il Pokémon è già persistito nel roster; il Mondiale non concede automaticamente uno slot nei sei schierabili. Puoi gestire la squadra dal Team prima del prossimo match."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record_luke_capture",
+          "text": "Registro la cattura e rientro nel World Village.",
+          "goto": "m09-interday-one#resource_guard",
+          "timeCostMinutes": 90,
+          "effects": [
+            {
+              "type": "quest_complete",
+              "questId": "legendary_m08_lead_luke",
+              "resolution": "captured_in_world_m09"
+            },
+            {
+              "type": "set_flag",
+              "key": "legendary_world_captured_luke",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "world_village"
+            }
+          ]
+        }
+      ]
+    },
+    "luke_uncaught": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'incontro si è concluso senza cattura. Il risultato reale della battaglia e lo stato della tua squadra restano persistenti; la quest non viene dichiarata completa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "return_luke_uncaught",
+          "text": "Ritorno al Village con le conseguenze dell'incontro.",
+          "goto": "m09-interday-one#resource_guard",
+          "timeCostMinutes": 90,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "world_village"
+            }
+          ]
+        }
+      ]
+    },
+    "mattew_approach": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Una traccia affidabile porta al sentiero di una vecchia torre fuori Meridiana. Zacian compare nella sua forma ordinaria: la Spada Rovinata non è stata trovata, e la sua forma incoronata non viene promessa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "challenge_mattew",
+          "text": "Affronto zacian con la squadra reale; la cattura non è garantita.",
+          "combat": {
+            "encounterId": "legendary_world_m09_mattew",
+            "opponent": {
+              "species": "zacian",
+              "level": 20
+            },
+            "opponentRegistered": false,
+            "trainerPosition": {
+              "x": 0,
+              "y": 0
+            },
+            "playerPosition": {
+              "x": 0,
+              "y": 0
+            },
+            "opponentPosition": {
+              "x": 5,
+              "y": 0
+            },
+            "goto": "mattew_approach",
+            "returnNodes": {
+              "captured": "mattew_captured",
+              "win": "mattew_uncaught",
+              "lose": "mattew_uncaught",
+              "fled": "mattew_uncaught",
+              "career_ended": "mattew_uncaught"
+            }
+          },
+          "timeCostMinutes": 20
+        },
+        {
+          "id": "withdraw_mattew",
+          "text": "Lascio il luogo senza combattere e torno al Village.",
+          "goto": "m09-interday-one#resource_guard",
+          "timeCostMinutes": 90,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "world_village"
+            }
+          ]
+        }
+      ]
+    },
+    "mattew_captured": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La Poké Ball è scattata: zacian è stato catturato con le regole Pokémon 5e. Il Pokémon è già persistito nel roster; il Mondiale non concede automaticamente uno slot nei sei schierabili. Puoi gestire la squadra dal Team prima del prossimo match."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record_mattew_capture",
+          "text": "Registro la cattura e rientro nel World Village.",
+          "goto": "m09-interday-one#resource_guard",
+          "timeCostMinutes": 90,
+          "effects": [
+            {
+              "type": "quest_complete",
+              "questId": "legendary_m08_lead_mattew",
+              "resolution": "captured_in_world_m09"
+            },
+            {
+              "type": "set_flag",
+              "key": "legendary_world_captured_mattew",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "world_village"
+            }
+          ]
+        }
+      ]
+    },
+    "mattew_uncaught": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'incontro si è concluso senza cattura. Il risultato reale della battaglia e lo stato della tua squadra restano persistenti; la quest non viene dichiarata completa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "return_mattew_uncaught",
+          "text": "Ritorno al Village con le conseguenze dell'incontro.",
+          "goto": "m09-interday-one#resource_guard",
+          "timeCostMinutes": 90,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "world_village"
+            }
+          ]
+        }
+      ]
+    },
+    "daniel_approach": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "I documenti cancellati indicano un laboratorio abbandonato alla periferia di Meridiana. Le prove confermano che Mewtwo è qui, libero e capace di opporsi a chiunque."
+        }
+      ],
+      "choices": [
+        {
+          "id": "challenge_daniel",
+          "text": "Affronto mewtwo con la squadra reale; la cattura non è garantita.",
+          "combat": {
+            "encounterId": "legendary_world_m09_daniel",
+            "opponent": {
+              "species": "mewtwo",
+              "level": 20
+            },
+            "opponentRegistered": false,
+            "trainerPosition": {
+              "x": 0,
+              "y": 0
+            },
+            "playerPosition": {
+              "x": 0,
+              "y": 0
+            },
+            "opponentPosition": {
+              "x": 5,
+              "y": 0
+            },
+            "goto": "daniel_approach",
+            "returnNodes": {
+              "captured": "daniel_captured",
+              "win": "daniel_uncaught",
+              "lose": "daniel_uncaught",
+              "fled": "daniel_uncaught",
+              "career_ended": "daniel_uncaught"
+            }
+          },
+          "timeCostMinutes": 20
+        },
+        {
+          "id": "withdraw_daniel",
+          "text": "Lascio il luogo senza combattere e torno al Village.",
+          "goto": "m09-interday-one#resource_guard",
+          "timeCostMinutes": 90,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "world_village"
+            }
+          ]
+        }
+      ]
+    },
+    "daniel_captured": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La Poké Ball è scattata: mewtwo è stato catturato con le regole Pokémon 5e. Il Pokémon è già persistito nel roster; il Mondiale non concede automaticamente uno slot nei sei schierabili. Puoi gestire la squadra dal Team prima del prossimo match."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record_daniel_capture",
+          "text": "Registro la cattura e rientro nel World Village.",
+          "goto": "m09-interday-one#resource_guard",
+          "timeCostMinutes": 90,
+          "effects": [
+            {
+              "type": "quest_complete",
+              "questId": "legendary_m08_lead_daniel",
+              "resolution": "captured_in_world_m09"
+            },
+            {
+              "type": "set_flag",
+              "key": "legendary_world_captured_daniel",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "world_village"
+            }
+          ]
+        }
+      ]
+    },
+    "daniel_uncaught": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'incontro si è concluso senza cattura. Il risultato reale della battaglia e lo stato della tua squadra restano persistenti; la quest non viene dichiarata completa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "return_daniel_uncaught",
+          "text": "Ritorno al Village con le conseguenze dell'incontro.",
+          "goto": "m09-interday-one#resource_guard",
+          "timeCostMinutes": 90,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "world_village"
+            }
+          ]
+        }
+      ]
+    },
+    "edward_approach": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "I registri delle perturbazioni convergono su una costa raggiungibile da Meridiana. Lugia emerge soltanto quando arrivi: nessuna tempesta viene alterata per agevolarti."
+        }
+      ],
+      "choices": [
+        {
+          "id": "challenge_edward",
+          "text": "Affronto lugia con la squadra reale; la cattura non è garantita.",
+          "combat": {
+            "encounterId": "legendary_world_m09_edward",
+            "opponent": {
+              "species": "lugia",
+              "level": 20
+            },
+            "opponentRegistered": false,
+            "trainerPosition": {
+              "x": 0,
+              "y": 0
+            },
+            "playerPosition": {
+              "x": 0,
+              "y": 0
+            },
+            "opponentPosition": {
+              "x": 5,
+              "y": 0
+            },
+            "goto": "edward_approach",
+            "returnNodes": {
+              "captured": "edward_captured",
+              "win": "edward_uncaught",
+              "lose": "edward_uncaught",
+              "fled": "edward_uncaught",
+              "career_ended": "edward_uncaught"
+            }
+          },
+          "timeCostMinutes": 20
+        },
+        {
+          "id": "withdraw_edward",
+          "text": "Lascio il luogo senza combattere e torno al Village.",
+          "goto": "m09-interday-one#resource_guard",
+          "timeCostMinutes": 90,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "world_village"
+            }
+          ]
+        }
+      ]
+    },
+    "edward_captured": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La Poké Ball è scattata: lugia è stato catturato con le regole Pokémon 5e. Il Pokémon è già persistito nel roster; il Mondiale non concede automaticamente uno slot nei sei schierabili. Puoi gestire la squadra dal Team prima del prossimo match."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record_edward_capture",
+          "text": "Registro la cattura e rientro nel World Village.",
+          "goto": "m09-interday-one#resource_guard",
+          "timeCostMinutes": 90,
+          "effects": [
+            {
+              "type": "quest_complete",
+              "questId": "legendary_m08_lead_edward",
+              "resolution": "captured_in_world_m09"
+            },
+            {
+              "type": "set_flag",
+              "key": "legendary_world_captured_edward",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "world_village"
+            }
+          ]
+        }
+      ]
+    },
+    "edward_uncaught": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'incontro si è concluso senza cattura. Il risultato reale della battaglia e lo stato della tua squadra restano persistenti; la quest non viene dichiarata completa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "return_edward_uncaught",
+          "text": "Ritorno al Village con le conseguenze dell'incontro.",
+          "goto": "m09-interday-one#resource_guard",
+          "timeCostMinutes": 90,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "world_village"
+            }
+          ]
+        }
+      ]
+    },
+    "fab_approach": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Le letture atmosferiche convergono su un crinale fuori Meridiana. Rayquaza è lì nella sua forma ordinaria: nessuna Megaevoluzione è acquisita."
+        }
+      ],
+      "choices": [
+        {
+          "id": "challenge_fab",
+          "text": "Affronto rayquaza con la squadra reale; la cattura non è garantita.",
+          "combat": {
+            "encounterId": "legendary_world_m09_fab",
+            "opponent": {
+              "species": "rayquaza",
+              "level": 18
+            },
+            "opponentRegistered": false,
+            "trainerPosition": {
+              "x": 0,
+              "y": 0
+            },
+            "playerPosition": {
+              "x": 0,
+              "y": 0
+            },
+            "opponentPosition": {
+              "x": 5,
+              "y": 0
+            },
+            "goto": "fab_approach",
+            "returnNodes": {
+              "captured": "fab_captured",
+              "win": "fab_uncaught",
+              "lose": "fab_uncaught",
+              "fled": "fab_uncaught",
+              "career_ended": "fab_uncaught"
+            }
+          },
+          "timeCostMinutes": 20
+        },
+        {
+          "id": "withdraw_fab",
+          "text": "Lascio il luogo senza combattere e torno al Village.",
+          "goto": "m09-interday-one#resource_guard",
+          "timeCostMinutes": 90,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "world_village"
+            }
+          ]
+        }
+      ]
+    },
+    "fab_captured": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "La Poké Ball è scattata: rayquaza è stato catturato con le regole Pokémon 5e. Il Pokémon è già persistito nel roster; il Mondiale non concede automaticamente uno slot nei sei schierabili. Puoi gestire la squadra dal Team prima del prossimo match."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record_fab_capture",
+          "text": "Registro la cattura e rientro nel World Village.",
+          "goto": "m09-interday-one#resource_guard",
+          "timeCostMinutes": 90,
+          "effects": [
+            {
+              "type": "quest_complete",
+              "questId": "legendary_m08_lead_fab",
+              "resolution": "captured_in_world_m09"
+            },
+            {
+              "type": "set_flag",
+              "key": "legendary_world_captured_fab",
+              "value": true
+            },
+            {
+              "type": "set_location",
+              "locationId": "world_village"
+            }
+          ]
+        }
+      ]
+    },
+    "fab_uncaught": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "L'incontro si è concluso senza cattura. Il risultato reale della battaglia e lo stato della tua squadra restano persistenti; la quest non viene dichiarata completa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "return_fab_uncaught",
+          "text": "Ritorno al Village con le conseguenze dell'incontro.",
+          "goto": "m09-interday-one#resource_guard",
+          "timeCostMinutes": 90,
+          "effects": [
+            {
+              "type": "set_location",
+              "locationId": "world_village"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

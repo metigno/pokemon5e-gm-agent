@@ -5,12 +5,14 @@ import { join } from "node:path";
 import { normalizeSpriteId } from "../src/assets/sprite-runtime.mjs";
 import { BookgameEngine } from "../src/engine/bookgame-engine.mjs";
 import { Pokemon5eCombatEngine } from "../src/combat/combat-engine.mjs";
+import { captureBallsInInventory } from "../src/combat/capture.mjs";
 import { Poke5eDataRepository } from "../src/combat/poke5e-data.mjs";
 import { scaledHp } from "../src/combat/poke5e-rules.mjs";
 import { CryptoDice } from "../src/engine/dice.mjs";
 import { SaveStore } from "../src/engine/save-store.mjs";
 import { createNewGameState, EXPERIENCE_NEEDED_PER_LEVEL } from "../src/engine/state.mjs";
 import { pokemonLevelCapForState } from "../src/engine/pokemon-xp-balance.mjs";
+import { swapPlayerRosterSlots } from "../src/engine/player-roster-selection.mjs";
 import { applyPlayerEvolution, playerEvolutionOptions } from "../src/engine/player-evolution.mjs";
 import {
   applyPokemonAsiChoice,
@@ -135,6 +137,20 @@ async function battleView() {
       bonusActionAvailable: Boolean(battle.player.turn?.bonusActionAvailable)
     },
     trainerActionAvailable: Boolean(battle.trainer?.actionAvailable),
+    capture: {
+      available: actor === "player" &&
+        !battle.awaitingSwitch && !battle.pendingTrainerReaction &&
+        !battle.opponentRegistered &&
+        Boolean(battle.trainer?.actionAvailable) &&
+        Boolean(battle.player?.turn?.actionAvailable),
+      balls: battle.opponentRegistered ? [] : captureBallsInInventory(battle.trainer?.inventory ?? [])
+    },
+    flee: {
+      available: actor === "player" &&
+        !battle.awaitingSwitch && !battle.pendingTrainerReaction &&
+        !battle.opponentRegistered &&
+        battle.flee?.lastAttemptRound !== battle.round
+    },
     opponent: {
       name: battle.opponent.name,
       speciesId: battle.opponent.speciesId,
@@ -381,6 +397,15 @@ async function handleApi(req, res, url) {
     }
   }
 
+  if (url.pathname === "/api/pokemon/roster-swap") {
+    const next = swapPlayerRosterSlots(state, {
+      reserveIndex: Number(body.reserveIndex),
+      officialIndex: Number(body.officialIndex)
+    });
+    await persist(next);
+    return sendJson(res, 200, await snapshot());
+  }
+
   if (url.pathname === "/api/pokemon/level-up") {
     const { index, pokemon } = rosterPokemon(body.rosterIndex);
     const context = pokemonProgressionContext();
@@ -510,6 +535,34 @@ async function handleApi(req, res, url) {
     }
     state.player.inventory = structuredClone(outcome.battle.trainer.inventory ?? []);
     await persist(engine.setCombatState(state, outcome.battle));
+    return sendJson(res, 200, await snapshot());
+  }
+
+  if (url.pathname === "/api/combat/flee") {
+    await normalizeCombatFlow();
+    if (!state.pending?.battle) throw new Error("Nessun combattimento attivo");
+    if (state.pending.battle.opponentRegistered) {
+      return sendJson(res, 409, { ok: false, error: "Non puoi fuggire da una partita ufficiale" });
+    }
+    const outcome = await combatEngine.attemptPlayerFlee(state.pending.battle);
+    await persist(engine.setCombatState(state, outcome.battle));
+    if (!outcome.result.legal) {
+      return sendJson(res, 409, { ok: false, error: outcome.result.reason ?? "Fuga non consentita" });
+    }
+    return sendJson(res, 200, await snapshot());
+  }
+
+  if (url.pathname === "/api/combat/capture") {
+    await normalizeCombatFlow();
+    if (!state.pending?.battle) throw new Error("Nessun combattimento attivo");
+    const ball = String(body.ball ?? "pokeball");
+    const outcome = await combatEngine.attemptPlayerCapture(state.pending.battle, ball);
+    if (!outcome.result.legal) {
+      return sendJson(res, 409, { ok: false, error: outcome.result.reason ?? "Cattura non consentita" });
+    }
+    const next = engine.setCombatState(state, outcome.battle);
+    next.player.inventory = structuredClone(outcome.battle.trainer.inventory ?? []);
+    await persist(next);
     return sendJson(res, 200, await snapshot());
   }
 
