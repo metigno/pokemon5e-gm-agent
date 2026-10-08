@@ -30,7 +30,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La semifinale è single elimination. Il match del player è quello già scritto nel bracket E5."
+          "text": "Quattro allenatori, due campi, una finale. L'arbitro chiama il tuo nome; questa semifinale non concede un secondo tentativo."
         }
       ],
       "choices": [
@@ -55,7 +55,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il tuo avversario è {{competition.world.knockout.playerSfOpponent.name}}; roster e trainerId vengono risolti dal bridge competitivo."
+          "text": "Sul display appare {{competition.world.knockout.playerSfOpponent.name}}. Il suo percorso fino a qui è pubblico; le decisioni che prenderà nei prossimi turni ancora no."
         }
       ],
       "choices": [
@@ -80,7 +80,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Formato Singles, sei Pokémon ufficiali e regole Pokémon 5e: nessun risultato è predeterminato."
+          "text": "«Sei Pokémon, incontro singolo, eliminazione diretta», ricorda l'arbitro. Nessun pronostico decide la partita."
         }
       ],
       "choices": [
@@ -105,7 +105,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Una sola partita separa il player dalla finale, ma la pressione non modifica i dadi o le statistiche."
+          "text": "La folla segue ogni gesto mentre i Pokémon si preparano. Fra te e la finale rimane un solo avversario, ma la tensione non altera ciò che ciascuno sa fare."
         }
       ],
       "choices": [
@@ -130,7 +130,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il bridge usa playerSfMatchId e playerSfOpponent per costruire il combattimento ufficiale."
+          "text": "Il segnale d'inizio sta per suonare. Il tuo avversario è già in posizione e il terreno di gioco è libero."
         }
       ],
       "choices": [
@@ -175,7 +175,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La vittoria rende il player finalista provvisorio; l'altra semifinale deve ancora essere risolta da E5."
+          "text": "Il pubblico reagisce alla fine dell'incontro: hai vinto la semifinale. Il tuo nome sale sul tabellone della finale, mentre l'altra sfida deve ancora indicare il secondo partecipante."
         }
       ],
       "choices": [
@@ -209,7 +209,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La sconfitta elimina il player dal titolo. Non esiste ripescaggio verso la finale."
+          "text": "Il verdetto è netto: la tua corsa al titolo finisce in semifinale. L'arena continua a vivere e la finale si giocherà senza di te."
         }
       ],
       "choices": [
@@ -243,7 +243,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il risultato ufficiale resta nella competition history una sola volta."
+          "text": "Un addetto firma il referto del tuo incontro. Vittoria o sconfitta restano registrate con il nome dell'avversario."
         }
       ],
       "choices": [
@@ -263,7 +263,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il team conserva HP, PP, status e altre conseguenze del combattimento appena concluso."
+          "text": "I tuoi Pokémon tornano nelle loro Poké Ball con le conseguenze dello scontro. Neppure una vittoria cancella automaticamente la fatica."
         }
       ],
       "choices": [
@@ -283,7 +283,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La history permette di distinguere risultato del player e risoluzione off-screen dell'altra semifinale."
+          "text": "Sul monitor trovi il tuo incontro e, separatamente, quello disputato dall'altra coppia di semifinalisti."
         }
       ],
       "choices": [
@@ -303,7 +303,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il vincitore del match reale occupa uno dei due slot della finale."
+          "text": "Il vincitore della tua semifinale occupa uno dei due posti della finale. L'altro non è ancora un nome garantito."
         }
       ],
       "choices": [
@@ -323,7 +323,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rei può vincere o perdere soltanto attraverso il match in cui si trova realmente."
+          "text": "Se Rei è ancora in gara, anche lui deve affrontare il proprio avversario. Il pubblico può fare pronostici; il risultato non è già scritto."
         }
       ],
       "choices": [
@@ -343,7 +343,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Lo stesso vale per gli amici: nessuna relazione protegge un risultato."
+          "text": "Un amico può trovarsi tra i semifinalisti o essere stato eliminato prima. La vostra storia comune non gli regala un passaggio del turno."
         }
       ],
       "choices": [
@@ -363,7 +363,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'altra semifinale esiste indipendentemente dalla scena del player e verrà chiusa una sola volta."
+          "text": "Sull'altro campo la competizione prosegue anche se non puoi vederla in diretta."
         }
       ],
       "choices": [
@@ -383,7 +383,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Perdere WORLD_SF significa essere fuori dal titolo mondiale di questa edizione."
+          "text": "Perdere una semifinale significa lasciare la corsa al titolo in questa edizione. Nessun altro incontro cancella il verdetto."
         }
       ],
       "choices": [
@@ -403,7 +403,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Prima del fight il sistema verifica match, avversario e roster regolamentare."
+          "text": "L'arbitro controlla l'accredito e i sei Pokémon registrati prima di farti entrare."
         }
       ],
       "choices": [
@@ -423,7 +423,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Né vittoria né sconfitta curano automaticamente il team."
+          "text": "Dopo la partita devi occuparti davvero della squadra. L'esito sportivo non equivale a una cura."
         }
       ],
       "choices": [
@@ -443,7 +443,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il record E5 è l'unica autorità per dire se il player ha vinto WORLD_SF."
+          "text": "Il referto ufficiale stabilisce chi ha vinto. Non spetta alle voci degli spalti decidere il risultato."
         }
       ],
       "choices": [
@@ -463,7 +463,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Dopo il risultato del player, M11_04 può risolvere l'altra semifinale e creare la finale reale."
+          "text": "Ora si attende l'esito dell'altra semifinale per conoscere il programma della finale."
         }
       ],
       "choices": [
@@ -483,7 +483,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il match del player è concluso; il bracket attende soltanto la seconda semifinale."
+          "text": "Esci dal campo mentre gli addetti preparano l'annuncio degli ultimi due contendenti."
         }
       ],
       "choices": [
@@ -503,7 +503,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "WORLD_SF del player è chiuso senza riscrivere il tabellone."
+          "text": "La tua semifinale è conclusa. Qualunque sia stato il risultato, non puoi rigiocarla."
         }
       ],
       "choices": [
@@ -523,7 +523,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rileggere la scena non può offrire un secondo fight sullo stesso matchId."
+          "text": "Puoi rivedere il tabellone; la partita appena finita rimane tale."
         }
       ],
       "choices": [
