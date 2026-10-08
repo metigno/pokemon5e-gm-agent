@@ -45,12 +45,12 @@
         },
         {
           "id": "entry_history",
-          "text": "Rivedo prima la history E5.",
+          "text": "Rivedo prima la registro degli incontri.",
           "goto": "history"
         },
         {
           "id": "entry_guard",
-          "text": "Controllo il guardrail world_qualified.",
+          "text": "Controllo il risultato ufficiale.",
           "goto": "world_guard"
         }
       ]
@@ -65,7 +65,7 @@
       "choices": [
         {
           "id": "classify_qualified",
-          "text": "La lane è stata vinta.",
+          "text": "La percorso di gara è stata vinta.",
           "goto": "qualified_summary",
           "conditions": {
             "path": "world.flags.m7_qualifier_bracket_result",
@@ -102,7 +102,7 @@
       "choices": [
         {
           "id": "qualified_guard",
-          "text": "Verifico il guardrail prima di scrivere world_qualified.",
+          "text": "Verifico il requisiti prima di scrivere qualificazione al Mondiale.",
           "goto": "world_guard"
         },
         {
@@ -112,7 +112,7 @@
         },
         {
           "id": "qualified_history",
-          "text": "Rivedo le due vittorie in history.",
+          "text": "Rivedo le due vittorie in registro degli incontri.",
           "goto": "history"
         }
       ]
@@ -139,7 +139,7 @@
         },
         {
           "id": "r1_history",
-          "text": "Rivedo la history del primo match.",
+          "text": "Rivedo la registro degli incontri del primo match.",
           "goto": "history"
         }
       ]
@@ -191,7 +191,7 @@
         },
         {
           "id": "history_friend",
-          "text": "Controllo il callback del Friend Beat 07.",
+          "text": "Controllo il ricordo del incontro con un amico.",
           "goto": "friend_callback"
         }
       ]
@@ -206,7 +206,7 @@
       "choices": [
         {
           "id": "guard_qualified",
-          "text": "La lane è qualificata: posso registrarla.",
+          "text": "La percorso di gara è qualificata: posso registrarla.",
           "goto": "qualified_record",
           "conditions": {
             "path": "world.flags.m7_qualifier_bracket_result",
@@ -255,7 +255,7 @@
         },
         {
           "id": "friend_history",
-          "text": "Torno alla history.",
+          "text": "Torno alla registro degli incontri.",
           "goto": "history"
         }
       ]
@@ -290,7 +290,7 @@
       "choices": [
         {
           "id": "qualified_commit",
-          "text": "Segno world_qualified=true.",
+          "text": "Segno qualificazione al Mondiale=true.",
           "goto": "qualified_close",
           "conditions": {
             "path": "world.flags.m7_qualifier_bracket_result",
@@ -336,7 +336,7 @@
       "choices": [
         {
           "id": "elimination_confirm",
-          "text": "Registro l'eliminazione e l'eligibility Last Chance.",
+          "text": "Registro l'eliminazione e l'requisiti Last Chance.",
           "goto": "last_chance_explain",
           "effects": [
             {
@@ -358,7 +358,7 @@
         },
         {
           "id": "elimination_back",
-          "text": "Rivedo la history prima di confermare.",
+          "text": "Rivedo la registro degli incontri prima di confermare.",
           "goto": "history"
         }
       ]
@@ -478,7 +478,7 @@
         },
         {
           "id": "close_history",
-          "text": "Rileggo la history.",
+          "text": "Rileggo la registro degli incontri.",
           "goto": "history"
         }
       ]
