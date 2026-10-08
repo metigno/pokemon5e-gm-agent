@@ -1,4 +1,6 @@
-import { createWorldCompetitionState, ensureCompetition } from "./competition-state.mjs";
+import {
+  createWorldCompetitionState, ensureCompetition, resolveUnattendedWorldChampionship
+} from "./competition-state.mjs";
 import { advanceWorldTime, ensureWorldClock } from "./time.mjs";
 
 // Authored, reusable activities: no AI-generated quest, reward, location or encounter.
@@ -73,6 +75,9 @@ function recordEdition(state) {
   if (season.championships.some((entry) => entry.edition === edition)) return;
   if (edition !== season.championships.length + 1) {
     throw new Error("Postgame history must contain consecutive championship editions");
+  }
+  if (qualifiedResult(state) === "missed" && !world.currentWorldChampion) {
+    resolveUnattendedWorldChampionship(state);
   }
   const outcome = summary(state, edition);
   if (outcome.result === "undetermined") {
