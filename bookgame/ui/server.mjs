@@ -8,6 +8,7 @@ import { BookgameEngine } from "../src/engine/bookgame-engine.mjs";
 import { Pokemon5eCombatEngine } from "../src/combat/combat-engine.mjs";
 import { captureBallsInInventory } from "../src/combat/capture.mjs";
 import { Poke5eDataRepository } from "../src/combat/poke5e-data.mjs";
+import { distance, movementSpeedForType, withinLineOfSightDistance } from "../src/combat/spatial.mjs";
 import { scaledHp } from "../src/combat/poke5e-rules.mjs";
 import { CryptoDice } from "../src/engine/dice.mjs";
 import { SaveStore, assertCareerSlot } from "../src/engine/save-store.mjs";
@@ -119,6 +120,34 @@ function statusList(combatant) {
   return result;
 }
 
+// The engine owns legality; this projection only exposes the resources and
+// selections required to play its existing spatial actions on touch screens.
+function activeSwitchAllowed(battle) {
+  if (combatEngine.actor(battle) !== "player" || battle.pendingTrainerReaction) return false;
+  if (!battle.player.turn?.actionAvailable || !battle.trainer?.actionAvailable) return false;
+  if (!(battle.playerBench ?? []).some((pokemon) => pokemon.hp.current > 0)) return false;
+  if ((battle.player.effects?.switchLockSources ?? []).some((entry) =>
+    entry.expiresRound == null || battle.round < entry.expiresRound
+  )) return false;
+  return withinLineOfSightDistance(battle.trainer.position, battle.player.position, 60);
+}
+
+function validDestination(value) {
+  return value && typeof value === "object" &&
+    Number.isFinite(value.x) && Number.isFinite(value.y) &&
+    (value.z === undefined || Number.isFinite(value.z));
+}
+
+async function opponentOpportunityMove(battle) {
+  if (!battle.opponent.reactionAvailable) return null;
+  for (const id of battle.opponent.moveIds ?? []) {
+    if ((battle.opponent.pp?.[id] ?? 0) <= 0) continue;
+    const move = await poke5eData.getMove(id);
+    if (move.time?.unit === "action" && move.range?.type === "melee" && move.attack) return id;
+  }
+  return null;
+}
+
 async function battleView() {
   const battle = state?.pending?.battle;
   if (!battle) return null;
@@ -126,6 +155,14 @@ async function battleView() {
   const actor = combatEngine.actor(battle);
   const moves = actor === "player"
     ? await combatEngine.availablePlayerMoves(battle)
+    : [];
+  const canAct = actor === "player" && !battle.awaitingSwitch && !battle.pendingTrainerReaction;
+  const movementModes = canAct
+    ? (battle.player.speed ?? []).map(({ type }) => ({
+      type,
+      remaining: Math.max(0, movementSpeedForType(battle.player, type, battle.round).value -
+        Number(battle.player.turn?.movementSpent ?? 0))
+    })).filter(({ remaining }) => remaining > 0)
     : [];
 
   return {
@@ -144,11 +181,22 @@ async function battleView() {
       hp: battle.player.hp,
       ac: battle.player.ac,
       statuses: statusList(battle.player),
+      position: battle.player.position,
+      disengaged: Boolean(battle.player.turn?.disengaged),
       movementRemaining: battle.player.turn?.movementRemaining ?? 0,
       actionAvailable: Boolean(battle.player.turn?.actionAvailable),
       bonusActionAvailable: Boolean(battle.player.turn?.bonusActionAvailable)
     },
     trainerActionAvailable: Boolean(battle.trainer?.actionAvailable),
+    spatial: {
+      trainerPosition: battle.trainer.position,
+      opponentPosition: battle.opponent.position,
+      distance: distance(battle.player.position, battle.opponent.position),
+      pokemonMovementModes: movementModes,
+      trainerMovementRemaining: canAct ? Number(battle.trainer.movementRemaining ?? 0) : 0,
+      disengageAvailable: canAct && Boolean(battle.player.turn?.actionAvailable),
+      voluntarySwitchAvailable: activeSwitchAllowed(battle)
+    },
     capture: {
       available: actor === "player" &&
         !battle.awaitingSwitch && !battle.pendingTrainerReaction &&
@@ -169,7 +217,8 @@ async function battleView() {
       level: battle.opponent.level,
       hp: battle.opponent.hp,
       ac: battle.opponent.ac,
-      statuses: statusList(battle.opponent)
+      statuses: statusList(battle.opponent),
+      position: battle.opponent.position
     },
     playerBench: (battle.playerBench ?? []).map((entry, index) => ({
       index,
@@ -649,10 +698,57 @@ async function handleApi(req, res, url) {
     return sendJson(res, 200, await snapshot());
   }
 
+  if (url.pathname === "/api/combat/disengage") {
+    await normalizeCombatFlow();
+    if (!state.pending?.battle) throw new Error("Nessun combattimento attivo");
+    const battle = await combatEngine.useDisengage(state.pending.battle, "player");
+    await persist(engine.setCombatState(state, battle));
+    return sendJson(res, 200, await snapshot());
+  }
+
+  if (url.pathname === "/api/combat/movement") {
+    await normalizeCombatFlow();
+    if (!state.pending?.battle) throw new Error("Nessun combattimento attivo");
+    if (!validDestination(body.destination)) {
+      return sendError(res, new Error("Coordinate non valide: servono x e y numerici, z opzionale"), 400);
+    }
+    if (state.pending.battle.awaitingSwitch || state.pending.battle.pendingTrainerReaction ||
+        combatEngine.actor(state.pending.battle) !== "player") {
+      return sendError(res, new Error("Non puoi muoverti in questo momento"), 409);
+    }
+    let battle;
+    if (body.unit === "pokemon") {
+      const mode = String(body.movementType ?? "");
+      if (!(state.pending.battle.player.speed ?? []).some((entry) => entry.type === mode)) {
+        return sendError(res, new Error("Modalità di movimento non disponibile"), 409);
+      }
+      battle = await combatEngine.moveCombatant(state.pending.battle, "player", body.destination, {
+        movementType: mode,
+        opportunityMoveId: await opponentOpportunityMove(state.pending.battle)
+      });
+    } else if (body.unit === "trainer") {
+      battle = await combatEngine.moveTrainer(state.pending.battle, body.destination);
+    } else {
+      return sendError(res, new Error("Unità di movimento non valida"), 400);
+    }
+    await persist(engine.setCombatState(state, battle));
+    return sendJson(res, 200, await snapshot());
+  }
+
   if (url.pathname === "/api/combat/move") {
     await normalizeCombatFlow();
     if (!state.pending?.battle) throw new Error("Nessun combattimento attivo");
-    const battle = await combatEngine.usePlayerMove(state.pending.battle, String(body.moveId ?? ""));
+    if (body.targetPoint != null && !validDestination(body.targetPoint)) {
+      return sendError(res, new Error("Punto bersaglio non valido"), 400);
+    }
+    if (body.targetSide != null && !["player", "opponent"].includes(body.targetSide)) {
+      return sendError(res, new Error("Bersaglio non valido"), 400);
+    }
+    const battle = await combatEngine.usePlayerMove(state.pending.battle, String(body.moveId ?? ""), {
+      targetPoint: body.targetPoint ?? null,
+      targetSide: body.targetSide ?? null,
+      canonicalChoice: body.canonicalChoice ?? null
+    });
     await persist(engine.setCombatState(state, battle));
     return sendJson(res, 200, await snapshot());
   }
@@ -668,7 +764,12 @@ async function handleApi(req, res, url) {
   if (url.pathname === "/api/combat/switch") {
     await normalizeCombatFlow();
     if (!state.pending?.battle) throw new Error("Nessun combattimento attivo");
-    const battle = await combatEngine.switchPlayer(state.pending.battle, Number(body.benchIndex));
+    if (body.releasePosition != null && !validDestination(body.releasePosition)) {
+      return sendError(res, new Error("Posizione di ingresso non valida"), 400);
+    }
+    const battle = await combatEngine.switchPlayer(state.pending.battle, Number(body.benchIndex), {
+      releasePosition: body.releasePosition ?? null
+    });
     await persist(engine.setCombatState(state, battle));
     return sendJson(res, 200, await snapshot());
   }
