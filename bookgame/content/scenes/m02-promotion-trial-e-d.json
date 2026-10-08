@@ -78,20 +78,20 @@
             "opponentTrainerId": "SAL_GATE_E_D_INES_VARGA",
             "opponent": {
               "species": "Growlithe",
-              "level": 5,
+              "level": 6,
               "abilityId": "intimidate",
               "trainerId": "SAL_GATE_E_D_INES_VARGA"
             },
             "opponentBench": [
               {
                 "species": "Roselia",
-                "level": 5,
+                "level": 6,
                 "abilityId": "natural-cure",
                 "trainerId": "SAL_GATE_E_D_INES_VARGA"
               },
               {
                 "species": "Sableye",
-                "level": 4,
+                "level": 5,
                 "abilityId": "keen-eye",
                 "trainerId": "SAL_GATE_E_D_INES_VARGA"
               }
