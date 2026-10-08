@@ -19,7 +19,7 @@ FORMAT = "p5e-offline-audio-v1"
 MAX_ENTRIES = 2500
 MAX_TOTAL_BYTES = 120 * 1024 * 1024
 MAX_ASSET_BYTES = 12 * 1024 * 1024
-AUDIO_NAME = re.compile(r"audio/(?:[a-z0-9_]+\.ogg|cries/[a-z0-9_]+\.wav)\Z")
+AUDIO_NAME = re.compile(r"audio/(?:[a-z0-9_]+\.(?:ogg|mp3)|cries/[a-z0-9_]+\.wav)\Z")
 REQUIRED = {f"m{i:02}" for i in range(1, 13)} | {
     "intro", "calm", "danger", "mystery", "evolution", "victory", "defeat",
     "battle_wild", "battle_trainer", "battle_boss", "battle_legendary", "pwt_final",
@@ -45,7 +45,8 @@ def _entries(manifest):
             if not re.fullmatch(r"[a-z0-9_]+", name) or not isinstance(entry, dict):
                 raise PackError("Invalid audio cue")
             relative = entry.get("file")
-            expected = "audio/cries/" + name + ".wav" if section == "cries" else "audio/" + name + ".ogg"
+            expected = ("audio/cries/" + name + ".wav" if section == "cries" else
+                        "audio/" + name + (".mp3" if str(relative).endswith(".mp3") else ".ogg"))
             if relative != expected or not AUDIO_NAME.fullmatch(relative):
                 raise PackError("Unsafe or mismatched audio path")
             digest = entry.get("sha256")
@@ -65,6 +66,8 @@ def _entries(manifest):
 def _check_audio(data, path):
     if path.endswith(".ogg") and not data.startswith(b"OggS"):
         raise PackError("Not an OGG file: " + path)
+    if path.endswith(".mp3") and not (data.startswith(b"ID3") or data.startswith(b"\xff\xfb") or data.startswith(b"\xff\xf3")):
+        raise PackError("Not an MP3 file: " + path)
     if path.endswith(".wav") and not (data.startswith(b"RIFF") and data[8:12] == b"WAVE"):
         raise PackError("Not a WAV file: " + path)
 
