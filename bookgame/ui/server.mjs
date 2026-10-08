@@ -14,6 +14,7 @@ import { SaveStore, assertCareerSlot } from "../src/engine/save-store.mjs";
 import { trainerCareerEnded } from "../src/engine/trainer-survival.mjs";
 import { createNewGameState, EXPERIENCE_NEEDED_PER_LEVEL } from "../src/engine/state.mjs";
 import { informationPanelsView } from "../src/engine/information-panels.mjs";
+import { getQuestJournal } from "../src/engine/quest-state.mjs";
 import { pokemonLevelCapForState } from "../src/engine/pokemon-xp-balance.mjs";
 import { applyPlayerEvolution, playerEvolutionOptions } from "../src/engine/player-evolution.mjs";
 import {
@@ -56,7 +57,8 @@ const STATIC_FILES = new Map([
   ["/index.html", ["index.html", "text/html; charset=utf-8"]],
   ["/styles.css", ["styles.css", "text/css; charset=utf-8"]],
   ["/app.mjs", ["app.mjs", "text/javascript; charset=utf-8"]],
-  ["/reveal-model.mjs", ["reveal-model.mjs", "text/javascript; charset=utf-8"]]
+  ["/reveal-model.mjs", ["reveal-model.mjs", "text/javascript; charset=utf-8"]],
+  ["/information-renderers.mjs", ["information-renderers.mjs", "text/javascript; charset=utf-8"]]
 ]);
 
 function sendJson(res, status, payload) {
@@ -314,7 +316,7 @@ async function snapshot() {
         text: "Il Trainer è morto. Questa carriera è conclusa definitivamente. Puoi conservare il ricordo del viaggio o iniziare una nuova partita in un altro slot.",
         stitches: null,
         choices: [],
-        questJournal: [],
+        questJournal: getQuestJournal(state),
         worldTime: null,
         pending: null,
         lastRoll: null
