@@ -26,7 +26,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Due giornate sono finite. L'ultima finestra non può predire il risultato: può soltanto leggere punti, risorse e tempo reali."
+          "text": "Due giornate sono alle spalle. Il Village parla di calcoli e possibilità, ma resta ancora una partita da giocare."
         }
       ],
       "choices": [
@@ -51,7 +51,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Dopo due match puoi avere 0, 3 o 6 punti. La posizione resta provvisoria finché non vengono giocate le ultime due partite del gruppo."
+          "text": "Sul tabellone puoi avere zero, tre o sei punti. Nessun totale è definitivo prima dell'ultima giornata."
         }
       ],
       "choices": [
@@ -88,7 +88,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Due vittorie danno margine, non un pass scritto dal narratore. L'altro match e i tiebreak devono ancora essere risolti da E5."
+          "text": "Con due vittorie hai accumulato un buon vantaggio, ma gli ultimi risultati e gli eventuali spareggi possono ancora contare."
         }
       ],
       "choices": [
@@ -108,7 +108,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Una vittoria e una sconfitta lasciano il gruppo aperto. Il valore del terzo match dipende anche dall'altro incontro della giornata."
+          "text": "Una vittoria e una sconfitta tengono il destino del girone aperto. La tua ultima partita non sarà l'unico risultato della giornata."
         }
       ],
       "choices": [
@@ -128,7 +128,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Due sconfitte rendono il margine minimo, ma il sistema competitivo deve ancora chiudere il gruppo. La scena non dichiara eliminazione prima di E5."
+          "text": "Le due sconfitte rendono la situazione difficile. Il tabellone, però, non dichiara un'eliminazione prima che tutte le gare siano concluse."
         }
       ],
       "choices": [
@@ -148,7 +148,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "HP, PP, status e infortuni sono quelli lasciati dalle prime due giornate. Nessun reset speciale precede il match decisivo."
+          "text": "Controlli la squadra dopo due partite. Le condizioni dei Pokémon raccontano il cammino più dei pronostici."
         }
       ],
       "choices": [
@@ -173,7 +173,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La scena può indirizzarti ai servizi, ma non applica una cura. Il costo e le conseguenze devono passare dai sistemi esistenti."
+          "text": "Se desideri cure devi rivolgerti ai servizi effettivi, con i tempi e i costi previsti."
         }
       ],
       "choices": [
@@ -193,7 +193,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Ogni ora lasciata passare aggiorna schedule, eventi e Living World. Il Matchday 3 resta lo stesso pairing."
+          "text": "L'orologio continua a scorrere. La terza partita manterrà il proprio avversario anche se dedichi tempo ad altri impegni."
         }
       ],
       "choices": [
@@ -214,7 +214,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Negli altri sette gruppi i risultati continuano a formarsi. M9_08 li chiuderà attraverso E5, non attraverso una lista scritta a mano."
+          "text": "I risultati degli altri sette gruppi arrivano a intervalli. Alcuni allenatori hanno già grandi speranze, altri hanno margini sempre più stretti."
         }
       ],
       "choices": [
@@ -239,7 +239,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Gli scenari possono dirti cosa rischi, non chi passerà. Il tiebreak appartiene a E5 e verrà applicato solo dopo tutti i match."
+          "text": "Puoi esaminare le possibili combinazioni di punti, senza trasformarle in risultati già ottenuti."
         }
       ],
       "choices": [
@@ -259,7 +259,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Mentre prepari l'ultima partita, amici, Anchor e altri qualificati continuano le loro carriere. Nessuno è protetto dal nome."
+          "text": "Gli amici, Kaia e tutti gli altri partecipanti si preparano alle proprie gare. Il loro destino non dipende dal tuo nome sul tabellone."
         }
       ],
       "choices": [
@@ -279,7 +279,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La chiusura registra soltanto che hai terminato la gestione tra seconda e terza giornata. Non assegna punti futuri."
+          "text": "Riponi i calcoli e gli appunti: la terza giornata deve ancora dare il proprio verdetto."
         }
       ],
       "choices": [
@@ -306,7 +306,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'ultima finestra è chiusa. Il terzo avversario resta quello sorteggiato in M8: {{competition.world.playerOpponents.2.name}}."
+          "text": "Il tuo ultimo avversario sarà {{competition.world.playerOpponents.2.name}}. Fra poco non resterà che giocare."
         }
       ],
       "choices": [

@@ -38,7 +38,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Gruppo {{competition.world.playerGroup}} non è più un annuncio: da questo momento è un calendario competitivo persistente. I tre nomi arrivano dal sorteggio E5 di M8 e non possono essere sostituiti."
+          "text": "Il Gruppo {{competition.world.playerGroup}} ha finalmente un calendario. Le prime partite si avvicinano e le sale del Village cominciano a svuotarsi per gli allenamenti."
         }
       ],
       "choices": [
@@ -63,7 +63,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il gruppo contiene te e {{competition.world.playerOpponents.0.name}}, {{competition.world.playerOpponents.1.name}}, {{competition.world.playerOpponents.2.name}}. Nessun rapporto personale cambia il sorteggio."
+          "text": "Sul tabellone leggi il tuo nome accanto a {{competition.world.playerOpponents.0.name}}, {{competition.world.playerOpponents.1.name}} e {{competition.world.playerOpponents.2.name}}."
         }
       ],
       "choices": [
@@ -88,7 +88,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "WORLD_GROUPS appartiene a E5 Competition. Le scene possono mostrare il torneo, ma vittorie, sconfitte, punti e posizione devono derivare dallo stato competitivo strutturato."
+          "text": "Un ufficiale spiega il girone: ogni allenatore affronterà gli altri tre; punti e risultati diretti determineranno il passaggio del turno."
         }
       ],
       "choices": [
@@ -108,7 +108,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'ordine è immutabile per questa edizione: Matchday 1 contro il primo nome del draw, Matchday 2 contro il secondo, Matchday 3 contro il terzo. Gli altri due avversari giocano tra loro in ogni giornata."
+          "text": "Le giornate sono fissate. Prima {{competition.world.playerOpponents.0.name}}, poi {{competition.world.playerOpponents.1.name}} e infine {{competition.world.playerOpponents.2.name}}."
         }
       ],
       "choices": [
@@ -128,7 +128,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Matchday 1: {{competition.world.playerOpponents.0.name}}. L'identità è nota; risultato, HP, PP e decisioni tattiche non lo sono."
+          "text": "Il primo incontro sarà contro {{competition.world.playerOpponents.0.name}}. Non puoi conoscerne già l'esito."
         }
       ],
       "choices": [
@@ -148,7 +148,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Matchday 2: {{competition.world.playerOpponents.1.name}}. Non esiste una scorciatoia narrativa per arrivarci con un risultato prestabilito."
+          "text": "Alla seconda giornata affronterai {{competition.world.playerOpponents.1.name}}. Il risultato della prima resterà valido."
         }
       ],
       "choices": [
@@ -168,7 +168,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Matchday 3: {{competition.world.playerOpponents.2.name}}. Sarà l'ultimo incontro del round robin, ma la sua importanza dipenderà dai punti realmente ottenuti prima."
+          "text": "La terza partita è prevista contro {{competition.world.playerOpponents.2.name}}. Allora saprai quanto hanno pesato i due giorni precedenti."
         }
       ],
       "choices": [
@@ -188,7 +188,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Prima della prima partita tutti hanno 0 punti. Eventuali parità provvisorie usano soltanto un ordine stabile di visualizzazione: i tiebreak ufficiali arriveranno alla risoluzione del gruppo."
+          "text": "Il tabellone mostra tutti a zero punti. Le prime posizioni sono soltanto l'ordine di visualizzazione, non una classifica guadagnata."
         }
       ],
       "choices": [
@@ -208,7 +208,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il torneo non congela gli altri tre partecipanti. Quando giochi una giornata, E5 registra anche l'altro match del gruppo con un esito off-screen persistente e deterministico per la carriera."
+          "text": "Anche gli altri due allenatori del gruppo si preparano al proprio incontro. Quando scenderai in campo, loro non rimarranno fermi a guardarti."
         }
       ],
       "choices": [
@@ -228,7 +228,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il commit non gioca nessuna partita. Crea soltanto il calendario dei tre Matchday, la tabella a zero punti e il legame stabile con i tre avversari già estratti."
+          "text": "L'addetto pubblica orari e avversari. Nessuna partita è stata ancora disputata: sul tabellone restano caselle vuote."
         }
       ],
       "choices": [
@@ -277,7 +277,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "WORLD_GROUPS è aperto. Il calendario E5 è persistente e il primo Matchday userà esattamente {{competition.world.playerOpponents.0.name}} come avversario."
+          "text": "L'apertura del girone è ufficiale. La prima giornata ti porterà contro {{competition.world.playerOpponents.0.name}}."
         }
       ],
       "choices": [

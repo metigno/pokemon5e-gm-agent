@@ -54,7 +54,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M10 si chiude sulla conseguenza reale del knockout: eliminazione oppure accesso al Final Four."
+          "text": "Davanti al tabellone conclusivo degli ottavi e dei quarti puoi finalmente vedere dove si è fermata, oppure prosegue, la tua corsa."
         }
       ],
       "choices": [
@@ -79,7 +79,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il classificatore legge world_eliminated e world_qf_won insieme al Top4 E5. Non crea un terzo risultato."
+          "text": "Il personale confronta il tuo ultimo referto con l'elenco dei quattro semifinalisti. Il tuo posto dipende soltanto dall'incontro che hai giocato."
         }
       ],
       "choices": [
@@ -107,7 +107,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se sei eliminato, M11 non è legale. La carriera passa al World Exit/M12 conservando tutti i risultati."
+          "text": "Se sei stato eliminato, il Mondiale continuerà senza di te. Puoi tornare ad Asteria con la carriera e i risultati realmente ottenuti."
         }
       ],
       "choices": [
@@ -127,7 +127,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se hai vinto il QF, il player deve comparire nel Top4 e avere un SF pairing reale prima di aprire M11."
+          "text": "Se hai vinto i quarti, il tuo nome deve comparire fra i quattro. Soltanto allora puoi raggiungere le semifinali."
         }
       ],
       "choices": [
@@ -147,7 +147,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "competition.history conserva gironi, R16 e l'eventuale QF. M10_09 non duplica né cancella record."
+          "text": "Il registro contiene gironi, ottavi e, se lo hai giocato, il quarto di finale. Nessuna partita è stata cancellata."
         }
       ],
       "choices": [
@@ -167,7 +167,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "FRIEND_BEAT_10 conserva friend_id, contact_mode, context, type e result; nessuno di questi campi sostituisce il bracket."
+          "text": "Riguardi gli ultimi messaggi degli amici. Un saluto o una rivalità non può cambiare il risultato di un incontro ufficiale."
         }
       ],
       "choices": [
@@ -187,7 +187,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "HP, PP, status, inventario e roster restano identici all'ultimo combat e ai servizi realmente usati."
+          "text": "Controlli Pokémon, oggetti e provviste. Le ultime gare hanno lasciato conseguenze che porterai con te."
         }
       ],
       "choices": [
@@ -207,7 +207,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M11 è legale soltanto con world_qf_won=true, Top4 lockato e player presente nel SF bracket."
+          "text": "Per entrare fra i semifinalisti devi avere un quarto vinto e un posto nel programma del Final Four."
         }
       ],
       "choices": [
@@ -243,7 +243,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M12 è legale quando world_eliminated=true, sia che l'eliminazione sia avvenuta in R16 sia in QF."
+          "text": "Se hai perso agli ottavi o ai quarti, il banco partenze ti indica il viaggio di rientro. Non sei più iscritto alle partite successive."
         }
       ],
       "choices": [
@@ -267,7 +267,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il commit finale può aprire un solo ramo. Entrambi impostano m10_complete senza riscrivere competition.world."
+          "text": "La segretaria può indicarti soltanto uno dei due percorsi: semifinali oppure ritorno. Il referto non ammette una terza versione."
         }
       ],
       "choices": [
@@ -360,7 +360,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M10 è completo. Il prossimo modulo è stato sbloccato dalla competizione reale, non da un teleport narrativo."
+          "text": "L'addetta consegna le indicazioni per la prossima tappa. Il risultato è stato già deciso sul campo."
         }
       ],
       "choices": [
@@ -398,7 +398,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Nessuna Seconda Possibilità si chiude mantenendo bracket, risultati, Friend Beat e squadra. M11 o M12 potranno consumare questo stato senza ricostruirlo."
+          "text": "La fase a eliminazione diretta si è conclusa per te oppure ti ha portato fra gli ultimi quattro. In entrambi i casi conservi ciò che hai vissuto."
         }
       ],
       "choices": [

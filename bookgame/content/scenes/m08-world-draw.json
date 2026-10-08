@@ -42,7 +42,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il WORLD_DRAW è l'ultimo checkpoint pre-M9. Deve congelare un field reale di 32 e generare gruppi una sola volta attraverso E5."
+          "text": "Gli schermi del Grand Hall mostrano trentadue partecipanti e otto gruppi ancora vuoti. La sala tace quando comincia il sorteggio."
         }
       ],
       "choices": [
@@ -67,7 +67,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il sorteggio appartiene al Competition subsystem E5. I flag narrativi possono soltanto riflettere lo stato strutturato, non sostituirlo."
+          "text": "Gli ufficiali controllano l'elenco degli ammessi e conducono l'estrazione davanti al pubblico. Nessuna intervista decide dove finiranno i nomi."
         }
       ],
       "choices": [
@@ -87,7 +87,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La base è il roster canonico 2060. Il field finale non copia risultati storici: usa qualificazioni NPC già note e simula solo le qualificazioni off-screen ancora irrisolte."
+          "text": "Fra i trentadue compaiono allenatori del roster mondiale di quest'edizione. Il loro accesso dipende dalle qualificazioni realmente completate."
         }
       ],
       "choices": [
@@ -107,7 +107,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un NPC con worldQualified=true entra nel field; con false resta fuori. Solo gli stati ancora sconosciuti vengono risolti deterministicamente dal layer competitivo."
+          "text": "Alcuni posti sono stati conquistati con gare già concluse; gli ultimi risultati arrivano dagli altri circuiti. Chi non si è qualificato non viene chiamato."
         }
       ],
       "choices": [
@@ -127,7 +127,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "I team non vengono rigenerati dal draw. Il sorteggio conserva solo identità competitive; i roster di battaglia restano quelli persistenti del Trainer Encounter System."
+          "text": "Sul grande schermo scorrono i nomi degli allenatori, non nuove squadre inventate per il sorteggio. Ognuno resta con i propri Pokémon."
         }
       ],
       "choices": [
@@ -147,7 +147,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La macrotraiettoria può garantire prima del Mondiale alcuni Anchor necessari al payoff. Dal momento del draw in poi nessun Anchor è protetto da sconfitte o eliminazioni."
+          "text": "I nomi famosi ricevono applausi, ma non il diritto di scegliere gli avversari o di essere protetti dalle sconfitte."
         }
       ],
       "choices": [
@@ -167,7 +167,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Luke, Mattew, Daniel, Edward e Fab non vengono inseriti per fanservice. Se il loro stato dice fuori, restano fuori; se è irrisolto competono nella stessa simulazione off-screen degli altri."
+          "text": "Cerchi Luke, Mattew, Daniel, Edward e Fab nell'elenco degli ammessi. Soltanto chi si è qualificato può comparire fra i trentadue."
         }
       ],
       "choices": [
@@ -187,7 +187,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il draw usa un seed deterministico legato a carriera ed edizione. Aspettare o ricaricare la stessa carriera non crea un nuovo gruppo."
+          "text": "Il personale verifica la procedura di estrazione e ne conserva il verbale. Tornare a guardarlo non produrrà un gruppo differente."
         }
       ],
       "choices": [
@@ -207,7 +207,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Prima del commit puoi rivedere field, policy e conseguenze. Dopo il commit field e gruppi sono immutabili per questa edizione."
+          "text": "Prima dell'estrazione definitiva puoi osservare l'elenco dei partecipanti. Presto gli accoppiamenti saranno ufficiali per questa edizione."
         }
       ],
       "choices": [
@@ -232,7 +232,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il commit richiede qualificazione player, registrazione World, Friend Beat 08 e cerimonia completata. Nessun risultato di match viene creato."
+          "text": "Gli organizzatori attendono conferma delle iscrizioni, della cerimonia e dei documenti prima di dare inizio all'estrazione."
         }
       ],
       "choices": [
@@ -265,7 +265,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "E5 sta per risolvere qualificazioni off-screen residue, lockare i 32 e assegnare otto gruppi da quattro."
+          "text": "Una pallina viene estratta, poi un'altra. I nomi riempiono gli otto gruppi finché ognuno contiene quattro allenatori."
         }
       ],
       "choices": [
@@ -439,7 +439,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il sorteggio è ora persistente: 32 partecipanti, otto gruppi, un gruppo player e tre avversari. Ricaricare non lo rigenera."
+          "text": "Il segretario firma il verbale: trentadue partecipanti, otto gruppi. I tabelloni vengono pubblicati senza lasciare spazio a nuove estrazioni."
         }
       ],
       "choices": [
@@ -464,7 +464,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il player è stato assegnato al Gruppo {{competition.world.playerGroup}}. I tre avversari sono già nello stato E5 ma verranno presentati nel blocco successivo."
+          "text": "Il tuo nome compare nel Gruppo {{competition.world.playerGroup}}. Gli altri tre partecipanti saranno annunciati con il riepilogo ufficiale."
         }
       ],
       "choices": [
@@ -484,7 +484,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un gruppo da quattro produce esattamente tre match nel modulo M9. L'ordine degli avversari deriva dal draw persistente, non dalla narrazione."
+          "text": "Ogni gruppo ha quattro allenatori: affronterai tre avversari nelle giornate previste dal calendario."
         }
       ],
       "choices": [
@@ -504,7 +504,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'audit richiede field=32, seedOrder=32, gruppo player definito e tre avversari. Nessun duplicato o quarto avversario può essere aggiunto dal testo."
+          "text": "Gli ufficiali confrontano i nomi per evitare duplicazioni o gruppi incompleti. Il tabellone definitivo ne mostra quattro per girone."
         }
       ],
       "choices": [
@@ -524,7 +524,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Astrid, Friend Beat e media possono cambiare il tono della rivelazione. Non possono cambiare chi è stato sorteggiato."
+          "text": "Un amico o un rivale può reagire al sorteggio quando ne conosce i nomi. Nessuna reazione sposta gli accoppiamenti."
         }
       ],
       "choices": [
@@ -544,7 +544,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rimandare consuma un'ora e lascia muovere il mondo, ma il seed della stessa carriera/edizione resta stabile."
+          "text": "Se rimandi, trascorre un'ora. La stessa edizione seguirà la procedura già annunciata, non una versione fatta su misura."
         }
       ],
       "choices": [
@@ -565,7 +565,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "WORLD_DRAW è completo soltanto quando E5 conferma field e gruppi. Ora può iniziare la rivelazione formale del gruppo del player."
+          "text": "Il sorteggio è terminato. Ora puoi leggere i nomi e le giornate del tuo gruppo."
         }
       ],
       "choices": [

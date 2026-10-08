@@ -42,7 +42,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il World Village concentra trainer qualificati, staff e servizi. La vicinanza fisica non rende automaticamente disponibile nessun NPC specifico."
+          "text": "Il World Village è un intreccio di valigie, lingue diverse e Pokémon che accompagnano i propri allenatori. Tutti hanno impegni, e nessuno è qui soltanto per incontrare te."
         }
       ],
       "choices": [
@@ -91,7 +91,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Alloggi, mensa, aree comuni, recovery e collegamenti al venue competono per il tempo dei partecipanti."
+          "text": "La mappa indica alloggi, mensa, aree comuni, recupero e navette per l'arena. Ogni spostamento occupa parte della giornata."
         }
       ],
       "choices": [
@@ -116,7 +116,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Gli alloggi danno privacy e riposo, ma il recupero meccanico dipende ancora da tempo e sistemi reali."
+          "text": "Nella stanza assegnata puoi sistemare la squadra e ritagliarti un momento tranquillo. Riposare richiede tempo; varcare la soglia non cancella da sé la stanchezza."
         }
       ],
       "choices": [
@@ -136,7 +136,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La mensa rende evidente la scala internazionale del field: atleti con abitudini e schedule diverse condividono lo stesso spazio."
+          "text": "In mensa gli allenatori condividono tavoli e abitudini diverse. Qualcuno parla delle qualificazioni, altri preferiscono occuparsi dei propri Pokémon."
         }
       ],
       "choices": [
@@ -156,7 +156,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Le aree comuni sono ottime per incontri casuali, ma nessun amico o Anchor viene teletrasportato qui per servire la scena."
+          "text": "La sala comune è piena di conversazioni e partite trasmesse sugli schermi. Potresti incontrare qualcuno che conosci, se i suoi impegni lo portano davvero qui."
         }
       ],
       "choices": [
@@ -176,7 +176,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il quartiere atleti collega alloggi, recovery e accesso training. Le scelte di agenda possono influenzare chi incontri e quando."
+          "text": "Il quartiere atleti collega alloggi, servizi di recupero e sale di preparazione. Nei corridoi si incrociano programmi diversi."
         }
       ],
       "choices": [
@@ -201,7 +201,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'area recovery offre servizi e spazi tranquilli, senza cancellare automaticamente condizioni o infortuni."
+          "text": "L'area riposo è meno rumorosa. Puoi chiedere informazioni sulle cure e sui tempi, ma nessun lettino ripristina da solo energie e ferite."
         }
       ],
       "choices": [
@@ -221,7 +221,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La Training Hall pubblica finestre e regole di utilizzo. Allenarsi resta una scelta futura, non un bonus ottenuto leggendo la bacheca."
+          "text": "Una bacheca indica gli orari della Training Hall. Le sessioni sono prenotabili; allenarsi sarà una decisione, non un premio per aver visitato la stanza."
         }
       ],
       "choices": [
@@ -241,7 +241,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Navette e corridoi collegano Village, arena, media e medical center. Ogni spostamento continua a consumare tempo reale."
+          "text": "Le navette collegano Village, arena, sala stampa e clinica. Il viaggio continua a richiedere tempo, anche dentro il complesso."
         }
       ],
       "choices": [
@@ -261,7 +261,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "I servizi del Village sostengono la permanenza, ma non aggirano registrazione, salute o regole di competizione."
+          "text": "Il personale aiuta i partecipanti a orientarsi. Per competere servono ancora documenti, controlli e Pokémon idonei."
         }
       ],
       "choices": [
@@ -281,7 +281,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Sponsor e media hanno presenza visibile anche nel Village. Gli obblighi precedenti restano callback, non modificatori occulti."
+          "text": "Gli sponsor hanno allestito piccoli stand. Se hai firmato un accordo in precedenza, qualcuno potrebbe ricordarti gli impegni previsti."
         }
       ],
       "choices": [
@@ -301,7 +301,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Una passeggiata lontano dalle aree affollate protegge tempo e concentrazione, ma può ridurre le occasioni di incontro."
+          "text": "Lungo un vialetto appartato senti finalmente meno voci. La tranquillità può esserti utile, anche se significa perdere qualche incontro casuale."
         }
       ],
       "choices": [
@@ -321,7 +321,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Da qui vedi quanto il torneo è grande senza conoscere ancora il tuo gruppo. Il field esiste come insieme di qualificati, non come draw già deciso."
+          "text": "Dalla terrazza osservi l'arena e gli spazi comuni. Sai quanti allenatori sono arrivati, ma non quali finiranno nel tuo gruppo."
         }
       ],
       "choices": [
@@ -341,7 +341,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La bacheca mostra finestre di training, media e cerimonia. Il WORLD_DRAW resta un evento successivo."
+          "text": "Il programma elenca allenamenti, interviste e cerimonia. Il sorteggio non è ancora avvenuto."
         }
       ],
       "choices": [
@@ -361,7 +361,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Nel Village ritrovi i richiami del tuo percorso: risultati, sponsor, Anchor e Friend Beat. Se hai seguito una pista personale, puoi conservarla senza trasformarla in un incontro o una cattura."
+          "text": "Fra le fotografie del circuito riconosci luoghi e persone del tuo viaggio. Non tutte le immagini riguardano eventi a cui hai partecipato."
         }
       ],
       "choices": [
@@ -452,7 +452,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Qui puoi cercare contatti plausibili, seguire la schedule o restare per conto tuo. Presenza e posizione reali restano decisive."
+          "text": "Puoi cercare una conversazione oppure proseguire per conto tuo. Le persone raggiungibili dipendono da dove si trovano adesso."
         }
       ],
       "choices": [
@@ -477,7 +477,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "FRIEND_BEAT_08 userà disponibilità, schedule, posizione e uso recente. Un contatto remoto sarà valido solo se l'incontro fisico non è plausibile."
+          "text": "Se uno degli amici è nel Village potreste incrociarvi; altrimenti potrai provare a chiamarlo. Non tutti hanno seguito la tua stessa rotta."
         }
       ],
       "choices": [
@@ -504,7 +504,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Astrid Vahl è una partecipante con traiettoria propria. Il Village può renderne plausibile l'incontro, ma non la teletrasporta né la protegge dai risultati."
+          "text": "Fra i nomi del programma compare Astrid Vahl. La campionessa ha orari propri e non aspetta sempre nelle aree comuni."
         }
       ],
       "choices": [
@@ -531,7 +531,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Aspettare cambia schedule e disponibilità. Il mondo continua anche dentro il Village."
+          "text": "Passa un'ora. Alcuni atleti rientrano, altri partono per allenarsi e gli spazi cambiano volto."
         }
       ],
       "choices": [
@@ -552,7 +552,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'orientamento può chiudersi quando hai compreso servizi, schedule e causalità degli incontri. Nessun NPC specifico è stato forzato in scena."
+          "text": "Ora conosci gli spazi principali del Village e sai dove cercare servizi o contatti possibili."
         }
       ],
       "choices": [
@@ -583,7 +583,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M8_04 termina con il Village disponibile come hub e con i criteri per gli incontri futuri. Astrid e FRIEND_BEAT_08 restano blocchi successivi."
+          "text": "Il Village rimane il tuo punto di riferimento mentre prosegui verso gli incontri con Astrid e gli amici."
         }
       ],
       "choices": [

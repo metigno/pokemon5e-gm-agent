@@ -34,7 +34,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Top16 è già lockato da E5. M10 può soltanto trasformare quelle sedici qualificazioni reali negli incroci degli ottavi."
+          "text": "Le classifiche dei gironi sono state archiviate. Sul tabellone si preparano gli otto incontri degli ottavi, con i sedici allenatori rimasti."
         }
       ],
       "choices": [
@@ -59,7 +59,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Gli ottavi sono single elimination: nessuna sconfitta viene cancellata e nessun avversario viene sostituito per creare un duello più interessante."
+          "text": "Un ufficiale ricorda che ogni incontro sarà a eliminazione diretta. Chi perde non potrà chiedere un'altra partita nello stesso turno."
         }
       ],
       "choices": [
@@ -79,7 +79,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il bracket usa esclusivamente gruppo e posizione finale prodotti da WORLD_GROUPS. Il testo non sceglie nomi e non ripesca eliminati."
+          "text": "Gli incroci dipendono dalle posizioni guadagnate nei gironi. Nessuno può scegliere un avversario più comodo."
         }
       ],
       "choices": [
@@ -99,7 +99,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Ogni riga Top16 conserva participantId, gruppo e posizione. Se una di queste informazioni manca, E5 rifiuta di aprire WORLD_R16."
+          "text": "Il personale controlla che ognuno dei sedici qualificati abbia gruppo e piazzamento verificabili."
         }
       ],
       "choices": [
@@ -119,7 +119,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Gli incroci sono strutturali: A1-B2, B1-A2, C1-D2, D1-C2 e così via fino a G/H. Questo rende il bracket riproducibile senza fanservice."
+          "text": "La bacheca illustra il sistema degli incroci: il primo del Gruppo A affronta il secondo del B, e così via per le altre coppie di gruppi."
         }
       ],
       "choices": [
@@ -139,7 +139,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il player occupa un solo match degli otto. Il suo avversario sarà il partecipante nell'altro lato dello stesso incrocio."
+          "text": "Cerchi il tuo nome fra gli otto incontri. Occupa un solo spazio, accanto al prossimo avversario."
         }
       ],
       "choices": [
@@ -159,7 +159,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Finché E5 non effettua il commit del bracket non esiste un nome narrativo autorevole. Dopo il lock, la scheda legge lo stato strutturato."
+          "text": "L'addetto prepara la scheda del tuo incontro dopo che gli incroci sono stati confermati. Soltanto allora il nome diventa ufficiale."
         }
       ],
       "choices": [
@@ -179,7 +179,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Precedenti, rivalità e relazioni possono cambiare il tono dell'ottavo; non possono cambiare il lato del tabellone assegnato dai gruppi."
+          "text": "Un vecchio amico o rivale può reagire quando il tabellone vi avvicina. Il sistema di incroci non cambia per il vostro rapporto."
         }
       ],
       "choices": [
@@ -199,7 +199,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se un membro dei Five è nel Top16, resta nel suo slot reale. Player vs Friend accade soltanto se gli incroci producono davvero quel match."
+          "text": "Se un amico è ancora fra i sedici, ha un posto conquistato sul campo. Vi affronterete soltanto se le classifiche hanno creato davvero quella coppia."
         }
       ],
       "choices": [
@@ -219,7 +219,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Silas, Rei, Astrid, Kaia e gli altri non hanno protezione dopo l'inizio del Mondiale. Possono essere nel Top16 oppure essere già fuori."
+          "text": "Cerchi Silas, Rei, Astrid e Kaia. Possono essere presenti o assenti secondo il loro risultato nei gironi, non per la fama."
         }
       ],
       "choices": [
@@ -239,7 +239,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il venue assegna una finestra agli otto match. Attendere può muovere il mondo, ma non può rigenerare i sedici qualificati o il pairing della stessa edizione."
+          "text": "Gli otto incontri ricevono orari precisi. Puoi aspettare e prepararti, ma il tuo posto sul tabellone non cambia."
         }
       ],
       "choices": [
@@ -259,7 +259,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il commit è valido solo con gruppi risolti, Top16=16 e player qualificato. E5 deve produrre otto match e un solo match del player."
+          "text": "La commissione confronta elenco e classifica prima di affiggere il programma. Non deve comparire due volte lo stesso allenatore."
         }
       ],
       "choices": [
@@ -279,7 +279,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Da qui E5 può aprire WORLD_R16 una sola volta. L'operazione non gioca nessun match: blocca soltanto bracket e avversario reale."
+          "text": "Con i documenti verificati, l'organizzazione può rendere definitivi gli otto accoppiamenti. Nessuna partita viene giocata durante questa operazione."
         }
       ],
       "choices": [
@@ -335,7 +335,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "WORLD_R16 è lockato. Il tuo avversario è {{competition.world.knockout.playerR16Opponent.name}} e il matchId appartiene allo stato E5, non alla scena."
+          "text": "Gli ottavi sono annunciati. Il tuo avversario sarà {{competition.world.knockout.playerR16Opponent.name}}."
         }
       ],
       "choices": [
@@ -355,7 +355,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il primo blocco è chiuso: il prossimo passo osserva Silas nel contesto del bracket e del venue effettivi."
+          "text": "Lasci il tabellone. Potresti incrociare Silas nei corridoi, ma soltanto se è ancora in gara e si trova davvero nel complesso."
         }
       ],
       "choices": [

@@ -26,7 +26,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il risultato del player è definitivo. Ora E5 chiude l'altra semifinale senza proteggere Rei, amici o rivali."
+          "text": "Dopo la tua semifinale, il Mondiale continua sull'altro campo. Due allenatori devono ancora guadagnarsi il posto nell'ultima partita."
         }
       ],
       "choices": [
@@ -51,7 +51,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La seconda semifinale viene risolta una sola volta con il resolver deterministico del Mondiale; il match del player non viene rigiocato."
+          "text": "Il risultato dell'altra semifinale arriva attraverso il tabellone ufficiale. Non viene disputata di nuovo soltanto perché torni a guardarlo."
         }
       ],
       "choices": [
@@ -90,7 +90,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il vincitore reale della semifinale del player occupa il primo slot disponibile della finale."
+          "text": "Il vincitore della tua semifinale è già tra i finalisti. L'esito è stato deciso sul campo."
         }
       ],
       "choices": [
@@ -110,7 +110,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'altra coppia del Top4 conserva il proprio matchId e produce un solo vincitore."
+          "text": "Dall'altra parte del tabellone c'è una coppia di allenatori con il proprio percorso. Soltanto uno potrà avanzare."
         }
       ],
       "choices": [
@@ -130,7 +130,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La risoluzione off-screen usa il seed già persistente della stessa edizione, quindi save/reload non cambia il vincitore."
+          "text": "Gli addetti riportano il risultato ufficiale dell'altra partita. Consultarlo una seconda volta non cambia chi ha vinto."
         }
       ],
       "choices": [
@@ -150,7 +150,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se Rei è nell'altra semifinale può vincere o perdere come chiunque altro."
+          "text": "Se Rei giocava sull'altro campo, può aver vinto oppure perso. Il suo nome non obbliga l'arbitro a promuoverlo."
         }
       ],
       "choices": [
@@ -170,7 +170,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La finale richiede esattamente due partecipanti unici, entrambi vincitori di una semifinale."
+          "text": "Ora il tabellone deve mostrare due finalisti e soltanto due: i vincitori delle semifinali."
         }
       ],
       "choices": [
@@ -190,7 +190,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "WORLD_FINAL_1 nasce dai due vincitori reali; nessun testo sceglie l'avversario preferito."
+          "text": "Il programma della finale si completa con il nome di chi ha realmente vinto l'altra sfida."
         }
       ],
       "choices": [
@@ -210,7 +210,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se il player ha vinto WORLD_SF, playerFinalOpponent indica l'altro finalista reale."
+          "text": "Se hai vinto la semifinale, leggi finalmente il nome dell'avversario che ti aspetta."
         }
       ],
       "choices": [
@@ -230,7 +230,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se il player ha perso WORLD_SF, la finale esiste senza di lui e la sua carriera proseguirà verso WORLD_EXIT dopo i beat obbligatori."
+          "text": "Se hai perso, la finale si giocherà senza di te. Puoi seguire il risultato; non puoi riprendere il tuo posto sul terreno."
         }
       ],
       "choices": [
@@ -250,7 +250,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La history conserva il match del player e non inventa un record per la semifinale simulata."
+          "text": "Sul registro compare il tuo incontro, insieme al risultato dell'altra semifinale sotto i nomi di chi l'ha giocata."
         }
       ],
       "choices": [
@@ -270,7 +270,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Top4, risultati SF, finalisti e finalMatch devono sopravvivere a save/reload."
+          "text": "I tabelloni rimangono affissi e i risultati già firmati non vengono rimpiazzati durante la notte."
         }
       ],
       "choices": [
@@ -290,7 +290,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rientrare nel resolver dopo la chiusura deve restituire lo stesso bracket finale."
+          "text": "Il giorno dopo il nome del finalista è ancora quello annunciato. Nessuna nuova estrazione modifica la sfida."
         }
       ],
       "choices": [
@@ -310,7 +310,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M11_04 chiude il primo ciclo lasciando una finale reale oppure una eliminazione reale."
+          "text": "Le semifinali sono concluse. Chi è ancora in gara si prepara all'ultima partita; gli altri cercano la strada verso casa."
         }
       ],
       "choices": [
@@ -342,7 +342,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il ciclo M11_00–M11_04 è completo: nessun campione è ancora dichiarato prima di WORLD_FINAL."
+          "text": "La finale ora ha due nomi. Nessuno è già campione prima che si giochi."
         }
       ],
       "choices": [
@@ -362,7 +362,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Da qui si può soltanto rileggere il Final Four già risolto, non rigenerarlo."
+          "text": "Puoi tornare a osservare gli incontri passati. I loro vincitori sono già stati decisi."
         }
       ],
       "choices": [

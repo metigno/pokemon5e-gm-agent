@@ -34,7 +34,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La preparazione alla finale parte dallo stato esatto lasciato dalla semifinale e dal Friend Beat."
+          "text": "Manca poco alla finale. Cerchi un angolo tranquillo per controllare i Pokémon e raccogliere gli appunti lasciati dalla semifinale."
         }
       ],
       "choices": [
@@ -59,7 +59,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Nessuna transizione narrativa ripristina HP, PP, status, infortuni, inventario o denaro."
+          "text": "Le risorse non si sono ricostituite durante la notte per un colpo di fortuna. Devi fare i conti con le condizioni reali di ogni compagno."
         }
       ],
       "choices": [
@@ -84,7 +84,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Spendere tempo muove il mondo e gli schedule; non cambia i due finalisti."
+          "text": "Ogni pausa sottrae minuti alla preparazione. Fuori, staff e allenatori continuano a muoversi."
         }
       ],
       "choices": [
@@ -111,7 +111,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'avversario di WORLD_FINAL è playerFinalOpponent e non può essere sostituito."
+          "text": "La scheda dell'altro finalista contiene soltanto informazioni rese pubbliche. Il suo nome non cambia quando torni a consultarla."
         }
       ],
       "choices": [
@@ -131,7 +131,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La preparazione può cambiare informazione e priorità, non statistiche nascostamente."
+          "text": "Puoi rivedere abbinamenti e priorità, ma il piano migliore non aggiunge mosse che i tuoi Pokémon non conoscono."
         }
       ],
       "choices": [
@@ -151,7 +151,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La squadra ufficiale resta soggetta alle stesse regole Pokémon 5e e alle risorse reali."
+          "text": "Controlli che i sei scelti possano davvero scendere in campo. Non basta desiderare una squadra diversa per averla già preparata."
         }
       ],
       "choices": [
@@ -171,7 +171,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Qualunque recupero passa dai servizi realmente disponibili e dai relativi costi e tempi."
+          "text": "I servizi medici offrono soltanto gli interventi disponibili con i loro tempi e costi effettivi."
         }
       ],
       "choices": [
@@ -191,7 +191,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il modulo non crea una cura gratuita perché la partita è una finale."
+          "text": "L'orologio ricorda quanto manca al richiamo degli arbitri. Usare un servizio può essere utile, ma non ferma la giornata."
         }
       ],
       "choices": [
@@ -211,7 +211,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Entrare subito significa accettare lo stato corrente del team."
+          "text": "Puoi presentarti subito, accettando le condizioni in cui si trova la squadra. Nessun addetto deciderà al posto tuo."
         }
       ],
       "choices": [
@@ -231,7 +231,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Save/reload conserva risorse, finalisti e avversario."
+          "text": "Rileggi il programma: avversario e orario sono gli stessi. Le decisioni prese fin qui rimangono parte della tua preparazione."
         }
       ],
       "choices": [
@@ -251,7 +251,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La readiness controlla che WORLD_FINAL_1 sia il match reale del player."
+          "text": "L'arbitro attende la conferma dei finalisti. Il tuo nome è sulla lista della partita decisiva."
         }
       ],
       "choices": [
@@ -278,7 +278,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il bridge E5/Pokémon 5e riceverà matchId, trainerId e roster dinamici."
+          "text": "L'ingresso all'arena è illuminato. Oltre le porte ci sono un avversario e un titolo da conquistare, non una vittoria promessa."
         }
       ],
       "choices": [
@@ -298,7 +298,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "FINAL_PREP è completo senza reset o mutazioni del bracket."
+          "text": "La preparazione è finita quando scegli di presentarti. Il resto lo diranno i tuoi Pokémon."
         }
       ],
       "choices": [

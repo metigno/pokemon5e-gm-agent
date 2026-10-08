@@ -14,7 +14,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Meridiana è l'ultimo grande callback competitivo prima della chiusura relazionale: media, sponsor, Cynthia, Qualifier e Last Chance vengono letti dal loro vero stato."
+          "text": "Meridiana accoglie ancora giornalisti, sponsor e allenatori. È qui che il Mondiale aveva cominciato a sembrare vicino, oppure era sfuggito per questa stagione."
         }
       ],
       "choices": [
@@ -39,7 +39,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La città continua a ospitare circuito e media anche dopo il Mondiale; il suo ruolo non finisce con la tua stagione."
+          "text": "Nel Grand Hall cambiano manifesti e programmi, ma gli addetti lavorano come sempre. Per loro il grande evento è passato; per altri ce n'è già un altro da preparare."
         }
       ],
       "choices": [
@@ -59,7 +59,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "m7_media_style conserva come scegliesti di esporti pubblicamente, senza diventare una personalità imposta dal narratore."
+          "text": "Rileggi un'intervista concessa quando il Mondiale era ancora un'incognita. Le parole che scegliesti allora restano tue, senza obbligarti a pronunciarle ancora."
         }
       ],
       "choices": [
@@ -79,7 +79,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "m7_sponsor_path conserva indipendenza, partner locale o major partner come scelta di carriera realmente fatta."
+          "text": "I contratti o gli accordi presi a Meridiana conservano le condizioni che avevi accettato. La loro durata non dipende dagli applausi di oggi."
         }
       ],
       "choices": [
@@ -99,7 +99,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La route independent conserva autonomia e relativi costi senza essere trattata come scelta superiore."
+          "text": "Avevi preferito mantenere autonomia. È stata una scelta con opportunità e rinunce proprie, non una medaglia morale."
         }
       ],
       "choices": [
@@ -119,7 +119,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un local_partner resta un rapporto professionale locale, non un major sponsor retroattivo."
+          "text": "Il rapporto con il partner locale è riconoscibile negli accordi e nelle persone che hai incontrato. Non diventa una grande sponsorizzazione soltanto perché sei tornato famoso."
         }
       ],
       "choices": [
@@ -139,7 +139,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un major_partner conserva visibilità e vincoli realmente accettati."
+          "text": "Se firmasti con un grande sponsor, le persone addette alle relazioni pubbliche continuano ad aspettarsi quanto era stato concordato."
         }
       ],
       "choices": [
@@ -159,7 +159,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Cynthia può essere richiamata solo se il suo stato E4 e la schedule lo permettono. La sua importanza narrativa non la rende sempre disponibile."
+          "text": "Cynthia potrebbe essere già partita per i suoi impegni. Se si trova ancora qui, puoi forse riprendere il discorso sulle risorse e sul tempo; altrimenti restano le parole scambiate allora."
         }
       ],
       "choices": [
@@ -179,7 +179,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "m7_qualifier_result distingue qualificazione diretta ed eliminazioni effettive."
+          "text": "Il tabellone delle qualificazioni racconta una stagione irripetibile. A ogni avversario corrisponde l'incontro davvero giocato."
         }
       ],
       "choices": [
@@ -199,7 +199,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Una qualificazione diretta resta il percorso con cui il Mondiale fu raggiunto, anche dopo il risultato finale."
+          "text": "Se ottenesti l'accesso diretto, la registrazione ne conserva data e risultato. Il Mondiale successivo non ne cambia il percorso."
         }
       ],
       "choices": [
@@ -219,7 +219,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se il Last Chance fu necessario, il callback conserva vittoria o sconfitta di quella route separatamente dal Qualifier principale."
+          "text": "Se dovesti affrontare il Last Chance, quel giorno resta separato dalla qualificazione principale. La vittoria o la sconfitta conserva il suo peso."
         }
       ],
       "choices": [
@@ -239,7 +239,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Worlds Missed resta un esito professionale concreto e non viene riscritto solo perché il postgame continua."
+          "text": "Se non raggiungesti il Mondiale, la città non ti inventa una partecipazione. Il lavoro di allenatore prosegue anche senza quella pagina."
         }
       ],
       "choices": [
@@ -259,7 +259,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se il player partecipò al Mondiale, Meridiana ricorda il gate superato ma non modifica ciò che accadde nei moduli M8–M11."
+          "text": "Se arrivasti al Mondiale, qui ricordano il momento della qualificazione. Le partite giocate dopo appartengono a un altro capitolo."
         }
       ],
       "choices": [
@@ -279,7 +279,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rank S resta distinto dalla qualificazione mondiale, esattamente come nel contratto M7."
+          "text": "La tessera professionale conserva il Rank S anche se la qualificazione mondiale è stata mancata o se il torneo è finito."
         }
       ],
       "choices": [
@@ -299,7 +299,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Status professionale, sponsor e risultato mondiale sono assi diversi della carriera."
+          "text": "I contratti, la licenza e l'esito del Mondiale non sono la stessa cosa. Ognuno può cambiare il modo in cui vieni accolto."
         }
       ],
       "choices": [
@@ -319,7 +319,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il postgame può generare nuove richieste media tramite sistemi esistenti, non attraverso un epilogo rigido."
+          "text": "Un giornalista potrebbe voler tornare sulla tua stagione. Sei libero di rispondere, rimandare o cercare altre occupazioni secondo le opportunità disponibili."
         }
       ],
       "choices": [
@@ -339,7 +339,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Meridiana può restare un punto di future stagioni senza creare ACT_9 obbligatorio."
+          "text": "I nuovi calendari promettono altre gare a Meridiana. Nessuno ti obbliga a farne il centro della tua prossima stagione."
         }
       ],
       "choices": [
@@ -359,7 +359,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La prima sintesi registra il vero contesto sponsor, incluso il caso in cui non esista un path persistente."
+          "text": "Sul tavolo rimangono gli eventuali accordi firmati, con i loro vincoli e i loro spazi di libertà. Il risultato del Mondiale non riscrive il contratto."
         }
       ],
       "choices": [
@@ -433,7 +433,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La seconda sintesi registra come M7 condusse o non condusse al Mondiale senza riscrivere la competizione."
+          "text": "La strada verso il Mondiale è ricordata esattamente da dove si era aperta o chiusa. Non tutti gli allenatori hanno attraversato quel cancello."
         }
       ],
       "choices": [
@@ -559,7 +559,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Media, Cynthia e status restano disponibili come callback solo quando il loro stato causale lo permette."
+          "text": "La città offre ancora incontri possibili e vecchie domande. Le persone, però, possono essere raggiunte soltanto dove si trovano davvero."
         }
       ],
       "choices": [
@@ -579,7 +579,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Meridiana è registrata. I grandi callback geografici M1→M7 sono completi; resta la chiusura con gli amici e il postgame aperto."
+          "text": "Meridiana resta al lavoro mentre ti allontani. Ora hai ancora una conversazione da chiudere con gli amici prima di scegliere che cosa viene dopo."
         }
       ],
       "choices": [

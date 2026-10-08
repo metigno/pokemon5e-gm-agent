@@ -58,7 +58,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il tabellone si ferma sul Gruppo {{competition.world.playerGroup}}. Ora i tre nomi sono ufficiali e non possono essere sostituiti per fanservice."
+          "text": "Sul tabellone si illumina la scritta «Gruppo {{competition.world.playerGroup}}». Accanto al tuo nome compaiono tre avversari ufficiali."
         }
       ],
       "choices": [
@@ -83,7 +83,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Gruppo {{competition.world.playerGroup}}: tu più {{competition.world.playerOpponents.0.name}}, {{competition.world.playerOpponents.1.name}} e {{competition.world.playerOpponents.2.name}}."
+          "text": "Nel Gruppo {{competition.world.playerGroup}} giocheranno con te {{competition.world.playerOpponents.0.name}}, {{competition.world.playerOpponents.1.name}} e {{competition.world.playerOpponents.2.name}}."
         }
       ],
       "choices": [
@@ -103,7 +103,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Primo avversario programmabile: {{competition.world.playerOpponents.0.name}}. Il draw rivela l'identità, non il risultato del match."
+          "text": "La prima giornata sarà contro {{competition.world.playerOpponents.0.name}}. Il nome è certo; la partita deve ancora essere giocata."
         }
       ],
       "choices": [
@@ -123,7 +123,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Secondo avversario programmabile: {{competition.world.playerOpponents.1.name}}. Nessun rapporto precedente concede un esito automatico."
+          "text": "La seconda giornata ti vedrà contro {{competition.world.playerOpponents.1.name}}. Anche un incontro precedente non concede vantaggi automatici."
         }
       ],
       "choices": [
@@ -143,7 +143,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Terzo avversario programmabile: {{competition.world.playerOpponents.2.name}}. Dopo questo nome il tuo girone è completamente noto."
+          "text": "Il terzo avversario è {{competition.world.playerOpponents.2.name}}. Dopo quella giornata la classifica del gruppo sarà completa."
         }
       ],
       "choices": [
@@ -163,7 +163,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M9 userà questi tre avversari nell'ordine persistente del draw per tre match ufficiali. Gli altri gruppi continueranno in parallelo."
+          "text": "Un addetto indica le tre date del tuo programma. Gli altri gruppi giocheranno le proprie partite anche quando non li stai guardando."
         }
       ],
       "choices": [
@@ -183,7 +183,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il gruppo è proprietà di E5. Media, Anchor, amicizie e preferenze narrative non possono sostituire uno dei tre nomi."
+          "text": "Puoi leggere e rileggere i quattro nomi. Un giornalista, un amico o uno sponsor non può cambiare gli accoppiamenti ufficiali."
         }
       ],
       "choices": [
@@ -203,7 +203,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se uno dei Four è fra i tre nomi, M9 potrà produrre un match ufficiale reale. Se nessuno c'è, il Friend Beat futuro userà un altro contesto."
+          "text": "Se riconosci fra i tre nomi un amico, vi affronterete nella giornata prevista. Altrimenti potrete incontrarvi soltanto in altre circostanze reali."
         }
       ],
       "choices": [
@@ -228,7 +228,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Astrid o qualunque altro Anchor può essere nel gruppo soltanto se il draw lo ha prodotto. Da qui in avanti nessuno ha protezione sui risultati."
+          "text": "Cerchi anche Astrid e gli altri allenatori noti. Potresti trovarne uno nel gruppo, ma il loro prestigio non modifica il sorteggio."
         }
       ],
       "choices": [
@@ -248,7 +248,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Roster, HP, PP, condizioni, inventario, relazioni e stato NPC non vengono resettati. Anche il field e il draw restano identici al passaggio in M9."
+          "text": "Accanto a te i Pokémon attendono il programma. Il sorteggio non ha curato ferite, restituito oggetti consumati o cambiato i rapporti costruiti."
         }
       ],
       "choices": [
@@ -268,7 +268,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Puoi rivedere il gruppo quanto vuoi senza reroll: {{competition.world.playerOpponents.0.name}}, {{competition.world.playerOpponents.1.name}}, {{competition.world.playerOpponents.2.name}}."
+          "text": "Sul tabellone rimangono {{competition.world.playerOpponents.0.name}}, {{competition.world.playerOpponents.1.name}} e {{competition.world.playerOpponents.2.name}}: i nomi non cambiano quando torni a consultarli."
         }
       ],
       "choices": [
@@ -293,7 +293,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M8 può chiudersi soltanto con draw completo, field 32 lockato, gruppo definito, tre avversari noti e FRIEND_BEAT_08 completato."
+          "text": "Prima di partire controlli di aver completato gli accrediti e il contatto previsto con un amico. Gli incontri del gruppo potranno cominciare dopo la conclusione degli impegni di questa fase."
         }
       ],
       "choices": [
@@ -346,7 +346,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il commit di modulo non tocca il draw: registra soltanto M8 completo e rende accessibile M9."
+          "text": "La segreteria archivia il tabellone e ti consegna il programma. Il gruppo resterà quello annunciato."
         }
       ],
       "choices": [
@@ -388,7 +388,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M8 — Il Mondo nello Stesso Posto è completo. Il Gruppo {{competition.world.playerGroup}} e i tre avversari sono bloccati per M9."
+          "text": "Il Gruppo {{competition.world.playerGroup}} è ufficiale. Ora il Mondiale può cominciare per te."
         }
       ],
       "choices": [

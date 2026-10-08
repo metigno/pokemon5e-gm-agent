@@ -26,7 +26,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il risultato del player è definitivo. E5 deve ora chiudere gli altri tre quarti e produrre il Final Four reale."
+          "text": "Il tuo quarto è terminato. Negli altri tre incontri si decide chi completerà il gruppo dei semifinalisti."
         }
       ],
       "choices": [
@@ -51,7 +51,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La risoluzione QF conserva il match del player e usa il seed deterministico per gli altri tre. Ripetere l'operazione non rigioca nulla."
+          "text": "La commissione raccoglie i referti dei quarti senza riaprire quello del tuo campo."
         }
       ],
       "choices": [
@@ -90,7 +90,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il tuo match resta player_pokemon5e_combat; gli altri tre sono deterministic_offscreen_world_resolution."
+          "text": "Il tuo incontro è registrato sotto i vostri due nomi. Gli altri tre avranno vincitori e sconfitti propri."
         }
       ],
       "choices": [
@@ -110,7 +110,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Top4 contiene esattamente i quattro vincitori QF. Una sconfitta del player avanza il suo avversario reale."
+          "text": "Soltanto i quattro vincitori raggiungono le semifinali. Se hai perso, il tuo avversario prende il posto che hai mancato."
         }
       ],
       "choices": [
@@ -130,7 +130,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il QF round è chiuso e E5 ha prodotto quattro semifinalisti unici più due SF pairing."
+          "text": "Sul tabellone rimangono quattro nomi e due incontri. Le semifinali cominciano a diventare concrete."
         }
       ],
       "choices": [
@@ -150,7 +150,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "world_qf_won separa due realtà: Final Four oppure eliminazione. Nessun altro flag può contraddire il risultato."
+          "text": "Se hai vinto puoi prepararti per il Final Four. Se hai perso, il titolo mondiale non è più una possibilità in questa edizione."
         }
       ],
       "choices": [
@@ -170,7 +170,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "competition.world.top4 è il lock E5 dei semifinalisti. Sopravvive a save/reload e sarà l'input di M11."
+          "text": "La bacheca del Final Four contiene quattro semifinalisti ufficiali. I risultati non cambiano a ogni nuova consultazione."
         }
       ],
       "choices": [
@@ -195,7 +195,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se hai vinto, playerSfOpponent deriva dai due QF adiacenti. Se hai perso, non esiste un SF match del player."
+          "text": "Se sei fra i quattro puoi leggere il tuo prossimo avversario. Altrimenti le semifinali riguardano gli allenatori rimasti."
         }
       ],
       "choices": [
@@ -215,7 +215,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un amico può essere nel Top4 o eliminato. FRIEND_BEAT_10 non protegge il suo risultato."
+          "text": "Un amico può ancora essere fra i quattro oppure essere stato eliminato. La vostra storia comune non vale come passaggio del turno."
         }
       ],
       "choices": [
@@ -235,7 +235,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Silas e gli altri Anchor restano soggetti agli stessi QF reali. Nessun nome è garantito nel Final Four."
+          "text": "Silas e gli altri nomi famosi non hanno corsie preferenziali. Soltanto chi ha vinto il quarto raggiunge questa fase."
         }
       ],
       "choices": [
@@ -255,7 +255,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M11 giocherà le semifinali; M10 deve soltanto consegnare Top4, SF bracket e risorse intatte."
+          "text": "La finale è ancora lontana di una partita. I semifinalisti dovranno affrontare un'altra sfida con la squadra che hanno davvero preparato."
         }
       ],
       "choices": [
@@ -275,7 +275,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Nessun risultato off-screen cura il player. Il roster resta quello uscito dal QF."
+          "text": "I Pokémon conservano le condizioni in cui sono usciti dal quarto. Non ricevono cure solo perché altrove si disputa un'altra gara."
         }
       ],
       "choices": [
@@ -295,7 +295,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "QF Aftermath è completo quando Top4 e SF pairing sono persistenti, indipendentemente dal fatto che il player sia ancora dentro."
+          "text": "La commissione firma il programma delle semifinali e lo espone al pubblico."
         }
       ],
       "choices": [
@@ -322,7 +322,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il QF round è completamente risolto. Resta soltanto classificare l'outcome di M10 e aprire il modulo corretto."
+          "text": "I quarti sono finiti. Il prossimo passo sarà prendere atto della tua posizione e, se sei passato, preparare il Final Four."
         }
       ],
       "choices": [
@@ -342,7 +342,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M10_09 leggerà soltanto stato competitivo e Friend Beat persistenti: non riscriverà nessun risultato."
+          "text": "Lasci l'area referti. La strada verso le semifinali esiste solo per chi ha vinto il proprio incontro."
         }
       ],
       "choices": [

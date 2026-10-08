@@ -18,7 +18,7 @@
         },
         {
           "id": "offscreen_is_real",
-          "text": "Gli altri non restano congelati fuori campo: ciascuno mantiene una schedule propria. Qui controlli un aggiornamento concreto; gli altri movimenti restano nello stato persistente del mondo."
+          "text": "Leggi gli ultimi aggiornamenti sul telefono: uno è già partito, un altro ha trovato lavoro, un altro pensa alla prossima prova. Nessuno resta fermo per aspettarti."
         }
       ],
       "choices": [
@@ -73,15 +73,15 @@
       "stitches": [
         {
           "id": "luke_diverges",
-          "text": "Luke non resta nel circuito corto tra Ginestre e Valedarsena. Ha messo in fila tappe più lunghe verso est e parte con un programma di esplorazione che lo terrà fuori zona per un po'."
+          "text": "Luke non resta nel circuito corto tra Ginestre e Valedarsena. Ha scelto tappe più lunghe verso est, con Growlithe già impaziente di muoversi."
         },
         {
           "id": "luke_persistence",
-          "text": "Non è un'attesa scenica: la sua schedule è già passata a viaggio e continuerà a produrre risultati anche mentre tu fai altro."
+          "text": "«Non aspettatemi per fare le cose facili», scrive. «E non vendete i vostri Pokémon preferiti per qualche consiglio idiota.»"
         },
         {
           "id": "luke_others_move",
-          "text": "Anche gli altri amici hanno aggiornato il proprio programma. Il mondo conserva quelle destinazioni e quei risultati senza attribuirli al tuo personaggio."
+          "text": "Anche gli altri amici hanno aggiornato il proprio programma. Il loro viaggio non si ferma dove finisce il tuo."
         }
       ],
       "choices": [
@@ -127,11 +127,11 @@
         },
         {
           "id": "mattew_persistence",
-          "text": "Puoi ancora incrociarlo in Arena, ma la sua schedule ora appartiene al suo percorso competitivo, non al tuo."
+          "text": "Puoi ancora incrociarlo in Arena, ma adesso segue il proprio programma di allenamento e non il tuo."
         },
         {
           "id": "mattew_others_move",
-          "text": "Anche gli altri amici hanno aggiornato il proprio programma. Il mondo conserva quelle destinazioni e quei risultati senza attribuirli al tuo personaggio."
+          "text": "Anche gli altri amici hanno preso strade diverse. Le loro giornate continuano senza aspettare il tuo prossimo incontro."
         }
       ],
       "choices": [
@@ -273,15 +273,15 @@
       "stitches": [
         {
           "id": "fab_diverges",
-          "text": "Fab si è aggregato a una rotta di campo lungo l'alto fiume, fuori dal triangolo Ginestre-Valedarsena-Fattoria. Per alcuni giorni sarà in viaggio con un programma legato alla fauna."
+          "text": "Fab si è aggregato quasi per caso a una rotta lungo l'alto fiume. Koffing sembra molto più entusiasta del viaggio di lui."
         },
         {
           "id": "fab_persistence",
-          "text": "La partenza è materiale: la sua schedule risulta traveling e non viene teletrasportato indietro soltanto perché tu cambi zona."
+          "text": "«Siamo partiti», scrive. «Non so se è più emozionato Koffing o quello che deve sorvegliarlo. Ah, aspetta. Quello sono io.»"
         },
         {
           "id": "fab_others_move",
-          "text": "Anche gli altri amici hanno aggiornato il proprio programma. Il mondo conserva quelle destinazioni e quei risultati senza attribuirli al tuo personaggio."
+          "text": "Anche gli altri amici hanno aggiornato i propri programmi e si stanno muovendo per conto proprio."
         }
       ],
       "choices": [

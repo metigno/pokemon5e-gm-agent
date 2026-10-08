@@ -42,7 +42,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Media Day aumenta esposizione e domande, non il potere del personaggio. Il player sceglie come parlare senza ricevere una voce imposta."
+          "text": "Nella sala stampa del Mondiale una fila di telecamere punta verso il banco degli atleti. Gli addetti ti indicano dove sederti."
         }
       ],
       "choices": [
@@ -67,7 +67,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Puoi scegliere tono, profondità e tempo dedicato. Nessuna risposta cambia automaticamente Carisma, skill o statistiche Pokémon."
+          "text": "Puoi scegliere quanto parlare, con quale tono e per quanto tempo. Le domande sono pubbliche; le risposte appartengono a te."
         }
       ],
       "choices": [
@@ -92,7 +92,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Le domande riguardano qualificazione, aspettative e preparazione. Il draw non è ancora pubblico e non può essere anticipato."
+          "text": "Un giornalista chiede del percorso di qualificazione e delle tue aspettative. Non può ancora farti domande su un gruppo che non è stato sorteggiato."
         }
       ],
       "choices": [
@@ -112,7 +112,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Puoi essere aperto, prudente o competitivo. Sono posture pubbliche, non allineamenti obbligatori del personaggio."
+          "text": "Davanti ai microfoni puoi essere aperto, prudente oppure dichiaratamente competitivo. Nessuna scelta ti impone un sentimento che non hai espresso."
         }
       ],
       "choices": [
@@ -137,7 +137,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Parli con chiarezza di obiettivi e preparazione, senza rivelare informazioni che il player non conosce ancora."
+          "text": "Rispondi con chiarezza sui tuoi obiettivi e sulla preparazione, limitandoti alle informazioni che possiedi davvero."
         }
       ],
       "choices": [
@@ -164,7 +164,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Mantieni il messaggio essenziale e proteggi informazioni. Non vieni penalizzato meccanicamente per la prudenza."
+          "text": "Scegli poche parole e mantieni riservati i dettagli che non vuoi condividere. Il giornalista insiste, ma puoi chiudere la risposta."
         }
       ],
       "choices": [
@@ -191,7 +191,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Accetti il confronto pubblico ma non dichiari vittorie future come fatti. Il bracket resta indipendente dalla retorica."
+          "text": "Accetti una provocazione sulla forza dei rivali. Puoi mostrare fiducia senza dichiarare già vinta una partita che non è cominciata."
         }
       ],
       "choices": [
@@ -218,7 +218,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M7 media/sponsor, risultati passati e Anchor precedenti possono cambiare interesse e tono, mai produrre un bonus nascosto."
+          "text": "Qualcuno ricorda un'intervista o un risultato precedente. Il modo in cui rispondi può influenzare l'attenzione dei presenti."
         }
       ],
       "choices": [
@@ -238,7 +238,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Puoi riconoscere Astrid come campionessa senza trasformarla nel boss predestinato del tuo percorso."
+          "text": "«Come giudica Astrid Vahl, la campionessa in carica?» Puoi riconoscerne il valore senza fingere che sia già la tua avversaria."
         }
       ],
       "choices": [
@@ -265,7 +265,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Parlare dei Four non sincronizza le loro carriere con la tua e non rivela risultati che non possiedi."
+          "text": "«Qualcuno dei suoi vecchi amici sarà al Mondiale?» Puoi parlare dei rapporti che conoscete, senza assegnare a nessuno qualificazioni inventate."
         }
       ],
       "choices": [
@@ -292,7 +292,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Gli obblighi sponsor precedenti possono riapparire come contesto, ma nessun contratto compra seed o vantaggi competitivi."
+          "text": "Un giornalista nota il nome dello sponsor, se ne hai uno. Gli impegni contrattuali non garantiscono favori nelle gare."
         }
       ],
       "choices": [
@@ -319,7 +319,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rimandare consuma un'ora e lascia avanzare schedule e attività del venue. Il Media Day non congela il mondo."
+          "text": "Rimani un'ora fra interviste e attese. Il personale accompagna nuovi atleti mentre gli altri tornano ad allenarsi."
         }
       ],
       "choices": [
@@ -340,7 +340,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La reputazione può cambiare il modo in cui vieni percepito, ma questa scena non inventa un secondo sistema numerico né modifica risultati."
+          "text": "La stampa potrà ricordare ciò che dici. Non è però il suo compito decidere la tua squadra o il risultato delle partite."
         }
       ],
       "choices": [
@@ -360,7 +360,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il commit registra che il Media Day è stato affrontato e conserva la postura scelta, senza alterare WORLD_DRAW."
+          "text": "L'addetto chiude la sessione e registra che hai partecipato. Le tue risposte restano quelle date davanti ai microfoni."
         }
       ],
       "choices": [
@@ -387,7 +387,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Media Day è completo. Il prossimo evento collettivo è la cerimonia d'apertura, ancora precedente al sorteggio."
+          "text": "Lasci la sala stampa e torni verso gli atleti. Prima del sorteggio resta la cerimonia d'apertura."
         }
       ],
       "choices": [

@@ -34,7 +34,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il gate distingue due casi: una run già qualificata bypassa il Last Chance; una run eliminata può aprirlo solo se l'eligibility canonica è presente."
+          "text": "Al banco qualificazioni trovi un avviso sulle ultime possibilità di accesso al Mondiale. Non tutti gli allenatori possono presentarsi: dipende dal percorso già compiuto."
         }
       ],
       "choices": [
@@ -67,7 +67,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Una run qualificata non può consumare un Last Chance. Il gate viene chiuso come bypass."
+          "text": "«Lei è già qualificato», dice l'addetta. «Non può occupare un posto nella selezione riservata agli esclusi.»"
         }
       ],
       "choices": [
@@ -104,7 +104,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'accesso richiede sia last_chance_eligible sia l'apertura A7_LAST_CHANCE prodotta dal Living World."
+          "text": "Il personale controlla la tua registrazione e l'elenco degli ammessi all'ultima selezione. Senza entrambi non c'è alcuna iscrizione da firmare."
         }
       ],
       "choices": [
@@ -153,7 +153,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La route è finita: una sola istanza Last Chance, con risultati propri. Non riapre il bracket principale."
+          "text": "Il tuo nome compare nell'elenco dei convocati. Avrai una sola occasione, separata dagli incontri che hai già perso."
         }
       ],
       "choices": [
@@ -178,7 +178,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Senza eligibility reale il gioco non crea un torneo sostitutivo. La carriera dovrà seguire l'uscita prevista dal suo stato."
+          "text": "Il tuo nome non è nella lista. Il banco non può inventare un'altra gara per aggirare la chiusura delle iscrizioni."
         }
       ],
       "choices": [
@@ -198,7 +198,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "A7_LAST_CHANCE è once=true: una volta consumato non può diventare una catena di retry fino alla vittoria."
+          "text": "Il regolamento è affisso accanto allo sportello: un unico tentativo, senza ripetizioni a oltranza."
         }
       ],
       "choices": [
@@ -218,7 +218,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La sconfitta del Qualifier resta in history anche quando il Last Chance apre una nuova possibilità. La qualificazione già ottenuta, invece, chiude questa route."
+          "text": "Nel registro rimane la sconfitta precedente. Una nuova possibilità non elimina la partita già giocata."
         }
       ],
       "choices": [
@@ -246,7 +246,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "FRIEND_BEAT_07 non concede accesso, ma può cambiare il significato personale di un'ultima possibilità."
+          "text": "Se hai parlato con uno degli amici, le sue parole possono pesare mentre guardi l'ultima iscrizione possibile."
         }
       ],
       "choices": [
@@ -266,7 +266,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il principio di Cynthia resta coerente: Last Chance non è una scusa per ignorare risorse, recupero e rischio."
+          "text": "Ti torna in mente il consiglio di Cynthia: non sacrificare tutte le risorse per la fretta di riscattarti."
         }
       ],
       "choices": [
@@ -281,7 +281,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il calendario continua a scorrere. Aspettare è legale soltanto finché la finestra resta realmente disponibile."
+          "text": "Un orologio mostra quanto resta della finestra d'iscrizione. Aspettare può essere una scelta, ma non allunga il termine."
         }
       ],
       "choices": [
@@ -302,7 +302,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La sosta non resetta il Qualifier e non crea una seconda eligibility. Al ritorno il gate rilegge lo stato attuale."
+          "text": "Ti allontani dal banco senza firmare. Quando tornerai, dovrai controllare se le iscrizioni sono ancora aperte."
         }
       ],
       "choices": [
@@ -322,7 +322,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Last Chance è autorizzato ma non ancora combattuto. Il blocco M7_10 consumerà questa route una sola volta."
+          "text": "L'addetto segna il tuo nome fra i partecipanti ammessi. Il combattimento decisivo deve ancora essere affrontato."
         }
       ],
       "choices": [
@@ -354,7 +354,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il gate resta chiuso. Non viene fabbricata una qualificazione alternativa."
+          "text": "Le iscrizioni non sono accessibili per il tuo percorso. Dovrai continuare la carriera senza questa ulteriore prova."
         }
       ],
       "choices": [
@@ -386,7 +386,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il routing è persistente: qualificato, Last Chance pronto oppure nessuna route. Nessun risultato viene modificato qui."
+          "text": "Lasci lo sportello sapendo se hai ancora una partita da disputare oppure se la stagione mondiale è già sfuggita."
         }
       ],
       "choices": [

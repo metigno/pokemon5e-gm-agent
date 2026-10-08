@@ -34,7 +34,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Mondiale o la corsa verso di esso è finita per questa stagione. M12 apre WORLD_EXIT senza trasformare un titolo, un'eliminazione o un Mondiale mancato in una gerarchia morale."
+          "text": "L'ultima giornata di questa stagione è finita, per te o per il torneo stesso. I corridoi conducono tutti fuori dallo stadio, ma non raccontano la stessa storia a chi li attraversa."
         }
       ],
       "choices": [
@@ -76,7 +76,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se hai vinto WORLD_FINAL, il titolo resta quello prodotto da E5. Il ritorno parte da quel fatto, non da una ricompensa inventata dall'epilogo."
+          "text": "Il tuo nome rimane sull'albo d'oro. La coppa attira sguardi diversi; qualcuno vuole congratularsi, qualcun altro vuole soltanto capire come hai vinto. Non sei obbligato a sentirti come gli altri si aspettano."
         }
       ],
       "choices": [
@@ -108,7 +108,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se sei stato eliminato, il punto esatto della competizione resta nel record. Nessun ramo postgame cancella la sconfitta o aggiunge un match di consolazione obbligatorio."
+          "text": "Sul biglietto di ritorno non compare il turno in cui sei stato eliminato. Sul referto del Mondiale, invece, rimarrà. Puoi lasciarti l'arena alle spalle senza cancellare ciò che è successo."
         }
       ],
       "choices": [
@@ -140,7 +140,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se il Mondiale è stato mancato, M12 conserva il motivo competitivo reale e lascia continuare carriera, relazioni e mondo senza fingere una partecipazione avvenuta."
+          "text": "Hai seguito il Mondiale da fuori. La tua stagione ha preso un'altra direzione; i risultati degli altri sono reali, ma non diventano ricordi di incontri che non hai disputato."
         }
       ],
       "choices": [
@@ -167,7 +167,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "WORLD_EXIT legge la storia competitiva già registrata. Non riscrive avversari, piazzamenti, campione o qualificazione per rendere il finale più cinematografico."
+          "text": "Le classifiche restano esposte all'uscita. Ogni riga ha un avversario, una giornata e un risultato. Nessuna versione più comoda prenderà il posto di questi fatti."
         }
       ],
       "choices": [
@@ -187,7 +187,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il record mondiale resta consultabile insieme ai match effettivamente giocati e alle risoluzioni off-screen autorizzate da E5."
+          "text": "Sfogli il giornale sportivo: accanto alle tue partite ci sono quelle disputate quando eri altrove. Anche il torneo ha avuto una vita fuori dal tuo sguardo."
         }
       ],
       "choices": [
@@ -207,7 +207,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La squadra rientra con livelli, HP, PP, status, infortuni e composizione realmente rimasti alla fine del percorso."
+          "text": "Raccogli l'equipaggiamento e controlli i Pokémon. Alcuni hanno ancora addosso i segni dell'ultima sfida; nessun addetto li farà sparire soltanto perché state partendo."
         }
       ],
       "choices": [
@@ -227,7 +227,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Denaro, inventario e consumi non vengono normalizzati perché il torneo è finito. Il postgame continua dallo stesso save."
+          "text": "Riconti le monete rimaste e sistemi l'inventario. I biglietti, le cure e le decisioni prese lungo il viaggio hanno avuto un costo."
         }
       ],
       "choices": [
@@ -247,7 +247,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Amici e Anchor non vengono radunati artificialmente. E4 continuerà a decidere chi è presente, dove e in quale stato di relazione."
+          "text": "Cerchi i volti conosciuti tra la folla. Non tutti sono ancora qui: c'è chi è già partito, chi sta lavorando e chi preferisce rispondere a distanza."
         }
       ],
       "choices": [
@@ -267,7 +267,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Quest concluse, fallite o ignorate restano tali. Le irrisolte possono essere trasformate dal Living World, ma non resuscitate per un callback."
+          "text": "Le notizie delle regioni attraversate continuano ad arrivare. Alcuni problemi sono stati risolti, altri sono peggiorati e qualcun altro ha dovuto scegliere quando tu eri lontano."
         }
       ],
       "choices": [
@@ -287,7 +287,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il risultato mondiale influenza il modo in cui il mondo ti riconosce, senza annullare reputazioni locali costruite nei moduli precedenti."
+          "text": "Qualcuno riconosce il tuo volto e reagisce al risultato mondiale. In un altro luogo, però, potrebbero ricordarsi soprattutto ciò che hai fatto per loro quando non c'erano telecamere."
         }
       ],
       "choices": [
@@ -307,7 +307,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Campione, eliminato e Worlds Missed sono tre storie diverse, non tre livelli di dignità del personaggio."
+          "text": "Vincere il trofeo, perdere un turno decisivo o non qualificarsi significa tornare con storie diverse. Nessuna autorizza il mondo a riscrivere il valore delle tue decisioni."
         }
       ],
       "choices": [
@@ -327,7 +327,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il primo passo concreto è lasciare il circuito mondiale e decidere come tornare ad Asteria mantenendo intatto lo stato."
+          "text": "La direzione è chiara: Asteria. Devi ancora scegliere come organizzare il ritorno; nessuna cerimonia può percorrere la strada al tuo posto."
         }
       ],
       "choices": [
@@ -347,7 +347,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "I callback di M12 possono reagire soltanto a fatti realmente presenti nel save: aiuti dati, omissioni, incidenti, esiti e relazioni."
+          "text": "Al ritorno troverai persone che sanno cosa hai fatto e persone che non lo sanno. Non tutte avranno dimenticato un favore, una promessa o un'assenza."
         }
       ],
       "choices": [
@@ -367,7 +367,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il ritorno richiederà tempo reale di calendario. E2 continua a far avanzare schedule, deadline e mondo durante il viaggio."
+          "text": "Partire richiede ore. Mentre viaggi, i negozi aprono e chiudono, gli allenatori si spostano e le notizie continuano a circolare."
         }
       ],
       "choices": [
@@ -387,7 +387,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "E6 può mostrare cosa è successo in tua assenza, ma ogni risoluzione off-screen deve essere coerente con lo stato preesistente."
+          "text": "Le città non sono rimaste in attesa del tuo rientro. Se un problema è cambiato in tua assenza, ne vedrai i segni quando arriverai."
         }
       ],
       "choices": [
@@ -407,7 +407,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Prima del rientro, M12 registra una sola volta il ramo WORLD_EXIT corrente e apre il postgame senza cambiare il passato."
+          "text": "Al banco partenze riconsegni l'accredito. La persona dall'altra parte controlla il nominativo e ti indica la via d'uscita."
         }
       ],
       "choices": [
@@ -452,7 +452,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "WORLD_EXIT è stato registrato. Il salvataggio resta pienamente giocabile e pronto al viaggio di ritorno."
+          "text": "La porta si apre sul traffico dei viaggiatori. Ora il Mondiale è qualcosa che ti porti dietro, non il posto in cui devi rimanere."
         }
       ],
       "choices": [
@@ -472,7 +472,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La prossima scena è il ritorno ad Asteria: stesso allenatore, stessa squadra, stesso mondo che ha continuato a muoversi."
+          "text": "Davanti a te c'è il viaggio verso Asteria: stessa squadra, relazioni non sempre semplici e un mondo che ha continuato a muoversi."
         }
       ],
       "choices": [

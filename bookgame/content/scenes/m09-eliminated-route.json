@@ -30,7 +30,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Mondiale competitivo del player finisce qui perché E5 ha fissato una posizione fuori dalla Top 2. M9_09 non offre un rematch per cancellarla."
+          "text": "La classifica definitiva ti lascia fuori dai primi due del Gruppo {{competition.world.playerGroup}}. Gli ottavi si giocheranno senza di te."
         }
       ],
       "choices": [
@@ -55,7 +55,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La posizione finale del gruppo resta {{competition.world.groupStage.finalPosition}}. Il save conserva partite, punti, tiebreak e Top16."
+          "text": "Il tuo piazzamento è {{competition.world.groupStage.finalPosition}}. Le tre partite, i punti e gli eventuali spareggi rimangono sul tabellone."
         }
       ],
       "choices": [
@@ -75,7 +75,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La sconfitta può pesare in modo diverso a seconda del percorso fatto. Non cambia retroattivamente la classifica."
+          "text": "Puoi fissare la classifica, allontanarti subito o cercare qualcuno con cui parlare. Nessuna reazione viene decisa per te."
         }
       ],
       "choices": [
@@ -95,7 +95,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Media e pubblico possono raccontare il risultato, ma nessuna intervista trasforma una posizione 3–4 in qualificazione."
+          "text": "Un cronista vuole un commento sull'eliminazione. Le sue domande non hanno il potere di spostarti fra i qualificati."
         }
       ],
       "choices": [
@@ -120,7 +120,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Tre match del Mondiale possono aver lasciato danni, status o risorse consumate. WORLD_EXIT non è un heal narrativo."
+          "text": "Tre incontri hanno lasciato la squadra nelle condizioni che conosci. Prima del ritorno dovrai fare i conti anche con quelle conseguenze."
         }
       ],
       "choices": [
@@ -140,7 +140,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "FRIEND_BEAT_09 resta valido anche se le vostre corse hanno preso direzioni diverse. Gli amici nel Top16 continuano senza aspettarti."
+          "text": "Gli amici ancora in gara continueranno senza aspettarti. Quelli usciti possono avere voglia di parlare, oppure no."
         }
       ],
       "choices": [
@@ -160,7 +160,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Kaia può essere ancora dentro o già fuori: il suo stato dipende dal suo gruppo, non dal fatto di essere l'Anchor di M9."
+          "text": "Cerchi Kaia fra i risultati. Può essere passata oppure essere stata eliminata: conta la sua classifica, non il ruolo che ha avuto nella tua storia."
         }
       ],
       "choices": [
@@ -180,7 +180,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La main story non finisce con l'eliminazione. La route competitiva salta M10–M11 e prepara WORLD_EXIT/M12, mantenendo il save giocabile."
+          "text": "Il torneo competitivo finisce per te, ma il viaggio continua. Potrai tornare ad Asteria e ritrovare le questioni lasciate aperte."
         }
       ],
       "choices": [
@@ -200,7 +200,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M12 non è ancora implementato in questo ciclo, ma il contratto può essere sbloccato senza inventare una scena inesistente."
+          "text": "Gli addetti ti indicano il percorso di uscita dal torneo e le partenze per Asteria. Là ti attende un mondo che è cambiato anche mentre eri qui."
         }
       ],
       "choices": [
@@ -220,7 +220,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il commit finale della route eliminata non cambia l'esito E5: sblocca M12 e chiude M9 per questa run."
+          "text": "Riconsegni il pass per le fasi a eliminazione diretta. Nessuna firma cancella la posizione appena ottenuta."
         }
       ],
       "choices": [
@@ -262,7 +262,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M9 è completo per questa run: WORLD_GROUPS è risolto, il Top16 è lockato e il player passa al WORLD_EXIT invece degli ottavi."
+          "text": "Il tuo gruppo è concluso e gli ottavi sono già riservati agli altri sedici. Per te comincia il viaggio di ritorno."
         }
       ],
       "choices": [
@@ -282,7 +282,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il record resta consultabile: tre match, posizione finale, relazioni e stato squadra persistono verso il postgame."
+          "text": "Puoi rivedere i tre referti, la classifica e le conversazioni avute al Village. Le sconfitte restano parte della tua carriera."
         }
       ],
       "choices": [
@@ -302,7 +302,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Non esiste un quarto match di consolazione obbligatorio. Il salvataggio è pronto per la futura implementazione di M12."
+          "text": "Nessun incontro di consolazione è obbligatorio. Puoi lasciare lo stadio senza dover fingere che ci sia ancora una partita da giocare."
         }
       ],
       "choices": [
