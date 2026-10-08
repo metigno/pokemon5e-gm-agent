@@ -47,6 +47,7 @@ const els = {
   enemyHpFill: $("#enemy-hp-fill"),
   enemyHpText: $("#enemy-hp-text"),
   enemySprite: $("#enemy-sprite"),
+  opponentTrainerSprite: $("#opponent-trainer-sprite"),
   playerPokemonName: $("#player-pokemon-name"),
   playerPokemonLevel: $("#player-pokemon-level"),
   playerHpFill: $("#player-hp-fill"),
@@ -501,6 +502,11 @@ function renderBattle(battle) {
   els.storyScreen.hidden = true;
   els.battleScreen.hidden = false;
   els.battleTitle.textContent = battle.encounterId;
+  const opponentId = battle.opponentTrainerId;
+  const hasTrainerArt = Boolean(opponentId && snapshot?.assets?.characterNative?.[opponentId]);
+  els.opponentTrainerSprite.hidden = !hasTrainerArt;
+  if (hasTrainerArt) els.opponentTrainerSprite.src = `/characters/${encodeURIComponent(opponentId)}/battleFront`;
+  else els.opponentTrainerSprite.removeAttribute("src");
   els.battleRound.textContent = `Round ${battle.round}`;
 
   els.enemyName.textContent = battle.opponent.name;
