@@ -1,6 +1,11 @@
 name: Android offline APK (private assets)
 on:
   workflow_dispatch:
+    inputs:
+      asset_url:
+        description: 'Direct HTTPS download URL for the offline ZIP (do not use a normal Drive view link)'
+        required: false
+        type: string
   pull_request:
     branches: [bookgame-canonical]
 permissions:
@@ -35,14 +40,20 @@ jobs:
       - uses: android-actions/setup-android@v3
       - name: Require privately hosted offline asset bundle
         env:
-          ASSET_URL: ${{ secrets.P5E_OFFLINE_ASSETS_URL }}
+          ASSET_URL_SECRET: ${{ secrets.P5E_OFFLINE_ASSETS_URL }}
+          ASSET_URL_INPUT: ${{ inputs.asset_url }}
         run: |
-          test -n "$ASSET_URL" || { echo "::error::Configure P5E_OFFLINE_ASSETS_URL secret with an expiring HTTPS download URL for the approved ZIP overlay bundle"; exit 1; }
+          ASSET_URL="${ASSET_URL_SECRET:-$ASSET_URL_INPUT}"
+          test -n "$ASSET_URL" || { echo "::error::Supply a direct HTTPS download URL as workflow input or configure P5E_OFFLINE_ASSETS_URL"; exit 1; }
+          echo "ASSET_URL=$ASSET_URL" >> "$GITHUB_ENV"
           python3 - <<'PY'
           import os, urllib.request
           from urllib.parse import urlsplit
           u=os.environ['ASSET_URL']
           if urlsplit(u).scheme != 'https': raise SystemExit('HTTPS asset URL required')
+          from urllib.parse import urlparse
+          if urlparse(u).hostname in ('drive.google.com','docs.google.com'):
+              raise SystemExit('Google Drive view links are not direct authenticated download links')
           urllib.request.urlretrieve(u, '/tmp/p5e-offline-assets.zip')
           PY
       - name: Install approved offline overlays
