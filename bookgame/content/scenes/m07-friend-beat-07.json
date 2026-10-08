@@ -531,7 +531,7 @@
         },
         {
           "id": "pressure_callback",
-          "text": "Ricollego questo momento ai Friend Beat precedenti.",
+          "text": "Ricollego questo momento ai incontro con un amico precedenti.",
           "goto": "callback"
         }
       ]
@@ -571,7 +571,7 @@
         },
         {
           "id": "callback_record",
-          "text": "Chiudo il callback e registro il beat.",
+          "text": "Chiudo il ricordo e registro il incontro.",
           "goto": "result_record"
         }
       ]
