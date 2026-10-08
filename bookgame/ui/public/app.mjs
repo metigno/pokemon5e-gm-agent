@@ -3,6 +3,7 @@ import {
   revealDelayForCharacter,
   storyParagraphs
 } from "/reveal-model.mjs";
+import { informationRenderers } from "/information-renderers.mjs";
 
 const $ = (selector) => document.querySelector(selector);
 
@@ -772,26 +773,19 @@ function renderBag() {
 }
 
 function renderJournal() {
-  const journal = snapshot.story.questJournal;
-  if (!journal || (Array.isArray(journal) && journal.length === 0)) {
-    return '<div class="data-card">Nessuna voce attiva nel Journal.</div>';
-  }
-
-  if (Array.isArray(journal)) {
-    return journal.map((entry) => `
-      <div class="data-card">
-        <h3>${escapeHtml(entry.title ?? entry.questId ?? "Quest")}</h3>
-        <div>${escapeHtml(entry.objective ?? entry.status ?? "")}</div>
-      </div>
-    `).join("");
-  }
-
-  return Object.entries(journal).map(([key, entry]) => `
-    <div class="data-card">
-      <h3>${escapeHtml(entry?.title ?? key)}</h3>
-      <div>${escapeHtml(entry?.objective ?? entry?.status ?? "")}</div>
-    </div>
-  `).join("");
+  const journal = snapshot.story.questJournal ?? {};
+  const groups = [
+    ["active", "In corso"], ["completed", "Completate"],
+    ["failed", "Fallite"], ["expired", "Scadute"]
+  ];
+  const normalized = Array.isArray(journal) ? { active: journal } : journal;
+  return groups.map(([key, title]) => {
+    const quests = Array.isArray(normalized[key]) ? normalized[key] : [];
+    return `<section class="data-card"><h3>${title} · ${quests.length}</h3>${quests.map((quest) =>
+      `<div class="info-quest"><strong>${escapeHtml(quest.title ?? "Missione")}</strong>
+      <p>${escapeHtml(quest.objective ?? "Nessun obiettivo specificato.")}</p></div>`
+    ).join("") || "<p>Nessuna missione.</p>"}</section>`;
+  }).join("");
 }
 
 function renderSettings() {
@@ -818,7 +812,15 @@ function renderSettings() {
 function openDrawer(panel) {
   if (!snapshot?.hasSession) return;
 
+  const infoPages = informationRenderers(snapshot, { escapeHtml, spriteUrl, playerFacingLabel });
   const titles = {
+    pokedex: "Pokédex",
+    people: "Persone importanti",
+    relations: "Relazioni",
+    reputation: "Reputazione",
+    progress: "Progressione",
+    hall: "Hall of Fame",
+    codex: "Codex e regole",
     trainer: "Trainer",
     team: "Pokémon",
     bag: "Inventario",
@@ -827,6 +829,13 @@ function openDrawer(panel) {
   };
 
   const renderers = {
+    pokedex: infoPages.pokedex,
+    people: infoPages.people,
+    relations: infoPages.relations,
+    reputation: infoPages.reputation,
+    progress: infoPages.progress,
+    hall: infoPages.hall,
+    codex: infoPages.codex,
     trainer: renderTrainer,
     team: renderTeam,
     bag: renderBag,
@@ -834,8 +843,13 @@ function openDrawer(panel) {
     settings: renderSettings
   };
 
+  if (!renderers[panel]) return;
   els.drawerTitle.textContent = titles[panel];
-  els.drawerContent.innerHTML = renderers[panel]();
+  const shortcuts = infoPages.shortcuts()[panel] ?? "";
+  els.drawerContent.innerHTML = shortcuts + renderers[panel]();
+  for (const button of els.drawerContent.querySelectorAll("[data-info-panel]")) {
+    button.addEventListener("click", () => openDrawer(button.dataset.infoPanel));
+  }
   els.drawerBackdrop.hidden = false;
   els.drawer.classList.add("is-open");
   els.drawer.setAttribute("aria-hidden", "false");
