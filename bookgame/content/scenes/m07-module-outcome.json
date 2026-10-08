@@ -86,7 +86,7 @@
         },
         {
           "id": "entry_complete",
-          "text": "M7 è già chiuso: rivedo il punto di handoff.",
+          "text": "questa tappa è già chiuso: rivedo il punto di handoff.",
           "goto": "complete",
           "conditions": {
             "path": "world.flags.m7_complete",
@@ -294,7 +294,7 @@
       "choices": [
         {
           "id": "commit_q_now",
-          "text": "Chiudo M7 sul ramo qualificato.",
+          "text": "Chiudo questa tappa sul ramo qualificato.",
           "goto": "complete",
           "effects": [
             {
@@ -331,7 +331,7 @@
       "choices": [
         {
           "id": "commit_m_now",
-          "text": "Chiudo M7 sul ramo Worlds Missed.",
+          "text": "Chiudo questa tappa sul ramo Worlds Missed.",
           "goto": "complete",
           "effects": [
             {
