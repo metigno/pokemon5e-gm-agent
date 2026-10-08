@@ -4,7 +4,6 @@
 const { app, channel } = require("bridge");
 const { join } = require("node:path");
 const { randomBytes } = require("node:crypto");
-const { existsSync } = require("node:fs");
 process.env.P5E_SAVE_DIR = join(app.datadir(), "careers");
 process.env.P5E_UI_HOST = "127.0.0.1";
 process.env.P5E_UI_PORT = "4173";
@@ -12,7 +11,7 @@ const sessionToken = randomBytes(32).toString("hex");
 process.env.P5E_UI_TOKEN = sessionToken;
 process.env.P5E_REQUIRE_OFFLINE_SPRITES = "1";
 process.env.P5E_REQUIRE_OFFLINE_CHARACTERS = "1";
-process.env.P5E_REQUIRE_OFFLINE_AUDIO = existsSync(join(__dirname, "bookgame/ui/public/audio/manifest.json")) ? "1" : "0";
+process.env.P5E_REQUIRE_OFFLINE_AUDIO = "1";
 
 (async () => {
   await import("./bookgame/ui/server.mjs");
