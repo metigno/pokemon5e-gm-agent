@@ -307,32 +307,32 @@
             "opponentTrainerId": "ALT_GATE_B_A_AURELIA_KITE",
             "opponent": {
               "species": "Sableye",
-              "level": 13,
+              "level": 12,
               "abilityId": "keen-eye",
               "trainerId": "ALT_GATE_B_A_AURELIA_KITE"
             },
             "opponentBench": [
               {
                 "species": "Roselia",
-                "level": 13,
+                "level": 12,
                 "abilityId": "natural-cure",
                 "trainerId": "ALT_GATE_B_A_AURELIA_KITE"
               },
               {
                 "species": "Chinchou",
-                "level": 13,
+                "level": 12,
                 "abilityId": "volt-absorb",
                 "trainerId": "ALT_GATE_B_A_AURELIA_KITE"
               },
               {
                 "species": "Growlithe",
-                "level": 13,
+                "level": 12,
                 "abilityId": "intimidate",
                 "trainerId": "ALT_GATE_B_A_AURELIA_KITE"
               },
               {
                 "species": "Noctowl",
-                "level": 13,
+                "level": 12,
                 "abilityId": "keen-eye",
                 "trainerId": "ALT_GATE_B_A_AURELIA_KITE"
               }
