@@ -1,6 +1,7 @@
 import { createServer } from 'node:http';
 import { timingSafeEqual } from 'node:crypto';
 import { GmSession } from './session.mjs';
+import { GmTurnCoordinator } from './turn-coordinator.mjs';
 
 function authorized(req, token) {
  const provided = req.headers.authorization?.replace(/^Bearer /, '') ?? '';
@@ -19,9 +20,10 @@ function reply(res, status, payload) {
  res.writeHead(status, {'content-type':'application/json; charset=utf-8','cache-control':'no-store'});
  res.end(JSON.stringify(payload));
 }
-export function createGmServer({ root, token }) {
+export function createGmServer({ root, token, engine, narrator }) {
  if (!token || token.length < 24) throw new Error('GM_API_TOKEN must have at least 24 characters');
  const gm = new GmSession(root);
+ const coordinator = engine && narrator ? new GmTurnCoordinator({root,engine,narrator}) : null;
  return createServer(async (req,res) => {
   if (!authorized(req,token)) return reply(res,401,{error:'Unauthorized'});
   try {
@@ -37,9 +39,11 @@ export function createGmServer({ root, token }) {
     return reply(res,saved ? 200 : 404,saved ?? {error:'Campaign not found'});
    }
    if (req.method === 'POST' && url.pathname.endsWith('/actions')) {
-    const { expectedRevision, ...action } = await jsonBody(req);
+    if (!coordinator) return reply(res,503,{error:'Canonical rules engine not configured'});
+    const { expectedRevision, action } = await jsonBody(req);
     if (!Number.isSafeInteger(expectedRevision)) return reply(res,400,{error:'expectedRevision required'});
-    return reply(res,200,await gm.record(match[1],expectedRevision,action));
+    if (typeof action !== 'string' && (!action || typeof action.text !== 'string')) return reply(res,400,{error:'Action required'});
+    return reply(res,200,await coordinator.play({campaignId:match[1],expectedRevision,action}));
    }
    return reply(res,405,{error:'Method not allowed'});
   } catch(error) {
