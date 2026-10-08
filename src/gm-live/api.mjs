@@ -2,6 +2,7 @@ import { createServer } from 'node:http';
 import { timingSafeEqual } from 'node:crypto';
 import { GmSession } from './session.mjs';
 import { GmTurnCoordinator } from './turn-coordinator.mjs';
+import { createSafeGmAdapters } from './bootstrap.mjs';
 
 function authorized(req, token) {
  const provided = req.headers.authorization?.replace(/^Bearer /, '') ?? '';
@@ -55,6 +56,7 @@ export function createGmServer({ root, token, engine, narrator }) {
 if (process.argv[1] && import.meta.url === new URL('file://' + process.argv[1]).href) {
  const port = Number(process.env.GM_PORT || 8787);
  const host = process.env.GM_HOST || '127.0.0.1';
- createGmServer({root:process.env.GM_SAVE_DIR || './.gm-live-saves',token:process.env.GM_API_TOKEN})
+ createGmServer({root:process.env.GM_SAVE_DIR || './.gm-live-saves',token:process.env.GM_API_TOKEN,
+  ...createSafeGmAdapters()})
   .listen(port,host,()=>console.log('GM API listening on '+host+':'+port));
 }
