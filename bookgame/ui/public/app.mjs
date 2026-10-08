@@ -4,6 +4,7 @@ import {
   storyParagraphs
 } from "/reveal-model.mjs";
 import { informationRenderers } from "/information-renderers.mjs";
+import { AudioSoundscape } from "/audio-soundscape.mjs";
 
 const $ = (selector) => document.querySelector(selector);
 
@@ -84,6 +85,19 @@ let careerSlots = [];
 let revealRun = 0;
 let revealActive = false;
 let revealFinish = null;
+const soundscape = new AudioSoundscape();
+let lastBattleKey = null;
+function syncAudioControls() {
+  for (const id of ["audio-toggle", "start-audio"]) {
+    const button = document.querySelector("#" + id);
+    if (!button) continue;
+    button.setAttribute("aria-pressed", soundscape.enabled ? "true" : "false");
+    button.textContent = soundscape.enabled ? "♫ Audio attivo" : "♫ Attiva audio";
+  }
+  const toggle = document.querySelector("#audio-enabled-setting");
+  if (toggle) toggle.checked = soundscape.enabled;
+}
+
 let drawerReturnFocus = null;
 let referenceReturnFocus = null;
 
@@ -293,6 +307,7 @@ async function revealStory(story) {
         break;
       }
       p.append(character);
+      if (/[.!?]/.test(character)) soundscape.playEffect("ui_advance");
       p.append(caret);
       await delay(revealDelayForCharacter(character, speed));
       caret.remove();
@@ -324,6 +339,8 @@ function renderChoices(choices) {
         : null;
     button.textContent = rollRequest ? `${choice.text} · ${rollRequest}` : choice.text;
     button.addEventListener("click", async () => {
+      soundscape.unlock();
+      soundscape.playEffect("ui_confirm");
       button.classList.add("is-selected");
       for (const node of els.choiceList.querySelectorAll("button")) node.disabled = true;
       try {
@@ -669,6 +686,7 @@ async function runCombatAction(path, body) {
       method: "POST",
       body: JSON.stringify(body)
     });
+    soundscape.playEffect(path.includes("move") ? "ui_hit" : "ui_select");
     await renderSnapshot();
   } catch (error) {
     showInlineError(error.message);
@@ -684,12 +702,19 @@ async function renderStory() {
 
 async function renderSnapshot() {
   els.appAlert.hidden = true;
+  soundscape.sync(snapshot);
+  syncAudioControls();
   if (!snapshot?.hasSession) {
     els.appShell.inert = true;
+    lastBattleKey = null;
     els.startScreen.hidden = false;
     return;
   }
 
+  const battleKey = snapshot.battle ? String(snapshot.battle.encounterId) + ":" + String(snapshot.battle.opponent.speciesId) : null;
+  if (battleKey && battleKey !== lastBattleKey) soundscape.playCry(snapshot.battle.opponent.speciesId);
+  else if (!battleKey && lastBattleKey) soundscape.playStinger(/sconfitt|disfatta/i.test(snapshot.story?.sceneTitle ?? "") ? "defeat" : "victory");
+  lastBattleKey = battleKey;
   els.startScreen.hidden = true;
   els.appShell.inert = els.drawer.classList.contains("is-open");
   renderHeader();
