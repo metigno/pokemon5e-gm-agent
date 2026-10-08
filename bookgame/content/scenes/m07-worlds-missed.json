@@ -70,7 +70,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Mondiale è stato mancato in questa stagione. Il gioco conserva esattamente il punto in cui la corsa si è chiusa e non lo trasforma in una vittoria morale obbligatoria."
+          "text": "Sul tabellone dei qualificati il tuo nome non compare. Gli addetti continuano a lavorare mentre la città si prepara al Mondiale senza aspettarti."
         }
       ],
       "choices": [
@@ -95,7 +95,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La route distingue chi non aveva un Last Chance legale da chi lo ha giocato e perso. Entrambe restano conseguenze del proprio stato."
+          "text": "Riguardi il percorso disputato. Il registro mostra dove si è fermata la tua corsa e se hai avuto accesso all'ultima occasione."
         }
       ],
       "choices": [
@@ -123,7 +123,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Nessun torneo sostitutivo viene creato dopo la chiusura del gate. La mancata qualificazione resta completa e persistente."
+          "text": "Lo sportello dell'ultima occasione è chiuso. Non ci sono altri incontri previsti per la tua posizione."
         }
       ],
       "choices": [
@@ -143,7 +143,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Last Chance perso resta l'ultimo risultato della corsa mondiale di questa stagione. Non esiste un retry ulteriore."
+          "text": "L'ultimo risultato resta acceso sul monitor: una sconfitta. L'arbitro ha già consegnato il referto definitivo."
         }
       ],
       "choices": [
@@ -163,7 +163,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Media e sponsor reagiscono a una mancata qualificazione reale. Non possono riscrivere il bracket né sottrarre Rank S."
+          "text": "Davanti all'arena, una giornalista legge l'elenco dei qualificati. Alcuni sponsor cambiano programma; la tua licenza Rank S resta valida."
         }
       ],
       "choices": [
@@ -183,7 +183,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "FRIEND_BEAT_07 resta valido anche se le carriere divergono. Un amico può essere avanti, indietro o fuori senza sincronizzarsi al player."
+          "text": "Il gruppo degli amici continua a mandare messaggi. Le loro strade non coincidono necessariamente con la tua, e nessuno deve fingere che sia così."
         }
       ],
       "choices": [
@@ -203,7 +203,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Cynthia non offre una scorciatoia retroattiva. Il rapporto e il suo insegnamento restano disponibili oltre questa stagione."
+          "text": "Cynthia ti saluta senza offrirti scorciatoie. «Quello che hai imparato non sparisce con un risultato», dice, lasciandoti decidere che cosa farne."
         }
       ],
       "choices": [
@@ -223,7 +223,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rank S, roster, livelli, EXP, relazioni, infortuni, denaro, quest e risultati restano. Mancare il Mondiale non resetta la carriera."
+          "text": "Ritrovi la tua squadra, gli oggetti e gli appunti di viaggio esattamente dove li avevi lasciati. La stagione continua, anche se questa porta si è chiusa."
         }
       ],
       "choices": [
@@ -248,7 +248,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il torneo mondiale procede comunque con i qualificati effettivi. Gli NPC continuano a vivere e competere anche senza il player nel field."
+          "text": "Alla stazione, alcuni qualificati salgono sui convogli diretti al Mondiale. Altri allenatori tornano ai propri impegni: il circuito non si ferma."
         }
       ],
       "choices": [
@@ -273,7 +273,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La route successiva è M12 — Dopo il Mondo: callback, ritorno ad Asteria e postgame senza fingere che il player abbia partecipato al torneo."
+          "text": "Un biglietto per Asteria e le vecchie destinazioni torna fra le possibilità. Ci sono persone e questioni lasciate in sospeso che non dipendono dal Mondiale."
         }
       ],
       "choices": [
@@ -293,7 +293,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Accettare il risultato significa conservarlo, non approvarlo o minimizzarlo. La run potrà continuare dal proprio stato reale."
+          "text": "Il referto resta quello che è. Puoi riporlo, discuterne o guardarlo ancora: nessuna di queste scelte cambia il punteggio."
         }
       ],
       "choices": [
@@ -313,7 +313,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il fallimento della qualificazione non chiude esplorazione, side quest, catture o future stagioni. Cambia soltanto la route narrativa immediata."
+          "text": "Fuori dal Grand Hall, le strade di Meridiana sono ancora aperte. Il mondo offre altre mete, incontri e stagioni."
         }
       ],
       "choices": [
@@ -333,7 +333,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il flag worlds_missed descrive la realtà competitiva di questa stagione e abilita l'exit contract corretto."
+          "text": "L'ufficiale chiude la pratica di questa stagione. Sul documento compare la mancata qualificazione, con la data e il risultato che l'ha determinata."
         }
       ],
       "choices": [
@@ -365,7 +365,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Worlds Missed è registrato. Il passo successivo è soltanto l'outcome di M7, che potrà sbloccare M12."
+          "text": "Lasci il banco dei risultati. La strada davanti a te non conduce al Mondiale di questa stagione, ma non termina qui."
         }
       ],
       "choices": [
