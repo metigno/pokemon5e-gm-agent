@@ -30,7 +30,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il World Ranking Cutoff è una deadline globale, non un altro match. Congela lo stato rilevante della stagione senza correggere retroattivamente la carriera."
+          "text": "Nella sala del circuito, il tabellone mondiale mostra la data di chiusura della stagione. Allo scadere, gli addetti archiviano la classifica così com'è: nessun incontro può essere riscritto dopo."
         }
       ],
       "choices": [
@@ -63,7 +63,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il cutoff legge il Rank esistente al momento in cui scatta. Non promuove, non annulla match e non assegna World qualification."
+          "text": "Un avviso ufficiale chiarisce che la chiusura fotografa il grado raggiunto entro il termine. Non assegna promozioni né posti automatici al Mondiale."
         }
       ],
       "choices": [
@@ -92,7 +92,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Lo stato congelato può registrare Rank S già ottenuto oppure Rank A ancora presente al momento della deadline. Entrambi sono fatti persistenti."
+          "text": "L'impiegata apre il registro stagionale e controlla quale grado risultava sulla tua licenza alla scadenza. Quella data rimane accanto al tuo nome."
         }
       ],
       "choices": [
@@ -125,7 +125,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Essere Rank S alla deadline conserva la candidatura per il percorso successivo, ma non equivale a essere già qualificato al Mondiale."
+          "text": "Nel registro risulti già di grado S alla chiusura della stagione. Puoi affrontare il percorso dei candidati mondiali, ma la qualificazione è ancora da conquistare."
         }
       ],
       "choices": [
@@ -145,7 +145,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se il cutoff è scattato mentre eri ancora Rank A, quel fatto resta nella stagione. Una promozione successiva non riscrive retroattivamente la deadline."
+          "text": "Il registro mostra che alla scadenza avevi ancora il grado A. Anche se la tua licenza cambia più tardi, quella pagina della stagione non verrà riscritta."
         }
       ],
       "choices": [
@@ -165,7 +165,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il record dice `rank_s_at_cutoff`: il Gate era già superato quando la stagione ha congelato il quadro."
+          "text": "Accanto al tuo nome compare il grado S, con una data anteriore alla chiusura. L'impiegata conferma il dato e richiude il registro."
         }
       ],
       "choices": [
@@ -185,7 +185,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il record dice `rank_a_at_cutoff`: la deadline ha preceduto la promozione. Questo non cancella una futura vittoria A→S."
+          "text": "Accanto al tuo nome compare il grado A alla data di chiusura. L'impiegata indica la riga: «Questo era il tuo grado quel giorno»."
         }
       ],
       "choices": [
@@ -205,7 +205,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Masters, Continental Cup e Gate restano record distinti. Il cutoff non ne cambia vincitori, piazzamenti o tentativi."
+          "text": "I referti Masters, Continental Cup e Faro sono raccolti in fascicoli separati. Puoi rileggerli, ma i risultati rimangono quelli pronunciati dagli arbitri."
         }
       ],
       "choices": [
@@ -225,7 +225,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Masters result resta ciò che E5 ha registrato. Il cutoff non lo converte in Rank, seed o qualification diversi."
+          "text": "Sul registro Masters trovi l'incontro e il relativo risultato ufficiale. La scadenza stagionale non ne cambia il referto."
         }
       ],
       "choices": [
@@ -245,7 +245,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La Continental Cup resta un titolo o piazzamento indipendente. Anche una vittoria non sostituisce il Gate del Faro."
+          "text": "La bacheca Continental conserva il tuo piazzamento effettivo, qualunque sia stato. Il titolo del torneo non sostituisce la prova del Faro."
         }
       ],
       "choices": [
@@ -265,7 +265,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "FRIEND_BEAT_06 resta una conseguenza personale persistente, non un moltiplicatore di ranking."
+          "text": "Fra i messaggi conservati trovi anche l'ultimo scambio con un amico. È parte della tua storia, non della classifica mondiale."
         }
       ],
       "choices": [
@@ -285,7 +285,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Red resta un competitor osservatore, non un garante di accesso. Il suo rapporto col player non modifica il cutoff."
+          "text": "Ripensi a Red e alle poche parole scambiate vicino al tabellone. Nessun nome famoso può cambiare la data o il grado riportati sul registro."
         }
       ],
       "choices": [
@@ -305,7 +305,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il secondo layer antico resta fuori dal ranking. Il Faro ospita entrambi i thread senza fonderne le regole."
+          "text": "Oltre le finestre si distingue la sagoma del Faro. Le domande sulle sue tracce antiche rimangono aperte, lontane dai conteggi della classifica."
         }
       ],
       "choices": [
@@ -325,7 +325,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il cutoff è già un fatto del Living World. Questo passaggio registra solo che il player ne ha preso atto, preservando lo stato originale."
+          "text": "L'impiegata ti mostra il registro ormai chiuso. «Puoi consultarlo, ma non modificarlo. La stagione è stata archiviata»."
         }
       ],
       "choices": [
@@ -354,7 +354,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Lo stato congelato resta immutato. M6 ora possiede il callback richiesto per l'uscita."
+          "text": "La pagina della stagione viene riposta nell'archivio. Il grado segnato alla scadenza resta quello che era."
         }
       ],
       "choices": [
@@ -381,7 +381,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se la deadline non è ancora scattata, aspettare deve far avanzare davvero il mondo. Puoi anche tornare ad attività ancora aperte."
+          "text": "L'orologio non ha ancora raggiunto la chiusura. Puoi aspettare che arrivi il termine oppure dedicarti agli impegni ancora aperti."
         }
       ],
       "choices": [
@@ -402,7 +402,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il cutoff decide quale stato appartiene a questa finestra stagionale. M7 potrà usare questo callback senza falsificare quando hai raggiunto Rank S."
+          "text": "Le pagine della stagione vengono ordinate per data. Quando arriveranno le nuove qualificazioni, conterà anche ciò che avevi raggiunto prima di questa chiusura."
         }
       ],
       "choices": [
@@ -422,7 +422,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Per chiudere M6 servono Rank S attuale, Red incontrato, FRIEND_BEAT_06, secondo layer antico e cutoff persistente/reviewed."
+          "text": "L'addetta controlla i documenti del tuo percorso: licenza S, incontro con Red, notizie degli amici, indizi del Faro e registro stagionale. Se manca qualcosa, ti indica dove tornare."
         }
       ],
       "choices": [
@@ -466,7 +466,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il cutoff è stato consumato come contesto, non come scorciatoia competitiva. M6 può ora eseguire il proprio exit contract."
+          "text": "Esci dall'ufficio mentre gli addetti spengono i monitor della stagione conclusa. Davanti a te restano le gare future, non un modo per cambiare quelle passate."
         }
       ],
       "choices": [
