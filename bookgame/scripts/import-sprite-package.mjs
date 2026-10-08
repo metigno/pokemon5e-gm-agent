@@ -1,8 +1,6 @@
 import { cp, mkdir, readFile, stat } from "node:fs/promises";
 import { basename, join, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
 
-const HERE = fileURLToPath(new URL(".", import.meta.url));
 const map = JSON.parse(await readFile(new URL("../assets/pokemon/sprite-runtime-map.json", import.meta.url), "utf8"));
 const source = resolve(process.argv[2] ?? "");
 const destination = resolve(process.argv[3] ?? new URL("../assets/pokemon/files/", import.meta.url).pathname);
@@ -17,6 +15,7 @@ const requiredRoles = ["battleFront", "battleBack", "icon"];
 const optionalRoles = ["overworld"];
 const missing = [];
 let copied = 0;
+const filesToCopy = [];
 
 for (const [spriteId, assets] of Object.entries(map.sprites)) {
   if (/gmax|gigantamax/i.test(spriteId)) throw new Error(`Gigantamax entry is forbidden: ${spriteId}`);
@@ -31,11 +30,19 @@ for (const [spriteId, assets] of Object.entries(map.sprites)) {
       if (requiredRoles.includes(role)) missing.push({ spriteId, role, asset });
       continue;
     }
-    const to = join(destination, spriteId, basename(asset));
-    await mkdir(join(destination, spriteId), { recursive: true });
-    await cp(from, to);
-    copied += 1;
+    filesToCopy.push({ from, to: join(destination, spriteId, basename(asset)), spriteId });
   }
+}
+
+if (strict && missing.length) {
+  console.error(JSON.stringify({ missingRequiredAssets: missing.length, missing }, null, 2));
+  process.exit(1);
+}
+
+for (const { from, to, spriteId } of filesToCopy) {
+  await mkdir(join(destination, spriteId), { recursive: true });
+  await cp(from, to);
+  copied += 1;
 }
 
 const report = {
@@ -46,4 +53,3 @@ const report = {
   missing
 };
 console.log(JSON.stringify(report, null, 2));
-if (strict && missing.length) process.exit(1);
