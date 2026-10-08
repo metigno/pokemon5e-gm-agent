@@ -70,6 +70,10 @@ export function pokemon5eWorldSpeciesDescriptor(speciesName) {
     .replace(/-W$/i, "-Wash")
     .replace(/-M$/i, "")
     .trim();
+  // The pinned Pokémon 5e pack uses the complete printed form names.
+  // Zygarde in the 2060 roster is the normal 50% form (not 10% or Complete).
+  if (label === "Zygarde") return { species: "Zygarde", form: "50% Forme" };
+  if (label === "Giratina-Origin") return { species: "Giratina", form: "Origin Forme" };
   for (const [suffix, form] of FORMS) {
     if (label.endsWith("-" + suffix)) {
       return { species: label.slice(0, -(suffix.length + 1)), form };
