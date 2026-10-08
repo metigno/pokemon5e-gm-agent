@@ -87,6 +87,7 @@ let revealActive = false;
 let revealFinish = null;
 const soundscape = new AudioSoundscape();
 let lastBattleKey = null;
+let lastPlayerSpecies = null;
 function syncAudioControls() {
   for (const id of ["audio-toggle", "start-audio"]) {
     const button = document.querySelector("#" + id);
@@ -707,14 +708,29 @@ async function renderSnapshot() {
   if (!snapshot?.hasSession) {
     els.appShell.inert = true;
     lastBattleKey = null;
+    lastPlayerSpecies = null;
     els.startScreen.hidden = false;
     return;
   }
 
   const battleKey = snapshot.battle ? String(snapshot.battle.encounterId) + ":" + String(snapshot.battle.opponent.speciesId) : null;
+  const playerSpecies = snapshot.battle?.player?.speciesId ?? null;
   if (battleKey && battleKey !== lastBattleKey) soundscape.playCry(snapshot.battle.opponent.speciesId);
-  else if (!battleKey && lastBattleKey) soundscape.playStinger(/sconfitt|disfatta/i.test(snapshot.story?.sceneTitle ?? "") ? "defeat" : "victory");
+  else if (battleKey && lastPlayerSpecies && playerSpecies !== lastPlayerSpecies) soundscape.playCry(playerSpecies);
+  else if (!battleKey && lastBattleKey) {
+    // Read the resolved event created by the canonical engine: capture/flee are NOT wins.
+    const outcome = snapshot.audioEvent;
+    if (outcome?.type === "combat" && String(lastBattleKey).startsWith(String(outcome.encounterId) + ":")) {
+      if (outcome.outcome === "win") {
+        const worldFinal = /mondial|world.?cup|pwt.?final/i.test(outcome.encounterId);
+        soundscape.playStinger(worldFinal ? "pwt_win" : "victory");
+        if (worldFinal) soundscape.playEffect("pwt_fanfare");
+      } else if (outcome.outcome === "lose") soundscape.playStinger("defeat");
+      else if (outcome.outcome === "captured") soundscape.playEffect("ui_confirm");
+    }
+  }
   lastBattleKey = battleKey;
+  lastPlayerSpecies = playerSpecies;
   els.startScreen.hidden = true;
   els.appShell.inert = els.drawer.classList.contains("is-open");
   renderHeader();
