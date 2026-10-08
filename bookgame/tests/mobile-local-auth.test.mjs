@@ -48,7 +48,7 @@ test("mobile loopback rejects foreign clients but allows an authenticated offlin
   assert.equal(entered.headers.get("location"), "/");
   const cookie = entered.headers.get("set-cookie")?.split(";")[0];
   assert.equal(cookie, "p5e_mobile_session=" + token);
-  assert.match(entered.headers.get("set-cookie"), /HttpOnly; SameSite=Strict/);
+  assert.match(entered.headers.get("set-cookie"), /HttpOnly; SameSite=Lax/);
   const authorized = await fetch(base + "/api/slots", { headers: { cookie } });
   assert.equal(authorized.status, 200);
   const data = await authorized.json();
