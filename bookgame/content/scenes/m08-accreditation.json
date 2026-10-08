@@ -38,7 +38,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il centro accrediti verifica che il partecipante qualificato sia quello registrato e spiega accessi e timeline. Non modifica Rank, roster o draw."
+          "text": "Nel centro accrediti una funzionaria verifica il documento di qualificazione e il tuo nome sul registro. Alle sue spalle si accumulano pass e mappe del complesso."
         }
       ],
       "choices": [
@@ -71,7 +71,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Tre aspetti vengono trattati separatamente: identità del partecipante, aree accessibili e calendario operativo."
+          "text": "L'addetta controlla identità, aree autorizzate e calendario degli obblighi. Sono tre passaggi distinti da completare con calma."
         }
       ],
       "choices": [
@@ -96,7 +96,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'identità competitiva deriva dalla run qualificata e dalla competition history. Il desk non può sostituire o duplicare quell'autorità."
+          "text": "Mostri il documento usato durante le qualificazioni. Il nome deve coincidere con quello che ha conquistato il posto."
         }
       ],
       "choices": [
@@ -116,7 +116,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Le credenziali distinguono Village, training, medicina, media e aree gara. Ogni servizio mantiene i propri gate."
+          "text": "Sul pass compaiono simboli per Village, allenamento, clinica, stampa e campo gara. Ogni ingresso ha controlli propri."
         }
       ],
       "choices": [
@@ -136,7 +136,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La timeline separa controllo medico, registrazione, media, cerimonia e WORLD_DRAW. Nessun passaggio anticipa il successivo."
+          "text": "La funzionaria indica gli appuntamenti nell'ordine previsto: salute della squadra, iscrizione, media, cerimonia e sorteggio."
         }
       ],
       "choices": [
@@ -161,7 +161,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Le aree del venue sono fisicamente vicine ma amministrativamente separate. La comodità geografica non elimina prerequisiti."
+          "text": "Da una finestra vedi due corridoi vicini. Uno è riservato agli atleti, l'altro allo staff: il fatto che siano accanto non li rende intercambiabili."
         }
       ],
       "choices": [
@@ -181,7 +181,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "I media possono chiedere tempo e dichiarazioni, ma non possono cambiare seed, match o statistiche."
+          "text": "«Le interviste sono facoltative nei limiti del programma», ricorda l'addetta. «Ma nessun giornalista può decidere i vostri avversari.»"
         }
       ],
       "choices": [
@@ -201,7 +201,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La Training Hall sarà disponibile come spazio di preparazione. Qualunque effetto meccanico resta nei sistemi Pokémon 5e reali."
+          "text": "La sala allenamento avrà orari dedicati. Quando la userai, i Pokémon dovranno lavorare nelle condizioni in cui si trovano davvero."
         }
       ],
       "choices": [
@@ -221,7 +221,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il controllo medico è obbligatorio come verifica di stato; non è una cura gratuita né un reset tra moduli."
+          "text": "La visita medica è una verifica obbligatoria. «Non la confonda con una cura», precisa la funzionaria."
         }
       ],
       "choices": [
@@ -241,7 +241,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Le credenziali vengono usate per accesso, non come ricompensa. Un'area non autorizzata resta chiusa finché il relativo gate non è soddisfatto."
+          "text": "Un addetto alla sicurezza indica sul pass gli accessi consentiti. Per entrare in un'area riservata occorre l'autorizzazione prevista."
         }
       ],
       "choices": [
@@ -261,7 +261,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Prestigio, sponsor, Anchor e risultati precedenti possono cambiare tono e attenzione ricevuta, non l'identità del partecipante o i requisiti ufficiali."
+          "text": "Qualche membro dello staff può riconoscere il tuo nome dai risultati precedenti. Le credenziali, però, sono le stesse previste dal regolamento."
         }
       ],
       "choices": [
@@ -281,7 +281,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rimandare consuma tempo e lascia avanzare schedule e attività del venue. Non completa automaticamente alcun gate."
+          "text": "Aspetti un'ora in fila. Un altro gruppo passa al banco e alcune persone corrono verso il prossimo appuntamento."
         }
       ],
       "choices": [
@@ -302,7 +302,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'accredito può essere chiuso quando identità e regole di accesso sono chiare. Il commit non registra roster o draw."
+          "text": "La funzionaria ricontrolla la tessera e la consegna. Gli accessi ora sono chiari, ma le gare non sono ancora state sorteggiate."
         }
       ],
       "choices": [
@@ -338,7 +338,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Le credenziali sono persistenti. Il prossimo gate è il controllo medico sullo stato reale della squadra."
+          "text": "Hai il pass del complesso. Il prossimo controllo riguarda i Pokémon che porterai in gara."
         }
       ],
       "choices": [
