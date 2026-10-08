@@ -116,7 +116,7 @@
       "stitches": [
         {
           "id": "r1",
-          "text": "La prova serve a registrare il tuo profilo competitivo per la rete interregionale. Non decide il Rank: vittoria o sconfitta saranno comunque annotate come risultato ufficiale."
+          "text": "Il regolamento descrive una prova ufficiale utile per viaggiare e competere fra regioni. Il risultato comparirà sul tuo profilo; per salire di Rank, invece, servirà un esame diverso."
         }
       ],
       "choices": [
@@ -200,7 +200,7 @@
       "stitches": [
         {
           "id": "ao1",
-          "text": "Mira, ufficiale del Circuito, conferma un Singles di calibrazione. Vincere o perdere cambia il risultato registrato; completare il match chiude l'assessment."
+          "text": "Mira, ufficiale del Circuito, ti indica il campo assegnato. «Un incontro Singles. Mi interessa vedere come affronti un avversario vero, non soltanto il punteggio finale.»"
         }
       ],
       "choices": [
@@ -393,7 +393,7 @@
       "stitches": [
         {
           "id": "li1",
-          "text": "L'ufficio emette la licenza interregionale. Il documento amplia le tratte che puoi prenotare, ma non cambia il tuo Rank e non assegna risultati futuri."
+          "text": "L'impiegata posa sul banco la licenza interregionale, ancora fresca di timbro. Sul retro trovi le tratte e gli uffici presso cui potrai presentarla."
         }
       ],
       "choices": [
