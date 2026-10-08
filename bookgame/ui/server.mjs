@@ -415,6 +415,14 @@ async function snapshot() {
     hasSession: true,
     slot: state.slot,
     careerEnded: ended,
+    // Read-only audio event from canonical combat history; never infer victory from prose.
+    audioEvent: state.story?.history?.at(-1)?.subsystem === "pokemon5e_combat"
+      ? {
+          type: "combat",
+          encounterId: state.story.history.at(-1).encounterId,
+          outcome: state.story.history.at(-1).outcome
+        }
+      : null,
     story,
     map: buildTravelMap(state, story),
     player: {
