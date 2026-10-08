@@ -45,6 +45,13 @@ jobs:
         run: npm --prefix bookgame run validate:story
       - name: Run Bookgame tests
         run: npm --prefix bookgame test
+      - name: Check native offline host contracts
+        run: |
+          node --check bookgame/mobile/build.mjs
+          node --check bookgame/mobile/runtime/index.cjs
+          node --check bookgame/mobile/src/bootstrap.mjs
+          node --check bookgame/mobile/scripts/configure-android.mjs
+          node bookgame/mobile/build.mjs --contract
       - name: Test audio pack import and checksum gates
         run: python3 -m unittest discover -s bookgame/tests -p 'test_audio_package.py' -v
       - name: Test offline sprite packaging
