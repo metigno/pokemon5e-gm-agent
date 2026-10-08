@@ -1,0 +1,21 @@
+{
+  "name": "p5e-bookgame-android-offline",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:web": "node build.mjs",
+    "android:init": "npx cap add android",
+    "android:debug": "npm run build:web && npx cap sync android && node scripts/configure-android.mjs && cd android && ./gradlew assembleDebug",
+    "check:contract": "node build.mjs --contract"
+  },
+  "dependencies": {
+    "@capacitor/core": "8.5.2",
+    "@capacitor/android": "8.5.2",
+    "@capawesome/capacitor-nodejs": "0.1.1"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "8.5.2",
+    "esbuild": "0.25.12"
+  }
+}
