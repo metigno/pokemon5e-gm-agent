@@ -229,6 +229,10 @@ function formatLog(entry) {
   if (entry.type === "save_move") return `${entry.moveName ?? entry.moveId}: tiro salvezza risolto.`;
   if (entry.type === "status_damage") return `${entry.actor}: ${entry.damage} danni da ${entry.status}.`;
   if (entry.type === "fainted") return `${entry.actor} non è più in grado di combattere.`;
+  if (entry.type === "capture_attempt") {
+    return `${entry.ballId ?? "Poké Ball"}: ${entry.captured ? "cattura riuscita" : "il Pokémon è rimasto libero"}` +
+      (Number.isFinite(entry.total) ? ` · ${entry.total} vs DC ${entry.dc}` : "") + ".";
+  }
   if (entry.type === "combat_end") return `Combattimento concluso: ${entry.outcome}.`;
   if (entry.type === "switch") return `Cambio: ${entry.out} → ${entry.in}.`;
   if (entry.type === "movement") return `${entry.actor} si muove di ${Math.round(entry.feet)} ft.`;
@@ -319,6 +323,18 @@ function renderBattle(battle) {
           mode
         }));
       }
+      els.moveList.append(button);
+    }
+  }
+
+  if (battle.capture?.available) {
+    for (const ball of battle.capture.balls ?? []) {
+      const button = document.createElement("button");
+      button.className = "move-button";
+      button.innerHTML =
+        `<strong>Lancia ${escapeHtml(ball.id)}</strong>` +
+        `<small>Poké Ball disponibile: ${escapeHtml(ball.count)} · tiro di cattura Pokémon 5e</small>`;
+      button.addEventListener("click", () => runCombatAction("/api/combat/capture", { ball: ball.id }));
       els.moveList.append(button);
     }
   }
