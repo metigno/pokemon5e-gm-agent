@@ -11,8 +11,8 @@ import tempfile
 import zipfile
 import zlib
 
-APPROVED_ARCHIVE = "f87e063447d9e79d5f1ba55ba1d1233250bcf7e4d2adb96aecb191dae0d9488a"
-APPROVED_CATALOG = "07c8339f149556e5b82dce2b68efa79688fe96f07ba6a8bf3db73bc4d29cbab3"
+APPROVED_ARCHIVE = "2fa94f30ef69956c04c8d0f18a65be06c41c1bfd68021621a13d22e5c8b729a2"
+APPROVED_CATALOG = "f173d2322a7224271923acb9a178cfef3783c36e3ad93ef76778c142b756ae3a"
 ROOT_PREFIX = "bookgame/assets/npc-sprites/"
 SIGNATURE = b"\x89PNG\r\n\x1a\n"
 
