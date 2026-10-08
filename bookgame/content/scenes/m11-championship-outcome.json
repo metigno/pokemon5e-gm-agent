@@ -66,7 +66,7 @@
         },
         {
           "id": "entry_exit",
-          "text": "Audito WORLD_EXIT.",
+          "text": "Ripercorro la fine del mio percorso mondiale.",
           "goto": "world_exit_rules"
         }
       ]
@@ -489,7 +489,7 @@
       "choices": [
         {
           "id": "handoff_m12",
-          "text": "Entro in M12 / WORLD_EXIT.",
+          "text": "Inizio il viaggio di ritorno.",
           "goto": "m12-world-exit-branch#world_exit_entry"
         },
         {
