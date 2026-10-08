@@ -279,8 +279,8 @@ async function evolutionView() {
 async function snapshot() {
   if (!state) return { ok: true, hasSession: false };
 
+  if (!trainerCareerEnded(state)) await normalizeCombatFlow();
   const ended = trainerCareerEnded(state);
-  if (!ended) await normalizeCombatFlow();
   const story = ended
     ? {
         sceneId: "career-ended",
@@ -725,7 +725,7 @@ const server = createServer(async (req, res) => {
     if (url.pathname.startsWith("/sprites/") && await serveSprite(res, url.pathname)) return;
     await serveStatic(res, url.pathname);
   } catch (error) {
-    sendError(res, error, 500);
+    sendError(res, error, /slot di carriera/.test(error?.message ?? "") ? 400 : 500);
   }
 });
 
