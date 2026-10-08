@@ -141,5 +141,5 @@ test("M01 artwork is local, verified PNG and never replaces scene navigation", a
   assert.match(ui, /map-site__art/);
   assert.match(server, /APPROVED_MAP_ILLUSTRATION_IDS/);
   assert.match(server, /serveMapIllustration/);
-  assert.match(server, /map-art\\//);
+  assert.ok(server.includes('"/map-art/"'));
 });
