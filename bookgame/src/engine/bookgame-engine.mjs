@@ -563,6 +563,15 @@ export class BookgameEngine {
       if (!resolvedBattle?.opponent) {
         throw new Error("Captured outcome requires resolved Pokémon 5e opponent state");
       }
+      // Persisted battle states (including older saves) must never bypass
+      // the current checkpoint cap when a captured Pokémon joins the roster.
+      const capturedLevel = resolvedBattle.opponent.level;
+      const capturedCap = pokemonLevelCapForState(next);
+      if (!Number.isInteger(capturedLevel) || capturedLevel < 1 || capturedLevel > capturedCap) {
+        throw new RangeError(
+          `Captured Pokémon level ${String(capturedLevel)} exceeds the current Pokémon level cap ${capturedCap}`
+        );
+      }
     }
 
     if (resolvedBattle?.trainer) {
