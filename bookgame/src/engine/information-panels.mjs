@@ -2,10 +2,15 @@ import { experienceNeededAtLevel } from "./state.mjs";
 import { pokemonLevelCapForState, pokemonModuleForState } from "./pokemon-xp-balance.mjs";
 import { trainerLevelCapForState } from "./trainer-xp-balance.mjs";
 import { FIVE_FRIEND_IDS } from "./npc-state.mjs";
+import { normalizeSpriteId } from "../assets/sprite-runtime.mjs";
 
 function speciesIdOf(pokemon) {
-  const value = pokemon?.speciesId ?? pokemon?.species ?? null;
-  return typeof value === "string" && /^[a-z0-9][a-z0-9_-]*$/i.test(value) ? value.toLowerCase() : null;
+  const raw = pokemon?.speciesId ?? pokemon?.species ?? null;
+  if (typeof raw !== "string" || !raw.trim()) return null;
+  // Saved starters may store species + form separately (e.g. Growlithe / Hisuian);
+  // combat already uses the resolved canonical speciesId. Reuse sprite mapping
+  // normalization for both so regional forms are not silently merged.
+  return normalizeSpriteId(raw, pokemon?.speciesId ? null : pokemon?.form ?? null);
 }
 
 // These records are written only when a Pokémon is actually encountered or captured.
