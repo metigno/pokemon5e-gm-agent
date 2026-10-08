@@ -467,3 +467,25 @@ button { -webkit-tap-highlight-color: transparent; }
   outline: 3px solid var(--action); outline-offset: 2px;
 }
 .choice-dialog-cancel { min-height: 48px; width: 100%; }
+
+/* Read-only information pages use the same compact drawer on mobile. */
+.info-nav-button {
+  display: block;
+  width: 100%;
+  min-height: 46px;
+  margin-bottom: 9px;
+  padding: 11px 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--ink);
+  text-align: left;
+  font-weight: 750;
+  cursor: pointer;
+}
+.info-nav-button:focus-visible { outline: 3px solid var(--action); outline-offset: 2px; }
+.info-species { display: flex; align-items: center; gap: 12px; }
+.info-species h3 { margin: 0 0 3px; }
+.info-species small { color: var(--muted); }
+.info-quest + .info-quest { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
+.info-quest p, .data-card p { line-height: 1.45; margin: 7px 0; }
