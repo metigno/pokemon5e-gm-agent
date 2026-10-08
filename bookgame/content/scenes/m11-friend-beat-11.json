@@ -46,7 +46,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Sul display compare un nome familiare: {{world.flags.friend_beat_11_friend_id}}. La vostra ultima conversazione è ancora lì, sopra il nuovo messaggio. Le vostre carriere non sono arrivate necessariamente allo stesso punto."
+          "text": "Sul display compare un nome familiare: un amico di lunga data. La vostra ultima conversazione è ancora lì, sopra il nuovo messaggio. Le vostre carriere non sono arrivate necessariamente allo stesso punto."
         }
       ],
       "choices": [
@@ -82,7 +82,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "{{world.flags.friend_beat_11_friend_id}} ti raggiunge attraverso il canale possibile in questo momento. Non è una convocazione per una fotografia: uno di voi potrebbe avere ancora una finale davanti e l'altro no."
+          "text": "un amico di lunga data ti raggiunge attraverso il canale possibile in questo momento. Non è una convocazione per una fotografia: uno di voi potrebbe avere ancora una finale davanti e l'altro no."
         }
       ],
       "choices": [
