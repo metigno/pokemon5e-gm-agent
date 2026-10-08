@@ -17,17 +17,14 @@ const render = (snapshot) => informationRenderers(snapshot, {
   playerFacingLabel: String
 });
 
-test('14 approved supplied Trainer portraits map only onto canonical 19-character registry', async () => {
+test('all 19 SHA-pinned Trainer portraits map only onto canonical NPC registry', async () => {
   const registry = JSON.parse(await readFile(new URL('../content/npcs/NPC_CHARACTER_LIBRARY_V1.json', import.meta.url)));
   const pins = JSON.parse(await readFile(new URL('../assets/characters/sha256.json', import.meta.url)));
   const canonical = new Set([...registry.five, ...registry.moduleAnchors, ...registry.verifiedAdditionalCharacters]
     .filter(entry => entry.id).map(entry => entry.id + '/portrait.png'));
   assert.equal(canonical.size, 19);
-  assert.equal(Object.keys(pins.files).length, 14);
-  assert.deepEqual([...canonical].filter(name => !pins.files[name]).sort(), [
-    'Blue/portrait.png', 'ElioMar/portrait.png', 'Red/portrait.png',
-    'SeraNoll/portrait.png', 'Steven/portrait.png'
-  ]);
+  assert.equal(Object.keys(pins.files).length, 19);
+  assert.deepEqual([...canonical].filter(name => !pins.files[name]).sort(), []);
   for (const [name, hash] of Object.entries(pins.files)) {
     assert.ok(canonical.has(name), 'No extraneous character ' + name);
     assert.match(hash, /^[a-f0-9]{64}$/);

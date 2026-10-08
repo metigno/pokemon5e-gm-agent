@@ -16,6 +16,7 @@
     "ui": "node ui/server.mjs",
     "sprites:import": "node scripts/import-sprite-package.mjs",
     "sprites:verify": "node scripts/verify-offline-sprites.mjs",
-    "sprites:package": "python3 scripts/package-offline-sprites.py"
+    "sprites:package": "python3 scripts/package-offline-sprites.py",
+    "sprites:verify:characters": "node scripts/verify-offline-character-sprites.mjs && node scripts/verify-native-character-sprites.mjs"
   }
 }

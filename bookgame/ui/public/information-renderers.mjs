@@ -30,7 +30,10 @@ export function informationRenderers(snapshot, { escapeHtml, spriteUrl, playerFa
           const portrait = portraitId
             ? `<img class="character-portrait" src="/characters/${encodeURIComponent(portraitId)}/portrait" alt="" loading="lazy">`
             : "";
-          return `<div class="data-card info-person">${portrait}<div><h3>${escapeHtml(person.name)}</h3>
+          const nativeId = portraitId;
+          const native = snapshot.assets?.characterNative?.[nativeId];
+          const mini = native ? `<span class="character-overworld-frame"><img src="/characters/${encodeURIComponent(nativeId)}/overworld" style="width:${native.frames * 32}px;height:64px" alt=""></span>` : "";
+          return `<div class="data-card info-person">${portrait}${mini}<div><h3>${escapeHtml(person.name)}</h3>
             <p>${escapeHtml(person.description)}</p></div></div>`;
         }).join("")
       : empty("Non hai ancora incontrato persone da annotare nel diario."),
