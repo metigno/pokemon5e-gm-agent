@@ -6,6 +6,7 @@ import { SceneRepository } from "./scene-repository.mjs";
 import { completeTrainerCreation, proficiencyBonus, touchState } from "./state.mjs";
 import {
   applyTrainerProgressionEffect,
+  awardTrainerXp,
   getTrainerProgressionView,
   hasPendingTrainerProgression,
   resolveTrainerProgressionChoice,
@@ -19,6 +20,7 @@ import { applyCompetitionEffect, beginCompetitionMatch, prepareWorldGroupMatch, 
 import { recordWildEncounter, selectOrdinaryEncounter } from "./ecology.mjs";
 import { awardPokemonXp } from "./pokemon-progression.mjs";
 import { battlePokemonXpPool, pokemonLevelCapForState } from "./pokemon-xp-balance.mjs";
+import { trainerActivityXp, trainerStoryRewardKind } from "./trainer-xp-balance.mjs";
 import { syncFriendCareerSchedule } from "./npc-career-scheduler.mjs";
 import { Poke5eDataRepository } from "../combat/poke5e-data.mjs";
 import { applyPurchaseItem, ensureSceneShops } from "./shop-state.mjs";
@@ -461,6 +463,12 @@ export class BookgameEngine {
       historyEntry.toNodeId = target.nodeId;
     }
 
+    const rewardKind = trainerStoryRewardKind(choice, historyEntry.roll?.passed);
+    if (rewardKind) {
+      historyEntry.trainerXp = awardTrainerXp(next, trainerActivityXp(next, rewardKind), {
+        rewardId: `story:${scene.id}:${historyEntry.nodeId}:${choice.id}:${rewardKind}`
+      });
+    }
     syncFriendCareerSchedule(next);
     const preEventProgression = syncCampaignTrainerProgression(next);
     const worldEvents = await this.loadWorldEvents();
@@ -681,6 +689,9 @@ export class BookgameEngine {
 
     next.pending = null;
     const target = applyTarget(next, targetRef, sourceSceneId);
+    const trainerXp = outcome === "win" && resolvedBattle?.outcome === "win"
+      ? awardTrainerXp(next, trainerActivityXp(next, "battle"))
+      : null;
     const trainerProgression = syncCampaignTrainerProgression(next);
     syncFriendCareerSchedule(next);
     next.story.history.push({
@@ -691,7 +702,8 @@ export class BookgameEngine {
       competition: competitionMeta,
       toSceneId: target.sceneId,
       toNodeId: target.nodeId,
-      trainerProgression: clone(trainerProgression)
+      trainerProgression: clone(trainerProgression),
+      trainerXp
     });
     touchState(next, this.now);
     return next;
