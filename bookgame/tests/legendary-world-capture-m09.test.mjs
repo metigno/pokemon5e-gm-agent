@@ -1,6 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { mkdtemp, readFile, rm } from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { validateScene } from "../src/compiler/story-compiler.mjs";
 import { evaluateCondition } from "../src/engine/conditions.mjs";
@@ -8,6 +10,8 @@ import { Poke5eDataRepository } from "../src/combat/poke5e-data.mjs";
 import { POKEMON_LEVEL_CAPS_BY_MODULE, pokemonLevelCapForState } from "../src/engine/pokemon-xp-balance.mjs";
 import { captureBallsInInventory, attemptCapture } from "../src/combat/capture.mjs";
 import { BookgameEngine } from "../src/engine/bookgame-engine.mjs";
+import { Pokemon5eCombatEngine } from "../src/combat/combat-engine.mjs";
+import { SaveStore } from "../src/engine/save-store.mjs";
 import { createNewGameState } from "../src/engine/state.mjs";
 
 const load = async (filename) => JSON.parse(await readFile(fileURLToPath(new URL(filename, import.meta.url)), "utf8"));
@@ -212,4 +216,80 @@ test("Actual captured Mewtwo replaces a chosen Pokémon permanently and complete
   assert.equal(afterRecord.player.roster[5].speciesId, "mewtwo");
   assert.equal(afterRecord.player.roster.length, 6);
   assert.equal(JSON.parse(JSON.stringify(afterRecord)).player.roster[5].speciesId, "mewtwo");
+});
+
+
+test("Step 14: all Five M09 legendary hunts use real scene -> battle capture -> quest -> reload", async () => {
+  // Qualified, level-20 and possessing a Master Ball are deliberate test
+  // preconditions, not items/levels awarded by the quest. The capture is
+  // performed by the actual 2024 battle API; this test does not force its outcome.
+  const dir = await mkdtemp(path.join(os.tmpdir(), "p5e-step14-legendaries-"));
+  const store = new SaveStore(dir);
+  const book = new BookgameEngine({ worldEvents: [], now: () => "2026-10-08T12:00:00.000Z" });
+  const combat = new Pokemon5eCombatEngine({ dice: { roll: (sides) => sides } });
+  try {
+    for (const [name, id, speciesId, level] of trainerSpecies) {
+      let state = createNewGameState({ protagonist: name, slot: "legend-" + id });
+      state.player.trainerLevel = 20;
+      state.player.inventory.push("master-ball");
+      Object.assign(state.world.flags, {
+        m8_complete: true, m8_world_registration_complete: true,
+        m9_matchday_one_complete: true, world_qualified: true,
+        ["legendary_m09_clue_" + id]: true
+      });
+      state.quests["legendary_m08_lead_" + id] = {
+        id: "legendary_m08_lead_" + id,
+        title: speciesId,
+        status: "active",
+        startedAtMinutes: state.world.elapsedMinutes
+      };
+      state.story.sceneId = "legendary-world-hunt";
+      state.story.nodeId = "hunt_leads";
+      const choices = (await book.present(state)).choices.map((choice) => choice.id);
+      assert.ok(choices.includes("follow_" + id), name + " must find their own lead");
+      for (const other of trainerSpecies) {
+        if (other[1] !== id) assert.ok(!choices.includes("follow_" + other[1]),
+          name + " must not access another friend's legend");
+      }
+      state = await book.choose(state, "follow_" + id);
+      state = await book.choose(state, "challenge_" + id);
+      assert.equal(state.pending.type, "pokemon5e_combat");
+      assert.equal(state.pending.opponent.species, speciesId);
+      assert.equal(state.pending.opponent.level, level);
+      assert.equal(state.pending.opponentRegistered, false);
+      let battle = await combat.createBattle(state.pending);
+      // A living opponent at 1 HP is a legal battle checkpoint; it is not a
+      // pre-selected capture result. Select the player's next valid turn.
+      battle.opponent.hp.current = 1;
+      battle.turnIndex = battle.order.indexOf("player");
+      state = book.setCombatState(state, battle);
+      await store.save(state);
+      const resumedBattle = await store.load(state.slot);
+      assert.deepEqual(resumedBattle.pending.battle, battle, name + " combat save must resume");
+      const attempt = await combat.attemptPlayerCapture(resumedBattle.pending.battle, "master-ball");
+      assert.equal(attempt.result.legal, true, name + " legal Pokémon 5e capture");
+      assert.equal(attempt.result.captured, true, name + " Master Ball success");
+      assert.equal(attempt.battle.outcome, "captured");
+      state = book.setCombatState(resumedBattle, attempt.battle);
+      state = await book.resolveCombatHandoffWithXp(state, "captured");
+      assert.equal(state.pending, null, name + " successful capture cannot strand a handoff");
+      assert.equal(state.story.nodeId, id + "_captured");
+      assert.ok(state.player.roster.some((pokemon) => pokemon.speciesId === speciesId),
+        name + " captured Pokémon joins actual team");
+      assert.equal(state.player.inventory.includes("master-ball"), false,
+        name + " Master Ball must be consumed");
+      state = await book.choose(state, "record_" + id + "_capture");
+      assert.equal(state.quests["legendary_m08_lead_" + id].status, "completed");
+      assert.equal(state.world.flags["legendary_world_captured_" + id], true);
+      assert.equal(state.story.sceneId, "m09-interday-one");
+      assert.equal(state.world.locationId, "world_village");
+      assert.equal(state.player.roster.filter((pokemon) => pokemon.speciesId === speciesId).length, 1,
+        name + " cannot duplicate the legendary");
+      await store.save(state);
+      const reloaded = await store.load(state.slot);
+      assert.deepEqual(reloaded, state, name + " capture and quest must survive reload");
+    }
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
 });
