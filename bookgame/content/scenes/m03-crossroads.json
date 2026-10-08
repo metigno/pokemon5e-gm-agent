@@ -118,7 +118,7 @@
       "stitches": [
         {
           "id": "rescue_priority_1",
-          "text": "Scegliere Ferrox significa accettare che il risultato competitivo può aspettare mentre dai peso a ciò che è successo fuori dall'Arena. Non cambia retroattivamente il rescue state; cambia il modo in cui affronti il seguito."
+          "text": "La strada verso Ferrox ti porta lontano dall'Arena. Se scegli di aiutare le squadre sul posto, la competizione dovrà aspettare mentre le persone e i Pokémon coinvolti affrontano ancora l'emergenza."
         }
       ],
       "choices": [
@@ -452,7 +452,7 @@
       "stitches": [
         {
           "id": "technical_priority_1",
-          "text": "Restare sul filo tecnico significa continuare a leggere Ferravia, Cava e Ferrox come un sistema prima di inseguire il prossimo checkpoint. È una scelta valida, ma consuma tempo mentre eventi e opportunità restano vivi."
+          "text": "Puoi restare sulle tracce che collegano Ferravia, la Cava e Ferrox. Le vecchie mappe hanno ancora qualcosa da raccontare; nel frattempo i treni, i lavoratori e gli altri allenatori continuano le proprie giornate."
         }
       ],
       "choices": [
