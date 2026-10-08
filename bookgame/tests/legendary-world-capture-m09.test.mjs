@@ -8,6 +8,8 @@ import { Poke5eDataRepository } from "../src/combat/poke5e-data.mjs";
 import { POKEMON_LEVEL_CAPS_BY_MODULE, pokemonLevelCapForState } from "../src/engine/pokemon-xp-balance.mjs";
 import { swapPlayerRosterSlots } from "../src/engine/player-roster-selection.mjs";
 import { captureBallsInInventory, attemptCapture } from "../src/combat/capture.mjs";
+import { BookgameEngine } from "../src/engine/bookgame-engine.mjs";
+import { createNewGameState } from "../src/engine/state.mjs";
 
 const load = async (filename) => JSON.parse(await readFile(fileURLToPath(new URL(filename, import.meta.url)), "utf8"));
 const hunt = await load("../content/scenes/legendary-world-hunt.json");
@@ -145,4 +147,69 @@ test("A nonregistered M09 Legendary can be caught through the real Pokémon 5e r
   });
   assert.equal(registered.legal, false);
   assert.equal(registered.reason, "registered_to_trainer");
+});
+
+test("Actual captured outcome persists Mewtwo, completes the quest and permits Official Six selection", async () => {
+  const state = createNewGameState({ protagonist: "Daniel", slot: "slot1" });
+  state.player.trainerLevel = 20;
+  state.player.roster = Array.from({ length: 6 }, () => structuredClone(state.player.starter));
+  state.world.flags.world_qualified = true;
+  state.world.flags.m8_complete = true;
+  state.world.flags.m8_world_registration_complete = true;
+  state.world.flags.m9_matchday_one_complete = true;
+  state.world.flags.legendary_m09_clue_daniel = true;
+  state.world.locationId = "meridiana_city";
+  state.quests.legendary_m08_lead_daniel = {
+    id: "legendary_m08_lead_daniel",
+    title: "Mewtwo",
+    objective: "Rintracciare Mewtwo",
+    status: "active",
+    startedAtMinutes: state.world.elapsedMinutes
+  };
+  state.story.sceneId = "legendary-world-hunt";
+  state.story.nodeId = "daniel_approach";
+  state.pending = {
+    type: "pokemon5e_combat",
+    encounterId: "legendary_world_m09_daniel",
+    sceneId: "legendary-world-hunt",
+    sourceNodeId: "daniel_approach",
+    opponentRegistered: false,
+    competition: null,
+    returnNodes: {
+      captured: "daniel_captured",
+      win: "daniel_uncaught",
+      lose: "daniel_uncaught",
+      fled: "daniel_uncaught"
+    },
+    battle: {
+      outcome: "captured",
+      trainer: { inventory: ["great-ball"] },
+      opponent: {
+        speciesId: "mewtwo", name: "Mewtwo", level: 20,
+        hp: { current: 1, max: 120 },
+        statuses: { nonVolatile: null },
+        abilityId: "pressure", moveIds: ["psychic"], pp: { psychic: 8 }
+      }
+    }
+  };
+
+  const engine = new BookgameEngine();
+  const afterCombat = engine.resolveCombatHandoff(state, "captured");
+  assert.equal(afterCombat.pending, null);
+  assert.equal(afterCombat.story.sceneId, "legendary-world-hunt");
+  assert.equal(afterCombat.story.nodeId, "daniel_captured");
+  assert.equal(afterCombat.player.roster.length, 7);
+  assert.equal(afterCombat.player.roster[6].speciesId, "mewtwo");
+  assert.equal(afterCombat.player.roster[6].level, 20);
+
+  const afterRecord = await engine.choose(afterCombat, "record_daniel_capture");
+  assert.equal(afterRecord.world.flags.legendary_world_captured_daniel, true);
+  assert.equal(afterRecord.quests.legendary_m08_lead_daniel.status, "completed");
+  assert.equal(afterRecord.story.sceneId, "m09-interday-one");
+  assert.equal(afterRecord.story.nodeId, "resource_guard");
+  assert.equal(afterRecord.world.locationId, "world_village");
+  const party = swapPlayerRosterSlots(afterRecord, { reserveIndex: 6, officialIndex: 5 });
+  assert.equal(party.player.roster[5].speciesId, "mewtwo");
+  assert.equal(party.player.roster.length, 7);
+  assert.equal(JSON.parse(JSON.stringify(party)).player.roster[5].speciesId, "mewtwo");
 });
