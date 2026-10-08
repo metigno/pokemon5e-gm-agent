@@ -49,7 +49,7 @@
         },
         {
           "id": "entry_eligibility",
-          "text": "Non sono qualificato: controllo l'eligibility.",
+          "text": "Non sono qualificato: controllo l'requisiti.",
           "goto": "eligibility",
           "conditions": {
             "path": "world.flags.world_qualified",
@@ -95,7 +95,7 @@
         },
         {
           "id": "qualified_history",
-          "text": "Rivedo la history.",
+          "text": "Rivedo la registro degli incontri.",
           "goto": "qualifier_history"
         }
       ]
@@ -127,7 +127,7 @@
         },
         {
           "id": "eligibility_closed",
-          "text": "Non esiste una route legale disponibile.",
+          "text": "Non esiste una percorso legale disponibile.",
           "goto": "unavailable",
           "conditions": {
             "any": [
@@ -169,7 +169,7 @@
         },
         {
           "id": "available_open",
-          "text": "Apro formalmente la route Last Chance.",
+          "text": "Apro formalmente la percorso Last Chance.",
           "goto": "gate_open"
         }
       ]
@@ -224,7 +224,7 @@
       "choices": [
         {
           "id": "history_eligibility",
-          "text": "Torno al controllo eligibility.",
+          "text": "Torno al controllo requisiti.",
           "goto": "eligibility",
           "conditions": {
             "path": "world.flags.world_qualified",
@@ -257,7 +257,7 @@
         },
         {
           "id": "friend_open",
-          "text": "Torno all'apertura della route.",
+          "text": "Torno all'apertura della percorso.",
           "goto": "available"
         }
       ]
@@ -293,7 +293,7 @@
         },
         {
           "id": "schedule_open",
-          "text": "Entro nella route senza altra attesa.",
+          "text": "Entro nella percorso senza altra attesa.",
           "goto": "gate_open"
         }
       ]
@@ -308,7 +308,7 @@
       "choices": [
         {
           "id": "defer_check",
-          "text": "Ricontrollo l'eligibility.",
+          "text": "Ricontrollo l'requisiti.",
           "goto": "eligibility"
         },
         {
@@ -328,7 +328,7 @@
       "choices": [
         {
           "id": "open_record",
-          "text": "Registro la route pronta.",
+          "text": "Registro la percorso pronta.",
           "goto": "close",
           "effects": [
             {
@@ -377,7 +377,7 @@
         },
         {
           "id": "closed_history",
-          "text": "Rivedo la history.",
+          "text": "Rivedo la registro degli incontri.",
           "goto": "qualifier_history"
         }
       ]
@@ -401,7 +401,7 @@
         },
         {
           "id": "close_last_chance",
-          "text": "La route Last Chance è pronta: la consumo adesso.",
+          "text": "La percorso Last Chance è pronta: la consumo adesso.",
           "goto": "m07-last-chance#last_chance_entry",
           "conditions": {
             "all": [
@@ -418,7 +418,7 @@
         },
         {
           "id": "close_worlds_missed",
-          "text": "Non esiste una route qualificante residua: affronto Worlds Missed.",
+          "text": "Non esiste una percorso qualificante residua: affronto Worlds Missed.",
           "goto": "m07-worlds-missed#missed_entry",
           "conditions": {
             "all": [
