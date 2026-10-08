@@ -14,7 +14,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Altacima e Fulgore riportano insieme rischio d'alta quota, meteo, Lance e il primo strato del mistero antico. Nessuno di questi fili viene uniformato dal postgame."
+          "text": "L'aria di Altacima è ancora sottile, e il vento non aspetta che tu finisca di guardare il panorama. Le vie verso Fulgore portano i segni di spedizioni e soccorsi."
         }
       ],
       "choices": [
@@ -39,7 +39,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Altacima è ancora un hub vivo, con servizi e accessi coerenti con la carriera e il tempo trascorso."
+          "text": "Gli addetti alle partenze studiano il cielo prima di indicare le rotte aperte. Ai rifugi c'è chi torna da un'escursione e chi la sta rinviando."
         }
       ],
       "choices": [
@@ -59,7 +59,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Le decisioni meteo di M5 restano il contesto di come affrontasti Fulgore, non un bonus permanente."
+          "text": "Nel registro delle ascensioni sono segnate le finestre meteo dei giorni in cui viaggiasti qui. Una decisione prudente o azzardata continua ad avere la propria storia."
         }
       ],
       "choices": [
@@ -79,7 +79,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'evento d'alta quota conserva il vero risultato: rescue diretto, risposta supportata oppure un filo non completato."
+          "text": "Le persone del posto ricordano l'evento d'alta quota secondo ciò che accadde: aiuti arrivati, persone recuperate e attese che non furono prive di rischi."
         }
       ],
       "choices": [
@@ -99,7 +99,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un player_rescue può produrre fiducia e memoria locale, senza cancellare rischio, costi o aiuti ricevuti."
+          "text": "Se intervenisti di persona nel soccorso, chi era lì può ricordare il tuo contributo. L'impresa non rende meno reali le difficoltà affrontate dalle squadre."
         }
       ],
       "choices": [
@@ -119,7 +119,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Una supported_response riconosce il ruolo di supporto senza trasformarlo in salvataggio solitario."
+          "text": "Avevi sostenuto chi guidava le operazioni. I responsabili possono riconoscere il tuo aiuto senza attribuirti il lavoro di chi entrò per primo."
         }
       ],
       "choices": [
@@ -139,7 +139,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Preparazione, segnalazioni e route support restano contributi distinti dal risultato finale."
+          "text": "Un percorso indicato in tempo o una segnalazione precisa può aver fatto la differenza. Non è la stessa cosa che condurre personalmente un salvataggio."
         }
       ],
       "choices": [
@@ -159,7 +159,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Lance può ricomparire soltanto se E4 lo colloca davvero qui o permette un contatto plausibile."
+          "text": "Lance potrebbe essere in viaggio o impegnato in allenamento. Se lo incontri, è perché le vostre strade si incrociano davvero, non perché qualcuno lo abbia mandato a salutarti."
         }
       ],
       "choices": [
@@ -179,7 +179,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Fulgore resta esplorabile secondo accessi e condizioni reali; il postgame non bypassa il meteo o i gate."
+          "text": "Il sentiero di Fulgore risponde ancora al meteo e alle condizioni della montagna. Conoscere la strada non ti garantisce il passaggio."
         }
       ],
       "choices": [
@@ -199,7 +199,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il mistero antico usa ancient_mystery_layer_1 come memoria persistente di ciò che fu davvero scoperto."
+          "text": "Riapri il quaderno degli appunti antichi. Vi sono soltanto le osservazioni che avevi effettivamente raccolto durante la prima spedizione."
         }
       ],
       "choices": [
@@ -219,7 +219,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Una convergent_ancient_trace mantiene un indizio forte ma non equivale automaticamente a soluzione del mistero."
+          "text": "Più indizi convergono verso la stessa direzione. È abbastanza per prendere sul serio la pista, non per dichiarare risolto il mistero."
         }
       ],
       "choices": [
@@ -239,7 +239,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Una partial_unresolved_trace resta parziale e può alimentare il postgame senza essere promossa a certezza."
+          "text": "Alcuni segni non combaciano. La ricerca è ancora incompleta e puoi scegliere se dedicarle altro tempo."
         }
       ],
       "choices": [
@@ -259,7 +259,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "noticed_not_investigated conserva proprio il fatto che il segnale fu visto ma non approfondito."
+          "text": "Avevi notato qualcosa senza fermarti a studiarlo. Sul quaderno rimane un riferimento breve, non una scoperta che non hai compiuto."
         }
       ],
       "choices": [
@@ -279,7 +279,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se il filo non fu aperto, M12 non finge che il player conosca il mistero."
+          "text": "Se non avesti motivo di cercare quelle tracce, il paesaggio non ti rivela adesso una storia che non conosci."
         }
       ],
       "choices": [
@@ -299,7 +299,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Aver considerato falsi positivi resta parte della qualità dell'indagine e non viene scartato dall'epilogo."
+          "text": "Un segno inizialmente promettente poteva avere una spiegazione ordinaria. Scartarlo con criterio conta quanto conservare un indizio valido."
         }
       ],
       "choices": [
@@ -319,7 +319,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "E6 può aver fatto progredire sicurezza, viabilità o testimonianze, non la conoscenza privata del player senza una fonte causale."
+          "text": "I rifugi hanno registrato nuovi passaggi e altri rapporti sul tempo. Non hai assistito a tutto; puoi scoprire soltanto ciò che qualcuno ha documentato."
         }
       ],
       "choices": [
@@ -339,7 +339,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'ecologia d'alta quota resta E7-owned anche dopo la storia principale."
+          "text": "Sulle rocce i Pokémon cercano riparo dal vento e cambiano posizione al variare delle condizioni. Non tutte le specie tollerano lo stesso avvicinamento."
         }
       ],
       "choices": [
@@ -359,7 +359,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il ritorno può aprire nuove opportunità solo se i sistemi esistenti le rendono legali."
+          "text": "Le guide ti indicano percorsi e rischi attuali. Prima di partire devi comunque rispettare condizioni e autorizzazioni necessarie."
         }
       ],
       "choices": [
@@ -379,7 +379,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M12 registra quanto del mistero antico il player possiede davvero prima di proseguire."
+          "text": "Confronti gli appunti senza riempire i vuoti con risposte inventate. La montagna conserva ancora ciò che non hai scoperto."
         }
       ],
       "choices": [
@@ -453,7 +453,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La seconda sintesi registra il vero esito dell'evento d'alta quota e chiude il callback Highlands."
+          "text": "Il rapporto sul soccorso resta distinto dalle annotazioni sul mistero. Sono due storie dello stesso luogo, non un unico premio."
         }
       ],
       "choices": [
@@ -571,7 +571,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Altacima e Fulgore sono registrate nel postgame. Il viaggio continua verso il circuito interregionale."
+          "text": "Il vento ti accompagna fuori da Altacima. Il circuito interregionale ti attende più avanti."
         }
       ],
       "choices": [
