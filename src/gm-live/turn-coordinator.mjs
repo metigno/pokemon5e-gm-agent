@@ -16,12 +16,13 @@ export class GmTurnCoordinator {
   const campaign = await this.session.get(campaignId);
   if (!campaign) throw new Error('Campaign not found');
   if (campaign.revision !== expectedRevision) throw new Error('Save revision conflict');
-  const result = await this.engine.resolve(campaign,{text:action});
+  const intent = typeof action === 'string' ? {text:action} : action;
+  const result = await this.engine.resolve(campaign,intent);
   if (result.status === 'rejected') return {status:'rejected',reason:result.reason,revision:campaign.revision};
   const narration = await this.narrator({ action, outcome:result, campaign:structuredClone(campaign) });
   if (typeof narration !== 'string' || !narration.trim()) throw new Error('Narrator returned no text');
   const saved = await this.session.record(campaignId,expectedRevision,{
-   playerAction:action,narration,statePatch:result.statePatch
+   playerAction:intent.text,narration,statePatch:result.statePatch
   });
   return {status:'committed',revision:saved.revision,narration,campaign:saved};
  }
