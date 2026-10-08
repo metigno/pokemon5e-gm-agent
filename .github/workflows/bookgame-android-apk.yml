@@ -67,14 +67,17 @@ jobs:
               m=re.fullmatch(r'/dl/([a-f0-9-]{36})/?',u.path)
               if not m: raise SystemExit('Expected SwissTransfer /dl/<uuid> link')
               transfer_id=m.group(1)
-              headers={'User-Agent':'Mozilla/5.0','Accept':'application/json, text/plain, */*'}
+              headers={'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36','Accept':'application/json, text/plain, */*','Authorization':'','Referer':'https://www.swisstransfer.com/'}
               def get_json(url, payload=None):
                   data=None if payload is None else json.dumps(payload).encode()
                   h=dict(headers)
                   if payload is not None: h['Content-Type']='application/json'
                   req=urllib.request.Request(url,data=data,headers=h)
                   with urllib.request.urlopen(req,timeout=60) as resp: return json.load(resp)
-              meta=get_json('https://www.swisstransfer.com/api/links/'+transfer_id)
+              try:
+                  meta=get_json('https://www.swisstransfer.com/api/links/'+transfer_id)
+              except urllib.error.HTTPError as err:
+                  raise SystemExit(f'SwissTransfer metadata request failed: HTTP {err.code}; check transfer availability') from None
               data=meta.get('data',meta)
               container=data.get('container',{})
               files=container.get('files',[])
