@@ -1,0 +1,291 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "M11",
+  "events": [
+    {
+      "id": "legendary_m11_evidence_luke",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Luke"
+          },
+          {
+            "path": "world.flags.world_qualified",
+            "eq": true
+          },
+          {
+            "path": "world.flags.legendary_m10_dossier_luke",
+            "eq": true
+          },
+          {
+            "path": "world.flags.m11_rei_thread_complete",
+            "eq": true
+          },
+          {
+            "path": "competition.world.knockout.sfOpened",
+            "eq": true
+          },
+          {
+            "path": "world.flags.legendary_m11_optional_evidence_review",
+            "eq": true
+          },
+          {
+            "path": "quests.legendary_m10_dossier_luke.status",
+            "in": [
+              "available",
+              "active"
+            ]
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "evidence",
+          "effects": [
+            {
+              "type": "quest_start",
+              "questId": "legendary_m10_dossier_luke",
+              "title": "Kyurem Nero — la prova delle due volontà",
+              "objective": "Confrontare il ruolo di Zekrom e le versioni sulla fusione con Kyurem; non tentare una fusione senza condizioni realmente soddisfatte."
+            },
+            {
+              "type": "set_flag",
+              "key": "legendary_m11_evidence_luke",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "legendary_m11_evidence_mattew",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Mattew"
+          },
+          {
+            "path": "world.flags.world_qualified",
+            "eq": true
+          },
+          {
+            "path": "world.flags.legendary_m10_dossier_mattew",
+            "eq": true
+          },
+          {
+            "path": "world.flags.m11_rei_thread_complete",
+            "eq": true
+          },
+          {
+            "path": "competition.world.knockout.sfOpened",
+            "eq": true
+          },
+          {
+            "path": "world.flags.legendary_m11_optional_evidence_review",
+            "eq": true
+          },
+          {
+            "path": "quests.legendary_m10_dossier_mattew.status",
+            "in": [
+              "available",
+              "active"
+            ]
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "evidence",
+          "effects": [
+            {
+              "type": "quest_start",
+              "questId": "legendary_m10_dossier_mattew",
+              "title": "Zacian — il racconto del custode",
+              "objective": "Indagare sulla relazione fra il guardiano e la Spada Rovinata, tuttora non rinvenuta; il consenso di Zacian non è acquisito."
+            },
+            {
+              "type": "set_flag",
+              "key": "legendary_m11_evidence_mattew",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "legendary_m11_evidence_daniel",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Daniel"
+          },
+          {
+            "path": "world.flags.world_qualified",
+            "eq": true
+          },
+          {
+            "path": "world.flags.legendary_m10_dossier_daniel",
+            "eq": true
+          },
+          {
+            "path": "world.flags.m11_rei_thread_complete",
+            "eq": true
+          },
+          {
+            "path": "competition.world.knockout.sfOpened",
+            "eq": true
+          },
+          {
+            "path": "world.flags.legendary_m11_optional_evidence_review",
+            "eq": true
+          },
+          {
+            "path": "quests.legendary_m10_dossier_daniel.status",
+            "in": [
+              "available",
+              "active"
+            ]
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "evidence",
+          "effects": [
+            {
+              "type": "quest_start",
+              "questId": "legendary_m10_dossier_daniel",
+              "title": "Mewtwo — scegliere quali prove custodire",
+              "objective": "Valutare quali testimonianze proteggere per non violare la libertà di Mewtwo; non attribuire un incontro non avvenuto."
+            },
+            {
+              "type": "set_flag",
+              "key": "legendary_m11_evidence_daniel",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "legendary_m11_evidence_edward",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Edward"
+          },
+          {
+            "path": "world.flags.world_qualified",
+            "eq": true
+          },
+          {
+            "path": "world.flags.legendary_m10_dossier_edward",
+            "eq": true
+          },
+          {
+            "path": "world.flags.m11_rei_thread_complete",
+            "eq": true
+          },
+          {
+            "path": "competition.world.knockout.sfOpened",
+            "eq": true
+          },
+          {
+            "path": "world.flags.legendary_m11_optional_evidence_review",
+            "eq": true
+          },
+          {
+            "path": "quests.legendary_m10_dossier_edward.status",
+            "in": [
+              "available",
+              "active"
+            ]
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "evidence",
+          "effects": [
+            {
+              "type": "quest_start",
+              "questId": "legendary_m10_dossier_edward",
+              "title": "Lugia — la rotta che non torna",
+              "objective": "Mettere a confronto i registri delle correnti e dei venti senza trasformare una coincidenza in una prova della presenza di Lugia."
+            },
+            {
+              "type": "set_flag",
+              "key": "legendary_m11_evidence_edward",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "legendary_m11_evidence_fab",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Fab"
+          },
+          {
+            "path": "world.flags.world_qualified",
+            "eq": true
+          },
+          {
+            "path": "world.flags.legendary_m10_dossier_fab",
+            "eq": true
+          },
+          {
+            "path": "world.flags.m11_rei_thread_complete",
+            "eq": true
+          },
+          {
+            "path": "competition.world.knockout.sfOpened",
+            "eq": true
+          },
+          {
+            "path": "world.flags.legendary_m11_optional_evidence_review",
+            "eq": true
+          },
+          {
+            "path": "quests.legendary_m10_dossier_fab.status",
+            "in": [
+              "available",
+              "active"
+            ]
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "evidence",
+          "effects": [
+            {
+              "type": "quest_start",
+              "questId": "legendary_m10_dossier_fab",
+              "title": "Rayquaza — il rapporto atmosferico incompleto",
+              "objective": "Verificare le fonti dell'anomalia atmosferica senza ipotizzare un Rayquaza presente o una Megaevoluzione già disponibile."
+            },
+            {
+              "type": "set_flag",
+              "key": "legendary_m11_evidence_fab",
+              "value": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

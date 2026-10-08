@@ -210,8 +210,15 @@
         },
         {
           "id": "opponent_readiness_alt",
-          "text": "Confronto questo punto con Commit.",
-          "goto": "commit"
+          "text": "Confronto le informazioni disponibili, inclusi gli eventuali indizi personali, prima del commit.",
+          "goto": "commit",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "legendary_m11_optional_evidence_review",
+              "value": true
+            }
+          ]
         }
       ]
     },
