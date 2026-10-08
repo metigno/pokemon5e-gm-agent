@@ -1,4 +1,4 @@
-import { mkdir, readFile, writeFile, rename, open } from 'node:fs/promises';
+import { mkdir, readFile, writeFile, rename, open, unlink } from 'node:fs/promises';
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';
 
@@ -37,6 +37,17 @@ export class GmSaveStore {
   async save(value, expectedRevision) {
     validateCampaign(value);
     await mkdir(path.dirname(this.filename(value.campaignId)), { recursive: true });
+    const lockPath = this.filename(value.campaignId) + '.lock';
+    let lock;
+    for (let attempt = 0; attempt < 40; attempt++) {
+      try { lock = await open(lockPath, 'wx', 0o600); break; }
+      catch (error) {
+        if (error.code !== 'EEXIST') throw error;
+        await new Promise(resolve => setTimeout(resolve, 25));
+      }
+    }
+    if (!lock) throw new Error('Save busy: lock timeout');
+    try {
     const existing = await this.load(value.campaignId);
     if ((existing?.revision ?? -1) !== expectedRevision) throw new Error('Save revision conflict');
     const next = structuredClone(value);
@@ -49,5 +60,6 @@ export class GmSaveStore {
     finally { await handle.close(); }
     await rename(tmp, target);
     return next;
+    } finally { await lock.close(); await unlink(lockPath); }
   }
 }
