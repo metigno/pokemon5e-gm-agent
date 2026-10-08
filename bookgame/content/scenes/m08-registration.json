@@ -46,7 +46,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La registrazione World formalizza la partecipazione della run già qualificata. Non genera field, gruppo, seed o risultati."
+          "text": "Al banco iscrizioni del Mondiale gli addetti raccolgono i documenti degli allenatori già qualificati. Il tuo nome è sul registro, ma serve ancora la firma definitiva."
         }
       ],
       "choices": [
@@ -71,7 +71,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Tre elementi restano separati: qualificazione reale, controllo medico completato e roster sufficiente per l'Official Six."
+          "text": "La segretaria controlla qualificazione, visita medica e sei Pokémon idonei. Nessun requisito può essere sostituito da una promessa."
         }
       ],
       "choices": [
@@ -96,7 +96,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "world_qualified=true proviene da M7 e non viene riscritto qui. La registrazione ne consuma soltanto il diritto di accesso."
+          "text": "Mostri il documento ottenuto a Meridiana. La funzionaria ne verifica l'autenticità senza modificare come lo hai conquistato."
         }
       ],
       "choices": [
@@ -116,7 +116,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il desk legge il roster strutturato senza copiarlo in flag narrativi. Il motore userà lo stato reale quando inizieranno gli incontri."
+          "text": "Gli addetti contano i Pokémon presenti. Sul campo potranno scendere soltanto quelli che possiedi e puoi effettivamente schierare."
         }
       ],
       "choices": [
@@ -144,7 +144,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il controllo medico è un prerequisito amministrativo già completato; non implica che ogni Pokémon sia pienamente recuperato."
+          "text": "Il timbro della clinica prova che hai fatto la visita. Non significa che tutte le ferite siano guarite."
         }
       ],
       "choices": [
@@ -164,7 +164,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Formato World: Singles e Official Six secondo le regole canoniche. Il roster effettivo resta quello del motore; nessun buff o sostituzione viene creato qui."
+          "text": "L'ufficiale ripete il formato mondiale: Singles con sei Pokémon ufficiali. La squadra deve rispettare gli stessi requisiti degli altri concorrenti."
         }
       ],
       "choices": [
@@ -184,7 +184,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il lock impedisce di fingere un roster diverso attraverso la narrazione. Non memorizza una seconda copia dei Pokémon e non anticipa i match."
+          "text": "«Registriamo ciò che presenta davvero», spiega la segretaria. «Non ciò che vorrebbe avere con sé il giorno della partita.»"
         }
       ],
       "choices": [
@@ -204,7 +204,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il desk può chiudere la registrazione solo se la run è qualificata, il controllo medico è fatto e il roster contiene almeno sei Pokémon."
+          "text": "Il personale confronta tutte le autorizzazioni prima di chiudere la pratica. Se manca un requisito, dovrai risolverlo prima di iscriverti."
         }
       ],
       "choices": [
@@ -245,7 +245,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La conferma registra lo stato amministrativo della partecipazione. WORLD_DRAW resta ancora irrisolto."
+          "text": "Firmi la partecipazione a questa edizione. Il nome del tuo futuro gruppo non è ancora stato annunciato."
         }
       ],
       "choices": [
@@ -297,7 +297,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La registrazione è persistente. Non esistono ancora player_group, tre avversari o world_draw_complete."
+          "text": "L'addetta ti consegna la conferma. Sei ufficialmente iscritto; il sorteggio e le partite devono ancora arrivare."
         }
       ],
       "choices": [
@@ -317,7 +317,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rimandare non cancella la qualificazione, ma lascia la registrazione incompleta e il mondo in movimento."
+          "text": "Ti allontani dal banco senza firmare. La qualificazione resta tua, ma la pratica non è stata completata."
         }
       ],
       "choices": [
@@ -338,7 +338,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La registrazione World è chiusa senza inventare il sorteggio. Il prossimo spazio è il Village, dove il torneo diventa socialmente reale."
+          "text": "Esci con la registrazione in regola. Fuori ti aspettano le strade del Village e il programma dei prossimi giorni."
         }
       ],
       "choices": [
