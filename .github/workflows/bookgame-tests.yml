@@ -56,3 +56,20 @@ jobs:
         run: python3 -m unittest discover -s bookgame/tests -p 'test_audio_package.py' -v
       - name: Test offline sprite packaging
         run: python3 -m unittest discover -s bookgame/tests -p 'test_sprite_overlay.py' -v
+
+  mobile-runtime-compat:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup embedded Node version
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18.20.4"
+      - name: Compile canonical story under embedded runtime version
+        run: npm --prefix bookgame run compile:story
+      - name: Test mobile host and actual local Story/Save/UI paths
+        run: |
+          node --test bookgame/tests/mobile-offline-host.test.mjs
+          node --test bookgame/tests/ui-server-smoke.test.mjs
+          node --test bookgame/tests/compiled-catalogs-live-ui.test.mjs
