@@ -69,7 +69,7 @@ test("12 Pokémon caps rise with milestones, without dropping on older routes", 
 });
 
 test("checkpoint XP overflow is discarded, not banked for future modules", async () => {
-  const pokemon = { speciesId: "bulbasaur", level: 5, xp: experienceNeededAtLevel(5), moveIds: ["tackle"] };
+  const pokemon = { speciesId: "tauros", level: 5, xp: experienceNeededAtLevel(5), moveIds: ["tackle"] };
   const capped = await awardPokemonXp(pokemon, 100000, { maxLevel: 5 });
   assert.equal(capped.pokemon.level, 5);
   assert.equal(capped.pokemon.xp, experienceNeededAtLevel(5));
@@ -94,7 +94,7 @@ test("Pokémon already above the current cap cannot level and keep a valid XP fl
 
 test("XP level-up preserves fainted HP and creates canonical move decisions", async () => {
   const pokemon = {
-    speciesId: "bulbasaur", level: 5, xp: experienceNeededAtLevel(5),
+    speciesId: "tauros", level: 5, xp: experienceNeededAtLevel(5),
     hp: { current: 0, max: 30 }, moveIds: ["tackle", "growl"]
   };
   const gained = await awardPokemonXp(pokemon, 100000, { maxLevel: 6, hpRolls: { 6: 4 } });
