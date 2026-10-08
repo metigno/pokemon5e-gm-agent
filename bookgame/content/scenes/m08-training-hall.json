@@ -42,7 +42,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La Training Hall permette preparazione tecnica e uno sparring 1v1 opzionale. Ogni combattimento usa lo stato reale del Pokémon scelto dal roster corrente."
+          "text": "Nella Training Hall risuonano ordini brevi e passi sul pavimento. Ci sono spazi per esercizi tecnici e un campo libero per uno sparring facoltativo."
         }
       ],
       "choices": [
@@ -67,7 +67,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Puoi lavorare su lettura tecnica, readiness, schedule o accettare uno sparring. Nessuna scelta concede statistiche gratis."
+          "text": "Puoi osservare esercizi, controllare la squadra o chiedere un incontro. Ogni attività richiede tempo e nessuna regala capacità mai allenate."
         }
       ],
       "choices": [
@@ -97,7 +97,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La Hall legge il roster strutturato. Il primo Pokémon reale è quello che entra nello sparring 1v1 se accetti."
+          "text": "Controlli quali Pokémon hai con te. Per lo sparring uno contro uno dovrai scegliere fra quelli realmente disponibili."
         }
       ],
       "choices": [
@@ -126,7 +126,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "HP, PP, status e infortuni non vengono ripristinati entrando in sala. Allenarsi con una squadra provata resta una decisione del player."
+          "text": "Un tecnico ti chiede se i Pokémon siano pronti a uno sforzo ulteriore. Le ferite e la stanchezza precedenti restano un fattore."
         }
       ],
       "choices": [
@@ -146,7 +146,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La sessione tecnica occupa un'ora e registra soltanto la priorità scelta. Qualunque progresso meccanico deve passare dai sistemi Pokémon 5e competenti."
+          "text": "Dedichi un'ora a esercizi mirati. Un allenamento può aiutarti a capire cosa migliorare; non si traduce automaticamente in poteri nuovi."
         }
       ],
       "choices": [
@@ -174,7 +174,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Lo sparring è contro uno staff trainer con Lucario Lv18 dichiarato in anticipo. Non è un match World e non entra nella competition history."
+          "text": "Un allenatore dello staff indica il proprio Lucario di livello 18. «Uno contro uno, soltanto per allenamento. Ti interessa?»"
         }
       ],
       "choices": [
@@ -221,7 +221,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il combattimento passa al resolver Pokémon 5e. Il risultato non è scritto dalla scena e il danno reale può persistere."
+          "text": "Lucario raggiunge la linea del campo. L'arbitro dello staff dà il segnale e lo sparring comincia."
         }
       ],
       "choices": []
@@ -230,7 +230,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il resolver ha chiuso lo sparring a tuo favore. Questo non cambia seed, Rank o stato del World Championship."
+          "text": "Hai vinto lo sparring. Il tecnico annota il risultato e si congratula; la classifica del Mondiale non cambia."
         }
       ],
       "choices": [
@@ -257,7 +257,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il resolver ha chiuso lo sparring a favore dello staff trainer. La sconfitta non blocca il modulo e non viene cancellata dalla narrazione."
+          "text": "Lucario e il suo allenatore hanno la meglio. Puoi lasciare il campo e continuare la preparazione senza che l'esito diventi una sconfitta mondiale."
         }
       ],
       "choices": [
@@ -284,7 +284,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Ogni sessione compete con media, cerimonia e recupero. Il tempo speso qui fa avanzare il mondo normalmente."
+          "text": "L'orologio sopra la porta ricorda che media e cerimonia hanno orari fissati. Prolungare una sessione può fartene perdere un'altra."
         }
       ],
       "choices": [
@@ -304,7 +304,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Lucario dello staff è un avversario di sparring dichiarato, non un partecipante nascosto del tuo gruppo e non una simulazione del draw."
+          "text": "L'allenatore dello staff richiama Lucario dopo la prova. Non è uno degli avversari sorteggiati per il tuo gruppo."
         }
       ],
       "choices": [
@@ -324,7 +324,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Astrid può essere un benchmark di preparazione, ma il suo rapporto non modifica il risultato dello sparring o le statistiche del team."
+          "text": "Se hai parlato con Astrid, potresti ripensare al suo metodo di preparazione. Il consiglio non cambia il verdetto dello sparring."
         }
       ],
       "choices": [
@@ -344,7 +344,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "FRIEND_BEAT_08 resta un momento relazionale. Non trasforma lo sparring in una sfida obbligatoria fra amici."
+          "text": "Un amico può aver commentato le tue abitudini di allenamento. Non per questo è obbligato a presentarsi per una sfida."
         }
       ],
       "choices": [
@@ -364,7 +364,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'audit controlla che preparazione, eventuale sparring e stato medico restino separati da WORLD_DRAW e match ufficiali."
+          "text": "Alla fine controlli le condizioni dei Pokémon e l'orario. Quello che hai fatto qui resta separato dagli incontri ufficiali."
         }
       ],
       "choices": [
@@ -384,7 +384,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La preparazione pre-draw è registrata senza alterare il torneo. Il prossimo obbligo pubblico è il Media Day."
+          "text": "Lasci la sala allenamento. Il prossimo appuntamento pubblico è il Media Day."
         }
       ],
       "choices": [
