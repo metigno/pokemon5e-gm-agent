@@ -1083,18 +1083,44 @@ Exact cap values per checkpoint are **TBD** and must be balanced against the cam
 
 ---
 
-# 45. POKÉMON LEVEL CAPS — LOCKED SYSTEM / TBD VALUES
+# 45. POKÉMON LEVEL CAPS — LOCKED SYSTEM / MODULE BALANCE V1
 
-Pokémon also use level caps tied to campaign checkpoints.
+Pokémon use level caps tied to campaign checkpoints. The first cap starts at
+Pokémon Lv5, matching the canonical starters. Each completed module milestone
+raises the cap for the next module; returning to an older scene never lowers it.
+
+| Module | Pokémon cap |
+| --- | ---: |
+| M01 | 5 |
+| M02 | 6 |
+| M03 | 8 |
+| M04 | 10 |
+| M05 | 12 |
+| M06 | 14 |
+| M07 | 16 |
+| M08 | 18 |
+| M09 | 20 |
+| M10 | 20 |
+| M11 | 20 |
+| M12 | 20 |
 
 When a Pokémon reaches the current cap:
 
-- further XP is lost;
-- XP is not banked.
+- further XP is lost, not banked or restored at later checkpoints;
+- XP is clamped to the current cap's exact level threshold (not the threshold
+  for the next level), so it cannot be used for an instant future level-up;
+- any pending evolution/level-up decision must respect the same cap;
+- Trainer caps and Trainer XP remain separate and are not changed by this table.
 
-Trainer and Pokémon cap values may be different.
-
-Exact values are **TBD** and will be designed around campaign pacing and checkpoints.
+**Pokémon combat XP balance V1:** an actual victory over one or more fainted
+opposing Pokémon awards one-third of each defeated opponent's experience
+threshold delta to the next level (minimum 1 XP per defeated Pokémon). The
+total is divided equally, rounding down, between Pokémon actually sent out,
+including those withdrawn or fainted during the match. Bench Pokémon that
+never entered do not gain XP. Defeat, fleeing and capture grant no battle XP.
+The battle reward is assigned once at the combat-to-story handoff and persisted.
+Level-ups, moves, evolutions and HP continue to follow the existing Pokémon 5e
+runtime, including its explicit pending player decisions.
 
 ---
 
