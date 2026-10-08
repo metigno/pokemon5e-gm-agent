@@ -1,0 +1,33 @@
+name: GM freeform automated tests
+
+on:
+  pull_request:
+    branches: [gm-live-freeform]
+  push:
+    branches: [gm-live-freeform, gm-task01-test-gate-20261009]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  node-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify test files exist
+        shell: bash
+        run: |
+          shopt -s nullglob
+          files=(tests/*.test.mjs)
+          if (( ${#files[@]} == 0 )); then
+            echo "::error::No tests/*.test.mjs found"
+            exit 1
+          fi
+          printf 'Discovered %s test files\n' "${#files[@]}"
+      - name: Run complete Node test suite
+        run: npm test
