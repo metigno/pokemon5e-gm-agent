@@ -393,7 +393,7 @@
       "stitches": [
         {
           "id": "loss_review_1",
-          "text": "La history registra il match come loss e il Trial incrementa gli attempts. Nessuna scelta narrativa può cambiare quell'esito; puoi soltanto usarlo per il tentativo successivo."
+          "text": "Sul registro rimangono il risultato dell'incontro e il numero dei tentativi sostenuti. Puoi tornare a leggere il referto, poi decidere come prepararti prima di iscriverti di nuovo."
         }
       ],
       "choices": [
@@ -449,7 +449,7 @@
       "stitches": [
         {
           "id": "rank_access_1",
-          "text": "Rank C apre la fascia avanzata prevista da RANK_CHECKPOINTS. Non completa automaticamente missioni arretrate e non assegna punti come sostituto del gate appena vinto."
+          "text": "Con il Rank C sulla tessera puoi chiedere accesso alle nuove tratte e agli incarichi previsti dalla licenza. La promozione non completa il lavoro che hai lasciato a Ferravia."
         }
       ],
       "choices": [
@@ -476,7 +476,7 @@
       "stitches": [
         {
           "id": "trial_history_1",
-          "text": "La competition history conserva matchId, outcome, formato, roster ufficiale, difficoltà e avversario. Il record non viene sostituito da un riassunto narrativo."
+          "text": "Nel registro ufficiale restano data, avversaria, formato, Pokémon schierati ed esito dell'incontro. Nessun riepilogo può sostituire ciò che è avvenuto sul campo."
         }
       ],
       "choices": [
@@ -541,7 +541,7 @@
       "stitches": [
         {
           "id": "friend_callback_1",
-          "text": "Il Friend Beat completato resta distinto dal Trial: la relazione non è una ricompensa per la vittoria. Puoi soltanto riconoscere che le vostre strade continuano da stati diversi."
+          "text": "Gli amici hanno seguito la propria strada anche durante la prova. Un loro messaggio può ricordarti che un risultato sportivo e un rapporto costruito nel tempo non sono la stessa cosa."
         }
       ],
       "choices": [
