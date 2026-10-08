@@ -389,7 +389,8 @@ async function handleApi(req, res, url) {
       declineEvolution: Boolean(body.declineEvolution),
       asiDistribution: body.asiDistribution ?? null,
       context,
-      data: poke5eData
+      data: poke5eData,
+      maxLevel: pokemonLevelCapForState(state)
     });
     if (result.status === "choice_required" && result.choice?.type === "evolution_asi") {
       return sendJson(res, 200, { ok: true, progression: result, snapshot: await snapshot() });
