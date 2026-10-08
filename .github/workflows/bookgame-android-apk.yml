@@ -1,11 +1,6 @@
 name: Android offline APK (private assets)
 on:
   workflow_dispatch:
-    inputs:
-      asset_url:
-        description: 'Direct HTTPS download URL for the offline ZIP (do not use a normal Drive view link)'
-        required: false
-        type: string
   pull_request:
     branches: [bookgame-canonical]
 permissions:
@@ -40,12 +35,9 @@ jobs:
       - uses: android-actions/setup-android@v3
       - name: Require privately hosted offline asset bundle
         env:
-          ASSET_URL_SECRET: ${{ secrets.P5E_OFFLINE_ASSETS_URL }}
-          ASSET_URL_INPUT: ${{ inputs.asset_url }}
+          ASSET_URL: ${{ secrets.P5E_OFFLINE_ASSETS_URL }}
         run: |
-          ASSET_URL="${ASSET_URL_SECRET:-$ASSET_URL_INPUT}"
-          test -n "$ASSET_URL" || { echo "::error::Supply a direct HTTPS download URL as workflow input or configure P5E_OFFLINE_ASSETS_URL"; exit 1; }
-          echo "ASSET_URL=$ASSET_URL" >> "$GITHUB_ENV"
+          test -n "$ASSET_URL" || { echo "::error::Configure P5E_OFFLINE_ASSETS_URL with a private, expiring direct HTTPS download URL"; exit 1; }
           python3 - <<'PY'
           import os, urllib.request
           from urllib.parse import urlsplit
