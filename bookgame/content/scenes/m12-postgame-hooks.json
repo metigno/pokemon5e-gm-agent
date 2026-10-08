@@ -30,7 +30,7 @@
         },
         {
           "id": "inspect_future",
-          "text": "Controllo free roam e future stagioni.",
+          "text": "Scopro quali strade restano aperte dopo il Mondiale.",
           "goto": "future_season"
         },
         {
