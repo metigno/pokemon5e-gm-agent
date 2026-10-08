@@ -134,6 +134,8 @@ test("second and third edition history persists without resetting team, NPCs or 
     assert.deepEqual(reloaded.postgame.championships.map((entry) => entry.champion?.name),
       [null, "Luke", "Red"]);
     assert.equal(reloaded.competition.world.edition, 3);
+    assert.deepEqual(reloaded.competition.world.hallOfFame.map((entry) => entry.edition), [2, 3]);
+    assert.deepEqual(reloaded.competition.world.hallOfFame.map((entry) => entry.champion.name), ["Luke", "Red"]);
     assert.ok((await engine.present(reloaded)).choices.some((choice) => choice.id === "postgame_history"));
   } finally {
     await rm(savedPath, { recursive: true, force: true });
