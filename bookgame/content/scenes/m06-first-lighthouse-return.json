@@ -58,7 +58,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il secondo layer del mistero riporta il percorso verso le Rovine del Primo Faro. Questa volta il luogo ha due significati separati: pista antica e sede del Gate A→S."
+          "text": "Le annotazioni dell'archivio riportano verso le Rovine del Primo Faro. Il luogo compare anche negli avvisi del circuito: oltre alle tracce antiche, ospita una prova ufficiale per chi aspira al grado S."
         }
       ],
       "choices": [
@@ -83,7 +83,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Due tratte legali raggiungono l'area. Entrambe consumano tempo reale e nessuna anticipa il Trial."
+          "text": "Davanti alla mappa dei collegamenti trovi due percorsi verso il Faro. Uno segue la costa, l'altro passa nell'entroterra. Entrambi richiedono un viaggio vero, con orari da rispettare."
         }
       ],
       "choices": [
@@ -108,7 +108,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La costa rende visibili i riferimenti del vecchio Faro prima dell'arrivo. È più diretta ma dipende da un trasferimento lungo la litoranea."
+          "text": "Lungo la strada costiera, il vento porta odore di sale. In lontananza, la sagoma spezzata del vecchio Faro emerge sopra gli scogli mentre il mezzo prosegue verso l'ultima fermata."
         }
       ],
       "choices": [
@@ -140,7 +140,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La tratta interna passa per servizi di collegamento e richiede più tempo, ma evita parte della costa esposta."
+          "text": "Il percorso interno attraversa piccoli centri e strade più riparate. Cambi collegamento prima di raggiungere le alture da cui si scorge il Faro."
         }
       ],
       "choices": [
@@ -172,7 +172,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Le Rovine del Primo Faro sono una zona Rank A reale. Arrivare qui non promuove: rende soltanto accessibile il contesto del Gate."
+          "text": "Le rovine appaiono oltre un sentiero battuto dal vento. Un cartello segnala l'accesso consentito agli allenatori di grado A; più avanti, una fila di persone aspetta presso lo sportello della prova."
         }
       ],
       "choices": [
@@ -192,7 +192,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il perimetro separa area visitabile, tracce antiche e Gate del Faro. Puoi osservare e tornare indietro anche senza registrarti al Trial."
+          "text": "Una recinzione divide il sentiero pubblico dagli scavi e dall'area riservata agli esaminatori. Puoi fermarti a osservare le pietre antiche oppure avvicinarti al banco delle iscrizioni."
         }
       ],
       "choices": [
@@ -234,7 +234,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Faro conferma che il mistero è più ampio di Fulgore, ma non risolve ancora origine o natura del fenomeno. Nessuna creatura viene concessa dalla sola presenza nelle Rovine."
+          "text": "Sulla muratura del Faro ritrovi segni che ricordano le carte viste nell'archivio. Il vento e la salsedine hanno cancellato molti dettagli; il luogo offre indizi, non una spiegazione completa."
         }
       ],
       "choices": [
@@ -254,7 +254,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "RANK_A_TO_S è il Gate del Faro: Singles, Official Six, un solo esaminatore, nessun bypass tramite Masters, Continental Cup o reputazione."
+          "text": "All'ingresso della zona d'esame, un arbitro indica il regolamento. «Prova individuale contro un esaminatore. Sei Pokémon ufficiali, incontro singolo. La promozione si conquista qui, sul campo»."
         }
       ],
       "choices": [
@@ -279,7 +279,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se Red è stato incontrato, il suo principio di adattamento offre un modo di leggere il Gate, non un bonus o una scorciatoia."
+          "text": "Ti torna in mente Red davanti al tabellone Masters, quando aveva distinto ciò che funzionava da ciò che era soltanto un'abitudine. Davanti alla prova, quelle poche parole assumono un peso diverso."
         }
       ],
       "choices": [
@@ -310,7 +310,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il World Ranking Cutoff è una deadline separata dal Trial: può congelare lo stato della stagione, ma non trasformare una sconfitta A→S in promozione."
+          "text": "Sul pannello degli avvisi compare anche la scadenza della classifica mondiale. Una nota precisa che il termine per la stagione non modifica le regole della prova di promozione."
         }
       ],
       "choices": [
@@ -330,7 +330,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'esplorazione delle Rovine produce contesto e continuità, non loot narrativo gratuito. Le aree più profonde restano soggette agli accessi futuri."
+          "text": "Tra pietre erose e vecchie fondamenta, distingui tracce del passato del Faro. Oltre la recinzione, alcune zone restano chiuse e sorvegliate."
         }
       ],
       "choices": [
@@ -350,7 +350,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rimandare lascia attivi cutoff, trial window, schedule e Living World. Nessuno di questi thread si congela."
+          "text": "Rimani sulle alture mentre il sole si sposta sopra il mare. I turni d'esame e le partenze continuano secondo gli orari esposti: puoi aspettare, ma non fermare la giornata."
         }
       ],
       "choices": [
@@ -370,7 +370,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il ritorno al Primo Faro è ora persistente. Il prossimo passo è la registrazione A→S, non una promozione automatica."
+          "text": "Dalle rovine scorgi il banco della prova di promozione. L'esaminatore sta chiamando i prossimi candidati; puoi decidere quando presentarti."
         }
       ],
       "choices": [
