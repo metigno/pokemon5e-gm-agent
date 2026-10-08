@@ -42,7 +42,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La cerimonia d'apertura mette nello stesso spazio partecipanti, staff e pubblico. Mostra la scala del field senza decidere gruppi o risultati."
+          "text": "Le luci si abbassano nell'arena e un applauso attraversa gli spalti. Atleti, staff e pubblico guardano lo stesso palco, ciascuno con aspettative differenti."
         }
       ],
       "choices": [
@@ -67,7 +67,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Puoi guardare i partecipanti, seguire i momenti pubblici o proteggere concentrazione. La scena non assegna un avversario."
+          "text": "Puoi osservare gli allenatori, ascoltare i discorsi ufficiali o restare in disparte per concentrarti sui prossimi giorni."
         }
       ],
       "choices": [
@@ -92,7 +92,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Vedi molti dei migliori trainer nello stesso luogo, ma non possiedi ancora la struttura del tuo gruppo."
+          "text": "Fra le delegazioni riconosci volti e simboli di molte regioni. Nessuno sa ancora chi finirà nel tuo gruppo."
         }
       ],
       "choices": [
@@ -112,7 +112,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un amico presente o remoto resta una carriera indipendente. La cerimonia non lo sposta né gli assegna un posto nel tuo gruppo."
+          "text": "Cerchi fra i partecipanti qualcuno degli amici. Se è qui può avere i propri impegni; se non c'è, una cerimonia non lo farà apparire."
         }
       ],
       "choices": [
@@ -132,7 +132,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Astrid viene presentata come campionessa in carica, ma il titolo non la rende intoccabile né garantisce che incroci il player."
+          "text": "Il presentatore annuncia Astrid Vahl come campionessa in carica. Lei saluta con sobrietà: quest'anno dovrà guadagnarsi ogni partita come gli altri."
         }
       ],
       "choices": [
@@ -152,7 +152,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Telecamere e pubblico amplificano il momento. La visibilità non cambia seed, match o statistiche."
+          "text": "Telecamere e fotografi seguono i volti dei partecipanti. La luce dei riflettori rende il momento più solenne, non decide le gare."
         }
       ],
       "choices": [
@@ -172,7 +172,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La cerimonia non è WORLD_DRAW, non blocca il field e non produce history competitiva. È presentazione, non risoluzione."
+          "text": "La cerimonia presenta il torneo e le sue regole. Gli abbinamenti arriveranno soltanto con il sorteggio."
         }
       ],
       "choices": [
@@ -192,7 +192,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Gruppo, tre avversari e calendario nasceranno soltanto dal WORLD_DRAW canonico nel blocco successivo."
+          "text": "I grandi schermi mostrano il numero dei gruppi ancora vuoti. I nomi verranno assegnati nel prossimo evento ufficiale."
         }
       ],
       "choices": [
@@ -212,7 +212,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Sul palco il torneo viene raccontato come evento globale. La narrazione non dichiara chi vincerà né chi affronterai."
+          "text": "Dal palco si parla delle regioni rappresentate e del percorso fatto dai qualificati. Nessuno pronuncia già il nome del prossimo campione."
         }
       ],
       "choices": [
@@ -232,7 +232,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Restare fino alla fine consuma mezz'ora. Schedule e attività del venue continuano normalmente."
+          "text": "Segui la cerimonia fino alla fine. Passa mezz'ora mentre gli atleti rientrano alle rispettive attività."
         }
       ],
       "choices": [
@@ -253,7 +253,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il commit registra soltanto che la cerimonia è avvenuta. Tutti i flag del draw restano ancora irrisolti."
+          "text": "Il presentatore ringrazia il pubblico. Le delegazioni lasciano il palco e attendono il sorteggio."
         }
       ],
       "choices": [
@@ -280,7 +280,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La cerimonia è completa. Il prossimo blocco è WORLD_DRAW, che dovrà usare il field reale e produrre gruppi una sola volta."
+          "text": "Si riaccendono le luci. Il prossimo appuntamento stabilirà finalmente i gruppi."
         }
       ],
       "choices": [
