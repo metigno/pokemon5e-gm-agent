@@ -54,7 +54,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Last Chance è una sola occasione separata dal World Qualifier principale. Non cancella la sconfitta precedente e non può essere ripetuto finché arriva una vittoria."
+          "text": "L'ultimo incontro di qualificazione si disputa in un'arena più silenziosa. La sconfitta precedente è ancora sul registro: questa gara non la cancellerà."
         }
       ],
       "choices": [
@@ -79,7 +79,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Formato: Singles, Official Six, ELITE, un solo incontro decisivo per questa route. A7_LAST_CHANCE è once=true."
+          "text": "L'arbitro ripete le condizioni: Singles, sei Pokémon ufficiali, un solo incontro decisivo. Non ci sarà un secondo tentativo."
         }
       ],
       "choices": [
@@ -99,7 +99,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La route esiste solo perché il Qualifier è già risolto, il player non è qualificato e il gate ha consumato una eligibility reale."
+          "text": "Il tuo nome è stato ammesso perché la prima corsa è terminata e hai ricevuto accesso a questa unica possibilità. Gli addetti controllano il documento all'ingresso."
         }
       ],
       "choices": [
@@ -119,7 +119,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Non esiste reset gratuito prima dell'incontro. Recupero, condizioni, inventario e squadra restano quelli prodotti dai sistemi reali."
+          "text": "Prima dell'incontro puoi controllare i Pokémon e i rifornimenti. Nessuno li rimette in sesto gratuitamente solo perché la posta in gioco è alta."
         }
       ],
       "choices": [
@@ -144,7 +144,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Last Chance non crea membri mancanti: servono almeno sei Pokémon nel roster strutturato quando il match parte."
+          "text": "La segreteria verifica che tu abbia sei Pokémon idonei. Non può completare la tua squadra con un compagno fittizio."
         }
       ],
       "choices": [
@@ -177,7 +177,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il roster registrato dell'avversaria è pubblico; ordine, mosse e linee decisionali restano coperti dal fog of war."
+          "text": "Sul tabellone compare la squadra registrata dell'avversaria. Puoi studiarne le specie, ma non conoscere in anticipo l'ordine o le decisioni della sua allenatrice."
         }
       ],
       "choices": [
@@ -209,7 +209,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il controllo passa a Pokémon 5e/E5. Soltanto l'esito reale di questo match può aprire la qualificazione."
+          "text": "L'arbitro controlla le postazioni e solleva la mano. Il prossimo verdetto dipenderà dal combattimento."
         }
       ],
       "choices": [
@@ -279,7 +279,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La vittoria proviene dal resolver E5. La route può ora essere classificata come qualificante; il risultato principale del Qualifier resta comunque nella history."
+          "text": "L'ultima sfida termina a tuo favore. Il tabellone conferma la vittoria; resta da registrare ufficialmente il nuovo posto conquistato."
         }
       ],
       "choices": [
@@ -323,7 +323,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La sconfitta E5 consuma definitivamente la route. Non viene creato un altro Last Chance."
+          "text": "Il segnale di fine gara conferma la sconfitta. L'ultima possibilità si chiude qui: non esiste una fila per un altro tentativo."
         }
       ],
       "choices": [
@@ -367,7 +367,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Una vittoria reale nel Last Chance soddisfa l'ultima route di qualificazione disponibile per M7."
+          "text": "L'addetta aggiorna la tua pratica. Hai vinto l'incontro che poteva ancora aprirti la strada per il Mondiale."
         }
       ],
       "choices": [
@@ -413,7 +413,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La route è consumata e il player resta non qualificato. Worlds Missed potrà ora essere classificato senza falsificare la sconfitta."
+          "text": "Il tuo nome rimane fuori dall'elenco dei qualificati. La sconfitta viene conservata accanto a quella della prima selezione."
         }
       ],
       "choices": [
@@ -454,7 +454,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "competition.history conserva sia la corsa principale sia questo incontro. I flag M7 descrivono il ramo, non sostituiscono i record E5."
+          "text": "Nel registro sono visibili entrambe le gare che hai giocato. Nessuna delle due può essere cancellata per rendere migliore la storia."
         }
       ],
       "choices": [
@@ -482,7 +482,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Cynthia non trasforma l'ultima possibilità in una garanzia: il suo insegnamento riguarda gestione di risorse e rischio, non plot armor."
+          "text": "Il consiglio di Cynthia torna alla mente guardando i Pokémon dopo la partita. Una scelta prudente o aggressiva non cambia retroattivamente il verdetto."
         }
       ],
       "choices": [
@@ -502,7 +502,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Last Chance è ormai risolto una volta sola. Da qui esistono soltanto Before the Lights se qualificato, oppure Worlds Missed dopo una sconfitta."
+          "text": "Lasci l'arena con un risultato definitivo. Se hai vinto ti attendono gli accrediti; se hai perso, la carriera continuerà lungo altre strade."
         }
       ],
       "choices": [
