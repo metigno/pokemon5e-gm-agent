@@ -25,6 +25,10 @@ import { trainerActivityXp, trainerStoryRewardKind } from "./trainer-xp-balance.
 import { syncFriendCareerSchedule } from "./npc-career-scheduler.mjs";
 import { Poke5eDataRepository } from "../combat/poke5e-data.mjs";
 import { applyPurchaseItem, ensureSceneShops } from "./shop-state.mjs";
+import {
+  applyPostgameChoice, ensurePostgame, finishPostgameEdition, getPostgameChoices,
+  getPostgameText, isPostgameHome, isPostgameWorldExit
+} from "./postgame-cycle.mjs";
 
 function clone(value) {
   return structuredClone(value);
@@ -257,6 +261,21 @@ export class BookgameEngine {
       };
     }
     refreshNpcSchedules(state);
+    if (isPostgameWorldExit(state)) {
+      return {
+        sceneId: "postgame-world-exit",
+        sceneTitle: "Mondiale concluso",
+        moduleId: "M12",
+        nodeId: "postgame_world_exit",
+        text: "L'edizione è conclusa. Il risultato sul campo non cambia e la carriera continua con la stessa squadra, gli stessi incontri e il medesimo salvataggio.",
+        stitches: null,
+        choices: [{ id: "postgame_finish_edition", text: "Registro il campione nell'albo d'oro e torno alla carriera" }],
+        worldTime: getWorldTimeView(state.world),
+        questJournal: getQuestJournal(state),
+        pending: null,
+        lastRoll: clone(state.lastRoll)
+      };
+    }
     const scene = await this.scenes.load(state.story.sceneId);
     ensureSceneShops(state, scene.shops);
     const node = scene.nodes[state.story.nodeId];
@@ -265,15 +284,20 @@ export class BookgameEngine {
       throw new Error(`Scene conditions are not satisfied: ${scene.id}`);
     }
 
-    const visibleChoices = (node.choices ?? []).filter((choice) => evaluateCondition(state, choice.conditions));
+    let visibleChoices = (node.choices ?? []).filter((choice) => evaluateCondition(state, choice.conditions));
+    const postgameHome = isPostgameHome(state);
+    if (postgameHome) {
+      const extra = getPostgameChoices(state);
+      visibleChoices = state.postgame.panel === "history" ? extra : [...visibleChoices, ...extra];
+    }
 
     return {
       sceneId: scene.id,
       sceneTitle: scene.title,
       moduleId: scene.moduleId ?? null,
       nodeId: state.story.nodeId,
-      text: nodeText(node, state),
-      stitches: renderedStitches(node, state),
+      text: postgameHome ? getPostgameText(state) : nodeText(node, state),
+      stitches: postgameHome ? null : renderedStitches(node, state),
       choices: clone(visibleChoices),
       worldTime: getWorldTimeView(state.world),
       questJournal: getQuestJournal(state),
@@ -283,6 +307,33 @@ export class BookgameEngine {
   }
 
   async choose(state, choiceId) {
+    if (isPostgameWorldExit(state) && choiceId === "postgame_finish_edition") {
+      const next = clone(state);
+      const entry = finishPostgameEdition(next);
+      next.story.history.push({
+        sceneId: "postgame-world-exit", nodeId: "postgame_world_exit",
+        choiceId, edition: entry.edition, champion: entry.champion?.name ?? null
+      });
+      touchState(next, this.now);
+      return next;
+    }
+    if (isPostgameHome(state) && choiceId.startsWith("postgame_")) {
+      const next = clone(state);
+      const details = applyPostgameChoice(next, choiceId);
+      if (details.action === "time") {
+        processQuestDeadlines(next);
+        refreshNpcSchedules(next);
+      }
+      syncFriendCareerSchedule(next);
+      const firedWorldEvents = processWorldEvents(next, await this.loadWorldEvents(),
+        (eventState, effects) => applyEffects(eventState, effects));
+      next.story.history.push({
+        sceneId: "m12-main-story-complete", nodeId: "free_roam",
+        choiceId, postgame: clone(details), worldEvents: clone(firedWorldEvents)
+      });
+      touchState(next, this.now);
+      return next;
+    }
     if (state.pending?.type === "pokemon_capture_replacement") {
       const next = resolveCaptureReplacement(state, choiceId);
       touchState(next, this.now);
