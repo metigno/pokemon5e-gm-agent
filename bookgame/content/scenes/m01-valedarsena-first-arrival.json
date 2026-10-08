@@ -1602,15 +1602,15 @@
       "stitches": [
         {
           "id": "official_desk",
-          "text": "Al banco incontri c'è uno slot sanzionato per rookie: Singles, un solo Pokémon registrato per parte. Anche se possiedi altri Pokémon, questo match usa soltanto lo slot ufficiale registrato."
+          "text": "Al banco incontri c'è uno spazio ufficiale per rookie: Singles, un solo Pokémon registrato per parte. Anche se ne possiedi altri, puoi schierare soltanto quello scelto per l'incontro."
         },
         {
           "id": "official_not_trial",
-          "text": "L'addetto lo distingue subito dal Promotion Trial F→E: questo match entra nello storico ufficiale, ma non cambia il Rank e non soddisfa il gate del Trial."
+          "text": "L'addetto indica il regolamento. «Questo incontro entra nello storico, ma non ti promuove al Rank E. Per quello dovrai sostenere una prova separata.»"
         },
         {
           "id": "official_opponent",
-          "text": "L'avversario assegnato è il rookie registrato VALE_ROOKIE_001 con uno Shinx. Il pairing è STANDARD e il risultato non è scritto: il resolver Pokémon 5e decide vittoria o sconfitta."
+          "text": "Il tuo avversario è un giovane allenatore con Shinx. Vi salutate davanti all'arbitro; nessuno dei due conosce ancora il risultato."
         }
       ],
       "choices": [
@@ -1653,7 +1653,7 @@
       "stitches": [
         {
           "id": "official_handoff",
-          "text": "L'arbitro verifica i Pokémon registrati e apre il campo. Da qui il risultato appartiene al combattimento Pokémon 5e, non allo script."
+          "text": "L'arbitro controlla i due Pokémon e indica le postazioni. «Iniziate quando siete pronti.»"
         }
       ],
       "choices": []
@@ -1700,7 +1700,7 @@
         },
         {
           "id": "roster_capture",
-          "text": "Il secondo Pokémon entra nel roster solo se il resolver Pokémon 5e produce davvero un esito di cattura valido con specie, livello, HP, condizioni e risorse persistenti."
+          "text": "Un Pokémon che desideri aggiungere alla squadra deve essere catturato davvero. Avvicinarti a una creatura selvatica non significa automaticamente riuscire a portarla con te."
         },
         {
           "id": "roster_choice",
@@ -1748,11 +1748,11 @@
       "stitches": [
         {
           "id": "trial_desk_header",
-          "text": "Il banco del Promotion Trial non valuta intenzioni: controlla licenza, Rank e roster. Il checkpoint F→E è aperto, ma l'iscrizione viene accettata soltanto se i requisiti meccanici sono reali."
+          "text": "Al banco del Promotion Trial un'esaminatrice controlla la licenza e le Poké Ball. «Rank F, due Pokémon idonei. Il numero sul tesserino non sostituisce quelli che devi presentare.»"
         },
         {
           "id": "trial_desk_roster",
-          "text": "Il formato richiede un roster ufficiale di due Pokémon. Registrarsi non cura la squadra, non assegna Pokémon e non modifica il risultato della prova."
+          "text": "«Qui il formato è a due Pokémon. L'iscrizione non è una cura gratuita e non modifica l'esito dell'esame», ricorda."
         },
         {
           "id": "trial_desk_choice",
@@ -1902,7 +1902,7 @@
       "stitches": [
         {
           "id": "trial_handoff",
-          "text": "L'arbitro chiude il gate e passa il controllo al risolutore Pokémon 5e. Il tuo roster ufficiale di due Pokémon e quello fisso di Nara vengono usati realmente: nessun vincitore è deciso dallo script."
+          "text": "L'arbitro chiude l'accesso al campo e presenta Nara e i suoi due Pokémon. Tu prepari i tuoi; al segnale, il combattimento ha inizio."
         }
       ],
       "choices": []
@@ -1911,15 +1911,15 @@
       "stitches": [
         {
           "id": "trial_win_recorded",
-          "text": "Il risultato viene registrato come vittoria del checkpoint RANK_F_TO_E. La licenza passa realmente al Rank E: non è un titolo narrativo né un flag parallelo."
+          "text": "Nara conferma il risultato e l'addetta aggiorna la licenza: sei ufficialmente Rank E."
         },
         {
           "id": "trial_win_persistence",
-          "text": "La promozione apre la fascia successiva senza ripulire ciò che hai lasciato dietro di te. Rapporti, lavori, fauna, cronologia competitiva, secondo Pokémon e conseguenze del mondo restano persistenti."
+          "text": "Le altre cose fatte a Valedarsena non svaniscono con la promozione. La città continua con le persone e i problemi che hai conosciuto."
         },
         {
           "id": "trial_win_next_road",
-          "text": "Sul terminale compare una nuova fascia di incarichi e trasferte. Tra le destinazioni accessibili c'è Bosco Bruma, primo ingresso del percorso che conduce a Sotto la Nebbia."
+          "text": "Sul terminale compaiono nuovi incarichi e trasferte. Fra le destinazioni accessibili c'è Bosco Bruma."
         }
       ],
       "choices": [
@@ -1949,15 +1949,15 @@
       "stitches": [
         {
           "id": "trial_loss_recorded",
-          "text": "Il tabellone registra la sconfitta senza cancellare il tentativo. Resti Rank F; il Promotion Trial F→E torna disponibile perché il checkpoint è retryable."
+          "text": "Il tabellone mostra la sconfitta. Nara ti restituisce la tessera Rank F: potrai riprovare quando sarai pronto."
         },
         {
           "id": "trial_loss_condition",
-          "text": "La squadra non viene ripristinata dalla scena. HP, PP e condizioni restano quelli prodotti dal combattimento finché non usi servizi o regole che li modificano davvero."
+          "text": "I tuoi Pokémon sono nelle condizioni lasciate dall'incontro. Per recuperarli dovrai utilizzare le cure davvero disponibili."
         },
         {
           "id": "trial_loss_world",
-          "text": "Fuori dal campo il mondo non torna indietro: lavori, relazioni, schedule, fauna e risultati precedenti conservano lo stato raggiunto."
+          "text": "Fuori dal campo i lavoratori, gli amici e i Pokémon selvatici continuano la loro giornata. Non tutto riparte da zero perché hai perso."
         }
       ],
       "choices": [
@@ -2100,7 +2100,7 @@
       "stitches": [
         {
           "id": "m02_handoff_text",
-          "text": "M1 è formalmente chiuso con Rank E. Bosco Bruma è sbloccato come prossimo percorso; quando M02 viene caricato, deve ricevere lo stato carriera esistente senza reset."
+          "text": "Con la tessera Rank E puoi raggiungere Bosco Bruma. La strada è aperta; i tuoi Pokémon e le decisioni prese a Valedarsena ti accompagnano."
         }
       ],
       "choices": [
@@ -2457,11 +2457,11 @@
       "stitches": [
         {
           "id": "promotion_is_valid",
-          "text": "La promozione a Rank E è già valida e non viene annullata. Però M1 non si chiude formalmente finché i beat obbligatori rimasti nel mondo non sono realmente avvenuti."
+          "text": "La promozione a Rank E è valida. Prima di lasciare definitivamente la zona restano però incontri e saluti che fanno parte di questi primi giorni."
         },
         {
           "id": "no_fake_completion",
-          "text": "Il terminale non sostituisce eventi mancanti con flag narrativi: Blue deve essere stato introdotto, almeno un FRIEND_BEAT_01 deve essere concluso e le strade dei Five devono essersi realmente separate."
+          "text": "Blue, gli altri amici e le rispettive partenze hanno ancora una storia da vivere; il terminale non può far finta che quegli incontri siano già avvenuti."
         }
       ],
       "choices": [
