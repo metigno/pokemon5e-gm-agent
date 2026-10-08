@@ -186,32 +186,32 @@
             "opponentTrainerId": "CONT_QF_VERA_KELL",
             "opponent": {
               "species": "Crobat",
-              "level": 16,
+              "level": 14,
               "abilityId": "inner-focus",
               "trainerId": "CONT_QF_VERA_KELL"
             },
             "opponentBench": [
               {
                 "species": "Scizor",
-                "level": 16,
+                "level": 14,
                 "abilityId": "technician",
                 "trainerId": "CONT_QF_VERA_KELL"
               },
               {
                 "species": "Starmie",
-                "level": 16,
+                "level": 14,
                 "abilityId": "natural-cure",
                 "trainerId": "CONT_QF_VERA_KELL"
               },
               {
                 "species": "Houndoom",
-                "level": 16,
+                "level": 14,
                 "abilityId": "flash-fire",
                 "trainerId": "CONT_QF_VERA_KELL"
               },
               {
                 "species": "Donphan",
-                "level": 16,
+                "level": 14,
                 "abilityId": "sturdy",
                 "trainerId": "CONT_QF_VERA_KELL"
               }
@@ -361,32 +361,32 @@
             "opponentTrainerId": "CONT_SF_ORIN_VALE",
             "opponent": {
               "species": "Jolteon",
-              "level": 16,
+              "level": 14,
               "abilityId": "volt-absorb",
               "trainerId": "CONT_SF_ORIN_VALE"
             },
             "opponentBench": [
               {
                 "species": "Machamp",
-                "level": 16,
+                "level": 14,
                 "abilityId": "guts",
                 "trainerId": "CONT_SF_ORIN_VALE"
               },
               {
                 "species": "Skarmory",
-                "level": 16,
+                "level": 14,
                 "abilityId": "sturdy",
                 "trainerId": "CONT_SF_ORIN_VALE"
               },
               {
                 "species": "Gengar",
-                "level": 16,
+                "level": 14,
                 "abilityId": "cursed-body",
                 "trainerId": "CONT_SF_ORIN_VALE"
               },
               {
                 "species": "Milotic",
-                "level": 16,
+                "level": 14,
                 "abilityId": "marvel-scale",
                 "trainerId": "CONT_SF_ORIN_VALE"
               }
@@ -536,32 +536,32 @@
             "opponentTrainerId": "CONT_FINAL_SENA_MARCH",
             "opponent": {
               "species": "Charizard",
-              "level": 16,
+              "level": 14,
               "abilityId": "blaze",
               "trainerId": "CONT_FINAL_SENA_MARCH"
             },
             "opponentBench": [
               {
                 "species": "Blastoise",
-                "level": 16,
+                "level": 14,
                 "abilityId": "torrent",
                 "trainerId": "CONT_FINAL_SENA_MARCH"
               },
               {
                 "species": "Vileplume",
-                "level": 16,
+                "level": 14,
                 "abilityId": "chlorophyll",
                 "trainerId": "CONT_FINAL_SENA_MARCH"
               },
               {
                 "species": "Alakazam",
-                "level": 16,
+                "level": 14,
                 "abilityId": "synchronize",
                 "trainerId": "CONT_FINAL_SENA_MARCH"
               },
               {
                 "species": "Snorlax",
-                "level": 16,
+                "level": 14,
                 "abilityId": "thick-fat",
                 "trainerId": "CONT_FINAL_SENA_MARCH"
               }
