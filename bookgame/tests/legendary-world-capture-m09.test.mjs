@@ -7,6 +7,7 @@ import { evaluateCondition } from "../src/engine/conditions.mjs";
 import { Poke5eDataRepository } from "../src/combat/poke5e-data.mjs";
 import { POKEMON_LEVEL_CAPS_BY_MODULE, pokemonLevelCapForState } from "../src/engine/pokemon-xp-balance.mjs";
 import { swapPlayerRosterSlots } from "../src/engine/player-roster-selection.mjs";
+import { captureBallsInInventory, attemptCapture } from "../src/combat/capture.mjs";
 
 const load = async (filename) => JSON.parse(await readFile(fileURLToPath(new URL(filename, import.meta.url)), "utf8"));
 const hunt = await load("../content/scenes/legendary-world-hunt.json");
@@ -103,4 +104,45 @@ test("Roster selection never bypasses an active subsystem or exchanges the start
     { reserveIndex: 6.5, officialIndex: 2 }
   ]) assert.throws(() => swapPlayerRosterSlots(state, payload));
   assert.throws(() => swapPlayerRosterSlots({ ...state, pending: { type: "pokemon5e_combat" } }, { reserveIndex: 6, officialIndex: 5 }));
+});
+
+test("Web capture options use only real owned Poké Balls, never ordinary inventory items", () => {
+  assert.deepEqual(captureBallsInInventory([
+    "Pokeball", { id: "ultra-ball" }, "Potion", "Pokeball", { id: "great-ball" }
+  ]), [
+    { id: "pokeball", count: 2 },
+    { id: "ultra-ball", count: 1 },
+    { id: "great-ball", count: 1 }
+  ]);
+});
+
+test("A nonregistered M09 Legendary can be caught through the real Pokémon 5e roll; Trainer restriction holds", () => {
+  const trainer = { level: 20, abilities: { WIS: 20 }, skills: ["Animal Handling"] };
+  const target = {
+    level: 20, sr: 15, size: "medium", types: ["psychic"],
+    hp: { current: 1, max: 500 }, statuses: { nonVolatile: null }
+  };
+  const result = attemptCapture({
+    trainer, target, activePokemon: { attributes: { cha: 10 } },
+    ball: "ultra-ball", distanceFeet: 5, round: 2, dice: { roll: () => 20 }
+  });
+  assert.equal(result.legal, true);
+  assert.equal(result.captured, true);
+  assert.equal(result.consumed, true);
+  assert.ok(result.total >= result.dc, "actual capture DC succeeds, not a scripted gift");
+  const disallowed = attemptCapture({
+    trainer: { ...trainer, level: 19 },
+    target, activePokemon: { attributes: { cha: 10 } },
+    ball: "ultra-ball", distanceFeet: 5, dice: { roll: () => 20 }
+  });
+  assert.equal(disallowed.legal, false);
+  assert.equal(disallowed.captured, false);
+  assert.equal(disallowed.reason, "target_level_above_trainer");
+  const registered = attemptCapture({
+    trainer, target, activePokemon: { attributes: { cha: 10 } },
+    ball: "ultra-ball", distanceFeet: 5, registered: true,
+    dice: { roll: () => 20 }
+  });
+  assert.equal(registered.legal, false);
+  assert.equal(registered.reason, "registered_to_trainer");
 });
