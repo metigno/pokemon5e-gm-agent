@@ -534,8 +534,10 @@ function renderBattle(battle) {
   const opponentId = battle.opponentTrainerId;
   const namedTrainerArt = Boolean(opponentId && snapshot?.assets?.characterNative?.[opponentId]);
   const worldId = snapshot?.assets?.worldOpponentSprite;
-  els.opponentTrainerSprite.hidden = !namedTrainerArt && !worldId;
-  if (namedTrainerArt) els.opponentTrainerSprite.src = `/characters/${encodeURIComponent(opponentId)}/battleFront`;
+  const approvedBattleUrl = snapshot?.assets?.battleTrainerSprite;
+  els.opponentTrainerSprite.hidden = !approvedBattleUrl && !namedTrainerArt && !worldId;
+  if (approvedBattleUrl) els.opponentTrainerSprite.src = approvedBattleUrl;
+  else if (namedTrainerArt) els.opponentTrainerSprite.src = `/characters/${encodeURIComponent(opponentId)}/battleFront`;
   else if (worldId) els.opponentTrainerSprite.src = `/npc-sprites/world/${encodeURIComponent(worldId)}/battleFront`;
   else els.opponentTrainerSprite.removeAttribute("src");
   els.battleRound.textContent = `Round ${battle.round}`;
