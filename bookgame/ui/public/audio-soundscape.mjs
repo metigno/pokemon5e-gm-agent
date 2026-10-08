@@ -126,7 +126,9 @@ export class AudioSoundscape {
   }
   _startAsset(wanted, generation) {
     if (!this.active || generation !== this.generation || this.track) return;
-    const audio = new Audio("/audio/" + wanted + ".ogg");
+    const path = this.manifest?.music?.[wanted]?.file;
+    if (!/^audio\/[a-z0-9_]+\.(?:ogg|mp3)$/.test(path ?? "")) return;
+    const audio = new Audio("/" + path);
     audio.loop = true;
     audio.preload = "auto";
     audio.volume = this.volume * .43;
@@ -170,7 +172,9 @@ export class AudioSoundscape {
     if (!this.active) return;
     this.unlock();
     if (this.manifest?.effects?.[id]) {
-      const effect = new Audio("/audio/" + id + ".ogg");
+      const path = this.manifest.effects[id].file;
+      if (!/^audio\/[a-z0-9_]+\.(?:ogg|mp3)$/.test(path ?? "")) return;
+      const effect = new Audio("/" + path);
       effect.volume = this.volume * .65;
       effect.play().catch(() => this._fallbackEffect(id));
     } else this._fallbackEffect(id);
@@ -197,7 +201,9 @@ export class AudioSoundscape {
       this.playEffect(id === "defeat" ? "ui_cancel" : "ui_confirm");
       return;
     }
-    const stinger = new Audio("/audio/" + id + ".ogg");
+    const path = this.manifest.music[id].file;
+    if (!/^audio\/[a-z0-9_]+\.(?:ogg|mp3)$/.test(path ?? "")) return;
+    const stinger = new Audio("/" + path);
     stinger.volume = this.volume * .6;
     stinger.play().catch(() => {});
   }
