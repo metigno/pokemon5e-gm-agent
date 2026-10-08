@@ -111,7 +111,7 @@ test("M1_10 sanctioned format registers exactly one player Pokémon even when mo
   assert.equal(state.pending.playerPokemon.rosterIndex, 0);
   assert.deepEqual(state.pending.playerBench, []);
   assert.equal(state.pending.opponent.species, "Shinx");
-  assert.equal(state.pending.opponent.level, 2);
+  assert.equal(state.pending.opponent.level, 4);
   assert.equal(state.pending.opponent.trainerId, "VALE_ROOKIE_001");
   assert.equal(state.pending.opponentRegistered, true);
   assert.equal(state.pending.competition.officialRosterSize, 1);

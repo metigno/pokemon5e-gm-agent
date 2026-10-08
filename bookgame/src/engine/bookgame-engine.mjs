@@ -284,6 +284,10 @@ export class BookgameEngine {
         : choice.ecology.returnNodes.noEncounter;
       if (!targetRef) throw new Error("Ecology request has no authored return target");
       if (encounter) {
+        const targetScene = parseTarget(targetRef, scene.id);
+        encounter.moduleId = scene.moduleId ?? catalog.zones[encounter.zoneId]?.moduleId ?? null;
+        encounter.targetSceneId = targetScene.sceneId;
+        encounter.targetNodeId = targetScene.nodeId;
         recordWildEncounter(next, encounter);
         historyEntry.ecology = clone(encounter);
       } else {
@@ -357,9 +361,33 @@ export class BookgameEngine {
       // than the old hardcoded battle descriptor (which used level 3).
       const friendNpc = next.npcs?.[choice.combat.opponent?.trainerId];
       const friendLead = friendNpc?.canonicalCareer ? friendNpc.rosterCareer?.[0] : null;
-      const authoredOpponent = friendLead?.acquired
+      let authoredOpponent = friendLead?.acquired
         ? { ...choice.combat.opponent, species: friendLead.species, level: friendLead.pokemonLevel }
         : choice.combat.opponent;
+
+      // Ecology decides a level once per encountered animal. Reuse it only
+      // for the authored species encounter reached from that selection;
+      // unrelated scripted fights and older sightings retain their levels.
+      const sighting = next.ecology?.lastEncounter;
+      if (sighting && !sighting.usedForCombat && Number.isInteger(sighting.level) &&
+          sighting.targetSceneId === scene.id && sighting.moduleId === scene.moduleId &&
+          !choice.combat.opponentRegistered && !competitionMeta && authoredOpponent?.species) {
+        const species = await new Poke5eDataRepository().getSpecies(authoredOpponent);
+        if (species.id === sighting.speciesId) {
+          authoredOpponent = { ...authoredOpponent, level: sighting.level };
+          sighting.usedForCombat = choice.combat.encounterId;
+        }
+      }
+
+      // Trainer level belongs to the person, not the Pokémon. Only read an
+      // explicitly persisted/authoritative Trainer level; never infer it from
+      // a lead Pokémon's level.
+      const opponentTrainerId = choice.combat.opponentTrainerId ??
+        choice.combat.opponent?.trainerId ?? competitionMeta?.opponentTrainerId ?? null;
+      const npcTrainerLevel = next.npcs?.[opponentTrainerId]?.trainerLevel;
+      const opponentTrainerLevel = Number.isInteger(npcTrainerLevel)
+        ? npcTrainerLevel : (Number.isInteger(choice.combat.opponentTrainer?.trainerLevel)
+          ? choice.combat.opponentTrainer.trainerLevel : null);
 
       next.pending = {
         type: "pokemon5e_combat",
@@ -367,6 +395,8 @@ export class BookgameEngine {
         status: "awaiting_resolution",
         encounterId: choice.combat.encounterId,
         moduleId: scene.moduleId ?? "M01",
+        opponentTrainerId,
+        opponentTrainerLevel,
         participatingRosterIndices: [0],
         sceneId: scene.id,
         sourceNodeId: next.story.nodeId,
@@ -532,6 +562,15 @@ export class BookgameEngine {
       }
       if (!resolvedBattle?.opponent) {
         throw new Error("Captured outcome requires resolved Pokémon 5e opponent state");
+      }
+      // Persisted battle states (including older saves) must never bypass
+      // the current checkpoint cap when a captured Pokémon joins the roster.
+      const capturedLevel = resolvedBattle.opponent.level;
+      const capturedCap = pokemonLevelCapForState(next);
+      if (!Number.isInteger(capturedLevel) || capturedLevel < 1 || capturedLevel > capturedCap) {
+        throw new RangeError(
+          `Captured Pokémon level ${String(capturedLevel)} exceeds the current Pokémon level cap ${capturedCap}`
+        );
       }
     }
 

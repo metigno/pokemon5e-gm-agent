@@ -363,38 +363,38 @@
             "opponentTrainerId": "FAR_GATE_MASTER_IRIS_KELL",
             "opponent": {
               "species": "Metagross",
-              "level": 17,
+              "level": 15,
               "abilityId": "clear-body",
               "trainerId": "FAR_GATE_MASTER_IRIS_KELL"
             },
             "opponentBench": [
               {
                 "species": "Gyarados",
-                "level": 17,
+                "level": 15,
                 "abilityId": "intimidate",
                 "trainerId": "FAR_GATE_MASTER_IRIS_KELL"
               },
               {
                 "species": "Arcanine",
-                "level": 17,
+                "level": 15,
                 "abilityId": "intimidate",
                 "trainerId": "FAR_GATE_MASTER_IRIS_KELL"
               },
               {
                 "species": "Venusaur",
-                "level": 17,
+                "level": 15,
                 "abilityId": "overgrow",
                 "trainerId": "FAR_GATE_MASTER_IRIS_KELL"
               },
               {
                 "species": "Jolteon",
-                "level": 17,
+                "level": 15,
                 "abilityId": "volt-absorb",
                 "trainerId": "FAR_GATE_MASTER_IRIS_KELL"
               },
               {
                 "species": "Snorlax",
-                "level": 17,
+                "level": 15,
                 "abilityId": "thick-fat",
                 "trainerId": "FAR_GATE_MASTER_IRIS_KELL"
               }
