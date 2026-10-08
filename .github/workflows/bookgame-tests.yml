@@ -38,10 +38,13 @@ jobs:
           node --check bookgame/src/engine/compiled-scene-repository.mjs
           node --check bookgame/ui/server.mjs
           node --check bookgame/ui/public/app.mjs
+          node --check bookgame/ui/public/audio-soundscape.mjs
           node --check bookgame/ui/public/reveal-model.mjs
       - name: Validate authored story graph
         run: npm --prefix bookgame run validate:story
       - name: Run Bookgame tests
         run: npm --prefix bookgame test
+      - name: Test audio pack import and checksum gates
+        run: python3 -m unittest discover -s bookgame/tests -p 'test_audio_package.py' -v
       - name: Test offline sprite packaging
         run: python3 -m unittest discover -s bookgame/tests -p 'test_sprite_overlay.py' -v
