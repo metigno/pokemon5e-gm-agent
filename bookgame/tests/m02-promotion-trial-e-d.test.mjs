@@ -193,7 +193,7 @@ test("M2_13 begin_trial opponent is Ines Varga with Growlithe lead", async () =>
   assert.equal(next.pending.encounterId, "A2_RANK_TRIAL_E_D");
   assert.equal(next.pending.opponent.trainerId, "SAL_GATE_E_D_INES_VARGA");
   assert.equal(next.pending.opponent.species, "Growlithe");
-  assert.equal(next.pending.opponent.level, 5);
+  assert.equal(next.pending.opponent.level, 6);
 });
 
 test("M2_13 begin_trial opponent bench has Roselia and Sableye", async () => {
