@@ -34,17 +34,17 @@
       "stitches": [
         {
           "id": "perimeter_1",
-          "text": "Il perimetro Ferrox è diventato un posto di lavoro d'emergenza: nastri di sicurezza, lampade portatili, squadre che entrano con nomi e orari registrati. Nessuno ti tratta come il protagonista del soccorso."
+          "text": "Il perimetro Ferrox è diventato un posto di lavoro d'emergenza: nastri di sicurezza, lampade portatili, squadre che entrano con nomi e orari registrati. Radio e richiami brevi tengono insieme il movimento."
         },
         {
           "id": "perimeter_2",
-          "text": "Il tuo contributo può essere utile soltanto se resta dentro il coordinamento del sito. La quest ha un orologio reale: ogni azione lunga può cambiare ciò che è ancora possibile."
+          "text": "Un caposquadra ferma chiunque oltrepassi il nastro senza incarico. Se vuoi aiutare, devi entrare nel loro coordinamento. Ogni minuto che passi qui, intanto, passa anche dentro le gallerie."
         }
       ],
       "choices": [
         {
           "id": "enter_live_rescue",
-          "text": "La finestra è aperta. Mi presento al caposquadra.",
+          "text": "Mi presento al caposquadra e chiedo dove posso essere utile.",
           "conditions": {
             "path": "quests.M3_FERROX_RESCUE.status",
             "eq": "active"
@@ -63,7 +63,7 @@
         },
         {
           "id": "acknowledge_missed_window",
-          "text": "La finestra è già chiusa. Chiedo cosa è successo senza fingere di poter recuperare il tempo.",
+          "text": "Chiedo al caposquadra cosa è successo e se posso ancora fare qualcosa.",
           "conditions": {
             "path": "quests.M3_FERROX_RESCUE.status",
             "eq": "failed"
@@ -72,7 +72,7 @@
         },
         {
           "id": "return_hub_while_active",
-          "text": "Torno a Ferravia per prepararmi meglio; la deadline continuerà a scorrere.",
+          "text": "Torno a Ferravia per prepararmi meglio, sapendo che l'intervento continua.",
           "timeCostMinutes": 15,
           "conditions": {
             "path": "quests.M3_FERROX_RESCUE.status",
@@ -112,7 +112,7 @@
       "stitches": [
         {
           "id": "staging_1",
-          "text": "Il caposquadra ti assegna un ruolo compatibile con un trainer esterno: osservare un accesso secondario, aiutare a mantenere libero il passaggio e portare informazioni fra due punti. Se vuoi assumerti più rischio, devi farlo con una ragione leggibile."
+          "text": "Il caposquadra ti indica ciò che può affidare a un trainer esterno: sorvegliare un accesso secondario, mantenere libero il passaggio e portare informazioni tra due punti. «Se qualcosa cambia, non improvvisare. Torni da me o chiami una squadra.»"
         }
       ],
       "choices": [
@@ -135,7 +135,7 @@
         },
         {
           "id": "assess_access",
-          "text": "Valuto quale ingresso offre il miglior rapporto fra tempo e sicurezza. (CT Investigation)",
+          "text": "Valuto quale ingresso sembra più sicuro e rapido.",
           "timeCostMinutes": 15,
           "check": {
             "ability": "INT",
@@ -167,7 +167,7 @@
         },
         {
           "id": "coordinate_workers",
-          "text": "Mi coordino con gli operai prima di muovermi. (CT Persuasion)",
+          "text": "Mi coordino con gli operai prima di muovermi.",
           "timeCostMinutes": 15,
           "check": {
             "ability": "CHA",
@@ -438,7 +438,7 @@
         },
         {
           "id": "push_direct",
-          "text": "Mi muovo verso il corridoio ostruito e cerco una finestra sicura. (CT Perception)",
+          "text": "Mi muovo verso il corridoio ostruito e cerco un passaggio sicuro.",
           "timeCostMinutes": 20,
           "check": {
             "ability": "WIS",
@@ -520,7 +520,7 @@
         },
         {
           "id": "support_to_checkpoint",
-          "text": "Fermo qui il mio contributo e verifico il tempo rimasto.",
+          "text": "Fermo qui il mio contributo e torno dal caposquadra.",
           "goto": "rescue_checkpoint"
         }
       ]
@@ -544,7 +544,7 @@
       "stitches": [
         {
           "id": "direct_failure_1",
-          "text": "Il corridoio sembra aprirsi ma un nuovo distacco di polvere chiude la visuale. Ti ritiri prima di trasformare in problema una lettura sbagliata. Hai perso tempo, non HP inventati."
+          "text": "Il corridoio sembra aprirsi, poi un nuovo distacco di polvere chiude la visuale. Ti ritiri prima di impegnare la squadra su una lettura sbagliata. Quando torni al segnale, sull'orologio sono passati altri minuti."
         }
       ],
       "choices": [
@@ -555,7 +555,7 @@
         },
         {
           "id": "direct_fail_checkpoint",
-          "text": "Verifico subito quanto tempo resta.",
+          "text": "Torno dal caposquadra e chiedo quanto margine resta.",
           "goto": "rescue_checkpoint"
         }
       ]
@@ -564,7 +564,7 @@
       "stitches": [
         {
           "id": "priority_1",
-          "text": "La squadra può concentrare il proprio contributo su una sola priorità principale. Il tempo continua a scorrere mentre decidi dove essere più utile."
+          "text": "Il caposquadra guarda uomini, attrezzatura e corridoio. «Non possiamo spingere tutto insieme. Dimmi dove puoi essere più utile e restaci.»"
         }
       ],
       "choices": [
@@ -630,13 +630,13 @@
       "stitches": [
         {
           "id": "partial_report_1",
-          "text": "Tornare indietro non cancella quello che hai visto. Il tuo contributo può restare informativo invece di diventare operativo; la scelta costa meno rischio ma lascia più lavoro alle squadre interne."
+          "text": "Torni verso il caposquadra con ciò che hai visto. Puoi limitarti a riferire posizione, aria e condizioni del passaggio, lasciando alle squadre interne il lavoro più rischioso."
         }
       ],
       "choices": [
         {
           "id": "partial_report_checkpoint",
-          "text": "Consegno il rapporto e verifico lo stato della quest.",
+          "text": "Consegno il rapporto al caposquadra.",
           "timeCostMinutes": 10,
           "goto": "rescue_checkpoint",
           "effects": [
@@ -658,13 +658,13 @@
       "stitches": [
         {
           "id": "checkpoint_1",
-          "text": "Un caposquadra controlla l'orologio e le comunicazioni dalle gallerie. Se il tempo utile è finito, nessuno può fingere che la finestra di soccorso sia ancora aperta."
+          "text": "Il caposquadra controlla l'orologio e ascolta una comunicazione dalla galleria. Le condizioni dentro stanno cambiando; ciò che era possibile pochi minuti fa potrebbe non esserlo più."
         }
       ],
       "choices": [
         {
           "id": "checkpoint_expired",
-          "text": "La finestra si è chiusa durante le operazioni.",
+          "text": "Il caposquadra chiude l'accesso ai volontari esterni.",
           "conditions": {
             "path": "quests.M3_FERROX_RESCUE.status",
             "eq": "failed"
@@ -673,7 +673,7 @@
         },
         {
           "id": "finalize_evacuated",
-          "text": "La finestra è ancora aperta: chiudo il mio contributo con priorità evacuazione.",
+          "text": "Concludo il mio turno dando priorità all'evacuazione.",
           "conditions": {
             "all": [
               {
@@ -707,7 +707,7 @@
         },
         {
           "id": "finalize_stabilized",
-          "text": "La finestra è ancora aperta: chiudo il mio contributo con priorità stabilizzazione.",
+          "text": "Concludo il mio turno sul rinforzo della struttura.",
           "conditions": {
             "all": [
               {
@@ -741,7 +741,7 @@
         },
         {
           "id": "finalize_balanced",
-          "text": "La finestra è ancora aperta: chiudo il contributo coordinato su entrambe le priorità.",
+          "text": "Concludo il mio turno dividendo il supporto tra evacuazione e stabilizzazione.",
           "conditions": {
             "all": [
               {
@@ -775,7 +775,7 @@
         },
         {
           "id": "finalize_support_only",
-          "text": "La finestra è ancora aperta: chiudo con un contributo informativo e logistico.",
+          "text": "Consegno le informazioni raccolte e lascio l'intervento alle squadre.",
           "conditions": {
             "all": [
               {
@@ -819,7 +819,7 @@
       "choices": [
         {
           "id": "success_to_close",
-          "text": "Esco dal perimetro.",
+          "text": "Esco dal perimetro e lascio lavorare le squadre.",
           "goto": "rescue_close"
         }
       ]
@@ -843,7 +843,7 @@
       "stitches": [
         {
           "id": "rescue_missed_1",
-          "text": "La finestra operativa è finita. Non puoi riavvolgere il tempo: quello che è stato salvato, danneggiato o perso verrà registrato dal successivo blocco di outcome. Qui puoi solo accettare il fatto del ritardo."
+          "text": "Quando arriva l'ultimo aggiornamento, il caposquadra chiude l'accesso ai volontari esterni. «Da qui in poi entrano solo le squadre già assegnate.» Qualunque cosa sia successa nel settore isolato, ormai non puoi più raggiungerla durante la fase di soccorso."
         }
       ],
       "choices": [
@@ -858,7 +858,7 @@
       "stitches": [
         {
           "id": "rescue_close_1",
-          "text": "Ferravia torna a essere il punto di raccolta. Quello che hai fatto nelle gallerie comincia già a circolare tra soccorritori, tecnici e persone che aspettano notizie."
+          "text": "A Ferravia il centro operativo diventa il punto di raccolta. Tecnici e soccorritori rientrano a gruppi; vicino alle transenne, alcune persone aspettano nomi e notizie."
         }
       ],
       "choices": [

@@ -38,11 +38,11 @@
       "stitches": [
         {
           "id": "cup_board_1",
-          "text": "La Regional Cup di Ferravia occupa l'Officina Arena per una giornata. È un torneo opzionale: prestigio e risultati contano, ma non sostituiscono il Promotion Trial D→C."
+          "text": "Per un'intera giornata l'Officina Arena ospita la Regional Cup di Ferravia. Un cartello ricorda che la Coppa ha classifica e premio propri: il Rank C si conquista invece nel Trial."
         },
         {
           "id": "cup_board_2",
-          "text": "Il tabellone è a eliminazione diretta. Ogni match è ufficiale e usa il roster reale; perdere chiude la tua corsa senza modificare il Rank."
+          "text": "Otto nomi, eliminazione diretta: quarti, semifinale, finale. Ogni incontro usa tre Pokémon dichiarati; chi perde esce dal tabellone."
         }
       ],
       "choices": [
@@ -100,7 +100,7 @@
         },
         {
           "id": "cup_info_2",
-          "text": "Il torneo registra ogni risultato nella storia competitiva. Non esiste un percorso narrativo che trasformi una sconfitta in vittoria."
+          "text": "A fine incontro il giudice consegna il risultato al tavolo del torneo e il tabellone viene aggiornato. Una sconfitta chiude il percorso in Coppa."
         }
       ],
       "choices": [
@@ -168,7 +168,7 @@
       "stitches": [
         {
           "id": "cup_roster_1",
-          "text": "La Cup non crea Pokémon per renderti eleggibile. Servono almeno tre membri reali nel roster per iniziare un match ufficiale a tre."
+          "text": "L'addetto conta i Pokémon disponibili sulla tua tessera. «Per entrare in campo te ne servono tre. Se non li hai, non posso convalidare la squadra.»"
         }
       ],
       "choices": [
@@ -201,7 +201,7 @@
       "stitches": [
         {
           "id": "cup_pause_1",
-          "text": "La finestra della Cup resta una scelta del calendario. Non ricevi membri temporanei né bypass di roster."
+          "text": "L'addetto ti restituisce la tessera. «Puoi tornare prima della chiusura delle iscrizioni con una squadra valida. Dopo, il tabellone parte così com'è.»"
         }
       ],
       "choices": [
@@ -382,7 +382,7 @@
       "stitches": [
         {
           "id": "qf_loss_1",
-          "text": "Il risultato ufficiale è una sconfitta. Non c'è ramo che ti faccia avanzare comunque."
+          "text": "Il giudice alza il braccio verso Mira. Poco dopo, sul tabellone compare il risultato e il suo nome passa alla semifinale."
         }
       ],
       "choices": [
@@ -480,7 +480,7 @@
       "stitches": [
         {
           "id": "sf_handoff_1",
-          "text": "Il secondo match ufficiale viene aperto come evento separato nella history competitiva."
+          "text": "Il giudice richiama te e Oren sul campo, verifica le tre registrazioni per parte e aspetta che entrambi siate in posizione."
         }
       ],
       "choices": [
@@ -642,7 +642,7 @@
       "stitches": [
         {
           "id": "final_scout_1",
-          "text": "Sena ha risultati equilibrati e match lunghi. Non c'è altro che il registro pubblico possa dirti senza trasformarsi in fog-of-war leakage."
+          "text": "I risultati di Sena mostrano incontri equilibrati e spesso lunghi. Il registro pubblico non dice quali mosse abbia preparato per questa finale."
         }
       ],
       "choices": [
@@ -721,7 +721,7 @@
       "stitches": [
         {
           "id": "final_win_1",
-          "text": "Hai vinto la Regional Cup di Ferravia. È un risultato del bracket, non una promozione di Rank."
+          "text": "Il giudice assegna l'ultimo incontro. Il tuo nome resta da solo in cima al tabellone della Regional Cup di Ferravia; al banco del Trial, però, la procedura per il Rank C non cambia."
         }
       ],
       "choices": [
@@ -799,7 +799,7 @@
       "stitches": [
         {
           "id": "cup_review_1",
-          "text": "Il tabellone non cambia mentre lo riguardi. Puoi estrarre una lezione tattica, ma il risultato resta quello già scritto nella competition history."
+          "text": "Il tabellone resta davanti a te con risultati e orari ormai fissati. Puoi ripercorrere dove hai guadagnato o perso terreno, ma i nomi qualificati non cambiano."
         }
       ],
       "choices": [
@@ -931,7 +931,7 @@
       "stitches": [
         {
           "id": "cup_forfeit_1",
-          "text": "Il forfait chiude il torneo senza fingere un match mai disputato."
+          "text": "All'orario di chiamata il tuo posto resta vuoto. Dopo l'attesa prevista dal regolamento, il giudice assegna il passaggio del turno all'avversario per forfait."
         }
       ],
       "choices": [
@@ -958,7 +958,7 @@
       "stitches": [
         {
           "id": "cup_withdrawn_1",
-          "text": "Il ritiro avviene prima del primo match; nessun record ufficiale viene creato per una battaglia mai iniziata."
+          "text": "L'addetto cancella il tuo nome prima della prima chiamata in campo. Non essendoci stato alcun incontro, sul registro dei risultati non compare una battaglia."
         }
       ],
       "choices": [
@@ -1012,7 +1012,7 @@
       "stitches": [
         {
           "id": "cup_close_1",
-          "text": "La finestra della Regional Cup è chiusa per questa run. Se hai disputato match, i risultati ufficiali restano nella competition history."
+          "text": "Il banco della Regional Cup chiude e il tabellone resta esposto con il risultato finale. Gli incontri che hai realmente disputato compaiono nel registro ufficiale dell'Arena."
         }
       ],
       "choices": [
@@ -1119,7 +1119,7 @@
       "stitches": [
         {
           "id": "bracket_timing_1",
-          "text": "I round sono ravvicinati. Il torneo non applica guarigioni narrative gratuite: HP, PP, condizioni e recupero restano proprietà dei sistemi Pokémon 5e e dei servizi realmente usati."
+          "text": "Gli intervalli tra i turni sono brevi. Il regolamento non rimette automaticamente la squadra in piena forma: puoi usare soltanto il tempo e i servizi effettivamente disponibili."
         }
       ],
       "choices": [
@@ -1224,7 +1224,7 @@
       "stitches": [
         {
           "id": "qf_team_1",
-          "text": "Prima del turno successivo controlli la squadra così com'è uscita dall'incontro: ferite, energie e condizioni sono ancora quelle lasciate dal campo."
+          "text": "Controlli i Pokémon uno per uno così come sono usciti dal quarto: ferite, stanchezza e condizioni non sono scomparse durante l'aggiornamento del tabellone."
         }
       ],
       "choices": [
@@ -1251,7 +1251,7 @@
       "stitches": [
         {
           "id": "qf_other_1",
-          "text": "Oren Pike ha vinto l'altro quarto della tua metà. È un risultato del bracket, non un avversario generato in risposta al tuo team."
+          "text": "Sul tabellone compare il risultato dell'altro quarto: Oren Pike ha vinto. Sarà lui ad affrontarti in semifinale."
         }
       ],
       "choices": [
@@ -1349,7 +1349,7 @@
       "stitches": [
         {
           "id": "sf_team_1",
-          "text": "Ancora una volta la scena legge lo stato reale e non offre un reset gratuito fra round."
+          "text": "Controlli di nuovo la squadra. Quello che ogni Pokémon porta dal turno precedente è ancora lì; l'intervallo non cancella automaticamente fatica o ferite."
         }
       ],
       "choices": [
@@ -1442,7 +1442,7 @@
       "stitches": [
         {
           "id": "cup_legacy_1",
-          "text": "Il risultato della Cup può influenzare reputazione e inviti futuri, ma non modifica il Rank. La promotion resta un sistema separato."
+          "text": "Il risultato della Coppa resta visibile sul registro dell'Arena e può rendere il tuo nome più riconoscibile. Sul banco accanto, però, il Rank resta invariato finché non superi il Trial."
         }
       ],
       "choices": [
@@ -1478,7 +1478,7 @@
       "stitches": [
         {
           "id": "cup_history_1",
-          "text": "La competition history contiene soltanto i match iniziati e risolti. Ritiri e forfait prima del campo non generano record di battaglie mai avvenute."
+          "text": "Nel registro compaiono soltanto le battaglie effettivamente iniziate e concluse. Un ritiro prima della chiamata o un forfait senza combattimento viene annotato separatamente."
         }
       ],
       "choices": [
@@ -1500,7 +1500,7 @@
       "stitches": [
         {
           "id": "public_result_1",
-          "text": "Il tabellone pubblico conserva il piazzamento finale e i match realmente disputati. Questo è ciò che NPC e inviti futuri possono conoscere senza accedere a dati privati del combattimento."
+          "text": "Sul tabellone pubblico restano il piazzamento e i risultati disputati. Mosse, condizioni della squadra e altre informazioni non pubblicate dall'Arena non compaiono."
         }
       ],
       "choices": [
@@ -1518,7 +1518,7 @@
         },
         {
           "id": "public_result_history",
-          "text": "Confronto il tabellone con la competition history.",
+          "text": "Confronto il tabellone con il registro ufficiale dell'Arena.",
           "goto": "cup_history"
         }
       ]
@@ -1527,7 +1527,7 @@
       "stitches": [
         {
           "id": "priority_echo_1",
-          "text": "Se avevi scelto la Cup al Crossroads, il torneo mostra il costo reale di quella priorità: tempo e match disputati, non un bonus nascosto al risultato."
+          "text": "Guardando gli orari puoi vedere quanto spazio ha occupato la Coppa nella giornata: preparazione, attese e incontri hanno preso ore che non hai potuto spendere altrove."
         }
       ],
       "choices": [

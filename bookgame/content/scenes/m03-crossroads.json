@@ -38,17 +38,17 @@
       "stitches": [
         {
           "id": "crossroads_1",
-          "text": "Ferravia ti mette davanti più cose vere nello stesso momento. Ferrox ha lasciato un risultato ancora da metabolizzare, gli altri Five continuano le proprie carriere, il Trial D→C si avvicina e la Regional Cup può entrare nel calendario quando il tuo stato la rende disponibile."
+          "text": "A Ferravia più cose reclamano tempo nello stesso momento. Ferrox non ha ancora consegnato un bilancio definitivo; uno degli altri Five prova a raggiungerti; all'Arena compaiono gli orari del Trial D→C e, quando le iscrizioni sono aperte, quelli della Regional Cup."
         },
         {
           "id": "crossroads_2",
-          "text": "Non puoi trattare ogni priorità come se avesse il primo posto. Scegliere qui non cancella le altre attività, ma registra quale pressione decidi di mettere davanti alle altre."
+          "text": "Sul tabellone gli orari non si spostano per farti spazio. Puoi occuparti di una cosa adesso e tornare alle altre dopo, ma il tempo che spendi appartiene comunque alla giornata."
         }
       ],
       "choices": [
         {
           "id": "review_rescue_priority",
-          "text": "Metto al primo posto le conseguenze di Ferrox.",
+          "text": "Prima voglio sapere come sta andando Ferrox.",
           "conditions": {
             "path": "world.flags.ferrox_rescue_state",
             "exists": true
@@ -57,7 +57,7 @@
         },
         {
           "id": "review_friend_priority",
-          "text": "Metto al primo posto il contatto con uno degli altri Five.",
+          "text": "Prima rispondo al mio amico.",
           "conditions": {
             "all": [
               {
@@ -74,7 +74,7 @@
         },
         {
           "id": "review_trial_priority",
-          "text": "Metto al primo posto la preparazione al Trial D→C.",
+          "text": "Prima mi occupo del Trial D→C.",
           "conditions": {
             "path": "world.flags.a3_rank_trial_d_c_available",
             "eq": true
@@ -83,7 +83,7 @@
         },
         {
           "id": "review_cup_priority",
-          "text": "Metto al primo posto la finestra della Regional Cup.",
+          "text": "Prima controllo la Regional Cup.",
           "conditions": {
             "path": "world.flags.a3_regional_cup_available",
             "eq": true
@@ -92,12 +92,12 @@
         },
         {
           "id": "review_technical_priority",
-          "text": "Metto al primo posto capire meglio il sistema industriale prima di correre al prossimo risultato.",
+          "text": "Prima voglio capire meglio cosa collega cava, mappe e Ferrox.",
           "goto": "technical_priority"
         },
         {
           "id": "defer_crossroads",
-          "text": "Non fisso ancora una priorità. Torno nel mondo aperto.",
+          "text": "Non decido ancora. Torno per Ferravia.",
           "timeCostMinutes": 15,
           "goto": "m03-ferravia-arrival#city_hub",
           "effects": [
@@ -118,7 +118,7 @@
       "stitches": [
         {
           "id": "rescue_priority_1",
-          "text": "Scegliere Ferrox significa accettare che il risultato competitivo può aspettare mentre dai peso a ciò che è successo fuori dall'Arena. Non cambia retroattivamente il rescue state; cambia il modo in cui affronti il seguito."
+          "text": "Ferrox resta a pochi minuti di distanza. Tecnici e soccorritori stanno ancora ricostruendo l'accaduto, mentre all'Arena gli incontri continuano come sempre."
         }
       ],
       "choices": [
@@ -181,7 +181,7 @@
       "stitches": [
         {
           "id": "rescue_success_context_1",
-          "text": "Hai già dato il tuo contributo all'emergenza, ma il bilancio finale non è ancora pronto. Sai soltanto dove sei intervenuto e quanto tempo hai speso."
+          "text": "Sai quale parte dell'intervento hai visto e dove hai dato una mano. Per il resto devi aspettare che le squadre rientrino, controllino il settore e pubblichino un bilancio."
         }
       ],
       "choices": [
@@ -218,13 +218,13 @@
       "stitches": [
         {
           "id": "rescue_failure_context_1",
-          "text": "Il mondo non ti offre una versione più comoda della scelta: hai rifiutato il soccorso oppure sei arrivato oltre la finestra. Puoi decidere che affrontarne le conseguenze venga prima del prossimo risultato competitivo."
+          "text": "Quando hai potuto intervenire, hai scelto di non farlo oppure sei arrivato dopo la fase utile. Tornare ora non cambia quelle ore; può però dirti che cosa è successo e cosa resta da affrontare."
         }
       ],
       "choices": [
         {
           "id": "failure_commit_rescue",
-          "text": "Metto comunque Ferrox al primo posto e affronto l'outcome.",
+          "text": "Torno a Ferrox e affronto quello che è successo.",
           "goto": "crossroads_close",
           "effects": [
             {
@@ -255,7 +255,7 @@
       "stitches": [
         {
           "id": "friend_priority_1",
-          "text": "Scegliere il contatto con un amico significa dare spazio a una relazione mentre il circuito continua. Non forza l'amico a comparire fisicamente e non cambia il suo risultato off-screen."
+          "text": "Il nome del tuo amico è ancora sullo schermo. Potrebbe essere dall'altra parte della regione o abbastanza vicino da incontrarti: in ogni caso, anche la sua giornata sta andando avanti."
         }
       ],
       "choices": [
@@ -278,7 +278,7 @@
         },
         {
           "id": "friend_note_then_back",
-          "text": "Registro che il contatto conta, ma riconsidero prima di impegnarmi.",
+          "text": "Non rispondo ancora. Prima controllo gli altri impegni.",
           "goto": "crossroads",
           "effects": [
             {
@@ -294,7 +294,7 @@
       "stitches": [
         {
           "id": "trial_priority_1",
-          "text": "Il Trial D→C è il gate geografico reale. Prepararlo significa accettare di spendere tempo sul roster e sul formato ufficiale, non ricevere una promozione perché hai scelto questa voce."
+          "text": "Al banco dell'Arena il Trial D→C ha un'iscrizione propria. Il foglio esposto indica tre Pokémon da dichiarare e un incontro da vincere sul campo."
         }
       ],
       "choices": [
@@ -305,7 +305,7 @@
         },
         {
           "id": "commit_trial_priority",
-          "text": "Il Trial diventa la mia priorità principale.",
+          "text": "Comincio dal Trial.",
           "goto": "crossroads_close",
           "effects": [
             {
@@ -336,7 +336,7 @@
       "stitches": [
         {
           "id": "trial_context_1",
-          "text": "Il banco del Trial resta aperto con le stesse regole: iscrizione separata, tre Pokémon dichiarati e vittoria da conquistare sul campo. Scegliere di occupartene adesso significa soltanto dargli priorità."
+          "text": "Il regolamento affisso al banco non cambia: iscrizione separata, tre Pokémon dichiarati, promozione soltanto dopo una vittoria. Accanto, gli orari disponibili occupano finestre precise della giornata."
         }
       ],
       "choices": [
@@ -373,18 +373,18 @@
       "stitches": [
         {
           "id": "cup_priority_1",
-          "text": "La Regional Cup è prestigiosa ma opzionale. Se la metti davanti al resto, stai scegliendo una finestra competitiva che può chiudersi o cambiare il tuo calendario; non stai sostituendo il Promotion Trial."
+          "text": "La Regional Cup ha il proprio banco e il proprio calendario. Non sostituisce il Trial D→C: parteciparvi significa aggiungere altri incontri e altre ore a una giornata che ne ha già poche."
         }
       ],
       "choices": [
         {
           "id": "review_cup_tradeoff",
-          "text": "Valuto cosa sto lasciando in secondo piano scegliendo la Cup.",
+          "text": "Controllo gli orari della Coppa prima di decidere.",
           "goto": "cup_context"
         },
         {
           "id": "commit_cup_priority",
-          "text": "La Regional Cup diventa la mia priorità principale.",
+          "text": "Comincio dalla Regional Cup.",
           "goto": "crossroads_close",
           "effects": [
             {
@@ -415,13 +415,13 @@
       "stitches": [
         {
           "id": "cup_context_1",
-          "text": "La Coppa richiede tempo. Se scegli di partecipare, Ferravia e le altre questioni aperte continueranno a muoversi mentre sei impegnato nel tabellone."
+          "text": "Sul tabellone della Coppa ogni turno occupa una fascia precisa. Se ti iscrivi, durante quelle ore Ferrox, Ferravia e gli altri impegni non smettono di esistere."
         }
       ],
       "choices": [
         {
           "id": "cup_context_commit",
-          "text": "Accetto il trade-off e scelgo la Cup.",
+          "text": "Mi iscrivo alla Coppa sapendo quanto tempo richiederà.",
           "goto": "crossroads_close",
           "effects": [
             {
@@ -452,18 +452,18 @@
       "stitches": [
         {
           "id": "technical_priority_1",
-          "text": "Restare sul filo tecnico significa continuare a leggere Ferravia, Cava e Ferrox come un sistema prima di inseguire il prossimo checkpoint. È una scelta valida, ma consuma tempo mentre eventi e opportunità restano vivi."
+          "text": "Puoi anche restare fuori dall'Arena. Archivio, cava e perimetro Ferrox hanno ancora documenti, persone e dettagli che non hai seguito fino in fondo."
         }
       ],
       "choices": [
         {
           "id": "technical_review_archive",
-          "text": "Torno mentalmente alle mappe e ai segnali che ho raccolto.",
+          "text": "Riparto dalle mappe e dagli indizi che ho già raccolto.",
           "goto": "technical_context"
         },
         {
           "id": "commit_technical_priority",
-          "text": "La comprensione del territorio resta la mia priorità.",
+          "text": "Continuo l'indagine prima di tornare alla competizione.",
           "goto": "crossroads_close",
           "effects": [
             {
@@ -494,7 +494,7 @@
       "stitches": [
         {
           "id": "technical_context_1",
-          "text": "Hai già abbastanza dati per sapere che il sistema non si riduce a un colpevole singolo: vecchie mappe, manutenzione, pressione produttiva, procedure e scelte umane si sovrappongono. Continuare a osservare può darti contesto, non immunità dalle conseguenze."
+          "text": "Quello che hai visto finora non punta a una causa unica: vecchie mappe, manutenzione, produzione e decisioni prese in momenti diversi si sovrappongono. Altri documenti o testimonianze potrebbero chiarire i collegamenti, oppure lasciarli incompleti."
         }
       ],
       "choices": [
@@ -531,13 +531,13 @@
       "stitches": [
         {
           "id": "crossroads_close_1",
-          "text": "La scelta non chiude le altre strade. Registra quale pressione hai messo davanti alle altre in questo momento. Il mondo continuerà a verificare deadline, eventi, NPC e competizioni senza aspettare che tu faccia tutto."
+          "text": "Hai deciso cosa viene prima, almeno per adesso. Intorno a te Ferravia non cambia ritmo: i treni rispettano gli orari, l'Arena chiama gli incontri e dal lato industriale continuano ad arrivare mezzi."
         }
       ],
       "choices": [
         {
           "id": "crossroads_to_hub",
-          "text": "Torno a Ferravia con una priorità definita.",
+          "text": "Torno in città e mi muovo verso ciò che ho scelto.",
           "goto": "m03-ferravia-arrival#city_hub",
           "effects": [
             {

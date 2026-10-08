@@ -30,11 +30,11 @@
       "stitches": [
         {
           "id": "station_approach_1",
-          "text": "Ferravia non si annuncia con un cartello: si annuncia con il fischio di un treno merci che taglia la valle. Il cartello del Circuito arriva solo dopo l'ultima curva — FER-CITY, hub industriale della fascia Rank D. Il paesaggio è un reticolo di binari, tettoie basse e una stazione di media grandezza fatta per persone, mezzi e materiale."
+          "text": "Ferravia si annuncia prima col fischio di un treno merci che taglia la valle, poi con il ferro dei binari che si moltiplica lungo la strada. Dopo l'ultima curva compare il cartello della città. Dietro, tettoie basse e una stazione di media grandezza servono insieme persone, mezzi e materiale."
         },
         {
           "id": "station_approach_2",
-          "text": "La piazza antistante la stazione è un piccolo nodo civile: un chiosco con mappa aggiornata, un paio di operai che aspettano la coincidenza, un addetto Circuito in giacca da servizio pubblico che smista i trainer in arrivo. Non è una città turistica. È un posto di lavoro che non ha paura di chi passa."
+          "text": "La piazza davanti alla stazione vive di coincidenze e cambi turno: un chiosco con la mappa della città, operai in attesa, allenatori appena scesi dal treno. Un addetto del Circuito indica le direzioni a chi mostra una tessera nuova. Ferravia non cerca di impressionare chi arriva; deve farlo arrivare nel posto giusto."
         },
         {
           "id": "station_approach_3",
@@ -44,7 +44,7 @@
       "choices": [
         {
           "id": "enter_city_hub",
-          "text": "Entro nel cuore di Ferravia e vado al mio orientamento.",
+          "text": "Entro in città e mi oriento tra stazione, servizi e Arena.",
           "timeCostMinutes": 5,
           "goto": "city_hub",
           "effects": [
@@ -87,11 +87,11 @@
         },
         {
           "id": "board_notice",
-          "text": "Un avviso rotante del Circuito elenca gli eventi locali: Arena del Circuito aperta ai Rank D, finestre di registrazione per il Trial D→C (date variabili, verificare al banco), e una nota di sistema sulla Regional Cup — qualificazioni aperte quando il programma lo prevede, iscrizione separata dal Trial."
+          "text": "Un avviso rotante del Circuito elenca gli appuntamenti locali: Arena aperta agli allenatori Rank D, prossime finestre per il Trial D→C e date della Regional Cup. Trial e Coppa hanno banchi e iscrizioni separate."
         },
         {
           "id": "board_summary",
-          "text": "Nessuna di queste informazioni ti iscrive automaticamente a nulla. La bacheca mostra cosa esiste; i registri reali richiedono di andare ai banchi specifici — Arena per i match, Ufficio Trial per i tentativi di promozione, segreteria Regional Cup per la competizione opzionale."
+          "text": "Per partecipare non basta leggere una data sul tabellone. L'Arena gestisce gli incontri ordinari, il banco Trial verifica le richieste di promozione e la segreteria della Coppa raccoglie le proprie iscrizioni."
         }
       ],
       "choices": [
@@ -122,7 +122,7 @@
         },
         {
           "id": "hub_services",
-          "text": "Ferravia offre i servizi che una fascia Rank D si aspetta: una Sala Verde del Circuito per riposare la squadra, un negozio orientato sulla fascia media, un'infermeria pubblica, un paio di punti di ristoro con un orario che segue i turni di cantiere più che quelli civili."
+          "text": "Tra la stazione e l'Arena trovi una Sala Verde del Circuito, un piccolo negozio per allenatori, l'infermeria pubblica e punti di ristoro che seguono soprattutto i cambi turno degli operai."
         },
         {
           "id": "hub_people",
@@ -292,7 +292,7 @@
         },
         {
           "id": "hub_ferrox_rescue",
-          "text": "Raggiungo il perimetro Ferrox: la finestra di soccorso è ancora una questione aperta.",
+          "text": "Raggiungo il perimetro Ferrox finché c'è ancora tempo per intervenire.",
           "timeCostMinutes": 20,
           "conditions": {
             "all": [
@@ -397,7 +397,7 @@
         },
         {
           "id": "hub_trial_d_c",
-          "text": "Accedo al banco del Promotion Trial D→C.",
+          "text": "Vado al banco del Trial D→C.",
           "timeCostMinutes": 5,
           "conditions": {
             "all": [
@@ -554,13 +554,13 @@
         },
         {
           "id": "sala_verde_2",
-          "text": "Puoi fermarti con la squadra e lasciare scorrere un po' di tempo, oppure chiedere al medico un parere sulle condizioni dei tuoi Pokémon. Il consulto non sostituisce cure o strumenti medici."
+          "text": "Puoi fermarti con la squadra e lasciarla tranquilla per un po', oppure chiedere al medico di turno di osservarla. Per cure vere, il medico ti indica cosa serve e dove rivolgerti."
         }
       ],
       "choices": [
         {
           "id": "sala_verde_rest",
-          "text": "Mi fermo un'ora con la squadra per riposare, senza applicare guarigioni automatiche.",
+          "text": "Mi fermo un'ora con la squadra e le concedo un po' di tranquillità.",
           "timeCostMinutes": 60,
           "goto": "sala_verde_rest_done",
           "effects": [
@@ -573,7 +573,7 @@
         },
         {
           "id": "sala_verde_consult",
-          "text": "Chiedo al medico un consulto sullo stato della squadra, senza trattamento automatico.",
+          "text": "Chiedo al medico di dare un'occhiata alla squadra.",
           "timeCostMinutes": 15,
           "goto": "sala_verde_consult_done",
           "effects": [
@@ -601,7 +601,7 @@
       "stitches": [
         {
           "id": "rest_done_narration",
-          "text": "Passa un'ora in un ambiente tranquillo mentre il mondo continua a muoversi: orari, eventi e schedule NPC avanzano normalmente. Questo riposo non riscrive HP, PP o status; eventuale recupero meccanico deve passare da una regola o da un sottosistema medico canonico."
+          "text": "Per un'ora la Sala Verde attenua il rumore della città. I Pokémon possono stare fuori dalle capsule e sistemarsi senza essere sollecitati; quando esci, il tabellone dell'atrio segna un'ora in più."
         }
       ],
       "choices": [
@@ -630,7 +630,7 @@
         },
         {
           "id": "arena_3",
-          "text": "Il banco del Trial D→C è presidiato. Non puoi iscriverti senza aver visto i prerequisiti — è il tuo compito, non del banco, assicurarti di avere ciò che serve. Il banco ti dirà quando sarà tempo; qui ti dà il contesto, non il permesso."
+          "text": "Dietro il banco «Trial D→C» un addetto sistema moduli e tessere. «Se vuoi informazioni, chiedi pure. Per l'iscrizione controlleremo Rank, autorizzazione e squadra quando presenterai la domanda.»"
         }
       ],
       "choices": [
@@ -689,11 +689,11 @@
       "stitches": [
         {
           "id": "results_board_text",
-          "text": "La bacheca è aggiornata ad oggi. Risultati di match Rank D ordinati per data recente, qualche risultato del circuito giovanile, un pannello laterale sulla Regional Cup — iscrizioni aperte in finestre periodiche, bracket pubblicato alla chiusura delle iscrizioni, risultato finale registrato come storia competitiva reale."
+          "text": "La bacheca è aggiornata a oggi: incontri Rank D ordinati per data, qualche risultato del circuito giovanile e un pannello dedicato alla Regional Cup. Le iscrizioni aprono a finestre; alla chiusura viene affisso il tabellone degli accoppiamenti e, turno dopo turno, i risultati restano esposti."
         },
         {
           "id": "results_board_tone",
-          "text": "Non ci sono volti noti vincenti in modo sospetto. L'Arena rispetta la regola base: i risultati competitivi sono emergenti, non scritti."
+          "text": "Tra vittorie e sconfitte non c'è una gerarchia pulita. Alcuni nomi ricompaiono, altri spariscono dopo un solo incontro; Ferravia registra quello che succede sul campo."
         }
       ],
       "choices": [
@@ -818,7 +818,7 @@
       "stitches": [
         {
           "id": "consult_done_narration",
-          "text": "Il medico osserva la squadra e ti dà indicazioni generali su affaticamento e prudenza, ma non applica una cura narrativa. Il consulto è informazione e tempo speso, non una scorciatoia sullo stato Pokémon."
+          "text": "Il medico osserva i Pokémon uno alla volta, controllando postura, respiro e segni evidenti di affaticamento. Alla fine ti indica cosa merita prudenza e cosa, invece, non gli desta preoccupazione. Non somministra trattamenti durante il semplice consulto."
         }
       ],
       "choices": [

@@ -38,13 +38,13 @@
         },
         {
           "id": "warning_board_2",
-          "text": "Tre avvisi attirano l'attenzione: una revisione programmata delle paratie laterali, una nota sulla ventilazione del ramo vecchio e un richiamo a usare la cartografia aggiornata. Nessuno dice «pericolo imminente». Il punto è capire se i segnali convergono davvero."
+          "text": "Tre avvisi attirano l'attenzione: una revisione programmata delle paratie laterali, una nota sulla ventilazione del ramo vecchio e un richiamo a usare la cartografia aggiornata. Presi da soli sembrano normale manutenzione; date e luoghi diranno se hanno qualcosa in comune."
         }
       ],
       "choices": [
         {
           "id": "inspect_notice",
-          "text": "Leggo con attenzione gli avvisi e le date di revisione. (CT Investigation)",
+          "text": "Leggo con attenzione gli avvisi e le date di revisione.",
           "timeCostMinutes": 10,
           "check": {
             "ability": "INT",
@@ -82,7 +82,7 @@
         },
         {
           "id": "walk_permitted_route",
-          "text": "Percorro il tratto visitabile e osservo supporti, rumori e flussi d'aria. (CT Perception)",
+          "text": "Percorro il tratto visitabile e osservo supporti, rumori e flussi d'aria.",
           "timeCostMinutes": 15,
           "check": {
             "ability": "WIS",
@@ -193,7 +193,7 @@
         },
         {
           "id": "notice_to_synthesis",
-          "text": "Questo è abbastanza concreto da entrare nella mia valutazione.",
+          "text": "Tengo conto delle date e provo a tirare le somme.",
           "goto": "warning_synthesis"
         }
       ]
@@ -202,7 +202,7 @@
       "stitches": [
         {
           "id": "notice_partial_1",
-          "text": "Le sigle e le revisioni non sono abbastanza chiare per distinguere manutenzione ordinaria da un problema reale. Registri che esiste una catena di controlli, non che sia fallita."
+          "text": "Le sigle e le revisioni non bastano a distinguere una normale manutenzione da qualcosa di insolito. Puoi solo stabilire che i controlli esistono e vengono registrati."
         }
       ],
       "choices": [
@@ -222,13 +222,13 @@
       "stitches": [
         {
           "id": "worker_gate_1",
-          "text": "L'addetto non ha motivo di raccontare dettagli interni a un trainer di passaggio. Ti conferma però che il ramo vecchio viene ancora usato da squadre di manutenzione e che le rotazioni sono più strette quando la produzione sale."
+          "text": "L'addetto ti squadra per un momento prima di rispondere. «I dettagli dei lavori restano alle squadre tecniche. Il ramo vecchio, però, lo usiamo ancora per la manutenzione. E quando aumenta la produzione, le finestre tra un intervento e l'altro diventano più strette.»"
         }
       ],
       "choices": [
         {
           "id": "worker_persuade",
-          "text": "Gli chiedo un esempio concreto, senza chiedergli di violare procedure. (CT Persuasion)",
+          "text": "Gli chiedo un esempio concreto, senza chiedergli di violare procedure.",
           "timeCostMinutes": 10,
           "check": {
             "ability": "CHA",
@@ -292,7 +292,7 @@
         },
         {
           "id": "worker_open_synthesis",
-          "text": "Registro il cambiamento come segnale concreto.",
+          "text": "Tengo a mente il cambiamento e provo a tirare le somme.",
           "goto": "warning_synthesis"
         }
       ]
@@ -301,7 +301,7 @@
       "stitches": [
         {
           "id": "worker_guarded_1",
-          "text": "L'addetto chiude la conversazione con cortesia. «Se ci fosse un'emergenza, il perimetro sarebbe chiuso. Per il resto valgono le procedure.» Non hai ottenuto un dettaglio, ma nemmeno una conferma artificiale."
+          "text": "L'addetto scuote la testa, senza ostilità. «Più di questo non posso dirti. Se ci fosse un'emergenza, quel cancello sarebbe chiuso.» Poi torna al registro."
         }
       ],
       "choices": [
@@ -321,7 +321,7 @@
       "stitches": [
         {
           "id": "worker_general_1",
-          "text": "«Più carichi, più passaggi. I turni non sono più lunghi, ma sono più pieni.» È un dato operativo utile: pressione sul sistema, non prova di negligenza."
+          "text": "«Più carichi, più passaggi. I turni non sono diventati più lunghi; dentro le stesse ore ci passa più roba.»"
         }
       ],
       "choices": [
@@ -341,7 +341,7 @@
       "stitches": [
         {
           "id": "structural_signal_1",
-          "text": "Nel tratto visitabile senti una vibrazione corta e regolare sotto il passaggio di un convoglio. Poco dopo, una linea di polvere scende da una giunzione alta. Non è un cedimento; è un segnale fisico che vale più di una voce."
+          "text": "Quando passa un convoglio, sotto le scarpe senti una vibrazione corta e regolare. Qualche secondo dopo una sottile linea di polvere cade da una giunzione alta e si disperde nel flusso d'aria. La struttura resta ferma, ma il dettaglio è reale."
         }
       ],
       "choices": [
@@ -352,7 +352,7 @@
         },
         {
           "id": "structural_synthesis",
-          "text": "Registro il segnale strutturale nella mia valutazione.",
+          "text": "Tengo conto di ciò che ho visto e provo a tirare le somme.",
           "goto": "warning_synthesis"
         }
       ]
@@ -361,7 +361,7 @@
       "stitches": [
         {
           "id": "route_unclear_1",
-          "text": "Il rumore della galleria copre troppo: ventilatori, ruote, voci e metallo si sommano senza lasciarti isolare un pattern affidabile. Non trasformi il rumore in una diagnosi."
+          "text": "Ventilatori, ruote, voci e metallo si sovrappongono. Provi a isolare un ritmo o una vibrazione, ma il rumore della galleria inghiotte ogni riferimento affidabile."
         }
       ],
       "choices": [
@@ -381,7 +381,7 @@
       "stitches": [
         {
           "id": "old_map_context_1",
-          "text": "La vecchia planimetria rende più leggibile l'avviso sulle paratie: il ramo segnalato corre vicino a una cavità che nelle mappe moderne appare semplificata. Non significa che stia cedendo; significa che il margine storico conta."
+          "text": "Sulla vecchia planimetria il ramo indicato dagli avvisi passa accanto a una cavità che nelle carte moderne è ridotta a poche linee. Le due versioni non si contraddicono, ma quella vecchia mostra più terreno attorno alle paratie."
         }
       ],
       "choices": [
@@ -401,7 +401,7 @@
       "stitches": [
         {
           "id": "survey_context_1",
-          "text": "Il rapporto aveva già chiesto controlli più frequenti sulle pareti leggere di separazione. Gli avvisi odierni non contraddicono quella raccomandazione: mostrano che il problema tecnico è noto, ma ancora gestito come manutenzione."
+          "text": "Nel rapporto che hai letto, le pareti leggere di separazione comparivano già tra gli elementi da controllare più spesso. Gli avvisi appesi oggi riguardano proprio quelle verifiche."
         }
       ],
       "choices": [
@@ -421,7 +421,7 @@
       "stitches": [
         {
           "id": "steven_context_1",
-          "text": "Steven ascolta e guarda le date prima di rispondere. «Un singolo rinvio non mi preoccupa. Mi interessa la combinazione: cartografia vecchia, produzione alta, segnali fisici ripetuti. Se due di questi elementi si incontrano nello stesso ramo, smette di essere solo amministrazione.»"
+          "text": "Steven prende il foglio e confronta le date. «Un rinvio, da solo, non dice molto.» Tocca prima la planimetria, poi la nota sulla ventilazione. «Io guarderei dove si incontrano le cose: vecchie cavità, carichi più frequenti, segnali che ricompaiono nello stesso punto. È lì che una coincidenza smette di essere interessante e diventa qualcosa da controllare.»"
         }
       ],
       "choices": [
@@ -432,7 +432,7 @@
         },
         {
           "id": "steven_synthesis",
-          "text": "Integro la sua lettura senza trattarla come certezza.",
+          "text": "Tengo conto della lettura di Steven insieme agli altri elementi.",
           "goto": "warning_synthesis"
         }
       ]
@@ -441,13 +441,13 @@
       "stitches": [
         {
           "id": "warning_synthesis_1",
-          "text": "Hai abbastanza elementi per decidere come descrivere il rischio, non per predire il futuro. Il valore della scelta è nel livello di attenzione che porterai avanti, non nell'inventare un colpevole."
+          "text": "Rimetti in ordine ciò che hai raccolto: date, testimonianze, mappe, rumori e polvere. Alcuni elementi possono sostenersi a vicenda; altri restano semplici possibilità. Devi decidere quanto seriamente prendere il quadro senza aggiungere ciò che non hai visto."
         }
       ],
       "choices": [
         {
           "id": "record_converging_warnings",
-          "text": "I segnali convergono: registro un rischio tecnico credibile.",
+          "text": "Per me i segnali convergono: c'è un rischio tecnico concreto da non ignorare.",
           "conditions": {
             "any": [
               {
@@ -619,7 +619,7 @@
         },
         {
           "id": "record_low_confidence",
-          "text": "Non ho trovato abbastanza: registro soltanto che ho controllato.",
+          "text": "Non ho abbastanza elementi per sostenere che ci sia un problema.",
           "conditions": {
             "not": {
               "any": [
@@ -683,7 +683,7 @@
       "stitches": [
         {
           "id": "warning_close_1",
-          "text": "La tua valutazione resta nel diario di stato come conoscenza, non come profezia. Mentre ti prepari a lasciare l'accesso, il sistema del mondo continua a processare turni, ritardi e imprevisti indipendentemente da te."
+          "text": "Lasci il gabbiotto con la tua valutazione e niente di più. Dietro la recinzione i turni continuano: cancelli che si aprono, convogli che passano, squadre che entrano nel ramo tecnico."
         }
       ],
       "choices": [
