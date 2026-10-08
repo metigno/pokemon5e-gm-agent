@@ -5,8 +5,8 @@
 export const FRIEND_NPC_CANON={
  Luke:{
   path:"Tactician",
-  finalTeam:["Arcanine-Hisui","Venusaur","Kyurem-Black","Great Tusk","Aerodactyl","Blastoise"],
-  rosterPlan:[["Growlithe-Hisui","Arcanine-Hisui"],["Bulbasaur","Ivysaur","Venusaur"],["Kyurem-Black"],["Great Tusk"],["Aerodactyl"],["Squirtle","Wartortle","Blastoise"]],
+  finalTeam:["Arcanine-Hisui","Venusaur","Kyurem-Black","Great Tusk","Kilowattrel","Blastoise"],
+  rosterPlan:[["Growlithe-Hisui","Arcanine-Hisui"],["Bulbasaur","Ivysaur","Venusaur"],["Kyurem-Black"],["Great Tusk"],["Wattrel","Kilowattrel"],["Squirtle","Wartortle","Blastoise"]],
   additionalSpecializations:{7:"grass",18:"dragon"},
   identity:"adaptive bulky pressure; Arcanine ace; attrition and tactical control"
  },
