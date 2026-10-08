@@ -61,6 +61,8 @@ aroma lady or other conspicuously off-theme trainer artwork is reused.
 
 ## Narrative safety
 
+For real World battles the server resolves `opponentTrainerId` (e.g. a `c2060_XX_slug` ID) through `state.competition.world.field`; it does not assume the runtime ID equals the competitor name. This preserves correct identity for both the existing 19 named sprites and the 18 supplemental entries.
+
 Only explicitly matched existing scene+node slots display functional
 overworld sprites (at most two). No keyword-driven guessed actor assignment,
 new location, new persistent NPC, changed dialogue, event, level, encounter or
