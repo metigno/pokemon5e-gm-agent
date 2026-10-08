@@ -139,8 +139,15 @@
         },
         {
           "id": "media_resources",
-          "text": "Proteggo le risorse e chiudo le interviste.",
-          "goto": "resource_guard"
+          "text": "Rileggo i ritagli personali tra le notizie, poi proteggo le risorse della squadra.",
+          "goto": "resource_guard",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "m9_personal_press_notes_reviewed",
+              "value": true
+            }
+          ]
         }
       ]
     },
