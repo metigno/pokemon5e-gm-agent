@@ -46,7 +46,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "FRIEND_BEAT_08 usa uno dei Four secondo posizione e schedule reali. Se nessun incontro fisico è plausibile, il contatto resta remoto."
+          "text": "Nel World Village, o attraverso lo schermo di un telefono, riesci a sentire uno degli amici. La distanza fra le vostre carriere si nota più che mai."
         }
       ],
       "choices": [
@@ -66,7 +66,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il selector evita il protagonista e, quando possibile, l'amico usato nel Friend Beat precedente. Non attribuisce qualificazioni non registrate."
+          "text": "Il nome di {{world.flags.friend_beat_08_friend_id}} compare sul display. La voce è la stessa delle prime strade, anche se intorno a voi il mondo è diventato molto più grande."
         }
       ],
       "choices": [
@@ -91,7 +91,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Ogni ramo conserva lo stato indipendente dell'amico. Essere tuo amico non gli assegna automaticamente un posto nel World Village."
+          "text": "Aprite il discorso dal punto in cui lo avevate lasciato, non da una presentazione formale. Nessuno deve fingere di aver seguito ogni minuto della stagione altrui."
         }
       ],
       "choices": [
@@ -146,7 +146,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Luke parla del Mondiale come di un problema di adattamento: il piano migliore dipenderà da avversari che ancora non conosci."
+          "text": "«Bel posto, eh?» Luke guarda verso i campi. «Tutta questa gente importante che ti spiega cosa dovresti usare. Io rimango con i miei. Se vogliono fermarmi, si facciano avanti.»"
         }
       ],
       "choices": [
@@ -188,7 +188,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Mattew separa entusiasmo e stato reale: essere al Village o restare fuori dal venue sono due traiettorie diverse."
+          "text": "Mattew sta sistemando gli appunti accanto a Eevee. «La cosa divertente è che tutti parlano del sorteggio come se lo conoscessero già.» Sorride. «Aspetto almeno che escano i nomi prima di preoccuparmi seriamente.»"
         }
       ],
       "choices": [
@@ -230,7 +230,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Daniel insiste sulle informazioni incomplete: prima del draw, inventarsi il gruppo è già un errore strategico."
+          "text": "«Non chiamare destino ciò che ancora non sai», dice Daniel. «È soltanto un sorteggio.» Poi aggiunge, con una calma sospetta: «Però se finisci nel mio gruppo, prometto di non ridere troppo.»"
         }
       ],
       "choices": [
@@ -272,7 +272,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Edward guarda soprattutto alla tenuta: viaggio, recupero e pressione non vengono cancellati dall'accredito."
+          "text": "Edward si sistema la giacca davanti a un riflesso. «Se devo farmi vedere da mezzo mondo, tanto vale farlo bene.» Un Pokémon lo strattona fuori inquadratura. «Ehi! Aspetta il tuo turno.»"
         }
       ],
       "choices": [
@@ -314,7 +314,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Fab resta pragmatico: risorse, salute e tempo sono più concreti del rumore attorno al Mondiale."
+          "text": "Fab è con Koffing e sembra più interessato a impedirgli di infilarsi nella borsa che al pass per il Village. «Se mi chiedono un'intervista, mando lui. Almeno sarà sincero.»"
         }
       ],
       "choices": [
@@ -356,7 +356,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Siete davvero nello stesso luogo. Questo dimostra soltanto una sovrapposizione reale di schedule; non garantisce che condividiate gruppo o percorso."
+          "text": "Se vi incontrate di persona, le battute arrivano fra il passaggio degli altri concorrenti. Stare nello stesso Village non significa sapere chi incontrerete nel girone."
         }
       ],
       "choices": [
@@ -402,7 +402,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il contatto resta remoto: l'amico non viene spostato nel Village. La distanza è parte della sua traiettoria reale."
+          "text": "Il display restituisce la faccia dell'amico e un pezzo della città in cui si trova. Non siete necessariamente tutti arrivati al Mondiale."
         }
       ],
       "choices": [
@@ -448,7 +448,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il World Village rende il torneo concreto, ma il draw deve ancora avvenire. Nessuno dei due può conoscere legalmente il gruppo futuro."
+          "text": "Guardate il tabellone ancora incompleto. I nomi dei gruppi usciranno solo al sorteggio; per ora potete scherzare sui pronostici."
         }
       ],
       "choices": [
@@ -468,7 +468,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se l'amico è fisicamente qui, il suo stato lo ha reso plausibile. Se è remoto, la scena non inventa la ragione né gli assegna una qualificazione."
+          "text": "Essere qui e guardare il torneo da fuori sono due esperienze diverse. Il contatto non finge che tutti abbiano ricevuto lo stesso accredito."
         }
       ],
       "choices": [
@@ -488,7 +488,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La pressione comune non produce bonus. Può cambiare il tono del rapporto, non le probabilità del prossimo match."
+          "text": "Vi scambiate un consiglio e una presa in giro. La pressione resta quella reale di una gara che ancora non è cominciata."
         }
       ],
       "choices": [
@@ -508,7 +508,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Quando un risultato o una qualificazione dell'amico non è nello stato pubblico, il dialogo non lo anticipa."
+          "text": "Se alcune notizie non sono ancora pubbliche, l'amico non le indovina. «Te lo dirò quando lo saprò anch'io» è una risposta possibile."
         }
       ],
       "choices": [
@@ -528,7 +528,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Essere lontani nel momento più visibile della carriera può pesare, ma non significa automaticamente successo o fallimento dell'altro."
+          "text": "Per qualche secondo vi accorgete di essere lontani. Una battuta alleggerisce la cosa, senza farla sparire."
         }
       ],
       "choices": [
@@ -548,7 +548,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il rapporto cambia perché avete scelto di confrontarvi, non perché il gioco vi allinea nello stesso bracket."
+          "text": "La confidenza può rendere una provocazione affettuosa oppure fastidiosa. La vostra storia precedente decide come suona."
         }
       ],
       "choices": [
@@ -568,7 +568,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "I Friend Beat precedenti restano parte della relazione e della rotazione. M8 non li cancella e non ricicla automaticamente lo stesso amico."
+          "text": "Un piccolo riferimento alle prime avventure basta per interrompere il tono solenne degli annunci. Era da tempo che non parlavate così."
         }
       ],
       "choices": [
@@ -588,7 +588,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Aspettare un'ora può cambiare schedule, ma non teletrasporta l'amico selezionato e non riscrive il suo stato competitivo."
+          "text": "Aspettare un'ora non significa trovare automaticamente l'amico lì dove vorresti. Ognuno ha ancora impegni propri."
         }
       ],
       "choices": [
@@ -609,7 +609,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il beat conserva amico, modalità e tipo di contatto. Non assegna seed, punti o qualificazioni."
+          "text": "Riagganci senza sapere più del sorteggio di quanto sia stato annunciato. La vostra conversazione non ha cambiato i partecipanti."
         }
       ],
       "choices": [
@@ -631,7 +631,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il rapporto torna sullo sfondo. Il prossimo spazio è la Training Hall, dove preparazione e sparring restano opzionali e reali."
+          "text": "Il corridoio conduce alla sala allenamento. Il Village continua a riempirsi di persone e possibilità."
         }
       ],
       "choices": [
