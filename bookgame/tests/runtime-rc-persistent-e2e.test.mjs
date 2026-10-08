@@ -1585,6 +1585,11 @@ test("RC persistent E2E traverses real authored M1→M12 and all three World out
     missed = await persistReload(store, missed, missed.slot, "M12 Worlds Missed");
     assert.equal(missed.world.flags.worlds_missed, true);
     assert.equal(missed.world.flags.world_qualified, false);
+    missed = await requireChoice(engine, missed, "enter_free_roam");
+    await engine.present(missed);
+    assert.equal(missed.competition.world.hallOfFame.length, 1);
+    assert.notEqual(missed.competition.world.currentWorldChampion.name, missed.player.name);
+    missed = await persistReload(store, missed, missed.slot, "M12 missed winner archive");
 
     let eliminated = structuredClone(postM8Champion);
     eliminated.slot = "rc-world-eliminated";
@@ -1595,6 +1600,11 @@ test("RC persistent E2E traverses real authored M1→M12 and all three World out
     eliminated = await persistReload(store, eliminated, eliminated.slot, "M12 eliminated");
     assert.equal(eliminated.world.flags.world_eliminated, true);
     assert.equal(eliminated.world.flags.world_champion, false);
+    eliminated = await requireChoice(engine, eliminated, "enter_free_roam");
+    await engine.present(eliminated);
+    assert.equal(eliminated.competition.world.hallOfFame.length, 1);
+    assert.notEqual(eliminated.competition.world.currentWorldChampion.name, eliminated.player.name);
+    eliminated = await persistReload(store, eliminated, eliminated.slot, "M12 eliminated winner archive");
 
     for (const finalState of [champion, missed, eliminated]) {
       assert.equal(finalState.world.flags.main_story_complete, true);
