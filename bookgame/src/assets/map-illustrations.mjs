@@ -24,7 +24,21 @@ const BY_LOCATION = Object.freeze({
   "borgo_salice_sala_verde": "m02-sala-verde",
   "borgo_salice_shop": "m01-shop",
   "m03_entry_point": "m02-east-road",
-  "mir_marsh_approach": "m02-mirto"
+  "mir_marsh_approach": "m02-mirto",
+  "ast_quarry": "m03-quarry",
+  "ast_quarry_approach": "m03-quarry-approach",
+  "ast_quarry_fauna_point": "m01-ecology",
+  "ast_quarry_perimeter": "m03-quarry-approach",
+  "fer_city": "m03-ferravia",
+  "fer_city_archive": "m03-archive",
+  "fer_city_arena": "m01-arena",
+  "fer_city_dispatch": "m01-ranger",
+  "fer_city_sala_verde": "m02-sala-verde",
+  "fer_city_shop": "m01-shop",
+  "fer_city_station": "m03-station",
+  "fer_city_workshop": "m03-workshop",
+  "ferrox_access": "m03-ferrox",
+  "ferrox_rescue_perimeter": "m03-ferrox-rescue"
 });
 
 export const APPROVED_MAP_ILLUSTRATION_IDS = new Set(["m01-ginestre","m01-valedarsena"]);
@@ -45,7 +59,15 @@ export const APPROVED_MAP_SVG_IDS = new Set([
   "m02-borgo-salice",
   "m02-east-road",
   "m02-mirto",
-  "m02-sala-verde"
+  "m02-sala-verde",
+  "m03-archive",
+  "m03-ferravia",
+  "m03-ferrox",
+  "m03-ferrox-rescue",
+  "m03-quarry",
+  "m03-quarry-approach",
+  "m03-station",
+  "m03-workshop"
 ]);
 
 export function mapIllustrationForLocation(locationId) {

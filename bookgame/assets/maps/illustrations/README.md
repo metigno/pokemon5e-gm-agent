@@ -54,3 +54,16 @@ the forest, city, ranger, shop or arena environment classes. No invented
 new story location, world position, distance or time cost is represented.
 SVG compositions are vector pixel-grid art authored for this project;
 **no unverified-license third-party raster source is copied**.
+
+## M03 authored-location illustration pass
+
+Audit: **15 playable M03 scene JSONs, 17 distinct canonical locations**.
+Eight newly authored, self-contained vector pixel-grid illustrations provide
+the quarry, quarry road, Ferravia, archive, station, workshop, Ferrox access
+and rescue perimeter environments. The other nine M03 location IDs reuse
+already vetted M01/M02 image classes (shop, arena, ranger, ecology,
+Borgo Salice, Valedarsena, trial hall and transition road).
+
+No battle range, actual geographical location or authored scene path is
+inferred from the art. As with M01/M02, these are offline decorative
+visuals for the existing schematic, clickable navigation only.
