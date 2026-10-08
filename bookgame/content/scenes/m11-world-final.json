@@ -30,7 +30,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "WORLD_FINAL_1 è l'ultimo match del bracket reale. L'avversario è il vincitore effettivo dell'altra semifinale."
+          "text": "Le porte dell'arena si aprono sull'ultima sfida del Mondiale. Dall'altra parte attende chi ha vinto l'altra semifinale: nessun pronostico, a questo punto, vale più del cammino percorso fin qui."
         }
       ],
       "choices": [
@@ -55,7 +55,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "E5 risolve l'avversario da playerFinalOpponent e dal roster regolamentare persistente."
+          "text": "Sul grande schermo compare il nome dell'altro finalista, seguito dalle sue precedenti partite. Puoi studiare ciò che è stato reso pubblico; il resto dovrai scoprirlo sul campo."
         }
       ],
       "choices": [
@@ -80,7 +80,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La finale resta un official Singles Pokémon 5e: nessun risultato viene narrato prima del combat."
+          "text": "L'arbitro indica le postazioni. «Sei Pokémon registrati, incontro singolo. Vincitore e sconfitto saranno decisi qui, davanti a tutti.»"
         }
       ],
       "choices": [
@@ -105,7 +105,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il titolo è in palio, ma la pressione non altera dadi o statistiche."
+          "text": "Il brusio degli spalti si abbassa appena ti avvicini alla linea. I Pokémon avvertono la tensione dei loro allenatori, ma sul terreno valgono ancora gli stessi movimenti, le stesse scelte e gli stessi rischi."
         }
       ],
       "choices": [
@@ -130,7 +130,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La history precedente resta intatta e WORLD_FINAL può essere registrata una sola volta."
+          "text": "Il tabellone ripercorre il torneo appena trascorso. Nessuno di quei risultati scompare; questa è l'unica finale che giocherai oggi."
         }
       ],
       "choices": [
@@ -150,7 +150,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il team entra con le conseguenze reali della semifinale e della preparazione."
+          "text": "Davanti alla postazione controlli la squadra. Ci sono stanchezze, ferite e risorse consumate nelle sfide precedenti: i tuoi compagni arrivano fin qui con te, non riposati per magia."
         }
       ],
       "choices": [
@@ -170,7 +170,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il bridge verifica FINAL, matchId, avversario e roster prima di iniziare."
+          "text": "L'addetto confronta i sei nominativi con il registro. Soltanto quando tutto è in ordine fa cenno all'arbitro di attendere la tua conferma."
         }
       ],
       "choices": [
@@ -190,7 +190,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Da qui l'autorità passa al combattimento Pokémon 5e."
+          "text": "L'arbitro solleva una mano. L'altro allenatore è già al suo posto: il prossimo suono sarà il segnale d'inizio."
         }
       ],
       "choices": [
@@ -230,7 +230,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La vittoria rende il player campione del mondo di questa edizione."
+          "text": "Il segnale di fine incontro taglia il rumore dell'arena. Sul tabellone compare il tuo nome accanto alla parola «Campione». La coppa è reale, e altrettanto reale è il prezzo del percorso che l'ha preceduta."
         }
       ],
       "choices": [
@@ -264,7 +264,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La sconfitta rende campione l'altro finalista reale; il player resta runner-up."
+          "text": "L'arbitro assegna la vittoria all'altro finalista. Per un istante senti soltanto il campo che si svuota di rumore, poi il nome del nuovo campione attraversa gli altoparlanti. Hai raggiunto la finale; non puoi fingere che questa partita sia finita diversamente."
         }
       ],
       "choices": [
@@ -298,7 +298,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il record ufficiale della finale contiene un solo outcome."
+          "text": "Un funzionario ti mostra il referto già firmato: avversario, risultato e piazzamento. Non chiede una seconda versione della partita."
         }
       ],
       "choices": [
@@ -318,7 +318,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Essere campione significa aver vinto WORLD_FINAL_1."
+          "text": "La coppa attende sul palco. Averla conquistata non risponde a tutto ciò che hai vissuto: i luoghi attraversati e le persone incontrate non diventano improvvisamente semplici."
         }
       ],
       "choices": [
@@ -338,7 +338,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Essere finalista sconfitto conserva il percorso reale senza trasformarlo in vittoria."
+          "text": "La medaglia del secondo posto ha un peso sorprendentemente concreto. Nessuno può toglierti il percorso fino a qui; nessuno può chiamarlo una vittoria in finale."
         }
       ],
       "choices": [
@@ -358,7 +358,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Le risorse restano quelle prodotte dal combattimento finale."
+          "text": "I tuoi Pokémon tornano accanto a te come sono usciti dal combattimento. Prima delle fotografie, delle domande e dei saluti, puoi guardarli uno per uno."
         }
       ],
       "choices": [
@@ -378,7 +378,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Campione e runner-up sono salvati nello stato E5 insieme alla history."
+          "text": "Il tabellone aggiorna l'albo d'oro e il referto finale. Le partite precedenti restano registrate, comprese quelle che avresti preferito giocare diversamente."
         }
       ],
       "choices": [
@@ -398,7 +398,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un amico affrontato in finale mantiene la relazione, ma il risultato resta indipendente."
+          "text": "Se dall'altra parte del campo c'era un amico, l'arbitro non cambia il verdetto per la vostra storia comune. Il modo in cui vi guarderete dopo, invece, appartiene soltanto a voi."
         }
       ],
       "choices": [
@@ -418,7 +418,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rei può essere campione soltanto se il bracket e il combattimento lo portano davvero al titolo."
+          "text": "Fra i nomi del torneo c'è anche Rei. Il suo passato non decide chi alzerà questa coppa: contano gli incontri che ha davvero vinto, oppure perso, lungo il percorso."
         }
       ],
       "choices": [
@@ -438,7 +438,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Non esiste rematch automatico della stessa finale."
+          "text": "Gli addetti cominciano a preparare la premiazione. Non c'è un secondo fischio d'inizio che permetta di cancellare la partita appena conclusa."
         }
       ],
       "choices": [
@@ -458,7 +458,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "currentWorldChampion deve coincidere col winnerId reale della finale."
+          "text": "Sul registro del torneo, il nome del campione coincide con quello del vincitore annunciato dall'arbitro. Non c'è spazio per un titolo assegnato per simpatia."
         }
       ],
       "choices": [
@@ -478,7 +478,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Solo dopo il risultato reale si può classificare il Championship Outcome."
+          "text": "Il risultato è definitivo. Ora arrivano le reazioni, i saluti e le domande a cui nessuna strategia di gara sa rispondere."
         }
       ],
       "choices": [
@@ -498,7 +498,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La finale è risolta; il prossimo blocco registra campione, finalista e WORLD_EXIT."
+          "text": "Lasci il terreno di gioco seguendo il percorso riservato ai finalisti. La serata proseguirà; la tua carriera non si esaurisce in questo corridoio."
         }
       ],
       "choices": [
@@ -518,7 +518,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "WORLD_FINAL è chiusa e non può essere rigiocata."
+          "text": "Le porte dell'arena si richiudono alle tue spalle. La finale è finita, mentre il resto del mondo continua."
         }
       ],
       "choices": [
