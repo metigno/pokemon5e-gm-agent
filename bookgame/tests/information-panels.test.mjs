@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { createNewGameState } from "../src/engine/state.mjs";
 import { informationPanelsView, recordPokemonCaught, recordPokemonSeen } from "../src/engine/information-panels.mjs";
+import { informationRenderers } from "../ui/public/information-renderers.mjs";
 
 const create = () => createNewGameState({
   protagonist: "Luke", slot: "slot1", startAtIntro: true,
@@ -95,4 +96,36 @@ test("Hall of Fame includes only resolved editions, deduplicates current, surviv
   assert.deepEqual(hall.map((entry) => entry.champion), ["Cynthia", "Luke"]);
   assert.equal(hall[1].playerChampion, true);
   assert.equal(hall[1].runnerUp, "Edward");
+});
+
+test("all eight read-only information surfaces render offline and are navigable from existing menus", () => {
+  const state = create();
+  state.world.flags.rumour_kyurem = true;
+  const snapshot = {
+    information: informationPanelsView(state),
+    player: {
+      ...state.player,
+      roster: [{ ...state.player.roster[0], name: "Growlithe di Hisui", speciesId: "growlithe-hisui" }]
+    }
+  };
+  const escapeHtml = (value) => String(value ?? "")
+    .replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+  const pages = informationRenderers(snapshot, {
+    escapeHtml,
+    spriteUrl: (species, role) => `/asset/${species}/${role}`,
+    playerFacingLabel: (id) => String(id).replaceAll("-", " ")
+  });
+  for (const name of ["pokedex", "people", "relations", "reputation", "progress", "hall", "codex"]) {
+    assert.match(pages[name](), /data-card/);
+  }
+  assert.match(pages.pokedex(), /growlithe hisui/i);
+  assert.doesNotMatch(pages.pokedex(), /kyurem/i);
+  assert.doesNotMatch(pages.people(), /Blue/);
+  assert.doesNotMatch(pages.relations(), /score|100/i);
+  assert.match(pages.codex(), /senza connessione/i);
+  assert.match(pages.hall(), /non ha ancora un vincitore/i);
+  const links = Object.values(pages.shortcuts()).join(" ");
+  for (const name of ["pokedex", "people", "relations", "reputation", "progress", "hall", "codex"]) {
+    assert.match(links, new RegExp('data-info-panel="' + name + '"'));
+  }
 });
