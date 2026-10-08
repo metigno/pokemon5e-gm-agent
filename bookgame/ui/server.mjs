@@ -973,7 +973,7 @@ const server = createServer(async (req, res) => {
           url.searchParams.get("entry") === MOBILE_TOKEN) {
         res.writeHead(303, {
           "location": "/",
-          "set-cookie": `p5e_mobile_session=${MOBILE_TOKEN}; Path=/; HttpOnly; SameSite=Strict`,
+          "set-cookie": `p5e_mobile_session=${MOBILE_TOKEN}; Path=/; HttpOnly; SameSite=Lax`,
           "cache-control": "no-store"
         });
         res.end();
