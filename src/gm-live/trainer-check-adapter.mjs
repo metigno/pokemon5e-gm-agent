@@ -13,13 +13,16 @@ export function createTrainerCheckAdapter() {
    if (!campaign?.character?.abilities) return {allowed:false,reason:'Trainer sheet missing'};
    if (!Number.isSafeInteger(campaign.character.abilities[intent.ability])) return {allowed:false,reason:'Ability score missing'};
    if (intent.proficient === true || intent.proficiencyBonus !== undefined) return {allowed:false,reason:'Client cannot grant proficiency; use a canonical trained skill'};
-   if (intent.skill !== undefined && (!Array.isArray(campaign.character.skills) || !campaign.character.skills.includes(intent.skill))) return {allowed:false,reason:'Skill not trained on canonical sheet'};
+   if (intent.skill !== undefined && (typeof intent.skill !== 'string' || !Array.isArray(campaign.character.skills) || !campaign.character.skills.includes(intent.skill))) return {allowed:false,reason:'Skill not trained on canonical sheet'};
+   if (intent.advantage !== undefined && intent.advantage !== 'normal') return {allowed:false,reason:'Advantage requires a canonical adjudication source'};
+   if (intent.dc > 30) return {allowed:false,reason:'DC outside supported range'};
    return {allowed:true};
   },
   async resolveAction({campaign,intent}) {
    const score=campaign.character.abilities[intent.ability];
    const trained=typeof intent.skill === 'string';
-   const bonus=trained ? (campaign.character.proficiencyBonus ?? 2) : 0;
+   const bonus=trained ? campaign.character.proficiencyBonus : 0;
+   if (trained && (!Number.isSafeInteger(bonus) || bonus < 2 || bonus > 9)) throw new Error('Canonical proficiency bonus missing');
    const result=abilityCheck({score,dc:intent.dc,proficient:trained,
     proficiencyBonus:bonus,advantage:intent.advantage??'normal'});
    return {
