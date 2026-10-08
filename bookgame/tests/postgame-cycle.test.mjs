@@ -154,7 +154,7 @@ test("postgame never invents a winner for an unresolved played World final", () 
   state.postgame.phase = "qualifying";
   state.world.flags.worlds_missed = false;
   state.world.flags.world_eliminated = true;
-  assert.throws(() => finishPostgameEdition(state), /resolve the official final/);
+  assert.throws(() => finishPostgameEdition(state), /locked group results/);
   assert.equal(state.postgame.championships.length, 1);
   assert.throws(() => ensurePostgame({ world: { flags: {} }, competition: {} }),
     /locked until MAIN_STORY_COMPLETE/);
