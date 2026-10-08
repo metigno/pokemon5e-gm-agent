@@ -76,6 +76,7 @@ const STATIC_FILES = new Map([
   ["/index.html", ["index.html", "text/html; charset=utf-8"]],
   ["/styles.css", ["styles.css", "text/css; charset=utf-8"]],
   ["/app.mjs", ["app.mjs", "text/javascript; charset=utf-8"]],
+  ["/audio-soundscape.mjs", ["audio-soundscape.mjs", "text/javascript; charset=utf-8"]],
   ["/reveal-model.mjs", ["reveal-model.mjs", "text/javascript; charset=utf-8"]],
   ["/information-renderers.mjs", ["information-renderers.mjs", "text/javascript; charset=utf-8"]]
 ]);
@@ -897,6 +898,29 @@ async function serveCharacterPortrait(res, pathname) {
   return true;
 }
 
+// Only installed, locally verified assets are exposed: no file-system traversal.
+async function serveAudio(res, pathname) {
+  if (!pathname.startsWith("/audio/")) return false;
+  const relative = pathname.slice("/audio/".length);
+  if (!/^(?:[a-z0-9_]+\.ogg|manifest\.json|cries\/[a-z0-9_]+\.wav)$/.test(relative)) {
+    res.writeHead(404, { "content-type": "text/plain" });
+    res.end("Audio unavailable");
+    return true;
+  }
+  try {
+    const content = await readFile(join(PUBLIC_DIR, "audio", relative));
+    res.writeHead(200, {
+      "content-type": relative.endsWith(".ogg") ? "audio/ogg" : relative.endsWith(".wav") ? "audio/wav" : "application/json; charset=utf-8",
+      "cache-control": "private, max-age=3600",
+      "x-content-type-options": "nosniff"
+    });
+    res.end(content);
+  } catch {
+    res.writeHead(404, { "content-type": "text/plain; charset=utf-8" });
+    res.end("Audio not installed");
+  }
+  return true;
+}
 async function serveStatic(res, pathname) {
   const entry = STATIC_FILES.get(pathname);
   if (!entry) {
@@ -933,6 +957,7 @@ const server = createServer(async (req, res) => {
     if (url.pathname.startsWith("/sprites/") && await serveSprite(res, url.pathname)) return;
     if (url.pathname.startsWith("/characters/") && await serveCharacterPortrait(res, url.pathname)) return;
     if (await serveMapIllustration(res, url.pathname)) return;
+    if (await serveAudio(res, url.pathname)) return;
     await serveStatic(res, url.pathname);
   } catch (error) {
     sendError(res, error, /slot di carriera/.test(error?.message ?? "") ? 400 : 500);
