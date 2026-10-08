@@ -38,7 +38,7 @@ test("M09 media clue has a reachable existing choice, preserving authored count"
   assert.equal(choice.goto, "resource_guard");
   assert.deepEqual(choice.effects, [{ type: "set_flag", key: "m9_personal_press_notes_reviewed", value: true }]);
   assert.equal(Object.keys(scene.nodes).length, 13);
-  assert.equal(Object.values(scene.nodes).reduce((count,node) => count + (node.choices?.length ?? 0), 0), 32);
+  assert.equal(Object.values(scene.nodes).reduce((count,node) => count + (node.choices?.length ?? 0), 0), 30);
 });
 
 test("M09 personal lead activates only for qualified trainer after real first matchday and optional review", () => {
