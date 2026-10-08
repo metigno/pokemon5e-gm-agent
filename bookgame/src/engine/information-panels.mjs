@@ -10,7 +10,9 @@ function speciesIdOf(pokemon) {
   // Saved starters may store species + form separately (e.g. Growlithe / Hisuian);
   // combat already uses the resolved canonical speciesId. Reuse sprite mapping
   // normalization for both so regional forms are not silently merged.
-  return normalizeSpriteId(raw, pokemon?.speciesId ? null : pokemon?.form ?? null);
+  const form = pokemon?.speciesId ? null : pokemon?.form ?? null;
+  const normalForm = /^(standard|normal|default)$/i.test(String(form ?? ""));
+  return normalizeSpriteId(raw, normalForm ? null : form);
 }
 
 // These records are written only when a Pokémon is actually encountered or captured.
