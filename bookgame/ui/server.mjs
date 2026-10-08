@@ -7,6 +7,7 @@ import { APPROVED_MAP_ILLUSTRATION_IDS, APPROVED_MAP_SVG_IDS } from "../src/asse
 import { verifyOfflineSpriteAssets } from "../scripts/verify-offline-sprites.mjs";
 import { verifyOfflineCharacterSprites } from "../scripts/verify-offline-character-sprites.mjs";
 import { loadAvailableCharacterPortraits, readVerifiedCharacterPortrait } from "../src/assets/character-portraits.mjs";
+import { verifyOfflineNativeCharacterSprites, readVerifiedNativeCharacterSprite } from "../src/assets/native-character-sprites.mjs";
 import { BookgameEngine } from "../src/engine/bookgame-engine.mjs";
 import { buildTravelMap } from "../src/engine/map-view.mjs";
 import { Pokemon5eCombatEngine } from "../src/combat/combat-engine.mjs";
@@ -45,9 +46,13 @@ const CHARACTER_DIR = process.env.P5E_CHARACTER_SPRITE_DIR ?? fileURLToPath(new 
 const characterRegistry = JSON.parse(await readFile(new URL("../content/npcs/NPC_CHARACTER_LIBRARY_V1.json", import.meta.url), "utf8"));
 const characterChecksums = JSON.parse(await readFile(new URL("../assets/characters/sha256.json", import.meta.url), "utf8"));
 const characterPortraits = await loadAvailableCharacterPortraits(characterRegistry, characterChecksums, CHARACTER_DIR);
+const nativeCharacterManifest = JSON.parse(await readFile(new URL("../assets/characters/native-sprites.json", import.meta.url), "utf8"));
+const nativeCharacterReport = await verifyOfflineNativeCharacterSprites(characterRegistry, nativeCharacterManifest, CHARACTER_DIR);
+const availableNativeCharacters = nativeCharacterReport.available;
 if (process.env.P5E_REQUIRE_OFFLINE_CHARACTERS === "1") {
   const report = await verifyOfflineCharacterSprites(characterRegistry, CHARACTER_DIR, characterChecksums);
   if (!report.valid) throw new Error(`Offline character portraits incomplete: ${report.verified}/${report.expected} verified, ${report.missing.length} missing, ${report.unapproved.length} unapproved. Never ship an incomplete set.`);
+  if (!nativeCharacterReport.valid) throw new Error(`Offline native character sprites incomplete: ${nativeCharacterReport.verified}/${nativeCharacterReport.expected} battle/overworld PNGs verified.`);
 }
 
 // Packaged releases refuse to run if even one mapped physical PNG is missing.
@@ -387,6 +392,17 @@ async function snapshot() {
     : await engine.present(state);
 
   const information = informationPanelsView(state);
+  const battle = await battleView();
+  const knownNames = new Set((information.people ?? []).map(person => person.name));
+  const currentOpponent = battle?.opponentTrainerId;
+  const visibleNativeCharacters = Object.fromEntries(
+    Object.entries(availableNativeCharacters).filter(([id]) =>
+      knownNames.has(characterRegistry.five.find(c => c.id === id)?.name ?? id) ||
+      knownNames.has(characterRegistry.moduleAnchors.find(c => c.id === id)?.name ?? id) ||
+      knownNames.has(characterRegistry.verifiedAdditionalCharacters.find(c => c.id === id)?.name ?? id) ||
+      id === currentOpponent
+    ).map(([id, asset]) => [id, { frames: asset.frames }])
+  );
   return {
     ok: true,
     hasSession: true,
@@ -424,14 +440,14 @@ async function snapshot() {
     information,
     assets: { characterPortraits: Object.fromEntries((information.people ?? [])
       .map(person => [person.name, characterPortraits.byName[person.name]])
-      .filter(([, id]) => Boolean(id))) },
+      .filter(([, id]) => Boolean(id))), characterNative: visibleNativeCharacters },
     evolutions: await evolutionView(),
     trainerGameplay: trainerGameplayView(
       state,
       state.pending?.battle ?? null,
       state.pending?.battle?.pendingTrainerReaction ?? null
     ),
-    battle: await battleView()
+    battle
   };
 }
 
@@ -866,9 +882,11 @@ async function serveMapIllustration(res, pathname) {
 }
 
 async function serveCharacterPortrait(res, pathname) {
-  const match = pathname.match(/^\/characters\/([A-Za-z][A-Za-z0-9]*)\/portrait$/);
+  const match = pathname.match(/^\/characters\/([A-Za-z][A-Za-z0-9]*)\/(portrait|battleFront|overworld)$/);
   if (!match) return false;
-  const bytes = await readVerifiedCharacterPortrait(match[1], characterPortraits, CHARACTER_DIR);
+  const bytes = match[2] === "portrait"
+    ? await readVerifiedCharacterPortrait(match[1], characterPortraits, CHARACTER_DIR)
+    : await readVerifiedNativeCharacterSprite(match[1], match[2], availableNativeCharacters, CHARACTER_DIR);
   if (!bytes) {
     res.writeHead(404, { "content-type": "text/plain; charset=utf-8" });
     res.end("Verified character portrait unavailable");
