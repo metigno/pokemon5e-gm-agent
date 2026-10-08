@@ -47,7 +47,8 @@ function summary(state, edition) {
 
 function recordEdition(state) {
   const season = state.postgame;
-  const edition = ensureCompetition(state).world.edition;
+  const world = ensureCompetition(state).world;
+  const edition = world.edition;
   if (season.championships.some((entry) => entry.edition === edition)) return;
   if (edition !== season.championships.length + 1) {
     throw new Error("Postgame history must contain consecutive championship editions");
