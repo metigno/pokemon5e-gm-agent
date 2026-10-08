@@ -189,13 +189,25 @@ function formatTime(world) {
   return `${world.time ?? ""} · ${hh}:${mm}`;
 }
 
+function playerFacingLabel(value) {
+  return String(value ?? "").replace(/[-_]/g, " ")
+    .replace(/\b[a-zà-ÿ]/g, (letter) => letter.toUpperCase());
+}
+
 function renderHeader() {
   if (!snapshot?.hasSession) return;
-  els.sceneTitle.textContent = snapshot.story.sceneTitle;
-  els.moduleLabel.textContent = `${snapshot.story.moduleId ?? "BOOKGAME"} · ${snapshot.story.sceneId}`;
+  const title = String(snapshot.story.sceneTitle ?? "");
+  els.sceneTitle.textContent = title
+    .replace(/^M\d+[_-]\d+\s*[—:–-]\s*/i, "")
+    .replace(/World Exit Branch/gi, "Il viaggio di ritorno") || "Il viaggio";
+  const chapter = Number(String(snapshot.story.moduleId ?? "").replace(/\D/g, ""));
+  els.moduleLabel.textContent = chapter ? `Capitolo ${chapter}` : "Il viaggio";
   els.worldDay.textContent = `Giorno ${snapshot.world.day}`;
   els.worldTime.textContent = formatTime(snapshot.world);
-  els.locationLabel.textContent = snapshot.world.locationId.replaceAll("_", " ");
+  const locationId = String(snapshot.world.locationId ?? "");
+  els.locationLabel.textContent = locationId === "world_village"
+    ? "Villaggio del Mondiale"
+    : playerFacingLabel(locationId.replace(/_(city|town|village|gate|region|area)$/i, ""));
 }
 
 function renderRoll() {
@@ -317,7 +329,7 @@ function renderBattle(battle) {
         ? ` · ${feature.resource.current}/${feature.resource.max}`
         : "";
       button.innerHTML =
-        `<strong>Trainer · ${escapeHtml(feature.id.replaceAll("-", " "))}</strong>` +
+        `<strong>Trainer · ${escapeHtml(playerFacingLabel(feature.id))}</strong>` +
         `<small>${escapeHtml(feature.action ?? "")}${escapeHtml(resource)}${feature.legal ? "" : ` · ${escapeHtml(feature.reason ?? "non disponibile")}`}</small>`;
       if (feature.legal) {
         const mode = feature.id === "battle-master" || feature.id === "cheerleader" ? "attack" : null;
@@ -504,7 +516,7 @@ function renderTrainer() {
       ${(snapshot.trainerGameplay?.features ?? []).map((feature) => `
         <div class="data-row">
           <span>${escapeHtml(feature.id.replaceAll("-", " "))}</span>
-          <span>${feature.resourceId ? `${escapeHtml(feature.resource.current)}/${escapeHtml(feature.resource.max)}` : (feature.executable ? "Runtime" : "Passiva/contestuale")}</span>
+          <span>${feature.resourceId ? `${escapeHtml(feature.resource.current)}/${escapeHtml(feature.resource.max)}` : (feature.executable ? "Disponibile" : "Passiva/contestuale")}</span>
         </div>
       `).join("") || '<div class="data-row"><span>Feature</span><span>—</span></div>'}
     </div>
@@ -541,9 +553,9 @@ function renderTeam() {
       </div>
     `).join("");
     const pending = [
-      ...(pokemon.pendingLevelUp ? [`Level-up: ${pokemon.pendingLevelUp.stage ?? "decisione richiesta"}`] : []),
+      ...(pokemon.pendingLevelUp ? [`Una decisione di crescita attende ${name}`] : []),
       ...(pokemon.pendingAsiChoices ?? []).map((choice) => `ASI Lv.${choice.level}: ${choice.points} punti`),
-      ...(pokemon.pendingMoveLearning ?? []).map((choice) => `Mossa apprendibile: ${choice.moveId}`),
+      ...(pokemon.pendingMoveLearning ?? []).map((choice) => `Mossa apprendibile: ${playerFacingLabel(choice.moveId)}`),
       ...(pokemon.pendingMoveChoices ?? []).map((choice) => `Scelta mossa Lv.${choice.level}`)
     ];
     const xp = pokemon.xp == null
@@ -574,10 +586,10 @@ function renderTeam() {
       ${pending.length ? `<div class="data-card"><h3>Progressione pendente</h3>
         ${pending.map((entry) => `<div class="data-row"><span>${escapeHtml(entry)}</span></div>`).join("")}
         ${pokemon.pendingLevelUp?.stage === "evolution_decision" ? `
-          ${(pokemon.pendingLevelUp.evolutionIds ?? []).map((id) => `<button type="button" class="primary-button levelup-evolution" data-roster-index="${index}" data-evolution-id="${escapeHtml(id)}">Evolvi → ${escapeHtml(id)}</button>`).join("")}
+          ${(pokemon.pendingLevelUp.evolutionIds ?? []).map((id) => `<button type="button" class="primary-button levelup-evolution" data-roster-index="${index}" data-evolution-id="${escapeHtml(id)}">Scegli evoluzione: ${escapeHtml(playerFacingLabel(id))}</button>`).join("")}
           <button type="button" class="levelup-decline" data-roster-index="${index}">Rimanda evoluzione</button>
         ` : ""}
-        ${(pokemon.pendingMoveLearning ?? []).map((choice) => `<button type="button" class="pokemon-learn-move" data-roster-index="${index}" data-move-id="${escapeHtml(choice.moveId)}">Impara ${escapeHtml(choice.moveId)}</button>`).join("")}
+        ${(pokemon.pendingMoveLearning ?? []).map((choice) => `<button type="button" class="pokemon-learn-move" data-roster-index="${index}" data-move-id="${escapeHtml(choice.moveId)}">Impara ${escapeHtml(playerFacingLabel(choice.moveId))}</button>`).join("")}
         ${(pokemon.pendingMoveChoices ?? []).map((choice) => `<button type="button" class="pokemon-replace-move" data-roster-index="${index}" data-level="${choice.level}" data-move-ids="${escapeHtml((choice.availableMoveIds ?? []).join(","))}">Scegli mossa Lv.${choice.level}</button>`).join("")}
         ${(pokemon.pendingAsiChoices ?? []).map((choice) => `<button type="button" class="pokemon-asi" data-roster-index="${index}" data-level="${choice.level}" data-points="${choice.points}">Assegna ASI Lv.${choice.level}</button>`).join("")}
       </div>` : ""}
@@ -652,7 +664,7 @@ function renderSettings() {
     </div>
     <div class="data-card">
       <h3>Salvataggio</h3>
-      <p>Lo stato viene salvato localmente dal runtime dopo ogni scelta e azione di combattimento.</p>
+      <p>La partita si salva automaticamente dopo ogni scelta e azione in combattimento.</p>
     </div>
   `;
 }
