@@ -26,7 +26,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Dopo le semifinali, FRIEND_BEAT_11 legge la situazione reale dei Five: finalista, eliminato in SF, eliminato prima o eventuale avversario della finale."
+          "text": "Dopo le semifinali controlli il telefono. Tra messaggi, risultati e voci del torneo c'è una persona che conosci da prima dei grandi stadi. Non sai ancora se riuscirete a vedervi oppure a parlarvi soltanto a distanza."
         }
       ],
       "choices": [
@@ -46,7 +46,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "E4 sceglie l'amico usando stato World, Final Four, schedule, relazione e rotazione rispetto a FRIEND_BEAT_10."
+          "text": "Sul display compare un nome familiare: {{world.flags.friend_beat_11_friend_id}}. La vostra ultima conversazione è ancora lì, sopra il nuovo messaggio. Le vostre carriere non sono arrivate necessariamente allo stesso punto."
         }
       ],
       "choices": [
@@ -82,7 +82,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La selezione è persistente: modalità e contesto derivano dallo stato reale e non vengono riscritti dalla scena."
+          "text": "{{world.flags.friend_beat_11_friend_id}} ti raggiunge attraverso il canale possibile in questo momento. Non è una convocazione per una fotografia: uno di voi potrebbe avere ancora una finale davanti e l'altro no."
         }
       ],
       "choices": [
@@ -110,7 +110,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il contatto può avvenire con un finalista, un eliminato o con il vero avversario della finale."
+          "text": "Le prime parole non riguardano i premi. C'è chi ha ancora un avversario da affrontare e chi deve fare i conti con un'eliminazione; l'amicizia non cancella la differenza."
         }
       ],
       "choices": [
@@ -130,7 +130,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un amico finalista è arrivato lì attraverso risultati reali e non riceve protezione dal titolo."
+          "text": "Un amico che è arrivato in finale non ha bisogno che tu lo chiami predestinato. Ti basta ripensare a quanto ha rischiato per essere ancora lì."
         }
       ],
       "choices": [
@@ -150,7 +150,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un amico eliminato resta fuori dal bracket e può reagire soltanto da quella posizione."
+          "text": "Se l'amico è stato eliminato, la sua voce non finge che il torneo sia andato diversamente. Può scherzarci sopra o preferire una risposta asciutta; il verdetto resta sul tabellone."
         }
       ],
       "choices": [
@@ -170,7 +170,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se l'amico è il tuo avversario in WORLD_FINAL, la relazione non altera pairing, roster o risultato."
+          "text": "Se dovrete affrontarvi nella finale, potete ancora prendervi in giro come ai tempi delle prime strade. Nessuno dei due, però, potrà chiedere all'altro di regalare un turno."
         }
       ],
       "choices": [
@@ -190,7 +190,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il contatto fisico è permesso soltanto quando E4 ha rilevato presenza reale nello stesso venue."
+          "text": "Controlli dove si trova davvero l'amico. Se è lontano, non puoi trasformare un messaggio in una stretta di mano."
         }
       ],
       "choices": [
@@ -218,7 +218,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il confronto fisico aggiorna relazione e callback, mai il torneo."
+          "text": "Lo incontri in un punto di passaggio, lontano dalle telecamere. La presenza dell'altro rende più facili le battute e più difficili certe domande."
         }
       ],
       "choices": [
@@ -358,7 +358,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il contatto remoto mantiene la causalità quando non siete nello stesso posto."
+          "text": "Il collegamento ha un lieve ritardo. Ogni tanto dietro la voce senti i rumori di un altro luogo: non siete stati insieme per tutto questo viaggio."
         }
       ],
       "choices": [
@@ -390,7 +390,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il beat reagisce alla finale o all'eliminazione senza curare o modificare la squadra."
+          "text": "Quando il contatto si chiude, tornano i rumori del torneo. La conversazione non cancella né la fatica dei Pokémon né quanto è successo sul campo."
         }
       ],
       "choices": [
@@ -410,7 +410,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La rotazione considera FRIEND_BEAT_10 senza cancellare la priorità del contesto competitivo attuale."
+          "text": "Vi ricordate un dettaglio dell'ultima volta che vi siete parlati. Può bastare un'allusione per riconoscere gli anni trascorsi senza doverli riassumere."
         }
       ],
       "choices": [
@@ -430,7 +430,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La relazione cambia il tono, non concede bonus competitivi o informazioni segrete."
+          "text": "Se c'è fiducia, certe provocazioni suonano come una forma di incoraggiamento. Se qualcosa è rimasto irrisolto, le stesse parole possono pesare in modo diverso."
         }
       ],
       "choices": [
@@ -450,7 +450,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "HP, PP, status, infortuni, inventario e roster restano quelli prodotti dalla semifinale."
+          "text": "Accanto a te i Pokémon aspettano. Anche loro hanno affrontato la semifinale; una telefonata non restituisce le energie spese."
         }
       ],
       "choices": [
@@ -470,7 +470,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un amico può essere supporto o avversario senza diventare automaticamente antagonista."
+          "text": "L'amico ti conosce abbastanza da non scambiare una provocazione per una dichiarazione di guerra. Sarete amici anche se uno dei due dovrà fermarsi qui."
         }
       ],
       "choices": [
@@ -490,7 +490,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "FRIEND_BEAT_11 non scrive nessun outcome di WORLD_FINAL."
+          "text": "Le parole finiscono; la finale si giocherà sul campo, non durante questa chiamata."
         }
       ],
       "choices": [
@@ -510,7 +510,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se sei finalista, il beat precede la finale; se sei eliminato in SF, precede WORLD_EXIT mentre la finale continua nel mondo."
+          "text": "Se ti aspetta ancora la finale, puoi tornare alla preparazione. Se sei stato eliminato, puoi seguire il torneo senza fingere di esserne ancora parte."
         }
       ],
       "choices": [
@@ -530,7 +530,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il beat è completo solo quando friend_id, contact_mode, context, type e result sono persistenti."
+          "text": "Prima di salutarvi chiarite quando potrete sentirvi di nuovo. Non promettete di essere nello stesso posto se le vostre strade non lo consentono."
         }
       ],
       "choices": [
@@ -582,7 +582,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Dopo il Friend Beat, solo un finalista può entrare in FINAL_PREP; un eliminato va al Championship Outcome."
+          "text": "Finito il contatto, la segnaletica conduce i finalisti alla preparazione dell'ultima partita e gli altri verso le uscite del torneo."
         }
       ],
       "choices": [
@@ -623,7 +623,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "FRIEND_BEAT_11 è chiuso senza alterare finalisti, risorse o history."
+          "text": "Il telefono torna silenzioso. Il risultato resta quello reale, ma tra voi c'è ancora qualcosa da raccontare."
         }
       ],
       "choices": [
