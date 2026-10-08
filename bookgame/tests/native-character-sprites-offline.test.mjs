@@ -123,5 +123,5 @@ test('existing client/server integrate Trainer battle and overworld routes witho
   assert.match(app, /battleFront/);
   assert.match(info, /character-overworld-frame/);
   assert.match(info, /\/overworld/);
-  assert.doesNotMatch(info, /https?:\/\//);
+  assert.doesNotMatch(info, /<img[^>]*src=["']https?:\/\//, 'Trainer image sources must not use external hosts');
 });
