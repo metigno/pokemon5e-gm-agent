@@ -1,4 +1,6 @@
 import { ensureWorldClock } from "./time.mjs";
+import { syncFriendCareerSchedule } from "./npc-career-scheduler.mjs";
+import { canonicalWorldTeam } from "../rules/world-roster-2060.mjs";
 
 export const RANKS = ["F", "E", "D", "C", "B", "A", "S"];
 export const COMPETITION_TYPES = new Set(["official_match", "promotion_trial"]);
@@ -93,6 +95,7 @@ export function createWorldCompetitionState() {
     playerOpponents: [],
     qualifications: {},
     drawSeed: null,
+    canonicalRosters: {},
     top16Locked: false,
     top16: [],
     top8Locked: false,
@@ -142,6 +145,7 @@ export function ensureCompetition(state) {
   state.competition.world.playerOpponents ??= [];
   state.competition.world.qualifications ??= {};
   state.competition.world.drawSeed ??= null;
+  state.competition.world.canonicalRosters ??= {};
   state.competition.world.top16Locked ??= false;
   state.competition.world.top16 ??= [];
   state.competition.world.top8Locked ??= false;
@@ -325,6 +329,16 @@ export function beginCompetitionMatch(state, meta) {
       "Official match " + meta.matchId + " requires roster size " +
       meta.officialRosterSize + ", current " + rosterSize
     );
+  }
+
+  // M09-M12 World regulation is a Lv20 cap, not normalization. Never
+  // upgrade the player or make an over-cap party eligible by scaling it down.
+  if (meta.worldOpponentIndex !== undefined || meta.worldKnockoutRound !== undefined) {
+    for (const pokemon of state.player.roster.slice(0, meta.officialRosterSize)) {
+      if (!Number.isInteger(pokemon.level) || pokemon.level < 1 || pokemon.level > 20) {
+        throw new Error("World Championship official team requires Pokemon levels 1..20");
+      }
+    }
   }
 
   if (meta.type === "promotion_trial") {
@@ -637,33 +651,6 @@ export function resolveWorldDraw(state, {
 }
 
 
-const WORLD_GROUP_RUNTIME_POOL = [
-  { id: "growlithe_hisui", species: "Growlithe", form: "Hisuian" },
-  { id: "eevee", species: "Eevee" },
-  { id: "gastly", species: "Gastly" },
-  { id: "totodile", species: "Totodile" },
-  { id: "koffing", species: "Koffing" },
-  { id: "houndour", species: "Houndour" },
-  { id: "wooloo", species: "Wooloo" },
-  { id: "shinx", species: "Shinx" },
-  { id: "tandemaus", species: "Tandemaus" }
-];
-
-const WORLD_GROUP_SIGNATURE_PROXY = {
-  Luke: { id: "growlithe_hisui", species: "Growlithe", form: "Hisuian" },
-  Mattew: { id: "shinx", species: "Shinx" },
-  Daniel: { id: "gastly", species: "Gastly" },
-  Edward: { id: "totodile", species: "Totodile" },
-  Fab: { id: "koffing", species: "Koffing" },
-  "Kaia Solari": { id: "houndour", species: "Houndour" },
-  "Astrid Vahl": { id: "tandemaus", species: "Tandemaus" },
-  Red: { id: "growlithe_hisui", species: "Growlithe", form: "Hisuian" },
-  Cynthia: { id: "shinx", species: "Shinx" },
-  "Steven Stone": { id: "koffing", species: "Koffing" },
-  N: { id: "eevee", species: "Eevee" },
-  Lance: { id: "totodile", species: "Totodile" }
-};
-
 function worldGroupStageOrThrow(state) {
   const competition = ensureCompetition(state);
   const world = competition.world;
@@ -680,36 +667,44 @@ function participantSeedIndex(world, participantId) {
 
 function regulatedWorldRoster(state, participant, regulation = "WORLD_GROUPS_L20") {
   const { world, groupStage } = worldGroupStageOrThrow(state);
-  const knockoutCache = regulation === "WORLD_KNOCKOUT_L20";
-  const cache = knockoutCache ? world.knockout.opponentRosters : groupStage.opponentRosters;
-  if (cache[participant.id]) {
-    return structuredClone(cache[participant.id]);
+  const cache = regulation === "WORLD_KNOCKOUT_L20"
+    ? world.knockout.opponentRosters : groupStage.opponentRosters;
+  const cached = cache[participant.id];
+  // Old saves may contain randomized nine-species proxy rosters. Never let
+  // those survive as official World teams.
+  if (Array.isArray(cached) && cached.length === 6 &&
+      cached.every((entry) => entry.source === "canonical_2060_species")) {
+    return structuredClone(cached);
   }
 
-  const signature = WORLD_GROUP_SIGNATURE_PROXY[participant.name] ?? null;
-  const seedPrefix = knockoutCache ? "world-knockout" : "world-groups";
-  const seed = seedPrefix + "|" + String(participant.id) + "|" + String(state.competition.world.edition);
-  let ordered = stableOrder(WORLD_GROUP_RUNTIME_POOL, seed);
-  if (signature) {
-    ordered = [
-      signature,
-      ...ordered.filter((entry) =>
-        entry.species !== signature.species ||
-        String(entry.form ?? "") !== String(signature.form ?? "")
-      )
-    ];
+  // The four non-player friends have real, module-driven persistent careers;
+  // synchronizing their scripted milestones is idempotent. Their Pokémon
+  // identity and levels come from those saved entities, never the player.
+  if (state.npcs?.[participant.name]?.canonicalCareer) syncFriendCareerSchedule(state);
+  const npc = findNpcForWorldParticipant(state, participant);
+  const current = canonicalWorldTeam(participant.name, {
+    npc, trainerId: participant.id, regulation
+  });
+  world.canonicalRosters ??= {};
+  let saved = world.canonicalRosters[participant.id];
+  const speciesKey = (roster) => roster.map((entry) =>
+    String(entry.species) + "|" + String(entry.form ?? "")).sort().join(";");
+  if (!Array.isArray(saved) || saved.length !== 6 ||
+      saved.some((entry) => entry.source !== "canonical_2060_species")) {
+    saved = structuredClone(current);
+  } else if (speciesKey(saved) !== speciesKey(current)) {
+    throw new Error("Saved World 2060 species conflict for " + participant.name);
+  } else if (npc?.canonicalCareer) {
+    // A Five NPC may train between M09 and M11, but cannot silently replace
+    // one of its six acquired Pokémon or borrow the protagonist's levels.
+    saved = structuredClone(current);
   }
-
-  const roster = ordered.slice(0, 6).map((entry, index) => ({
-    ...entry,
-    level: 20,
-    trainerId: participant.id,
-    rosterIndex: index,
-    regulation,
-    source: "persistent_regulated_world_roster"
+  world.canonicalRosters[participant.id] = structuredClone(saved);
+  const roster = saved.map((entry, index) => ({
+    ...entry, trainerId: participant.id, rosterIndex: index, regulation
   }));
   cache[participant.id] = structuredClone(roster);
-  return roster;
+  return structuredClone(roster);
 }
 
 function recalculateWorldGroupStandings(state) {
