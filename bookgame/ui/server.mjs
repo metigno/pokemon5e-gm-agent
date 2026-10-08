@@ -9,6 +9,7 @@ import { verifyOfflineSpriteAssets } from "../scripts/verify-offline-sprites.mjs
 import { verifyOfflineCharacterSprites } from "../scripts/verify-offline-character-sprites.mjs";
 import { loadAvailableCharacterPortraits, readVerifiedCharacterPortrait } from "../src/assets/character-portraits.mjs";
 import { verifyOfflineNativeCharacterSprites, readVerifiedNativeCharacterSprite } from "../src/assets/native-character-sprites.mjs";
+import { verifyOfflineSecondaryNpcAssets, readVerifiedSecondaryNpcSprite, npcSceneRoles, npcWorldSpriteId } from "../src/assets/npc-secondary-assets.mjs";
 import { BookgameEngine } from "../src/engine/bookgame-engine.mjs";
 import { buildTravelMap } from "../src/engine/map-view.mjs";
 import { Pokemon5eCombatEngine } from "../src/combat/combat-engine.mjs";
@@ -57,10 +58,14 @@ const characterPortraits = await loadAvailableCharacterPortraits(characterRegist
 const nativeCharacterManifest = JSON.parse(await readFile(new URL("../assets/characters/native-sprites.json", import.meta.url), "utf8"));
 const nativeCharacterReport = await verifyOfflineNativeCharacterSprites(characterRegistry, nativeCharacterManifest, CHARACTER_DIR);
 const availableNativeCharacters = nativeCharacterReport.available;
+const SECONDARY_NPC_DIR = process.env.P5E_SECONDARY_NPC_DIR ??
+  fileURLToPath(new URL("../assets/npc-sprites/", import.meta.url));
+const secondaryNpcs = await verifyOfflineSecondaryNpcAssets(characterRegistry, SECONDARY_NPC_DIR);
 if (process.env.P5E_REQUIRE_OFFLINE_CHARACTERS === "1") {
   const report = await verifyOfflineCharacterSprites(characterRegistry, CHARACTER_DIR, characterChecksums);
   if (!report.valid) throw new Error(`Offline character portraits incomplete: ${report.verified}/${report.expected} verified, ${report.missing.length} missing, ${report.unapproved.length} unapproved. Never ship an incomplete set.`);
   if (!nativeCharacterReport.valid) throw new Error(`Offline native character sprites incomplete: ${nativeCharacterReport.verified}/${nativeCharacterReport.expected} battle/overworld PNGs verified.`);
+  if (!secondaryNpcs.valid) throw new Error(`Offline secondary NPC sprite package incomplete: ${secondaryNpcs.verified}/${secondaryNpcs.expected} PNGs verified (18 World entrants, 24 functional roles).`);
 }
 
 // Packaged releases refuse to run if even one mapped physical PNG is missing.
@@ -457,7 +462,12 @@ async function snapshot() {
     information,
     assets: { characterPortraits: Object.fromEntries((information.people ?? [])
       .map(person => [person.name, characterPortraits.byName[person.name]])
-      .filter(([, id]) => Boolean(id))), characterNative: visibleNativeCharacters },
+      .filter(([, id]) => Boolean(id))), characterNative: visibleNativeCharacters,
+      sceneNpcRoles: battle ? [] : npcSceneRoles(secondaryNpcs, story.sceneId, story.nodeId),
+      worldOpponentSprite: battle ? npcWorldSpriteId(secondaryNpcs, battle.opponentTrainerId) : null,
+      worldPeopleSprites: Object.fromEntries((information.people ?? [])
+        .map(person => [person.name, npcWorldSpriteId(secondaryNpcs, person.name)])
+        .filter(([, id]) => Boolean(id))) },
     evolutions: await evolutionView(),
     trainerGameplay: trainerGameplayView(
       state,
@@ -937,6 +947,22 @@ async function serveAudio(res, pathname) {
   }
   return true;
 }
+async function serveSecondaryNpcSprite(res, pathname) {
+  const match = pathname.match(/^\/npc-sprites\/(world|role)\/([a-z][a-z0-9_]*)\/(battleFront|overworld)$/);
+  if (!match) return false;
+  const bytes = await readVerifiedSecondaryNpcSprite(match[1], match[2], match[3],
+    secondaryNpcs.available, join(SECONDARY_NPC_DIR, "files"));
+  if (!bytes) {
+    res.writeHead(404, { "content-type": "text/plain; charset=utf-8" });
+    res.end("Verified NPC sprite unavailable");
+  } else {
+    res.writeHead(200, { "content-type": "image/png", "x-content-type-options": "nosniff",
+      "cache-control": "public, max-age=3600" });
+    res.end(bytes);
+  }
+  return true;
+}
+
 async function serveStatic(res, pathname) {
   const entry = STATIC_FILES.get(pathname);
   if (!entry) {
@@ -990,6 +1016,7 @@ const server = createServer(async (req, res) => {
     }
     if (url.pathname.startsWith("/sprites/") && await serveSprite(res, url.pathname)) return;
     if (url.pathname.startsWith("/characters/") && await serveCharacterPortrait(res, url.pathname)) return;
+    if (url.pathname.startsWith("/npc-sprites/") && await serveSecondaryNpcSprite(res, url.pathname)) return;
     if (await serveMapIllustration(res, url.pathname)) return;
     if (await serveAudio(res, url.pathname)) return;
     await serveStatic(res, url.pathname);
