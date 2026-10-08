@@ -1,0 +1,17 @@
+{
+  "appId": "com.metigno.pokemon5e.bookgame",
+  "appName": "Pokémon 5e Bookgame",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https",
+    "allowNavigation": [
+      "127.0.0.1"
+    ]
+  },
+  "plugins": {
+    "Nodejs": {
+      "nodeDir": "nodejs",
+      "startMode": "manual"
+    }
+  }
+}
