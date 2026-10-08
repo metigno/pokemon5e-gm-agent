@@ -7,6 +7,15 @@ import { createPersistentNpc } from "./npc-state.mjs";
 import { createCompetitionState } from "./competition-state.mjs";
 
 export const GAME_STATE_SCHEMA_VERSION = 4;
+export const MAX_PLAYER_ROSTER_SIZE = 6;
+
+export function assertPlayerRosterLimit(state) {
+  const roster = state?.player?.roster;
+  if (!Array.isArray(roster) || roster.length > MAX_PLAYER_ROSTER_SIZE) {
+    throw new Error("Salvataggio non valido: la squadra può contenere al massimo sei Pokémon. Nessun Pokémon verrà eliminato automaticamente.");
+  }
+  return true;
+}
 
 export const EXPERIENCE_NEEDED_PER_LEVEL = Object.freeze([
   0, 200, 800, 2000, 6000, 12000, 20000, 30000, 44000, 62000,
@@ -228,6 +237,8 @@ export function migrateGameState(input) {
   player.money = Number.isFinite(player.money) ? player.money : 0;
   player.inventory = ensureArray(player.inventory);
   player.roster = ensureArray(player.roster, player.starter ? [structuredClone(player.starter)] : []);
+  // Legacy over-cap saves must be repaired deliberately: never silently discard an owned Pokémon.
+  assertPlayerRosterLimit(state);
 
   if ((input.schemaVersion ?? 1) < GAME_STATE_SCHEMA_VERSION && level > 1 && !input.player?.hp) {
     state.migrations ??= {};
