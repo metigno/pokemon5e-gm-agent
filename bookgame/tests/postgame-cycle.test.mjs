@@ -7,6 +7,7 @@ import path from "node:path";
 import { BookgameEngine } from "../src/engine/bookgame-engine.mjs";
 import { createNewGameState } from "../src/engine/state.mjs";
 import { SaveStore } from "../src/engine/save-store.mjs";
+import { createWorldCompetitionState } from "../src/engine/competition-state.mjs";
 import {
   ensurePostgame, finishPostgameEdition, POSTGAME_WORLD_INTERVAL_MINUTES
 } from "../src/engine/postgame-cycle.mjs";
@@ -41,7 +42,9 @@ test("M12 postgame exposes real actions, recorded first edition and a time-gated
   assert.ok(!initial.choices.some((choice) => choice.id === "postgame_qualifier"));
   assert.deepEqual(state.postgame.championships.map((c) => c.edition), [1]);
   assert.equal(state.postgame.championships[0].result, "missed");
-  assert.equal(state.postgame.championships[0].champion, null);
+  assert.ok(state.postgame.championships[0].champion);
+  assert.notEqual(state.postgame.championships[0].champion.name, state.player.name);
+  assert.equal(state.competition.world.hallOfFame[0].edition, 1);
 
   const firstStart = state.world.elapsedMinutes;
   state = await engine.choose(state, "postgame_training");
@@ -82,6 +85,7 @@ test("second and third edition history persists without resetting team, NPCs or 
   }
   const firstStart = state.world.elapsedMinutes;
   ensurePostgame(state);
+  const firstWinner = state.competition.world.currentWorldChampion.name;
   for (let edition = 2; edition <= 3; edition++) {
     for (let year = 0; year < 4; year++) state = await engine.choose(state, "postgame_year");
     const beforeEdition = state.world.elapsedMinutes;
@@ -132,10 +136,10 @@ test("second and third edition history persists without resetting team, NPCs or 
     assert.deepEqual(reloaded.player.roster, roster);
     assertNpcContinuity(reloaded.npcs);
     assert.deepEqual(reloaded.postgame.championships.map((entry) => entry.champion?.name ?? null),
-      [null, "Luke", "Red"]);
+      [firstWinner, "Luke", "Red"]);
     assert.equal(reloaded.competition.world.edition, 3);
-    assert.deepEqual(reloaded.competition.world.hallOfFame.map((entry) => entry.edition), [2, 3]);
-    assert.deepEqual(reloaded.competition.world.hallOfFame.map((entry) => entry.champion.name), ["Luke", "Red"]);
+    assert.deepEqual(reloaded.competition.world.hallOfFame.map((entry) => entry.edition), [1, 2, 3]);
+    assert.deepEqual(reloaded.competition.world.hallOfFame.map((entry) => entry.champion.name), [firstWinner, "Luke", "Red"]);
     assert.ok((await engine.present(reloaded)).choices.some((choice) => choice.id === "postgame_history"));
   } finally {
     await rm(savedPath, { recursive: true, force: true });
@@ -145,11 +149,12 @@ test("second and third edition history persists without resetting team, NPCs or 
 test("postgame never invents a winner for an unresolved played World final", () => {
   const state = readyPostgame();
   ensurePostgame(state);
+  state.competition.world = createWorldCompetitionState();
   state.competition.world.edition = 2;
   state.postgame.phase = "qualifying";
   state.world.flags.worlds_missed = false;
   state.world.flags.world_eliminated = true;
-  assert.throws(() => finishPostgameEdition(state), /resolve the official final/);
+  assert.throws(() => finishPostgameEdition(state), /locked group results/);
   assert.equal(state.postgame.championships.length, 1);
   assert.throws(() => ensurePostgame({ world: { flags: {} }, competition: {} }),
     /locked until MAIN_STORY_COMPLETE/);
