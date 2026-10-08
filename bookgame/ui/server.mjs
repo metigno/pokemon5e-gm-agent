@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { join } from "node:path";
 import { normalizeSpriteId } from "../src/assets/sprite-runtime.mjs";
+import { verifyOfflineAudioAssets } from "../src/assets/audio-pack.mjs";
 import { APPROVED_MAP_ILLUSTRATION_IDS, APPROVED_MAP_SVG_IDS } from "../src/assets/map-illustrations.mjs";
 import { verifyOfflineSpriteAssets } from "../scripts/verify-offline-sprites.mjs";
 import { verifyOfflineCharacterSprites } from "../scripts/verify-offline-character-sprites.mjs";
@@ -38,6 +39,11 @@ import {
 const HOST = process.env.P5E_UI_HOST ?? "127.0.0.1";
 const PORT = Number(process.env.P5E_UI_PORT ?? 4173);
 const PUBLIC_DIR = fileURLToPath(new URL("./public/", import.meta.url));
+// Audio is opt-in and installed privately; strict release builds can require its integrity.
+if (process.env.P5E_REQUIRE_OFFLINE_AUDIO === "1") {
+  const report = await verifyOfflineAudioAssets(join(PUBLIC_DIR, "audio"));
+  if (!report.valid) throw new Error("Offline audio incomplete or tampered: " + report.errors.slice(0, 3).join("; "));
+}
 const SPRITE_DIR = process.env.P5E_SPRITE_DIR ?? fileURLToPath(new URL("../assets/pokemon/files/", import.meta.url));
 const MAP_ART_DIR = fileURLToPath(new URL("../assets/maps/illustrations/", import.meta.url));
 const spriteMap = JSON.parse(await readFile(new URL("../assets/pokemon/sprite-runtime-map.json", import.meta.url), "utf8"));
