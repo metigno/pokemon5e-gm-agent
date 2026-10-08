@@ -101,7 +101,7 @@
       "choices": [
         {
           "id": "cause_no_chance",
-          "text": "Non avevo una route Last Chance disponibile.",
+          "text": "Non avevo una percorso Last Chance disponibile.",
           "goto": "no_last_chance",
           "conditions": {
             "path": "world.flags.m7_last_chance_route_ready",
@@ -169,7 +169,7 @@
       "choices": [
         {
           "id": "public_friend",
-          "text": "Controllo il callback personale.",
+          "text": "Controllo il ricordo personale.",
           "goto": "friend_callback"
         },
         {
@@ -304,7 +304,7 @@
         },
         {
           "id": "accept_friend",
-          "text": "Torno al callback personale.",
+          "text": "Torno al ricordo personale.",
           "goto": "friend_callback"
         }
       ]
@@ -371,7 +371,7 @@
       "choices": [
         {
           "id": "close_outcome",
-          "text": "Passo all'outcome di M7.",
+          "text": "Passo all'outcome di questa tappa.",
           "goto": "m07-module-outcome#outcome_entry"
         }
       ]
