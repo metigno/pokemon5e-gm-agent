@@ -36,7 +36,10 @@ jobs:
         with:
           distribution: temurin
           java-version: '21'
-      - uses: android-actions/setup-android@v3
+      - name: Use preinstalled Android SDK
+        run: |
+          test -x "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" || test -x "$ANDROID_HOME/cmdline-tools/16.0/bin/sdkmanager"
+          echo "Android SDK is available at $ANDROID_HOME"
       - name: Download private offline asset ZIP
         env:
           ASSET_URL: ${{ secrets.P5E_OFFLINE_ASSETS_URL }}
