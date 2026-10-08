@@ -91,3 +91,19 @@ The rule is **composition/overlay first**. Do not add a second map architecture 
 The next asset pass is now bounded: import the map-eligible binaries into the Bookgame asset surface, create the first canonical compositions for **M01 Valedarsena/Ginestre/Fattoria del Vento**, and use those as the template for subsequent location maps.
 
 No work is required on Pokémon Sports Career or on the original GM Agent outside the existing Bookgame bridge.
+
+## 8. First offline illustrations (M01 — staged rollout)
+
+The first **two real PNG derivatives** from the already audited **OpenRPG CC0**
+pack are tracked under `bookgame/assets/maps/illustrations/`:
+`m01-ginestre.png` and `m01-valedarsena.png` (320×192, pixel filtering).
+They are deliberately decorative location vignettes **not geographic maps**:
+the authored M01 scene graph, choices, time costs and travel restrictions
+remain unchanged. Known visited/available nodes may display them in the
+existing clickable Map view, through a strict offline `/map-art/` allowlist.
+
+This is a **partial** binary import, not completion of the seven-source
+asset package or a claim that M01–M12 have full environment compositions.
+The unverified-license packs remain catalogued but are not published by
+this PR. Further compositions can reuse the already mapped environment
+classes without new narrative maps.

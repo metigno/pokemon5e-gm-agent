@@ -1,11 +1,13 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { mkdtemp, readFile, rm } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 
 import { BookgameEngine } from "../src/engine/bookgame-engine.mjs";
 import { buildTravelMap } from "../src/engine/map-view.mjs";
+import { APPROVED_MAP_ILLUSTRATION_IDS, mapIllustrationForLocation } from "../src/assets/map-illustrations.mjs";
 import { SaveStore } from "../src/engine/save-store.mjs";
 import { createNewGameState } from "../src/engine/state.mjs";
 
@@ -111,4 +113,38 @@ test("mobile Map view is reachable, touch actionable and uses no bypass travel e
   assert.match(css, /\.travel-map/);
   assert.match(css, /\.map-pin/);
   assert.match(server, /map: buildTravelMap\(state, story\)/);
+});
+
+test("M01 artwork is local, verified PNG and never replaces scene navigation", async () => {
+  assert.deepEqual([...APPROVED_MAP_ILLUSTRATION_IDS].sort(),
+    ["m01-ginestre", "m01-valedarsena"]);
+  const samples = [
+    ["asteria_ginestre", "m01-ginestre"],
+    ["valedarsena_city", "m01-valedarsena"]
+  ];
+  for (const [id, asset] of samples) {
+    assert.equal(mapIllustrationForLocation(id), asset);
+    const png = await readFile(new URL(`../assets/maps/illustrations/${asset}.png`, import.meta.url));
+    assert.equal(png.subarray(0, 8).toString("hex"), "89504e470d0a1a0a");
+    assert.equal(createHash("sha256").update(png).digest("hex"), {
+      "m01-ginestre": "b0f6832c27f583260bf3c7132ef7fc4df1a8606b1a9cedc0cb0bc5f50313bfe3",
+      "m01-valedarsena": "70d1197c2333a465dc693b67fa11b0b2035368d281c8b54f38d69202d863dcb6"
+    }[asset]);
+    assert.equal(png.readUInt32BE(16), 320);
+    assert.equal(png.readUInt32BE(20), 192);
+  }
+  assert.equal(mapIllustrationForLocation("hidden_place"), null);
+  const world = ginestreState();
+  const visible = buildTravelMap(world, { choices: [] });
+  assert.equal(visible.nodes.find((item) => item.id === "asteria_ginestre")?.illustrationId, "m01-ginestre");
+  assert.equal(visible.nodes.some((item) => item.id === "hidden_place"), false);
+
+  const [ui, server] = await Promise.all([
+    readFile(new URL("../ui/public/app.mjs", import.meta.url), "utf8"),
+    readFile(new URL("../ui/server.mjs", import.meta.url), "utf8")
+  ]);
+  assert.match(ui, /map-site__art/);
+  assert.match(server, /APPROVED_MAP_ILLUSTRATION_IDS/);
+  assert.match(server, /serveMapIllustration/);
+  assert.ok(server.includes('"/map-art/"'));
 });

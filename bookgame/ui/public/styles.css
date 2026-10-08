@@ -532,6 +532,17 @@ button { -webkit-tap-highlight-color: transparent; }
   background: rgba(8, 22, 35, .45);
 }
 .map-site--current .map-site__body { border-color: #f5dc8f; }
+.map-site__art {
+  display: block;
+  width: 100%;
+  max-height: 172px;
+  aspect-ratio: 5 / 3;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(237, 247, 243, .35);
+  object-fit: cover;
+  image-rendering: pixelated;
+}
 .map-site__body strong { display: block; font-size: .96rem; }
 .map-site__body > small { display: block; margin: 4px 0 0; color: #cfdfde; line-height: 1.4; }
 .map-travel {

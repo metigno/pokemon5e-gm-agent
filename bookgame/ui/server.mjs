@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { join } from "node:path";
 import { normalizeSpriteId } from "../src/assets/sprite-runtime.mjs";
+import { APPROVED_MAP_ILLUSTRATION_IDS } from "../src/assets/map-illustrations.mjs";
 import { verifyOfflineSpriteAssets } from "../scripts/verify-offline-sprites.mjs";
 import { BookgameEngine } from "../src/engine/bookgame-engine.mjs";
 import { buildTravelMap } from "../src/engine/map-view.mjs";
@@ -35,6 +36,7 @@ const HOST = process.env.P5E_UI_HOST ?? "127.0.0.1";
 const PORT = Number(process.env.P5E_UI_PORT ?? 4173);
 const PUBLIC_DIR = fileURLToPath(new URL("./public/", import.meta.url));
 const SPRITE_DIR = process.env.P5E_SPRITE_DIR ?? fileURLToPath(new URL("../assets/pokemon/files/", import.meta.url));
+const MAP_ART_DIR = fileURLToPath(new URL("../assets/maps/illustrations/", import.meta.url));
 const spriteMap = JSON.parse(await readFile(new URL("../assets/pokemon/sprite-runtime-map.json", import.meta.url), "utf8"));
 const SPRITE_ROLES = new Set(["battleFront", "battleBack", "icon", "overworld"]);
 
@@ -827,6 +829,26 @@ async function serveSprite(res, pathname) {
   return true;
 }
 
+async function serveMapIllustration(res, pathname) {
+  if (!pathname.startsWith("/map-art/")) return false;
+  const filename = pathname.slice("/map-art/".length);
+  const id = filename.endsWith(".png") ? filename.slice(0, -4) : null;
+  if (!id || filename !== id + ".png" || !APPROVED_MAP_ILLUSTRATION_IDS.has(id)) {
+    res.writeHead(404, { "content-type": "text/plain; charset=utf-8" });
+    res.end("Map illustration not found");
+    return true;
+  }
+  try {
+    const image = await readFile(join(MAP_ART_DIR, id + ".png"));
+    res.writeHead(200, { "content-type": "image/png", "cache-control": "public, max-age=3600" });
+    res.end(image);
+  } catch {
+    res.writeHead(404, { "content-type": "text/plain; charset=utf-8" });
+    res.end("Map illustration missing");
+  }
+  return true;
+}
+
 async function serveStatic(res, pathname) {
   const entry = STATIC_FILES.get(pathname);
   if (!entry) {
@@ -861,6 +883,7 @@ const server = createServer(async (req, res) => {
       return;
     }
     if (url.pathname.startsWith("/sprites/") && await serveSprite(res, url.pathname)) return;
+    if (await serveMapIllustration(res, url.pathname)) return;
     await serveStatic(res, url.pathname);
   } catch (error) {
     sendError(res, error, /slot di carriera/.test(error?.message ?? "") ? 400 : 500);
