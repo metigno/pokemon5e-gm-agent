@@ -384,7 +384,10 @@ export class BookgameEngine {
       // a lead Pokémon's level.
       const opponentTrainerId = choice.combat.opponentTrainerId ??
         choice.combat.opponent?.trainerId ?? competitionMeta?.opponentTrainerId ?? null;
-      const npcTrainerLevel = next.npcs?.[opponentTrainerId]?.trainerLevel;
+      const npcTrainer = opponentTrainerId ? next.npcs?.[opponentTrainerId] : null;
+      // Persistent NPCs keep their 2024 Trainer level in .trainer, not at
+      // the Pokémon descriptor level. A legacy flat value is still accepted.
+      const npcTrainerLevel = npcTrainer?.trainer?.trainerLevel ?? npcTrainer?.trainerLevel;
       const opponentTrainerLevel = Number.isInteger(npcTrainerLevel)
         ? npcTrainerLevel : (Number.isInteger(choice.combat.opponentTrainer?.trainerLevel)
           ? choice.combat.opponentTrainer.trainerLevel : null);
@@ -438,7 +441,11 @@ export class BookgameEngine {
         trainerPosition: clone(choice.combat.trainerPosition ?? { x: 0, y: 0 }),
         playerPosition: clone(choice.combat.playerPosition ?? { x: 0, y: 0 }),
         opponentPosition: clone(choice.combat.opponentPosition ?? { x: 5, y: 0 }),
-        opponentRegistered: Boolean(choice.combat.opponentRegistered || choice.combat.competition),
+        opponentRegistered: Boolean(
+          choice.combat.opponentRegistered ||
+          choice.combat.competition ||
+          (choice.combat.opponent?.type === "trainer" && opponentTrainerId)
+        ),
         returnNodes: clone(choice.combat.returnNodes),
         competition: clone(competitionMeta),
         battle: null
