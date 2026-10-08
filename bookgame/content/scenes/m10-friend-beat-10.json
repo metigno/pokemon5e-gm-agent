@@ -51,7 +51,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Sul telefono compare {{world.flags.friend_beat_10_friend_id}}. È difficile parlare di un torneo così grande senza ricordare chi eri prima di entrarci."
+          "text": "Sul telefono compare un amico di lunga data. È difficile parlare di un torneo così grande senza ricordare chi eri prima di entrarci."
         }
       ],
       "choices": [
@@ -87,7 +87,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "{{world.flags.friend_beat_10_friend_id}} risponde da dove lo hanno portato gli incontri. Se è ancora in gara, ha una partita da preparare; altrimenti può commentare senza fingere di avere un posto nel tabellone."
+          "text": "un amico di lunga data risponde da dove lo hanno portato gli incontri. Se è ancora in gara, ha una partita da preparare; altrimenti può commentare senza fingere di avere un posto nel tabellone."
         }
       ],
       "choices": [
@@ -520,7 +520,7 @@
         },
         {
           "id": "route_commit",
-          "text": "Porto il Friend Beat al commit.",
+          "text": "Porto il Friend Beat al passaggio conclusivo.",
           "goto": "commitment"
         }
       ]
