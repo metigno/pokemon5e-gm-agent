@@ -30,7 +30,7 @@
       "stitches": [
         {
           "id": "tg1",
-          "text": "La Sala della Cresta chiama il tuo checkpoint. L'esame è un Singles con Official Five; la vittoria promuove a Rank A, la sconfitta lascia Rank B e riapre il retry."
+          "text": "Dalla Sala della Cresta chiamano il tuo nome. Ti aspetta un incontro Singles con cinque Pokémon dichiarati: una vittoria ti porterà al Rank A, mentre una sconfitta significherà dover riprovare."
         }
       ],
       "choices": [
@@ -55,7 +55,7 @@
       "stitches": [
         {
           "id": "eb1",
-          "text": "Aurelia Kite non adatta il proprio team al tuo. Il checkpoint usa sempre lo stesso Official Five per questa fascia: Sableye, Roselia, Chinchou, Growlithe e Noctowl, tutti al livello fissato del gate."
+          "text": "Aurelia Kite presenta la propria formazione ufficiale: Sableye, Roselia, Chinchou, Growlithe e Noctowl. Sono gli stessi cinque Pokémon previsti per questa prova, indipendentemente da chi si presenta."
         },
         {
           "id": "eb2",
@@ -446,7 +446,7 @@
       "stitches": [
         {
           "id": "ra1",
-          "text": "Il profilo competitivo ora mostra Rank A. Questo sblocca l'access band A secondo le regole del mondo, ma non crea automaticamente Masters points, vittorie future o Rank S."
+          "text": "Sul tuo profilo compare finalmente Rank A. La tessera apre nuove opportunità, ma il circuito Masters e i gradi successivi richiederanno altre gare."
         }
       ],
       "choices": [
@@ -511,7 +511,7 @@
       "stitches": [
         {
           "id": "lrs1",
-          "text": "Il problema può essere stato il timing con cui hai consumato una risposta, non la sua esistenza. La review registra soltanto il tema scelto."
+          "text": "Ripensi al momento in cui hai consumato una risposta troppo presto. Forse il problema non era averla a disposizione, ma scegliere quando usarla."
         }
       ],
       "choices": [
