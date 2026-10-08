@@ -1,0 +1,107 @@
+name: Android offline APK (private assets)
+on:
+  workflow_dispatch:
+  push:
+    branches: [bookgame-android-apk-actions-v1]
+    paths:
+      - '.github/workflows/bookgame-android-apk.yml'
+  pull_request:
+    branches: [bookgame-canonical]
+permissions:
+  contents: read
+jobs:
+  preflight:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate canonical bookgame without private overlays
+        run: |
+          npm --prefix bookgame test
+          npm --prefix bookgame run build
+  build-apk:
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/bookgame-android-apk-actions-v1')
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Use preinstalled Android SDK
+        run: |
+          test -x "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" || test -x "$ANDROID_HOME/cmdline-tools/16.0/bin/sdkmanager"
+          echo "Android SDK is available at $ANDROID_HOME"
+      - name: Download offline assets from private GitHub repository
+        env:
+          ASSETS_READ_TOKEN: ${{ secrets.LIBROGAME5E }}
+        run: |
+          set -euo pipefail
+          if [ -z "$ASSETS_READ_TOKEN" ]; then
+            echo "::error::Missing LIBROGAME5E secret. Create a fine-grained GitHub token with Contents: Read on metigno/librogame5e-private-assets."
+            exit 1
+          fi
+          curl --fail --location --silent --show-error \
+            --header "Authorization: Bearer $ASSETS_READ_TOKEN" \
+            --header "Accept: application/vnd.github.raw+json" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/metigno/librogame5e-private-assets/contents/Librogame5e_Offline_Assets_For_GitHub_Actions.zip?ref=main" \
+            --output /tmp/p5e-offline-assets.zip
+          python3 - <<'PY'
+          import zipfile
+          path='/tmp/p5e-offline-assets.zip'
+          if not zipfile.is_zipfile(path):
+              raise SystemExit('GitHub asset download was not a ZIP')
+          with zipfile.ZipFile(path) as z:
+              if z.testzip() is not None: raise SystemExit('Corrupt ZIP')
+              print('Private GitHub assets verified:', len(z.namelist()), 'entries')
+          PY
+      - name: Install approved offline overlays
+        run: |
+          python3 - <<'PY'
+          import zipfile, pathlib
+          root=pathlib.Path.cwd().resolve()
+          with zipfile.ZipFile('/tmp/p5e-offline-assets.zip') as z:
+            for item in z.infolist():
+              path=pathlib.PurePosixPath(item.filename)
+              if path.is_absolute() or '..' in path.parts or not item.filename.startswith('bookgame/'):
+                raise SystemExit('Invalid overlay member: '+item.filename)
+              if (item.external_attr >> 16) & 0o170000 == 0o120000:
+                raise SystemExit('Symlink forbidden')
+              target=root.joinpath(*path.parts)
+              if not target.resolve().is_relative_to(root): raise SystemExit('Escaping overlay')
+              if item.is_dir(): target.mkdir(parents=True,exist_ok=True); continue
+              target.parent.mkdir(parents=True,exist_ok=True)
+              with z.open(item) as src, target.open('wb') as dst:
+                import shutil; shutil.copyfileobj(src,dst)
+          PY
+      - name: Verify assets and compile story
+        run: |
+          npm --prefix bookgame run sprites:verify
+          npm --prefix bookgame run sprites:verify:characters
+          npm --prefix bookgame run sprites:verify:npc-secondary
+          npm --prefix bookgame run audio:verify
+          npm --prefix bookgame run build
+          npm --prefix bookgame test
+      # Rebuild the APK and smoke-test the embedded engine import graph.
+      - name: Build Android debug APK
+        run: |
+          cd bookgame/mobile
+          npm install
+          npm run android:init
+          npm run android:debug
+      - name: Upload installable debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Librogame5e-android-debug
+          path: bookgame/mobile/android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 7

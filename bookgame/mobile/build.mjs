@@ -167,6 +167,16 @@ async function build(trainerZip = null, secondaryZip = null) {
         shipped.secondarySprites !== report.secondarySprites || shipped.audio !== report.audio) {
       throw new Error("Packaged offline asset counts do not match verified sources");
     }
+    // Canonical engine imports ../../../src/bridge from bookgame/src/engine.
+    // Preserve that relative path inside the embedded Node.js project root.
+    await mkdir(join(nodeRoot, "src"), { recursive: true });
+    await cp(join(dirname(BOOKGAME), "src/bridge"), join(nodeRoot, "src/bridge"), { recursive: true, force: false });
+    const smoke = spawnSync(process.execPath, ["--input-type=module", "-e",
+      "await import('./bookgame/src/engine/bookgame-engine.mjs')"],
+      { cwd: nodeRoot, encoding: "utf8" });
+    if (smoke.status !== 0) {
+      throw new Error("Embedded engine import smoke test failed: " + smoke.stderr);
+    }
     await cp(join(MOBILE, "runtime/index.cjs"), join(nodeRoot, "index.cjs"));
     await writeFile(join(nodeRoot, "package.json"),
       JSON.stringify({ name: "p5e-embedded-runtime", version: "0.1.0", private: true, main: "index.cjs" }));
@@ -174,7 +184,7 @@ async function build(trainerZip = null, secondaryZip = null) {
     const esbuild = await import("esbuild");
     await esbuild.build({
       entryPoints: [join(MOBILE, "src/bootstrap.mjs")], bundle: true, platform: "browser",
-      target: "es2020", format: "esm", minify: true, outfile: join(stage, "bootstrap.mjs")
+      target: "es2022", format: "esm", minify: true, outfile: join(stage, "bootstrap.mjs")
     });
     await rm(OUT, { recursive: true, force: true });
     await rename(stage, OUT);
