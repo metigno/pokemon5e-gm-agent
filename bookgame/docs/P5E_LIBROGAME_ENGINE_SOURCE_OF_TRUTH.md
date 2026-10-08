@@ -1106,8 +1106,13 @@ revisiting earlier authored scenes. The existing explicit Trainer milestone
 effects remain authoritative guaranteed level rewards, including M02 level 4
 and M03 level 6 intermediate checkpoints; earned activity XP can level the
 Trainer earlier within the current module band. Required Trainer Path, ASI,
-specialization and boon choices still pause level-up advancement until
-resolved. XP granted after a cap is reached is immediately discarded and
+specialization and level-19 feat choices still pause level-up advancement until
+resolved. At level 19 the Pokémon 5e 2024 rule also permits **another feat for
+which the Trainer qualifies** instead of an Epic Boon; the current mobile
+selector offers the implemented repeatable Ability Score Improvement (General
+Feat) option. It applies real ability increases and resolves the pending
+choice; an unimplemented Epic Boon is never silently selected or granted.
+Other feat/boon options require their own verified mechanics before exposure. XP granted after a cap is reached is immediately discarded and
 never restored when the cap rises. The cap uses the **exact experience
 threshold of the capped level**, not the next level's threshold.
 
