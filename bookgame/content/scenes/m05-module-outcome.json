@@ -62,7 +62,7 @@
       "stitches": [
         {
           "id": "oe1",
-          "text": "Prima di lasciare Altacima fai il punto su ciò che hai davvero conquistato: Rank A, incontro con Lance, rapporto con uno dei Five, licenza interregionale, anomalia di Fulgore e accesso al circuito Masters."
+          "text": "Prima di lasciare Altacima, apri il diario di viaggio. Ci sono tappe già superate e altre ancora da completare: la promozione, la licenza, i legami con Lance e gli amici, le tracce di Fulgore e la strada verso i Masters."
         }
       ],
       "choices": [
@@ -175,7 +175,7 @@
       "stitches": [
         {
           "id": "rr1",
-          "text": "Il Rank A sulla tessera viene dalla vittoria nel Trial B→A. Licenza, soccorso d'alta quota e circuito Masters non hanno sostituito quella prova."
+          "text": "Rileggi il regolamento del Trial B→A: soltanto una vittoria in quella prova permette di ottenere il Rank A. Né la licenza né gli altri risultati possono sostituirla."
         }
       ],
       "choices": [
@@ -195,7 +195,7 @@
       "stitches": [
         {
           "id": "lr1",
-          "text": "Lance resta un Anchor con stato, relazione e carriera propri. Il suo tema sul margine può tornare più avanti, ma non è stato convertito in bonus o chiave per vincere il Trial."
+          "text": "Ripensi a ciò che sai di Lance e al suo modo di valutare il rischio. Se vi siete incontrati, ricordi le sue parole; altrimenti resta una figura di cui potresti ancora incrociare la strada."
         }
       ],
       "choices": [
@@ -215,7 +215,7 @@
       "stitches": [
         {
           "id": "fr1",
-          "text": "Ricordi con chi hai parlato tra i Five, se eravate insieme oppure lontani e come si è chiusa la conversazione. Nessuno di loro ha fermato la propria carriera per aspettarti."
+          "text": "Scorri i messaggi degli altri quattro. Se hai avuto modo di parlare a lungo con uno di loro, ricordi il tono di quella conversazione; gli altri proseguono comunque le proprie carriere."
         }
       ],
       "choices": [
@@ -235,7 +235,7 @@
       "stitches": [
         {
           "id": "tr1",
-          "text": "L'anomalia osservata a Fulgore resta incompleta: hai visto abbastanza da sapere che esiste, non abbastanza da attribuirle con certezza una causa."
+          "text": "Ripensi alle notizie e alle osservazioni su Fulgore. Se hai visto i segni anomali, sai che qualcosa non torna, ma non hai ancora una spiegazione certa."
         }
       ],
       "choices": [
@@ -255,7 +255,7 @@
       "stitches": [
         {
           "id": "li1",
-          "text": "La licenza interregionale resta un diritto di rete compatibile con il Rank, non un Rank aggiuntivo. Le destinazioni future continuano a rispettare access band, calendario e geografia."
+          "text": "Controlli le condizioni della rete interregionale. La licenza, una volta ottenuta, amplia i viaggi consentiti; non è una promozione di Rank."
         }
       ],
       "choices": [
@@ -275,7 +275,7 @@
       "stitches": [
         {
           "id": "mr1",
-          "text": "Per l'exit contract basta che A5_MASTERS_ENTRY sia realmente disponibile oppure già risolto. Se hai giocato il match, il seed deriva dal risultato; se hai rimandato, nessun seed viene inventato."
+          "text": "Il calendario Masters indica quando potrai partecipare e quali risultati contano per il sorteggio. Se hai già giocato l'incontro, trovi la tua posizione; se l'hai rinviato, il posto non è ancora assegnato."
         }
       ],
       "choices": [
@@ -295,7 +295,7 @@
       "stitches": [
         {
           "id": "ha1",
-          "text": "Ad Altacima parlano ancora dell'intervento in quota. Chi era presente ricorda se sei entrato fra le raffiche oppure se hai aiutato i soccorritori a trovare un passaggio."
+          "text": "Rileggi il rapporto dell'emergenza in quota. Se hai partecipato al soccorso, il documento distingue l'ingresso nella zona esposta dal supporto prestato alla squadra di risposta."
         }
       ],
       "choices": [
@@ -335,7 +335,7 @@
       "stitches": [
         {
           "id": "m61",
-          "text": "Il Rank A e la licenza interregionale aprono nuove direttrici di viaggio e competizioni più alte. Il Rank S, però, dovrà ancora essere conquistato e il risultato Masters già ottenuto non cambia."
+          "text": "Oltre Altacima si aprono nuove direttrici per chi possiede il Rank e i documenti richiesti. Il Rank S resta un traguardo da conquistare; gli incontri non ancora disputati attendono il loro turno."
         }
       ],
       "choices": [
@@ -355,7 +355,7 @@
       "stitches": [
         {
           "id": "fa1",
-          "text": "Prima della partenza ricontrolli gli elementi essenziali: Rank A, Lance, uno dei Five, licenza, anomalia di Fulgore e accesso Masters disponibile o già affrontato."
+          "text": "Prima di partire, controlli le condizioni per proseguire: promozione, incontro con Lance, confronto con uno degli amici, licenza, osservazioni di Fulgore e accesso al circuito Masters."
         }
       ],
       "choices": [
