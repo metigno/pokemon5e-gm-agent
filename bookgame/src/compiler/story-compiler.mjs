@@ -5,6 +5,7 @@ import { validateQuestEffect } from "../engine/quest-state.mjs";
 import { validateNpcEffect } from "../engine/npc-state.mjs";
 import { validateCompetitionEffect, validateCompetitionCombat } from "../engine/competition-state.mjs";
 import { compileEcologyCatalog } from "./ecology-compiler.mjs";
+import { POKEMON_LEVEL_CAPS_BY_MODULE } from "../engine/pokemon-xp-balance.mjs";
 import { specializationByType } from "../rules/trainer-2024.mjs";
 
 const ID_RE = /^[A-Za-z0-9_-]+$/;
@@ -458,8 +459,11 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
       if (!dynamicWorldOpponent && (!isObject(combat.opponent) || typeof combat.opponent.species !== "string" || combat.opponent.species.length === 0)) {
         errors.push(diag("INVALID_COMBAT_OPPONENT", "combat.opponent.species is required", choiceAt + ".combat"));
       }
-      if (!dynamicWorldOpponent && combat.opponent && (!Number.isInteger(combat.opponent.level) || combat.opponent.level < 1)) {
-        errors.push(diag("INVALID_COMBAT_LEVEL", "combat.opponent.level must be a positive integer", choiceAt + ".combat"));
+      if (!dynamicWorldOpponent && combat.opponent && (!Number.isInteger(combat.opponent.level) || combat.opponent.level < 1 || combat.opponent.level > 20)) {
+        errors.push(diag("INVALID_COMBAT_LEVEL", "combat.opponent.level must be an integer from 1 to 20", choiceAt + ".combat"));
+      }
+      if (!dynamicWorldOpponent && combat.opponent?.species?.toLowerCase() === "trainer") {
+        errors.push(diag("INVALID_COMBAT_SPECIES", "A Trainer is not a Pokémon species; keep Trainer ID and Pokémon species distinct", choiceAt + ".combat.opponent.species"));
       }
       if (dynamicWorldOpponent && (combat.opponent !== undefined || combat.opponentBench !== undefined)) {
         errors.push(diag("DYNAMIC_WORLD_OPPONENT_MUST_NOT_BE_STATIC", "World competition combat resolves opponent roster from structured E5 state", choiceAt + ".combat"));
@@ -477,9 +481,25 @@ export function validateScene(scene, { sourceFile = "<memory>" } = {}) {
           if (!isObject(descriptor) || typeof descriptor.species !== "string" || descriptor.species.length === 0) {
             errors.push(diag("INVALID_COMBAT_OPPONENT", "Opponent bench entries require species", at));
           }
-          if (!Number.isInteger(descriptor?.level) || descriptor.level < 1) {
-            errors.push(diag("INVALID_COMBAT_LEVEL", "Opponent bench level must be a positive integer", at + ".level"));
+          if (!Number.isInteger(descriptor?.level) || descriptor.level < 1 || descriptor.level > 20) {
+            errors.push(diag("INVALID_COMBAT_LEVEL", "Opponent bench Pokémon level must be an integer from 1 to 20", at + ".level"));
           }
+          if (descriptor?.species?.toLowerCase() === "trainer") {
+            errors.push(diag("INVALID_COMBAT_SPECIES", "Trainer is not a Pokémon species", at + ".species"));
+          }
+        }
+      }
+
+      // Wild encounters remain capturable, but their authored Pokémon level
+      // must already satisfy the module's checkpoint cap. Never silently
+      // downscale a Pokémon after the capture roll has succeeded.
+      if (combat.returnNodes?.captured !== undefined) {
+        if (combat.opponentRegistered === true || combat.competition) {
+          errors.push(diag("REGISTERED_OPPONENT_CAPTURABLE", "Registered Trainer Pokémon cannot be captured", choiceAt + ".combat.returnNodes.captured"));
+        }
+        const levelCap = POKEMON_LEVEL_CAPS_BY_MODULE[scene.moduleId];
+        if (levelCap && combat.opponent?.level > levelCap) {
+          errors.push(diag("WILD_CAPTURE_EXCEEDS_CAP", "Capturable wild Pokémon exceeds the authored module cap " + levelCap, choiceAt + ".combat.opponent.level"));
         }
       }
 
