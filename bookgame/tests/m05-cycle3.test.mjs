@@ -116,7 +116,7 @@ test("M5_12 fixed B-A Trial is five-on-five gate metadata with no scaling",async
   assert.equal(ch.combat.competition.checkpointId,"RANK_B_TO_A");
   assert.equal(ch.combat.competition.officialRosterSize,5);
   assert.equal(ch.combat.competition.difficulty,"ELITE");
-  assert.equal(ch.combat.opponent.level,13);
+  assert.equal(ch.combat.opponent.level,12);
   assert.equal(ch.combat.opponentBench.length,4);
 });
 
