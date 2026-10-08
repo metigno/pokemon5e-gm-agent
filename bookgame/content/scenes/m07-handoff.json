@@ -32,7 +32,7 @@
       "choices": [
         {
           "id": "activate_m7",
-          "text": "Attivo M7 senza cambiare il risultato del cutoff.",
+          "text": "Attivo questa tappa senza cambiare il risultato del cutoff.",
           "goto": "rank_s_band",
           "conditions": {
             "path": "world.flags.m7_active",
@@ -48,7 +48,7 @@
         },
         {
           "id": "review_active_m7",
-          "text": "M7 è già attivo: rivedo la fascia Candidate Mondiale.",
+          "text": "questa tappa è già attivo: rivedo la fascia Candidate Mondiale.",
           "goto": "rank_s_band",
           "conditions": {
             "path": "world.flags.m7_active",
@@ -97,7 +97,7 @@
       "choices": [
         {
           "id": "carry_callbacks",
-          "text": "Controllo i callback che possono cambiare il contesto di Meridiana.",
+          "text": "Controllo i ricordo che possono cambiare il contesto di Meridiana.",
           "goto": "callbacks"
         },
         {
