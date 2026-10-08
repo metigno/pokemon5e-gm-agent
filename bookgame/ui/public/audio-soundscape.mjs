@@ -13,7 +13,7 @@ export function selectSoundtrack(snapshot) {
     if (/champion|elite|boss|final|tournament|torneo|gym|capopalestra|trial|promozione/i.test(context)) return "battle_boss";
     return battle.opponentTrainerId ? "battle_trainer" : "battle_wild";
   }
-  if (/mondial|world.?cup|pwt/.test(title) && /final|campion|titolo|cerimonia/.test(title)) return "pwt_victor";
+  if (/mondial|world.?cup|pwt/.test(title) && /final|campion|titolo|cerimonia|vittor|trionf/.test(title)) return "pwt_victor";
   if (/vittori|trionf|campion|premiazion/.test(title)) return "victory";
   if (/sconfitt|disfatta/.test(title)) return "defeat";
   if (/pericol|allarm|attacc|insegu|crisi|croll|emergenz|tempesta|minacci|imboscat|scontro/.test(title)) return "danger";
@@ -68,7 +68,12 @@ export class AudioSoundscape {
     if (this.context.state === "suspended") this.context.resume().catch(() => {});
     return this.context;
   }
-  unlock() { if (this.active) this._context(); }
+  unlock() {
+    if (!this.active) return;
+    this._context();
+    // A genuine pointer gesture can retry a browser-blocked media playback.
+    if (!this.track && this.manifest?.music?.[this.playingCue]) this._startAsset(this.playingCue, this.generation);
+  }
   setEnabled(enabled) {
     this.enabled = Boolean(enabled);
     localStorage.setItem(ENABLED, this.enabled ? "1" : "0");
@@ -112,24 +117,28 @@ export class AudioSoundscape {
     const generation = ++this.generation;
     this.playingCue = wanted;
     this._startFallback(wanted);
-    void this._getManifest().then(manifest => {
+    if (this.manifest?.music?.[wanted]) this._startAsset(wanted, generation);
+    else void this._getManifest().then(manifest => {
       if (!this.active || generation !== this.generation) return;
       this.manifest = manifest;
-      if (!manifest?.music?.[wanted]) return;
-      const audio = new Audio("/audio/" + wanted + ".ogg");
-      audio.loop = true;
-      audio.preload = "auto";
-      audio.volume = this.volume * .43;
-      this.track = audio;
-      audio.addEventListener("error", () => {
-        if (this.track === audio) { this._stopTrack(); this._startFallback(wanted); }
-      }, { once: true });
-      audio.play().then(() => {
-        if (generation === this.generation) this._stopFallback();
-        else audio.pause();
-      }).catch(() => {
-        if (this.track === audio) this._stopTrack();
-      });
+      if (manifest?.music?.[wanted]) this._startAsset(wanted, generation);
+    });
+  }
+  _startAsset(wanted, generation) {
+    if (!this.active || generation !== this.generation || this.track) return;
+    const audio = new Audio("/audio/" + wanted + ".ogg");
+    audio.loop = true;
+    audio.preload = "auto";
+    audio.volume = this.volume * .43;
+    this.track = audio;
+    audio.addEventListener("error", () => {
+      if (this.track === audio) { this._stopTrack(); this._startFallback(wanted); }
+    }, { once: true });
+    audio.play().then(() => {
+      if (generation === this.generation) this._stopFallback();
+      else audio.pause();
+    }).catch(() => {
+      if (this.track === audio) this._stopTrack();
     });
   }
   _beep(note, duration = .12, intensity = .07, type = "triangle") {
