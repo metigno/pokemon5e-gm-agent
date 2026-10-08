@@ -1,6 +1,6 @@
 import { ensureWorldClock } from "./time.mjs";
 import { syncFriendCareerSchedule } from "./npc-career-scheduler.mjs";
-import { canonicalWorldTeam } from "../rules/world-roster-2060.mjs";
+import { canonicalWorldTeam, WORLD_2060_SPECIES } from "../rules/world-roster-2060.mjs";
 
 export const RANKS = ["F", "E", "D", "C", "B", "A", "S"];
 export const COMPETITION_TYPES = new Set(["official_match", "promotion_trial"]);
@@ -978,8 +978,7 @@ function buildGroupStandings(world, participants, matches) {
   );
 }
 
-function simulateCompleteGroup(state, groupLabel, participants) {
-  const { world } = worldGroupStageOrThrow(state);
+function simulateCompleteGroupFromWorld(world, groupLabel, participants) {
   const matches = [];
   for (let i = 0; i < participants.length; i += 1) {
     for (let j = i + 1; j < participants.length; j += 1) {
@@ -1006,6 +1005,10 @@ function simulateCompleteGroup(state, groupLabel, participants) {
     }
   }
   return matches;
+}
+
+function simulateCompleteGroup(state, groupLabel, participants) {
+  return simulateCompleteGroupFromWorld(worldGroupStageOrThrow(state).world, groupLabel, participants);
 }
 
 export function resolveWorldGroupStage(state, { eventId = "WORLD_GROUPS_RESOLVE" } = {}) {
@@ -1631,6 +1634,115 @@ export function resolveWorldFinalRound(state, { eventId = "WORLD_FINAL_RESOLVE" 
   }
   state.world.flags.world_final_event_resolution_id = eventId;
   return knockout;
+}
+
+// In a Worlds Missed career, the tournament continues without the player.
+// Reuse the SAME deterministic NPC group and knockout resolvers as the live
+// world competition. Never invent a scripted victory or grant player rewards.
+export function resolveUnattendedWorldChampionship(state) {
+  if (state.world?.flags?.worlds_missed !== true ||
+      state.world?.flags?.world_qualified === true) {
+    throw new Error("Unattended World resolution requires a real Worlds Missed outcome");
+  }
+  const world = ensureCompetition(state).world;
+  if (world.finalResolved && world.currentWorldChampion) return world.currentWorldChampion;
+  if (world.finalResolved && !world.currentWorldChampion) {
+    throw new Error("Cannot overwrite an unresolved World final");
+  }
+
+  const names = Object.keys(WORLD_2060_SPECIES);
+  if (names.length !== 35 || !names.includes(state.player?.name)) {
+    throw new Error("Unattended World requires the exact canonical 2060 competitor pool");
+  }
+  const entrants = names.map((name, index) => ({
+    name,
+    id: "c2060_" + String(index + 1).padStart(2, "0") + "_" +
+      name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "")
+  })).filter((entry) => entry.name !== state.player.name);
+  if (entrants.length !== 34) throw new Error("Unattended World pool is incomplete");
+
+  const lockedIn = [];
+  const unresolved = [];
+  for (const entry of entrants) {
+    const status = worldQualificationState(state, entry);
+    if (status.qualified === true) lockedIn.push(entry);
+    else if (status.qualified !== false) unresolved.push(entry);
+  }
+  const qualifierSeed = [
+    state.slot ?? "slot", state.createdAt ?? "career",
+    "world-edition-" + world.edition, "qualification"
+  ].join("|");
+  const drawSeed = [
+    state.slot ?? "slot", state.createdAt ?? "career",
+    "world-edition-" + world.edition, "WORLD_DRAW", "draw"
+  ].join("|");
+  if (lockedIn.length > 32 || lockedIn.length + unresolved.length < 32) {
+    throw new Error("Unattended World cannot create a legal 32-trainer field");
+  }
+  const field = [...lockedIn, ...stableOrder(unresolved, qualifierSeed).slice(0, 32 - lockedIn.length)];
+  const simWorld = createWorldCompetitionState();
+  simWorld.edition = world.edition;
+  simWorld.drawSeed = drawSeed;
+  simWorld.seedOrder = stableOrder(field, drawSeed);
+  for (let i = 0; i < 8; i += 1) {
+    const label = "ABCDEFGH"[i];
+    simWorld.groups[label] = simWorld.seedOrder.slice(i * 4, (i + 1) * 4);
+  }
+
+  const top16 = [];
+  for (const [label, participants] of Object.entries(simWorld.groups)) {
+    const matches = simulateCompleteGroupFromWorld(simWorld, label, participants);
+    const standings = buildGroupStandings(simWorld, participants, matches);
+    for (let index = 0; index < 2; index += 1) {
+      const row = standings[index];
+      top16.push({
+        participantId: row.participantId, name: row.name, group: label,
+        groupPosition: index + 1, points: row.points
+      });
+    }
+  }
+  if (top16.length !== 16) throw new Error("Unattended World group resolution is incomplete");
+  simWorld.top16 = top16;
+  const simState = { competition: { world: simWorld } };
+  let bracket = buildR16Bracket(simWorld);
+  const bracketHistory = [];
+  for (const [index, round] of ["R16", "QF", "SF", "FINAL"].entries()) {
+    if (index > 0) {
+      const previous = bracket;
+      const winners = previous.map((match) => participantByIdFromMatch(match, match.winnerId));
+      if (winners.some((entry) => !entry) || winners.length % 2 !== 0) {
+        throw new Error("Unattended World bracket is inconsistent");
+      }
+      bracket = [];
+      for (let i = 0; i < winners.length; i += 2) {
+        bracket.push({
+          round, matchId: "WORLD_" + round + "_" + String(i / 2 + 1),
+          home: winners[i], away: winners[i + 1], outcome: null,
+          playerOutcome: null, winnerId: null, loserId: null
+        });
+      }
+    }
+    for (const match of bracket) simulateWorldKnockoutMatch(simState, match);
+    bracketHistory.push(...structuredClone(bracket));
+  }
+  if (bracket.length !== 1) throw new Error("Unattended World final was not resolved");
+  const final = bracket[0];
+  const champion = participantByIdFromMatch(final, final.winnerId);
+  const runnerUp = participantByIdFromMatch(final, final.loserId);
+  if (!champion || !runnerUp || champion.name === state.player.name) {
+    throw new Error("Unattended World created an invalid champion");
+  }
+  world.currentWorldChampion = structuredClone(champion);
+  world.currentWorldRunnerUp = structuredClone(runnerUp);
+  world.finalResolved = true;
+  world.offscreenWorld = {
+    edition: world.edition, drawSeed, field: structuredClone(field),
+    top16: structuredClone(top16), knockoutMatches: bracketHistory
+  };
+  archiveWorldFinal(world, champion, runnerUp);
+  // Player qualifications, wins, rank, party and World-Exit route are untouched.
+  return world.currentWorldChampion;
 }
 
 export function applyCompetitionEffect(state, effect) {
