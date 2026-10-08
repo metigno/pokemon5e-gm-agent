@@ -19,6 +19,7 @@ import { applyCompetitionEffect, beginCompetitionMatch, prepareWorldGroupMatch, 
 import { recordWildEncounter, selectOrdinaryEncounter } from "./ecology.mjs";
 import { awardPokemonXp } from "./pokemon-progression.mjs";
 import { battlePokemonXpPool, pokemonLevelCapForState } from "./pokemon-xp-balance.mjs";
+import { syncFriendCareerSchedule } from "./npc-career-scheduler.mjs";
 import { Poke5eDataRepository } from "../combat/poke5e-data.mjs";
 import { applyPurchaseItem, ensureSceneShops } from "./shop-state.mjs";
 
@@ -162,6 +163,7 @@ export class BookgameEngine {
   }
 
   async present(state) {
+    syncFriendCareerSchedule(state);
     const trainerProgression = getTrainerProgressionView(state);
     if (trainerProgression) {
       return {
@@ -208,6 +210,7 @@ export class BookgameEngine {
   async choose(state, choiceId) {
     if (hasPendingTrainerProgression(state)) {
       const next = clone(state);
+      syncFriendCareerSchedule(next);
       const resolution = resolveTrainerProgressionChoice(next, choiceId);
       const progression = syncCampaignTrainerProgression(next);
       const worldEvents = await this.loadWorldEvents();
@@ -224,6 +227,7 @@ export class BookgameEngine {
         progression: clone([...progression, ...postEventProgression]),
         worldEvents: clone(firedWorldEvents)
       });
+      syncFriendCareerSchedule(next);
       touchState(next, this.now);
       return next;
     }
@@ -231,6 +235,7 @@ export class BookgameEngine {
     if (state.pending) throw new Error("Cannot choose while a subsystem handoff is pending");
 
     const next = clone(state);
+    syncFriendCareerSchedule(next);
     refreshNpcSchedules(next);
     const scene = await this.scenes.load(next.story.sceneId);
     ensureSceneShops(next, scene.shops);
@@ -348,6 +353,14 @@ export class BookgameEngine {
         ? stateRoster.slice(0, officialRosterSize)
         : null;
 
+      // Resolve friend sparring from their persistent Pokémon career rather
+      // than the old hardcoded battle descriptor (which used level 3).
+      const friendNpc = next.npcs?.[choice.combat.opponent?.trainerId];
+      const friendLead = friendNpc?.canonicalCareer ? friendNpc.rosterCareer?.[0] : null;
+      const authoredOpponent = friendLead?.acquired
+        ? { ...choice.combat.opponent, species: friendLead.species, level: friendLead.pokemonLevel }
+        : choice.combat.opponent;
+
       next.pending = {
         type: "pokemon5e_combat",
         authority: "pokemon5e_rules",
@@ -357,7 +370,7 @@ export class BookgameEngine {
         participatingRosterIndices: [0],
         sceneId: scene.id,
         sourceNodeId: next.story.nodeId,
-        opponent: clone(dynamicWorldOpponent?.[0] ?? choice.combat.opponent),
+        opponent: clone(dynamicWorldOpponent?.[0] ?? authoredOpponent),
         opponentBench: clone(dynamicWorldOpponent ? dynamicWorldOpponent.slice(1) : (choice.combat.opponentBench ?? [])),
         playerPokemon: clone(playerRoster?.[0] ?? stateRoster[0] ?? next.player.starter),
         // Prefer the persistent player party in every battle. Older authored
@@ -411,6 +424,7 @@ export class BookgameEngine {
       historyEntry.toNodeId = target.nodeId;
     }
 
+    syncFriendCareerSchedule(next);
     const preEventProgression = syncCampaignTrainerProgression(next);
     const worldEvents = await this.loadWorldEvents();
     const firedWorldEvents = processWorldEvents(next, worldEvents, (eventState, effects) => {
@@ -425,6 +439,7 @@ export class BookgameEngine {
     }
 
     next.story.history.push(historyEntry);
+    syncFriendCareerSchedule(next);
     touchState(next, this.now);
     return next;
   }
@@ -621,6 +636,7 @@ export class BookgameEngine {
     next.pending = null;
     const target = applyTarget(next, targetRef, sourceSceneId);
     const trainerProgression = syncCampaignTrainerProgression(next);
+    syncFriendCareerSchedule(next);
     next.story.history.push({
       sceneId: sourceSceneId,
       subsystem: "pokemon5e_combat",
