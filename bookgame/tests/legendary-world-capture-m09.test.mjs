@@ -6,7 +6,6 @@ import { validateScene } from "../src/compiler/story-compiler.mjs";
 import { evaluateCondition } from "../src/engine/conditions.mjs";
 import { Poke5eDataRepository } from "../src/combat/poke5e-data.mjs";
 import { POKEMON_LEVEL_CAPS_BY_MODULE, pokemonLevelCapForState } from "../src/engine/pokemon-xp-balance.mjs";
-import { swapPlayerRosterSlots } from "../src/engine/player-roster-selection.mjs";
 import { captureBallsInInventory, attemptCapture } from "../src/combat/capture.mjs";
 import { BookgameEngine } from "../src/engine/bookgame-engine.mjs";
 import { createNewGameState } from "../src/engine/state.mjs";
@@ -101,33 +100,6 @@ test("Mattew encounters true Crowned Zacian at Lv20, with its distinct Fairy/Ste
   assert.match(hunt.nodes.mattew_approach.stitches[0].text, /non era stata recuperata da te/i);
 });
 
-test("Captured legendary can replace a reserve into the first six, without losing starter or duplicating Pokémon", () => {
-  const originals = Array.from({ length: 7 }, (_, i) => ({ speciesId: i === 6 ? "mewtwo" : "pokemon_" + i, level: 20 }));
-  const state = { player: { starter: structuredClone(originals[0]), roster: structuredClone(originals) }, pending: null };
-  const result = swapPlayerRosterSlots(state, { reserveIndex: 6, officialIndex: 5 });
-  assert.equal(result.player.roster.length, 7);
-  assert.equal(result.player.roster[5].speciesId, "mewtwo");
-  assert.equal(result.player.roster[6].speciesId, "pokemon_5");
-  assert.equal(result.player.roster[0].speciesId, "pokemon_0");
-  assert.equal(result.player.starter.speciesId, "pokemon_0");
-  assert.equal(state.player.roster[6].speciesId, "mewtwo", "original save object not mutated");
-  assert.equal(new Set(result.player.roster.map(x => x.speciesId)).size, 7, "no duplicates");
-  assert.deepEqual(JSON.parse(JSON.stringify(result.player.roster)), result.player.roster, "save/reload keeps slot order");
-});
-
-test("Roster selection never bypasses an active subsystem or exchanges the starter", () => {
-  const roster = Array.from({ length: 7 }, (_, i) => ({ speciesId: String(i) }));
-  const state = { player: { roster }, pending: null };
-  for (const payload of [
-    { reserveIndex: 5, officialIndex: 4 },
-    { reserveIndex: 6, officialIndex: 0 },
-    { reserveIndex: 7, officialIndex: 3 },
-    { reserveIndex: 6, officialIndex: 6 },
-    { reserveIndex: 6.5, officialIndex: 2 }
-  ]) assert.throws(() => swapPlayerRosterSlots(state, payload));
-  assert.throws(() => swapPlayerRosterSlots({ ...state, pending: { type: "pokemon5e_combat" } }, { reserveIndex: 6, officialIndex: 5 }));
-});
-
 test("Web capture options use only real owned Poké Balls, never ordinary inventory items", () => {
   assert.deepEqual(captureBallsInInventory([
     "Pokeball", { id: "ultra-ball" }, "Potion", "Pokeball", { id: "great-ball" }
@@ -169,7 +141,7 @@ test("A nonregistered M09 Legendary can be caught through the real Pokémon 5e r
   assert.equal(registered.reason, "registered_to_trainer");
 });
 
-test("Actual captured outcome persists Mewtwo, completes the quest and permits Official Six selection", async () => {
+test("Actual captured Mewtwo replaces a chosen Pokémon permanently and completes its quest", async () => {
   const state = createNewGameState({ protagonist: "Daniel", slot: "slot1" });
   state.player.trainerLevel = 20;
   state.player.roster = Array.from({ length: 6 }, () => structuredClone(state.player.starter));
@@ -215,21 +187,29 @@ test("Actual captured outcome persists Mewtwo, completes the quest and permits O
 
   const engine = new BookgameEngine();
   const afterCombat = engine.resolveCombatHandoff(state, "captured");
-  assert.equal(afterCombat.pending, null);
+  assert.equal(afterCombat.pending.type, "pokemon_capture_replacement");
   assert.equal(afterCombat.story.sceneId, "legendary-world-hunt");
   assert.equal(afterCombat.story.nodeId, "daniel_captured");
-  assert.equal(afterCombat.player.roster.length, 7);
-  assert.equal(afterCombat.player.roster[6].speciesId, "mewtwo");
-  assert.equal(afterCombat.player.roster[6].level, 20);
+  assert.equal(afterCombat.player.roster.length, 6, "Mewtwo must not create a reserve");
+  assert.equal(afterCombat.pending.pokemon.speciesId, "mewtwo");
+  assert.equal(afterCombat.pending.pokemon.level, 20);
+  const replacementPrompt = await engine.present(afterCombat);
+  assert.equal(replacementPrompt.choices.length, 7);
+  await assert.rejects(engine.choose(afterCombat, "record_daniel_capture"), /Scegli un Pokémon/);
+  const afterReplacement = await engine.choose(afterCombat, "replace_5");
+  assert.equal(afterReplacement.pending, null);
+  assert.equal(afterReplacement.player.roster.length, 6);
+  assert.equal(afterReplacement.player.roster[5].speciesId, "mewtwo");
+  assert.equal(afterReplacement.player.roster[5].level, 20);
+  assert.equal(afterReplacement.story.history.at(-1).replacedRosterIndex, 5);
 
-  const afterRecord = await engine.choose(afterCombat, "record_daniel_capture");
+  const afterRecord = await engine.choose(afterReplacement, "record_daniel_capture");
   assert.equal(afterRecord.world.flags.legendary_world_captured_daniel, true);
   assert.equal(afterRecord.quests.legendary_m08_lead_daniel.status, "completed");
   assert.equal(afterRecord.story.sceneId, "m09-interday-one");
   assert.equal(afterRecord.story.nodeId, "resource_guard");
   assert.equal(afterRecord.world.locationId, "world_village");
-  const party = swapPlayerRosterSlots(afterRecord, { reserveIndex: 6, officialIndex: 5 });
-  assert.equal(party.player.roster[5].speciesId, "mewtwo");
-  assert.equal(party.player.roster.length, 7);
-  assert.equal(JSON.parse(JSON.stringify(party)).player.roster[5].speciesId, "mewtwo");
+  assert.equal(afterRecord.player.roster[5].speciesId, "mewtwo");
+  assert.equal(afterRecord.player.roster.length, 6);
+  assert.equal(JSON.parse(JSON.stringify(afterRecord)).player.roster[5].speciesId, "mewtwo");
 });

@@ -3,7 +3,7 @@ import { CryptoDice } from "./dice.mjs";
 import { resolveTrainerCheck, resolveTrainerSavingThrow } from "./trainer-rolls.mjs";
 import { evaluateCondition } from "./conditions.mjs";
 import { SceneRepository } from "./scene-repository.mjs";
-import { completeTrainerCreation, proficiencyBonus, touchState } from "./state.mjs";
+import { MAX_PLAYER_ROSTER_SIZE, assertPlayerRosterLimit, completeTrainerCreation, proficiencyBonus, touchState } from "./state.mjs";
 import {
   applyTrainerProgressionEffect,
   getTrainerProgressionView,
@@ -131,6 +131,70 @@ function nodeText(node, state) {
 }
 
 
+function captureReplacementView(state) {
+  const capture = state.pending.pokemon;
+  const roster = state.player.roster;
+  assertPlayerRosterLimit(state);
+  if (roster.length !== MAX_PLAYER_ROSTER_SIZE) {
+    throw new Error("La sostituzione richiede una squadra di sei Pokémon");
+  }
+  return {
+    sceneId: "capture-replacement",
+    sceneTitle: "Squadra al completo",
+    moduleId: null,
+    nodeId: "choose",
+    text: `Hai catturato ${capture.name ?? capture.speciesId}, ma la tua squadra ha già sei Pokémon. Vuoi liberarne uno per fare posto al nuovo compagno, oppure lasciare libero il Pokémon appena catturato? La liberazione è definitiva.`,
+    stitches: null,
+    choices: [
+      ...roster.map((pokemon, index) => ({
+        id: `replace_${index}`,
+        text: `Tieni ${capture.name ?? capture.speciesId} e libera ${pokemon.name ?? pokemon.speciesId} (Lv.${pokemon.level})`
+      })),
+      {
+        id: "release_captured",
+        text: `Libera ${capture.name ?? capture.speciesId} e mantieni la squadra attuale`
+      }
+    ],
+    worldTime: getWorldTimeView(state.world),
+    questJournal: getQuestJournal(state),
+    pending: { type: "pokemon_capture_replacement" },
+    lastRoll: null
+  };
+}
+
+function resolveCaptureReplacement(state, choiceId) {
+  const roster = state.player.roster;
+  assertPlayerRosterLimit(state);
+  if (roster.length !== MAX_PLAYER_ROSTER_SIZE) throw new Error("La squadra non è al completo");
+  const match = /^replace_([0-5])$/.exec(choiceId);
+  if (!match && choiceId !== "release_captured") {
+    throw new Error("Scegli un Pokémon da liberare oppure libera il nuovo arrivato");
+  }
+  const next = clone(state);
+  const captured = next.pending.pokemon;
+  const encounterId = next.pending.encounterId;
+  const index = match ? Number(match[1]) : null;
+  const released = index === null ? captured : next.player.roster[index];
+  if (index !== null) {
+    next.player.roster[index] = clone(captured);
+    // The legacy starter fallback must never resurrect a released first Pokémon.
+    if (index === 0) next.player.starter = clone(captured);
+  }
+  next.pending = null;
+  next.story.history.push({
+    sceneId: next.story.sceneId,
+    nodeId: next.story.nodeId,
+    subsystem: "pokemon_capture_replacement",
+    encounterId,
+    choiceId,
+    capturedSpeciesId: captured.speciesId,
+    releasedSpeciesId: released.speciesId,
+    replacedRosterIndex: index
+  });
+  assertPlayerRosterLimit(next);
+  return next;
+}
+
 export class BookgameEngine {
   constructor({
     scenes = new SceneRepository(),
@@ -163,6 +227,9 @@ export class BookgameEngine {
   }
 
   async present(state) {
+    if (state.pending?.type === "pokemon_capture_replacement") {
+      return captureReplacementView(state);
+    }
     syncFriendCareerSchedule(state);
     const trainerProgression = getTrainerProgressionView(state);
     if (trainerProgression) {
@@ -208,6 +275,11 @@ export class BookgameEngine {
   }
 
   async choose(state, choiceId) {
+    if (state.pending?.type === "pokemon_capture_replacement") {
+      const next = resolveCaptureReplacement(state, choiceId);
+      touchState(next, this.now);
+      return next;
+    }
     if (hasPendingTrainerProgression(state)) {
       const next = clone(state);
       syncFriendCareerSchedule(next);
@@ -546,6 +618,7 @@ export class BookgameEngine {
   }
 
   resolveCombatHandoff(state, outcome) {
+    assertPlayerRosterLimit(state);
     if (!state.pending || state.pending.type !== "pokemon5e_combat") {
       throw new Error("No Pokémon 5e combat handoff is pending");
     }
@@ -661,7 +734,16 @@ export class BookgameEngine {
           capturedPokemon[field] = clone(resolvedBattle.opponent[field]);
         }
       }
-      next.player.roster.push(capturedPokemon);
+      if (rosterSizeBeforeCapture === MAX_PLAYER_ROSTER_SIZE) {
+        // Keep the new capture outside the owned roster until the player elects a permanent release.
+        next.pending = {
+          type: "pokemon_capture_replacement",
+          encounterId,
+          pokemon: capturedPokemon
+        };
+      } else {
+        next.player.roster.push(capturedPokemon);
+      }
 
       if (rosterSizeBeforeCapture === 1 && !next.player.secondPokemonAcquisition) {
         next.player.secondPokemonAcquisition = {
@@ -679,7 +761,8 @@ export class BookgameEngine {
       resolveCompetitionMatch(next, competitionMeta, outcome, resolvedBattle);
     }
 
-    next.pending = null;
+    if (next.pending?.type !== "pokemon_capture_replacement") next.pending = null;
+    assertPlayerRosterLimit(next);
     const target = applyTarget(next, targetRef, sourceSceneId);
     const trainerProgression = syncCampaignTrainerProgression(next);
     syncFriendCareerSchedule(next);

@@ -1,7 +1,7 @@
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { migrateGameState } from "./state.mjs";
+import { assertPlayerRosterLimit, migrateGameState } from "./state.mjs";
 
 const DEFAULT_DIR = fileURLToPath(new URL("../../local-saves/", import.meta.url));
 
@@ -21,6 +21,7 @@ export class SaveStore {
 
   async save(state) {
     assertSlot(state.slot);
+    assertPlayerRosterLimit(state);
     await mkdir(this.baseDir, { recursive: true });
     const target = this.filePath(state.slot);
     const temp = `${target}.tmp`;

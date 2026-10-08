@@ -694,30 +694,6 @@ function openDrawer(panel) {
   els.drawer.classList.add("is-open");
   els.drawer.setAttribute("aria-hidden", "false");
 
-  for (const button of els.drawerContent.querySelectorAll(".roster-promote")) {
-    button.addEventListener("click", async () => {
-      try {
-        const raw = window.prompt("Quale slot dei sei sostituire? Inserisci 2, 3, 4, 5 o 6.", "6");
-        if (raw === null) return;
-        const slot = Number(raw);
-        if (!Number.isInteger(slot) || slot < 2 || slot > 6) {
-          showInlineError("Scegli uno slot valido fra 2 e 6.");
-          return;
-        }
-        snapshot = await api("/api/pokemon/roster-swap", {
-          method: "POST",
-          body: JSON.stringify({
-            reserveIndex: Number(button.dataset.reserveIndex),
-            officialIndex: slot - 1
-          })
-        });
-        openDrawer("team");
-      } catch (error) {
-        showInlineError(error.message);
-      }
-    });
-  }
-
   for (const button of els.drawerContent.querySelectorAll(".gear-toggle")) {
     button.addEventListener("click", async () => {
       try {
