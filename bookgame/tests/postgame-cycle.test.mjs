@@ -67,7 +67,19 @@ test("second and third edition history persists without resetting team, NPCs or 
   const engine = new BookgameEngine({ worldEvents: [] });
   let state = readyPostgame();
   const roster = structuredClone(state.player.roster);
-  const npcs = structuredClone(state.npcs);
+  // Resolve legitimate module-driven Five NPC career milestones once before
+  // comparing identities. NPCs may progress; their existing team must persist.
+  await engine.present(state);
+  const npcIdentities = Object.fromEntries(Object.entries(state.npcs).map(([id, npc]) => [
+    id, { id: npc.id, name: npc.name,
+      species: (npc.rosterCareer ?? []).map((pokemon) => pokemon.species) }
+  ]));
+  function assertNpcContinuity(actual) {
+    assert.deepEqual(Object.fromEntries(Object.entries(actual).map(([id, npc]) => [
+      id, { id: npc.id, name: npc.name,
+        species: (npc.rosterCareer ?? []).map((pokemon) => pokemon.species) }
+    ])), npcIdentities);
+  }
   const firstStart = state.world.elapsedMinutes;
   ensurePostgame(state);
   for (let edition = 2; edition <= 3; edition++) {
@@ -80,7 +92,7 @@ test("second and third edition history persists without resetting team, NPCs or 
     assert.equal(state.world.flags.world_qualified, false);
     assert.equal(state.world.flags.ancient_mystery_layer_2, true);
     assert.deepEqual(state.player.roster, roster);
-    assert.deepEqual(state.npcs, npcs);
+    assertNpcContinuity(state.npcs);
     assert.ok(beforeEdition >= firstStart + (edition - 1) * POSTGAME_WORLD_INTERVAL_MINUTES);
 
     const qualifier = await engine.present(state);
@@ -118,7 +130,7 @@ test("second and third edition history persists without resetting team, NPCs or 
     const reloaded = await store.load(state.slot);
     assert.deepEqual(reloaded.postgame.championships, state.postgame.championships);
     assert.deepEqual(reloaded.player.roster, roster);
-    assert.deepEqual(reloaded.npcs, npcs);
+    assertNpcContinuity(reloaded.npcs);
     assert.deepEqual(reloaded.postgame.championships.map((entry) => entry.champion?.name),
       [null, "Luke", "Red"]);
     assert.equal(reloaded.competition.world.edition, 3);
