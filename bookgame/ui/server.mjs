@@ -191,7 +191,8 @@ async function battleView() {
     spatial: {
       trainerPosition: battle.trainer.position,
       opponentPosition: battle.opponent.position,
-      distance: distance(battle.player.position, battle.opponent.position),
+      distance: battle.player.position && battle.opponent.position
+        ? distance(battle.player.position, battle.opponent.position) : null,
       pokemonMovementModes: movementModes,
       trainerMovementRemaining: canAct ? Number(battle.trainer.movementRemaining ?? 0) : 0,
       disengageAvailable: canAct && Boolean(battle.player.turn?.actionAvailable),
