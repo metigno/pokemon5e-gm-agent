@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { mkdtemp, readFile, rm } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
@@ -125,6 +126,10 @@ test("M01 artwork is local, verified PNG and never replaces scene navigation", a
     assert.equal(mapIllustrationForLocation(id), asset);
     const png = await readFile(new URL(`../assets/maps/illustrations/${asset}.png`, import.meta.url));
     assert.equal(png.subarray(0, 8).toString("hex"), "89504e470d0a1a0a");
+    assert.equal(createHash("sha256").update(png).digest("hex"), {
+      "m01-ginestre": "b0f6832c27f583260bf3c7132ef7fc4df1a8606b1a9cedc0cb0bc5f50313bfe3",
+      "m01-valedarsena": "70d1197c2333a465dc693b67fa11b0b2035368d281c8b54f38d69202d863dcb6"
+    }[asset]);
     assert.equal(png.readUInt32BE(16), 320);
     assert.equal(png.readUInt32BE(20), 192);
   }
