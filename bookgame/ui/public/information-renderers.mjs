@@ -25,8 +25,14 @@ export function informationRenderers(snapshot, { escapeHtml, spriteUrl, playerFa
         ).join("") + (!(dex.entries ?? []).length ? empty("Nessuna specie ancora incontrata.") : "");
     },
     people: () => people.length
-      ? people.map((person) => `<div class="data-card"><h3>${escapeHtml(person.name)}</h3>
-          <p>${escapeHtml(person.description)}</p></div>`).join("")
+      ? people.map((person) => {
+          const portraitId = snapshot.assets?.characterPortraits?.[person.name];
+          const portrait = portraitId
+            ? `<img class="character-portrait" src="/characters/${encodeURIComponent(portraitId)}/portrait" alt="" loading="lazy">`
+            : "";
+          return `<div class="data-card info-person">${portrait}<div><h3>${escapeHtml(person.name)}</h3>
+            <p>${escapeHtml(person.description)}</p></div></div>`;
+        }).join("")
       : empty("Non hai ancora incontrato persone da annotare nel diario."),
     relations: () => people.length
       ? people.map((person) => `<div class="data-card"><h3>${escapeHtml(person.name)}</h3>
