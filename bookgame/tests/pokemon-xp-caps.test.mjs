@@ -83,6 +83,15 @@ test("checkpoint XP overflow is discarded, not banked for future modules", async
   await assert.rejects(() => awardPokemonXp(pokemon, 200, { maxLevel: 21 }), /cap/);
 });
 
+test("Pokémon already above the current cap cannot level and keep a valid XP floor", async () => {
+  const pokemon = {
+    speciesId: "tauros", level: 8, xp: experienceNeededAtLevel(8), moveIds: ["tackle"]
+  };
+  const result = await awardPokemonXp(pokemon, 999999, { maxLevel: 5 });
+  assert.equal(result.pokemon.level, 8);
+  assert.equal(result.pokemon.xp, experienceNeededAtLevel(8));
+});
+
 test("XP level-up preserves fainted HP and creates canonical move decisions", async () => {
   const pokemon = {
     speciesId: "bulbasaur", level: 5, xp: experienceNeededAtLevel(5),
