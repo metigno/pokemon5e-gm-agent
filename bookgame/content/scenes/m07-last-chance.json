@@ -65,12 +65,12 @@
         },
         {
           "id": "entry_eligibility",
-          "text": "Controllo che la route sia ancora legale.",
+          "text": "Controllo che la percorso sia ancora legale.",
           "goto": "eligibility_guard"
         },
         {
           "id": "entry_prepare",
-          "text": "Preparo l'Official Six.",
+          "text": "Preparo l'squadra di sei Pokémon.",
           "goto": "preparation"
         }
       ]
@@ -90,7 +90,7 @@
         },
         {
           "id": "rules_history",
-          "text": "Rivedo perché il Qualifier principale resta nella history.",
+          "text": "Rivedo perché il Qualifier principale resta nella registro degli incontri.",
           "goto": "history"
         }
       ]
@@ -125,7 +125,7 @@
       "choices": [
         {
           "id": "prepare_roster",
-          "text": "Controllo l'Official Six.",
+          "text": "Controllo l'squadra di sei Pokémon.",
           "goto": "roster_guard"
         },
         {
@@ -159,7 +159,7 @@
         },
         {
           "id": "roster_missing",
-          "text": "Non ho l'Official Six: torno alla preparazione.",
+          "text": "Non ho l'squadra di sei Pokémon: torno alla preparazione.",
           "goto": "preparation",
           "conditions": {
             "path": "player.roster.length",
@@ -302,7 +302,7 @@
         },
         {
           "id": "win_history",
-          "text": "Registro la vittoria e rivedo prima la history.",
+          "text": "Registro la vittoria e rivedo prima la registro degli incontri.",
           "goto": "history",
           "effects": [
             {
@@ -346,7 +346,7 @@
         },
         {
           "id": "loss_history",
-          "text": "Registro la sconfitta e rivedo la history.",
+          "text": "Registro la sconfitta e rivedo la registro degli incontri.",
           "goto": "history",
           "effects": [
             {
@@ -373,7 +373,7 @@
       "choices": [
         {
           "id": "win_commit",
-          "text": "Registro world_qualified dal risultato E5.",
+          "text": "Registro qualificazione al Mondiale dal risultato E5.",
           "goto": "close",
           "conditions": {
             "path": "world.flags.m7_last_chance_match_result",
@@ -534,7 +534,7 @@
         },
         {
           "id": "close_history",
-          "text": "Rivedo un'ultima volta la history.",
+          "text": "Rivedo un'ultima volta la registro degli incontri.",
           "goto": "history"
         }
       ]
