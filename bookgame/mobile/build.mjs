@@ -167,6 +167,10 @@ async function build(trainerZip = null, secondaryZip = null) {
         shipped.secondarySprites !== report.secondarySprites || shipped.audio !== report.audio) {
       throw new Error("Packaged offline asset counts do not match verified sources");
     }
+    // Canonical engine imports ../../../src/bridge from bookgame/src/engine.
+    // Preserve that relative path inside the embedded Node.js project root.
+    await mkdir(join(nodeRoot, "src"), { recursive: true });
+    await cp(join(dirname(BOOKGAME), "src/bridge"), join(nodeRoot, "src/bridge"), { recursive: true, force: false });
     await cp(join(MOBILE, "runtime/index.cjs"), join(nodeRoot, "index.cjs"));
     await writeFile(join(nodeRoot, "package.json"),
       JSON.stringify({ name: "p5e-embedded-runtime", version: "0.1.0", private: true, main: "index.cjs" }));
