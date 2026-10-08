@@ -21,6 +21,21 @@ test("Pokédex starts with owned starter, not undocumented fauna or NPC Pokémon
   assert.deepEqual(info.hallOfFame, []);
 });
 
+test("all five canon starters have correct Pokédex species and regional forms", () => {
+  const starters = [
+    ["Luke", "growlithe-hisui"],
+    ["Mattew", "eevee"],
+    ["Daniel", "gastly"],
+    ["Edward", "totodile"],
+    ["Fab", "koffing"]
+  ];
+  for (const [protagonist, speciesId] of starters) {
+    const state = createNewGameState({ protagonist, slot: "slot2", startAtIntro: true });
+    const dex = informationPanelsView(state).pokedex;
+    assert.deepEqual(dex.entries, [{ speciesId, status: "caught" }], protagonist);
+  }
+});
+
 test("encounter -> catch persists after release and is idempotent", () => {
   const state = create();
   recordPokemonSeen(state, { speciesId: "shinx" });
