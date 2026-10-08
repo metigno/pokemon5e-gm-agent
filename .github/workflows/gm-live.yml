@@ -1,0 +1,21 @@
+name: GM Live checks
+on:
+  push:
+    branches: [gm-live-freeform]
+  pull_request:
+    paths:
+      - 'src/gm-live/**'
+      - 'tests/gm-live-*.test.mjs'
+      - '.github/workflows/gm-live.yml'
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run GM Live regression tests
+        run: node --test tests/gm-live-*.test.mjs
