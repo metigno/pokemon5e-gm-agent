@@ -35,6 +35,10 @@ Lore:
 
 If an official-registration freeze on *species substitutions* is added to E5 in a later source-of-truth decision, the substitution action must honor that rule. The current structured World registration does **not** snapshot a separate immutable list of Pokémon: it checks legality against the live state.
 
+## Sprite asset compatibility
+
+The offline Pokémon 5e species ID `black-kyurem` maps to the installed `kyurem-black` sprite (same form, alternate naming order). The installed sprite package currently has **only Zacian Crowned artwork**, not ordinary Zacian artwork. The `zacian` sprite alias temporarily shows that available illustration as a **visual placeholder only**: the actual captured species remains `zacian`, Fairy-type base form, without the Rusted Sword, Crowned typing, or any transformation mechanics. Import a proper Hero of Many Battles sprite and repoint the alias before final visual release. Sprite coverage validates actual resolved assets rather than silently hiding missing references.
+
 ## Limitations
 
 The encounters are authored during the World Championship **after Matchday 1**, not during an official battle, and cannot be captured with a registered Trainer opponent flag. They are gated by successful M07 qualification, M08 personal lead, the actual M09 clue event, Trainer level, and not-yet-captured status. An M07-eliminated Trainer never receives access. The route is a separate optional side scene with no M09 `moduleId`, so the locked canonical module logical counts stay intact. Existing quests for M10–M12 still run only when their own progression gates are satisfied.
