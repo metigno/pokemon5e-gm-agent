@@ -26,7 +26,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Dopo gli ottavi, la corsa degli amici deve essere letta dal torneo reale: qualcuno può essere nel Top8, eliminato o perfino nel tuo stesso quarto."
+          "text": "Dopo gli ottavi cerchi un volto conosciuto fra i nomi dei qualificati e degli eliminati. Qualcuno degli amici può ancora correre verso la coppa; qualcun altro deve guardare da fuori."
         }
       ],
       "choices": [
@@ -51,7 +51,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "E4 sceglie tra Mattew, Daniel, Edward e Fab usando stato World, Top8, possibile QF contro il player, schedule, relazione e rotazione del Friend Beat precedente."
+          "text": "Sul telefono compare {{world.flags.friend_beat_10_friend_id}}. È difficile parlare di un torneo così grande senza ricordare chi eri prima di entrarci."
         }
       ],
       "choices": [
@@ -87,7 +87,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Amico selezionato: {{world.flags.friend_beat_10_friend_id}}. Il contesto {{world.flags.friend_beat_10_context}} viene da E4/E5, non da una scelta narrativa."
+          "text": "{{world.flags.friend_beat_10_friend_id}} risponde da dove lo hanno portato gli incontri. Se è ancora in gara, ha una partita da preparare; altrimenti può commentare senza fingere di avere un posto nel tabellone."
         }
       ],
       "choices": [
@@ -115,7 +115,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Friend Beat può leggere se l'amico è il tuo QF opponent, in un altro quarto, eliminato agli ottavi o già fuori dal World. Non modifica nessuno di questi stati."
+          "text": "Parlate di quanto è accaduto agli ottavi. I risultati vi riguardano in modo diverso e non avete bisogno di nascondervelo."
         }
       ],
       "choices": [
@@ -135,7 +135,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se l'amico è nel Top8, la sua corsa continua per merito dei risultati reali. Nessun Friend Beat lo protegge dal suo prossimo match."
+          "text": "Se l'amico è fra gli otto rimasti, puoi congratularti senza promettergli un altro turno. Il prossimo avversario non gli farà sconti."
         }
       ],
       "choices": [
@@ -155,7 +155,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se l'amico è già fuori, il contatto diventa uno sguardo dall'esterno sul torneo. Non viene reinserito nel bracket."
+          "text": "Se l'amico è stato eliminato, la conversazione non può riportarlo in gara. Può scherzarci sopra, essere amareggiato o chiederti cosa farai tu."
         }
       ],
       "choices": [
@@ -175,7 +175,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Player vs Friend esiste soltanto se il QF bracket contiene davvero entrambi nello stesso match. In quel caso il Friend Beat non cambia il pairing."
+          "text": "Se il tabellone vi oppone nei quarti, un sorriso basta a far tornare la vecchia rivalità. «Non aspettarti che ti regali niente» è una frase che entrambi conoscete."
         }
       ],
       "choices": [
@@ -195,7 +195,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La modalità di contatto è già stata calcolata da E4 al momento della selezione. Un incontro fisico non può essere inventato se gli schedule non coincidevano."
+          "text": "Controlli dove si trova: una stretta di mano richiede che siate davvero nello stesso luogo."
         }
       ],
       "choices": [
@@ -223,7 +223,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il confronto avviene nel venue. La risposta dipende dall'amico realmente selezionato e aggiorna soltanto la relazione, mai il bracket."
+          "text": "Vi ritrovate in un corridoio abbastanza tranquillo da parlare senza telecamere. Il tono è quello degli amici che hanno imparato a sfidarsi."
         }
       ],
       "choices": [
@@ -337,7 +337,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il contatto remoto mantiene la causalità: l'amico non compare fisicamente nel venue, ma la relazione può continuare a esistere a distanza."
+          "text": "La chiamata arriva da lontano. Non è la stessa cosa che guardarsi negli occhi, ma una battuta riesce comunque a trovare il bersaglio."
         }
       ],
       "choices": [
@@ -369,7 +369,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il contatto è avvenuto senza alterare bracket, risultati o risorse del team. Il Friend Beat può ora reagire allo stato reale del player."
+          "text": "Quando vi salutate, la squadra rimane nelle condizioni lasciate dagli ottavi e il programma del torneo non è cambiato."
         }
       ],
       "choices": [
@@ -389,7 +389,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Friend Beat precedente influenza la rotazione, ma non garantisce né esclude per sempre nessun amico: la situazione competitiva attuale ha priorità."
+          "text": "Una vecchia provocazione ritorna proprio al momento giusto. Non tutte le tensioni sono scomparse dal vostro ultimo incontro."
         }
       ],
       "choices": [
@@ -409,7 +409,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La relazione accumulata cambia il tono del contatto. Non concede informazioni segrete, bonus di battaglia o protezione dagli esiti."
+          "text": "La fiducia rende alcune parole più semplici da dire; un attrito irrisolto, invece, si sente anche senza alzare la voce."
         }
       ],
       "choices": [
@@ -429,7 +429,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Friend Beat legge la tua squadra così com'è uscita dagli ottavi. Non ripristina HP, PP, status, infortuni o inventario."
+          "text": "Ti fermi a guardare i Pokémon. Il contatto con un amico non ha riparato automaticamente la fatica delle partite."
         }
       ],
       "choices": [
@@ -449,7 +449,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Gli amici continuano carriere indipendenti. Top8, eliminazione e pairing vengono da E5; E4 decide soltanto quale contatto è plausibile e utile."
+          "text": "Fra gli amici c'è chi è ancora in corsa e chi ha già dovuto fermarsi. Le loro strade non seguono tutte la tua."
         }
       ],
       "choices": [
@@ -469,7 +469,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Nel knockout un amico può diventare avversario senza diventare antagonista. La relazione e il risultato competitivo restano due stati distinti."
+          "text": "A questo punto un amico può diventare il prossimo avversario. Sul campo sarete rivali, senza dover smettere di essere amici."
         }
       ],
       "choices": [
@@ -489,7 +489,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "FRIEND_BEAT_10 non scrive outcome di R16 o QF. Un eventuale Player vs Friend verrà deciso solo dal combat ufficiale."
+          "text": "Nessuna parola detta qui assegna una vittoria. Se vi incontrerete in gara, parleranno le vostre scelte."
         }
       ],
       "choices": [
@@ -509,7 +509,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se hai perso il R16, questo è il contatto prima dell'uscita dal World. Se hai vinto, è il contatto prima della preparazione QF."
+          "text": "Se sei ancora dentro, torni alla preparazione dei quarti. Se hai perso, ti prepari a lasciare il torneo."
         }
       ],
       "choices": [
@@ -529,7 +529,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Friend Beat è completo soltanto quando amico, modalità, contesto, tipo e risultato sono persistenti. Il bracket resta intatto."
+          "text": "Prima di chiudere promettete soltanto di risentirvi quando sarà possibile. I vostri calendari non sono più quelli delle prime strade."
         }
       ],
       "choices": [
@@ -577,7 +577,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La rotta successiva dipende esclusivamente dal risultato R16 già registrato."
+          "text": "Il cartello indica il percorso dei qualificati e quello di chi ha terminato il torneo. Il risultato decide quale strada è tua."
         }
       ],
       "choices": [
@@ -610,7 +610,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "FRIEND_BEAT_10 è persistente. L'amico selezionato non viene ricalcolato al reload e nessun risultato competitivo è stato modificato."
+          "text": "Il contatto finisce, ma non il rapporto. Il tuo prossimo passo dipende dalla partita che hai davvero giocato."
         }
       ],
       "choices": [
@@ -630,7 +630,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'audit richiede friend_id, contact_mode, context, type, result e complete. Nessun campo sostituisce competition.world.knockout."
+          "text": "Controlli l'ultimo messaggio. Il nome e le parole dell'amico restano lì, insieme a ciò che vi siete detti."
         }
       ],
       "choices": [
