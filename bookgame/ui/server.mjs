@@ -5,6 +5,7 @@ import { join } from "node:path";
 import { normalizeSpriteId } from "../src/assets/sprite-runtime.mjs";
 import { verifyOfflineSpriteAssets } from "../scripts/verify-offline-sprites.mjs";
 import { BookgameEngine } from "../src/engine/bookgame-engine.mjs";
+import { buildTravelMap } from "../src/engine/map-view.mjs";
 import { Pokemon5eCombatEngine } from "../src/combat/combat-engine.mjs";
 import { captureBallsInInventory } from "../src/combat/capture.mjs";
 import { Poke5eDataRepository } from "../src/combat/poke5e-data.mjs";
@@ -376,6 +377,7 @@ async function snapshot() {
     slot: state.slot,
     careerEnded: ended,
     story,
+    map: buildTravelMap(state, story),
     player: {
       name: state.player.name,
       trainerClass: state.player.trainerClass,

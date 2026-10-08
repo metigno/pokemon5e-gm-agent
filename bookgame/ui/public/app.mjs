@@ -290,6 +290,7 @@ async function revealStory(story) {
   els.skipText.hidden = true;
   els.revealHint.hidden = true;
   renderChoices(story.choices ?? []);
+  if (els.drawer.dataset.panel === "map") openDrawer("map");
 }
 
 function renderChoices(choices) {
@@ -918,6 +919,39 @@ function renderJournal() {
   `).join("");
 }
 
+
+function renderMap() {
+  // Keep future choices hidden until the narrated text has finished revealing.
+  const nodes = (snapshot.map?.nodes ?? []).filter((node) => !revealActive || node.visited);
+  const routes = revealActive ? 0 : nodes.reduce((total, node) => total + node.routes.length, 0);
+  const blocked = Boolean(snapshot.battle || snapshot.careerEnded || revealActive);
+  return `
+    <p class="map-intro">Schema dei luoghi conosciuti. I collegamenti non indicano distanze reali: puoi viaggiare solo lungo le strade offerte dalla scena attuale.</p>
+    <div class="travel-map" role="group" aria-label="Mappa schematica dei luoghi conosciuti">
+      ${nodes.map((node) => `
+        <section class="map-site ${node.current ? "map-site--current" : ""} ${node.routes.length ? "map-site--reachable" : ""}">
+          <span class="map-pin" aria-hidden="true">●</span>
+          <div class="map-site__body">
+            <strong>${escapeHtml(node.label)}</strong>
+            <small>${node.current ? "Sei qui" : node.routes.length ? "Raggiungibile ora" : "Già visitato · nessun percorso disponibile da qui"}</small>
+            ${(revealActive ? [] : node.routes).map((route) => `
+              <button type="button" class="map-travel" data-map-choice="${escapeHtml(route.choiceId)}" ${blocked ? "disabled" : ""}>
+                ${escapeHtml(route.label)}
+                <small>${route.timeCostMinutes === null ? "Durata non indicata" : `${route.timeCostMinutes} min`}</small>
+              </button>
+            `).join("")}
+          </div>
+        </section>
+      `).join("")}
+    </div>
+    <p class="map-footnote" role="status" id="map-status">${snapshot.battle ? "Viaggio non disponibile durante un combattimento." :
+      snapshot.careerEnded ? "Carriera conclusa: la mappa è consultabile." :
+      revealActive ? "Completa il testo della scena prima di partire." :
+      routes ? "Tocca una destinazione raggiungibile per seguire la scelta prevista dalla storia." :
+      "Da questa scena non ci sono collegamenti di viaggio disponibili. Prosegui con le scelte della storia."}</p>
+  `;
+}
+
 function renderSettings() {
   const speed = currentTextSpeed();
   return `
@@ -947,6 +981,7 @@ function openDrawer(panel) {
     team: "Pokémon",
     bag: "Inventario",
     journal: "Journal",
+    map: "Mappa",
     settings: "Impostazioni"
   };
 
@@ -955,14 +990,35 @@ function openDrawer(panel) {
     team: renderTeam,
     bag: renderBag,
     journal: renderJournal,
+    map: renderMap,
     settings: renderSettings
   };
 
   els.drawerTitle.textContent = titles[panel];
+  els.drawer.dataset.panel = panel;
   els.drawerContent.innerHTML = renderers[panel]();
   els.drawerBackdrop.hidden = false;
   els.drawer.classList.add("is-open");
   els.drawer.setAttribute("aria-hidden", "false");
+
+  for (const button of els.drawerContent.querySelectorAll(".map-travel")) {
+    button.addEventListener("click", async () => {
+      if (button.disabled || revealActive) return;
+      const choiceId = button.dataset.mapChoice;
+      // Client controls never invent a navigation action; server revalidates it.
+      if (!(snapshot.story.choices ?? []).some((choice) => choice.id === choiceId)) return;
+      for (const travel of els.drawerContent.querySelectorAll(".map-travel")) travel.disabled = true;
+      try {
+        snapshot = await api("/api/choose", { method: "POST", body: JSON.stringify({ choiceId }) });
+        closeDrawer();
+        await renderSnapshot();
+      } catch (error) {
+        for (const travel of els.drawerContent.querySelectorAll(".map-travel")) travel.disabled = false;
+        const status = els.drawerContent.querySelector("#map-status");
+        if (status) status.textContent = error.message;
+      }
+    });
+  }
 
   for (const button of els.drawerContent.querySelectorAll(".gear-toggle")) {
     button.addEventListener("click", async () => {
@@ -1151,6 +1207,7 @@ function closeDrawer() {
   els.drawer.classList.remove("is-open");
   els.drawer.setAttribute("aria-hidden", "true");
   els.drawerBackdrop.hidden = true;
+  delete els.drawer.dataset.panel;
 }
 
 async function start(mode) {

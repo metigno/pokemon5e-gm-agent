@@ -250,7 +250,7 @@ button { -webkit-tap-highlight-color: transparent; }
   width: min(100%, 880px);
   transform: translateX(-50%);
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   padding: 7px 6px calc(7px + env(safe-area-inset-bottom));
   border-top: 1px solid var(--line);
   background: rgba(255,255,255,.97);
@@ -479,3 +479,77 @@ button { -webkit-tap-highlight-color: transparent; }
   outline: 3px solid var(--action); outline-offset: 2px;
 }
 .choice-dialog-cancel { min-height: 48px; width: 100%; }
+
+
+/* Node-based, offline schematic map. Pins are not fabricated geographic coordinates. */
+.map-intro, .map-footnote { font-size: .88rem; line-height: 1.5; color: var(--ink-soft); }
+.map-footnote { margin: 12px 0; }
+.travel-map {
+  position: relative;
+  display: grid;
+  gap: 14px;
+  margin-top: 12px;
+  padding: 18px 12px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 90% 0%, #38647b 0, transparent 60%), #1c3446;
+}
+.travel-map::before {
+  content: "";
+  position: absolute;
+  top: 26px;
+  bottom: 26px;
+  left: 29px;
+  border-left: 3px dashed rgba(221, 237, 211, .38);
+}
+.map-site {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 23px minmax(0, 1fr);
+  gap: 9px;
+  align-items: start;
+  color: #fff;
+}
+.map-pin {
+  display: grid;
+  place-items: center;
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  color: #c8d7d5;
+  background: #536b7c;
+  border: 2px solid #a0b9c2;
+  font-size: .8rem;
+}
+.map-site--current .map-pin { color: #244a37; background: #f5dc8f; border-color: #fff3bf; }
+.map-site--reachable:not(.map-site--current) .map-pin { color: #194b35; background: #bce4b0; border-color: #e5ffd9; }
+.map-site__body {
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(237, 247, 243, .24);
+  border-radius: 12px;
+  background: rgba(8, 22, 35, .45);
+}
+.map-site--current .map-site__body { border-color: #f5dc8f; }
+.map-site__body strong { display: block; font-size: .96rem; }
+.map-site__body > small { display: block; margin: 4px 0 0; color: #cfdfde; line-height: 1.4; }
+.map-travel {
+  display: block;
+  width: 100%;
+  min-height: 46px;
+  margin-top: 10px;
+  padding: 9px 11px;
+  border: 1px solid #b6d8cb;
+  border-radius: 10px;
+  color: #183d36;
+  background: #e6f4e3;
+  font: inherit;
+  font-size: .9rem;
+  font-weight: 750;
+  text-align: left;
+  cursor: pointer;
+}
+.map-travel small { display: block; margin-top: 3px; font-size: .76rem; font-weight: 500; }
+.map-travel:hover:not(:disabled), .map-travel:focus-visible { outline: 2px solid #f5dc8f; outline-offset: 2px; }
+.map-travel:disabled { opacity: .5; cursor: not-allowed; }

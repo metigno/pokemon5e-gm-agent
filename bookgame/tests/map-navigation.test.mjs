@@ -1,0 +1,114 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { mkdtemp, readFile, rm } from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
+
+import { BookgameEngine } from "../src/engine/bookgame-engine.mjs";
+import { buildTravelMap } from "../src/engine/map-view.mjs";
+import { SaveStore } from "../src/engine/save-store.mjs";
+import { createNewGameState } from "../src/engine/state.mjs";
+
+function ginestreState() {
+  const state = createNewGameState({ protagonist: "Luke", slot: "slot1" });
+  state.story.sceneId = "m01-ginestre-crossroads";
+  state.story.nodeId = "crossroads";
+  state.world.locationId = "asteria_ginestre";
+  state.world.visitedLocationIds = ["asteria_campus_exit", "asteria_ginestre"];
+  return state;
+}
+
+test("map shows only visited places and presently legal authored location choices", () => {
+  const state = ginestreState();
+  const story = {
+    choices: [
+      { id: "valedarsena", text: "Vado a Valedarsena", goto: "arrival",
+        timeCostMinutes: 70, effects: [
+          { type: "set_location", locationId: "valedarsena_road" },
+          { type: "set_location", locationId: "valedarsena_city" }
+        ] },
+      { id: "secret", text: "Vado al luogo segreto", goto: "secret",
+        conditions: { path: "world.flags.secret_access", eq: true },
+        effects: [{ type: "set_location", locationId: "hidden_place" }] },
+      { id: "danger", text: "Affronto il guardiano", goto: "fight",
+        combat: {}, effects: [{ type: "set_location", locationId: "boss_arena" }] },
+      { id: "investigate", text: "Controllo la strada", goto: "search",
+        check: { ability: "wisdom", dc: 12 },
+        effects: [{ type: "set_location", locationId: "unconfirmed_spot" }] },
+      { id: "shortcut", text: "Un collegamento non canonico", goto: null,
+        effects: [{ type: "set_location", locationId: "broken_link" }] }
+    ]
+  };
+  const map = buildTravelMap(state, story);
+  assert.equal(map.schematic, true);
+  assert.equal(map.currentLocationId, "asteria_ginestre");
+  assert.deepEqual(map.nodes.map((node) => node.id).sort(),
+    ["asteria_campus_exit", "asteria_ginestre", "valedarsena_city"].sort());
+  const city = map.nodes.find((node) => node.id === "valedarsena_city");
+  assert.equal(city.visited, false);
+  assert.deepEqual(city.routes, [
+    { choiceId: "valedarsena", label: "Vado a Valedarsena", timeCostMinutes: 70 }
+  ]);
+  assert.equal(map.nodes.find((node) => node.id === "asteria_campus_exit").routes.length, 0);
+  assert.equal(buildTravelMap({ ...state, pending: { type: "pokemon5e_combat" } }, story)
+    .nodes.flatMap((node) => node.routes).length, 0);
+  assert.equal(buildTravelMap(state, { ...story, trainerProgression: {} })
+    .nodes.flatMap((node) => node.routes).length, 0);
+});
+
+test("M01 Ginestre → Valedarsena → Ginestre uses original choices, time and persistent discoveries", async () => {
+  const engine = new BookgameEngine();
+  const before = ginestreState();
+  const first = await engine.present(before);
+  const map = buildTravelMap(before, first);
+  const city = map.nodes.find((node) => node.id === "valedarsena_city");
+  assert.ok(city, "actual scene offers Valedarsena as a destination");
+  assert.ok(city.routes.some((route) => route.choiceId === "to_valedarsena" && route.timeCostMinutes === 70));
+
+  const moved = await engine.choose(before, "to_valedarsena");
+  assert.equal(moved.world.locationId, "valedarsena_city");
+  assert.equal(moved.world.elapsedMinutes - before.world.elapsedMinutes, 70);
+  assert.ok(moved.world.visitedLocationIds.includes("valedarsena_road"));
+  assert.ok(moved.world.visitedLocationIds.includes("valedarsena_city"));
+  assert.equal(moved.story.sceneId, "m01-valedarsena-first-arrival");
+
+  const arrival = await engine.present(moved);
+  const returnRoute = buildTravelMap(moved, arrival).nodes
+    .find((node) => node.id === "asteria_ginestre")?.routes;
+  assert.ok(returnRoute?.some((route) => route.choiceId === "leave_city"));
+
+  const back = await engine.choose(moved, "leave_city");
+  assert.equal(back.world.locationId, "asteria_ginestre");
+  assert.equal(back.world.elapsedMinutes - moved.world.elapsedMinutes, 70);
+  assert.equal(back.story.sceneId, "m01-ginestre-crossroads");
+  assert.equal(back.story.nodeId, "crossroads");
+
+  const dir = await mkdtemp(path.join(os.tmpdir(), "p5e-map-persistence-"));
+  try {
+    const store = new SaveStore(dir);
+    await store.save(back);
+    const reloaded = await store.load("slot1");
+    assert.deepEqual(reloaded.world.visitedLocationIds, back.world.visitedLocationIds);
+    assert.deepEqual(buildTravelMap(reloaded, await engine.present(reloaded)).nodes
+      .filter((node) => node.visited).map((node) => node.id).sort(),
+      back.world.visitedLocationIds.slice().sort());
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
+test("mobile Map view is reachable, touch actionable and uses no bypass travel endpoint", async () => {
+  const read = (relative) => readFile(new URL(relative, import.meta.url), "utf8");
+  const [html, app, css, server] = await Promise.all([
+    read("../ui/public/index.html"), read("../ui/public/app.mjs"),
+    read("../ui/public/styles.css"), read("../ui/server.mjs")
+  ]);
+  assert.match(html, /data-panel="map"/);
+  assert.match(app, /map: renderMap/);
+  assert.match(app, /\.map-travel/);
+  assert.match(app, /api\("\/api\/choose"/);
+  assert.doesNotMatch(app, /\/api\/map\/teleport/);
+  assert.match(css, /\.travel-map/);
+  assert.match(css, /\.map-pin/);
+  assert.match(server, /map: buildTravelMap\(state, story\)/);
+});
