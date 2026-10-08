@@ -38,7 +38,7 @@ async function post(route, body) {
 test("Bag UI endpoint -> canonical item runtime -> save/reload", async (t) => {
   const dir = await mkdtemp(path.join(os.tmpdir(), "p5e-bag-ui-e2e-"));
   const combat = new Pokemon5eCombatEngine({ dice: new SequenceDice([20, 1, 1, 1, 1, 1]) });
-  const state = createNewGameState({ protagonist: "Luke", slot: "bag-ui-e2e" });
+  const state = createNewGameState({ protagonist: "Luke", slot: "slot1" });
   state.player.inventory = ["potion"];
 
   const battle = await combat.createBattle({
@@ -74,7 +74,7 @@ test("Bag UI endpoint -> canonical item runtime -> save/reload", async (t) => {
 
   await waitForServer();
 
-  let result = await post("/api/load", { slot: "bag-ui-e2e" });
+  let result = await post("/api/load", { slot: "slot1" });
   assert.equal(result.response.status, 200, stderr);
   const hpBefore = result.payload.battle.player.hp.current;
   assert.deepEqual(result.payload.player.inventory, ["potion"]);
@@ -87,7 +87,7 @@ test("Bag UI endpoint -> canonical item runtime -> save/reload", async (t) => {
   assert.deepEqual(result.payload.trainerGameplay.inventory, []);
   assert.equal(result.payload.battle.trainerActionAvailable, false);
 
-  result = await post("/api/load", { slot: "bag-ui-e2e" });
+  result = await post("/api/load", { slot: "slot1" });
   assert.equal(result.response.status, 200);
   assert.deepEqual(result.payload.player.inventory, []);
   assert.ok(result.payload.battle.player.hp.current > hpBefore);
