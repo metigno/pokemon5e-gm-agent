@@ -59,3 +59,7 @@ The installer validates every file against the pack's SHA-256 manifest, rejects 
 For the widest compatibility with older iOS Safari versions use the MP3 pack. The previous OGG pack remains supported on browsers that can decode OGG Vorbis.
 
 Source: supplied Pokémon World Tournament unofficial port OGG tracks and converted Pokéemerald MIDI/WAV samples. Converted MIDI instruments are approximations. Audio is for private use unless appropriate rights to distribute the recordings and derived assets have been confirmed.
+
+### Built-in offline Pokémon sprite files
+
+The canonical branch now carries **2,461 real Pokémon PNGs** from the pinned public source (619 species, 604 overworld). These are committed under `assets/pokemon/files/` and are copied into the Android embedded-runtime assets by `mobile/build.mjs`; no archive install and no online download are necessary for the mapped sprites. The user-approved verified overlay ZIP remains available only to reproduce the differing artwork of the 11 later supplemental species. See [provenance and population](assets/pokemon/EMBEDDED_SPRITES.md). An APK still needs the offline Trainer art, map and audio assets, plus a device test.
