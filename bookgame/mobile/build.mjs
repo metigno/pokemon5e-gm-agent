@@ -2,7 +2,7 @@
 // Build an immutable, self-contained runtime inside the native app.
 // NEVER produce a shippable dist tree when mandatory physical assets are missing.
 import { cp, lstat, mkdir, mkdtemp, readFile, readdir, rename, rm, writeFile } from "node:fs/promises";
-import { join, dirname } from "node:path";
+import { join, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 import { verifyOfflineSpriteAssets } from "../scripts/verify-offline-sprites.mjs";
@@ -32,7 +32,7 @@ const REQUIRED = [
   "ui/public/app.mjs",
   "ui/public/styles.css"
 ];
-const json = async relative => JSON.parse(await readFile(join(BOOKGAME, relative), "utf8"));
+const json = async (relative, root = BOOKGAME) => JSON.parse(await readFile(join(root, relative), "utf8"));
 
 async function assertNoSymlinks(root) {
   const info = await lstat(root);
@@ -64,18 +64,18 @@ async function contract() {
   }
 }
 
-async function verifyMandatoryAssets() {
-  const map = await json("assets/pokemon/sprite-runtime-map.json");
-  const spriteDir = join(BOOKGAME, "assets/pokemon/files");
+async function verifyMandatoryAssets(root = BOOKGAME) {
+  const map = await json("assets/pokemon/sprite-runtime-map.json", root);
+  const spriteDir = join(root, "assets/pokemon/files");
   const sprite = await verifyOfflineSpriteAssets(map, spriteDir);
   if (!sprite.valid) {
     throw new Error(`Mobile release BLOCKED: Pokémon sprites ${sprite.verifiedPng} verified; ${sprite.missing.length} missing, ${sprite.invalid.length} invalid (619 species required).`);
   }
 
-  const registry = await json("content/npcs/NPC_CHARACTER_LIBRARY_V1.json");
-  const checksums = await json("assets/characters/sha256.json");
-  const nativeManifest = await json("assets/characters/native-sprites.json");
-  const charDir = join(BOOKGAME, "assets/characters/files");
+  const registry = await json("content/npcs/NPC_CHARACTER_LIBRARY_V1.json", root);
+  const checksums = await json("assets/characters/sha256.json", root);
+  const nativeManifest = await json("assets/characters/native-sprites.json", root);
+  const charDir = join(root, "assets/characters/files");
   const characters = await verifyOfflineCharacterSprites(registry, charDir, checksums);
   const native = await verifyOfflineNativeCharacterSprites(registry, nativeManifest, charDir);
   if (!characters.valid || !native.valid) {
@@ -83,7 +83,7 @@ async function verifyMandatoryAssets() {
   }
 
   // Map visuals do not invent new locations. Every approved physical visual must ship.
-  const mapDir = join(BOOKGAME, "assets/maps/illustrations");
+  const mapDir = join(root, "assets/maps/illustrations");
   for (const [ids, ext] of [[APPROVED_MAP_ILLUSTRATION_IDS, ".png"], [APPROVED_MAP_SVG_IDS, ".svg"]]) {
     for (const id of ids) {
       const path = join(mapDir, id + ext);
@@ -96,7 +96,7 @@ async function verifyMandatoryAssets() {
 
   // Music is an optional separately licensed pack. If installed, verify every byte.
   let audio = false;
-  const manifest = join(BOOKGAME, "ui/public/audio/manifest.json");
+  const manifest = join(root, "ui/public/audio/manifest.json");
   try {
     await lstat(manifest);
     audio = true;
@@ -125,8 +125,18 @@ async function assertBundle() {
   }
 }
 
-async function build() {
+function importOfflineTrainerOverlay(archive) {
+  if (!archive) return;
+  // Explicit local input only: do not download approved art or silently substitute it.
+  const result = spawnSync("python3", ["scripts/install-trainer-overlay.py", "--zip", resolve(archive)], {
+    cwd: BOOKGAME, stdio: "inherit"
+  });
+  if (result.status !== 0) throw new Error("Approved local Trainer ZIP import failed");
+}
+
+async function build(trainerZip = null) {
   await contract();
+  importOfflineTrainerOverlay(trainerZip);
   compileStory();
   await assertBundle();
   const report = await verifyMandatoryAssets();
@@ -139,6 +149,13 @@ async function build() {
     await mkdir(target, { recursive: true });
     for (const directory of RUNTIME_DIRS) {
       await cp(join(BOOKGAME, directory), join(target, directory), { recursive: true, force: false });
+    }
+    // Recheck the ACTUAL bytes shipped in the Android payload, not only source files.
+    // A copied or mutated PNG must fail before dist/ is published.
+    const shipped = await verifyMandatoryAssets(target);
+    if (shipped.pokemon !== report.pokemon || shipped.portraits !== report.portraits ||
+        shipped.nativeSprites !== report.nativeSprites || shipped.audio !== report.audio) {
+      throw new Error("Packaged offline asset counts do not match verified sources");
     }
     await cp(join(MOBILE, "runtime/index.cjs"), join(nodeRoot, "index.cjs"));
     await writeFile(join(nodeRoot, "package.json"),
@@ -161,7 +178,13 @@ if (command === "--contract") {
   await contract();
   console.log("Mobile offline host contract: PASS (physical asset coverage not tested)");
 } else if (command === "--package") {
-  await build();
+  const args = process.argv.slice(3);
+  if (args.length !== 0 && (args.length !== 2 || args[0] !== "--characters-zip" || !args[1])) {
+    throw new Error("Usage: build.mjs --package [--characters-zip /path/to/approved.zip]");
+  }
+  // npm run android:debug invokes build:web without CLI arguments, so an explicit
+  // environment path is supported without changing Capacitor's build command.
+  await build(args[1] ?? process.env.P5E_TRAINER_OVERLAY_ZIP ?? null);
 } else {
-  throw new Error("Usage: node bookgame/mobile/build.mjs [--contract|--package]");
+  throw new Error("Usage: node bookgame/mobile/build.mjs [--contract|--package [--characters-zip path]]");
 }

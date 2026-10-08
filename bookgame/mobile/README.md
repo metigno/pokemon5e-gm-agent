@@ -15,6 +15,49 @@ have been installed and `build.mjs` has validated their physical bytes.
 Android and iOS are different targets; this step provides an Android build
 pipeline only. Device airplane-mode acceptance is still mandatory.
 
+## One-command Trainer integration into the offline APK
+
+The 19-character overlay created from the user-supplied Trainer assets is
+**already complete**: 19 portraits, 19 battle-front sprites and 19 overworld
+sheets (57 real PNGs). It is delivered separately from Git:
+
+- `P5E_19_Character_Sprites_Offline_Complete.zip`
+- **Approved SHA-256:** `6269a74a9381c03941322dd8b8f16b3950ab199c62e488a7d5ed0324368754d9`
+
+The Android build **now imports this local ZIP automatically** when supplied
+via `P5E_TRAINER_OVERLAY_ZIP`. It checks the complete ZIP SHA-256, rejects
+unmapped/dangerous paths, verifies all 57 individual PNGs against Git-tracked
+SHA pins, atomically installs only matching files, and rechecks the **copied
+native application payload**, not just files in the checkout.
+
+```sh
+# From the repository root; both paths below refer to actual local files.
+python3 bookgame/scripts/install-approved-sprite-zip.py /absolute/path/to/P5E_M01-M12_619_Pokemon_Complete_Sprites_verified.zip --strict
+
+cd bookgame/mobile
+npm install
+npm run android:init   # first time only
+P5E_TRAINER_OVERLAY_ZIP=/absolute/path/to/P5E_19_Character_Sprites_Offline_Complete.zip npm run android:debug
+```
+
+You can also import explicitly without running Gradle:
+
+```sh
+node bookgame/mobile/build.mjs --package --characters-zip /absolute/path/to/P5E_19_Character_Sprites_Offline_Complete.zip
+```
+
+When the ZIP has already been installed and remains verified, subsequent builds
+are idempotent and can omit the environment variable. An incomplete ZIP, altered
+artwork, missing Pokémon asset or mismatched packed payload **fails the build**.
+The binary archive is never downloaded at runtime, and neither a placeholder nor
+an online sprite server is allowed.
+
+**Limitation:** the verified *619-Pokémon archive* is a separate mandatory
+input. This conversation supplies the 19-character overlay, not the 619 archive.
+A successful source-only CI run or generated Android shell does not prove a
+fully playable offline APK. Finish the above packaging and airplane-mode device
+tests before calling the mobile release complete.
+
 ## Prepare on a build workstation
 
 Install JDK 21+, Android SDK / Android Studio, Node.js 22+, npm, and the
@@ -29,8 +72,9 @@ npm --prefix bookgame test
 python3 bookgame/scripts/install-approved-sprite-zip.py /path/to/P5E_M01-M12_619_Pokemon_Complete_Sprites_verified.zip --strict
 npm --prefix bookgame run sprites:verify
 
-# Install the approved Trainer battle/overworld/portrait files via the
-# documented canonical character asset importer and check both manifests:
+# Trainer ZIP import happens automatically during android:debug when
+# P5E_TRAINER_OVERLAY_ZIP points to the approved local archive.
+# Once installed, you may also verify it independently:
 npm --prefix bookgame run sprites:verify:characters
 
 # Optional, ONLY if the audio pack is available and distribution is permitted.
