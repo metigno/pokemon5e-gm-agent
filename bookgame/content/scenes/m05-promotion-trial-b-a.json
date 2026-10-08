@@ -203,7 +203,7 @@
       "stitches": [
         {
           "id": "pp1",
-          "text": "Il ritmo del Trial può cambiare: una partenza aggressiva può costare troppo, ma aspettare sempre può regalare posizione. La scelta qui registra una priorità, non un modificatore invisibile."
+          "text": "Puoi partire imponendo subito il ritmo o conservare energie per i momenti decisivi. Nessuna delle due strade è sicura: dall'altra parte del campo c'è qualcuno pronto a reagire."
         }
       ],
       "choices": [
@@ -278,7 +278,7 @@
       "stitches": [
         {
           "id": "bh1",
-          "text": "Il controllo passa al sistema di combattimento. Nessuna scelta in questa scena può trasformare una sconfitta in vittoria o saltare il checkpoint."
+          "text": "Il giudice controlla le due formazioni e alza il braccio. Un fischio attraversa l'arena: adesso sono le decisioni in campo a contare."
         }
       ],
       "choices": [
