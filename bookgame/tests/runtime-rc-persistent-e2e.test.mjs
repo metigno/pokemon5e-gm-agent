@@ -1311,7 +1311,10 @@ async function completeCanonicalM8(engine, start) {
     ["M8 Astrid scene", (s) => s.story?.sceneId === "m08-astrid-enters", 2200]
   ], { route: "champion", combatPolicy: "win" });
 
-  state = await requireChoice(engine, state, "astrid_introduce", "M8 Astrid introduction");
+  const astridView = await engine.present(state);
+  const astridChoice = astridView.choices.some((choice) => choice.id === "astrid_introduce")
+    ? "astrid_introduce" : "astrid_reengage";
+  state = await requireChoice(engine, state, astridChoice, "M8 Astrid introduction/reengagement");
   assert.equal(state.world.flags.astrid_met, true);
 
   state = await completeMilestoneSequence(engine, state, [
@@ -1441,6 +1444,61 @@ async function completeCanonicalM12(engine, start, route) {
   return state;
 }
 
+async function completeRepeatEdition(engine, start, store, edition) {
+  let state = structuredClone(start);
+  assert.equal(state.story.sceneId, "m12-main-story-complete");
+  assert.equal(state.story.nodeId, "free_roam");
+  assert.equal(state.competition.world.edition, edition - 1);
+
+  await engine.present(state); // register preceding edition in career ledger
+  const previousPokemon = structuredClone(state.player.roster);
+  const previousHistory = structuredClone(state.postgame.championships);
+  for (let i = 0; i < 4; i += 1) state = await requireChoice(engine, state, "postgame_year");
+  state = await requireChoice(engine, state, "postgame_qualifier");
+  assert.equal(state.competition.world.edition, edition);
+  assert.equal(state.story.sceneId, "m07-world-qualifier");
+  assert.equal(state.competition.world.drawComplete, false);
+  assert.deepEqual(state.player.roster, previousPokemon);
+  assert.deepEqual(state.postgame.championships, previousHistory);
+
+  state = await completeMilestoneSequence(engine, state, [
+    [`World ${edition}: qualifier matches`, flag("m7_qualifier_complete"), 4500],
+    [`World ${edition}: qualification recorded`, (s) =>
+      s.world.flags.world_qualified === true && s.world.flags.m7_qualifier_result_resolved === true, 3500],
+    [`World ${edition}: M08 handoff`, (s) =>
+      s.world.flags.m08_unlocked === true && s.story.sceneId === "m08-world-arrival", 5000]
+  ], { route: "champion", combatPolicy: "win" });
+
+  assert.equal(state.world.flags.world_qualified, true);
+  state = await persistReload(store, state, state.slot, `World ${edition} qualification`);
+
+  state = await completeCanonicalM8(engine, state);
+  assert.equal(state.competition.world.edition, edition);
+  assert.equal(state.competition.world.drawComplete, true);
+  state = await persistReload(store, state, state.slot, `World ${edition} draw`);
+
+  state = await completeCanonicalM9Advanced(engine, state);
+  state = await completeCanonicalM10FinalFour(engine, state);
+  state = await completeCanonicalM11Champion(engine, state);
+  assert.equal(state.competition.world.finalResolved, true);
+  assert.equal(state.competition.world.currentWorldChampion.name, state.player.name);
+
+  state = await searchTo({
+    engine, start: state, route: "champion", combatPolicy: "win",
+    goal: (s) => s.story.sceneId === "m12-world-exit-branch" &&
+      s.story.nodeId === "world_exit_entry",
+    label: `World ${edition}: final-to-postgame handoff`, maxExpansions: 4000
+  });
+  state = await requireChoice(engine, state, "postgame_finish_edition");
+  assert.equal(state.story.sceneId, "m12-main-story-complete");
+  assert.equal(state.story.nodeId, "free_roam");
+  assert.equal(state.postgame.championships.length, edition);
+  assert.equal(state.competition.world.hallOfFame.length, edition);
+  assert.equal(state.postgame.championships.at(-1).champion.name, state.player.name);
+  assert.equal(state.world.flags.main_story_complete, true);
+  return persistReload(store, state, state.slot, `World ${edition} champion`);
+}
+
 async function persistReload(store, state, slot, label) {
   const saved = structuredClone(state);
   saved.slot = slot;
@@ -1511,6 +1569,12 @@ test("RC persistent E2E traverses real authored M1→M12 and all three World out
     champion = await completeCanonicalM12(engine, champion, "champion");
     champion = await persistReload(store, champion, champion.slot, "M12 champion");
     assert.equal(champion.world.flags.world_champion, true);
+
+    champion = await requireChoice(engine, champion, "enter_free_roam");
+    champion = await completeRepeatEdition(engine, champion, store, 2);
+    champion = await completeRepeatEdition(engine, champion, store, 3);
+    assert.deepEqual(champion.postgame.championships.map((entry) => entry.year),
+      [2060, 2064, 2068]);
 
     let missed = structuredClone(postM6);
     missed.slot = "rc-worlds-missed";
