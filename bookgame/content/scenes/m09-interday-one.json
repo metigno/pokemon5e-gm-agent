@@ -139,8 +139,8 @@
         },
         {
           "id": "media_resources",
-          "text": "Rileggo i ritagli personali tra le notizie, poi proteggo le risorse della squadra.",
-          "goto": "resource_guard",
+          "text": "Controllo le piste leggendarie personali prima di proteggere le risorse e chiudere le interviste.",
+          "goto": "legendary-world-hunt#hunt_entry",
           "effects": [
             {
               "type": "set_flag",
