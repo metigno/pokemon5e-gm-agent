@@ -171,6 +171,12 @@ async function build(trainerZip = null, secondaryZip = null) {
     // Preserve that relative path inside the embedded Node.js project root.
     await mkdir(join(nodeRoot, "src"), { recursive: true });
     await cp(join(dirname(BOOKGAME), "src/bridge"), join(nodeRoot, "src/bridge"), { recursive: true, force: false });
+    const smoke = spawnSync(process.execPath, ["--input-type=module", "-e",
+      "await import('./bookgame/src/engine/bookgame-engine.mjs')"],
+      { cwd: nodeRoot, encoding: "utf8" });
+    if (smoke.status !== 0) {
+      throw new Error("Embedded engine import smoke test failed: " + smoke.stderr);
+    }
     await cp(join(MOBILE, "runtime/index.cjs"), join(nodeRoot, "index.cjs"));
     await writeFile(join(nodeRoot, "package.json"),
       JSON.stringify({ name: "p5e-embedded-runtime", version: "0.1.0", private: true, main: "index.cjs" }));
