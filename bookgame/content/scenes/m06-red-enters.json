@@ -34,7 +34,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Red non appare come boss. Lo incontri dove la sua carriera lo rende plausibile: vicino al circuito, mentre osserva un tabellone o si prepara a una finestra Masters."
+          "text": "Vicino al tabellone Masters, un ragazzo con il berretto rosso segue i risultati senza unirsi alla folla. Un allenatore lo riconosce e rallenta il passo. Red solleva appena gli occhi dal monitor."
         }
       ],
       "choices": [
@@ -76,7 +76,7 @@
         },
         {
           "id": "red_reengage",
-          "text": "Red mi conosce già: riprendo il contatto.",
+          "text": "Lo saluto e riprendo il discorso.",
           "goto": "reengage",
           "conditions": {
             "path": "world.flags.red_met",
@@ -89,7 +89,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il contesto può cambiare con la prima destinazione, ma Red non viene teletrasportato per obbligo di trama. Il suo valore qui è mostrare come un trainer forte legge ambienti diversi."
+          "text": "Red è fermo accanto ai risultati del circuito. Ogni tanto guarda gli allenatori che escono dall'arena, poi torna al tabellone. Non sembra avere fretta di parlare."
         }
       ],
       "choices": [
@@ -131,7 +131,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Red parla poco anche con gli altri. Quello che noti è il metodo: guarda chi cambia piano dopo una sconfitta, non solo chi accumula vittorie."
+          "text": "Un allenatore sconfitto esce scuotendo la testa. Red segue con lo sguardo il suo avversario, che torna subito a confrontarsi con il proprio Pokémon. Poi abbassa gli occhi sui risultati."
         }
       ],
       "choices": [
@@ -181,7 +181,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Red risponde con frasi corte e domande precise. Non ti misura dal Rank; vuole capire cosa hai cambiato quando il tuo vecchio piano non funzionava."
+          "text": "Red ascolta la tua presentazione e annuisce. «Quando un piano non funziona... cosa cambi?» La domanda arriva senza preamboli; aspetta la tua risposta."
         }
       ],
       "choices": [
@@ -201,7 +201,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un secondo incontro non ripete la presentazione. Red riconosce ciò che avete già discusso e passa direttamente allo stato attuale del circuito."
+          "text": "Red ti riconosce con un cenno. Indica il tabellone, dove gli incontri sono cambiati dall'ultima volta. «Come sta andando?»"
         }
       ],
       "choices": [
@@ -221,7 +221,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Per Red adattarsi non significa cambiare tutto a caso: significa capire quale parte del piano era essenziale e quale era solo abitudine."
+          "text": "Red osserva per un momento il tuo equipaggiamento. «Non devi cambiare tutto». Fa una pausa. «Solo quello che non funziona»."
         }
       ],
       "choices": [
@@ -253,13 +253,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Red descrive la propria linea Charmander→Charmeleon→Charizard come una carriera guadagnata nel tempo. La scena non assegna evoluzioni, forme o roster."
+          "text": "Red sfiora una Poké Ball alla cintura. «Ho iniziato con Charmander». Guarda l'arena prima di aggiungere: «Siamo cresciuti insieme». Non dice altro."
         }
       ],
       "choices": [
         {
           "id": "career_record",
-          "text": "Registro solo il principio stage-aware.",
+          "text": "Gli chiedo come ha affrontato i cambiamenti.",
           "goto": "relationship",
           "effects": [
             {
@@ -280,7 +280,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il rapporto resta leggero ma persistente. Un punto di stima non equivale a bonus meccanico, accesso gratuito o protezione nei futuri bracket."
+          "text": "Red ascolta fino in fondo. Alla fine accenna un sorriso quasi impercettibile e ti rivolge un breve cenno, prima di tornare a guardare gli incontri."
         }
       ],
       "choices": [
@@ -300,7 +300,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Red non riempie il silenzio. Lascia che siano i risultati, i tempi e le scelte precedenti a parlare prima di offrire un'opinione."
+          "text": "Il silenzio si allunga. Red non cerca di riempirlo: segue con gli occhi il tabellone e lascia a te la scelta di continuare."
         }
       ],
       "choices": [
@@ -320,13 +320,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Solaria e Luminara richiedono letture diverse. Red non dichiara una città migliore: nota soltanto che un trainer fuori regione perde prima quando finge che tutti giochino allo stesso modo."
+          "text": "Red indica due risultati sul monitor, uno di Solaria e uno di Luminara. «Avversari diversi. Stesse abitudini, a volte, non bastano»."
         }
       ],
       "choices": [
         {
           "id": "route_note",
-          "text": "Registro il principio senza ottenere vantaggi.",
+          "text": "Prendo nota del suo consiglio.",
           "goto": "red_close",
           "effects": [
             {
@@ -347,7 +347,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'incontro lascia Red persistente nel mondo e M6 può ora proseguire verso il Masters Circuit. Rank, denaro, roster e punti restano invariati."
+          "text": "Red si sistema il berretto e torna verso l'area riservata agli allenatori. Alle sue spalle il tabellone Masters continua ad aggiornarsi."
         }
       ],
       "choices": [
@@ -367,7 +367,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rimandare l'incontro non crea un clone di Red altrove. Potrai recuperare il contatto quando schedule e contesto lo renderanno di nuovo plausibile."
+          "text": "Ti allontani senza interromperlo. Red resta presso il tabellone mentre la folla cambia attorno a lui; potresti incrociarlo di nuovo durante il circuito."
         }
       ],
       "choices": [
@@ -414,13 +414,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il rapporto con Lance e gli altri Anchor può cambiare il tono del confronto, ma Red non eredita automaticamente amicizie, rivalità o risultati altrui."
+          "text": "Quando nomini Lance, Red solleva lo sguardo. Ascolta ciò che hai da raccontare senza dare per scontato come siano andati i tuoi incontri precedenti."
         }
       ],
       "choices": [
         {
           "id": "callback_record",
-          "text": "Registro il callback senza trasferire reputazione.",
+          "text": "Gli racconto soltanto ciò che è successo.",
           "goto": "red_close",
           "effects": [
             {
