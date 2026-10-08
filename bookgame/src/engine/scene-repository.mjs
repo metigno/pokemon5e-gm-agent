@@ -1,10 +1,22 @@
 import { readFile } from "node:fs/promises";
+import { CompiledSceneRepository } from "./compiled-scene-repository.mjs";
 
 const DEFAULT_ROOT = new URL("../../content/scenes/", import.meta.url);
 
 export class SceneRepository {
-  constructor(root = DEFAULT_ROOT) {
+  constructor(root = DEFAULT_ROOT, compiled = new CompiledSceneRepository()) {
     this.root = root;
+    this.compiled = compiled;
+  }
+
+  // Keep authored scene loading unchanged. Runtime-wide catalogs come from the
+  // same validated offline bundle produced by compile:story.
+  async loadWorldEvents() {
+    return this.compiled.loadWorldEvents();
+  }
+
+  async loadEcology() {
+    return this.compiled.loadEcology();
   }
 
   async load(sceneId) {
