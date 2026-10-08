@@ -36,7 +36,7 @@ export function battlePokemonXpPool(battle) {
   if (battle?.outcome !== "win") return 0;
   const opponents = [battle.opponent, ...(battle.opponentBench ?? [])];
   return opponents.reduce((total, opponent) => {
-    if (!opponent || Number(opponent.hp?.current) > 0) return total;
+    if (!opponent || !Number.isFinite(opponent.hp?.current) || opponent.hp.current > 0) return total;
     const level = Number(opponent.level);
     if (!Number.isInteger(level) || level < 1 || level > 20) return total;
     const delta = level === 20
