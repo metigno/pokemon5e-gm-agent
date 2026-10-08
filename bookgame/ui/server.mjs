@@ -540,7 +540,9 @@ async function handleApi(req, res, url) {
     if (!outcome.result.legal) {
       return sendJson(res, 409, { ok: false, error: outcome.result.reason ?? "Cattura non consentita" });
     }
-    await persist(engine.setCombatState(state, outcome.battle));
+    const next = engine.setCombatState(state, outcome.battle);
+    next.player.inventory = structuredClone(outcome.battle.trainer.inventory ?? []);
+    await persist(next);
     return sendJson(res, 200, await snapshot());
   }
 
