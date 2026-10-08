@@ -119,7 +119,7 @@ export function npcSceneRoles(verified, sceneId, nodeId) {
   if (!verified?.catalog || !verified?.available) return [];
   return (verified.catalog.sceneRoles?.[sceneId]?.[nodeId] ?? [])
     .filter(id => Object.hasOwn(verified.available.role, id))
-    .map(id => ({ id, label: verified.catalog.roles[id].displayRole }));
+    .map(id => ({ id, label: verified.catalog.roles[id].displayRole, frames: verified.available.role[id].frames }));
 }
 
 export function npcWorldSpriteId(verified, trainerName) {
