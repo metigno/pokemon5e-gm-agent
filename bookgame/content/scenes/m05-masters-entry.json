@@ -34,7 +34,7 @@
       "stitches": [
         {
           "id": "me1",
-          "text": "Con Rank A attivo, la Sala della Cresta apre la finestra Masters. Questo evento non promuove di Rank: registra ingresso, risultato e seeding per il circuito successivo."
+          "text": "Con il Rank A, alla Sala della Cresta puoi finalmente chiedere l'accesso al circuito Masters. Il calendario indica gli incontri che stabiliranno da quale posizione inizierai."
         }
       ],
       "choices": [
@@ -109,7 +109,7 @@
       "stitches": [
         {
           "id": "rd1",
-          "text": "Il banco registra la partecipazione alla finestra corrente. Non modifica il roster e non crea punti prima che esista un risultato ufficiale."
+          "text": "L'addetta verifica la tua tessera e indica la finestra d'iscrizione ancora aperta. Sul tabellone non compare alcun risultato: gli incontri devono ancora disputarsi."
         }
       ],
       "choices": [
@@ -218,7 +218,7 @@
       "stitches": [
         {
           "id": "pf1",
-          "text": "Puoi decidere cosa osservare nel match, ma la scelta non assegna EV, cure, livelli o modificatori nascosti."
+          "text": "Osservi il campo e scegli su cosa concentrare l'attenzione: l'apertura dell'avversario, il ritmo degli scambi o le possibilità di rimonta."
         }
       ],
       "choices": [
@@ -452,7 +452,7 @@
       "stitches": [
         {
           "id": "sh1",
-          "text": "La vittoria assegna una fascia Masters alta per il prossimo evento pertinente. È un vantaggio di seeding registrato, non un unlock geografico."
+          "text": "Sul tabellone il tuo nome sale nella fascia alta del prossimo sorteggio Masters. Alcuni allenatori controllano subito i possibili abbinamenti."
         }
       ],
       "choices": [
@@ -564,7 +564,7 @@
       "stitches": [
         {
           "id": "cl1",
-          "text": "La tua posizione iniziale nel circuito Masters è ora registrata. Il Rank A, ciò che hai scoperto a Fulgore, Lance, i Five e la licenza interregionale restano questioni distinte."
+          "text": "La tua posizione di partenza nel circuito Masters è fissata. Fuori dall'arena, però, restano la montagna, i viaggi appena aperti e le persone incontrate lungo la strada."
         }
       ],
       "choices": [
