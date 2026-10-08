@@ -737,15 +737,22 @@ async function playEvolution(presentation) {
   els.evolutionFromSprite.src = spriteUrl(presentation.from, "battleFront");
   els.evolutionToSprite.src = spriteUrl(presentation.to ?? presentation.pokemon?.speciesId, "battleFront");
   els.evolutionOverlay.hidden = false;
+  soundscape.setOverride("evolution");
+  try {
   for (const phase of presentation.phases ?? []) {
     els.evolutionOverlay.dataset.phase = phase.id;
     els.evolutionStatus.textContent = phase.id === "reveal"
       ? `${playerFacingLabel(presentation.to ?? presentation.pokemon?.speciesId ?? "Pokémon")}!`
       : "Il Pokémon si sta evolvendo…";
+    if (phase.id === "reveal") soundscape.playCry(presentation.to ?? presentation.pokemon?.speciesId);
     if (phase.durationMs > 0) await delay(phase.durationMs);
   }
-  els.evolutionOverlay.hidden = true;
-  delete els.evolutionOverlay.dataset.phase;
+  } finally {
+    els.evolutionOverlay.hidden = true;
+    delete els.evolutionOverlay.dataset.phase;
+    soundscape.clearOverride();
+    soundscape.playEffect("ui_confirm");
+  }
 }
 
 async function runEvolution(option) {
@@ -1008,6 +1015,13 @@ function renderSettings() {
         <option value="instant" ${speed === "instant" ? "selected" : ""}>Istantanea</option>
       </select>
     </div>
+    <div class="settings-row">
+      <label><input type="checkbox" id="audio-enabled-setting" ${soundscape.enabled ? "checked" : ""}> Abilita musica ed effetti</label>
+      <label for="audio-volume-setting">Volume: ${Math.round(soundscape.volume * 100)}%</label>
+      <input id="audio-volume-setting" type="range" min="0" max="100" step="5" value="${Math.round(soundscape.volume * 100)}" aria-label="Volume audio">
+      <p>Audio locale opzionale. Per iniziare serve un tocco sul dispositivo.</p>
+      <button type="button" id="audio-test" class="secondary-button">Prova effetto audio</button>
+    </div>
     <div class="data-card">
       <h3>Salvataggio · ${escapeHtml(snapshot.slot ?? "")}</h3>
       <p>La partita viene salvata automaticamente dopo ogni scelta e azione. Puoi salvare anche adesso.</p>
@@ -1056,6 +1070,7 @@ function openDrawer(panel) {
   if (!renderers[panel]) return;
   const wasOpen = els.drawer.classList.contains("is-open");
   if (!wasOpen) drawerReturnFocus = document.activeElement;
+  soundscape.playEffect("ui_page");
   els.drawerTitle.textContent = titles[panel];
   els.drawer.dataset.panel = panel;
   const shortcuts = infoPages.shortcuts()[panel] ?? "";
@@ -1079,6 +1094,7 @@ function openDrawer(panel) {
       for (const travel of els.drawerContent.querySelectorAll(".map-travel")) travel.disabled = true;
       try {
         snapshot = await api("/api/choose", { method: "POST", body: JSON.stringify({ choiceId }) });
+        soundscape.playEffect("ui_confirm");
         closeDrawer();
         await renderSnapshot();
       } catch (error) {
@@ -1243,6 +1259,16 @@ function openDrawer(panel) {
     });
   }
 
+  els.drawerContent.querySelector("#audio-enabled-setting")?.addEventListener("change", (event) => {
+    soundscape.setEnabled(event.currentTarget.checked);
+    syncAudioControls();
+  });
+  els.drawerContent.querySelector("#audio-volume-setting")?.addEventListener("input", (event) => {
+    soundscape.setVolume(Number(event.currentTarget.value) / 100);
+    const label = els.drawerContent.querySelector('label[for="audio-volume-setting"]');
+    if (label) label.textContent = "Volume: " + Math.round(soundscape.volume * 100) + "%";
+  });
+  els.drawerContent.querySelector("#audio-test")?.addEventListener("click", () => soundscape.playEffect("ui_confirm"));
   const speedSelect = $("#text-speed-setting");
   if (speedSelect) {
     speedSelect.addEventListener("change", () => {
@@ -1391,11 +1417,19 @@ els.referenceOverlay.addEventListener("keydown", (event) => {
 });
 
 els.storyText.addEventListener("click", () => {
-  if (revealActive) finishRevealNow();
+  if (revealActive) { soundscape.playEffect("ui_advance"); finishRevealNow(); }
 });
-els.skipText.addEventListener("click", finishRevealNow);
-els.newGame.addEventListener("click", () => start("new"));
-els.loadGame.addEventListener("click", () => start("load"));
+els.skipText.addEventListener("click", () => { soundscape.playEffect("ui_advance"); finishRevealNow(); });
+for (const id of ["audio-toggle", "start-audio"]) {
+  $("#" + id).addEventListener("click", () => {
+    soundscape.setEnabled(!soundscape.enabled);
+    syncAudioControls();
+  });
+}
+// Only unlock audio on user interaction (iOS/Android autoplay policy).
+document.addEventListener("pointerdown", () => soundscape.unlock(), { passive: true });
+els.newGame.addEventListener("click", () => { soundscape.unlock(); soundscape.playEffect("ui_confirm"); void start("new"); });
+els.loadGame.addEventListener("click", () => { soundscape.unlock(); soundscape.playEffect("ui_confirm"); void start("load"); });
 els.deleteGame.addEventListener("click", deleteCareer);
 els.slot.addEventListener("change", showSelectedSlot);
 els.endTurn.addEventListener("click", () => runCombatAction("/api/combat/end-turn", {}));
