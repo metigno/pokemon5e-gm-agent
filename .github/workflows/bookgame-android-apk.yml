@@ -42,11 +42,11 @@ jobs:
           echo "Android SDK is available at $ANDROID_HOME"
       - name: Download offline assets from private GitHub repository
         env:
-          ASSETS_READ_TOKEN: ${{ secrets.P5E_ASSETS_READ_TOKEN }}
+          ASSETS_READ_TOKEN: ${{ secrets.LIBROGAME5E }}
         run: |
           set -euo pipefail
           if [ -z "$ASSETS_READ_TOKEN" ]; then
-            echo "::error::Missing P5E_ASSETS_READ_TOKEN secret. Create a fine-grained GitHub token with Contents: Read on metigno/librogame5e-private-assets."
+            echo "::error::Missing LIBROGAME5E secret. Create a fine-grained GitHub token with Contents: Read on metigno/librogame5e-private-assets."
             exit 1
           fi
           curl --fail --location --silent --show-error \
