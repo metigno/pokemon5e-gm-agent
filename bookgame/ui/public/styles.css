@@ -742,3 +742,24 @@ summary:focus-visible, a:focus-visible {
   .choice-button, .move-button, .map-travel { border-width: 2px; }
   .bottom-nav button { color: var(--ink); }
 }
+
+/* Opt-in audio controls; keyboard and touch remain available with sound disabled. */
+.sound-toggle {
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 8px 12px;
+  background: var(--surface, #fff);
+  color: var(--ink);
+  font-size: .8rem;
+  font-weight: 750;
+  cursor: pointer;
+}
+.sound-toggle[aria-pressed="true"] { border-color: var(--action); background: #e8f1fb; }
+.sound-toggle:focus-visible { outline: 3px solid var(--action); outline-offset: 3px; }
+.sound-toggle--start { width: 100%; margin-top: 10px; }
+#audio-volume-setting { display: block; width: 100%; min-height: 44px; accent-color: var(--action); }
+#audio-enabled-setting { width: 22px; height: 22px; vertical-align: middle; accent-color: var(--action); }
+@media (max-width: 530px) {
+  .topbar-status .sound-toggle { flex-basis: 100%; padding: 8px; }
+}
