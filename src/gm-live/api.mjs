@@ -3,6 +3,7 @@ import { timingSafeEqual } from 'node:crypto';
 import { GmSession } from './session.mjs';
 import { GmTurnCoordinator } from './turn-coordinator.mjs';
 import { createSafeGmAdapters } from './bootstrap.mjs';
+import { startCanonicalCampaign } from './canonical-opening.mjs';
 
 function authorized(req, token) {
  const provided = req.headers.authorization?.replace(/^Bearer /, '') ?? '';
@@ -31,7 +32,7 @@ export function createGmServer({ root, token, engine, narrator }) {
    const url = new URL(req.url,'http://localhost');
    if (req.method === 'POST' && url.pathname === '/api/gm/campaigns') {
     const { protagonist, campaignId } = await jsonBody(req);
-    return reply(res,201,await gm.start(protagonist,campaignId));
+    return reply(res,201,await startCanonicalCampaign(root,protagonist,campaignId));
    }
    const match = /^\/api\/gm\/campaigns\/([a-zA-Z0-9_-]{1,64})(?:\/actions)?$/.exec(url.pathname);
    if (!match) return reply(res,404,{error:'Not found'});
