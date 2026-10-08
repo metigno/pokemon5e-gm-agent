@@ -210,7 +210,7 @@ async function runCombat(state) {
     state = await saveBattleIntoState(state, battle);
   }
 
-  state = engine.resolveCombatHandoff(state, battle.outcome);
+  state = await engine.resolveCombatHandoffWithXp(state, battle.outcome);
   await saves.save(state);
   return state;
 }
