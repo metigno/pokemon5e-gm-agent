@@ -91,7 +91,7 @@ jobs:
           npm --prefix bookgame run audio:verify
           npm --prefix bookgame run build
           npm --prefix bookgame test
-      # Rebuild the APK when the embedded mobile bootstrap target changes.
+      # Rebuild the APK and smoke-test the embedded engine import graph.
       - name: Build Android debug APK
         run: |
           cd bookgame/mobile
