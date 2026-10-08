@@ -33,7 +33,11 @@ export function informationRenderers(snapshot, { escapeHtml, spriteUrl, playerFa
           const nativeId = portraitId;
           const native = snapshot.assets?.characterNative?.[nativeId];
           const mini = native ? `<span class="character-overworld-frame"><img src="/characters/${encodeURIComponent(nativeId)}/overworld" style="width:${native.frames * 32}px;height:64px" alt=""></span>` : "";
-          return `<div class="data-card info-person">${portrait}${mini}<div><h3>${escapeHtml(person.name)}</h3>
+          const worldId = snapshot.assets?.worldPeopleSprites?.[person.name];
+          const worldImage = worldId
+            ? `<img class="trainer-front-icon" src="/npc-sprites/world/${encodeURIComponent(worldId)}/battleFront" alt="" loading="lazy">`
+            : "";
+          return `<div class="data-card info-person">${portrait}${mini}${worldImage}<div><h3>${escapeHtml(person.name)}</h3>
             <p>${escapeHtml(person.description)}</p></div></div>`;
         }).join("")
       : empty("Non hai ancora incontrato persone da annotare nel diario."),
