@@ -160,6 +160,42 @@
           "id": "evidence_interpret",
           "text": "Passo all'interpretazione con ciò che ho.",
           "goto": "interpretation"
+        },
+        {
+          "id": "inspect_legendary_lead_mattew",
+          "text": "Esamino un fascicolo personale emerso dall'archivio.",
+          "conditions": {
+            "path": "player.name",
+            "eq": "Mattew"
+          },
+          "goto": "legendary_lead_mattew"
+        },
+        {
+          "id": "inspect_legendary_lead_daniel",
+          "text": "Esamino un fascicolo personale emerso dall'archivio.",
+          "conditions": {
+            "path": "player.name",
+            "eq": "Daniel"
+          },
+          "goto": "legendary_lead_daniel"
+        },
+        {
+          "id": "inspect_legendary_lead_edward",
+          "text": "Esamino un fascicolo personale emerso dall'archivio.",
+          "conditions": {
+            "path": "player.name",
+            "eq": "Edward"
+          },
+          "goto": "legendary_lead_edward"
+        },
+        {
+          "id": "inspect_legendary_lead_fab",
+          "text": "Esamino un fascicolo personale emerso dall'archivio.",
+          "conditions": {
+            "path": "player.name",
+            "eq": "Fab"
+          },
+          "goto": "legendary_lead_fab"
         }
       ]
     },
@@ -410,6 +446,118 @@
           "id": "close_review",
           "text": "Rivedo il layer appena registrato.",
           "goto": "interpretation"
+        }
+      ]
+    },
+    "legendary_lead_mattew": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un registro di viaggio descrive una spada antica e il legame con un guardiano che non si lascia comandare. La forma Re delle Spade richiede la Spada Rovinata: la traccia non prova dove sia Zacian, ma indica una storia da ricostruire."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record_legendary_lead_mattew",
+          "text": "Registro la pista senza interrompere l'indagine principale.",
+          "goto": "evidence_board",
+          "effects": [
+            {
+              "type": "quest_offer",
+              "questId": "legendary_mattew_zacian",
+              "title": "La spada e il guardiano — Zacian",
+              "objective": "Seguire la pista personale attraverso luoghi già accessibili, senza presumere l'incontro o la cattura del leggendario."
+            }
+          ]
+        },
+        {
+          "id": "defer_legendary_lead_mattew",
+          "text": "Per ora non seguo questa pista.",
+          "goto": "evidence_board"
+        }
+      ]
+    },
+    "legendary_lead_daniel": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Fra i documenti compare un riferimento a ricerche artificiali condotte su un essere cosciente. Le carte parlano di responsabilità, identità e fuga, non di una creatura da recuperare in una grotta."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record_legendary_lead_daniel",
+          "text": "Registro la pista senza interrompere l'indagine principale.",
+          "goto": "evidence_board",
+          "effects": [
+            {
+              "type": "quest_offer",
+              "questId": "legendary_daniel_mewtwo",
+              "title": "L'origine e la libertà — Mewtwo",
+              "objective": "Seguire la pista personale attraverso luoghi già accessibili, senza presumere l'incontro o la cattura del leggendario."
+            }
+          ]
+        },
+        {
+          "id": "defer_legendary_lead_daniel",
+          "text": "Per ora non seguo questa pista.",
+          "goto": "evidence_board"
+        }
+      ]
+    },
+    "legendary_lead_edward": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un vecchio rapporto marittimo collega tempeste anomale a testimonianze discordanti di un custode degli abissi. I marinai non lo chiamano preda: la pista richiede ascolto e prudenza."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record_legendary_lead_edward",
+          "text": "Registro la pista senza interrompere l'indagine principale.",
+          "goto": "evidence_board",
+          "effects": [
+            {
+              "type": "quest_offer",
+              "questId": "legendary_edward_lugia",
+              "title": "Il custode delle tempeste — Lugia",
+              "objective": "Seguire la pista personale attraverso luoghi già accessibili, senza presumere l'incontro o la cattura del leggendario."
+            }
+          ]
+        },
+        {
+          "id": "defer_legendary_lead_edward",
+          "text": "Per ora non seguo questa pista.",
+          "goto": "evidence_board"
+        }
+      ]
+    },
+    "legendary_lead_fab": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un confronto tra antiche cronache e osservazioni atmosferiche racconta di un custode dei cieli intervenuto contro uno squilibrio primordiale. La leggenda di una trasformazione ulteriore resta una possibilità da comprendere, non una ricompensa."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record_legendary_lead_fab",
+          "text": "Registro la pista senza interrompere l'indagine principale.",
+          "goto": "evidence_board",
+          "effects": [
+            {
+              "type": "quest_offer",
+              "questId": "legendary_fab_rayquaza",
+              "title": "L'equilibrio del cielo — Rayquaza",
+              "objective": "Seguire la pista personale attraverso luoghi già accessibili, senza presumere l'incontro o la cattura del leggendario."
+            }
+          ]
+        },
+        {
+          "id": "defer_legendary_lead_fab",
+          "text": "Per ora non seguo questa pista.",
+          "goto": "evidence_board"
         }
       ]
     }
