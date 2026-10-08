@@ -100,7 +100,7 @@ test("The real story choice pipeline awards a check only once and survives a rep
           failure:{goto:"entry",effects:[]}}}]}
     }
   };
-  const engine=new BookgameEngine({scenes:{load:async()=>scene},dice:new SequenceDice([15]),worldEvents:[],now});
+  const engine=new BookgameEngine({scenes:{load:async()=>scene},dice:new SequenceDice([15,15]),worldEvents:[],now});
   const state=create();
   state.story.sceneId="test-rewards";
   state.story.nodeId="entry";
