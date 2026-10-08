@@ -36,7 +36,7 @@ jobs:
       - name: Download private offline asset ZIP
         env:
           ASSET_URL: ${{ secrets.P5E_OFFLINE_ASSETS_URL }}
-          SWISS_URL: ${{ secrets.P5E_SWISSTRANSFER_URL }}
+          SWISS_URL: ${{ secrets.SWISSTRANSFERURL }}
         run: |
           python3 - <<'PY'
           import os, pathlib, urllib.parse, urllib.request, json, re
@@ -86,7 +86,7 @@ jobs:
                   import shutil
                   shutil.copyfileobj(response,out)
           else:
-              raise SystemExit('Set P5E_SWISSTRANSFER_URL or P5E_OFFLINE_ASSETS_URL in Actions secrets')
+              raise SystemExit('Set SWISSTRANSFERURL or P5E_OFFLINE_ASSETS_URL in Actions secrets')
           import zipfile
           if not zipfile.is_zipfile(target): raise SystemExit('Download was not a ZIP')
           print('Offline asset ZIP downloaded and validated')
