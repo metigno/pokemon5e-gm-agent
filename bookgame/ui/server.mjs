@@ -831,14 +831,15 @@ async function serveSprite(res, pathname) {
 
 async function serveMapIllustration(res, pathname) {
   if (!pathname.startsWith("/map-art/")) return false;
-  const match = /^\\/map-art\\/([a-z0-9-]+)\\.png$/.exec(pathname);
-  if (!match || !APPROVED_MAP_ILLUSTRATION_IDS.has(match[1])) {
+  const filename = pathname.slice("/map-art/".length);
+  const id = filename.endsWith(".png") ? filename.slice(0, -4) : null;
+  if (!id || filename !== id + ".png" || !APPROVED_MAP_ILLUSTRATION_IDS.has(id)) {
     res.writeHead(404, { "content-type": "text/plain; charset=utf-8" });
     res.end("Map illustration not found");
     return true;
   }
   try {
-    const image = await readFile(join(MAP_ART_DIR, match[1] + ".png"));
+    const image = await readFile(join(MAP_ART_DIR, id + ".png"));
     res.writeHead(200, { "content-type": "image/png", "cache-control": "public, max-age=3600" });
     res.end(image);
   } catch {
