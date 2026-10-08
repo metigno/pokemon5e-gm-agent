@@ -661,7 +661,7 @@ function renderTeam() {
     `).join("");
     const pending = [
       ...(pokemon.pendingLevelUp ? [`Una decisione di crescita attende ${name}`] : []),
-      ...(pokemon.pendingAsiChoices ?? []).map((choice) => `ASI Lv.${choice.level}: ${choice.points} punti`),
+      ...(pokemon.pendingAsiChoices ?? []).map((choice) => `Migliora le caratteristiche (Lv. ${choice.level}): ${choice.points} punti`),
       ...(pokemon.pendingMoveLearning ?? []).map((choice) => `Mossa apprendibile: ${choice.moveName ?? playerFacingLabel(choice.moveId)}`),
       ...(pokemon.pendingMoveChoices ?? []).map((choice) => `Scelta mossa Lv.${choice.level}`)
     ];
@@ -693,14 +693,17 @@ function renderTeam() {
       ${pending.length ? `<div class="data-card"><h3>Progressione pendente</h3>
         ${pending.map((entry) => `<div class="data-row"><span>${escapeHtml(entry)}</span></div>`).join("")}
         ${pokemon.pendingLevelUp?.stage === "evolution_decision" ? `
-          ${(pokemon.pendingLevelUp.evolutionIds ?? []).map((id) => `<button type="button" class="primary-button levelup-evolution" data-roster-index="${index}" data-evolution-id="${escapeHtml(id)}">Scegli evoluzione: ${escapeHtml(playerFacingLabel(id))}</button>`).join("")}
+          ${(pokemon.pendingLevelUp.evolutionIds ?? []).map((id, evoIndex) => {
+             const evolution = available.find((entry) => entry.evolution.id === id);
+             return `<button type="button" class="primary-button levelup-evolution" data-roster-index="${index}" data-evolution-id="${escapeHtml(id)}">Evolvi → ${escapeHtml(evolution ? playerFacingLabel(evolution.evolution.to) : `Evoluzione ${evoIndex + 1}`)}</button>`;
+           }).join("")}
           <button type="button" class="levelup-decline" data-roster-index="${index}">Rimanda evoluzione</button>
         ` : ""}
         ${(pokemon.pendingMoveLearning ?? []).map((choice) => `<button type="button" class="pokemon-learn-move" data-roster-index="${index}" data-move-id="${escapeHtml(choice.moveId)}">Impara ${escapeHtml(choice.moveName ?? playerFacingLabel(choice.moveId))}</button>`).join("")}
         ${(pokemon.pendingMoveChoices ?? []).map((choice) => `<button type="button" class="pokemon-replace-move" data-roster-index="${index}" data-level="${choice.level}" data-move-ids="${escapeHtml((choice.availableMoveIds ?? []).join(","))}">Scegli mossa Lv.${choice.level}</button>`).join("")}
-        ${(pokemon.pendingAsiChoices ?? []).map((choice) => `<button type="button" class="pokemon-asi" data-roster-index="${index}" data-level="${choice.level}" data-points="${choice.points}">Assegna ASI Lv.${choice.level}</button>`).join("")}
+        ${(pokemon.pendingAsiChoices ?? []).map((choice) => `<button type="button" class="pokemon-asi" data-roster-index="${index}" data-level="${choice.level}" data-points="${choice.points}">Migliora caratteristiche · Lv. ${choice.level}</button>`).join("")}
       </div>` : ""}
-      ${available.map((entry) => `<button type="button" class="primary-button evolution-action" data-roster-index="${entry.rosterIndex}" data-evolution-id="${escapeHtml(entry.evolution.id)}">Evolvi → ${escapeHtml(entry.evolution.to)}</button>`).join("")}
+      ${available.map((entry) => `<button type="button" class="primary-button evolution-action" data-roster-index="${entry.rosterIndex}" data-evolution-id="${escapeHtml(entry.evolution.id)}">Evolvi → ${escapeHtml(playerFacingLabel(entry.evolution.to))}</button>`).join("")}
       ${roster.length > 6 && index >= 6 ? `<button type="button" class="primary-button roster-promote" data-reserve-index="${index}">Schiera nei sei (sostituisci slot 2–6)</button>` : ""}
     `;
   }).join("") || '<div class="data-card">Nessun Pokémon nel roster.</div>';
@@ -896,7 +899,7 @@ function openDrawer(panel) {
         const pokemon = snapshot.player.roster[Number(button.dataset.rosterIndex)];
         let forgetMoveId = null;
         if ((pokemon.moves ?? []).length >= 4) {
-          forgetMoveId = window.prompt("Quale move id vuoi dimenticare?", pokemon.moves[0]?.id ?? "");
+          forgetMoveId = await chooseMoveToForget(pokemon);
           if (!forgetMoveId) return;
         }
         snapshot = await api("/api/pokemon/learn-move", {
@@ -913,13 +916,21 @@ function openDrawer(panel) {
   for (const button of els.drawerContent.querySelectorAll(".pokemon-replace-move")) {
     button.addEventListener("click", async () => {
       try {
-        const choices = String(button.dataset.moveIds ?? "").split(",").filter(Boolean);
-        const moveId = window.prompt("Quale move id vuoi imparare?", choices[0] ?? "");
-        if (!moveId) return;
         const pokemon = snapshot.player.roster[Number(button.dataset.rosterIndex)];
+        const choice = (pokemon.pendingMoveChoices ?? []).find((entry) => Number(entry.level) === Number(button.dataset.level));
+        const availableMoves = choice?.availableMoves ?? [];
+        const moveId = await chooseTouchOption({
+          title: `Quale mossa imparerà ${pokemonDisplayName(pokemon)}?`,
+          description: "Scegli una mossa disponibile. La scelta può richiedere di dimenticarne un'altra.",
+          options: availableMoves.map((move) => ({
+            value: move.id,
+            label: move.name ?? playerFacingLabel(move.id)
+          }))
+        });
+        if (!moveId) return;
         let forgetMoveId = null;
         if ((pokemon.moves ?? []).length >= 4 && !(pokemon.moves ?? []).some((move) => move.id === moveId)) {
-          forgetMoveId = window.prompt("Quale move id vuoi dimenticare?", pokemon.moves[0]?.id ?? "");
+          forgetMoveId = await chooseMoveToForget(pokemon);
           if (!forgetMoveId) return;
         }
         snapshot = await api("/api/pokemon/replace-move", {
@@ -937,14 +948,15 @@ function openDrawer(panel) {
     button.addEventListener("click", async () => {
       try {
         const points = Number(button.dataset.points);
-        const stat = window.prompt(`Assegna ${points} punti a STR, DEX, CON, INT, WIS o CHA`, "CON");
-        if (!stat) return;
+        const pokemon = snapshot.player.roster[Number(button.dataset.rosterIndex)];
+        const distribution = await chooseAsiDistribution(pokemon, points);
+        if (!distribution) return;
         snapshot = await api("/api/pokemon/asi", {
           method: "POST",
           body: JSON.stringify({
             rosterIndex: Number(button.dataset.rosterIndex),
             level: Number(button.dataset.level),
-            distribution: { [stat.toLowerCase()]: points }
+            distribution
           })
         });
         openDrawer("team");
