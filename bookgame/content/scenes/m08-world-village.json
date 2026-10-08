@@ -361,7 +361,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Risultati, sponsor, Anchor e Friend Beat precedenti possono cambiare come vieni riconosciuto nel Village, senza attribuire risultati mai ottenuti."
+          "text": "Nel Village ritrovi i richiami del tuo percorso: risultati, sponsor, Anchor e Friend Beat. Se hai seguito una pista personale, puoi conservarla senza trasformarla in un incontro o una cattura."
         }
       ],
       "choices": [
@@ -371,9 +371,80 @@
           "goto": "social_crossroads"
         },
         {
-          "id": "callback_sponsor",
-          "text": "Torno alla sponsor row.",
-          "goto": "sponsor_row"
+          "id": "callback_legendary",
+          "text": "Rileggo la pista personale raccolta prima del Mondiale, senza inseguire alcun Pokémon.",
+          "goto": "social_crossroads",
+          "conditions": {
+            "any": [
+              {
+                "all": [
+                  {
+                    "path": "player.name",
+                    "eq": "Luke"
+                  },
+                  {
+                    "path": "world.flags.legendary_m08_qualified_luke",
+                    "eq": true
+                  }
+                ]
+              },
+              {
+                "all": [
+                  {
+                    "path": "player.name",
+                    "eq": "Mattew"
+                  },
+                  {
+                    "path": "world.flags.legendary_m08_qualified_mattew",
+                    "eq": true
+                  }
+                ]
+              },
+              {
+                "all": [
+                  {
+                    "path": "player.name",
+                    "eq": "Daniel"
+                  },
+                  {
+                    "path": "world.flags.legendary_m08_qualified_daniel",
+                    "eq": true
+                  }
+                ]
+              },
+              {
+                "all": [
+                  {
+                    "path": "player.name",
+                    "eq": "Edward"
+                  },
+                  {
+                    "path": "world.flags.legendary_m08_qualified_edward",
+                    "eq": true
+                  }
+                ]
+              },
+              {
+                "all": [
+                  {
+                    "path": "player.name",
+                    "eq": "Fab"
+                  },
+                  {
+                    "path": "world.flags.legendary_m08_qualified_fab",
+                    "eq": true
+                  }
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "legendary_m08_village_reflection",
+              "value": true
+            }
+          ]
         }
       ]
     },
