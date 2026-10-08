@@ -131,7 +131,7 @@ test("second and third edition history persists without resetting team, NPCs or 
     assert.deepEqual(reloaded.postgame.championships, state.postgame.championships);
     assert.deepEqual(reloaded.player.roster, roster);
     assertNpcContinuity(reloaded.npcs);
-    assert.deepEqual(reloaded.postgame.championships.map((entry) => entry.champion?.name),
+    assert.deepEqual(reloaded.postgame.championships.map((entry) => entry.champion?.name ?? null),
       [null, "Luke", "Red"]);
     assert.equal(reloaded.competition.world.edition, 3);
     assert.deepEqual(reloaded.competition.world.hallOfFame.map((entry) => entry.edition), [2, 3]);
