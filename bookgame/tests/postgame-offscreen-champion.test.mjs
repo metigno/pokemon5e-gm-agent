@@ -49,6 +49,10 @@ test("Worlds Missed runs the canonical NPC simulation, never invents player wins
     .flatMap(choice => choice.effects ?? []).find(e => e.type === "competition_world_draw");
   assert.ok(drawEffect);
   const canonicalIds = new Map(drawEffect.participants.map(entry => [entry.name, entry.id]));
+  const guarantees = drawEffect.participants.filter(entry => entry.guaranteedQualified).map(entry => entry.name);
+  const qualifiedNames = new Set(state.competition.world.offscreenWorld.field.map(entry => entry.name));
+  assert.deepEqual([...guarantees].sort(), ["Astrid Vahl", "Kaia Solari", "Rei", "Silas Crowe"].sort());
+  for (const name of guarantees) assert.ok(qualifiedNames.has(name), name + " must remain qualified");
   for (const entrant of state.competition.world.offscreenWorld.field) {
     assert.equal(entrant.id, canonicalIds.get(entrant.name));
   }
