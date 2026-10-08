@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "events": [
+    {
+      "id": "legendary_m06_offer_luke",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Luke"
+          },
+          {
+            "path": "world.flags.m6_ancient_layer_two_complete",
+            "eq": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "offer",
+          "effects": [
+            {
+              "type": "quest_offer",
+              "questId": "legendary_luke_kyurem_black",
+              "title": "Il drago incompleto — Kyurem Nero",
+              "objective": "Ricostruire la storia di Kyurem, del drago originario e del legame con Zekrom."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "legendary_m06_offer_mattew",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Mattew"
+          },
+          {
+            "path": "world.flags.m6_ancient_layer_two_complete",
+            "eq": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "offer",
+          "effects": [
+            {
+              "type": "quest_offer",
+              "questId": "legendary_mattew_zacian",
+              "title": "La spada e il guardiano — Zacian",
+              "objective": "Seguire la storia di Zacian e della Spada Rovinata, senza garantire la forma Re delle Spade."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "legendary_m06_offer_daniel",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Daniel"
+          },
+          {
+            "path": "world.flags.m6_ancient_layer_two_complete",
+            "eq": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "offer",
+          "effects": [
+            {
+              "type": "quest_offer",
+              "questId": "legendary_daniel_mewtwo",
+              "title": "L'origine e la libertà — Mewtwo",
+              "objective": "Indagare sull'origine artificiale di Mewtwo, la sua libertà e la responsabilità umana."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "legendary_m06_offer_edward",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Edward"
+          },
+          {
+            "path": "world.flags.m6_ancient_layer_two_complete",
+            "eq": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "offer",
+          "effects": [
+            {
+              "type": "quest_offer",
+              "questId": "legendary_edward_lugia",
+              "title": "Il custode delle tempeste — Lugia",
+              "objective": "Indagare sul custode dei mari, sulle tempeste e sul suo isolamento."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "legendary_m06_offer_fab",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Fab"
+          },
+          {
+            "path": "world.flags.m6_ancient_layer_two_complete",
+            "eq": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "offer",
+          "effects": [
+            {
+              "type": "quest_offer",
+              "questId": "legendary_fab_rayquaza",
+              "title": "L'equilibrio del cielo — Rayquaza",
+              "objective": "Indagare sul custode dei cieli e sugli squilibri primordiali, senza garantire la Megaevoluzione."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
