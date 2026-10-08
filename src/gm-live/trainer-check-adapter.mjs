@@ -1,5 +1,4 @@
 import { abilityCheck } from './ability-check.mjs';
-import { getStartingBuild } from '../bridge/motor-to-poke5e.mjs';
 
 /**
  * Real canonical trainer ability checks; deliberately refuses combat,
