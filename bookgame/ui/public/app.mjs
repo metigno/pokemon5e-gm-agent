@@ -120,7 +120,7 @@ function chooseTouchOption({ title, description = "", options }) {
       els.choiceCancel.removeEventListener("click", onCancel);
       els.choiceOptions.replaceChildren();
       background.forEach((element, index) => { element.inert = backgroundInert[index]; });
-      if (oldFocus?.isConnected) oldFocus.focus();
+      if (oldFocus?.isConnected) oldFocus?.focus?.();
       else if (els.drawer.classList.contains("is-open")) els.closeDrawer.focus();
       resolve(value);
     };
