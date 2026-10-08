@@ -189,7 +189,7 @@
             "encounterId": "M2_FRIEND_MATTEW_SPAR",
             "opponent": {
               "type": "trainer",
-              "level": 3,
+              "level": 6,
               "trainerId": "Mattew",
               "species": "Eevee",
               "motive": "sparring_preparation"
@@ -568,7 +568,7 @@
             "encounterId": "M2_FRIEND_EDWARD_SPAR",
             "opponent": {
               "type": "trainer",
-              "level": 3,
+              "level": 6,
               "trainerId": "Edward",
               "species": "Totodile",
               "motive": "field_sparring"
