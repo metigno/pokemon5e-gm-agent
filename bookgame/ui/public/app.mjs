@@ -24,8 +24,10 @@ const els = {
   startError: $("#start-error"),
   protagonist: $("#protagonist"),
   slot: $("#slot"),
+  slotStatus: $("#slot-status"),
   newGame: $("#new-game"),
   loadGame: $("#load-game"),
+  deleteGame: $("#delete-game"),
   drawer: $("#drawer"),
   drawerBackdrop: $("#drawer-backdrop"),
   drawerTitle: $("#drawer-title"),
@@ -55,6 +57,7 @@ const els = {
 };
 
 let snapshot = null;
+let careerSlots = [];
 let revealRun = 0;
 let revealActive = false;
 let revealFinish = null;
@@ -68,15 +71,41 @@ function escapeHtml(value) {
 }
 
 async function api(path, options = {}) {
-  const response = await fetch(path, {
-    headers: { "content-type": "application/json" },
-    ...options
-  });
+  const headers = {
+    "content-type": "application/json",
+    ...(options.method === "POST" && snapshot?.hasSession ? { "x-career-slot": snapshot.slot } : {}),
+    ...options.headers
+  };
+  const response = await fetch(path, { ...options, headers });
   const payload = await response.json();
   if (!response.ok || payload.ok === false) {
     throw new Error(payload.error ?? `Errore HTTP ${response.status}`);
   }
   return payload;
+}
+
+function describeSlot(entry) {
+  if (!entry?.occupied) return "Vuoto";
+  if (entry.corrupted) return "Salvataggio illeggibile — non sovrascrivere senza volerlo";
+  const level = entry.trainerLevel ?? 1;
+  return `${entry.protagonist} · Trainer Lv.${level}${entry.careerEnded ? " · CARRIERA CONCLUSA" : ""}`;
+}
+
+function showSelectedSlot() {
+  const selected = careerSlots.find((entry) => entry.slot === els.slot.value);
+  els.slotStatus.textContent = selected ? describeSlot(selected) : "Caricamento dei salvataggi…";
+  els.loadGame.disabled = !selected?.occupied || Boolean(selected.corrupted);
+  els.deleteGame.disabled = !selected?.occupied;
+}
+
+async function refreshSlots() {
+  const payload = await api("/api/slots");
+  careerSlots = payload.slots;
+  for (const option of els.slot.options) {
+    const entry = careerSlots.find((slot) => slot.slot === option.value);
+    option.textContent = `Slot ${entry?.number ?? "?"} — ${describeSlot(entry)}`;
+  }
+  showSelectedSlot();
 }
 
 function currentTextSpeed() {
@@ -663,8 +692,10 @@ function renderSettings() {
       </select>
     </div>
     <div class="data-card">
-      <h3>Salvataggio</h3>
-      <p>La partita si salva automaticamente dopo ogni scelta e azione in combattimento.</p>
+      <h3>Salvataggio · ${escapeHtml(snapshot.slot ?? "")}</h3>
+      <p>La partita viene salvata automaticamente dopo ogni scelta e azione. Puoi salvare anche adesso.</p>
+      <button type="button" class="primary-button" id="manual-save">Salva adesso</button>
+      <button type="button" class="secondary-button" id="career-menu">Torna alle carriere</button>
     </div>
   `;
 }
@@ -867,6 +898,27 @@ function openDrawer(panel) {
       localStorage.setItem("p5e_text_speed", speedSelect.value);
     });
   }
+  els.drawerContent.querySelector("#manual-save")?.addEventListener("click", async (event) => {
+    try {
+      await api("/api/save", { method: "POST", body: "{}" });
+      event.currentTarget.textContent = "Salvato";
+    } catch (error) {
+      showInlineError(error.message);
+    }
+  });
+  els.drawerContent.querySelector("#career-menu")?.addEventListener("click", async () => {
+    try {
+      await api("/api/leave", { method: "POST", body: "{}" });
+      snapshot = { ok: true, hasSession: false };
+      ++revealRun;
+      finishRevealNow();
+      closeDrawer();
+      await refreshSlots();
+      await renderSnapshot();
+    } catch (error) {
+      showInlineError(error.message);
+    }
+  });
 }
 
 function closeDrawer() {
@@ -878,14 +930,42 @@ function closeDrawer() {
 async function start(mode) {
   els.startError.hidden = true;
   try {
+    const slot = els.slot.value;
+    const selected = careerSlots.find((entry) => entry.slot === slot);
+    let confirmOverwrite = false;
+    if (mode === "new" && selected?.occupied) {
+      confirmOverwrite = window.confirm(`Sovrascrivere definitivamente lo Slot ${selected.number}? ${describeSlot(selected)}. Tutti i progressi andranno persi.`);
+      if (!confirmOverwrite) return;
+    }
     const path = mode === "load" ? "/api/load" : "/api/new-game";
     snapshot = await api(path, {
       method: "POST",
       body: JSON.stringify({
         protagonist: els.protagonist.value,
-        slot: els.slot.value.trim() || "slot1"
+        slot,
+        confirmOverwrite
       })
     });
+    await refreshSlots();
+    await renderSnapshot();
+  } catch (error) {
+    els.startError.hidden = false;
+    els.startError.textContent = error.message;
+    await refreshSlots().catch(() => {});
+  }
+}
+
+async function deleteCareer() {
+  const selected = careerSlots.find((entry) => entry.slot === els.slot.value);
+  if (!selected?.occupied) return;
+  if (!window.confirm(`Eliminare definitivamente lo Slot ${selected.number}? ${describeSlot(selected)}. Non potrai recuperare la carriera.`)) return;
+  try {
+    await api("/api/delete-slot", {
+      method: "POST",
+      body: JSON.stringify({ slot: selected.slot, confirmDelete: true })
+    });
+    snapshot = { ok: true, hasSession: false };
+    await refreshSlots();
     await renderSnapshot();
   } catch (error) {
     els.startError.hidden = false;
@@ -899,6 +979,8 @@ els.storyText.addEventListener("click", () => {
 els.skipText.addEventListener("click", finishRevealNow);
 els.newGame.addEventListener("click", () => start("new"));
 els.loadGame.addEventListener("click", () => start("load"));
+els.deleteGame.addEventListener("click", deleteCareer);
+els.slot.addEventListener("change", showSelectedSlot);
 els.endTurn.addEventListener("click", () => runCombatAction("/api/combat/end-turn", {}));
 els.closeDrawer.addEventListener("click", closeDrawer);
 els.drawerBackdrop.addEventListener("click", closeDrawer);
@@ -908,6 +990,7 @@ for (const button of document.querySelectorAll(".bottom-nav button")) {
 
 try {
   snapshot = await api("/api/snapshot");
+  await refreshSlots();
   await renderSnapshot();
 } catch (error) {
   els.startError.hidden = false;
