@@ -10,8 +10,9 @@ Node process. Do not set a Capacitor `server.url`.
 ## Current release limitations
 
 This repository deliberately does **not** check in externally sourced art/audio.
-An APK is **not release-ready** until complete, approved PNGs and Trainer art
-have been installed and `build.mjs` has validated their physical bytes.
+An APK is **not release-ready** until complete, approved Pokémon PNGs, Trainer art,
+and the separately supplied MP3 music/effects/cry archive are installed and
+`build.mjs` has validated their physical bytes.
 Android and iOS are different targets; this step provides an Android build
 pipeline only. Device airplane-mode acceptance is still mandatory.
 
@@ -77,7 +78,8 @@ npm --prefix bookgame run sprites:verify
 # Once installed, you may also verify it independently:
 npm --prefix bookgame run sprites:verify:characters
 
-# Optional, ONLY if the audio pack is available and distribution is permitted.
+# Mandatory for this music-enabled APK; install the privately supplied pack locally.
+# Do not commit its tracks or redistribute without appropriate rights.
 npm --prefix bookgame run audio:import -- /path/to/P5E_AudioPack_Mobile_MP3.zip
 npm --prefix bookgame run audio:verify
 
@@ -94,7 +96,7 @@ The debug build is **for testing only**, not a release-signed distribution.
 `npm run build:web` performs: compile canonical scenes; verify 619 Pokémon
 sprite mapping against the physical PNGs; verify all checked/pinned Trainer
 portraits and native battle/overworld sprites; verify required map graphics;
-verify any installed audio pack's hashes; reject symlinked runtime inputs;
+require every installed audio file, check SHA-256; reject symlinked runtime inputs;
 copy the same engine, compiled story, data, scene files, maps and UI into the
 native payload; bundle the native startup screen. No test/CI may quietly
 replace missing sprites with a placeholder or download them on first run.
@@ -109,7 +111,7 @@ checks again; errors stop gameplay rather than silently corrupting a save.
 On a real Android phone, **install and launch the APK with airplane mode on**,
 and verify all three career slots: create, autosave, force-close, restart and
 continue; Story, Battle, Team, map navigation and menu; offline sprites and
-(optional installed) music; absence of network permissions other than local
+all installed music, battle cues, effects and Pokémon cries; absence of network permissions other than local
 loopback traffic, and that updates retain saves. Check cold start and device
 rotation. Use Android Studio logcat if the embedded Node runtime fails startup.
 

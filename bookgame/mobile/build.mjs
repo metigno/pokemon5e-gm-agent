@@ -94,20 +94,15 @@ async function verifyMandatoryAssets(root = BOOKGAME) {
     }
   }
 
-  // Music is an optional separately licensed pack. If installed, verify every byte.
-  let audio = false;
-  const manifest = join(root, "ui/public/audio/manifest.json");
-  try {
-    await lstat(manifest);
-    audio = true;
-  } catch (error) {
-    if (error.code !== "ENOENT") throw error;
+  // This APK ships its soundtrack locally; never compile a silent or incomplete release.
+  const audio = await verifyOfflineAudioAssets(join(root, "ui/public/audio"));
+  if (!audio.valid) {
+    throw new Error("Mobile release BLOCKED: missing or invalid offline music pack. "
+      + "Run npm --prefix bookgame run audio:import -- /path/to/P5E_AudioPack_Mobile_MP3.zip and audio:verify. "
+      + audio.errors.slice(0, 3).join("; "));
   }
-  if (audio) {
-    const report = await verifyOfflineAudioAssets(dirname(manifest));
-    if (!report.valid) throw new Error("Mobile release BLOCKED: offline audio " + report.errors.slice(0, 3).join("; "));
-  }
-  return { pokemon: sprite.verifiedPng, portraits: characters.verified, nativeSprites: native.verified, audio };
+  return { pokemon: sprite.verifiedPng, portraits: characters.verified,
+    nativeSprites: native.verified, audio: audio.verified };
 }
 
 function compileStory() {

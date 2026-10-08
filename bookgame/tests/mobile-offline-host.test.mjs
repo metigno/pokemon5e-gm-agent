@@ -18,6 +18,7 @@ test("Step 13 native host is local-only and preserves canonical engine ownership
   assert.match(runtime, /P5E_UI_HOST = "127\.0\.0\.1"/);
   assert.match(runtime, /P5E_REQUIRE_OFFLINE_SPRITES = "1"/);
   assert.match(runtime, /P5E_REQUIRE_OFFLINE_CHARACTERS = "1"/);
+  assert.match(runtime, /P5E_REQUIRE_OFFLINE_AUDIO = "1"/);
   assert.match(runtime, /import\("\.\/bookgame\/ui\/server\.mjs"\)/, "reuse canonical UI server");
   const bootstrap = await getText("src/bootstrap.mjs");
   assert.match(bootstrap, /127\.0\.0\.1:4173/);
@@ -32,6 +33,9 @@ test("Step 13 packaging checks physical canonical assets and copies compiled cat
     "APPROVED_MAP_ILLUSTRATION_IDS", "assertNoSymlinks", "assertBundle",
     "src", "content", "data", "assets", "ui", "build", "scripts"
   ]) assert.ok(builder.includes(gate), gate);
+  assert.match(builder, /Mobile release BLOCKED: missing or invalid offline music pack/);
+  assert.match(builder, /audio:import/);
+  assert.match(builder, /audio\.verified/);
   assert.doesNotMatch(builder, /fetch\s*\(/, "no asset downloads inside release packager");
   assert.match(builder, /install-trainer-overlay\.py/, "explicit approved ZIP must be imported by offline build");
   assert.match(builder, /P5E_TRAINER_OVERLAY_ZIP/, "Android debug uses the same local artwork");
