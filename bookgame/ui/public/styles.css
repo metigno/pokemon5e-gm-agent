@@ -314,6 +314,10 @@ button { -webkit-tap-highlight-color: transparent; }
   color: var(--ink);
 }
 .start-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
+.slot-status { min-height: 36px; margin: 8px 0; font-size: .9rem; }
+.delete-career-button { display: block; width: 100%; min-height: 44px; margin-top: 12px; border: 1px solid var(--danger); border-radius: 10px; background: white; color: var(--danger); font-weight: 700; }
+.delete-career-button:disabled { border-color: var(--line); color: var(--muted); opacity: .55; }
+#manual-save, #career-menu { display: block; width: 100%; min-height: 44px; margin-top: 12px; }
 .error-box { margin-top: 12px; padding: 10px; border-radius: 8px; background: #fcecec; color: var(--danger); font-size: .82rem; }
 
 .drawer-backdrop {
