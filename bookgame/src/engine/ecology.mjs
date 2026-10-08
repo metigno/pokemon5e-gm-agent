@@ -66,6 +66,9 @@ export function ordinaryEncounterCandidates(state, catalog, {
     if (method !== null && !species.encounterMethods.includes(method)) return false;
     if (allow && !allow.has(species.id)) return false;
     if (exclude && exclude.has(species.id)) return false;
+    // A species cannot enter an early zone below the minimum level of its
+    // canonical Pokémon 5e stat block. Captures never bypass module caps.
+    if (zone.levelBand && Number(species.minLevel ?? 1) > zone.levelBand.max) return false;
     return true;
   });
 }
@@ -81,9 +84,16 @@ export function selectOrdinaryEncounter(state, catalog, request, dice) {
   }
 
   let ticket = dice.roll(totalWeight);
+  const originalTicket = ticket;
   for (const species of candidates) {
     ticket -= species.weight;
     if (ticket <= 0) {
+      const band = catalog.zones[request.zoneId].levelBand;
+      const minLevel = Math.max(1, Number(species.minLevel ?? 1), Number(band?.min ?? 1));
+      const maxLevel = Math.max(minLevel, Number(band?.max ?? minLevel));
+      // Reuse the already-rolled ecology ticket; do not consume an extra die
+      // or make the selected level depend on the player\u0027s current party.
+      const level = minLevel + ((originalTicket - 1) % (maxLevel - minLevel + 1));
       return {
         requestId: request.requestId ?? null,
         zoneId: request.zoneId,
@@ -91,6 +101,7 @@ export function selectOrdinaryEncounter(state, catalog, request, dice) {
         habitat: request.habitat ?? null,
         method: request.method ?? null,
         speciesId: species.id,
+        level,
         rarity: species.rarity,
         distributionClass: species.distributionClass,
         activity: structuredClone(species.activity),
