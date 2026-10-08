@@ -1,0 +1,43 @@
+name: Embed canonical Pokémon sprites (one-shot)
+
+on:
+  push:
+    branches:
+      - bookgame-sprites-materialized
+    paths:
+      - ".github/workflows/bookgame-embed-sprites.yml"
+      - "bookgame/scripts/embed-canonical-sprites.py"
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Bookgame
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Check out pinned public sprite source (sparse)
+        uses: actions/checkout@v4
+        with:
+          repository: worpbane/pokeemerald-worped-ex
+          ref: bc906dcc68ca722cd1769ead0f6d3030b1b1ceee
+          path: _sprite_source
+          filter: blob:none
+          sparse-checkout: graphics/pokemon
+          persist-credentials: false
+      - name: Populate all mapped local PNG assets
+        run: python3 bookgame/scripts/embed-canonical-sprites.py _sprite_source/graphics/pokemon
+      - name: Verify real offline sprite files, not only mapping
+        run: npm --prefix bookgame run sprites:verify
+      - name: Materialize sprite PNGs in pull request branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add bookgame/assets/pokemon/files/
+          git diff --cached --quiet && { echo "No changes to PNG assets"; exit 1; }
+          git commit -m "Bookgame: embed 2,461 mapped Pokémon PNGs from pinned public source"
+          git push origin HEAD:bookgame-sprites-materialized
