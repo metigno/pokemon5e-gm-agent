@@ -22,7 +22,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'ottavo è single elimination. Il bridge userà il match del player già presente nel bracket e non un encounter narrativo separato."
+          "text": "È il giorno dei ottavi. L'arena si prepara a un incontro senza ripescaggio: chi perde dovrà abbandonare la corsa al titolo."
         }
       ],
       "choices": [
@@ -47,7 +47,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Avversario R16: {{competition.world.knockout.playerR16Opponent.name}}. La scena conosce il nome perché E5 ha già lockato il pairing."
+          "text": "Sul tabellone è scritto il tuo avversario: {{competition.world.knockout.playerR16Opponent.name}}. È il nome uscito dagli incontri precedenti, non quello scelto per creare uno spettacolo."
         }
       ],
       "choices": [
@@ -72,7 +72,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un precedente può cambiare il tono e la preparazione mentale. Non cambia il roster regolamentato generato per il match né il risultato."
+          "text": "Se vi siete già incontrati, potreste riconoscere gesti e abitudini. Il passato può rendere il saluto più teso, non cambiare il verdetto."
         }
       ],
       "choices": [
@@ -92,7 +92,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Formato ufficiale: Singles, sei Pokémon, nessun replay dopo il risultato. La vittoria porta verso i quarti, la sconfitta elimina dal Mondiale."
+          "text": "L'arbitro ricorda il formato Singles, sei Pokémon ufficiali. Una vittoria apre la strada ai quarti; una sconfitta chiude il percorso."
         }
       ],
       "choices": [
@@ -117,7 +117,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il battle bridge usa i primi sei membri reali del roster come negli altri match ufficiali. Nessun membro viene guarito dalla transizione."
+          "text": "Prima di entrare conti i sei Pokémon idonei. Nessuno viene sostituito o guarito per il solo fatto di essere arrivato fin qui."
         }
       ],
       "choices": [
@@ -137,7 +137,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Le risorse sono quelle lasciate dai gironi e dalla preparazione. Il modulo non applica un recupero nascosto prima dell'ottavo."
+          "text": "La squadra conserva la fatica delle gare precedenti e delle cure effettivamente fatte. Controlli cosa puoi ancora usare."
         }
       ],
       "choices": [
@@ -157,7 +157,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un singolo errore può chiudere il torneo. Questa pressione non modifica tiri, AC o danni: resta una conseguenza competitiva reale."
+          "text": "Gli spalti sono pieni e il margine d'errore è minimo. La pressione si sente nei gesti e nelle scelte, non cambia magicamente la forza dei Pokémon."
         }
       ],
       "choices": [
@@ -177,7 +177,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Gli altri sette ottavi esistono indipendentemente dal player. Saranno risolti deterministicamente da E5 dopo il tuo risultato."
+          "text": "Sugli altri campi sono previsti anche gli altri incontri dei ottavi. Le loro vittorie e sconfitte non aspettano il tuo consenso."
         }
       ],
       "choices": [
@@ -197,7 +197,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "E5 rifiuta un secondo avvio se il match del player ha già un outcome. History e bracket devono contenere una sola risoluzione ufficiale."
+          "text": "L'ufficiale controlla il referto. Se questa partita è già stata giocata non può essere ripetuta per ottenere un risultato diverso."
         }
       ],
       "choices": [
@@ -217,7 +217,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La readiness finale verifica bracket aperto, match irrisolto e roster sufficiente. Poi il controllo passa al motore Pokémon 5e."
+          "text": "Alla chiamata dell'arbitro confermi accredito e squadra. Il prossimo passo è presentarti sul terreno di gara."
         }
       ],
       "choices": [
@@ -242,7 +242,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il bridge risolve dinamicamente matchId, trainerId e roster dell'avversario dal bracket E5."
+          "text": "{{competition.world.knockout.playerR16Opponent.name}} si schiera dall'altra parte. L'arbitro solleva il braccio: lo scontro comincia."
         }
       ],
       "choices": [
@@ -282,7 +282,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La vittoria è stata registrata da E5 sul match reale del bracket. Prima dei quarti vanno risolti gli altri ottavi."
+          "text": "Hai vinto. Gli spalti reagiscono e il tabellone ti avvicina ai quarti, mentre gli altri incontri devono ancora concludersi."
         }
       ],
       "choices": [
@@ -316,7 +316,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La sconfitta è eliminazione reale. Il torneo continua senza cancellare il match, ma FRIEND_BEAT_10 dovrà ancora chiudere il percorso umano del modulo."
+          "text": "Hai perso ai ottavi. Il verdetto chiude la tua corsa al titolo in questa edizione; i tuoi amici e gli altri allenatori proseguiranno secondo i propri risultati."
         }
       ],
       "choices": [
@@ -350,7 +350,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "competition.history contiene ora il matchId reale WORLD_R16_n e il bracket E5 possiede il playerOutcome. Nessun secondo record è ammesso."
+          "text": "Il personale firma il referto della partita, con entrambi i nomi e il risultato effettivo."
         }
       ],
       "choices": [
@@ -375,7 +375,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Vincere significa restare candidato Top8; perdere significa world_eliminated=true. Il testo non può ribaltare nessuno dei due stati."
+          "text": "Se hai vinto puoi prepararti per i quarti; se hai perso, il torneo continuerà senza di te. Nessun commento della stampa cambia l'esito."
         }
       ],
       "choices": [
@@ -395,7 +395,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "HP, PP e status emersi dal combat sono già stati riportati nel roster persistente dal battle bridge."
+          "text": "Al termine controlli i Pokémon. Le ferite e le risorse consumate rimangono reali, qualunque sia il risultato."
         }
       ],
       "choices": [
@@ -415,7 +415,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Gli altri match non vengono scelti dal player e non proteggono amici o Anchor. M10_04 chiederà a E5 di risolverli con il seed della carriera."
+          "text": "Gli altri sette ottavi si giocano con i rispettivi partecipanti. Nessun vecchio campione ha diritto a passare senza vincere."
         }
       ],
       "choices": [
@@ -435,7 +435,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se Silas era nel Top16, il suo ottavo è uno degli otto match strutturati. Può vincere o perdere come chiunque altro."
+          "text": "Se Silas è ancora negli ottavi, il suo risultato sarà quello del suo incontro. La reputazione non vale come qualificazione."
         }
       ],
       "choices": [
@@ -455,7 +455,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'audit richiede un solo record ufficiale per il match del player e nessun reset di competition.history dopo l'uscita dall'arena."
+          "text": "Rileggi il referto conservato dall'organizzazione. La partita compare una volta sola, accanto agli incontri già disputati."
         }
       ],
       "choices": [
@@ -475,7 +475,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M10_04 può aprirsi solo dopo il risultato reale del player. Visitare la scena R16 senza combattere non basta."
+          "text": "La segreteria attende il verdetto di questa partita prima di chiudere tutti gli incontri dei ottavi."
         }
       ],
       "choices": [
@@ -495,7 +495,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il tuo ottavo è concluso. Da qui il World state deve chiudere tutti gli altri R16 prima di definire Top8 e quarti."
+          "text": "Il tuo incontro dei ottavi è terminato. Restano i risultati sugli altri campi prima dell'annuncio del turno successivo."
         }
       ],
       "choices": [
