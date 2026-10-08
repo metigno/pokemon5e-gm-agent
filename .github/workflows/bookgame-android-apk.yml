@@ -49,7 +49,11 @@ jobs:
           import os, pathlib, urllib.parse, urllib.request, json, re
           target=pathlib.Path('/tmp/p5e-offline-assets.zip')
           direct=os.environ.get('ASSET_URL','').strip()
-          swiss=os.environ.get('SWISS_URL','').strip()
+          swiss=os.environ.get('SWISS_URL','').strip().strip('\\\"\'')
+          # Accept a copied Markdown link or a transfer ID as well as a plain URL.
+          match=re.search(r'https?://(?:www\\.)?swisstransfer\\.com/dl/[a-f0-9-]{36}',swiss,re.I)
+          if match: swiss=match.group(0)
+          elif re.fullmatch(r'[a-f0-9-]{36}',swiss,re.I): swiss='https://www.swisstransfer.com/dl/'+swiss
           if direct:
               u=urllib.parse.urlsplit(direct)
               if u.scheme!='https': raise SystemExit('Direct URL must use HTTPS')
