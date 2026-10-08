@@ -37,3 +37,20 @@ separately audited world atlas with verified position data exists.
 No other unverified source raster or archive is embedded in this release.
 M02–M12 will reuse this same allowlisted offline route for their own
 canonical locations, in separate audited steps.
+
+## M02 authored-location illustration pass
+
+The 15 canonical playable `m02-*.json` files reference **nine** unique
+location IDs through scene origins and `set_location` effects. This pass
+adds four original, self-contained offline SVG compositions:
+
+- `m02-borgo-salice.svg` — village exterior
+- `m02-sala-verde.svg` — green hall / trial venue interior
+- `m02-mirto.svg` — marsh approach
+- `m02-east-road.svg` — existing M03 transition-point road
+
+The other five IDs deliberately reuse pre-existing approved M01 art for
+the forest, city, ranger, shop or arena environment classes. No invented
+new story location, world position, distance or time cost is represented.
+SVG compositions are vector pixel-grid art authored for this project;
+**no unverified-license third-party raster source is copied**.

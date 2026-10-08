@@ -17,7 +17,14 @@ const BY_LOCATION = Object.freeze({
   "valedarsena_road": "m01-country-road",
   "valedarsena_trainer_shop": "m01-shop",
   "valedarsena_trainer_street": "m01-street",
-  "valedarsena_warehouses": "m01-warehouses"
+  "valedarsena_warehouses": "m01-warehouses",
+  "borgo_salice": "m02-borgo-salice",
+  "borgo_salice_arena": "m01-arena",
+  "borgo_salice_ranger": "m01-ranger",
+  "borgo_salice_sala_verde": "m02-sala-verde",
+  "borgo_salice_shop": "m01-shop",
+  "m03_entry_point": "m02-east-road",
+  "mir_marsh_approach": "m02-mirto"
 });
 
 export const APPROVED_MAP_ILLUSTRATION_IDS = new Set(["m01-ginestre","m01-valedarsena"]);
@@ -34,7 +41,11 @@ export const APPROVED_MAP_SVG_IDS = new Set([
   "m01-ring",
   "m01-shop",
   "m01-street",
-  "m01-warehouses"
+  "m01-warehouses",
+  "m02-borgo-salice",
+  "m02-east-road",
+  "m02-mirto",
+  "m02-sala-verde"
 ]);
 
 export function mapIllustrationForLocation(locationId) {
