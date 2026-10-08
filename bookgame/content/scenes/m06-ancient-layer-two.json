@@ -46,7 +46,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il secondo layer del mistero non consegna una risposta finale. Mette in relazione il segnale di Fulgore con dati interregionali abbastanza simili da rendere il caso più grande di una singola anomalia locale."
+          "text": "In un archivio del circuito trovi rilevazioni che ricordano quelle osservate a Fulgore. I segni non sono identici, ma abbastanza simili da farti fermare davanti alla mappa. Qualcuno li ha raccolti in regioni lontane fra loro."
         }
       ],
       "choices": [
@@ -71,7 +71,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se hai approfondito Fulgore, il primo layer offre un confronto più preciso. Se lo avevi solo notato, il nuovo materiale non riscrive retroattivamente ciò che non avevi scoperto."
+          "text": "Riguardi gli appunti su Fulgore alla luce delle nuove carte. Alcuni dettagli ti risultano familiari; altri non li avevi mai osservati abbastanza da poterli confrontare."
         }
       ],
       "choices": [
@@ -91,7 +91,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Vincere, perdere o saltare la Continental Cup cambia la tua carriera, non la natura delle tracce. Il mistero non premia un piazzamento con informazioni impossibili."
+          "text": "I risultati della Continental Cup scorrono su un monitor vicino, ma le vecchie rilevazioni rimangono le stesse. La loro origine non dipende da come è andato il torneo."
         }
       ],
       "choices": [
@@ -111,7 +111,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Red evita conclusioni premature: due segnali simili non dimostrano ancora una causa unica. Il suo contributo resta interpretativo, non una rivelazione automatica."
+          "text": "Red studia i due tracciati senza parlare. Poi indica le differenze con un dito. «Si somigliano», dice. «Non basta»."
         }
       ],
       "choices": [
@@ -142,7 +142,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'archivio contiene tre tipi di confronto utili: geografia, periodicità e materiale delle rilevazioni. Nessuno, isolatamente, identifica una creatura o una ricompensa."
+          "text": "Sul tavolo sono disposte tre serie di documenti: una carta geografica, un registro di date e alcuni campioni di rilevazione. Puoi esaminarli separatamente prima di tentare un confronto."
         }
       ],
       "choices": [
@@ -167,7 +167,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La disposizione dei segnali suggerisce un asse che attraversa più zone, ma la correlazione può essere letta male. Serve un controllo reale, con fallimento valido."
+          "text": "Segui con il dito i punti segnati sulla carta. Alcuni sembrano allinearsi oltre i confini regionali, ma le distanze e le date rendono difficile capire se sia davvero una traccia comune."
         }
       ],
       "choices": [
@@ -220,7 +220,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il confronto regge abbastanza da suggerire un pattern geografico coerente. Non dimostra ancora origine, intenzione o presenza di un Legendary."
+          "text": "Confrontando posizioni e date, individui una corrispondenza abbastanza regolare da meritare ulteriori verifiche. Non sai ancora che cosa abbia prodotto i segnali."
         }
       ],
       "choices": [
@@ -240,7 +240,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il materiale resta ambiguo. Un fallimento non diventa segretamente successo: il secondo layer può restare irrisolto e comunque persistente."
+          "text": "I punti non formano una sequenza abbastanza chiara. Potrebbero essere collegati, oppure soltanto somigliarsi per caso. Gli appunti non permettono di scegliere con certezza."
         }
       ],
       "choices": [
@@ -260,7 +260,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il quadro ora può sostenere due letture oneste: un pattern interregionale ancora senza causa, oppure un secondo segnale troppo debole per essere collegato con sicurezza."
+          "text": "Le carte restano aperte sul tavolo. Puoi seguire l'ipotesi di una traccia che attraversa più regioni oppure annotare che il legame, per ora, non è dimostrato."
         }
       ],
       "choices": [
@@ -289,7 +289,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il secondo layer viene conservato come informazione incompleta. Questo è progresso narrativo, non fallimento tecnico."
+          "text": "Riponi i fogli con una nota prudente: esiste un secondo segnale, ma il collegamento con Fulgore non è ancora affidabile."
         }
       ],
       "choices": [
@@ -321,7 +321,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il pattern cross-region è abbastanza coerente da diventare un callback futuro, ma non concede catture, incontri Legendary o accessi segreti."
+          "text": "Segni sulla mappa la possibile linea che unisce le rilevazioni. È una pista concreta da seguire, non ancora una risposta su ciò che si nasconde dietro i segnali."
         }
       ],
       "choices": [
@@ -353,7 +353,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Ignorare l'approfondimento non congela il mistero. Il mondo conserva l'esistenza del secondo segnale e può farlo riemergere più avanti."
+          "text": "Lasci l'archivio senza completare il confronto. I documenti rimangono consultabili, e altrove potrebbero emergere altre rilevazioni."
         }
       ],
       "choices": [
@@ -385,7 +385,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M6 possiede ora un secondo layer persistente del mistero. La prossima tappa può riportare il player verso le Rovine del Primo Faro senza trasformare la pista in una soluzione gratuita."
+          "text": "Prima di uscire, noti un vecchio riferimento al Primo Faro tra le annotazioni. Le rovine potrebbero offrire un altro punto da cui osservare la stessa traccia."
         }
       ],
       "choices": [
