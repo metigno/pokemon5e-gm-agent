@@ -196,6 +196,15 @@
             "eq": "Fab"
           },
           "goto": "legendary_lead_fab"
+        },
+        {
+          "id": "inspect_legendary_lead_luke",
+          "text": "Esamino un fascicolo personale emerso dall'archivio.",
+          "conditions": {
+            "path": "player.name",
+            "eq": "Luke"
+          },
+          "goto": "legendary_lead_luke"
         }
       ]
     },
@@ -557,6 +566,34 @@
         {
           "id": "defer_legendary_lead_fab",
           "text": "Per ora non seguo questa pista.",
+          "goto": "evidence_board"
+        }
+      ]
+    },
+    "legendary_lead_luke": {
+      "stitches": [
+        {
+          "id": "s1",
+          "text": "Un dossier incompleto parla di Kyurem e del drago originario, di una separazione antica e di un potere rimasto incompleto. Una nota menziona Kyurem Nero, ma non spiega ancora il legame con Zekrom: è una storia da ricostruire, non una creatura da reclamare."
+        }
+      ],
+      "choices": [
+        {
+          "id": "record_legendary_lead_luke",
+          "text": "Registro la pista e continuo la mia indagine.",
+          "goto": "evidence_board",
+          "effects": [
+            {
+              "type": "quest_offer",
+              "questId": "legendary_luke_kyurem_black",
+              "title": "Il drago incompleto — Kyurem Nero",
+              "objective": "Indagare sull'origine di Kyurem e sul legame con Zekrom, attraverso luoghi già accessibili, senza garantire incontro o cattura."
+            }
+          ]
+        },
+        {
+          "id": "defer_legendary_lead_luke",
+          "text": "Rimando questa pista.",
           "goto": "evidence_board"
         }
       ]
