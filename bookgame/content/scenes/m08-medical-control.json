@@ -42,7 +42,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il controllo medico legge la squadra reale arrivata al Mondiale. Non concede cure gratuite e non sostituisce HP, PP, status o infortuni con flag narrativi."
+          "text": "Nella clinica del Village un'infermiera ti accoglie davanti a una fila di box per i Pokémon. «Vediamo come è arrivata la squadra», dice aprendo la scheda."
         }
       ],
       "choices": [
@@ -75,7 +75,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il desk separa roster presente, stato di salute e pianificazione del recupero. Ogni dato meccanico resta nel foglio Pokémon reale."
+          "text": "Il medico osserva i compagni presenti, le loro condizioni e gli intervalli di recupero disponibili prima delle gare."
         }
       ],
       "choices": [
@@ -100,7 +100,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il controllo legge la lunghezza del roster senza creare membri o sostituzioni."
+          "text": "Conti insieme al personale i Pokémon effettivamente con te. La visita non può procurarti un compagno in più."
         }
       ],
       "choices": [
@@ -133,7 +133,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "HP e PP restano esattamente quelli salvati. Il personale può descrivere rischio e priorità, ma non applica un heal narrativo."
+          "text": "L'infermiera valuta quanto i Pokémon siano provati e quanti sforzi possano ancora sostenere. Un controllo non restituisce automaticamente energie."
         }
       ],
       "choices": [
@@ -153,7 +153,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Le condizioni meccaniche vengono lasciate al motore Pokémon 5e. Questa scena non le cancella né le converte in un semplice flag."
+          "text": "Se un Pokémon presenta una condizione che richiede attenzione, il personale la annota senza fingere che scompaia sul posto."
         }
       ],
       "choices": [
@@ -173,7 +173,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Qualunque injury o limitazione precedente resta valida finché il sistema competente non la risolve."
+          "text": "Le ferite precedenti restano da trattare con procedure appropriate. La visita serve a conoscerle, non a dichiararle inesistenti."
         }
       ],
       "choices": [
@@ -193,7 +193,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il personale può suggerire riposo, servizio medico o riduzione del carico; il recupero vero richiede tempo e sistemi reali."
+          "text": "Il medico propone riposo o cure realmente disponibili e ne indica tempi e costi. La decisione deve tenere conto del calendario."
         }
       ],
       "choices": [
@@ -213,7 +213,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il controllo occupa una finestra reale. Spendere tempo qui può modificare schedule e disponibilità altrove."
+          "text": "Mentre aspetti il proprio turno, il tempo passa. Altri atleti lasciano la clinica diretti ai loro appuntamenti."
         }
       ],
       "choices": [
@@ -241,7 +241,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Avere sei Pokémon non significa essere guariti. Significa soltanto che il formato roster può essere valutato nel prossimo gate."
+          "text": "«Avere sei Pokémon non significa che siano tutti riposati», avverte il medico. «Dovrete considerarne le condizioni quando arriverà la gara.»"
         }
       ],
       "choices": [
@@ -261,7 +261,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Risultati, sponsor e pressione precedente possono cambiare il modo in cui il rischio viene discusso, mai i valori meccanici della squadra."
+          "text": "Se hai già disputato incontri duri, puoi raccontarlo al medico. La reputazione sportiva non sostituisce un esame."
         }
       ],
       "choices": [
@@ -281,7 +281,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Puoi interrompere il controllo prima del commit. Il tempo continua a esistere e la registrazione resta chiusa."
+          "text": "Interrompi la procedura senza dichiararla conclusa. La registrazione alle gare dovrà attendere il controllo richiesto."
         }
       ],
       "choices": [
@@ -302,7 +302,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'audit verifica che il controllo abbia osservato la squadra senza curarla, sostituirla o registrarla a competizioni."
+          "text": "Il medico ricontrolla le annotazioni: numero di Pokémon, eventuali ferite, indicazioni di recupero e prossimi appuntamenti."
         }
       ],
       "choices": [
@@ -322,7 +322,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il commit registra che il controllo è avvenuto. Non scrive HP, PP, injury o roster duplicati."
+          "text": "La visita termina con la firma del personale sanitario. Non equivale a un trattamento eseguito."
         }
       ],
       "choices": [
@@ -353,7 +353,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il controllo medico è persistente e non ha guarito la squadra. Ora può aprirsi la registrazione amministrativa al Mondiale."
+          "text": "Con il controllo medico completato puoi presentarti al banco iscrizioni del Mondiale."
         }
       ],
       "choices": [
