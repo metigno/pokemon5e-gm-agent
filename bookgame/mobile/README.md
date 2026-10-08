@@ -16,6 +16,39 @@ and the separately supplied MP3 music/effects/cry archive are installed and
 Android and iOS are different targets; this step provides an Android build
 pipeline only. Device airplane-mode acceptance is still mandatory.
 
+## Additional world opponents and scene-scoped functional NPC sprites
+
+The optional source artwork is *not* packaged in the source-only repository.
+The supplementary **offline** ZIP adds **18** World Tournament entrants that
+are not among the 19 persistent named characters, plus **24** general-purpose
+civilian/Trainer staff roles. All **84** physical PNGs are battle-front +
+overworld pairs; the archive does not alter the earlier 19 or the 619 Pokémon.
+
+Approved file: `P5E_NPC_Secondary_Functional_Offline.zip`
+
+- ZIP SHA-256: `f87e063447d9e79d5f1ba55ba1d1233250bcf7e4d2adb96aecb191dae0d9488a`
+- Internal catalog SHA-256: `07c8339f149556e5b82dce2b68efa79688fe96f07ba6a8bf3db73bc4d29cbab3`
+
+After installing the separate 619-Pokémon pack, build from `bookgame/mobile`:
+
+```sh
+P5E_TRAINER_OVERLAY_ZIP=/absolute/path/to/P5E_19_Character_Sprites_Offline_Complete.zip \
+P5E_NPC_SECONDARY_OVERLAY_ZIP=/absolute/path/to/P5E_NPC_Secondary_Functional_Offline.zip \
+npm run android:debug
+```
+
+The build verifies all three offline asset classes: the 619 species,
+the 19 primary named characters (57 PNG), **and the 18 World/24 role pairs
+(84 PNG)**. It repeats every test on the copied native runtime tree. No
+Internet downloads or default images are introduced.
+
+Important: a World entrant uses the actual source sprite where provided;
+otherwise an explicitly labelled neutral class. Scene-scoped roles are
+assigned only to verified existing scene+node locations, never on loose text
+search, and never promoted to a persistent named NPC. This means **not every
+unnamed prose figure has a unique illustration**. Review the coverage document
+for the exact boundaries before claiming visual 100% completion of M01–M12.
+
 ## One-command Trainer integration into the offline APK
 
 The 19-character overlay created from the user-supplied Trainer assets is
