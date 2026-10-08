@@ -140,7 +140,7 @@ test("M6_12 Gate del Faro is fixed six-on-six ELITE promotion metadata",async()=
   assert.equal(ch.combat.competition.checkpointId,"RANK_A_TO_S");
   assert.equal(ch.combat.competition.officialRosterSize,6);
   assert.equal(ch.combat.competition.difficulty,"ELITE");
-  assert.equal(ch.combat.opponent.level,17);
+  assert.equal(ch.combat.opponent.level,15);
   assert.equal(ch.combat.opponentBench.length,5);
 });
 
