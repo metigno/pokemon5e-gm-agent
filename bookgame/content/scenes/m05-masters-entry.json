@@ -34,7 +34,7 @@
       "stitches": [
         {
           "id": "me1",
-          "text": "Con Rank A attivo, la Sala della Cresta apre la finestra Masters. Questo evento non promuove di Rank: registra ingresso, risultato e seeding per il circuito successivo."
+          "text": "Con il Rank A, alla Sala della Cresta puoi finalmente chiedere l'accesso al circuito Masters. Il calendario indica gli incontri che stabiliranno da quale posizione inizierai."
         }
       ],
       "choices": [
@@ -89,7 +89,7 @@
       "stitches": [
         {
           "id": "el1",
-          "text": "L'accesso deriva dal Rank A più la condizione Masters reale: livello previsto o invito persistente. Il match non viene aperto soltanto perché M5 deve finire."
+          "text": "L'addetto controlla il Rank A e gli altri requisiti d'ingresso. Il posto si apre soltanto se hai raggiunto il livello previsto oppure possiedi un invito valido."
         }
       ],
       "choices": [
@@ -109,7 +109,7 @@
       "stitches": [
         {
           "id": "rd1",
-          "text": "Il banco registra la partecipazione alla finestra corrente. Non modifica il roster e non crea punti prima che esista un risultato ufficiale."
+          "text": "L'addetta verifica la tua tessera e indica la finestra d'iscrizione ancora aperta. Sul tabellone non compare alcun risultato: gli incontri devono ancora disputarsi."
         }
       ],
       "choices": [
@@ -153,7 +153,7 @@
       "stitches": [
         {
           "id": "rg1",
-          "text": "L'iscrizione è registrata. Il prossimo combattimento stabilirà soltanto la fascia di partenza nel Masters."
+          "text": "L'iscrizione viene registrata. Il prossimo incontro servirà a determinare la tua posizione iniziale nel circuito Masters."
         }
       ],
       "choices": [
@@ -198,7 +198,7 @@
       "stitches": [
         {
           "id": "op1",
-          "text": "Mara Venn presenta la stessa squadra di cinque a ogni candidato: Mareanie, Mimikyu, Carvanha, Staryu e Growlithe. I nomi sono pubblici; ordine d'ingresso e decisioni restano suoi."
+          "text": "Mara Venn usa un Official Five fisso per il seeding: Mareanie, Mimikyu, Carvanha, Staryu e Growlithe. Il roster è pubblico; ordine e decisioni restano coperti dal fog of war."
         }
       ],
       "choices": [
@@ -218,7 +218,7 @@
       "stitches": [
         {
           "id": "pf1",
-          "text": "Puoi decidere cosa osservare nel match, ma la scelta non assegna EV, cure, livelli o modificatori nascosti."
+          "text": "Osservi il campo e scegli su cosa concentrare l'attenzione: l'apertura dell'avversario, il ritmo degli scambi o le possibilità di rimonta."
         }
       ],
       "choices": [
@@ -264,7 +264,7 @@
       "stitches": [
         {
           "id": "mc1",
-          "text": "È un incontro ufficiale. Vittoria o sconfitta entreranno nel tuo storico esattamente come avverranno sul campo."
+          "text": "Il giudice conferma che si tratta di un incontro ufficiale. Quando entrerai in campo, vittoria o sconfitta saranno determinate dalla lotta."
         }
       ],
       "choices": [
@@ -300,7 +300,7 @@
       "stitches": [
         {
           "id": "mh1",
-          "text": "Inizia il combattimento. Qualunque sia il risultato, il tuo Rank A resta separato dalla fascia Masters."
+          "text": "Le squadre prendono posizione. Il giudice controlla le registrazioni e dà il segnale d'inizio."
         }
       ],
       "choices": [
@@ -364,7 +364,7 @@
       "stitches": [
         {
           "id": "mw1",
-          "text": "La vittoria viene registrata e ti assegna la fascia Masters più favorevole prevista per questa finestra. Il Rank A non cambia."
+          "text": "Il tabellone registra la vittoria. Il Rank A non cambia; il risultato ti assegna una posizione iniziale più favorevole nel circuito Masters."
         }
       ],
       "choices": [
@@ -408,7 +408,7 @@
       "stitches": [
         {
           "id": "ml1",
-          "text": "La sconfitta viene registrata. Non perdi il Rank A: entrerai semplicemente nel Masters da una fascia meno favorevole."
+          "text": "Il tabellone registra la sconfitta. Conservi il Rank A e resti nel percorso Masters, ma partirai da una posizione meno favorevole."
         }
       ],
       "choices": [
@@ -452,7 +452,7 @@
       "stitches": [
         {
           "id": "sh1",
-          "text": "La vittoria ti colloca in una fascia Masters alta per il prossimo evento pertinente. È una posizione migliore nel tabellone, non un nuovo permesso di viaggio."
+          "text": "Sul tabellone il tuo nome sale nella fascia alta del prossimo sorteggio Masters. Alcuni allenatori controllano subito i possibili abbinamenti."
         }
       ],
       "choices": [
@@ -506,7 +506,7 @@
       "stitches": [
         {
           "id": "rv1",
-          "text": "Il Masters Entry stabilisce da dove partirai nel circuito successivo. Il futuro Trial A→S resta un esame distinto e questo incontro non lo sostituisce."
+          "text": "Il risultato determina da quale posizione inizierai il prossimo tratto del circuito Masters. Per puntare al Rank S dovrai affrontare le prove previste più avanti."
         }
       ],
       "choices": [
@@ -534,7 +534,7 @@
       "stitches": [
         {
           "id": "df1",
-          "text": "Rimandare il Masters Entry è legale. La finestra resta disponibile e il modulo può riconoscere che l'accesso esiste anche se scegli di non disputare subito il match."
+          "text": "Puoi rimandare l'incontro. Il diritto d'accesso resta valido finché la finestra prevista rimane aperta."
         }
       ],
       "choices": [
@@ -551,7 +551,7 @@
         },
         {
           "id": "defer_outcome",
-          "text": "L'exit contract è già soddisfatto: chiudo M5 senza disputare ora il seeding match.",
+          "text": "Per ora non disputo l'incontro e torno ad Altacima.",
           "conditions": {
             "path": "world.flags.m5_module_outcome_available",
             "eq": true
@@ -564,13 +564,13 @@
       "stitches": [
         {
           "id": "cl1",
-          "text": "Ingresso e seeding sono ora persistenti. Rank A, Trace, Five, Lance e licenza restano separati e invariati."
+          "text": "La tua posizione di partenza nel circuito Masters è fissata. Fuori dall'arena, però, restano la montagna, i viaggi appena aperti e le persone incontrate lungo la strada."
         }
       ],
       "choices": [
         {
           "id": "close_outcome",
-          "text": "Passo al riepilogo finale di M5.",
+          "text": "Torno ad Altacima e faccio il punto sul viaggio.",
           "goto": "module_outcome_link"
         },
         {
@@ -590,13 +590,13 @@
       "stitches": [
         {
           "id": "mo1",
-          "text": "Se hai davvero completato tutto ciò che M5 richiede, puoi passare al riepilogo finale. Se manca ancora qualcosa, Altacima resta aperta e dovrai occupartene prima di partire."
+          "text": "Con i requisiti principali ormai raggiunti puoi fare il punto prima di lasciare Altacima. Se manca ancora qualcosa di indispensabile, dovrai occupartene prima della partenza."
         }
       ],
       "choices": [
         {
           "id": "outcome_enter",
-          "text": "Verifico l'exit contract di M5.",
+          "text": "Controllo se posso proseguire il viaggio.",
           "goto": "m05-module-outcome#outcome_entry"
         }
       ]
