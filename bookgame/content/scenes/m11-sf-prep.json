@@ -22,7 +22,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La preparazione alla semifinale parte dallo stato reale lasciato dal QF: nessun heal narrativo e nessuna ricostruzione gratuita del roster."
+          "text": "Dopo i quarti trovi un momento per sistemare la squadra. Le sfide già affrontate si sentono nelle condizioni dei Pokémon."
         }
       ],
       "choices": [
@@ -47,7 +47,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Tempo, servizi e schedule continuano a muoversi. Spendere minuti può aiutare a prepararsi ma non congela il resto del mondo."
+          "text": "L'orologio si avvicina all'ora della semifinale. Gli addetti e gli altri allenatori non interrompono la propria giornata mentre ti prepari."
         }
       ],
       "choices": [
@@ -74,7 +74,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "HP, PP, status, infortuni, inventario e denaro sono quelli persistenti della run."
+          "text": "Controlli le Poké Ball, l'inventario e le condizioni di chi combatterà. Non tutte le risorse consumate sono recuperabili in pochi minuti."
         }
       ],
       "choices": [
@@ -99,7 +99,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La tattica può cambiare priorità e informazione; non modifica di nascosto statistiche o mosse."
+          "text": "Rileggi ciò che sai dell'avversario e consideri le possibili risposte. Una nuova idea non sostituisce l'allenamento necessario a realizzarla."
         }
       ],
       "choices": [
@@ -119,7 +119,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'Official Six è quello legale per il match. Ogni variazione deve passare dalle normali regole già esistenti."
+          "text": "I sei Pokémon ufficiali devono rispettare ancora le regole della competizione. Ogni eventuale cambio richiede una procedura valida."
         }
       ],
       "choices": [
@@ -139,7 +139,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il recupero è disponibile solo tramite i servizi e i tempi consentiti; la scena non cura direttamente nessuno."
+          "text": "Per curare qualcuno devi raggiungere un servizio disponibile e rispettarne costi e tempi. Il prestigio della semifinale non è una medicina."
         }
       ],
       "choices": [
@@ -159,7 +159,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Usare un servizio consuma il tempo e le risorse previste dal mondo, se realmente disponibile."
+          "text": "Il personale controlla l'orario dei servizi. Prima di affidare un Pokémon alle cure devi sapere quanto manca alla partita."
         }
       ],
       "choices": [
@@ -179,7 +179,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Entrare subito conserva tempo ma accetta lo stato corrente della squadra."
+          "text": "Puoi partire subito e conservare tempo. La scelta comporta entrare con le condizioni attuali della tua squadra."
         }
       ],
       "choices": [
@@ -199,7 +199,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'avversario resta {{competition.world.knockout.playerSfOpponent.name}} qualunque sia la preparazione scelta."
+          "text": "Il nome sul cartellone non cambia: {{competition.world.knockout.playerSfOpponent.name}} si sta preparando per affrontarti."
         }
       ],
       "choices": [
@@ -226,7 +226,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Salvare e ricaricare deve conservare bracket, roster e consumo di tempo esattamente."
+          "text": "Tornando agli appunti ritrovi lo stesso avversario e la squadra nello stato lasciato dalle decisioni prese finora."
         }
       ],
       "choices": [
@@ -246,7 +246,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La readiness apre il combattimento ufficiale senza toccare le risorse."
+          "text": "Gli addetti confermano la tua presenza e indicano il percorso per raggiungere il campo."
         }
       ],
       "choices": [
@@ -273,7 +273,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La prossima scena consegna il match a Pokémon 5e/E5 usando matchId e opponentId dinamici."
+          "text": "Al di là della porta ti aspettano un arbitro, un avversario reale e una partita da giocare."
         }
       ],
       "choices": [
@@ -293,7 +293,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La preparazione è completa e non ha riscritto nessuna risorsa strutturata."
+          "text": "La preparazione è terminata. Non resta che decidere quando presentarti al richiamo."
         }
       ],
       "choices": [
