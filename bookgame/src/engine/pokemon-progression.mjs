@@ -681,7 +681,7 @@ async function continuePokemonLevelUps(
   }
   let next = clone(pokemon);
   // Excess XP never banks past the current checkpoint cap.
-  next.xp = Math.min(next.xp, experienceNeededAtLevel(maxLevel));
+  next.xp = Math.min(next.xp, experienceNeededAtLevel(Math.max(next.level, maxLevel)));
   const levelUps = [];
 
   if (next.pendingLevelUp) {
@@ -737,7 +737,7 @@ export async function awardPokemonXp(
     throw new RangeError("Invalid Pokémon checkpoint level cap");
   }
   let next = await initializePokemonRuntime(pokemon, data);
-  next.xp = Math.min(next.xp + amount, experienceNeededAtLevel(maxLevel));
+  next.xp = Math.min(next.xp + amount, experienceNeededAtLevel(Math.max(next.level, maxLevel)));
   const evolutions = await data.listEvolutions();
   return continuePokemonLevelUps(next, { data, evolutions, hpRolls, context, maxLevel });
 }
@@ -758,7 +758,7 @@ export async function resolvePendingPokemonLevelUp(
     throw new RangeError("Invalid Pokémon checkpoint level cap");
   }
   let next = await initializePokemonRuntime(pokemon, data);
-  next.xp = Math.min(next.xp, experienceNeededAtLevel(maxLevel));
+  next.xp = Math.min(next.xp, experienceNeededAtLevel(Math.max(next.level, maxLevel)));
   const pending = next.pendingLevelUp;
   if (!pending || pending.stage !== "evolution_decision") {
     throw new Error("No pending Pokémon evolution decision during level-up");
