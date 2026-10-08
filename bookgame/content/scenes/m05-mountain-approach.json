@@ -50,7 +50,7 @@
         },
         {
           "id": "dep_pack",
-          "text": "Rivedo la preparazione senza modificare artificialmente la squadra.",
+          "text": "Controllo l'equipaggiamento prima di scegliere il sentiero.",
           "goto": "pack_check"
         },
         {
@@ -159,7 +159,7 @@
       "stitches": [
         {
           "id": "pack_1",
-          "text": "Apri lo zaino e controlli ciò che hai davvero portato. La montagna non fa comparire provviste mancanti e una sosta non rimette in forze una squadra stanca."
+          "text": "Ti fermi al riparo di una parete e apri lo zaino. Controlli cinghie, provviste e strumenti uno per uno, poi richiudi tutto prima che il vento sollevi la polvere del sentiero."
         }
       ],
       "choices": [
@@ -329,7 +329,7 @@
       "stitches": [
         {
           "id": "rf_1",
-          "text": "Il passaggio ti costa più del previsto e ti obbliga a rallentare. Hai perso tempo e margine. Eventuali conseguenze fisiche dipenderanno soltanto da ciò che accade realmente lungo il percorso."
+          "text": "Una raffica ti sorprende sul tratto scoperto. Devi aggrapparti alla roccia e aspettare che il vento cali; quando riparti, hai perso tempo e la cresta è ancora davanti a te."
         }
       ],
       "choices": [
@@ -351,7 +351,7 @@
       "stitches": [
         {
           "id": "sh_1",
-          "text": "Il ricovero di quota è spartano: panche, radio di servizio e un pannello che ricorda di non confondere attesa con fallimento. Fuori dal ricovero il vento continua a correre lungo la cresta mentre aspetti."
+          "text": "Il ricovero di quota è spartano: panche, radio di servizio e un pannello che ricorda di non confondere attesa con fallimento. Il mondo continua mentre aspetti."
         }
       ],
       "choices": [
@@ -372,7 +372,7 @@
       "stitches": [
         {
           "id": "cb_1",
-          "text": "I rapporti citano ancora vecchi interventi nelle Gallerie Ferrox. Se hai partecipato agli eventi di M3, quelle conseguenze restano parte della reputazione locale; altrimenti il testo non ti attribuisce meriti."
+          "text": "Sul registro del ricovero sono annotati vecchi soccorsi nelle Gallerie Ferrox. Alcuni nomi ti sono familiari; accanto alle date, qualcuno ha lasciato brevi note a matita."
         }
       ],
       "choices": [
@@ -403,7 +403,7 @@
       "stitches": [
         {
           "id": "wild_1",
-          "text": "Impronte, piume e pietre smosse mostrano che la montagna è habitat prima che percorso. Non trasformi ogni segno in un incontro o in un combattimento."
+          "text": "Fra i sassi trovi impronte fresche e piume incastrate nei cespugli bassi. Più in alto una sagoma si muove fra le rocce, poi scompare prima che tu possa distinguerla."
         }
       ],
       "choices": [
@@ -451,7 +451,7 @@
       "stitches": [
         {
           "id": "gate_1",
-          "text": "Il controllo verifica il Rank reale e le condizioni della tratta. Rank B è sufficiente per Altacima; nessuno ti promuove e nessuna licenza successiva viene assegnata qui."
+          "text": "L'addetto controlla il tuo tesserino di Rank B e consulta il bollettino della tratta. Poi solleva la sbarra: «Per Altacima è tutto in regola. Oltre, segui gli avvisi della stazione meteo.»"
         }
       ],
       "choices": [
@@ -483,13 +483,13 @@
       "stitches": [
         {
           "id": "ret_1",
-          "text": "Tornare indietro è una scelta valida. M5 resta attivo e la montagna non viene marcata come completata."
+          "text": "Tornare indietro è una scelta valida. La montagna resta lì e potrai tentare di nuovo la salita quando sarai pronto."
         }
       ],
       "choices": [
         {
           "id": "ret_hub",
-          "text": "Rientro a Mareasale.",
+          "text": "Rientro nel hub di Mareasale.",
           "goto": "m04-mareasale-arrival#city_hub"
         }
       ]
@@ -498,7 +498,7 @@
       "stitches": [
         {
           "id": "close_1",
-          "text": "La salita termina all'ingresso di Altacima. Il percorso scelto, il tempo speso e le informazioni raccolte restano persistenti; nessun rischio è stato convertito in una scorciatoia."
+          "text": "La salita termina all'ingresso di Altacima. Il percorso scelto, il tempo impiegato e ciò che hai scoperto restano parte del viaggio."
         }
       ],
       "choices": [
