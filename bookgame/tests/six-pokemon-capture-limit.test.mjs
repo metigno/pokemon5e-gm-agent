@@ -69,6 +69,7 @@ test("Replacing any team member permanently releases them; slot zero updates the
   for (const index of [0, 1, 2, 3, 4, 5]) {
     const captured = engine.resolveCombatHandoff(sixPokemonBattleState(`replace-${index}`), "captured");
     const previous = captured.player.roster[index];
+    const originalStarter = structuredClone(captured.player.starter);
     const next = await engine.choose(captured, `replace_${index}`);
     assert.equal(next.player.roster.length, 6);
     assert.equal(next.pending, null);
