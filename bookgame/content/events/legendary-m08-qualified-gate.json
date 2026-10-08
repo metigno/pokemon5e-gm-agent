@@ -1,0 +1,221 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "M08",
+  "events": [
+    {
+      "id": "legendary_m08_qualified_luke",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Luke"
+          },
+          {
+            "path": "quests.legendary_luke_kyurem_black.status",
+            "in": [
+              "available",
+              "active"
+            ]
+          },
+          {
+            "path": "world.flags.legendary_m07_clue_luke",
+            "eq": true
+          },
+          {
+            "path": "world.flags.world_qualified",
+            "eq": true
+          },
+          {
+            "path": "world.flags.m8_world_registration_complete",
+            "eq": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "qualified",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "legendary_m08_qualified_luke",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "legendary_m08_qualified_mattew",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Mattew"
+          },
+          {
+            "path": "quests.legendary_mattew_zacian.status",
+            "in": [
+              "available",
+              "active"
+            ]
+          },
+          {
+            "path": "world.flags.legendary_m07_clue_mattew",
+            "eq": true
+          },
+          {
+            "path": "world.flags.world_qualified",
+            "eq": true
+          },
+          {
+            "path": "world.flags.m8_world_registration_complete",
+            "eq": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "qualified",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "legendary_m08_qualified_mattew",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "legendary_m08_qualified_daniel",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Daniel"
+          },
+          {
+            "path": "quests.legendary_daniel_mewtwo.status",
+            "in": [
+              "available",
+              "active"
+            ]
+          },
+          {
+            "path": "world.flags.legendary_m07_clue_daniel",
+            "eq": true
+          },
+          {
+            "path": "world.flags.world_qualified",
+            "eq": true
+          },
+          {
+            "path": "world.flags.m8_world_registration_complete",
+            "eq": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "qualified",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "legendary_m08_qualified_daniel",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "legendary_m08_qualified_edward",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Edward"
+          },
+          {
+            "path": "quests.legendary_edward_lugia.status",
+            "in": [
+              "available",
+              "active"
+            ]
+          },
+          {
+            "path": "world.flags.legendary_m07_clue_edward",
+            "eq": true
+          },
+          {
+            "path": "world.flags.world_qualified",
+            "eq": true
+          },
+          {
+            "path": "world.flags.m8_world_registration_complete",
+            "eq": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "qualified",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "legendary_m08_qualified_edward",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "legendary_m08_qualified_fab",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Fab"
+          },
+          {
+            "path": "quests.legendary_fab_rayquaza.status",
+            "in": [
+              "available",
+              "active"
+            ]
+          },
+          {
+            "path": "world.flags.legendary_m07_clue_fab",
+            "eq": true
+          },
+          {
+            "path": "world.flags.world_qualified",
+            "eq": true
+          },
+          {
+            "path": "world.flags.m8_world_registration_complete",
+            "eq": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "qualified",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "legendary_m08_qualified_fab",
+              "value": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
