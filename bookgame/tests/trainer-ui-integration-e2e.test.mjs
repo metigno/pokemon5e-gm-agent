@@ -40,7 +40,7 @@ test("Trainer UI -> runtime -> save/reload -> continue battle integration", asyn
   const combat = new Pokemon5eCombatEngine({
     dice: new SequenceDice([20, 1, 10, 10, 10, 10, 10, 10])
   });
-  const state = createNewGameState({ protagonist: "Luke", slot: "trainer-ui-e2e" });
+  const state = createNewGameState({ protagonist: "Luke", slot: "slot1" });
   state.player.classFeatures.push("directed-strike");
   state.player.classResources["tactical-points"] = {
     id: "tactical-points",
@@ -80,7 +80,7 @@ test("Trainer UI -> runtime -> save/reload -> continue battle integration", asyn
 
   await waitForServer();
 
-  let result = await post("/api/load", { slot: "trainer-ui-e2e" });
+  let result = await post("/api/load", { slot: "slot1" });
   assert.equal(result.response.status, 200, stderr);
   const action = result.payload.trainerGameplay.features.find((entry) => entry.id === "directed-strike");
   assert.equal(action.legal, true);
@@ -95,7 +95,7 @@ test("Trainer UI -> runtime -> save/reload -> continue battle integration", asyn
   assert.equal(result.response.status, 409);
   assert.equal(result.payload.error, "insufficient_resource");
 
-  result = await post("/api/load", { slot: "trainer-ui-e2e" });
+  result = await post("/api/load", { slot: "slot1" });
   assert.equal(result.response.status, 200);
   assert.equal(result.payload.trainerGameplay.classResources["tactical-points"].current, 0);
   const reloadedAction = result.payload.trainerGameplay.features.find((entry) => entry.id === "directed-strike");
