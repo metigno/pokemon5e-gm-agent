@@ -14,7 +14,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il postgame non è un secondo gioco: usa lo stesso save e gli stessi E1–E7 per tutto ciò che è rimasto aperto."
+          "text": "La tua storia non termina quando chiudi il diario del Mondiale. Sulla mappa restano strade, persone e luoghi che non hanno smesso di cambiare."
         }
       ],
       "choices": [
@@ -44,7 +44,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Le side quest residue restano nel loro vero stato. Complete, fallite e ignorate non vengono resuscitate; quelle ancora legali restano giocabili."
+          "text": "Riguardi gli incarichi. Alcuni riportano la data in cui li hai conclusi, altri quella in cui hai perso l'occasione; altri ancora possono essere affrontati."
         }
       ],
       "choices": [
@@ -64,7 +64,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il free roam continua a usare accessi, tempo, condizioni e geografia già esistenti."
+          "text": "I sentieri conosciuti restano percorribili dove accessi e condizioni lo consentono. Il giorno continua ad avere le sue ore."
         }
       ],
       "choices": [
@@ -84,7 +84,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Relazioni e schedule NPC restano vive dopo MAIN_STORY_COMPLETE."
+          "text": "I conoscenti non sono comparse in attesa del tuo arrivo. Puoi trovarli occupati, in viaggio o pronti a parlare, secondo ciò che fanno ora."
         }
       ],
       "choices": [
@@ -104,7 +104,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Allenamento e catture continuano secondo il motore Pokémon 5e e l'ecologia E7, senza modalità postgame separata."
+          "text": "Fuori dalle città i Pokémon continuano a cercare cibo, rifugio e compagni. Allenarsi o tentare una cattura comporta ancora le stesse responsabilità e gli stessi rischi."
         }
       ],
       "choices": [
@@ -124,7 +124,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Eventuali Legendary arcs vengono preservate solo se il save le aveva davvero aperte; M12 non concede un Leggendario come ricompensa finale."
+          "text": "Se hai seguito indizi su un Pokémon leggendario, il diario conserva ciò che hai davvero scoperto. Nessuna creatura appare nello zaino soltanto perché hai concluso il Mondiale."
         }
       ],
       "choices": [
@@ -144,7 +144,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il mistero antico resta aperto esattamente al layer realmente conosciuto dal player."
+          "text": "Gli appunti sul mistero antico terminano esattamente all'ultimo indizio trovato. Dove hai soltanto sospettato qualcosa, la pagina rimane piena di domande."
         }
       ],
       "choices": [
@@ -164,7 +164,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Primo Faro resta un hook esplorabile soltanto se il suo filo era stato realmente aperto o raggiunto."
+          "text": "Il Primo Faro resta sulla mappa se ne conosci la strada. Eventuali piste irrisolte dovranno essere cercate, non semplicemente dichiarate concluse."
         }
       ],
       "choices": [
@@ -184,7 +184,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Una futura stagione può usare questo stesso stato persistente, senza reset di livello, roster, relazioni o storia."
+          "text": "Il calendario proseguirà verso altri appuntamenti. Quando arriverà un nuovo Mondiale, porterai con te la carriera già vissuta."
         }
       ],
       "choices": [
@@ -204,7 +204,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il postgame non può cambiare retroattivamente il vero World Champion dell'edizione."
+          "text": "L'albo d'oro dell'ultima edizione rimane affisso all'arena. I futuri vincitori non possono cambiare il nome scritto sotto quell'anno."
         }
       ],
       "choices": [
@@ -224,7 +224,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il save finale deve restare scrivibile, esplorabile e capace di far avanzare il mondo."
+          "text": "Puoi ancora uscire, partire, aspettare, allenarti e prendere decisioni. Nessuno ha chiuso i cancelli del mondo."
         }
       ],
       "choices": [
@@ -244,7 +244,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M12 registra una policy unica: preservare gli hook esistenti senza crearne di falsi."
+          "text": "Riponi i vecchi appunti accanto alle piste ancora aperte. Non tutte meritano una nuova spedizione, ma le opportunità rimaste non sono scomparse."
         }
       ],
       "choices": [
@@ -291,7 +291,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Non nasce un secondo save model: postgame e main story condividono lo stesso stato persistente."
+          "text": "È lo stesso diario che portavi con te alla prima partenza. Le pagine successive non richiedono di fingere che le precedenti non esistano."
         }
       ],
       "choices": [
@@ -311,7 +311,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Gli hook possono essere registrati una sola volta senza chiudere alcun contenuto ancora legale."
+          "text": "Segni le cose che potresti fare domani, poi chiudi il quaderno. Nessun elenco decide al posto tuo quale strada prendere."
         }
       ],
       "choices": [
@@ -351,7 +351,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Gli hook del postgame sono registrati. Resta soltanto dichiarare conclusa la main story senza spegnere il mondo."
+          "text": "La stagione principale è conclusa. Il resto di Asteria è ancora lì."
         }
       ],
       "choices": [
