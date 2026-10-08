@@ -230,7 +230,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il segnale di fine incontro taglia il rumore dell'arena. Sul tabellone compare il tuo nome accanto alla parola «Campione». La coppa è reale, e altrettanto reale è il prezzo del percorso che l'ha preceduta."
+          "text": "Al termine della partita l'arbitro conferma il verdetto. Se hai vinto, il tuo nome compare sotto la parola «Campione» e la coppa ti attende sul palco. Se non hai vinto, il titolo appartiene all'altro finalista. I Pokémon e il percorso che ti hanno portato fin qui restano reali in entrambi i casi."
         }
       ],
       "choices": [
@@ -264,7 +264,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "L'arbitro assegna la vittoria all'altro finalista. Per un istante senti soltanto il campo che si svuota di rumore, poi il nome del nuovo campione attraversa gli altoparlanti. Hai raggiunto la finale; non puoi fingere che questa partita sia finita diversamente."
+          "text": "Se il verdetto è una sconfitta, l'arbitro assegna il titolo all'altro finalista e il suo nome attraversa gli altoparlanti. La tua presenza in finale rimane parte del torneo, senza diventare una vittoria mai ottenuta."
         }
       ],
       "choices": [
@@ -318,7 +318,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La coppa attende sul palco. Averla conquistata non risponde a tutto ciò che hai vissuto: i luoghi attraversati e le persone incontrate non diventano improvvisamente semplici."
+          "text": "Per chi ha conquistato la coppa, il titolo non rende improvvisamente semplici le strade percorse e i rapporti costruiti. Il modo in cui gli altri accolgono la vittoria dipende da ciò che conoscono del campione."
         }
       ],
       "choices": [
@@ -338,7 +338,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La medaglia del secondo posto ha un peso sorprendentemente concreto. Nessuno può toglierti il percorso fino a qui; nessuno può chiamarlo una vittoria in finale."
+          "text": "Per chi ha perso l'ultima partita, la medaglia del secondo posto conserva il peso di un percorso autentico. La finale non cambia risultato perché qualcuno avrebbe desiderato un finale diverso."
         }
       ],
       "choices": [
