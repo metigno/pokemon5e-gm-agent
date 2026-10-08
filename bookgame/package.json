@@ -15,6 +15,7 @@
     "preui": "npm run compile:story",
     "ui": "node ui/server.mjs",
     "sprites:import": "node scripts/import-sprite-package.mjs",
-    "sprites:verify": "node scripts/verify-offline-sprites.mjs"
+    "sprites:verify": "node scripts/verify-offline-sprites.mjs",
+    "sprites:package": "python3 scripts/package-offline-sprites.py"
   }
 }

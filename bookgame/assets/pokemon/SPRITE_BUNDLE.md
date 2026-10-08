@@ -73,3 +73,23 @@ npm --prefix bookgame run sprites:verify
 ```
 
 **Release gate:** the application must ship with the installed `bookgame/assets/pokemon/files/` tree (or set `P5E_SPRITE_DIR` to a bundled offline directory). Run `sprites:verify` in the actual packaged deployment before release; a passing manifest-only test without the physical PNG files does **not** establish offline readiness. The binary ZIP is not stored in Git.
+
+## Self-contained offline release overlay
+
+The verified 619-species ZIP is also available as a **pre-arranged sprite overlay** (`P5E_Bookgame_619_Sprites_Offline_Ready.zip`; SHA-256 `118d9692c7593318e998de4a06a839e15ac98b754f708aad1f7fa5076de2ef1a`). Extract this overlay **at the Git checkout root**, not within `bookgame/`. The archive already contains the exact `bookgame/assets/pokemon/files/<species>/<asset>.png` layout used by the local sprite server. It contains 3,356 PNGs; 2,461 files are directly used by the current runtime mapping.
+
+To reproduce the overlay from the approved verified bundle:
+
+```sh
+npm --prefix bookgame run sprites:package -- /path/to/P5E_M01-M12_619_Pokemon_Complete_Sprites_verified.zip /path/to/P5E_Bookgame_619_Sprites_Offline_Ready.zip
+unzip -q /path/to/P5E_Bookgame_619_Sprites_Offline_Ready.zip -d .
+npm --prefix bookgame run sprites:verify
+```
+
+For a local release candidate, enforce physical sprite coverage at startup:
+
+```sh
+P5E_REQUIRE_OFFLINE_SPRITES=1 npm --prefix bookgame run ui
+```
+
+**Fail closed:** if any mapped battle front/back/icon or mapped overworld asset is missing, the release-mode server refuses to start. No network sprite source or placeholder substitution is involved. The binary overlay is delivered separately from Git; include its contents in the offline package. The project currently has a local Node UI, not a native APK/IPA pipeline.
