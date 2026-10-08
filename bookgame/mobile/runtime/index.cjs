@@ -3,12 +3,13 @@
 // The plugin's writable datadir is stable across app updates; assets are not.
 const { app, channel } = require("bridge");
 const { join } = require("node:path");
+const { existsSync } = require("node:fs");
 process.env.P5E_SAVE_DIR = join(app.datadir(), "careers");
 process.env.P5E_UI_HOST = "127.0.0.1";
 process.env.P5E_UI_PORT = "4173";
 process.env.P5E_REQUIRE_OFFLINE_SPRITES = "1";
 process.env.P5E_REQUIRE_OFFLINE_CHARACTERS = "1";
-process.env.P5E_REQUIRE_OFFLINE_AUDIO = process.env.P5E_REQUIRE_OFFLINE_AUDIO || "0";
+process.env.P5E_REQUIRE_OFFLINE_AUDIO = existsSync(join(__dirname, "bookgame/ui/public/audio/manifest.json")) ? "1" : "0";
 
 (async () => {
   await import("./bookgame/ui/server.mjs");
