@@ -151,7 +151,7 @@ test("M01 artwork is local, verified PNG and never replaces scene navigation", a
 
 test("M01 location art covers every authored scene origin and set_location effect", async () => {
   const directory = new URL("../content/scenes/", import.meta.url);
-  const entries = (await readdir(directory)).filter((name) => /^m01-.*\\.json$/.test(name));
+  const entries = (await readdir(directory)).filter((name) => name.startsWith("m01-") && name.endsWith(".json"));
   assert.ok(entries.length >= 10);
   const locationIds = new Set();
   const collect = (node) => {
@@ -174,8 +174,8 @@ test("M01 location art covers every authored scene origin and set_location effec
     const bytes = await readFile(new URL(`../assets/maps/illustrations/${illustrationId}.${ext}`, import.meta.url));
     if (ext === "svg") {
       const svg = bytes.toString("utf8");
-      assert.match(svg, /<svg xmlns="http:\\/\\/www\\.w3\\.org\\/2000\\/svg"/);
-      assert.match(svg, /<\\/svg>\\s*$/);
+      assert.ok(svg.includes('<svg xmlns="http://www.w3.org/2000/svg"'));
+      assert.ok(svg.trimEnd().endsWith("</svg>"));
       assert.doesNotMatch(svg, /<script|<foreignObject|onload=|javascript:/i);
     } else {
       assert.equal(bytes.subarray(0, 8).toString("hex"), "89504e470d0a1a0a");
@@ -202,6 +202,6 @@ test("M01 location art covers every authored scene origin and set_location effec
     readFile(new URL("../ui/public/app.mjs", import.meta.url), "utf8")
   ]);
   assert.match(server, /APPROVED_MAP_SVG_IDS/);
-  assert.match(server, /image\\/svg\\+xml/);
+  assert.ok(server.includes("image/svg+xml"));
   assert.match(app, /illustrationFormat/);
 });
