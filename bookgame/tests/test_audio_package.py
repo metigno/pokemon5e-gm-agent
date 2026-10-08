@@ -56,6 +56,27 @@ class AudioPackageTests(unittest.TestCase):
                 MOD.install(bad, target)
             self.assertGreater(MOD.verify(target), 10)
 
+    def test_mp3_mobile_audio_pack(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            base = Path(tmp)
+            path, target = base / "mobile.zip", base / "audio"
+            sample_pack(path)
+            with zipfile.ZipFile(path) as original:
+                manifest = json.loads(original.read("audio/manifest.json"))
+                records = {x.filename: original.read(x.filename) for x in original.infolist() if x.filename != "audio/manifest.json"}
+            for cue, entry in manifest["music"].items():
+                old = entry["file"]
+                payload = b"ID3" + cue.encode()
+                entry.update(file="audio/" + cue + ".mp3", bytes=len(payload),
+                             sha256=hashlib.sha256(payload).hexdigest())
+                records.pop(old)
+                records[entry["file"]] = payload
+            with zipfile.ZipFile(path, "w") as updated:
+                updated.writestr("audio/manifest.json", json.dumps(manifest))
+                for name, payload in records.items():
+                    updated.writestr(name, payload)
+            self.assertEqual(MOD.install(path, target), MOD.verify(target))
+
     def test_directory_traversal_is_rejected(self):
         with tempfile.TemporaryDirectory() as tmp:
             base = Path(tmp)
