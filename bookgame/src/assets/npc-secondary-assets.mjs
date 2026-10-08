@@ -4,8 +4,8 @@ import { join } from "node:path";
 import { WORLD_2060_SPECIES } from "../rules/world-roster-2060.mjs";
 import { validPng } from "../../scripts/verify-offline-character-sprites.mjs";
 
-export const NPC_SECONDARY_CATALOG_SHA256 = "07c8339f149556e5b82dce2b68efa79688fe96f07ba6a8bf3db73bc4d29cbab3";
-export const NPC_SECONDARY_ZIP_SHA256 = "f87e063447d9e79d5f1ba55ba1d1233250bcf7e4d2adb96aecb191dae0d9488a";
+export const NPC_SECONDARY_CATALOG_SHA256 = "f173d2322a7224271923acb9a178cfef3783c36e3ad93ef76778c142b756ae3a";
+export const NPC_SECONDARY_ZIP_SHA256 = "2fa94f30ef69956c04c8d0f18a65be06c41c1bfd68021621a13d22e5c8b729a2";
 const SAFE_ID = /^[a-z][a-z0-9_]*$/;
 const SHA = /^[0-9a-f]{64}$/;
 const ROLE_IDS = new Set([
