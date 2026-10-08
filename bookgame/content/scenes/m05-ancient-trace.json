@@ -340,7 +340,7 @@
       "stitches": [
         {
           "id": "st1",
-          "text": "Più segnali indipendenti convergono: qualcosa ha lasciato una firma non spiegata dal meteo ordinario. Questo è il massimo che puoi affermare senza inventare la causa."
+          "text": "Le osservazioni si sommano: segni sul terreno, aria cambiata all'improvviso e tracce che non coincidono con il passaggio di una normale perturbazione. Qualcosa è accaduto qui, ma non sai ancora cosa."
         }
       ],
       "choices": [
@@ -380,7 +380,7 @@
       "choices": [
         {
           "id": "partial_layer",
-          "text": "Registro la traccia come incompleta.",
+          "text": "Registro il layer come traccia incompleta.",
           "goto": "layer_record",
           "effects": [
             {
@@ -450,7 +450,7 @@
       "stitches": [
         {
           "id": "lr1",
-          "text": "La prima traccia resta volutamente incompleta. Se in futuro troverai altre prove, potrai confrontarle con queste senza trasformare retroattivamente un dubbio in una certezza."
+          "text": "Quello che hai trovato è reale, ma incompleto. Non basta ancora per dare un nome o una causa certa all'anomalia; per ora puoi soltanto ricordarne i dettagli e confrontarli con eventuali prove future."
         }
       ],
       "choices": [
@@ -482,13 +482,13 @@
       "stitches": [
         {
           "id": "tc1",
-          "text": "Te ne vai con una domanda più precisa, non con una risposta. Non hai visto abbastanza da identificare una creatura, e nulla promette che il fenomeno si ripeterà."
+          "text": "La scena termina con una domanda meglio definita, non con una risposta. Nessun Pokémon raro viene aggiunto al roster e nessun incontro futuro è garantito."
         }
       ],
       "choices": [
         {
           "id": "close_after",
-          "text": "Torno sull'altopiano con ciò che ho documentato.",
+          "text": "Torno all'altopiano con il layer registrato.",
           "goto": "after_trace"
         }
       ]
@@ -497,7 +497,7 @@
       "stitches": [
         {
           "id": "a1",
-          "text": "Fulgore torna a essere soprattutto vento, pietra e cielo aperto. L'anomalia rimane nei tuoi appunti, accanto alle osservazioni sul percorso e alle parole di Lance: abbastanza concreta da ricordarla, non abbastanza chiara da darle un nome."
+          "text": "Fulgore torna a essere soprattutto vento, roccia e quota. L'anomalia resta senza una spiegazione definitiva, insieme alle osservazioni che sei riuscito a raccogliere."
         }
       ],
       "choices": [
