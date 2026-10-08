@@ -145,6 +145,12 @@ async function battleView() {
         Boolean(battle.player?.turn?.actionAvailable),
       balls: battle.opponentRegistered ? [] : captureBallsInInventory(battle.trainer?.inventory ?? [])
     },
+    flee: {
+      available: actor === "player" &&
+        !battle.awaitingSwitch && !battle.pendingTrainerReaction &&
+        !battle.opponentRegistered &&
+        battle.flee?.lastAttemptRound !== battle.round
+    },
     opponent: {
       name: battle.opponent.name,
       speciesId: battle.opponent.speciesId,
@@ -529,6 +535,20 @@ async function handleApi(req, res, url) {
     }
     state.player.inventory = structuredClone(outcome.battle.trainer.inventory ?? []);
     await persist(engine.setCombatState(state, outcome.battle));
+    return sendJson(res, 200, await snapshot());
+  }
+
+  if (url.pathname === "/api/combat/flee") {
+    await normalizeCombatFlow();
+    if (!state.pending?.battle) throw new Error("Nessun combattimento attivo");
+    if (state.pending.battle.opponentRegistered) {
+      return sendJson(res, 409, { ok: false, error: "Non puoi fuggire da una partita ufficiale" });
+    }
+    const outcome = await combatEngine.attemptPlayerFlee(state.pending.battle);
+    await persist(engine.setCombatState(state, outcome.battle));
+    if (!outcome.result.legal) {
+      return sendJson(res, 409, { ok: false, error: outcome.result.reason ?? "Fuga non consentita" });
+    }
     return sendJson(res, 200, await snapshot());
   }
 
