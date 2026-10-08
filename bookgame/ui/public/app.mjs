@@ -46,6 +46,11 @@ const els = {
   moveList: $("#move-list"),
   endTurn: $("#end-turn"),
   combatLog: $("#combat-log"),
+  choiceOverlay: $("#choice-overlay"),
+  choiceTitle: $("#choice-dialog-title"),
+  choiceDescription: $("#choice-dialog-description"),
+  choiceOptions: $("#choice-dialog-options"),
+  choiceCancel: $("#choice-dialog-cancel"),
   evolutionOverlay: $("#evolution-overlay"),
   evolutionStatus: $("#evolution-status"),
   evolutionFrom: $("#evolution-from"),
@@ -65,6 +70,107 @@ function escapeHtml(value) {
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;");
+}
+
+const ATTRIBUTE_CHOICES = [
+  ["str", "Forza"], ["dex", "Destrezza"], ["con", "Costituzione"],
+  ["int", "Intelligenza"], ["wis", "Saggezza"], ["cha", "Carisma"]
+];
+
+function chooseTouchOption({ title, description = "", options }) {
+  if (!options.length) return Promise.resolve(null);
+  return new Promise((resolve) => {
+    const overlay = els.choiceOverlay;
+    const oldFocus = document.activeElement;
+    els.choiceTitle.textContent = title;
+    els.choiceDescription.textContent = description;
+    els.choiceOptions.replaceChildren();
+    overlay.hidden = false;
+
+    const finish = (value) => {
+      overlay.hidden = true;
+      document.removeEventListener("keydown", onKeyDown);
+      overlay.removeEventListener("click", onBackdrop);
+      els.choiceCancel.removeEventListener("click", onCancel);
+      els.choiceOptions.replaceChildren();
+      oldFocus?.focus?.();
+      resolve(value);
+    };
+    const onCancel = () => finish(null);
+    const onBackdrop = (event) => { if (event.target === overlay) finish(null); };
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        finish(null);
+      } else if (event.key === "Tab") {
+        const buttons = [...overlay.querySelectorAll("button:not(:disabled)")];
+        const index = buttons.indexOf(document.activeElement);
+        if (event.shiftKey && index <= 0) {
+          event.preventDefault();
+          buttons.at(-1)?.focus();
+        } else if (!event.shiftKey && index === buttons.length - 1) {
+          event.preventDefault();
+          buttons[0]?.focus();
+        }
+      }
+    };
+
+    for (const option of options) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "choice-dialog-option";
+      const name = document.createElement("span");
+      name.textContent = option.label;
+      button.append(name);
+      if (option.detail) {
+        const detail = document.createElement("small");
+        detail.textContent = option.detail;
+        button.append(detail);
+      }
+      button.addEventListener("click", () => finish(option.value), { once: true });
+      els.choiceOptions.append(button);
+    }
+    els.choiceCancel.addEventListener("click", onCancel);
+    overlay.addEventListener("click", onBackdrop);
+    document.addEventListener("keydown", onKeyDown);
+    els.choiceOptions.querySelector("button")?.focus();
+  });
+}
+
+async function chooseAsiDistribution(pokemon, points, title = "Migliora le caratteristiche") {
+  const total = Number(points);
+  if (!Number.isInteger(total) || total <= 0) return null;
+  const allocation = {};
+  for (let remaining = total; remaining > 0; remaining--) {
+    const stat = await chooseTouchOption({
+      title,
+      description: `Scegli dove assegnare 1 punto. Punti ancora da distribuire: ${remaining}.`,
+      options: ATTRIBUTE_CHOICES.map(([value, label]) => ({
+        value,
+        label,
+        detail: `Valore attuale: ${Number(pokemon?.attributes?.[value] ?? 0) + (allocation[value] ?? 0)}`
+      }))
+    });
+    if (!stat) return null;
+    allocation[stat] = (allocation[stat] ?? 0) + 1;
+  }
+  return allocation;
+}
+
+function pokemonDisplayName(pokemon, fallback = "Pokémon") {
+  return pokemon?.nickname ?? pokemon?.name ?? pokemon?.speciesId ?? fallback;
+}
+
+async function chooseMoveToForget(pokemon) {
+  return chooseTouchOption({
+    title: `Quale mossa deve dimenticare ${pokemonDisplayName(pokemon)}?`,
+    description: "Scegli una mossa da sostituire. Puoi annullare senza perdere nulla.",
+    options: (pokemon?.moves ?? []).map((move) => ({
+      value: move.id,
+      label: move.name ?? playerFacingLabel(move.id),
+      detail: `PP ${move.ppCurrent ?? "—"}/${move.ppMax ?? "—"}`
+    }))
+  });
 }
 
 async function api(path, options = {}) {
