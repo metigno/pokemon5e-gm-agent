@@ -13,6 +13,23 @@ function normalizeBall(ball) {
   return id;
 }
 
+/**
+ * The UI reads the same valid ball list used by attemptCapture.
+ * Each inventory entry represents one consumable in the current battle engine.
+ */
+export function captureBallsInInventory(inventory = []) {
+  const counts = new Map();
+  for (const item of inventory) {
+    const itemId = typeof item === "string" ? item : item?.id ?? item?.name;
+    const ballId = normalizeBall(itemId);
+    if (!BALLS.has(ballId)) continue;
+    const existing = counts.get(ballId);
+    if (existing) existing.count += 1;
+    else counts.set(ballId, { id: ballId, count: 1 });
+  }
+  return [...counts.values()];
+}
+
 function hasSkill(trainer, skill) {
   return (trainer.skills ?? []).some((value) => value.toLowerCase() === skill.toLowerCase());
 }
