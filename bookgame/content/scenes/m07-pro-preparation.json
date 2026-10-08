@@ -247,7 +247,7 @@
         },
         {
           "id": "pressure_ready",
-          "text": "Passo al readiness check.",
+          "text": "Passo al controllo della preparazione.",
           "goto": "ready_check"
         }
       ]
@@ -293,7 +293,7 @@
       "choices": [
         {
           "id": "sponsor_ready",
-          "text": "Accetto il vincolo e passo al readiness check.",
+          "text": "Accetto il vincolo e passo al controllo della preparazione.",
           "goto": "ready_check",
           "effects": [
             {
@@ -351,7 +351,7 @@
       "choices": [
         {
           "id": "close_hub",
-          "text": "Passo al Friend Beat 07 quando il selector ha trovato un contatto reale.",
+          "text": "Passo al incontro con un amico quando il calendario ha trovato un contatto reale.",
           "goto": "m07-friend-beat-07#friend_entry"
         },
         {
