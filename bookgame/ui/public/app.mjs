@@ -48,6 +48,11 @@ const els = {
   moveList: $("#move-list"),
   endTurn: $("#end-turn"),
   combatLog: $("#combat-log"),
+  choiceOverlay: $("#choice-overlay"),
+  choiceTitle: $("#choice-dialog-title"),
+  choiceDescription: $("#choice-dialog-description"),
+  choiceOptions: $("#choice-dialog-options"),
+  choiceCancel: $("#choice-dialog-cancel"),
   evolutionOverlay: $("#evolution-overlay"),
   evolutionStatus: $("#evolution-status"),
   evolutionFrom: $("#evolution-from"),
@@ -68,6 +73,113 @@ function escapeHtml(value) {
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;");
+}
+
+const ATTRIBUTE_CHOICES = [
+  ["str", "Forza"], ["dex", "Destrezza"], ["con", "Costituzione"],
+  ["int", "Intelligenza"], ["wis", "Saggezza"], ["cha", "Carisma"]
+];
+
+function chooseTouchOption({ title, description = "", options }) {
+  if (!options.length) return Promise.resolve(null);
+  return new Promise((resolve) => {
+    const overlay = els.choiceOverlay;
+    const oldFocus = document.activeElement;
+    els.choiceTitle.textContent = title;
+    els.choiceDescription.textContent = description;
+    els.choiceOptions.replaceChildren();
+    overlay.hidden = false;
+
+    const finish = (value) => {
+      overlay.hidden = true;
+      document.removeEventListener("keydown", onKeyDown);
+      overlay.removeEventListener("click", onBackdrop);
+      els.choiceCancel.removeEventListener("click", onCancel);
+      els.choiceOptions.replaceChildren();
+      oldFocus?.focus?.();
+      resolve(value);
+    };
+    const onCancel = () => finish(null);
+    const onBackdrop = (event) => { if (event.target === overlay) finish(null); };
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        finish(null);
+      } else if (event.key === "Tab") {
+        const buttons = [...overlay.querySelectorAll("button:not(:disabled)")];
+        const index = buttons.indexOf(document.activeElement);
+        if (event.shiftKey && index <= 0) {
+          event.preventDefault();
+          buttons.at(-1)?.focus();
+        } else if (!event.shiftKey && index === buttons.length - 1) {
+          event.preventDefault();
+          buttons[0]?.focus();
+        }
+      }
+    };
+
+    for (const option of options) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "choice-dialog-option";
+      const name = document.createElement("span");
+      name.textContent = option.label;
+      button.append(name);
+      if (option.detail) {
+        const detail = document.createElement("small");
+        detail.textContent = option.detail;
+        button.append(detail);
+      }
+      button.addEventListener("click", () => finish(option.value), { once: true });
+      els.choiceOptions.append(button);
+    }
+    els.choiceCancel.addEventListener("click", onCancel);
+    overlay.addEventListener("click", onBackdrop);
+    document.addEventListener("keydown", onKeyDown);
+    els.choiceOptions.querySelector("button")?.focus();
+  });
+}
+
+async function chooseAsiDistribution(pokemon, points, title = "Migliora le caratteristiche", { maxScore = 20, maxPerStat = Infinity } = {}) {
+  const total = Number(points);
+  if (!Number.isInteger(total) || total <= 0) return null;
+  const allocation = {};
+  for (let remaining = total; remaining > 0; remaining--) {
+    const options = ATTRIBUTE_CHOICES.map(([value, label]) => {
+      const base = Number(pokemon?.attributes?.[value] ?? pokemon?.attributes?.[value.toUpperCase()] ?? 10);
+      const allocated = allocation[value] ?? 0;
+      return { value, label, score: base + allocated, allocated };
+    }).filter((entry) => entry.score < maxScore && entry.allocated < maxPerStat)
+      .map((entry) => ({ value: entry.value, label: entry.label, detail: `Valore attuale: ${entry.score}` }));
+    if (!options.length) {
+      showInlineError("Non ci sono caratteristiche che possono ricevere altri punti.");
+      return null;
+    }
+    const stat = await chooseTouchOption({
+      title,
+      description: `Scegli dove assegnare 1 punto. Punti ancora da distribuire: ${remaining}.`,
+      options
+    });
+    if (!stat) return null;
+    allocation[stat] = (allocation[stat] ?? 0) + 1;
+  }
+  return allocation;
+}
+
+function pokemonDisplayName(pokemon, fallback = "Pokémon") {
+  return pokemon?.nickname ?? pokemon?.name ?? pokemon?.speciesId ?? fallback;
+}
+
+async function chooseMoveToForget(pokemon) {
+  return chooseTouchOption({
+    title: `Quale mossa deve dimenticare ${pokemonDisplayName(pokemon)}?`,
+    description: "Scegli una mossa da sostituire. Puoi annullare senza perdere nulla.",
+    options: (pokemon?.moves ?? []).map((move) => ({
+      value: move.id,
+      label: move.name ?? playerFacingLabel(move.id),
+      detail: `PP ${move.ppCurrent ?? "—"}/${move.ppMax ?? "—"}`
+    }))
+  });
 }
 
 async function api(path, options = {}) {
@@ -452,7 +564,7 @@ async function playEvolution(presentation) {
   for (const phase of presentation.phases ?? []) {
     els.evolutionOverlay.dataset.phase = phase.id;
     els.evolutionStatus.textContent = phase.id === "reveal"
-      ? `${presentation.to ?? presentation.pokemon?.speciesId ?? "Pokémon"}!`
+      ? `${playerFacingLabel(presentation.to ?? presentation.pokemon?.speciesId ?? "Pokémon")}!`
       : "Il Pokémon si sta evolvendo…";
     if (phase.durationMs > 0) await delay(phase.durationMs);
   }
@@ -469,14 +581,15 @@ async function runEvolution(option) {
     });
     if (payload.evolution.result.status === "choice_required") {
       const points = Number(payload.evolution.result.choice.points);
-      const stat = window.prompt(`Evoluzione: assegna ${points} punti ASI a STR, DEX, CON, INT, WIS o CHA`, "CON");
-      if (!stat) return;
+      const pokemon = snapshot.player.roster[option.rosterIndex];
+      const distribution = await chooseAsiDistribution(pokemon, points, "Evoluzione · caratteristiche", { maxPerStat: 4 });
+      if (!distribution) return;
       payload = await api("/api/evolution/apply", {
         method: "POST",
         body: JSON.stringify({
           rosterIndex: option.rosterIndex,
           evolutionId: option.evolution.id,
-          asiDistribution: { [stat.toLowerCase()]: points },
+          asiDistribution: distribution,
           reducedMotion
         })
       });
@@ -541,7 +654,7 @@ function renderTrainer() {
     <div class="data-card">
       <h3>Feature e condizioni</h3>
       <div class="data-row"><span>Condizioni</span><span>${conditions}</span></div>
-      <div class="data-row"><span>Stato</span><span>${escapeHtml(snapshot.trainerGameplay?.death?.state ?? "alive")}</span></div>
+      <div class="data-row"><span>Stato</span><span>${escapeHtml(snapshot.trainerGameplay?.death?.state === "alive" ? "In salute" : playerFacingLabel(snapshot.trainerGameplay?.death?.state ?? ""))}</span></div>
       ${(snapshot.trainerGameplay?.features ?? []).map((feature) => `
         <div class="data-row">
           <span>${escapeHtml(feature.id.replaceAll("-", " "))}</span>
@@ -560,7 +673,7 @@ function renderTrainer() {
       ${(snapshot.trainerGameplay?.trainerGear ?? []).map((gear) => {
         const id = typeof gear === "string" ? gear : gear.id ?? gear.itemId;
         const equipped = (snapshot.trainerGameplay?.equipment ?? []).some((entry) => (entry.id ?? entry.itemId) === id);
-        return `<div class="data-row"><span>${escapeHtml(id)}</span><button type="button" class="gear-toggle" data-gear-id="${escapeHtml(id)}" data-equipped="${equipped ? "1" : "0"}">${equipped ? "Rimuovi" : "Equipaggia"}</button></div>`;
+        return `<div class="data-row"><span>${escapeHtml(playerFacingLabel(id))}</span><button type="button" class="gear-toggle" data-gear-id="${escapeHtml(id)}" data-equipped="${equipped ? "1" : "0"}">${equipped ? "Rimuovi" : "Equipaggia"}</button></div>`;
       }).join("") || '<div class="data-row"><span>Trainer Gear</span><span>—</span></div>'}
     </div>
   `;
@@ -583,8 +696,8 @@ function renderTeam() {
     `).join("");
     const pending = [
       ...(pokemon.pendingLevelUp ? [`Una decisione di crescita attende ${name}`] : []),
-      ...(pokemon.pendingAsiChoices ?? []).map((choice) => `ASI Lv.${choice.level}: ${choice.points} punti`),
-      ...(pokemon.pendingMoveLearning ?? []).map((choice) => `Mossa apprendibile: ${playerFacingLabel(choice.moveId)}`),
+      ...(pokemon.pendingAsiChoices ?? []).map((choice) => `Migliora le caratteristiche (Lv. ${choice.level}): ${choice.points} punti`),
+      ...(pokemon.pendingMoveLearning ?? []).map((choice) => `Mossa apprendibile: ${choice.moveName ?? playerFacingLabel(choice.moveId)}`),
       ...(pokemon.pendingMoveChoices ?? []).map((choice) => `Scelta mossa Lv.${choice.level}`)
     ];
     const xp = pokemon.xp == null
@@ -605,7 +718,7 @@ function renderTeam() {
         <div class="data-row"><span>Hit Dice</span><span>${escapeHtml(pokemon.hitDice?.current ?? "—")}/${escapeHtml(pokemon.hitDice?.max ?? "—")} ${escapeHtml(pokemon.hitDice?.die ?? "")}</span></div>
         <div class="data-row"><span>Condizioni</span><span>${(pokemon.statuses ?? []).map(escapeHtml).join(" · ") || "Nessuna"}</span></div>
         ${pokemon.nature ? `<div class="data-row"><span>Natura</span><span>${escapeHtml(pokemon.nature)}</span></div>` : ""}
-        ${pokemon.heldItemId ? `<div class="data-row"><span>Oggetto</span><span>${escapeHtml(pokemon.heldItemId)}</span></div>` : ""}
+        ${pokemon.heldItemId ? `<div class="data-row"><span>Oggetto</span><span>${escapeHtml(playerFacingLabel(pokemon.heldItemId))}</span></div>` : ""}
         </div>
       </div>
       <div class="data-card">
@@ -615,15 +728,17 @@ function renderTeam() {
       ${pending.length ? `<div class="data-card"><h3>Progressione pendente</h3>
         ${pending.map((entry) => `<div class="data-row"><span>${escapeHtml(entry)}</span></div>`).join("")}
         ${pokemon.pendingLevelUp?.stage === "evolution_decision" ? `
-          ${(pokemon.pendingLevelUp.evolutionIds ?? []).map((id) => `<button type="button" class="primary-button levelup-evolution" data-roster-index="${index}" data-evolution-id="${escapeHtml(id)}">Scegli evoluzione: ${escapeHtml(playerFacingLabel(id))}</button>`).join("")}
+          ${(pokemon.pendingLevelUp.evolutionIds ?? []).map((id, evoIndex) => {
+             const evolution = available.find((entry) => entry.evolution.id === id);
+             return `<button type="button" class="primary-button levelup-evolution" data-roster-index="${index}" data-evolution-id="${escapeHtml(id)}">Evolvi → ${escapeHtml(evolution ? playerFacingLabel(evolution.evolution.to) : `Evoluzione ${evoIndex + 1}`)}</button>`;
+           }).join("")}
           <button type="button" class="levelup-decline" data-roster-index="${index}">Rimanda evoluzione</button>
         ` : ""}
-        ${(pokemon.pendingMoveLearning ?? []).map((choice) => `<button type="button" class="pokemon-learn-move" data-roster-index="${index}" data-move-id="${escapeHtml(choice.moveId)}">Impara ${escapeHtml(playerFacingLabel(choice.moveId))}</button>`).join("")}
+        ${(pokemon.pendingMoveLearning ?? []).map((choice) => `<button type="button" class="pokemon-learn-move" data-roster-index="${index}" data-move-id="${escapeHtml(choice.moveId)}">Impara ${escapeHtml(choice.moveName ?? playerFacingLabel(choice.moveId))}</button>`).join("")}
         ${(pokemon.pendingMoveChoices ?? []).map((choice) => `<button type="button" class="pokemon-replace-move" data-roster-index="${index}" data-level="${choice.level}" data-move-ids="${escapeHtml((choice.availableMoveIds ?? []).join(","))}">Scegli mossa Lv.${choice.level}</button>`).join("")}
-        ${(pokemon.pendingAsiChoices ?? []).map((choice) => `<button type="button" class="pokemon-asi" data-roster-index="${index}" data-level="${choice.level}" data-points="${choice.points}">Assegna ASI Lv.${choice.level}</button>`).join("")}
+        ${(pokemon.pendingAsiChoices ?? []).map((choice) => `<button type="button" class="pokemon-asi" data-roster-index="${index}" data-level="${choice.level}" data-points="${choice.points}">Migliora caratteristiche · Lv. ${choice.level}</button>`).join("")}
       </div>` : ""}
-      ${available.map((entry) => `<button type="button" class="primary-button evolution-action" data-roster-index="${entry.rosterIndex}" data-evolution-id="${escapeHtml(entry.evolution.id)}">Evolvi → ${escapeHtml(entry.evolution.to)}</button>`).join("")}
-      ${roster.length > 6 && index >= 6 ? `<button type="button" class="primary-button roster-promote" data-reserve-index="${index}">Schiera nei sei (sostituisci slot 2–6)</button>` : ""}
+      ${available.map((entry) => `<button type="button" class="primary-button evolution-action" data-roster-index="${entry.rosterIndex}" data-evolution-id="${escapeHtml(entry.evolution.id)}">Evolvi → ${escapeHtml(playerFacingLabel(entry.evolution.to))}</button>`).join("")}
     `;
   }).join("") || '<div class="data-card">Nessun Pokémon nel roster.</div>';
 }
@@ -766,14 +881,15 @@ function openDrawer(panel) {
         });
         if (payload.progression?.status === "choice_required" && payload.progression.choice?.type === "evolution_asi") {
           const points = Number(payload.progression.choice.points);
-          const stat = window.prompt(`Evoluzione: assegna ${points} punti ASI a STR, DEX, CON, INT, WIS o CHA`, "CON");
-          if (!stat) return;
+          const pokemon = snapshot.player.roster[Number(button.dataset.rosterIndex)];
+          const distribution = await chooseAsiDistribution(pokemon, points, "Evoluzione · caratteristiche", { maxPerStat: 4 });
+          if (!distribution) return;
           payload = await api("/api/pokemon/level-up", {
             method: "POST",
             body: JSON.stringify({
               rosterIndex: Number(button.dataset.rosterIndex),
               evolutionId: button.dataset.evolutionId,
-              asiDistribution: { [stat.toLowerCase()]: points }
+              asiDistribution: distribution
             })
           });
         }
@@ -791,7 +907,7 @@ function openDrawer(panel) {
         const pokemon = snapshot.player.roster[Number(button.dataset.rosterIndex)];
         let forgetMoveId = null;
         if ((pokemon.moves ?? []).length >= 4) {
-          forgetMoveId = window.prompt("Quale move id vuoi dimenticare?", pokemon.moves[0]?.id ?? "");
+          forgetMoveId = await chooseMoveToForget(pokemon);
           if (!forgetMoveId) return;
         }
         snapshot = await api("/api/pokemon/learn-move", {
@@ -808,13 +924,21 @@ function openDrawer(panel) {
   for (const button of els.drawerContent.querySelectorAll(".pokemon-replace-move")) {
     button.addEventListener("click", async () => {
       try {
-        const choices = String(button.dataset.moveIds ?? "").split(",").filter(Boolean);
-        const moveId = window.prompt("Quale move id vuoi imparare?", choices[0] ?? "");
-        if (!moveId) return;
         const pokemon = snapshot.player.roster[Number(button.dataset.rosterIndex)];
+        const choice = (pokemon.pendingMoveChoices ?? []).find((entry) => Number(entry.level) === Number(button.dataset.level));
+        const availableMoves = choice?.availableMoves ?? [];
+        const moveId = await chooseTouchOption({
+          title: `Quale mossa imparerà ${pokemonDisplayName(pokemon)}?`,
+          description: "Scegli una mossa disponibile. La scelta può richiedere di dimenticarne un'altra.",
+          options: availableMoves.map((move) => ({
+            value: move.id,
+            label: move.name ?? playerFacingLabel(move.id)
+          }))
+        });
+        if (!moveId) return;
         let forgetMoveId = null;
         if ((pokemon.moves ?? []).length >= 4 && !(pokemon.moves ?? []).some((move) => move.id === moveId)) {
-          forgetMoveId = window.prompt("Quale move id vuoi dimenticare?", pokemon.moves[0]?.id ?? "");
+          forgetMoveId = await chooseMoveToForget(pokemon);
           if (!forgetMoveId) return;
         }
         snapshot = await api("/api/pokemon/replace-move", {
@@ -832,14 +956,16 @@ function openDrawer(panel) {
     button.addEventListener("click", async () => {
       try {
         const points = Number(button.dataset.points);
-        const stat = window.prompt(`Assegna ${points} punti a STR, DEX, CON, INT, WIS o CHA`, "CON");
-        if (!stat) return;
+        const pokemon = snapshot.player.roster[Number(button.dataset.rosterIndex)];
+        const pendingChoice = (pokemon.pendingAsiChoices ?? []).find((entry) => Number(entry.level) === Number(button.dataset.level));
+        const distribution = await chooseAsiDistribution(pokemon, points, "Migliora le caratteristiche", { maxScore: Number(pendingChoice?.maxScore ?? 20) });
+        if (!distribution) return;
         snapshot = await api("/api/pokemon/asi", {
           method: "POST",
           body: JSON.stringify({
             rosterIndex: Number(button.dataset.rosterIndex),
             level: Number(button.dataset.level),
-            distribution: { [stat.toLowerCase()]: points }
+            distribution
           })
         });
         openDrawer("team");

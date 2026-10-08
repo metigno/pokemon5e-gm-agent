@@ -211,6 +211,21 @@ async function pokemonRosterView() {
       ? statusList({ statuses: pokemon.statuses })
       : Array.isArray(pokemon.conditions) ? pokemon.conditions : [];
     const nextLevelXp = level < 20 ? Number(EXPERIENCE_NEEDED_PER_LEVEL[level]) : null;
+    const moveName = async (moveId) => {
+      try { return (await poke5eData.getMove(moveId)).name; }
+      catch { return String(moveId ?? "").replace(/[-_]/g, " "); }
+    };
+    const pendingMoveLearning = await Promise.all((pokemon.pendingMoveLearning ?? []).map(async (entry) => ({
+      ...structuredClone(entry),
+      moveName: await moveName(entry.moveId)
+    })));
+    const pendingMoveChoices = await Promise.all((pokemon.pendingMoveChoices ?? []).map(async (entry) => ({
+      ...structuredClone(entry),
+      availableMoves: await Promise.all((entry.availableMoveIds ?? []).map(async (id) => ({
+        id,
+        name: await moveName(id)
+      })))
+    })));
 
     return {
       index,
@@ -237,8 +252,8 @@ async function pokemonRosterView() {
       nature: pokemon.nature ?? null,
       gender: pokemon.gender ?? null,
       heldItemId: pokemon.heldItemId ?? pokemon.heldItem?.id ?? null,
-      pendingMoveLearning: structuredClone(pokemon.pendingMoveLearning ?? []),
-      pendingMoveChoices: structuredClone(pokemon.pendingMoveChoices ?? []),
+      pendingMoveLearning,
+      pendingMoveChoices,
       pendingAsiChoices: structuredClone(pokemon.pendingAsiChoices ?? []),
       pendingLevelUp: structuredClone(pokemon.pendingLevelUp ?? null),
       death: structuredClone(pokemon.death ?? null)
