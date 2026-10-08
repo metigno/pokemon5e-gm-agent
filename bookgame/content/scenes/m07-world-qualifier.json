@@ -40,7 +40,7 @@
       "choices": [
         {
           "id": "entry_bracket",
-          "text": "Apro la mia lane del bracket.",
+          "text": "Controllo il tabellone degli incontri.",
           "goto": "bracket"
         },
         {
@@ -257,7 +257,7 @@
       "choices": [
         {
           "id": "round1_win_continue",
-          "text": "Registro la vittoria e passo all'intervallo.",
+          "text": "Raggiungo l'area di attesa del prossimo incontro.",
           "goto": "between_rounds",
           "effects": [
             {
@@ -291,7 +291,7 @@
       "choices": [
         {
           "id": "round1_loss_result",
-          "text": "Registro l'eliminazione e passo al risultato.",
+          "text": "Vado al banco per conoscere il risultato ufficiale.",
           "goto": "m07-qualifier-result#result_entry",
           "effects": [
             {
