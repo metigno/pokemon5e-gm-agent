@@ -5,6 +5,8 @@ import { join } from "node:path";
 import { normalizeSpriteId } from "../src/assets/sprite-runtime.mjs";
 import { APPROVED_MAP_ILLUSTRATION_IDS, APPROVED_MAP_SVG_IDS } from "../src/assets/map-illustrations.mjs";
 import { verifyOfflineSpriteAssets } from "../scripts/verify-offline-sprites.mjs";
+import { verifyOfflineCharacterSprites } from "../scripts/verify-offline-character-sprites.mjs";
+import { loadAvailableCharacterPortraits, readVerifiedCharacterPortrait } from "../src/assets/character-portraits.mjs";
 import { BookgameEngine } from "../src/engine/bookgame-engine.mjs";
 import { buildTravelMap } from "../src/engine/map-view.mjs";
 import { Pokemon5eCombatEngine } from "../src/combat/combat-engine.mjs";
@@ -39,6 +41,14 @@ const SPRITE_DIR = process.env.P5E_SPRITE_DIR ?? fileURLToPath(new URL("../asset
 const MAP_ART_DIR = fileURLToPath(new URL("../assets/maps/illustrations/", import.meta.url));
 const spriteMap = JSON.parse(await readFile(new URL("../assets/pokemon/sprite-runtime-map.json", import.meta.url), "utf8"));
 const SPRITE_ROLES = new Set(["battleFront", "battleBack", "icon", "overworld"]);
+const CHARACTER_DIR = process.env.P5E_CHARACTER_SPRITE_DIR ?? fileURLToPath(new URL("../assets/characters/files/", import.meta.url));
+const characterRegistry = JSON.parse(await readFile(new URL("../content/npcs/NPC_CHARACTER_LIBRARY_V1.json", import.meta.url), "utf8"));
+const characterChecksums = JSON.parse(await readFile(new URL("../assets/characters/sha256.json", import.meta.url), "utf8"));
+const characterPortraits = await loadAvailableCharacterPortraits(characterRegistry, characterChecksums, CHARACTER_DIR);
+if (process.env.P5E_REQUIRE_OFFLINE_CHARACTERS === "1") {
+  const report = await verifyOfflineCharacterSprites(characterRegistry, CHARACTER_DIR, characterChecksums);
+  if (!report.valid) throw new Error(`Offline character portraits incomplete: ${report.verified}/${report.expected} verified, ${report.missing.length} missing, ${report.unapproved.length} unapproved. Never ship an incomplete set.`);
+}
 
 // Packaged releases refuse to run if even one mapped physical PNG is missing.
 if (process.env.P5E_REQUIRE_OFFLINE_SPRITES === "1") {
@@ -376,6 +386,7 @@ async function snapshot() {
       }
     : await engine.present(state);
 
+  const information = informationPanelsView(state);
   return {
     ok: true,
     hasSession: true,
@@ -410,7 +421,10 @@ async function snapshot() {
       minuteOfDay: state.world.minuteOfDay,
       locationId: state.world.locationId
     },
-    information: informationPanelsView(state),
+    information,
+    assets: { characterPortraits: Object.fromEntries((information.people ?? [])
+      .map(person => [person.name, characterPortraits.byName[person.name]])
+      .filter(([, id]) => Boolean(id))) },
     evolutions: await evolutionView(),
     trainerGameplay: trainerGameplayView(
       state,
@@ -851,6 +865,20 @@ async function serveMapIllustration(res, pathname) {
   return true;
 }
 
+async function serveCharacterPortrait(res, pathname) {
+  const match = pathname.match(/^\/characters\/([A-Za-z][A-Za-z0-9]*)\/portrait$/);
+  if (!match) return false;
+  const bytes = await readVerifiedCharacterPortrait(match[1], characterPortraits, CHARACTER_DIR);
+  if (!bytes) {
+    res.writeHead(404, { "content-type": "text/plain; charset=utf-8" });
+    res.end("Verified character portrait unavailable");
+    return true;
+  }
+  res.writeHead(200, { "content-type": "image/png", "cache-control": "public, max-age=31536000, immutable" });
+  res.end(bytes);
+  return true;
+}
+
 async function serveStatic(res, pathname) {
   const entry = STATIC_FILES.get(pathname);
   if (!entry) {
@@ -885,6 +913,7 @@ const server = createServer(async (req, res) => {
       return;
     }
     if (url.pathname.startsWith("/sprites/") && await serveSprite(res, url.pathname)) return;
+    if (url.pathname.startsWith("/characters/") && await serveCharacterPortrait(res, url.pathname)) return;
     if (await serveMapIllustration(res, url.pathname)) return;
     await serveStatic(res, url.pathname);
   } catch (error) {
