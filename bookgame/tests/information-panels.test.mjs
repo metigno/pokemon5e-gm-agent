@@ -58,6 +58,11 @@ test("known people show only qualitative relationships, never hidden score or NP
   assert.equal(met.relationship, "Loyal");
   assert.ok(!Object.hasOwn(met, "score"));
   assert.ok(!Object.hasOwn(met, "roster"));
+  // Anchors in M08-M11 use the authored introduced flag, not a generic met field.
+  state.npcs.Blue.state.met = false;
+  state.npcs.Blue.state.introduced = true;
+  assert.ok(informationPanelsView(state).people.some((person) => person.name === "Blue"));
+  assert.match(informationPanelsView(state).people.find((person) => person.name === "Blue").description, /Allenatore/);
 });
 
 test("reputation hides unimplemented numeric values; progression reads separate module caps", () => {
