@@ -93,3 +93,7 @@ P5E_REQUIRE_OFFLINE_SPRITES=1 npm --prefix bookgame run ui
 ```
 
 **Fail closed:** if any mapped battle front/back/icon or mapped overworld asset is missing, the release-mode server refuses to start. No network sprite source or placeholder substitution is involved. The binary overlay is delivered separately from Git; include its contents in the offline package. The project currently has a local Node UI, not a native APK/IPA pipeline.
+
+### Git-tracked runtime sprites (Step 4)
+
+A later change to `bookgame-canonical` materializes **all 2,461 PNGs actually required by `sprite-runtime-map.json`** directly under `bookgame/assets/pokemon/files/`. The user-approved ZIP archives remain available as independent reproducible references; their original distribution notes above describe the pre-embedding workflow. For the pinned fork's images, a fresh Git checkout already contains the Pokémon sprites and `npm --prefix bookgame run sprites:verify` must pass. Eleven supplemental Pokémon in the user overlay have some different artwork; extract that separate overlay before final packaging if the exact user-supplied versions are required.

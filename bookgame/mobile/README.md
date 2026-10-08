@@ -9,10 +9,11 @@ Node process. Do not set a Capacitor `server.url`.
 
 ## Current release limitations
 
-This repository deliberately does **not** check in externally sourced art/audio.
-An APK is **not release-ready** until complete, approved Pokémon PNGs, Trainer art,
-and the separately supplied MP3 music/effects/cry archive are installed and
-`build.mjs` has validated their physical bytes.
+The repository now **includes 2,461 Git-tracked Pokémon PNG files** (619 species),
+loaded offline from `bookgame/assets/pokemon/files/` and copied into the Android
+runtime by `build.mjs`. Trainer art and the separately supplied MP3
+music/effects/cry archive are still mandatory inputs before APK packaging.
+`build.mjs` verifies all physical assets rather than substituting placeholders.
 Android and iOS are different targets; this step provides an Android build
 pipeline only. Device airplane-mode acceptance is still mandatory.
 
@@ -32,8 +33,8 @@ SHA pins, atomically installs only matching files, and rechecks the **copied
 native application payload**, not just files in the checkout.
 
 ```sh
-# From the repository root; both paths below refer to actual local files.
-python3 bookgame/scripts/install-approved-sprite-zip.py /absolute/path/to/P5E_M01-M12_619_Pokemon_Complete_Sprites_verified.zip --strict
+# From the repository root: Pokémon PNGs are already Git-tracked.
+npm --prefix bookgame run sprites:verify
 
 cd bookgame/mobile
 npm install
@@ -53,11 +54,13 @@ artwork, missing Pokémon asset or mismatched packed payload **fails the build**
 The binary archive is never downloaded at runtime, and neither a placeholder nor
 an online sprite server is allowed.
 
-**Limitation:** the verified *619-Pokémon archive* is a separate mandatory
-input. This conversation supplies the 19-character overlay, not the 619 archive.
-A successful source-only CI run or generated Android shell does not prove a
-fully playable offline APK. Finish the above packaging and airplane-mode device
-tests before calling the mobile release complete.
+**Important:** the Git-tracked Pokémon files come from the pinned public
+Emerald Expansion fork. The user-approved standalone 619-Pokémon overlay remains
+available for the 11 supplemental species whose exact image bytes differ from
+the fork; apply it before packaging only if those specific variants are needed.
+The sprite archive is otherwise no longer mandatory. Complete Trainer sprites,
+music, map assets and airplane-mode device testing remain mandatory for
+a fully playable offline APK.
 
 ## Prepare on a build workstation
 
@@ -69,8 +72,7 @@ Android build tools compatible with Capacitor 8. Then at checkout root:
 npm --prefix bookgame run build
 npm --prefix bookgame test
 
-# Install the verified 619-Pokémon sprite archive separately.
-python3 bookgame/scripts/install-approved-sprite-zip.py /path/to/P5E_M01-M12_619_Pokemon_Complete_Sprites_verified.zip --strict
+# Pokémon PNGs are in Git and already selected by the canonical runtime map.
 npm --prefix bookgame run sprites:verify
 
 # Trainer ZIP import happens automatically during android:debug when
