@@ -65,7 +65,7 @@
       "choices": [
         {
           "id": "classify_qualified",
-          "text": "La percorso di gara è stata vinta.",
+          "text": "Ho vinto entrambi gli incontri.",
           "goto": "qualified_summary",
           "conditions": {
             "path": "world.flags.m7_qualifier_bracket_result",
@@ -102,7 +102,7 @@
       "choices": [
         {
           "id": "qualified_guard",
-          "text": "Verifico il requisiti prima di scrivere qualificazione al Mondiale.",
+          "text": "Chiedo di verificare il risultato ufficiale.",
           "goto": "world_guard"
         },
         {
@@ -112,7 +112,7 @@
         },
         {
           "id": "qualified_history",
-          "text": "Rivedo le due vittorie in registro degli incontri.",
+          "text": "Rileggo i referti delle due vittorie.",
           "goto": "history"
         }
       ]
@@ -139,7 +139,7 @@
         },
         {
           "id": "r1_history",
-          "text": "Rivedo la registro degli incontri del primo match.",
+          "text": "Rileggo il referto del primo incontro.",
           "goto": "history"
         }
       ]
@@ -290,7 +290,7 @@
       "choices": [
         {
           "id": "qualified_commit",
-          "text": "Segno qualificazione al Mondiale=true.",
+          "text": "Confermo il posto al Mondiale.",
           "goto": "qualified_close",
           "conditions": {
             "path": "world.flags.m7_qualifier_bracket_result",
@@ -336,7 +336,7 @@
       "choices": [
         {
           "id": "elimination_confirm",
-          "text": "Registro l'eliminazione e l'requisiti Last Chance.",
+          "text": "Chiedo se posso accedere all'ultima occasione.",
           "goto": "last_chance_explain",
           "effects": [
             {
@@ -358,7 +358,7 @@
         },
         {
           "id": "elimination_back",
-          "text": "Rivedo la registro degli incontri prima di confermare.",
+          "text": "Rileggo i referti prima di confermare.",
           "goto": "history"
         }
       ]
