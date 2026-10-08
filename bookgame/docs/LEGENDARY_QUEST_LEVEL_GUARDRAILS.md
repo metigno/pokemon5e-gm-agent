@@ -1,13 +1,51 @@
-# Legendary encounters — module-level consistency guardrails
+# Legendary encounters — canonical module-level Pokémon 5e guardrails
 
-This content policy applies to Luke (Black Kyurem), Mattew (Zacian), Daniel (Mewtwo), Edward (Lugia), and Fab (Rayquaza).
+Authority: `bookgame/docs/P5E_LIBROGAME_ENGINE_SOURCE_OF_TRUTH.md`
+sections 40 and 45, plus the persistent Five careers. This document never
+grants a Pokémon, alters capture rolls or imports videogame-form mechanics.
 
-- M06 introduces optional investigation leads only. A quest offer never implies a Pokémon spawn, combat, capture, ownership, or guaranteed success.
-- For M07–M12, every authored legendary combat/encounter must specify its module, checkpoint, species/form, encounter level, and applicable Pokémon level cap in a reviewable encounter record. A narrative sighting or clue does not need a combat level.
-- Never hardcode an arbitrary high legendary level. Resolve the current module's canonical Pokémon level cap and encounter balance before setting a numeric encounter level; the Source of Truth sections 44–45 explicitly leave exact cap values TBD. If no authoritative cap exists, leave the combat encounter unimplemented rather than inventing one.
-- A legendary encounter must use existing Pokémon 5e battle/capture rules, legal forms, persistent outcomes, and the same progression constraints as other encounters. A legendary must not be scaled automatically to the player's current party or given a guaranteed capture.
-- Legendary quests are optional and nonblocking. Missed or failed quests can return only through an explicitly authored cooldown/future trigger, not an unbounded repeated offer.
-- Reuse existing Asteria locations; do not recreate locations from original Pokémon games or add new maps solely for these quests.
-- Black Kyurem requires lore-consistent treatment of Kyurem and Zekrom; Crowned Zacian requires the Rusted Sword; Mega Rayquaza requires its applicable Pokémon 5e form requirements. These are later milestones, not automatic M06 rewards.
+## Actual Pokémon level caps
 
-Before implementing an M07–M12 battle, record: `moduleId`, `checkpointId`, `speciesId`, `formId` (if relevant), `pokemonLevelCap` (authoritative source), `encounterLevel`, `locationId`, `outcomes`, and tests for level legality and persistence.
+| Module | Pokémon cap | Authored legendary status on the canonical branch |
+| --- | ---: | --- |
+| M07 | 16 | Investigation / clues only; no capture encounter |
+| M08 | 18 | Qualification / personal clues only; no capture encounter |
+| M09 | 20 | First World Championship stage; optional capture work is in PR #82 |
+| M10 | 20 | World knockout; no second automatic encounter |
+| M11 | 20 | World semifinals/final and evidence; no automatic ownership |
+| M12 | 20 | Epilogue and postgame; no automatic encounter |
+
+A cap is a **maximum legal Pokémon level**, not a level equalization command.
+A sighting has no combat level; do not insert fictitious legendary battles
+into M07 or M08. A real encounter level must be legal for its species and
+checkpoint under the pinned offline 2024 Pokémon 5e species pack.
+
+## Five legendary species (not videogame builds)
+
+- Luke: Black Kyurem; treat the Kyurem/Zekrom fusion as a specific authored
+  condition, never as a free gift, forced transformation or second captured slot.
+- Mattew: Zacian; Crowned is not automatically unlocked or granted with capture.
+- Daniel: Mewtwo.
+- Edward: Lugia.
+- Fab: Rayquaza; Mega Rayquaza is not automatically available.
+
+**M09 integration note:** separate open PR #82 currently authors real, optional
+World encounters at fixed Pokémon 5e levels: Black Kyurem Lv20, Zacian Lv20,
+Mewtwo Lv20, Lugia Lv20, and Rayquaza Lv18. The first four require Trainer
+Lv20 for legal capture according to that PR; Rayquaza requires Trainer Lv18.
+These encounter levels are **specific to the PR's authored M09 battles**, not
+a blanket rule for all later or earlier sightings. They become playable only
+when that PR has passed tests and been merged.
+
+For M10–M12 do not generate a new legendary copy, increment its level, or
+scale it to the current player. If an authored later encounter is introduced,
+its own stable `moduleId`, `checkpointId`, `speciesId`, `formId`,
+`pokemonLevelCap`, `encounterLevel`, `locationId` and persistent
+`outcomes` must be declared before combat is enabled. Reuse existing Asteria
+locations and the current Pokémon 5e combat/capture resolver.
+
+Each personal quest is optional and nonblocking. A missed/failed capture
+never awards ownership or a guaranteed retry. Repeat encounters need an
+explicitly authored cooldown/future trigger, and captured Pokémon must not
+be duplicated in saves. Species that the offline pack cannot legally resolve
+must fail validation, never be silently replaced by convenient substitutes.
