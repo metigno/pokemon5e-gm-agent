@@ -110,7 +110,7 @@
         },
         {
           "id": "contract_friend",
-          "text": "Controllo FRIEND_BEAT_07.",
+          "text": "Rileggo l'ultimo messaggio del mio amico.",
           "goto": "friend"
         },
         {
@@ -190,7 +190,7 @@
       "choices": [
         {
           "id": "qualified_commit",
-          "text": "Applico l'unlock M8.",
+          "text": "Confermo la partenza per il Mondiale.",
           "goto": "commit_qualified"
         },
         {
@@ -368,7 +368,7 @@
       "choices": [
         {
           "id": "complete_q",
-          "text": "Proseguo verso il Mondiale con M8 sbloccato.",
+          "text": "Parto per il Mondiale.",
           "goto": "m08-world-arrival#world_entry",
           "conditions": {
             "path": "world.flags.m08_unlocked",
@@ -377,7 +377,7 @@
         },
         {
           "id": "complete_m",
-          "text": "Entro in M12 / WORLD_EXIT con Worlds Missed registrato.",
+          "text": "Riprendo il viaggio dopo la mancata qualificazione.",
           "goto": "m12-world-exit-branch#world_exit_entry",
           "conditions": {
             "path": "world.flags.m12_unlocked",
