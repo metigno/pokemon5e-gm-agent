@@ -14,7 +14,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Bruma e Borgo Salice riportano in superficie la rete di cattura, il lavoro Ranger e la fauna di M2, tutti letti dallo stato realmente salvato."
+          "text": "A Borgo Salice la nebbia scende fra i tetti come la prima volta. Il Bosco Bruma, però, non è rimasto immobile: pattuglie, sentieri e voci portano i segni di ciò che è accaduto."
         }
       ],
       "choices": [
@@ -39,7 +39,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La nebbia non congela il passato: percorsi, pressioni e accessi sono cambiati mentre la carriera continuava altrove."
+          "text": "Riconosci le radici che emergevano dal fango e il sentiero verso Palude Mirto. Alcuni passaggi sono più frequentati; altrove il bosco si è richiuso."
         }
       ],
       "choices": [
@@ -64,7 +64,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il callback parte da poaching_network_state e dagli esiti già classificati in M2."
+          "text": "Al presidio Ranger i fascicoli della vecchia rete di cattura occupano ancora uno scaffale. Da ciò che fu scoperto allora dipendono le tracce che puoi ritrovare oggi."
         }
       ],
       "choices": [
@@ -84,7 +84,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Una rete risolta resta risolta; M12 può mostrare conseguenze, non riaprire lo stesso conflitto per nostalgia."
+          "text": "L'organizzazione che avevate individuato non opera più nella stessa forma. Restano le conseguenze del suo passaggio: recinzioni tolte, controlli e animali che hanno dovuto cambiare territorio."
         }
       ],
       "choices": [
@@ -104,7 +104,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un esito partial conserva ciò che era stato ottenuto e ciò che restava irrisolto."
+          "text": "Nel fascicolo ci sono prove utili, ma non tutte le domande hanno risposta. I Ranger conoscono parte della vecchia rotta; il resto non diventa certezza solo perché sei tornato."
         }
       ],
       "choices": [
@@ -124,7 +124,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un'escalation può aver costretto Ranger e comunità a reagire in tua assenza."
+          "text": "Le segnalazioni di allora sono state seguite da altre notti difficili. I Ranger hanno dovuto adattare i controlli, e la gente del borgo parla del bosco con maggiore prudenza."
         }
       ],
       "choices": [
@@ -144,7 +144,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Un conflitto ignorato non resta fermo ad aspettare il player: E6 determina il seguito plausibile."
+          "text": "Non avevi preso parte all'indagine. Tornando scopri che la vicenda ha comunque avuto un seguito, raccontato dai turni dei Ranger e dalle notizie raccolte in tua assenza."
         }
       ],
       "choices": [
@@ -164,7 +164,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il rapporto con i Ranger usa prove, report e contatti realmente creati in M2."
+          "text": "Elio passa in rassegna mappe e rapporti senza perdere tempo in complimenti gratuiti. Quello che può dirti dipende dalle informazioni che gli avevi consegnato."
         }
       ],
       "choices": [
@@ -184,7 +184,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Se il filo Ranger collegava M1 e M2, il callback può ricordare quella continuità senza inventarla quando assente."
+          "text": "Una nota nel registro rimanda alle prime anomalie osservate sulle strade delle Ginestre, se ne avevi parlato con i Ranger. I fogli seguono il percorso delle prove, non quello della nostalgia."
         }
       ],
       "choices": [
@@ -204,7 +204,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Borgo Salice mostra il costo o il beneficio locale degli esiti passati."
+          "text": "La piazza di Borgo Salice sembra familiare, ma chi lavora qui ricorda bene quanto siano costate le settimane della crisi."
         }
       ],
       "choices": [
@@ -224,7 +224,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Palude Mirto resta soggetta a E7 e agli accessi reali; il postgame non teletrasporta il player oltre i gate."
+          "text": "Verso Palude Mirto le guide controllano ancora i passaggi percorribili. La nebbia non rende sicura una strada soltanto perché l'hai già vista."
         }
       ],
       "choices": [
@@ -244,7 +244,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Fauna e tracce possono cambiare col tempo, ma la distribuzione resta engine-owned."
+          "text": "Un movimento fra i cespugli ti fa fermare. Prima di decidere come avvicinarti, puoi osservare postura, distanza e possibilità di fuga del Pokémon."
         }
       ],
       "choices": [
@@ -264,7 +264,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "N compare soltanto se la sua traiettoria, schedule e relazione lo consentono. Nessuna reunion obbligatoria."
+          "text": "Se N è nei paraggi e ha motivo di parlarti, potrebbe ricordare gli animali trovati allora. Altrimenti restano le tracce del suo passaggio, non un incontro preparato per te."
         }
       ],
       "choices": [
@@ -284,7 +284,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Le prove raccolte restano distinte dalla semplice interruzione del conflitto."
+          "text": "Le fotografie, i sigilli e le coordinate raccolti allora non raccontano tutti la stessa cosa. Alcuni elementi reggono ancora; altri lasciano domande aperte."
         }
       ],
       "choices": [
@@ -304,7 +304,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Aver avvisato un'autorità e aver risolto materialmente un problema restano assi separati."
+          "text": "Una segnalazione al presidio ha permesso ai Ranger di agire quando potevano. Non è la stessa cosa che aver fermato personalmente tutta la rete."
         }
       ],
       "choices": [
@@ -324,7 +324,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Gli effetti della crisi M2 vengono riletti senza trasformare un esito parziale in vittoria completa."
+          "text": "Nel borgo qualcuno ricorda una notte passata a cercare Pokémon scomparsi. Un intervento parziale non ha cancellato tutte le perdite e tutte le paure."
         }
       ],
       "choices": [
@@ -344,7 +344,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Living World può aver prodotto nuovi equilibri, pattuglie o rischi sulla base dell'esito registrato."
+          "text": "Nuove pattuglie attraversano certi sentieri, mentre altri restano isolati. Le condizioni attuali testimoniano come la comunità abbia risposto alla vicenda."
         }
       ],
       "choices": [
@@ -364,7 +364,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il postgame permette di tornare dove è legalmente possibile, senza creare una seconda mappa o un secondo quest engine."
+          "text": "Puoi ripercorrere soltanto i tratti attualmente accessibili. Dove una zona è chiusa, un cartello o un Ranger ti indica il limite."
         }
       ],
       "choices": [
@@ -384,7 +384,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Le relazioni locali conservano punteggio e qualità reali; il callback può solo reagire a quei valori."
+          "text": "Chi ti riconosce cambia tono secondo il rapporto che avevate costruito: la fiducia non nasce dal semplice ritorno."
         }
       ],
       "choices": [
@@ -404,7 +404,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M12 classifica la memoria di Bruma usando l'esito M2 persistente e registra soltanto il callback postgame."
+          "text": "Quando lasci Borgo Salice, non porti via una morale obbligatoria. Hai visto ciò che rimane della vicenda e ciò che la gente ha fatto dopo."
         }
       ],
       "choices": [
@@ -547,7 +547,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il callback di Bruma è registrato. Ferrox è il prossimo grande luogo in cui il passato può essere verificato."
+          "text": "La strada riprende verso Ferrox. Alle tue spalle Bosco Bruma continua a vivere."
         }
       ],
       "choices": [
