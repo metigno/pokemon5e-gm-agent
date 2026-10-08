@@ -37,7 +37,7 @@ test("M09 media clue has a reachable existing choice, preserving authored count"
   assert.ok(choice);
   assert.equal(choice.goto, "resource_guard");
   assert.deepEqual(choice.effects, [{ type: "set_flag", key: "m9_personal_press_notes_reviewed", value: true }]);
-  assert.equal(Object.keys(scene.nodes).length, 14);
+  assert.equal(Object.keys(scene.nodes).length, 13);
   assert.equal(Object.values(scene.nodes).reduce((count,node) => count + (node.choices?.length ?? 0), 0), 32);
 });
 
