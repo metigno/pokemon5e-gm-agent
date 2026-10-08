@@ -1,0 +1,171 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "M08",
+  "events": [
+    {
+      "id": "legendary_m08_followup_luke",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Luke"
+          },
+          {
+            "path": "world.flags.legendary_m08_qualified_luke",
+            "eq": true
+          },
+          {
+            "path": "world.flags.legendary_m08_village_reflection",
+            "eq": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "lead",
+          "effects": [
+            {
+              "type": "quest_offer",
+              "questId": "legendary_m08_lead_luke",
+              "title": "Kyurem Nero — le tracce del drago incompleto",
+              "objective": "Esaminare le testimonianze su Kyurem e Zekrom: la fusione non è disponibile né garantita."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "legendary_m08_followup_mattew",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Mattew"
+          },
+          {
+            "path": "world.flags.legendary_m08_qualified_mattew",
+            "eq": true
+          },
+          {
+            "path": "world.flags.legendary_m08_village_reflection",
+            "eq": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "lead",
+          "effects": [
+            {
+              "type": "quest_offer",
+              "questId": "legendary_m08_lead_mattew",
+              "title": "Zacian — il sigillo della spada",
+              "objective": "Confrontare le cronache del guardiano con la Spada Rovinata; nessuna spada è stata recuperata."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "legendary_m08_followup_daniel",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Daniel"
+          },
+          {
+            "path": "world.flags.legendary_m08_qualified_daniel",
+            "eq": true
+          },
+          {
+            "path": "world.flags.legendary_m08_village_reflection",
+            "eq": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "lead",
+          "effects": [
+            {
+              "type": "quest_offer",
+              "questId": "legendary_m08_lead_daniel",
+              "title": "Mewtwo — le pagine cancellate",
+              "objective": "Verificare l'origine del fascicolo scientifico rispettando l'autonomia di Mewtwo."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "legendary_m08_followup_edward",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Edward"
+          },
+          {
+            "path": "world.flags.legendary_m08_qualified_edward",
+            "eq": true
+          },
+          {
+            "path": "world.flags.legendary_m08_village_reflection",
+            "eq": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "lead",
+          "effects": [
+            {
+              "type": "quest_offer",
+              "questId": "legendary_m08_lead_edward",
+              "title": "Lugia — le rotte della tempesta",
+              "objective": "Confrontare le rotte marine e le anomalie meteo, senza presumere un avvistamento di Lugia."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "legendary_m08_followup_fab",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Fab"
+          },
+          {
+            "path": "world.flags.legendary_m08_qualified_fab",
+            "eq": true
+          },
+          {
+            "path": "world.flags.legendary_m08_village_reflection",
+            "eq": true
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "lead",
+          "effects": [
+            {
+              "type": "quest_offer",
+              "questId": "legendary_m08_lead_fab",
+              "title": "Rayquaza — il cielo instabile",
+              "objective": "Indagare sulle rilevazioni atmosferiche senza attribuire una Megaevoluzione già ottenuta."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
