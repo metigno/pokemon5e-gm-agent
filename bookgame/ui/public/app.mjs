@@ -233,6 +233,9 @@ function formatLog(entry) {
     return `${entry.ballId ?? "Poké Ball"}: ${entry.captured ? "cattura riuscita" : "il Pokémon è rimasto libero"}` +
       (Number.isFinite(entry.total) ? ` · ${entry.total} vs DC ${entry.dc}` : "") + ".";
   }
+  if (entry.type === "flee_attempt") {
+    return entry.escaped ? "Fuga riuscita." : "Tentativo di fuga non riuscito.";
+  }
   if (entry.type === "combat_end") return `Combattimento concluso: ${entry.outcome}.`;
   if (entry.type === "switch") return `Cambio: ${entry.out} → ${entry.in}.`;
   if (entry.type === "movement") return `${entry.actor} si muove di ${Math.round(entry.feet)} ft.`;
@@ -337,6 +340,14 @@ function renderBattle(battle) {
       button.addEventListener("click", () => runCombatAction("/api/combat/capture", { ball: ball.id }));
       els.moveList.append(button);
     }
+  }
+
+  if (battle.flee?.available) {
+    const button = document.createElement("button");
+    button.className = "move-button";
+    button.innerHTML = "<strong>Tenta la fuga</strong><small>Prova di fuga Pokémon 5e · niente cattura automatica</small>";
+    button.addEventListener("click", () => runCombatAction("/api/combat/flee", {}));
+    els.moveList.append(button);
   }
 
   els.endTurn.hidden = battle.awaitingSwitch === "player" || Boolean(battle.pendingTrainerReaction);
