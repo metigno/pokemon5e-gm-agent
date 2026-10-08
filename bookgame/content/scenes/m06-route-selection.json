@@ -30,7 +30,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il terminale interregionale separa desiderio di viaggio, disponibilità effettiva e partenza. Nessuna rotta è obbligatoria soltanto perché compare sul tabellone."
+          "text": "Davanti al terminale di Altacima, le partenze scorrono in righe luminose. Un addetto richiama i viaggiatori: «Controllate gli orari prima di mettervi in fila. Una destinazione sul tabellone non significa che il prossimo mezzo sia ancora disponibile»."
         }
       ],
       "choices": [
@@ -46,7 +46,7 @@
         },
         {
           "id": "entry_defer",
-          "text": "Rimando la scelta senza chiudere M6.",
+          "text": "Per ora lascio perdere la partenza.",
           "goto": "defer"
         }
       ]
@@ -55,7 +55,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Solaria e Luminara sono entrambe raggiungibili attraverso la rete autorizzata, ma con tempi e contesti diversi. Puoi anche mantenere un piano aperto prima di impegnarti."
+          "text": "Due nomi risaltano sul tabellone: Solaria e Luminara. Accanto a ciascuno compaiono collegamenti e orari diversi. Dietro di te, un allenatore piega la mappa mentre un altro discute con la biglietteria."
         }
       ],
       "choices": [
@@ -71,12 +71,12 @@
         },
         {
           "id": "board_open",
-          "text": "Mantengo un piano aperto e confronto i vincoli.",
+          "text": "Confronto entrambe le tratte prima di scegliere.",
           "goto": "neutral_plan"
         },
         {
           "id": "board_callbacks",
-          "text": "Controllo se la storia precedente cambia il contesto.",
+          "text": "Cerco nomi e contatti che conosco.",
           "goto": "callbacks"
         }
       ]
@@ -85,7 +85,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Solaria offre un circuito molto esposto al confronto fra stili: buona scelta per chi vuole testare rapidamente la propria adattabilità fuori da Asteria."
+          "text": "Un manifesto di Solaria mostra un'arena circondata da spalti affollati. Un viaggiatore indica le gare segnate in rosso: «Là arrivano allenatori da ogni parte. Ti accorgi in fretta se il tuo modo di combattere funziona anche fuori casa»."
         }
       ],
       "choices": [
@@ -112,7 +112,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Luminara concentra logistica, densità di trainer e finestre Masters. La destinazione non concede punti: decide soltanto dove andrai a cercarli."
+          "text": "La colonna di Luminara è fitta di coincidenze e appuntamenti Masters. Una donna con la giacca del circuito scorre gli orari: «Se perdi il collegamento, potresti perdere anche la registrazione. Scegli con attenzione»."
         }
       ],
       "choices": [
@@ -139,13 +139,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Tenere aperte entrambe le opzioni evita una scelta prematura ma non sospende il calendario. Prima della partenza dovrai comunque selezionare una tratta reale."
+          "text": "Tieni entrambe le destinazioni davanti a te. Sul tabellone, intanto, un orario cambia: aspettare ti lascia più tempo per decidere, ma non trattiene le partenze."
         }
       ],
       "choices": [
         {
           "id": "neutral_timetable",
-          "text": "Confronto i tempi prima di decidere.",
+          "text": "Confronto gli orari.",
           "goto": "timetable"
         },
         {
@@ -159,7 +159,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Le finestre di trasporto e competizione scorrono sullo stesso calendario del resto del mondo. Aspettare può migliorare una coincidenza e peggiorare un'altra."
+          "text": "L'orologio sopra il banco avanza mentre confronti le coincidenze. Un annuncio copre per un istante il brusio della sala; alcune partenze sono vicine, altre lasciano più margine per prepararsi."
         }
       ],
       "choices": [
@@ -180,7 +180,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La scelta non viene valutata come giusta o sbagliata in astratto: conta cosa stai sacrificando in tempo, informazione e preparazione."
+          "text": "Una tratta più rapida potrebbe lasciarti meno tempo per organizzarti; una più comoda potrebbe farti arrivare dopo una scadenza. Gli orari sono davanti a te. La decisione resta tua."
         }
       ],
       "choices": [
@@ -191,7 +191,7 @@
         },
         {
           "id": "risk_defer",
-          "text": "Decido di non partire ancora.",
+          "text": "Rimando il viaggio.",
           "goto": "defer"
         }
       ]
@@ -200,7 +200,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Rimandare mantiene M6 attivo e non assegna nessuna rotta. NPC e circuiti continuano secondo E2/E6."
+          "text": "Ti allontani dallo sportello senza acquistare il biglietto. La sala continua a muoversi: partenze annunciate, allenatori in fila e nuove gare segnate sui monitor."
         }
       ],
       "choices": [
@@ -226,13 +226,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "I callback precedenti possono cambiare reputazione, contatti o informazioni di viaggio, ma non eliminano i requisiti della licenza o del calendario."
+          "text": "Tra gli avvisi trovi nomi di organizzatori e contatti già incontrati durante il viaggio. Alcuni potrebbero riconoscerti, ma le condizioni di viaggio esposte allo sportello restano le stesse."
         }
       ],
       "choices": [
         {
           "id": "callbacks_record",
-          "text": "Registro che il contesto è stato consultato.",
+          "text": "Prendo nota dei contatti utili.",
           "goto": "route_board",
           "effects": [
             {
@@ -253,13 +253,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il piano è ora persistente. La partenza resta un'azione distinta: scegliere una città non significa esservi già arrivati."
+          "text": "L'addetto annota la destinazione scelta. «Bene. Ora controlliamo la partenza vera e propria». Il tabellone resta acceso alle sue spalle."
         }
       ],
       "choices": [
         {
           "id": "confirm_depart",
-          "text": "Passo alla partenza interregionale.",
+          "text": "Mi presento per organizzare la partenza.",
           "goto": "m06-interregional-travel#travel_entry",
           "effects": [
             {
@@ -271,7 +271,7 @@
         },
         {
           "id": "confirm_change",
-          "text": "Riapro il controllo del piano prima di cambiare rotta.",
+          "text": "Chiedo di rivedere la destinazione.",
           "goto": "back_link"
         }
       ]
@@ -280,13 +280,13 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La selezione può essere chiusa senza visitare entrambe le destinazioni. Il modulo registra una scelta reale, non una checklist turistica."
+          "text": "La biglietteria non richiede di visitare ogni città del circuito. Hai davanti un itinerario possibile; gli altri continueranno a esistere anche senza una tua visita."
         }
       ],
       "choices": [
         {
           "id": "close_depart",
-          "text": "Vado alla partenza.",
+          "text": "Mi avvio alla partenza.",
           "goto": "m06-interregional-travel#travel_entry"
         },
         {
@@ -300,7 +300,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Finché non parte il trasporto, puoi rivedere la scelta senza perdere tempo extra oltre a quello esplicitamente consumato."
+          "text": "L'addetto lascia il modulo sul banco. «Non ho ancora emesso il biglietto. Se vuoi cambiare destinazione, questo è il momento»."
         }
       ],
       "choices": [
@@ -320,7 +320,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il pannello si aggiorna dopo l'attesa. La route scelta, se già registrata, resta una preferenza e può ancora essere cambiata prima della partenza."
+          "text": "Quando torni al tabellone, alcune righe sono cambiate. Il personale annuncia nuove coincidenze e chiama i passeggeri in attesa."
         }
       ],
       "choices": [
