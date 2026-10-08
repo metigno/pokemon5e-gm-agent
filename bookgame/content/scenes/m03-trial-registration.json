@@ -34,7 +34,7 @@
       "stitches": [
         {
           "id": "info_1",
-          "text": "Il Promotion Trial D→C si svolge all'Officina Arena di Ferravia. È il gate reale verso Rank C: Singles, roster ufficiale da tre, una sola esaminatrice, vittoria obbligatoria, retry consentito."
+          "text": "Il Promotion Trial D→C si tiene all'Officina Arena di Ferravia. Sul cartello è indicato il formato: Singles, tre Pokémon registrati, vittoria necessaria per il Rank C. In caso di sconfitta potrai iscriverti di nuovo."
         }
       ],
       "choices": [
@@ -82,7 +82,7 @@
       "stitches": [
         {
           "id": "format_1",
-          "text": "L'identità del checkpoint è tempo, resistenze, coperture e switch. Non c'è level scaling invisibile: l'esaminatore usa il roster fissato per questa fascia."
+          "text": "L'ufficiale ti mostra il regolamento della prova: l'esaminatrice usa una squadra registrata per questa fascia. La preparazione dovrà tenere conto di tempi, resistenze e cambi, non di avversari che diventano più forti appena ti vedono."
         }
       ],
       "choices": [
@@ -159,7 +159,7 @@
       "stitches": [
         {
           "id": "roster_1",
-          "text": "Servono almeno tre Pokémon reali nel roster. Il Trial non presta membri e non usa copie narrative della squadra."
+          "text": "Al banco ti chiedono tre Pokémon effettivamente disponibili. Non puoi presentarne due e scrivere un terzo nome su un foglio per completare la squadra."
         }
       ],
       "choices": [
@@ -210,7 +210,7 @@
       "stitches": [
         {
           "id": "examiner_1",
-          "text": "L'esaminatrice di fascia usa un profilo tecnico stabile: controllo del tempo e punizione dei cambi prevedibili. Il registro pubblico non rivela mosse o risorse correnti."
+          "text": "Le registrazioni pubbliche mostrano un'esaminatrice attenta ai tempi di scambio e agli errori prevedibili. Nessuna scheda ti rivela le mosse che non ha ancora mostrato."
         }
       ],
       "choices": [
@@ -341,7 +341,7 @@
       "stitches": [
         {
           "id": "prep_1",
-          "text": "Prepararti non cambia il roster registrato in un duplicato narrativo. Stai soltanto decidendo se entrare adesso o più tardi."
+          "text": "Con la ricevuta in mano puoi rivedere la preparazione e decidere se entrare ora. Il modulo d'iscrizione non ti consegna una seconda squadra da utilizzare."
         }
       ],
       "choices": [
@@ -454,7 +454,7 @@
       "stitches": [
         {
           "id": "switch_1",
-          "text": "Il checkpoint valuta gli switch perché ogni cambio costa tempo e posizione. L'obiettivo è avere un motivo per cambiare, non cambiare per inerzia."
+          "text": "Cambiare Pokémon può salvare uno scontro oppure lasciare un'apertura all'avversaria. Prima di decidere, puoi considerare quale compagno dovrà affrontare il turno successivo."
         }
       ],
       "choices": [
@@ -481,7 +481,7 @@
       "stitches": [
         {
           "id": "tempo_1",
-          "text": "Il tempo è una risorsa del match: turni, finestre di pressione e capacità di non cedere iniziativa. La scena non assegna bonus; registra soltanto il tuo piano."
+          "text": "Nel combattimento ogni turno conta. Puoi costruire un piano che conservi l'iniziativa, sapendo che un buon proposito non equivale ancora a una mossa riuscita."
         }
       ],
       "choices": [
@@ -562,7 +562,7 @@
       "stitches": [
         {
           "id": "audit_1",
-          "text": "La registrazione confermata mostra checkpoint, rank di partenza, rank obiettivo, roster richiesto e retryability. Non memorizza una copia alternativa della squadra."
+          "text": "Il documento conferma il Rank attuale, quello per cui sostieni la prova, i tre Pokémon richiesti e la possibilità di un nuovo tentativo dopo una sconfitta. La squadra rimane quella che possiedi davvero."
         }
       ],
       "choices": [

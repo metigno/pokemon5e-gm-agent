@@ -34,7 +34,7 @@
       "stitches": [
         {
           "id": "gate_1",
-          "text": "L'Officina Arena chiude l'area laterale e chiama il tuo nome. Questo è un checkpoint, non una cutscene: se perdi, resti Rank D."
+          "text": "All'Officina Arena chiudono l'area laterale e chiamano il tuo nome. L'esaminatrice aspetta sulla linea opposta: una sconfitta lascerà la tua licenza al Rank D, ma non ti impedirà di prepararti per un nuovo tentativo."
         }
       ],
       "choices": [
@@ -59,7 +59,7 @@
       "stitches": [
         {
           "id": "brief_1",
-          "text": "«Tre Pokémon. Singles. Voglio vedere se sai usare tempo, resistenze, coperture e switch senza bruciare il piano al primo turno.» Il roster dell'esaminatrice è quello fissato per il checkpoint; nessun scaling segue il tuo livello."
+          "text": "«Tre Pokémon. Singles.» L'esaminatrice indica il campo. «Voglio vedere come gestisci il tempo, le resistenze e i cambi. Non sacrificare tutto il piano per il primo colpo spettacolare.» I suoi Pokémon sono quelli registrati per questa prova."
         }
       ],
       "choices": [
@@ -154,7 +154,7 @@
       "stitches": [
         {
           "id": "field_1",
-          "text": "L'Officina Arena ha spazio sufficiente per cambi e range senza elementi scenici che alterino arbitrariamente le regole. La geometria verrà gestita dal combattimento reale."
+          "text": "L'Officina Arena lascia spazio sufficiente per muoversi e cambiare Pokémon. L'arbitro ne indica i confini prima dell'inizio, senza introdurre ostacoli inattesi."
         }
       ],
       "choices": [
@@ -181,7 +181,7 @@
       "stitches": [
         {
           "id": "ready_1",
-          "text": "Prima di partire puoi soltanto decidere se accettare lo stato reale della squadra o rinviare. Non esiste un reset pre-Trial."
+          "text": "Puoi entrare con la squadra nelle condizioni attuali oppure rinviare. L'accesso alla prova non guarisce i Pokémon e non restituisce le risorse già spese."
         }
       ],
       "choices": [
@@ -208,7 +208,7 @@
       "stitches": [
         {
           "id": "identity_1",
-          "text": "L'identità del gate è tecnica: tempo, resistenze, coperture e switch. L'esaminatrice non cambia roster per inseguire la tua build."
+          "text": "L'esaminatrice controlla di nuovo il proprio elenco di Pokémon. «Una prova sulla gestione degli scambi e del tempo», spiega. «Non cambio squadra perché mi piace di più la tua.»"
         }
       ],
       "choices": [

@@ -117,7 +117,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il tuo nome appare nell'albo d'oro accanto a questa edizione del Mondiale. Il titolo non deriva dalle interviste o dai pronostici: lo hai conquistato vincendo l'ultima partita."
+          "text": "Se hai vinto la finale, il tuo nome compare nell'albo d'oro di questa edizione. Il titolo deriva dall'ultima partita, non dai pronostici o dagli applausi."
         }
       ],
       "choices": [
@@ -137,7 +137,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il tabellone conserva anche chi è arrivato a un passo dal titolo. Hai giocato la finale e l'hai persa: qualcuno te ne chiederà conto, altri ricorderanno quanto hai fatto per arrivarci."
+          "text": "Se hai disputato la finale e l'hai persa, il tabellone ti registra come secondo classificato. Alcuni ricorderanno il percorso fino a qui, altri parleranno dell'ultimo incontro: nessuna reazione modifica il verdetto."
         }
       ],
       "choices": [
@@ -157,7 +157,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La semifinale ha chiuso il tuo percorso. Da spettatore puoi seguire la finale, ma non rientrare nel tabellone senza aver vinto l'incontro che ti è costato l'eliminazione."
+          "text": "Se la tua corsa si è fermata in semifinale, puoi seguire la finale soltanto da fuori. Gli altri allenatori continueranno senza reinserirti nel tabellone."
         }
       ],
       "choices": [
@@ -257,7 +257,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il nome inciso sulla coppa è il tuo. Intorno ci sono voci diverse e molte domande, ma la vittoria non ha bisogno di essere riscritta perché esista."
+          "text": "Il campione di questa edizione vede il proprio nome inciso sulla coppa. Se quel nome è il tuo, le reazioni degli spalti e delle persone incontrate lungo la carriera non devono per forza essere uguali."
         }
       ],
       "choices": [
@@ -277,7 +277,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Sul podio sali da secondo classificato. La coppa passa ad altre mani; resta a te decidere che cosa portare con te di questa notte."
+          "text": "Chi termina al secondo posto sale sul podio senza il titolo. Se è il tuo piazzamento, puoi decidere cosa portare con te di questa notte, senza cambiare il risultato."
         }
       ],
       "choices": [
@@ -297,7 +297,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Puoi sapere chi ha vinto la finale anche se non vi hai partecipato. La notizia non modifica la semifinale che ti ha eliminato."
+          "text": "Chi è uscito in semifinale apprende comunque il nome del nuovo campione. Se è il tuo caso, la notizia non cancella la partita in cui sei stato eliminato."
         }
       ],
       "choices": [
