@@ -34,7 +34,7 @@
       "stitches": [
         {
           "id": "board_1",
-          "text": "Il bollettino di Altacima divide il giorno in finestre operative. Non assegna un sì o un no permanente: descrive vento, visibilità e probabilità di celle temporalesche nel momento presente."
+          "text": "Il bollettino di Altacima cambia con le ore: raffiche sulle creste, banchi di nebbia nei canaloni e possibili temporali sull'altopiano. Una finestra favorevole al mattino potrebbe già chiudersi nel pomeriggio."
         }
       ],
       "choices": [
@@ -279,7 +279,7 @@
       "stitches": [
         {
           "id": "risk_1",
-          "text": "Prima di partire puoi trattare la scelta come una scommessa cieca oppure spendere tempo per leggere meglio il margine. Entrambe sono scelte reali: prudenza e velocità hanno costi diversi, e nessuna delle due garantisce da sola un buon esito."
+          "text": "Sul tavolo hai una carta della salita e gli ultimi rilevamenti. Puoi partire con ciò che sai oppure dedicare altro tempo a confrontare vento, nuvole e possibili ripari."
         }
       ],
       "choices": [
@@ -413,7 +413,7 @@
       "stitches": [
         {
           "id": "post_1",
-          "text": "Rimandare ha un costo reale: le ore passano, le partenze cambiano e persone o opportunità disponibili adesso potrebbero non esserlo più tardi."
+          "text": "Rimandare significa lasciare passare davvero il tempo. Persone, eventi e disponibilità possono cambiare mentre aspetti una finestra migliore."
         }
       ],
       "choices": [
@@ -424,7 +424,7 @@
         },
         {
           "id": "post_hub",
-          "text": "Uso il tempo per tornare ad Altacima.",
+          "text": "Uso il tempo per tornare nel hub.",
           "goto": "m05-altacima#town_hub",
           "effects": [
             {
@@ -474,7 +474,7 @@
       "stitches": [
         {
           "id": "gate_1",
-          "text": "Al controllo per Fulgore la decisione viene registrata come piano di partenza, non come viaggio già completato. Il blocco successivo dovrà consumare questo stato e risolvere la salita reale."
+          "text": "Al controllo per Fulgore l'addetto annota l'ora e il percorso che hai scelto. Poi indica la cresta: «Quello che trovate lassù può cambiare prima del prossimo bollettino.»"
         }
       ],
       "choices": [
@@ -505,7 +505,7 @@
       "stitches": [
         {
           "id": "record_1",
-          "text": "Hai scelto quando partire, quale rotta tentare e quanto fidarti delle informazioni raccolte. Fulgore, però, è ancora davanti a te: dovrai raggiungerlo davvero."
+          "text": "Segni sulla carta la rotta e l'orario previsto. Il passo successivo sarà affrontare davvero il sentiero, con il tempo che troverai."
         }
       ],
       "choices": [
@@ -532,7 +532,7 @@
       "stitches": [
         {
           "id": "close_1",
-          "text": "La finestra meteo resta dinamica. Hai una decisione persistente, non un permesso eterno; aspettare ancora può cambiare le condizioni prima della partenza effettiva."
+          "text": "Le condizioni non restano ferme per te. Anche dopo aver scelto una strategia, aspettare ancora può cambiare vento, visibilità e sicurezza prima della partenza."
         }
       ],
       "choices": [
