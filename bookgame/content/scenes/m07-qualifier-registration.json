@@ -40,7 +40,7 @@
       "choices": [
         {
           "id": "entry_eligibility",
-          "text": "Controllo l'eligibility corrente.",
+          "text": "Controllo l'requisiti corrente.",
           "goto": "eligibility"
         },
         {
@@ -70,7 +70,7 @@
         },
         {
           "id": "eligibility_roster",
-          "text": "Verifico l'Official Six.",
+          "text": "Verifico l'squadra di sei Pokémon.",
           "goto": "roster_review"
         },
         {
@@ -128,7 +128,7 @@
         },
         {
           "id": "roster_back",
-          "text": "Torno all'eligibility.",
+          "text": "Torno all'requisiti.",
           "goto": "eligibility"
         }
       ]
@@ -207,12 +207,12 @@
       "choices": [
         {
           "id": "rules_history",
-          "text": "Controllo come verrà conservata la history.",
+          "text": "Controllo come verrà conservata la registro degli incontri.",
           "goto": "history_guard"
         },
         {
           "id": "rules_eligibility",
-          "text": "Torno all'eligibility.",
+          "text": "Torno all'requisiti.",
           "goto": "eligibility"
         }
       ]
@@ -244,7 +244,7 @@
         },
         {
           "id": "desk_friend",
-          "text": "Rivedo il Friend Beat prima di firmare.",
+          "text": "Rivedo il incontro con un amico prima di firmare.",
           "goto": "friend_callback"
         },
         {
@@ -351,7 +351,7 @@
         },
         {
           "id": "friend_history",
-          "text": "Rivedo la separazione fra relazioni e history competitiva.",
+          "text": "Rivedo la separazione fra relazioni e registro degli incontri competitiva.",
           "goto": "history_guard"
         }
       ]
@@ -366,7 +366,7 @@
       "choices": [
         {
           "id": "cynthia_bracket",
-          "text": "Passo alla preparazione del bracket.",
+          "text": "Passo alla preparazione del tabellone.",
           "goto": "ready_to_bracket"
         },
         {
