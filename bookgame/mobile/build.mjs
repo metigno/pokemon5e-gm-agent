@@ -65,16 +65,16 @@ async function contract() {
 }
 
 async function verifyMandatoryAssets(root = BOOKGAME) {
-  const map = await json("assets/pokemon/sprite-runtime-map.json");
+  const map = await json("assets/pokemon/sprite-runtime-map.json", root);
   const spriteDir = join(root, "assets/pokemon/files");
   const sprite = await verifyOfflineSpriteAssets(map, spriteDir);
   if (!sprite.valid) {
     throw new Error(`Mobile release BLOCKED: Pokémon sprites ${sprite.verifiedPng} verified; ${sprite.missing.length} missing, ${sprite.invalid.length} invalid (619 species required).`);
   }
 
-  const registry = await json("content/npcs/NPC_CHARACTER_LIBRARY_V1.json");
-  const checksums = await json("assets/characters/sha256.json");
-  const nativeManifest = await json("assets/characters/native-sprites.json");
+  const registry = await json("content/npcs/NPC_CHARACTER_LIBRARY_V1.json", root);
+  const checksums = await json("assets/characters/sha256.json", root);
+  const nativeManifest = await json("assets/characters/native-sprites.json", root);
   const charDir = join(root, "assets/characters/files");
   const characters = await verifyOfflineCharacterSprites(registry, charDir, checksums);
   const native = await verifyOfflineNativeCharacterSprites(registry, nativeManifest, charDir);
