@@ -630,3 +630,115 @@ button { -webkit-tap-highlight-color: transparent; }
 .character-overworld-frame { width: 32px; height: 64px; overflow: hidden; flex: 0 0 32px; display: block; }
 .character-overworld-frame img { max-width: none; image-rendering: pixelated; display: block; }
 @media (max-width: 420px) { .trainer-front-icon { width: 48px; height: 48px; } }
+
+/* STEP12_MOBILE_POLISH: presentation-only mobile and accessibility safeguards. */
+:root { --mobile-nav-height: 78px; }
+body, .app-shell { min-height: 100dvh; }
+.app-shell { padding-bottom: calc(var(--mobile-nav-height) + env(safe-area-inset-bottom)); }
+.topbar { padding-top: calc(14px + env(safe-area-inset-top)); }
+.topbar > div:first-child, .battle-header > div:first-child { min-width: 0; }
+.topbar h1, .battle-header h2, .data-card, .story-text, .map-site__body,
+.reference-content, .drawer-content, .choice-dialog { overflow-wrap: anywhere; }
+.bottom-nav { padding-inline: max(6px, env(safe-area-inset-left)) max(6px, env(safe-area-inset-right)); }
+.bottom-nav button { min-width: 0; touch-action: manipulation; }
+button, select, input { touch-action: manipulation; }
+button:focus-visible, input:focus-visible, select:focus-visible,
+summary:focus-visible, a:focus-visible {
+  outline: 3px solid var(--action);
+  outline-offset: 2px;
+}
+.ghost-button, .icon-button, .gear-toggle, .item-use, .levelup-decline,
+.pokemon-learn-move, .pokemon-replace-move, .pokemon-asi,
+.evolution-action, .battle-actions > button {
+  min-height: 44px;
+}
+.icon-button { min-width: 44px; }
+.data-card button { max-width: 100%; overflow-wrap: anywhere; }
+.combat-log summary { min-height: 44px; display: flex; align-items: center; }
+.data-row { min-width: 0; }
+.data-row > span, .data-row > label, .data-row > select { min-width: 0; }
+.data-row span:last-child { overflow-wrap: anywhere; }
+.data-row select { max-width: 100%; min-height: 44px; }
+.drawer { height: 100dvh; padding-top: env(safe-area-inset-top); overscroll-behavior: contain; }
+.choice-overlay, .reference-overlay, .evolution-overlay {
+  padding-top: calc(12px + env(safe-area-inset-top));
+  padding-bottom: calc(12px + env(safe-area-inset-bottom));
+}
+.choice-dialog, .reference-dialog { max-height: calc(100dvh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); overscroll-behavior: contain; }
+.start-screen {
+  overflow-y: auto;
+  place-items: safe center;
+  padding-top: calc(16px + env(safe-area-inset-top));
+  padding-bottom: calc(16px + env(safe-area-inset-bottom));
+}
+.start-card { max-height: calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); overflow-y: auto; }
+.start-card input, .start-card select, .settings-row select, .battle-position-form input,
+.battle-position-form select, .data-row select { font-size: 1rem; }
+.app-alert {
+  position: fixed;
+  z-index: 110;
+  left: 50%;
+  bottom: calc(var(--mobile-nav-height) + 10px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  width: min(calc(100% - 24px), 540px);
+  padding: 12px 16px;
+  border: 2px solid var(--danger);
+  border-radius: 12px;
+  background: #fff5f5;
+  color: #8a2020;
+  font-weight: 700;
+  line-height: 1.45;
+  box-shadow: var(--shadow);
+  pointer-events: none;
+}
+.skip-link {
+  position: fixed;
+  z-index: 120;
+  top: -100px;
+  left: max(12px, env(safe-area-inset-left));
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: white;
+  color: var(--action-pressed);
+}
+.skip-link:focus { top: calc(8px + env(safe-area-inset-top)); }
+@media (max-width: 480px) {
+  :root { --mobile-nav-height: 124px; }
+  .main-view { padding: 8px; }
+  .topbar { gap: 8px; padding-inline: 12px; }
+  .topbar-status { gap: 4px; }
+  .status-chip { font-size: .7rem; padding: 4px 7px; }
+  .story-panel, .battle-card { padding: 14px; }
+  .story-text { font-size: 1.075rem; line-height: 1.65; }
+  .bottom-nav { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px 4px; }
+  .bottom-nav button { min-height: 52px; font-size: .78rem; }
+  .bottom-nav button span { font-size: 1.15rem; }
+  .drawer { width: 100%; }
+  .drawer-content { padding: 12px; }
+  .drawer-header { padding: 12px 14px; }
+  .move-grid { grid-template-columns: minmax(0, 1fr); }
+  .battle-position-coordinates { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .battle-position-coordinates label:last-child { grid-column: 1 / -1; }
+  .data-row { flex-wrap: wrap; gap: 4px 10px; }
+  .data-row > span:last-child { text-align: left; }
+  .battle-header { flex-wrap: wrap; }
+  .combatant--enemy { margin-left: 5%; }
+  .battle-sprite--enemy { right: 8%; }
+  .battle-sprite--player { left: 6%; }
+  .start-card { padding: 16px; }
+}
+@media (max-width: 350px) {
+  .topbar { flex-wrap: wrap; }
+  .topbar-status { justify-content: flex-start; }
+  .pokemon-icon--team { width: 42px; height: 42px; }
+  .pokemon-card { gap: 8px; }
+  .start-actions, .start-reference-actions { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-height: 610px) {
+  .scene-art { height: clamp(100px, 22dvh, 170px); }
+  .battle-stage { height: 122px; }
+}
+@media (prefers-contrast: more) {
+  .choice-button, .move-button, .map-travel { border-width: 2px; }
+  .bottom-nav button { color: var(--ink); }
+}
