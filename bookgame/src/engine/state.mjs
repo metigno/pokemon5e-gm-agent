@@ -10,7 +10,9 @@ export const GAME_STATE_SCHEMA_VERSION = 4;
 export const MAX_PLAYER_ROSTER_SIZE = 6;
 
 export function assertPlayerRosterLimit(state) {
-  const roster = state?.player?.roster;
+  // Combat-only persistence fixtures have no player/party; enforce the cap whenever an owned roster exists.
+  if (!state?.player) return true;
+  const roster = state.player.roster;
   if (!Array.isArray(roster) || roster.length > MAX_PLAYER_ROSTER_SIZE) {
     throw new Error("Salvataggio non valido: la squadra può contenere al massimo sei Pokémon. Nessun Pokémon verrà eliminato automaticamente.");
   }
