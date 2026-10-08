@@ -46,6 +46,14 @@ const els = {
   playerHpText: $("#player-hp-text"),
   playerSprite: $("#player-sprite"),
   moveList: $("#move-list"),
+  positionMeta: $("#battle-position-meta"),
+  positionForm: $("#battle-position-form"),
+  positionTitle: $("#battle-position-title"),
+  positionMode: $("#battle-position-mode"),
+  positionX: $("#battle-position-x"),
+  positionY: $("#battle-position-y"),
+  positionZ: $("#battle-position-z"),
+  positionCancel: $("#battle-position-cancel"),
   endTurn: $("#end-turn"),
   combatLog: $("#combat-log"),
   choiceOverlay: $("#choice-overlay"),
@@ -395,6 +403,92 @@ function formatLog(entry) {
   return entry.type.replaceAll("_", " ");
 }
 
+const POSITIONED_MOVES = new Set(["teleport", "smog", "poison-gas", "hail", "sandstorm", "smokescreen"]);
+const ATTRIBUTE_MOVES = new Set(["power-shift", "power-split", "power-swap", "power-trick"]);
+const ABILITY_LABELS = { str: "Forza", dex: "Destrezza", con: "Costituzione", int: "Intelligenza", wis: "Saggezza", cha: "Carisma" };
+
+function formatPosition(position) {
+  if (!position) return "—";
+  return `(${position.x}, ${position.y}${position.z == null ? "" : `, ${position.z}`}) ft`;
+}
+
+function addBattleAction(title, detail, run) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "move-button";
+  const strong = document.createElement("strong");
+  strong.textContent = title;
+  const small = document.createElement("small");
+  small.textContent = detail;
+  button.append(strong, small);
+  button.addEventListener("click", run);
+  els.moveList.append(button);
+}
+
+function openBattlePositionForm(kind, options = {}) {
+  const battle = snapshot?.battle;
+  if (!battle) return;
+  const initial = kind === "trainer" || kind === "switch"
+    ? battle.spatial.trainerPosition : battle.player.position;
+  els.positionForm.dataset.kind = kind;
+  els.positionForm.dataset.benchIndex = options.benchIndex ?? "";
+  els.positionForm.dataset.moveId = options.moveId ?? "";
+  els.positionTitle.textContent = kind === "pokemon" ? "Destinazione Pokémon (ft)"
+    : kind === "trainer" ? "Destinazione Trainer (ft)"
+    : kind === "switch" ? "Punto di ingresso del Pokémon (entro 15 ft dal Trainer)"
+    : "Centro o destinazione della mossa (ft)";
+  els.positionX.value = String(initial.x);
+  els.positionY.value = String(initial.y);
+  els.positionZ.value = initial.z == null ? "" : String(initial.z);
+  const moveModeLabel = els.positionMode.parentElement;
+  moveModeLabel.hidden = kind !== "pokemon";
+  els.positionMode.replaceChildren();
+  if (kind === "pokemon") {
+    for (const mode of battle.spatial.pokemonMovementModes) {
+      const option = document.createElement("option");
+      option.value = mode.type;
+      option.textContent = `${mode.type} · ${mode.remaining} ft rimasti`;
+      els.positionMode.append(option);
+    }
+  }
+  els.positionForm.hidden = false;
+  els.positionX.focus();
+}
+
+async function useBattleMove(move) {
+  if (POSITIONED_MOVES.has(move.id)) {
+    openBattlePositionForm("move", { moveId: move.id });
+    return;
+  }
+  if (ATTRIBUTE_MOVES.has(move.id)) {
+    const valid = move.id === "power-split" ? ["str", "dex", "wis"]
+      : move.id === "power-trick" ? ["str", "dex", "int", "wis", "cha"]
+      : ["str", "dex", "con", "int", "wis", "cha"];
+    const chosen = await chooseTouchOption({
+      title: `${move.name} — caratteristica`,
+      options: valid.map((id) => ({ value: id, label: ABILITY_LABELS[id] }))
+    });
+    if (chosen) await runCombatAction("/api/combat/move", {
+      moveId: move.id, canonicalChoice: { attribute: chosen }
+    });
+    return;
+  }
+  if (move.id === "psycho-shift") {
+    const chosen = await chooseTouchOption({
+      title: "Psycho Shift — origine dello stato",
+      options: [
+        { value: "player", label: "Il tuo Pokémon" },
+        { value: "opponent", label: "Pokémon avversario" }
+      ]
+    });
+    if (chosen) await runCombatAction("/api/combat/move", {
+      moveId: move.id, canonicalChoice: { sourceSide: chosen }
+    });
+    return;
+  }
+  await runCombatAction("/api/combat/move", { moveId: move.id });
+}
+
 function renderBattle(battle) {
   els.storyScreen.hidden = true;
   els.battleScreen.hidden = false;
@@ -418,6 +512,14 @@ function renderBattle(battle) {
     (battle.player.statuses.length ? ` · ${battle.player.statuses.join(", ")}` : "");
 
   els.moveList.replaceChildren();
+  els.positionForm.hidden = true;
+  const spatial = battle.spatial;
+  els.positionMeta.textContent = spatial
+    ? `Pokémon ${formatPosition(battle.player.position)} · Nemico ${formatPosition(spatial.opponentPosition)}
+Distanza ${spatial.distance.toFixed(1)} ft · Trainer ${formatPosition(spatial.trainerPosition)}
+Movimento Pokémon ${battle.player.movementRemaining} ft · Trainer ${spatial.trainerMovementRemaining} ft
+Azione ${battle.player.actionAvailable ? "libera" : "usata"} · Bonus ${battle.player.bonusActionAvailable ? "libero" : "usato"}${battle.player.disengaged ? " · Disengage attivo" : ""}`
+    : "";
 
   if (battle.pendingTrainerReaction) {
     const pending = battle.pendingTrainerReaction;
@@ -447,6 +549,8 @@ function renderBattle(battle) {
       button.innerHTML = `<img class="pokemon-icon" src="${spriteUrl(reserve.speciesId, "icon")}" alt=""><span><strong>Cambia in ${escapeHtml(reserve.name)}</strong><small>HP ${reserve.hp.current}/${reserve.hp.max}</small></span>`;
       button.addEventListener("click", () => runCombatAction("/api/combat/switch", { benchIndex: reserve.index }));
       els.moveList.append(button);
+      addBattleAction(`Posiziona ${reserve.name}`, "Scegli il punto di ingresso entro 15 ft dal Trainer",
+        () => openBattlePositionForm("switch", { benchIndex: reserve.index }));
     }
   } else {
     for (const move of battle.moves) {
@@ -455,12 +559,32 @@ function renderBattle(battle) {
       button.innerHTML =
         `<strong>${escapeHtml(move.name)}</strong>` +
         `<small>${escapeHtml(move.time?.unit ?? "")} · PP ${move.ppCurrent}/${move.ppMax}</small>`;
-      button.addEventListener("click", () => runCombatAction("/api/combat/move", { moveId: move.id }));
+      button.addEventListener("click", () => useBattleMove(move));
       els.moveList.append(button);
     }
   }
 
   if (!battle.pendingTrainerReaction && battle.awaitingSwitch !== "player" && battle.actor === "player") {
+    if (spatial?.pokemonMovementModes?.length) {
+      const modes = spatial.pokemonMovementModes.map((entry) => `${entry.type} ${entry.remaining} ft`).join(", ");
+      addBattleAction("Muovi Pokémon", modes, () => openBattlePositionForm("pokemon"));
+    }
+    if (spatial?.trainerMovementRemaining > 0) {
+      addBattleAction("Muovi Trainer", `${spatial.trainerMovementRemaining} ft rimasti`,
+        () => openBattlePositionForm("trainer"));
+    }
+    if (spatial?.disengageAvailable) {
+      addBattleAction("Disengage", "1 Azione Pokémon · movimento senza attacchi di opportunità",
+        () => runCombatAction("/api/combat/disengage", {}));
+    }
+    if (spatial?.voluntarySwitchAvailable) {
+      for (const reserve of battle.playerBench.filter((entry) => entry.hp.current > 0)) {
+        addBattleAction(`Cambia in ${reserve.name}`, `HP ${reserve.hp.current}/${reserve.hp.max} · Azione Trainer + Pokémon`,
+          () => runCombatAction("/api/combat/switch", { benchIndex: reserve.index }));
+        addBattleAction(`Posiziona ${reserve.name}`, "Cambio con punto di ingresso personalizzato",
+          () => openBattlePositionForm("switch", { benchIndex: reserve.index }));
+      }
+    }
     for (const feature of snapshot.trainerGameplay?.features ?? []) {
       if (!feature.executable) continue;
       const button = document.createElement("button");
@@ -1084,6 +1208,42 @@ els.loadGame.addEventListener("click", () => start("load"));
 els.deleteGame.addEventListener("click", deleteCareer);
 els.slot.addEventListener("change", showSelectedSlot);
 els.endTurn.addEventListener("click", () => runCombatAction("/api/combat/end-turn", {}));
+els.positionCancel.addEventListener("click", () => { els.positionForm.hidden = true; });
+for (const button of document.querySelectorAll("#battle-position-shortcuts button")) {
+  button.addEventListener("click", () => {
+    const x = Number(els.positionX.value);
+    const y = Number(els.positionY.value);
+    els.positionX.value = String(x + Number(button.dataset.offsetX));
+    els.positionY.value = String(y + Number(button.dataset.offsetY));
+  });
+}
+els.positionForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const kind = els.positionForm.dataset.kind;
+  const destination = {
+    x: Number(els.positionX.value), y: Number(els.positionY.value)
+  };
+  if (els.positionZ.value.trim() !== "") destination.z = Number(els.positionZ.value);
+  if (!Number.isFinite(destination.x) || !Number.isFinite(destination.y) ||
+      (destination.z !== undefined && !Number.isFinite(destination.z))) {
+    showInlineError("Coordinate non valide");
+    return;
+  }
+  if (kind === "switch") {
+    await runCombatAction("/api/combat/switch", {
+      benchIndex: Number(els.positionForm.dataset.benchIndex), releasePosition: destination
+    });
+  } else if (kind === "move") {
+    await runCombatAction("/api/combat/move", {
+      moveId: els.positionForm.dataset.moveId, targetPoint: destination
+    });
+  } else {
+    await runCombatAction("/api/combat/movement", {
+      unit: kind, destination,
+      ...(kind === "pokemon" ? { movementType: els.positionMode.value } : {})
+    });
+  }
+});
 els.closeDrawer.addEventListener("click", closeDrawer);
 els.drawerBackdrop.addEventListener("click", closeDrawer);
 for (const button of document.querySelectorAll(".bottom-nav button")) {
