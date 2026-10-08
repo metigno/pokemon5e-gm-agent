@@ -83,6 +83,19 @@ export function createWorldKnockoutState() {
   };
 }
 
+function archiveWorldFinal(world, winner, runnerUp) {
+  world.hallOfFame ??= [];
+  const edition = world.edition ?? 1;
+  // Player combat resolution and scheduled final event can both report this final.
+  if (!world.hallOfFame.some((entry) => entry.edition === edition)) {
+    world.hallOfFame.push({
+      edition,
+      champion: structuredClone(winner),
+      runnerUp: structuredClone(runnerUp)
+    });
+  }
+}
+
 export function createWorldCompetitionState() {
   return {
     edition: 1,
@@ -105,6 +118,7 @@ export function createWorldCompetitionState() {
     finalResolved: false,
     currentWorldChampion: null,
     currentWorldRunnerUp: null,
+    hallOfFame: [],
     groupStage: createWorldGroupStageState(),
     knockout: createWorldKnockoutState()
   };
@@ -155,6 +169,7 @@ export function ensureCompetition(state) {
   state.competition.world.finalResolved ??= false;
   state.competition.world.currentWorldChampion ??= null;
   state.competition.world.currentWorldRunnerUp ??= null;
+  state.competition.world.hallOfFame ??= [];
   state.competition.world.groupStage ??= createWorldGroupStageState();
   state.competition.world.groupStage.opened ??= false;
   state.competition.world.groupStage.playerGroup ??= null;
@@ -1299,6 +1314,7 @@ function recordWorldKnockoutOutcome(state, meta, outcome, resolvedAtMinutes, bat
     world.finalResolved = true;
     world.currentWorldChampion = structuredClone(winner);
     world.currentWorldRunnerUp = structuredClone(runnerUp);
+    archiveWorldFinal(world, winner, runnerUp);
     state.world.flags.world_final_resolved = true;
     state.world.flags.world_final_result = outcome;
     state.world.flags.world_champion = outcome === "win";
@@ -1601,6 +1617,7 @@ export function resolveWorldFinalRound(state, { eventId = "WORLD_FINAL_RESOLVE" 
   world.finalResolved = true;
   world.currentWorldChampion = structuredClone(winner);
   world.currentWorldRunnerUp = structuredClone(runnerUp);
+    archiveWorldFinal(world, winner, runnerUp);
 
   state.world.flags ??= {};
   state.world.flags.world_final_resolved = true;

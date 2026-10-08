@@ -553,3 +553,56 @@ button { -webkit-tap-highlight-color: transparent; }
 .map-travel small { display: block; margin-top: 3px; font-size: .76rem; font-weight: 500; }
 .map-travel:hover:not(:disabled), .map-travel:focus-visible { outline: 2px solid #f5dc8f; outline-offset: 2px; }
 .map-travel:disabled { opacity: .5; cursor: not-allowed; }
+
+/* Read-only information pages use the same compact drawer on mobile. */
+.info-nav-button {
+  display: block;
+  width: 100%;
+  min-height: 46px;
+  margin-bottom: 9px;
+  padding: 11px 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--ink);
+  text-align: left;
+  font-weight: 750;
+  cursor: pointer;
+}
+.info-nav-button:focus-visible { outline: 3px solid var(--action); outline-offset: 2px; }
+.info-species { display: flex; align-items: center; gap: 12px; }
+.info-species h3 { margin: 0 0 3px; }
+.info-species small { color: var(--muted); }
+.info-quest + .info-quest { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
+.info-quest p, .data-card p { line-height: 1.45; margin: 7px 0; }
+
+.start-reference-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+.start-reference-actions button { min-height: 46px; padding: 8px; border-radius: 10px; }
+.reference-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 95;
+  display: grid;
+  place-items: center;
+  padding: 12px;
+  background: rgba(10,18,34,.78);
+}
+.reference-dialog {
+  width: min(100%, 620px);
+  max-height: 92dvh;
+  overflow-y: auto;
+  border-radius: 18px;
+  background: var(--surface);
+}
+.reference-header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--line);
+  background: white;
+}
+.reference-header h2 { margin: 0; font-size: 1.15rem; }
+.reference-content { padding: 16px; }

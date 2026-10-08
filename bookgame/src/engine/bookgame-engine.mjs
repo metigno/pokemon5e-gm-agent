@@ -14,6 +14,7 @@ import {
 } from "./trainer-progression.mjs";
 import { advanceWorldTime, getWorldTimeView } from "./time.mjs";
 import { applyQuestEffect, getQuestJournal, processQuestDeadlines } from "./quest-state.mjs";
+import { recordPokemonSeen, recordPokemonCaught } from "./information-panels.mjs";
 import { applyNpcEffect, refreshNpcSchedules } from "./npc-state.mjs";
 import { processWorldEvents } from "./world-events.mjs";
 import { applyCompetitionEffect, beginCompetitionMatch, prepareWorldGroupMatch, prepareWorldKnockoutMatch, resolveCompetitionMatch } from "./competition-state.mjs";
@@ -522,6 +523,7 @@ export class BookgameEngine {
         ? npcTrainerLevel : (Number.isInteger(choice.combat.opponentTrainer?.trainerLevel)
           ? choice.combat.opponentTrainer.trainerLevel : null);
 
+      recordPokemonSeen(next, dynamicWorldOpponent?.[0] ?? authoredOpponent);
       next.pending = {
         type: "pokemon5e_combat",
         authority: "pokemon5e_rules",
@@ -627,6 +629,7 @@ export class BookgameEngine {
 
     const next = clone(state);
     next.pending.battle = clone(battle);
+    recordPokemonSeen(next, battle.opponent);
     // Track every deployed Pokémon, including the original active after a
     // switch. Never award XP to unused bench Pokémon.
     const indices = new Set(next.pending.participatingRosterIndices ?? [0]);
@@ -798,6 +801,7 @@ export class BookgameEngine {
           capturedPokemon[field] = clone(resolvedBattle.opponent[field]);
         }
       }
+      recordPokemonCaught(next, capturedPokemon);
       if (rosterSizeBeforeCapture === MAX_PLAYER_ROSTER_SIZE) {
         // Keep the new capture outside the owned roster until the player elects a permanent release.
         next.pending = {

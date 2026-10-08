@@ -55,6 +55,20 @@ test("UI server can create a real M1 game through the same API used by the butto
   assert.ok(Array.isArray(payload.story.choices));
   assert.ok(payload.story.choices.length >= 1);
 
+  // Real server contract: offline information is available without a new API client.
+  assert.equal(payload.information.pokedex.caught, 1);
+  assert.equal(payload.information.pokedex.seen, 1);
+  assert.equal(payload.information.progression.pokemonCap, 5);
+  assert.equal(payload.information.progression.trainerCap, 3);
+  assert.ok(payload.information.people.some((person) => person.name === "Edward"));
+  assert.ok(!payload.information.people.some((person) => person.name === "Blue"));
+  const offlineUi = await fetch(`${BASE}/information-renderers.mjs`);
+  assert.equal(offlineUi.status, 200);
+  assert.match(await offlineUi.text(), /informationRenderers/);
+  const hall = await fetch(`${BASE}/api/slot-hall?slot=slot1`).then((r) => r.json());
+  assert.equal(hall.ok, true);
+  assert.deepEqual(hall.entries, []);
+
   const pokemon = payload.player.roster[0];
   assert.equal(pokemon.speciesId, "growlithe-hisui");
   assert.equal(pokemon.level, 5);
