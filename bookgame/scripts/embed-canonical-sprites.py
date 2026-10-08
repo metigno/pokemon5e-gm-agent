@@ -16,13 +16,91 @@ EXPECTED_COUNTS = {"battleFront": 619, "battleBack": 619, "icon": 619, "overworl
 SOURCE_COMMIT = "bc906dcc68ca722cd1769ead0f6d3030b1b1ceee"
 ROOT = Path(__file__).resolve().parent.parent
 
+# Subdirectory aliases taken from the verified 619-species source manifest.
+# Directories are relative to graphics/pokemon at the pinned public revision.
+SOURCE_ALIASES = {
+    "alolan-diglett": "diglett/alola",
+    "alolan-dugtrio": "dugtrio/alola",
+    "alolan-exeggutor": "exeggutor/alola",
+    "alolan-geodude": "geodude/alola",
+    "alolan-golem": "golem/alola",
+    "alolan-graveler": "graveler/alola",
+    "alolan-grimer": "grimer/alola",
+    "alolan-raichu": "raichu/alola",
+    "alolan-raticate": "raticate/alola",
+    "alolan-rattata": "rattata/alola",
+    "arcanine-hisui": "arcanine/hisui",
+    "basculegion-m": "basculegion",
+    "calyrex-shadow": "calyrex/shadow",
+    "decidueye-hisui": "decidueye/hisui",
+    "deoxys-speed": "deoxys/speed",
+    "electrode-hisui": "electrode/hisui",
+    "flutter-mane": "flutter_mane",
+    "galarian-farfetchd": "farfetchd/galar",
+    "galarian-mr-mime": "mr_mime/galar",
+    "galarian-ponyta": "ponyta/galar",
+    "galarian-rapidash": "rapidash/galar",
+    "galarian-slowpoke": "slowpoke/galar",
+    "galarian-weezing": "weezing/galar",
+    "galarian-yamask": "yamask/galar",
+    "galarian-zigzagoon": "zigzagoon/galar",
+    "gimmighoul-roaming": "gimmighoul/roaming",
+    "giratina-origin": "giratina/origin",
+    "great-tusk": "great_tusk",
+    "growlithe-hisui": "growlithe/hisui",
+    "indeedee-m": "indeedee",
+    "kyurem-black": "kyurem/black",
+    "mega-blastoise": "blastoise/mega",
+    "mega-excadrill": "excadrill/mega",
+    "mega-gengar": "gengar/mega",
+    "mega-houndoom": "houndoom/mega",
+    "mega-lucario": "lucario/mega",
+    "mega-mawile": "mawile/mega",
+    "mega-metagross": "metagross/mega",
+    "mega-salamence": "salamence/mega",
+    "mega-scizor": "scizor/mega",
+    "mega-sharpedo": "sharpedo/mega",
+    "meowstic-f": "meowstic/f",
+    "meowstic-m": "meowstic",
+    "mime-jr": "mime_jr",
+    "minior-meteor-form": "minior",
+    "mr-mime": "mr_mime",
+    "nidoran-f": "nidoran_f",
+    "nidoran-m": "nidoran_m",
+    "oinkologne-female": "oinkologne/f",
+    "oinkologne-male": "oinkologne",
+    "oricorio-baile-style": "oricorio",
+    "oricorio-pau-style": "oricorio/pau",
+    "oricorio-sensu-style": "oricorio/sensu",
+    "palkia-origin": "palkia/origin",
+    "qwilfish-hisui": "qwilfish/hisui",
+    "rainy-castform": "castform/rainy",
+    "rotom-fan": "rotom/fan",
+    "rotom-mow": "rotom/mow",
+    "rotom-wash": "rotom/wash",
+    "samurott-hisui": "samurott/hisui",
+    "snowy-castform": "castform/snowy",
+    "toxtricity-amped": "toxtricity",
+    "toxtricity-low-key": "toxtricity/low_key",
+    "typhlosion-hisui": "typhlosion/hisui",
+    "voltorb-hisui": "voltorb/hisui",
+    "walking-wake": "walking_wake",
+    "wishiwashi-school-form": "wishiwashi/school",
+    "wishiwashi-solo-form": "wishiwashi",
+    "wooper-paldea": "wooper/paldea",
+    "zacian-crowned": "zacian/crowned_sword",
+    "zoroark-hisui": "zoroark/hisui",
+}
+EXPECTED_SPECIES = 619
+
+
 
 def embed(source: Path, destination: Path, mapping: dict):
     src = source.resolve()
     dest = destination.resolve()
     assert src.is_dir(), f"Missing pinned source tree: {src}"
     sprites = mapping["sprites"]
-    assert len(sprites) == 619, "Unexpected sprite catalogue size"
+    assert len(sprites) == EXPECTED_SPECIES, "Unexpected sprite catalogue size"
     counts = dict.fromkeys(ROLES, 0)
     missing = []
     copying = []
@@ -40,7 +118,7 @@ def embed(source: Path, destination: Path, mapping: dict):
             if Path(filename).name != filename or filename in ("", ".", "..") or not filename.endswith(".png"):
                 raise ValueError(f"Unsafe mapped path: {species}/{filename}")
             counts[role] += 1
-            from_path = src / species / filename
+            from_path = src / SOURCE_ALIASES.get(species, species) / filename
             to_path = dest / species / filename
             if not from_path.is_file():
                 missing.append(f"{species}/{filename}")

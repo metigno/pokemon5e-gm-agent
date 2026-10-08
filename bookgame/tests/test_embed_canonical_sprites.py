@@ -24,14 +24,15 @@ class EmbeddedSpriteTests(unittest.TestCase):
                 "abra": {"battleFront": "front.png", "battleBack": "back.png", "icon": "icon.png"},
                 "eevee": {"battleFront": "front.png", "battleBack": "back.png", "icon": "icon.png"}
             }}
-            original = mod.EXPECTED_COUNTS
+            original = (mod.EXPECTED_COUNTS, mod.EXPECTED_SPECIES)
             mod.EXPECTED_COUNTS = {"battleFront": 2, "battleBack": 2, "icon": 2, "overworld": 0}
+            mod.EXPECTED_SPECIES = 2
             try:
                 mod.embed(source, target, mapping)
                 self.assertEqual((target / "abra/front.png").read_bytes(), PNG)
                 self.assertEqual(len(list(target.rglob("*.png"))), 6)
             finally:
-                mod.EXPECTED_COUNTS = original
+                mod.EXPECTED_COUNTS, mod.EXPECTED_SPECIES = original
 
     def test_missing_file_preflight_never_leaves_partial_installation(self):
         with tempfile.TemporaryDirectory() as root:
@@ -39,28 +40,30 @@ class EmbeddedSpriteTests(unittest.TestCase):
             (source / "abra").mkdir(parents=True)
             (source / "abra/front.png").write_bytes(PNG)
             mapping = {"sprites": {"abra": {"battleFront": "front.png", "battleBack": "back.png", "icon": "icon.png"}}}
-            original = mod.EXPECTED_COUNTS
+            original = (mod.EXPECTED_COUNTS, mod.EXPECTED_SPECIES)
             mod.EXPECTED_COUNTS = {"battleFront": 1, "battleBack": 1, "icon": 1, "overworld": 0}
+            mod.EXPECTED_SPECIES = 1
             try:
                 with self.assertRaises(FileNotFoundError):
                     mod.embed(source, target, mapping)
                 self.assertFalse(target.exists())
             finally:
-                mod.EXPECTED_COUNTS = original
+                mod.EXPECTED_COUNTS, mod.EXPECTED_SPECIES = original
 
     def test_rejects_path_traversal_and_gigantamax(self):
         with tempfile.TemporaryDirectory() as root:
             source = Path(root)/"src"
             source.mkdir()
-            original = mod.EXPECTED_COUNTS
+            original = (mod.EXPECTED_COUNTS, mod.EXPECTED_SPECIES)
             mod.EXPECTED_COUNTS = {"battleFront": 1, "battleBack": 1, "icon": 1, "overworld": 0}
+            mod.EXPECTED_SPECIES = 1
             try:
                 for species in ("../escape", "gmax-charizard"):
                     with self.assertRaises(ValueError):
                         mod.embed(source, Path(root)/"dest", {"sprites": {species: {
                             "battleFront": "front.png", "battleBack": "back.png", "icon": "icon.png"}}})
             finally:
-                mod.EXPECTED_COUNTS = original
+                mod.EXPECTED_COUNTS, mod.EXPECTED_SPECIES = original
 
 
 if __name__ == "__main__":
