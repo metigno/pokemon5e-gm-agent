@@ -143,6 +143,10 @@
         <button class="secondary-button" id="load-game" type="button">Continua</button>
       </div>
       <button class="delete-career-button" id="delete-game" type="button">Elimina carriera selezionata</button>
+      <div class="start-reference-actions">
+        <button id="start-codex" class="secondary-button" type="button">Codex e regole</button>
+        <button id="start-hall" class="secondary-button" type="button">Hall of Fame</button>
+      </div>
       <div class="error-box" id="start-error" hidden></div>
     </div>
   </div>
@@ -158,6 +162,14 @@
     </div>
     <div id="drawer-content" class="drawer-content"></div>
   </aside>
+
+  <div class="reference-overlay" id="reference-overlay" hidden>
+    <section class="reference-dialog" role="dialog" aria-modal="true" aria-labelledby="reference-title">
+      <div class="reference-header"><h2 id="reference-title">Codex e regole</h2>
+        <button type="button" id="reference-close" class="icon-button" aria-label="Chiudi">×</button></div>
+      <div id="reference-content" class="reference-content"></div>
+    </section>
+  </div>
 
   <div class="choice-overlay" id="choice-overlay" hidden>
     <section class="choice-dialog" role="dialog" aria-modal="true" aria-labelledby="choice-dialog-title" aria-describedby="choice-dialog-description">
