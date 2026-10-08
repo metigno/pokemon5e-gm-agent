@@ -34,6 +34,8 @@ test("all 35 named World entrants have a fixed canonical six and no game transfo
   assert.deepEqual(pokemon5eWorldSpeciesDescriptor("Arcanine di Hisui Alpha"),{species:"Arcanine",form:"Hisuian"});
   assert.deepEqual(pokemon5eWorldSpeciesDescriptor("Mega Rayquaza"),{species:"Rayquaza"});
   assert.deepEqual(pokemon5eWorldSpeciesDescriptor("Kyurem-Black"),{species:"Kyurem",form:"Black"});
+  assert.deepEqual(pokemon5eWorldSpeciesDescriptor("Giratina-Origin"),{species:"Giratina",form:"Origin Forme"});
+  assert.deepEqual(pokemon5eWorldSpeciesDescriptor("Zygarde"),{species:"Zygarde",form:"50% Forme"});
 });
 test("Red uses Charizard and five actual teammates, not old Growlithe proxies",()=>{
   const s=groupState();openWorldGroupStage(s);
