@@ -1616,3 +1616,74 @@ test("RC persistent E2E traverses real authored M1→M12 and all three World out
     if (dir) await rm(dir, { recursive: true, force: true });
   }
 });
+
+
+test("Step 14: every other Five protagonist traverses real M01-M12 champion route, reloads and enters postgame", async () => {
+  // The established Luke route above covers champion, elimination, missing Worlds
+  // and repeat editions. These four independent fresh careers exercise player-
+  // specific story conditions instead of copying Luke's advanced save.
+  const engine = await makeEngine();
+  const dir = await mkdtemp(path.join(os.tmpdir(), "p5e-five-full-campaign-"));
+  const store = new SaveStore(dir);
+  const protagonists = [
+    ["Mattew", "fire"],
+    ["Daniel", "grass"],
+    ["Edward", "electric"],
+    ["Fab", "ghost"]
+  ];
+  const modules = [
+    ["M01", completeCanonicalM1],
+    ["M02", completeCanonicalM2],
+    ["M03", completeCanonicalM3],
+    ["M04", completeCanonicalM4],
+    ["M05", completeCanonicalM5],
+    ["M06", completeCanonicalM6],
+    ["M07", completeCanonicalM7Qualified],
+    ["M08", completeCanonicalM8],
+    ["M09", completeCanonicalM9Advanced],
+    ["M10", completeCanonicalM10FinalFour],
+    ["M11", completeCanonicalM11Champion],
+    ["M12", (book, state) => completeCanonicalM12(book, state, "champion")]
+  ];
+  try {
+    for (const [name, specialization] of protagonists) {
+      const slot = "step14-" + name.toLowerCase();
+      let state = createNewGameState({ protagonist: name, slot, startAtIntro: true, now: fixedNow });
+      assert.equal(state.npcs[name], undefined, name + " cannot be a scripted NPC");
+      assert.equal(Object.values(state.npcs).filter((npc) => npc.canonicalCareer).length, 4);
+      state = await requireChoice(engine, state, "specialization_" + specialization);
+      state = await requireChoice(engine, state, "play_tutorial");
+      state = await requireChoice(engine, state, "finish_tutorial");
+      state = await requireChoice(engine, state, "enter_m1");
+      assert.equal(state.world.flags.tutorial_skipped, false, name);
+      assert.equal(state.story.sceneId, "m01-release", name);
+      state = await persistReload(store, state, slot, name + " intro");
+
+      for (const [module, traverse] of modules) {
+        state = await traverse(engine, state);
+        assert.equal(state.pending, null, name + " " + module + " must not strand a handoff");
+        assert.equal(state.player.name, name, name + " " + module + " identity continuity");
+        assert.equal(state.npcs[name], undefined, name + " " + module + " no NPC-player duplication");
+        assert.ok(state.player.roster.length >= 1 && state.player.roster.length <= 6,
+          name + " " + module + " legal roster size");
+        state = await persistReload(store, state, slot, name + " " + module);
+      }
+
+      assert.equal(state.world.flags.world_champion, true, name + " earned champion route");
+      assert.equal(state.world.flags.main_story_complete, true, name + " story complete");
+      state = await requireChoice(engine, state, "enter_free_roam");
+      const firstPostgameView = await engine.present(state);
+      assert.ok(firstPostgameView.choices.some((choice) => choice.id === "postgame_training"),
+        name + " free-roam must offer a real action");
+      assert.equal(state.competition.world.currentWorldChampion.name, name);
+      const before = state.world.elapsedMinutes;
+      state = await requireChoice(engine, state, "postgame_training");
+      assert.ok(state.world.elapsedMinutes > before, name + " postgame world advances");
+      state = await persistReload(store, state, slot, name + " postgame");
+      assert.equal(state.competition.world.currentWorldChampion.name, name);
+      assert.equal(state.postgame.championships.length, 1, name + " first edition recorded");
+    }
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
