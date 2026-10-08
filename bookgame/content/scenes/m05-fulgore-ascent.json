@@ -38,7 +38,7 @@
       "stitches": [
         {
           "id": "g1",
-          "text": "Il controllo d'uscita di Altacima verifica il piano già registrato. La partenza consuma la decisione meteo di M5_04, ma non presume che la finestra resti favorevole fino all'altopiano."
+          "text": "Al posto di controllo di Altacima confrontano la tua rotta con il bollettino più recente. Oltre la sbarra, le nuvole corrono veloci: il cielo della partenza non promette nulla per l'arrivo."
         }
       ],
       "choices": [
@@ -348,7 +348,7 @@
       "stitches": [
         {
           "id": "lc1",
-          "text": "Il ricordo della conversazione con Lance non concede vantaggi meccanici: ti ricorda soltanto che il rischio utile deve comprare qualcosa e avere una via d'uscita."
+          "text": "Ti torna in mente ciò che Lance ti ha detto sul rischio: vale la pena esporsi soltanto quando sai perché lo fai e come tornare indietro."
         }
       ],
       "choices": [
