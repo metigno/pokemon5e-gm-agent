@@ -41,3 +41,21 @@ A Story Builder Agent may assist content production later, but the compiler and 
 ## Offline sprite assets
 
 Before releasing the offline UI, install the [approved sprite package](assets/pokemon/SPRITE_BUNDLE.md), extract the self-contained overlay at the project root, and run `npm --prefix bookgame run sprites:verify`. The release server must use `P5E_REQUIRE_OFFLINE_SPRITES=1` to reject incomplete assets at startup. This does not create a native Android/iOS app.
+
+## Offline soundtrack and sound effects
+
+The client ships an **opt-in audio director** for intro, M01–M12, wild/trainer/boss/legendary/world-final battles, evolution, Pokémon cries, danger, success, and UI interaction. No copyrighted music or cries are checked into the repository. Without the optional audio pack it uses quiet, generated Web Audio cues; gameplay is unaffected when audio is off.
+
+Install the *separately supplied* `P5E_AudioPack_Mobile_MP3.zip` on your own computer (do not publish it to GitHub):
+
+```sh
+npm --prefix bookgame run audio:import -- /path/to/P5E_AudioPack_Mobile_MP3.zip
+npm --prefix bookgame run audio:verify
+npm --prefix bookgame run ui
+```
+
+The installer validates every file against the pack's SHA-256 manifest, rejects unsafe ZIP members, and replaces the existing pack atomically. For an offline release requiring the full installed sound library, start with `P5E_REQUIRE_OFFLINE_AUDIO=1` (and your existing sprite asset gates). Smartphone playback requires a gesture; use **Attiva audio**, then control volume in **Menu → Impostazioni**. Music and effects remain muted until enabled and can be disabled at any time. 
+
+For the widest compatibility with older iOS Safari versions use the MP3 pack. The previous OGG pack remains supported on browsers that can decode OGG Vorbis.
+
+Source: supplied Pokémon World Tournament unofficial port OGG tracks and converted Pokéemerald MIDI/WAV samples. Converted MIDI instruments are approximations. Audio is for private use unless appropriate rights to distribute the recordings and derived assets have been confirmed.

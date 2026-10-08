@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { join } from "node:path";
 import { normalizeSpriteId } from "../src/assets/sprite-runtime.mjs";
+import { verifyOfflineAudioAssets } from "../src/assets/audio-pack.mjs";
 import { APPROVED_MAP_ILLUSTRATION_IDS, APPROVED_MAP_SVG_IDS } from "../src/assets/map-illustrations.mjs";
 import { verifyOfflineSpriteAssets } from "../scripts/verify-offline-sprites.mjs";
 import { verifyOfflineCharacterSprites } from "../scripts/verify-offline-character-sprites.mjs";
@@ -38,6 +39,11 @@ import {
 const HOST = process.env.P5E_UI_HOST ?? "127.0.0.1";
 const PORT = Number(process.env.P5E_UI_PORT ?? 4173);
 const PUBLIC_DIR = fileURLToPath(new URL("./public/", import.meta.url));
+// Audio is opt-in and installed privately; strict release builds can require its integrity.
+if (process.env.P5E_REQUIRE_OFFLINE_AUDIO === "1") {
+  const report = await verifyOfflineAudioAssets(join(PUBLIC_DIR, "audio"));
+  if (!report.valid) throw new Error("Offline audio incomplete or tampered: " + report.errors.slice(0, 3).join("; "));
+}
 const SPRITE_DIR = process.env.P5E_SPRITE_DIR ?? fileURLToPath(new URL("../assets/pokemon/files/", import.meta.url));
 const MAP_ART_DIR = fileURLToPath(new URL("../assets/maps/illustrations/", import.meta.url));
 const spriteMap = JSON.parse(await readFile(new URL("../assets/pokemon/sprite-runtime-map.json", import.meta.url), "utf8"));
@@ -76,6 +82,7 @@ const STATIC_FILES = new Map([
   ["/index.html", ["index.html", "text/html; charset=utf-8"]],
   ["/styles.css", ["styles.css", "text/css; charset=utf-8"]],
   ["/app.mjs", ["app.mjs", "text/javascript; charset=utf-8"]],
+  ["/audio-soundscape.mjs", ["audio-soundscape.mjs", "text/javascript; charset=utf-8"]],
   ["/reveal-model.mjs", ["reveal-model.mjs", "text/javascript; charset=utf-8"]],
   ["/information-renderers.mjs", ["information-renderers.mjs", "text/javascript; charset=utf-8"]]
 ]);
@@ -408,6 +415,14 @@ async function snapshot() {
     hasSession: true,
     slot: state.slot,
     careerEnded: ended,
+    // Read-only audio event from canonical combat history; never infer victory from prose.
+    audioEvent: state.story?.history?.at(-1)?.subsystem === "pokemon5e_combat"
+      ? {
+          type: "combat",
+          encounterId: state.story.history.at(-1).encounterId,
+          outcome: state.story.history.at(-1).outcome
+        }
+      : null,
     story,
     map: buildTravelMap(state, story),
     player: {
@@ -897,6 +912,29 @@ async function serveCharacterPortrait(res, pathname) {
   return true;
 }
 
+// Only installed, locally verified assets are exposed: no file-system traversal.
+async function serveAudio(res, pathname) {
+  if (!pathname.startsWith("/audio/")) return false;
+  const relative = pathname.slice("/audio/".length);
+  if (!/^(?:[a-z0-9_]+\.(?:ogg|mp3)|manifest\.json|cries\/[a-z0-9_]+\.wav)$/.test(relative)) {
+    res.writeHead(404, { "content-type": "text/plain" });
+    res.end("Audio unavailable");
+    return true;
+  }
+  try {
+    const content = await readFile(join(PUBLIC_DIR, "audio", relative));
+    res.writeHead(200, {
+      "content-type": relative.endsWith(".ogg") ? "audio/ogg" : relative.endsWith(".mp3") ? "audio/mpeg" : relative.endsWith(".wav") ? "audio/wav" : "application/json; charset=utf-8",
+      "cache-control": "private, max-age=3600",
+      "x-content-type-options": "nosniff"
+    });
+    res.end(content);
+  } catch {
+    res.writeHead(404, { "content-type": "text/plain; charset=utf-8" });
+    res.end("Audio not installed");
+  }
+  return true;
+}
 async function serveStatic(res, pathname) {
   const entry = STATIC_FILES.get(pathname);
   if (!entry) {
@@ -933,6 +971,7 @@ const server = createServer(async (req, res) => {
     if (url.pathname.startsWith("/sprites/") && await serveSprite(res, url.pathname)) return;
     if (url.pathname.startsWith("/characters/") && await serveCharacterPortrait(res, url.pathname)) return;
     if (await serveMapIllustration(res, url.pathname)) return;
+    if (await serveAudio(res, url.pathname)) return;
     await serveStatic(res, url.pathname);
   } catch (error) {
     sendError(res, error, /slot di carriera/.test(error?.message ?? "") ? 400 : 500);

@@ -17,6 +17,8 @@
     "sprites:import": "node scripts/import-sprite-package.mjs",
     "sprites:verify": "node scripts/verify-offline-sprites.mjs",
     "sprites:package": "python3 scripts/package-offline-sprites.py",
-    "sprites:verify:characters": "node scripts/verify-offline-character-sprites.mjs && node scripts/verify-native-character-sprites.mjs"
+    "sprites:verify:characters": "node scripts/verify-offline-character-sprites.mjs && node scripts/verify-native-character-sprites.mjs",
+    "audio:import": "python3 scripts/import-audio-package.py",
+    "audio:verify": "python3 scripts/import-audio-package.py --verify"
   }
 }
