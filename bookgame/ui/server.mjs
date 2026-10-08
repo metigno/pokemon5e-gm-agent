@@ -13,7 +13,6 @@ import { SaveStore, assertCareerSlot } from "../src/engine/save-store.mjs";
 import { trainerCareerEnded } from "../src/engine/trainer-survival.mjs";
 import { createNewGameState, EXPERIENCE_NEEDED_PER_LEVEL } from "../src/engine/state.mjs";
 import { pokemonLevelCapForState } from "../src/engine/pokemon-xp-balance.mjs";
-import { swapPlayerRosterSlots } from "../src/engine/player-roster-selection.mjs";
 import { applyPlayerEvolution, playerEvolutionOptions } from "../src/engine/player-evolution.mjs";
 import {
   applyPokemonAsiChoice,
@@ -416,6 +415,10 @@ async function handleApi(req, res, url) {
     return sendError(res, new Error("Carriera conclusa: non puoi più compiere azioni."), 409);
   }
 
+  if (state.pending?.type === "pokemon_capture_replacement" && url.pathname !== "/api/choose") {
+    return sendError(res, new Error("Prima scegli quale Pokémon liberare"), 409);
+  }
+
   if (url.pathname === "/api/choose") {
     const choiceId = String(body.choiceId ?? "");
     await persist(await engine.choose(state, choiceId));
@@ -460,15 +463,6 @@ async function handleApi(req, res, url) {
     if (state.pending?.type === "pokemon5e_combat") {
       return sendError(res, new Error("Progressione Pokémon non disponibile durante il combattimento"), 409);
     }
-  }
-
-  if (url.pathname === "/api/pokemon/roster-swap") {
-    const next = swapPlayerRosterSlots(state, {
-      reserveIndex: Number(body.reserveIndex),
-      officialIndex: Number(body.officialIndex)
-    });
-    await persist(next);
-    return sendJson(res, 200, await snapshot());
   }
 
   if (url.pathname === "/api/pokemon/level-up") {

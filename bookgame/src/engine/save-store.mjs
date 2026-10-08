@@ -2,7 +2,7 @@ import { randomUUID } from "node:crypto";
 import { link, mkdir, open, readFile, rename, unlink } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { migrateGameState } from "./state.mjs";
+import { assertPlayerRosterLimit, migrateGameState } from "./state.mjs";
 
 const DEFAULT_DIR = fileURLToPath(new URL("../../local-saves/", import.meta.url));
 export const CAREER_SLOTS = Object.freeze(["slot1", "slot2", "slot3"]);
@@ -54,6 +54,7 @@ export class SaveStore {
 
   async save(state, { createOnly = false } = {}) {
     assertSlot(state?.slot);
+    assertPlayerRosterLimit(state);
     await mkdir(this.baseDir, { recursive: true });
     const target = this.filePath(state.slot);
     // Unique temporary filenames avoid competing writers sharing the same .tmp file.
