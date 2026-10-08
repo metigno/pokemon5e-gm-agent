@@ -48,15 +48,26 @@ function pokedexView(state) {
   return { seen: seen.size, caught: caught.size, entries };
 }
 
+const BRIEF_IDENTITIES = Object.freeze({
+  Blue: "Allenatore competitivo, conosciuto per il suo carattere diretto.",
+  N: "Allenatore che presta particolare attenzione alla voce dei Pokémon.",
+  Steven: "Allenatore e ricercatore, legato allo studio dei minerali.",
+  Archie: "Figura influente dei territori marittimi.",
+  Lance: "Allenatore esperto, noto per i Pokémon di tipo Drago.",
+  Red: "Allenatore di campo, tra i più celebri al mondo.",
+  Cynthia: "Campionessa e studiosa della storia dei Pokémon."
+});
+
 function knownPeopleView(state) {
   const knownFriends = new Set(FIVE_FRIEND_IDS.filter((name) => name !== state.player?.name));
   const result = [];
   for (const [id, npc] of Object.entries(state.npcs ?? {})) {
-    if (!npc || (!knownFriends.has(id) && npc.state?.met !== true &&
+    if (!npc || (!knownFriends.has(id) && npc.state?.met !== true && npc.state?.introduced !== true &&
       state.world?.flags?.[`${id.toLowerCase()}_met`] !== true)) continue;
     result.push({
       name: String(npc.name ?? id),
-      description: knownFriends.has(id) ? "Amico e rivale di lunga data." : "Persona incontrata durante il viaggio.",
+      description: knownFriends.has(id) ? "Amico e rivale di lunga data." :
+        (BRIEF_IDENTITIES[id] ?? "Persona incontrata durante il viaggio."),
       relationship: typeof npc.relationship?.qualitative === "string"
         ? npc.relationship.qualitative : "Neutral"
     });
