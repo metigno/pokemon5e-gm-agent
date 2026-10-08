@@ -10,6 +10,7 @@ import { scaledHp } from "../src/combat/poke5e-rules.mjs";
 import { CryptoDice } from "../src/engine/dice.mjs";
 import { SaveStore } from "../src/engine/save-store.mjs";
 import { createNewGameState, EXPERIENCE_NEEDED_PER_LEVEL } from "../src/engine/state.mjs";
+import { pokemonLevelCapForState } from "../src/engine/pokemon-xp-balance.mjs";
 import { applyPlayerEvolution, playerEvolutionOptions } from "../src/engine/player-evolution.mjs";
 import {
   applyPokemonAsiChoice,
@@ -94,7 +95,7 @@ async function normalizeCombatFlow() {
   }
 
   if (battle.outcome) {
-    await persist(engine.resolveCombatHandoff(state, battle.outcome));
+    await persist(await engine.resolveCombatHandoffWithXp(state, battle.outcome, { data: poke5eData }));
   }
 }
 
