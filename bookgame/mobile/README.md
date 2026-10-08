@@ -26,8 +26,8 @@ overworld pairs; the archive does not alter the earlier 19 or the 619 Pokémon.
 
 Approved file: `P5E_NPC_Secondary_Functional_Offline.zip`
 
-- ZIP SHA-256: `f87e063447d9e79d5f1ba55ba1d1233250bcf7e4d2adb96aecb191dae0d9488a`
-- Internal catalog SHA-256: `07c8339f149556e5b82dce2b68efa79688fe96f07ba6a8bf3db73bc4d29cbab3`
+- ZIP SHA-256: `2fa94f30ef69956c04c8d0f18a65be06c41c1bfd68021621a13d22e5c8b729a2`
+- Internal catalog SHA-256: `f173d2322a7224271923acb9a178cfef3783c36e3ad93ef76778c142b756ae3a`
 
 After installing the separate 619-Pokémon pack, build from `bookgame/mobile`:
 
