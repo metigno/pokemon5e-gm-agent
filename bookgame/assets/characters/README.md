@@ -20,3 +20,12 @@ node bookgame/scripts/verify-offline-character-sprites.mjs --dir /path/to/charac
 The audit exits nonzero on missing/corrupt PNGs, unapproved/mismatching SHA-256, unsafe IDs or unexpected pinned paths. It is offline-only and does not modify the canonical character registry.
 
 **Current release status: BLOCKED.** This repository contains neither approved 19-character PNGs nor their authorized checksum inventory. The current local web UI displays Pokémon images, **not character portraits**. Passing the unit tests proves the gate logic works with disposable fixtures, **not** that character sprites are shipped. Before claiming Step 4 PASS: supply approved physical artwork and checksum pins, verify the installed release payload, wire only real available portraits into the relevant UI, run HTTP/offline and full gameplay regressions, and merge a follow-up PR with green checks. Do not mark the full sprite package as complete on the strength of Pokémon-only PRs #94/#98.
+
+
+To atomically install a supplied *approved* package (the importer preflights **every image** before touching the destination):
+
+```sh
+node bookgame/scripts/install-offline-character-sprites.mjs --from /path/to/approved/source --to bookgame/assets/characters/files --checksums /path/to/approved/sha256.json
+```
+
+Destination must not exist. An incomplete archive, bad image or missing SHA pin aborts the installation without writing a partial output. No network access or placeholder generation occurs.
