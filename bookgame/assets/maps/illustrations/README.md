@@ -79,3 +79,23 @@ art is reused for the regional arena, resting station and Ferravia.
 All files are offline; no unverified-license source asset is embedded.
 These are purely illustrations within the existing clickable schematic
 navigation, not navigable geometric overworld maps.
+
+## M05–M12 environment coverage, no new narrative maps
+
+The canonical playable scene audits determined 11 M05, 13 M06, six M07,
+ten M08, two M09, one M10, one M11 and eight M12 distinct scene
+location IDs. The M05–M08 environments add eighteen original offline
+vector pixel-art illustrations (mountains, Altacima, plateau, ruins,
+Solaria/Luminara, international venues, Meridiana, media/training and
+the World Village). The other IDs use approved earlier environment
+artwork where compatible.
+
+M09/M10/M11 deliberately reuse the World Championship venue classes.
+M12 deliberately reuses existing locations, with no dedicated M12
+asset family. No extra maps or overworld travel routes are created.
+
+These are **location illustrations, not geographical tilemaps**.
+The source-of-truth navigation graph alone determines legal travel,
+costs, triggers, combat and discovered-location visibility.
+Unverified-license user-supplied tilesets remain excluded from the
+distributed bundle and listed in the independent source registry.
