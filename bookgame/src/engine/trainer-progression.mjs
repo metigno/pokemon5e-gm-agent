@@ -178,7 +178,7 @@ export function getTrainerProgressionView(state){
   if(pending.type==="trainer_path") return {level:pending.level,type:pending.type,text:"Trainer Level 2: scegli la Trainer Path prima di continuare.",choices:TRAINER_PATHS.map(([id,name])=>({id:`trainer_path_${id}`,text:name}))};
   if(pending.type==="asi_or_feat") return {level:pending.level,type:pending.type,text:`Trainer Level ${pending.level}: risolvi Ability Score Improvement o Feat prima di continuare.`,choices:asiChoices(state),acceptsProgrammaticFeatSelection:true};
   if(pending.type==="specialization") return {level:pending.level,type:pending.type,text:`Trainer Level ${pending.level}: scegli una Specialization aggiuntiva.`,choices:TRAINER_SPECIALIZATIONS.map(type=>({id:`trainer_specialization_${type}`,text:`Specialization: ${type}`}))};
-  if(pending.type==="epic_boon") return {level:pending.level,type:pending.type,text:"Trainer Level 19: scegli l'Epic Boon.",choices:[],acceptsProgrammaticFeatSelection:true};
+  if(pending.type==="epic_boon") return {level:pending.level,type:pending.type,text:"Livello Trainer 19: scegli un talento. Puoi usare Miglioramento delle Caratteristiche come alternativa all'Epic Boon.",choices:asiChoices(state),acceptsProgrammaticFeatSelection:true};
   throw new Error(`Unsupported Trainer progression choice: ${pending.type}`);
 }
 
@@ -216,7 +216,10 @@ export function resolveTrainerProgressionChoice(state,choiceId){
     resolvePending(state,pending,{kind:"trainer_path",pathId});
     return {level:pending.level,type:pending.type,pathId};
   }
-  if(pending.type==="asi_or_feat"){
+  // Pokémon 5e 2024 permits another qualifying feat at level 19 instead
+  // of an Epic Boon. The already implemented, repeatable ASI general feat
+  // gives a fully functional touch-friendly option without faking boon effects.
+  if(pending.type==="asi_or_feat" || pending.type==="epic_boon"){
     const single=/^trainer_asi_([a-z]+)_2$/.exec(choiceId);
     const split=/^trainer_asi_([a-z]+)_([a-z]+)$/.exec(choiceId);
     if(single){
