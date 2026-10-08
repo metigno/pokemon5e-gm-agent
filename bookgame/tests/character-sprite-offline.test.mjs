@@ -75,3 +75,25 @@ test('unsafe or duplicated character IDs are rejected', () => {
   assert.throws(() => characterSpritePaths({ version: 1, five: [{ id: 'Luke' }, { id: 'Luke' }] }), /Unsafe/);
   assert.throws(() => characterSpritePaths({ version: 1, five: [{ id: '..' }] }), /Unsafe/);
 });
+
+
+// The importer is deliberately not used without an approved, complete physical package.
+import { installOfflineCharacterSprites } from '../scripts/install-offline-character-sprites.mjs';
+import { stat } from 'node:fs/promises';
+
+test('strict importer atomically installs only approved sprites and never overwrites', async (t) => {
+  const f = await fixture(t);
+  const target = join(f.dir, 'installed');
+  const verified = await installOfflineCharacterSprites(f.dir, target, f.registry, f.checksumManifest);
+  assert.equal(verified.valid, true);
+  assert.equal((await stat(join(target, 'Luke', 'portrait.png'))).isFile(), true);
+  await assert.rejects(installOfflineCharacterSprites(f.dir, target, f.registry, f.checksumManifest), /Destination already exists/);
+});
+
+test('strict importer leaves no output when source is incomplete or not SHA-approved', async (t) => {
+  const f = await fixture(t);
+  const target = join(f.dir, 'installed');
+  await rm(join(f.dir, 'Red', 'portrait.png'));
+  await assert.rejects(installOfflineCharacterSprites(f.dir, target, f.registry, f.checksumManifest), /preflight failed/);
+  await assert.rejects(stat(target), /ENOENT/);
+});
