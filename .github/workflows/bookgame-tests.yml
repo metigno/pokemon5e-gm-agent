@@ -58,6 +58,8 @@ jobs:
         run: python3 -m unittest discover -s bookgame/tests -p 'test_sprite_overlay.py' -v
       - name: Test offline Trainer bundle installer
         run: python3 -m unittest discover -s bookgame/tests -p 'test_mobile_trainer_overlay.py' -v
+      - name: Test secondary World and functional NPC ZIP installer
+        run: python3 -m unittest discover -s bookgame/tests -p 'test_secondary_npc_overlay.py' -v
 
   mobile-runtime-compat:
     runs-on: ubuntu-latest
