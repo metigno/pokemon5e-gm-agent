@@ -1,0 +1,301 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "M10",
+  "events": [
+    {
+      "id": "legendary_m10_archive_luke",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Luke"
+          },
+          {
+            "path": "world.flags.world_qualified",
+            "eq": true
+          },
+          {
+            "path": "world.flags.legendary_m09_clue_luke",
+            "eq": true
+          },
+          {
+            "path": "world.flags.m10_silas_thread_complete",
+            "eq": true
+          },
+          {
+            "path": "competition.world.knockout.opened",
+            "eq": true
+          },
+          {
+            "path": "world.flags.legendary_m10_optional_archive_review",
+            "eq": true
+          },
+          {
+            "path": "quests.legendary_m08_lead_luke.status",
+            "eq": "active"
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "dossier",
+          "effects": [
+            {
+              "type": "quest_complete",
+              "questId": "legendary_m08_lead_luke",
+              "resolution": "archive_crosschecked"
+            },
+            {
+              "type": "quest_offer",
+              "questId": "legendary_m10_dossier_luke",
+              "title": "Kyurem Nero — il frammento del drago originario",
+              "objective": "Confrontare la genealogia del drago originario con le versioni su Kyurem e Zekrom. Nessuna fusione o incontro è garantito."
+            },
+            {
+              "type": "set_flag",
+              "key": "legendary_m10_dossier_luke",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "legendary_m10_archive_mattew",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Mattew"
+          },
+          {
+            "path": "world.flags.world_qualified",
+            "eq": true
+          },
+          {
+            "path": "world.flags.legendary_m09_clue_mattew",
+            "eq": true
+          },
+          {
+            "path": "world.flags.m10_silas_thread_complete",
+            "eq": true
+          },
+          {
+            "path": "competition.world.knockout.opened",
+            "eq": true
+          },
+          {
+            "path": "world.flags.legendary_m10_optional_archive_review",
+            "eq": true
+          },
+          {
+            "path": "quests.legendary_m08_lead_mattew.status",
+            "eq": "active"
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "dossier",
+          "effects": [
+            {
+              "type": "quest_complete",
+              "questId": "legendary_m08_lead_mattew",
+              "resolution": "archive_crosschecked"
+            },
+            {
+              "type": "quest_offer",
+              "questId": "legendary_m10_dossier_mattew",
+              "title": "Zacian — il giuramento della lama",
+              "objective": "Indagare sulle cronache della Spada Rovinata e distinguere il custode dalla sua arma. Zacian non è stato incontrato."
+            },
+            {
+              "type": "set_flag",
+              "key": "legendary_m10_dossier_mattew",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "legendary_m10_archive_daniel",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Daniel"
+          },
+          {
+            "path": "world.flags.world_qualified",
+            "eq": true
+          },
+          {
+            "path": "world.flags.legendary_m09_clue_daniel",
+            "eq": true
+          },
+          {
+            "path": "world.flags.m10_silas_thread_complete",
+            "eq": true
+          },
+          {
+            "path": "competition.world.knockout.opened",
+            "eq": true
+          },
+          {
+            "path": "world.flags.legendary_m10_optional_archive_review",
+            "eq": true
+          },
+          {
+            "path": "quests.legendary_m08_lead_daniel.status",
+            "eq": "active"
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "dossier",
+          "effects": [
+            {
+              "type": "quest_complete",
+              "questId": "legendary_m08_lead_daniel",
+              "resolution": "archive_crosschecked"
+            },
+            {
+              "type": "quest_offer",
+              "questId": "legendary_m10_dossier_daniel",
+              "title": "Mewtwo — la responsabilità degli archivi",
+              "objective": "Confrontare due testimonianze discordanti sull'origine di Mewtwo e decidere come proteggere la sua autonomia."
+            },
+            {
+              "type": "set_flag",
+              "key": "legendary_m10_dossier_daniel",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "legendary_m10_archive_edward",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Edward"
+          },
+          {
+            "path": "world.flags.world_qualified",
+            "eq": true
+          },
+          {
+            "path": "world.flags.legendary_m09_clue_edward",
+            "eq": true
+          },
+          {
+            "path": "world.flags.m10_silas_thread_complete",
+            "eq": true
+          },
+          {
+            "path": "competition.world.knockout.opened",
+            "eq": true
+          },
+          {
+            "path": "world.flags.legendary_m10_optional_archive_review",
+            "eq": true
+          },
+          {
+            "path": "quests.legendary_m08_lead_edward.status",
+            "eq": "active"
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "dossier",
+          "effects": [
+            {
+              "type": "quest_complete",
+              "questId": "legendary_m08_lead_edward",
+              "resolution": "archive_crosschecked"
+            },
+            {
+              "type": "quest_offer",
+              "questId": "legendary_m10_dossier_edward",
+              "title": "Lugia — la corrente sotto la tempesta",
+              "objective": "Incrociare carte nautiche e rapporti meteo indipendenti prima di attribuire le perturbazioni a Lugia."
+            },
+            {
+              "type": "set_flag",
+              "key": "legendary_m10_dossier_edward",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "legendary_m10_archive_fab",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "path": "player.name",
+            "eq": "Fab"
+          },
+          {
+            "path": "world.flags.world_qualified",
+            "eq": true
+          },
+          {
+            "path": "world.flags.legendary_m09_clue_fab",
+            "eq": true
+          },
+          {
+            "path": "world.flags.m10_silas_thread_complete",
+            "eq": true
+          },
+          {
+            "path": "competition.world.knockout.opened",
+            "eq": true
+          },
+          {
+            "path": "world.flags.legendary_m10_optional_archive_review",
+            "eq": true
+          },
+          {
+            "path": "quests.legendary_m08_lead_fab.status",
+            "eq": "active"
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "dossier",
+          "effects": [
+            {
+              "type": "quest_complete",
+              "questId": "legendary_m08_lead_fab",
+              "resolution": "archive_crosschecked"
+            },
+            {
+              "type": "quest_offer",
+              "questId": "legendary_m10_dossier_fab",
+              "title": "Rayquaza — l'equilibrio sopra le nuvole",
+              "objective": "Verificare se le anomalie atmosferiche siano collegate a Rayquaza senza attribuirgli presenza né forma Mega."
+            },
+            {
+              "type": "set_flag",
+              "key": "legendary_m10_dossier_fab",
+              "value": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

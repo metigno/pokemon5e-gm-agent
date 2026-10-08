@@ -145,8 +145,15 @@
         },
         {
           "id": "callbacks_readiness",
-          "text": "Passo alla verifica finale.",
-          "goto": "readiness"
+          "text": "Rivedo i callback personali, compreso l'eventuale dossier raccolto, poi passo alla readiness.",
+          "goto": "readiness",
+          "effects": [
+            {
+              "type": "set_flag",
+              "key": "legendary_m10_optional_archive_review",
+              "value": true
+            }
+          ]
         }
       ]
     },
