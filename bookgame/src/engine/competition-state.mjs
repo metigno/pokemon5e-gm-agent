@@ -1745,6 +1745,88 @@ export function resolveUnattendedWorldChampionship(state) {
   return world.currentWorldChampion;
 }
 
+// The player may also be eliminated during M09–M11. Resume the already
+// locked tournament from its latest bracket, preserving all actual player
+// outcomes and every group result instead of drawing a replacement field.
+export function resolveEliminatedWorldChampionship(state) {
+  if (state.world?.flags?.world_eliminated !== true ||
+      state.world?.flags?.worlds_missed === true) {
+    throw new Error("Offscreen knockout requires an eliminated World participant");
+  }
+  const world = ensureCompetition(state).world;
+  if (world.finalResolved && world.currentWorldChampion) return world.currentWorldChampion;
+  if (!world.top16Locked || world.top16.length !== 16 ||
+      !world.drawSeed || Object.keys(world.groups).length !== 8) {
+    throw new Error("Cannot finish eliminated World without its locked group results");
+  }
+  const knockout = world.knockout;
+  const simWorld = createWorldCompetitionState();
+  simWorld.edition = world.edition;
+  simWorld.drawSeed = world.drawSeed;
+  simWorld.groups = structuredClone(world.groups);
+  simWorld.top16 = structuredClone(world.top16);
+  simWorld.seedOrder = structuredClone(world.seedOrder);
+  const simState = { competition: { world: simWorld } };
+
+  const rounds = ["R16", "QF", "SF", "FINAL"];
+  let firstRound;
+  let matches;
+  if (knockout.sfBracket.length === 2) {
+    firstRound = 2; matches = structuredClone(knockout.sfBracket);
+  } else if (knockout.qfBracket.length === 4) {
+    firstRound = 1; matches = structuredClone(knockout.qfBracket);
+  } else if (knockout.r16Bracket.length === 8) {
+    firstRound = 0; matches = structuredClone(knockout.r16Bracket);
+  } else {
+    firstRound = 0; matches = buildR16Bracket(simWorld);
+  }
+
+  const bracketHistory = [];
+  for (let index = firstRound; index < rounds.length; index += 1) {
+    if (index > firstRound) {
+      const advanced = matches.map((match) => participantByIdFromMatch(match, match.winnerId));
+      if (advanced.length % 2 !== 0 || advanced.some((entrant) => !entrant)) {
+        throw new Error("Offscreen World bracket cannot advance an unresolved result");
+      }
+      matches = [];
+      for (let i = 0; i < advanced.length; i += 2) {
+        matches.push({
+          round: rounds[index],
+          matchId: "WORLD_" + rounds[index] + "_" + String(i / 2 + 1),
+          home: advanced[i], away: advanced[i + 1], outcome: null,
+          playerOutcome: null, winnerId: null, loserId: null
+        });
+      }
+    }
+    for (const match of matches) {
+      if ((match.home.name === state.player.name || match.away.name === state.player.name) &&
+          (!["win", "lose"].includes(match.outcome) || !match.winnerId)) {
+        throw new Error("Cannot simulate the protagonist's unresolved World match");
+      }
+      simulateWorldKnockoutMatch(simState, match);
+    }
+    bracketHistory.push(...structuredClone(matches));
+  }
+  if (matches.length !== 1) throw new Error("Eliminated World final is incomplete");
+  const final = matches[0];
+  const champion = participantByIdFromMatch(final, final.winnerId);
+  const runnerUp = participantByIdFromMatch(final, final.loserId);
+  if (!champion || !runnerUp || champion.name === state.player.name) {
+    throw new Error("Eliminated World cannot award the title to the player");
+  }
+  world.currentWorldChampion = structuredClone(champion);
+  world.currentWorldRunnerUp = structuredClone(runnerUp);
+  world.finalResolved = true;
+  world.offscreenWorld = {
+    edition: world.edition, drawSeed: world.drawSeed,
+    field: structuredClone(world.field),
+    top16: structuredClone(world.top16), knockoutMatches: bracketHistory,
+    resumedFrom: rounds[firstRound]
+  };
+  archiveWorldFinal(world, champion, runnerUp);
+  return world.currentWorldChampion;
+}
+
 export function applyCompetitionEffect(state, effect) {
   switch (effect.type) {
     case "competition_trial_available": return setTrialAvailable(state, effect);
