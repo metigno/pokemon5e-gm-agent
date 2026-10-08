@@ -120,6 +120,8 @@ async function battleView() {
 
   return {
     encounterId: battle.encounterId,
+    opponentTrainerId: battle.opponentTrainerId ?? null,
+    opponentTrainerLevel: battle.opponentTrainerLevel ?? null,
     round: battle.round,
     actor,
     awaitingSwitch: battle.awaitingSwitch,
