@@ -84,7 +84,7 @@
         },
         {
           "id": "hub_2",
-          "text": "Verso est una strada sale al controllo dell'Altopiano Fulgore. Il cancello non è una decorazione: la decisione di partire dipenderà da finestra meteo e stato reale del percorso."
+          "text": "Verso est, la strada si arrampica fino al posto di controllo per l'Altopiano Fulgore. Sul cancello oscillano avvisi aggiornati a mano: vento, visibilità e tratti chiusi possono cambiare prima della partenza."
         }
       ],
       "choices": [
@@ -215,7 +215,7 @@
       "stitches": [
         {
           "id": "med_1",
-          "text": "La clinica tratta problemi legati a quota, freddo e affaticamento, ma la reception non altera HP, PP o condizioni con una riga di dialogo. Le cure reali restano di competenza del sistema medico applicabile."
+          "text": "Nella piccola clinica l'odore di disinfettante si mescola a quello dei cappotti bagnati. Una dottoressa visita chi soffre la quota e indica i servizi disponibili, senza promettere cure prima di una visita."
         }
       ],
       "choices": [
@@ -267,7 +267,7 @@
       "stitches": [
         {
           "id": "log_1",
-          "text": "L'ufficio logistico gestisce tempi di salita, corde di servizio, chiusure e partenze verso Fulgore. Le autorizzazioni dipendono dal momento, non da un flag permanente ottenuto una volta."
+          "text": "Dietro il vetro dell'ufficio logistico sono appese carte delle salite, turni delle squadre di servizio e avvisi sulle corde di sicurezza. L'impiegato controlla l'ora prima di indicarti la prossima partenza."
         }
       ],
       "choices": [
@@ -314,7 +314,7 @@
       "stitches": [
         {
           "id": "rules_1",
-          "text": "Il Trial B→A richiede Rank B e la squadra prevista dal regolamento. Chiedere informazioni non equivale a iscriversi e non assegna alcun risultato."
+          "text": "Sul regolamento del Trial B→A sono indicati il Rank B e la composizione della squadra richiesta. L'addetta ti mostra il modulo d'iscrizione, ancora da compilare."
         }
       ],
       "choices": [
