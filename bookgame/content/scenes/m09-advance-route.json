@@ -42,7 +42,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Sei dentro il Top16 perché E5 ti ha classificato tra i primi due del gruppo. M9_10 non sceglie ancora l'avversario degli ottavi: consegna soltanto a M10 un bracket field reale e lockato."
+          "text": "Il tuo nome compare fra i sedici qualificati. Hai superato i gironi grazie ai risultati ottenuti sul campo; ora ti aspetta l'eliminazione diretta."
         }
       ],
       "choices": [
@@ -67,7 +67,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "La posizione finale resta {{competition.world.groupStage.finalPosition}}. Il risultato del girone non viene ricalcolato entrando nella route di avanzamento."
+          "text": "Il registro conserva il tuo piazzamento: {{competition.world.groupStage.finalPosition}}. Le gare del gruppo non verranno disputate una seconda volta."
         }
       ],
       "choices": [
@@ -82,7 +82,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il field a eliminazione diretta contiene esattamente sedici partecipanti prodotti da E5. Essere un amico o un Anchor non garantisce di esserne parte."
+          "text": "La bacheca degli ottavi contiene sedici allenatori. Chi era famoso ma non si è qualificato non compare fra loro."
         }
       ],
       "choices": [
@@ -107,7 +107,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Le carriere degli altri continuano dal Top16 reale. Chi è fuori resta fuori; chi è dentro potrà essere incontrato soltanto se il bracket futuro lo produce."
+          "text": "Cerchi gli amici e i nomi conosciuti. Chi è ancora dentro avrà un'altra partita; chi è uscito non rientrerà per incontrarti."
         }
       ],
       "choices": [
@@ -127,7 +127,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il confine tra moduli è intenzionale: M9 locka chi avanza; M10_00 costruirà l'incrocio degli ottavi dagli incroci reali. Anticiparlo qui duplicherebbe E5."
+          "text": "Gli ufficiali stanno preparando gli incroci degli ottavi. Per ora sai di essere fra i sedici, non ancora contro chi giocherai."
         }
       ],
       "choices": [
@@ -142,7 +142,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "HP, PP, status, infortuni e risorse restano quelli dopo tre Matchday. Il passaggio agli ottavi non cura né ricrea il team; qualunque recupero futuro dovrà usare i sistemi esistenti e tempo reale."
+          "text": "Controlli la squadra dopo le tre giornate. Le ferite e le risorse consumate restano da affrontare prima della prossima sfida."
         }
       ],
       "choices": [
@@ -162,7 +162,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il Mondiale non si congela al tuo passaggio. Gli altri qualificati entrano nella fase a eliminazione diretta con il proprio stato persistente."
+          "text": "Gli altri qualificati prendono possesso delle loro aree di preparazione. Nessuno resta fermo finché decidi come festeggiare."
         }
       ],
       "choices": [
@@ -182,7 +182,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Kaia, gli amici e gli altri Anchor mantengono relazione, schedule e risultati. Nessun callback può cambiare retroattivamente il field dei sedici."
+          "text": "Kaia, gli amici e gli altri allenatori proseguono le proprie giornate secondo quanto hanno conquistato. I rapporti precedenti non cambiano i risultati."
         }
       ],
       "choices": [
@@ -202,7 +202,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il contratto M9→M10 richiede soltanto: gruppo risolto, advanced=true, Top16 lockato, Friend Beat 09 completo e stato squadra persistente."
+          "text": "Prima di lasciare il girone, ricontrolli classifica, squadra e ultime conversazioni. Tutto ciò ti accompagnerà agli ottavi."
         }
       ],
       "choices": [
@@ -227,7 +227,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Tutti i dati competitivi necessari esistono già dentro E5. L'unico write narrativo rimasto è sbloccare M10 e chiudere M9."
+          "text": "Il personale aggiorna il tuo accredito e ti indica l'area destinata ai sedici rimasti."
         }
       ],
       "choices": [
@@ -247,7 +247,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Questo commit non modifica Top16, posizione o risultati. Marca soltanto il completamento di M9 e rende disponibile M10."
+          "text": "Ricevi la comunicazione ufficiale del passaggio del turno. La posizione nel girone rimane quella registrata."
         }
       ],
       "choices": [
@@ -289,7 +289,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "M9 è completo per questa run: tre Matchday giocati, gruppo risolto, Top16 lockato e M10 disponibile. L'avversario degli ottavi non è ancora stato inventato."
+          "text": "Il girone è alle spalle. Il prossimo appuntamento è la formazione del tabellone degli ottavi."
         }
       ],
       "choices": [
@@ -314,7 +314,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il record di M9 conserva draw, tre risultati, sei match del gruppo, posizione finale, Friend Beat, relazioni, squadra e Top16."
+          "text": "Conservi il programma delle tre giornate, i risultati e i contatti avuti nel Village. La qualificazione agli ottavi è un altro capitolo dello stesso percorso."
         }
       ],
       "choices": [
@@ -334,7 +334,7 @@
       "stitches": [
         {
           "id": "s1",
-          "text": "Il salvataggio è pronto per M10_00. Nessun quarto match o pairing provvisorio viene aggiunto da M9."
+          "text": "La bacheca dei sedici è completa. Non appare una quarta partita del girone: aspetti soltanto l'annuncio del primo avversario a eliminazione diretta."
         }
       ],
       "choices": [
