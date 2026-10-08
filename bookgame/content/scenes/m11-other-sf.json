@@ -281,7 +281,7 @@
         },
         {
           "id": "persistence_alt",
-          "text": "Confronto questo punto con Commit.",
+          "text": "Confronto questo punto con passaggio conclusivo.",
           "goto": "commit"
         }
       ]
@@ -296,7 +296,7 @@
       "choices": [
         {
           "id": "idempotence_next",
-          "text": "Proseguo verso Commit.",
+          "text": "Proseguo verso passaggio conclusivo.",
           "goto": "commit"
         },
         {
