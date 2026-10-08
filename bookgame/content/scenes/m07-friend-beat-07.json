@@ -44,12 +44,12 @@
       "choices": [
         {
           "id": "entry_status",
-          "text": "Controllo chi è stato selezionato e perché.",
+          "text": "Rileggo gli ultimi messaggi prima di rispondere.",
           "goto": "selector_status"
         },
         {
           "id": "entry_contact",
-          "text": "Apro il contatto disponibile.",
+          "text": "Rispondo al messaggio.",
           "goto": "dispatch"
         }
       ]
@@ -64,17 +64,17 @@
       "choices": [
         {
           "id": "status_dispatch",
-          "text": "Passo al contatto selezionato.",
+          "text": "Apro la conversazione.",
           "goto": "dispatch"
         },
         {
           "id": "status_callback",
-          "text": "Rivedo come i Friend Beat precedenti pesano sulla rotazione.",
+          "text": "Ripenso agli ultimi incontri con gli amici.",
           "goto": "callback"
         },
         {
           "id": "status_wait",
-          "text": "Se il contatto è remoto, posso comunque scegliere quando rispondere.",
+          "text": "Aspetto un momento prima di rispondere.",
           "goto": "wait_contact"
         }
       ]
@@ -607,7 +607,7 @@
       "choices": [
         {
           "id": "record_complete",
-          "text": "Segno FRIEND_BEAT_07 come completato.",
+          "text": "Saluto il mio amico e chiudo la conversazione.",
           "goto": "friend_close",
           "effects": [
             {
@@ -629,7 +629,7 @@
       "choices": [
         {
           "id": "close_registration",
-          "text": "Passo alla registrazione del World Qualifier.",
+          "text": "Raggiungo lo sportello delle iscrizioni.",
           "goto": "m07-qualifier-registration#registration_entry"
         }
       ]
