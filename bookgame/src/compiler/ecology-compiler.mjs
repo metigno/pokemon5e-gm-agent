@@ -1,6 +1,7 @@
 import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import { ECOLOGY_ORDINARY_CLASSES, ECOLOGY_SPECIAL_CLASSES } from "../engine/ecology.mjs";
+import { ecologicalLevelBand } from "../engine/encounter-level-balance.mjs";
 
 const ID_RE = /^[A-Za-z0-9_-]+$/;
 
@@ -30,10 +31,11 @@ export async function compileEcologyCatalog({
   faunaIndexFile
 }) {
   const errors = [];
-  const [zonePools, distribution, faunaIndex] = await Promise.all([
+  const [zonePools, distribution, faunaIndex, pokemonSpecies] = await Promise.all([
     readFile(zonePoolsFile, "utf8").then(JSON.parse),
     readFile(distributionFile, "utf8").then(JSON.parse),
-    readFile(faunaIndexFile, "utf8").then(JSON.parse)
+    readFile(faunaIndexFile, "utf8").then(JSON.parse),
+    readFile(new URL("../../data/poke5e/2024/species.json", import.meta.url), "utf8").then(JSON.parse)
   ]);
 
   if (!isObject(zonePools.zones) || !isObject(zonePools.rules?.weights)) {
@@ -48,6 +50,7 @@ export async function compileEcologyCatalog({
   if (errors.length) return { valid: false, errors, catalog: null };
 
   const distById = new Map(distribution.species.map((entry) => [entry.id, entry]));
+  const minLevelById = new Map((pokemonSpecies.items ?? []).map((entry) => [entry.id, entry.minLevel]));
   const habitatById = new Map(faunaIndex.entries.map((entry) => [
     entry.id,
     entry.source_habitat?.biomes ?? []
@@ -91,6 +94,7 @@ export async function compileEcologyCatalog({
     }
 
     const sourceZone = zonePools.zones[profile.sourceZoneId];
+    const levelBand = ecologicalLevelBand(profile.moduleId);
     const species = [];
     for (const [rarity, ids] of Object.entries(sourceZone.pools ?? {})) {
       const authoritativeWeight = zonePools.rules.weights[rarity];
@@ -129,8 +133,17 @@ export async function compileEcologyCatalog({
         const habitats = habitatById.get(speciesId) ?? [];
         if (!habitats.some((habitat) => profile.habitats.includes(habitat))) continue;
         if (!(dist.encounter_methods ?? []).some((method) => profile.methods.includes(method))) continue;
+        const minLevel = minLevelById.get(speciesId);
+        if (!Number.isInteger(minLevel) || minLevel < 1 || minLevel > 20) {
+          errors.push(diag("UNKNOWN_POKEMON_MIN_LEVEL", "Invalid Pokémon 5e minimum level for " + speciesId, at));
+          continue;
+        }
+        // Do not offer a high-minimum-level species as a low-level random
+        // catch: that would bypass the module cap even without XP gain.
+        if (levelBand && minLevel > levelBand.max) continue;
 
         species.push({
+          minLevel,
           id: speciesId,
           rarity,
           weight: authoritativeWeight,
@@ -147,6 +160,7 @@ export async function compileEcologyCatalog({
       id: profile.id,
       moduleId: profile.moduleId,
       sourceZoneId: profile.sourceZoneId,
+      levelBand: levelBand ? structuredClone(levelBand) : null,
       habitats: structuredClone(profile.habitats),
       methods: structuredClone(profile.methods),
       species
