@@ -42,7 +42,7 @@
       "stitches": [
         {
           "id": "call_1",
-          "text": "Quando il gruppo si disperde resta tempo per un solo confronto personale. Sarà con l'amico che puoi davvero raggiungere adesso; se è lontano, la distanza resta parte della conversazione."
+          "text": "Dopo l'incontro comune riesci a ritagliarti un momento con uno degli altri Five. Se è ancora abbastanza vicino vi parlate di persona; se i suoi impegni lo hanno già portato altrove, resta una chiamata tra due percorsi diversi."
         }
       ],
       "choices": [
@@ -97,7 +97,7 @@
       "stitches": [
         {
           "id": "close_1",
-          "text": "Il quinto Friend Beat si chiude conservando chi, come e con quale esito hai condiviso questo momento. Nessuna carriera viene sincronizzata artificialmente."
+          "text": "La conversazione si chiude senza fermare la carriera di nessuno. Vi salutate e ciascuno torna ai propri impegni, con ciò che vi siete detti ancora fresco."
         }
       ],
       "choices": [
@@ -123,7 +123,7 @@
       "stitches": [
         {
           "id": "luke_c1",
-          "text": "Luke è il contatto selezionato. Il tema che emerge è adattamento sotto pressione; modalità e profondità dipendono da ciò che è realmente possibile in questo momento."
+          "text": "Luke ti risponde con il tono di chi stava già discutendo con qualcuno. «Dimmi che non mi chiami solo per vantarti del Rank.» Poi ride: ha comunque trovato il tempo di ascoltarti."
         }
       ],
       "choices": [
@@ -161,7 +161,7 @@
         },
         {
           "id": "luke_context",
-          "text": "Porto nel confronto ciò che M5 ha già reso concreto.",
+          "text": "Gli racconto cosa mi ha insegnato davvero questa salita.",
           "conditions": {
             "any": [
               {
@@ -282,7 +282,7 @@
       "choices": [
         {
           "id": "luke_deep_close",
-          "text": "Mi porto dietro questo confronto: potrà tornare a pesare quando le nostre strade si incroceranno di nuovo.",
+          "text": "Tengo a mente quello che ci siamo detti.",
           "goto": "friend_beat_close",
           "effects": [
             {
@@ -326,7 +326,7 @@
       "stitches": [
         {
           "id": "mattew_c1",
-          "text": "Mattew è il contatto selezionato. Il tema che emerge è preparazione e precisione; modalità e profondità dipendono da ciò che è realmente possibile in questo momento."
+          "text": "Mattew apre la conversazione con una domanda precisa sul tuo ultimo incontro. Non è un interrogatorio: è il suo modo di capire quanto hai imparato."
         }
       ],
       "choices": [
@@ -364,7 +364,7 @@
         },
         {
           "id": "mattew_context",
-          "text": "Porto nel confronto ciò che M5 ha già reso concreto.",
+          "text": "Gli racconto cosa mi ha insegnato davvero questa salita.",
           "conditions": {
             "any": [
               {
@@ -485,7 +485,7 @@
       "choices": [
         {
           "id": "mattew_deep_close",
-          "text": "Mi porto dietro questo confronto: potrà tornare a pesare quando le nostre strade si incroceranno di nuovo.",
+          "text": "Tengo a mente quello che ci siamo detti.",
           "goto": "friend_beat_close",
           "effects": [
             {
@@ -529,7 +529,7 @@
       "stitches": [
         {
           "id": "daniel_c1",
-          "text": "Daniel è il contatto selezionato. Il tema che emerge è costo delle scelte; modalità e profondità dipendono da ciò che è realmente possibile in questo momento."
+          "text": "Daniel vuole sapere come hai preso una decisione difficile, non soltanto come è andata a finire. Ti lascia parlare fino in fondo prima di esprimere un giudizio."
         }
       ],
       "choices": [
@@ -567,7 +567,7 @@
         },
         {
           "id": "daniel_context",
-          "text": "Porto nel confronto ciò che M5 ha già reso concreto.",
+          "text": "Gli racconto cosa mi ha insegnato davvero questa salita.",
           "conditions": {
             "any": [
               {
@@ -688,7 +688,7 @@
       "choices": [
         {
           "id": "daniel_deep_close",
-          "text": "Mi porto dietro questo confronto: potrà tornare a pesare quando le nostre strade si incroceranno di nuovo.",
+          "text": "Tengo a mente quello che ci siamo detti.",
           "goto": "friend_beat_close",
           "effects": [
             {
@@ -710,7 +710,7 @@
       "stitches": [
         {
           "id": "edward_c1",
-          "text": "Edward è il contatto selezionato. Il tema che emerge è continuità e recupero; modalità e profondità dipendono da ciò che è realmente possibile in questo momento."
+          "text": "Edward ti saluta come se foste già in competizione. «Spero tu ti stia allenando. Non vorrai farmi vincere troppo facilmente.» Il sorriso tradisce quanto gli faccia piacere sentirti."
         }
       ],
       "choices": [
@@ -748,7 +748,7 @@
         },
         {
           "id": "edward_context",
-          "text": "Porto nel confronto ciò che M5 ha già reso concreto.",
+          "text": "Gli racconto cosa mi ha insegnato davvero questa salita.",
           "conditions": {
             "any": [
               {
@@ -869,7 +869,7 @@
       "choices": [
         {
           "id": "edward_deep_close",
-          "text": "Mi porto dietro questo confronto: potrà tornare a pesare quando le nostre strade si incroceranno di nuovo.",
+          "text": "Tengo a mente quello che ci siamo detti.",
           "goto": "friend_beat_close",
           "effects": [
             {
@@ -891,7 +891,7 @@
       "stitches": [
         {
           "id": "fab_c1",
-          "text": "Fab è il contatto selezionato. Il tema che emerge è lettura del mondo fuori arena; modalità e profondità dipendono da ciò che è realmente possibile in questo momento."
+          "text": "Fab risponde con una storia che non c'entra apparentemente nulla con il Circuito. Poi arriva al punto: «Comunque, tu come stai? Non il tuo Rank. Tu.»"
         }
       ],
       "choices": [
@@ -929,7 +929,7 @@
         },
         {
           "id": "fab_context",
-          "text": "Porto nel confronto ciò che M5 ha già reso concreto.",
+          "text": "Gli racconto cosa mi ha insegnato davvero questa salita.",
           "conditions": {
             "any": [
               {
@@ -1050,7 +1050,7 @@
       "choices": [
         {
           "id": "fab_deep_close",
-          "text": "Mi porto dietro questo confronto: potrà tornare a pesare quando le nostre strade si incroceranno di nuovo.",
+          "text": "Tengo a mente quello che ci siamo detti.",
           "goto": "friend_beat_close",
           "effects": [
             {
