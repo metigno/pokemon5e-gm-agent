@@ -230,7 +230,7 @@
       "stitches": [
         {
           "id": "ei1",
-          "text": "B→A non chiede una singola lettura brillante: valuta se sai mantenere qualità decisionale abbastanza a lungo da usare davvero la profondità del team. Nessun bonus viene assegnato per aver letto questa descrizione."
+          "text": "«Non basta un'intuizione brillante», spiega l'esaminatore. «Qui vogliamo vedere se sai prendere buone decisioni anche quando la lotta si allunga e la squadra è sotto pressione.»"
         }
       ],
       "choices": [
@@ -265,7 +265,7 @@
       "stitches": [
         {
           "id": "rs1",
-          "text": "HP, PP, status, roster e inventario restano quelli reali. Registrarsi non ripristina risorse e non genera una squadra di prova."
+          "text": "Prima di firmare, controlli la squadra e le scorte. L'addetto ti lascia il tempo di verificare chi è pronto a entrare in campo, ma non distribuisce rifornimenti."
         }
       ],
       "choices": [
@@ -280,7 +280,7 @@
       "stitches": [
         {
           "id": "lc1",
-          "text": "Se Lance è stato incontrato, il suo criterio sul margine offre un modo di leggere l'esame, non un vantaggio meccanico: sapere quando una risorsa sta comprando posizione e quando sta solo bruciando opzioni."
+          "text": "Ripensi al consiglio di Lance: una risorsa spesa al momento giusto può aprire una strada; spesa per impazienza, può lasciarti senza risposta più avanti."
         }
       ],
       "choices": [
@@ -401,7 +401,7 @@
       "stitches": [
         {
           "id": "tr1",
-          "text": "La registrazione è pronta per essere consumata dal match system. Da qui il controllo passa al blocco M5_12 senza anticipare alcun risultato."
+          "text": "Dall'arena arriva il richiamo dei giudici. La tua iscrizione è sul banco, il campo ti aspetta e il risultato dipenderà da ciò che accadrà durante la lotta."
         }
       ],
       "choices": [
