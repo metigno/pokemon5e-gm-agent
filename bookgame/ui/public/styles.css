@@ -250,7 +250,7 @@ button { -webkit-tap-highlight-color: transparent; }
   width: min(100%, 880px);
   transform: translateX(-50%);
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   padding: 7px 6px calc(7px + env(safe-area-inset-bottom));
   border-top: 1px solid var(--line);
   background: rgba(255,255,255,.97);
