@@ -78,7 +78,7 @@ test("Replacing any team member permanently releases them; slot zero updates the
     assert.equal(next.story.history.at(-1).releasedSpeciesId, previous.speciesId);
     assert.equal(next.story.history.at(-1).replacedRosterIndex, index);
     if (index === 0) assert.equal(next.player.starter.speciesId, "pidgey");
-    else assert.equal(next.player.starter.speciesId, "growlithe-hisui");
+    else assert.deepEqual(next.player.starter, originalStarter);
     await assert.rejects(engine.choose(next, `replace_${index}`), /Unknown choice|not currently available|Scegli/);
   }
 });
