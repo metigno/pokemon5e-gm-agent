@@ -32,3 +32,21 @@ export function recordBattle(tournament, result) {
   if (tournament.results.some(x=>x.battleId===result.battleId)) throw new Error("Duplicate battle ID");
   return {...tournament,results:[...tournament.results,{...result}]};
 }
+
+/**
+ * Generate a fresh unpredictable seed ONCE when starting a new tournament.
+ * Persist the returned seed and draw with the save. Never regenerate on load.
+ * randomUint32 is injected by the platform adapter (e.g. crypto.randomBytes).
+ */
+export function startNewTournament(entrants, randomUint32, year=2060) {
+  if (typeof randomUint32 !== "function") throw new Error("A cryptographic seed generator is required");
+  if (!Number.isInteger(year) || year < 2060 || (year-2060)%4!==0) throw new Error("Invalid championship year");
+  const seed=randomUint32();
+  if (!Number.isInteger(seed) || seed<0 || seed>0xffffffff) throw new Error("Seed must be uint32");
+  return {...drawGroups(entrants,seed),year,editionId:`wc-${year}-${seed.toString(16).padStart(8,'0')}`};
+}
+/** Restore the exact same draw and results; no reroll on load. */
+export function restoreTournament(saved) {
+  if (!saved || !Number.isInteger(saved.seed) || !saved.groups || !Array.isArray(saved.results)) throw new Error("Invalid tournament save");
+  return structuredClone(saved);
+}
