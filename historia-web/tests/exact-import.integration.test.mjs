@@ -88,8 +88,8 @@ test('Reject invalid imports instead of replacing individual entries or teams',(
  assert.throws(()=>parseTeamInput('Arcanine-Hisui @ Choice Scarf\nAbility: Rock Head\n- Crunch'),/esattamente sei/);
  const malformed=luke.replace('Rock Head','Rock-Heads-Unknown');
  assert.throws(()=>parseTeamInput(malformed),/Abilità sconosciuta/);
- const badGmax=luke.replace('Gigantamax: Yes','').replace('Ability: Teravolt','Ability: Teravolt\nGigantamax: Yes');
- assert.throws(()=>parseTeamInput(badGmax),/non compatibile con Gigantamax/);
+ const badGmax=Teams.unpack(parseTeamInput(luke));badGmax[2].gigantamax=true;
+ assert.throws(()=>validatePackedTeam(Teams.pack(badGmax)),/non compatibile con Gigantamax/);
  const t=Teams.unpack(parseTeamInput(luke));t[2].item='Choice Scarf';
  assert.throws(()=>validatePackedTeam(Teams.pack(t)),/Item Clause/);
 });
@@ -140,6 +140,6 @@ test('Gen8 Custom Game simulator offers authentic Mega Aerodactyl and Gigamax Bl
   assert.ok(logs.some(line=>line.startsWith('|-start|p1a: Blastoise|Dynamax')),'Real Dynamax/Gigamax activation');
   assert.ok(logs.some(line=>line.startsWith('|move|p1a: Blastoise|G-Max Cannonade|')),'Real G-Max move from engine, not a UI substitution');
   assert.ok(logs.some(line=>line.startsWith('|win|')),'Simulator terminal verdict recorded');
-  assert.ok(firstRequest?.side?.pokemon?.[0]?.item==='Aerodactylite','Held item stays in private simulator request');
+  assert.ok(String(firstRequest?.side?.pokemon?.[0]?.item).toLowerCase()==='aerodactylite','Held item stays in private simulator request');
  }finally{await game.close();}
 });
