@@ -76,3 +76,39 @@ test('Server rejects unrecognized NPC profiles before starting Showdown',async()
   await assert.rejects(()=>service.create({mode:'auto',practice:true,npcProfile:'omniscient'}),/Profilo NPC non valido/);
  }finally{await rm(dir,{recursive:true,force:true});}
 });
+
+test('Practice flag never silently replaces a submitted custom roster',async()=>{
+ const dir=await mkdtemp(join(tmpdir(),'historia-no-substitute-'));
+ const service=new ArenaService(dir);
+ try{
+  await assert.rejects(
+   ()=>service.create({practice:true,p1team:Teams.export(Teams.unpack(practiceTeams().p1))}),
+   /non possono essere combinati/);
+ }finally{await service.shutdown();await rm(dir,{recursive:true,force:true});}
+});
+
+test('A normal imported team reaches the active private Showdown request without generated moves',async()=>{
+ const dir=await mkdtemp(join(tmpdir(),'historia-imported-'));
+ const service=new ArenaService(dir);
+ try{
+  const p1=Teams.unpack(practiceTeams().p1);
+  p1[0].name='Arcanine-Hisui';p1[0].species='Arcanine-Hisui';p1[0].ability='Rock Head';
+  p1[0].item='Choice Scarf';p1[0].moves=['Flare Blitz','Head Smash','Close Combat','Crunch'];
+  const start=await service.create({mode:'manual',p1team:Teams.export(p1),p2team:Teams.export(Teams.unpack(practiceTeams().p2))});
+  assert.equal(start.p1roster[0].species,'Arcanine-Hisui');
+  assert.deepEqual(start.p1roster[0].moves,p1[0].moves);
+  assert.equal(start.p1roster[0].item,'Choice Scarf');
+  let request=null;
+  for(let i=0;i<150&&!request?.active;i++){
+   const state=service.snapshot(start.id);request=state.request;
+   if(request?.teamPreview&&state.choices.length){
+    await service.choose(start.id,{requestId:state.requestId,choice:state.choices[0]});
+   }
+   if(!request?.active)await sleep(20);
+  }
+  assert.ok(request?.active,'Official Showdown provides the first private move request after team preview');
+  const received=request.active[0].moves.map(m=>m.move);
+  assert.deepEqual(received,p1[0].moves);
+  assert.equal(request.side.pokemon[0].details.split(',')[0],'Arcanine-Hisui');
+ }finally{await service.shutdown();await rm(dir,{recursive:true,force:true});}
+});

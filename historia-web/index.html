@@ -17,7 +17,7 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px soli
 #sessionCode{overflow-wrap:anywhere}
 #messages{height:360px;overflow-y:auto;background:#090f1e;padding:13px;border-radius:8px;white-space:pre-wrap}.entry{padding:10px 0;border-bottom:1px solid #2b3d56}.entry b{color:var(--gold)}.arena{display:grid;grid-template-columns:1fr 1fr;gap:12px;background:radial-gradient(ellipse at center,#244475,#081323 75%);border:1px solid #334f70;padding:16px;min-height:230px;border-radius:12px}
 .pokemon{display:flex;min-width:0;width:100%;overflow-wrap:anywhere;flex-direction:column;align-items:center;justify-content:center;gap:7px;text-align:center;font-weight:600}.pokemon img{width:112px;height:112px;object-fit:contain;image-rendering:auto;filter:drop-shadow(0 10px 12px #0008);animation:float 2s ease-in-out infinite alternate}@keyframes float{to{transform:translateY(-8px)}}
-.info{font-size:.84rem;color:#bdcfea}.ribbon{border-left:3px solid var(--gold);padding-left:12px;margin:16px 0}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:.87rem}th,td{padding:9px;border-bottom:1px solid #30445f;text-align:left}th{color:var(--gold)}.notice{border:1px dashed #6f7791;padding:12px;border-radius:8px;color:#d0d9ea;font-size:.91rem}
+ .info{font-size:.84rem;color:#bdcfea}.move-meta{font-size:.76rem;display:block;color:#e1e9fa}.team-preview{margin:10px 0;white-space:pre-wrap;font-size:.83rem;overflow-wrap:anywhere}.choice{min-width:120px;flex:1 1 40%}.switch-choice{background:#315173}.ribbon{border-left:3px solid var(--gold);padding-left:12px;margin:16px 0}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:.87rem}th,td{padding:9px;border-bottom:1px solid #30445f;text-align:left}th{color:var(--gold)}.notice{border:1px dashed #6f7791;padding:12px;border-radius:8px;color:#d0d9ea;font-size:.91rem}
 @media(max-width:800px){.grid{grid-template-columns:1fr}header{position:static}.panel{padding:14px}.pokemon img{width:86px;height:86px}.arena{min-height:180px}button{min-height:44px}#messages{height:270px}}
 @media(prefers-reduced-motion:reduce){.pokemon img{animation:none}}
 </style></head><body>
@@ -42,7 +42,7 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px soli
 </div>
 <div class="panel" id="legacySession"><h3>Sessione Historia personale (accesso sperimentale)</h3><p class="muted">Conserva questo codice riservato per recuperare chat e ultimo replay su un altro dispositivo. Chi conosce il codice può accedere alla sessione: non è un sistema di autenticazione.</p><code id="sessionCode"></code><div class="actions"><button id="copySession">Copia codice</button></div><label for="restoreSession">Riprendi un'altra sessione</label><input id="restoreSession" placeholder="Incolla qui il codice conservato"><button id="loadSession">Riprendi sessione</button></div></div></section>
 <section id="arena" class="view"><div class="grid">
-<div><div class="panel"><div class="eyebrow">Pokémon Showdown · live</div><h2>Campo di battaglia</h2><div class="arena"><div class="pokemon"><span id="p2name">NPC</span><img id="p2sprite" alt="Pokémon attivo NPC" hidden><span id="p2active" class="info">In attesa</span><progress id="p2hp" max="100" value="100" hidden aria-label="PS Pokémon avversario"></progress></div><div class="pokemon"><span>Luke</span><img id="p1sprite" alt="Pokémon attivo Luke" hidden><span id="p1active" class="info">In attesa</span><progress id="p1hp" max="100" value="100" hidden aria-label="PS Pokémon Luke"></progress></div></div><p id="battleStatus" class="ribbon" aria-live="polite">Nessuna battaglia avviata</p><div id="choices" class="actions" aria-label="Scelte di battaglia"></div><h3>Protocollo Showdown</h3><pre id="battleLog" role="log" aria-live="polite">Avvia una battaglia per ricevere il log autentico.</pre><div class="actions"><button id="openReplay" disabled>Riproduci replay</button><button id="openAnalysis" disabled>Analisi tecnica verificata</button><button id="postAnalysis" disabled>Commento del Master AI</button></div></div>
+<div><div class="panel"><div class="eyebrow">Pokémon Showdown · live</div><h2>Campo di battaglia</h2><div class="arena"><div class="pokemon"><span id="p2name">NPC</span><img id="p2sprite" alt="Pokémon attivo NPC" hidden><span id="p2active" class="info">In attesa</span><progress id="p2hp" max="100" value="100" hidden aria-label="PS Pokémon avversario"></progress></div><div class="pokemon"><span>Luke</span><img id="p1sprite" alt="Pokémon attivo Luke" hidden><span id="p1active" class="info">In attesa</span><progress id="p1hp" max="100" value="100" hidden aria-label="PS Pokémon Luke"></progress></div></div><p id="battleStatus" class="ribbon" aria-live="polite">Nessuna battaglia avviata</p><p id="ownEquipment" class="info" aria-live="polite"></p><div id="choices" class="actions" aria-label="Scelte di battaglia"></div><h3>Protocollo Showdown</h3><pre id="battleLog" role="log" aria-live="polite">Avvia una battaglia per ricevere il log autentico.</pre><div class="actions"><button id="openReplay" disabled>Riproduci replay</button><button id="openAnalysis" disabled>Analisi tecnica verificata</button><button id="postAnalysis" disabled>Commento del Master AI</button></div></div>
 <div id="replayPanel" class="panel" hidden>
 <div class="eyebrow">Showdown · registrazione pubblica</div><h2>Replay turno per turno</h2>
 <div class="replay-controls"><button id="replayPrev" aria-label="Turno precedente">◀</button><button id="replayPlay" aria-label="Avvia riproduzione">▶ Riproduci</button><button id="replayNext" aria-label="Turno successivo">▶</button><button id="replayClose">Chiudi replay</button></div>
@@ -53,7 +53,16 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px soli
 <p class="muted">Ricostruzione visiva del log spettatore, non riproduzione nativa del client Pokémon Showdown. I PS sono mostrati solo quando il log pubblico li indica. Nessun evento viene inventato.</p>
 </div></div>
 <div><div class="panel"><h2>Nuovo incontro</h2><label for="mode">Modalità</label><select id="mode"><option value="manual">Manuale — gioca come Luke</option><option value="auto">Automatica — guarda i bot</option></select><label for="npcProfile">Stile tattico avversario (allenamento)</label><select id="npcProfile"><option value="balanced">Bilanciato</option><option value="mattew">Mattew · Tecnico</option><option value="daniel">Daniel · Analitico</option><option value="edward">Edward · Offensivo</option><option value="fab">Fab · Creativo</option><option value="luke">Luke · Adattivo</option></select><button id="practice">Avvia allenamento tecnico 6v6</button><p class="muted">Le squadre dell'allenamento sono soltanto fixture di sviluppo. Non assegnano punti ai Mondiali.</p>
-<details><summary>Usa squadre Showdown packed personalizzate</summary><label for="p1team">Squadra Luke (6 Pokémon)</label><textarea id="p1team" placeholder="Incolla una squadra nel formato packed di Showdown"></textarea><label for="p2team">Squadra avversaria (6 Pokémon)</label><textarea id="p2team" placeholder="Incolla la seconda squadra packed"></textarea><label for="opponent">Nome dell'avversario</label><input id="opponent" maxlength="40" value="Rivale"><button id="customBattle">Avvia incontro personalizzato</button></details>
+<details open><summary>Importa squadre Showdown (testo esportato o packed)</summary>
+<label for="p1team">Squadra Luke (sei Pokémon, copia/incolla dall'export Showdown)</label>
+<textarea id="p1team" rows="12" spellcheck="false" placeholder="Arcanine-Hisui @ Choice Scarf&#10;Ability: Rock Head&#10;EVs: 252 Atk / 4 SpD / 252 Spe&#10;Jolly Nature&#10;- Flare Blitz&#10;- Head Smash&#10;- Close Combat&#10;- Crunch"></textarea>
+<label for="p2team">Squadra avversaria (sei Pokémon, export o packed)</label>
+<textarea id="p2team" rows="10" spellcheck="false" placeholder="Incolla i sei set dell'avversario"></textarea>
+<label for="opponent">Nome dell'avversario</label><input id="opponent" maxlength="40" value="Rivale">
+<div class="actions"><button id="previewTeams" type="button">Verifica i team</button><button id="saveTeams" type="button">Salva i team</button><button id="loadTeams" type="button">Recupera team salvati</button><button id="customBattle" type="button">Combatti con questi team</button></div>
+<pre id="teamPreview" class="team-preview" aria-live="polite" hidden></pre>
+<p class="muted">I set vengono controllati e inviati senza mosse o strumenti sostitutivi. Gigantamax: Yes abilita il Gigamax sulle specie compatibili. I team salvati sono privati per account/sessione.</p>
+</details>
 <p class="muted" id="arenaError" role="alert"></p></div><div class="panel"><h2>Formato provvisorio</h2><p class="muted">Motore ufficiale, Singles 6v6 livello 100; test su <code>gen8customgame</code>. La legalità definitiva del formato Historia (inclusi Hisui e vincoli Mega/Dynamax) richiede ancora un formato custom certificato.</p></div></div></div></section>
 <section id="studio" class="view"><div class="panel"><div class="eyebrow">Sala stampa · prepartita e postpartita</div><h2>Master AI narrativo</h2><div id="messages" role="log" aria-live="polite"><div class="entry"><b>Historia</b> · Benvenuto al Mondiale 2060. Sono disponibili l'atmosfera della competizione e l'analisi dei replay verificati.</div></div><form id="chat"><label for="message">Parla con il Master</label><textarea id="message" maxlength="5000" required placeholder="Analizziamo i turni decisivi della battaglia..."></textarea><button>Invia al Master</button></form><p id="chatStatus" class="muted"></p></div></section>
 <section id="tournament" class="view"><div class="panel"><div class="eyebrow">Sorteggio · Calendario · Fase a gironi</div><h2>Mondiale 2060</h2><p class="notice">Non ci sono ancora 32 qualificati 2060 confermati. Nessun calendario, girone o tabellone verrà inventato o popolato usando automaticamente il ranking storico.</p><div id="seeds"></div></div></section>
@@ -98,7 +107,7 @@ async function accountAction(action){
   accountDisplay(result);
   // Never attribute an old anonymous/cross-account battle to the newly logged-in user.
   currentId=null;lastBattle=null;localStorage.removeItem('historia-last-battle');
-  await recoverAccountState();
+  await recoverAccountState();await retrieveTeams();
  }catch(e){$('accountPassword').value='';$('accountStatus').textContent=e.message;}
 }
 $('accountForm').addEventListener('submit',e=>{e.preventDefault();accountAction('login');});
@@ -133,17 +142,54 @@ async function recoverAccountState(){
  }catch(e){$('accountStatus').textContent='Account attivo, archivio non disponibile: '+e.message;}
 }
 
-async function begin(practice){$('arenaError').textContent='';try{const data=practice?{practice:true,mode:$('mode').value,npcProfile:$('npcProfile').value}:{mode:$('mode').value,npcProfile:$('npcProfile').value,p1team:$('p1team').value.trim(),p2team:$('p2team').value.trim(),p2name:$('opponent').value.trim()};if(authMode!=='accounts')data.sessionId=sessionId;const b=await api('/api/battles',data);closeReplay();currentId=b.id;localStorage.setItem('historia-last-battle',currentId);navigate('arena');render(b);startPolling();}catch(e){$('arenaError').textContent=e.message;}}
+async function retrieveTeams(){
+ const {teams}=await api('/api/teams');
+ if(!teams){$('teamPreview').hidden=false;$('teamPreview').textContent='Nessuna squadra salvata per questo account.';return;}
+ $('p1team').value=teams.p1team;$('p2team').value=teams.p2team;$('opponent').value=teams.p2name;
+ $('teamPreview').hidden=false;$('teamPreview').textContent='Due squadre recuperate dal salvataggio privato.';
+}
+$('loadTeams').onclick=async()=>{try{await retrieveTeams();}catch(e){$('arenaError').textContent=e.message;}};
+$('saveTeams').onclick=async()=>{try{
+ const {teams}=await api('/api/teams',{p1team:$('p1team').value,p2team:$('p2team').value,p2name:$('opponent').value});
+ $('teamPreview').hidden=false;$('teamPreview').textContent='Salvate sei + sei configurazioni Showdown per questo account/sessione. '+teams.updatedAt;
+}catch(e){$('arenaError').textContent=e.message;}};
+$('previewTeams').onclick=async()=>{try{
+ const {p1,p2}=await api('/api/teams/preview',{p1team:$('p1team').value,p2team:$('p2team').value});
+ const format=(label,list)=>label+'\n'+list.map((m,i)=>`${i+1}. ${m.name} (${m.species}) @ ${m.item||'nessuno'} | ${m.ability||'default'} | ${m.nature} | ${m.gigantamax?'GIGAMAX | ':''}${m.moves.join(' / ')}`).join('\n');
+ $('teamPreview').hidden=false;$('teamPreview').textContent=format('LUKE',p1)+'\n\n'+format('AVVERSARIO',p2);
+}catch(e){$('arenaError').textContent=e.message;}};
+async function begin(practice){$('arenaError').textContent='';try{const data=practice?{practice:true,mode:$('mode').value,npcProfile:$('npcProfile').value}:{mode:$('mode').value,npcProfile:$('npcProfile').value,p1team:$('p1team').value.trim(),p2team:$('p2team').value.trim(),p2name:$('opponent').value.trim()};if(authMode!=='accounts')data.sessionId=sessionId;if(!practice)await api('/api/teams',{p1team:data.p1team,p2team:data.p2team,p2name:data.p2name});const b=await api('/api/battles',data);closeReplay();currentId=b.id;localStorage.setItem('historia-last-battle',currentId);navigate('arena');render(b);startPolling();}catch(e){$('arenaError').textContent=e.message;}}
 $('practice').addEventListener('click',()=>begin(true));$('customBattle').addEventListener('click',()=>begin(false));
 function render(b){lastBattle=b;$('battleStatus').textContent=b.status==='complete'?'Vittoria confermata Showdown: '+b.winner:b.status==='tie'?'Pareggio confermato':b.status==='error'?'Errore: '+b.error:'Turno '+(b.turn||'iniziale')+' · '+(b.mode==='manual'?'Luke vs AI':'AI vs AI')+' · Stile NPC: '+(b.aiProfiles?.p2||'bilanciato')+' · '+b.status;
  $('p2name').textContent=b.p2name||'NPC';$('battleLog').textContent=b.log||'Attesa del primo evento…';$('battleLog').scrollTop=$('battleLog').scrollHeight;
  if(b.publicField){for(const side of ['p1','p2'])showReplayPokemon(side,b.publicField[side]);}else{const lines=(b.log||'').split('\n');for(const side of ['p1','p2']){const entry=[...lines].reverse().find(x=>x.startsWith('|switch|'+side+'a:')||x.startsWith('|drag|'+side+'a:'));if(!entry)continue;const name=entry.split('|')[2].split(': ').slice(1).join(': ');$(side+'active').textContent=name;const img=$(side+'sprite'),id=name.toLowerCase().replace(/[^a-z0-9-]/g,'');if(id){img.src='https://play.pokemonshowdown.com/sprites/ani/'+encodeURIComponent(id)+'.gif';img.hidden=false;img.onerror=()=>{img.hidden=true;};}}}
+ const own=b.mode==='manual'?(b.request?.side?.pokemon||[]).find(mon=>mon.active):null;
+ const roster=b.p1roster||[];
+ $('ownEquipment').textContent=own?'Strumento: '+(own.item||'nessuno')+' · Abilità: '+(own.ability||own.baseAbility||'non nota'):'';
+ if(own){
+  const condition=own.condition||'PS non disponibili';
+  const detail=(own.details||'').split(',')[0];
+  $('p1active').textContent=detail+' · PS '+condition;
+  const ratio=/^(\d+)\/(\d+)/.exec(condition);
+  if(ratio&&Number(ratio[2])>0){
+   $('p1hp').max=Number(ratio[2]);$('p1hp').value=Number(ratio[1]);$('p1hp').hidden=false;
+  }
+ }
  const container=$('choices');container.replaceChildren();
  if(b.status==='active'&&b.mode==='manual'&&b.request){
   const title=document.createElement('p');title.className='muted';title.textContent='Scegli una mossa o un cambio legale';container.append(title);
   for(const choice of b.choices||[]){const button=document.createElement('button');button.className='choice'+(choice.endsWith(' mega')?' mega':choice.endsWith(' dynamax')?' dynamax':'');
    const m=choice.match(/^move (\d)/);const move=m?b.request.active?.[0]?.moves?.[Number(m[1])-1]:null;
-   button.textContent=move?(move.move||'Mossa '+m[1])+(choice.endsWith(' mega')?' · MEGA':choice.endsWith(' dynamax')?' · DYNAMAX':''):choice;
+   const switching=choice.match(/^switch (\d)$/),switchMon=switching?b.request.side?.pokemon?.[Number(switching[1])-1]:null;
+   const activeMon=b.request.side?.pokemon?.find(mon=>mon.active);
+   const activeSpecies=(activeMon?.details||'').split(',')[0];
+   // Showdown's team preview can reorder slots; match the original imported
+   // species rather than assuming private request order equals export order.
+   const canGmax=roster.some(mon=>mon.gigantamax&&mon.species===activeSpecies);
+   const transform=choice.endsWith(' mega')?' · MEGA':choice.endsWith(' dynamax')?(canGmax?' · GIGAMAX':' · DYNAMAX'):'';
+   button.className+=switchMon?' switch-choice':'';
+   button.textContent=move?(move.move||'Mossa '+m[1])+transform+' · PP '+move.pp+'/'+move.maxpp:
+    switchMon?'Cambia: '+(switchMon.details||switchMon.ident||'Pokémon')+' · '+switchMon.condition:choice;
    button.onclick=async()=>{button.disabled=true;try{const next=await api('/api/battles/'+b.id+'/choice',{requestId:b.requestId,choice});render(next);}catch(e){$('arenaError').textContent=e.message;button.disabled=false;}};container.append(button);
   }
  }else{const t=document.createElement('span');t.className='muted';t.textContent=b.mode==='auto'?'Due allenatori autonomi in campo.':b.status==='complete'?'Incontro concluso.':'In attesa della richiesta Showdown…';container.append(t);}
@@ -162,9 +208,9 @@ function showReplayPokemon(side,mon){
  if(!mon?.species){label.textContent='Non ancora schierato';img.hidden=true;bar.hidden=true;return;}
  label.textContent=(mon.name||mon.species)+' · '+mon.species+
   (mon.hp===null?' · PS non osservati':' · PS '+mon.hp+'%')+
-  (mon.status?' · '+mon.status:'')+(mon.mega?' · MEGA':'')+(mon.dynamax?' · DYNAMAX':'')+
+  (mon.status?' · '+mon.status:'')+(mon.mega?' · MEGA':'')+(mon.dynamax?(mon.gigantamax?' · GIGAMAX':' · DYNAMAX'):'')+
   (mon.fainted?' · KO':'');
- bar.hidden=mon.hp===null;if(mon.hp!==null)bar.value=mon.hp;
+ bar.max=100;bar.hidden=mon.hp===null;if(mon.hp!==null)bar.value=mon.hp;
  const id=(mon.species||'').toLowerCase().replace(/[^a-z0-9-]/g,'');
  img.hidden=!id;
  if(id){const url='https://play.pokemonshowdown.com/sprites/ani/'+encodeURIComponent(id)+'.gif';if(img.src!==url)img.src=url;img.onerror=()=>{img.hidden=true;};}
@@ -250,10 +296,10 @@ async function loadChat(){try{const c=await api('/api/chat');for(const m of c.me
   await loadMeta();
   if(authMode==='accounts'){
    currentId=null;lastBattle=null;
-   try{accountDisplay(await api('/api/auth/me'));await loadChat();await recoverAccountState();}
+   try{accountDisplay(await api('/api/auth/me'));await loadChat();await recoverAccountState();await retrieveTeams();}
    catch{accountDisplay(null);}
   }else{
-   await loadChat();
+   await loadChat();await retrieveTeams();
    if(!currentId){try{const result=await api('/api/session');currentId=result.lastBattleId;if(currentId)localStorage.setItem('historia-last-battle',currentId);}catch(e){console.warn('Session restore unavailable',e);}}
    if(currentId){await poll();if(lastBattle?.status==='active')startPolling();}
   }

@@ -94,3 +94,23 @@ test('Dynamax activation remains one event when simulator emits two synonymous p
  assert.equal(r.frames[1].field.p2.dynamax,false);
  assert.equal(r.frames[1].events.filter(x=>x.type==='dynamax').length,1);
 });
+
+
+test('Public Showdown formechange displays actual Gigantamax sprite without revealing hidden items',()=>{
+ const log=[
+  '|switch|p1a: Blastoise|Blastoise, L100|100/100',
+  '|turn|1',
+  '|-formechange|p1a: Blastoise|Blastoise-Gmax',
+  '|-start|p1a: Blastoise|Dynamax',
+  '|move|p1a: Blastoise|G-Max Cannonade|p2a: Magikarp',
+  '|turn|2',
+  '|-end|p1a: Blastoise|Dynamax',
+  '|-formechange|p1a: Blastoise|Blastoise',
+  '|win|Luke'
+ ].join('\n');
+ const f=buildReplayTimeline(log).frames;
+ assert.ok(f.some(x=>x.field.p1.species==='Blastoise-Gmax'&&x.field.p1.gigantamax),'Public G-Max is reflected in arena sprite');
+ assert.equal(f.at(-1).field.p1.species,'Blastoise');
+ assert.equal(f.at(-1).field.p1.gigantamax,false);
+ assert.doesNotMatch(JSON.stringify(f),/Leftovers|Torrent/,'Never infer private held item or ability from replay');
+});

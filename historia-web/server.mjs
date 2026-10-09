@@ -7,7 +7,7 @@ import {makeSecurityHeaders,isSameOriginMutation,makeRateLimiter} from './securi
 import {AccountAuth,authConfiguration} from './auth.mjs';
 import {importGuestData} from './guest-migration.mjs';
 import {prepareStorage,probeStorage} from './storage.mjs';
-import {ArenaService} from './battle-service.mjs';
+import {ArenaService,parseTeamInput,describeTeam,exportTeamInput} from './battle-service.mjs';
 import {buildReplayTimeline,renderTechnicalReport} from './replay-timeline.mjs';
 import {loadHistoricalSeeding} from '../historia/src/seeding.mjs';
 
@@ -47,11 +47,28 @@ const readSession=async req=>{
 const digestId=id=>createHash('sha256').update(id).digest('hex');
 const chatPath=id=>join(dataDir,'chat',digestId(id)+'.json');
 const sessionPath=id=>join(dataDir,'sessions',digestId(id)+'.json');
+const teamsPath=id=>join(dataDir,'teams',digestId(id)+'.json');
 async function privateWrite(dir,dest,value){
  await mkdir(dir,{recursive:true,mode:0o700});await chmod(dir,0o700);
  const tmp=dest+'.'+randomUUID()+'.tmp';
  try{await writeFile(tmp,JSON.stringify(value),{encoding:'utf8',mode:0o600,flag:'wx'});await rename(tmp,dest);}
  catch(e){await unlink(tmp).catch(()=>{});throw e;}
+}
+async function loadTeams(id){
+ try{
+  const saved=JSON.parse(await readFile(teamsPath(id),'utf8'));
+  return {p1team:exportTeamInput(saved.p1team),p2team:exportTeamInput(saved.p2team),
+   p2name:saved.p2name||'Rivale'};
+ }catch(e){if(e.code==='ENOENT')return null;throw e;}
+}
+async function saveTeams(id,{p1team,p2team,p2name='Rivale'}={}){
+ if(typeof p2name!=='string'||!/^[\p{L}\p{N} ._'-]{1,40}$/u.test(p2name))
+  throw Object.assign(Error('Nome avversario non valido'),{httpStatus:400});
+ const saved={version:1,p1team:parseTeamInput(p1team),p2team:parseTeamInput(p2team),
+  p2name,updatedAt:new Date().toISOString()};
+ await privateWrite(join(dataDir,'teams'),teamsPath(id),saved);
+ return {p1team:exportTeamInput(saved.p1team),p2team:exportTeamInput(saved.p2team),
+  p2name,updatedAt:saved.updatedAt};
 }
 async function rememberBattle(id,battleId){await privateWrite(join(dataDir,'sessions'),sessionPath(id),{battleId});}
 async function lastBattle(id){if(sessionBattles.has(id))return sessionBattles.get(id);try{const obj=JSON.parse(await readFile(sessionPath(id),'utf8'));if(/^[0-9a-f-]{36}$/.test(obj.battleId)){cachePut(sessionBattles,id,obj.battleId);return obj.battleId;}}catch(e){if(e.code!=='ENOENT')throw e;}return null;}
@@ -77,7 +94,7 @@ export function summarizeLog(log){
  return {turns:events.filter(x=>x.type==='turn').length,winner:events.findLast(x=>x.type==='win')?.actor||null,events};
 }
 function routeAsync(res,fn){Promise.resolve().then(fn).catch(e=>{
- const expected=e.httpStatus||(/non valid|mancant|legale|obsolet|disponibil|troppo|contenere|Clause|livello|modalit|format|Packed|scelta|Tera|sessione|limite/i.test(e.message)?400:null);
+ const expected=e.httpStatus||(/non valid|mancant|legale|obsolet|disponibil|troppo|contenere|Clause|livello|modalit|format|Packed|scelta|Tera|sessione|limite|Importare|Gigantamax|Strumento|Mossa|Abilit|Specie|Allenamento|sconosciut/i.test(e.message)?400:null);
  if(expected){json(res,expected,{error:e.message});return;}
  console.error('Historia request failure:',e?.name||'Error');
  json(res,500,{error:'Errore interno del server'});
@@ -142,6 +159,19 @@ export function handler(req,res){
   json(res,200,{year:2060,canonicalThrough:2056,qualifiersConfirmed:false,groups:null,schedule:null,rankingAsOf:ranking.asOf,ranking:ranking.ranking});return;
  }
  if(req.method==='GET'&&path==='/api/session'){routeAsync(res,async()=>{const id=await readSession(req);json(res,200,{lastBattleId:await lastBattle(id)});});return;}
+ if(req.method==='GET'&&path==='/api/teams'){
+  routeAsync(res,async()=>json(res,200,{teams:await loadTeams(await readSession(req))}));return;
+ }
+ if(req.method==='POST'&&path==='/api/teams'){
+  routeAsync(res,async()=>{const body=await readBody(req),id=await readSession(req);
+   json(res,200,{teams:await saveTeams(id,body)});
+  });return;
+ }
+ if(req.method==='POST'&&path==='/api/teams/preview'){
+  routeAsync(res,async()=>{const body=await readBody(req);await readSession(req);
+   json(res,200,{p1:describeTeam(body.p1team),p2:describeTeam(body.p2team)});
+  });return;
+ }
  if(req.method==='GET'&&path==='/api/battles'){routeAsync(res,async()=>json(res,200,{battles:await arena.list(await readSession(req))}));return;}
  if(req.method==='POST'&&path==='/api/battles'){
   routeAsync(res,async()=>{const body=await readBody(req),sessionId=await readSession(req);

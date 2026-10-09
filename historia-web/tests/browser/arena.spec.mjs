@@ -5,6 +5,9 @@ import {once} from 'node:events';
 import {mkdtemp,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
+import {createRequire} from 'node:module';
+import {practiceTeams} from '../../battle-service.mjs';
+const {Teams}=createRequire(import.meta.url)('pokemon-showdown');
 
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 async function ephemeralPort(){
@@ -267,6 +270,16 @@ test('Real Chromium local accounts: registration, cookie session, Arena access a
   expect(authCookie?.httpOnly).toBe(true);
   expect(authCookie?.sameSite).toBe('Strict');
   await page.locator('nav button[data-view="arena"]').click();
+  const luke=Teams.unpack(practiceTeams().p1);
+  luke[0].name='Arcanine-Hisui';luke[0].species='Arcanine-Hisui';
+  luke[0].ability='Rock Head';luke[0].item='Choice Scarf';
+  luke[0].moves=['Flare Blitz','Head Smash','Close Combat','Crunch'];
+  await page.locator('#p1team').fill(Teams.export(luke));
+  await page.locator('#p2team').fill(Teams.export(Teams.unpack(practiceTeams().p2)));
+  await page.locator('#saveTeams').click();
+  await expect(page.locator('#teamPreview')).toContainText('Salvate');
+  await page.locator('#previewTeams').click();
+  await expect(page.locator('#teamPreview')).toContainText('Arcanine-Hisui');
   await page.locator('#practice').click();
   await expect(page.locator('#battleStatus')).toContainText('Luke vs AI',{timeout:16000});
   const battleId=await page.evaluate(()=>localStorage.getItem('historia-last-battle'));
@@ -287,6 +300,8 @@ test('Real Chromium local accounts: registration, cookie session, Arena access a
   await page.locator('#accountLogin').click();
   await expect(page.locator('#accountStatus')).toContainText('browserplayer');
   await page.locator('nav button[data-view="arena"]').click();
+  await expect(page.locator('#p1team')).toHaveValue(/Arcanine-Hisui/);
+  await expect(page.locator('#p2team')).toHaveValue(/Feraligatr/);
   await expect.poll(()=>page.locator('#choices button').count(),{timeout:20000}).toBeGreaterThan(0);
   const restored=await page.request.get(running.base+'/api/battles/'+battleId);
   expect(restored.status()).toBe(200);
