@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
-import {practiceTeams,validatePackedTeam} from '../battle-service.mjs';
+import {practiceTeams,validatePackedTeam,parseTeamInput} from '../battle-service.mjs';
 
 const {Teams,Dex}=createRequire(import.meta.url)('pokemon-showdown');
 
@@ -59,4 +59,27 @@ test('Gigantamax bit remains on allowed species; unsupported species are rejecte
  assert.equal(validatePackedTeam(packed),packed);
  team[0].species='Magikarp';
  assert.throws(()=>validatePackedTeam(Teams.pack(team)),/non compatibile con Gigantamax/);
+});
+
+
+test('Item Clause is per trainer, same Leftovers on Luke and rival is valid',()=>{
+ const p1=Teams.unpack(practiceTeams().p1),p2=Teams.unpack(practiceTeams().p2);
+ p1[0].item='Leftovers';p2[0].item='Leftovers';
+ const exportedLuke=Teams.export(p1),exportedRival=Teams.export(p2);
+ assert.doesNotThrow(()=>parseTeamInput(exportedLuke,{teamLabel:'Luke'}));
+ assert.doesNotThrow(()=>parseTeamInput(exportedRival,{teamLabel:'Mattew'}));
+ // Each independent import must use its own item collection.
+ assert.doesNotThrow(()=>validatePackedTeam(Teams.pack(p1),{teamLabel:'Luke'}));
+ assert.doesNotThrow(()=>validatePackedTeam(Teams.pack(p2),{teamLabel:'Mattew'}));
+});
+
+test('Item Clause identifies item, trainer and both Pokémon for same-team duplicates',()=>{
+ const p1=Teams.unpack(practiceTeams().p1);
+ p1[0].item='Leftovers';p1[2].item='Leftovers';
+ assert.throws(()=>parseTeamInput(Teams.export(p1),{teamLabel:'Luke'}),
+  err=>/Item Clause/.test(err.message)&&/Luke/.test(err.message)&&/Leftovers/.test(err.message)&&/Arcanine/.test(err.message)&&/Kyurem-Black/.test(err.message));
+ const p2=Teams.unpack(practiceTeams().p2);
+ p2[0].item='Choice Scarf';p2[1].item='Choice Scarf';
+ assert.throws(()=>validatePackedTeam(Teams.pack(p2),{teamLabel:'Mattew'}),
+  err=>/Mattew/.test(err.message)&&/Choice Scarf/.test(err.message)&&/Feraligatr/.test(err.message)&&/Jolteon/.test(err.message));
 });
