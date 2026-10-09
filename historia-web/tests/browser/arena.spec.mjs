@@ -185,14 +185,14 @@ test('Mid-battle manual Luke choice survives a real Node crash and remains playa
   await page.reload();
   await page.locator('nav button[data-view="arena"]').click();
   let recoveredState=null;
-  await expect.poll(async()=>{
+  try{await expect.poll(async()=>{
    const response=await page.request.get(instance.base+'/api/battles/'+id,{headers:{'x-historia-session':session}});
    const payload=await response.json();
    recoveredState={http:response.status(),status:payload.status,error:payload.error,
     requestId:payload.requestId,choices:payload.choices?.length};
    if(!response.ok)throw new Error('Server recovery '+JSON.stringify(recoveredState));
    return payload.choices?.length||0;
-  },{timeout:20000}).toBeGreaterThan(0);
+  },{timeout:20000}).toBeGreaterThan(0);}catch(e){throw new Error('Recovery API did not expose a legal choice: '+JSON.stringify(recoveredState)+'; '+e.message);}
   await expect.poll(async()=>{
    const buttons=await page.locator('#choices button').count();
    if(!buttons){
