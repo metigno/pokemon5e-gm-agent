@@ -9,7 +9,7 @@ test('Responsive arena wires accessible replay transport, slider, HP bars and vi
   assert.match(html,new RegExp('id="'+id+'"'),id+' missing');
  }
  assert.match(html,/type="range" min="0" max="0"/);
- assert.match(html,/aria-label="Scorri/); // accessible label
+ assert.match(html,/<label for="replaySeek">Scorri/); // explicitly associated accessible label
  assert.match(html,/@media\(max-width:800px\)/);
  assert.match(html,/prefers-reduced-motion/);
 });
