@@ -79,6 +79,9 @@ test('Real touch-compatible manual choices are sent to Showdown, not a mock',asy
  const first=page.locator('#choices button').first();
  await first.click();
  await expect(page.locator('#battleLog')).toContainText('|turn|',{timeout:30000});
+ await expect(page.locator('#p1hp')).toBeVisible();
+ await expect(page.locator('#p2hp')).toBeVisible();
+ await expect(page.locator('#p1active')).toContainText('PS');
  expect(await page.locator('#arenaError').textContent()).toBe('');
 });
 
