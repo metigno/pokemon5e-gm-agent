@@ -4,6 +4,7 @@ import {fileURLToPath} from 'node:url';
 import {join} from 'node:path';
 import {createHash,randomUUID} from 'node:crypto';
 import {makeSecurityHeaders,isSameOriginMutation,makeRateLimiter} from './security.mjs';
+import {AccountAuth,authConfiguration} from './auth.mjs';
 import {ArenaService} from './battle-service.mjs';
 import {buildReplayTimeline,renderTechnicalReport} from './replay-timeline.mjs';
 import {loadHistoricalSeeding} from '../historia/src/seeding.mjs';
@@ -13,6 +14,8 @@ const port=Number(process.env.PORT||3000);
 const html=await readFile(new URL('./index.html',root));
 const securityHeaders=makeSecurityHeaders(html);const limiter=makeRateLimiter();
 const dataDir=process.env.HISTORIA_DATA_DIR||fileURLToPath(new URL('./.data/',root));
+const authConfig=authConfiguration();
+const accountAuth=authConfig.enabled?new AccountAuth(join(dataDir,'auth')):null;
 const arena=new ArenaService(join(dataDir,'battles'));
 const sessions=new Map(),replays=new Map(),sessionBattles=new Map();
 const cachePut=(map,key,value)=>{
@@ -32,7 +35,12 @@ const readBody=async req=>{
  return parsed;
 };
 const validSession=id=>typeof id==='string'&&/^[a-f0-9]{40}$/.test(id);
-const readSession=req=>{const id=req.headers['x-historia-session'];if(!validSession(id))throw Error('Sessione privata non valida');return id;};
+const readSession=async req=>{
+ if(accountAuth)return (await accountAuth.session(req)).ownerKey;
+ const id=req.headers['x-historia-session'];
+ if(!validSession(id))throw Error('Sessione privata non valida');
+ return id;
+};
 const digestId=id=>createHash('sha256').update(id).digest('hex');
 const chatPath=id=>join(dataDir,'chat',digestId(id)+'.json');
 const sessionPath=id=>join(dataDir,'sessions',digestId(id)+'.json');
@@ -79,15 +87,45 @@ export function handler(req,res){
  if(req.method==='POST'&&!isSameOriginMutation(req)){json(res,403,{error:'Origine della richiesta non autorizzata'});return;}
  if(req.method==='OPTIONS'){json(res,405,{error:'Metodo non disponibile'});return;}
  if(req.method==='GET'&&path==='/'){res.writeHead(200,{'content-type':'text/html; charset=utf-8'});res.end(html);return;}
- if(req.method==='GET'&&path==='/api/status'){json(res,200,{app:'Pokémon GPT Historia',aiConfigured:!!process.env.OPENAI_API_KEY,showdownIntegrated:true,format:'gen8customgame',persistence:'server-filesystem',canonical2060Roster:false});return;}
+ if(path.startsWith('/api/auth/')){
+  if(!accountAuth){json(res,404,{error:'Account non abilitati per questa installazione'});return;}
+  if(req.method==='GET'&&path==='/api/auth/me'){
+   routeAsync(res,async()=>{
+    const user=await accountAuth.session(req);
+    json(res,200,{authenticated:true,username:user.username,csrf:user.csrf,expiresAt:user.expiresAt});
+   });return;
+  }
+  if(req.method==='POST'&&['/api/auth/register','/api/auth/login'].includes(path)){
+   routeAsync(res,async()=>{
+    const {username,password}=await readBody(req);
+    const issued=path.endsWith('/register')?
+     await accountAuth.register(username,password):await accountAuth.login(username,password);
+    res.setHeader('set-cookie',accountAuth.cookie(issued.token));
+    json(res,path.endsWith('/register')?201:200,{
+     authenticated:true,username:issued.username,csrf:issued.csrf,expiresAt:issued.expiresAt
+    });
+   });return;
+  }
+  if(req.method==='POST'&&['/api/auth/logout','/api/auth/logout-all'].includes(path)){
+   routeAsync(res,async()=>{
+    const session=await accountAuth.session(req);
+    if(path.endsWith('/logout-all'))await accountAuth.revokeAll(session.username);
+    else await accountAuth.revoke(session.token);
+    res.setHeader('set-cookie',accountAuth.clearCookie());
+    json(res,200,{authenticated:false});
+   });return;
+  }
+  json(res,404,{error:'Non trovato'});return;
+ }
+ if(req.method==='GET'&&path==='/api/status'){json(res,200,{app:'Pokémon GPT Historia',aiConfigured:!!process.env.OPENAI_API_KEY,showdownIntegrated:true,format:'gen8customgame',persistence:'server-filesystem',canonical2060Roster:false,authMode:authConfig.enabled?'accounts':'capability',httpsRequired:authConfig.secure});return;}
  if(req.method==='GET'&&path==='/api/competition'){
   const ranking=loadHistoricalSeeding();
   json(res,200,{year:2060,canonicalThrough:2056,qualifiersConfirmed:false,groups:null,schedule:null,rankingAsOf:ranking.asOf,ranking:ranking.ranking});return;
  }
- if(req.method==='GET'&&path==='/api/session'){routeAsync(res,async()=>{const id=readSession(req);json(res,200,{lastBattleId:await lastBattle(id)});});return;}
- if(req.method==='GET'&&path==='/api/battles'){routeAsync(res,async()=>json(res,200,{battles:await arena.list(readSession(req))}));return;}
+ if(req.method==='GET'&&path==='/api/session'){routeAsync(res,async()=>{const id=await readSession(req);json(res,200,{lastBattleId:await lastBattle(id)});});return;}
+ if(req.method==='GET'&&path==='/api/battles'){routeAsync(res,async()=>json(res,200,{battles:await arena.list(await readSession(req))}));return;}
  if(req.method==='POST'&&path==='/api/battles'){
-  routeAsync(res,async()=>{const body=await readBody(req),sessionId=readSession(req);
+  routeAsync(res,async()=>{const body=await readBody(req),sessionId=await readSession(req);
    const b=await arena.create({...body,sessionId});cachePut(sessionBattles,sessionId,b.id);await rememberBattle(sessionId,b.id);json(res,201,b);
   });return;
  }
@@ -95,7 +133,7 @@ export function handler(req,res){
  if(req.method==='GET'&&replayRoute){
   routeAsync(res,async()=>{
    const id=replayRoute[1],section=replayRoute[2];
-   if(!await arena.ownsBattle(id,readSession(req))){json(res,404,{error:'Battaglia non trovata'});return;}
+   if(!await arena.ownsBattle(id,await readSession(req))){json(res,404,{error:'Battaglia non trovata'});return;}
    const battle=await arena.load(id);
    if(!battle||!['complete','tie'].includes(battle.status)){
     json(res,409,{error:'Replay disponibile soltanto dopo il risultato Showdown verificato'});return;
@@ -111,20 +149,20 @@ export function handler(req,res){
  const battleRoute=path.match(/^\/api\/battles\/([0-9a-f-]{36})(?:\/(choice))?$/);
  if(battleRoute){
   const id=battleRoute[1],isChoice=!!battleRoute[2];
-  if(req.method==='GET'&&!isChoice){routeAsync(res,async()=>{if(!await arena.ownsBattle(id,readSession(req))){json(res,404,{error:'Battaglia non trovata'});return;}const b=await arena.load(id);json(res,b?200:404,b||{error:'Battaglia non trovata'});});return;}
-  if(req.method==='POST'&&isChoice){routeAsync(res,async()=>{if(!await arena.ownsBattle(id,readSession(req))){json(res,404,{error:'Battaglia non trovata'});return;}json(res,200,await arena.choose(id,await readBody(req)));});return;}
+  if(req.method==='GET'&&!isChoice){routeAsync(res,async()=>{if(!await arena.ownsBattle(id,await readSession(req))){json(res,404,{error:'Battaglia non trovata'});return;}const b=await arena.load(id);json(res,b?200:404,b||{error:'Battaglia non trovata'});});return;}
+  if(req.method==='POST'&&isChoice){routeAsync(res,async()=>{if(!await arena.ownsBattle(id,await readSession(req))){json(res,404,{error:'Battaglia non trovata'});return;}json(res,200,await arena.choose(id,await readBody(req)));});return;}
  }
  if(req.method==='GET'&&path==='/api/chat'){
-  routeAsync(res,async()=>{const id=readSession(req);json(res,200,{messages:await loadChat(id)});});return;
+  routeAsync(res,async()=>{const id=await readSession(req);json(res,200,{messages:await loadChat(id)});});return;
  }
  if(req.method==='POST'&&path==='/api/replay'){
-  routeAsync(res,async()=>{const {log}=await readBody(req),sessionId=readSession(req);
+  routeAsync(res,async()=>{const {log}=await readBody(req),sessionId=await readSession(req);
    const summary=summarizeLog(log);cachePut(replays,sessionId,summary);json(res,200,{...summary,verified:false,source:'manual-untrusted'});
   });return;
  }
  if(req.method==='POST'&&path==='/api/chat'){
   routeAsync(res,async()=>{
-   const {message}=await readBody(req),sessionId=readSession(req);
+   const {message}=await readBody(req),sessionId=await readSession(req);
    if(typeof message!=='string'||!message.trim()||message.length>5000)throw Error('Messaggio non valido');
    if(!process.env.OPENAI_API_KEY){json(res,503,{error:'Master AI non configurato: impostare OPENAI_API_KEY sul server.'});return;}
    const history=await loadChat(sessionId),matchId=await lastBattle(sessionId);
