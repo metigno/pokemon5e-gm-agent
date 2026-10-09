@@ -51,6 +51,7 @@ test('Actual manual Showdown match resumes after a fresh ArenaService instance, 
   assert.equal(active.turn,turn);
   assert.equal(active.log,publicPrefix);
   assert.deepEqual(active.choices,before.choices);
+  await assert.rejects(()=>service.choose(id,{choice:active.choices[0],requestId:rqid}),/obsoleta/,'Stale pre-crash commands must never be replayed as fresh user actions');
   const listed=await service.list(key);
   assert.ok(listed.some(item=>item.id===id && item.status==='active'));
   assert.deepEqual(await service.list('b'.repeat(40)),[]);
