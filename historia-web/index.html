@@ -24,7 +24,18 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px soli
 <header><h1>POKÉMON <span class="gold">GPT HISTORIA</span></h1><p>WORLD CHAMPIONSHIP 2060 · Il mondo guarda · canon fino al 2056</p>
 <nav aria-label="Sezioni"><button data-view="home" class="active">Home</button><button data-view="arena">Arena</button><button data-view="studio">Master AI</button><button data-view="tournament">Mondiale</button><button data-view="replays">Replay</button><button data-view="archive">Archivio</button></nav></header>
 <main>
-<section id="home" class="view active"><div class="panel"><div class="eyebrow">La scena è pronta</div><h2>Verso il Mondiale 2060</h2><p>Il prossimo capitolo della Lega GPT si decide sul campo. Scegli se controllare Luke oppure osservare una battaglia tra allenatori autonomi.</p><p class="notice">Le qualificazioni e le formazioni ufficiali 2060 non sono ancora confermate nei dati del repository. Le battaglie disponibili ora sono <strong>allenamenti tecnici non canonici</strong>, risolti integralmente dal simulatore Pokémon Showdown.</p><div class="actions"><button data-jump="arena">Entra nell'arena</button><button data-jump="studio">Sala stampa · Master AI</button></div><div class="panel"><h3>Sessione Historia personale (accesso sperimentale)</h3><p class="muted">Conserva questo codice riservato per recuperare chat e ultimo replay su un altro dispositivo. Chi conosce il codice può accedere alla sessione: non è un sistema di autenticazione.</p><code id="sessionCode"></code><div class="actions"><button id="copySession">Copia codice</button></div><label for="restoreSession">Riprendi un'altra sessione</label><input id="restoreSession" placeholder="Incolla qui il codice conservato"><button id="loadSession">Riprendi sessione</button></div></div></section>
+<section id="home" class="view active"><div class="panel"><div class="eyebrow">La scena è pronta</div><h2>Verso il Mondiale 2060</h2><p>Il prossimo capitolo della Lega GPT si decide sul campo. Scegli se controllare Luke oppure osservare una battaglia tra allenatori autonomi.</p><p class="notice">Le qualificazioni e le formazioni ufficiali 2060 non sono ancora confermate nei dati del repository. Le battaglie disponibili ora sono <strong>allenamenti tecnici non canonici</strong>, risolti integralmente dal simulatore Pokémon Showdown.</p><div class="actions"><button data-jump="arena">Entra nell'arena</button><button data-jump="studio">Sala stampa · Master AI</button></div><div class="panel" id="accountPanel" hidden>
+<h3>Account Pokémon GPT Historia</h3>
+<p class="muted">L'account protegge battaglie, replay e conversazioni. Non utilizzare la stessa password di altri servizi. Non è ancora previsto il recupero automatico delle password.</p>
+<form id="accountForm">
+<label for="accountUsername">Nome utente (3–30 caratteri)</label><input id="accountUsername" name="username" autocomplete="username" minlength="3" maxlength="30" pattern="[a-zA-Z0-9_]+" required>
+<label for="accountPassword">Password (almeno 12 caratteri)</label><input id="accountPassword" name="password" type="password" autocomplete="current-password" minlength="12" maxlength="128" required>
+<div class="actions"><button type="submit" id="accountLogin">Accedi</button><button type="button" id="accountRegister">Crea account</button></div>
+</form>
+<p id="accountStatus" aria-live="polite" class="muted">Accedi per utilizzare l'Arena.</p>
+<div class="actions"><button id="accountLogout" hidden>Esci</button><button id="accountLogoutAll" hidden>Disconnetti tutte le sessioni</button></div>
+</div>
+<div class="panel" id="legacySession"><h3>Sessione Historia personale (accesso sperimentale)</h3><p class="muted">Conserva questo codice riservato per recuperare chat e ultimo replay su un altro dispositivo. Chi conosce il codice può accedere alla sessione: non è un sistema di autenticazione.</p><code id="sessionCode"></code><div class="actions"><button id="copySession">Copia codice</button></div><label for="restoreSession">Riprendi un'altra sessione</label><input id="restoreSession" placeholder="Incolla qui il codice conservato"><button id="loadSession">Riprendi sessione</button></div></div></section>
 <section id="arena" class="view"><div class="grid">
 <div><div class="panel"><div class="eyebrow">Pokémon Showdown · live</div><h2>Campo di battaglia</h2><div class="arena"><div class="pokemon"><span id="p2name">NPC</span><img id="p2sprite" alt="Pokémon attivo NPC" hidden><span id="p2active" class="info">In attesa</span><progress id="p2hp" max="100" value="100" hidden aria-label="PS Pokémon avversario"></progress></div><div class="pokemon"><span>Luke</span><img id="p1sprite" alt="Pokémon attivo Luke" hidden><span id="p1active" class="info">In attesa</span><progress id="p1hp" max="100" value="100" hidden aria-label="PS Pokémon Luke"></progress></div></div><p id="battleStatus" class="ribbon" aria-live="polite">Nessuna battaglia avviata</p><div id="choices" class="actions" aria-label="Scelte di battaglia"></div><h3>Protocollo Showdown</h3><pre id="battleLog" role="log" aria-live="polite">Avvia una battaglia per ricevere il log autentico.</pre><div class="actions"><button id="openReplay" disabled>Riproduci replay</button><button id="openAnalysis" disabled>Analisi tecnica verificata</button><button id="postAnalysis" disabled>Commento del Master AI</button></div></div>
 <div id="replayPanel" class="panel" hidden>
@@ -49,6 +60,7 @@ const $=id=>document.getElementById(id);
 const sessionId=localStorage.getItem('historia-session-id')||Array.from(crypto.getRandomValues(new Uint8Array(20)),v=>v.toString(16).padStart(2,'0')).join('');
 localStorage.setItem('historia-session-id',sessionId);
 let currentId=localStorage.getItem('historia-last-battle'),lastBattle=null,ticker=null,replayData=null,replayIndex=0,replayTimer=null;
+let authMode='capability',accountCsrf=null,accountName=null;
 $('sessionCode').textContent=sessionId;
 $('copySession').onclick=()=>navigator.clipboard?.writeText(sessionId);
 $('loadSession').onclick=()=>{const v=$('restoreSession').value.trim();if(!/^[a-f0-9]{40}$/.test(v)){alert('Codice non valido');return;}localStorage.setItem('historia-session-id',v);localStorage.removeItem('historia-last-battle');location.reload();};
@@ -56,7 +68,53 @@ function navigate(id){document.querySelectorAll('.view').forEach(x=>x.classList.
 document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>navigate(b.dataset.view)));
 document.querySelectorAll('[data-jump]').forEach(b=>b.addEventListener('click',()=>navigate(b.dataset.jump)));
 const add=(who,msg)=>{const e=document.createElement('div'),b=document.createElement('b');e.className='entry';b.textContent=who;e.append(b,document.createTextNode(' · '+msg));$('messages').append(e);$('messages').scrollTop=$('messages').scrollHeight;};
-async function api(path,body){const headers={'x-historia-session':sessionId};const opts=body===undefined?{headers}:{method:'POST',headers:{...headers,'content-type':'application/json'},body:JSON.stringify(body)};const r=await fetch(path,opts),j=await r.json();if(!r.ok)throw Error(j.error||'Errore server');return j;}
+async function api(path,body){
+ const headers=authMode==='accounts'?{}:{'x-historia-session':sessionId};
+ if(body!==undefined){headers['content-type']='application/json';if(authMode==='accounts'&&accountCsrf)headers['x-historia-csrf']=accountCsrf;}
+ const r=await fetch(path,body===undefined?{headers,credentials:'same-origin'}:
+  {method:'POST',headers,credentials:'same-origin',body:JSON.stringify(body)});
+ const j=await r.json();
+ if(!r.ok)throw Error(j.error||'Errore server');
+ return j;
+}
+function accountDisplay(user){
+ accountName=user?.username||null;accountCsrf=user?.csrf||null;
+ $('accountForm').hidden=!!accountName;
+ $('accountLogout').hidden=!accountName;$('accountLogoutAll').hidden=!accountName;
+ $('accountStatus').textContent=accountName?'Accesso effettuato: '+accountName:'Accedi per utilizzare l\'Arena e salvare i replay.';
+}
+async function accountAction(action){
+ $('accountStatus').textContent='Verifica credenziali…';
+ try{
+  const username=$('accountUsername').value,password=$('accountPassword').value;
+  const result=await api('/api/auth/'+action,{username,password});
+  $('accountPassword').value='';
+  accountDisplay(result);
+  // Never attribute an old anonymous/cross-account battle to the newly logged-in user.
+  currentId=null;lastBattle=null;localStorage.removeItem('historia-last-battle');
+  await recoverAccountState();
+ }catch(e){$('accountPassword').value='';$('accountStatus').textContent=e.message;}
+}
+$('accountForm').addEventListener('submit',e=>{e.preventDefault();accountAction('login');});
+$('accountRegister').onclick=()=>accountAction('register');
+async function accountExit(all){
+ try{await api('/api/auth/'+(all?'logout-all':'logout'),{});accountDisplay(null);
+  if(ticker){clearInterval(ticker);ticker=null;}
+  currentId=null;lastBattle=null;localStorage.removeItem('historia-last-battle');
+  $('choices').replaceChildren();$('battleLog').textContent='Sessione disconnessa.';
+  closeReplay();navigate('home');
+ }catch(e){$('accountStatus').textContent=e.message;}
+}
+$('accountLogout').onclick=()=>accountExit(false);
+$('accountLogoutAll').onclick=()=>accountExit(true);
+async function recoverAccountState(){
+ try{
+  const state=await api('/api/session');
+  currentId=state.lastBattleId;
+  if(currentId){localStorage.setItem('historia-last-battle',currentId);await poll();if(lastBattle?.status==='active')startPolling();}
+ }catch(e){$('accountStatus').textContent='Account attivo, archivio non disponibile: '+e.message;}
+}
+
 async function begin(practice){$('arenaError').textContent='';try{const data=practice?{practice:true,mode:$('mode').value,npcProfile:$('npcProfile').value}:{mode:$('mode').value,npcProfile:$('npcProfile').value,p1team:$('p1team').value.trim(),p2team:$('p2team').value.trim(),p2name:$('opponent').value.trim()};data.sessionId=sessionId;const b=await api('/api/battles',data);closeReplay();currentId=b.id;localStorage.setItem('historia-last-battle',currentId);navigate('arena');render(b);startPolling();}catch(e){$('arenaError').textContent=e.message;}}
 $('practice').addEventListener('click',()=>begin(true));$('customBattle').addEventListener('click',()=>begin(false));
 function render(b){lastBattle=b;$('battleStatus').textContent=b.status==='complete'?'Vittoria confermata Showdown: '+b.winner:b.status==='tie'?'Pareggio confermato':b.status==='error'?'Errore: '+b.error:'Turno '+(b.turn||'iniziale')+' · '+(b.mode==='manual'?'Luke vs AI':'AI vs AI')+' · Stile NPC: '+(b.aiProfiles?.p2||'bilanciato')+' · '+b.status;
@@ -165,6 +223,22 @@ $('chat').addEventListener('submit',async e=>{e.preventDefault();const msg=$('me
 async function listReplays(){try{const {battles}=await api('/api/battles');const box=$('replayList');box.replaceChildren();if(!battles.length){box.textContent='Nessun replay ancora registrato.';return;}for(const b of battles){const p=document.createElement('p'),button=document.createElement('button');button.textContent=(b.createdAt||'')+' · '+(b.winner?'Vincitore: '+b.winner:b.status)+' · '+b.turn+' turni';button.onclick=async()=>{closeReplay();currentId=b.id;localStorage.setItem('historia-last-battle',b.id);render(await api('/api/battles/'+b.id));navigate('arena');if(['complete','tie'].includes(lastBattle?.status))try{await openVerifiedReplay();}catch(e){$('arenaError').textContent=e.message;}};p.append(button);box.append(p);}}catch(e){$('replayList').textContent=e.message;}}
 async function loadMeta(){try{const c=await api('/api/competition');const table=document.createElement('table');table.innerHTML='<thead><tr><th>#</th><th>Allenatore</th><th>Coefficiente 2056</th><th>Fascia storica</th></tr></thead>';const tbody=document.createElement('tbody');for(const r of c.ranking){const tr=document.createElement('tr');for(const v of [r.rank,r.id,r.total,r.pot]){const td=document.createElement('td');td.textContent=v;tr.append(td);}tbody.append(tr);}table.append(tbody);$('ranking').append(table);$('seeds').textContent='Ranking 2056 caricato: '+c.ranking.length+' allenatori. Qualificazioni 2060 da definire.';}catch(e){$('seeds').textContent=e.message;}}
 async function loadChat(){try{const c=await api('/api/chat');for(const m of c.messages||[])add(m.role==='user'?'Tu':'Historia',m.content);}catch(e){$('chatStatus').textContent=e.message;}}
-loadMeta();loadChat();
-(async()=>{if(!currentId){try{const result=await api('/api/session');currentId=result.lastBattleId;if(currentId)localStorage.setItem('historia-last-battle',currentId);}catch(e){console.warn('Session restore unavailable',e);}}if(currentId){await poll();if(lastBattle?.status==='active')startPolling();}})();
+(async()=>{
+ try{
+  const status=await api('/api/status');
+  authMode=status.authMode||'capability';
+  $('accountPanel').hidden=authMode!=='accounts';
+  $('legacySession').hidden=authMode==='accounts';
+  await loadMeta();
+  if(authMode==='accounts'){
+   currentId=null;lastBattle=null;
+   try{accountDisplay(await api('/api/auth/me'));await loadChat();await recoverAccountState();}
+   catch{accountDisplay(null);}
+  }else{
+   await loadChat();
+   if(!currentId){try{const result=await api('/api/session');currentId=result.lastBattleId;if(currentId)localStorage.setItem('historia-last-battle',currentId);}catch(e){console.warn('Session restore unavailable',e);}}
+   if(currentId){await poll();if(lastBattle?.status==='active')startPolling();}
+  }
+ }catch(e){$('accountStatus').textContent=e.message;}
+})();
 </script></body></html>
