@@ -34,6 +34,7 @@ test('Actual manual Showdown match resumes after a fresh ArenaService instance, 
   assert.equal(journal.version,1);
   assert.equal(journal.actions.filter(x=>x.side==='p1').length,3);
   assert.equal(journal.seed.length,4);
+  assert.equal(journal.publicLog.join('\n'),publicPrefix,'An exposed live spectator log must already exist on disk for deterministic crash restoration');
   assert.ok(journal.p1team.length>0);
   assert.ok(journal.p2team.length>0);
   assert.doesNotMatch(JSON.stringify(before),/p1team|p2team|actions|seed/,'private team ledger must not reach browser');
