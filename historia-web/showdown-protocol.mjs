@@ -3,6 +3,11 @@
  * A request is trusted only when obtained from its player stream server-side.
  */
 const alive = p => !p.fainted && !/^0(?:\/| fnt|$)/.test(String(p.condition ?? ''));
+const noDynamax=new Set(['zacian','zaciancrowned','zamazenta','zamazentacrowned','eternatus','eternatuseternamax']);
+const activeSpecies=request=>{
+ const raw=(request.side?.pokemon||[]).find(p=>p.active)?.details;
+ return typeof raw==='string'?raw.split(',')[0].toLowerCase().replace(/[^a-z0-9]/g,''):'';
+};
 export function legalChoices(request) {
  if (!request || typeof request !== 'object') throw new Error('Richiesta Showdown mancante');
  if (request.wait) return [];
@@ -20,11 +25,11 @@ export function legalChoices(request) {
   const base = 'move '+(i+1);
   const allowed = [base];
   if (active.canMegaEvo) allowed.push(base+' mega');
-  if (active.canDynamax) allowed.push(base+' dynamax');
+  if (active.canDynamax && !noDynamax.has(activeSpecies(request))) allowed.push(base+' dynamax');
   // Z-moves, Terastallization and G-Max are never surfaced by Historia.
   return allowed;
  });
- return [...moves,...(active.trapped || active.maybeTrapped ? [] : switches)];
+ return [...moves,...(active.trapped ? [] : switches)];
 }
 export function validateChoice(request,choice) {
  if (typeof choice !== 'string' || !legalChoices(request).includes(choice))
