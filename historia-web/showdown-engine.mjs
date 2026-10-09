@@ -19,6 +19,17 @@ export async function createShowdownBattle({format='gen8customgame',p1team,p2tea
  await stream.write('>player p2 '+JSON.stringify({name:p2name,team:p2team}));
  return {
   p1:players.p1,p2:players.p2,spectator:players.spectator,omniscient:players.omniscient,
+  reissuePendingRequests:()=>{
+   // Private requests are re-sent from the actual Battle side states, not
+   // guessed from packed sets. Never send them to the public spectator channel.
+   const battle=stream.battle;
+   if(!battle)return;
+   for(const side of ['p1','p2']){
+    const player=battle.getSide(side);
+    if(player?.activeRequest&&!player.isChoiceDone())player.emitRequest(player.activeRequest);
+   }
+   battle.sendUpdates();
+  },
   currentRequest:(side)=>{
    if(!['p1','p2'].includes(side))throw new Error('Lato non valido');
    const player=stream.battle?.getSide(side);
