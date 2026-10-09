@@ -39,7 +39,7 @@ test('Web HTTP API starts and finishes a real manual Showdown match, publishes v
    body:JSON.stringify({...imported,p1team:Teams.export(duplicated)})});
   assert.equal(rejected.status,400,'same-team duplicate is rejected');
   const diagnostic=(await rejected.json()).error;
-  assert.match(diagnostic,/Item Clause \\(Luke\\)/);
+  assert.ok(diagnostic.includes('Item Clause (Luke)'),diagnostic);
   assert.match(diagnostic,/Leftovers/);
   assert.match(diagnostic,/Arcanine/);
   assert.match(diagnostic,/Kyurem-Black/);
