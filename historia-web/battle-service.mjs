@@ -67,9 +67,9 @@ const MAX_LOG_LINES=10000;
 export class ArenaService {
  constructor(directory){this.directory=directory;this.sessions=new Map();}
  file(id){if(!/^[0-9a-f-]{36}$/.test(id))throw new Error('Identificativo non valido');return join(this.directory,id+'.json');}
- async persist(battle){
+ async persist(battle,finalStatus=null){
   await mkdir(this.directory,{recursive:true});
-  const snap={...this.snapshot(battle.id),publicLog:battle.publicLog.join('\n'),createdAt:battle.createdAt,analysis:summarizeVerifiedLog(battle.publicLog.join('\n'))};
+  const snap={...this.snapshot(battle.id),status:finalStatus||battle.status,publicLog:battle.publicLog.join('\n'),createdAt:battle.createdAt,analysis:summarizeVerifiedLog(battle.publicLog.join('\n'))};
   delete snap.request;delete snap.choices;
   const filename=this.file(battle.id),tmp=filename+'.tmp';
   await writeFile(tmp,JSON.stringify(snap),'utf8');await rename(tmp,filename);
@@ -127,11 +127,11 @@ export class ArenaService {
       // Terminal receipt is parsed from the actual Showdown public stream.
       const outcome=parseShowdownOutcome(battle.publicLog.join('\n'));
       battle.winner=outcome.winnerName;
-      battle.status='complete';battle.awaitingSide=null;battle.privateRequest=null;
-      await this.persist(battle);
+      battle.awaitingSide=null;battle.privateRequest=null;
+      await this.persist(battle,'complete');battle.status='complete';
       return;
      }
-     if(line.startsWith('|tie|')){battle.status='tie';await this.persist(battle);return;}
+     if(line.startsWith('|tie|')){await this.persist(battle,'tie');battle.status='tie';return;}
     }
    }
    if(battle.status==='active')throw new Error('Stream concluso senza risultato Showdown');
