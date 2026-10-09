@@ -1,0 +1,5 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {createGroupSchedule,recordScheduledResult,groupStandings} from '../src/schedule.mjs';
+const groups=Object.fromEntries('ABCDEFGH'.split('').map(g=>[g,Array.from({length:4},(_,i)=>({id:g+i}))]));
+test('48 matches, 3 days, each pair once',()=>{const games=createGroupSchedule(groups);assert.equal(games.length,48);for(const g of 'ABCDEFGH'){const ms=games.filter(x=>x.group===g);assert.equal(ms.length,6);assert.deepEqual([...new Set(ms.map(x=>x.matchday))],[1,2,3]);assert.equal(new Set(ms.map(x=>[x.homeId,x.awayId].sort().join('-'))).size,6)}});
+test('results must match fixture and include evidence',()=>{const s=createGroupSchedule(groups),m=s[0];assert.throws(()=>recordScheduledResult(s,m.id,{winnerId:m.homeId,loserId:m.awayId,authority:'showdown-verified'}));const n=recordScheduledResult(s,m.id,{winnerId:m.homeId,loserId:m.awayId,authority:'showdown-verified',battleId:'b-1',logDigest:'sha256:test'});assert.equal(n[0].status,'complete');assert.equal(groupStandings(n,'A')[0].points,3);assert.throws(()=>recordScheduledResult(n,m.id,n[0].result))});
