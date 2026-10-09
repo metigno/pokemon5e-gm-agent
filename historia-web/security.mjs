@@ -64,13 +64,14 @@ export function makeRateLimiter({windowMs=60000,clock=()=>Date.now(),maxKeys=800
    const general=limit('all:'+ip,1200);
    if(!general.allowed)return general;
    const method=req.method||'GET';
-   const group=method==='POST'&&path==='/api/battles'?'create':
+   const group=method==='POST'&&['/api/auth/login','/api/auth/register'].includes(path)?'auth':
+    method==='POST'&&path==='/api/battles'?'create':
     method==='POST'&&path==='/api/chat'?'chat':
     method==='POST'&&path==='/api/replay'?'import':
     method==='POST'&&path.endsWith('/choice')?'choice':
     null;
    if(!group)return general;
-   const capacities={create:8,chat:8,import:20,choice:600};
+   const capacities={auth:6,create:8,chat:8,import:20,choice:600};
    return limit(group+':'+ip,capacities[group]);
   }
  };
