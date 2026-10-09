@@ -34,7 +34,7 @@ test('Arcanine di Hisui uses simulator species data; no artificial Alpha bonus i
  assert.equal(validatePackedTeam(packed),packed);
  const restored=Teams.unpack(packed)[0];
  assert.equal(restored.species,'Arcanine-Hisui');
- assert.equal(restored.level,100);
+ assert.equal(restored.level??100,100,'Packed Showdown teams omit level 100 because it is the default');
 });
 
 test('Alpha cannot exceed normal IV and EV ceilings',()=>{
