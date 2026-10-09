@@ -1,5 +1,6 @@
 name: Historia Web checks
 on:
+  workflow_dispatch:
   push:
     branches: [historia-web-showdown-integration]
     paths: ['historia-web/**', '.github/workflows/historia-web.yml']
