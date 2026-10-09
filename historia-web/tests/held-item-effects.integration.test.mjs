@@ -9,7 +9,7 @@ const six=lead=>Teams.pack([lead,...Array.from({length:5},()=>mon('Magikarp','',
 
 async function observedFirst({p1team,p2team,done},{timeout=12000}={}){
  const game=await createShowdownBattle({p1team,p2team,p1name:'Luke',p2name:'Rivale'});
- const events=[],errors=[];
+ const events=[],errors=[];let closing=false;
  const sideReader=async side=>{
   for await(const chunk of game[side]){
    for(const line of String(chunk).split('\n')){
@@ -31,11 +31,12 @@ async function observedFirst({p1team,p2team,done},{timeout=12000}={}){
   }
  };
  try{
-  const a=sideReader('p1'),b=sideReader('p2');
+  var a=sideReader('p1').catch(e=>{if(!closing)errors.push(String(e));});
+  var b=sideReader('p2').catch(e=>{if(!closing)errors.push(String(e));});
   await Promise.race([reader(),new Promise((_,reject)=>setTimeout(()=>reject(new Error('No item effect observed')),timeout))]);
   assert.deepEqual(errors,[]);
   return events;
- }finally{await game.close();}
+ }finally{closing=true;await game.close();await Promise.allSettled([a,b]);}
 }
 
 test('Choice Scarf modifies real turn order: Hisuian Arcanine beats faster Jolteon', {timeout:16000},async()=>{
