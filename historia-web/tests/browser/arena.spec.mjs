@@ -14,10 +14,10 @@ async function ephemeralPort(){
  await new Promise((resolve,reject)=>socket.close(error=>error?reject(error):resolve()));
  return port;
 }
-async function bootServer(port,dataDir){
+async function bootServer(port,dataDir,{accounts=false}={}){
  const child=spawn(process.execPath,['server.mjs'],{
   cwd:new URL('../../',import.meta.url).pathname,
-  env:{...process.env,PORT:String(port),HISTORIA_DATA_DIR:dataDir,OPENAI_API_KEY:''},
+  env:{...process.env,PORT:String(port),HISTORIA_DATA_DIR:dataDir,OPENAI_API_KEY:'',NODE_ENV:'test',HISTORIA_PUBLIC_ORIGIN:'',HISTORIA_AUTH_MODE:accounts?'accounts':'capability'},
   stdio:['ignore','pipe','pipe']
  });
  let output='';
@@ -237,4 +237,55 @@ test('Strict browser CSP blocks newly injected inline JavaScript while Arena rem
  expect(ran).toBe(false,'An unauthorized inline script must not execute');
  await page.locator('nav button[data-view="arena"]').click();
  await expect(page.locator('#practice')).toBeVisible();
+});
+
+
+test('Real Chromium local accounts: registration, cookie session, Arena access and logout-all survive restart',async({page})=>{
+ test.setTimeout(90000);
+ await withoutRemoteSprites(page);
+ const directory=await mkdtemp(join(tmpdir(),'historia-auth-browser-'));
+ const port=await ephemeralPort();
+ let running=null;
+ try{
+  running=await bootServer(port,directory,{accounts:true});
+  await page.goto(running.base);
+  await expect(page.locator('#accountPanel')).toBeVisible();
+  await expect(page.locator('#legacySession')).toBeHidden();
+  await expect(page.locator('#accountUsername')).toBeVisible();
+  await page.locator('#accountUsername').fill('BrowserPlayer');
+  await page.locator('#accountPassword').fill('secure-historia-account-password');
+  await page.locator('#accountRegister').click();
+  await expect(page.locator('#accountStatus')).toContainText('browserplayer',{timeout:25000});
+  await expect(page.locator('#accountLogoutAll')).toBeVisible();
+  const cookies=await page.context().cookies();
+  const authCookie=cookies.find(c=>c.name==='historia-local');
+  expect(authCookie?.httpOnly).toBe(true);
+  expect(authCookie?.sameSite).toBe('Strict');
+  await page.locator('nav button[data-view="arena"]').click();
+  await page.locator('#practice').click();
+  await expect(page.locator('#battleStatus')).toContainText('Luke vs AI',{timeout:16000});
+  const battleId=await page.evaluate(()=>localStorage.getItem('historia-last-battle'));
+  expect(battleId).toMatch(/^[a-f0-9-]{36}$/);
+  await stopServer(running.child);running=null;
+  running=await bootServer(port,directory,{accounts:true});
+  await page.reload();
+  await expect(page.locator('#accountStatus')).toContainText('browserplayer');
+  await page.locator('nav button[data-view="arena"]').click();
+  await expect.poll(()=>page.locator('#choices button').count(),{timeout:20000}).toBeGreaterThan(0);
+  await page.locator('#accountLogoutAll').click();
+  await expect(page.locator('#accountStatus')).toContainText('Accedi');
+  const denied=await page.request.get(running.base+'/api/battles/'+battleId);
+  expect(denied.status()).toBe(401);
+  await page.locator('#accountUsername').fill('BrowserPlayer');
+  await page.locator('#accountPassword').fill('secure-historia-account-password');
+  await page.locator('#accountLogin').click();
+  await expect(page.locator('#accountStatus')).toContainText('browserplayer');
+  await page.locator('nav button[data-view="arena"]').click();
+  await expect.poll(()=>page.locator('#choices button').count(),{timeout:20000}).toBeGreaterThan(0);
+  const restored=await page.request.get(running.base+'/api/battles/'+battleId);
+  expect(restored.status()).toBe(200);
+ }finally{
+  await stopServer(running?.child);
+  await rm(directory,{recursive:true,force:true});
+ }
 });
