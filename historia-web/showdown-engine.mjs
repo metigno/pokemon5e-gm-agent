@@ -22,7 +22,7 @@ export async function createShowdownBattle({format='gen8customgame',p1team,p2tea
   choose:async(side,choice)=>{
    if(!['p1','p2'].includes(side))throw new Error('Lato non valido');
    if(typeof choice!=='string'||!(/^(move [1-4](?: mega| dynamax)?|switch [1-6]|team [1-6]{1,6})$/.test(choice)))throw new Error('Comando non valido');
-   await players[side].write('>'+choice);
+   await players[side].write(choice);
   },
   close:async()=>{await stream.writeEnd?.();}
  };
