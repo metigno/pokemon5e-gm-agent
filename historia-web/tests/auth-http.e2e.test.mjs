@@ -46,9 +46,7 @@ test('Real HTTP account cookies reject legacy header, protect choices with CSRF 
   const unauthorized=await api('/api/battles',{headers:{'x-historia-session':'a'.repeat(40)}});
   assert.equal(unauthorized.status,401,'Anonymous capability header is unusable in accounts mode');
   const registered=await api('/api/auth/register',{method:'POST',body:{username,password}});
-  assert.equal(registered.status,201,await registered.text());
-  const regBody=await registered.json().catch(()=>null);
-  // Native fetch body is a one-shot stream; request only response headers above.
+  assert.equal(registered.status,201);
   assert.ok(registered.headers.get('set-cookie').includes('HttpOnly'));
   const cookie=registered.headers.get('set-cookie').split(';')[0];
   const me=await api('/api/auth/me',{cookie});
@@ -60,8 +58,8 @@ test('Real HTTP account cookies reject legacy header, protect choices with CSRF 
   const badCsrf=await api('/api/battles',{method:'POST',cookie,csrf:'0'.repeat(48),body:{practice:true,mode:'manual'}});
   assert.equal(badCsrf.status,403);
   const started=await api('/api/battles',{method:'POST',cookie,csrf:owner.csrf,body:{practice:true,mode:'manual'}});
-  assert.equal(started.status,201,await started.text());
-  const created=await started.json().catch(()=>null);
+  assert.equal(started.status,201);
+  const created=await started.json();
   const id=created?.id;
   assert.match(id,/^[0-9a-f-]{36}$/);
   const owned=await api('/api/battles/'+id,{cookie});
