@@ -112,7 +112,7 @@ test('Completed 6v6 visual replay, scrub and analysis survive a real Node restar
   expect(lastFrame).toBeGreaterThan(1);
   await page.locator('#replayNext').click();
   await expect(page.locator('#replayInfo')).toContainText('Fotogramma 2');
-  await page.locator('#replaySeek').fill(String(lastFrame));
+  await page.locator('#replaySeek').focus();await page.keyboard.press('End');
   await expect(page.locator('#replayInfo')).toContainText('Fotogramma '+(lastFrame+1));
   await expect(page.locator('#analysisSummary')).toContainText('Vincitore Showdown:');
   await page.locator('#replayPlay').click();
