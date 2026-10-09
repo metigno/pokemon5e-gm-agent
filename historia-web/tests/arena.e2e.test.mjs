@@ -98,7 +98,8 @@ test('A normal imported team reaches the active private Showdown request without
   assert.equal(start.p1roster[0].species,'Arcanine-Hisui');
   assert.deepEqual(start.p1roster[0].moves,p1[0].moves);
   assert.equal(start.p1roster[0].item,'Choice Scarf');
-  const request=service.snapshot(start.id).request;
+  let request=null;
+  for(let i=0;i<100&&!request?.active;i++){request=service.snapshot(start.id).request;await sleep(20);}
   assert.ok(request?.active,'Official Showdown provides the first private request');
   const received=request.active[0].moves.map(m=>m.move);
   assert.deepEqual(received,p1[0].moves);
