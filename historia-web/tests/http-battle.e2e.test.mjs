@@ -5,6 +5,9 @@ import {mkdtemp,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {once} from 'node:events';
+import {createRequire} from 'node:module';
+import {practiceTeams} from '../battle-service.mjs';
+const {Teams}=createRequire(import.meta.url)('pokemon-showdown');
 
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 test('Web HTTP API starts and finishes a real manual Showdown match, publishes verified replay',{timeout:45000},async()=>{
@@ -21,6 +24,25 @@ test('Web HTTP API starts and finishes a real manual Showdown match, publishes v
   const blockedOfficial=await fetch(base+'/api/battles',{method:'POST',headers:{'x-historia-session':sessionId,'content-type':'application/json'},body:JSON.stringify({official:true,practice:true})});
   assert.equal(blockedOfficial.status,400,'An official match cannot start from unverified 2060 canon');
   assert.match((await blockedOfficial.json()).error,/Partite ufficiali non disponibili/);
+  const local=practiceTeams(),luke=Teams.unpack(local.p1),mattew=Teams.unpack(local.p2);
+  luke[0].item='Leftovers';mattew[0].item='Leftovers';
+  const imported={p1team:Teams.export(luke),p2team:Teams.export(mattew),p2name:'Mattew'};
+  const saved=await api('/api/teams',imported);
+  assert.match(saved.teams.p1team,/Leftovers/);
+  assert.match(saved.teams.p2team,/Leftovers/,'same item in separate teams is permitted');
+  const preview=await api('/api/teams/preview',imported);
+  assert.equal(preview.p1[0].item,'Leftovers');
+  assert.equal(preview.p2[0].item,'Leftovers');
+  const duplicated=Teams.unpack(local.p1);
+  duplicated[0].item='Leftovers';duplicated[2].item='Leftovers';
+  const rejected=await fetch(base+'/api/teams',{method:'POST',headers:{'x-historia-session':sessionId,'content-type':'application/json'},
+   body:JSON.stringify({...imported,p1team:Teams.export(duplicated)})});
+  assert.equal(rejected.status,400,'same-team duplicate is rejected');
+  const diagnostic=(await rejected.json()).error;
+  assert.ok(diagnostic.includes('Item Clause (Luke)'),diagnostic);
+  assert.match(diagnostic,/Leftovers/);
+  assert.match(diagnostic,/Arcanine/);
+  assert.match(diagnostic,/Kyurem-Black/);
   const started=await api('/api/battles',{practice:true,mode:'manual',sessionId,npcProfile:'daniel'});
   assert.deepEqual(started.aiProfiles,{p1:'luke',p2:'daniel'});
   assert.match(started.id,/^[a-f0-9-]{36}$/);
