@@ -184,7 +184,23 @@ test('Mid-battle manual Luke choice survives a real Node crash and remains playa
   instance=await bootServer(port,directory);
   await page.reload();
   await page.locator('nav button[data-view="arena"]').click();
-  await expect.poll(()=>page.locator('#choices button').count(),{timeout:20000}).toBeGreaterThan(0);
+  let recoveredState=null;
+  await expect.poll(async()=>{
+   const response=await page.request.get(instance.base+'/api/battles/'+id,{headers:{'x-historia-session':session}});
+   const payload=await response.json();
+   recoveredState={http:response.status(),status:payload.status,error:payload.error,
+    requestId:payload.requestId,choices:payload.choices?.length};
+   if(!response.ok)throw new Error('Server recovery '+JSON.stringify(recoveredState));
+   return payload.choices?.length||0;
+  },{timeout:20000}).toBeGreaterThan(0);
+  await expect.poll(async()=>{
+   const buttons=await page.locator('#choices button').count();
+   if(!buttons){
+    const uiError=await page.locator('#arenaError').textContent();
+    if(uiError)throw new Error('UI recovery '+uiError+'; API '+JSON.stringify(recoveredState));
+   }
+   return buttons;
+  },{timeout:10000}).toBeGreaterThan(0);
   const restored=(await (await page.request.get(instance.base+'/api/battles/'+id,{
    headers:{'x-historia-session':session}
   })).json());
