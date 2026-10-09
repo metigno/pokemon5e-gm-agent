@@ -169,7 +169,7 @@ export function handler(req,res){
  }
  if(req.method==='POST'&&path==='/api/teams/preview'){
   routeAsync(res,async()=>{const body=await readBody(req);await readSession(req);
-   json(res,200,{p1:describeTeam(body.p1team,{teamLabel:'Luke'}),p2:describeTeam(body.p2team,{teamLabel:'Avversario'})});
+   json(res,200,{p1:describeTeam(body.p1team,{teamLabel:'Luke'}),p2:describeTeam(body.p2team,{teamLabel:typeof body.p2name==='string'&&body.p2name.trim()?body.p2name:'Avversario'})});
   });return;
  }
  if(req.method==='GET'&&path==='/api/battles'){routeAsync(res,async()=>json(res,200,{battles:await arena.list(await readSession(req))}));return;}
