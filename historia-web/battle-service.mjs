@@ -142,6 +142,14 @@ export class ArenaService {
   return {id:b.id,mode:b.mode,publicField:buildReplayTimeline(b.publicLog.join('\n')).frames.at(-1)?.field||null,aiProfiles:{p1:'luke',p2:b.npcProfile},kind:'practice',format:'gen8customgame',status:b.status,p1name:'Luke',p2name:b.p2name,turn:b.turn,requestId:b.requestId,request:b.mode==='manual'&&b.awaitingSide==='p1'?b.privateRequest:null,choices:b.mode==='manual'&&b.awaitingSide==='p1'?legalChoices(b.privateRequest):[],log:b.publicLog.slice(-800).join('\n'),winner:b.winner,error:b.error,createdAt:b.createdAt};
  }
  async load(id) {
+  const live=this.sessions.get(id);
+  if(live?.status==='active'){
+   const shown=this.snapshot(id);
+   // A snapshot must not become visible before its public events have a
+   // crash-recoverable checkpoint. Snapshot is captured before the async write.
+   await this.writePending(live);
+   return shown;
+  }
   const active=this.snapshot(id);
   if(active&&!['complete','tie'].includes(active.status))return active;
   const journal=await this.pendingOnDisk(id);
@@ -239,7 +247,7 @@ export class ArenaService {
    winner:null,error:null,pendingWrites:Promise.resolve(),stopped:false};
   await this.writePending(b);
   this.sessions.set(b.id,b);
-  try{await this.runBattle(b);return this.snapshot(b.id);}
+  try{await this.runBattle(b);const shown=this.snapshot(b.id);await this.writePending(b);return shown;}
   catch(e){this.sessions.delete(b.id);await b.engine?.close().catch(()=>{});throw e;}
  }
  async runBattle(b,{replay=false}={}){
@@ -352,7 +360,9 @@ export class ArenaService {
   const request=b.privateRequest;
   b.awaitingSide=null;b.privateRequest=null;
   await this.recordChoice(b,'p1',choice,request);
-  return this.snapshot(id);
+  const shown=this.snapshot(id);
+  if(b.status==='active')await this.writePending(b);
+  return shown;
  }
  async shutdown(){
   for(const b of this.sessions.values()){
