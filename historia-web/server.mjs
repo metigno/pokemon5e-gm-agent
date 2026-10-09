@@ -5,6 +5,7 @@ import {join} from 'node:path';
 import {createHash,randomUUID} from 'node:crypto';
 import {makeSecurityHeaders,isSameOriginMutation,makeRateLimiter} from './security.mjs';
 import {AccountAuth,authConfiguration} from './auth.mjs';
+import {importGuestData} from './guest-migration.mjs';
 import {ArenaService} from './battle-service.mjs';
 import {buildReplayTimeline,renderTechnicalReport} from './replay-timeline.mjs';
 import {loadHistoricalSeeding} from '../historia/src/seeding.mjs';
@@ -104,6 +105,16 @@ export function handler(req,res){
     json(res,path.endsWith('/register')?201:200,{
      authenticated:true,username:issued.username,csrf:issued.csrf,expiresAt:issued.expiresAt
     });
+   });return;
+  }
+  if(req.method==='POST'&&path==='/api/auth/import-guest'){
+   routeAsync(res,async()=>{
+    const account=await accountAuth.session(req);
+    const {legacyCode}=await readBody(req);
+    const transferred=await importGuestData({directory:dataDir,legacyCode,ownerKey:account.ownerKey});
+    if(transferred.lastBattleId)cachePut(sessionBattles,account.ownerKey,transferred.lastBattleId);
+    sessions.delete(account.ownerKey);
+    json(res,200,transferred);
    });return;
   }
   if(req.method==='POST'&&['/api/auth/logout','/api/auth/logout-all'].includes(path)){
