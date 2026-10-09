@@ -113,3 +113,30 @@ Ownership is bound to the permanent account UUID-derived internal key, **not** t
 For hosting behind a TLS reverse proxy, configure `NODE_ENV=production`, `HISTORIA_AUTH_MODE=accounts`, `HISTORIA_PUBLIC_ORIGIN=https://your-trusted-domain.example`, and a private persistent `HISTORIA_DATA_DIR`. Terminate HTTPS at your trusted proxy, block direct public access to the Node backend, and route requests to the same host. The backend deliberately does not infer TLS from spoofable forwarded HTTP headers. It issues cookies with the `Secure` flag when `HISTORIA_PUBLIC_ORIGIN` is HTTPS. The production configuration check deliberately refuses legacy capability mode or any HTTP/public-origin omission; this guard is **not** a replacement for deploying and validating TLS.
 
 Tests cover scrypt password storage, cookie and CSRF enforcement, login/re-login with persistent replay ownership across genuine Node restarts, cross-account isolation, session expiry and revocation, live account browser UX on desktop/touch Chromium, production config fail-closed, and previous canonical, battle and private-capability mode regressions. Account/credential recovery, email verification, user deletion, distributed session DB locks, backups/encryption, external audits and a full HTTPS proxy integration test remain outstanding. Keep PR in draft and do not advertise it as a public-ready game.
+
+
+## Phase 10 — isolated Railway HTTPS staging and explicit guest import
+
+### Railway (prepared, not deployed)
+
+The new service-local railway.toml under historia-web/ declares a Railpack build, production npm install, npm start, /api/status healthcheck, and bounded restarts.
+Use GitHub repository metigno/pokemon5e-gm-agent; branch historia-web-showdown-integration; Railway root directory /historia-web; one replica; persistent dedicated volume mounted at /data. Do not reuse Bookgame data.
+
+Required service variables:
+- NODE_ENV=production
+- HISTORIA_AUTH_MODE=accounts
+- HISTORIA_DATA_DIR=/data/historia
+- HISTORIA_PUBLIC_ORIGIN=https://THE-ACTUAL-GENERATED-RAILWAY-HOST.up.railway.app (replace only with the confirmed HTTPS domain from Railway)
+- PORT is supplied by Railway; OPENAI_API_KEY remains optional
+
+Check a terminal Railway SUCCESS, HTTPS /api/status, Secure HttpOnly SameSite=Strict account cookie, blocked insecure/cross-origin POST and a registration/login/logout smoke before advertising the site.
+
+Railway resource inspection on 2026-10-09 found the preexisting lega-gpt-showdown service (different repo, last deployment FAILED) and librogame5e-web-preview (Bookgame). Attempting to create a separate private pokemon-gpt-historia-staging project returned: Free plan resource provision limit exceeded. Please upgrade to provision more resources! Thus NO staging project/service/domain/volume was created, NO existing service was modified or deleted, and there is NO verified live Historia URL yet. A freed resource or increased Railway plan capacity is needed to perform a real HTTPS deployment.
+
+### Explicit guest-save import
+
+Under HISTORIA_AUTH_MODE=accounts, a logged-in player may use the Home panel Importa vecchi salvataggi anonimi to import only finished Showdown replay files, chat history, and eligible last-battle pointer, using the previous anonymous 40-hex code. This requires both an authenticated HttpOnly account cookie and a valid per-session CSRF token. No automatic import at login. The backend rejects live pending battles, leaves the game engine log/winner intact, records a private owner-pinned migration marker, and rejects claims by other accounts. Same-account repeated imports are idempotent.
+
+Endpoint POST /api/auth/import-guest expects JSON with legacyCode, never a URL query string. Guest codes are sensitive bearer secrets and must never be pasted into logs, issue trackers or public chats. A partially interrupted import can be resumed only by the account that first claimed the transfer. Only one Node replica is supported during migration; cross-process transactions and distributed locks remain outside scope.
+
+Automated tests cover idempotency, nonexistent codes, ownership conflicts, live-battle refusal and an actually completed 6v6 Showdown replay imported via authenticated HTTP and still available after a real process restart. The HTTPS proxy smoke checks rejected HTTP Origin, accepted HTTPS Origin, and Secure host-only cookies locally; it does not constitute a live Railway TLS test.
