@@ -181,8 +181,11 @@ function render(b){lastBattle=b;$('battleStatus').textContent=b.status==='comple
   for(const choice of b.choices||[]){const button=document.createElement('button');button.className='choice'+(choice.endsWith(' mega')?' mega':choice.endsWith(' dynamax')?' dynamax':'');
    const m=choice.match(/^move (\d)/);const move=m?b.request.active?.[0]?.moves?.[Number(m[1])-1]:null;
    const switching=choice.match(/^switch (\d)$/),switchMon=switching?b.request.side?.pokemon?.[Number(switching[1])-1]:null;
-   const ownIndex=b.request.side?.pokemon?.findIndex(mon=>mon.active)??-1;
-   const canGmax=roster[ownIndex]?.gigantamax;
+   const activeMon=b.request.side?.pokemon?.find(mon=>mon.active);
+   const activeSpecies=(activeMon?.details||'').split(',')[0];
+   // Showdown's team preview can reorder slots; match the original imported
+   // species rather than assuming private request order equals export order.
+   const canGmax=roster.some(mon=>mon.gigantamax&&mon.species===activeSpecies);
    const transform=choice.endsWith(' mega')?' · MEGA':choice.endsWith(' dynamax')?(canGmax?' · GIGAMAX':' · DYNAMAX'):'';
    button.className+=switchMon?' switch-choice':'';
    button.textContent=move?(move.move||'Mossa '+m[1])+transform+' · PP '+move.pp+'/'+move.maxpp:
