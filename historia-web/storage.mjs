@@ -9,8 +9,8 @@ import {chmod,lstat,mkdir,readFile,stat,unlink,writeFile} from 'node:fs/promises
  * still attach, snapshot and externally verify the Railway volume.
  */
 export function validateStorageConfig({directory,production=false,configured}={}){
- if(typeof directory!=='string'||!directory||!isAbsolute(directory))
-  throw Error('HISTORIA_DATA_DIR deve essere un percorso assoluto');
+ if(typeof directory!=='string'||!directory||(production&&!isAbsolute(directory)))
+  throw Error('HISTORIA_DATA_DIR deve essere un percorso assoluto in produzione');
  if(production&&!configured)
   throw Error('Avvio produzione bloccato: HISTORIA_DATA_DIR esplicita obbligatoria');
  const normalized=resolve(directory);
