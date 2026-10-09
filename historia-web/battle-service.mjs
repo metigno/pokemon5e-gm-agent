@@ -229,6 +229,10 @@ export class ArenaService {
   if(!VALID_NAME.test(p2name)||p2name==='Luke')throw new Error('Nome avversario non valido');
   if(practice){const teams=practiceTeams();p1team=teams.p1;p2team=teams.p2;p2name='NPC (allenamento)';}
   validatePackedTeam(p1team);validatePackedTeam(p2team);
+  const active=[...this.sessions.values()].filter(b=>b.status==='active');
+  if(active.length>=24)throw new Error('Limite battaglie simultanee del server');
+  if(active.filter(b=>b.ownerDigest===ownerDigest(sessionId)).length>=2)
+   throw new Error('Limite di due battaglie attive per sessione');
   const b={id:randomUUID(),mode,npcProfile:resolveAiProfile(npcProfile),ownerDigest:ownerDigest(sessionId),
    p2name,createdAt:new Date().toISOString(),seed:randomSeed(),p1team,p2team,actions:[],
    status:'active',turn:0,requestId:0,awaitingSide:null,privateRequest:null,publicLog:[],
