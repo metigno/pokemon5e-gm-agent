@@ -262,7 +262,7 @@ export class ArenaService {
       const previous=b.expectedPublic[prefixIndex];
       // Showdown emits wall-clock '|t:|' entries. They are metadata, not RNG
       // or battle state. Preserve the original public timestamp in the replay.
-      if(line.startsWith('|t:|')&&previous.startsWith('|t:|')){
+      if(/^\|t:\|\d{9,12}$/.test(line)&&/^\|t:\|\d{9,12}$/.test(previous)){
        reproduced=previous;
       }else if(line!==previous){
        throw new Error('Recupero rifiutato: log Showdown non deterministico (linea '+prefixIndex+': atteso '+JSON.stringify(previous).slice(0,160)+', ottenuto '+JSON.stringify(line).slice(0,160)+')');
