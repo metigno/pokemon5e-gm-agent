@@ -2,10 +2,12 @@
  * Battle lifecycle adapter for the official self-hosted pokemon-showdown
  * package. The only source of turn mechanics and terminal wins is Showdown.
  */
+import {createRequire} from 'node:module';
+const require=createRequire(import.meta.url);
 export async function createShowdownBattle({format='gen8customgame',p1team,p2team,p1name='Luke',p2name='NPC',seed}={}) {
  if(typeof p1team!=='string'||!p1team.trim()||typeof p2team!=='string'||!p2team.trim())throw new Error('Sono necessarie due squadre Showdown packed');
  if(format!=='gen8customgame')throw new Error('Formato non ancora certificato: usare gen8customgame per i test tecnici');
- const {BattleStream,getPlayerStreams}=await import('pokemon-showdown');
+ const {BattleStream,getPlayerStreams}=require('pokemon-showdown');
  if(typeof BattleStream!=='function'||typeof getPlayerStreams!=='function')throw new Error('API simulatore Showdown non disponibile');
  const stream=new BattleStream();
  const players=getPlayerStreams(stream);
