@@ -205,7 +205,7 @@ function showReplayPokemon(side,mon){
  if(!mon?.species){label.textContent='Non ancora schierato';img.hidden=true;bar.hidden=true;return;}
  label.textContent=(mon.name||mon.species)+' · '+mon.species+
   (mon.hp===null?' · PS non osservati':' · PS '+mon.hp+'%')+
-  (mon.status?' · '+mon.status:'')+(mon.mega?' · MEGA':'')+(mon.dynamax?' · DYNAMAX':'')+
+  (mon.status?' · '+mon.status:'')+(mon.mega?' · MEGA':'')+(mon.dynamax?(mon.gigantamax?' · GIGAMAX':' · DYNAMAX'):'')+
   (mon.fainted?' · KO':'');
  bar.max=100;bar.hidden=mon.hp===null;if(mon.hp!==null)bar.value=mon.hp;
  const id=(mon.species||'').toLowerCase().replace(/[^a-z0-9-]/g,'');
