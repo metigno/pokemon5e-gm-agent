@@ -272,6 +272,7 @@ test('Real Chromium local accounts: registration, cookie session, Arena access a
   await expect(page.locator('#accountStatus')).toContainText('browserplayer');
   await page.locator('nav button[data-view="arena"]').click();
   await expect.poll(()=>page.locator('#choices button').count(),{timeout:20000}).toBeGreaterThan(0);
+  await page.locator('nav button[data-view="home"]').click();
   await page.locator('#accountLogoutAll').click();
   await expect(page.locator('#accountStatus')).toContainText('Accedi');
   const denied=await page.request.get(running.base+'/api/battles/'+battleId);
