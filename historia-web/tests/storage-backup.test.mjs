@@ -99,7 +99,7 @@ test('Operational CLI uses environment passphrase and verifies its encrypted fil
   assert.equal(created.status,0,created.stderr);
   const result=JSON.parse(created.stdout);
   assert.equal(result.count,7);
-  assert.doesNotMatch(created.stdout,password);
+  assert.ok(!created.stdout.includes(password),'CLI must not print backup passphrase');
   const verified=spawnSync(process.execPath,[cli,'verify','--input',archive],{env,encoding:'utf8',timeout:20000});
   assert.equal(verified.status,0,verified.stderr);
   assert.equal(JSON.parse(verified.stdout).count,7);
