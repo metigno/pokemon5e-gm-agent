@@ -35,7 +35,8 @@ test('6v6 roster validation and Item Clause',()=>{
 test('Showdown real 6v6 autonomous battle with persistent replay and server-authored winner',{timeout:40000},async()=>{
  const dir=await mkdtemp(join(tmpdir(),'historia-auto-'));
  try{
-  const service=new ArenaService(dir),start=await service.create({mode:'auto',practice:true});
+  const service=new ArenaService(dir),start=await service.create({mode:'auto',practice:true,npcProfile:'edward'});
+  assert.deepEqual(start.aiProfiles,{p1:'luke',p2:'edward'});
   assert.equal(start.mode,'auto');
   const done=await eventually(service,start.id,30000);
   assert.equal(done.status,'complete',done.error||'Showdown did not finish');
@@ -45,6 +46,7 @@ test('Showdown real 6v6 autonomous battle with persistent replay and server-auth
   assert.match(done.log,/\|teamsize\|p1\|6/);
   const saved=JSON.parse(await readFile(join(dir,start.id+'.json'),'utf8'));
   assert.equal(saved.winner,done.winner);
+  assert.deepEqual(saved.aiProfiles,{p1:'luke',p2:'edward'},'Trainer style persists with the official battle log');
   assert.equal(saved.analysis.winner,done.winner);
   assert.ok(saved.analysis.turns>0);
   const restored=new ArenaService(dir);
@@ -61,5 +63,13 @@ test('Manual Luke choices are legal and lead to an authentic Showdown terminal r
   assert.equal(done.seenChoice,true);
   assert.ok(['Luke','NPC (allenamento)'].includes(done.winner));
   assert.equal(summarizeVerifiedLog(done.log).winner,done.winner);
+ }finally{await rm(dir,{recursive:true,force:true});}
+});
+
+test('Server rejects unrecognized NPC profiles before starting Showdown',async()=>{
+ const dir=await mkdtemp(join(tmpdir(),'historia-profile-'));
+ try{
+  const service=new ArenaService(dir);
+  await assert.rejects(()=>service.create({mode:'auto',practice:true,npcProfile:'omniscient'}),/Profilo NPC non valido/);
  }finally{await rm(dir,{recursive:true,force:true});}
 });
