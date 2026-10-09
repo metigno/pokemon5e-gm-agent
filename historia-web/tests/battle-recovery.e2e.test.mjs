@@ -47,7 +47,7 @@ test('Actual manual Showdown match resumes after a fresh ArenaService instance, 
   assert.equal(await service.ownsBattle(id,key),true);
   const active=await stateUntil(service,id,s=>s?.choices?.length>0);
   assert.equal(active.status,'active');
-  assert.equal(active.requestId,rqid);
+  assert.ok(active.requestId>rqid,'Recovery invalidates stale pre-crash request ids');
   assert.equal(active.turn,turn);
   assert.equal(active.log,publicPrefix);
   assert.deepEqual(active.choices,before.choices);
