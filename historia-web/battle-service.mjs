@@ -81,9 +81,9 @@ export class ArenaService {
  }
  async load(id) {
   const active=this.snapshot(id);
-  if(active)return active;
+  if(active && !['complete','tie'].includes(active.status))return active;
   try{const saved=JSON.parse(await readFile(this.file(id),'utf8'));return {...saved,request:null,choices:[],log:saved.publicLog};}
-  catch(e){if(e.code==='ENOENT')return null;throw e;}
+  catch(e){if(e.code==='ENOENT')return active;throw e;}
  }
  async list() {
   await mkdir(this.directory,{recursive:true});
