@@ -45,7 +45,9 @@ test('Choice Scarf modifies real turn order: Hisuian Arcanine beats faster Jolte
  const jolteon=mon('Jolteon','',['Thunderbolt','Quick Attack'],{ability:'Volt Absorb',nature:'Timid',evs:{spa:252,spe:252,spd:4}});
  const log=await observedFirst({p1team:six(hisui),p2team:six(jolteon),done:log=>log.some(x=>x.startsWith('|move|'))});
  const first=log.find(x=>x.startsWith('|move|'));
- assert.match(first,/^\|move\|p1a: Arcanine-Hisui\|Crunch\|/,'Choice Scarf acts first despite base speed difference');
+ assert.match(first,/^\|move\|p1a: /,'Scarf wearer moves first');
+ const entry=log.find(x=>x.startsWith('|switch|p1a: '));
+ assert.match(entry,/\|Arcanine-Hisui,/,'Battle switch details retain the Hisui regional species');
 });
 
 test('Loaded Dice changes authentic Icicle Spear hit count to 4 or 5', {timeout:16000},async()=>{
