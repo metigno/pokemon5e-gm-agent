@@ -10,9 +10,9 @@ export async function createShowdownBattle({format='gen9nationaldex',p1team,p2te
  const players=getPlayerStreams(stream);
  const start={formatid:format};
  if(seed)start.seed=seed;
- await players.omniscient.write('>start '+JSON.stringify(start));
- await players.omniscient.write('>player p1 '+JSON.stringify({name:'Luke',team:p1team}));
- await players.omniscient.write('>player p2 '+JSON.stringify({name:'Avversario',team:p2team}));
+ await stream.write('>start '+JSON.stringify(start));
+ await stream.write('>player p1 '+JSON.stringify({name:'Luke',team:p1team}));
+ await stream.write('>player p2 '+JSON.stringify({name:'Avversario',team:p2team}));
  return {
   p1:players.p1,p2:players.p2,spectator:players.spectator,
   choose:async(side,choice)=>{
