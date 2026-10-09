@@ -46,7 +46,7 @@ test('Migrations fail closed if guest currently owns a live private Showdown bat
    JSON.stringify({id:activeId,status:'active',ownerDigest:sha(guest),p1team:'SECRET',p2team:'SECRET'}));
   await assert.rejects(importGuestData({directory:root,legacyCode:guest,ownerKey:owner}),e=>e.httpStatus===409);
   assert.equal(JSON.parse(await readFile(join(root,'battles',id+'.json'),'utf8')).ownerDigest,sha(guest));
-  assert.deepEqual(await readdir(join(root,'battles')),[id+'.json',activeId+'.pending.json'].sort().sort((a,b)=>0).sort((a,b)=>a.localeCompare(b)).sort((a,b)=>0).length ? await readdir(join(root,'battles')) : []);
+  assert.equal((await readdir(join(root,'battles'))).length,2);
  }finally{await rm(root,{recursive:true,force:true});}
 });
 test('Import rejects blank history and malformed codes instead of claiming arbitrary secrets',async()=>{
