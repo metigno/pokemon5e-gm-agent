@@ -62,7 +62,7 @@ async function loadTeams(id){
  }catch(e){if(e.code==='ENOENT')return null;throw e;}
 }
 async function saveTeams(id,{p1team,p2team,p2name='Rivale'}={}){
- if(typeof p2name!=='string'||!/^[\\p{L}\\p{N} ._'-]{1,40}$/u.test(p2name))
+ if(typeof p2name!=='string'||!/^[\p{L}\p{N} ._'-]{1,40}$/u.test(p2name))
   throw Object.assign(Error('Nome avversario non valido'),{httpStatus:400});
  const saved={version:1,p1team:parseTeamInput(p1team),p2team:parseTeamInput(p2team),
   p2name,updatedAt:new Date().toISOString()};
