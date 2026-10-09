@@ -99,8 +99,14 @@ test('A normal imported team reaches the active private Showdown request without
   assert.deepEqual(start.p1roster[0].moves,p1[0].moves);
   assert.equal(start.p1roster[0].item,'Choice Scarf');
   let request=null;
-  for(let i=0;i<100&&!request?.active;i++){request=service.snapshot(start.id).request;await sleep(20);}
-  assert.ok(request?.active,'Official Showdown provides the first private request');
+  for(let i=0;i<150&&!request?.active;i++){
+   const state=service.snapshot(start.id);request=state.request;
+   if(request?.teamPreview&&state.choices.length){
+    await service.choose(start.id,{requestId:state.requestId,choice:state.choices[0]});
+   }
+   if(!request?.active)await sleep(20);
+  }
+  assert.ok(request?.active,'Official Showdown provides the first private move request after team preview');
   const received=request.active[0].moves.map(m=>m.move);
   assert.deepEqual(received,p1[0].moves);
   assert.equal(request.side.pokemon[0].details.split(',')[0],'Arcanine-Hisui');
