@@ -20,7 +20,7 @@ function hpInfo(condition){
  if(/fnt/.test(text))return {hp:0,fainted:true};
  return {hp:null,fainted:false};
 }
-const emptyMon=()=>({name:null,species:null,hp:null,status:null,fainted:false,mega:false,dynamax:false});
+const emptyMon=()=>({name:null,species:null,hp:null,status:null,fainted:false,mega:false,dynamax:false,gigantamax:false});
 const newFrame=(turn,field)=>({turn,field:clone(field),events:[]});
 const IMPORTANT=new Set(['faint','mega','dynamax','critical','superEffective','win','tie']);
 export function buildReplayTimeline(log){
@@ -57,9 +57,12 @@ export function buildReplayTimeline(log){
    emit('switch',side,name,species);
    continue;
   }
-  if(tag==='detailschange'&&side){
+  if(['detailschange','-formechange'].includes(tag)&&side){
+   // Showdown can publish a forme change separately from the initial switch:
+   // Gigantamax and Mega sprites must come from its real public protocol.
    field[side].species=safeText((p[3]||'').split(',')[0]);
    field[side].mega=field[side].mega||/mega/i.test(field[side].species||'');
+   field[side].gigantamax=/-gmax$/i.test(field[side].species||'');
    continue;
   }
   if((tag==='-damage'||tag==='-heal')&&side){
