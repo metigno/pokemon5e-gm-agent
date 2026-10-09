@@ -172,7 +172,7 @@ export class ArenaService {
  snapshot(id) {
   const b=this.sessions.get(id);
   if(!b) return null;
-  return {id:b.id,mode:b.mode,publicField:buildReplayTimeline(b.publicLog.join('\n')).frames.at(-1)?.field||null,aiProfiles:{p1:'luke',p2:b.npcProfile},kind:'practice',format:'gen8customgame',status:b.status,p1name:'Luke',p2name:b.p2name,turn:b.turn,requestId:b.requestId,request:b.mode==='manual'&&b.awaitingSide==='p1'?b.privateRequest:null,choices:b.mode==='manual'&&b.awaitingSide==='p1'?legalChoices(b.privateRequest):[],log:b.publicLog.slice(-800).join('\n'),winner:b.winner,error:b.error,createdAt:b.createdAt};
+  return {id:b.id,mode:b.mode,publicField:buildReplayTimeline(b.publicLog.join('\n')).frames.at(-1)?.field||null,aiProfiles:{p1:'luke',p2:b.npcProfile},kind:'practice',format:'gen8customgame',status:b.status,p1name:'Luke',p2name:b.p2name,turn:b.turn,requestId:b.requestId,request:b.mode==='manual'&&b.awaitingSide==='p1'?b.privateRequest:null,p1roster:b.mode==='manual'?describeTeam(b.p1team):null,choices:b.mode==='manual'&&b.awaitingSide==='p1'?legalChoices(b.privateRequest):[],log:b.publicLog.slice(-800).join('\n'),winner:b.winner,error:b.error,createdAt:b.createdAt};
  }
  async load(id) {
   const live=this.sessions.get(id);
