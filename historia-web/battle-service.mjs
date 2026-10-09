@@ -143,7 +143,7 @@ export class ArenaService {
  }
  async load(id) {
   const active=this.snapshot(id);
-  if(active)return active;
+  if(active&&!['complete','tie'].includes(active.status))return active;
   const journal=await this.pendingOnDisk(id);
   if(journal){
    if(!this.restoring.has(id)){
@@ -202,7 +202,6 @@ export class ArenaService {
    p2team:journal.p2team,actions:journal.actions,publicLog:[],status:'active',turn:0,requestId:0,
    awaitingSide:null,privateRequest:null,winner:null,error:null,pendingWrites:Promise.resolve(),stopped:false};
   // Do not expose a request until the recorded public prefix has been reproduced.
-  const replayCounts={p1:0,p2:0};
   b.replaySkip={
    p1:b.actions.filter(x=>x.side==='p1'),
    p2:b.actions.filter(x=>x.side==='p2')
