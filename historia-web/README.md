@@ -13,3 +13,9 @@ Passi successivi: test automatici, persistenza DB, caricamento canon, motore Sho
 `showdown-protocol.mjs` fornisce `legalChoices(request)`, `validateChoice(request,choice)` e `selectAiFallback(request)` per richieste **singles semplici**. Coperti con test: PP esauriti, mosse disabilitate, switch, forceSwitch e wait.
 
 **Limiti importanti:** non è ancora un simulatore, non gestisce scelta dei target/doubles, Mega/Dynamax/Tera, richieste multi-active, trapped, reviving o turni speciali. L'AI fallback non è tattica. Prima di esporre la battaglia al pubblico bisogna integrare e testare `@pkmn/sim` o un server Showdown, con legalità finale verificata dal motore stesso.
+
+## Simulatore reale — adapter iniziale
+
+`showdown-engine.mjs` usa dinamicamente `BattleStream` e `getPlayerStreams` del pacchetto `pokemon-showdown`. Richiede `npm install` e una versione del pacchetto che esponga queste API. Le due squadre vanno fornite nel formato packed di Showdown; il worker restituisce stream per entrambi i lati e spettatore.
+
+**Non è ancora un'integrazione funzionante end-to-end:** non sono stati verificati installazione, export del pacchetto, format ID, ciclo completo dei turni, request handling e compatibilità delle regole custom Historia (Mega + Dynamax). La UI non avvia ancora il worker. Prima di un merge occorrono test di integrazione reali, fix del protocollo e un controller dei turni con gestione degli errori.
