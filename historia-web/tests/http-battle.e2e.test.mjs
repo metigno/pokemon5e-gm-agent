@@ -18,6 +18,9 @@ test('Web HTTP API starts and finishes a real manual Showdown match, publishes v
  try{
   const status=await api('/api/status');assert.equal(status.showdownIntegrated,true);
   const comp=await api('/api/competition');assert.equal(comp.ranking.length,32);assert.equal(comp.qualifiersConfirmed,false);
+  const blockedOfficial=await fetch(base+'/api/battles',{method:'POST',headers:{'x-historia-session':sessionId,'content-type':'application/json'},body:JSON.stringify({official:true,practice:true})});
+  assert.equal(blockedOfficial.status,400,'An official match cannot start from unverified 2060 canon');
+  assert.match((await blockedOfficial.json()).error,/Partite ufficiali non disponibili/);
   const started=await api('/api/battles',{practice:true,mode:'manual',sessionId});
   assert.match(started.id,/^[a-f0-9-]{36}$/);
   const session=await api('/api/session');assert.equal(session.lastBattleId,started.id);
