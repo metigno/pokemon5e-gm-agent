@@ -254,7 +254,7 @@ export class ArenaService {
      if(!line||line.startsWith('|request|')||line.startsWith('|split|'))continue;
      if(b.publicLog.length>=MAX_LOG_LINES)throw new Error('Log oltre il limite di sicurezza');
      if(replay&&prefixIndex<b.expectedPublic.length){
-      if(line!==b.expectedPublic[prefixIndex])throw new Error('Recupero rifiutato: log Showdown non deterministico');
+      if(line!==b.expectedPublic[prefixIndex])throw new Error('Recupero rifiutato: log Showdown non deterministico (linea '+prefixIndex+': atteso '+JSON.stringify(b.expectedPublic[prefixIndex]).slice(0,160)+', ottenuto '+JSON.stringify(line).slice(0,160)+')');
       prefixIndex++;
      }
      b.publicLog.push(line);
