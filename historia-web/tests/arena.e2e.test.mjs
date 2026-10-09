@@ -3,6 +3,8 @@ import assert from 'node:assert/strict';
 import {mkdtemp,rm,readFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
+import {createRequire} from 'node:module';
+const {Teams}=createRequire(import.meta.url)('pokemon-showdown');
 import {ArenaService,practiceTeams,validatePackedTeam,summarizeVerifiedLog} from '../battle-service.mjs';
 
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
@@ -24,16 +26,11 @@ async function eventually(service,id,timeout=25000,manual=false){
 test('6v6 roster validation and Item Clause',()=>{
  const {p1}=practiceTeams();
  assert.equal(validatePackedTeam(p1),p1);
- const {Teams}=requireShim();
  const sets=Teams.unpack(p1);
  sets[1].item='Leftovers';sets[2].item='Leftovers';
  assert.throws(()=>validatePackedTeam(Teams.pack(sets)),/Item Clause/);
  assert.throws(()=>validatePackedTeam(Teams.pack(sets.slice(0,5))),/sei Pokémon/);
 });
-function requireShim(){return {Teams:requireModule('pokemon-showdown')};}
-function requireModule(id){return requireFromHere(id);}
-import {createRequire} from 'node:module';
-const requireFromHere=createRequire(import.meta.url);
 
 test('Showdown real 6v6 autonomous battle with persistent replay and server-authored winner',{timeout:40000},async()=>{
  const dir=await mkdtemp(join(tmpdir(),'historia-auto-'));
