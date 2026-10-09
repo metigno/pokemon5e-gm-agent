@@ -105,6 +105,7 @@ export function parseTeamInput(input){
  validatePackedTeam(packed);
  return packed;
 }
+export function exportTeamInput(input){return Teams.export(Teams.unpack(parseTeamInput(input)));}
 export function describeTeam(input){
  return Teams.unpack(parseTeamInput(input)).map(set=>({
   name:set.name||set.species,species:set.species,item:set.item||'',
