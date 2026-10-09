@@ -25,6 +25,9 @@ test('Web HTTP API starts and finishes a real manual Showdown match, publishes v
   assert.deepEqual(started.aiProfiles,{p1:'luke',p2:'daniel'});
   assert.match(started.id,/^[a-f0-9-]{36}$/);
   const session=await api('/api/session');assert.equal(session.lastBattleId,started.id);
+  const early=await fetch(base+'/api/battles/'+started.id+'/replay',{headers:{'x-historia-session':sessionId}});
+  assert.equal(early.status,409,'The private in-progress battle cannot claim to have a verified replay');
+
   const unauthorized=await fetch(base+'/api/battles/'+started.id,{headers:{'x-historia-session':'d'.repeat(40)}});
   assert.equal(unauthorized.status,404,'Another session cannot read private move request');
   const unowned=await fetch(base+'/api/battles/'+started.id);
@@ -49,6 +52,23 @@ test('Web HTTP API starts and finishes a real manual Showdown match, publishes v
   assert.ok(choices>0);
   assert.match(done.log,/\|win\|/);
   assert.ok(['Luke','NPC (allenamento)'].includes(done.winner));
+  const privateReplay=await api('/api/battles/'+started.id+'/replay');
+  assert.equal(privateReplay.verified,true);
+  assert.equal(privateReplay.source,'showdown-spectator');
+  assert.equal(privateReplay.timeline.winner,done.winner);
+  assert.ok(privateReplay.timeline.frames.length>1);
+  assert.ok(privateReplay.timeline.frames.some(f=>f.events.some(e=>e.type==='move')));
+  assert.ok(privateReplay.timeline.frames.some(f=>f.events.some(e=>e.type==='faint')));
+  assert.doesNotMatch(JSON.stringify(privateReplay.timeline),/\\\"request\\\"/);
+  const analysis=await api('/api/battles/'+started.id+'/analysis');
+  assert.equal(analysis.verified,true);
+  assert.equal(analysis.report.status,'complete');
+  assert.equal(analysis.report.turns,privateReplay.timeline.turns);
+  assert.equal(analysis.report.result,'Vincitore Showdown: '+done.winner);
+  const deniedReplay=await fetch(base+'/api/battles/'+started.id+'/replay',{headers:{'x-historia-session':'d'.repeat(40)}});
+  assert.equal(deniedReplay.status,404,'Replay requires original owner');
+  const deniedAnalysis=await fetch(base+'/api/battles/'+started.id+'/analysis',{headers:{'x-historia-session':'d'.repeat(40)}});
+  assert.equal(deniedAnalysis.status,404,'Post-match analysis requires original owner');
   const history=await api('/api/battles');assert.equal(history.battles.length,1);
   assert.equal(history.battles[0].winner,done.winner);
  }finally{server.closeAllConnections?.();await new Promise(resolve=>server.close(resolve));await rm(dir,{recursive:true,force:true});}
