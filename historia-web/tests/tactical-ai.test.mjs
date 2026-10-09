@@ -26,7 +26,7 @@ test('the Five have distinct stable profiles and favor different decisions when 
 });
 test('the controller recovers at critical HP, instead of mindlessly attacking',()=>{
  const request=req('Blastoise',[['Surf'],['Recover']],{hp:'12/100'});
- assert.equal(selectTacticalChoice(request,{side:'p2',publicLog:foe('Charizard')}),'move 2');
+ assert.equal(selectTacticalChoice(request,{side:'p2',publicLog:foe('Jolteon')}),'move 2');
 });
 test('the controller switches on a dangerous publicly observable matchup when a healthy alternative exists',()=>{
  const request=req('Charizard',[['Air Slash']],{hp:'12/100',bench:[['Venusaur','100/100']]});
