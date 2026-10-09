@@ -1,0 +1,10 @@
+.git
+.github
+bookgame
+node_modules
+**/node_modules
+**/.data
+**/.git
+**/test
+**/tests
+**/.cache
