@@ -36,9 +36,9 @@ test('simulatore Showdown: battle stream completo con vincitore reale', {timeout
  };
  const readers=[readPlayer('p1',players.p1),readPlayer('p2',players.p2),readSpectator()];
  try{
-  await players.omniscient.write('>start '+JSON.stringify({formatid:'gen9customgame'}));
-  await players.omniscient.write('>player p1 '+JSON.stringify({name:'Luke',team:pack('Arcanine')}));
-  await players.omniscient.write('>player p2 '+JSON.stringify({name:'Rivale',team:pack('Magikarp')}));
+  await stream.write('>start '+JSON.stringify({formatid:'gen9customgame'}));
+  await stream.write('>player p1 '+JSON.stringify({name:'Luke',team:pack('Arcanine')}));
+  await stream.write('>player p2 '+JSON.stringify({name:'Rivale',team:pack('Magikarp')}));
   await Promise.race([readers[2],new Promise((_,reject)=>setTimeout(()=>reject(Error('Battaglia non terminata entro 15s')),15000))]);
   assert.ok(winner==='Luke'||winner==='Rivale', 'Il vincitore deve provenire dal simulatore');
   assert.ok(events.length>0,'Il simulatore deve produrre turni');
