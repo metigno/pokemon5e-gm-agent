@@ -207,6 +207,7 @@ export class ArenaService {
    p2:b.actions.filter(x=>x.side==='p2')
   };
   b.expectedPublic=journal.publicLog;
+  b.previousRequestId=journal.requestId||0;
   this.sessions.set(b.id,b);
   try{
    await this.runBattle(b,{replay:true});
@@ -280,7 +281,17 @@ export class ArenaService {
     await new Promise(resolve=>setTimeout(resolve,10));
    if(b.status==='error')throw Error(b.error);
    if(b.publicLog.length<b.expectedPublic.length)throw Error('Recupero non confermato dal log Showdown');
-   // Keep the verified prefix as a guard for subsequent public packets.
+   // Showdown can coalesce historical side-request packets during journal
+   // re-entry. Read the exact live request from the simulator as a fallback.
+   // Bump rqid so stale pre-crash clicks can never act on the restored turn.
+   if(b.mode==='manual'){
+    const actual=engine.currentRequest('p1');
+    if(actual&&!actual.wait){
+     b.privateRequest=actual;
+     b.awaitingSide='p1';
+     b.requestId=b.previousRequestId+1;
+    }
+   }
   }
   const playerLoop=async side=>{
    let skip=0;
@@ -295,11 +306,14 @@ export class ArenaService {
       if(previous[skip].requestHash!==requestHash(request))
        throw new Error('Recupero rifiutato: richiesta Showdown divergente');
       skip++;
-      if(side==='p1'&&b.mode==='manual')b.requestId++;
+      // Skipped historical requests have already been recorded in the ledger.
       continue;
      }
      if(side==='p1'&&b.mode==='manual'){
-      b.privateRequest=request;b.requestId++;b.awaitingSide='p1';
+      const sameRestored=b.privateRequest&&requestHash(b.privateRequest)===requestHash(request);
+      b.privateRequest=request;
+      if(!sameRestored)b.requestId++;
+      b.awaitingSide='p1';
      }else{
       const choice=selectTacticalChoice(request,{side,publicLog:b.publicLog.join('\n'),
        profile:side==='p1'?'luke':b.npcProfile})||selectAiFallback(request);
