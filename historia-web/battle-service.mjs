@@ -4,6 +4,7 @@ import {join} from 'node:path';
 import {createRequire} from 'node:module';
 import {createShowdownBattle} from './showdown-engine.mjs';
 import {legalChoices,validateChoice,selectAiFallback} from './showdown-protocol.mjs';
+import {selectTacticalChoice,resolveAiProfile,AI_PROFILES} from './tactical-ai.mjs';
 import {parseShowdownOutcome} from '../historia/src/showdown-bridge.mjs';
 
 const require=createRequire(import.meta.url);
@@ -104,7 +105,7 @@ export class ArenaService {
  snapshot(id) {
   const b=this.sessions.get(id);
   if(!b) return null;
-  return {id:b.id,mode:b.mode,kind:'practice',format:'gen8customgame',status:b.status,p1name:'Luke',p2name:b.p2name,turn:b.turn,requestId:b.requestId,request:b.mode==='manual'&&b.awaitingSide==='p1'?b.privateRequest:null,choices:b.mode==='manual'&&b.awaitingSide==='p1'?legalChoices(b.privateRequest):[],log:b.publicLog.slice(-800).join('\n'),winner:b.winner,error:b.error,createdAt:b.createdAt};
+  return {id:b.id,mode:b.mode,aiProfiles:{p1:'luke',p2:b.npcProfile},kind:'practice',format:'gen8customgame',status:b.status,p1name:'Luke',p2name:b.p2name,turn:b.turn,requestId:b.requestId,request:b.mode==='manual'&&b.awaitingSide==='p1'?b.privateRequest:null,choices:b.mode==='manual'&&b.awaitingSide==='p1'?legalChoices(b.privateRequest):[],log:b.publicLog.slice(-800).join('\n'),winner:b.winner,error:b.error,createdAt:b.createdAt};
  }
  async load(id) {
   const active=this.snapshot(id);
@@ -127,13 +128,14 @@ export class ArenaService {
   const saved=await Promise.all(files.map(async f=>{try{const a=JSON.parse(await readFile(join(this.directory,f),'utf8'));return {id:a.id,status:a.status,winner:a.winner,turn:a.turn,createdAt:a.createdAt,p2name:a.p2name,ownerDigest:a.ownerDigest??null}}catch{return null;}}));
   return saved.filter(x=>x && x.ownerDigest===ownerDigest(sessionId)).sort((a,b)=>b.createdAt.localeCompare(a.createdAt)).map(({ownerDigest,...item})=>item);
  }
- async create({mode='manual',p1team,p2team,p2name='NPC',practice=false,sessionId=null,official=false}={}) {
+ async create({mode='manual',p1team,p2team,p2name='NPC',practice=false,sessionId=null,official=false,npcProfile='balanced'}={}) {
   if(official)throw new Error('Partite ufficiali non disponibili: qualificati e regolamento canonico incompleti');
   if(!VALID_MODES.has(mode))throw new Error('Modalità non valida');
+  if(typeof npcProfile!=='string'||!Object.hasOwn(AI_PROFILES,npcProfile))throw new Error('Profilo NPC non valido');
   if(!VALID_NAME.test(p2name)||p2name==='Luke')throw new Error('Nome avversario non valido');
   if(practice){const teams=practiceTeams();p1team=teams.p1;p2team=teams.p2;p2name='NPC (allenamento)';}
   validatePackedTeam(p1team);validatePackedTeam(p2team);
-  const id=randomUUID(),battle={id,mode,ownerDigest:ownerDigest(sessionId),p2name,status:'active',turn:0,requestId:0,awaitingSide:null,privateRequest:null,publicLog:[],winner:null,error:null,createdAt:new Date().toISOString()};
+  const id=randomUUID(),battle={id,mode,npcProfile:resolveAiProfile(npcProfile),ownerDigest:ownerDigest(sessionId),p2name,status:'active',turn:0,requestId:0,awaitingSide:null,privateRequest:null,publicLog:[],winner:null,error:null,createdAt:new Date().toISOString()};
   const engine=await createShowdownBattle({p1team,p2team,p1name:'Luke',p2name,format:'gen8customgame'});
   battle.engine=engine;this.sessions.set(id,battle);
   const fail=(e)=>{battle.status='error';battle.error=String(e?.message||e);void this.persist(battle).catch(()=>{});};
@@ -147,7 +149,7 @@ export class ArenaService {
      if(side==='p1'&&mode==='manual'){
       battle.privateRequest=request;battle.requestId++;battle.awaitingSide='p1';
      } else {
-      const choice=selectAiFallback(request);
+      const choice=selectTacticalChoice(request,{side,publicLog:battle.publicLog.join('\n'),profile:side==='p1'?'luke':battle.npcProfile})||selectAiFallback(request);
       if(choice)await engine.choose(side,choice);
      }
     }
