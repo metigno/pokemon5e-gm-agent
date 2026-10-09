@@ -6,6 +6,7 @@ import {createShowdownBattle} from './showdown-engine.mjs';
 import {legalChoices,validateChoice,selectAiFallback} from './showdown-protocol.mjs';
 import {selectTacticalChoice,resolveAiProfile,AI_PROFILES} from './tactical-ai.mjs';
 import {parseShowdownOutcome} from '../historia/src/showdown-bridge.mjs';
+import {buildReplayTimeline} from './replay-timeline.mjs';
 
 const require=createRequire(import.meta.url);
 const {Teams,Dex}=require('pokemon-showdown');
@@ -105,7 +106,7 @@ export class ArenaService {
  snapshot(id) {
   const b=this.sessions.get(id);
   if(!b) return null;
-  return {id:b.id,mode:b.mode,aiProfiles:{p1:'luke',p2:b.npcProfile},kind:'practice',format:'gen8customgame',status:b.status,p1name:'Luke',p2name:b.p2name,turn:b.turn,requestId:b.requestId,request:b.mode==='manual'&&b.awaitingSide==='p1'?b.privateRequest:null,choices:b.mode==='manual'&&b.awaitingSide==='p1'?legalChoices(b.privateRequest):[],log:b.publicLog.slice(-800).join('\n'),winner:b.winner,error:b.error,createdAt:b.createdAt};
+  return {id:b.id,mode:b.mode,publicField:buildReplayTimeline(b.publicLog.join('\n')).frames.at(-1)?.field||null,aiProfiles:{p1:'luke',p2:b.npcProfile},kind:'practice',format:'gen8customgame',status:b.status,p1name:'Luke',p2name:b.p2name,turn:b.turn,requestId:b.requestId,request:b.mode==='manual'&&b.awaitingSide==='p1'?b.privateRequest:null,choices:b.mode==='manual'&&b.awaitingSide==='p1'?legalChoices(b.privateRequest):[],log:b.publicLog.slice(-800).join('\n'),winner:b.winner,error:b.error,createdAt:b.createdAt};
  }
  async load(id) {
   const active=this.snapshot(id);
