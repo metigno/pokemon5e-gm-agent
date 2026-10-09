@@ -15,6 +15,10 @@ const securityHeaders=makeSecurityHeaders(html);const limiter=makeRateLimiter();
 const dataDir=process.env.HISTORIA_DATA_DIR||fileURLToPath(new URL('./.data/',root));
 const arena=new ArenaService(join(dataDir,'battles'));
 const sessions=new Map(),replays=new Map(),sessionBattles=new Map();
+const cachePut=(map,key,value)=>{
+ map.delete(key);map.set(key,value);
+ if(map.size>512)map.delete(map.keys().next().value);
+};
 const json=(res,status,data)=>{res.writeHead(status,{'content-type':'application/json; charset=utf-8'});res.end(JSON.stringify(data));};
 const readBody=async req=>{
  if(!/^application\/json(?:\s*;\s*charset=utf-8)?$/i.test(String(req.headers['content-type']||''))){
@@ -22,7 +26,10 @@ const readBody=async req=>{
  }
  let bytes=0,s='';
  for await(const chunk of req){bytes+=chunk.length;if(bytes>50000){const e=Error('Payload troppo grande');e.httpStatus=413;throw e;}s+=chunk;}
- try{return JSON.parse(s);}catch{const e=Error('JSON non valido');e.httpStatus=400;throw e;}
+ let parsed;
+ try{parsed=JSON.parse(s);}catch{const e=Error('JSON non valido');e.httpStatus=400;throw e;}
+ if(!parsed||typeof parsed!=='object'||Array.isArray(parsed)){const e=Error('Oggetto JSON richiesto');e.httpStatus=400;throw e;}
+ return parsed;
 };
 const validSession=id=>typeof id==='string'&&/^[a-f0-9]{40}$/.test(id);
 const readSession=req=>{const id=req.headers['x-historia-session'];if(!validSession(id))throw Error('Sessione privata non valida');return id;};
@@ -36,16 +43,16 @@ async function privateWrite(dir,dest,value){
  catch(e){await unlink(tmp).catch(()=>{});throw e;}
 }
 async function rememberBattle(id,battleId){await privateWrite(join(dataDir,'sessions'),sessionPath(id),{battleId});}
-async function lastBattle(id){if(sessionBattles.has(id))return sessionBattles.get(id);try{const obj=JSON.parse(await readFile(sessionPath(id),'utf8'));if(/^[0-9a-f-]{36}$/.test(obj.battleId)){sessionBattles.set(id,obj.battleId);return obj.battleId;}}catch(e){if(e.code!=='ENOENT')throw e;}return null;}
+async function lastBattle(id){if(sessionBattles.has(id))return sessionBattles.get(id);try{const obj=JSON.parse(await readFile(sessionPath(id),'utf8'));if(/^[0-9a-f-]{36}$/.test(obj.battleId)){cachePut(sessionBattles,id,obj.battleId);return obj.battleId;}}catch(e){if(e.code!=='ENOENT')throw e;}return null;}
 async function loadChat(id) {
  if(sessions.has(id))return sessions.get(id);
- try{const messages=JSON.parse(await readFile(chatPath(id),'utf8'));if(Array.isArray(messages)){sessions.set(id,messages);return messages;}}
+ try{const messages=JSON.parse(await readFile(chatPath(id),'utf8'));if(Array.isArray(messages)){cachePut(sessions,id,messages);return messages;}}
  catch(e){if(e.code!=='ENOENT')throw e;}
  return [];
 }
 async function saveChat(id,messages) {
  await privateWrite(join(dataDir,'chat'),chatPath(id),messages);
- sessions.set(id,messages);
+ cachePut(sessions,id,messages);
 }
 export function summarizeLog(log){
  if(typeof log!=='string'||log.length>40000)throw Error('Log non valido');
@@ -81,7 +88,7 @@ export function handler(req,res){
  if(req.method==='GET'&&path==='/api/battles'){routeAsync(res,async()=>json(res,200,{battles:await arena.list(readSession(req))}));return;}
  if(req.method==='POST'&&path==='/api/battles'){
   routeAsync(res,async()=>{const body=await readBody(req),sessionId=readSession(req);
-   const b=await arena.create({...body,sessionId});sessionBattles.set(sessionId,b.id);await rememberBattle(sessionId,b.id);json(res,201,b);
+   const b=await arena.create({...body,sessionId});cachePut(sessionBattles,sessionId,b.id);await rememberBattle(sessionId,b.id);json(res,201,b);
   });return;
  }
  const replayRoute=path.match(/^\/api\/battles\/([0-9a-f-]{36})\/(replay|analysis)$/);
@@ -112,7 +119,7 @@ export function handler(req,res){
  }
  if(req.method==='POST'&&path==='/api/replay'){
   routeAsync(res,async()=>{const {log}=await readBody(req),sessionId=readSession(req);
-   const summary=summarizeLog(log);replays.set(sessionId,summary);json(res,200,{...summary,verified:false,source:'manual-untrusted'});
+   const summary=summarizeLog(log);cachePut(replays,sessionId,summary);json(res,200,{...summary,verified:false,source:'manual-untrusted'});
   });return;
  }
  if(req.method==='POST'&&path==='/api/chat'){
