@@ -19,9 +19,9 @@ test('simulatore Showdown: battle stream completo con vincitore reale', {timeout
     if(!line.startsWith('|request|'))continue;
     const request=JSON.parse(line.slice('|request|'.length));
     if(request.wait)continue;
-    if(request.teamPreview)await player.write('>team 1');
-    else if(request.forceSwitch)await player.write('>switch 1');
-    else if(request.active){decisions++;await player.write('>move 1');}
+    if(request.teamPreview)await player.write('team 1');
+    else if(request.forceSwitch)await player.write('switch 1');
+    else if(request.active){decisions++;await player.write('move 1');}
    }
   }
  };
