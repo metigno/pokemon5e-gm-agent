@@ -257,6 +257,11 @@ test('Real Chromium local accounts: registration, cookie session, Arena access a
   await page.locator('#accountRegister').click();
   await expect(page.locator('#accountStatus')).toContainText('browserplayer',{timeout:25000});
   await expect(page.locator('#accountLogoutAll')).toBeVisible();
+  await expect(page.locator('#guestImportPanel')).toBeVisible();
+  await page.locator('#guestImportPanel summary').click();
+  await page.locator('#guestImportCode').fill('f'.repeat(40));
+  await page.locator('#guestImportBtn').click();
+  await expect(page.locator('#guestImportStatus')).toContainText('Nessun salvataggio anonimo',{timeout:10000});
   const cookies=await page.context().cookies();
   const authCookie=cookies.find(c=>c.name==='historia-local');
   expect(authCookie?.httpOnly).toBe(true);
