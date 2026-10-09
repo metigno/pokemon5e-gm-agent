@@ -140,3 +140,33 @@ Under HISTORIA_AUTH_MODE=accounts, a logged-in player may use the Home panel Imp
 Endpoint POST /api/auth/import-guest expects JSON with legacyCode, never a URL query string. Guest codes are sensitive bearer secrets and must never be pasted into logs, issue trackers or public chats. A partially interrupted import can be resumed only by the account that first claimed the transfer. Only one Node replica is supported during migration; cross-process transactions and distributed locks remain outside scope.
 
 Automated tests cover idempotency, nonexistent codes, ownership conflicts, live-battle refusal and an actually completed 6v6 Showdown replay imported via authenticated HTTP and still available after a real process restart. The HTTPS proxy smoke checks rejected HTTP Origin, accepted HTTPS Origin, and Secure host-only cookies locally; it does not constitute a live Railway TLS test.
+
+## Phase 11 — durable storage readiness and encrypted offline backups
+
+**Railway is still blocked by the Free-plan provisioning quota; no new Historia service or URL was deployed.** These changes only harden the dedicated Historia application branch, with no Bookgame modifications.
+
+### Storage readiness
+
+Production (`NODE_ENV=production`) refuses to start without an explicit ABSOLUTE `HISTORIA_DATA_DIR`. Its parent directory must already exist, so an unmounted `/data` parent normally prevents boot. The app checks directory type, rejects symlinks, constrains permissions to 0700 and verifies a temporary 0600 write/read/delete. Existing valid volume directories are accepted. `GET /api/ready` repeats the write/read/delete check; Railway `railway.toml` now uses this endpoint for readiness (200 with `{ready:true}`; 503 if inaccessible). Local development can still use a relative test directory.
+
+**Limitation:** a successful filesystem probe proves current writability, NOT that Railway attached a genuinely durable volume, that the volume has backups, or that a future disaster is recoverable. Verify the /data mount using the Railway dashboard. One Node instance remains required; multi-process shared filesystem locks are not supported.
+
+### Backups — offline only
+
+Stop the Historia Node service (or otherwise ensure no writes are occurring) before creating a backup. Set `HISTORIA_BACKUP_PASSPHRASE` to a strong **unique secret of at least 16 characters** through a trusted environment/secret manager. Never put it in the command-line arguments, issue tracker, git, chat, or a public `.env` file.
+
+Commands from the `historia-web/` directory:
+
+```bash
+node scripts/backup.mjs create --data-dir /data/historia --out /secure-backups/historia-2026-10-09.hbk
+node scripts/backup.mjs verify --input /secure-backups/historia-2026-10-09.hbk
+node scripts/backup.mjs restore --input /secure-backups/historia-2026-10-09.hbk --data-dir /absolute/empty-restore-directory
+```
+
+The `.hbk` archive is an authenticated AES-256-GCM encrypted gzip-compressed JSON snapshot with a random salt, unique nonce, scrypt key derivation, and SHA-256 checksums for every private JSON record. It includes finished battles, in-progress battle journals, account/password-hash records, revocable session-token digests and CSRF state, chat, last-battle pointers and migration markers. It intentionally never archives API keys or process environment. Lost backup passphrases **cannot be recovered**.
+
+Restore first verifies the passphrase, GCM authentication tag, every path and checksum; it refuses a nonempty target, builds new private 0700/0600 files in a staging directory and atomically renames the staging tree into an empty destination. It does **not** merge with active account data and it should never be used to overwrite a running Railway volume. Restore to a separate empty directory, validate, then plan a controlled maintenance transfer. `.hbk` files are gitignored but must additionally be stored in protected external backup storage.
+
+Limits: maximum 10,000 JSON files, 4 MiB each and 64 MiB plaintext across the archive, which is sufficient for current alpha tests but **not yet suitable for arbitrarily large public account populations**. This is a single-process offline snapshot, not an automated hot backup or cross-region disaster recovery service. No real account data was exported in this development step.
+
+Automated Node regression tests cover backup creation, CLI create/verify, AES-GCM tamper and incorrect-passphrase rejection, refusal to overwrite populated targets, refusal of symlink traversal and out-of-directory archives, actual restored equality, private file permissions, production missing-volume failure and storage probes. Existing 6v6 Showdown, canonical Historia and desktop/touch Chromium E2E remain in CI.
