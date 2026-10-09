@@ -143,3 +143,66 @@ test('Completed 6v6 visual replay, scrub and analysis survive a real Node restar
   await rm(dataDir,{recursive:true,force:true});
  }
 });
+
+
+test('Mid-battle manual Luke choice survives a real Node crash and remains playable on browser restore',async({page})=>{
+ test.setTimeout(95000);
+ await withoutRemoteSprites(page);
+ const directory=await mkdtemp(join(tmpdir(),'historia-live-browser-restart-'));
+ const port=await ephemeralPort();
+ let instance=null;
+ try{
+  instance=await bootServer(port,directory);
+  await page.goto(instance.base);
+  await page.locator('nav button[data-view="arena"]').click();
+  await page.locator('#mode').selectOption('manual');
+  await page.locator('#practice').click();
+  await expect.poll(()=>page.locator('#choices button').count(),{timeout:20000}).toBeGreaterThan(0);
+  const session=await page.evaluate(()=>localStorage.getItem('historia-session-id'));
+  const id=await page.evaluate(()=>localStorage.getItem('historia-last-battle'));
+  let before;
+  for(let i=0;i<2;i++){
+   const current=await page.request.get(instance.base+'/api/battles/'+id,{headers:{'x-historia-session':session}});
+   const state=await current.json();
+   const command=state.choices.find(v=>/^move \d+$/.test(v))||state.choices[0];
+   expect(command).toBeTruthy();
+   const move=await page.request.post(instance.base+'/api/battles/'+id+'/choice',{
+    headers:{'x-historia-session':session,'content-type':'application/json'},
+    data:{choice:command,requestId:state.requestId}
+   });
+   expect(move.status()).toBe(200);
+   await expect.poll(async()=>{
+    const r=await page.request.get(instance.base+'/api/battles/'+id,{headers:{'x-historia-session':session}});
+    const next=await r.json();
+    before=next;
+    return next.requestId;
+   },{timeout:20000}).toBeGreaterThan(state.requestId);
+  }
+  const oldTurn=before.turn,oldRequest=before.requestId,oldLog=before.log;
+  expect(oldLog).toContain('|turn|');
+  await stopServer(instance.child);instance=null;
+  instance=await bootServer(port,directory);
+  await page.reload();
+  await page.locator('nav button[data-view="arena"]').click();
+  await expect.poll(()=>page.locator('#choices button').count(),{timeout:20000}).toBeGreaterThan(0);
+  const restored=(await (await page.request.get(instance.base+'/api/battles/'+id,{
+   headers:{'x-historia-session':session}
+  })).json());
+  expect(restored.status).toBe('active');
+  expect(restored.turn).toBe(oldTurn);
+  expect(restored.requestId).toBe(oldRequest);
+  expect(restored.log).toBe(oldLog);
+  await page.locator('#choices button').first().click();
+  await expect.poll(async()=>{
+   const response=await page.request.get(instance.base+'/api/battles/'+id,{headers:{'x-historia-session':session}});
+   return (await response.json()).requestId;
+  },{timeout:20000}).toBeGreaterThan(oldRequest);
+  const forbidden=await page.request.get(instance.base+'/api/battles/'+id,{
+   headers:{'x-historia-session':'f'.repeat(40)}
+  });
+  expect(forbidden.status()).toBe(404);
+ }finally{
+  await stopServer(instance?.child);
+  await rm(directory,{recursive:true,force:true});
+ }
+});
