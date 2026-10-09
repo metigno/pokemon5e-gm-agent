@@ -15,3 +15,17 @@ test('AI fallback sceglie una mossa legale senza inventare risultati',()=>{
  assert.equal(selectAiFallback(request),'move 1');
  assert.equal(selectAiFallback({wait:true}),null);
 });
+
+test('Zacian, Zamazenta and Eternatus cannot Dynamax even if a malformed request advertises it',()=>{
+ for(const details of ['Zacian','Zacian-Crowned','Zamazenta','Zamazenta-Crowned','Eternatus']){
+  const request={active:[{canDynamax:true,moves:[{move:'Tackle',pp:10}]}],side:{pokemon:[{active:true,details,condition:'100/100'}]}};
+  assert.deepEqual(legalChoices(request),['move 1'],details);
+  assert.throws(()=>validateChoice(request,'move 1 dynamax'),/non legale/);
+ }
+});
+test('Possibly trapped is hidden-information uncertainty, not confirmed trapped',()=>{
+ const maybe={...request,active:[{...request.active[0],maybeTrapped:true}]};
+ assert.deepEqual(legalChoices(maybe),['move 1','switch 2']);
+ const certain={...request,active:[{...request.active[0],trapped:true}]};
+ assert.deepEqual(legalChoices(certain),['move 1']);
+});
