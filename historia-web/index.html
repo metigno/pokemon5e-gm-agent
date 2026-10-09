@@ -155,8 +155,8 @@ $('saveTeams').onclick=async()=>{try{
 }catch(e){$('arenaError').textContent=e.message;}};
 $('previewTeams').onclick=async()=>{try{
  const {p1,p2}=await api('/api/teams/preview',{p1team:$('p1team').value,p2team:$('p2team').value});
- const format=(label,list)=>label+'\\n'+list.map((m,i)=>`${i+1}. ${m.name} (${m.species}) @ ${m.item||'nessuno'} | ${m.ability||'default'} | ${m.nature} | ${m.gigantamax?'GIGAMAX | ':''}${m.moves.join(' / ')}`).join('\\n');
- $('teamPreview').hidden=false;$('teamPreview').textContent=format('LUKE',p1)+'\\n\\n'+format('AVVERSARIO',p2);
+ const format=(label,list)=>label+'\n'+list.map((m,i)=>`${i+1}. ${m.name} (${m.species}) @ ${m.item||'nessuno'} | ${m.ability||'default'} | ${m.nature} | ${m.gigantamax?'GIGAMAX | ':''}${m.moves.join(' / ')}`).join('\n');
+ $('teamPreview').hidden=false;$('teamPreview').textContent=format('LUKE',p1)+'\n\n'+format('AVVERSARIO',p2);
 }catch(e){$('arenaError').textContent=e.message;}};
 async function begin(practice){$('arenaError').textContent='';try{const data=practice?{practice:true,mode:$('mode').value,npcProfile:$('npcProfile').value}:{mode:$('mode').value,npcProfile:$('npcProfile').value,p1team:$('p1team').value.trim(),p2team:$('p2team').value.trim(),p2name:$('opponent').value.trim()};if(authMode!=='accounts')data.sessionId=sessionId;const b=await api('/api/battles',data);if(!practice)await api('/api/teams',{p1team:data.p1team,p2team:data.p2team,p2name:data.p2name});closeReplay();currentId=b.id;localStorage.setItem('historia-last-battle',currentId);navigate('arena');render(b);startPolling();}catch(e){$('arenaError').textContent=e.message;}}
 $('practice').addEventListener('click',()=>begin(true));$('customBattle').addEventListener('click',()=>begin(false));
@@ -170,7 +170,7 @@ function render(b){lastBattle=b;$('battleStatus').textContent=b.status==='comple
   const condition=own.condition||'PS non disponibili';
   const detail=(own.details||'').split(',')[0];
   $('p1active').textContent=detail+' · PS '+condition;
-  const ratio=/^(\\d+)\\/(\\d+)/.exec(condition);
+  const ratio=/^(\d+)\/(\d+)/.exec(condition);
   if(ratio&&Number(ratio[2])>0){
    $('p1hp').max=Number(ratio[2]);$('p1hp').value=Number(ratio[1]);$('p1hp').hidden=false;
   }
@@ -180,7 +180,7 @@ function render(b){lastBattle=b;$('battleStatus').textContent=b.status==='comple
   const title=document.createElement('p');title.className='muted';title.textContent='Scegli una mossa o un cambio legale';container.append(title);
   for(const choice of b.choices||[]){const button=document.createElement('button');button.className='choice'+(choice.endsWith(' mega')?' mega':choice.endsWith(' dynamax')?' dynamax':'');
    const m=choice.match(/^move (\d)/);const move=m?b.request.active?.[0]?.moves?.[Number(m[1])-1]:null;
-   const switching=choice.match(/^switch (\\d)$/),switchMon=switching?b.request.side?.pokemon?.[Number(switching[1])-1]:null;
+   const switching=choice.match(/^switch (\d)$/),switchMon=switching?b.request.side?.pokemon?.[Number(switching[1])-1]:null;
    const ownIndex=b.request.side?.pokemon?.findIndex(mon=>mon.active)??-1;
    const canGmax=roster[ownIndex]?.gigantamax;
    const transform=choice.endsWith(' mega')?' · MEGA':choice.endsWith(' dynamax')?(canGmax?' · GIGAMAX':' · DYNAMAX'):'';
@@ -207,7 +207,7 @@ function showReplayPokemon(side,mon){
   (mon.hp===null?' · PS non osservati':' · PS '+mon.hp+'%')+
   (mon.status?' · '+mon.status:'')+(mon.mega?' · MEGA':'')+(mon.dynamax?' · DYNAMAX':'')+
   (mon.fainted?' · KO':'');
- bar.hidden=mon.hp===null;if(mon.hp!==null)bar.value=mon.hp;
+ bar.max=100;bar.hidden=mon.hp===null;if(mon.hp!==null)bar.value=mon.hp;
  const id=(mon.species||'').toLowerCase().replace(/[^a-z0-9-]/g,'');
  img.hidden=!id;
  if(id){const url='https://play.pokemonshowdown.com/sprites/ani/'+encodeURIComponent(id)+'.gif';if(img.src!==url)img.src=url;img.onerror=()=>{img.hidden=true;};}
