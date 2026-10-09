@@ -78,9 +78,9 @@ export function buildReplayTimeline(log){
    field[side].hp=0;field[side].fainted=true;stats[side].faints++;emit('faint',side,actor,'KO');continue;
   }
   if(tag==='-mega'&&side){field[side].mega=true;stats[side].mega++;emit('mega',side,actor,p[3]||'Mega Evoluzione');continue;}
-  if(tag==='-dynamax'&&side){field[side].dynamax=true;stats[side].dynamax++;emit('dynamax',side,actor,'Dynamax');continue;}
+  if(tag==='-dynamax'&&side){if(!field[side].dynamax){field[side].dynamax=true;stats[side].dynamax++;emit('dynamax',side,actor,'Dynamax');}continue;}
   if(tag==='-start'&&side&&String(p[3]).toLowerCase()==='dynamax'){
-   field[side].dynamax=true;stats[side].dynamax++;emit('dynamax',side,actor,'Dynamax');continue;
+   if(!field[side].dynamax){field[side].dynamax=true;stats[side].dynamax++;emit('dynamax',side,actor,'Dynamax');}continue;
   }
   if(tag==='-end'&&side&&String(p[3]).toLowerCase()==='dynamax'){field[side].dynamax=false;emit('dynamaxEnd',side,actor,'Dynamax terminato');continue;}
   if(tag==='-crit'){emit('critical',side,actor,'Colpo critico');continue;}
