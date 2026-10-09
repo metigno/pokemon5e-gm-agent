@@ -19,6 +19,14 @@ export async function createShowdownBattle({format='gen8customgame',p1team,p2tea
  await stream.write('>player p2 '+JSON.stringify({name:p2name,team:p2team}));
  return {
   p1:players.p1,p2:players.p2,spectator:players.spectator,omniscient:players.omniscient,
+  currentRequest:(side)=>{
+   if(!['p1','p2'].includes(side))throw new Error('Lato non valido');
+   const player=stream.battle?.getSide(side);
+   if(!player?.activeRequest||player.isChoiceDone())return null;
+   // The simulator remains authoritative: this is the actual pending private
+   // request for the controlled side, not a guessed reconstructed move list.
+   return JSON.parse(JSON.stringify(player.activeRequest));
+  },
   choose:async(side,choice)=>{
    if(!['p1','p2'].includes(side))throw new Error('Lato non valido');
    if(typeof choice!=='string'||!(/^(move [1-4](?: mega| dynamax)?|switch [1-6]|team [1-6]{1,6})$/.test(choice)))throw new Error('Comando non valido');
