@@ -6,6 +6,7 @@ import {createHash,randomUUID} from 'node:crypto';
 import {makeSecurityHeaders,isSameOriginMutation,makeRateLimiter} from './security.mjs';
 import {AccountAuth,authConfiguration} from './auth.mjs';
 import {importGuestData} from './guest-migration.mjs';
+import {prepareStorage,probeStorage} from './storage.mjs';
 import {ArenaService} from './battle-service.mjs';
 import {buildReplayTimeline,renderTechnicalReport} from './replay-timeline.mjs';
 import {loadHistoricalSeeding} from '../historia/src/seeding.mjs';
@@ -15,6 +16,7 @@ const port=Number(process.env.PORT||3000);
 const html=await readFile(new URL('./index.html',root));
 const securityHeaders=makeSecurityHeaders(html);const limiter=makeRateLimiter();
 const dataDir=process.env.HISTORIA_DATA_DIR||fileURLToPath(new URL('./.data/',root));
+await prepareStorage({directory:dataDir,production:process.env.NODE_ENV==='production',configured:process.env.HISTORIA_DATA_DIR});
 const authConfig=authConfiguration();
 const accountAuth=authConfig.enabled?new AccountAuth(join(dataDir,'auth')):null;
 const arena=new ArenaService(join(dataDir,'battles'));
@@ -127,6 +129,12 @@ export function handler(req,res){
    });return;
   }
   json(res,404,{error:'Non trovato'});return;
+ }
+ if(req.method==='GET'&&path==='/api/ready'){
+  routeAsync(res,async()=>{
+   try{await probeStorage(dataDir);json(res,200,{ready:true,storage:'read-write'});}
+   catch{json(res,503,{ready:false,storage:'unavailable'});}
+  });return;
  }
  if(req.method==='GET'&&path==='/api/status'){json(res,200,{app:'Pokémon GPT Historia',aiConfigured:!!process.env.OPENAI_API_KEY,showdownIntegrated:true,format:'gen8customgame',persistence:'server-filesystem',canonical2060Roster:false,authMode:authConfig.enabled?'accounts':'capability',httpsRequired:authConfig.secure});return;}
  if(req.method==='GET'&&path==='/api/competition'){
