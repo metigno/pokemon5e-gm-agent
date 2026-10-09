@@ -52,6 +52,15 @@ export function validatePackedTeam(packed,{majorLegendarySpecies=null,official=f
   const species=Dex.species.get(set.species);
   if(!species.exists)throw new Error('Specie Pokémon sconosciuta: '+set.species);
   if(set.level!=null&&set.level!==100)throw new Error('Solo livello 100');
+  // Pokémon Alpha use the ordinary species base stats, with standard IV/EV ceilings.
+  // Their Alpha designation is narrative/visual only: no hidden combat multiplier.
+  const stats=['hp','atk','def','spa','spd','spe'];
+  const evs=stats.map(stat=>set.evs?.[stat]??0);
+  const ivs=stats.map(stat=>set.ivs?.[stat]??31);
+  if(evs.some(ev=>!Number.isInteger(ev)||ev<0||ev>252)||evs.reduce((a,b)=>a+b,0)>510)
+   throw new Error('EV fuori dai limiti standard');
+  if(ivs.some(iv=>!Number.isInteger(iv)||iv<0||iv>31))
+   throw new Error('IV fuori dai limiti standard');
   const itemId=String(set.item||'').toLowerCase().replace(/[^a-z0-9]/g,'');
   if(itemId&&seenItems.has(itemId))throw new Error('Item Clause: strumento duplicato');
   if(itemId)seenItems.add(itemId);
