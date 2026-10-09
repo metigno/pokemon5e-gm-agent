@@ -4,6 +4,7 @@ import {fileURLToPath} from 'node:url';
 import {join} from 'node:path';
 import {createHash} from 'node:crypto';
 import {ArenaService} from './battle-service.mjs';
+import {buildReplayTimeline,renderTechnicalReport} from './replay-timeline.mjs';
 import {loadHistoricalSeeding} from '../historia/src/seeding.mjs';
 
 const root=new URL('./',import.meta.url);
@@ -59,6 +60,23 @@ export function handler(req,res){
    const b=await arena.create({...body,sessionId});sessionBattles.set(sessionId,b.id);await rememberBattle(sessionId,b.id);json(res,201,b);
   });return;
  }
+ const replayRoute=path.match(/^\/api\/battles\/([0-9a-f-]{36})\/(replay|analysis)$/);
+ if(req.method==='GET'&&replayRoute){
+  routeAsync(res,async()=>{
+   const id=replayRoute[1],section=replayRoute[2];
+   if(!await arena.ownsBattle(id,readSession(req))){json(res,404,{error:'Battaglia non trovata'});return;}
+   const battle=await arena.load(id);
+   if(!battle||!['complete','tie'].includes(battle.status)){
+    json(res,409,{error:'Replay disponibile soltanto dopo il risultato Showdown verificato'});return;
+   }
+   const timeline=buildReplayTimeline(battle.publicLog||battle.log||'');
+   if(battle.status==='complete'&&timeline.winner!==battle.winner)throw Error('Replay non coerente con il vincitore Showdown');
+   if(battle.status==='tie'&&!timeline.tie)throw Error('Pareggio senza prova nel log Showdown');
+   const report=renderTechnicalReport(timeline,{p1name:battle.p1name,p2name:battle.p2name});
+   const basic={id,verified:true,source:'showdown-spectator',p1name:battle.p1name,p2name:battle.p2name,status:battle.status,report};
+   json(res,200,section==='analysis'?basic:{...basic,timeline});
+  });return;
+ }
  const battleRoute=path.match(/^\/api\/battles\/([0-9a-f-]{36})(?:\/(choice))?$/);
  if(battleRoute){
   const id=battleRoute[1],isChoice=!!battleRoute[2];
@@ -80,9 +98,9 @@ export function handler(req,res){
    if(!process.env.OPENAI_API_KEY){json(res,503,{error:'Master AI non configurato: impostare OPENAI_API_KEY sul server.'});return;}
    const history=await loadChat(sessionId),matchId=await lastBattle(sessionId);
    const actual=matchId?await arena.load(matchId):null;
-   const technical=actual?.status==='complete'?summarizeLog(actual.publicLog||actual.log||''):null;
+   const technical=actual?.status==='complete'?renderTechnicalReport(buildReplayTimeline(actual.publicLog||actual.log||''),{p1name:actual.p1name,p2name:actual.p2name}):null;
    const imported=replays.get(sessionId);
-   const context=technical?'\nRisultato Showdown verificato dal server. Log pubblico completo: '+String(actual.publicLog||actual.log).slice(-20000):
+   const context=technical?'\nRapporto tecnico deterministico (solo fatti osservati): '+JSON.stringify(technical).slice(0,8000)+'\nLog pubblico Showdown verificato (estratto): '+String(actual.publicLog||actual.log).slice(-20000):
      imported?'\nLog importato da utente: NON verificato dal simulatore; non trattarlo come risultato ufficiale. '+JSON.stringify(imported).slice(0,12000):
      '\nNessuna battaglia terminata e verificata associata.';
    const messages=[{role:'system',content:'Sei il Master narrativo del Mondiale Pokémon GPT Historia 2060. Lore canonica fino al 2056, quadriennale. Il GDR esiste solo durante i Mondiali e fuori dalla battaglia. Non inventare roster ufficiali, sorteggi, risultati o statistiche. Il simulatore ha autorità esclusiva. Nelle analisi tecniche usa solo il log allegato, cita i turni e separa fatti da interpretazioni. Atmosfera da Champions League.'+context},...history.slice(-16),{role:'user',content:message}];
