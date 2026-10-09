@@ -64,7 +64,7 @@ async function loadTeams(id){
 async function saveTeams(id,{p1team,p2team,p2name='Rivale'}={}){
  if(typeof p2name!=='string'||!/^[\p{L}\p{N} ._'-]{1,40}$/u.test(p2name))
   throw Object.assign(Error('Nome avversario non valido'),{httpStatus:400});
- const saved={version:1,p1team:parseTeamInput(p1team),p2team:parseTeamInput(p2team),
+ const saved={version:1,p1team:parseTeamInput(p1team,{teamLabel:'Luke'}),p2team:parseTeamInput(p2team,{teamLabel:p2name}),
   p2name,updatedAt:new Date().toISOString()};
  await privateWrite(join(dataDir,'teams'),teamsPath(id),saved);
  return {p1team:exportTeamInput(saved.p1team),p2team:exportTeamInput(saved.p2team),
@@ -169,7 +169,7 @@ export function handler(req,res){
  }
  if(req.method==='POST'&&path==='/api/teams/preview'){
   routeAsync(res,async()=>{const body=await readBody(req);await readSession(req);
-   json(res,200,{p1:describeTeam(body.p1team),p2:describeTeam(body.p2team)});
+   json(res,200,{p1:describeTeam(body.p1team,{teamLabel:'Luke'}),p2:describeTeam(body.p2team,{teamLabel:'Avversario'})});
   });return;
  }
  if(req.method==='GET'&&path==='/api/battles'){routeAsync(res,async()=>json(res,200,{battles:await arena.list(await readSession(req))}));return;}
