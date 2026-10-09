@@ -57,6 +57,11 @@ export async function importGuestData({directory,legacyCode,ownerKey}){
  await mkdir(markerDir,{recursive:true,mode:0o700});await chmod(markerDir,0o700);
  let marker=await safeRead(markerFile);
  if(marker&&marker.target!==target)throw reject('Codice anonimo già importato da un altro account',409);
+ // Never let arbitrary (but correctly formatted) empty codes reserve ownership.
+ const sourceChatExists=await safeRead(join(directory,'chat',source+'.json'));
+ const sourceSessionExists=await safeRead(join(directory,'sessions',source+'.json'));
+ if(!marker&&!completed.length&&!sourceChatExists&&!sourceSessionExists)
+  throw reject('Nessun salvataggio anonimo associato al codice',404);
  if(!marker){
   try{
    await writeFile(markerFile,JSON.stringify({target,status:'started',createdAt:new Date().toISOString()}),{flag:'wx',mode:0o600});
