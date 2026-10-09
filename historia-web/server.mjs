@@ -98,7 +98,7 @@ export function handler(req,res){
    if(!process.env.OPENAI_API_KEY){json(res,503,{error:'Master AI non configurato: impostare OPENAI_API_KEY sul server.'});return;}
    const history=await loadChat(sessionId),matchId=await lastBattle(sessionId);
    const actual=matchId?await arena.load(matchId):null;
-   const technical=actual?.status==='complete'?renderTechnicalReport(buildReplayTimeline(actual.publicLog||actual.log||''),{p1name:actual.p1name,p2name:actual.p2name}):null;
+   const technical=['complete','tie'].includes(actual?.status)?renderTechnicalReport(buildReplayTimeline(actual.publicLog||actual.log||''),{p1name:actual.p1name,p2name:actual.p2name}):null;
    const imported=replays.get(sessionId);
    const context=technical?'\nRapporto tecnico deterministico (solo fatti osservati): '+JSON.stringify(technical).slice(0,8000)+'\nLog pubblico Showdown verificato (estratto): '+String(actual.publicLog||actual.log).slice(-20000):
      imported?'\nLog importato da utente: NON verificato dal simulatore; non trattarlo come risultato ufficiale. '+JSON.stringify(imported).slice(0,12000):
