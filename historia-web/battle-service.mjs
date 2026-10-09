@@ -280,7 +280,7 @@ export class ArenaService {
     await new Promise(resolve=>setTimeout(resolve,10));
    if(b.status==='error')throw Error(b.error);
    if(b.publicLog.length<b.expectedPublic.length)throw Error('Recupero non confermato dal log Showdown');
-   delete b.expectedPublic;
+   // Keep the verified prefix as a guard for subsequent public packets.
   }
   const playerLoop=async side=>{
    let skip=0;
