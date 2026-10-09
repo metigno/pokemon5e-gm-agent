@@ -72,7 +72,7 @@ export function makeRateLimiter({windowMs=60000,clock=()=>Date.now(),maxKeys=800
     method==='POST'&&path.endsWith('/choice')?'choice':
     null;
    if(!group)return general;
-   const capacities={auth:6,migration:3,create:8,chat:8,import:20,choice:600};
+   const capacities={auth:6,migration:6,create:8,chat:8,import:20,choice:600};
    return limit(group+':'+ip,capacities[group]);
   }
  };
