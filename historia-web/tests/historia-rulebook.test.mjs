@@ -48,3 +48,13 @@ test('Alpha cannot exceed normal IV and EV ceilings',()=>{
  team[0].ivs={hp:31};
  assert.doesNotThrow(()=>validatePackedTeam(Teams.pack(team)));
 });
+
+test('Gigantamax cannot be smuggled through packed teams',()=>{
+ const team=Teams.unpack(practiceTeams().p2);
+ team[0].species='Charizard';
+ team[0].name='Charizard';
+ team[0].gigantamax=true;
+ const packed=Teams.pack(team);
+ assert.equal(Teams.unpack(packed)[0].gigantamax,true,'Showdown roundtrip preserves Gigantamax bit');
+ assert.throws(()=>validatePackedTeam(packed),/Gigantamax/);
+});
