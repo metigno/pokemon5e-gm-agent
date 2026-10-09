@@ -296,6 +296,7 @@ export class ArenaService {
     }
    }
   }
+  if(replay&&b.status==='active')engine.reissuePendingRequests();
   const playerLoop=async side=>{
    let skip=0;
    const previous=replay?b.replaySkip[side]:[];
