@@ -15,7 +15,11 @@ const sessions=new Map(),replays=new Map(),sessionBattles=new Map();
 const json=(res,status,data)=>{res.writeHead(status,{'content-type':'application/json; charset=utf-8','cache-control':'no-store','x-content-type-options':'nosniff'});res.end(JSON.stringify(data));};
 const readBody=async req=>{let s='';for await(const chunk of req){s+=chunk;if(s.length>50000)throw Error('Payload troppo grande');}return JSON.parse(s);};
 const validSession=id=>typeof id==='string'&&/^[\w-]{1,100}$/.test(id);
-const chatPath=id=>join(dataDir,'chat',createHash('sha256').update(id).digest('hex')+'.json');
+const digestId=id=>createHash('sha256').update(id).digest('hex');
+const chatPath=id=>join(dataDir,'chat',digestId(id)+'.json');
+const sessionPath=id=>join(dataDir,'sessions',digestId(id)+'.json');
+async function rememberBattle(id,battleId){await mkdir(join(dataDir,'sessions'),{recursive:true});const dest=sessionPath(id),tmp=dest+'.tmp';await writeFile(tmp,JSON.stringify({battleId}));await rename(tmp,dest);}
+async function lastBattle(id){if(sessionBattles.has(id))return sessionBattles.get(id);try{const obj=JSON.parse(await readFile(sessionPath(id),'utf8'));if(/^[0-9a-f-]{36}$/.test(obj.battleId)){sessionBattles.set(id,obj.battleId);return obj.battleId;}}catch(e){if(e.code!=='ENOENT')throw e;}return null;}
 async function loadChat(id) {
  if(sessions.has(id))return sessions.get(id);
  try{const messages=JSON.parse(await readFile(chatPath(id),'utf8'));if(Array.isArray(messages)){sessions.set(id,messages);return messages;}}
@@ -47,11 +51,12 @@ export function handler(req,res){
   const ranking=loadHistoricalSeeding();
   json(res,200,{year:2060,canonicalThrough:2056,qualifiersConfirmed:false,groups:null,schedule:null,rankingAsOf:ranking.asOf,ranking:ranking.ranking});return;
  }
+ if(req.method==='GET'&&path==='/api/session'){routeAsync(res,async()=>{const id=url.searchParams.get('sessionId');if(!validSession(id))throw Error('Sessione non valida');json(res,200,{lastBattleId:await lastBattle(id)});});return;}
  if(req.method==='GET'&&path==='/api/battles'){routeAsync(res,async()=>json(res,200,{battles:await arena.list()}));return;}
  if(req.method==='POST'&&path==='/api/battles'){
   routeAsync(res,async()=>{const body=await readBody(req),sessionId=body.sessionId||'demo';
    if(!validSession(sessionId))throw Error('Sessione non valida');
-   const b=await arena.create(body);sessionBattles.set(sessionId,b.id);json(res,201,b);
+   const b=await arena.create(body);sessionBattles.set(sessionId,b.id);await rememberBattle(sessionId,b.id);json(res,201,b);
   });return;
  }
  const battleRoute=path.match(/^\/api\/battles\/([0-9a-f-]{36})(?:\/(choice))?$/);
@@ -73,7 +78,7 @@ export function handler(req,res){
    const {message,sessionId='demo'}=await readBody(req);
    if(typeof message!=='string'||!message.trim()||message.length>5000||!validSession(sessionId))throw Error('Messaggio o sessione non valida');
    if(!process.env.OPENAI_API_KEY){json(res,503,{error:'Master AI non configurato: impostare OPENAI_API_KEY sul server.'});return;}
-   const history=await loadChat(sessionId),matchId=sessionBattles.get(sessionId);
+   const history=await loadChat(sessionId),matchId=await lastBattle(sessionId);
    const actual=matchId?await arena.load(matchId):null;
    const technical=actual?.status==='complete'?summarizeLog(actual.publicLog||actual.log||''):null;
    const imported=replays.get(sessionId);
