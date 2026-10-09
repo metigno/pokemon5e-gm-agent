@@ -35,6 +35,8 @@ test('Browser POST origin rule rejects cross-site and null origins, accepts same
 test('Rate limiter enforces create/chat/choice quota by actual socket IP and resets windows',()=>{
  let now=100000;const limiter=makeRateLimiter({clock:()=>now});
  const req=(method='POST',remoteAddress='127.0.0.1')=>({method,socket:{remoteAddress}});
+ for(let i=0;i<3;i++)assert.equal(limiter.check(req(),'/api/auth/import-guest').allowed,true);
+ assert.equal(limiter.check(req(),'/api/auth/import-guest').allowed,false);
  for(let i=0;i<8;i++)assert.equal(limiter.check(req(),'/api/battles').allowed,true);
  const blocked=limiter.check(req(),'/api/battles');
  assert.equal(blocked.allowed,false);assert.ok(blocked.retryAfter>=1);
