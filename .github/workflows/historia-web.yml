@@ -1,0 +1,25 @@
+name: Historia Web checks
+on:
+  push:
+    branches: [historia-web-showdown-integration]
+    paths: ['historia-web/**', '.github/workflows/historia-web.yml']
+  pull_request:
+    paths: ['historia-web/**', '.github/workflows/historia-web.yml']
+jobs:
+  node-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: historia-web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: historia-web/package-lock.json
+      - run: npm install --no-audit --no-fund
+      - run: npm test
+      - run: node --check server.mjs
+      - run: node --check showdown-engine.mjs
