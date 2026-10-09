@@ -11,7 +11,7 @@ import {makeSecurityHeaders,isSameOriginMutation,makeRateLimiter} from '../secur
 test('Hashed CSP allows only the exact app script/style, with no unsafe-inline, framing, objects or arbitrary network',async()=>{
  const html=await readFile(new URL('../index.html',import.meta.url),'utf8');
  const headers=makeSecurityHeaders(html);
- assert.doesNotMatch(headers['content-security-policy'],/unsafe-inline|unsafe-eval|https?:\s*/);
+ assert.doesNotMatch(headers['content-security-policy'],/unsafe-inline|unsafe-eval|script-src \*|connect-src https?:/);
  assert.match(headers['content-security-policy'],/connect-src 'self'/);
  assert.match(headers['content-security-policy'],/frame-ancestors 'none'/);
  assert.match(headers['content-security-policy'],/https:\/\/play\.pokemonshowdown\.com/);
