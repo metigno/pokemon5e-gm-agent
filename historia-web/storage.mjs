@@ -31,7 +31,7 @@ export async function prepareStorage({directory,production=false,configured}={})
   if(!parentInfo?.isDirectory()||parentInfo.isSymbolicLink())
    throw Error('Volume dati non trovato: montare la directory genitore prima di avviare Historia');
  }
- await mkdir(root,{recursive:!production,mode:0o700});
+ await mkdir(root,{recursive:!production,mode:0o700}).catch(e=>{if(e.code!=='EEXIST')throw e;});
  await checkRoot(root);
  await chmod(root,0o700);
  await probeStorage(root);
