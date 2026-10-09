@@ -222,3 +222,19 @@ test('Mid-battle manual Luke choice survives a real Node crash and remains playa
   await rm(directory,{recursive:true,force:true});
  }
 });
+
+
+test('Strict browser CSP blocks newly injected inline JavaScript while Arena remains usable',async({page})=>{
+ await withoutRemoteSprites(page);
+ await page.goto('/');
+ const ran=await page.evaluate(async()=>{
+  const script=document.createElement('script');
+  script.textContent='window.__historiaUnexpectedCodeRan = true;';
+  document.body.append(script);
+  await new Promise(resolve=>setTimeout(resolve,10));
+  return window.__historiaUnexpectedCodeRan===true;
+ });
+ expect(ran).toBe(false,'An unauthorized inline script must not execute');
+ await page.locator('nav button[data-view="arena"]').click();
+ await expect(page.locator('#practice')).toBeVisible();
+});
