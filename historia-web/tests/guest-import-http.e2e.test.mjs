@@ -32,7 +32,7 @@ async function launch(dir,n,{production=false}={}){
  child.kill();throw Error('Account HTTP startup timeout');
 }
 async function stop(child){
- if(child?.exitCode==null){const exited=once(child,'exit');child.kill();await exited;}
+ if(child&&child.exitCode==null){const exited=once(child,'exit');child.kill();await exited;}
 }
 test('Real Showdown guest replay migrates once to authenticated account and remains verified, private and persistent',{timeout:85000},async()=>{
  const dir=await mkdtemp(join(tmpdir(),'historia-guest-http-'));
