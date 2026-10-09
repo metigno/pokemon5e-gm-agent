@@ -65,7 +65,7 @@ export function validatePackedTeam(packed,{majorLegendarySpecies=null,official=f
   const itemId=String(set.item||'').toLowerCase().replace(/[^a-z0-9]/g,'');
   if(itemId&&seenItems.has(itemId))throw new Error('Item Clause: strumento duplicato');
   if(itemId)seenItems.add(itemId);
-  if(set.teraType||set.canGigantamax)throw new Error('Tera e Gigantamax non consentiti');
+  if(set.teraType||set.canGigantamax||set.gigantamax||/-gmax$/i.test(set.species))throw new Error('Tera e Gigantamax non consentiti');
   if(itemId&&Dex.items.get(itemId).zMove)throw new Error('Mosse Z e Cristalli Z non consentiti');
   for(const move of set.moves){const data=Dex.moves.get(move);
    if(data.isZ)throw new Error('Mosse Z non consentite');
