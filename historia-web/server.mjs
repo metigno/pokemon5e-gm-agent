@@ -58,10 +58,20 @@ export function summarizeLog(log){
  }
  return {turns:events.filter(x=>x.type==='turn').length,winner:events.findLast(x=>x.type==='win')?.actor||null,events};
 }
-function routeAsync(res,fn){Promise.resolve().then(fn).catch(e=>json(res,/non valid|mancant|legale|obsolet|disponibil|troppo|contenere|Clause|livello|modalit|format|Packed|scelta|Tera/i.test(e.message)?400:500,{error:e.message}));}
+function routeAsync(res,fn){Promise.resolve().then(fn).catch(e=>{
+ const expected=e.httpStatus||(/non valid|mancant|legale|obsolet|disponibil|troppo|contenere|Clause|livello|modalit|format|Packed|scelta|Tera|sessione|limite/i.test(e.message)?400:null);
+ if(expected){json(res,expected,{error:e.message});return;}
+ console.error('Historia request failure:',e?.name||'Error');
+ json(res,500,{error:'Errore interno del server'});
+});}
 export function handler(req,res){
+ for(const [key,value] of Object.entries(securityHeaders))res.setHeader(key,value);
  const url=new URL(req.url,'http://localhost'),path=url.pathname;
- if(req.method==='GET'&&path==='/'){res.writeHead(200,{'content-type':'text/html; charset=utf-8','cache-control':'no-store','x-content-type-options':'nosniff'});res.end(html);return;}
+ const rate=limiter.check(req,path);
+ if(!rate.allowed){res.setHeader('retry-after',String(rate.retryAfter));json(res,429,{error:'Troppe richieste; riprovare più tardi'});return;}
+ if(req.method==='POST'&&!isSameOriginMutation(req)){json(res,403,{error:'Origine della richiesta non autorizzata'});return;}
+ if(req.method==='OPTIONS'){json(res,405,{error:'Metodo non disponibile'});return;}
+ if(req.method==='GET'&&path==='/'){res.writeHead(200,{'content-type':'text/html; charset=utf-8'});res.end(html);return;}
  if(req.method==='GET'&&path==='/api/status'){json(res,200,{app:'Pokémon GPT Historia',aiConfigured:!!process.env.OPENAI_API_KEY,showdownIntegrated:true,format:'gen8customgame',persistence:'server-filesystem',canonical2060Roster:false});return;}
  if(req.method==='GET'&&path==='/api/competition'){
   const ranking=loadHistoricalSeeding();
