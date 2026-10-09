@@ -10,7 +10,6 @@ import {join} from 'node:path';
 const scrypt=promisify(scryptCb);
 const sha=value=>createHash('sha256').update(value).digest('hex');
 const reject=(message,status=401)=>Object.assign(Error(message),{httpStatus:status});
-const cookieName=secure?'__Host-historia':'historia-local';
 const SECURE='Secure; ';
 const ttlMs=7*24*60*60*1000;
 const namePattern=/^[a-zA-Z0-9_]{3,30}$/;
