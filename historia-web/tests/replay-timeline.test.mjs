@@ -80,3 +80,17 @@ test('A tie is represented as a tie, not as a fabricated victory',()=>{
  assert.equal(r.winner,null);
  assert.equal(renderTechnicalReport(r).result,'Pareggio Showdown');
 });
+
+test('Dynamax activation remains one event when simulator emits two synonymous public markers',()=>{
+ const r=buildReplayTimeline([
+  '|switch|p2a: Arcanine|Arcanine, L100|100/100',
+  '|turn|1',
+  '|-start|p2a: Arcanine|Dynamax',
+  '|-dynamax|p2a: Arcanine',
+  '|-end|p2a: Arcanine|Dynamax',
+  '|win|Luke'
+ ].join('\n'));
+ assert.equal(r.stats.p2.dynamax,1);
+ assert.equal(r.frames[1].field.p2.dynamax,false);
+ assert.equal(r.frames[1].events.filter(x=>x.type==='dynamax').length,1);
+});
