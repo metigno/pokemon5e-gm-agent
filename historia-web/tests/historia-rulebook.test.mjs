@@ -36,3 +36,15 @@ test('Arcanine di Hisui uses simulator species data; no artificial Alpha bonus i
  assert.equal(restored.species,'Arcanine-Hisui');
  assert.equal(restored.level,100);
 });
+
+test('Alpha cannot exceed normal IV and EV ceilings',()=>{
+ const team=Teams.unpack(practiceTeams().p1);
+ team[0].name='Alpha Arcanine';
+ team[0].evs={hp:252,atk:252,spe:252};
+ assert.throws(()=>validatePackedTeam(Teams.pack(team)),/EV fuori/);
+ team[0].evs={atk:252,spe:252,hp:4};
+ team[0].ivs={hp:32};
+ assert.throws(()=>validatePackedTeam(Teams.pack(team)),/IV fuori/);
+ team[0].ivs={hp:31};
+ assert.doesNotThrow(()=>validatePackedTeam(Teams.pack(team)));
+});
