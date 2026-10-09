@@ -7,7 +7,7 @@ import {legalChoices,validateChoice,selectAiFallback} from './showdown-protocol.
 import {parseShowdownOutcome} from '../historia/src/showdown-bridge.mjs';
 
 const require=createRequire(import.meta.url);
-const {Teams}=require('pokemon-showdown');
+const {Teams,Dex}=require('pokemon-showdown');
 const VALID_MODES=new Set(['manual','auto']);
 const VALID_NAME=/^[\p{L}\p{N} ._'-]{1,40}$/u;
 
@@ -35,19 +35,36 @@ export function practiceTeams() {
  };
 }
 
-export function validatePackedTeam(packed) {
+/**
+ * Validate the public competitive restrictions without inventing the canon
+ * classification of "major legendary". Official matches MUST supply the full
+ * verified list; practice battles deliberately do not count as tournaments.
+ */
+export function validatePackedTeam(packed,{majorLegendarySpecies=null,official=false}={}) {
  if(typeof packed!=='string'||packed.length>16000||!packed.trim())throw new Error('Squadra packed mancante o troppo lunga');
  const sets=Teams.unpack(packed);
  if(!Array.isArray(sets)||sets.length!==6)throw new Error('Ogni squadra deve contenere esattamente sei Pokémon');
- const seenItems=new Set();
+ if(official&&!Array.isArray(majorLegendarySpecies))throw new Error('Classificazione canonica leggendari maggiori non disponibile');
+ const majorIds=new Set((majorLegendarySpecies||[]).map(x=>String(x).toLowerCase().replace(/[^a-z0-9]/g,'')));
+ const seenItems=new Set();let majorCount=0;
  for(const set of sets){
   if(!set.species||!Array.isArray(set.moves)||set.moves.length<1||set.moves.length>4)throw new Error('Set Pokémon incompleto');
+  const species=Dex.species.get(set.species);
+  if(!species.exists)throw new Error('Specie Pokémon sconosciuta: '+set.species);
   if(set.level!=null&&set.level!==100)throw new Error('Solo livello 100');
-  const item=String(set.item||'').trim().toLowerCase().replace(/[^a-z0-9]/g,'');
-  if(item && seenItems.has(item))throw new Error('Item Clause: strumento duplicato');
-  if(item)seenItems.add(item);
+  const itemId=String(set.item||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+  if(itemId&&seenItems.has(itemId))throw new Error('Item Clause: strumento duplicato');
+  if(itemId)seenItems.add(itemId);
   if(set.teraType||set.canGigantamax)throw new Error('Tera e Gigantamax non consentiti');
+  if(itemId&&Dex.items.get(itemId).zMove)throw new Error('Mosse Z e Cristalli Z non consentiti');
+  for(const move of set.moves){const data=Dex.moves.get(move);
+   if(data.isZ)throw new Error('Mosse Z non consentite');
+   if(data.isMax)throw new Error('Mosse Dynamax non possono essere inserite come mosse ordinarie');
+  }
+  const baseId=String(species.baseSpecies).toLowerCase().replace(/[^a-z0-9]/g,'');
+  if(majorIds.has(species.id)||majorIds.has(baseId))majorCount++;
  }
+ if(majorCount>1)throw new Error('Massimo un leggendario maggiore per squadra');
  return packed;
 }
 
