@@ -14,7 +14,8 @@ const arena=new ArenaService(join(dataDir,'battles'));
 const sessions=new Map(),replays=new Map(),sessionBattles=new Map();
 const json=(res,status,data)=>{res.writeHead(status,{'content-type':'application/json; charset=utf-8','cache-control':'no-store','x-content-type-options':'nosniff'});res.end(JSON.stringify(data));};
 const readBody=async req=>{let s='';for await(const chunk of req){s+=chunk;if(s.length>50000)throw Error('Payload troppo grande');}return JSON.parse(s);};
-const validSession=id=>typeof id==='string'&&/^[\w-]{1,100}$/.test(id);
+const validSession=id=>typeof id==='string'&&/^[a-f0-9]{40}$/.test(id);
+const readSession=req=>{const id=req.headers['x-historia-session'];if(!validSession(id))throw Error('Sessione privata non valida');return id;};
 const digestId=id=>createHash('sha256').update(id).digest('hex');
 const chatPath=id=>join(dataDir,'chat',digestId(id)+'.json');
 const sessionPath=id=>join(dataDir,'sessions',digestId(id)+'.json');
@@ -51,32 +52,31 @@ export function handler(req,res){
   const ranking=loadHistoricalSeeding();
   json(res,200,{year:2060,canonicalThrough:2056,qualifiersConfirmed:false,groups:null,schedule:null,rankingAsOf:ranking.asOf,ranking:ranking.ranking});return;
  }
- if(req.method==='GET'&&path==='/api/session'){routeAsync(res,async()=>{const id=url.searchParams.get('sessionId');if(!validSession(id))throw Error('Sessione non valida');json(res,200,{lastBattleId:await lastBattle(id)});});return;}
- if(req.method==='GET'&&path==='/api/battles'){routeAsync(res,async()=>json(res,200,{battles:await arena.list()}));return;}
+ if(req.method==='GET'&&path==='/api/session'){routeAsync(res,async()=>{const id=readSession(req);json(res,200,{lastBattleId:await lastBattle(id)});});return;}
+ if(req.method==='GET'&&path==='/api/battles'){routeAsync(res,async()=>json(res,200,{battles:await arena.list(readSession(req))}));return;}
  if(req.method==='POST'&&path==='/api/battles'){
-  routeAsync(res,async()=>{const body=await readBody(req),sessionId=body.sessionId||'demo';
-   if(!validSession(sessionId))throw Error('Sessione non valida');
-   const b=await arena.create(body);sessionBattles.set(sessionId,b.id);await rememberBattle(sessionId,b.id);json(res,201,b);
+  routeAsync(res,async()=>{const body=await readBody(req),sessionId=readSession(req);
+   const b=await arena.create({...body,sessionId});sessionBattles.set(sessionId,b.id);await rememberBattle(sessionId,b.id);json(res,201,b);
   });return;
  }
  const battleRoute=path.match(/^\/api\/battles\/([0-9a-f-]{36})(?:\/(choice))?$/);
  if(battleRoute){
   const id=battleRoute[1],isChoice=!!battleRoute[2];
-  if(req.method==='GET'&&!isChoice){routeAsync(res,async()=>{const b=await arena.load(id);json(res,b?200:404,b||{error:'Battaglia non trovata'});});return;}
-  if(req.method==='POST'&&isChoice){routeAsync(res,async()=>json(res,200,await arena.choose(id,await readBody(req))));return;}
+  if(req.method==='GET'&&!isChoice){routeAsync(res,async()=>{if(!await arena.ownsBattle(id,readSession(req))){json(res,404,{error:'Battaglia non trovata'});return;}const b=await arena.load(id);json(res,b?200:404,b||{error:'Battaglia non trovata'});});return;}
+  if(req.method==='POST'&&isChoice){routeAsync(res,async()=>{if(!await arena.ownsBattle(id,readSession(req))){json(res,404,{error:'Battaglia non trovata'});return;}json(res,200,await arena.choose(id,await readBody(req)));});return;}
  }
  if(req.method==='GET'&&path==='/api/chat'){
-  routeAsync(res,async()=>{const id=url.searchParams.get('sessionId')||'demo';if(!validSession(id))throw Error('Sessione non valida');json(res,200,{messages:await loadChat(id)});});return;
+  routeAsync(res,async()=>{const id=readSession(req);json(res,200,{messages:await loadChat(id)});});return;
  }
  if(req.method==='POST'&&path==='/api/replay'){
-  routeAsync(res,async()=>{const {log,sessionId='demo'}=await readBody(req);if(!validSession(sessionId))throw Error('Sessione non valida');
+  routeAsync(res,async()=>{const {log}=await readBody(req),sessionId=readSession(req);
    const summary=summarizeLog(log);replays.set(sessionId,summary);json(res,200,{...summary,verified:false,source:'manual-untrusted'});
   });return;
  }
  if(req.method==='POST'&&path==='/api/chat'){
   routeAsync(res,async()=>{
-   const {message,sessionId='demo'}=await readBody(req);
-   if(typeof message!=='string'||!message.trim()||message.length>5000||!validSession(sessionId))throw Error('Messaggio o sessione non valida');
+   const {message}=await readBody(req),sessionId=readSession(req);
+   if(typeof message!=='string'||!message.trim()||message.length>5000)throw Error('Messaggio non valido');
    if(!process.env.OPENAI_API_KEY){json(res,503,{error:'Master AI non configurato: impostare OPENAI_API_KEY sul server.'});return;}
    const history=await loadChat(sessionId),matchId=await lastBattle(sessionId);
    const actual=matchId?await arena.load(matchId):null;
