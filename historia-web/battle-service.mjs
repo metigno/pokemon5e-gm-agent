@@ -257,11 +257,19 @@ export class ArenaService {
     for(const line of String(chunk).split(/\r?\n/)){
      if(!line||line.startsWith('|request|')||line.startsWith('|split|'))continue;
      if(b.publicLog.length>=MAX_LOG_LINES)throw new Error('Log oltre il limite di sicurezza');
+     let reproduced=line;
      if(replay&&prefixIndex<b.expectedPublic.length){
-      if(line!==b.expectedPublic[prefixIndex])throw new Error('Recupero rifiutato: log Showdown non deterministico (linea '+prefixIndex+': atteso '+JSON.stringify(b.expectedPublic[prefixIndex]).slice(0,160)+', ottenuto '+JSON.stringify(line).slice(0,160)+')');
+      const previous=b.expectedPublic[prefixIndex];
+      // Showdown emits wall-clock '|t:|' entries. They are metadata, not RNG
+      // or battle state. Preserve the original public timestamp in the replay.
+      if(line.startsWith('|t:|')&&previous.startsWith('|t:|')){
+       reproduced=previous;
+      }else if(line!==previous){
+       throw new Error('Recupero rifiutato: log Showdown non deterministico (linea '+prefixIndex+': atteso '+JSON.stringify(previous).slice(0,160)+', ottenuto '+JSON.stringify(line).slice(0,160)+')');
+      }
       prefixIndex++;
      }
-     b.publicLog.push(line);
+     b.publicLog.push(reproduced);
      if(line.startsWith('|turn|'))b.turn=Number(line.slice(6))||b.turn;
      if(line.startsWith('|win|')){
       const outcome=parseShowdownOutcome(b.publicLog.join('\n'));
