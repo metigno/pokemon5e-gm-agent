@@ -10,6 +10,9 @@ Requires Node.js 22+ and network connectivity for the initial dependency install
 cd historia-web
 npm install --no-audit --no-fund
 npm test
+# Install Chromium once, then test real desktop + mobile browser:
+npx playwright install chromium
+npm run test:browser
 npm start
 ```
 
@@ -65,3 +68,14 @@ New private read-only APIs, both protected by the secret X-Historia-Session head
 Neither endpoint accepts uploaded logs as authoritative, grants access to a different session, nor returns an ongoing battle as a verified result. Both derive the output from the persisted spectator transcript, checking that the terminal winner/tie matches the recorded battle result. Manual imports stay **unverified** and never produce verified playback.
 
 Automated regression includes a real 6v6 Showdown battle fetched from both endpoints, privacy denial, incomplete-match denial, timeline event and field reconstruction, HP and transformation consistency, safe textContent-only UI rendering, embedded browser-script syntax and the legacy Historia tournament tests. Full end-to-end visual tests on mobile browsers remain open.
+
+
+## Browser, touch and restart verification (phase 6)
+
+A dedicated Playwright Chromium job in the Historia-specific workflow tests **real browser behavior** in two viewport configurations: desktop 1280×800 and mobile touch 390×844. It verifies responsive layout without horizontal page overflow, usable 44px touch buttons, real manual moves sent to the installed Showdown simulator, visually navigable replay and the evidence-based report.
+
+The 6v6 recovery test launches a **separate Node server**, runs a complete Showdown match from the browser, persists its server-verified terminal log in an isolated temp directory, terminates Node, starts a fresh Node process using the same directory, reloads the browser, and verifies the same private replay, report, archive and winner are available. A different session still receives HTTP 404. It also checks displayed live Pokémon species and publicly observed HP/status (unknown HP remains unknown).
+
+Run locally with Node.js 22+ and an installed Playwright Chromium browser using npm run test:browser. GitHub CI provisions Chromium and OS libraries with the documented Playwright CLI. On failure, GitHub Actions retains the browser HTML report, traces and screenshots for debugging. This is Chromium mobile emulation, **not** a physical Android/iOS or Safari test. The test verifies *completed* replay restoration, **not** in-progress battle continuation after a server crash. External GIF sprites require a connection outside the isolated browser smoke suite; images are deliberately blocked during tests to prove the UI remains usable with labels.
+
+This is still technical-alpha Arena, not a deployed 2060 competition product. Full official format, real qualifying teams, match lifecycle recovery, production session authentication/security, and real-device testing remain open.
