@@ -34,6 +34,11 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px soli
 </form>
 <p id="accountStatus" aria-live="polite" class="muted">Accedi per utilizzare l'Arena.</p>
 <div class="actions"><button id="accountLogout" hidden>Esci</button><button id="accountLogoutAll" hidden>Disconnetti tutte le sessioni</button></div>
+<details id="guestImportPanel" hidden><summary>Importa vecchi salvataggi anonimi</summary>
+<p class="muted">Importazione una sola volta: vengono trasferiti soltanto i replay completati e la chat associata al codice di sessione che possiedi. Le battaglie ancora in corso non vengono importate. Il vecchio codice non potrà più rivendicare gli stessi replay.</p>
+<label for="guestImportCode">Codice anonimo di 40 caratteri</label><input id="guestImportCode" type="password" maxlength="40" autocomplete="off" placeholder="Codice della sessione precedente">
+<button id="guestImportBtn" type="button">Importa nel mio account</button><p id="guestImportStatus" class="muted" role="status"></p>
+</details>
 </div>
 <div class="panel" id="legacySession"><h3>Sessione Historia personale (accesso sperimentale)</h3><p class="muted">Conserva questo codice riservato per recuperare chat e ultimo replay su un altro dispositivo. Chi conosce il codice può accedere alla sessione: non è un sistema di autenticazione.</p><code id="sessionCode"></code><div class="actions"><button id="copySession">Copia codice</button></div><label for="restoreSession">Riprendi un'altra sessione</label><input id="restoreSession" placeholder="Incolla qui il codice conservato"><button id="loadSession">Riprendi sessione</button></div></div></section>
 <section id="arena" class="view"><div class="grid">
@@ -81,6 +86,7 @@ function accountDisplay(user){
  accountName=user?.username||null;accountCsrf=user?.csrf||null;
  $('accountForm').hidden=!!accountName;
  $('accountLogout').hidden=!accountName;$('accountLogoutAll').hidden=!accountName;
+ $('guestImportPanel').hidden=!accountName;
  $('accountStatus').textContent=accountName?'Accesso effettuato: '+accountName:'Accedi per utilizzare l\'Arena e salvare i replay.';
 }
 async function accountAction(action){
@@ -107,6 +113,18 @@ async function accountExit(all){
 }
 $('accountLogout').onclick=()=>accountExit(false);
 $('accountLogoutAll').onclick=()=>accountExit(true);
+$('guestImportBtn').onclick=async()=>{
+ const code=$('guestImportCode').value.trim(),status=$('guestImportStatus');
+ if(!/^[a-f0-9]{40}$/.test(code)){status.textContent='Codice anonimo non valido.';return;}
+ status.textContent='Verifica dei replay e trasferimento…';
+ try{
+  const result=await api('/api/auth/import-guest',{legacyCode:code});
+  $('guestImportCode').value='';
+  status.textContent=result.alreadyImported?'Questo codice era già stato importato nel tuo account.':
+   'Importati '+result.replays+' replay e '+result.chatMessages+' messaggi chat.';
+  await recoverAccountState();
+ }catch(e){status.textContent=e.message;}
+};
 async function recoverAccountState(){
  try{
   const state=await api('/api/session');
@@ -115,7 +133,7 @@ async function recoverAccountState(){
  }catch(e){$('accountStatus').textContent='Account attivo, archivio non disponibile: '+e.message;}
 }
 
-async function begin(practice){$('arenaError').textContent='';try{const data=practice?{practice:true,mode:$('mode').value,npcProfile:$('npcProfile').value}:{mode:$('mode').value,npcProfile:$('npcProfile').value,p1team:$('p1team').value.trim(),p2team:$('p2team').value.trim(),p2name:$('opponent').value.trim()};data.sessionId=sessionId;const b=await api('/api/battles',data);closeReplay();currentId=b.id;localStorage.setItem('historia-last-battle',currentId);navigate('arena');render(b);startPolling();}catch(e){$('arenaError').textContent=e.message;}}
+async function begin(practice){$('arenaError').textContent='';try{const data=practice?{practice:true,mode:$('mode').value,npcProfile:$('npcProfile').value}:{mode:$('mode').value,npcProfile:$('npcProfile').value,p1team:$('p1team').value.trim(),p2team:$('p2team').value.trim(),p2name:$('opponent').value.trim()};if(authMode!=='accounts')data.sessionId=sessionId;const b=await api('/api/battles',data);closeReplay();currentId=b.id;localStorage.setItem('historia-last-battle',currentId);navigate('arena');render(b);startPolling();}catch(e){$('arenaError').textContent=e.message;}}
 $('practice').addEventListener('click',()=>begin(true));$('customBattle').addEventListener('click',()=>begin(false));
 function render(b){lastBattle=b;$('battleStatus').textContent=b.status==='complete'?'Vittoria confermata Showdown: '+b.winner:b.status==='tie'?'Pareggio confermato':b.status==='error'?'Errore: '+b.error:'Turno '+(b.turn||'iniziale')+' · '+(b.mode==='manual'?'Luke vs AI':'AI vs AI')+' · Stile NPC: '+(b.aiProfiles?.p2||'bilanciato')+' · '+b.status;
  $('p2name').textContent=b.p2name||'NPC';$('battleLog').textContent=b.log||'Attesa del primo evento…';$('battleLog').scrollTop=$('battleLog').scrollHeight;
