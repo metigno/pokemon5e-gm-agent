@@ -49,12 +49,14 @@ test('Alpha cannot exceed normal IV and EV ceilings',()=>{
  assert.doesNotThrow(()=>validatePackedTeam(Teams.pack(team)));
 });
 
-test('Gigantamax cannot be smuggled through packed teams',()=>{
+test('Gigantamax bit remains on allowed species; unsupported species are rejected',()=>{
  const team=Teams.unpack(practiceTeams().p2);
- team[0].species='Charizard';
- team[0].name='Charizard';
+ team[0].species='Blastoise';
+ team[0].name='Blastoise';
  team[0].gigantamax=true;
  const packed=Teams.pack(team);
- assert.equal(Teams.unpack(packed)[0].gigantamax,true,'Showdown roundtrip preserves Gigantamax bit');
- assert.throws(()=>validatePackedTeam(packed),/Gigantamax/);
+ assert.equal(Teams.unpack(packed)[0].gigantamax,true,'Showdown roundtrip preserves Gigantamax');
+ assert.equal(validatePackedTeam(packed),packed);
+ team[0].species='Magikarp';
+ assert.throws(()=>validatePackedTeam(Teams.pack(team)),/non compatibile con Gigantamax/);
 });
