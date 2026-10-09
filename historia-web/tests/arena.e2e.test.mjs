@@ -32,6 +32,31 @@ test('6v6 roster validation and Item Clause',()=>{
  assert.throws(()=>validatePackedTeam(Teams.pack(sets.slice(0,5))),/sei Pokémon/);
 });
 
+test('Item Clause remains separate between Luke and Mattew, and identifies owner and offenders',async()=>{
+ const dir=await mkdtemp(join(tmpdir(),'historia-items-'));
+ const service=new ArenaService(dir);
+ try{
+  const {p1,p2}=practiceTeams();
+  const luke=Teams.unpack(p1),mattew=Teams.unpack(p2);
+  // The same held item across two different trainers is permitted.
+  luke[0].item='Leftovers';mattew[0].item='Leftovers';
+  const lukeText=Teams.export(luke),mattewText=Teams.export(mattew);
+  const start=await service.create({mode:'manual',p1team:lukeText,p2team:mattewText,p2name:'Mattew'});
+  assert.equal(start.status,'active');
+  // Duplicating it *inside* Mattew's team is rejected with actionable context.
+  mattew[1].item='Leftovers';
+  await assert.rejects(
+   ()=>service.create({mode:'manual',p1team:lukeText,p2team:Teams.export(mattew),p2name:'Mattew'}),
+   error=>/Item Clause \\(Mattew\\)/.test(error.message)
+     && /Leftovers/.test(error.message)
+     && error.message.includes(mattew[0].name||mattew[0].species)
+     && error.message.includes(mattew[1].name||mattew[1].species)
+  );
+  luke[1].item='Leftovers';
+  assert.throws(()=>validatePackedTeam(Teams.pack(luke),{teamLabel:'Luke'}),/Item Clause \\(Luke\\): Leftovers duplicato/);
+ }finally{await service.shutdown();await rm(dir,{recursive:true,force:true});}
+});
+
 test('Showdown real 6v6 autonomous battle with persistent replay and server-authored winner',{timeout:40000},async()=>{
  const dir=await mkdtemp(join(tmpdir(),'historia-auto-'));
  try{
