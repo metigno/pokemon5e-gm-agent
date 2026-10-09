@@ -13,14 +13,22 @@ test('Web HTTP API starts and finishes a real manual Showdown match, publishes v
  const {handler}=await import('../server.mjs');
  const server=http.createServer(handler);
  server.listen(0,'127.0.0.1');await once(server,'listening');
- const base='http://127.0.0.1:'+server.address().port,sessionId='http-test-session-0123456789';
- const api=async(path,body)=>{const res=await fetch(base+path,body===undefined?undefined:{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)});const data=await res.json();assert.ok(res.ok,JSON.stringify(data));return data;};
+ const base='http://127.0.0.1:'+server.address().port,sessionId='c'.repeat(40);
+ const api=async(path,body)=>{const headers={'x-historia-session':sessionId};const res=await fetch(base+path,body===undefined?{headers}:{method:'POST',headers:{...headers,'content-type':'application/json'},body:JSON.stringify(body)});const data=await res.json();assert.ok(res.ok,JSON.stringify(data));return data;};
  try{
   const status=await api('/api/status');assert.equal(status.showdownIntegrated,true);
   const comp=await api('/api/competition');assert.equal(comp.ranking.length,32);assert.equal(comp.qualifiersConfirmed,false);
   const started=await api('/api/battles',{practice:true,mode:'manual',sessionId});
   assert.match(started.id,/^[a-f0-9-]{36}$/);
-  const session=await api('/api/session?sessionId='+sessionId);assert.equal(session.lastBattleId,started.id);
+  const session=await api('/api/session');assert.equal(session.lastBattleId,started.id);
+  const unauthorized=await fetch(base+'/api/battles/'+started.id,{headers:{'x-historia-session':'d'.repeat(40)}});
+  assert.equal(unauthorized.status,404,'Another session cannot read private move request');
+  const unowned=await fetch(base+'/api/battles/'+started.id);
+  assert.equal(unowned.status,400,'Missing session secret rejected');
+  const illegalChoice=await fetch(base+'/api/battles/'+started.id+'/choice',{method:'POST',headers:{'content-type':'application/json','x-historia-session':'d'.repeat(40)},body:JSON.stringify({choice:'move 1',requestId:1})});
+  assert.equal(illegalChoice.status,404,'Another session cannot control Luke');
+  const others=await fetch(base+'/api/battles',{headers:{'x-historia-session':'d'.repeat(40)}});
+  assert.deepEqual((await others.json()).battles,[],'Other sessions cannot enumerate replays');
   const end=Date.now()+30000;let done=null,choices=0;
   while(Date.now()<end){
    const current=await api('/api/battles/'+started.id);
