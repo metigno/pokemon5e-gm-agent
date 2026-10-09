@@ -1,4 +1,4 @@
-import {randomUUID} from 'node:crypto';
+import {randomUUID,createHash} from 'node:crypto';
 import {mkdir,readFile,writeFile,rename,readdir} from 'node:fs/promises';
 import {join} from 'node:path';
 import {createRequire} from 'node:module';
@@ -10,6 +10,7 @@ const require=createRequire(import.meta.url);
 const {Teams,Dex}=require('pokemon-showdown');
 const VALID_MODES=new Set(['manual','auto']);
 const VALID_NAME=/^[\p{L}\p{N} ._'-]{1,40}$/u;
+const ownerDigest=sessionId=>sessionId?createHash('sha256').update(sessionId).digest('hex'):null;
 
 // Explicitly non-canonical practice rosters. No historical tournament result
 // is ever created by this practice match.
@@ -95,7 +96,7 @@ export class ArenaService {
  file(id){if(!/^[0-9a-f-]{36}$/.test(id))throw new Error('Identificativo non valido');return join(this.directory,id+'.json');}
  async persist(battle,finalStatus=null){
   await mkdir(this.directory,{recursive:true});
-  const snap={...this.snapshot(battle.id),status:finalStatus||battle.status,publicLog:battle.publicLog.join('\n'),createdAt:battle.createdAt,analysis:summarizeVerifiedLog(battle.publicLog.join('\n'))};
+  const snap={...this.snapshot(battle.id),ownerDigest:battle.ownerDigest,status:finalStatus||battle.status,publicLog:battle.publicLog.join('\n'),createdAt:battle.createdAt,analysis:summarizeVerifiedLog(battle.publicLog.join('\n'))};
   delete snap.request;delete snap.choices;
   const filename=this.file(battle.id),tmp=filename+'.tmp';
   await writeFile(tmp,JSON.stringify(snap),'utf8');await rename(tmp,filename);
@@ -111,18 +112,28 @@ export class ArenaService {
   try{const saved=JSON.parse(await readFile(this.file(id),'utf8'));return {...saved,request:null,choices:[],log:saved.publicLog};}
   catch(e){if(e.code==='ENOENT')return active;throw e;}
  }
- async list() {
+ async ownsBattle(id,sessionId){
+  if(typeof sessionId!=='string'||!sessionId)return false;
+  const battle=this.sessions.get(id);
+  if(battle)return !!battle.ownerDigest && battle.ownerDigest===ownerDigest(sessionId);
+  try{
+   const saved=JSON.parse(await readFile(this.file(id),'utf8'));
+   return !!saved.ownerDigest && saved.ownerDigest===ownerDigest(sessionId);
+  }catch(e){if(e.code==='ENOENT')return false;throw e;}
+ }
+ async list(sessionId=null) {
   await mkdir(this.directory,{recursive:true});
   const files=(await readdir(this.directory)).filter(x=>/^[0-9a-f-]{36}\.json$/.test(x)).slice(-100);
-  const saved=await Promise.all(files.map(async f=>{try{const a=JSON.parse(await readFile(join(this.directory,f),'utf8'));return {id:a.id,status:a.status,winner:a.winner,turn:a.turn,createdAt:a.createdAt,p2name:a.p2name}}catch{return null;}}));
-  return saved.filter(Boolean).sort((a,b)=>b.createdAt.localeCompare(a.createdAt));
+  const saved=await Promise.all(files.map(async f=>{try{const a=JSON.parse(await readFile(join(this.directory,f),'utf8'));return {id:a.id,status:a.status,winner:a.winner,turn:a.turn,createdAt:a.createdAt,p2name:a.p2name,ownerDigest:a.ownerDigest??null}}catch{return null;}}));
+  return saved.filter(x=>x && x.ownerDigest===ownerDigest(sessionId)).sort((a,b)=>b.createdAt.localeCompare(a.createdAt)).map(({ownerDigest,...item})=>item);
  }
- async create({mode='manual',p1team,p2team,p2name='NPC',practice=false}={}) {
+ async create({mode='manual',p1team,p2team,p2name='NPC',practice=false,sessionId=null,official=false}={}) {
+  if(official)throw new Error('Partite ufficiali non disponibili: qualificati e regolamento canonico incompleti');
   if(!VALID_MODES.has(mode))throw new Error('Modalità non valida');
   if(!VALID_NAME.test(p2name)||p2name==='Luke')throw new Error('Nome avversario non valido');
   if(practice){const teams=practiceTeams();p1team=teams.p1;p2team=teams.p2;p2name='NPC (allenamento)';}
   validatePackedTeam(p1team);validatePackedTeam(p2team);
-  const id=randomUUID(),battle={id,mode,p2name,status:'active',turn:0,requestId:0,awaitingSide:null,privateRequest:null,publicLog:[],winner:null,error:null,createdAt:new Date().toISOString()};
+  const id=randomUUID(),battle={id,mode,ownerDigest:ownerDigest(sessionId),p2name,status:'active',turn:0,requestId:0,awaitingSide:null,privateRequest:null,publicLog:[],winner:null,error:null,createdAt:new Date().toISOString()};
   const engine=await createShowdownBattle({p1team,p2team,p1name:'Luke',p2name,format:'gen8customgame'});
   battle.engine=engine;this.sessions.set(id,battle);
   const fail=(e)=>{battle.status='error';battle.error=String(e?.message||e);void this.persist(battle).catch(()=>{});};
