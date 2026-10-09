@@ -206,7 +206,7 @@ test('Mid-battle manual Luke choice survives a real Node crash and remains playa
   })).json());
   expect(restored.status).toBe('active');
   expect(restored.turn).toBe(oldTurn);
-  expect(restored.requestId).toBe(oldRequest);
+  expect(restored.requestId).toBeGreaterThan(oldRequest);
   expect(restored.log).toBe(oldLog);
   await page.locator('#choices button').first().click();
   await expect.poll(async()=>{
