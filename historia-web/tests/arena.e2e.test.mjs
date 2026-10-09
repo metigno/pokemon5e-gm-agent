@@ -41,6 +41,7 @@ test('Showdown real 6v6 autonomous battle with persistent replay and server-auth
   assert.equal(done.status,'complete',done.error||'Showdown did not finish');
   assert.ok(['Luke','NPC (allenamento)'].includes(done.winner));
   assert.match(done.log,/\|win\|/);
+  assert.doesNotMatch(done.log,/^\|(?:request|split|error)\|/m,'Public spectator log must exclude player-private protocol events');
   assert.match(done.log,/\|teamsize\|p1\|6/);
   const saved=JSON.parse(await readFile(join(dir,start.id+'.json'),'utf8'));
   assert.equal(saved.winner,done.winner);
