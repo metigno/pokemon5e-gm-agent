@@ -40,6 +40,9 @@ test('Showdown real 6v6 autonomous battle with persistent replay and server-auth
   assert.equal(start.mode,'auto');
   const done=await eventually(service,start.id,30000);
   assert.equal(done.status,'complete',done.error||'Showdown did not finish');
+  assert.ok(done.publicField?.p1?.species,'Player sprite species comes from spectator-only public events');
+  assert.ok(done.publicField?.p2?.species,'Opponent sprite species comes from spectator-only public events');
+  assert.ok(done.publicField.p1.hp===null||Number.isInteger(done.publicField.p1.hp),'Only observed public HP or unknown is reported');
   assert.ok(['Luke','NPC (allenamento)'].includes(done.winner));
   assert.match(done.log,/\|win\|/);
   assert.doesNotMatch(done.log,/^\|(?:request|split|error)\|/m,'Public spectator log must exclude player-private protocol events');
