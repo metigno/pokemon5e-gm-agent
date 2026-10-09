@@ -208,6 +208,9 @@ export class ArenaService {
   };
   b.expectedPublic=journal.publicLog;
   b.previousRequestId=journal.requestId||0;
+  // Journal may precede the latest request by one server event; reserve a
+  // strictly newer token before exposing any restored action.
+  b.requestId=b.previousRequestId+2;
   this.sessions.set(b.id,b);
   try{
    await this.runBattle(b,{replay:true});
@@ -289,7 +292,7 @@ export class ArenaService {
     if(actual&&!actual.wait){
      b.privateRequest=actual;
      b.awaitingSide='p1';
-     b.requestId=b.previousRequestId+1;
+     b.requestId=Math.max(b.requestId,b.previousRequestId+2);
     }
    }
   }
