@@ -98,7 +98,7 @@ export class WorldCupSlots {
    if(!bound||fixture.status!=='scheduled')throw Error('Avvia prima l’incontro Luke dallo slot');
    if(bound.homeId!==fixture.homeId||bound.awayId!==fixture.awayId||
       bound.playerName!=='Luke'||bound.opponentId!==(fixture.homeId==='Luke'?fixture.awayId:fixture.homeId)||
-      bound.opponentName!==showdownTrainerName(bound.opponentId)
+      bound.opponentName!==showdownTrainerName(bound.opponentId))
     throw Error('Associazione partita non coerente');
    if(!await arena.ownsBattle(bound.battleId,ownerKey))throw Error('Battaglia non appartenente allo slot');
    const completed=await arena.load(bound.battleId);
