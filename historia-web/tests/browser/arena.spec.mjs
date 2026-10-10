@@ -7,6 +7,7 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {createRequire} from 'node:module';
 import {practiceTeams} from '../../battle-service.mjs';
+import {listCanonicalRosters} from '../../canonical-2060-teams.mjs';
 const {Teams}=createRequire(import.meta.url)('pokemon-showdown');
 
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
@@ -58,12 +59,9 @@ test('A Luke group fixture opens the real manual Showdown Arena and survives rel
  // (Excadrite/Staraptite) have no actual Showdown form; choose one of
  // Luke's legitimate fixtures instead of assuming its first rival is legal.
  // This also validates the new server-side AUTO roster without pasting teams.
- const registry=await page.evaluate(async()=>{
-  const response=await fetch('/api/rosters/2060');
-  if(!response.ok)throw Error('Roster readiness unavailable');
-  return (await response.json()).trainers;
- });
- const ready=new Set(registry.filter(x=>x.available).map(x=>x.id));
+ // Resolve readiness inside the isolated Playwright test runner, not by
+ // bypassing browser account/session authentication for a private API.
+ const ready=new Set(listCanonicalRosters().filter(x=>x.available).map(x=>x.id));
  const rows=page.locator('#worldCupDraw tbody tr').filter({hasText:'Luke'});
  let chosen=-1;
  for(let i=0;i<await rows.count();i++){
