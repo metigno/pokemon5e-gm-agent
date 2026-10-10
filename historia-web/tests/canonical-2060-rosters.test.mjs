@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
-import {canonicalTeam,canonicalTeamExport,listCanonicalRosters} from '../canonical-2060-teams.mjs';
+import {canonicalTeam,canonicalTeamExport,listCanonicalRosters,canonicalDynamaxTarget} from '../canonical-2060-teams.mjs';
 import {parseTeamInput,describeTeam} from '../battle-service.mjs';
 
 const {Teams,Dex}=createRequire(import.meta.url)('pokemon-showdown');
@@ -69,4 +69,26 @@ test('Unsupported 2060 Mega Excadrill must fail closed, not quietly lose its sto
   assert.match(status.reason,/Excadrite/);
   assert.throws(()=>canonicalTeam('N'),/Excadrite/);
  }else assert.equal(Teams.unpack(canonicalTeam('N'))[4].item,'Excadrite');
+});
+
+test('All 32 2060 builds include ONE designated Dynamax/Gigamax user',()=>{
+ const registered=listCanonicalRosters().filter(x=>!['Lucas','Ronan Ward','Soren Veyr'].includes(x.id));
+ assert.equal(registered.length,32);
+ for(const trainer of registered){
+  if(!trainer.available)continue;
+  const target=canonicalDynamaxTarget(trainer.id);
+  assert.equal(target,trainer.designatedDynamax,trainer.id);
+  assert.ok(Teams.unpack(canonicalTeam(trainer.id)).some(mon=>mon.species===target),trainer.id);
+ }
+});
+
+test('G-Max in Mechanics field is not lost when species title omits Gigamax',()=>{
+ for(const [trainer,species] of [
+  ['Brendan','Cinderace'],['Blue','Machamp'],['Maxie','Venusaur'],
+  ['Astrid Vahl','Corviknight'],['Ayame Hoshino','Rillaboom'],['Orion Vale','Melmetal']
+ ]){
+  const sets=Teams.unpack(canonicalTeam(trainer));
+  assert.equal(sets.find(x=>x.species===species).gigantamax,true,trainer);
+  assert.equal(canonicalDynamaxTarget(trainer),species);
+ }
 });
