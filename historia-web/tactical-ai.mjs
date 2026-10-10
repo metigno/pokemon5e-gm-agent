@@ -136,8 +136,8 @@ function switchScore(own,bench,obs,profile) {
  if(obs.lastOwnMove===null&&obs.turn>0)score-=3;
  return score*profile.switching;
 }
-export function selectTacticalChoice(request,{side='p2',publicLog='',profile='balanced'}={}) {
- const choices=legalChoices(request);
+export function selectTacticalChoice(request,{side='p2',publicLog='',profile='balanced',dynamaxTarget=null}={}) {
+ const choices=legalChoices(request,{dynamaxTarget});
  if(!choices.length)return null;
  if(request.teamPreview)return choices[0];
  if(request.forceSwitch?.some(Boolean)) {
