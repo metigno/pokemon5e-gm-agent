@@ -6,6 +6,7 @@ import {loadHistoricalSeeding} from '../historia/src/seeding.mjs';
 import {applyAuthoritativeShowdownResult} from '../historia/src/showdown-bridge.mjs';
 import {recordBattle} from '../historia/src/tournament.mjs';
 import {resolveAiProfile} from './tactical-ai.mjs';
+import {getCanonicalShowdownTeam} from './canonical-teams.mjs';
 import {finalizedGroupStandings} from '../historia/src/schedule.mjs';
 import {createRoundOf16,advanceRound,crownChampion} from '../historia/src/knockout.mjs';
 
@@ -89,7 +90,13 @@ export class WorldCupSlots {
    const opponent=fixture.homeId==='Luke'?fixture.awayId:fixture.homeId;
    const opponentName=showdownTrainerName(opponent);
    if(!opponentName||opponentName==='Luke')throw Error('Nome sfidante non valido per Showdown');
-   const battle=await arena.create({sessionId:ownerKey,p1team,p2team,p2name:opponentName,mode,npcProfile});
+   // Tournament teams load directly from the trusted canonical 2060 roster.
+   // Explicit paired imports remain available for existing saved-test workflows.
+   if(Boolean(p1team)!==Boolean(p2team))throw Error('Importare entrambe le squadre oppure usare i roster 2060 automatici');
+   const auto=!p1team&&!p2team;
+   const home=auto?getCanonicalShowdownTeam('Luke'):p1team;
+   const away=auto?getCanonicalShowdownTeam(opponent):p2team;
+   const battle=await arena.create({sessionId:ownerKey,p1team:home,p2team:away,p2name:opponentName,mode,npcProfile,kind:'worldcup-what-if'});
    cup.matchBindings??={};
    cup.matchBindings[matchId]={battleId:battle.id,homeId:fixture.homeId,awayId:fixture.awayId,
     playerName:'Luke',opponentId:opponent,opponentName};
@@ -154,15 +161,18 @@ export class WorldCupSlots {
     if(!battle)throw Error('Battaglia NPC non recuperabile');
     return {slot:number,matchId,battle,resumed:true};
    }
-   // Never substitute practiceTeams. Empty or invalid imports are rejected by ArenaService.
-   if(typeof p1team!=='string'||!p1team.trim()||typeof p2team!=='string'||!p2team.trim())
-    throw Error('Importare entrambe le squadre Showdown dei due NPC');
+   // Never substitute practiceTeams. Use exact server-side canonical builds,
+   // or paired explicit imports for legacy tests/manual overrides.
+   if(Boolean(p1team)!==Boolean(p2team))throw Error('Importare entrambe le squadre oppure usare i roster 2060 automatici');
+   const auto=!p1team&&!p2team;
+   const homeTeam=auto?getCanonicalShowdownTeam(fixture.homeId):p1team;
+   const awayTeam=auto?getCanonicalShowdownTeam(fixture.awayId):p2team;
    const homeName=showdownTrainerName(fixture.homeId),awayName=showdownTrainerName(fixture.awayId);
    if(!homeName||!awayName||homeName===awayName)
     throw Error('Nomi allenatori Showdown ambigui');
    const battle=await arena.create({
     sessionId:ownerKey,mode:'auto',kind:'worldcup-what-if',
-    p1name:homeName,p2name:awayName,p1team,p2team,
+    p1name:homeName,p2name:awayName,p1team:homeTeam,p2team:awayTeam,
     p1profile:resolveAiProfile(fixture.homeId),
     npcProfile:resolveAiProfile(fixture.awayId)
    });
