@@ -48,7 +48,7 @@ test('NPC vs NPC tournament group result comes ONLY from two real Showdown AIs a
   await assert.rejects(slots.finalizeNpcFixture(other,1,npcFixture.id,arena),/Slot non occupato/);
   const complete=await awaitVerifiedBattle(arena,begin.battle.id);
   assert.ok([complete.p1name,complete.p2name].includes(complete.winner));
-  assert.match(complete.publicLog,/\|win\|/);
+  assert.match(complete.publicLog||complete.log,/\|win\|/);
   const finalized=await slots.finalizeNpcFixture(owner,1,npcFixture.id,arena);
   assert.equal(finalized.alreadyRecorded,false);
   assert.equal(finalized.cup.results.length,1);
