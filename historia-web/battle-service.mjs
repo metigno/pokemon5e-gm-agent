@@ -142,7 +142,7 @@ export class ArenaService {
  async writePending(b){
   // Private packed teams and the precise action ledger are NEVER returned to browsers.
   const data={version:1,id:b.id,ownerDigest:b.ownerDigest,mode:b.mode,npcProfile:b.npcProfile,
-   p1name:b.p1name,p1profile:b.p1profile,kind:b.kind,p2name:b.p2name,createdAt:b.createdAt,seed:b.seed,p1team:b.p1team,p2team:b.p2team,
+   p1name:b.p1name,p1profile:b.p1profile,kind:b.kind,p1dynamaxTarget:b.p1dynamaxTarget,p2dynamaxTarget:b.p2dynamaxTarget,p2name:b.p2name,createdAt:b.createdAt,seed:b.seed,p1team:b.p1team,p2team:b.p2team,
    actions:b.actions.slice(),publicLog:b.publicLog.slice(),requestId:b.requestId};
   const serialized=JSON.stringify(data);
   if(serialized.length>2200000)throw new Error('Registro battaglia oltre il limite');
@@ -175,7 +175,7 @@ export class ArenaService {
  snapshot(id) {
   const b=this.sessions.get(id);
   if(!b) return null;
-  return {id:b.id,mode:b.mode,publicField:buildReplayTimeline(b.publicLog.join('\n')).frames.at(-1)?.field||null,aiProfiles:{p1:b.p1profile||'luke',p2:b.npcProfile},kind:b.kind||'practice',format:'gen8customgame',status:b.status,p1name:b.p1name||'Luke',p2name:b.p2name,turn:b.turn,requestId:b.requestId,request:b.mode==='manual'&&b.awaitingSide==='p1'?b.privateRequest:null,p1roster:b.mode==='manual'?describeTeam(b.p1team):null,choices:b.mode==='manual'&&b.awaitingSide==='p1'?legalChoices(b.privateRequest):[],log:b.publicLog.slice(-800).join('\n'),winner:b.winner,error:b.error,createdAt:b.createdAt};
+  return {id:b.id,mode:b.mode,publicField:buildReplayTimeline(b.publicLog.join('\n')).frames.at(-1)?.field||null,aiProfiles:{p1:b.p1profile||'luke',p2:b.npcProfile},kind:b.kind||'practice',format:'gen8customgame',status:b.status,p1name:b.p1name||'Luke',p2name:b.p2name,turn:b.turn,requestId:b.requestId,request:b.mode==='manual'&&b.awaitingSide==='p1'?b.privateRequest:null,p1roster:b.mode==='manual'?describeTeam(b.p1team):null,choices:b.mode==='manual'&&b.awaitingSide==='p1'?legalChoices(b.privateRequest,{dynamaxTarget:b.p1dynamaxTarget}):[],log:b.publicLog.slice(-800).join('\n'),winner:b.winner,error:b.error,createdAt:b.createdAt};
  }
  async load(id) {
   const live=this.sessions.get(id);
@@ -245,6 +245,7 @@ export class ArenaService {
    throw new Error('Comandi di recupero non validi');
   const b={id:journal.id,mode:journal.mode,npcProfile:journal.npcProfile,ownerDigest:journal.ownerDigest,
     p1name:journal.p1name||'Luke',p1profile:journal.p1profile||'luke',kind:journal.kind||'practice',
+    p1dynamaxTarget:journal.p1dynamaxTarget||null,p2dynamaxTarget:journal.p2dynamaxTarget||null,
    p2name:journal.p2name,createdAt:journal.createdAt,seed:journal.seed,p1team:journal.p1team,
    p2team:journal.p2team,actions:journal.actions,publicLog:[],status:'active',turn:0,requestId:0,
    awaitingSide:null,privateRequest:null,winner:null,error:null,pendingWrites:Promise.resolve(),stopped:false};
@@ -269,7 +270,8 @@ export class ArenaService {
   }
  }
  async create({mode='manual',p1team,p2team,p1name='Luke',p2name='NPC',practice=false,
-  sessionId=null,official=false,p1profile='luke',npcProfile='balanced',kind='practice'}={}){
+  sessionId=null,official=false,p1profile='luke',npcProfile='balanced',kind='practice',
+  p1dynamaxTarget=null,p2dynamaxTarget=null}={}){
   if(official)throw new Error('Partite ufficiali non disponibili: qualificati e regolamento canonico incompleti');
   if(!VALID_MODES.has(mode))throw new Error('Modalità non valida');
    if(typeof npcProfile!=='string'||!Object.hasOwn(AI_PROFILES,npcProfile)||
@@ -285,12 +287,20 @@ export class ArenaService {
   }
   p1team=parseTeamInput(p1team,{teamLabel:p1name});
   p2team=parseTeamInput(p2team,{teamLabel:p2name});
+  const confirmTarget=(team,target,label)=>{
+   if(target==null)return null;
+   if(typeof target!=='string'||!target.trim()||!Teams.unpack(team).some(m=>m.species===target))
+    throw new Error('Dynamax designato non presente nel team '+label);
+   return target;
+  };
+  p1dynamaxTarget=confirmTarget(p1team,p1dynamaxTarget,p1name);
+  p2dynamaxTarget=confirmTarget(p2team,p2dynamaxTarget,p2name);
   const active=[...this.sessions.values()].filter(b=>b.status==='active');
   if(active.length>=24)throw new Error('Limite battaglie simultanee del server');
   if(active.filter(b=>b.ownerDigest===ownerDigest(sessionId)).length>=2)
    throw new Error('Limite di due battaglie attive per sessione');
   const b={id:randomUUID(),mode,npcProfile:resolveAiProfile(npcProfile),ownerDigest:ownerDigest(sessionId),
-   p1name,p1profile:resolveAiProfile(p1profile),kind,p2name,createdAt:new Date().toISOString(),seed:randomSeed(),p1team,p2team,actions:[],
+   p1name,p1profile:resolveAiProfile(p1profile),kind,p1dynamaxTarget,p2dynamaxTarget,p2name,createdAt:new Date().toISOString(),seed:randomSeed(),p1team,p2team,actions:[],
    status:'active',turn:0,requestId:0,awaitingSide:null,privateRequest:null,publicLog:[],
    winner:null,error:null,pendingWrites:Promise.resolve(),stopped:false};
   await this.writePending(b);
@@ -388,7 +398,9 @@ export class ArenaService {
       b.awaitingSide='p1';
      }else{
       const choice=selectTacticalChoice(request,{side,publicLog:b.publicLog.join('\n'),
-       profile:side==='p1'?b.p1profile:b.npcProfile})||selectAiFallback(request);
+       profile:side==='p1'?b.p1profile:b.npcProfile,
+        dynamaxTarget:side==='p1'?b.p1dynamaxTarget:b.p2dynamaxTarget})||
+        selectAiFallback(request,{dynamaxTarget:side==='p1'?b.p1dynamaxTarget:b.p2dynamaxTarget});
       if(choice)await this.recordChoice(b,side,choice,request);
      }
     }
@@ -404,7 +416,7 @@ export class ArenaService {
   if(!b||b.status!=='active'||b.mode!=='manual'||b.awaitingSide!=='p1')
    throw new Error('Nessuna scelta manuale disponibile');
   if(!Number.isInteger(requestId)||requestId!==b.requestId)throw new Error('Richiesta obsoleta');
-  validateChoice(b.privateRequest,choice);
+  validateChoice(b.privateRequest,choice,{dynamaxTarget:b.p1dynamaxTarget});
   const request=b.privateRequest;
   b.awaitingSide=null;b.privateRequest=null;
   await this.recordChoice(b,'p1',choice,request);
