@@ -10,6 +10,7 @@ const ownerFolder=ownerKey=>{
  if(typeof ownerKey!=='string'||ownerKey.length<16)throw Error('Identità del salvataggio non valida');
  return createHash('sha256').update(ownerKey).digest('hex');
 };
+export const showdownTrainerName=name=>String(name).replace(/[^\p{L}\p{N} ._'-]/gu,' ').replace(/\s+/g,' ').trim().slice(0,40);
 const slotNumber=value=>{
  const slot=Number(value);
  if(!Number.isInteger(slot)||slot<1||slot>3)throw Error('Slot deve essere 1, 2 o 3');
@@ -75,10 +76,12 @@ export class WorldCupSlots {
     return {slot:number,matchId,battle,resumed:true};
    }
    const opponent=fixture.homeId==='Luke'?fixture.awayId:fixture.homeId;
-   const battle=await arena.create({sessionId:ownerKey,p1team,p2team,p2name:opponent,mode,npcProfile});
+   const opponentName=showdownTrainerName(opponent);
+   if(!opponentName||opponentName==='Luke')throw Error('Nome sfidante non valido per Showdown');
+   const battle=await arena.create({sessionId:ownerKey,p1team,p2team,p2name:opponentName,mode,npcProfile});
    cup.matchBindings??={};
    cup.matchBindings[matchId]={battleId:battle.id,homeId:fixture.homeId,awayId:fixture.awayId,
-    playerName:'Luke',opponentName:opponent};
+    playerName:'Luke',opponentId:opponent,opponentName};
    await store.write(number,cup,{createdAt:loaded.meta?.createdAt,updatedAt:new Date().toISOString()});
    return {slot:number,matchId,battle,resumed:false};
   });
@@ -94,14 +97,15 @@ export class WorldCupSlots {
    const bound=cup.matchBindings?.[matchId];
    if(!bound||fixture.status!=='scheduled')throw Error('Avvia prima l’incontro Luke dallo slot');
    if(bound.homeId!==fixture.homeId||bound.awayId!==fixture.awayId||
-      bound.playerName!=='Luke'||bound.opponentName!==(fixture.homeId==='Luke'?fixture.awayId:fixture.homeId))
+      bound.playerName!=='Luke'||bound.opponentId!==(fixture.homeId==='Luke'?fixture.awayId:fixture.homeId)||
+      bound.opponentName!==showdownTrainerName(bound.opponentId)
     throw Error('Associazione partita non coerente');
    if(!await arena.ownsBattle(bound.battleId,ownerKey))throw Error('Battaglia non appartenente allo slot');
    const completed=await arena.load(bound.battleId);
    if(completed?.status!=='complete'||!completed.publicLog||
       completed.p1name!=='Luke'||completed.p2name!==bound.opponentName||
       completed.winner===null)throw Error('Risultato Showdown verificato non ancora disponibile');
-   const names={Luke:'Luke',[bound.opponentName]:bound.opponentName};
+   const names={Luke:'Luke',[bound.opponentId]:bound.opponentName};
    const battleId='battle-'+bound.battleId;
    const next=applyAuthoritativeShowdownResult(cup.schedule,matchId,{
     battleId,log:completed.publicLog,playerNames:names,verifiedByServer:true
