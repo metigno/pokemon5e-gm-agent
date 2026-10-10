@@ -25,12 +25,12 @@ export function getCanonicalShowdownTeam(name){
  if(!canonical)throw Error('Roster 2060 non disponibile per '+name);
  try{
   const source=byName.get(canonical);
-  const sourceSets=source.split(/\\n\\n/);
+  const sourceSets=source.split(/\n\n/);
   if(sourceSets.length!==6)throw Error('Il documento deve avere sei Pokémon');
   const packed=parseTeamInput(source,{teamLabel:canonical});
   const accepted=Teams.unpack(packed);
   for(let i=0;i<6;i++){
-   const header=sourceSets[i].split('\\n')[0];
+   const header=sourceSets[i].split('\n')[0];
    const match=header.match(/^(.+?) @ (.+)$/);
    if(!match)throw Error('Intestazione squadra incompleta');
    const expectedItem=match[2],actualItem=accepted[i]?.item||'';
