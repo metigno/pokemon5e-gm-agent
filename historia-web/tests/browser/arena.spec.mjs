@@ -49,6 +49,28 @@ async function withoutRemoteSprites(page){
 }
 
 
+test('2060 what-if seeding uses three private slots and persists identical groups after browser reload',async({page})=>{
+ await withoutRemoteSprites(page);
+ await page.goto('/');
+ await page.locator('nav button[data-view="tournament"]').click();
+ await expect(page.locator('#worldCupSlotList button')).toHaveCount(3);
+ await expect(page.locator('#worldCupSlotList')).toContainText('Nuova simulazione 2060');
+ await page.locator('#worldCupSlotList button').first().click();
+ await expect(page.locator('#worldCupDraw')).toContainText('Simulazione 2060');
+ await expect(page.locator('#worldCupDraw')).toContainText('Girone H');
+ await expect(page.locator('#worldCupDraw tbody tr')).toHaveCount(48);
+ const edition=(await page.locator('#worldCupDraw h3').first().textContent());
+ const draw=await page.locator('#worldCupDraw').textContent();
+ await page.reload();
+ await page.locator('nav button[data-view="tournament"]').click();
+ await expect(page.locator('#worldCupSlotList')).toContainText('Continua 2060');
+ await page.locator('#worldCupSlotList button').first().click();
+ await expect(page.locator('#worldCupDraw h3').first()).toHaveText(edition);
+ expect(await page.locator('#worldCupDraw').textContent()).toBe(draw);
+ const allButtons=await page.locator('#worldCupSlotList button').allTextContents();
+ expect(allButtons.filter(text=>text.includes('Nuova simulazione'))).toHaveLength(2);
+});
+
 test('Classic Showdown perspective uses back sprite for Luke and front sprite for NPC on desktop and mobile',async({page})=>{
  const gif=Buffer.from('R0lGODlhAQABAAD/ACwAAAAAAQABAAACAUwAOw==','base64');
  await page.route('https://play.pokemonshowdown.com/sprites/**',route=>route.fulfill({status:200,contentType:'image/gif',body:gif}));

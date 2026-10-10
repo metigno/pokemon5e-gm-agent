@@ -10,6 +10,7 @@ import {prepareStorage,probeStorage} from './storage.mjs';
 import {ArenaService,parseTeamInput,describeTeam,exportTeamInput} from './battle-service.mjs';
 import {buildReplayTimeline,renderTechnicalReport} from './replay-timeline.mjs';
 import {loadHistoricalSeeding} from '../historia/src/seeding.mjs';
+import {WorldCupSlots} from './worldcup-service.mjs';
 
 const root=new URL('./',import.meta.url);
 const port=Number(process.env.PORT||3000);
@@ -20,6 +21,7 @@ await prepareStorage({directory:dataDir,production:process.env.NODE_ENV==='produ
 const authConfig=authConfiguration();
 const accountAuth=authConfig.enabled?new AccountAuth(join(dataDir,'auth')):null;
 const arena=new ArenaService(join(dataDir,'battles'));
+const worldCupSlots=new WorldCupSlots(join(dataDir,'worldcup-slots'));
 const sessions=new Map(),replays=new Map(),sessionBattles=new Map();
 const cachePut=(map,key,value)=>{
  map.delete(key);map.set(key,value);
@@ -157,6 +159,24 @@ export function handler(req,res){
  if(req.method==='GET'&&path==='/api/competition'){
   const ranking=loadHistoricalSeeding();
   json(res,200,{year:2060,canonicalThrough:2056,qualifiersConfirmed:false,groups:null,schedule:null,rankingAsOf:ranking.asOf,ranking:ranking.ranking});return;
+ }
+ if(req.method==='GET'&&path==='/api/worldcup/slots'){
+  routeAsync(res,async()=>json(res,200,{slots:await worldCupSlots.list(await readSession(req)),official:false,
+   scenario:'historical-seeding-2056',qualifiersConfirmed:false}));return;
+ }
+ const cupRoute=path.match(/^\/api\/worldcup\/slots\/([1-3])(?:\/(new-historical-hypothesis))?$/);
+ if(cupRoute){
+  const slot=Number(cupRoute[1]),newDraw=!!cupRoute[2];
+  if(req.method==='GET'&&!newDraw){routeAsync(res,async()=>{
+   const loaded=await worldCupSlots.load(await readSession(req),slot);
+   if(!loaded){json(res,404,{error:'Slot non occupato'});return;}
+   json(res,200,{slot,...loaded});});return;
+  }
+  if(req.method==='POST'&&newDraw){routeAsync(res,async()=>{
+   const body=await readBody(req),owner=await readSession(req);
+   if(body.acknowledgeProvisional!==true){json(res,400,{error:'Confermare che questo sorteggio è una simulazione non canonica'});return;}
+   json(res,201,await worldCupSlots.newHistoricalHypothesis(owner,slot));});return;
+  }
  }
  if(req.method==='GET'&&path==='/api/session'){routeAsync(res,async()=>{const id=await readSession(req);json(res,200,{lastBattleId:await lastBattle(id)});});return;}
  if(req.method==='GET'&&path==='/api/teams'){
