@@ -8,7 +8,7 @@ const activeSpecies=request=>{
  const raw=(request.side?.pokemon||[]).find(p=>p.active)?.details;
  return typeof raw==='string'?raw.split(',')[0].toLowerCase().replace(/[^a-z0-9]/g,''):'';
 };
-export function legalChoices(request) {
+export function legalChoices(request,{dynamaxTarget=null}={}) {
  if (!request || typeof request !== 'object') throw new Error('Richiesta Showdown mancante');
  if (request.wait) return [];
  const team = request.side?.pokemon || [];
@@ -25,19 +25,21 @@ export function legalChoices(request) {
   const base = 'move '+(i+1);
   const allowed = [base];
   if (active.canMegaEvo) allowed.push(base+' mega');
-  if (active.canDynamax && !noDynamax.has(activeSpecies(request))) allowed.push(base+' dynamax');
+  if (active.canDynamax && !noDynamax.has(activeSpecies(request)) &&
+      (!dynamaxTarget||activeSpecies(request)===String(dynamaxTarget).toLowerCase().replace(/[^a-z0-9]/g,'')))
+   allowed.push(base+' dynamax');
   // Z-moves, Terastallization and G-Max are never surfaced by Historia.
   return allowed;
  });
  return [...moves,...(active.trapped ? [] : switches)];
 }
-export function validateChoice(request,choice) {
- if (typeof choice !== 'string' || !legalChoices(request).includes(choice))
+export function validateChoice(request,choice,options={}) {
+ if (typeof choice !== 'string' || !legalChoices(request,options).includes(choice))
   throw new Error('Comando non legale per il turno corrente');
  return choice;
 }
-export function selectAiFallback(request) {
- const choices=legalChoices(request);
+export function selectAiFallback(request,options={}) {
+ const choices=legalChoices(request,options);
  if (!choices.length) return null;
  // No opponent-private state. Pick the first ordinary usable move, otherwise switch.
  return choices.find(x=>/^move \d+$/.test(x)) || choices[0];
