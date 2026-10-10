@@ -125,7 +125,7 @@ test('Real Showdown Gmax signal without -formechange changes spectator sprite an
   '|turn|2',
   '|-end|p1a: Blastoise|Dynamax',
   '|win|Luke'
- ].join('\\n');
+ ].join('\n');
  const battle=buildReplayTimeline(log);
  assert.equal(battle.frames[1].field.p1.species,'Blastoise-Gmax');
  assert.equal(battle.frames[1].field.p1.gigantamax,true);
