@@ -15,10 +15,22 @@ label{display:block;margin:12px 0 5px;color:#d7e0f1;font-size:.9rem}pre{backgrou
 button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px solid var(--gold)}.actions{display:flex;flex-wrap:wrap;gap:8px;margin:13px 0}.choice{background:#1d4278}.choice.mega{border-color:#e5bc62}.choice.dynamax{border-color:#b776da}
 .replay-controls{display:flex;flex-wrap:wrap;align-items:center;gap:8px}.replay-controls input[type=range]{flex:1;min-width:130px;accent-color:var(--gold)}.replay-events{max-height:290px;overflow-y:auto;background:#090f1e;border:1px solid var(--edge);border-radius:8px;padding:12px}.replay-events .entry{font-size:.89rem}.pokemon progress{width:100%;max-width:160px;height:11px;accent-color:#70c289}[hidden]{display:none!important}
 #sessionCode{overflow-wrap:anywhere}
-#messages{height:360px;overflow-y:auto;background:#090f1e;padding:13px;border-radius:8px;white-space:pre-wrap}.entry{padding:10px 0;border-bottom:1px solid #2b3d56}.entry b{color:var(--gold)}.arena{display:grid;grid-template-columns:1fr 1fr;gap:12px;background:radial-gradient(ellipse at center,#244475,#081323 75%);border:1px solid #334f70;padding:16px;min-height:230px;border-radius:12px}
-.pokemon{display:flex;min-width:0;width:100%;overflow-wrap:anywhere;flex-direction:column;align-items:center;justify-content:center;gap:7px;text-align:center;font-weight:600}.pokemon img{width:112px;height:112px;object-fit:contain;image-rendering:auto;filter:drop-shadow(0 10px 12px #0008);animation:float 2s ease-in-out infinite alternate}@keyframes float{to{transform:translateY(-8px)}}
+#messages{height:360px;overflow-y:auto;background:#090f1e;padding:13px;border-radius:8px;white-space:pre-wrap}.entry{padding:10px 0;border-bottom:1px solid #2b3d56}.entry b{color:var(--gold)}.arena{position:relative;isolation:isolate;overflow:hidden;height:clamp(340px,44vw,460px);border:1px solid #59856d;border-radius:12px;background:linear-gradient(180deg,#739cbc 0%,#c4d9d3 47%,#91af80 48%,#4e7556 100%)}
+.arena::before{content:"";position:absolute;z-index:-1;inset:47% -10% -20%;background:radial-gradient(ellipse at 50% 12%,#b8c99588,transparent 70%),repeating-linear-gradient(174deg,#ffffff0c 0 2px,transparent 2px 34px);transform:perspective(350px) rotateX(32deg)}
+.arena::after{content:"";position:absolute;z-index:-1;inset:47% 0 auto;height:2px;background:#e3f5d366}
+.pokemon{position:absolute;width:62%;height:47%;min-width:0;overflow-wrap:anywhere;font-weight:600}
+.pokemon--opponent{top:2%;right:2%}.pokemon--player{bottom:2%;left:2%}
+.pokemon::before{content:"";position:absolute;bottom:2%;width:82%;height:28%;border-radius:50%;background:radial-gradient(ellipse,#c6dca0 0 45%,#87a874 64%,#486c52 83%,#38573f 100%);box-shadow:0 8px 14px #233e3455}
+.pokemon--opponent::before{right:2%;transform:scale(.85)}.pokemon--player::before{left:2%}
+.pokemon img{position:absolute;z-index:2;bottom:9%;width:40%;max-width:190px;height:77%;object-fit:contain;image-rendering:auto;filter:drop-shadow(0 10px 12px #0008);animation:float 2s ease-in-out infinite alternate}
+.pokemon--opponent img{right:14%}.pokemon--player img{left:14%}
+.combat-hud{position:absolute;z-index:3;display:flex;flex-direction:column;gap:4px;width:51%;padding:9px 10px;border:1px solid #7e9fbe;border-radius:9px;background:#091629de;box-shadow:0 5px 16px #11284066;text-align:left;font-size:.85rem}
+.combat-hud span{display:block}.combat-hud .info{line-height:1.3;font-size:.76rem}.combat-hud progress{width:100%;max-width:none;height:11px}
+.pokemon--opponent .combat-hud{top:5%;left:-43%}.pokemon--player .combat-hud{bottom:5%;left:94%}
+@keyframes float{to{transform:translateY(-8px)}}
  .info{font-size:.84rem;color:#bdcfea}.move-meta{font-size:.76rem;display:block;color:#e1e9fa}.team-preview{margin:10px 0;white-space:pre-wrap;font-size:.83rem;overflow-wrap:anywhere}.choice{min-width:120px;flex:1 1 40%}.switch-choice{background:#315173}.ribbon{border-left:3px solid var(--gold);padding-left:12px;margin:16px 0}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:.87rem}th,td{padding:9px;border-bottom:1px solid #30445f;text-align:left}th{color:var(--gold)}.notice{border:1px dashed #6f7791;padding:12px;border-radius:8px;color:#d0d9ea;font-size:.91rem}
-@media(max-width:800px){.grid{grid-template-columns:1fr}header{position:static}.panel{padding:14px}.pokemon img{width:86px;height:86px}.arena{min-height:180px}button{min-height:44px}#messages{height:270px}}
+@media(max-width:800px){.grid{grid-template-columns:1fr}header{position:static}.panel{padding:14px}.arena{height:360px}.pokemon img{width:46%;height:68%}.combat-hud{font-size:.76rem;padding:7px}.combat-hud .info{font-size:.69rem}button{min-height:44px}#messages{height:270px}}
+@media(max-width:390px){.arena{height:330px}.combat-hud{width:56%}.pokemon--opponent .combat-hud{left:-45%}.pokemon--player .combat-hud{left:90%}}
 @media(prefers-reduced-motion:reduce){.pokemon img{animation:none}}
 </style></head><body>
 <header><h1>POKÉMON <span class="gold">GPT HISTORIA</span></h1><p>WORLD CHAMPIONSHIP 2060 · Il mondo guarda · canon fino al 2056</p>
@@ -42,7 +54,7 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px soli
 </div>
 <div class="panel" id="legacySession"><h3>Sessione Historia personale (accesso sperimentale)</h3><p class="muted">Conserva questo codice riservato per recuperare chat e ultimo replay su un altro dispositivo. Chi conosce il codice può accedere alla sessione: non è un sistema di autenticazione.</p><code id="sessionCode"></code><div class="actions"><button id="copySession">Copia codice</button></div><label for="restoreSession">Riprendi un'altra sessione</label><input id="restoreSession" placeholder="Incolla qui il codice conservato"><button id="loadSession">Riprendi sessione</button></div></div></section>
 <section id="arena" class="view"><div class="grid">
-<div><div class="panel"><div class="eyebrow">Pokémon Showdown · live</div><h2>Campo di battaglia</h2><div class="arena"><div class="pokemon"><span id="p2name">NPC</span><img id="p2sprite" alt="Pokémon attivo NPC" hidden><span id="p2active" class="info">In attesa</span><progress id="p2hp" max="100" value="100" hidden aria-label="PS Pokémon avversario"></progress></div><div class="pokemon"><span>Luke</span><img id="p1sprite" alt="Pokémon attivo Luke" hidden><span id="p1active" class="info">In attesa</span><progress id="p1hp" max="100" value="100" hidden aria-label="PS Pokémon Luke"></progress></div></div><p id="battleStatus" class="ribbon" aria-live="polite">Nessuna battaglia avviata</p><p id="ownEquipment" class="info" aria-live="polite"></p><div id="choices" class="actions" aria-label="Scelte di battaglia"></div><h3>Protocollo Showdown</h3><pre id="battleLog" role="log" aria-live="polite">Avvia una battaglia per ricevere il log autentico.</pre><div class="actions"><button id="openReplay" disabled>Riproduci replay</button><button id="openAnalysis" disabled>Analisi tecnica verificata</button><button id="postAnalysis" disabled>Commento del Master AI</button></div></div>
+<div><div class="panel"><div class="eyebrow">Pokémon Showdown · live</div><h2>Campo di battaglia</h2><div class="arena" role="group" aria-label="Campo di battaglia in prospettiva classica"><div class="pokemon pokemon--opponent" data-facing="front"><div class="combat-hud"><span id="p2name">NPC</span><span id="p2active" class="info">In attesa</span><progress id="p2hp" max="100" value="100" hidden aria-label="PS Pokémon avversario"></progress></div><img id="p2sprite" alt="Pokémon avversario visto frontalmente" hidden></div><div class="pokemon pokemon--player" data-facing="back"><div class="combat-hud"><span>Luke</span><span id="p1active" class="info">In attesa</span><progress id="p1hp" max="100" value="100" hidden aria-label="PS Pokémon Luke"></progress></div><img id="p1sprite" alt="Pokémon di Luke visto di spalle" hidden></div></div><p id="battleStatus" class="ribbon" aria-live="polite">Nessuna battaglia avviata</p><p id="ownEquipment" class="info" aria-live="polite"></p><div id="choices" class="actions" aria-label="Scelte di battaglia"></div><h3>Protocollo Showdown</h3><pre id="battleLog" role="log" aria-live="polite">Avvia una battaglia per ricevere il log autentico.</pre><div class="actions"><button id="openReplay" disabled>Riproduci replay</button><button id="openAnalysis" disabled>Analisi tecnica verificata</button><button id="postAnalysis" disabled>Commento del Master AI</button></div></div>
 <div id="replayPanel" class="panel" hidden>
 <div class="eyebrow">Showdown · registrazione pubblica</div><h2>Replay turno per turno</h2>
 <div class="replay-controls"><button id="replayPrev" aria-label="Turno precedente">◀</button><button id="replayPlay" aria-label="Avvia riproduzione">▶ Riproduci</button><button id="replayNext" aria-label="Turno successivo">▶</button><button id="replayClose">Chiudi replay</button></div>
@@ -162,7 +174,7 @@ async function begin(practice){$('arenaError').textContent='';try{const data=pra
 $('practice').addEventListener('click',()=>begin(true));$('customBattle').addEventListener('click',()=>begin(false));
 function render(b){lastBattle=b;$('battleStatus').textContent=b.status==='complete'?'Vittoria confermata Showdown: '+b.winner:b.status==='tie'?'Pareggio confermato':b.status==='error'?'Errore: '+b.error:'Turno '+(b.turn||'iniziale')+' · '+(b.mode==='manual'?'Luke vs AI':'AI vs AI')+' · Stile NPC: '+(b.aiProfiles?.p2||'bilanciato')+' · '+b.status;
  $('p2name').textContent=b.p2name||'NPC';$('battleLog').textContent=b.log||'Attesa del primo evento…';$('battleLog').scrollTop=$('battleLog').scrollHeight;
- if(b.publicField){for(const side of ['p1','p2'])showReplayPokemon(side,b.publicField[side]);}else{const lines=(b.log||'').split('\n');for(const side of ['p1','p2']){const entry=[...lines].reverse().find(x=>x.startsWith('|switch|'+side+'a:')||x.startsWith('|drag|'+side+'a:'));if(!entry)continue;const name=entry.split('|')[2].split(': ').slice(1).join(': ');$(side+'active').textContent=name;const img=$(side+'sprite'),id=name.toLowerCase().replace(/[^a-z0-9-]/g,'');if(id){img.src='https://play.pokemonshowdown.com/sprites/ani/'+encodeURIComponent(id)+'.gif';img.hidden=false;img.onerror=()=>{img.hidden=true;};}}}
+ if(b.publicField){for(const side of ['p1','p2'])showReplayPokemon(side,b.publicField[side]);}else{const lines=(b.log||'').split('\n');for(const side of ['p1','p2']){const entry=[...lines].reverse().find(x=>x.startsWith('|switch|'+side+'a:')||x.startsWith('|drag|'+side+'a:'));if(!entry)continue;const parts=entry.split('|');const name=(parts[2]||'').split(': ').slice(1).join(': ');const species=(parts[3]||'').split(',')[0].trim()||name;$(side+'active').textContent=name||species;setBattleSprite(side,species);}}
  const own=b.mode==='manual'?(b.request?.side?.pokemon||[]).find(mon=>mon.active):null;
  const roster=b.p1roster||[];
  $('ownEquipment').textContent=own?'Strumento: '+(own.item||'nessuno')+' · Abilità: '+(own.ability||own.baseAbility||'non nota'):'';
@@ -203,6 +215,25 @@ function closeReplay(){
  for(const side of ['p1','p2'])$(side+'hp').hidden=true;
  if(lastBattle)render(lastBattle);
 }
+function setBattleSprite(side,species){
+ const img=$(side+'sprite');
+ const id=String(species||'').toLowerCase().replace(/[^a-z0-9-]/g,'');
+ if(!id){img.hidden=true;img.removeAttribute('src');delete img.dataset.spriteKey;return;}
+ const key=side+':'+id;
+ if(img.dataset.spriteKey!==key){
+  img.dataset.spriteKey=key;img.dataset.spriteStage='animated';
+  const back=side==='p1';
+  img.onerror=()=>{
+   if(img.dataset.spriteKey!==key)return;
+   if(img.dataset.spriteStage==='animated'){
+    img.dataset.spriteStage='static';
+    img.src='https://play.pokemonshowdown.com/sprites/'+(back?'gen5-back/':'gen5/')+encodeURIComponent(id)+'.png';
+   }else{img.dataset.spriteStage='missing';img.hidden=true;}
+  };
+  img.src='https://play.pokemonshowdown.com/sprites/'+(back?'ani-back/':'ani/')+encodeURIComponent(id)+'.gif';
+ }
+ img.hidden=img.dataset.spriteStage==='missing';
+}
 function showReplayPokemon(side,mon){
  const label=$(side+'active'),img=$(side+'sprite'),bar=$(side+'hp');
  if(!mon?.species){label.textContent='Non ancora schierato';img.hidden=true;bar.hidden=true;return;}
@@ -211,9 +242,7 @@ function showReplayPokemon(side,mon){
   (mon.status?' · '+mon.status:'')+(mon.mega?' · MEGA':'')+(mon.dynamax?(mon.gigantamax?' · GIGAMAX':' · DYNAMAX'):'')+
   (mon.fainted?' · KO':'');
  bar.max=100;bar.hidden=mon.hp===null;if(mon.hp!==null)bar.value=mon.hp;
- const id=(mon.species||'').toLowerCase().replace(/[^a-z0-9-]/g,'');
- img.hidden=!id;
- if(id){const url='https://play.pokemonshowdown.com/sprites/ani/'+encodeURIComponent(id)+'.gif';if(img.src!==url)img.src=url;img.onerror=()=>{img.hidden=true;};}
+  setBattleSprite(side,mon.species);
 }
 function renderFrame(index){
  const frames=replayData?.timeline?.frames||[];

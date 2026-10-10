@@ -48,6 +48,37 @@ async function withoutRemoteSprites(page){
  await page.route('https://play.pokemonshowdown.com/**',route=>route.abort());
 }
 
+
+test('Classic Showdown perspective uses back sprite for Luke and front sprite for NPC on desktop and mobile',async({page})=>{
+ const gif=Buffer.from('R0lGODlhAQABAAD/ACwAAAAAAQABAAACAUwAOw==','base64');
+ await page.route('https://play.pokemonshowdown.com/sprites/**',route=>route.fulfill({status:200,contentType:'image/gif',body:gif}));
+ await page.goto('/');
+ await page.locator('nav button[data-view="arena"]').click();
+ await page.evaluate(()=>{
+  showReplayPokemon('p1',{name:'ACE',species:'Arcanine-Hisui',hp:87,status:'',mega:false,dynamax:false,fainted:false});
+  showReplayPokemon('p2',{name:'Blastoise',species:'Blastoise-Gmax',hp:53,status:'',mega:false,dynamax:true,gigantamax:true,fainted:false});
+ });
+ await expect(page.locator('.pokemon--player')).toHaveAttribute('data-facing','back');
+ await expect(page.locator('.pokemon--opponent')).toHaveAttribute('data-facing','front');
+ await expect(page.locator('#p1sprite')).toHaveAttribute('src',/\/sprites\/ani-back\/arcanine-hisui\.gif$/);
+ await expect(page.locator('#p2sprite')).toHaveAttribute('src',/\/sprites\/ani\/blastoise-gmax\.gif$/);
+ expect(await page.locator('#p1hp').evaluate(el=>el.value)).toBe(87);
+ expect(await page.locator('#p2hp').evaluate(el=>el.value)).toBe(53);
+ for(const width of [1280,375]){
+  await page.setViewportSize({width,height:812});
+  const positions=await page.evaluate(()=>{
+   const a=document.querySelector('.arena').getBoundingClientRect();
+   const p1=document.querySelector('#p1sprite').getBoundingClientRect();
+   const p2=document.querySelector('#p2sprite').getBoundingClientRect();
+   return {x1:p1.x+p1.width/2,y1:p1.y+p1.height/2,x2:p2.x+p2.width/2,y2:p2.y+p2.height/2,pageWidth:document.documentElement.scrollWidth,viewport:document.documentElement.clientWidth,arenaHeight:a.height};
+  });
+  expect(positions.x1).toBeLessThan(positions.x2);
+  expect(positions.y1).toBeGreaterThan(positions.y2);
+  expect(positions.pageWidth).toBeLessThanOrEqual(positions.viewport+2);
+  expect(positions.arenaHeight).toBeGreaterThan(300);
+ }
+});
+
 test('Desktop and touch mobile show a usable Arena without horizontal page overflow',async({page},testInfo)=>{
  await withoutRemoteSprites(page);
  await page.goto('/');
