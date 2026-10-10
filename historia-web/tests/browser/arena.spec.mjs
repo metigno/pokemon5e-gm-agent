@@ -50,7 +50,7 @@ async function withoutRemoteSprites(page){
 
 
 test('Classic Showdown perspective uses back sprite for Luke and front sprite for NPC on desktop and mobile',async({page})=>{
- const gif=Buffer.from('R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=','base64');
+ const gif=Buffer.from('R0lGODlhAQABAAD/ACwAAAAAAQABAAACAUwAOw==','base64');
  await page.route('https://play.pokemonshowdown.com/sprites/**',route=>route.fulfill({status:200,contentType:'image/gif',body:gif}));
  await page.goto('/');
  await page.locator('nav button[data-view="arena"]').click();
@@ -62,8 +62,8 @@ test('Classic Showdown perspective uses back sprite for Luke and front sprite fo
  await expect(page.locator('.pokemon--opponent')).toHaveAttribute('data-facing','front');
  await expect(page.locator('#p1sprite')).toHaveAttribute('src',/\/sprites\/ani-back\/arcanine-hisui\.gif$/);
  await expect(page.locator('#p2sprite')).toHaveAttribute('src',/\/sprites\/ani\/blastoise-gmax\.gif$/);
- await expect(page.locator('#p1hp')).toHaveValue('87');
- await expect(page.locator('#p2hp')).toHaveValue('53');
+ expect(await page.locator('#p1hp').evaluate(el=>el.value)).toBe(87);
+ expect(await page.locator('#p2hp').evaluate(el=>el.value)).toBe(53);
  for(const width of [1280,375]){
   await page.setViewportSize({width,height:812});
   const positions=await page.evaluate(()=>{
