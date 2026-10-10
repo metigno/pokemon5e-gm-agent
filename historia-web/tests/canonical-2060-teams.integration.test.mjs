@@ -6,6 +6,7 @@ import {join} from 'node:path';
 import {tmpdir} from 'node:os';
 import {availableCanonicalTrainers,getCanonicalShowdownTeam} from '../canonical-teams.mjs';
 import {ArenaService,practiceTeams,validatePackedTeam} from '../battle-service.mjs';
+import {buildReplayTimeline} from '../replay-timeline.mjs';
 
 const {Teams}=createRequire(import.meta.url)('pokemon-showdown');
 const delay=ms=>new Promise(r=>setTimeout(r,ms));
@@ -61,7 +62,7 @@ test('gen8customgame actually offers Mega Venusaur AND Blastoise Gigantamax in t
  const arena=new ArenaService(path);
  const base=Teams.unpack(getCanonicalShowdownTeam('Luke'));
  try{
-  for(const [species,special,expected] of [['Venusaur','mega',/\|-mega\|/],['Blastoise','dynamax',/\|-dynamax\|/]]){
+  for(const [species,special,expected] of [['Venusaur','mega',/\|-mega\|/],['Blastoise','dynamax',/\|-start\|p1a: Blastoise\|Dynamax\|Gmax/]]){
    const idx=base.findIndex(x=>x.species===species);
    const arr=[base[idx],...base.filter((_,i)=>i!==idx)];
    const match=await arena.create({mode:'manual',sessionId:'canon'+species+'-owner-unique',p1team:Teams.export(arr),p2team:practiceTeams().p2,p2name:'Test Rival'});
@@ -77,7 +78,10 @@ test('gen8customgame actually offers Mega Venusaur AND Blastoise Gigantamax in t
    const updated=await requestReady(arena,match.id,x=>x?.status==='active'&&expected.test(x.log)||x?.status==='complete'&&expected.test(x.publicLog||''));
    assert.match(updated.log||updated.publicLog,expected,species+' must actually transform on the official Showdown stream');
    if(species==='Blastoise'){
-    assert.match(updated.log||updated.publicLog,/Blastoise-Gmax|Blastoise-Gmax/,'G-Max species must be used, not ordinary Dynamax');
+    const frame=buildReplayTimeline(updated.log||updated.publicLog).frames.at(-1);
+    assert.equal(frame.field.p1.gigantamax,true,'Showdown Gmax flag must reach the spectator UI');
+    assert.equal(frame.field.p1.species,'Blastoise-Gmax');
+    assert.match(updated.log||updated.publicLog,/G-Max Cannonade/,'G-Max Cannonade, not normal Max Geyser');
    }
   }
  }finally{await arena.shutdown();await rm(path,{recursive:true,force:true});}
