@@ -96,7 +96,7 @@ export function summarizeLog(log){
  return {turns:events.filter(x=>x.type==='turn').length,winner:events.findLast(x=>x.type==='win')?.actor||null,events};
 }
 function routeAsync(res,fn){Promise.resolve().then(fn).catch(e=>{
- const expected=e.httpStatus||(/non valid|mancant|legale|obsolet|disponibil|troppo|contenere|Clause|livello|modalit|format|Packed|scelta|Tera|sessione|limite|Importare|Gigantamax|Strumento|Mossa|Abilit|Specie|Allenamento|sconosciut/i.test(e.message)?400:null);
+ const expected=e.httpStatus||(/non valid|mancant|legale|obsolet|disponibil|troppo|contenere|Clause|livello|modalit|format|Packed|scelta|Tera|sessione|limite|Importare|Gigantamax|Strumento|Mossa|Abilit|Specie|Allenamento|sconosciut|allenator|NPC|ambigui/i.test(e.message)?400:null);
  if(expected){json(res,expected,{error:e.message});return;}
  console.error('Historia request failure:',e?.name||'Error');
  json(res,500,{error:'Errore interno del server'});
@@ -164,14 +164,22 @@ export function handler(req,res){
   routeAsync(res,async()=>json(res,200,{slots:await worldCupSlots.list(await readSession(req)),official:false,
    scenario:'historical-seeding-2056',qualifiersConfirmed:false}));return;
  }
- const fixtureRoute=path.match(/^\/api\/worldcup\/slots\/([1-3])\/fixtures\/([A-Z0-9-]+)\/(start|finalize)$/);
+ const fixtureRoute=path.match(/^\/api\/worldcup\/slots\/([1-3])\/fixtures\/([A-Z0-9-]+)\/(start|finalize|npc-start|npc-finalize)$/);
  if(req.method==='POST'&&fixtureRoute){
   routeAsync(res,async()=>{
    const slot=Number(fixtureRoute[1]),matchId=fixtureRoute[2],action=fixtureRoute[3];
    const body=await readBody(req),owner=await readSession(req);
    const response=action==='start'?
     await worldCupSlots.startLukeFixture(owner,slot,matchId,body,arena):
-    await worldCupSlots.finalizeLukeFixture(owner,slot,matchId,arena);
+    action==='finalize'?
+     await worldCupSlots.finalizeLukeFixture(owner,slot,matchId,arena):
+    action==='npc-start'?
+     await worldCupSlots.startNpcFixture(owner,slot,matchId,body,arena):
+     await worldCupSlots.finalizeNpcFixture(owner,slot,matchId,arena);
+   if(action.endsWith('start')){
+    cachePut(sessionBattles,owner,response.battle.id);
+    await rememberBattle(owner,response.battle.id);
+   }
    json(res,200,response);
   });return;
  }
