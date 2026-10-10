@@ -83,9 +83,26 @@ export function buildReplayTimeline(log){
   if(tag==='-mega'&&side){field[side].mega=true;stats[side].mega++;emit('mega',side,actor,p[3]||'Mega Evoluzione');continue;}
   if(tag==='-dynamax'&&side){if(!field[side].dynamax){field[side].dynamax=true;stats[side].dynamax++;emit('dynamax',side,actor,'Dynamax');}continue;}
   if(tag==='-start'&&side&&String(p[3]).toLowerCase()==='dynamax'){
-   if(!field[side].dynamax){field[side].dynamax=true;stats[side].dynamax++;emit('dynamax',side,actor,'Dynamax');}continue;
+   // In genuine Gen 8 Showdown logs, G-Max is encoded as
+   // |-start|p1a: Blastoise|Dynamax|Gmax (NOT |-dynamax| or a
+   // guaranteed -formechange). Preserve this signal in the 2D battlefield.
+   const isGmax=p.slice(4).some(x=>String(x).toLowerCase()==='gmax');
+   if(isGmax){
+    field[side].gigantamax=true;
+    if(field[side].species&&!/-gmax$/i.test(field[side].species))
+     field[side].species+='-Gmax';
+   }
+   if(!field[side].dynamax){
+    field[side].dynamax=true;stats[side].dynamax++;
+    emit('dynamax',side,actor,isGmax?'Gigamax':'Dynamax');
+   }
+   continue;
   }
-  if(tag==='-end'&&side&&String(p[3]).toLowerCase()==='dynamax'){field[side].dynamax=false;emit('dynamaxEnd',side,actor,'Dynamax terminato');continue;}
+  if(tag==='-end'&&side&&String(p[3]).toLowerCase()==='dynamax'){
+   field[side].dynamax=false;field[side].gigantamax=false;
+   if(field[side].species)field[side].species=field[side].species.replace(/-gmax$/i,'');
+   emit('dynamaxEnd',side,actor,'Dynamax terminato');continue;
+  }
   if(tag==='-crit'){emit('critical',side,actor,'Colpo critico');continue;}
   if(tag==='-supereffective'){emit('superEffective',side,actor,'Superefficace');continue;}
   if(tag==='-weather'){emit('weather',null,'Meteo',p[2]);continue;}
@@ -105,7 +122,7 @@ export function renderTechnicalReport(timeline,{p1name='Luke',p2name='NPC'}={}){
   turn:h.turn,type:h.type,actor:h.actor,detail:h.detail,
   description:h.type==='faint'?h.actor+' va KO':
    h.type==='mega'?h.actor+' effettua la Mega Evoluzione':
-   h.type==='dynamax'?h.actor+' utilizza Dynamax':
+   h.type==='dynamax'?h.actor+' utilizza '+(h.detail==='Gigamax'?'Gigamax':'Dynamax'):
    h.actor+' subisce un colpo critico'
  }));
  return {
