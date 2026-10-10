@@ -1,0 +1,5 @@
+Final verification: npx playwright test
+20 passed (18.8s)
+Projects: chromium-desktop, chromium-mobile-touch
+Actual browser APIs, account/slot isolation, replay, mid-battle process crash/recovery, touch choices, no horizontal overflow, stale slot-chat response regression.
+Mobile is Chromium emulation, not a physical Android device.

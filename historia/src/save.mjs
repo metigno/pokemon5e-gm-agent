@@ -14,6 +14,53 @@ function checkCup(cup){
   if(!['scheduled','complete'].includes(m.status))throw new Error('Invalid fixture status');
   if(m.status==='complete'&&(!m.result||!m.result.battleId||m.result.authority!=='showdown-verified'||!m.result.logDigest))throw new Error('Incomplete battle receipt');
  }
+ const ko=cup.knockout??[];
+ if(!Array.isArray(ko)||![0,8,12,14,15].includes(ko.length))
+  throw Error('Invalid knockout bracket length');
+ const stageCounts={'round-of-16':8,quarterfinal:4,semifinal:2,final:1};
+ const allIds=new Set(members.map(x=>x.id));
+ const unique=new Set();
+ const usedReceipts=new Set(cup.schedule.filter(x=>x.status==='complete').map(x=>x.result.battleId));
+ for(const m of ko){
+  if(typeof m.id!=='string'||unique.has(m.id)||fixtureIds.has(m.id)||!Object.hasOwn(stageCounts,m.stage))
+   throw Error('Invalid knockout fixture identity');
+  unique.add(m.id);
+  if(!allIds.has(m.homeId)||!allIds.has(m.awayId)||m.homeId===m.awayId)
+   throw Error('Invalid knockout participants');
+  if(!['scheduled','complete'].includes(m.status))throw Error('Invalid knockout fixture state');
+  if(m.status==='complete'){
+   if(!m.result||m.result.authority!=='showdown-verified'||!m.result.logDigest||
+      !m.result.battleId||usedReceipts.has(m.result.battleId)||
+      ![m.homeId,m.awayId].includes(m.result.winnerId)||
+      ![m.homeId,m.awayId].includes(m.result.loserId)||
+      m.result.winnerId===m.result.loserId)
+    throw Error('Invalid knockout Showdown receipt');
+   usedReceipts.add(m.result.battleId);
+  }
+ }
+ let total=0,previous=null;
+ for(const [stage,count] of Object.entries(stageCounts)){
+  const games=ko.filter(x=>x.stage===stage);total+=games.length;
+  if(games.length!==0&&games.length!==count)throw Error('Incomplete knockout stage');
+  if(previous){
+   if(games.length&&previous.some(x=>x.status!=='complete'))throw Error('Advanced an incomplete knockout round');
+   if(games.length){
+    const expected=previous.map(x=>x.result.winnerId).sort();
+    const actual=games.flatMap(x=>[x.homeId,x.awayId]).sort();
+    if(JSON.stringify(expected)!==JSON.stringify(actual))throw Error('Knockout pairing violates previous winners');
+   }
+  }
+  if(games.length)previous=games;
+ }
+ if(total!==ko.length)throw Error('Unknown knockout stage');
+ const final=ko.find(x=>x.stage==='final');
+ if(cup.champion!==undefined&&cup.champion!==null&&
+    (!final||final.status!=='complete'||final.result?.winnerId!==cup.champion))
+  throw Error('Invalid crowned champion');
+ if(final?.status==='complete'&&cup.champion!==final.result.winnerId)
+  throw Error('Final winner must be crowned');
+ if(cup.results.length>63||new Set(cup.results.map(x=>x.battleId)).size!==cup.results.length)
+  throw Error('Invalid world championship receipt count');
 }
 export function serializeSave(cup,meta={}){
  checkCup(cup);

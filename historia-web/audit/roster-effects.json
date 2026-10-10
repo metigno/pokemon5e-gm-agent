@@ -1,0 +1,6090 @@
+{
+  "simulatorVersion": "0.11.11",
+  "format": "Historia WHAT-IF 6v6",
+  "basis": "Gen8 mechanics, inherited later data, explicit +Past/+Future",
+  "sourceSha256": "6619d00857b24f610c2696e219a743df15ee925bf526c423a7193bc72f95feff",
+  "officialQualifiersCertified": false,
+  "legendaryCanonicalClassificationCertified": false,
+  "trainers": [
+    {
+      "id": "Luke",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Blastoise",
+      "sets": [
+        {
+          "name": "Arcanine Alpha",
+          "species": "Arcanine-Hisui",
+          "item": "Choice Scarf",
+          "ability": "Rock Head",
+          "moves": [
+            "Flare Blitz",
+            "Head Smash",
+            "Close Combat",
+            "Crunch"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Venusaur",
+          "species": "Venusaur",
+          "item": "Venusaurite",
+          "ability": "Overgrow",
+          "moves": [
+            "Sleep Powder",
+            "Leech Seed",
+            "Sludge Bomb",
+            "Giga Drain"
+          ],
+          "nature": "Calm",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 0,
+            "spa": 4,
+            "spd": 252,
+            "spe": 0
+          },
+          "ivs": {
+            "hp": 31,
+            "atk": 0,
+            "def": 31,
+            "spa": 31,
+            "spd": 31,
+            "spe": 31
+          }
+        },
+        {
+          "name": "Kyurem-Black",
+          "species": "Kyurem-Black",
+          "item": "Loaded Dice",
+          "ability": "Teravolt",
+          "moves": [
+            "Dragon Dance",
+            "Icicle Spear",
+            "Fusion Bolt",
+            "Earth Power"
+          ],
+          "nature": "Hasty",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 4,
+            "spd": 0,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Great Tusk",
+          "species": "Great Tusk",
+          "item": "Leftovers",
+          "ability": "Protosynthesis",
+          "moves": [
+            "Headlong Rush",
+            "Rapid Spin",
+            "Knock Off",
+            "Stealth Rock"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 252,
+            "atk": 4,
+            "def": 0,
+            "spa": 0,
+            "spd": 0,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Blastoise",
+          "species": "Blastoise",
+          "item": "White Herb",
+          "ability": "Torrent",
+          "moves": [
+            "Shell Smash",
+            "Hydro Pump",
+            "Ice Beam",
+            "Aura Sphere"
+          ],
+          "nature": "Modest",
+          "evs": {
+            "hp": 168,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 0,
+            "spe": 88
+          },
+          "ivs": {
+            "hp": 31,
+            "atk": 0,
+            "def": 31,
+            "spa": 31,
+            "spd": 31,
+            "spe": 31
+          },
+          "happiness": 255,
+          "hpType": "",
+          "pokeball": "",
+          "gigantamax": true,
+          "dynamaxLevel": 10,
+          "teraType": ""
+        },
+        {
+          "name": "Kilowattrel",
+          "species": "Kilowattrel",
+          "item": "Focus Sash",
+          "ability": "Volt Absorb",
+          "moves": [
+            "Volt Switch",
+            "Hurricane",
+            "Tailwind",
+            "Roost"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Venusaur",
+          "resultSpecies": "Venusaur-Mega",
+          "ability": "thickfat",
+          "baseStats": {
+            "hp": 80,
+            "atk": 100,
+            "def": 123,
+            "spa": 122,
+            "spd": 120,
+            "spe": 80
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Luke||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Venusaur|Venusaur, F|364/364\n|switch|p1a: Venusaur|Venusaur, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Venusaur|Venusaur-Mega, F\n|-mega|p1a: Venusaur|Venusaur|Venusaurite\n|move|p1a: Venusaur|Sleep Powder|p2a: Blissey\n|-status|p2a: Blissey|slp|[from] move: Sleep Powder\n|cant|p2a: Blissey|slp\n|\n|upkeep\n|turn|2"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Blastoise",
+          "resultSpecies": "Blastoise",
+          "ability": "torrent",
+          "baseStats": {
+            "hp": 79,
+            "atk": 83,
+            "def": 100,
+            "spa": 85,
+            "spd": 105,
+            "spe": 78
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Luke||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Blastoise|Blastoise, F|341/341\n|switch|p1a: Blastoise|Blastoise, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Blastoise|Dynamax|Gmax\n|split|p1\n|-heal|p1a: Blastoise|682/682|[silent]\n|-heal|p1a: Blastoise|100/100|[silent]\n|move|p1a: Blastoise|G-Max Cannonade|p2a: Blissey\n|split|p2\n|-damage|p2a: Blissey|563/714\n|-damage|p2a: Blissey|79/100\n|-sidestart|p2: Test-only probe|G-Max Cannonade\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|split|p2\n|-damage|p2a: Blissey|444/714|[from] G-Max Cannonade\n|-damage|p2a: Blissey|63/100|[from] G-Max Cannonade\n|upkeep\n|turn|2"
+        }
+      ]
+    },
+    {
+      "id": "Mattew",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Corviknight",
+      "sets": [
+        {
+          "name": "Jolteon Alpha",
+          "species": "Jolteon",
+          "item": "Choice Specs",
+          "ability": "Volt Absorb",
+          "moves": [
+            "Volt Switch",
+            "Thunderbolt",
+            "Hidden Power Ice",
+            "Shadow Ball"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Infernape",
+          "species": "Infernape",
+          "item": "Life Orb",
+          "ability": "Blaze",
+          "moves": [
+            "Close Combat",
+            "Flare Blitz",
+            "U-turn",
+            "Gunk Shot"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Gardevoir",
+          "species": "Gardevoir",
+          "item": "Assault Vest",
+          "ability": "Trace",
+          "moves": [
+            "Psychic",
+            "Moonblast",
+            "Icy Wind",
+            "Mystical Fire"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Swampert",
+          "species": "Swampert",
+          "item": "Swampertite",
+          "ability": "Torrent",
+          "moves": [
+            "Stealth Rock",
+            "Waterfall",
+            "Flip Turn",
+            "Earthquake"
+          ],
+          "nature": "Adamant",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 4,
+            "spa": 0,
+            "spd": 0,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Corviknight",
+          "species": "Corviknight",
+          "item": "Leftovers",
+          "ability": "Mirror Armor",
+          "moves": [
+            "Tailwind",
+            "Roost",
+            "Brave Bird",
+            "Body Press"
+          ],
+          "nature": "Impish",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 252,
+            "spa": 0,
+            "spd": 4,
+            "spe": 0
+          },
+          "happiness": 255,
+          "hpType": "",
+          "pokeball": "",
+          "gigantamax": true,
+          "dynamaxLevel": 10,
+          "teraType": ""
+        },
+        {
+          "name": "Zacian-Crowned",
+          "species": "Zacian-Crowned",
+          "item": "Rusted Sword",
+          "ability": "Intrepid Sword",
+          "moves": [
+            "Swords Dance",
+            "Sacred Sword",
+            "Play Rough",
+            "Behemoth Blade"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Swampert",
+          "resultSpecies": "Swampert-Mega",
+          "ability": "swiftswim",
+          "baseStats": {
+            "hp": 100,
+            "atk": 150,
+            "def": 110,
+            "spa": 95,
+            "spd": 110,
+            "spe": 70
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Mattew||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Swampert|Swampert, F|341/341\n|switch|p1a: Swampert|Swampert, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Swampert|Swampert-Mega, F\n|-mega|p1a: Swampert|Swampert|Swampertite\n|move|p1a: Swampert|Stealth Rock|p2a: Blissey\n|-sidestart|p2: Test-only probe|move: Stealth Rock\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Corviknight",
+          "resultSpecies": "Corviknight",
+          "ability": "mirrorarmor",
+          "baseStats": {
+            "hp": 98,
+            "atk": 87,
+            "def": 105,
+            "spa": 53,
+            "spd": 85,
+            "spe": 67
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Mattew||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Corviknight|Corviknight, F|400/400\n|switch|p1a: Corviknight|Corviknight, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Corviknight|Dynamax|Gmax\n|split|p1\n|-heal|p1a: Corviknight|800/800|[silent]\n|-heal|p1a: Corviknight|100/100|[silent]\n|move|p1a: Corviknight|G-Max Wind Rage|p2a: Blissey\n|split|p2\n|-damage|p2a: Blissey|420/714\n|-damage|p2a: Blissey|59/100\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        }
+      ]
+    },
+    {
+      "id": "Daniel",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Charizard",
+      "sets": [
+        {
+          "name": "Gengar",
+          "species": "Gengar",
+          "item": "Focus Sash",
+          "ability": "Cursed Body",
+          "moves": [
+            "Hypnosis",
+            "Destiny Bond",
+            "Shadow Ball",
+            "Taunt"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Machamp",
+          "species": "Machamp",
+          "item": "Flame Orb",
+          "ability": "Guts",
+          "moves": [
+            "Close Combat",
+            "Facade",
+            "Knock Off",
+            "Bullet Punch"
+          ],
+          "nature": "Adamant",
+          "evs": {
+            "hp": 252,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Mewtwo",
+          "species": "Mewtwo",
+          "item": "Life Orb",
+          "ability": "Pressure",
+          "moves": [
+            "Psystrike",
+            "Ice Beam",
+            "Aura Sphere",
+            "Thunderbolt"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Charizard",
+          "species": "Charizard",
+          "item": "Heavy-Duty Boots",
+          "ability": "Blaze",
+          "moves": [
+            "Fire Blast",
+            "Hurricane",
+            "Defog",
+            "Roost"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          },
+          "happiness": 255,
+          "hpType": "",
+          "pokeball": "",
+          "gigantamax": true,
+          "dynamaxLevel": 10,
+          "teraType": ""
+        },
+        {
+          "name": "Aggron",
+          "species": "Aggron",
+          "item": "Aggronite",
+          "ability": "Sturdy",
+          "moves": [
+            "Stealth Rock",
+            "Heavy Slam",
+            "Earthquake",
+            "Roar"
+          ],
+          "nature": "Careful",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 16,
+            "spa": 0,
+            "spd": 240,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Poliwrath",
+          "species": "Poliwrath",
+          "item": "Leftovers",
+          "ability": "Water Absorb",
+          "moves": [
+            "Scald",
+            "Circle Throw",
+            "Toxic",
+            "Protect"
+          ],
+          "nature": "Impish",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 252,
+            "spa": 0,
+            "spd": 4,
+            "spe": 0
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Aggron",
+          "resultSpecies": "Aggron-Mega",
+          "ability": "filter",
+          "baseStats": {
+            "hp": 70,
+            "atk": 140,
+            "def": 230,
+            "spa": 60,
+            "spd": 80,
+            "spe": 50
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Daniel||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Aggron|Aggron, F|344/344\n|switch|p1a: Aggron|Aggron, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Aggron|Aggron-Mega, F\n|-mega|p1a: Aggron|Aggron|Aggronite\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|move|p1a: Aggron|Stealth Rock|p2a: Blissey\n|-sidestart|p2: Test-only probe|move: Stealth Rock\n|\n|upkeep\n|turn|2"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Charizard",
+          "resultSpecies": "Charizard",
+          "ability": "blaze",
+          "baseStats": {
+            "hp": 78,
+            "atk": 84,
+            "def": 78,
+            "spa": 109,
+            "spd": 85,
+            "spe": 100
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Daniel||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Charizard|Charizard, F|297/297\n|switch|p1a: Charizard|Charizard, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Charizard|Dynamax|Gmax\n|split|p1\n|-heal|p1a: Charizard|594/594|[silent]\n|-heal|p1a: Charizard|100/100|[silent]\n|move|p1a: Charizard|G-Max Wildfire|p2a: Blissey\n|split|p2\n|-damage|p2a: Blissey|542/714\n|-damage|p2a: Blissey|76/100\n|-sidestart|p2: Test-only probe|G-Max Wildfire\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|split|p2\n|-damage|p2a: Blissey|423/714|[from] G-Max Wildfire\n|-damage|p2a: Blissey|60/100|[from] G-Max Wildfire\n|upkeep\n|turn|2"
+        }
+      ]
+    },
+    {
+      "id": "Edward",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Lapras",
+      "sets": [
+        {
+          "name": "Feraligatr",
+          "species": "Feraligatr",
+          "item": "Life Orb",
+          "ability": "Sheer Force",
+          "moves": [
+            "Dragon Dance",
+            "Liquidation",
+            "Ice Punch",
+            "Crunch"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Lapras",
+          "species": "Lapras",
+          "item": "Light Clay",
+          "ability": "Water Absorb",
+          "moves": [
+            "Freeze-Dry",
+            "Hydro Pump",
+            "Thunder",
+            "Ice Beam"
+          ],
+          "nature": "Modest",
+          "evs": {
+            "hp": 248,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 8,
+            "spe": 0
+          },
+          "happiness": 255,
+          "hpType": "",
+          "pokeball": "",
+          "gigantamax": true,
+          "dynamaxLevel": 10,
+          "teraType": ""
+        },
+        {
+          "name": "Jolteon",
+          "species": "Jolteon",
+          "item": "Choice Specs",
+          "ability": "Volt Absorb",
+          "moves": [
+            "Thunderbolt",
+            "Volt Switch",
+            "Shadow Ball",
+            "Alluring Voice"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Houndoom",
+          "species": "Houndoom",
+          "item": "Air Balloon",
+          "ability": "Flash Fire",
+          "moves": [
+            "Taunt",
+            "Fire Blast",
+            "Dark Pulse",
+            "Sludge Bomb"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Lugia",
+          "species": "Lugia",
+          "item": "Heavy-Duty Boots",
+          "ability": "Multiscale",
+          "moves": [
+            "Aeroblast",
+            "Roost",
+            "Defog",
+            "Whirlwind"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 248,
+            "atk": 0,
+            "def": 52,
+            "spa": 0,
+            "spd": 0,
+            "spe": 208
+          }
+        },
+        {
+          "name": "Tyranitar",
+          "species": "Tyranitar",
+          "item": "Tyranitarite",
+          "ability": "Sand Stream",
+          "moves": [
+            "Dragon Dance",
+            "Stone Edge",
+            "Crunch",
+            "Earthquake"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Tyranitar",
+          "resultSpecies": "Tyranitar-Mega",
+          "ability": "sandstream",
+          "baseStats": {
+            "hp": 100,
+            "atk": 164,
+            "def": 150,
+            "spa": 95,
+            "spd": 120,
+            "spe": 71
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Edward||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Tyranitar|Tyranitar, F|341/341\n|switch|p1a: Tyranitar|Tyranitar, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|-weather|Sandstorm|[from] ability: Sand Stream|[of] p1a: Tyranitar\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Tyranitar|Tyranitar-Mega, F\n|-mega|p1a: Tyranitar|Tyranitar|Tyranitarite\n|move|p1a: Tyranitar|Dragon Dance|p1a: Tyranitar\n|-boost|p1a: Tyranitar|atk|1\n|-boost|p1a: Tyranitar|spe|1\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|-weather|Sandstorm|[upkeep]\n|split|p2\n|-damage|p2a: Blissey|670/714|[from] Sandstorm\n|-damage|p2a: Blissey|94/100|[from] Sandstorm\n|upkeep\n|turn|2"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Lapras",
+          "resultSpecies": "Lapras",
+          "ability": "waterabsorb",
+          "baseStats": {
+            "hp": 130,
+            "atk": 85,
+            "def": 80,
+            "spa": 85,
+            "spd": 95,
+            "spe": 60
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Edward||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Lapras|Lapras, F|463/463\n|switch|p1a: Lapras|Lapras, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Lapras|Dynamax|Gmax\n|split|p1\n|-heal|p1a: Lapras|926/926|[silent]\n|-heal|p1a: Lapras|100/100|[silent]\n|move|p1a: Lapras|G-Max Resonance|p2a: Blissey\n|split|p2\n|-damage|p2a: Blissey|575/714\n|-damage|p2a: Blissey|81/100\n|-sidestart|p1: Edward|move: Aurora Veil\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        }
+      ]
+    },
+    {
+      "id": "Fab",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Electivire",
+      "sets": [
+        {
+          "name": "Weezing",
+          "species": "Weezing",
+          "item": "Black Sludge",
+          "ability": "Levitate",
+          "moves": [
+            "Will-O-Wisp",
+            "Toxic Spikes",
+            "Pain Split",
+            "Sludge Bomb"
+          ],
+          "nature": "Calm",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 4,
+            "spa": 0,
+            "spd": 252,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Rayquaza",
+          "species": "Rayquaza",
+          "item": "Choice Scarf",
+          "ability": "Air Lock",
+          "moves": [
+            "Dragon Ascent",
+            "V-create",
+            "Extreme Speed",
+            "Earthquake"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Electivire",
+          "species": "Electivire",
+          "item": "Life Orb",
+          "ability": "Motor Drive",
+          "moves": [
+            "Wild Charge",
+            "Ice Punch",
+            "Earthquake",
+            "Low Kick"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Skarmory",
+          "species": "Skarmory",
+          "item": "Rocky Helmet",
+          "ability": "Sturdy",
+          "moves": [
+            "Spikes",
+            "Roost",
+            "Whirlwind",
+            "Brave Bird"
+          ],
+          "nature": "Impish",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 232,
+            "spa": 0,
+            "spd": 0,
+            "spe": 24
+          }
+        },
+        {
+          "name": "Sceptile",
+          "species": "Sceptile",
+          "item": "Choice Specs",
+          "ability": "Overgrow",
+          "moves": [
+            "Leaf Storm",
+            "Dragon Pulse",
+            "Focus Blast",
+            "Giga Drain"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Alakazam",
+          "species": "Alakazam",
+          "item": "Focus Sash",
+          "ability": "Magic Guard",
+          "moves": [
+            "Psychic",
+            "Focus Blast",
+            "Shadow Ball",
+            "Encore"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Rayquaza",
+          "resultSpecies": "Rayquaza-Mega",
+          "ability": "deltastream",
+          "baseStats": {
+            "hp": 105,
+            "atk": 180,
+            "def": 100,
+            "spa": 180,
+            "spd": 100,
+            "spe": 115
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Fab||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Rayquaza|Rayquaza|351/351\n|switch|p1a: Rayquaza|Rayquaza|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|-ability|p1a: Rayquaza|Air Lock\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Rayquaza|Rayquaza-Mega\n|-mega|p1a: Rayquaza|Rayquaza|\n|-weather|DeltaStream|[from] ability: Delta Stream|[of] p1a: Rayquaza\n|move|p1a: Rayquaza|Dragon Ascent|p2a: Blissey\n|split|p2\n|-damage|p2a: Blissey|159/714\n|-damage|p2a: Blissey|23/100\n|-unboost|p1a: Rayquaza|def|1\n|-unboost|p1a: Rayquaza|spd|1\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|-weather|DeltaStream|[upkeep]\n|upkeep\n|turn|2"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Electivire",
+          "resultSpecies": "Electivire",
+          "ability": "motordrive",
+          "baseStats": {
+            "hp": 75,
+            "atk": 123,
+            "def": 67,
+            "spa": 95,
+            "spd": 85,
+            "spe": 95
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Fab||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Electivire|Electivire, F|291/291\n|switch|p1a: Electivire|Electivire, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Electivire|Dynamax|\n|split|p1\n|-heal|p1a: Electivire|582/582|[silent]\n|-heal|p1a: Electivire|100/100|[silent]\n|move|p1a: Electivire|Max Lightning|p2a: Blissey\n|split|p2\n|-damage|p2a: Blissey|133/714\n|-damage|p2a: Blissey|19/100\n|-fieldstart|move: Electric Terrain\n|split|p1\n|-damage|p1a: Electivire|553/582|[from] item: Life Orb\n|-damage|p1a: Electivire|96/100|[from] item: Life Orb\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        }
+      ]
+    },
+    {
+      "id": "Cynthia",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Togekiss",
+      "sets": [
+        {
+          "name": "Garchomp",
+          "species": "Garchomp",
+          "item": "Rocky Helmet",
+          "ability": "Rough Skin",
+          "moves": [
+            "Stealth Rock",
+            "Earthquake",
+            "Dragon Tail",
+            "Fire Blast"
+          ],
+          "nature": "Impish",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 164,
+            "spa": 0,
+            "spd": 0,
+            "spe": 92
+          }
+        },
+        {
+          "name": "Lucario",
+          "species": "Lucario",
+          "item": "Lucarionite",
+          "ability": "Justified",
+          "moves": [
+            "Swords Dance",
+            "Close Combat",
+            "Meteor Mash",
+            "Extreme Speed"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Milotic",
+          "species": "Milotic",
+          "item": "Leftovers",
+          "ability": "Marvel Scale",
+          "moves": [
+            "Scald",
+            "Recover",
+            "Haze",
+            "Ice Beam"
+          ],
+          "nature": "Bold",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 252,
+            "spa": 0,
+            "spd": 4,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Togekiss",
+          "species": "Togekiss",
+          "item": "Heavy-Duty Boots",
+          "ability": "Serene Grace",
+          "moves": [
+            "Thunder Wave",
+            "Air Slash",
+            "Roost",
+            "Defog"
+          ],
+          "nature": "Bold",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 196,
+            "spa": 0,
+            "spd": 0,
+            "spe": 60
+          }
+        },
+        {
+          "name": "Cresselia",
+          "species": "Cresselia",
+          "item": "Colbur Berry",
+          "ability": "Levitate",
+          "moves": [
+            "Thunder Wave",
+            "Lunar Dance",
+            "Moonlight",
+            "Psychic"
+          ],
+          "nature": "Bold",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 252,
+            "spa": 0,
+            "spd": 4,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Roserade",
+          "species": "Roserade",
+          "item": "Black Sludge",
+          "ability": "Natural Cure",
+          "moves": [
+            "Leaf Storm",
+            "Sludge Bomb",
+            "Spikes",
+            "Synthesis"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          },
+          "ivs": {
+            "hp": 31,
+            "atk": 0,
+            "def": 31,
+            "spa": 31,
+            "spd": 31,
+            "spe": 31
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Lucario",
+          "resultSpecies": "Lucario-Mega",
+          "ability": "adaptability",
+          "baseStats": {
+            "hp": 70,
+            "atk": 145,
+            "def": 88,
+            "spa": 140,
+            "spd": 70,
+            "spe": 112
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Cynthia||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Lucario|Lucario, F|281/281\n|switch|p1a: Lucario|Lucario, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Lucario|Lucario-Mega, F\n|-mega|p1a: Lucario|Lucario|Lucarionite\n|move|p1a: Lucario|Swords Dance|p1a: Lucario\n|-boost|p1a: Lucario|atk|2\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Togekiss",
+          "resultSpecies": "Togekiss",
+          "ability": "serenegrace",
+          "baseStats": {
+            "hp": 85,
+            "atk": 50,
+            "def": 95,
+            "spa": 120,
+            "spd": 115,
+            "spe": 80
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Cynthia||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Togekiss|Togekiss, F|374/374\n|switch|p1a: Togekiss|Togekiss, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Togekiss|Dynamax|\n|split|p1\n|-heal|p1a: Togekiss|748/748|[silent]\n|-heal|p1a: Togekiss|100/100|[silent]\n|move|p1a: Togekiss|Max Guard|p1a: Togekiss\n|-singleturn|p1a: Togekiss|Max Guard\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        }
+      ]
+    },
+    {
+      "id": "Steven Stone",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Archaludon",
+      "sets": [
+        {
+          "name": "Metagross",
+          "species": "Metagross",
+          "item": "Metagrossite",
+          "ability": "Clear Body",
+          "moves": [
+            "Meteor Mash",
+            "Bullet Punch",
+            "Earthquake",
+            "Ice Punch"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Registeel",
+          "species": "Registeel",
+          "item": "Leftovers",
+          "ability": "Clear Body",
+          "moves": [
+            "Stealth Rock",
+            "Seismic Toss",
+            "Thunder Wave",
+            "Rest"
+          ],
+          "nature": "Careful",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 4,
+            "spa": 0,
+            "spd": 252,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Archaludon",
+          "species": "Archaludon",
+          "item": "Assault Vest",
+          "ability": "Stamina",
+          "moves": [
+            "Draco Meteor",
+            "Flash Cannon",
+            "Thunderbolt",
+            "Body Press"
+          ],
+          "nature": "Modest",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Garganacl",
+          "species": "Garganacl",
+          "item": "Covert Cloak",
+          "ability": "Purifying Salt",
+          "moves": [
+            "Salt Cure",
+            "Recover",
+            "Protect",
+            "Body Press"
+          ],
+          "nature": "Careful",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 4,
+            "spa": 0,
+            "spd": 252,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Skarmory",
+          "species": "Skarmory",
+          "item": "Rocky Helmet",
+          "ability": "Sturdy",
+          "moves": [
+            "Spikes",
+            "Roost",
+            "Whirlwind",
+            "Body Press"
+          ],
+          "nature": "Impish",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 252,
+            "spa": 0,
+            "spd": 4,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Excadrill",
+          "species": "Excadrill",
+          "item": "Air Balloon",
+          "ability": "Mold Breaker",
+          "moves": [
+            "Rapid Spin",
+            "Earthquake",
+            "Iron Head",
+            "Swords Dance"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Metagross",
+          "resultSpecies": "Metagross-Mega",
+          "ability": "toughclaws",
+          "baseStats": {
+            "hp": 80,
+            "atk": 145,
+            "def": 150,
+            "spa": 105,
+            "spd": 110,
+            "spe": 110
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Steven Stone||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Metagross|Metagross|301/301\n|switch|p1a: Metagross|Metagross|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Metagross|Metagross-Mega\n|-mega|p1a: Metagross|Metagross|Metagrossite\n|move|p1a: Metagross|Meteor Mash|p2a: Blissey\n|split|p2\n|-damage|p2a: Blissey|260/714\n|-damage|p2a: Blissey|37/100\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Archaludon",
+          "resultSpecies": "Archaludon",
+          "ability": "stamina",
+          "baseStats": {
+            "hp": 90,
+            "atk": 105,
+            "def": 130,
+            "spa": 125,
+            "spd": 65,
+            "spe": 85
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Steven Stone||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Archaludon|Archaludon, F|384/384\n|switch|p1a: Archaludon|Archaludon, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Archaludon|Dynamax|\n|split|p1\n|-heal|p1a: Archaludon|768/768|[silent]\n|-heal|p1a: Archaludon|100/100|[silent]\n|move|p1a: Archaludon|Max Wyrmwind|p2a: Blissey\n|split|p2\n|-damage|p2a: Blissey|518/714\n|-damage|p2a: Blissey|73/100\n|-unboost|p2a: Blissey|atk|1\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        }
+      ]
+    },
+    {
+      "id": "N",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Zoroark",
+      "sets": [
+        {
+          "name": "Reshiram",
+          "species": "Reshiram",
+          "item": "Heavy-Duty Boots",
+          "ability": "Turboblaze",
+          "moves": [
+            "Blue Flare",
+            "Draco Meteor",
+            "Earth Power",
+            "Roost"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Zoroark",
+          "species": "Zoroark",
+          "item": "Life Orb",
+          "ability": "Illusion",
+          "moves": [
+            "Nasty Plot",
+            "Dark Pulse",
+            "Focus Blast",
+            "Sludge Bomb"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Galvantula",
+          "species": "Galvantula",
+          "item": "Focus Sash",
+          "ability": "Compound Eyes",
+          "moves": [
+            "Sticky Web",
+            "Thunder",
+            "Bug Buzz",
+            "Volt Switch"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          },
+          "ivs": {
+            "hp": 31,
+            "atk": 0,
+            "def": 31,
+            "spa": 31,
+            "spd": 31,
+            "spe": 31
+          }
+        },
+        {
+          "name": "Ferrothorn",
+          "species": "Ferrothorn",
+          "item": "Leftovers",
+          "ability": "Iron Barbs",
+          "moves": [
+            "Spikes",
+            "Leech Seed",
+            "Power Whip",
+            "Knock Off"
+          ],
+          "nature": "Sassy",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 4,
+            "spa": 0,
+            "spd": 252,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Excadrill",
+          "species": "Excadrill",
+          "item": "Excadrite",
+          "ability": "Mold Breaker",
+          "moves": [
+            "Earthquake",
+            "Iron Head",
+            "Rapid Spin",
+            "Stealth Rock"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Mienshao",
+          "species": "Mienshao",
+          "item": "Assault Vest",
+          "ability": "Regenerator",
+          "moves": [
+            "Close Combat",
+            "Knock Off",
+            "U-turn",
+            "Ice Spinner"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Excadrill",
+          "resultSpecies": "Excadrill-Mega",
+          "ability": "piercingdrill",
+          "baseStats": {
+            "hp": 110,
+            "atk": 165,
+            "def": 100,
+            "spa": 65,
+            "spd": 65,
+            "spe": 103
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|N||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Excadrill|Excadrill, F|361/361\n|switch|p1a: Excadrill|Excadrill, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|-ability|p1a: Excadrill|Mold Breaker\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Excadrill|Excadrill-Mega, F\n|-mega|p1a: Excadrill|Excadrill|Excadrite\n|move|p1a: Excadrill|Earthquake|p2a: Blissey\n|split|p2\n|-damage|p2a: Blissey|282/714\n|-damage|p2a: Blissey|40/100\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Zoroark",
+          "resultSpecies": "Zoroark",
+          "ability": "illusion",
+          "baseStats": {
+            "hp": 60,
+            "atk": 105,
+            "def": 60,
+            "spa": 120,
+            "spd": 60,
+            "spe": 105
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|N||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Mienshao|Mienshao, M|261/261\n|switch|p1a: Mienshao|Mienshao, M|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Mienshao|Dynamax|\n|split|p1\n|-heal|p1a: Mienshao|522/522|[silent]\n|-heal|p1a: Mienshao|100/100|[silent]\n|move|p1a: Mienshao|Max Guard|p1a: Mienshao\n|-singleturn|p1a: Mienshao|Max Guard\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        }
+      ]
+    },
+    {
+      "id": "Red",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Charizard",
+      "sets": [
+        {
+          "name": "Charizard",
+          "species": "Charizard",
+          "item": "Life Orb",
+          "ability": "Blaze",
+          "moves": [
+            "Fire Blast",
+            "Hurricane",
+            "Focus Blast",
+            "Roost"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          },
+          "ivs": {
+            "hp": 31,
+            "atk": 0,
+            "def": 31,
+            "spa": 31,
+            "spd": 31,
+            "spe": 31
+          },
+          "happiness": 255,
+          "hpType": "",
+          "pokeball": "",
+          "gigantamax": true,
+          "dynamaxLevel": 10,
+          "teraType": ""
+        },
+        {
+          "name": "Jolteon",
+          "species": "Jolteon",
+          "item": "Choice Specs",
+          "ability": "Volt Absorb",
+          "moves": [
+            "Thunderbolt",
+            "Volt Switch",
+            "Hidden Power Ice",
+            "Shadow Ball"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          },
+          "ivs": {
+            "hp": 31,
+            "atk": 0,
+            "def": 31,
+            "spa": 31,
+            "spd": 31,
+            "spe": 31
+          }
+        },
+        {
+          "name": "Lapras",
+          "species": "Lapras",
+          "item": "Leftovers",
+          "ability": "Water Absorb",
+          "moves": [
+            "Freeze-Dry",
+            "Hydro Pump",
+            "Thunderbolt",
+            "Perish Song"
+          ],
+          "nature": "Modest",
+          "evs": {
+            "hp": 248,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 8,
+            "spe": 0
+          },
+          "ivs": {
+            "hp": 31,
+            "atk": 0,
+            "def": 31,
+            "spa": 31,
+            "spd": 31,
+            "spe": 31
+          }
+        },
+        {
+          "name": "Dodrio",
+          "species": "Dodrio",
+          "item": "Choice Band",
+          "ability": "Early Bird",
+          "moves": [
+            "Brave Bird",
+            "Double-Edge",
+            "Knock Off",
+            "Quick Attack"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Deoxys-Speed",
+          "species": "Deoxys-Speed",
+          "item": "Focus Sash",
+          "ability": "Pressure",
+          "moves": [
+            "Stealth Rock",
+            "Spikes",
+            "Taunt",
+            "Psycho Boost"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          },
+          "ivs": {
+            "hp": 31,
+            "atk": 0,
+            "def": 31,
+            "spa": 31,
+            "spd": 31,
+            "spe": 31
+          }
+        },
+        {
+          "name": "Scizor",
+          "species": "Scizor",
+          "item": "Scizorite",
+          "ability": "Technician",
+          "moves": [
+            "Bullet Punch",
+            "U-turn",
+            "Roost",
+            "Defog"
+          ],
+          "nature": "Adamant",
+          "evs": {
+            "hp": 248,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 8,
+            "spe": 0
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Scizor",
+          "resultSpecies": "Scizor-Mega",
+          "ability": "technician",
+          "baseStats": {
+            "hp": 70,
+            "atk": 150,
+            "def": 140,
+            "spa": 65,
+            "spd": 100,
+            "spe": 75
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Red||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Scizor|Scizor, F|343/343\n|switch|p1a: Scizor|Scizor, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Scizor|Scizor-Mega, F\n|-mega|p1a: Scizor|Scizor|Scizorite\n|move|p1a: Scizor|Bullet Punch|p2a: Blissey\n|split|p2\n|-damage|p2a: Blissey|449/714\n|-damage|p2a: Blissey|63/100\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Charizard",
+          "resultSpecies": "Charizard",
+          "ability": "blaze",
+          "baseStats": {
+            "hp": 78,
+            "atk": 84,
+            "def": 78,
+            "spa": 109,
+            "spd": 85,
+            "spe": 100
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Red||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Charizard|Charizard, F|297/297\n|switch|p1a: Charizard|Charizard, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Charizard|Dynamax|Gmax\n|split|p1\n|-heal|p1a: Charizard|594/594|[silent]\n|-heal|p1a: Charizard|100/100|[silent]\n|move|p1a: Charizard|G-Max Wildfire|p2a: Blissey\n|split|p2\n|-damage|p2a: Blissey|490/714\n|-damage|p2a: Blissey|69/100\n|-sidestart|p2: Test-only probe|G-Max Wildfire\n|split|p1\n|-damage|p1a: Charizard|565/594|[from] item: Life Orb\n|-damage|p1a: Charizard|96/100|[from] item: Life Orb\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|split|p2\n|-damage|p2a: Blissey|371/714|[from] G-Max Wildfire\n|-damage|p2a: Blissey|52/100|[from] G-Max Wildfire\n|upkeep\n|turn|2"
+        }
+      ]
+    },
+    {
+      "id": "Lance",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Dragonite",
+      "sets": [
+        {
+          "name": "Dragonite",
+          "species": "Dragonite",
+          "item": "Weakness Policy",
+          "ability": "Multiscale",
+          "moves": [
+            "Dragon Dance",
+            "Dual Wingbeat",
+            "Earthquake",
+            "Ice Spinner"
+          ],
+          "nature": "Adamant",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Salamence",
+          "species": "Salamence",
+          "item": "Salamencite",
+          "ability": "Intimidate",
+          "moves": [
+            "Dragon Dance",
+            "Double-Edge",
+            "Earthquake",
+            "Roost"
+          ],
+          "nature": "Adamant",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 4,
+            "spa": 0,
+            "spd": 0,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Garchomp",
+          "species": "Garchomp",
+          "item": "Rocky Helmet",
+          "ability": "Rough Skin",
+          "moves": [
+            "Stealth Rock",
+            "Earthquake",
+            "Dragon Tail",
+            "Fire Blast"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 252,
+            "atk": 4,
+            "def": 0,
+            "spa": 0,
+            "spd": 0,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Dragapult",
+          "species": "Dragapult",
+          "item": "Choice Specs",
+          "ability": "Infiltrator",
+          "moves": [
+            "Shadow Ball",
+            "Draco Meteor",
+            "Flamethrower",
+            "U-turn"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Archaludon",
+          "species": "Archaludon",
+          "item": "Assault Vest",
+          "ability": "Stamina",
+          "moves": [
+            "Draco Meteor",
+            "Flash Cannon",
+            "Thunderbolt",
+            "Body Press"
+          ],
+          "nature": "Calm",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 0,
+            "spa": 4,
+            "spd": 252,
+            "spe": 0
+          },
+          "ivs": {
+            "hp": 31,
+            "atk": 0,
+            "def": 31,
+            "spa": 31,
+            "spd": 31,
+            "spe": 31
+          }
+        },
+        {
+          "name": "Giratina-Origin",
+          "species": "Giratina-Origin",
+          "item": "Griseous Core",
+          "ability": "Levitate",
+          "moves": [
+            "Draco Meteor",
+            "Hex",
+            "Defog",
+            "Will-O-Wisp"
+          ],
+          "nature": "Modest",
+          "evs": {
+            "hp": 248,
+            "atk": 0,
+            "def": 152,
+            "spa": 8,
+            "spd": 100,
+            "spe": 0
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Salamence",
+          "resultSpecies": "Salamence-Mega",
+          "ability": "aerilate",
+          "baseStats": {
+            "hp": 95,
+            "atk": 145,
+            "def": 130,
+            "spa": 120,
+            "spd": 90,
+            "spe": 120
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Lance||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Salamence|Salamence, F|331/331\n|switch|p1a: Salamence|Salamence, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|-ability|p1a: Salamence|Intimidate|boost\n|-unboost|p2a: Blissey|atk|1\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Salamence|Salamence-Mega, F\n|-mega|p1a: Salamence|Salamence|Salamencite\n|move|p1a: Salamence|Dragon Dance|p1a: Salamence\n|-boost|p1a: Salamence|atk|1\n|-boost|p1a: Salamence|spe|1\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Dragonite",
+          "resultSpecies": "Dragonite",
+          "ability": "multiscale",
+          "baseStats": {
+            "hp": 91,
+            "atk": 134,
+            "def": 95,
+            "spa": 100,
+            "spd": 100,
+            "spe": 80
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Lance||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Dragonite|Dragonite, F|323/323\n|switch|p1a: Dragonite|Dragonite, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Dragonite|Dynamax|\n|split|p1\n|-heal|p1a: Dragonite|646/646|[silent]\n|-heal|p1a: Dragonite|100/100|[silent]\n|move|p1a: Dragonite|Max Guard|p1a: Dragonite\n|-singleturn|p1a: Dragonite|Max Guard\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        }
+      ]
+    },
+    {
+      "id": "Campione di Borrius",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Torterra",
+      "sets": [
+        {
+          "name": "Metagross",
+          "species": "Metagross",
+          "item": "Metagrossite",
+          "ability": "Clear Body",
+          "moves": [
+            "Meteor Mash",
+            "Zen Headbutt",
+            "Earthquake",
+            "Ice Punch"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          },
+          "shiny": true
+        },
+        {
+          "name": "Incineroar",
+          "species": "Incineroar",
+          "item": "Heavy-Duty Boots",
+          "ability": "Intimidate",
+          "moves": [
+            "Flare Blitz",
+            "Knock Off",
+            "Parting Shot",
+            "Will-O-Wisp"
+          ],
+          "nature": "Careful",
+          "evs": {
+            "hp": 248,
+            "atk": 8,
+            "def": 0,
+            "spa": 0,
+            "spd": 252,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Torterra",
+          "species": "Torterra",
+          "item": "White Herb",
+          "ability": "Overgrow",
+          "moves": [
+            "Shell Smash",
+            "Bullet Seed",
+            "Headlong Rush",
+            "Stone Edge"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 4,
+            "spa": 0,
+            "spd": 0,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Samurott-Hisui",
+          "species": "Samurott-Hisui",
+          "item": "Focus Sash",
+          "ability": "Sharpness",
+          "moves": [
+            "Ceaseless Edge",
+            "Razor Shell",
+            "Sacred Sword",
+            "Aqua Jet"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Ninetales-Alola",
+          "species": "Ninetales-Alola",
+          "item": "Light Clay",
+          "ability": "Snow Warning",
+          "moves": [
+            "Aurora Veil",
+            "Freeze-Dry",
+            "Moonblast",
+            "Encore"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Hoopa-Unbound",
+          "species": "Hoopa-Unbound",
+          "item": "Life Orb",
+          "ability": "Magician",
+          "moves": [
+            "Hyperspace Fury",
+            "Psychic",
+            "Drain Punch",
+            "Thunderbolt"
+          ],
+          "nature": "Hasty",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 4,
+            "spd": 0,
+            "spe": 252
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Metagross",
+          "resultSpecies": "Metagross-Mega",
+          "ability": "toughclaws",
+          "baseStats": {
+            "hp": 80,
+            "atk": 145,
+            "def": 150,
+            "spa": 105,
+            "spd": 110,
+            "spe": 110
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Campione di Borrius||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Metagross|Metagross, shiny|301/301\n|switch|p1a: Metagross|Metagross, shiny|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Metagross|Metagross-Mega, shiny\n|-mega|p1a: Metagross|Metagross|Metagrossite\n|move|p1a: Metagross|Meteor Mash|p2a: Blissey\n|split|p2\n|-damage|p2a: Blissey|260/714\n|-damage|p2a: Blissey|37/100\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Torterra",
+          "resultSpecies": "Torterra",
+          "ability": "overgrow",
+          "baseStats": {
+            "hp": 95,
+            "atk": 109,
+            "def": 105,
+            "spa": 75,
+            "spd": 85,
+            "spe": 56
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Campione di Borrius||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Torterra|Torterra, F|331/331\n|switch|p1a: Torterra|Torterra, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Torterra|Dynamax|\n|split|p1\n|-heal|p1a: Torterra|662/662|[silent]\n|-heal|p1a: Torterra|100/100|[silent]\n|move|p1a: Torterra|Max Guard|p1a: Torterra\n|-singleturn|p1a: Torterra|Max Guard\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        }
+      ]
+    },
+    {
+      "id": "Alder",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Volcarona",
+      "sets": [
+        {
+          "name": "Volcarona",
+          "species": "Volcarona",
+          "item": "Heavy-Duty Boots",
+          "ability": "Flame Body",
+          "moves": [
+            "Quiver Dance",
+            "Fiery Dance",
+            "Bug Buzz",
+            "Giga Drain"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Accelgor",
+          "species": "Accelgor",
+          "item": "Focus Sash",
+          "ability": "Unburden",
+          "moves": [
+            "Spikes",
+            "Bug Buzz",
+            "Focus Blast",
+            "Yawn"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Escavalier",
+          "species": "Escavalier",
+          "item": "Assault Vest",
+          "ability": "Overcoat",
+          "moves": [
+            "Megahorn",
+            "Iron Head",
+            "Knock Off",
+            "Close Combat"
+          ],
+          "nature": "Adamant",
+          "evs": {
+            "hp": 248,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 8,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Druddigon",
+          "species": "Druddigon",
+          "item": "Rocky Helmet",
+          "ability": "Rough Skin",
+          "moves": [
+            "Stealth Rock",
+            "Dragon Tail",
+            "Glare",
+            "Fire Punch"
+          ],
+          "nature": "Impish",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 252,
+            "spa": 0,
+            "spd": 4,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Audino",
+          "species": "Audino",
+          "item": "Audinite",
+          "ability": "Regenerator",
+          "moves": [
+            "Wish",
+            "Protect",
+            "Dazzling Gleam",
+            "Heal Bell"
+          ],
+          "nature": "Calm",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 4,
+            "spa": 0,
+            "spd": 252,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Cobalion",
+          "species": "Cobalion",
+          "item": "Leftovers",
+          "ability": "Justified",
+          "moves": [
+            "Close Combat",
+            "Volt Switch",
+            "Taunt",
+            "Stone Edge"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 252,
+            "atk": 4,
+            "def": 0,
+            "spa": 0,
+            "spd": 0,
+            "spe": 252
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Audino",
+          "resultSpecies": "Audino-Mega",
+          "ability": "healer",
+          "baseStats": {
+            "hp": 103,
+            "atk": 60,
+            "def": 126,
+            "spa": 80,
+            "spd": 126,
+            "spe": 50
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Alder||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Audino|Audino, F|410/410\n|switch|p1a: Audino|Audino, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Audino|Audino-Mega, F\n|-mega|p1a: Audino|Audino|Audinite\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|move|p1a: Audino|Wish|p1a: Audino\n|\n|upkeep\n|turn|2"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Volcarona",
+          "resultSpecies": "Volcarona",
+          "ability": "flamebody",
+          "baseStats": {
+            "hp": 85,
+            "atk": 60,
+            "def": 65,
+            "spa": 135,
+            "spd": 105,
+            "spe": 100
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Alder||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Volcarona|Volcarona, F|311/311\n|switch|p1a: Volcarona|Volcarona, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Volcarona|Dynamax|\n|split|p1\n|-heal|p1a: Volcarona|622/622|[silent]\n|-heal|p1a: Volcarona|100/100|[silent]\n|move|p1a: Volcarona|Max Guard|p1a: Volcarona\n|-singleturn|p1a: Volcarona|Max Guard\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        }
+      ]
+    },
+    {
+      "id": "Kael",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Ferrothorn",
+      "sets": [
+        {
+          "name": "Ferrothorn",
+          "species": "Ferrothorn",
+          "item": "Rocky Helmet",
+          "ability": "Iron Barbs",
+          "moves": [
+            "Leech Seed",
+            "Power Whip",
+            "Gyro Ball",
+            "Spikes"
+          ],
+          "nature": "Relaxed",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 80,
+            "spa": 0,
+            "spd": 176,
+            "spe": 0
+          },
+          "ivs": {
+            "hp": 31,
+            "atk": 31,
+            "def": 31,
+            "spa": 31,
+            "spd": 31,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Tentacruel",
+          "species": "Tentacruel",
+          "item": "Black Sludge",
+          "ability": "Liquid Ooze",
+          "moves": [
+            "Toxic Spikes",
+            "Rapid Spin",
+            "Scald",
+            "Haze"
+          ],
+          "nature": "Calm",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 0,
+            "spa": 0,
+            "spd": 240,
+            "spe": 16
+          }
+        },
+        {
+          "name": "Gliscor",
+          "species": "Gliscor",
+          "item": "Toxic Orb",
+          "ability": "Poison Heal",
+          "moves": [
+            "Earthquake",
+            "Knock Off",
+            "Protect",
+            "Stealth Rock"
+          ],
+          "nature": "Careful",
+          "evs": {
+            "hp": 244,
+            "atk": 0,
+            "def": 0,
+            "spa": 0,
+            "spd": 252,
+            "spe": 12
+          }
+        },
+        {
+          "name": "Sableye",
+          "species": "Sableye",
+          "item": "Sablenite",
+          "ability": "Prankster",
+          "moves": [
+            "Knock Off",
+            "Will-O-Wisp",
+            "Recover",
+            "Foul Play"
+          ],
+          "nature": "Bold",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 252,
+            "spa": 0,
+            "spd": 4,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Skeledirge",
+          "species": "Skeledirge",
+          "item": "Leftovers",
+          "ability": "Unaware",
+          "moves": [
+            "Torch Song",
+            "Will-O-Wisp",
+            "Slack Off",
+            "Hex"
+          ],
+          "nature": "Bold",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 252,
+            "spa": 0,
+            "spd": 4,
+            "spe": 0
+          },
+          "ivs": {
+            "hp": 31,
+            "atk": 0,
+            "def": 31,
+            "spa": 31,
+            "spd": 31,
+            "spe": 31
+          }
+        },
+        {
+          "name": "Lunala",
+          "species": "Lunala",
+          "item": "Heavy-Duty Boots",
+          "ability": "Shadow Shield",
+          "moves": [
+            "Will-O-Wisp",
+            "Moonlight",
+            "Hex",
+            "Ice Beam"
+          ],
+          "nature": "Bold",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 252,
+            "spa": 0,
+            "spd": 4,
+            "spe": 0
+          },
+          "ivs": {
+            "hp": 31,
+            "atk": 0,
+            "def": 31,
+            "spa": 31,
+            "spd": 31,
+            "spe": 31
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Sableye",
+          "resultSpecies": "Sableye-Mega",
+          "ability": "magicbounce",
+          "baseStats": {
+            "hp": 50,
+            "atk": 85,
+            "def": 125,
+            "spa": 85,
+            "spd": 115,
+            "spe": 20
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Kael||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Sableye|Sableye, F|304/304\n|switch|p1a: Sableye|Sableye, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Sableye|Sableye-Mega, F\n|-mega|p1a: Sableye|Sableye|Sablenite\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|move|p1a: Sableye|Knock Off|p2a: Blissey\n|split|p2\n|-damage|p2a: Blissey|593/714\n|-damage|p2a: Blissey|84/100\n|\n|upkeep\n|turn|2"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Ferrothorn",
+          "resultSpecies": "Ferrothorn",
+          "ability": "ironbarbs",
+          "baseStats": {
+            "hp": 74,
+            "atk": 94,
+            "def": 131,
+            "spa": 54,
+            "spd": 116,
+            "spe": 20
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Kael||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Ferrothorn|Ferrothorn, F|352/352\n|switch|p1a: Ferrothorn|Ferrothorn, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Ferrothorn|Dynamax|\n|split|p1\n|-heal|p1a: Ferrothorn|704/704|[silent]\n|-heal|p1a: Ferrothorn|100/100|[silent]\n|move|p1a: Ferrothorn|Max Guard|p1a: Ferrothorn\n|-singleturn|p1a: Ferrothorn|Max Guard\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        }
+      ]
+    },
+    {
+      "id": "Darian",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Necrozma-Dusk-Mane",
+      "sets": [
+        {
+          "name": "Blaziken",
+          "species": "Blaziken",
+          "item": "Blazikenite",
+          "ability": "Speed Boost",
+          "moves": [
+            "Swords Dance",
+            "Flare Blitz",
+            "Close Combat",
+            "Protect"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Swampert",
+          "species": "Swampert",
+          "item": "Leftovers",
+          "ability": "Torrent",
+          "moves": [
+            "Stealth Rock",
+            "Earthquake",
+            "Flip Turn",
+            "Toxic"
+          ],
+          "nature": "Impish",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 252,
+            "spa": 0,
+            "spd": 4,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Gardevoir",
+          "species": "Gardevoir",
+          "item": "Choice Scarf",
+          "ability": "Trace",
+          "moves": [
+            "Moonblast",
+            "Psychic",
+            "Mystical Fire",
+            "Trick"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Hydreigon",
+          "species": "Hydreigon",
+          "item": "Choice Specs",
+          "ability": "Levitate",
+          "moves": [
+            "Draco Meteor",
+            "Dark Pulse",
+            "Flamethrower",
+            "U-turn"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Jolteon",
+          "species": "Jolteon",
+          "item": "Heavy-Duty Boots",
+          "ability": "Volt Absorb",
+          "moves": [
+            "Thunderbolt",
+            "Volt Switch",
+            "Shadow Ball",
+            "Alluring Voice"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Necrozma-Dusk-Mane",
+          "species": "Necrozma-Dusk-Mane",
+          "item": "Weakness Policy",
+          "ability": "Prism Armor",
+          "moves": [
+            "Dragon Dance",
+            "Sunsteel Strike",
+            "Earthquake",
+            "Stone Edge"
+          ],
+          "nature": "Adamant",
+          "evs": {
+            "hp": 252,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 0
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Blaziken",
+          "resultSpecies": "Blaziken-Mega",
+          "ability": "speedboost",
+          "baseStats": {
+            "hp": 80,
+            "atk": 160,
+            "def": 80,
+            "spa": 130,
+            "spd": 80,
+            "spe": 100
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Darian||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Blaziken|Blaziken, F|301/301\n|switch|p1a: Blaziken|Blaziken, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Blaziken|Blaziken-Mega, F\n|-mega|p1a: Blaziken|Blaziken|Blazikenite\n|move|p1a: Blaziken|Swords Dance|p1a: Blaziken\n|-boost|p1a: Blaziken|atk|2\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|-ability|p1a: Blaziken|Speed Boost|boost\n|-boost|p1a: Blaziken|spe|1\n|upkeep\n|turn|2"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Necrozma-Dusk-Mane",
+          "resultSpecies": "Necrozma-Dusk-Mane",
+          "ability": "prismarmor",
+          "baseStats": {
+            "hp": 97,
+            "atk": 157,
+            "def": 127,
+            "spa": 113,
+            "spd": 109,
+            "spe": 77
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Darian||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Necrozma|Necrozma-Dusk-Mane|398/398\n|switch|p1a: Necrozma|Necrozma-Dusk-Mane|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Necrozma|Dynamax|\n|split|p1\n|-heal|p1a: Necrozma|796/796|[silent]\n|-heal|p1a: Necrozma|100/100|[silent]\n|move|p1a: Necrozma|Max Guard|p1a: Necrozma\n|-singleturn|p1a: Necrozma|Max Guard\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        }
+      ]
+    },
+    {
+      "id": "Ferred",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Dragonite",
+      "sets": [
+        {
+          "name": "Tyranitar",
+          "species": "Tyranitar",
+          "item": "Tyranitarite",
+          "ability": "Sand Stream",
+          "moves": [
+            "Dragon Dance",
+            "Stone Edge",
+            "Crunch",
+            "Earthquake"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Breloom",
+          "species": "Breloom",
+          "item": "Toxic Orb",
+          "ability": "Poison Heal",
+          "moves": [
+            "Spore",
+            "Swords Dance",
+            "Mach Punch",
+            "Seed Bomb"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Garchomp",
+          "species": "Garchomp",
+          "item": "Rocky Helmet",
+          "ability": "Rough Skin",
+          "moves": [
+            "Stealth Rock",
+            "Earthquake",
+            "Dragon Tail",
+            "Fire Blast"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 252,
+            "atk": 4,
+            "def": 0,
+            "spa": 0,
+            "spd": 0,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Jirachi",
+          "species": "Jirachi",
+          "item": "Choice Scarf",
+          "ability": "Serene Grace",
+          "moves": [
+            "Iron Head",
+            "U-turn",
+            "Trick",
+            "Healing Wish"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Dragonite",
+          "species": "Dragonite",
+          "item": "Weakness Policy",
+          "ability": "Multiscale",
+          "moves": [
+            "Dragon Dance",
+            "Dual Wingbeat",
+            "Earthquake",
+            "Ice Spinner"
+          ],
+          "nature": "Adamant",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Starmie",
+          "species": "Starmie",
+          "item": "Leftovers",
+          "ability": "Natural Cure",
+          "moves": [
+            "Rapid Spin",
+            "Recover",
+            "Surf",
+            "Ice Beam"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 0,
+            "spa": 4,
+            "spd": 0,
+            "spe": 252
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Tyranitar",
+          "resultSpecies": "Tyranitar-Mega",
+          "ability": "sandstream",
+          "baseStats": {
+            "hp": 100,
+            "atk": 164,
+            "def": 150,
+            "spa": 95,
+            "spd": 120,
+            "spe": 71
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Ferred||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Tyranitar|Tyranitar, F|341/341\n|switch|p1a: Tyranitar|Tyranitar, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|-weather|Sandstorm|[from] ability: Sand Stream|[of] p1a: Tyranitar\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Tyranitar|Tyranitar-Mega, F\n|-mega|p1a: Tyranitar|Tyranitar|Tyranitarite\n|move|p1a: Tyranitar|Dragon Dance|p1a: Tyranitar\n|-boost|p1a: Tyranitar|atk|1\n|-boost|p1a: Tyranitar|spe|1\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|-weather|Sandstorm|[upkeep]\n|split|p2\n|-damage|p2a: Blissey|670/714|[from] Sandstorm\n|-damage|p2a: Blissey|94/100|[from] Sandstorm\n|upkeep\n|turn|2"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Dragonite",
+          "resultSpecies": "Dragonite",
+          "ability": "multiscale",
+          "baseStats": {
+            "hp": 91,
+            "atk": 134,
+            "def": 95,
+            "spa": 100,
+            "spd": 100,
+            "spe": 80
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Ferred||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Dragonite|Dragonite, F|323/323\n|switch|p1a: Dragonite|Dragonite, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Dragonite|Dynamax|\n|split|p1\n|-heal|p1a: Dragonite|646/646|[silent]\n|-heal|p1a: Dragonite|100/100|[silent]\n|move|p1a: Dragonite|Max Guard|p1a: Dragonite\n|-singleturn|p1a: Dragonite|Max Guard\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        }
+      ]
+    },
+    {
+      "id": "Ren",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Garchomp",
+      "sets": [
+        {
+          "name": "Ninetales",
+          "species": "Ninetales",
+          "item": "Heavy-Duty Boots",
+          "ability": "Drought",
+          "moves": [
+            "Nasty Plot",
+            "Flamethrower",
+            "Solar Beam",
+            "Scorching Sands"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Landorus-Therian",
+          "species": "Landorus-Therian",
+          "item": "Rocky Helmet",
+          "ability": "Intimidate",
+          "moves": [
+            "Earthquake",
+            "U-turn",
+            "Stealth Rock",
+            "Knock Off"
+          ],
+          "nature": "Impish",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 196,
+            "spa": 0,
+            "spd": 0,
+            "spe": 60
+          }
+        },
+        {
+          "name": "Ferrothorn",
+          "species": "Ferrothorn",
+          "item": "Leftovers",
+          "ability": "Iron Barbs",
+          "moves": [
+            "Spikes",
+            "Leech Seed",
+            "Power Whip",
+            "Thunder Wave"
+          ],
+          "nature": "Careful",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 48,
+            "spa": 0,
+            "spd": 208,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Garchomp",
+          "species": "Garchomp",
+          "item": "Life Orb",
+          "ability": "Rough Skin",
+          "moves": [
+            "Swords Dance",
+            "Earthquake",
+            "Scale Shot",
+            "Fire Fang"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Starmie",
+          "species": "Starmie",
+          "item": "Colbur Berry",
+          "ability": "Natural Cure",
+          "moves": [
+            "Rapid Spin",
+            "Recover",
+            "Psyshock",
+            "Ice Beam"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 0,
+            "spa": 4,
+            "spd": 0,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Houndoom",
+          "species": "Houndoom",
+          "item": "Houndoominite",
+          "ability": "Flash Fire",
+          "moves": [
+            "Nasty Plot",
+            "Fire Blast",
+            "Dark Pulse",
+            "Sludge Bomb"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Houndoom",
+          "resultSpecies": "Houndoom-Mega",
+          "ability": "solarpower",
+          "baseStats": {
+            "hp": 75,
+            "atk": 90,
+            "def": 90,
+            "spa": 140,
+            "spd": 90,
+            "spe": 115
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Ren||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Houndoom|Houndoom, F|291/291\n|switch|p1a: Houndoom|Houndoom, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Houndoom|Houndoom-Mega, F\n|-mega|p1a: Houndoom|Houndoom|Houndoominite\n|move|p1a: Houndoom|Nasty Plot|p1a: Houndoom\n|-boost|p1a: Houndoom|spa|2\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Garchomp",
+          "resultSpecies": "Garchomp",
+          "ability": "roughskin",
+          "baseStats": {
+            "hp": 108,
+            "atk": 130,
+            "def": 95,
+            "spa": 80,
+            "spd": 85,
+            "spe": 102
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Ren||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Garchomp|Garchomp, F|357/357\n|switch|p1a: Garchomp|Garchomp, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Garchomp|Dynamax|\n|split|p1\n|-heal|p1a: Garchomp|714/714|[silent]\n|-heal|p1a: Garchomp|100/100|[silent]\n|move|p1a: Garchomp|Max Guard|p1a: Garchomp\n|-singleturn|p1a: Garchomp|Max Guard\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        }
+      ]
+    },
+    {
+      "id": "Ethan",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Scizor",
+      "sets": [
+        {
+          "name": "Gyarados",
+          "species": "Gyarados",
+          "item": "Gyaradosite",
+          "ability": "Intimidate",
+          "moves": [
+            "Dragon Dance",
+            "Waterfall",
+            "Crunch",
+            "Earthquake"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          },
+          "shiny": true
+        },
+        {
+          "name": "Typhlosion",
+          "species": "Typhlosion",
+          "item": "Choice Specs",
+          "ability": "Flash Fire",
+          "moves": [
+            "Eruption",
+            "Flamethrower",
+            "Focus Blast",
+            "Scorching Sands"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Raikou",
+          "species": "Raikou",
+          "item": "Heavy-Duty Boots",
+          "ability": "Pressure",
+          "moves": [
+            "Thunderbolt",
+            "Volt Switch",
+            "Scald",
+            "Aura Sphere"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Tyranitar",
+          "species": "Tyranitar",
+          "item": "Leftovers",
+          "ability": "Sand Stream",
+          "moves": [
+            "Stealth Rock",
+            "Knock Off",
+            "Stone Edge",
+            "Thunder Wave"
+          ],
+          "nature": "Careful",
+          "evs": {
+            "hp": 248,
+            "atk": 8,
+            "def": 0,
+            "spa": 0,
+            "spd": 252,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Togekiss",
+          "species": "Togekiss",
+          "item": "Covert Cloak",
+          "ability": "Serene Grace",
+          "moves": [
+            "Air Slash",
+            "Thunder Wave",
+            "Roost",
+            "Defog"
+          ],
+          "nature": "Bold",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 160,
+            "spa": 0,
+            "spd": 0,
+            "spe": 96
+          }
+        },
+        {
+          "name": "Scizor",
+          "species": "Scizor",
+          "item": "Choice Band",
+          "ability": "Technician",
+          "moves": [
+            "Bullet Punch",
+            "U-turn",
+            "Knock Off",
+            "Close Combat"
+          ],
+          "nature": "Adamant",
+          "evs": {
+            "hp": 120,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 0,
+            "spe": 136
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Gyarados",
+          "resultSpecies": "Gyarados-Mega",
+          "ability": "moldbreaker",
+          "baseStats": {
+            "hp": 95,
+            "atk": 155,
+            "def": 109,
+            "spa": 70,
+            "spd": 130,
+            "spe": 81
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Ethan||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Gyarados|Gyarados, F, shiny|331/331\n|switch|p1a: Gyarados|Gyarados, F, shiny|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|-ability|p1a: Gyarados|Intimidate|boost\n|-unboost|p2a: Blissey|atk|1\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Gyarados|Gyarados-Mega, F, shiny\n|-mega|p1a: Gyarados|Gyarados|Gyaradosite\n|-ability|p1a: Gyarados|Mold Breaker\n|move|p1a: Gyarados|Dragon Dance|p1a: Gyarados\n|-boost|p1a: Gyarados|atk|1\n|-boost|p1a: Gyarados|spe|1\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Scizor",
+          "resultSpecies": "Scizor",
+          "ability": "technician",
+          "baseStats": {
+            "hp": 70,
+            "atk": 130,
+            "def": 100,
+            "spa": 55,
+            "spd": 80,
+            "spe": 65
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Ethan||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Scizor|Scizor, F|311/311\n|switch|p1a: Scizor|Scizor, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Scizor|Dynamax|\n|split|p1\n|-heal|p1a: Scizor|622/622|[silent]\n|-heal|p1a: Scizor|100/100|[silent]\n|move|p1a: Scizor|Max Steelspike|p2a: Blissey\n|split|p2\n|-damage|p2a: Blissey|360/714\n|-damage|p2a: Blissey|51/100\n|-boost|p1a: Scizor|def|1\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        }
+      ]
+    },
+    {
+      "id": "Brendan",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Cinderace",
+      "sets": [
+        {
+          "name": "Sceptile",
+          "species": "Sceptile",
+          "item": "Sceptilite",
+          "ability": "Overgrow",
+          "moves": [
+            "Leaf Storm",
+            "Dragon Pulse",
+            "Focus Blast",
+            "Giga Drain"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Latios",
+          "species": "Latios",
+          "item": "Choice Specs",
+          "ability": "Levitate",
+          "moves": [
+            "Draco Meteor",
+            "Psyshock",
+            "Aura Sphere",
+            "Trick"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Swampert",
+          "species": "Swampert",
+          "item": "Leftovers",
+          "ability": "Torrent",
+          "moves": [
+            "Stealth Rock",
+            "Earthquake",
+            "Flip Turn",
+            "Toxic"
+          ],
+          "nature": "Impish",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 252,
+            "spa": 0,
+            "spd": 4,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Aggron",
+          "species": "Aggron",
+          "item": "Choice Band",
+          "ability": "Rock Head",
+          "moves": [
+            "Head Smash",
+            "Heavy Slam",
+            "Earthquake",
+            "Aqua Tail"
+          ],
+          "nature": "Adamant",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 4,
+            "spa": 0,
+            "spd": 0,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Cinderace",
+          "species": "Cinderace",
+          "item": "Heavy-Duty Boots",
+          "ability": "Libero",
+          "moves": [
+            "Pyro Ball",
+            "High Jump Kick",
+            "Court Change",
+            "Sucker Punch"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          },
+          "happiness": 255,
+          "hpType": "",
+          "pokeball": "",
+          "gigantamax": true,
+          "dynamaxLevel": 10,
+          "teraType": ""
+        },
+        {
+          "name": "Gholdengo",
+          "species": "Gholdengo",
+          "item": "Air Balloon",
+          "ability": "Good as Gold",
+          "moves": [
+            "Nasty Plot",
+            "Make It Rain",
+            "Shadow Ball",
+            "Recover"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Sceptile",
+          "resultSpecies": "Sceptile-Mega",
+          "ability": "lightningrod",
+          "baseStats": {
+            "hp": 70,
+            "atk": 110,
+            "def": 75,
+            "spa": 145,
+            "spd": 85,
+            "spe": 145
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Brendan||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Sceptile|Sceptile, F|281/281\n|switch|p1a: Sceptile|Sceptile, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Sceptile|Sceptile-Mega, F\n|-mega|p1a: Sceptile|Sceptile|Sceptilite\n|move|p1a: Sceptile|Leaf Storm|p2a: Blissey\n|split|p2\n|-damage|p2a: Blissey|518/714\n|-damage|p2a: Blissey|73/100\n|-unboost|p1a: Sceptile|spa|2\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Cinderace",
+          "resultSpecies": "Cinderace",
+          "ability": "libero",
+          "baseStats": {
+            "hp": 80,
+            "atk": 116,
+            "def": 75,
+            "spa": 65,
+            "spd": 75,
+            "spe": 119
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Brendan||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Cinderace|Cinderace, F|301/301\n|switch|p1a: Cinderace|Cinderace, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Cinderace|Dynamax|Gmax\n|split|p1\n|-heal|p1a: Cinderace|602/602|[silent]\n|-heal|p1a: Cinderace|100/100|[silent]\n|move|p1a: Cinderace|G-Max Fireball|p2a: Blissey\n|split|p2\n|-damage|p2a: Blissey|219/714\n|-damage|p2a: Blissey|31/100\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        }
+      ]
+    },
+    {
+      "id": "Lucinda",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Empoleon",
+      "sets": [
+        {
+          "name": "Empoleon",
+          "species": "Empoleon",
+          "item": "Life Orb",
+          "ability": "Torrent",
+          "moves": [
+            "Agility",
+            "Hydro Pump",
+            "Flash Cannon",
+            "Ice Beam"
+          ],
+          "nature": "Modest",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Lucario",
+          "species": "Lucario",
+          "item": "Lucarionite",
+          "ability": "Justified",
+          "moves": [
+            "Swords Dance",
+            "Close Combat",
+            "Meteor Mash",
+            "Extreme Speed"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Mew",
+          "species": "Mew",
+          "item": "Heavy-Duty Boots",
+          "ability": "Synchronize",
+          "moves": [
+            "Will-O-Wisp",
+            "Soft-Boiled",
+            "Defog",
+            "U-turn"
+          ],
+          "nature": "Bold",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 252,
+            "spa": 0,
+            "spd": 0,
+            "spe": 4
+          }
+        },
+        {
+          "name": "Weavile",
+          "species": "Weavile",
+          "item": "Choice Band",
+          "ability": "Pressure",
+          "moves": [
+            "Triple Axel",
+            "Knock Off",
+            "Ice Shard",
+            "Low Kick"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Garchomp",
+          "species": "Garchomp",
+          "item": "Rocky Helmet",
+          "ability": "Rough Skin",
+          "moves": [
+            "Stealth Rock",
+            "Earthquake",
+            "Dragon Tail",
+            "Fire Blast"
+          ],
+          "nature": "Impish",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 164,
+            "spa": 0,
+            "spd": 0,
+            "spe": 92
+          }
+        },
+        {
+          "name": "Rotom-Heat",
+          "species": "Rotom-Heat",
+          "item": "Leftovers",
+          "ability": "Levitate",
+          "moves": [
+            "Overheat",
+            "Volt Switch",
+            "Thunder Wave",
+            "Pain Split"
+          ],
+          "nature": "Calm",
+          "evs": {
+            "hp": 248,
+            "atk": 0,
+            "def": 0,
+            "spa": 8,
+            "spd": 252,
+            "spe": 0
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Lucario",
+          "resultSpecies": "Lucario-Mega",
+          "ability": "adaptability",
+          "baseStats": {
+            "hp": 70,
+            "atk": 145,
+            "def": 88,
+            "spa": 140,
+            "spd": 70,
+            "spe": 112
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Lucinda||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Lucario|Lucario, F|281/281\n|switch|p1a: Lucario|Lucario, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Lucario|Lucario-Mega, F\n|-mega|p1a: Lucario|Lucario|Lucarionite\n|move|p1a: Lucario|Swords Dance|p1a: Lucario\n|-boost|p1a: Lucario|atk|2\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Empoleon",
+          "resultSpecies": "Empoleon",
+          "ability": "torrent",
+          "baseStats": {
+            "hp": 84,
+            "atk": 86,
+            "def": 88,
+            "spa": 111,
+            "spd": 101,
+            "spe": 60
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Lucinda||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Empoleon|Empoleon, F|309/309\n|switch|p1a: Empoleon|Empoleon, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Empoleon|Dynamax|\n|split|p1\n|-heal|p1a: Empoleon|618/618|[silent]\n|-heal|p1a: Empoleon|100/100|[silent]\n|move|p1a: Empoleon|Max Guard|p1a: Empoleon\n|-singleturn|p1a: Empoleon|Max Guard\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        }
+      ]
+    },
+    {
+      "id": "Rei",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Ursaluna",
+      "sets": [
+        {
+          "name": "Samurott-Hisui",
+          "species": "Samurott-Hisui",
+          "item": "Focus Sash",
+          "ability": "Sharpness",
+          "moves": [
+            "Ceaseless Edge",
+            "Razor Shell",
+            "Sacred Sword",
+            "Aqua Jet"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Zoroark-Hisui",
+          "species": "Zoroark-Hisui",
+          "item": "Choice Specs",
+          "ability": "Illusion",
+          "moves": [
+            "Hyper Voice",
+            "Shadow Ball",
+            "Flamethrower",
+            "Trick"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 4,
+            "spa": 252,
+            "spd": 0,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Ursaluna",
+          "species": "Ursaluna",
+          "item": "Flame Orb",
+          "ability": "Guts",
+          "moves": [
+            "Facade",
+            "Headlong Rush",
+            "Fire Punch",
+            "Swords Dance"
+          ],
+          "nature": "Adamant",
+          "evs": {
+            "hp": 248,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 8,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Scizor",
+          "species": "Scizor",
+          "item": "Scizorite",
+          "ability": "Technician",
+          "moves": [
+            "Bullet Punch",
+            "U-turn",
+            "Roost",
+            "Defog"
+          ],
+          "nature": "Careful",
+          "evs": {
+            "hp": 248,
+            "atk": 0,
+            "def": 60,
+            "spa": 0,
+            "spd": 200,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Sneasler",
+          "species": "Sneasler",
+          "item": "White Herb",
+          "ability": "Unburden",
+          "moves": [
+            "Swords Dance",
+            "Close Combat",
+            "Dire Claw",
+            "Acrobatics"
+          ],
+          "nature": "Adamant",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Palkia-Origin",
+          "species": "Palkia-Origin",
+          "item": "Lustrous Globe",
+          "ability": "Pressure",
+          "moves": [
+            "Spacial Rend",
+            "Hydro Pump",
+            "Thunder",
+            "Fire Blast"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 4,
+            "spa": 252,
+            "spd": 0,
+            "spe": 252
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Scizor",
+          "resultSpecies": "Scizor-Mega",
+          "ability": "technician",
+          "baseStats": {
+            "hp": 70,
+            "atk": 150,
+            "def": 140,
+            "spa": 65,
+            "spd": 100,
+            "spe": 75
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Rei||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Scizor|Scizor, F|343/343\n|switch|p1a: Scizor|Scizor, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Scizor|Scizor-Mega, F\n|-mega|p1a: Scizor|Scizor|Scizorite\n|move|p1a: Scizor|Bullet Punch|p2a: Blissey\n|split|p2\n|-damage|p2a: Blissey|510/714\n|-damage|p2a: Blissey|72/100\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Ursaluna",
+          "resultSpecies": "Ursaluna",
+          "ability": "guts",
+          "baseStats": {
+            "hp": 130,
+            "atk": 140,
+            "def": 105,
+            "spa": 45,
+            "spd": 80,
+            "spe": 50
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Rei||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Ursaluna|Ursaluna, F|463/463\n|switch|p1a: Ursaluna|Ursaluna, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Ursaluna|Dynamax|\n|split|p1\n|-heal|p1a: Ursaluna|926/926|[silent]\n|-heal|p1a: Ursaluna|100/100|[silent]\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|move|p1a: Ursaluna|Max Strike|p2a: Blissey\n|split|p2\n|-damage|p2a: Blissey|216/714\n|-damage|p2a: Blissey|31/100\n|-unboost|p2a: Blissey|spe|1\n|\n|-status|p1a: Ursaluna|brn|[from] item: Flame Orb\n|upkeep\n|turn|2"
+        }
+      ]
+    },
+    {
+      "id": "Blue",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Machamp",
+      "sets": [
+        {
+          "name": "Blastoise",
+          "species": "Blastoise",
+          "item": "Blastoisinite",
+          "ability": "Torrent",
+          "moves": [
+            "Shell Smash",
+            "Water Pulse",
+            "Dark Pulse",
+            "Aura Sphere"
+          ],
+          "nature": "Modest",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 4,
+            "spa": 252,
+            "spd": 0,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Machamp",
+          "species": "Machamp",
+          "item": "Flame Orb",
+          "ability": "Guts",
+          "moves": [
+            "Close Combat",
+            "Facade",
+            "Knock Off",
+            "Bullet Punch"
+          ],
+          "nature": "Adamant",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          },
+          "happiness": 255,
+          "hpType": "",
+          "pokeball": "",
+          "gigantamax": true,
+          "dynamaxLevel": 10,
+          "teraType": ""
+        },
+        {
+          "name": "Zapdos",
+          "species": "Zapdos",
+          "item": "Heavy-Duty Boots",
+          "ability": "Static",
+          "moves": [
+            "Discharge",
+            "Heat Wave",
+            "Roost",
+            "Defog"
+          ],
+          "nature": "Bold",
+          "evs": {
+            "hp": 248,
+            "atk": 0,
+            "def": 220,
+            "spa": 0,
+            "spd": 0,
+            "spe": 40
+          }
+        },
+        {
+          "name": "Tyranitar",
+          "species": "Tyranitar",
+          "item": "Leftovers",
+          "ability": "Sand Stream",
+          "moves": [
+            "Stealth Rock",
+            "Knock Off",
+            "Rock Blast",
+            "Thunder Wave"
+          ],
+          "nature": "Careful",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 40,
+            "spa": 0,
+            "spd": 216,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Alakazam",
+          "species": "Alakazam",
+          "item": "Focus Sash",
+          "ability": "Magic Guard",
+          "moves": [
+            "Psychic",
+            "Focus Blast",
+            "Shadow Ball",
+            "Encore"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 4,
+            "spa": 252,
+            "spd": 0,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Arcanine",
+          "species": "Arcanine",
+          "item": "Rocky Helmet",
+          "ability": "Intimidate",
+          "moves": [
+            "Flare Blitz",
+            "Extreme Speed",
+            "Will-O-Wisp",
+            "Morning Sun"
+          ],
+          "nature": "Impish",
+          "evs": {
+            "hp": 248,
+            "atk": 0,
+            "def": 196,
+            "spa": 0,
+            "spd": 0,
+            "spe": 64
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Blastoise",
+          "resultSpecies": "Blastoise-Mega",
+          "ability": "megalauncher",
+          "baseStats": {
+            "hp": 79,
+            "atk": 103,
+            "def": 120,
+            "spa": 135,
+            "spd": 115,
+            "spe": 78
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Blue||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Blastoise|Blastoise, F|299/299\n|switch|p1a: Blastoise|Blastoise, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Blastoise|Blastoise-Mega, F\n|-mega|p1a: Blastoise|Blastoise|Blastoisinite\n|move|p1a: Blastoise|Shell Smash|p1a: Blastoise\n|-unboost|p1a: Blastoise|def|1\n|-unboost|p1a: Blastoise|spd|1\n|-boost|p1a: Blastoise|atk|2\n|-boost|p1a: Blastoise|spa|2\n|-boost|p1a: Blastoise|spe|2\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Machamp",
+          "resultSpecies": "Machamp",
+          "ability": "guts",
+          "baseStats": {
+            "hp": 90,
+            "atk": 130,
+            "def": 80,
+            "spa": 65,
+            "spd": 85,
+            "spe": 55
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Blue||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Machamp|Machamp, F|321/321\n|switch|p1a: Machamp|Machamp, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Machamp|Dynamax|Gmax\n|split|p1\n|-heal|p1a: Machamp|642/642|[silent]\n|-heal|p1a: Machamp|100/100|[silent]\n|move|p1a: Machamp|G-Max Chi Strike|p2a: Blissey\n|-supereffective|p2a: Blissey\n|split|p2\n|-damage|p2a: Blissey|0 fnt\n|-damage|p2a: Blissey|0 fnt\n|-start|p1a: Machamp|move: G-Max Chi Strike\n|faint|p2a: Blissey\n|\n|-status|p1a: Machamp|brn|[from] item: Flame Orb\n|upkeep"
+        }
+      ]
+    },
+    {
+      "id": "Giovanni",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Kingambit",
+      "sets": [
+        {
+          "name": "Miraidon",
+          "species": "Miraidon",
+          "item": "Choice Specs",
+          "ability": "Hadron Engine",
+          "moves": [
+            "Electro Drift",
+            "Draco Meteor",
+            "Overheat",
+            "U-turn"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Iron Bundle",
+          "species": "Iron Bundle",
+          "item": "Heavy-Duty Boots",
+          "ability": "Quark Drive",
+          "moves": [
+            "Freeze-Dry",
+            "Hydro Pump",
+            "Flip Turn",
+            "Encore"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Great Tusk",
+          "species": "Great Tusk",
+          "item": "Rocky Helmet",
+          "ability": "Protosynthesis",
+          "moves": [
+            "Stealth Rock",
+            "Rapid Spin",
+            "Headlong Rush",
+            "Knock Off"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 4,
+            "spa": 0,
+            "spd": 0,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Ursaluna-Bloodmoon",
+          "species": "Ursaluna-Bloodmoon",
+          "item": "Leftovers",
+          "ability": "Mind's Eye",
+          "moves": [
+            "Calm Mind",
+            "Blood Moon",
+            "Earth Power",
+            "Moonlight"
+          ],
+          "nature": "Modest",
+          "evs": {
+            "hp": 248,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 8,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Gengar",
+          "species": "Gengar",
+          "item": "Gengarite",
+          "ability": "Cursed Body",
+          "moves": [
+            "Shadow Ball",
+            "Sludge Wave",
+            "Focus Blast",
+            "Taunt"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Kingambit",
+          "species": "Kingambit",
+          "item": "Chople Berry",
+          "ability": "Supreme Overlord",
+          "moves": [
+            "Swords Dance",
+            "Kowtow Cleave",
+            "Sucker Punch",
+            "Iron Head"
+          ],
+          "nature": "Adamant",
+          "evs": {
+            "hp": 236,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 0,
+            "spe": 20
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Gengar",
+          "resultSpecies": "Gengar-Mega",
+          "ability": "shadowtag",
+          "baseStats": {
+            "hp": 60,
+            "atk": 65,
+            "def": 80,
+            "spa": 170,
+            "spd": 95,
+            "spe": 130
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Giovanni||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Gengar|Gengar, F|261/261\n|switch|p1a: Gengar|Gengar, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Gengar|Gengar-Mega, F\n|-mega|p1a: Gengar|Gengar|Gengarite\n|move|p1a: Gengar|Shadow Ball|p2a: Blissey\n|-immune|p2a: Blissey\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Kingambit",
+          "resultSpecies": "Kingambit",
+          "ability": "supremeoverlord",
+          "baseStats": {
+            "hp": 100,
+            "atk": 135,
+            "def": 120,
+            "spa": 60,
+            "spd": 85,
+            "spe": 50
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Giovanni||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Kingambit|Kingambit, F|400/400\n|switch|p1a: Kingambit|Kingambit, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Kingambit|Dynamax|\n|split|p1\n|-heal|p1a: Kingambit|800/800|[silent]\n|-heal|p1a: Kingambit|100/100|[silent]\n|move|p1a: Kingambit|Max Guard|p1a: Kingambit\n|-singleturn|p1a: Kingambit|Max Guard\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        }
+      ]
+    },
+    {
+      "id": "Dandel / Leon",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Charizard",
+      "sets": [
+        {
+          "name": "Charizard",
+          "species": "Charizard",
+          "item": "Heavy-Duty Boots",
+          "ability": "Blaze",
+          "moves": [
+            "Fire Blast",
+            "Air Slash",
+            "Solar Beam",
+            "Dragon Pulse"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          },
+          "happiness": 255,
+          "hpType": "",
+          "pokeball": "",
+          "gigantamax": true,
+          "dynamaxLevel": 10,
+          "teraType": ""
+        },
+        {
+          "name": "Dragapult",
+          "species": "Dragapult",
+          "item": "Choice Specs",
+          "ability": "Infiltrator",
+          "moves": [
+            "Shadow Ball",
+            "Draco Meteor",
+            "Flamethrower",
+            "U-turn"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Aegislash",
+          "species": "Aegislash",
+          "item": "Leftovers",
+          "ability": "Stance Change",
+          "moves": [
+            "King's Shield",
+            "Swords Dance",
+            "Shadow Sneak",
+            "Close Combat"
+          ],
+          "nature": "Adamant",
+          "evs": {
+            "hp": 252,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Cinderace",
+          "species": "Cinderace",
+          "item": "Life Orb",
+          "ability": "Libero",
+          "moves": [
+            "Pyro Ball",
+            "U-turn",
+            "High Jump Kick",
+            "Court Change"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Eternatus",
+          "species": "Eternatus",
+          "item": "Black Sludge",
+          "ability": "Pressure",
+          "moves": [
+            "Dynamax Cannon",
+            "Flamethrower",
+            "Toxic Spikes",
+            "Recover"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 200,
+            "spa": 0,
+            "spd": 0,
+            "spe": 56
+          }
+        },
+        {
+          "name": "Salamence",
+          "species": "Salamence",
+          "item": "Salamencite",
+          "ability": "Intimidate",
+          "moves": [
+            "Dragon Dance",
+            "Double-Edge",
+            "Earthquake",
+            "Roost"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Salamence",
+          "resultSpecies": "Salamence-Mega",
+          "ability": "aerilate",
+          "baseStats": {
+            "hp": 95,
+            "atk": 145,
+            "def": 130,
+            "spa": 120,
+            "spd": 90,
+            "spe": 120
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Dandel / Leon||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Salamence|Salamence, F|331/331\n|switch|p1a: Salamence|Salamence, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|-ability|p1a: Salamence|Intimidate|boost\n|-unboost|p2a: Blissey|atk|1\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Salamence|Salamence-Mega, F\n|-mega|p1a: Salamence|Salamence|Salamencite\n|move|p1a: Salamence|Dragon Dance|p1a: Salamence\n|-boost|p1a: Salamence|atk|1\n|-boost|p1a: Salamence|spe|1\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Charizard",
+          "resultSpecies": "Charizard",
+          "ability": "blaze",
+          "baseStats": {
+            "hp": 78,
+            "atk": 84,
+            "def": 78,
+            "spa": 109,
+            "spd": 85,
+            "spe": 100
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Dandel / Leon||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Charizard|Charizard, F|297/297\n|switch|p1a: Charizard|Charizard, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Charizard|Dynamax|Gmax\n|split|p1\n|-heal|p1a: Charizard|594/594|[silent]\n|-heal|p1a: Charizard|100/100|[silent]\n|move|p1a: Charizard|G-Max Wildfire|p2a: Blissey\n|split|p2\n|-damage|p2a: Blissey|542/714\n|-damage|p2a: Blissey|76/100\n|-sidestart|p2: Test-only probe|G-Max Wildfire\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|split|p2\n|-damage|p2a: Blissey|423/714|[from] G-Max Wildfire\n|-damage|p2a: Blissey|60/100|[from] G-Max Wildfire\n|upkeep\n|turn|2"
+        }
+      ]
+    },
+    {
+      "id": "Archie",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Basculegion-M",
+      "sets": [
+        {
+          "name": "Kyogre",
+          "species": "Kyogre",
+          "item": "Choice Scarf",
+          "ability": "Drizzle",
+          "moves": [
+            "Water Spout",
+            "Origin Pulse",
+            "Thunder",
+            "Ice Beam"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Sharpedo",
+          "species": "Sharpedo",
+          "item": "Sharpedonite",
+          "ability": "Speed Boost",
+          "moves": [
+            "Protect",
+            "Crunch",
+            "Waterfall",
+            "Psychic Fangs"
+          ],
+          "nature": "Adamant",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Archaludon",
+          "species": "Archaludon",
+          "item": "Assault Vest",
+          "ability": "Stamina",
+          "moves": [
+            "Electro Shot",
+            "Draco Meteor",
+            "Flash Cannon",
+            "Body Press"
+          ],
+          "nature": "Modest",
+          "evs": {
+            "hp": 128,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 128,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Ferrothorn",
+          "species": "Ferrothorn",
+          "item": "Leftovers",
+          "ability": "Iron Barbs",
+          "moves": [
+            "Spikes",
+            "Knock Off",
+            "Power Whip",
+            "Leech Seed"
+          ],
+          "nature": "Relaxed",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 88,
+            "spa": 0,
+            "spd": 168,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Pelipper",
+          "species": "Pelipper",
+          "item": "Damp Rock",
+          "ability": "Drizzle",
+          "moves": [
+            "Hurricane",
+            "U-turn",
+            "Roost",
+            "Defog"
+          ],
+          "nature": "Bold",
+          "evs": {
+            "hp": 248,
+            "atk": 0,
+            "def": 252,
+            "spa": 0,
+            "spd": 8,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Basculegion-M",
+          "species": "Basculegion-M",
+          "item": "Choice Band",
+          "ability": "Swift Swim",
+          "moves": [
+            "Wave Crash",
+            "Last Respects",
+            "Aqua Jet",
+            "Flip Turn"
+          ],
+          "nature": "Adamant",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Sharpedo",
+          "resultSpecies": "Sharpedo-Mega",
+          "ability": "strongjaw",
+          "baseStats": {
+            "hp": 70,
+            "atk": 140,
+            "def": 70,
+            "spa": 110,
+            "spd": 65,
+            "spe": 105
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Archie||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Sharpedo|Sharpedo, F|281/281\n|switch|p1a: Sharpedo|Sharpedo, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Sharpedo|Sharpedo-Mega, F\n|-mega|p1a: Sharpedo|Sharpedo|Sharpedonite\n|move|p1a: Sharpedo|Protect|p1a: Sharpedo\n|-singleturn|p1a: Sharpedo|Protect\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Basculegion-M",
+          "resultSpecies": "Basculegion",
+          "ability": "swiftswim",
+          "baseStats": {
+            "hp": 120,
+            "atk": 112,
+            "def": 65,
+            "spa": 80,
+            "spd": 75,
+            "spe": 78
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Archie||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Basculegion|Basculegion, M|381/381\n|switch|p1a: Basculegion|Basculegion, M|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Basculegion|Dynamax|\n|split|p1\n|-heal|p1a: Basculegion|762/762|[silent]\n|-heal|p1a: Basculegion|100/100|[silent]\n|move|p1a: Basculegion|Max Geyser|p2a: Blissey\n|split|p2\n|-damage|p2a: Blissey|251/714\n|-damage|p2a: Blissey|36/100\n|-weather|RainDance\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|-weather|RainDance|[upkeep]\n|upkeep\n|turn|2"
+        }
+      ]
+    },
+    {
+      "id": "Maxie",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Venusaur",
+      "sets": [
+        {
+          "name": "Groudon",
+          "species": "Groudon",
+          "item": "Red Orb",
+          "ability": "Drought",
+          "moves": [
+            "Stealth Rock",
+            "Swords Dance",
+            "Precipice Blades",
+            "Stone Edge"
+          ],
+          "nature": "Adamant",
+          "evs": {
+            "hp": 136,
+            "atk": 168,
+            "def": 0,
+            "spa": 0,
+            "spd": 52,
+            "spe": 152
+          }
+        },
+        {
+          "name": "Camerupt",
+          "species": "Camerupt",
+          "item": "Cameruptite",
+          "ability": "Solid Rock",
+          "moves": [
+            "Fire Blast",
+            "Earth Power",
+            "Ancient Power",
+            "Toxic"
+          ],
+          "nature": "Modest",
+          "evs": {
+            "hp": 248,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 8,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Torkoal",
+          "species": "Torkoal",
+          "item": "Heat Rock",
+          "ability": "Drought",
+          "moves": [
+            "Lava Plume",
+            "Rapid Spin",
+            "Yawn",
+            "Stealth Rock"
+          ],
+          "nature": "Bold",
+          "evs": {
+            "hp": 248,
+            "atk": 0,
+            "def": 252,
+            "spa": 0,
+            "spd": 8,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Venusaur",
+          "species": "Venusaur",
+          "item": "Life Orb",
+          "ability": "Chlorophyll",
+          "moves": [
+            "Growth",
+            "Giga Drain",
+            "Weather Ball",
+            "Earth Power"
+          ],
+          "nature": "Modest",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          },
+          "happiness": 255,
+          "hpType": "",
+          "pokeball": "",
+          "gigantamax": true,
+          "dynamaxLevel": 10,
+          "teraType": ""
+        },
+        {
+          "name": "Roaring Moon",
+          "species": "Roaring Moon",
+          "item": "Choice Band",
+          "ability": "Protosynthesis",
+          "moves": [
+            "Crunch",
+            "Outrage",
+            "Earthquake",
+            "U-turn"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Great Tusk",
+          "species": "Great Tusk",
+          "item": "Heavy-Duty Boots",
+          "ability": "Protosynthesis",
+          "moves": [
+            "Headlong Rush",
+            "Close Combat",
+            "Knock Off",
+            "Rapid Spin"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 4,
+            "spa": 0,
+            "spd": 0,
+            "spe": 252
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Camerupt",
+          "resultSpecies": "Camerupt-Mega",
+          "ability": "sheerforce",
+          "baseStats": {
+            "hp": 70,
+            "atk": 120,
+            "def": 100,
+            "spa": 145,
+            "spd": 105,
+            "spe": 20
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Maxie||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Camerupt|Camerupt, F|343/343\n|switch|p1a: Camerupt|Camerupt, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Camerupt|Camerupt-Mega, F\n|-mega|p1a: Camerupt|Camerupt|Cameruptite\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|move|p1a: Camerupt|Fire Blast|p2a: Blissey\n|split|p2\n|-damage|p2a: Blissey|492/714\n|-damage|p2a: Blissey|69/100\n|\n|upkeep\n|turn|2"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Venusaur",
+          "resultSpecies": "Venusaur",
+          "ability": "chlorophyll",
+          "baseStats": {
+            "hp": 80,
+            "atk": 82,
+            "def": 83,
+            "spa": 100,
+            "spd": 100,
+            "spe": 80
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Maxie||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Venusaur|Venusaur, F|301/301\n|switch|p1a: Venusaur|Venusaur, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Venusaur|Dynamax|Gmax\n|split|p1\n|-heal|p1a: Venusaur|602/602|[silent]\n|-heal|p1a: Venusaur|100/100|[silent]\n|move|p1a: Venusaur|G-Max Vine Lash|p2a: Blissey\n|split|p2\n|-damage|p2a: Blissey|500/714\n|-damage|p2a: Blissey|71/100\n|-sidestart|p2: Test-only probe|G-Max Vine Lash\n|split|p1\n|-damage|p1a: Venusaur|572/602|[from] item: Life Orb\n|-damage|p1a: Venusaur|96/100|[from] item: Life Orb\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|split|p2\n|-damage|p2a: Blissey|381/714|[from] G-Max Vine Lash\n|-damage|p2a: Blissey|54/100|[from] G-Max Vine Lash\n|upkeep\n|turn|2"
+        }
+      ]
+    },
+    {
+      "id": "Astrid Vahl",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Corviknight",
+      "sets": [
+        {
+          "name": "Xerneas",
+          "species": "Xerneas",
+          "item": "Power Herb",
+          "ability": "Fairy Aura",
+          "moves": [
+            "Geomancy",
+            "Moonblast",
+            "Thunder",
+            "Focus Blast"
+          ],
+          "nature": "Modest",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 168,
+            "spa": 252,
+            "spd": 0,
+            "spe": 88
+          }
+        },
+        {
+          "name": "Mawile",
+          "species": "Mawile",
+          "item": "Mawilite",
+          "ability": "Intimidate",
+          "moves": [
+            "Swords Dance",
+            "Play Rough",
+            "Sucker Punch",
+            "Knock Off"
+          ],
+          "nature": "Adamant",
+          "evs": {
+            "hp": 92,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 0,
+            "spe": 164
+          }
+        },
+        {
+          "name": "Corviknight",
+          "species": "Corviknight",
+          "item": "Leftovers",
+          "ability": "Pressure",
+          "moves": [
+            "Brave Bird",
+            "Body Press",
+            "Roost",
+            "U-turn"
+          ],
+          "nature": "Impish",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 168,
+            "spa": 0,
+            "spd": 88,
+            "spe": 0
+          },
+          "happiness": 255,
+          "hpType": "",
+          "pokeball": "",
+          "gigantamax": true,
+          "dynamaxLevel": 10,
+          "teraType": ""
+        },
+        {
+          "name": "Rotom-Wash",
+          "species": "Rotom-Wash",
+          "item": "Rocky Helmet",
+          "ability": "Levitate",
+          "moves": [
+            "Hydro Pump",
+            "Volt Switch",
+            "Will-O-Wisp",
+            "Pain Split"
+          ],
+          "nature": "Bold",
+          "evs": {
+            "hp": 248,
+            "atk": 0,
+            "def": 216,
+            "spa": 0,
+            "spd": 0,
+            "spe": 44
+          }
+        },
+        {
+          "name": "Dragapult",
+          "species": "Dragapult",
+          "item": "Choice Specs",
+          "ability": "Infiltrator",
+          "moves": [
+            "Shadow Ball",
+            "Draco Meteor",
+            "Flamethrower",
+            "U-turn"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Clodsire",
+          "species": "Clodsire",
+          "item": "Black Sludge",
+          "ability": "Unaware",
+          "moves": [
+            "Stealth Rock",
+            "Earthquake",
+            "Recover",
+            "Toxic"
+          ],
+          "nature": "Careful",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 4,
+            "spa": 0,
+            "spd": 252,
+            "spe": 0
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Mawile",
+          "resultSpecies": "Mawile-Mega",
+          "ability": "hugepower",
+          "baseStats": {
+            "hp": 50,
+            "atk": 105,
+            "def": 125,
+            "spa": 55,
+            "spd": 95,
+            "spe": 50
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Astrid Vahl||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Mawile|Mawile, F|264/264\n|switch|p1a: Mawile|Mawile, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|-ability|p1a: Mawile|Intimidate|boost\n|-unboost|p2a: Blissey|atk|1\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Mawile|Mawile-Mega, F\n|-mega|p1a: Mawile|Mawile|Mawilite\n|move|p1a: Mawile|Swords Dance|p1a: Mawile\n|-boost|p1a: Mawile|atk|2\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Corviknight",
+          "resultSpecies": "Corviknight",
+          "ability": "pressure",
+          "baseStats": {
+            "hp": 98,
+            "atk": 87,
+            "def": 105,
+            "spa": 53,
+            "spd": 85,
+            "spe": 67
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Astrid Vahl||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Corviknight|Corviknight, F|400/400\n|switch|p1a: Corviknight|Corviknight, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|-ability|p1a: Corviknight|Pressure\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Corviknight|Dynamax|Gmax\n|split|p1\n|-heal|p1a: Corviknight|800/800|[silent]\n|-heal|p1a: Corviknight|100/100|[silent]\n|move|p1a: Corviknight|G-Max Wind Rage|p2a: Blissey\n|split|p2\n|-damage|p2a: Blissey|440/714\n|-damage|p2a: Blissey|62/100\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        }
+      ]
+    },
+    {
+      "id": "Silas Crowe",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Baxcalibur",
+      "sets": [
+        {
+          "name": "Calyrex-Shadow",
+          "species": "Calyrex-Shadow",
+          "item": "Choice Specs",
+          "ability": "As One (Spectrier)",
+          "moves": [
+            "Astral Barrage",
+            "Psyshock",
+            "Grass Knot",
+            "Trick"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 4,
+            "spa": 252,
+            "spd": 0,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Ceruledge",
+          "species": "Ceruledge",
+          "item": "Focus Sash",
+          "ability": "Weak Armor",
+          "moves": [
+            "Swords Dance",
+            "Bitter Blade",
+            "Shadow Sneak",
+            "Close Combat"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Grimmsnarl",
+          "species": "Grimmsnarl",
+          "item": "Light Clay",
+          "ability": "Prankster",
+          "moves": [
+            "Reflect",
+            "Light Screen",
+            "Taunt",
+            "Parting Shot"
+          ],
+          "nature": "Careful",
+          "evs": {
+            "hp": 252,
+            "atk": 4,
+            "def": 0,
+            "spa": 0,
+            "spd": 252,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Baxcalibur",
+          "species": "Baxcalibur",
+          "item": "Loaded Dice",
+          "ability": "Thermal Exchange",
+          "moves": [
+            "Dragon Dance",
+            "Glaive Rush",
+            "Icicle Spear",
+            "Earthquake"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Glimmora",
+          "species": "Glimmora",
+          "item": "Air Balloon",
+          "ability": "Toxic Debris",
+          "moves": [
+            "Stealth Rock",
+            "Mortal Spin",
+            "Power Gem",
+            "Earth Power"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 4,
+            "spa": 252,
+            "spd": 0,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Gengar",
+          "species": "Gengar",
+          "item": "Gengarite",
+          "ability": "Cursed Body",
+          "moves": [
+            "Shadow Ball",
+            "Sludge Wave",
+            "Focus Blast",
+            "Taunt"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Gengar",
+          "resultSpecies": "Gengar-Mega",
+          "ability": "shadowtag",
+          "baseStats": {
+            "hp": 60,
+            "atk": 65,
+            "def": 80,
+            "spa": 170,
+            "spd": 95,
+            "spe": 130
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Silas Crowe||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Gengar|Gengar, F|261/261\n|switch|p1a: Gengar|Gengar, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Gengar|Gengar-Mega, F\n|-mega|p1a: Gengar|Gengar|Gengarite\n|move|p1a: Gengar|Shadow Ball|p2a: Blissey\n|-immune|p2a: Blissey\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Baxcalibur",
+          "resultSpecies": "Baxcalibur",
+          "ability": "thermalexchange",
+          "baseStats": {
+            "hp": 115,
+            "atk": 145,
+            "def": 92,
+            "spa": 75,
+            "spd": 86,
+            "spe": 87
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Silas Crowe||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Baxcalibur|Baxcalibur, F|371/371\n|switch|p1a: Baxcalibur|Baxcalibur, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Baxcalibur|Dynamax|\n|split|p1\n|-heal|p1a: Baxcalibur|742/742|[silent]\n|-heal|p1a: Baxcalibur|100/100|[silent]\n|move|p1a: Baxcalibur|Max Guard|p1a: Baxcalibur\n|-singleturn|p1a: Baxcalibur|Max Guard\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        }
+      ]
+    },
+    {
+      "id": "Rurik Dune",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Excadrill",
+      "sets": [
+        {
+          "name": "Zygarde",
+          "species": "Zygarde",
+          "item": "Leftovers",
+          "ability": "Power Construct",
+          "moves": [
+            "Dragon Dance",
+            "Thousand Arrows",
+            "Substitute",
+            "Glare"
+          ],
+          "nature": "Impish",
+          "evs": {
+            "hp": 16,
+            "atk": 224,
+            "def": 36,
+            "spa": 0,
+            "spd": 0,
+            "spe": 232
+          }
+        },
+        {
+          "name": "Tyranitar",
+          "species": "Tyranitar",
+          "item": "Tyranitarite",
+          "ability": "Sand Stream",
+          "moves": [
+            "Dragon Dance",
+            "Stone Edge",
+            "Crunch",
+            "Earthquake"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Excadrill",
+          "species": "Excadrill",
+          "item": "Life Orb",
+          "ability": "Sand Rush",
+          "moves": [
+            "Swords Dance",
+            "Earthquake",
+            "Iron Head",
+            "Rock Slide"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Toxapex",
+          "species": "Toxapex",
+          "item": "Black Sludge",
+          "ability": "Regenerator",
+          "moves": [
+            "Scald",
+            "Recover",
+            "Haze",
+            "Toxic Spikes"
+          ],
+          "nature": "Bold",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 252,
+            "spa": 0,
+            "spd": 4,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Corviknight",
+          "species": "Corviknight",
+          "item": "Heavy-Duty Boots",
+          "ability": "Pressure",
+          "moves": [
+            "Roost",
+            "Defog",
+            "U-turn",
+            "Body Press"
+          ],
+          "nature": "Impish",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 168,
+            "spa": 0,
+            "spd": 88,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Clefable",
+          "species": "Clefable",
+          "item": "Covert Cloak",
+          "ability": "Magic Guard",
+          "moves": [
+            "Stealth Rock",
+            "Moonblast",
+            "Soft-Boiled",
+            "Knock Off"
+          ],
+          "nature": "Calm",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 4,
+            "spa": 0,
+            "spd": 252,
+            "spe": 0
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Tyranitar",
+          "resultSpecies": "Tyranitar-Mega",
+          "ability": "sandstream",
+          "baseStats": {
+            "hp": 100,
+            "atk": 164,
+            "def": 150,
+            "spa": 95,
+            "spd": 120,
+            "spe": 71
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Rurik Dune||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Tyranitar|Tyranitar, F|341/341\n|switch|p1a: Tyranitar|Tyranitar, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|-weather|Sandstorm|[from] ability: Sand Stream|[of] p1a: Tyranitar\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Tyranitar|Tyranitar-Mega, F\n|-mega|p1a: Tyranitar|Tyranitar|Tyranitarite\n|move|p1a: Tyranitar|Dragon Dance|p1a: Tyranitar\n|-boost|p1a: Tyranitar|atk|1\n|-boost|p1a: Tyranitar|spe|1\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|-weather|Sandstorm|[upkeep]\n|split|p2\n|-damage|p2a: Blissey|670/714|[from] Sandstorm\n|-damage|p2a: Blissey|94/100|[from] Sandstorm\n|upkeep\n|turn|2"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Excadrill",
+          "resultSpecies": "Excadrill",
+          "ability": "sandrush",
+          "baseStats": {
+            "hp": 110,
+            "atk": 135,
+            "def": 60,
+            "spa": 50,
+            "spd": 65,
+            "spe": 88
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Rurik Dune||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Excadrill|Excadrill, F|361/361\n|switch|p1a: Excadrill|Excadrill, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Excadrill|Dynamax|\n|split|p1\n|-heal|p1a: Excadrill|722/722|[silent]\n|-heal|p1a: Excadrill|100/100|[silent]\n|move|p1a: Excadrill|Max Guard|p1a: Excadrill\n|-singleturn|p1a: Excadrill|Max Guard\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        }
+      ]
+    },
+    {
+      "id": "Ayame Hoshino",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Rillaboom",
+      "sets": [
+        {
+          "name": "Ho-Oh",
+          "species": "Ho-Oh",
+          "item": "Heavy-Duty Boots",
+          "ability": "Regenerator",
+          "moves": [
+            "Sacred Fire",
+            "Brave Bird",
+            "Recover",
+            "Whirlwind"
+          ],
+          "nature": "Careful",
+          "evs": {
+            "hp": 248,
+            "atk": 0,
+            "def": 0,
+            "spa": 0,
+            "spd": 208,
+            "spe": 52
+          }
+        },
+        {
+          "name": "Lopunny",
+          "species": "Lopunny",
+          "item": "Lopunnite",
+          "ability": "Limber",
+          "moves": [
+            "Fake Out",
+            "Return",
+            "Close Combat",
+            "U-turn"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Rillaboom",
+          "species": "Rillaboom",
+          "item": "Life Orb",
+          "ability": "Grassy Surge",
+          "moves": [
+            "Swords Dance",
+            "Grassy Glide",
+            "Knock Off",
+            "Superpower"
+          ],
+          "nature": "Adamant",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 4,
+            "spa": 0,
+            "spd": 0,
+            "spe": 252
+          },
+          "happiness": 255,
+          "hpType": "",
+          "pokeball": "",
+          "gigantamax": true,
+          "dynamaxLevel": 10,
+          "teraType": ""
+        },
+        {
+          "name": "Gliscor",
+          "species": "Gliscor",
+          "item": "Toxic Orb",
+          "ability": "Poison Heal",
+          "moves": [
+            "Stealth Rock",
+            "Earthquake",
+            "Knock Off",
+            "Roost"
+          ],
+          "nature": "Impish",
+          "evs": {
+            "hp": 244,
+            "atk": 0,
+            "def": 184,
+            "spa": 0,
+            "spd": 0,
+            "spe": 80
+          }
+        },
+        {
+          "name": "Slowking-Galar",
+          "species": "Slowking-Galar",
+          "item": "Colbur Berry",
+          "ability": "Regenerator",
+          "moves": [
+            "Future Sight",
+            "Sludge Bomb",
+            "Flamethrower",
+            "Chilly Reception"
+          ],
+          "nature": "Calm",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 4,
+            "spa": 0,
+            "spd": 252,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Gholdengo",
+          "species": "Gholdengo",
+          "item": "Air Balloon",
+          "ability": "Good as Gold",
+          "moves": [
+            "Nasty Plot",
+            "Make It Rain",
+            "Shadow Ball",
+            "Recover"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Lopunny",
+          "resultSpecies": "Lopunny-Mega",
+          "ability": "scrappy",
+          "baseStats": {
+            "hp": 65,
+            "atk": 136,
+            "def": 94,
+            "spa": 54,
+            "spd": 96,
+            "spe": 135
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Ayame Hoshino||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Lopunny|Lopunny, F|271/271\n|switch|p1a: Lopunny|Lopunny, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Lopunny|Lopunny-Mega, F\n|-mega|p1a: Lopunny|Lopunny|Lopunnite\n|move|p1a: Lopunny|Fake Out|p2a: Blissey\n|split|p2\n|-damage|p2a: Blissey|566/714\n|-damage|p2a: Blissey|80/100\n|cant|p2a: Blissey|flinch\n|\n|upkeep\n|turn|2"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Rillaboom",
+          "resultSpecies": "Rillaboom",
+          "ability": "grassysurge",
+          "baseStats": {
+            "hp": 100,
+            "atk": 125,
+            "def": 90,
+            "spa": 60,
+            "spd": 70,
+            "spe": 85
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Ayame Hoshino||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Rillaboom|Rillaboom, F|341/341\n|switch|p1a: Rillaboom|Rillaboom, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|-fieldstart|move: Grassy Terrain|[from] ability: Grassy Surge|[of] p1a: Rillaboom\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Rillaboom|Dynamax|Gmax\n|split|p1\n|-heal|p1a: Rillaboom|682/682|[silent]\n|-heal|p1a: Rillaboom|100/100|[silent]\n|move|p1a: Rillaboom|G-Max Drum Solo|p2a: Blissey\n|split|p2\n|-damage|p2a: Blissey|0 fnt\n|-damage|p2a: Blissey|0 fnt\n|faint|p2a: Blissey\n|split|p1\n|-damage|p1a: Rillaboom|648/682|[from] item: Life Orb\n|-damage|p1a: Rillaboom|96/100|[from] item: Life Orb\n|\n|split|p1\n|-heal|p1a: Rillaboom|669/682|[from] Grassy Terrain\n|-heal|p1a: Rillaboom|99/100|[from] Grassy Terrain\n|upkeep"
+        }
+      ]
+    },
+    {
+      "id": "Orion Vale",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Melmetal",
+      "sets": [
+        {
+          "name": "Solgaleo",
+          "species": "Solgaleo",
+          "item": "Leftovers",
+          "ability": "Full Metal Body",
+          "moves": [
+            "Future Sight",
+            "Teleport",
+            "Sunsteel Strike",
+            "Morning Sun"
+          ],
+          "nature": "Sassy",
+          "evs": {
+            "hp": 252,
+            "atk": 4,
+            "def": 0,
+            "spa": 0,
+            "spd": 252,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Volcarona",
+          "species": "Volcarona",
+          "item": "Heavy-Duty Boots",
+          "ability": "Flame Body",
+          "moves": [
+            "Quiver Dance",
+            "Fiery Dance",
+            "Bug Buzz",
+            "Giga Drain"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Melmetal",
+          "species": "Melmetal",
+          "item": "Assault Vest",
+          "ability": "Iron Fist",
+          "moves": [
+            "Double Iron Bash",
+            "Earthquake",
+            "Thunder Punch",
+            "Ice Punch"
+          ],
+          "nature": "Adamant",
+          "evs": {
+            "hp": 176,
+            "atk": 92,
+            "def": 0,
+            "spa": 0,
+            "spd": 228,
+            "spe": 12
+          },
+          "happiness": 255,
+          "hpType": "",
+          "pokeball": "",
+          "gigantamax": true,
+          "dynamaxLevel": 10,
+          "teraType": ""
+        },
+        {
+          "name": "Great Tusk",
+          "species": "Great Tusk",
+          "item": "Rocky Helmet",
+          "ability": "Protosynthesis",
+          "moves": [
+            "Rapid Spin",
+            "Headlong Rush",
+            "Knock Off",
+            "Stealth Rock"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 4,
+            "spa": 0,
+            "spd": 0,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Rotom-Wash",
+          "species": "Rotom-Wash",
+          "item": "Sitrus Berry",
+          "ability": "Levitate",
+          "moves": [
+            "Hydro Pump",
+            "Volt Switch",
+            "Will-O-Wisp",
+            "Pain Split"
+          ],
+          "nature": "Bold",
+          "evs": {
+            "hp": 248,
+            "atk": 0,
+            "def": 216,
+            "spa": 0,
+            "spd": 0,
+            "spe": 44
+          }
+        },
+        {
+          "name": "Scizor",
+          "species": "Scizor",
+          "item": "Scizorite",
+          "ability": "Technician",
+          "moves": [
+            "Bullet Punch",
+            "U-turn",
+            "Roost",
+            "Swords Dance"
+          ],
+          "nature": "Careful",
+          "evs": {
+            "hp": 248,
+            "atk": 0,
+            "def": 60,
+            "spa": 0,
+            "spd": 200,
+            "spe": 0
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Scizor",
+          "resultSpecies": "Scizor-Mega",
+          "ability": "technician",
+          "baseStats": {
+            "hp": 70,
+            "atk": 150,
+            "def": 140,
+            "spa": 65,
+            "spd": 100,
+            "spe": 75
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Orion Vale||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Scizor|Scizor, F|343/343\n|switch|p1a: Scizor|Scizor, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Scizor|Scizor-Mega, F\n|-mega|p1a: Scizor|Scizor|Scizorite\n|move|p1a: Scizor|Bullet Punch|p2a: Blissey\n|split|p2\n|-damage|p2a: Blissey|515/714\n|-damage|p2a: Blissey|73/100\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Melmetal",
+          "resultSpecies": "Melmetal",
+          "ability": "ironfist",
+          "baseStats": {
+            "hp": 135,
+            "atk": 143,
+            "def": 143,
+            "spa": 80,
+            "spd": 65,
+            "spe": 34
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Orion Vale||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Melmetal|Melmetal|455/455\n|switch|p1a: Melmetal|Melmetal|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Melmetal|Dynamax|Gmax\n|split|p1\n|-heal|p1a: Melmetal|910/910|[silent]\n|-heal|p1a: Melmetal|100/100|[silent]\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|move|p1a: Melmetal|G-Max Meltdown|p2a: Blissey\n|split|p2\n|-damage|p2a: Blissey|191/714\n|-damage|p2a: Blissey|27/100\n|-start|p2a: Blissey|Torment\n|\n|upkeep\n|turn|2"
+        }
+      ]
+    },
+    {
+      "id": "Nyx Vesper",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Weavile",
+      "sets": [
+        {
+          "name": "Yveltal",
+          "species": "Yveltal",
+          "item": "Heavy-Duty Boots",
+          "ability": "Dark Aura",
+          "moves": [
+            "Foul Play",
+            "Oblivion Wing",
+            "Defog",
+            "Roost"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 248,
+            "atk": 0,
+            "def": 0,
+            "spa": 0,
+            "spd": 72,
+            "spe": 188
+          }
+        },
+        {
+          "name": "Weavile",
+          "species": "Weavile",
+          "item": "Life Orb",
+          "ability": "Pressure",
+          "moves": [
+            "Swords Dance",
+            "Triple Axel",
+            "Knock Off",
+            "Ice Shard"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Gyarados",
+          "species": "Gyarados",
+          "item": "Gyaradosite",
+          "ability": "Intimidate",
+          "moves": [
+            "Dragon Dance",
+            "Waterfall",
+            "Crunch",
+            "Earthquake"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Ferrothorn",
+          "species": "Ferrothorn",
+          "item": "Leftovers",
+          "ability": "Iron Barbs",
+          "moves": [
+            "Spikes",
+            "Knock Off",
+            "Power Whip",
+            "Leech Seed"
+          ],
+          "nature": "Relaxed",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 88,
+            "spa": 0,
+            "spd": 168,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Gliscor",
+          "species": "Gliscor",
+          "item": "Toxic Orb",
+          "ability": "Poison Heal",
+          "moves": [
+            "Stealth Rock",
+            "Earthquake",
+            "Knock Off",
+            "Roost"
+          ],
+          "nature": "Impish",
+          "evs": {
+            "hp": 244,
+            "atk": 0,
+            "def": 184,
+            "spa": 0,
+            "spd": 0,
+            "spe": 80
+          }
+        },
+        {
+          "name": "Gholdengo",
+          "species": "Gholdengo",
+          "item": "Air Balloon",
+          "ability": "Good as Gold",
+          "moves": [
+            "Nasty Plot",
+            "Make It Rain",
+            "Shadow Ball",
+            "Recover"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Gyarados",
+          "resultSpecies": "Gyarados-Mega",
+          "ability": "moldbreaker",
+          "baseStats": {
+            "hp": 95,
+            "atk": 155,
+            "def": 109,
+            "spa": 70,
+            "spd": 130,
+            "spe": 81
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Nyx Vesper||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Gyarados|Gyarados, F|331/331\n|switch|p1a: Gyarados|Gyarados, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|-ability|p1a: Gyarados|Intimidate|boost\n|-unboost|p2a: Blissey|atk|1\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Gyarados|Gyarados-Mega, F\n|-mega|p1a: Gyarados|Gyarados|Gyaradosite\n|-ability|p1a: Gyarados|Mold Breaker\n|move|p1a: Gyarados|Dragon Dance|p1a: Gyarados\n|-boost|p1a: Gyarados|atk|1\n|-boost|p1a: Gyarados|spe|1\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Weavile",
+          "resultSpecies": "Weavile",
+          "ability": "pressure",
+          "baseStats": {
+            "hp": 70,
+            "atk": 120,
+            "def": 65,
+            "spa": 45,
+            "spd": 85,
+            "spe": 125
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Nyx Vesper||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Weavile|Weavile, F|281/281\n|switch|p1a: Weavile|Weavile, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|-ability|p1a: Weavile|Pressure\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Weavile|Dynamax|\n|split|p1\n|-heal|p1a: Weavile|562/562|[silent]\n|-heal|p1a: Weavile|100/100|[silent]\n|move|p1a: Weavile|Max Guard|p1a: Weavile\n|-singleturn|p1a: Weavile|Max Guard\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        }
+      ]
+    },
+    {
+      "id": "Kaia Solari",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Flutter Mane",
+      "sets": [
+        {
+          "name": "Koraidon",
+          "species": "Koraidon",
+          "item": "Choice Scarf",
+          "ability": "Orichalcum Pulse",
+          "moves": [
+            "Collision Course",
+            "Dragon Claw",
+            "U-turn",
+            "Flare Blitz"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Houndoom",
+          "species": "Houndoom",
+          "item": "Houndoominite",
+          "ability": "Flash Fire",
+          "moves": [
+            "Nasty Plot",
+            "Fire Blast",
+            "Dark Pulse",
+            "Solar Beam"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Flutter Mane",
+          "species": "Flutter Mane",
+          "item": "Life Orb",
+          "ability": "Protosynthesis",
+          "moves": [
+            "Calm Mind",
+            "Moonblast",
+            "Shadow Ball",
+            "Mystical Fire"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Walking Wake",
+          "species": "Walking Wake",
+          "item": "Choice Specs",
+          "ability": "Protosynthesis",
+          "moves": [
+            "Hydro Steam",
+            "Draco Meteor",
+            "Flamethrower",
+            "Flip Turn"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Great Tusk",
+          "species": "Great Tusk",
+          "item": "Heavy-Duty Boots",
+          "ability": "Protosynthesis",
+          "moves": [
+            "Stealth Rock",
+            "Rapid Spin",
+            "Headlong Rush",
+            "Roar"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 4,
+            "spa": 0,
+            "spd": 0,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Corviknight",
+          "species": "Corviknight",
+          "item": "Rocky Helmet",
+          "ability": "Pressure",
+          "moves": [
+            "Roost",
+            "U-turn",
+            "Body Press",
+            "Brave Bird"
+          ],
+          "nature": "Impish",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 168,
+            "spa": 0,
+            "spd": 88,
+            "spe": 0
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Houndoom",
+          "resultSpecies": "Houndoom-Mega",
+          "ability": "solarpower",
+          "baseStats": {
+            "hp": 75,
+            "atk": 90,
+            "def": 90,
+            "spa": 140,
+            "spd": 90,
+            "spe": 115
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Kaia Solari||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Houndoom|Houndoom, F|291/291\n|switch|p1a: Houndoom|Houndoom, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Houndoom|Houndoom-Mega, F\n|-mega|p1a: Houndoom|Houndoom|Houndoominite\n|move|p1a: Houndoom|Nasty Plot|p1a: Houndoom\n|-boost|p1a: Houndoom|spa|2\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Flutter Mane",
+          "resultSpecies": "Flutter Mane",
+          "ability": "protosynthesis",
+          "baseStats": {
+            "hp": 55,
+            "atk": 55,
+            "def": 55,
+            "spa": 135,
+            "spd": 135,
+            "spe": 135
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Kaia Solari||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Flutter Mane|Flutter Mane|251/251\n|switch|p1a: Flutter Mane|Flutter Mane|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Flutter Mane|Dynamax|\n|split|p1\n|-heal|p1a: Flutter Mane|502/502|[silent]\n|-heal|p1a: Flutter Mane|100/100|[silent]\n|move|p1a: Flutter Mane|Max Guard|p1a: Flutter Mane\n|-singleturn|p1a: Flutter Mane|Max Guard\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        }
+      ]
+    },
+    {
+      "id": "Lucas",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Mamoswine",
+      "sets": [
+        {
+          "name": "Torterra",
+          "species": "Torterra",
+          "item": "White Herb",
+          "ability": "Overgrow",
+          "moves": [
+            "Shell Smash",
+            "Bullet Seed",
+            "Headlong Rush",
+            "Stone Edge"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 4,
+            "spa": 0,
+            "spd": 0,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Infernape",
+          "species": "Infernape",
+          "item": "Life Orb",
+          "ability": "Blaze",
+          "moves": [
+            "Overheat",
+            "Close Combat",
+            "Grass Knot",
+            "U-turn"
+          ],
+          "nature": "Naive",
+          "evs": {
+            "hp": 0,
+            "atk": 20,
+            "def": 0,
+            "spa": 236,
+            "spd": 0,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Empoleon",
+          "species": "Empoleon",
+          "item": "Leftovers",
+          "ability": "Torrent",
+          "moves": [
+            "Defog",
+            "Haze",
+            "Scald",
+            "Flash Cannon"
+          ],
+          "nature": "Calm",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 4,
+            "spa": 0,
+            "spd": 252,
+            "spe": 0
+          },
+          "ivs": {
+            "hp": 31,
+            "atk": 0,
+            "def": 31,
+            "spa": 31,
+            "spd": 31,
+            "spe": 31
+          }
+        },
+        {
+          "name": "Staraptor",
+          "species": "Staraptor",
+          "item": "Staraptite",
+          "ability": "Intimidate",
+          "moves": [
+            "Close Combat",
+            "Brave Bird",
+            "Roost",
+            "U-turn"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Arceus",
+          "species": "Arceus",
+          "item": "Silk Scarf",
+          "ability": "Multitype",
+          "moves": [
+            "Swords Dance",
+            "Extreme Speed",
+            "Earthquake",
+            "Recover"
+          ],
+          "nature": "Adamant",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Mamoswine",
+          "species": "Mamoswine",
+          "item": "Expert Belt",
+          "ability": "Thick Fat",
+          "moves": [
+            "Earthquake",
+            "Icicle Crash",
+            "Ice Shard",
+            "Knock Off"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Staraptor",
+          "resultSpecies": "Staraptor-Mega",
+          "ability": "contrary",
+          "baseStats": {
+            "hp": 85,
+            "atk": 140,
+            "def": 100,
+            "spa": 60,
+            "spd": 90,
+            "spe": 110
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Lucas||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Staraptor|Staraptor, F|311/311\n|switch|p1a: Staraptor|Staraptor, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|-ability|p1a: Staraptor|Intimidate|boost\n|-unboost|p2a: Blissey|atk|1\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Staraptor|Staraptor-Mega, F\n|-mega|p1a: Staraptor|Staraptor|Staraptite\n|move|p1a: Staraptor|Close Combat|p2a: Blissey\n|-supereffective|p2a: Blissey\n|split|p2\n|-damage|p2a: Blissey|0 fnt\n|-damage|p2a: Blissey|0 fnt\n|-boost|p1a: Staraptor|def|1\n|-boost|p1a: Staraptor|spd|1\n|faint|p2a: Blissey\n|\n|upkeep"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Mamoswine",
+          "resultSpecies": "Mamoswine",
+          "ability": "thickfat",
+          "baseStats": {
+            "hp": 110,
+            "atk": 130,
+            "def": 80,
+            "spa": 70,
+            "spd": 60,
+            "spe": 80
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Lucas||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Mamoswine|Mamoswine, F|361/361\n|switch|p1a: Mamoswine|Mamoswine, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Mamoswine|Dynamax|\n|split|p1\n|-heal|p1a: Mamoswine|722/722|[silent]\n|-heal|p1a: Mamoswine|100/100|[silent]\n|move|p1a: Mamoswine|Max Quake|p2a: Blissey\n|split|p2\n|-damage|p2a: Blissey|248/714\n|-damage|p2a: Blissey|35/100\n|-boost|p1a: Mamoswine|spd|1\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        }
+      ]
+    },
+    {
+      "id": "Ronan Ward",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Rillaboom",
+      "sets": [
+        {
+          "name": "Rillaboom",
+          "species": "Rillaboom",
+          "item": "Assault Vest",
+          "ability": "Grassy Surge",
+          "moves": [
+            "Grassy Glide",
+            "Wood Hammer",
+            "Knock Off",
+            "U-turn"
+          ],
+          "nature": "Adamant",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          },
+          "happiness": 255,
+          "hpType": "",
+          "pokeball": "",
+          "gigantamax": true,
+          "dynamaxLevel": 10,
+          "teraType": ""
+        },
+        {
+          "name": "Zamazenta-Crowned",
+          "species": "Zamazenta-Crowned",
+          "item": "Rusted Shield",
+          "ability": "Dauntless Shield",
+          "moves": [
+            "Iron Defense",
+            "Body Press",
+            "Behemoth Bash",
+            "Crunch"
+          ],
+          "nature": "Impish",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 252,
+            "spa": 0,
+            "spd": 0,
+            "spe": 4
+          }
+        },
+        {
+          "name": "Incineroar",
+          "species": "Incineroar",
+          "item": "Leftovers",
+          "ability": "Intimidate",
+          "moves": [
+            "Flare Blitz",
+            "Knock Off",
+            "Taunt",
+            "Parting Shot"
+          ],
+          "nature": "Careful",
+          "evs": {
+            "hp": 252,
+            "atk": 4,
+            "def": 0,
+            "spa": 0,
+            "spd": 252,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Dragonite",
+          "species": "Dragonite",
+          "item": "Lum Berry",
+          "ability": "Multiscale",
+          "moves": [
+            "Dragon Dance",
+            "Dual Wingbeat",
+            "Extreme Speed",
+            "Fire Punch"
+          ],
+          "nature": "Adamant",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Volcarona",
+          "species": "Volcarona",
+          "item": "Heavy-Duty Boots",
+          "ability": "Flame Body",
+          "moves": [
+            "Quiver Dance",
+            "Fiery Dance",
+            "Bug Buzz",
+            "Giga Drain"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          },
+          "ivs": {
+            "hp": 31,
+            "atk": 0,
+            "def": 31,
+            "spa": 31,
+            "spd": 31,
+            "spe": 31
+          }
+        },
+        {
+          "name": "Blastoise",
+          "species": "Blastoise",
+          "item": "Blastoisinite",
+          "ability": "Torrent",
+          "moves": [
+            "Rapid Spin",
+            "Water Pulse",
+            "Haze",
+            "Aura Sphere"
+          ],
+          "nature": "Modest",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          },
+          "ivs": {
+            "hp": 31,
+            "atk": 0,
+            "def": 31,
+            "spa": 31,
+            "spd": 31,
+            "spe": 31
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Blastoise",
+          "resultSpecies": "Blastoise-Mega",
+          "ability": "megalauncher",
+          "baseStats": {
+            "hp": 79,
+            "atk": 103,
+            "def": 120,
+            "spa": 135,
+            "spd": 115,
+            "spe": 78
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Ronan Ward||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Blastoise|Blastoise, F|299/299\n|switch|p1a: Blastoise|Blastoise, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Blastoise|Blastoise-Mega, F\n|-mega|p1a: Blastoise|Blastoise|Blastoisinite\n|move|p1a: Blastoise|Rapid Spin|p2a: Blissey\n|split|p2\n|-damage|p2a: Blissey|650/714\n|-damage|p2a: Blissey|92/100\n|-boost|p1a: Blastoise|spe|1\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Rillaboom",
+          "resultSpecies": "Rillaboom",
+          "ability": "grassysurge",
+          "baseStats": {
+            "hp": 100,
+            "atk": 125,
+            "def": 90,
+            "spa": 60,
+            "spd": 70,
+            "spe": 85
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Ronan Ward||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Rillaboom|Rillaboom, F|341/341\n|switch|p1a: Rillaboom|Rillaboom, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|-fieldstart|move: Grassy Terrain|[from] ability: Grassy Surge|[of] p1a: Rillaboom\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Rillaboom|Dynamax|Gmax\n|split|p1\n|-heal|p1a: Rillaboom|682/682|[silent]\n|-heal|p1a: Rillaboom|100/100|[silent]\n|move|p1a: Rillaboom|G-Max Drum Solo|p2a: Blissey\n|split|p2\n|-damage|p2a: Blissey|0 fnt\n|-damage|p2a: Blissey|0 fnt\n|faint|p2a: Blissey\n|\n|upkeep"
+        }
+      ]
+    },
+    {
+      "id": "Soren Veyr",
+      "available": true,
+      "pokemonCount": 6,
+      "designatedDynamax": "Noctowl",
+      "sets": [
+        {
+          "name": "Garchomp",
+          "species": "Garchomp",
+          "item": "Rocky Helmet",
+          "ability": "Rough Skin",
+          "moves": [
+            "Stealth Rock",
+            "Earthquake",
+            "Dragon Tail",
+            "Fire Blast"
+          ],
+          "nature": "Impish",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 164,
+            "spa": 0,
+            "spd": 0,
+            "spe": 92
+          }
+        },
+        {
+          "name": "Gallade",
+          "species": "Gallade",
+          "item": "Galladite",
+          "ability": "Steadfast",
+          "moves": [
+            "Swords Dance",
+            "Close Combat",
+            "Zen Headbutt",
+            "Knock Off"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Jolteon",
+          "species": "Jolteon",
+          "item": "Heavy-Duty Boots",
+          "ability": "Volt Absorb",
+          "moves": [
+            "Volt Switch",
+            "Thunderbolt",
+            "Hidden Power Ice",
+            "Shadow Ball"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Infernape",
+          "species": "Infernape",
+          "item": "Choice Scarf",
+          "ability": "Blaze",
+          "moves": [
+            "Close Combat",
+            "Flare Blitz",
+            "U-turn",
+            "Gunk Shot"
+          ],
+          "nature": "Jolly",
+          "evs": {
+            "hp": 0,
+            "atk": 252,
+            "def": 0,
+            "spa": 0,
+            "spd": 4,
+            "spe": 252
+          }
+        },
+        {
+          "name": "Dialga",
+          "species": "Dialga",
+          "item": "Leftovers",
+          "ability": "Pressure",
+          "moves": [
+            "Draco Meteor",
+            "Flash Cannon",
+            "Earth Power",
+            "Thunderbolt"
+          ],
+          "nature": "Modest",
+          "evs": {
+            "hp": 252,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 0
+          }
+        },
+        {
+          "name": "Noctowl",
+          "species": "Noctowl",
+          "item": "Life Orb",
+          "ability": "Tinted Lens",
+          "moves": [
+            "Nasty Plot",
+            "Hurricane",
+            "Hyper Voice",
+            "Heat Wave"
+          ],
+          "nature": "Timid",
+          "evs": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+            "spa": 252,
+            "spd": 4,
+            "spe": 252
+          }
+        }
+      ],
+      "probes": [
+        {
+          "mechanic": "mega",
+          "species": "Gallade",
+          "resultSpecies": "Gallade-Mega",
+          "ability": "innerfocus",
+          "baseStats": {
+            "hp": 68,
+            "atk": 165,
+            "def": 95,
+            "spa": 65,
+            "spd": 115,
+            "spe": 110
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Soren Veyr||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Gallade|Gallade, M|277/277\n|switch|p1a: Gallade|Gallade, M|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|detailschange|p1a: Gallade|Gallade-Mega, M\n|-mega|p1a: Gallade|Gallade|Galladite\n|move|p1a: Gallade|Swords Dance|p1a: Gallade\n|-boost|p1a: Gallade|atk|2\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        },
+        {
+          "mechanic": "dynamax",
+          "species": "Noctowl",
+          "resultSpecies": "Noctowl",
+          "ability": "tintedlens",
+          "baseStats": {
+            "hp": 100,
+            "atk": 50,
+            "def": 50,
+            "spa": 86,
+            "spd": 96,
+            "spe": 70
+          },
+          "logKind": "actual simulator probe (test teams only)",
+          "log": "|t:|1791632520\n|gametype|singles\n|player|p1|Soren Veyr||\n|player|p2|Test-only probe||\n|gen|8\n|tier|Historia WHAT-IF 6v6\n|\n|t:|1791632520\n|teamsize|p1|6\n|teamsize|p2|6\n|start\n|split|p1\n|switch|p1a: Noctowl|Noctowl, F|341/341\n|switch|p1a: Noctowl|Noctowl, F|100/100\n|split|p2\n|switch|p2a: Blissey|Blissey, F|714/714\n|switch|p2a: Blissey|Blissey, F|100/100\n|turn|1\n|\n|t:|1791632520\n|-start|p1a: Noctowl|Dynamax|\n|split|p1\n|-heal|p1a: Noctowl|682/682|[silent]\n|-heal|p1a: Noctowl|100/100|[silent]\n|move|p1a: Noctowl|Max Guard|p1a: Noctowl\n|-singleturn|p1a: Noctowl|Max Guard\n|move|p2a: Blissey|Splash|p2a: Blissey\n|-nothing\n|\n|upkeep\n|turn|2"
+        }
+      ]
+    }
+  ]
+}
