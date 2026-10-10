@@ -34,6 +34,13 @@ export function canonicalTeam(id){
    ...(gigantamax?{gigantamax:true}:{}),...(shiny?{shiny:true}:{}),
    ...(name?{name}:{}),level:100};
  });
+ // These stones belong to the user's custom canon, not to a verified
+ // Showdown Mega effect. Never accept the item as merely a held object and
+ // claim the fictional Mega actually transforms in battle.
+ for(const set of parsed){
+  if(['excadrite','staraptite'].includes(String(set.item||'').toLowerCase().replace(/[^a-z0-9]/g,'')))
+   throw Error('Mega '+set.species+' non implementata dal formato Showdown attuale: '+set.item);
+ }
  const packed=Teams.pack(parsed);
  validatePackedTeam(packed,{teamLabel:id});
  // Every rule-engine input is already exact packed Showdown text.
