@@ -77,7 +77,7 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px soli
 </details>
 <p class="muted" id="arenaError" role="alert"></p></div><div class="panel"><h2>Formato provvisorio</h2><p class="muted">Motore ufficiale, Singles 6v6 livello 100; test su <code>gen8customgame</code>. La legalità definitiva del formato Historia (inclusi Hisui e vincoli Mega/Dynamax) richiede ancora un formato custom certificato.</p></div></div></div></section>
 <section id="studio" class="view"><div class="panel"><div class="eyebrow">Sala stampa · prepartita e postpartita</div><h2>Master AI narrativo</h2><div id="messages" role="log" aria-live="polite"><div class="entry"><b>Historia</b> · Benvenuto al Mondiale 2060. Sono disponibili l'atmosfera della competizione e l'analisi dei replay verificati.</div></div><form id="chat"><label for="message">Parla con il Master</label><textarea id="message" maxlength="5000" required placeholder="Analizziamo i turni decisivi della battaglia..."></textarea><button>Invia al Master</button></form><p id="chatStatus" class="muted"></p></div></section>
-<section id="tournament" class="view"><div class="panel"><div class="eyebrow">Sorteggio · Calendario · Fase a gironi</div><h2>Mondiale 2060</h2><p class="notice">I qualificati ufficiali 2060 non sono confermati. Puoi avviare esplicitamente una <strong>simulazione WHAT-IF</strong> con le 32 teste di serie del ranking storico 2056. I nomi NON sono qualificati 2060 verificati e gli incontri di questa simulazione non incidono sulla lore canonica. Il collegamento ai match ufficiali Showdown è ancora in sviluppo.</p><div id="seeds"></div><h3>Tre slot indipendenti · Sorteggio persistente</h3><div id="worldCupSlotList" class="actions" aria-label="Slot del Mondiale">Accedi per caricare gli slot.</div><p id="worldCupStatus" class="muted" role="status"></p><div id="worldCupDraw"></div></div></section>
+<section id="tournament" class="view"><div class="panel"><div class="eyebrow">Sorteggio · Calendario · Fase a gironi</div><h2>Mondiale 2060</h2><p class="notice">I qualificati ufficiali 2060 non sono confermati. Puoi avviare esplicitamente una <strong>simulazione WHAT-IF</strong> con le 32 teste di serie del ranking storico 2056. I nomi NON sono qualificati 2060 verificati e gli incontri di questa simulazione non incidono sulla lore canonica. Il collegamento ai match ufficiali Showdown è ancora in sviluppo.</p><div id="seeds"></div><p class="muted">Per giocare un incontro di Luke, importa prima i due team esatti nella scheda Arena. Il risultato conterà soltanto per questa simulazione, dopo la verifica Showdown.</p><h3>Tre slot indipendenti · Sorteggio persistente</h3><div id="worldCupSlotList" class="actions" aria-label="Slot del Mondiale">Accedi per caricare gli slot.</div><p id="worldCupStatus" class="muted" role="status"></p><div id="worldCupDraw"></div></div></section>
 <section id="replays" class="view"><div class="panel"><h2>Replay Showdown verificati</h2><p class="muted">Risultati emessi dal simulatore e salvati dal server (non importazioni manuali).</p><div id="replayList">Nessun replay disponibile.</div></div></section>
 <section id="archive" class="view"><div class="panel"><h2>Archivio e statistiche</h2><p>I coefficienti storici sono aggiornati al 2056; non costituiscono l'elenco definitivo dei qualificati 2060.</p><div id="ranking" class="table-wrap"></div></div></section>
 </main>
@@ -334,19 +334,53 @@ function renderWorldCupDraw(data){
   }
   area.append(ul);
  }
- const fixtureTitle=document.createElement('h3');fixtureTitle.textContent='Calendario · 48 incontri (non ancora disputati)';
+ const fixtureTitle=document.createElement('h3');fixtureTitle.textContent='Calendario · '+cup.schedule.filter(g=>g.status==='complete').length+' / 48 incontri disputati';
  area.append(fixtureTitle);
  const wrap=document.createElement('div');wrap.className='table-wrap';
  const table=document.createElement('table');
  const head=document.createElement('thead');const row=document.createElement('tr');
- for(const label of ['Giornata','Girone','Incontro','Stato']){const th=document.createElement('th');th.textContent=label;row.append(th);}
+ for(const label of ['Giornata','Girone','Incontro','Stato','Luke']){const th=document.createElement('th');th.textContent=label;row.append(th);}
  head.append(row);table.append(head);const tbody=document.createElement('tbody');
  for(const game of cup.schedule){
   const tr=document.createElement('tr');
-  for(const value of [game.matchday,game.group,game.homeId+' – '+game.awayId,game.status==='scheduled'?'Da giocare':'Completato']){
+  for(const value of [game.matchday,game.group,game.homeId+' – '+game.awayId,
+    game.status==='scheduled'?'Da giocare':'Vincitore: '+game.result.winnerId]){
    const td=document.createElement('td');td.textContent=String(value);tr.append(td);
   }
-  tbody.append(tr);
+  const actions=document.createElement('td');
+  if(game.status==='scheduled'&&(game.homeId==='Luke'||game.awayId==='Luke')){
+   const binding=cup.matchBindings?.[game.id];
+   const start=document.createElement('button');start.type='button';
+   start.textContent=binding?'Riprendi incontro':'Gioca con Showdown';
+   start.onclick=async()=>{
+    start.disabled=true;$('worldCupStatus').textContent='';
+    try{
+     const result=await api('/api/worldcup/slots/'+data.slot+'/fixtures/'+game.id+'/start',{
+      p1team:$('p1team').value.trim(),p2team:$('p2team').value.trim(),
+      mode:$('mode').value,npcProfile:$('npcProfile').value
+     });
+     currentId=result.battle.id;
+     localStorage.setItem('historia-last-battle',currentId);
+     closeReplay();navigate('arena');render(result.battle);
+     if(result.battle.status==='active')startPolling();
+    }catch(e){$('worldCupStatus').textContent=e.message;}finally{start.disabled=false;}
+   };
+   actions.append(start);
+   if(binding){
+    const finish=document.createElement('button');finish.type='button';
+    finish.textContent='Registra esito Showdown';
+    finish.onclick=async()=>{
+     finish.disabled=true;$('worldCupStatus').textContent='';
+     try{
+      const result=await api('/api/worldcup/slots/'+data.slot+'/fixtures/'+game.id+'/finalize',{});
+      renderWorldCupDraw(result);
+      $('worldCupStatus').textContent='Risultato confermato da Showdown e salvato senza duplicati.';
+     }catch(e){$('worldCupStatus').textContent=e.message;}finally{finish.disabled=false;}
+    };
+    actions.append(finish);
+   }
+  }
+  tr.append(actions);tbody.append(tr);
  }
  table.append(tbody);wrap.append(table);area.append(wrap);
 }
