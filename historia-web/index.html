@@ -77,7 +77,7 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px soli
 </details>
 <p class="muted" id="arenaError" role="alert"></p></div><div class="panel"><h2>Formato provvisorio</h2><p class="muted">Motore ufficiale, Singles 6v6 livello 100; test su <code>gen8customgame</code>. La legalità definitiva del formato Historia (inclusi Hisui e vincoli Mega/Dynamax) richiede ancora un formato custom certificato.</p></div></div></div></section>
 <section id="studio" class="view"><div class="panel"><div class="eyebrow">Sala stampa · prepartita e postpartita</div><h2>Master AI narrativo</h2><div id="messages" role="log" aria-live="polite"><div class="entry"><b>Historia</b> · Benvenuto al Mondiale 2060. Sono disponibili l'atmosfera della competizione e l'analisi dei replay verificati.</div></div><form id="chat"><label for="message">Parla con il Master</label><textarea id="message" maxlength="5000" required placeholder="Analizziamo i turni decisivi della battaglia..."></textarea><button>Invia al Master</button></form><p id="chatStatus" class="muted"></p></div></section>
-<section id="tournament" class="view"><div class="panel"><div class="eyebrow">Sorteggio · Calendario · Fase a gironi</div><h2>Mondiale 2060</h2><p class="notice">Non ci sono ancora 32 qualificati 2060 confermati. Nessun calendario, girone o tabellone verrà inventato o popolato usando automaticamente il ranking storico.</p><div id="seeds"></div></div></section>
+<section id="tournament" class="view"><div class="panel"><div class="eyebrow">Sorteggio · Calendario · Fase a gironi</div><h2>Mondiale 2060</h2><p class="notice">I qualificati ufficiali 2060 non sono confermati. Puoi avviare esplicitamente una <strong>simulazione WHAT-IF</strong> con le 32 teste di serie del ranking storico 2056. I nomi NON sono qualificati 2060 verificati e gli incontri di questa simulazione non incidono sulla lore canonica. Il collegamento ai match ufficiali Showdown è ancora in sviluppo.</p><div id="seeds"></div><h3>Tre slot indipendenti · Sorteggio persistente</h3><div id="worldCupSlotList" class="actions" aria-label="Slot del Mondiale">Accedi per caricare gli slot.</div><p id="worldCupStatus" class="muted" role="status"></p><div id="worldCupDraw"></div></div></section>
 <section id="replays" class="view"><div class="panel"><h2>Replay Showdown verificati</h2><p class="muted">Risultati emessi dal simulatore e salvati dal server (non importazioni manuali).</p><div id="replayList">Nessun replay disponibile.</div></div></section>
 <section id="archive" class="view"><div class="panel"><h2>Archivio e statistiche</h2><p>I coefficienti storici sono aggiornati al 2056; non costituiscono l'elenco definitivo dei qualificati 2060.</p><div id="ranking" class="table-wrap"></div></div></section>
 </main>
@@ -90,7 +90,7 @@ let authMode='capability',accountCsrf=null,accountName=null;
 $('sessionCode').textContent=sessionId;
 $('copySession').onclick=()=>navigator.clipboard?.writeText(sessionId);
 $('loadSession').onclick=()=>{const v=$('restoreSession').value.trim();if(!/^[a-f0-9]{40}$/.test(v)){alert('Codice non valido');return;}localStorage.setItem('historia-session-id',v);localStorage.removeItem('historia-last-battle');location.reload();};
-function navigate(id){document.querySelectorAll('.view').forEach(x=>x.classList.toggle('active',x.id===id));document.querySelectorAll('nav [data-view]').forEach(x=>x.classList.toggle('active',x.dataset.view===id));if(id==='replays')listReplays();}
+function navigate(id){document.querySelectorAll('.view').forEach(x=>x.classList.toggle('active',x.id===id));document.querySelectorAll('nav [data-view]').forEach(x=>x.classList.toggle('active',x.dataset.view===id));if(id==='replays')listReplays();if(id==='tournament')loadWorldCupSlots();}
 document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>navigate(b.dataset.view)));
 document.querySelectorAll('[data-jump]').forEach(b=>b.addEventListener('click',()=>navigate(b.dataset.jump)));
 const add=(who,msg)=>{const e=document.createElement('div'),b=document.createElement('b');e.className='entry';b.textContent=who;e.append(b,document.createTextNode(' · '+msg));$('messages').append(e);$('messages').scrollTop=$('messages').scrollHeight;};
@@ -314,6 +314,66 @@ function startPolling(){if(ticker)clearInterval(ticker);ticker=setInterval(poll,
 $('postAnalysis').addEventListener('click',()=>{navigate('studio');$('message').value='Analizza il replay verificato della mia ultima battaglia: turni decisivi, KO, switch, Mega/Dynamax ed eventuali errori tattici. Cita i turni senza inventare dati.';$('message').focus();});
 $('chat').addEventListener('submit',async e=>{e.preventDefault();const msg=$('message').value.trim();if(!msg)return;add('Tu',msg);$('message').value='';$('chatStatus').textContent='Il Master sta elaborando…';try{const r=await api('/api/chat',{message:msg,sessionId});add('Historia',r.answer);$('chatStatus').textContent='';}catch(err){$('chatStatus').textContent=err.message;}});
 async function listReplays(){try{const {battles}=await api('/api/battles');const box=$('replayList');box.replaceChildren();if(!battles.length){box.textContent='Nessun replay ancora registrato.';return;}for(const b of battles){const p=document.createElement('p'),button=document.createElement('button');button.textContent=(b.createdAt||'')+' · '+(b.winner?'Vincitore: '+b.winner:b.status)+' · '+b.turn+' turni';button.onclick=async()=>{closeReplay();currentId=b.id;localStorage.setItem('historia-last-battle',b.id);render(await api('/api/battles/'+b.id));navigate('arena');if(['complete','tie'].includes(lastBattle?.status))try{await openVerifiedReplay();}catch(e){$('arenaError').textContent=e.message;}};p.append(button);box.append(p);}}catch(e){$('replayList').textContent=e.message;}}
+function renderWorldCupDraw(data){
+ const area=$('worldCupDraw');area.replaceChildren();const cup=data.cup;
+ if(cup?.scenario?.official!==false||cup.scenario.source!=='historical-seeding-2056'){
+  $('worldCupStatus').textContent='Formato salvataggio inatteso: impossibile presentarlo come simulazione.';return;
+ }
+ const title=document.createElement('h3');
+ title.textContent='Slot '+data.slot+' · Simulazione '+cup.year+' · '+cup.editionId;area.append(title);
+ const info=document.createElement('p');info.className='notice';
+ info.textContent=cup.scenario.description+' Il sorteggio rimane identico dopo il caricamento. Nessun vincitore è predeterminato.';
+ area.append(info);
+ for(const [letter,members] of Object.entries(cup.groups)){
+  const h=document.createElement('h3');h.textContent='Girone '+letter;area.append(h);
+  const ul=document.createElement('ul');
+  for(const entrant of members){
+   const li=document.createElement('li');
+   li.textContent=entrant.id+' · ranking storico #'+entrant.historicalRank+' · coefficiente '+entrant.historicalCoefficient;
+   ul.append(li);
+  }
+  area.append(ul);
+ }
+ const fixtureTitle=document.createElement('h3');fixtureTitle.textContent='Calendario · 48 incontri (non ancora disputati)';
+ area.append(fixtureTitle);
+ const wrap=document.createElement('div');wrap.className='table-wrap';
+ const table=document.createElement('table');
+ const head=document.createElement('thead');const row=document.createElement('tr');
+ for(const label of ['Giornata','Girone','Incontro','Stato']){const th=document.createElement('th');th.textContent=label;row.append(th);}
+ head.append(row);table.append(head);const tbody=document.createElement('tbody');
+ for(const game of cup.schedule){
+  const tr=document.createElement('tr');
+  for(const value of [game.matchday,game.group,game.homeId+' – '+game.awayId,game.status==='scheduled'?'Da giocare':'Completato']){
+   const td=document.createElement('td');td.textContent=String(value);tr.append(td);
+  }
+  tbody.append(tr);
+ }
+ table.append(tbody);wrap.append(table);area.append(wrap);
+}
+async function loadWorldCupSlots(){
+ const area=$('worldCupSlotList');area.replaceChildren();
+ $('worldCupStatus').textContent='';
+ try{
+  const result=await api('/api/worldcup/slots');
+  for(const slot of result.slots){
+   const button=document.createElement('button');
+   button.type='button';
+   button.textContent='Slot '+slot.slot+' · '+(slot.occupied?'Continua '+slot.year:'Nuova simulazione 2060');
+   button.onclick=async()=>{
+    button.disabled=true;
+    $('worldCupStatus').textContent='';
+    try{
+     const saved=slot.occupied?
+      await api('/api/worldcup/slots/'+slot.slot):
+      await api('/api/worldcup/slots/'+slot.slot+'/new-historical-hypothesis',{acknowledgeProvisional:true});
+     renderWorldCupDraw(saved);
+     await loadWorldCupSlots();
+    }catch(e){$('worldCupStatus').textContent=e.message;}finally{button.disabled=false;}
+   };
+   area.append(button);
+  }
+ }catch(e){$('worldCupStatus').textContent=e.message;}
+}
 async function loadMeta(){try{const c=await api('/api/competition');const table=document.createElement('table');table.innerHTML='<thead><tr><th>#</th><th>Allenatore</th><th>Coefficiente 2056</th><th>Fascia storica</th></tr></thead>';const tbody=document.createElement('tbody');for(const r of c.ranking){const tr=document.createElement('tr');for(const v of [r.rank,r.id,r.total,r.pot]){const td=document.createElement('td');td.textContent=v;tr.append(td);}tbody.append(tr);}table.append(tbody);$('ranking').append(table);$('seeds').textContent='Ranking 2056 caricato: '+c.ranking.length+' allenatori. Qualificazioni 2060 da definire.';}catch(e){$('seeds').textContent=e.message;}}
 async function loadChat(){try{const c=await api('/api/chat');for(const m of c.messages||[])add(m.role==='user'?'Tu':'Historia',m.content);}catch(e){$('chatStatus').textContent=e.message;}}
 (async()=>{
