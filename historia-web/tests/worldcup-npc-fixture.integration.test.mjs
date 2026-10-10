@@ -32,7 +32,7 @@ test('NPC vs NPC tournament group result comes ONLY from two real Showdown AIs a
   assert.ok(npcFixture);
   await assert.rejects(slots.startNpcFixture(owner,1,lukeFixture.id,teams,arena),/Luke/);
   await assert.rejects(slots.startNpcFixture(other,1,npcFixture.id,teams,arena),/Slot non occupato/);
-  await assert.rejects(slots.startNpcFixture(owner,1,npcFixture.id,{},arena),/Importare entrambe/);
+  await assert.rejects(slots.startNpcFixture(owner,1,npcFixture.id,{p1team:teams.p1},arena),/entrambe le squadre/);
   await assert.rejects(slots.finalizeNpcFixture(owner,1,npcFixture.id,arena),/Avvia prima/);
   const begin=await slots.startNpcFixture(owner,1,npcFixture.id,{p1team:teams.p1,p2team:teams.p2},arena);
   assert.equal(begin.resumed,false);
