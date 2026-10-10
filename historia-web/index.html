@@ -77,7 +77,7 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px soli
 </details>
 <p class="muted" id="arenaError" role="alert"></p></div><div class="panel"><h2>Formato provvisorio</h2><p class="muted">Motore ufficiale, Singles 6v6 livello 100; test su <code>gen8customgame</code>. La legalità definitiva del formato Historia (inclusi Hisui e vincoli Mega/Dynamax) richiede ancora un formato custom certificato.</p></div></div></div></section>
 <section id="studio" class="view"><div class="panel"><div class="eyebrow">Sala stampa · prepartita e postpartita</div><h2>Master AI narrativo</h2><div id="messages" role="log" aria-live="polite"><div class="entry"><b>Historia</b> · Benvenuto al Mondiale 2060. Sono disponibili l'atmosfera della competizione e l'analisi dei replay verificati.</div></div><form id="chat"><label for="message">Parla con il Master</label><textarea id="message" maxlength="5000" required placeholder="Analizziamo i turni decisivi della battaglia..."></textarea><button>Invia al Master</button></form><p id="chatStatus" class="muted"></p></div></section>
-<section id="tournament" class="view"><div class="panel"><div class="eyebrow">Sorteggio · Calendario · Fase a gironi</div><h2>Mondiale 2060</h2><p class="notice">I qualificati ufficiali 2060 non sono confermati. Puoi avviare esplicitamente una <strong>simulazione WHAT-IF</strong> con le 32 teste di serie del ranking storico 2056. I nomi NON sono qualificati 2060 verificati e gli incontri di questa simulazione non incidono sulla lore canonica. Il collegamento ai match ufficiali Showdown è ancora in sviluppo.</p><div id="seeds"></div><p class="muted">Per disputare un incontro del calendario, importa prima i due team Showdown esatti nella scheda Arena, nello stesso ordine casa/trasferta. Luke si può controllare manualmente; negli incontri NPC i due bot giocano autonomamente. I risultati contano soltanto per questa simulazione, dopo la verifica Showdown. Nessun team viene generato o sostituito automaticamente.</p><h3>Tre slot indipendenti · Sorteggio persistente</h3><div id="worldCupSlotList" class="actions" aria-label="Slot del Mondiale">Accedi per caricare gli slot.</div><p id="worldCupStatus" class="muted" role="status"></p><div id="worldCupDraw"></div></div></section>
+<section id="tournament" class="view"><div class="panel"><div class="eyebrow">Sorteggio · Calendario · Fase a gironi</div><h2>Mondiale 2060</h2><p class="notice">I qualificati ufficiali 2060 non sono confermati. Puoi avviare esplicitamente una <strong>simulazione WHAT-IF</strong> con le 32 teste di serie del ranking storico 2056. I nomi NON sono qualificati 2060 verificati e gli incontri di questa simulazione non incidono sulla lore canonica. Il collegamento ai match ufficiali Showdown è ancora in sviluppo.</p><div id="seeds"></div><p id="rosterReadiness" class="muted" role="status">Verifica dei roster automatici in corso…</p><p class="muted">**Squadre precaricate automaticamente** dal roster 2060: ogni allenatore usa esattamente i suoi sei Pokémon, con strumenti, EV, IV, mosse e forme. Non devi più incollare manualmente i team a ogni incontro. Luke può essere controllato manualmente; nei match NPC giocano due bot. I set non compatibili con il simulatore vengono segnalati senza sostituzioni nascoste. Il torneo è una simulazione WHAT-IF, non un risultato canonico.</p><h3>Tre slot indipendenti · Sorteggio persistente</h3><div id="worldCupSlotList" class="actions" aria-label="Slot del Mondiale">Accedi per caricare gli slot.</div><p id="worldCupStatus" class="muted" role="status"></p><div id="worldCupDraw"></div></div></section>
 <section id="replays" class="view"><div class="panel"><h2>Replay Showdown verificati</h2><p class="muted">Risultati emessi dal simulatore e salvati dal server (non importazioni manuali).</p><div id="replayList">Nessun replay disponibile.</div></div></section>
 <section id="archive" class="view"><div class="panel"><h2>Archivio e statistiche</h2><p>I coefficienti storici sono aggiornati al 2056; non costituiscono l'elenco definitivo dei qualificati 2060.</p><div id="ranking" class="table-wrap"></div></div></section>
 </main>
@@ -373,7 +373,6 @@ function renderWorldCupDraw(data){
     start.disabled=true;$('worldCupStatus').textContent='';
     try{
      const result=await api('/api/worldcup/slots/'+data.slot+'/fixtures/'+game.id+'/start',{
-      p1team:$('p1team').value.trim(),p2team:$('p2team').value.trim(),
       mode:$('mode').value,npcProfile:$('npcProfile').value
      });
      currentId=result.battle.id;
@@ -404,9 +403,7 @@ function renderWorldCupDraw(data){
    start.onclick=async()=>{
     start.disabled=true;$('worldCupStatus').textContent='';
     try{
-     const result=await api('/api/worldcup/slots/'+data.slot+'/fixtures/'+game.id+'/npc-start',{
-      p1team:$('p1team').value.trim(),p2team:$('p2team').value.trim()
-     });
+     const result=await api('/api/worldcup/slots/'+data.slot+'/fixtures/'+game.id+'/npc-start',{});
      currentId=result.battle.id;localStorage.setItem('historia-last-battle',currentId);
      closeReplay();navigate('arena');render(result.battle);
      if(result.battle.status==='active')startPolling();
@@ -484,8 +481,7 @@ function renderWorldCupDraw(data){
     launch.onclick=async()=>{
      launch.disabled=true;$('worldCupStatus').textContent='';
      try{
-      const teams={p1team:$('p1team').value.trim(),p2team:$('p2team').value.trim()};
-      const payload=npc?teams:{...teams,mode:$('mode').value,npcProfile:$('npcProfile').value};
+      const payload=npc?{}:{mode:$('mode').value,npcProfile:$('npcProfile').value};
       const result=await api('/api/worldcup/slots/'+data.slot+'/fixtures/'+game.id+'/'+action,payload);
       currentId=result.battle.id;localStorage.setItem('historia-last-battle',currentId);
       closeReplay();navigate('arena');render(result.battle);
@@ -514,6 +510,14 @@ function renderWorldCupDraw(data){
 }
 async function loadWorldCupSlots(){
  const area=$('worldCupSlotList');area.replaceChildren();
+ try{
+  const registry=await api('/api/rosters/2060');
+  const good=registry.trainers.filter(x=>x.available),missing=registry.trainers.filter(x=>!x.available);
+  $('rosterReadiness').textContent='Team 2060 pronti: '+good.length+'/'+registry.trainers.length+
+   '. Da verificare: '+missing.map(x=>x.id+' ('+x.reason+')').join('; ')+
+   '. I qualificati ufficiali 2060 non sono confermati.';
+ }catch(e){$('rosterReadiness').textContent='Roster non disponibili: '+e.message;}
+
  $('worldCupStatus').textContent='';
  try{
   const result=await api('/api/worldcup/slots');

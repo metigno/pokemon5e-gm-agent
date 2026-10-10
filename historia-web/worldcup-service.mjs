@@ -6,6 +6,7 @@ import {loadHistoricalSeeding} from '../historia/src/seeding.mjs';
 import {applyAuthoritativeShowdownResult} from '../historia/src/showdown-bridge.mjs';
 import {recordBattle} from '../historia/src/tournament.mjs';
 import {resolveAiProfile} from './tactical-ai.mjs';
+import {canonicalTeam,canonicalDynamaxTarget} from './canonical-2060-teams.mjs';
 import {finalizedGroupStandings} from '../historia/src/schedule.mjs';
 import {createRoundOf16,advanceRound,crownChampion} from '../historia/src/knockout.mjs';
 
@@ -89,7 +90,14 @@ export class WorldCupSlots {
    const opponent=fixture.homeId==='Luke'?fixture.awayId:fixture.homeId;
    const opponentName=showdownTrainerName(opponent);
    if(!opponentName||opponentName==='Luke')throw Error('Nome sfidante non valido per Showdown');
-   const battle=await arena.create({sessionId:ownerKey,p1team,p2team,p2name:opponentName,mode,npcProfile});
+   // Custom imports remain an explicit opt-in; fixture buttons send no teams.
+   // Never pull whichever unrelated opponent was last saved in the Arena.
+   const actualP1=p1team?.trim()?p1team:canonicalTeam('Luke');
+   const actualP2=p2team?.trim()?p2team:canonicalTeam(opponent);
+   const battle=await arena.create({sessionId:ownerKey,p1team:actualP1,p2team:actualP2,
+    p2name:opponentName,mode,npcProfile,kind:'worldcup-what-if',
+    p1dynamaxTarget:p1team?.trim()?null:canonicalDynamaxTarget('Luke'),
+    p2dynamaxTarget:p2team?.trim()?null:canonicalDynamaxTarget(opponent)});
    cup.matchBindings??={};
    cup.matchBindings[matchId]={battleId:battle.id,homeId:fixture.homeId,awayId:fixture.awayId,
     playerName:'Luke',opponentId:opponent,opponentName};
@@ -154,17 +162,23 @@ export class WorldCupSlots {
     if(!battle)throw Error('Battaglia NPC non recuperabile');
     return {slot:number,matchId,battle,resumed:true};
    }
-   // Never substitute practiceTeams. Empty or invalid imports are rejected by ArenaService.
-   if(typeof p1team!=='string'||!p1team.trim()||typeof p2team!=='string'||!p2team.trim())
-    throw Error('Importare entrambe le squadre Showdown dei due NPC');
+   // Prefer trainer-specific canonical builds. Manual overrides require two
+   // explicit full imports, never the previous battle's copied form values.
+   const hasP1=typeof p1team==='string'&&!!p1team.trim();
+   const hasP2=typeof p2team==='string'&&!!p2team.trim();
+   if(hasP1!==hasP2)throw Error('Per importare build personalizzate servono entrambe le squadre');
+   const actualP1=hasP1?p1team:canonicalTeam(fixture.homeId);
+   const actualP2=hasP2?p2team:canonicalTeam(fixture.awayId);
    const homeName=showdownTrainerName(fixture.homeId),awayName=showdownTrainerName(fixture.awayId);
    if(!homeName||!awayName||homeName===awayName)
     throw Error('Nomi allenatori Showdown ambigui');
    const battle=await arena.create({
     sessionId:ownerKey,mode:'auto',kind:'worldcup-what-if',
-    p1name:homeName,p2name:awayName,p1team,p2team,
+    p1name:homeName,p2name:awayName,p1team:actualP1,p2team:actualP2,
     p1profile:resolveAiProfile(fixture.homeId),
-    npcProfile:resolveAiProfile(fixture.awayId)
+    npcProfile:resolveAiProfile(fixture.awayId),
+    p1dynamaxTarget:hasP1?null:canonicalDynamaxTarget(fixture.homeId),
+    p2dynamaxTarget:hasP2?null:canonicalDynamaxTarget(fixture.awayId)
    });
    cup.matchBindings??={};
    cup.matchBindings[matchId]={kind:'npc',battleId:battle.id,homeId:fixture.homeId,

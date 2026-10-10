@@ -11,6 +11,7 @@ import {ArenaService,parseTeamInput,describeTeam,exportTeamInput} from './battle
 import {buildReplayTimeline,renderTechnicalReport} from './replay-timeline.mjs';
 import {loadHistoricalSeeding} from '../historia/src/seeding.mjs';
 import {WorldCupSlots} from './worldcup-service.mjs';
+import {listCanonicalRosters,canonicalRosterMeta} from './canonical-2060-teams.mjs';
 
 const root=new URL('./',import.meta.url);
 const port=Number(process.env.PORT||3000);
@@ -159,6 +160,12 @@ export function handler(req,res){
  if(req.method==='GET'&&path==='/api/competition'){
   const ranking=loadHistoricalSeeding();
   json(res,200,{year:2060,canonicalThrough:2056,qualifiersConfirmed:false,groups:null,schedule:null,rankingAsOf:ranking.asOf,ranking:ranking.ranking});return;
+ }
+ if(req.method==='GET'&&path==='/api/rosters/2060'){
+  routeAsync(res,async()=>{
+   await readSession(req);
+   json(res,200,{...canonicalRosterMeta,trainers:listCanonicalRosters(),official2060Qualifiers:false});
+  });return;
  }
  if(req.method==='GET'&&path==='/api/worldcup/slots'){
   routeAsync(res,async()=>json(res,200,{slots:await worldCupSlots.list(await readSession(req)),official:false,
