@@ -1912,7 +1912,8 @@
           "atk": 252,
           "spd": 4,
           "spe": 252
-        }
+        },
+        "gigantamax": true
       },
       {
         "species": "Gholdengo",
@@ -2173,7 +2174,8 @@
           "atk": 252,
           "spd": 4,
           "spe": 252
-        }
+        },
+        "gigantamax": true
       },
       {
         "species": "Zapdos",
@@ -2625,7 +2627,8 @@
           "spa": 252,
           "spd": 4,
           "spe": 252
-        }
+        },
+        "gigantamax": true
       },
       {
         "species": "Roaring Moon",
@@ -2712,7 +2715,8 @@
           "hp": 252,
           "def": 168,
           "spd": 88
-        }
+        },
+        "gigantamax": true
       },
       {
         "species": "Rotom-Wash",
@@ -3025,7 +3029,8 @@
           "atk": 252,
           "def": 4,
           "spe": 252
-        }
+        },
+        "gigantamax": true
       },
       {
         "species": "Gliscor",
@@ -3130,7 +3135,8 @@
           "atk": 92,
           "spd": 228,
           "spe": 12
-        }
+        },
+        "gigantamax": true
       },
       {
         "species": "Great Tusk",
@@ -3392,5 +3398,39 @@
         }
       }
     ]
+  },
+  "designatedDynamaxSpecies": {
+    "Luke": "Blastoise",
+    "Mattew": "Corviknight",
+    "Daniel": "Charizard",
+    "Edward": "Lapras",
+    "Fab": "Electivire",
+    "Cynthia": "Togekiss",
+    "Steven Stone": "Archaludon",
+    "N": "Zoroark",
+    "Red": "Charizard",
+    "Lance": "Dragonite",
+    "Campione di Borrius": "Torterra",
+    "Alder": "Volcarona",
+    "Kael": "Ferrothorn",
+    "Darian": "Necrozma-Dusk-Mane",
+    "Ferred": "Dragonite",
+    "Ren": "Garchomp",
+    "Ethan": "Scizor",
+    "Brendan": "Cinderace",
+    "Lucinda": "Empoleon",
+    "Rei": "Ursaluna",
+    "Blue": "Machamp",
+    "Giovanni": "Kingambit",
+    "Dandel / Leon": "Charizard",
+    "Archie": "Basculegion-M",
+    "Maxie": "Venusaur",
+    "Astrid Vahl": "Corviknight",
+    "Silas Crowe": "Baxcalibur",
+    "Rurik Dune": "Excadrill",
+    "Ayame Hoshino": "Rillaboom",
+    "Orion Vale": "Melmetal",
+    "Nyx Vesper": "Weavile",
+    "Kaia Solari": "Flutter Mane"
   }
 }
