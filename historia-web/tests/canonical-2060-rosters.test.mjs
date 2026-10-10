@@ -47,7 +47,7 @@ test('Canon G-Max builds use base species plus actual Gigantamax flag',()=>{
   const sets=Teams.unpack(canonicalTeam(trainer));
   const found=sets.find(p=>p.species===species&&p.gigantamax===true);
   assert.ok(found,trainer+': '+species+' Gigantamax missing');
-  assert.equal(Dex.species.get(species).canGigantamax,true);
+  assert.ok(Dex.species.get(species).canGigantamax,'Expected simulator G-Max signature for '+species);
  }
 });
 
