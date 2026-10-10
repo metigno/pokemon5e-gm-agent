@@ -1,0 +1,42 @@
+✔ Luke-controlled battle accepts user choice (1.682268ms)
+✔ NPC battles cannot be controlled by player (0.588434ms)
+✔ session completes only with matching result (2.2358ms)
+✔ Group never seeds incomplete fixtures (1.484654ms)
+✔ Three wins sort unambiguously and qualify only completed groups (1.491525ms)
+✔ Three-way cycle uses observed KO differential, not seed or alphabetical tie break (9.0704ms)
+✔ Head-to-head decides exactly two tied teams (0.378983ms)
+✔ round of 16 has eight unique cross-group fixtures (1.658673ms)
+✔ cannot progress without finalized standings or results (0.775852ms)
+✔ eight, four, two, one, champion (0.496507ms)
+✔ new games use new seeds and draws (2.250722ms)
+✔ reload preserves tournament exactly (0.779067ms)
+✔ later world cups use four-year cadence (0.540512ms)
+✔ invalid RNG is rejected (0.224033ms)
+✔ save roundtrip preserves seed, draw, schedule and metadata (12.919796ms)
+✔ save detects tampering (1.40738ms)
+✔ save rejects invalid slots (0.510578ms)
+✔ save rejects missing battle receipts (5.337496ms)
+✔ 48 matches, 3 days, each pair once (6.214698ms)
+✔ results must match fixture and include evidence (17.073523ms)
+✔ 2056 ranking snapshot is internally consistent (0.945554ms)
+✔ historical pots are reproducible, not a 2060 qualification assertion (0.462156ms)
+✔ reject unknown or incomplete 2060 qualifiers (0.571369ms)
+✔ parse terminal winner from Showdown protocol (1.942094ms)
+✔ reject incomplete logs and ties (0.522616ms)
+✔ require trusted server and matching players (1.170258ms)
+✔ three independent slots and reload without reroll (46.222789ms)
+✔ corrupt primary recovers from previous good backup (12.252044ms)
+✔ slot range protected (1.416614ms)
+✔ four pots ranked by points (9.999839ms)
+✔ one player from each pot in every group (1.354532ms)
+✔ draw is deterministic and covers every entrant once (0.488666ms)
+✔ reject duplicate entrants and invalid points (0.513993ms)
+✔ reject unverified results; accept only declared authority (0.711837ms)
+ℹ tests 34
+ℹ suites 0
+ℹ pass 34
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 390.76893

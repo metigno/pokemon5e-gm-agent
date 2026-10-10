@@ -45,7 +45,7 @@ function infoSpecies(entry) {
 function publicObservation(log,side) {
  // Only Showdown's spectator feed is admitted by ArenaService.
  const foe=side==='p1'?'p2':'p1';
- const state={foeSpecies:null,foeStatus:null,foeLeechSeed:false,foeHazards:new Set(),turn:0,ownBoosts:0,lastOwnMove:null};
+ const state={foeSpecies:null,foeStatus:null,foeLeechSeed:false,foeHazards:new Set(),ownHazards:new Set(),turn:0,ownBoosts:0,lastOwnMove:null};
  const hazardIds=new Set(['Stealth Rock','Spikes','Toxic Spikes','Sticky Web']);
  let ownActive=false;
  for(const line of String(log||'').split(/\r?\n/)) {
@@ -63,8 +63,10 @@ function publicObservation(log,side) {
   if(event==='-status'&&actor.startsWith(foe+'a:'))state.foeStatus=details;
   if(event==='-curestatus'&&actor.startsWith(foe+'a:'))state.foeStatus=null;
   if(event==='-start'&&actor.startsWith(foe+'a:')&&id(details)==='leechseed')state.foeLeechSeed=true;
-  if(event==='-sidestart'&&actor===foe&&hazardIds.has(details.replace(/^move: /,'')))state.foeHazards.add(details.replace(/^move: /,''));
-  if(event==='-sideend'&&actor===foe)state.foeHazards.delete(details.replace(/^move: /,''));
+  if(['-sidestart','-sideend'].includes(event)&&hazardIds.has(details.replace(/^move: /,''))){
+   const hazards=actor.split(':')[0]===foe?state.foeHazards:actor.split(':')[0]===side?state.ownHazards:null;
+   if(hazards)hazards[event==='-sidestart'?'add':'delete'](details.replace(/^move: /,''));
+  }
   if(event==='-boost'&&actor.startsWith(side+'a:'))state.ownBoosts+=Number(parts[4])||1;
   if(event==='-unboost'&&actor.startsWith(side+'a:'))state.ownBoosts-=Number(parts[4])||1;
   if(event==='move'&&actor.startsWith(side+'a:'))state.lastOwnMove=id(details);
@@ -92,12 +94,14 @@ function moveScore(moveInfo,own,obs,profile) {
  if(move.category!=='Status' && move.basePower>0) {
   const stab=ownSpecies?.types.includes(move.type)?1.5:1;
   const effectiveness=multiplier(move.type,foe);
+  if(effectiveness===0)return -100;
   const power=move.basePower*(move.multihit?1.35:1);
   let score=(22+power*0.66*stab*effectiveness*accuracy)*profile.offense;
   if(move.priority>0)score+=11+Math.max(0,(0.4-hp))*12;
   if(move.recoil||move.hasCrashDamage)score-=hp<0.28?26:7;
   if(move.selfdestruct)score-=hp>0.18?80:0;
   if(moveInfo.pp!=null&&moveInfo.pp<3)score-=5;
+  if(['rapidspin','mortalspin'].includes(mid)&&obs.ownHazards.size)score+=90*profile.utility;
   return score;
  }
  if(RECOVERY.has(mid))return (hp>0.91?-55:(40+115*(1-hp)))*profile.utility;
@@ -108,14 +112,14 @@ function moveScore(moveInfo,own,obs,profile) {
   const foeTypes=foe?.types||[];
   if(mid==='toxic' && (foeTypes.includes('Steel')||foeTypes.includes('Poison')))return 0;
   if(mid==='willowisp'&&foeTypes.includes('Fire'))return 0;
-  if(mid==='thunderwave'&&foeTypes.includes('Electric'))return 0;
+  if(mid==='thunderwave'&&(foeTypes.includes('Electric')||foeTypes.includes('Ground')))return 0;
   if(mid==='sleeppowder'&&foeTypes.includes('Grass'))return 0;
   return 78*profile.utility*accuracy;
  }
  if(mid==='leechseed')return (!obs.foeLeechSeed&&!foe?.types.includes('Grass')?77:0)*profile.utility;
  if(mid==='protect'||mid==='detect')return obs.lastOwnMove===mid?0:25*profile.utility;
  if(['uturn','voltswitch','flipturn'].includes(mid))return 43*profile.offense;
- if(['defog','rapidspin','mortalspin'].includes(mid))return 34*profile.utility;
+ if(['defog','rapidspin','mortalspin'].includes(mid))return (obs.ownHazards.size?140:0)*profile.utility;
  return (move.category==='Status'?18:32)*profile.utility;
 }
 function switchScore(own,bench,obs,profile) {

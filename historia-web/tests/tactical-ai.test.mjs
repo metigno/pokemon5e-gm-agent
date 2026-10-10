@@ -62,3 +62,18 @@ test('public state can contain fainted opponents without feeding unrevealed repl
  const log=foe('Swampert')+'|faint|p1a: Swampert\n';
  assert.equal(selectTacticalChoice(request,{side:'p2',publicLog:log}),'move 2'); // stronger move, not an assumed next opponent
 });
+
+test('AI does not Thunder Wave a publicly revealed Ground type',()=>{
+ const request=req('Jolteon',[['Thunder Wave'],['Tackle']]);
+ assert.equal(selectTacticalChoice(request,{side:'p2',publicLog:foe('Great Tusk')}),'move 2');
+});
+test('AI removes observed hazards on its own side before weak neutral damage',()=>{
+ const request=req('Great Tusk',[['Earthquake'],['Rapid Spin']]);
+ const log=foe('Blissey')+'|-sidestart|p2: NPC|move: Stealth Rock\n';
+ assert.equal(selectTacticalChoice(request,{side:'p2',publicLog:log}),'move 2');
+});
+test('AI does not reset an already observed Stealth Rock on the enemy side',()=>{
+ const request=req('Excadrill',[['Stealth Rock'],['Tackle']]);
+ const log=foe('Blissey')+'|-sidestart|p1: Luke|move: Stealth Rock\n';
+ assert.equal(selectTacticalChoice(request,{side:'p2',publicLog:log}),'move 2');
+});

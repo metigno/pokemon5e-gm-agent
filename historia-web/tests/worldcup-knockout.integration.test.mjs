@@ -126,7 +126,9 @@ test('Unresolved group tie forbids generating invented knockout qualifiers',asyn
    cup={...recordBattle(cup,receipt),schedule:recordScheduledResult(cup.schedule,game.id,receipt)};
   }
   await slots.store(owner).write(2,cup,created.meta);
-  await assert.rejects(slots.openKnockout(owner,2),/spareggio Showdown richiesto/);
+  const pending=await slots.openKnockout(owner,2);
+  assert.equal(pending.playoffsPending,true);
+  assert.equal(pending.cup.playoffs[0].status,'scheduled');
   assert.equal((await slots.load(owner,2)).cup.knockout,undefined);
  }finally{await rm(directory,{recursive:true,force:true});}
 });

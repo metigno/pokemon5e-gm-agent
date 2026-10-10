@@ -2,7 +2,7 @@ import {readFileSync} from 'node:fs';
 import {createRequire} from 'node:module';
 import {validatePackedTeam} from './battle-service.mjs';
 
-const {Teams}=createRequire(import.meta.url)('pokemon-showdown');
+const {Teams,Dex}=createRequire(import.meta.url)('pokemon-showdown');
 const source=JSON.parse(readFileSync(new URL('./roster-2060.data.json',import.meta.url),'utf8'));
 const canonicalNames=Object.keys(source.teams);
 const canonicalSet=new Set(canonicalNames);
@@ -34,12 +34,15 @@ export function canonicalTeam(id){
    ...(gigantamax?{gigantamax:true}:{}),...(shiny?{shiny:true}:{}),
    ...(name?{name}:{}),level:100};
  });
- // These stones belong to the user's custom canon, not to a verified
- // Showdown Mega effect. Never accept the item as merely a held object and
- // claim the fictional Mega actually transforms in battle.
+ // Verify the installed simulator's stone-to-form mapping, rather than a
+ // stale denylist. Statistics and abilities remain upstream Showdown data.
  for(const set of parsed){
-  if(['excadrite','staraptite'].includes(String(set.item||'').toLowerCase().replace(/[^a-z0-9]/g,'')))
-   throw Error('Mega '+set.species+' non implementata dal formato Showdown attuale: '+set.item);
+  const item=Dex.items.get(set.item||'');
+  if(item.megaStone){
+   const form=item.megaStone[Dex.species.get(set.species).baseSpecies];
+   if(!form||!Dex.species.get(form).exists||!Dex.abilities.get(Dex.species.get(form).abilities[0]).exists)
+    throw Error('Mega non implementata dal simulatore: '+set.item);
+  }
  }
  const packed=Teams.pack(parsed);
  validatePackedTeam(packed,{teamLabel:id});

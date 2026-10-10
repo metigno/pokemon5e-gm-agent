@@ -36,7 +36,7 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px soli
 <header><h1>POKÉMON <span class="gold">GPT HISTORIA</span></h1><p>WORLD CHAMPIONSHIP 2060 · Il mondo guarda · canon fino al 2056</p>
 <nav aria-label="Sezioni"><button data-view="home" class="active">Home</button><button data-view="arena">Arena</button><button data-view="studio">Master AI</button><button data-view="tournament">Mondiale</button><button data-view="replays">Replay</button><button data-view="archive">Archivio</button></nav></header>
 <main>
-<section id="home" class="view active"><div class="panel"><div class="eyebrow">La scena è pronta</div><h2>Verso il Mondiale 2060</h2><p>Il prossimo capitolo della Lega GPT si decide sul campo. Scegli se controllare Luke oppure osservare una battaglia tra allenatori autonomi.</p><p class="notice">Le qualificazioni e le formazioni ufficiali 2060 non sono ancora confermate nei dati del repository. Le battaglie disponibili ora sono <strong>allenamenti tecnici non canonici</strong>, risolti integralmente dal simulatore Pokémon Showdown.</p><div class="actions"><button data-jump="arena">Entra nell'arena</button><button data-jump="studio">Sala stampa · Master AI</button></div><div class="panel" id="accountPanel" hidden>
+<section id="home" class="view active"><div class="panel"><div class="eyebrow">La scena è pronta</div><h2>Verso il Mondiale 2060</h2><p>Il prossimo capitolo della Lega GPT si decide sul campo. Scegli se controllare Luke oppure osservare una battaglia tra allenatori autonomi.</p><p class="notice">Le qualificazioni e le formazioni ufficiali 2060 non sono ancora confermate nei dati del repository. Puoi giocare un <strong>Mondiale WHAT-IF completo</strong> oppure allenarti con il roster 2060, risolti integralmente dal simulatore Pokémon Showdown.</p><div class="actions"><button data-jump="arena">Entra nell'arena</button><button data-jump="studio">Sala stampa · Master AI</button></div><div class="panel" id="accountPanel" hidden>
 <h3>Account Pokémon GPT Historia</h3>
 <p class="muted">L'account protegge battaglie, replay e conversazioni. Non utilizzare la stessa password di altri servizi. Non è ancora previsto il recupero automatico delle password.</p>
 <form id="accountForm">
@@ -64,7 +64,7 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px soli
 <h3>Analisi tecnica · dati osservati</h3><div id="analysisSummary" class="muted" aria-live="polite"></div>
 <p class="muted">Ricostruzione visiva del log spettatore, non riproduzione nativa del client Pokémon Showdown. I PS sono mostrati solo quando il log pubblico li indica. Nessun evento viene inventato.</p>
 </div></div>
-<div><div class="panel"><h2>Nuovo incontro</h2><label for="mode">Modalità</label><select id="mode"><option value="manual">Manuale — gioca come Luke</option><option value="auto">Automatica — guarda i bot</option></select><label for="npcProfile">Stile tattico avversario (allenamento)</label><select id="npcProfile"><option value="balanced">Bilanciato</option><option value="mattew">Mattew · Tecnico</option><option value="daniel">Daniel · Analitico</option><option value="edward">Edward · Offensivo</option><option value="fab">Fab · Creativo</option><option value="luke">Luke · Adattivo</option></select><button id="practice">Avvia allenamento tecnico 6v6</button><p class="muted">Le squadre dell'allenamento sono soltanto fixture di sviluppo. Non assegnano punti ai Mondiali.</p>
+<div><div class="panel"><h2>Nuovo incontro</h2><label for="mode">Modalità</label><select id="mode"><option value="manual">Manuale — gioca come Luke</option><option value="auto">Automatica — guarda i bot</option></select><label for="npcProfile">Stile tattico avversario (allenamento)</label><select id="npcProfile"><option value="balanced">Bilanciato</option><option value="mattew">Mattew · Tecnico</option><option value="daniel">Daniel · Analitico</option><option value="edward">Edward · Offensivo</option><option value="fab">Fab · Creativo</option><option value="luke">Luke · Adattivo</option></select><button id="canonicalPractice">Allenati con Luke · roster 2060</button><details><summary>Fixture tecniche di sviluppo</summary><button id="practice">Avvia fixture tecnica 6v6</button><p class="muted">Le squadre dell'allenamento sono soltanto fixture di sviluppo. Non assegnano punti ai Mondiali.</p></details>
 <details open><summary>Importa squadre Showdown (testo esportato o packed)</summary>
 <label for="p1team">Squadra Luke (sei Pokémon, copia/incolla dall'export Showdown)</label>
 <textarea id="p1team" rows="12" spellcheck="false" placeholder="Arcanine-Hisui @ Choice Scarf&#10;Ability: Rock Head&#10;EVs: 252 Atk / 4 SpD / 252 Spe&#10;Jolly Nature&#10;- Flare Blitz&#10;- Head Smash&#10;- Close Combat&#10;- Crunch"></textarea>
@@ -75,9 +75,9 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px soli
 <pre id="teamPreview" class="team-preview" aria-live="polite" hidden></pre>
 <p class="muted">I set vengono controllati e inviati senza mosse o strumenti sostitutivi. Gigantamax: Yes abilita il Gigamax sulle specie compatibili. I team salvati sono privati per account/sessione.</p>
 </details>
-<p class="muted" id="arenaError" role="alert"></p></div><div class="panel"><h2>Formato provvisorio</h2><p class="muted">Motore ufficiale, Singles 6v6 livello 100; test su <code>gen8customgame</code>. La legalità definitiva del formato Historia (inclusi Hisui e vincoli Mega/Dynamax) richiede ancora un formato custom certificato.</p></div></div></div></section>
+<p class="muted" id="arenaError" role="alert"></p></div><div class="panel"><h2>Formato provvisorio</h2><p class="muted">Showdown · Historia WHAT-IF: Singles 6v6 livello 100, Item Clause per squadra, una Mega e una Dynamax su Pokémon diversi; niente Tera o mosse Z. Team Preview nascosta. Classificazione dei leggendari esplicita per il WHAT-IF; regolamento ufficiale da certificare.</p></div></div></div></section>
 <section id="studio" class="view"><div class="panel"><div class="eyebrow">Sala stampa · prepartita e postpartita</div><h2>Master AI narrativo</h2><div id="messages" role="log" aria-live="polite"><div class="entry"><b>Historia</b> · Benvenuto al Mondiale 2060. Sono disponibili l'atmosfera della competizione e l'analisi dei replay verificati.</div></div><form id="chat"><label for="message">Parla con il Master</label><textarea id="message" maxlength="5000" required placeholder="Analizziamo i turni decisivi della battaglia..."></textarea><button>Invia al Master</button></form><p id="chatStatus" class="muted"></p></div></section>
-<section id="tournament" class="view"><div class="panel"><div class="eyebrow">Sorteggio · Calendario · Fase a gironi</div><h2>Mondiale 2060</h2><p class="notice">I qualificati ufficiali 2060 non sono confermati. Puoi avviare esplicitamente una <strong>simulazione WHAT-IF</strong> con le 32 teste di serie del ranking storico 2056. I nomi NON sono qualificati 2060 verificati e gli incontri di questa simulazione non incidono sulla lore canonica. Il collegamento ai match ufficiali Showdown è ancora in sviluppo.</p><div id="seeds"></div><p id="rosterReadiness" class="muted" role="status">Verifica dei roster automatici in corso…</p><p class="muted">**Squadre precaricate automaticamente** dal roster 2060: ogni allenatore usa esattamente i suoi sei Pokémon, con strumenti, EV, IV, mosse e forme. Non devi più incollare manualmente i team a ogni incontro. Luke può essere controllato manualmente; nei match NPC giocano due bot. I set non compatibili con il simulatore vengono segnalati senza sostituzioni nascoste. Il torneo è una simulazione WHAT-IF, non un risultato canonico.</p><h3>Tre slot indipendenti · Sorteggio persistente</h3><div id="worldCupSlotList" class="actions" aria-label="Slot del Mondiale">Accedi per caricare gli slot.</div><p id="worldCupStatus" class="muted" role="status"></p><div id="worldCupDraw"></div></div></section>
+<section id="tournament" class="view"><div class="panel"><div class="eyebrow">Sorteggio · Calendario · Fase a gironi</div><h2>Mondiale 2060</h2><p class="notice">I qualificati ufficiali 2060 non sono confermati. Puoi avviare esplicitamente una <strong>simulazione WHAT-IF</strong> con le 32 teste di serie del ranking storico 2056. I nomi NON sono qualificati 2060 verificati e gli incontri di questa simulazione non incidono sulla lore canonica. Gli incontri WHAT-IF usano Showdown; la qualificazione ufficiale resta da certificare.</p><div id="seeds"></div><p id="rosterReadiness" class="muted" role="status">Verifica dei roster automatici in corso…</p><p class="muted">Squadre precaricate automaticamente dal roster 2060: ogni allenatore usa esattamente i suoi sei Pokémon, con strumenti, EV, IV, mosse e forme. Non devi più incollare manualmente i team a ogni incontro. Luke può essere controllato manualmente; nei match NPC giocano due bot. I set non compatibili con il simulatore vengono segnalati senza sostituzioni nascoste. Il torneo è una simulazione WHAT-IF, non un risultato canonico.</p><h3>Tre slot indipendenti · Sorteggio persistente</h3><div id="worldCupSlotList" class="actions" aria-label="Slot del Mondiale">Accedi per caricare gli slot.</div><p id="worldCupStatus" class="muted" role="status"></p><div id="worldCupDraw"></div></div></section>
 <section id="replays" class="view"><div class="panel"><h2>Replay Showdown verificati</h2><p class="muted">Risultati emessi dal simulatore e salvati dal server (non importazioni manuali).</p><div id="replayList">Nessun replay disponibile.</div></div></section>
 <section id="archive" class="view"><div class="panel"><h2>Archivio e statistiche</h2><p>I coefficienti storici sono aggiornati al 2056; non costituiscono l'elenco definitivo dei qualificati 2060.</p><div id="ranking" class="table-wrap"></div></div></section>
 </main>
@@ -86,7 +86,7 @@ const $=id=>document.getElementById(id);
 const sessionId=localStorage.getItem('historia-session-id')||Array.from(crypto.getRandomValues(new Uint8Array(20)),v=>v.toString(16).padStart(2,'0')).join('');
 localStorage.setItem('historia-session-id',sessionId);
 let currentId=localStorage.getItem('historia-last-battle'),lastBattle=null,ticker=null,replayData=null,replayIndex=0,replayTimer=null;
-let authMode='capability',accountCsrf=null,accountName=null;
+let authMode='capability',accountCsrf=null,accountName=null,narrativeGeneration=0;
 $('sessionCode').textContent=sessionId;
 $('copySession').onclick=()=>navigator.clipboard?.writeText(sessionId);
 $('loadSession').onclick=()=>{const v=$('restoreSession').value.trim();if(!/^[a-f0-9]{40}$/.test(v)){alert('Codice non valido');return;}localStorage.setItem('historia-session-id',v);localStorage.removeItem('historia-last-battle');location.reload();};
@@ -118,8 +118,8 @@ async function accountAction(action){
   $('accountPassword').value='';
   accountDisplay(result);
   // Never attribute an old anonymous/cross-account battle to the newly logged-in user.
-  currentId=null;lastBattle=null;localStorage.removeItem('historia-last-battle');
-  await recoverAccountState();await retrieveTeams();
+  currentId=null;lastBattle=null;activeWorldCupSlot=null;narrativeGeneration++;localStorage.removeItem('historia-active-slot');localStorage.removeItem('historia-last-battle');$('messages').replaceChildren();
+  await recoverAccountState();await retrieveTeams();await loadChat();
  }catch(e){$('accountPassword').value='';$('accountStatus').textContent=e.message;}
 }
 $('accountForm').addEventListener('submit',e=>{e.preventDefault();accountAction('login');});
@@ -127,7 +127,7 @@ $('accountRegister').onclick=()=>accountAction('register');
 async function accountExit(all){
  try{await api('/api/auth/'+(all?'logout-all':'logout'),{});accountDisplay(null);
   if(ticker){clearInterval(ticker);ticker=null;}
-  currentId=null;lastBattle=null;localStorage.removeItem('historia-last-battle');
+  currentId=null;lastBattle=null;activeWorldCupSlot=null;narrativeGeneration++;localStorage.removeItem('historia-active-slot');localStorage.removeItem('historia-last-battle');$('messages').replaceChildren();
   $('choices').replaceChildren();$('battleLog').textContent='Sessione disconnessa.';
   closeReplay();navigate('home');
  }catch(e){$('accountStatus').textContent=e.message;}
@@ -171,6 +171,7 @@ $('previewTeams').onclick=async()=>{try{
  $('teamPreview').hidden=false;$('teamPreview').textContent=format('LUKE',p1)+'\n\n'+format('AVVERSARIO',p2);
 }catch(e){$('arenaError').textContent=e.message;}};
 async function begin(practice){$('arenaError').textContent='';try{const data=practice?{practice:true,mode:$('mode').value,npcProfile:$('npcProfile').value}:{mode:$('mode').value,npcProfile:$('npcProfile').value,p1team:$('p1team').value.trim(),p2team:$('p2team').value.trim(),p2name:$('opponent').value.trim()};if(authMode!=='accounts')data.sessionId=sessionId;if(!practice)await api('/api/teams',{p1team:data.p1team,p2team:data.p2team,p2name:data.p2name});const b=await api('/api/battles',data);closeReplay();currentId=b.id;localStorage.setItem('historia-last-battle',currentId);navigate('arena');render(b);startPolling();}catch(e){$('arenaError').textContent=e.message;}}
+$('canonicalPractice').addEventListener('click',async()=>{try{const b=await api('/api/battles',{canonicalPractice:true,mode:$('mode').value});closeReplay();currentId=b.id;localStorage.setItem('historia-last-battle',currentId);navigate('arena');render(b);startPolling();}catch(e){$('arenaError').textContent=e.message;}});
 $('practice').addEventListener('click',()=>begin(true));$('customBattle').addEventListener('click',()=>begin(false));
 function render(b){lastBattle=b;$('battleStatus').textContent=b.status==='complete'?'Vittoria confermata Showdown: '+b.winner:b.status==='tie'?'Pareggio confermato':b.status==='error'?'Errore: '+b.error:'Turno '+(b.turn||'iniziale')+' · '+(b.mode==='manual'?'Luke vs AI':(b.p1name||'Luke')+' vs '+(b.p2name||'NPC')+' · AI vs AI')+' · Stile NPC: '+(b.aiProfiles?.p2||'bilanciato')+' · '+b.status;
  $('p1name').textContent=b.p1name||'Luke';$('p2name').textContent=b.p2name||'NPC';$('battleLog').textContent=b.log||'Attesa del primo evento…';$('battleLog').scrollTop=$('battleLog').scrollHeight;
@@ -312,9 +313,13 @@ $('replayPlay').onclick=()=>{
 async function poll(){if(!currentId)return;try{const b=await api('/api/battles/'+currentId);render(b);if(b.status!=='active'){clearInterval(ticker);ticker=null;}}catch(e){$('arenaError').textContent=e.message;clearInterval(ticker);ticker=null;}}
 function startPolling(){if(ticker)clearInterval(ticker);ticker=setInterval(poll,950);}
 $('postAnalysis').addEventListener('click',()=>{navigate('studio');$('message').value='Analizza il replay verificato della mia ultima battaglia: turni decisivi, KO, switch, Mega/Dynamax ed eventuali errori tattici. Cita i turni senza inventare dati.';$('message').focus();});
-$('chat').addEventListener('submit',async e=>{e.preventDefault();const msg=$('message').value.trim();if(!msg)return;add('Tu',msg);$('message').value='';$('chatStatus').textContent='Il Master sta elaborando…';try{const r=await api('/api/chat',{message:msg,sessionId});add('Historia',r.answer);$('chatStatus').textContent='';}catch(err){$('chatStatus').textContent=err.message;}});
+$('chat').addEventListener('submit',async e=>{e.preventDefault();const msg=$('message').value.trim();if(!msg)return;const generation=narrativeGeneration,slot=activeWorldCupSlot;add('Tu',msg);$('message').value='';$('chatStatus').textContent='Il Master sta elaborando…';try{const r=await api('/api/chat',{message:msg,sessionId,...(slot?{slot}:{})});if(generation!==narrativeGeneration)return;add('Historia',r.answer);$('chatStatus').textContent='';}catch(err){if(generation===narrativeGeneration)$('chatStatus').textContent=err.message;}});
 async function listReplays(){try{const {battles}=await api('/api/battles');const box=$('replayList');box.replaceChildren();if(!battles.length){box.textContent='Nessun replay ancora registrato.';return;}for(const b of battles){const p=document.createElement('p'),button=document.createElement('button');button.textContent=(b.createdAt||'')+' · '+(b.winner?'Vincitore: '+b.winner:b.status)+' · '+b.turn+' turni';button.onclick=async()=>{closeReplay();currentId=b.id;localStorage.setItem('historia-last-battle',b.id);render(await api('/api/battles/'+b.id));navigate('arena');if(['complete','tie'].includes(lastBattle?.status))try{await openVerifiedReplay();}catch(e){$('arenaError').textContent=e.message;}};p.append(button);box.append(p);}}catch(e){$('replayList').textContent=e.message;}}
+let activeWorldCupSlot=Number(localStorage.getItem('historia-active-slot'))||null;
 function renderWorldCupDraw(data){
+ const changed=activeWorldCupSlot!==data.slot;
+ activeWorldCupSlot=data.slot;localStorage.setItem('historia-active-slot',String(data.slot));
+ if(changed){narrativeGeneration++;$('messages').replaceChildren();void loadChat();}
  const area=$('worldCupDraw');area.replaceChildren();const cup=data.cup;
  if(cup?.scenario?.official!==false||cup.scenario.source!=='historical-seeding-2056'){
   $('worldCupStatus').textContent='Formato salvataggio inatteso: impossibile presentarlo come simulazione.';return;
@@ -455,16 +460,16 @@ function renderWorldCupDraw(data){
  }
  if(groupComplete&&!knockout.length){
   const note=document.createElement('p');note.className='muted';
-  note.textContent='Parità: scontro diretto tra due allenatori; in una parità a tre, differenza KO dei log Showdown. In caso di ulteriore parità gli ottavi vengono bloccati, senza qualificati inventati.';
+  note.textContent='Parità: scontro diretto tra due allenatori; in una parità a tre, differenza KO dei log Showdown. In caso di ulteriore parità: spareggi Showdown con scala a eliminazione ripetuta, ordine iniziale dal sorteggio salvato. Ogni posizione viene assegnata da battaglie reali; gli spareggi sono aggiuntivi ai 63 incontri.';
   area.append(note);
  }
- if(knockout.length){
-  const stages={'round-of-16':'Ottavi','quarterfinal':'Quarti','semifinal':'Semifinali','final':'Finale'};
+ if(knockout.length||(cup.playoffs||[]).length){
+  const stages={'round-of-16':'Ottavi','quarterfinal':'Quarti','semifinal':'Semifinali','final':'Finale','playoff':'Spareggio'};
   const box=document.createElement('div');box.className='table-wrap';
   const t=document.createElement('table'),th=document.createElement('thead'),head=document.createElement('tr');
   for(const name of ['Turno','Partita','Stato','Azioni']){const cell=document.createElement('th');cell.textContent=name;head.append(cell);}
   th.append(head);t.append(th);const tb=document.createElement('tbody');
-  for(const game of knockout){
+  for(const game of [...(cup.playoffs||[]),...knockout]){
    const tr=document.createElement('tr');
    for(const label of [stages[game.stage]||game.stage,
     game.homeId+' – '+game.awayId,
@@ -541,7 +546,7 @@ async function loadWorldCupSlots(){
  }catch(e){$('worldCupStatus').textContent=e.message;}
 }
 async function loadMeta(){try{const c=await api('/api/competition');const table=document.createElement('table');table.innerHTML='<thead><tr><th>#</th><th>Allenatore</th><th>Coefficiente 2056</th><th>Fascia storica</th></tr></thead>';const tbody=document.createElement('tbody');for(const r of c.ranking){const tr=document.createElement('tr');for(const v of [r.rank,r.id,r.total,r.pot]){const td=document.createElement('td');td.textContent=v;tr.append(td);}tbody.append(tr);}table.append(tbody);$('ranking').append(table);$('seeds').textContent='Ranking 2056 caricato: '+c.ranking.length+' allenatori. Qualificazioni 2060 da definire.';}catch(e){$('seeds').textContent=e.message;}}
-async function loadChat(){try{const c=await api('/api/chat');for(const m of c.messages||[])add(m.role==='user'?'Tu':'Historia',m.content);}catch(e){$('chatStatus').textContent=e.message;}}
+async function loadChat(){const generation=narrativeGeneration,slot=activeWorldCupSlot;try{const c=await api('/api/chat'+(slot?'?slot='+slot:''));if(generation!==narrativeGeneration)return;for(const m of c.messages||[])add(m.role==='user'?'Tu':'Historia',m.content);}catch(e){if(generation===narrativeGeneration)$('chatStatus').textContent=e.message;}}
 (async()=>{
  try{
   const status=await api('/api/status');
