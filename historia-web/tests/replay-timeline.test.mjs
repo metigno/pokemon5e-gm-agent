@@ -114,3 +114,25 @@ test('Public Showdown formechange displays actual Gigantamax sprite without reve
  assert.equal(f.at(-1).field.p1.gigantamax,false);
  assert.doesNotMatch(JSON.stringify(f),/Leftovers|Torrent/,'Never infer private held item or ability from replay');
 });
+
+test('Real Showdown Gmax signal without -formechange changes spectator sprite and reverts it',()=>{
+ const log=[
+  '|switch|p1a: Blastoise|Blastoise, L100|341/341',
+  '|turn|1',
+  '|-start|p1a: Blastoise|Dynamax|Gmax',
+  '|-heal|p1a: Blastoise|682/682|[silent]',
+  '|move|p1a: Blastoise|G-Max Cannonade|p2a: Feraligatr',
+  '|turn|2',
+  '|-end|p1a: Blastoise|Dynamax',
+  '|win|Luke'
+ ].join('\n');
+ const battle=buildReplayTimeline(log);
+ assert.equal(battle.frames[1].field.p1.species,'Blastoise-Gmax');
+ assert.equal(battle.frames[1].field.p1.gigantamax,true);
+ assert.equal(battle.frames[1].field.p1.dynamax,true);
+ assert.equal(battle.frames[2].field.p1.species,'Blastoise');
+ assert.equal(battle.frames[2].field.p1.gigantamax,false);
+ assert.equal(battle.stats.p1.dynamax,1);
+ const report=renderTechnicalReport(battle);
+ assert.ok(report.keyMoments.some(e=>e.description.includes('Gigamax')));
+});

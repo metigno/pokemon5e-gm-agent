@@ -6,15 +6,19 @@ import {parseTeamInput,describeTeam} from '../battle-service.mjs';
 
 const {Teams,Dex}=createRequire(import.meta.url)('pokemon-showdown');
 
-test('Exactly 32 canonically documented trainers, never invent the other three complete builds',()=>{
+test('All 35 canonical trainer profiles have six source sets; unsupported custom Megas fail explicitly',()=>{
  const statuses=listCanonicalRosters();
  assert.equal(statuses.length,35);
- assert.ok(statuses.filter(x=>x.available).length>=30,
+ assert.ok(statuses.filter(x=>x.available).length>=32,
   JSON.stringify(statuses.filter(x=>!x.available)));
- for(const name of ['Lucas','Ronan Ward','Soren Veyr']){
-  assert.equal(statuses.find(x=>x.id===name).available,false);
-  assert.throws(()=>canonicalTeam(name),/non disponibile/);
+ for(const name of ['Ronan Ward','Soren Veyr']){
+  assert.equal(statuses.find(x=>x.id===name).available,true,name);
+  assert.equal(Teams.unpack(canonicalTeam(name)).length,6);
  }
+ assert.equal(statuses.find(x=>x.id==='Lucas').available,false);
+ assert.match(statuses.find(x=>x.id==='Lucas').reason,/Staraptite/);
+ assert.throws(()=>canonicalTeam('Lucas'),/Staraptite/);
+ assert.equal(Teams.unpack(canonicalTeam('Silas Crowe')).find(x=>x.species==='Calyrex-Shadow').ability,'As One (Spectrier)');
 });
 
 test('Luke team is imported from 2060 roster without moves, items, forms or EV replacement',()=>{
@@ -61,19 +65,18 @@ test('Mega Venusaur and Mega Swampert items/abilities and Alpha visuals are loss
  assert.equal(luke[0].name,'Arcanine Alpha');
 });
 
-test('Unsupported 2060 Mega Excadrill must fail closed, not quietly lose its stone',()=>{
- const item=Dex.items.get('Excadrite');
- const status=listCanonicalRosters().find(x=>x.id==='N');
- if(!item.exists){
-  assert.equal(status.available,false);
-  assert.match(status.reason,/Excadrite/);
-  assert.throws(()=>canonicalTeam('N'),/Excadrite/);
- }else assert.equal(Teams.unpack(canonicalTeam('N'))[4].item,'Excadrite');
+test('Unsupported Excadrill/Staraptor custom Megas are never silently represented as base species',()=>{
+ for(const [name,stone] of [['N','Excadrite'],['Lucas','Staraptite']]){
+  const status=listCanonicalRosters().find(x=>x.id===name);
+  assert.equal(status.available,false,name);
+  assert.match(status.reason,new RegExp(stone));
+  assert.throws(()=>canonicalTeam(name),new RegExp(stone));
+ }
 });
 
-test('All 32 2060 builds include ONE designated Dynamax/Gigamax user',()=>{
- const registered=listCanonicalRosters().filter(x=>!['Lucas','Ronan Ward','Soren Veyr'].includes(x.id));
- assert.equal(registered.length,32);
+test('Every supported 2060 build designates its exact Dynamax/Gigamax user',()=>{
+ const registered=listCanonicalRosters();
+ assert.equal(registered.length,35);
  for(const trainer of registered){
   if(!trainer.available)continue;
   const target=canonicalDynamaxTarget(trainer.id);
@@ -91,4 +94,17 @@ test('G-Max in Mechanics field is not lost when species title omits Gigamax',()=
   assert.equal(sets.find(x=>x.species===species).gigantamax,true,trainer);
   assert.equal(canonicalDynamaxTarget(trainer),species);
  }
+});
+
+test('Ronan Ward and Soren Veyr extra teams preserve their source transformations and items',()=>{
+ const r=Teams.unpack(canonicalTeam('Ronan Ward'));
+ assert.deepEqual(r.map(x=>x.species),['Rillaboom','Zamazenta-Crowned','Incineroar','Dragonite','Volcarona','Blastoise']);
+ assert.equal(r[0].gigantamax,true);
+ assert.equal(r[0].item,'Assault Vest');
+ assert.equal(r[5].item,'Blastoisinite');
+ assert.equal(canonicalDynamaxTarget('Ronan Ward'),'Rillaboom');
+ const s=Teams.unpack(canonicalTeam('Soren Veyr'));
+ assert.equal(s.find(x=>x.species==='Gallade').item,'Galladite');
+ assert.equal(s.find(x=>x.species==='Noctowl').item,'Life Orb');
+ assert.equal(canonicalDynamaxTarget('Soren Veyr'),'Noctowl');
 });

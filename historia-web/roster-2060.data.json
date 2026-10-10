@@ -3,11 +3,7 @@
   "sourceType": "user-provided-canon-2026-10-10",
   "rules": "Pokemon GPT Historia 2060 WHAT-IF; not evidence of official qualification",
   "teamFormat": "pokemon-showdown-sets",
-  "missingExplicitTeams": [
-    "Lucas",
-    "Ronan Ward",
-    "Soren Veyr"
-  ],
+  "missingExplicitTeams": [],
   "teams": {
     "Luke": [
       {
@@ -2774,7 +2770,7 @@
       {
         "species": "Calyrex-Shadow",
         "item": "Choice Specs",
-        "ability": "As One",
+        "ability": "As One (Spectrier)",
         "nature": "Timid",
         "moves": [
           "Astral Barrage",
@@ -3397,6 +3393,328 @@
           "spd": 88
         }
       }
+    ],
+    "Lucas": [
+      {
+        "species": "Torterra",
+        "item": "White Herb",
+        "ability": "Overgrow",
+        "nature": "Jolly",
+        "moves": [
+          "Shell Smash",
+          "Bullet Seed",
+          "Headlong Rush",
+          "Stone Edge"
+        ],
+        "evs": {
+          "atk": 252,
+          "def": 4,
+          "spe": 252
+        }
+      },
+      {
+        "species": "Infernape",
+        "item": "Life Orb",
+        "ability": "Blaze",
+        "nature": "Naive",
+        "moves": [
+          "Overheat",
+          "Close Combat",
+          "Grass Knot",
+          "U-turn"
+        ],
+        "evs": {
+          "atk": 20,
+          "spa": 236,
+          "spe": 252
+        }
+      },
+      {
+        "species": "Empoleon",
+        "item": "Leftovers",
+        "ability": "Torrent",
+        "nature": "Calm",
+        "moves": [
+          "Defog",
+          "Haze",
+          "Scald",
+          "Flash Cannon"
+        ],
+        "evs": {
+          "hp": 252,
+          "def": 4,
+          "spd": 252
+        },
+        "ivs": {
+          "atk": 0
+        }
+      },
+      {
+        "species": "Staraptor",
+        "item": "Staraptite",
+        "ability": "Intimidate",
+        "nature": "Jolly",
+        "moves": [
+          "Close Combat",
+          "Brave Bird",
+          "Roost",
+          "U-turn"
+        ],
+        "evs": {
+          "atk": 252,
+          "spd": 4,
+          "spe": 252
+        }
+      },
+      {
+        "species": "Arceus",
+        "item": "Silk Scarf",
+        "ability": "Multitype",
+        "nature": "Adamant",
+        "moves": [
+          "Swords Dance",
+          "Extreme Speed",
+          "Earthquake",
+          "Recover"
+        ],
+        "evs": {
+          "atk": 252,
+          "spd": 4,
+          "spe": 252
+        }
+      },
+      {
+        "species": "Mamoswine",
+        "item": "Expert Belt",
+        "ability": "Thick Fat",
+        "nature": "Jolly",
+        "moves": [
+          "Earthquake",
+          "Icicle Crash",
+          "Ice Shard",
+          "Knock Off"
+        ],
+        "evs": {
+          "atk": 252,
+          "spd": 4,
+          "spe": 252
+        }
+      }
+    ],
+    "Ronan Ward": [
+      {
+        "species": "Rillaboom",
+        "item": "Assault Vest",
+        "ability": "Grassy Surge",
+        "nature": "Adamant",
+        "moves": [
+          "Grassy Glide",
+          "Wood Hammer",
+          "Knock Off",
+          "U-turn"
+        ],
+        "evs": {
+          "atk": 252,
+          "spd": 4,
+          "spe": 252
+        },
+        "gigantamax": true
+      },
+      {
+        "species": "Zamazenta-Crowned",
+        "item": "Rusted Shield",
+        "ability": "Dauntless Shield",
+        "nature": "Impish",
+        "moves": [
+          "Iron Defense",
+          "Body Press",
+          "Behemoth Bash",
+          "Crunch"
+        ],
+        "evs": {
+          "hp": 252,
+          "def": 252,
+          "spe": 4
+        }
+      },
+      {
+        "species": "Incineroar",
+        "item": "Leftovers",
+        "ability": "Intimidate",
+        "nature": "Careful",
+        "moves": [
+          "Flare Blitz",
+          "Knock Off",
+          "Taunt",
+          "Parting Shot"
+        ],
+        "evs": {
+          "hp": 252,
+          "atk": 4,
+          "spd": 252
+        }
+      },
+      {
+        "species": "Dragonite",
+        "item": "Lum Berry",
+        "ability": "Multiscale",
+        "nature": "Adamant",
+        "moves": [
+          "Dragon Dance",
+          "Dual Wingbeat",
+          "Extreme Speed",
+          "Fire Punch"
+        ],
+        "evs": {
+          "atk": 252,
+          "spd": 4,
+          "spe": 252
+        }
+      },
+      {
+        "species": "Volcarona",
+        "item": "Heavy-Duty Boots",
+        "ability": "Flame Body",
+        "nature": "Timid",
+        "moves": [
+          "Quiver Dance",
+          "Fiery Dance",
+          "Bug Buzz",
+          "Giga Drain"
+        ],
+        "evs": {
+          "spa": 252,
+          "spd": 4,
+          "spe": 252
+        },
+        "ivs": {
+          "atk": 0
+        }
+      },
+      {
+        "species": "Blastoise",
+        "item": "Blastoisinite",
+        "ability": "Torrent",
+        "nature": "Modest",
+        "moves": [
+          "Rapid Spin",
+          "Water Pulse",
+          "Haze",
+          "Aura Sphere"
+        ],
+        "evs": {
+          "spa": 252,
+          "spd": 4,
+          "spe": 252
+        },
+        "ivs": {
+          "atk": 0
+        }
+      }
+    ],
+    "Soren Veyr": [
+      {
+        "species": "Garchomp",
+        "item": "Rocky Helmet",
+        "ability": "Rough Skin",
+        "nature": "Impish",
+        "moves": [
+          "Stealth Rock",
+          "Earthquake",
+          "Dragon Tail",
+          "Fire Blast"
+        ],
+        "evs": {
+          "hp": 252,
+          "def": 164,
+          "spe": 92
+        }
+      },
+      {
+        "species": "Gallade",
+        "item": "Galladite",
+        "ability": "Steadfast",
+        "nature": "Jolly",
+        "moves": [
+          "Swords Dance",
+          "Close Combat",
+          "Zen Headbutt",
+          "Knock Off"
+        ],
+        "evs": {
+          "atk": 252,
+          "spd": 4,
+          "spe": 252
+        }
+      },
+      {
+        "species": "Jolteon",
+        "item": "Heavy-Duty Boots",
+        "ability": "Volt Absorb",
+        "nature": "Timid",
+        "moves": [
+          "Volt Switch",
+          "Thunderbolt",
+          "Hidden Power Ice",
+          "Shadow Ball"
+        ],
+        "evs": {
+          "spa": 252,
+          "spd": 4,
+          "spe": 252
+        }
+      },
+      {
+        "species": "Infernape",
+        "item": "Choice Scarf",
+        "ability": "Blaze",
+        "nature": "Jolly",
+        "moves": [
+          "Close Combat",
+          "Flare Blitz",
+          "U-turn",
+          "Gunk Shot"
+        ],
+        "evs": {
+          "atk": 252,
+          "spd": 4,
+          "spe": 252
+        }
+      },
+      {
+        "species": "Dialga",
+        "item": "Leftovers",
+        "ability": "Pressure",
+        "nature": "Modest",
+        "moves": [
+          "Draco Meteor",
+          "Flash Cannon",
+          "Earth Power",
+          "Thunderbolt"
+        ],
+        "evs": {
+          "hp": 252,
+          "spa": 252,
+          "spd": 4
+        }
+      },
+      {
+        "species": "Noctowl",
+        "item": "Life Orb",
+        "ability": "Tinted Lens",
+        "nature": "Timid",
+        "moves": [
+          "Nasty Plot",
+          "Hurricane",
+          "Hyper Voice",
+          "Heat Wave"
+        ],
+        "evs": {
+          "spa": 252,
+          "spd": 4,
+          "spe": 252
+        }
+      }
     ]
   },
   "designatedDynamaxSpecies": {
@@ -3431,6 +3749,14 @@
     "Ayame Hoshino": "Rillaboom",
     "Orion Vale": "Melmetal",
     "Nyx Vesper": "Weavile",
-    "Kaia Solari": "Flutter Mane"
-  }
+    "Kaia Solari": "Flutter Mane",
+    "Lucas": "Mamoswine",
+    "Ronan Ward": "Rillaboom",
+    "Soren Veyr": "Noctowl"
+  },
+  "sourceNotes": [
+    "Lucas: Team 2056 has six sets; custom Mega Staraptor/Staraptite is not supported by stock Showdown and MUST fail closed, not downgraded.",
+    "Ronan Ward and Soren Veyr: 2060 teams are formatted in six dedicated multiline sections in Roster2060(2).md.",
+    "Calyrex-Shadow As One normalized to the species-specific official Showdown ability As One (Spectrier)."
+  ]
 }
