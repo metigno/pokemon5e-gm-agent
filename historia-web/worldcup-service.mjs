@@ -6,6 +6,8 @@ import {loadHistoricalSeeding} from '../historia/src/seeding.mjs';
 import {applyAuthoritativeShowdownResult} from '../historia/src/showdown-bridge.mjs';
 import {recordBattle} from '../historia/src/tournament.mjs';
 import {resolveAiProfile} from './tactical-ai.mjs';
+import {finalizedGroupStandings} from '../historia/src/schedule.mjs';
+import {createRoundOf16,advanceRound,crownChampion} from '../historia/src/knockout.mjs';
 
 const ownerFolder=ownerKey=>{
  if(typeof ownerKey!=='string'||ownerKey.length<16)throw Error('Identità del salvataggio non valida');
@@ -38,6 +40,14 @@ export function makeHistoricalHypothesis(){
   qualifiersConfirmed:false,description:'Ipotesi di sorteggio 2060 basata sui 32 nomi del ranking 2056. Non sono qualificati 2060 confermati.'}};
 }
 
+const fixtureCollection=(cup,matchId)=>{
+ const group=cup.schedule.find(m=>m.id===matchId);
+ if(group)return {fixture:group,key:'schedule',games:cup.schedule};
+ const knockout=(cup.knockout||[]).find(m=>m.id===matchId);
+ if(knockout)return {fixture:knockout,key:'knockout',games:cup.knockout};
+ return {fixture:null,key:null,games:null};
+};
+
 export class WorldCupSlots {
  constructor(directory){this.directory=directory;this.locks=new Map();}
  store(ownerKey){return new FileSaveStore(join(this.directory,ownerFolder(ownerKey)));}
@@ -65,7 +75,7 @@ export class WorldCupSlots {
    if(!loaded)throw Error('Slot non occupato');
    const cup=loaded.cup;
    if(cup.scenario?.official!==false)throw Error('Formato Mondiale ufficiale non certificato');
-   const fixture=cup.schedule.find(m=>m.id===matchId);
+   const {fixture}=fixtureCollection(cup,matchId);
    if(!fixture||fixture.status!=='scheduled')throw Error('Incontro non disponibile');
    if(fixture.homeId!=='Luke'&&fixture.awayId!=='Luke')throw Error('Controllo Luke non disponibile per incontri NPC');
    if(!['manual','auto'].includes(mode))throw Error('Modalità non valida');
@@ -92,7 +102,7 @@ export class WorldCupSlots {
   return this.locked(ownerKey,slot,async(store,number)=>{
    const loaded=await store.load(number);
    if(!loaded)throw Error('Slot non occupato');
-   const cup=loaded.cup,fixture=cup.schedule.find(m=>m.id===matchId);
+   const cup=loaded.cup,{fixture,key,games}=fixtureCollection(cup,matchId);
    if(!fixture)throw Error('Incontro non disponibile');
    if(fixture.status==='complete')return {slot:number,matchId,cup,alreadyRecorded:true};
    const bound=cup.matchBindings?.[matchId];
@@ -108,12 +118,13 @@ export class WorldCupSlots {
       completed.winner===null)throw Error('Risultato Showdown verificato non ancora disponibile');
    const names={Luke:'Luke',[bound.opponentId]:bound.opponentName};
    const battleId='battle-'+bound.battleId;
-   const next=applyAuthoritativeShowdownResult(cup.schedule,matchId,{
+   const next=applyAuthoritativeShowdownResult(games,matchId,{
     battleId,log:completed.publicLog,playerNames:names,verifiedByServer:true
    });
    const receipt=next.find(m=>m.id===matchId).result;
    const updated=recordBattle(cup,{...receipt});
-   updated.schedule=next;
+   updated[key]=next;
+   if(fixture.stage==='final')updated.champion=crownChampion(next.filter(m=>m.stage==='final'));
    await store.write(number,updated,{createdAt:loaded.meta?.createdAt,updatedAt:new Date().toISOString()});
    return {slot:number,matchId,cup:updated,receipt,alreadyRecorded:false};
   });
@@ -129,7 +140,7 @@ export class WorldCupSlots {
    if(!loaded)throw Error('Slot non occupato');
    const cup=loaded.cup;
    if(cup.scenario?.official!==false)throw Error('Formato Mondiale ufficiale non certificato');
-   const fixture=cup.schedule.find(m=>m.id===matchId);
+   const {fixture}=fixtureCollection(cup,matchId);
    if(!fixture||fixture.status!=='scheduled')throw Error('Incontro non disponibile');
    if(fixture.homeId==='Luke'||fixture.awayId==='Luke')
     throw Error('Gli incontri di Luke utilizzano il controllo dedicato');
@@ -167,7 +178,7 @@ export class WorldCupSlots {
   return this.locked(ownerKey,slot,async(store,number)=>{
    const loaded=await store.load(number);
    if(!loaded)throw Error('Slot non occupato');
-   const cup=loaded.cup,fixture=cup.schedule.find(m=>m.id===matchId);
+   const cup=loaded.cup,{fixture,key,games}=fixtureCollection(cup,matchId);
    if(!fixture)throw Error('Incontro non disponibile');
    if(fixture.homeId==='Luke'||fixture.awayId==='Luke')
     throw Error('Gli incontri di Luke hanno una registrazione separata');
@@ -186,14 +197,55 @@ export class WorldCupSlots {
       ![bound.homeName,bound.awayName].includes(completed.winner))
     throw Error('Risultato NPC Showdown verificato non ancora disponibile');
    const names=Object.fromEntries([[fixture.homeId,bound.homeName],[fixture.awayId,bound.awayName]]);
-   const next=applyAuthoritativeShowdownResult(cup.schedule,matchId,{
+   const next=applyAuthoritativeShowdownResult(games,matchId,{
     battleId:'battle-'+bound.battleId,log:completed.publicLog,playerNames:names,verifiedByServer:true
    });
    const receipt=next.find(m=>m.id===matchId).result;
    const updated=recordBattle(cup,receipt);
-   updated.schedule=next;
+   updated[key]=next;
+   if(fixture.stage==='final')updated.champion=crownChampion(next.filter(m=>m.stage==='final'));
    await store.write(number,updated,{createdAt:loaded.meta?.createdAt,updatedAt:new Date().toISOString()});
    return {slot:number,matchId,cup:updated,receipt,alreadyRecorded:false};
+  });
+ }
+
+ /** No R16 fixture exists until every group outcome, including tie policy, is verified. */
+ async openKnockout(ownerKey,slot){
+  return this.locked(ownerKey,slot,async(store,number)=>{
+   const loaded=await store.load(number);
+   if(!loaded)throw Error('Slot non occupato');
+   const cup=loaded.cup;
+   if(cup.scenario?.official!==false)throw Error('Formato 2060 non certificato');
+   if(cup.knockout?.length)return {slot:number,cup,alreadyGenerated:true};
+   if(cup.schedule.length!==48||cup.schedule.some(m=>m.status!=='complete'))
+    throw Error('Completare i 48 incontri Showdown dei gironi prima degli ottavi');
+   const rankings=Object.fromEntries('ABCDEFGH'.split('').map(group=>[
+    group,finalizedGroupStandings(cup.schedule,group)
+   ]));
+   const bracket=createRoundOf16(rankings);
+   const updated={...cup,groupRankings:rankings,knockout:bracket};
+   await store.write(number,updated,{createdAt:loaded.meta?.createdAt,updatedAt:new Date().toISOString()});
+   return {slot:number,cup:updated,alreadyGenerated:false};
+  });
+ }
+ /** Advance at most one complete knockout round. No matches get invented. */
+ async advanceKnockout(ownerKey,slot){
+  return this.locked(ownerKey,slot,async(store,number)=>{
+   const loaded=await store.load(number);
+   if(!loaded)throw Error('Slot non occupato');
+   const cup=loaded.cup;
+   if(cup.scenario?.official!==false)throw Error('Formato 2060 non certificato');
+   const knockout=cup.knockout||[];
+   if(!knockout.length)throw Error('Generare prima gli ottavi di finale');
+   const stages=['round-of-16','quarterfinal','semifinal','final'];
+   const stage=[...stages].reverse().find(name=>knockout.some(g=>g.stage===name));
+   if(stage==='final')throw Error('Finale già generata: disputare l’incontro');
+   const last=knockout.filter(g=>g.stage===stage);
+   if(last.some(g=>g.status!=='complete'))throw Error('Turno eliminatorio non completo');
+   const next=advanceRound(knockout,stage);
+   const updated={...cup,knockout:[...knockout,...next]};
+   await store.write(number,updated,{createdAt:loaded.meta?.createdAt,updatedAt:new Date().toISOString()});
+   return {slot:number,cup:updated,createdStage:next[0].stage};
   });
  }
 
