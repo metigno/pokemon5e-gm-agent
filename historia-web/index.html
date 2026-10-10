@@ -28,7 +28,7 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px soli
 .combat-hud span{display:block}.combat-hud .info{line-height:1.3;font-size:.76rem}.combat-hud progress{width:100%;max-width:none;height:11px}
 .pokemon--opponent .combat-hud{top:5%;left:-43%}.pokemon--player .combat-hud{bottom:5%;left:94%}
 @keyframes float{to{transform:translateY(-8px)}}
- .info{font-size:.84rem;color:#bdcfea}.move-meta{font-size:.76rem;display:block;color:#e1e9fa}.team-preview{margin:10px 0;white-space:pre-wrap;font-size:.83rem;overflow-wrap:anywhere}.choice{min-width:120px;flex:1 1 40%}.switch-choice{background:#315173}.ribbon{border-left:3px solid var(--gold);padding-left:12px;margin:16px 0}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:.87rem}th,td{padding:9px;border-bottom:1px solid #30445f;text-align:left}th{color:var(--gold)}.notice{border:1px dashed #6f7791;padding:12px;border-radius:8px;color:#d0d9ea;font-size:.91rem}
+ .info{font-size:.84rem;color:#bdcfea}.move-meta{font-size:.76rem;display:block;color:#e1e9fa}.team-preview{margin:10px 0;white-space:pre-wrap;font-size:.83rem;overflow-wrap:anywhere}.choice{min-width:120px;flex:1 1 40%}.switch-choice{background:#315173}.ribbon{border-left:3px solid var(--gold);padding-left:12px;margin:16px 0}.standings-board{min-width:350px;margin-bottom:10px;font-size:.83rem}.standings-board [role=row]{display:grid;grid-template-columns:minmax(120px,2fr) repeat(4,minmax(38px,1fr));gap:8px;padding:7px 9px;border-bottom:1px solid #30445f}.standings-board [role=columnheader]{color:var(--gold)}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:.87rem}th,td{padding:9px;border-bottom:1px solid #30445f;text-align:left}th{color:var(--gold)}.notice{border:1px dashed #6f7791;padding:12px;border-radius:8px;color:#d0d9ea;font-size:.91rem}
 @media(max-width:800px){.grid{grid-template-columns:1fr}header{position:static}.panel{padding:14px}.arena{height:360px}.pokemon img{width:46%;height:68%}.combat-hud{font-size:.76rem;padding:7px}.combat-hud .info{font-size:.69rem}button{min-height:44px}#messages{height:270px}}
 @media(max-width:390px){.arena{height:330px}.combat-hud{width:56%}.pokemon--opponent .combat-hud{left:-45%}.pokemon--player .combat-hud{left:90%}}
 @media(prefers-reduced-motion:reduce){.pokemon img{animation:none}}
@@ -335,18 +335,21 @@ function renderWorldCupDraw(data){
   }
   // This is provisional: tied positions are never secretly broken by seed or name.
   rows.sort((a,b)=>b.points-a.points||b.wins-a.wins);
-  const groupTable=document.createElement('table'),head=document.createElement('tr');
-  for(const heading of ['Allenatore','G','V','P','Pt']){const th=document.createElement('th');th.textContent=heading;head.append(th);}
-  const thead=document.createElement('thead');thead.append(head);groupTable.append(thead);
-  const tbody=document.createElement('tbody');
-  for(const row of rows){
-   const tr=document.createElement('tr');
-   for(const value of [row.id,row.played,row.wins,row.losses,row.points]){
-    const td=document.createElement('td');td.textContent=String(value);tr.append(td);
-   }
-   tbody.append(tr);
+  const board=document.createElement('div');board.className='standings-board';board.setAttribute('role','table');
+  board.setAttribute('aria-label','Classifica provvisoria girone '+letter);
+  const header=document.createElement('div');header.setAttribute('role','row');
+  for(const label of ['Allenatore','G','V','P','Pt']){
+   const cell=document.createElement('strong');cell.setAttribute('role','columnheader');cell.textContent=label;header.append(cell);
   }
-  groupTable.append(tbody);const box=document.createElement('div');box.className='table-wrap';box.append(groupTable);area.append(box);
+  board.append(header);
+  for(const row of rows){
+   const r=document.createElement('div');r.setAttribute('role','row');
+   for(const value of [row.id,row.played,row.wins,row.losses,row.points]){
+    const cell=document.createElement('span');cell.setAttribute('role','cell');cell.textContent=String(value);r.append(cell);
+   }
+   board.append(r);
+  }
+  const box=document.createElement('div');box.className='table-wrap';box.append(board);area.append(box);
  }
  const fixtureTitle=document.createElement('h3');fixtureTitle.textContent='Calendario · '+cup.schedule.filter(g=>g.status==='complete').length+' / 48 incontri disputati';
  area.append(fixtureTitle);
