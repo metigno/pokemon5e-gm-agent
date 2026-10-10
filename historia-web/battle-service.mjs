@@ -1,3 +1,4 @@
+import {WHAT_IF_MAJOR_LEGENDARIES} from './historia-rules.mjs';
 import {randomUUID,createHash,randomBytes} from 'node:crypto';
 import {mkdir,readFile,writeFile,rename,readdir,unlink} from 'node:fs/promises';
 import {join} from 'node:path';
@@ -50,7 +51,7 @@ export function validatePackedTeam(packed,{majorLegendarySpecies=null,official=f
  const sets=Teams.unpack(packed);
  if(!Array.isArray(sets)||sets.length!==6)throw new Error('Ogni squadra deve contenere esattamente sei Pokémon');
  if(official&&!Array.isArray(majorLegendarySpecies))throw new Error('Classificazione canonica leggendari maggiori non disponibile');
- const majorIds=new Set((majorLegendarySpecies||[]).map(x=>String(x).toLowerCase().replace(/[^a-z0-9]/g,'')));
+ const majorIds=new Set((majorLegendarySpecies||WHAT_IF_MAJOR_LEGENDARIES).map(x=>String(x).toLowerCase().replace(/[^a-z0-9]/g,'')));
  // Item Clause belongs to one trainer, never pooled with an opponent's team.
  const seenItems=new Map();let majorCount=0;
  for(const set of sets){
@@ -140,8 +141,9 @@ export class ArenaService {
   catch(e){if(e.code==='ENOENT')return null;throw e;}
  }
  async writePending(b){
+  if(b.stopped||b.finalizing||['complete','tie'].includes(b.status))return;
   // Private packed teams and the precise action ledger are NEVER returned to browsers.
-  const data={version:1,id:b.id,ownerDigest:b.ownerDigest,mode:b.mode,npcProfile:b.npcProfile,
+  const data={version:1,format:b.format,id:b.id,ownerDigest:b.ownerDigest,mode:b.mode,npcProfile:b.npcProfile,
    p1name:b.p1name,p1profile:b.p1profile,kind:b.kind,p1dynamaxTarget:b.p1dynamaxTarget,p2dynamaxTarget:b.p2dynamaxTarget,p2name:b.p2name,createdAt:b.createdAt,seed:b.seed,p1team:b.p1team,p2team:b.p2team,
    actions:b.actions.slice(),publicLog:b.publicLog.slice(),requestId:b.requestId};
   const serialized=JSON.stringify(data);
@@ -149,6 +151,7 @@ export class ArenaService {
   await mkdir(this.directory,{recursive:true,mode:0o700});
   const filename=this.pendingFile(b.id);
   const task=async()=>{
+   if(b.stopped||b.finalizing)return;
    const temp=filename+'.'+randomUUID()+'.tmp';
    await writeFile(temp,serialized,{mode:0o600,flag:'wx'});
    await rename(temp,filename);
@@ -160,10 +163,11 @@ export class ArenaService {
   const event={side,choice,requestHash:requestHash(request)};
   b.actions.push(event);
   try{await this.writePending(b);}catch(e){b.actions.pop();throw e;}
-  await b.engine.choose(side,choice);
+  if(!b.stopped)await b.engine.choose(side,choice);
  }
 
  async persist(battle,finalStatus=null){
+  battle.finalizing=true;
   await mkdir(this.directory,{recursive:true,mode:0o700});
   const snap={...this.snapshot(battle.id),ownerDigest:battle.ownerDigest,status:finalStatus||battle.status,publicLog:battle.publicLog.join('\n'),createdAt:battle.createdAt,analysis:summarizeVerifiedLog(battle.publicLog.join('\n'))};
   delete snap.request;delete snap.choices;
@@ -175,7 +179,7 @@ export class ArenaService {
  snapshot(id) {
   const b=this.sessions.get(id);
   if(!b) return null;
-  return {id:b.id,mode:b.mode,publicField:buildReplayTimeline(b.publicLog.join('\n')).frames.at(-1)?.field||null,aiProfiles:{p1:b.p1profile||'luke',p2:b.npcProfile},kind:b.kind||'practice',format:'gen8customgame',status:b.status,p1name:b.p1name||'Luke',p2name:b.p2name,turn:b.turn,requestId:b.requestId,request:b.mode==='manual'&&b.awaitingSide==='p1'?b.privateRequest:null,p1roster:b.mode==='manual'?describeTeam(b.p1team):null,choices:b.mode==='manual'&&b.awaitingSide==='p1'?legalChoices(b.privateRequest,{dynamaxTarget:b.p1dynamaxTarget}):[],log:b.publicLog.slice(-800).join('\n'),winner:b.winner,error:b.error,createdAt:b.createdAt};
+  return {id:b.id,mode:b.mode,publicField:buildReplayTimeline(b.publicLog.join('\n')).frames.at(-1)?.field||null,aiProfiles:{p1:b.p1profile||'luke',p2:b.npcProfile},kind:b.kind||'practice',format:b.format||'gen8customgame',status:b.status,p1name:b.p1name||'Luke',p2name:b.p2name,turn:b.turn,requestId:b.requestId,request:b.mode==='manual'&&b.awaitingSide==='p1'?b.privateRequest:null,p1roster:b.mode==='manual'?describeTeam(b.p1team):null,choices:b.mode==='manual'&&b.awaitingSide==='p1'?legalChoices(b.privateRequest,{dynamaxTarget:b.p1dynamaxTarget}):[],log:b.publicLog.slice(-800).join('\n'),winner:b.winner,error:b.error,createdAt:b.createdAt};
  }
  async load(id) {
   const live=this.sessions.get(id);
@@ -238,13 +242,15 @@ export class ArenaService {
      !Array.isArray(journal.actions)||journal.actions.length>5000||
      !Array.isArray(journal.publicLog)||journal.publicLog.length>MAX_LOG_LINES)
     throw new Error('Registro di recupero battaglia non valido');
-  validatePackedTeam(journal.p1team);validatePackedTeam(journal.p2team);
+  // Old journals replay their originally accepted rule policy and format.
+  const policy=journal.format==='historia'?{}:{majorLegendarySpecies:[]};
+  validatePackedTeam(journal.p1team,policy);validatePackedTeam(journal.p2team,policy);
   if(journal.actions.some(a=>!['p1','p2'].includes(a.side)||
        !/^(?:move [1-4](?: mega| dynamax)?|switch [1-6]|team [1-6]{1,6})$/.test(a.choice)||
        !/^[a-f0-9]{64}$/.test(a.requestHash)))
    throw new Error('Comandi di recupero non validi');
   const b={id:journal.id,mode:journal.mode,npcProfile:journal.npcProfile,ownerDigest:journal.ownerDigest,
-    p1name:journal.p1name||'Luke',p1profile:journal.p1profile||'luke',kind:journal.kind||'practice',
+    format:journal.format||'gen8customgame',p1name:journal.p1name||'Luke',p1profile:journal.p1profile||'luke',kind:journal.kind||'practice',
     p1dynamaxTarget:journal.p1dynamaxTarget||null,p2dynamaxTarget:journal.p2dynamaxTarget||null,
    p2name:journal.p2name,createdAt:journal.createdAt,seed:journal.seed,p1team:journal.p1team,
    p2team:journal.p2team,actions:journal.actions,publicLog:[],status:'active',turn:0,requestId:0,
@@ -269,7 +275,7 @@ export class ArenaService {
    throw e;
   }
  }
- async create({mode='manual',p1team,p2team,p1name='Luke',p2name='NPC',practice=false,
+ async create({mode='manual',p1team,p2team,p1name='Luke',p2name='NPC',practice=false,canonicalPractice=false,
   sessionId=null,official=false,p1profile='luke',npcProfile='balanced',kind='practice',
   p1dynamaxTarget=null,p2dynamaxTarget=null}={}){
   if(official)throw new Error('Partite ufficiali non disponibili: qualificati e regolamento canonico incompleti');
@@ -281,6 +287,12 @@ export class ArenaService {
    if(mode==='manual'&&p1name!=='Luke')throw new Error('Controllo manuale riservato a Luke');
    if(!['practice','worldcup-what-if'].includes(kind))throw new Error('Tipo battaglia non valido');
    if(practice&&(p1name!=='Luke'||kind!=='practice'))throw new Error('Allenamento riservato a Luke');
+  if(canonicalPractice){
+   if(practice||p1team||p2team||kind!=='practice'||p1name!=='Luke')throw Error('Allenamento canonico e fixture/importazioni non possono essere combinati');
+   const {canonicalTeam,canonicalDynamaxTarget}=await import('./canonical-2060-teams.mjs');
+   p1team=canonicalTeam('Luke');p2team=canonicalTeam('Mattew');p2name='Mattew';
+   p1dynamaxTarget=canonicalDynamaxTarget('Luke');p2dynamaxTarget=canonicalDynamaxTarget('Mattew');
+  }
   if(practice){
    if(p1team||p2team)throw new Error('Allenamento dimostrativo e squadre importate non possono essere combinati');
    const teams=practiceTeams();p1team=teams.p1;p2team=teams.p2;p2name='NPC (allenamento)';
@@ -299,7 +311,7 @@ export class ArenaService {
   if(active.length>=24)throw new Error('Limite battaglie simultanee del server');
   if(active.filter(b=>b.ownerDigest===ownerDigest(sessionId)).length>=2)
    throw new Error('Limite di due battaglie attive per sessione');
-  const b={id:randomUUID(),mode,npcProfile:resolveAiProfile(npcProfile),ownerDigest:ownerDigest(sessionId),
+  const b={id:randomUUID(),format:'historia',mode,npcProfile:resolveAiProfile(npcProfile),ownerDigest:ownerDigest(sessionId),
    p1name,p1profile:resolveAiProfile(p1profile),kind,p1dynamaxTarget,p2dynamaxTarget,p2name,createdAt:new Date().toISOString(),seed:randomSeed(),p1team,p2team,actions:[],
    status:'active',turn:0,requestId:0,awaitingSide:null,privateRequest:null,publicLog:[],
    winner:null,error:null,pendingWrites:Promise.resolve(),stopped:false};
@@ -310,7 +322,7 @@ export class ArenaService {
  }
  async runBattle(b,{replay=false}={}){
   const engine=await createShowdownBattle({
-   p1team:b.p1team,p2team:b.p2team,p1name:b.p1name,p2name:b.p2name,seed:b.seed,format:'gen8customgame'
+   p1team:b.p1team,p2team:b.p2team,p1name:b.p1name,p2name:b.p2name,seed:b.seed,format:b.format||'gen8customgame'
   });
   b.engine=engine;
   const fail=e=>{
@@ -383,7 +395,7 @@ export class ArenaService {
      if(line.startsWith('|error|')){b.error=line.slice(7);continue;}
      if(!line.startsWith('|request|'))continue;
      const request=JSON.parse(line.slice(9));
-     if(b.status!=='active'||request.wait)continue;
+     if(b.stopped||b.status!=='active'||request.wait)continue;
      if(skip<previous.length){
       if(previous[skip].requestHash!==requestHash(request))
        throw new Error('Recupero rifiutato: richiesta Showdown divergente');

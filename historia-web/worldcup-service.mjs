@@ -44,6 +44,8 @@ export function makeHistoricalHypothesis(){
 const fixtureCollection=(cup,matchId)=>{
  const group=cup.schedule.find(m=>m.id===matchId);
  if(group)return {fixture:group,key:'schedule',games:cup.schedule};
+ const playoff=(cup.playoffs||[]).find(m=>m.id===matchId);
+ if(playoff)return {fixture:playoff,key:'playoffs',games:cup.playoffs};
  const knockout=(cup.knockout||[]).find(m=>m.id===matchId);
  if(knockout)return {fixture:knockout,key:'knockout',games:cup.knockout};
  return {fixture:null,key:null,games:null};
@@ -67,6 +69,17 @@ export class WorldCupSlots {
    const cup=makeHistoricalHypothesis(),now=new Date().toISOString();
    await store.write(number,cup,{createdAt:now,updatedAt:now});
    return {slot:number,cup,meta:{createdAt:now,updatedAt:now},recovered:false};
+  });
+ }
+ /** The narrative journal is slot-scoped; it cannot write match results or teams. */
+ async appendNarrative(ownerKey,slot,{message,answer}){
+  if(typeof message!=='string'||typeof answer!=='string'||message.length>5000||answer.length>30000)throw Error('Evento narrativo non valido');
+  return this.locked(ownerKey,slot,async(store,number)=>{
+   const loaded=await store.load(number);if(!loaded)throw Error('Slot non occupato');
+   const cup=loaded.cup;cup.narrative??={chat:[],events:[]};
+   cup.narrative.chat.push({role:'user',content:message},{role:'assistant',content:answer});
+   cup.narrative.events.push({kind:'conversation',at:new Date().toISOString(),message,answer,editionId:cup.editionId,verifiedResults:cup.results.length});
+   await store.write(number,cup,{createdAt:loaded.meta?.createdAt,updatedAt:new Date().toISOString()});
   });
  }
  /** Luke's group match only; every roster is supplied and vetted by ArenaService. */
@@ -130,7 +143,7 @@ export class WorldCupSlots {
     battleId,log:completed.publicLog,playerNames:names,verifiedByServer:true
    });
    const receipt=next.find(m=>m.id===matchId).result;
-   const updated=recordBattle(cup,{...receipt});
+   const updated=fixture.stage==='playoff'?{...cup}:recordBattle(cup,{...receipt});
    updated[key]=next;
    if(fixture.stage==='final')updated.champion=crownChampion(next.filter(m=>m.stage==='final'));
    await store.write(number,updated,{createdAt:loaded.meta?.createdAt,updatedAt:new Date().toISOString()});
@@ -215,7 +228,7 @@ export class WorldCupSlots {
     battleId:'battle-'+bound.battleId,log:completed.publicLog,playerNames:names,verifiedByServer:true
    });
    const receipt=next.find(m=>m.id===matchId).result;
-   const updated=recordBattle(cup,receipt);
+   const updated=fixture.stage==='playoff'?{...cup}:recordBattle(cup,receipt);
    updated[key]=next;
    if(fixture.stage==='final')updated.champion=crownChampion(next.filter(m=>m.stage==='final'));
    await store.write(number,updated,{createdAt:loaded.meta?.createdAt,updatedAt:new Date().toISOString()});
@@ -233,9 +246,46 @@ export class WorldCupSlots {
    if(cup.knockout?.length)return {slot:number,cup,alreadyGenerated:true};
    if(cup.schedule.length!==48||cup.schedule.some(m=>m.status!=='complete'))
     throw Error('Completare i 48 incontri Showdown dei gironi prima degli ottavi');
-   const rankings=Object.fromEntries('ABCDEFGH'.split('').map(group=>[
-    group,finalizedGroupStandings(cup.schedule,group)
-   ]));
+   // WHAT-IF only: a points bucket still cyclic after observed KO differences
+   // is ranked by a repeated elimination ladder. Initial pair order comes from
+   // the persisted draw; it never awards a rank, every rank requires Showdown.
+   cup.playoffPolicy??='what-if-repeated-elimination-ladder-v1';
+   cup.playoffs??=[];cup.playoffPlans??={};
+   const rankings={};let pending=false;
+   for(const group of 'ABCDEFGH'){
+    const orders={};
+    while(true){
+     try{rankings[group]=finalizedGroupStandings(cup.schedule,group,{playoffOrders:orders});break;}
+     catch(error){
+      if(!error.tiedIds)throw error;
+      const orderKey=error.points+':'+error.koDifference;
+      const key=group+'-'+orderKey;
+      const plan=cup.playoffPlans[key]??={participants:cup.groups[group].map(r=>r.id).filter(id=>error.tiedIds.includes(id))};
+      const remaining=[...plan.participants],order=[];
+      let waiting=false;
+      while(remaining.length>1){
+       let contender=remaining[0];
+       for(let i=1;i<remaining.length;i++){
+        const id=cup.year+'-P'+group+'-B'+error.points+'-K'+String(error.koDifference).replace('-','N')+'-R'+(order.length+1)+'-M'+i;
+        let game=cup.playoffs.find(g=>g.id===id);
+        if(!game){game={id,stage:'playoff',group,homeId:contender,awayId:remaining[i],status:'scheduled'};cup.playoffs.push(game);}
+        if(game.homeId!==contender||game.awayId!==remaining[i])throw Error('Associazione spareggio non coerente');
+        if(game.status!=='complete'){waiting=true;break;}
+        if(game.result?.authority!=='showdown-verified'||![game.homeId,game.awayId].includes(game.result.winnerId))throw Error('Spareggio senza risultato verificato');
+        contender=game.result.winnerId;
+       }
+       if(waiting)break;
+       order.push(contender);remaining.splice(remaining.indexOf(contender),1);
+      }
+      if(waiting){pending=true;break;}
+      orders[orderKey]=[...order,...remaining];
+     }
+    }
+   }
+   if(pending){
+    await store.write(number,cup,{createdAt:loaded.meta?.createdAt,updatedAt:new Date().toISOString()});
+    return {slot:number,cup,playoffsPending:true};
+   }
    const bracket=createRoundOf16(rankings);
    const updated={...cup,groupRankings:rankings,knockout:bracket};
    await store.write(number,updated,{createdAt:loaded.meta?.createdAt,updatedAt:new Date().toISOString()});

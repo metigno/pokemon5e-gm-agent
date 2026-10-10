@@ -1,7 +1,7 @@
 FROM public.ecr.aws/docker/library/node:22-bookworm-slim
 WORKDIR /app
-COPY historia-web/package.json ./historia-web/package.json
-RUN cd historia-web && npm install --omit=dev --no-audit --no-fund
+COPY historia-web/package.json historia-web/package-lock.json ./historia-web/
+RUN cd historia-web && npm ci --omit=dev --no-audit --no-fund
 COPY historia-web ./historia-web
 COPY historia ./historia
 ENV NODE_ENV=production

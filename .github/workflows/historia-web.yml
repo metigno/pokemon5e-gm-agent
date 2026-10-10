@@ -18,7 +18,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: npm install --no-audit --no-fund
+      - run: npm ci --no-audit --no-fund
       - name: Historia web real simulator unit and E2E tests
         run: npm test
       - name: Canonical tournament and storage regression tests
@@ -52,7 +52,7 @@ jobs:
         with:
           node-version: '22'
       - name: Install web test dependencies
-        run: npm install --no-audit --no-fund
+        run: npm ci --no-audit --no-fund
       - name: Install Chromium and Linux libraries
         run: npx playwright install --with-deps chromium
       - name: Run desktop and touch-mobile browser E2E

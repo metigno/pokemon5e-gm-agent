@@ -55,9 +55,8 @@ test('A Luke group fixture opens the real manual Showdown Arena and survives rel
  await page.goto('/');
  await page.locator('nav button[data-view="tournament"]').click();
  await page.locator('#worldCupSlotList button').first().click();
- // The 2060 draw is random. Some user-canonical custom Mega stones
- // (Excadrite/Staraptite) have no actual Showdown form; choose one of
- // Luke's legitimate fixtures instead of assuming its first rival is legal.
+ // The 2060 draw is random; select a ready Luke fixture from the
+ // actual roster compatibility registry (all 35 are currently supported).
  // This also validates the new server-side AUTO roster without pasting teams.
  // Resolve readiness inside the isolated Playwright test runner, not by
  // bypassing browser account/session authentication for a private API.
@@ -143,7 +142,7 @@ test('Desktop and touch mobile show a usable Arena without horizontal page overf
  await page.goto('/');
  await expect(page.getByRole('heading',{name:/verso il mondiale 2060/i})).toBeVisible();
  await page.locator('nav button[data-view="arena"]').click();
- await expect(page.locator('#practice')).toBeVisible();
+ await expect(page.locator('#canonicalPractice')).toBeVisible();
  await expect(page.locator('#npcProfile')).toBeVisible();
  const widths=await page.evaluate(()=>({
   viewport:document.documentElement.clientWidth,
@@ -153,7 +152,7 @@ test('Desktop and touch mobile show a usable Arena without horizontal page overf
  expect(widths.page).toBeLessThanOrEqual(widths.viewport+2);
  expect(widths.arena).toBeLessThanOrEqual(widths.viewport);
  if(testInfo.project.name.includes('mobile')){
-  const measured=await page.locator('#practice').boundingBox();
+  const measured=await page.locator('#canonicalPractice').boundingBox();
   expect(measured?.height).toBeGreaterThanOrEqual(44);
   expect(await page.locator('#mode').evaluate(x=>getComputedStyle(x).width)).toBeTruthy();
  }
@@ -166,6 +165,7 @@ test('Real touch-compatible manual choices are sent to Showdown, not a mock',asy
  await page.goto('/');
  await page.locator('nav button[data-view="arena"]').click();
  await page.locator('#mode').selectOption('manual');
+ if(!await page.locator('#practice').isVisible())await page.getByText('Fixture tecniche di sviluppo',{exact:true}).click();
  await page.locator('#practice').click();
  await expect(page.locator('#battleStatus')).toContainText('Luke vs AI',{timeout:15000});
  await expect.poll(async()=>page.locator('#choices button').count(),{timeout:20000}).toBeGreaterThan(0);
@@ -190,7 +190,8 @@ test('Completed 6v6 visual replay, scrub and analysis survive a real Node restar
   await page.locator('nav button[data-view="arena"]').click();
   await page.locator('#mode').selectOption('auto');
   await page.locator('#npcProfile').selectOption('daniel');
-  await page.locator('#practice').click();
+  if(!await page.locator('#practice').isVisible())await page.getByText('Fixture tecniche di sviluppo',{exact:true}).click();
+ await page.locator('#practice').click();
   await expect(page.locator('#battleStatus')).toContainText('Vittoria confermata Showdown',{timeout:75000});
   await expect(page.locator('#openReplay')).toBeEnabled();
   const session=await page.evaluate(()=>localStorage.getItem('historia-session-id'));
@@ -249,7 +250,8 @@ test('Mid-battle manual Luke choice survives a real Node crash and remains playa
   await page.goto(instance.base);
   await page.locator('nav button[data-view="arena"]').click();
   await page.locator('#mode').selectOption('manual');
-  await page.locator('#practice').click();
+  if(!await page.locator('#practice').isVisible())await page.getByText('Fixture tecniche di sviluppo',{exact:true}).click();
+ await page.locator('#practice').click();
   await expect.poll(()=>page.locator('#choices button').count(),{timeout:20000}).toBeGreaterThan(0);
   const session=await page.evaluate(()=>localStorage.getItem('historia-session-id'));
   const id=await page.evaluate(()=>localStorage.getItem('historia-last-battle'));
@@ -329,7 +331,7 @@ test('Strict browser CSP blocks newly injected inline JavaScript while Arena rem
  });
  expect(ran).toBe(false,'An unauthorized inline script must not execute');
  await page.locator('nav button[data-view="arena"]').click();
- await expect(page.locator('#practice')).toBeVisible();
+ await expect(page.locator('#canonicalPractice')).toBeVisible();
 });
 
 
@@ -370,7 +372,8 @@ test('Real Chromium local accounts: registration, cookie session, Arena access a
   await expect(page.locator('#teamPreview')).toContainText('Salvate');
   await page.locator('#previewTeams').click();
   await expect(page.locator('#teamPreview')).toContainText('Arcanine-Hisui');
-  await page.locator('#practice').click();
+  if(!await page.locator('#practice').isVisible())await page.getByText('Fixture tecniche di sviluppo',{exact:true}).click();
+ await page.locator('#practice').click();
   await expect(page.locator('#battleStatus')).toContainText('Luke vs AI',{timeout:16000});
   const battleId=await page.evaluate(()=>localStorage.getItem('historia-last-battle'));
   expect(battleId).toMatch(/^[a-f0-9-]{36}$/);
@@ -399,4 +402,19 @@ test('Real Chromium local accounts: registration, cookie session, Arena access a
   await stopServer(running?.child);
   await rm(directory,{recursive:true,force:true});
  }
+});
+
+test('A delayed chat response from a previous slot cannot appear in the newly selected slot',async({page})=>{
+ await page.goto('/');await page.locator('nav button[data-view="tournament"]').click();
+ let held;
+ await page.route('**/api/chat?slot=1',async route=>{held=route;});
+ await page.locator('#worldCupSlotList button').nth(0).click();
+ await expect.poll(()=>Boolean(held)).toBe(true);
+ await page.locator('#worldCupSlotList button').nth(1).click();
+ await expect(page.locator('#worldCupDraw')).toContainText('Slot 2');
+ const response=page.waitForResponse(r=>r.url().endsWith('/api/chat?slot=1'));
+ await held.fulfill({status:200,contentType:'application/json',body:JSON.stringify({messages:[{role:'assistant',content:'PRIVATE SLOT ONE DELAYED MESSAGE'}]})});
+ await response;
+ await page.locator('nav button[data-view="studio"]').click();
+ await expect(page.locator('#messages')).not.toContainText('PRIVATE SLOT ONE DELAYED MESSAGE');
 });

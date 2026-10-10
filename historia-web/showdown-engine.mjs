@@ -4,14 +4,24 @@
  */
 import {createRequire} from 'node:module';
 const require=createRequire(import.meta.url);
+export function historiaFormat(){
+ const {Dex}=require('pokemon-showdown');
+ return {...Dex.formats.get('gen8customgame'),id:'historia',name:'Historia WHAT-IF 6v6',debug:false,
+  ruleset:['Cancel Mod','Max Team Size = 6','Max Move Count = 4','Max Level = 100','Default Level = 100','+Past','+Future'],ruleTable:null};
+}
 export async function createShowdownBattle({format='gen8customgame',p1team,p2team,p1name='Luke',p2name='NPC',seed}={}) {
  if(typeof p1team!=='string'||!p1team.trim()||typeof p2team!=='string'||!p2team.trim())throw new Error('Sono necessarie due squadre Showdown packed');
- if(format!=='gen8customgame')throw new Error('Formato non ancora certificato: usare gen8customgame per i test tecnici');
- const {BattleStream,getPlayerStreams}=require('pokemon-showdown');
+ if(!['historia','gen8customgame'].includes(format))throw new Error('Formato non supportato');
+ const {BattleStream,getPlayerStreams,Dex}=require('pokemon-showdown');
  if(typeof BattleStream!=='function'||typeof getPlayerStreams!=='function')throw new Error('API simulatore Showdown non disponibile');
  const stream=new BattleStream();
  const players=getPlayerStreams(stream);
- const start={formatid:format};
+ const start={formatid:format==='historia'?'gen8customgame':format};
+ if(format==='historia'){
+  // Use upstream Gen8 mechanics (Mega + Dynamax) and inherited intergeneration
+  // data. Team Preview is omitted to preserve Historia's fog of war.
+  start.format=historiaFormat();
+ }
  if(seed)start.seed=seed;
  // Start commands must go to the underlying BattleStream.
  await stream.write('>start '+JSON.stringify(start));

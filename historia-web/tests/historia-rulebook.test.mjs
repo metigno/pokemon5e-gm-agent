@@ -83,3 +83,8 @@ test('Item Clause identifies item, trainer and both Pokémon for same-team dupli
  assert.throws(()=>validatePackedTeam(Teams.pack(p2),{teamLabel:'Mattew'}),
   err=>/Mattew/.test(err.message)&&/Choice Scarf/.test(err.message)&&/Feraligatr/.test(err.message)&&/Jolteon/.test(err.message));
 });
+
+test('WHAT-IF matches enforce explicit major registry even without official qualification metadata',()=>{
+ const team=Teams.unpack(practiceTeams().p1);team[0].species='Mewtwo';team[0].name='Mewtwo';
+ assert.throws(()=>validatePackedTeam(Teams.pack(team)),/Massimo un leggendario/);
+});

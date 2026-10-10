@@ -38,7 +38,7 @@ export function groupStandings(schedule,group){
  * Never use historical rank, alphabetical name or a fresh random roll to
  * decide a tie. The order is final only if all six games were completed.
  */
-export function finalizedGroupStandings(schedule,group){
+export function finalizedGroupStandings(schedule,group,{playoffOrders={}}={}){
  const games=schedule.filter(m=>m.stage==='group'&&m.group===group);
  if(games.length!==6||games.some(m=>m.status!=='complete'||m.result?.authority!=='showdown-verified'))
   throw Error('Girone '+group+': completare tutti e sei gli incontri Showdown prima degli ottavi');
@@ -67,8 +67,16 @@ export function finalizedGroupStandings(schedule,group){
     totals.set(id,totals.get(id)+game.result.koDifferential[id]);
   }
   tied.sort((a,b)=>totals.get(b.id)-totals.get(a.id));
-  if(tied.some((row,i)=>i>0&&totals.get(row.id)===totals.get(tied[i-1].id)))
-   throw Error('Girone '+group+': parità di punti e differenza KO; spareggio Showdown richiesto');
+  for(const koDifference of [...new Set(tied.map(r=>totals.get(r.id)))]){
+   const subset=tied.filter(r=>totals.get(r.id)===koDifference);
+   if(subset.length<2)continue;
+   const order=playoffOrders[points+':'+koDifference];
+   if(!Array.isArray(order)||order.length!==subset.length||new Set(order).size!==subset.length||subset.some(r=>!order.includes(r.id)))
+    throw Object.assign(Error('Girone '+group+': parità di punti e differenza KO; spareggio Showdown richiesto'),{tiedIds:subset.map(r=>r.id),points,koDifference});
+   subset.sort((a,b)=>order.indexOf(a.id)-order.indexOf(b.id));
+   const index=tied.findIndex(r=>totals.get(r.id)===koDifference);
+   tied.splice(index,subset.length,...subset);
+  }
   sorted.push(...tied.map(row=>({...row,koDifference:totals.get(row.id)})));
  }
  if(sorted.length!==4||new Set(sorted.map(x=>x.id)).size!==4)throw Error('Graduatoria non univoca');

@@ -156,7 +156,7 @@ export function handler(req,res){
    catch{json(res,503,{ready:false,storage:'unavailable'});}
   });return;
  }
- if(req.method==='GET'&&path==='/api/status'){json(res,200,{app:'Pokémon GPT Historia',aiConfigured:!!process.env.OPENAI_API_KEY,showdownIntegrated:true,format:'gen8customgame',persistence:'server-filesystem',canonical2060Roster:false,authMode:authConfig.enabled?'accounts':'capability',httpsRequired:authConfig.secure});return;}
+ if(req.method==='GET'&&path==='/api/status'){json(res,200,{app:'Pokémon GPT Historia',aiConfigured:!!process.env.OPENAI_API_KEY,showdownIntegrated:true,format:'historia',persistence:'server-filesystem',canonical2060Roster:false,authMode:authConfig.enabled?'accounts':'capability',httpsRequired:authConfig.secure});return;}
  if(req.method==='GET'&&path==='/api/competition'){
   const ranking=loadHistoricalSeeding();
   json(res,200,{year:2060,canonicalThrough:2056,qualifiersConfirmed:false,groups:null,schedule:null,rankingAsOf:ranking.asOf,ranking:ranking.ranking});return;
@@ -260,7 +260,10 @@ export function handler(req,res){
   if(req.method==='POST'&&isChoice){routeAsync(res,async()=>{if(!await arena.ownsBattle(id,await readSession(req))){json(res,404,{error:'Battaglia non trovata'});return;}json(res,200,await arena.choose(id,await readBody(req)));});return;}
  }
  if(req.method==='GET'&&path==='/api/chat'){
-  routeAsync(res,async()=>{const id=await readSession(req);json(res,200,{messages:await loadChat(id)});});return;
+  routeAsync(res,async()=>{const id=await readSession(req),slot=new URL(req.url,'http://localhost').searchParams.get('slot');
+   const saved=slot?await worldCupSlots.load(id,slot):null;
+   if(slot&&!saved)throw Error('Slot non occupato');
+   json(res,200,{messages:slot?(saved.cup.narrative?.chat||[]):await loadChat(id)});});return;
  }
  if(req.method==='POST'&&path==='/api/replay'){
   routeAsync(res,async()=>{const {log}=await readBody(req),sessionId=await readSession(req);
@@ -269,26 +272,35 @@ export function handler(req,res){
  }
  if(req.method==='POST'&&path==='/api/chat'){
   routeAsync(res,async()=>{
-   const {message}=await readBody(req),sessionId=await readSession(req);
+   const {message,slot}=await readBody(req),sessionId=await readSession(req);
    if(typeof message!=='string'||!message.trim()||message.length>5000)throw Error('Messaggio non valido');
    if(!process.env.OPENAI_API_KEY){json(res,503,{error:'Master AI non configurato: impostare OPENAI_API_KEY sul server.'});return;}
-   const history=await loadChat(sessionId),matchId=await lastBattle(sessionId);
-   const actual=matchId?await arena.load(matchId):null;
+   const saved=slot?await worldCupSlots.load(sessionId,slot):null;
+   if(slot&&!saved)throw Error('Slot non occupato');
+   const history=saved?(saved.cup.narrative?.chat||[]):await loadChat(sessionId);
+   const matchId=await lastBattle(sessionId);
+   const slotBattleIds=new Set(Object.values(saved?.cup.matchBindings||{}).map(b=>b.battleId));
+   const actual=matchId&&(!saved||slotBattleIds.has(matchId))?await arena.load(matchId):null;
    const technical=['complete','tie'].includes(actual?.status)?renderTechnicalReport(buildReplayTimeline(actual.publicLog||actual.log||''),{p1name:actual.p1name,p2name:actual.p2name}):null;
-   const imported=replays.get(sessionId);
+   const imported=saved?null:replays.get(sessionId);
    const context=technical?'\nRapporto tecnico deterministico (solo fatti osservati): '+JSON.stringify(technical).slice(0,8000)+'\nLog pubblico Showdown verificato (estratto): '+String(actual.publicLog||actual.log).slice(-20000):
      imported?'\nLog importato da utente: NON verificato dal simulatore; non trattarlo come risultato ufficiale. '+JSON.stringify(imported).slice(0,12000):
      '\nNessuna battaglia terminata e verificata associata.';
-   const messages=[{role:'system',content:'Sei il Master narrativo del Mondiale Pokémon GPT Historia 2060. Lore canonica fino al 2056, quadriennale. Il GDR esiste solo durante i Mondiali e fuori dalla battaglia. Non inventare roster ufficiali, sorteggi, risultati o statistiche. Il simulatore ha autorità esclusiva. Nelle analisi tecniche usa solo il log allegato, cita i turni e separa fatti da interpretazioni. Atmosfera da Champions League.'+context},...history.slice(-16),{role:'user',content:message}];
+   const tournamentContext=saved?'\nSlot attivo (dati autorevoli): '+JSON.stringify({slot,editionId:saved.cup.editionId,scenario:saved.cup.scenario,groups:saved.cup.groups,schedule:saved.cup.schedule,knockout:saved.cup.knockout||[],playoffs:saved.cup.playoffs||[],groupRankings:saved.cup.groupRankings||{},champion:saved.cup.champion||null,narrativeEvents:saved.cup.narrative?.events?.slice(-10)||[]})+'\nNon modificare squadre o risultati; non conoscere mosse, strumenti o abilità avversarie non rivelate. Le conversazioni sono eventi persistenti dello slot. Non dichiarare variazioni numeriche di relazioni non registrate.':'';
+   const messages=[{role:'system',content:'Sei il Master narrativo del Mondiale Pokémon GPT Historia 2060. Lore canonica fino al 2056, quadriennale. Il GDR esiste solo durante i Mondiali e fuori dalla battaglia. Non inventare roster ufficiali, sorteggi, risultati o statistiche. Il simulatore ha autorità esclusiva. Nelle analisi tecniche usa solo il log allegato, cita i turni e separa fatti da interpretazioni. Atmosfera da Champions League.'+context+tournamentContext},...history.slice(-16),{role:'user',content:message}];
    const response=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{authorization:'Bearer '+process.env.OPENAI_API_KEY,'content-type':'application/json'},body:JSON.stringify({model:process.env.OPENAI_MODEL||'gpt-4.1-mini',messages})});
    const data=await response.json();
    if(!response.ok)throw Error('API OpenAI: '+(data.error?.message||response.status));
    const answer=data.choices?.[0]?.message?.content;
    if(typeof answer!=='string')throw Error('Risposta AI vuota');
-   await saveChat(sessionId,[...history,{role:'user',content:message},{role:'assistant',content:answer}].slice(-50));
+   if(saved)await worldCupSlots.appendNarrative(sessionId,slot,{message,answer});
+   else await saveChat(sessionId,[...history,{role:'user',content:message},{role:'assistant',content:answer}].slice(-50));
    json(res,200,{answer});
   });return;
  }
  json(res,404,{error:'Non trovato'});
 }
-if(process.argv[1]===fileURLToPath(import.meta.url))http.createServer(handler).listen(port,()=>console.log('Historia Web su http://localhost:'+port));
+if(process.argv[1]===fileURLToPath(import.meta.url)){
+ const server=http.createServer(handler);
+ server.listen(port,()=>console.log('Historia Web su http://localhost:'+server.address().port));
+}

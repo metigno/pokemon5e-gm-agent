@@ -6,7 +6,7 @@ import {parseTeamInput,describeTeam} from '../battle-service.mjs';
 
 const {Teams,Dex}=createRequire(import.meta.url)('pokemon-showdown');
 
-test('All 35 canonical trainer profiles have six source sets; unsupported custom Megas fail explicitly',()=>{
+test('All 35 canonical trainer profiles have six source sets; all upstream Mega mappings are supported',()=>{
  const statuses=listCanonicalRosters();
  assert.equal(statuses.length,35);
  assert.ok(statuses.filter(x=>x.available).length>=32,
@@ -15,9 +15,7 @@ test('All 35 canonical trainer profiles have six source sets; unsupported custom
   assert.equal(statuses.find(x=>x.id===name).available,true,name);
   assert.equal(Teams.unpack(canonicalTeam(name)).length,6);
  }
- assert.equal(statuses.find(x=>x.id==='Lucas').available,false);
- assert.match(statuses.find(x=>x.id==='Lucas').reason,/Staraptite/);
- assert.throws(()=>canonicalTeam('Lucas'),/Staraptite/);
+ assert.equal(statuses.find(x=>x.id==='Lucas').available,true);
  assert.equal(Teams.unpack(canonicalTeam('Silas Crowe')).find(x=>x.species==='Calyrex-Shadow').ability,'As One (Spectrier)');
 });
 
@@ -65,12 +63,11 @@ test('Mega Venusaur and Mega Swampert items/abilities and Alpha visuals are loss
  assert.equal(luke[0].name,'Arcanine Alpha');
 });
 
-test('Unsupported Excadrill/Staraptor custom Megas are never silently represented as base species',()=>{
+test('Excadrill/Staraptor Mega stones are retained exactly',()=>{
  for(const [name,stone] of [['N','Excadrite'],['Lucas','Staraptite']]){
   const status=listCanonicalRosters().find(x=>x.id===name);
-  assert.equal(status.available,false,name);
-  assert.match(status.reason,new RegExp(stone));
-  assert.throws(()=>canonicalTeam(name),new RegExp(stone));
+  assert.equal(status.available,true,name);
+  assert.ok(Teams.unpack(canonicalTeam(name)).some(mon=>mon.item===stone));
  }
 });
 
