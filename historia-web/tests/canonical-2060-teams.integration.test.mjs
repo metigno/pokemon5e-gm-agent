@@ -10,13 +10,15 @@ import {ArenaService,practiceTeams,validatePackedTeam} from '../battle-service.m
 const {Teams}=createRequire(import.meta.url)('pokemon-showdown');
 const delay=ms=>new Promise(r=>setTimeout(r,ms));
 async function requestReady(arena,id,filter){
+ let last=null;
  for(let i=0;i<140;i++){
   const b=await arena.load(id);
+  last=b;
   if(b?.status==='error')throw Error('Showdown error: '+b.error);
   if(filter(b))return b;
   await delay(20);
  }
- throw Error('Expected Showdown move request not available');
+ throw Error('Expected Showdown move request not available: '+JSON.stringify({status:last?.status,choices:last?.choices,request:last?.request,log:(last?.log||'').slice(-2500)}));
 }
 test('35 source trainer names are present; Luke has exact six canonical species, unique items, Mega stone and Gmax flag',()=>{
  assert.equal(availableCanonicalTrainers.length,35);
