@@ -52,13 +52,26 @@ async function withoutRemoteSprites(page){
 test('A Luke group fixture opens the real manual Showdown Arena and survives reloading the slot',async({page})=>{
  await withoutRemoteSprites(page);
  await page.goto('/');
- const demo=practiceTeams();
- await page.locator('nav button[data-view="arena"]').click();
- await page.locator('#p1team').fill(Teams.export(Teams.unpack(demo.p1)));
- await page.locator('#p2team').fill(Teams.export(Teams.unpack(demo.p2)));
  await page.locator('nav button[data-view="tournament"]').click();
  await page.locator('#worldCupSlotList button').first().click();
- const row=page.locator('#worldCupDraw tbody tr').filter({hasText:'Luke'}).first();
+ // The 2060 draw is random. Some user-canonical custom Mega stones
+ // (Excadrite/Staraptite) have no actual Showdown form; choose one of
+ // Luke's legitimate fixtures instead of assuming its first rival is legal.
+ // This also validates the new server-side AUTO roster without pasting teams.
+ const registry=await page.evaluate(async()=>{
+  const response=await fetch('/api/rosters/2060');
+  if(!response.ok)throw Error('Roster readiness unavailable');
+  return (await response.json()).trainers;
+ });
+ const ready=new Set(registry.filter(x=>x.available).map(x=>x.id));
+ const rows=page.locator('#worldCupDraw tbody tr').filter({hasText:'Luke'});
+ let chosen=-1;
+ for(let i=0;i<await rows.count();i++){
+  const fixture=(await rows.nth(i).locator('td').nth(2).textContent()||'').split(' – ');
+  if(fixture.length===2&&fixture.every(name=>ready.has(name))){chosen=i;break;}
+ }
+ expect(chosen).toBeGreaterThanOrEqual(0);
+ const row=rows.nth(chosen);
  await row.getByRole('button',{name:'Gioca con Showdown'}).click();
  await expect(page.locator('#battleStatus')).toContainText('Luke vs AI',{timeout:16000});
  await expect.poll(()=>page.locator('#choices button').count(),{timeout:20000}).toBeGreaterThan(0);
@@ -66,7 +79,7 @@ test('A Luke group fixture opens the real manual Showdown Arena and survives rel
  await page.reload();
  await page.locator('nav button[data-view="tournament"]').click();
  await page.locator('#worldCupSlotList button').first().click();
- const updated=page.locator('#worldCupDraw tbody tr').filter({hasText:'Luke'}).first();
+ const updated=page.locator('#worldCupDraw tbody tr').filter({hasText:'Luke'}).nth(chosen);
  await expect(updated.getByRole('button',{name:'Riprendi incontro'})).toBeVisible();
  await updated.getByRole('button',{name:'Registra esito Showdown'}).click();
  await expect(page.locator('#worldCupStatus')).toContainText('non ancora disponibile');
