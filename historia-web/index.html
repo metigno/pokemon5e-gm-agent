@@ -430,6 +430,87 @@ function renderWorldCupDraw(data){
   tr.append(actions);tbody.append(tr);
  }
  table.append(tbody);wrap.append(table);area.append(wrap);
+ const knockout=cup.knockout||[];
+ const heading=document.createElement('h3');heading.textContent='Eliminazione diretta · '+knockout.filter(g=>g.status==='complete').length+' / 15';
+ area.append(heading);
+ if(cup.champion){
+  const crown=document.createElement('p');crown.className='ribbon';
+  crown.textContent='Campione WHAT-IF '+cup.year+': '+cup.champion+' · risultato Showdown verificato';
+  area.append(crown);
+ }
+ const groupComplete=cup.schedule.every(g=>g.status==='complete');
+ const last=knockout.at(-1);
+ const round=last?knockout.filter(g=>g.stage===last.stage):[];
+ const canAdvance=round.length>0&&last.stage!=='final'&&round.every(g=>g.status==='complete');
+ if((groupComplete&&!knockout.length)||canAdvance){
+  const advance=document.createElement('button');advance.type='button';
+  advance.textContent=knockout.length?'Genera prossimo turno':'Genera ottavi';
+  advance.onclick=async()=>{
+   advance.disabled=true;$('worldCupStatus').textContent='';
+   try{
+    const action=knockout.length?'advance':'open';
+    const result=await api('/api/worldcup/slots/'+data.slot+'/knockout/'+action,{});
+    renderWorldCupDraw(result);
+    $('worldCupStatus').textContent='Tabellone costruito con i risultati registrati da Showdown.';
+   }catch(e){$('worldCupStatus').textContent=e.message;}finally{advance.disabled=false;}
+  };
+  area.append(advance);
+ }
+ if(groupComplete&&!knockout.length){
+  const note=document.createElement('p');note.className='muted';
+  note.textContent='Parità: scontro diretto tra due allenatori; in una parità a tre, differenza KO dei log Showdown. In caso di ulteriore parità gli ottavi vengono bloccati, senza qualificati inventati.';
+  area.append(note);
+ }
+ if(knockout.length){
+  const stages={'round-of-16':'Ottavi','quarterfinal':'Quarti','semifinal':'Semifinali','final':'Finale'};
+  const box=document.createElement('div');box.className='table-wrap';
+  const t=document.createElement('table'),th=document.createElement('thead'),head=document.createElement('tr');
+  for(const name of ['Turno','Partita','Stato','Azioni']){const cell=document.createElement('th');cell.textContent=name;head.append(cell);}
+  th.append(head);t.append(th);const tb=document.createElement('tbody');
+  for(const game of knockout){
+   const tr=document.createElement('tr');
+   for(const label of [stages[game.stage]||game.stage,
+    game.homeId+' – '+game.awayId,
+    game.status==='complete'?'Vincitore: '+game.result.winnerId:'Da giocare']){
+    const cell=document.createElement('td');cell.textContent=label;tr.append(cell);
+   }
+   const actions=document.createElement('td');
+   if(game.status==='scheduled'){
+    const npc=game.homeId!=='Luke'&&game.awayId!=='Luke';
+    const bound=cup.matchBindings?.[game.id];
+    const action= npc?'npc-start':'start';
+    const launch=document.createElement('button');launch.type='button';
+    launch.textContent=bound?'Riprendi '+(npc?'bot':'Luke'):'Gioca '+(npc?'NPC vs NPC':'come Luke');
+    launch.onclick=async()=>{
+     launch.disabled=true;$('worldCupStatus').textContent='';
+     try{
+      const teams={p1team:$('p1team').value.trim(),p2team:$('p2team').value.trim()};
+      const payload=npc?teams:{...teams,mode:$('mode').value,npcProfile:$('npcProfile').value};
+      const result=await api('/api/worldcup/slots/'+data.slot+'/fixtures/'+game.id+'/'+action,payload);
+      currentId=result.battle.id;localStorage.setItem('historia-last-battle',currentId);
+      closeReplay();navigate('arena');render(result.battle);
+      if(result.battle.status==='active')startPolling();
+     }catch(e){$('worldCupStatus').textContent=e.message;}finally{launch.disabled=false;}
+    };
+    actions.append(launch);
+    if(bound){
+     const finalize=document.createElement('button');finalize.type='button';
+     finalize.textContent='Registra vittoria Showdown';
+     finalize.onclick=async()=>{
+      finalize.disabled=true;$('worldCupStatus').textContent='';
+      try{
+       const result=await api('/api/worldcup/slots/'+data.slot+'/fixtures/'+game.id+'/'+(npc?'npc-finalize':'finalize'),{});
+       renderWorldCupDraw(result);
+       $('worldCupStatus').textContent='Vittoria verificata e tabellone aggiornato.';
+      }catch(e){$('worldCupStatus').textContent=e.message;}finally{finalize.disabled=false;}
+     };
+     actions.append(finalize);
+    }
+   }
+   tr.append(actions);tb.append(tr);
+  }
+  t.append(tb);box.append(t);area.append(box);
+ }
 }
 async function loadWorldCupSlots(){
  const area=$('worldCupSlotList');area.replaceChildren();

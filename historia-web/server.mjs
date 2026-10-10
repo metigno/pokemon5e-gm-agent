@@ -164,7 +164,7 @@ export function handler(req,res){
   routeAsync(res,async()=>json(res,200,{slots:await worldCupSlots.list(await readSession(req)),official:false,
    scenario:'historical-seeding-2056',qualifiersConfirmed:false}));return;
  }
- const fixtureRoute=path.match(/^\/api\/worldcup\/slots\/([1-3])\/fixtures\/([A-Z0-9-]+)\/(start|finalize|npc-start|npc-finalize)$/);
+ const fixtureRoute=path.match(/^\/api\/worldcup\/slots\/([1-3])\/fixtures\/([A-Za-z0-9-]+)\/(start|finalize|npc-start|npc-finalize)$/);
  if(req.method==='POST'&&fixtureRoute){
   routeAsync(res,async()=>{
    const slot=Number(fixtureRoute[1]),matchId=fixtureRoute[2],action=fixtureRoute[3];
@@ -181,6 +181,18 @@ export function handler(req,res){
     await rememberBattle(owner,response.battle.id);
    }
    json(res,200,response);
+  });return;
+ }
+ const knockoutRoute=path.match(/^\/api\/worldcup\/slots\/([1-3])\/knockout\/(open|advance)$/);
+ if(req.method==='POST'&&knockoutRoute){
+  routeAsync(res,async()=>{
+   const body=await readBody(req);
+   if(Object.keys(body).length)throw Error('Nessun risultato o seed esterno accettato');
+   const slot=Number(knockoutRoute[1]),action=knockoutRoute[2],owner=await readSession(req);
+   const value=action==='open'?
+    await worldCupSlots.openKnockout(owner,slot):
+    await worldCupSlots.advanceKnockout(owner,slot);
+   json(res,200,value);
   });return;
  }
  const cupRoute=path.match(/^\/api\/worldcup\/slots\/([1-3])(?:\/(new-historical-hypothesis))?$/);
