@@ -6,7 +6,7 @@ import {loadHistoricalSeeding} from '../historia/src/seeding.mjs';
 import {applyAuthoritativeShowdownResult} from '../historia/src/showdown-bridge.mjs';
 import {recordBattle} from '../historia/src/tournament.mjs';
 import {resolveAiProfile} from './tactical-ai.mjs';
-import {canonicalTeam} from './canonical-2060-teams.mjs';
+import {canonicalTeam,canonicalDynamaxTarget} from './canonical-2060-teams.mjs';
 import {finalizedGroupStandings} from '../historia/src/schedule.mjs';
 import {createRoundOf16,advanceRound,crownChampion} from '../historia/src/knockout.mjs';
 
@@ -95,7 +95,9 @@ export class WorldCupSlots {
    const actualP1=p1team?.trim()?p1team:canonicalTeam('Luke');
    const actualP2=p2team?.trim()?p2team:canonicalTeam(opponent);
    const battle=await arena.create({sessionId:ownerKey,p1team:actualP1,p2team:actualP2,
-    p2name:opponentName,mode,npcProfile,kind:'worldcup-what-if'});
+    p2name:opponentName,mode,npcProfile,kind:'worldcup-what-if',
+    p1dynamaxTarget:p1team?.trim()?null:canonicalDynamaxTarget('Luke'),
+    p2dynamaxTarget:p2team?.trim()?null:canonicalDynamaxTarget(opponent)});
    cup.matchBindings??={};
    cup.matchBindings[matchId]={battleId:battle.id,homeId:fixture.homeId,awayId:fixture.awayId,
     playerName:'Luke',opponentId:opponent,opponentName};
@@ -174,7 +176,9 @@ export class WorldCupSlots {
     sessionId:ownerKey,mode:'auto',kind:'worldcup-what-if',
     p1name:homeName,p2name:awayName,p1team:actualP1,p2team:actualP2,
     p1profile:resolveAiProfile(fixture.homeId),
-    npcProfile:resolveAiProfile(fixture.awayId)
+    npcProfile:resolveAiProfile(fixture.awayId),
+    p1dynamaxTarget:hasP1?null:canonicalDynamaxTarget(fixture.homeId),
+    p2dynamaxTarget:hasP2?null:canonicalDynamaxTarget(fixture.awayId)
    });
    cup.matchBindings??={};
    cup.matchBindings[matchId]={kind:'npc',battleId:battle.id,homeId:fixture.homeId,
