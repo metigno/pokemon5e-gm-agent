@@ -80,7 +80,15 @@ export function buildReplayTimeline(log){
   if(tag==='faint'&&side){
    field[side].hp=0;field[side].fainted=true;stats[side].faints++;emit('faint',side,actor,'KO');continue;
   }
-  if(tag==='-mega'&&side){field[side].mega=true;stats[side].mega++;emit('mega',side,actor,p[3]||'Mega Evoluzione');continue;}
+  if(tag==='-mega'&&side){
+   field[side].mega=true;
+   // The -mega protocol carries the original base species and its stone.
+   // E.g. |-mega|p1a: Venusaur|Venusaur|Venusaurite.
+   const base=safeText(p[3]||field[side].species||'').replace(/-Mega(?:-[XY])?$/i,'');
+   const variation=/^(?:Charizardite|Mewtwonite)\s*([XY])$/i.exec(String(p[4]||''))?.[1];
+   if(base)field[side].species=base+'-Mega'+(variation?'-'+variation.toUpperCase():'');
+   stats[side].mega++;emit('mega',side,actor,p[3]||'Mega Evoluzione');continue;
+  }
   if(tag==='-dynamax'&&side){if(!field[side].dynamax){field[side].dynamax=true;stats[side].dynamax++;emit('dynamax',side,actor,'Dynamax');}continue;}
   if(tag==='-start'&&side&&String(p[3]).toLowerCase()==='dynamax'){
    // In genuine Gen 8 Showdown logs, G-Max is encoded as
