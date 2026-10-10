@@ -164,6 +164,17 @@ export function handler(req,res){
   routeAsync(res,async()=>json(res,200,{slots:await worldCupSlots.list(await readSession(req)),official:false,
    scenario:'historical-seeding-2056',qualifiersConfirmed:false}));return;
  }
+ const fixtureRoute=path.match(/^\/api\/worldcup\/slots\/([1-3])\/fixtures\/([A-Z0-9-]+)\/(start|finalize)$/);
+ if(req.method==='POST'&&fixtureRoute){
+  routeAsync(res,async()=>{
+   const slot=Number(fixtureRoute[1]),matchId=fixtureRoute[2],action=fixtureRoute[3];
+   const body=await readBody(req),owner=await readSession(req);
+   const response=action==='start'?
+    await worldCupSlots.startLukeFixture(owner,slot,matchId,body,arena):
+    await worldCupSlots.finalizeLukeFixture(owner,slot,matchId,arena);
+   json(res,200,response);
+  });return;
+ }
  const cupRoute=path.match(/^\/api\/worldcup\/slots\/([1-3])(?:\/(new-historical-hypothesis))?$/);
  if(cupRoute){
   const slot=Number(cupRoute[1]),newDraw=!!cupRoute[2];
