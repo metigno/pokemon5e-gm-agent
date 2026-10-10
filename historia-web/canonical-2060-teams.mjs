@@ -10,7 +10,7 @@ const canonicalSet=new Set(canonicalNames);
 /** The imported roster is game data, not official 2060 qualification evidence. */
 export function listCanonicalRosters(){
  return canonicalNames.map(id=>{
-  try{return {id,available:true,pokemonCount:Teams.unpack(canonicalTeam(id)).length};}
+  try{return {id,available:true,pokemonCount:Teams.unpack(canonicalTeam(id)).length,designatedDynamax:source.designatedDynamaxSpecies?.[id]||null};}
   catch(error){return {id,available:false,reason:error.message};}
  }).concat(source.missingExplicitTeams.map(id=>({id,available:false,reason:'Nessun team 2060 completo nel roster fornito'})));
 }
@@ -46,6 +46,10 @@ export function canonicalTeam(id){
  return packed;
 }
 export function canonicalTeamExport(id){return Teams.export(Teams.unpack(canonicalTeam(id)));}
+export function canonicalDynamaxTarget(id){
+ canonicalTeam(id);
+ return source.designatedDynamaxSpecies?.[id]||null;
+}
 export const canonicalRosterMeta=Object.freeze({
  source:source.source,availableProfiles:canonicalNames.length,
  missingTeams:Object.freeze([...source.missingExplicitTeams])
