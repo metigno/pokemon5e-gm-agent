@@ -65,14 +65,13 @@ test('Mega Venusaur and Mega Swampert items/abilities and Alpha visuals are loss
  assert.equal(luke[0].name,'Arcanine Alpha');
 });
 
-test('Unsupported 2060 Mega Excadrill must fail closed, not quietly lose its stone',()=>{
- const item=Dex.items.get('Excadrite');
- const status=listCanonicalRosters().find(x=>x.id==='N');
- if(!item.exists){
-  assert.equal(status.available,false);
-  assert.match(status.reason,/Excadrite/);
-  assert.throws(()=>canonicalTeam('N'),/Excadrite/);
- }else assert.equal(Teams.unpack(canonicalTeam('N'))[4].item,'Excadrite');
+test('Unsupported Excadrill/Staraptor custom Megas are never silently represented as base species',()=>{
+ for(const [name,stone] of [['N','Excadrite'],['Lucas','Staraptite']]){
+  const status=listCanonicalRosters().find(x=>x.id===name);
+  assert.equal(status.available,false,name);
+  assert.match(status.reason,new RegExp(stone));
+  assert.throws(()=>canonicalTeam(name),new RegExp(stone));
+ }
 });
 
 test('Every supported 2060 build designates its exact Dynamax/Gigamax user',()=>{
