@@ -49,6 +49,32 @@ async function withoutRemoteSprites(page){
 }
 
 
+test('A Luke group fixture opens the real manual Showdown Arena and survives reloading the slot',async({page})=>{
+ await withoutRemoteSprites(page);
+ await page.goto('/');
+ const demo=practiceTeams();
+ await page.locator('nav button[data-view="arena"]').click();
+ await page.locator('#p1team').fill(Teams.export(Teams.unpack(demo.p1)));
+ await page.locator('#p2team').fill(Teams.export(Teams.unpack(demo.p2)));
+ await page.locator('nav button[data-view="tournament"]').click();
+ await page.locator('#worldCupSlotList button').first().click();
+ const row=page.locator('#worldCupDraw tbody tr').filter({hasText:'Luke'}).first();
+ await row.getByRole('button',{name:'Gioca con Showdown'}).click();
+ await expect(page.locator('#battleStatus')).toContainText('Luke vs AI',{timeout:16000});
+ await expect.poll(()=>page.locator('#choices button').count(),{timeout:20000}).toBeGreaterThan(0);
+ const oldBattle=await page.evaluate(()=>localStorage.getItem('historia-last-battle'));
+ await page.reload();
+ await page.locator('nav button[data-view="tournament"]').click();
+ await page.locator('#worldCupSlotList button').first().click();
+ const updated=page.locator('#worldCupDraw tbody tr').filter({hasText:'Luke'}).first();
+ await expect(updated.getByRole('button',{name:'Riprendi incontro'})).toBeVisible();
+ await updated.getByRole('button',{name:'Registra esito Showdown'}).click();
+ await expect(page.locator('#worldCupStatus')).toContainText('non ancora disponibile');
+ await updated.getByRole('button',{name:'Riprendi incontro'}).click();
+ await expect(page.locator('#battleStatus')).toContainText('Luke vs AI',{timeout:16000});
+ expect(await page.evaluate(()=>localStorage.getItem('historia-last-battle'))).toBe(oldBattle);
+});
+
 test('2060 what-if seeding uses three private slots and persists identical groups after browser reload',async({page})=>{
  await withoutRemoteSprites(page);
  await page.goto('/');
