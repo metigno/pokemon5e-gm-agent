@@ -54,7 +54,7 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px soli
 </div>
 <div class="panel" id="legacySession"><h3>Sessione Historia personale (accesso sperimentale)</h3><p class="muted">Conserva questo codice riservato per recuperare chat e ultimo replay su un altro dispositivo. Chi conosce il codice può accedere alla sessione: non è un sistema di autenticazione.</p><code id="sessionCode"></code><div class="actions"><button id="copySession">Copia codice</button></div><label for="restoreSession">Riprendi un'altra sessione</label><input id="restoreSession" placeholder="Incolla qui il codice conservato"><button id="loadSession">Riprendi sessione</button></div></div></section>
 <section id="arena" class="view"><div class="grid">
-<div><div class="panel"><div class="eyebrow">Pokémon Showdown · live</div><h2>Campo di battaglia</h2><div class="arena" role="group" aria-label="Campo di battaglia in prospettiva classica"><div class="pokemon pokemon--opponent" data-facing="front"><div class="combat-hud"><span id="p2name">NPC</span><span id="p2active" class="info">In attesa</span><progress id="p2hp" max="100" value="100" hidden aria-label="PS Pokémon avversario"></progress></div><img id="p2sprite" alt="Pokémon avversario visto frontalmente" hidden></div><div class="pokemon pokemon--player" data-facing="back"><div class="combat-hud"><span>Luke</span><span id="p1active" class="info">In attesa</span><progress id="p1hp" max="100" value="100" hidden aria-label="PS Pokémon Luke"></progress></div><img id="p1sprite" alt="Pokémon di Luke visto di spalle" hidden></div></div><p id="battleStatus" class="ribbon" aria-live="polite">Nessuna battaglia avviata</p><p id="ownEquipment" class="info" aria-live="polite"></p><div id="choices" class="actions" aria-label="Scelte di battaglia"></div><h3>Protocollo Showdown</h3><pre id="battleLog" role="log" aria-live="polite">Avvia una battaglia per ricevere il log autentico.</pre><div class="actions"><button id="openReplay" disabled>Riproduci replay</button><button id="openAnalysis" disabled>Analisi tecnica verificata</button><button id="postAnalysis" disabled>Commento del Master AI</button></div></div>
+<div><div class="panel"><div class="eyebrow">Pokémon Showdown · live</div><h2>Campo di battaglia</h2><div class="arena" role="group" aria-label="Campo di battaglia in prospettiva classica"><div class="pokemon pokemon--opponent" data-facing="front"><div class="combat-hud"><span id="p2name">NPC</span><span id="p2active" class="info">In attesa</span><progress id="p2hp" max="100" value="100" hidden aria-label="PS Pokémon avversario"></progress></div><img id="p2sprite" alt="Pokémon avversario visto frontalmente" hidden></div><div class="pokemon pokemon--player" data-facing="back"><div class="combat-hud"><span id="p1name">Luke</span><span id="p1active" class="info">In attesa</span><progress id="p1hp" max="100" value="100" hidden aria-label="PS Pokémon Luke"></progress></div><img id="p1sprite" alt="Pokémon di Luke visto di spalle" hidden></div></div><p id="battleStatus" class="ribbon" aria-live="polite">Nessuna battaglia avviata</p><p id="ownEquipment" class="info" aria-live="polite"></p><div id="choices" class="actions" aria-label="Scelte di battaglia"></div><h3>Protocollo Showdown</h3><pre id="battleLog" role="log" aria-live="polite">Avvia una battaglia per ricevere il log autentico.</pre><div class="actions"><button id="openReplay" disabled>Riproduci replay</button><button id="openAnalysis" disabled>Analisi tecnica verificata</button><button id="postAnalysis" disabled>Commento del Master AI</button></div></div>
 <div id="replayPanel" class="panel" hidden>
 <div class="eyebrow">Showdown · registrazione pubblica</div><h2>Replay turno per turno</h2>
 <div class="replay-controls"><button id="replayPrev" aria-label="Turno precedente">◀</button><button id="replayPlay" aria-label="Avvia riproduzione">▶ Riproduci</button><button id="replayNext" aria-label="Turno successivo">▶</button><button id="replayClose">Chiudi replay</button></div>
@@ -77,7 +77,7 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px soli
 </details>
 <p class="muted" id="arenaError" role="alert"></p></div><div class="panel"><h2>Formato provvisorio</h2><p class="muted">Motore ufficiale, Singles 6v6 livello 100; test su <code>gen8customgame</code>. La legalità definitiva del formato Historia (inclusi Hisui e vincoli Mega/Dynamax) richiede ancora un formato custom certificato.</p></div></div></div></section>
 <section id="studio" class="view"><div class="panel"><div class="eyebrow">Sala stampa · prepartita e postpartita</div><h2>Master AI narrativo</h2><div id="messages" role="log" aria-live="polite"><div class="entry"><b>Historia</b> · Benvenuto al Mondiale 2060. Sono disponibili l'atmosfera della competizione e l'analisi dei replay verificati.</div></div><form id="chat"><label for="message">Parla con il Master</label><textarea id="message" maxlength="5000" required placeholder="Analizziamo i turni decisivi della battaglia..."></textarea><button>Invia al Master</button></form><p id="chatStatus" class="muted"></p></div></section>
-<section id="tournament" class="view"><div class="panel"><div class="eyebrow">Sorteggio · Calendario · Fase a gironi</div><h2>Mondiale 2060</h2><p class="notice">I qualificati ufficiali 2060 non sono confermati. Puoi avviare esplicitamente una <strong>simulazione WHAT-IF</strong> con le 32 teste di serie del ranking storico 2056. I nomi NON sono qualificati 2060 verificati e gli incontri di questa simulazione non incidono sulla lore canonica. Il collegamento ai match ufficiali Showdown è ancora in sviluppo.</p><div id="seeds"></div><p class="muted">Per giocare un incontro di Luke, importa prima i due team esatti nella scheda Arena. Il risultato conterà soltanto per questa simulazione, dopo la verifica Showdown.</p><h3>Tre slot indipendenti · Sorteggio persistente</h3><div id="worldCupSlotList" class="actions" aria-label="Slot del Mondiale">Accedi per caricare gli slot.</div><p id="worldCupStatus" class="muted" role="status"></p><div id="worldCupDraw"></div></div></section>
+<section id="tournament" class="view"><div class="panel"><div class="eyebrow">Sorteggio · Calendario · Fase a gironi</div><h2>Mondiale 2060</h2><p class="notice">I qualificati ufficiali 2060 non sono confermati. Puoi avviare esplicitamente una <strong>simulazione WHAT-IF</strong> con le 32 teste di serie del ranking storico 2056. I nomi NON sono qualificati 2060 verificati e gli incontri di questa simulazione non incidono sulla lore canonica. Il collegamento ai match ufficiali Showdown è ancora in sviluppo.</p><div id="seeds"></div><p class="muted">Per disputare un incontro del calendario, importa prima i due team Showdown esatti nella scheda Arena, nello stesso ordine casa/trasferta. Luke si può controllare manualmente; negli incontri NPC i due bot giocano autonomamente. I risultati contano soltanto per questa simulazione, dopo la verifica Showdown. Nessun team viene generato o sostituito automaticamente.</p><h3>Tre slot indipendenti · Sorteggio persistente</h3><div id="worldCupSlotList" class="actions" aria-label="Slot del Mondiale">Accedi per caricare gli slot.</div><p id="worldCupStatus" class="muted" role="status"></p><div id="worldCupDraw"></div></div></section>
 <section id="replays" class="view"><div class="panel"><h2>Replay Showdown verificati</h2><p class="muted">Risultati emessi dal simulatore e salvati dal server (non importazioni manuali).</p><div id="replayList">Nessun replay disponibile.</div></div></section>
 <section id="archive" class="view"><div class="panel"><h2>Archivio e statistiche</h2><p>I coefficienti storici sono aggiornati al 2056; non costituiscono l'elenco definitivo dei qualificati 2060.</p><div id="ranking" class="table-wrap"></div></div></section>
 </main>
@@ -172,8 +172,8 @@ $('previewTeams').onclick=async()=>{try{
 }catch(e){$('arenaError').textContent=e.message;}};
 async function begin(practice){$('arenaError').textContent='';try{const data=practice?{practice:true,mode:$('mode').value,npcProfile:$('npcProfile').value}:{mode:$('mode').value,npcProfile:$('npcProfile').value,p1team:$('p1team').value.trim(),p2team:$('p2team').value.trim(),p2name:$('opponent').value.trim()};if(authMode!=='accounts')data.sessionId=sessionId;if(!practice)await api('/api/teams',{p1team:data.p1team,p2team:data.p2team,p2name:data.p2name});const b=await api('/api/battles',data);closeReplay();currentId=b.id;localStorage.setItem('historia-last-battle',currentId);navigate('arena');render(b);startPolling();}catch(e){$('arenaError').textContent=e.message;}}
 $('practice').addEventListener('click',()=>begin(true));$('customBattle').addEventListener('click',()=>begin(false));
-function render(b){lastBattle=b;$('battleStatus').textContent=b.status==='complete'?'Vittoria confermata Showdown: '+b.winner:b.status==='tie'?'Pareggio confermato':b.status==='error'?'Errore: '+b.error:'Turno '+(b.turn||'iniziale')+' · '+(b.mode==='manual'?'Luke vs AI':'AI vs AI')+' · Stile NPC: '+(b.aiProfiles?.p2||'bilanciato')+' · '+b.status;
- $('p2name').textContent=b.p2name||'NPC';$('battleLog').textContent=b.log||'Attesa del primo evento…';$('battleLog').scrollTop=$('battleLog').scrollHeight;
+function render(b){lastBattle=b;$('battleStatus').textContent=b.status==='complete'?'Vittoria confermata Showdown: '+b.winner:b.status==='tie'?'Pareggio confermato':b.status==='error'?'Errore: '+b.error:'Turno '+(b.turn||'iniziale')+' · '+(b.mode==='manual'?'Luke vs AI':(b.p1name||'Luke')+' vs '+(b.p2name||'NPC')+' · AI vs AI')+' · Stile NPC: '+(b.aiProfiles?.p2||'bilanciato')+' · '+b.status;
+ $('p1name').textContent=b.p1name||'Luke';$('p2name').textContent=b.p2name||'NPC';$('battleLog').textContent=b.log||'Attesa del primo evento…';$('battleLog').scrollTop=$('battleLog').scrollHeight;
  if(b.publicField){for(const side of ['p1','p2'])showReplayPokemon(side,b.publicField[side]);}else{const lines=(b.log||'').split('\n');for(const side of ['p1','p2']){const entry=[...lines].reverse().find(x=>x.startsWith('|switch|'+side+'a:')||x.startsWith('|drag|'+side+'a:'));if(!entry)continue;const parts=entry.split('|');const name=(parts[2]||'').split(': ').slice(1).join(': ');const species=(parts[3]||'').split(',')[0].trim()||name;$(side+'active').textContent=name||species;setBattleSprite(side,species);}}
  const own=b.mode==='manual'?(b.request?.side?.pokemon||[]).find(mon=>mon.active):null;
  const roster=b.p1roster||[];
@@ -325,21 +325,35 @@ function renderWorldCupDraw(data){
  info.textContent=cup.scenario.description+' Il sorteggio rimane identico dopo il caricamento. Nessun vincitore è predeterminato.';
  area.append(info);
  for(const [letter,members] of Object.entries(cup.groups)){
-  const h=document.createElement('h3');h.textContent='Girone '+letter;area.append(h);
-  const ul=document.createElement('ul');
-  for(const entrant of members){
-   const li=document.createElement('li');
-   li.textContent=entrant.id+' · ranking storico #'+entrant.historicalRank+' · coefficiente '+entrant.historicalCoefficient;
-   ul.append(li);
+  const h=document.createElement('h3');h.textContent='Girone '+letter+' · classifica provvisoria';area.append(h);
+  const rows=members.map(entrant=>({id:entrant.id,played:0,wins:0,losses:0,points:0}));
+  const byId=new Map(rows.map(row=>[row.id,row]));
+  for(const game of cup.schedule.filter(g=>g.group===letter&&g.status==='complete')){
+   const win=byId.get(game.result.winnerId),lose=byId.get(game.result.loserId);
+   if(!win||!lose)continue;
+   win.played++;win.wins++;win.points+=3;lose.played++;lose.losses++;
   }
-  area.append(ul);
+  // This is provisional: tied positions are never secretly broken by seed or name.
+  rows.sort((a,b)=>b.points-a.points||b.wins-a.wins);
+  const groupTable=document.createElement('table'),head=document.createElement('tr');
+  for(const heading of ['Allenatore','G','V','P','Pt']){const th=document.createElement('th');th.textContent=heading;head.append(th);}
+  const thead=document.createElement('thead');thead.append(head);groupTable.append(thead);
+  const tbody=document.createElement('tbody');
+  for(const row of rows){
+   const tr=document.createElement('tr');
+   for(const value of [row.id,row.played,row.wins,row.losses,row.points]){
+    const td=document.createElement('td');td.textContent=String(value);tr.append(td);
+   }
+   tbody.append(tr);
+  }
+  groupTable.append(tbody);const box=document.createElement('div');box.className='table-wrap';box.append(groupTable);area.append(box);
  }
  const fixtureTitle=document.createElement('h3');fixtureTitle.textContent='Calendario · '+cup.schedule.filter(g=>g.status==='complete').length+' / 48 incontri disputati';
  area.append(fixtureTitle);
  const wrap=document.createElement('div');wrap.className='table-wrap';
  const table=document.createElement('table');
  const head=document.createElement('thead');const row=document.createElement('tr');
- for(const label of ['Giornata','Girone','Incontro','Stato','Luke']){const th=document.createElement('th');th.textContent=label;row.append(th);}
+ for(const label of ['Giornata','Girone','Incontro','Stato','Comandi']){const th=document.createElement('th');th.textContent=label;row.append(th);}
  head.append(row);table.append(head);const tbody=document.createElement('tbody');
  for(const game of cup.schedule){
   const tr=document.createElement('tr');
@@ -375,6 +389,36 @@ function renderWorldCupDraw(data){
       const result=await api('/api/worldcup/slots/'+data.slot+'/fixtures/'+game.id+'/finalize',{});
       renderWorldCupDraw(result);
       $('worldCupStatus').textContent='Risultato confermato da Showdown e salvato senza duplicati.';
+     }catch(e){$('worldCupStatus').textContent=e.message;}finally{finish.disabled=false;}
+    };
+    actions.append(finish);
+   }
+  }
+  if(game.status==='scheduled'&&game.homeId!=='Luke'&&game.awayId!=='Luke'){
+   const binding=cup.matchBindings?.[game.id];
+   const start=document.createElement('button');start.type='button';
+   start.textContent=binding?'Riprendi bot NPC':'Simula NPC vs NPC';
+   start.onclick=async()=>{
+    start.disabled=true;$('worldCupStatus').textContent='';
+    try{
+     const result=await api('/api/worldcup/slots/'+data.slot+'/fixtures/'+game.id+'/npc-start',{
+      p1team:$('p1team').value.trim(),p2team:$('p2team').value.trim()
+     });
+     currentId=result.battle.id;localStorage.setItem('historia-last-battle',currentId);
+     closeReplay();navigate('arena');render(result.battle);
+     if(result.battle.status==='active')startPolling();
+    }catch(e){$('worldCupStatus').textContent=e.message;}finally{start.disabled=false;}
+   };
+   actions.append(start);
+   if(binding){
+    const finish=document.createElement('button');finish.type='button';
+    finish.textContent='Registra risultato NPC';
+    finish.onclick=async()=>{
+     finish.disabled=true;$('worldCupStatus').textContent='';
+     try{
+      const result=await api('/api/worldcup/slots/'+data.slot+'/fixtures/'+game.id+'/npc-finalize',{});
+      renderWorldCupDraw(result);
+      $('worldCupStatus').textContent='Risultato NPC verificato da Showdown e registrato.';
      }catch(e){$('worldCupStatus').textContent=e.message;}finally{finish.disabled=false;}
     };
     actions.append(finish);
