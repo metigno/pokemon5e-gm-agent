@@ -5,6 +5,7 @@ import {createNewWorldCup} from '../historia/src/new-game.mjs';
 import {loadHistoricalSeeding} from '../historia/src/seeding.mjs';
 import {applyAuthoritativeShowdownResult} from '../historia/src/showdown-bridge.mjs';
 import {recordBattle} from '../historia/src/tournament.mjs';
+import {resolveAiProfile} from './tactical-ai.mjs';
 
 const ownerFolder=ownerKey=>{
  if(typeof ownerKey!=='string'||ownerKey.length<16)throw Error('Identità del salvataggio non valida');
@@ -117,4 +118,83 @@ export class WorldCupSlots {
    return {slot:number,matchId,cup:updated,receipt,alreadyRecorded:false};
   });
  }
+ /**
+  * A non-Luke scheduled match, using ONLY the exact teams explicitly supplied
+  * by the slot owner. No generated NPC roster and no fake result. The Showdown
+  * engine runs in automatic mode with a private request per NPC.
+  */
+ async startNpcFixture(ownerKey,slot,matchId,{p1team,p2team}={},arena){
+  return this.locked(ownerKey,slot,async(store,number)=>{
+   const loaded=await store.load(number);
+   if(!loaded)throw Error('Slot non occupato');
+   const cup=loaded.cup;
+   if(cup.scenario?.official!==false)throw Error('Formato Mondiale ufficiale non certificato');
+   const fixture=cup.schedule.find(m=>m.id===matchId);
+   if(!fixture||fixture.status!=='scheduled')throw Error('Incontro non disponibile');
+   if(fixture.homeId==='Luke'||fixture.awayId==='Luke')
+    throw Error('Gli incontri di Luke utilizzano il controllo dedicato');
+   const bound=cup.matchBindings?.[matchId];
+   if(bound){
+    if(bound.kind!=='npc'||bound.homeId!==fixture.homeId||bound.awayId!==fixture.awayId)
+     throw Error('Associazione NPC non coerente');
+    if(!await arena.ownsBattle(bound.battleId,ownerKey))
+     throw Error('Battaglia NPC non recuperabile: risultato non assegnato');
+    const battle=await arena.load(bound.battleId);
+    if(!battle)throw Error('Battaglia NPC non recuperabile');
+    return {slot:number,matchId,battle,resumed:true};
+   }
+   // Never substitute practiceTeams. Empty or invalid imports are rejected by ArenaService.
+   if(typeof p1team!=='string'||!p1team.trim()||typeof p2team!=='string'||!p2team.trim())
+    throw Error('Importare entrambe le squadre Showdown dei due NPC');
+   const homeName=showdownTrainerName(fixture.homeId),awayName=showdownTrainerName(fixture.awayId);
+   if(!homeName||!awayName||homeName===awayName)
+    throw Error('Nomi allenatori Showdown ambigui');
+   const battle=await arena.create({
+    sessionId:ownerKey,mode:'auto',kind:'worldcup-what-if',
+    p1name:homeName,p2name:awayName,p1team,p2team,
+    p1profile:resolveAiProfile(fixture.homeId),
+    npcProfile:resolveAiProfile(fixture.awayId)
+   });
+   cup.matchBindings??={};
+   cup.matchBindings[matchId]={kind:'npc',battleId:battle.id,homeId:fixture.homeId,
+    awayId:fixture.awayId,homeName,awayName};
+   await store.write(number,cup,{createdAt:loaded.meta?.createdAt,updatedAt:new Date().toISOString()});
+   return {slot:number,matchId,battle,resumed:false};
+  });
+ }
+ /** Persist only a finished owned battle's server-observed terminal log. */
+ async finalizeNpcFixture(ownerKey,slot,matchId,arena){
+  return this.locked(ownerKey,slot,async(store,number)=>{
+   const loaded=await store.load(number);
+   if(!loaded)throw Error('Slot non occupato');
+   const cup=loaded.cup,fixture=cup.schedule.find(m=>m.id===matchId);
+   if(!fixture)throw Error('Incontro non disponibile');
+   if(fixture.homeId==='Luke'||fixture.awayId==='Luke')
+    throw Error('Gli incontri di Luke hanno una registrazione separata');
+   if(fixture.status==='complete')return {slot:number,matchId,cup,alreadyRecorded:true};
+   const bound=cup.matchBindings?.[matchId];
+   if(fixture.status!=='scheduled'||bound?.kind!=='npc'||bound.homeId!==fixture.homeId||
+      bound.awayId!==fixture.awayId||
+      bound.homeName!==showdownTrainerName(fixture.homeId)||
+      bound.awayName!==showdownTrainerName(fixture.awayId))
+    throw Error('Avvia prima la battaglia NPC Showdown');
+   if(!await arena.ownsBattle(bound.battleId,ownerKey))
+    throw Error('La battaglia NPC appartiene a un altro salvataggio');
+   const completed=await arena.load(bound.battleId);
+   if(completed?.status!=='complete'||typeof completed.publicLog!=='string'||
+      completed.p1name!==bound.homeName||completed.p2name!==bound.awayName||
+      ![bound.homeName,bound.awayName].includes(completed.winner))
+    throw Error('Risultato NPC Showdown verificato non ancora disponibile');
+   const names=Object.fromEntries([[fixture.homeId,bound.homeName],[fixture.awayId,bound.awayName]]);
+   const next=applyAuthoritativeShowdownResult(cup.schedule,matchId,{
+    battleId:'battle-'+bound.battleId,log:completed.publicLog,playerNames:names,verifiedByServer:true
+   });
+   const receipt=next.find(m=>m.id===matchId).result;
+   const updated=recordBattle(cup,receipt);
+   updated.schedule=next;
+   await store.write(number,updated,{createdAt:loaded.meta?.createdAt,updatedAt:new Date().toISOString()});
+   return {slot:number,matchId,cup:updated,receipt,alreadyRecorded:false};
+  });
+ }
+
 }

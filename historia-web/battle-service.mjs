@@ -142,7 +142,7 @@ export class ArenaService {
  async writePending(b){
   // Private packed teams and the precise action ledger are NEVER returned to browsers.
   const data={version:1,id:b.id,ownerDigest:b.ownerDigest,mode:b.mode,npcProfile:b.npcProfile,
-   p2name:b.p2name,createdAt:b.createdAt,seed:b.seed,p1team:b.p1team,p2team:b.p2team,
+   p1name:b.p1name,p1profile:b.p1profile,kind:b.kind,p2name:b.p2name,createdAt:b.createdAt,seed:b.seed,p1team:b.p1team,p2team:b.p2team,
    actions:b.actions.slice(),publicLog:b.publicLog.slice(),requestId:b.requestId};
   const serialized=JSON.stringify(data);
   if(serialized.length>2200000)throw new Error('Registro battaglia oltre il limite');
@@ -175,7 +175,7 @@ export class ArenaService {
  snapshot(id) {
   const b=this.sessions.get(id);
   if(!b) return null;
-  return {id:b.id,mode:b.mode,publicField:buildReplayTimeline(b.publicLog.join('\n')).frames.at(-1)?.field||null,aiProfiles:{p1:'luke',p2:b.npcProfile},kind:'practice',format:'gen8customgame',status:b.status,p1name:'Luke',p2name:b.p2name,turn:b.turn,requestId:b.requestId,request:b.mode==='manual'&&b.awaitingSide==='p1'?b.privateRequest:null,p1roster:b.mode==='manual'?describeTeam(b.p1team):null,choices:b.mode==='manual'&&b.awaitingSide==='p1'?legalChoices(b.privateRequest):[],log:b.publicLog.slice(-800).join('\n'),winner:b.winner,error:b.error,createdAt:b.createdAt};
+  return {id:b.id,mode:b.mode,publicField:buildReplayTimeline(b.publicLog.join('\n')).frames.at(-1)?.field||null,aiProfiles:{p1:b.p1profile||'luke',p2:b.npcProfile},kind:b.kind||'practice',format:'gen8customgame',status:b.status,p1name:b.p1name||'Luke',p2name:b.p2name,turn:b.turn,requestId:b.requestId,request:b.mode==='manual'&&b.awaitingSide==='p1'?b.privateRequest:null,p1roster:b.mode==='manual'?describeTeam(b.p1team):null,choices:b.mode==='manual'&&b.awaitingSide==='p1'?legalChoices(b.privateRequest):[],log:b.publicLog.slice(-800).join('\n'),winner:b.winner,error:b.error,createdAt:b.createdAt};
  }
  async load(id) {
   const live=this.sessions.get(id);
@@ -232,6 +232,8 @@ export class ArenaService {
  async restore(journal){
   if(journal?.version!==1||!this.file(journal.id)||!VALID_MODES.has(journal.mode)||
      !Object.hasOwn(AI_PROFILES,journal.npcProfile)||
+      (journal.p1profile!==undefined&&!Object.hasOwn(AI_PROFILES,journal.p1profile))||
+      (journal.p1name!==undefined&&(!VALID_NAME.test(journal.p1name)||journal.p1name===journal.p2name))||
      !Array.isArray(journal.seed)||journal.seed.length!==4||
      !Array.isArray(journal.actions)||journal.actions.length>5000||
      !Array.isArray(journal.publicLog)||journal.publicLog.length>MAX_LOG_LINES)
@@ -242,6 +244,7 @@ export class ArenaService {
        !/^[a-f0-9]{64}$/.test(a.requestHash)))
    throw new Error('Comandi di recupero non validi');
   const b={id:journal.id,mode:journal.mode,npcProfile:journal.npcProfile,ownerDigest:journal.ownerDigest,
+    p1name:journal.p1name||'Luke',p1profile:journal.p1profile||'luke',kind:journal.kind||'practice',
    p2name:journal.p2name,createdAt:journal.createdAt,seed:journal.seed,p1team:journal.p1team,
    p2team:journal.p2team,actions:journal.actions,publicLog:[],status:'active',turn:0,requestId:0,
    awaitingSide:null,privateRequest:null,winner:null,error:null,pendingWrites:Promise.resolve(),stopped:false};
@@ -265,24 +268,29 @@ export class ArenaService {
    throw e;
   }
  }
- async create({mode='manual',p1team,p2team,p2name='NPC',practice=false,
-  sessionId=null,official=false,npcProfile='balanced'}={}){
+ async create({mode='manual',p1team,p2team,p1name='Luke',p2name='NPC',practice=false,
+  sessionId=null,official=false,p1profile='luke',npcProfile='balanced',kind='practice'}={}){
   if(official)throw new Error('Partite ufficiali non disponibili: qualificati e regolamento canonico incompleti');
   if(!VALID_MODES.has(mode))throw new Error('Modalità non valida');
-  if(typeof npcProfile!=='string'||!Object.hasOwn(AI_PROFILES,npcProfile))throw new Error('Profilo NPC non valido');
-  if(!VALID_NAME.test(p2name)||p2name==='Luke')throw new Error('Nome avversario non valido');
+   if(typeof npcProfile!=='string'||!Object.hasOwn(AI_PROFILES,npcProfile)||
+      typeof p1profile!=='string'||!Object.hasOwn(AI_PROFILES,p1profile))throw new Error('Profilo NPC non valido');
+   if(!VALID_NAME.test(p1name)||!VALID_NAME.test(p2name)||p1name===p2name)
+    throw new Error('Nomi allenatori non validi o duplicati');
+   if(mode==='manual'&&p1name!=='Luke')throw new Error('Controllo manuale riservato a Luke');
+   if(!['practice','worldcup-what-if'].includes(kind))throw new Error('Tipo battaglia non valido');
+   if(practice&&(p1name!=='Luke'||kind!=='practice'))throw new Error('Allenamento riservato a Luke');
   if(practice){
    if(p1team||p2team)throw new Error('Allenamento dimostrativo e squadre importate non possono essere combinati');
    const teams=practiceTeams();p1team=teams.p1;p2team=teams.p2;p2name='NPC (allenamento)';
   }
-  p1team=parseTeamInput(p1team,{teamLabel:'Luke'});
+  p1team=parseTeamInput(p1team,{teamLabel:p1name});
   p2team=parseTeamInput(p2team,{teamLabel:p2name});
   const active=[...this.sessions.values()].filter(b=>b.status==='active');
   if(active.length>=24)throw new Error('Limite battaglie simultanee del server');
   if(active.filter(b=>b.ownerDigest===ownerDigest(sessionId)).length>=2)
    throw new Error('Limite di due battaglie attive per sessione');
   const b={id:randomUUID(),mode,npcProfile:resolveAiProfile(npcProfile),ownerDigest:ownerDigest(sessionId),
-   p2name,createdAt:new Date().toISOString(),seed:randomSeed(),p1team,p2team,actions:[],
+   p1name,p1profile:resolveAiProfile(p1profile),kind,p2name,createdAt:new Date().toISOString(),seed:randomSeed(),p1team,p2team,actions:[],
    status:'active',turn:0,requestId:0,awaitingSide:null,privateRequest:null,publicLog:[],
    winner:null,error:null,pendingWrites:Promise.resolve(),stopped:false};
   await this.writePending(b);
@@ -292,7 +300,7 @@ export class ArenaService {
  }
  async runBattle(b,{replay=false}={}){
   const engine=await createShowdownBattle({
-   p1team:b.p1team,p2team:b.p2team,p1name:'Luke',p2name:b.p2name,seed:b.seed,format:'gen8customgame'
+   p1team:b.p1team,p2team:b.p2team,p1name:b.p1name,p2name:b.p2name,seed:b.seed,format:'gen8customgame'
   });
   b.engine=engine;
   const fail=e=>{
@@ -380,7 +388,7 @@ export class ArenaService {
       b.awaitingSide='p1';
      }else{
       const choice=selectTacticalChoice(request,{side,publicLog:b.publicLog.join('\n'),
-       profile:side==='p1'?'luke':b.npcProfile})||selectAiFallback(request);
+       profile:side==='p1'?b.p1profile:b.npcProfile})||selectAiFallback(request);
       if(choice)await this.recordChoice(b,side,choice,request);
      }
     }
